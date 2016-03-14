@@ -28,7 +28,6 @@ class Ldap extends AbstractProvider implements LoginPasswordProvider
 	$mailAttribute = $config["mailAttribute"];
 	$ldap = ldap_connect($server);
 	ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
-	var_dump($mailAttribute."=".$user->getEmail());
 	$ls = ldap_search($ldap, $config["base"], $mailAttribute."=".$user->getEmail());
 	$le = ldap_get_entries($ldap, $ls);
 	if ($le["count"]==0) return false;
