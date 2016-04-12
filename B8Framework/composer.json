@@ -1,0 +1,22 @@
+{
+    "name": "block8/b8framework",
+    "type": "library",
+    "description": "Simple, lightweight framework for high-throughput applications",
+    "keywords": ["php", "framework", "b8", "block8", "lightweight", "mvc"],
+    "homepage": "https://github.com/block8/b8framework",
+    "license": "BSD",
+    "authors": [
+        {
+            "name": "Block 8 Limited",
+            "email": "hello@block8.co.uk",
+            "homepage": "http://www.block8.co.uk"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "symfony/yaml": "2.*"
+    },
+    "autoload": {
+        "psr-0": { "b8": "" }
+    }
+}
