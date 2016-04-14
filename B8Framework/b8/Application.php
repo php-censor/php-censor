@@ -6,6 +6,9 @@ use b8\Config;
 use b8\Exception\HttpException\NotFoundException;
 use b8\Http;
 use b8\View;
+use b8\Controller;
+use b8\Http\Response;
+use b8\Http\Request;
 
 class Application
 {
@@ -15,22 +18,22 @@ class Application
     protected $route;
 
     /**
-     * @var \b8\Controller
+     * @var Controller
      */
     protected $controller;
 
     /**
-    * @var b8\Http\Request
+    * @var Request
     */
     protected $request;
 
     /**
-    * @var b8\Http\Response
+    * @var Response
     */
     protected $response;
 
     /**
-    * @var b8\Config
+    * @var Config
     */
     protected $config;
 
@@ -64,46 +67,62 @@ class Application
             }
         }
 
-        $action = lcfirst($this->toPhpName($this->route['action']));
+        if (!$this->controllerExists($this->route)) {
+            throw new NotFoundException('Controller ' . $this->toPhpName($this->route['controller']) . ' does not exist!');
+        }
 
+        $action = lcfirst($this->toPhpName($this->route['action']));
         if (!$this->getController()->hasAction($action)) {
-            throw new NotFoundException('Controller ' . $this->toPhpName($this->route['controller']) . ' does not have action ' . $action);
+            throw new NotFoundException('Controller ' . $this->toPhpName($this->route['controller']) . ' does not have action ' . $action . '!');
         }
 
         return $this->getController()->handleAction($action, $this->route['args']);
     }
 
     /**
-     * @return \b8\Controller
+     * @return Controller
      */
     public function getController()
     {
         if (empty($this->controller)) {
-            $namespace = $this->toPhpName($this->route['namespace']);
-            $controller = $this->toPhpName($this->route['controller']);
-            $controllerClass = $this->config->get('b8.app.namespace') . '\\' . $namespace . '\\' . $controller . 'Controller';
+            $controllerClass = $this->getControllerClass($this->route);
             $this->controller = $this->loadController($controllerClass);
         }
-
         return $this->controller;
     }
 
+    /**
+     * @param string $class
+     * 
+     * @return Controller
+     */
     protected function loadController($class)
     {
         $controller = new $class($this->config, $this->request, $this->response);
         $controller->init();
-
         return $controller;
     }
 
+    /**
+     * @param array $route
+     * 
+     * @return bool
+     */
     protected function controllerExists($route)
+    {
+        return class_exists($this->getControllerClass($route));
+    }
+
+    /**
+     * @param array $route
+     * 
+     * @return string
+     */
+    protected function getControllerClass($route)
     {
         $namespace = $this->toPhpName($route['namespace']);
         $controller = $this->toPhpName($route['controller']);
-
-        $controllerClass = $this->config->get('b8.app.namespace') . '\\' . $namespace . '\\' . $controller . 'Controller';
-
-        return class_exists($controllerClass);
+        return $this->config->get('b8.app.namespace') . '\\' . $namespace . '\\' . $controller . 'Controller';
     }
 
     public function isValidRoute($route)

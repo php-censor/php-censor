@@ -14,27 +14,27 @@ use b8\View;
 abstract class Controller
 {
 	/**
-	* @var b8\Http\Request
+	* @var Request
 	*/
 	protected $request;
 
 	/**
-	* @var b8\Http\Response
+	* @var Response
 	*/
 	protected $response;
 
 	/**
-	* @var b8\Config
+	* @var Config
 	*/
 	protected $config;
 
 	/**
-	* @var b8\View
+	* @var View
 	*/
 	protected $controllerView;
 
 	/**
-	* @var b8\View
+	* @var View
 	*/
 	protected $view;
 
@@ -60,7 +60,7 @@ abstract class Controller
 
 	/**
 	* Handles an action on this controller and returns a Response object.
-	* @return b8\Http\Response
+	* @return Response
 	*/
 	public function handleAction($action, $actionParams)
 	{

@@ -18,19 +18,19 @@ if (!defined('B8_PATH')) {
 class Registry
 {
 	/**
-	 * @var \b8\Registry
+	 * @var Registry
 	 */
 	protected static $instance;
 	protected $_data    = array();
 	protected $_params  = null;
 
 	/**
-	* @var b8\Config
+	* @var Config
 	*/
 	protected $config;
 
 	/**
-	* @var b8\Http\Request
+	* @var Request
 	*/
 	protected $request;
 
@@ -83,9 +83,5 @@ class Registry
 	public function unsetParam($key)
 	{
 		return $this->request->unsetParam($key);
-	}
-
-	public function parseInput()
-	{
 	}
 }

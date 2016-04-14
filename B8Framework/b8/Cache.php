@@ -9,19 +9,10 @@ namespace b8;
 
 class Cache
 {
-	const TYPE_APC = 'ApcCache';
+	const TYPE_APC     = 'ApcCache';
 	const TYPE_REQUEST = 'RequestCache';
 
 	protected static $instance = array();
-
-	/**
-	 * LEGACY: Older apps will expect an APC cache in return.
-	 * @deprecated
-	 */
-	public static function getInstance()
-	{
-		return self::getCache(self::TYPE_APC);
-	}
 
 	/**
 	* Get a cache object of a specified type.

@@ -2,15 +2,13 @@
 
 namespace b8;
 
-use b8\Config;
-
 class Database extends \PDO
 {
-	protected static $initialised   = false;
-	protected static $servers       = array('read' => array(), 'write' => array());
-	protected static $connections   = array('read' => null, 'write' => null);
-	protected static $details       = array();
-    	protected static $lastUsed	= array('read' => null, 'write' => null);
+	protected static $initialised = false;
+	protected static $servers     = array('read' => array(), 'write' => array());
+	protected static $connections = array('read' => null, 'write' => null);
+	protected static $details     = array();
+    protected static $lastUsed	  = array('read' => null, 'write' => null);
 
 	/**
 	* @deprecated
@@ -73,21 +71,20 @@ class Database extends \PDO
 			self::init();
 		}
 
-        	// If the connection hasn't been used for 5 minutes, force a reconnection:
-	        if (!is_null(self::$lastUsed[$type]) && (time() - self::$lastUsed[$type]) > 300) {
-	            self::$connections[$type] = null;
-	        }
+		// If the connection hasn't been used for 5 minutes, force a reconnection:
+		if (!is_null(self::$lastUsed[$type]) && (time() - self::$lastUsed[$type]) > 300) {
+			self::$connections[$type] = null;
+		}
 
-		if(is_null(self::$connections[$type]))
-		{
-                        if (is_array(self::$servers[$type])) {
-                            // Shuffle, so we pick a random server:
-                            $servers = self::$servers[$type];
-                            shuffle($servers);
-                        } else {
-                            // Only one server was specified
-                            $servers = array(self::$servers[$type]);
-                        }
+		if(is_null(self::$connections[$type])) {
+			if (is_array(self::$servers[$type])) {
+				// Shuffle, so we pick a random server:
+				$servers = self::$servers[$type];
+				shuffle($servers);
+			} else {
+				// Only one server was specified
+				$servers = array(self::$servers[$type]);
+			}
 
 			$connection = null;
 
@@ -96,6 +93,11 @@ class Database extends \PDO
 			{
 				// Pull the next server:
 				$server = array_shift($servers);
+
+				if (stristr($server, ':')) {
+					list($host, $port) = explode(':', $server);
+					$server = $host . ';port=' . $port;
+				}
 
 				// Try to connect:
 				try
