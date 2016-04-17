@@ -8,7 +8,7 @@
  * @link         https://www.phptesting.org/
  */
 
-require_once(dirname(__FILE__) . '/bootstrap.php');
+require_once(dirname(__FILE__) . '../bootstrap.php');
 
 $writeServers = $config->get('b8.database.servers.write');
 

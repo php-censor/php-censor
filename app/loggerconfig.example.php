@@ -18,7 +18,7 @@ return array(
     /** Loggers for the RunCommand */
     'RunCommand' => function() {
         return array(
-            new \Monolog\Handler\RotatingFileHandler(__DIR__ . DIRECTORY_SEPARATOR . 'everything',3, \Monolog\Logger::DEBUG),
+            new \Monolog\Handler\RotatingFileHandler(__DIR__ . DIRECTORY_SEPARATOR . 'everything', 3, \Monolog\Logger::DEBUG),
         );
     },
 );

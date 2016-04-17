@@ -53,7 +53,7 @@ class UpdateCommand extends Command
 
         $output->write(Lang::get('updating_phpci'));
 
-        shell_exec(PHPCI_DIR . 'vendor/bin/phinx migrate -c "' . PHPCI_DIR . 'phinx.php"');
+        shell_exec(PHPCI_DIR . 'vendor/bin/phinx migrate -c "' . PHPCI_DIR . 'app/phinx.php"');
 
         $output->writeln('<info>'.Lang::get('ok').'</info>');
     }

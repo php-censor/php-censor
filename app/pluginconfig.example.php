@@ -1,4 +1,5 @@
 <?php
+
 return function (PHPCI\Plugin\Util\Factory $factory) {
     $factory->registerResource(
         // This function will be called when the resource is needed.

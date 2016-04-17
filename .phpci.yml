@@ -34,5 +34,5 @@ test:
 
 broken:
   email:
-    committer: true
-    cc: ["php-ci@googlegroups.com"]
+    #committer: true
+    #cc: ["php-ci@googlegroups.com"]

@@ -47,7 +47,7 @@ require_once(dirname(__FILE__) . '/vendor/autoload.php');
 \PHPCI\ErrorHandler::register();
 
 if (defined('PHPCI_IS_CONSOLE') && PHPCI_IS_CONSOLE) {
-    $loggerConfig = LoggerConfig::newFromFile(__DIR__ . "/loggerconfig.php");
+    $loggerConfig = LoggerConfig::newFromFile(__DIR__ . "/app/loggerconfig.php");
 }
 
 // Load configuration if present:
