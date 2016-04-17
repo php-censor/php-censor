@@ -1,10 +1,8 @@
 <?php
 
-require_once(dirname(__FILE__) . '/../b8/Registry.php');
-require_once(dirname(__FILE__) . '/../b8/HttpClient.php');
+namespace Tests\b8;
 
-use b8\Registry,
-	b8\HttpClient;
+use b8\HttpClient;
 
 class HttpClientTest extends \PHPUnit_Framework_TestCase
 {

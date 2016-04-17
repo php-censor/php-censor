@@ -21,14 +21,14 @@
     },
     "autoload": {
         "psr-4": {
-            "PHPCI\\": "PHPCI/",
-            "b8\\":    "B8Framework/b8/"
+            "PHPCI\\": "src/PHPCI/",
+            "b8\\":    "src/B8Framework/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\PHPCI\\": "Tests/PHPCI/",
-            "Tests\\b8\\":    "B8Framework/tests/"
+            "Tests\\PHPCI\\": "tests/PHPCI/",
+            "Tests\\b8\\":    "tests/B8Framework/"
         }
     },
     "require": {

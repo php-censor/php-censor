@@ -1,9 +1,8 @@
 <?php
 
-require_once(dirname(__FILE__) . '/../b8/Registry.php');
-require_once(dirname(__FILE__) . '/../b8/Cache.php');
+namespace Tests\b8;
 
-use b8\Registry, b8\Cache;
+use b8\Config, b8\Cache;
 
 class CacheTest extends PHPUnit_Framework_TestCase
 {
@@ -15,14 +14,15 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 	public function testDisableCaching()
 	{
-		Registry::getInstance()->set('DisableCaching', true);
+		$config = new Config();
+		Config::getInstance()->set('DisableCaching', true);
 
 		$cache = Cache::getCache(Cache::TYPE_APC);
 		$this->assertFalse($cache->isEnabled());
 		$this->assertFalse($cache->set('anything', 10));
 		$this->assertTrue(is_null($cache->get('anything')));
 
-		Registry::getInstance()->set('DisableCaching', false);
+		Config::getInstance()->set('DisableCaching', false);
 	}
 
 	public function testCaching()

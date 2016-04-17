@@ -1,26 +1,11 @@
 <?php
 
-require_once(dirname(__FILE__) . '/../b8/Registry.php');
-require_once(dirname(__FILE__) . '/../b8/Model.php');
-require_once(dirname(__FILE__) . '/../b8/Controller.php');
-require_once(dirname(__FILE__) . '/../b8/Controller/RestController.php');
-require_once(dirname(__FILE__) . '/../b8/Store.php');
-require_once(dirname(__FILE__) . '/../b8/Store/Factory.php');
-require_once(dirname(__FILE__) . '/../b8/Database.php');
-require_once(dirname(__FILE__) . '/../b8/View.php');
-require_once(dirname(__FILE__) . '/../b8/View/UserView.php');
-require_once(dirname(__FILE__) . '/../b8/Database/Map.php');
-require_once(dirname(__FILE__) . '/../b8/Database/Generator.php');
-require_once(dirname(__FILE__) . '/../b8/Database/CodeGenerator.php');
-require_once(dirname(__FILE__) . '/../b8/Exception/HttpException.php');
-require_once(dirname(__FILE__) . '/../b8/Exception/HttpException/ValidationException.php');
-require_once(dirname(__FILE__) . '/../b8/Exception/HttpException/BadRequestException.php');
-require_once(dirname(__FILE__) . '/../b8/Exception/HttpException/ForbiddenException.php');
+namespace Tests\b8;
 
 use b8\Database\Generator,
 	b8\Database\CodeGenerator,
 	b8\Database,
-	b8\Registry;
+	b8\Config;
 
 class CodeGenerationTest extends \PHPUnit_Framework_TestCase
 {
@@ -33,7 +18,8 @@ class CodeGenerationTest extends \PHPUnit_Framework_TestCase
 		Database::setWriteServers(array('localhost'));
 		Database::setReadServers(array('localhost'));
 
-		Registry::getInstance()->set('b8.app.namespace', 'Generation');
+		$config = new Config();
+		Config::getInstance()->set('b8.app.namespace', 'Generation');
 
 		self::$_db = Database::getConnection('write');
 
@@ -504,8 +490,9 @@ class CodeGenerationTest extends \PHPUnit_Framework_TestCase
 		$this->assertTrue($dos instanceof Generation\Controller\Base\DosControllerBase);
 		$this->assertTrue($tres instanceof Generation\Controller\Base\TresControllerBase);
 
+		$config = new Config();
+		Config::getInstance()->set('hello', 'world');
 
-		Registry::getInstance()->setParam('hello', 'world');
 		$this->assertTrue($uno->getParam('hello', 'dave') == 'world');
 
 		$uno->setParam('hello', 'dave');
@@ -630,7 +617,6 @@ class CodeGenerationTest extends \PHPUnit_Framework_TestCase
 		$this->assertTrue(is_array($list));
 		$this->assertTrue(count($list['items']) != 0);
 
-		Registry::getInstance()->forceReset();
 		$uno->setParam('where', array('id' => 1000));
 		$uno->setParam('fuzzy', 'id');
 		$list = $uno->index();

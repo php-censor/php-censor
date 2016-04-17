@@ -1,19 +1,14 @@
 <?php
 
-require_once(dirname(__FILE__) . '/../b8/Registry.php');
-require_once(dirname(__FILE__) . '/../b8/View.php');
-require_once(dirname(__FILE__) . '/../b8/View/UserView.php');
-require_once(dirname(__FILE__) . '/../b8/View/Helper/Format.php');
-require_once(dirname(__FILE__) . '/../b8/Exception/HttpException.php');
+namespace Tests\b8;
 
-use b8\View,
-	b8\View\UserView;
+use b8\View, b8\View\UserView;
 
 class ViewTest extends \PHPUnit_Framework_TestCase
 {
 	public function testSimpleView()
 	{
-		$view = new b8\View('simple', dirname(__FILE__) . '/data/view/');
+		$view = new View('simple', dirname(__FILE__) . '/data/view/');
 		$this->assertTrue($view->render() == 'Hello');
 	}
 
@@ -22,12 +17,12 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testInvalidView()
 	{
-		new b8\View('dogs', dirname(__FILE__) . '/data/view/');
+		new View('dogs', dirname(__FILE__) . '/data/view/');
 	}
 
 	public function testViewVars()
 	{
-		$view = new b8\View('vars', dirname(__FILE__) . '/data/view/');
+		$view = new View('vars', dirname(__FILE__) . '/data/view/');
 		$view->who = 'World';
 
 		$this->assertTrue(isset($view->who));
@@ -37,7 +32,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 
 	public function testFormatViewHelper()
 	{
-		$view = new b8\View('format', dirname(__FILE__) . '/data/view/');
+		$view = new View('format', dirname(__FILE__) . '/data/view/');
 		$view->number = 1000000.25;
 		$view->symbol = true;
 

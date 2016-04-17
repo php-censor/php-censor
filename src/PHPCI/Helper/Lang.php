@@ -106,7 +106,7 @@ class Lang
 
         foreach (self::$languages as $language) {
             $strings = array();
-            require(PHPCI_DIR . 'PHPCI/Languages/lang.' . $language . '.php');
+            require(PHPCI_DIR . 'src/PHPCI/Languages/lang.' . $language . '.php');
             $languages[$language] = $strings['language_name'];
         }
 
@@ -175,7 +175,7 @@ class Lang
         $language = $language
             ? $language
             : self::$language;
-        $langFile = PHPCI_DIR . 'PHPCI/Languages/lang.' . $language . '.php';
+        $langFile = PHPCI_DIR . 'src/PHPCI/Languages/lang.' . $language . '.php';
 
         if (!file_exists($langFile)) {
             return null;
@@ -196,7 +196,7 @@ class Lang
     protected static function loadAvailableLanguages()
     {
         $matches = array();
-        foreach (glob(PHPCI_DIR . 'PHPCI/Languages/lang.*.php') as $file) {
+        foreach (glob(PHPCI_DIR . 'src/PHPCI/Languages/lang.*.php') as $file) {
             if (preg_match('/lang\.([a-z]{2}\-?[a-z]*)\.php/', $file, $matches)) {
                 self::$languages[] = $matches[1];
             }

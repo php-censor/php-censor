@@ -15,7 +15,7 @@ if (empty($timezone)) {
     date_default_timezone_set('UTC');
 }
 
-$configFile = dirname(__FILE__) . '/PHPCI/config.yml';
+$configFile = dirname(__FILE__) . '/app/config.yml';
 $configEnv = getenv('phpci_config_file');
 $usingCustomConfigFile = false;
 
@@ -54,7 +54,7 @@ if (defined('PHPCI_IS_CONSOLE') && PHPCI_IS_CONSOLE) {
 $conf = array();
 $conf['b8']['app']['namespace'] = 'PHPCI';
 $conf['b8']['app']['default_controller'] = 'Home';
-$conf['b8']['view']['path'] = dirname(__FILE__) . '/PHPCI/View/';
+$conf['b8']['view']['path'] = dirname(__FILE__) . '/src/PHPCI/View/';
 $conf['using_custom_file'] = $usingCustomConfigFile;
 
 $config = new b8\Config($conf);

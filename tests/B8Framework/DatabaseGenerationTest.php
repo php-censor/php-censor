@@ -1,13 +1,8 @@
 <?php
 
-require_once(dirname(__FILE__) . '/../b8/Registry.php');
-require_once(dirname(__FILE__) . '/../b8/Model.php');
-require_once(dirname(__FILE__) . '/../b8/Database.php');
-require_once(dirname(__FILE__) . '/../b8/Database/Map.php');
-require_once(dirname(__FILE__) . '/../b8/Database/Generator.php');
+namespace Tests\b8;
 
-use b8\Database\Generator,
-	b8\Database\Map;
+use b8\Database\Generator, b8\Database\Map, b8\Database;
 
 class DatabaseGenerationTest extends \PHPUnit_Framework_TestCase
 {
@@ -19,10 +14,10 @@ class DatabaseGenerationTest extends \PHPUnit_Framework_TestCase
 
 	public function setUp()
 	{
-		\b8\Database::setDetails($this->_name, $this->_user, $this->_pass);
-		\b8\Database::setWriteServers(array($this->_host));
+		Database::setDetails($this->_name, $this->_user, $this->_pass);
+		Database::setWriteServers(array($this->_host));
 
-		$this->_db = \b8\Database::getConnection('write');
+		$this->_db = Database::getConnection('write');
 
 		$this->_db->query('DROP TABLE IF EXISTS tres');
 		$this->_db->query('DROP TABLE IF EXISTS dos');
