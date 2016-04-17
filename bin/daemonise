@@ -10,7 +10,7 @@
 
 define('PHPCI_IS_CONSOLE', true);
 
-require('../bootstrap.php');
+require_once(dirname(__DIR__) . '/bootstrap.php');
 
 use PHPCI\Command\DaemoniseCommand;
 use Symfony\Component\Console\Application;
