@@ -15,7 +15,7 @@ require_once(dirname(__DIR__) . '/vendor/autoload.php');
 
 // If the PHPCI config file is not where we expect it, try looking in
 // env for an alternative config path.
-$configFile = dirname(__FILE__) . '/../PHPCI/config.yml';
+$configFile = dirname(__DIR__) . '/app/PHPCI/config.yml';
 
 if (!file_exists($configFile)) {
     $configEnv = getenv('phpci_config_file');
@@ -29,7 +29,7 @@ if (!file_exists($configFile)) {
 $conf = array();
 $conf['b8']['app']['namespace'] = 'PHPCI';
 $conf['b8']['app']['default_controller'] = 'Home';
-$conf['b8']['view']['path'] = dirname(__DIR__) . '/PHPCI/View/';
+$conf['b8']['view']['path'] = dirname(__DIR__) . '/src/PHPCI/View/';
 
 $config = new b8\Config($conf);
 

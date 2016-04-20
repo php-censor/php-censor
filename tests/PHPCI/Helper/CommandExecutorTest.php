@@ -8,7 +8,7 @@
  * @link         https://www.phptesting.org/
  */
 
-namespace Tests\PHPCI\Plugin\Helper;
+namespace Tests\PHPCI\Helper;
 
 use PHPCI\Helper\UnixCommandExecutor;
 
@@ -26,9 +26,13 @@ class CommandExecutorTest extends \PHPUnit_Framework_TestCase
             return;
         }
         parent::setUp();
+
         $mockBuildLogger = $this->prophesize('PHPCI\Logging\BuildLogger');
-        $class = IS_WIN ? 'PHPCI\Helper\WindowsCommandExecutor' : 'PHPCI\Helper\UnixCommandExecutor';
-        $this->testedExecutor = new $class($mockBuildLogger->reveal(), __DIR__ . "CommandExecutorTest.php/");
+
+        $class = IS_WIN 
+            ? 'PHPCI\Helper\WindowsCommandExecutor'
+            : 'PHPCI\Helper\UnixCommandExecutor';
+        $this->testedExecutor = new $class($mockBuildLogger->reveal(), __DIR__);
     }
 
     public function testGetLastOutput_ReturnsOutputOfCommand()
@@ -62,7 +66,7 @@ class CommandExecutorTest extends \PHPUnit_Framework_TestCase
     {
         $thisFileName = "CommandExecutorTest.php";
         $returnValue = $this->testedExecutor->findBinary($thisFileName);
-        $this->assertEquals(__DIR__ . "CommandExecutorTest.php/" . $thisFileName, $returnValue);
+        $this->assertEquals(__DIR__ . DIRECTORY_SEPARATOR . $thisFileName, $returnValue);
     }
 
     /**

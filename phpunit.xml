@@ -9,35 +9,35 @@
     processIsolation="false"
     stopOnFailure="false"
     syntaxCheck="false"
-    bootstrap="./Tests/bootstrap.php"
+    bootstrap="./tests/bootstrap.php"
 >
     <testsuites>
         <testsuite name="PHPCI Command Test Suite">
-            <directory suffix="Test.php">./Tests/PHPCI/Command</directory>
+            <directory suffix="Test.php">./tests/PHPCI/Command</directory>
         </testsuite>
         <testsuite name="PHPCI Controller Test Suite">
-            <directory suffix="Test.php">./Tests/PHPCI/Controller</directory>
+            <directory suffix="Test.php">./tests/PHPCI/Controller</directory>
         </testsuite>
         <testsuite name="PHPCI Helper Test Suite">
-            <directory suffix="Test.php">./Tests/PHPCI/Helper</directory>
+            <directory suffix="Test.php">./tests/PHPCI/Helper</directory>
         </testsuite>
         <testsuite name="PHPCI Logging Test Suite">
-            <directory suffix="Test.php">./Tests/PHPCI/Logging</directory>
+            <directory suffix="Test.php">./tests/PHPCI/Logging</directory>
         </testsuite>
         <testsuite name="PHPCI Model Test Suite">
-            <directory suffix="Test.php">./Tests/PHPCI/Model</directory>
+            <directory suffix="Test.php">./tests/PHPCI/Model</directory>
         </testsuite>
         <testsuite name="PHPCI Plugin Test Suite">
-            <directory suffix="Test.php">./Tests/PHPCI/Plugin</directory>
+            <directory suffix="Test.php">./tests/PHPCI/Plugin</directory>
         </testsuite>
         <!--<testsuite name="PHPCI ProcessControl Test Suite">
-            <directory suffix="Test.php">./Tests/PHPCI/ProcessControl</directory>
+            <directory suffix="Test.php">./tests/PHPCI/ProcessControl</directory>
         </testsuite>-->
         <testsuite name="PHPCI Service Test Suite">
-            <directory suffix="Test.php">./Tests/PHPCI/Service</directory>
+            <directory suffix="Test.php">./tests/PHPCI/Service</directory>
         </testsuite>
         <!--<testsuite name="B8Framework Test Suite">
-            <directory suffix="Test.php">./B8Framework/tests</directory>
+            <directory suffix="Test.php">./tests/B8Framework</directory>
         </testsuite>-->
     </testsuites>
 </phpunit>

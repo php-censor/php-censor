@@ -12,7 +12,6 @@ namespace Tests\PHPCI\Plugin;
 
 use PHPCI\Plugin\Phar as PharPlugin;
 use Phar as PHPPhar;
-use RuntimeException;
 
 class PharTest extends \PHPUnit_Framework_TestCase
 {

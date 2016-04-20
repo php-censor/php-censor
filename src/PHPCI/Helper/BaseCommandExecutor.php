@@ -63,7 +63,7 @@ abstract class BaseCommandExecutor implements CommandExecutor
         $this->quiet = $quiet;
         $this->verbose = $verbose;
         $this->lastOutput = array();
-        $this->rootDir = $rootDir;
+        $this->rootDir = rtrim($rootDir, '/\\') . DIRECTORY_SEPARATOR;
     }
 
     /**
