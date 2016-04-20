@@ -138,13 +138,13 @@ class Build extends BuildBase
         $pluginDir = PHPCI_DIR . 'PHPCI/Plugin/';
         $dir = new \DirectoryIterator($pluginDir);
 
-        $config = array(
-            'build_settings' => array(
-                'ignore' => array(
+        $config = [
+            'build_settings' => [
+                'ignore' => [
                     'vendor',
-                )
-            )
-        );
+                ]
+            ]
+        ];
 
         foreach ($dir as $item) {
             if ($item->isDot()) {
@@ -167,11 +167,11 @@ class Build extends BuildBase
                 continue;
             }
 
-            foreach (array('setup', 'test', 'complete', 'success', 'failure') as $stage) {
+            foreach (['setup', 'test', 'complete', 'success', 'failure'] as $stage) {
                 if ($className::canExecute($stage, $builder, $this)) {
-                    $config[$stage][$className] = array(
+                    $config[$stage][$className] = [
                         'zero_config' => true
-                    );
+                    ];
                 }
             }
         }

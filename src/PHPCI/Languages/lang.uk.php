@@ -7,7 +7,7 @@
  * @link         https://www.phptesting.org/
  */
 
-$strings = array(
+$strings = [
     'language_name' => 'Українська',
     'language' => 'Мова',
 
@@ -396,4 +396,4 @@ PHPCI',
     'property_file_missing' => 'Вказаний файл властивості не існує.',
     'could_not_process_report' => 'Неможливо обробити звіт, згенерований цією утилітою.',
     'shell_not_enabled' => 'Плагін shell не увімкнений. Будь ласка, увімкніть його через config.yml.'
-);
+];

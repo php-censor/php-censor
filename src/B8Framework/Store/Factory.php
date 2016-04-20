@@ -1,65 +1,64 @@
 <?php
 
 namespace b8\Store;
+
 use b8\Config;
 
 class Factory
 {
-	/**
-	 * @var \b8\Store\Factory
-	 */
-	protected static $instance;
+    /**
+     * @var \b8\Store\Factory
+     */
+    protected static $instance;
 
-	/**
-	 * A collection of the stores currently loaded by the factory.
-	 * @var \b8\Store[]
-	 */
-	protected $loadedStores = array();
+    /**
+     * A collection of the stores currently loaded by the factory.
+     * @var \b8\Store[]
+     */
+    protected $loadedStores = [];
 
-	/**
-	 * @return Factory
-	 */
-	public static function getInstance()
-	{
-		if(!isset(self::$instance))
-		{
-			self::$instance = new self();
-		}
+    /**
+     * @return Factory
+     */
+    public static function getInstance()
+    {
+        if (!isset(self::$instance)) {
+            self::$instance = new self();
+        }
 
-		return self::$instance;
-	}
+        return self::$instance;
+    }
 
-	/**
-	 * @param $storeName string Store name (should match a model name).
-	 *
-	 * @return \b8\Store
-	 */
-	public static function getStore($storeName, $namespace = null)
-	{
-		$factory = self::getInstance();
-		return $factory->loadStore($storeName, $namespace);
-	}
+    /**
+     * @param $storeName string Store name (should match a model name).
+     *
+     * @return \b8\Store
+     */
+    public static function getStore($storeName, $namespace = null)
+    {
+        $factory = self::getInstance();
+        return $factory->loadStore($storeName, $namespace);
+    }
 
-	protected function __construct()
-	{
-	}
+    protected function __construct()
+    {
+    }
 
-	/**
-	 * @param $store
-	 *
-	 * @return \b8\Store;
-	 */
-	public function loadStore($store, $namespace = null)
-	{
-		if(!isset($this->loadedStores[$store]))
-		{
+    /**
+     * @param $store
+     *
+     * @return \b8\Store;
+     */
+    public function loadStore($store, $namespace = null)
+    {
+        if (!isset($this->loadedStores[$store])) {
             $namespace = is_null($namespace) ? Config::getInstance()->get('b8.app.namespace') : $namespace;
-			$class =  $namespace . '\\Store\\' . $store . 'Store';
-			$obj   = new $class();
+            $class = $namespace . '\\Store\\' . $store . 'Store';
+            $obj = new $class();
 
-			$this->loadedStores[$store] = $obj;
-		}
+            $this->loadedStores[$store] = $obj;
+        }
 
-		return $this->loadedStores[$store];
-	}
+        return $this->loadedStores[$store];
+    }
 }

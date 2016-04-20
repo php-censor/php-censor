@@ -26,17 +26,17 @@ class Lang
     /**
      * @var array
      */
-    protected static $languages = array();
+    protected static $languages = [];
 
     /**
      * @var array
      */
-    protected static $strings    = array();
+    protected static $strings = [];
 
     /**
      * @var array
      */
-    protected static $en_strings = array();
+    protected static $en_strings = [];
 
     /**
      * Get a specific string from the language file.
@@ -64,7 +64,7 @@ class Lang
      */
     public static function out()
     {
-        print call_user_func_array(array('PHPCI\Helper\Lang', 'get'), func_get_args());
+        print call_user_func_array(['PHPCI\Helper\Lang', 'get'], func_get_args());
     }
 
     /**
@@ -102,10 +102,10 @@ class Lang
      */
     public static function getLanguageOptions()
     {
-        $languages = array();
+        $languages = [];
 
         foreach (self::$languages as $language) {
-            $strings = array();
+            $strings = [];
             require(PHPCI_DIR . 'src/PHPCI/Languages/lang.' . $language . '.php');
             $languages[$language] = $strings['language_name'];
         }
@@ -195,7 +195,7 @@ class Lang
      */
     protected static function loadAvailableLanguages()
     {
-        $matches = array();
+        $matches = [];
         foreach (glob(PHPCI_DIR . 'src/PHPCI/Languages/lang.*.php') as $file) {
             if (preg_match('/lang\.([a-z]{2}\-?[a-z]*)\.php/', $file, $matches)) {
                 self::$languages[] = $matches[1];

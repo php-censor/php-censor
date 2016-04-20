@@ -37,8 +37,8 @@ class GenerateCommand extends Command
     {
         $gen = new CodeGenerator(
             Database::getConnection(),
-            array('default' => 'PHPCI'),
-            array('default' => PHPCI_DIR),
+            ['default' => 'PHPCI'],
+            ['default' => PHPCI_DIR],
             false
         );
 

@@ -7,7 +7,7 @@
  * @link         https://www.phptesting.org/
  */
 
-$strings = array(
+$strings = [
     'language_name' => 'Nederlands',
     'language' => 'Taal',
 
@@ -396,4 +396,4 @@ Gelieve de fouten na te kijken vooraleer verder te gaan.',
     'property_file_missing' => 'Opgegeven bestand bestaat niet',
     'could_not_process_report' => 'Het is niet mogelijk om het gegenereerde rapport van deze tool te verwerken.',
     'shell_not_enabled' => 'De shell plugin is niet ingeschakeld, schakel deze a.u.b. in via het config.yml bestand.'
-);
+];

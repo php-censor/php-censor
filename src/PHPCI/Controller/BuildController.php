@@ -107,7 +107,7 @@ class BuildController extends \PHPCI\Controller
      */
     protected function getUiPlugins()
     {
-        $rtn = array();
+        $rtn = [];
         $path = APPLICATION_PATH . 'public/assets/js/build-plugins/';
         $dir = opendir($path);
 
@@ -132,7 +132,7 @@ class BuildController extends \PHPCI\Controller
 
         if (!$build) {
             $response->setResponseCode(404);
-            $response->setContent(array());
+            $response->setContent([]);
             return $response;
         }
 
@@ -164,7 +164,7 @@ class BuildController extends \PHPCI\Controller
     */
     protected function getBuildData(Build $build)
     {
-        $data               = array();
+        $data               = [];
         $data['status']     = (int)$build->getStatus();
         $data['log']        = $this->cleanLog($build->getLog());
         $data['created']    = !is_null($build->getCreated()) ? $build->getCreated()->format('Y-m-d H:i:s') : null;
@@ -242,10 +242,10 @@ class BuildController extends \PHPCI\Controller
      */
     public function latest()
     {
-        $rtn = array(
+        $rtn = [
             'pending' => $this->formatBuilds($this->buildStore->getByStatus(Build::STATUS_NEW)),
             'running' => $this->formatBuilds($this->buildStore->getByStatus(Build::STATUS_RUNNING)),
-        );
+        ];
 
         $response = new JsonResponse();
         $response->setContent($rtn);
@@ -259,9 +259,9 @@ class BuildController extends \PHPCI\Controller
      */
     protected function formatBuilds($builds)
     {
-        Project::$sleepable = array('id', 'title', 'reference', 'type');
+        Project::$sleepable = ['id', 'title', 'reference', 'type'];
 
-        $rtn = array('count' => $builds['count'], 'items' => array());
+        $rtn = ['count' => $builds['count'], 'items' => []];
 
         foreach ($builds['items'] as $build) {
             $item = $build->toArray(1);

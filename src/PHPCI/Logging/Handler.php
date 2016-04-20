@@ -20,7 +20,7 @@ class Handler
     /**
      * @var array
      */
-    protected $levels = array(
+    protected $levels = [
         E_WARNING           => 'Warning',
         E_NOTICE            => 'Notice',
         E_USER_ERROR        => 'User Error',
@@ -30,7 +30,7 @@ class Handler
         E_RECOVERABLE_ERROR => 'Catchable Fatal Error',
         E_DEPRECATED        => 'Deprecated',
         E_USER_DEPRECATED   => 'User Deprecated',
-    );
+    ];
 
     /**
      * @var LoggerInterface
@@ -53,10 +53,10 @@ class Handler
     {
         $handler = new static($logger);
 
-        set_error_handler(array($handler, 'handleError'));
-        register_shutdown_function(array($handler, 'handleFatalError'));
+        set_error_handler([$handler, 'handleError']);
+        register_shutdown_function([$handler, 'handleFatalError']);
 
-        set_exception_handler(array($handler, 'handleException'));
+        set_exception_handler([$handler, 'handleException']);
     }
 
     /**
@@ -147,7 +147,7 @@ class Handler
                 $exception->getLine()
             );
 
-            $this->logger->error($message, array('exception' => $exception));
+            $this->logger->error($message, ['exception' => $exception]);
         }
     }
 }

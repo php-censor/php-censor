@@ -42,7 +42,7 @@ class Github
      *
      * @return array
      */
-    public function makeRecursiveRequest($url, $params, $results = array())
+    public function makeRecursiveRequest($url, $params, $results = [])
     {
         $http = new HttpClient('https://api.github.com');
         $res = $http->get($url, $params);
@@ -80,17 +80,17 @@ class Github
         $rtn = $cache->get('phpci_github_repos');
 
         if (!$rtn) {
-            $orgs = $this->makeRequest('/user/orgs', array('access_token' => $token));
+            $orgs = $this->makeRequest('/user/orgs', ['access_token' => $token]);
 
-            $params = array('type' => 'all', 'access_token' => $token);
-            $repos = array('user' => array());
+            $params = ['type' => 'all', 'access_token' => $token];
+            $repos  = ['user' => []];
             $repos['user'] = $this->makeRecursiveRequest('/user/repos', $params);
 
             foreach ($orgs as $org) {
                 $repos[$org['login']] = $this->makeRecursiveRequest('/orgs/'.$org['login'].'/repos', $params);
             }
 
-            $rtn = array();
+            $rtn = [];
             foreach ($repos as $repoGroup) {
                 foreach ($repoGroup as $repo) {
                     $rtn['repos'][] = $repo['full_name'];
@@ -123,18 +123,18 @@ class Github
 
         $url = '/repos/' . strtolower($repo) . '/pulls/' . $pullId . '/comments';
 
-        $params = array(
-            'body' => $comment,
+        $params = [
+            'body'      => $comment,
             'commit_id' => $commitId,
-            'path' => $file,
-            'position' => $line,
-        );
+            'path'      => $file,
+            'position'  => $line,
+        ];
 
         $http = new HttpClient('https://api.github.com');
-        $http->setHeaders(array(
+        $http->setHeaders([
             'Content-Type: application/x-www-form-urlencoded',
             'Authorization: Basic ' . base64_encode($token . ':x-oauth-basic'),
-        ));
+        ]);
 
         $http->post($url, json_encode($params));
     }
@@ -158,17 +158,17 @@ class Github
 
         $url = '/repos/' . strtolower($repo) . '/commits/' . $commitId . '/comments';
 
-        $params = array(
-            'body' => $comment,
-            'path' => $file,
+        $params = [
+            'body'     => $comment,
+            'path'     => $file,
             'position' => $line,
-        );
+        ];
 
         $http = new HttpClient('https://api.github.com');
-        $http->setHeaders(array(
+        $http->setHeaders([
             'Content-Type: application/x-www-form-urlencoded',
             'Authorization: Basic ' . base64_encode($token . ':x-oauth-basic'),
-        ));
+        ]);
 
         $http->post($url, json_encode($params));
     }

@@ -61,8 +61,8 @@ abstract class BaseCommandExecutor implements CommandExecutor
     {
         $this->logger = $logger;
         $this->quiet = $quiet;
-        $this->verbose = $verbose;
-        $this->lastOutput = array();
+        $this->verbose    = $verbose;
+        $this->lastOutput = [];
         $this->rootDir = rtrim($rootDir, '/\\') . DIRECTORY_SEPARATOR;
     }
 
@@ -71,9 +71,9 @@ abstract class BaseCommandExecutor implements CommandExecutor
      * @param array $args
      * @return bool Indicates success
      */
-    public function executeCommand($args = array())
+    public function executeCommand($args = [])
     {
-        $this->lastOutput = array();
+        $this->lastOutput = [];
 
         $command = call_user_func_array('sprintf', $args);
         $this->logger->logDebug($command);
@@ -83,13 +83,13 @@ abstract class BaseCommandExecutor implements CommandExecutor
         }
 
         $status = 0;
-        $descriptorSpec = array(
-            0 => array("pipe", "r"),  // stdin
-            1 => array("pipe", "w"),  // stdout
-            2 => array("pipe", "w"),  // stderr
-        );
+        $descriptorSpec = [
+            0 => ["pipe", "r"], // stdin
+            1 => ["pipe", "w"], // stdout
+            2 => ["pipe", "w"], // stderr
+        ];
 
-        $pipes = array();
+        $pipes   = [];
         $process = proc_open($command, $descriptorSpec, $pipes, $this->buildPath, null);
 
         if (is_resource($process)) {
@@ -152,7 +152,7 @@ abstract class BaseCommandExecutor implements CommandExecutor
         $composerBin = $this->getComposerBinDir(realpath($this->buildPath));
 
         if (is_string($binary)) {
-            $binary = array($binary);
+            $binary = [$binary];
         }
 
         foreach ($binary as $bin) {

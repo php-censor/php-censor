@@ -30,14 +30,14 @@ class Project extends ProjectBase
      */
     public function getLatestBuild($branch = 'master', $status = null)
     {
-        $criteria       = array('branch' => $branch, 'project_id' => $this->getId());
+        $criteria = ['branch' => $branch, 'project_id' => $this->getId()];
 
         if (isset($status)) {
             $criteria['status'] = $status;
         }
 
-        $order          = array('id' => 'DESC');
-        $builds         = Store\Factory::getStore('Build')->getWhere($criteria, 1, 0, array(), $order);
+        $order  = ['id' => 'DESC'];
+        $builds = Store\Factory::getStore('Build')->getWhere($criteria, 1, 0, [], $order);
 
         if (is_array($builds['items']) && count($builds['items'])) {
             $latest = array_shift($builds['items']);
@@ -57,10 +57,9 @@ class Project extends ProjectBase
      */
     public function getPreviousBuild($branch = 'master')
     {
-        $criteria       = array('branch' => $branch, 'project_id' => $this->getId());
-
-        $order          = array('id' => 'DESC');
-        $builds         = Store\Factory::getStore('Build')->getWhere($criteria, 1, 1, array(), $order);
+        $criteria = ['branch' => $branch, 'project_id' => $this->getId()];
+        $order    = ['id' => 'DESC'];
+        $builds   = Store\Factory::getStore('Build')->getWhere($criteria, 1, 1, [], $order);
 
         if (is_array($builds['items']) && count($builds['items'])) {
             $previous = array_shift($builds['items']);

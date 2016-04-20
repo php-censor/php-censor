@@ -7,7 +7,7 @@
  * @link         https://www.phptesting.org/
  */
 
-$strings = array(
+$strings = [
     'language_name' => 'Pусский',
     'language' => 'язык',
 
@@ -419,4 +419,4 @@ PHPCI',
     'property_file_missing' => 'Указанного файла сборки не существует.',
     'could_not_process_report' => 'Невозможно обработать отчет этой утилиты.',
     'shell_not_enabled' => 'Плагин shell не включен. Пожалуйста, включите его в файле config.yml.'
-);
+];

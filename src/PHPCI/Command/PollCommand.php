@@ -70,7 +70,7 @@ class PollCommand extends Command
 
         foreach ($result['items'] as $project) {
             $http = new HttpClient('https://api.github.com');
-            $commits = $http->get('/repos/' . $project->getReference() . '/commits', array('access_token' => $token));
+            $commits = $http->get('/repos/' . $project->getReference() . '/commits', ['access_token' => $token]);
 
             $last_commit = $commits['body'][0]['sha'];
             $last_committer = $commits['body'][0]['commit']['committer']['email'];

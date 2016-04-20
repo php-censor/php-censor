@@ -76,7 +76,7 @@ class DaemoniseCommand extends Command
         $runner->setMaxBuilds(1);
         $runner->setDaemon(true);
 
-        $emptyInput = new ArgvInput(array());
+        $emptyInput = new ArgvInput([]);
 
         while ($this->run) {
 

@@ -37,7 +37,7 @@ class SshKey
             mkdir($tempPath);
         }
 
-        $return = array('private_key' => '', 'public_key' => '');
+        $return = ['private_key' => '', 'public_key' => ''];
 
         $output = @shell_exec('ssh-keygen -t rsa -b 2048 -f '.$keyFile.' -N "" -C "deploy@phpci"');
 

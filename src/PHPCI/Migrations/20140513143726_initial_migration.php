@@ -22,7 +22,7 @@ class InitialMigration extends AbstractMigration
         $build = $this->table('build');
 
         if (!$build->hasForeignKey('project_id')) {
-            $build->addForeignKey('project_id', 'project', 'id', array('delete'=> 'CASCADE', 'update' => 'CASCADE'));
+            $build->addForeignKey('project_id', 'project', 'id', ['delete'=> 'CASCADE', 'update' => 'CASCADE']);
         }
 
         $build->save();
@@ -30,11 +30,11 @@ class InitialMigration extends AbstractMigration
         $buildMeta = $this->table('build_meta');
 
         if (!$buildMeta->hasForeignKey('build_id')) {
-            $buildMeta->addForeignKey('build_id', 'build', 'id', array('delete'=> 'CASCADE', 'update' => 'CASCADE'));
+            $buildMeta->addForeignKey('build_id', 'build', 'id', ['delete'=> 'CASCADE', 'update' => 'CASCADE']);
         }
 
         if (!$buildMeta->hasForeignKey('project_id')) {
-            $buildMeta->addForeignKey('project_id', 'project', 'id', array('delete'=> 'CASCADE', 'update' => 'CASCADE'));
+            $buildMeta->addForeignKey('project_id', 'project', 'id', ['delete'=> 'CASCADE', 'update' => 'CASCADE']);
         }
 
         $buildMeta->save();
@@ -61,11 +61,11 @@ class InitialMigration extends AbstractMigration
         }
 
         if (!$table->hasColumn('commit_id')) {
-            $table->addColumn('commit_id', 'string', array('limit' => 50));
+            $table->addColumn('commit_id', 'string', ['limit' => 50]);
         }
 
         if (!$table->hasColumn('status')) {
-            $table->addColumn('status', 'integer', array('limit' => 4));
+            $table->addColumn('status', 'integer', ['limit' => 4]);
         }
 
         if (!$table->hasColumn('log')) {
@@ -73,7 +73,7 @@ class InitialMigration extends AbstractMigration
         }
 
         if (!$table->hasColumn('branch')) {
-            $table->addColumn('branch', 'string', array('limit' => 50));
+            $table->addColumn('branch', 'string', ['limit' => 50]);
         }
 
         if (!$table->hasColumn('created')) {
@@ -89,7 +89,7 @@ class InitialMigration extends AbstractMigration
         }
 
         if (!$table->hasColumn('committer_email')) {
-            $table->addColumn('committer_email', 'string', array('limit' => 250));
+            $table->addColumn('committer_email', 'string', ['limit' => 250]);
         }
 
         if (!$table->hasColumn('commit_message')) {
@@ -104,12 +104,12 @@ class InitialMigration extends AbstractMigration
             $table->removeColumn('plugins');
         }
 
-        if (!$table->hasIndex(array('project_id'))) {
-            $table->addIndex(array('project_id'));
+        if (!$table->hasIndex(['project_id'])) {
+            $table->addIndex(['project_id']);
         }
 
-        if (!$table->hasIndex(array('status'))) {
-            $table->addIndex(array('status'));
+        if (!$table->hasIndex(['status'])) {
+            $table->addIndex(['status']);
         }
 
         $table->save();
@@ -132,15 +132,15 @@ class InitialMigration extends AbstractMigration
         }
 
         if (!$table->hasColumn('meta_key')) {
-            $table->addColumn('meta_key', 'string', array('limit' => 250));
+            $table->addColumn('meta_key', 'string', ['limit' => 250]);
         }
 
         if (!$table->hasColumn('meta_value')) {
             $table->addColumn('meta_value', 'text');
         }
 
-        if (!$table->hasIndex(array('build_id', 'meta_key'))) {
-            $table->addIndex(array('build_id', 'meta_key'));
+        if (!$table->hasIndex(['build_id', 'meta_key'])) {
+            $table->addIndex(['build_id', 'meta_key']);
         }
 
         $table->save();
@@ -155,11 +155,11 @@ class InitialMigration extends AbstractMigration
         }
 
         if (!$table->hasColumn('title')) {
-            $table->addColumn('title', 'string', array('limit' => 250));
+            $table->addColumn('title', 'string', ['limit' => 250]);
         }
 
         if (!$table->hasColumn('reference')) {
-            $table->addColumn('reference', 'string', array('limit' => 250));
+            $table->addColumn('reference', 'string', ['limit' => 250]);
         }
 
         if (!$table->hasColumn('git_key')) {
@@ -171,15 +171,15 @@ class InitialMigration extends AbstractMigration
         }
 
         if (!$table->hasColumn('type')) {
-            $table->addColumn('type', 'string', array('limit' => 50));
+            $table->addColumn('type', 'string', ['limit' => 50]);
         }
 
         if (!$table->hasColumn('access_information')) {
-            $table->addColumn('access_information', 'string', array('limit' => 250));
+            $table->addColumn('access_information', 'string', ['limit' => 250]);
         }
 
         if (!$table->hasColumn('last_commit')) {
-            $table->addColumn('last_commit', 'string', array('limit' => 250));
+            $table->addColumn('last_commit', 'string', ['limit' => 250]);
         }
 
         if (!$table->hasColumn('build_config')) {
@@ -194,8 +194,8 @@ class InitialMigration extends AbstractMigration
             $table->removeColumn('token');
         }
 
-        if (!$table->hasIndex(array('title'))) {
-            $table->addIndex(array('title'));
+        if (!$table->hasIndex(['title'])) {
+            $table->addIndex(['title']);
         }
 
         $table->save();
@@ -210,23 +210,23 @@ class InitialMigration extends AbstractMigration
         }
 
         if (!$table->hasColumn('email')) {
-            $table->addColumn('email', 'string', array('limit' => 250));
+            $table->addColumn('email', 'string', ['limit' => 250]);
         }
 
         if (!$table->hasColumn('hash')) {
-            $table->addColumn('hash', 'string', array('limit' => 250));
+            $table->addColumn('hash', 'string', ['limit' => 250]);
         }
 
         if (!$table->hasColumn('name')) {
-            $table->addColumn('name', 'string', array('limit' => 250));
+            $table->addColumn('name', 'string', ['limit' => 250]);
         }
 
         if (!$table->hasColumn('is_admin')) {
             $table->addColumn('is_admin', 'integer');
         }
 
-        if (!$table->hasIndex(array('email'))) {
-            $table->addIndex(array('email'));
+        if (!$table->hasIndex(['email'])) {
+            $table->addIndex(['email']);
         }
 
         $table->save();

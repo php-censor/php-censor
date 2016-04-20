@@ -23,7 +23,7 @@ class BuildInterpolator
      * @var mixed[]
      * @see setupInterpolationVars()
      */
-    protected $interpolation_vars = array();
+    protected $interpolation_vars = [];
 
     /**
      * Sets the variables that will be used for interpolation.
@@ -33,7 +33,7 @@ class BuildInterpolator
      */
     public function setupInterpolationVars(Build $build, $buildPath, $phpCiUrl)
     {
-        $this->interpolation_vars = array();
+        $this->interpolation_vars = [];
         $this->interpolation_vars['%PHPCI%'] = 1;
         $this->interpolation_vars['%COMMIT%'] = $build->getCommitId();
         $this->interpolation_vars['%SHORT_COMMIT%'] = substr($build->getCommitId(), 0, 7);

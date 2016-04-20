@@ -20,11 +20,11 @@ class Email
 {
     const DEFAULT_FROM = 'PHPCI <no-reply@phptesting.org>';
 
-    protected $emailTo = array();
-    protected $emailCc = array();
+    protected $emailTo = [];
+    protected $emailCc = [];
     protected $subject = 'Email from PHPCI';
-    protected $body = '';
-    protected $isHtml = false;
+    protected $body    = '';
+    protected $isHtml  = false;
     protected $config;
 
     /**
@@ -126,7 +126,7 @@ class Email
 
         $headers .= 'From: ' . $this->getFrom() . PHP_EOL;
 
-        $emailTo = array();
+        $emailTo = [];
         foreach ($this->emailTo as $email => $name) {
             $thisTo = $email;
 

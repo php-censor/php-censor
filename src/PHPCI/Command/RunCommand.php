@@ -148,9 +148,9 @@ class RunCommand extends Command
     protected function validateRunningBuilds()
     {
         /** @var \PHPCI\Store\BuildStore $store */
-        $store = Factory::getStore('Build');
+        $store   = Factory::getStore('Build');
         $running = $store->getByStatus(1);
-        $rtn = array();
+        $rtn     = [];
 
         $timeout = Config::getInstance()->get('phpci.build.failed_after', 1800);
 

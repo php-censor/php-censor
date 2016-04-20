@@ -23,7 +23,7 @@ class User
      * @param array $params
      * @return mixed|null
      */
-    public function __call($method, $params = array())
+    public function __call($method, $params = [])
     {
         $user = $_SESSION['phpci_user'];
 
@@ -31,6 +31,6 @@ class User
             return null;
         }
 
-        return call_user_func_array(array($user, $method), $params);
+        return call_user_func_array([$user, $method], $params);
     }
 }

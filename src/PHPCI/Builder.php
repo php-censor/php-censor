@@ -35,7 +35,7 @@ class Builder implements LoggerAwareInterface
     /**
      * @var string[]
      */
-    public $ignore = array();
+    public $ignore = [];
 
     /**
      * @var string
@@ -201,7 +201,7 @@ class Builder implements LoggerAwareInterface
             $this->setupBuild();
 
             // Run the core plugin stages:
-            foreach (array('setup', 'test') as $stage) {
+            foreach (['setup', 'test'] as $stage) {
                 $success &= $this->pluginExecutor->executePlugins($this->config, $stage);
             }
 
@@ -350,7 +350,7 @@ class Builder implements LoggerAwareInterface
      * @param string $level
      * @param array $context
      */
-    public function log($message, $level = LogLevel::INFO, $context = array())
+    public function log($message, $level = LogLevel::INFO, $context = [])
     {
         $this->buildLogger->log($message, $level, $context);
     }

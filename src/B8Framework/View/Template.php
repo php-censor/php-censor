@@ -1,21 +1,25 @@
 <?php
 
 namespace b8\View;
+
 use b8\View;
 
 class Template extends View
 {
-    public static $templateFunctions = array();
-    protected static $extension = 'html';
+    public static $templateFunctions = [];
+    protected static $extension      = 'html';
 
-	public function __construct($viewCode)
-	{
-		$this->viewCode = $viewCode;
+    public function __construct($viewCode)
+    {
+        $this->viewCode = $viewCode;
 
         if (!count(self::$templateFunctions)) {
-            self::$templateFunctions = array('include' => array($this, 'includeTemplate'), 'call' => array($this, 'callHelperFunction'));
+            self::$templateFunctions = [
+                'include' => [$this, 'includeTemplate'],
+                'call'    => [$this, 'callHelperFunction']
+            ];
         }
-	}
+    }
 
     public static function createFromFile($file, $path = null)
     {
@@ -42,113 +46,113 @@ class Template extends View
         unset(self::$templateFunctions[$name]);
     }
 
-	public function render()
-	{
-		return $this->parse($this->viewCode);
-	}
+    public function render()
+    {
+        return $this->parse($this->viewCode);
+    }
 
-	protected function parse($string)
-	{
-		$lastCond = null;
-		$keywords = array('ifnot', 'if', 'else', 'for', 'loop', '@', '/ifnot', '/if', '/for', '/loop');
+    protected function parse($string)
+    {
+        $lastCond = null;
+        $keywords = ['ifnot', 'if', 'else', 'for', 'loop', '@', '/ifnot', '/if', '/for', '/loop'];
 
         foreach (self::$templateFunctions as $function => $handler) {
             $keywords[] = $function;
         }
 
-		$stack = array('children' => array(array('type' => 'string', 'body' => '')));
-		$stack['children'][0]['parent'] =& $stack;
-		$current =& $stack['children'][0];
+        $stack = ['children' => [['type' => 'string', 'body' => '']]];
+        $stack['children'][0]['parent'] =& $stack;
+        $current =& $stack['children'][0];
 
-		while (!empty($string)) {
-			$current['body'] .= $this->readUntil('{', $string);
+        while (!empty($string)) {
+            $current['body'] .= $this->readUntil('{', $string);
 
-			if (!empty($string)) {
-				$gotKeyword = false;
+            if (!empty($string)) {
+                $gotKeyword = false;
 
-				foreach($keywords as $keyword) {
-					$kwLen = strlen($keyword) + 1;
+                foreach ($keywords as $keyword) {
+                    $kwLen = strlen($keyword) + 1;
 
-					if (substr($string, 0, $kwLen) == '{' . $keyword) {
-						$gotKeyword = true;
-						$item = array('type' => $keyword, 'cond' => '', 'children' => '');
-						$string = substr($string, $kwLen);
+                    if (substr($string, 0, $kwLen) == '{' . $keyword) {
+                        $gotKeyword = true;
+                        $item = ['type' => $keyword, 'cond' => '', 'children' => ''];
+                        $string = substr($string, $kwLen);
 
-						$cond = trim($this->readUntil('}', $string));
-						$item['cond'] = $cond;
-						$lastCond = $cond;
-						$string = substr($string, 1);
+                        $cond = trim($this->readUntil('}', $string));
+                        $item['cond'] = $cond;
+                        $lastCond = $cond;
+                        $string = substr($string, 1);
 
                         if (array_key_exists($keyword, self::$templateFunctions)) {
                             $item['function_name'] = $keyword;
                             $item['type'] = 'function';
                         }
 
-						$str = array('type' => 'string', 'body' => '');
-						$parent =& $current['parent'];
+                        $str = ['type' => 'string', 'body' => ''];
+                        $parent =& $current['parent'];
 
-						if (substr($current['body'], (0 - strlen(PHP_EOL))) === PHP_EOL) {
-							$current['body'] = substr($current['body'], 0, strlen($current['body']) - strlen(PHP_EOL));
-						}
+                        if (substr($current['body'], (0 - strlen(PHP_EOL))) === PHP_EOL) {
+                            $current['body'] = substr($current['body'], 0, strlen($current['body']) - strlen(PHP_EOL));
+                        }
 
-						$item['parent'] =& $parent;
+                        $item['parent'] =& $parent;
 
-						$parent['children'][] = $item;
+                        $parent['children'][] = $item;
 
-						if ($keyword == '@' || $item['type'] == 'function') {
-							// If we're processing a variable, add a string to the parent and move up to that as current.
-							$parent['children'][] = $str;
-							$current =& $parent['children'][count($parent['children']) - 1];
-							$current['parent'] =& $parent;
-						}  elseif (substr($keyword, 0, 1) == '/') {
-							// If we're processing the end of a block (if/loop), add a string to the parent's parent and move up to that.
-							$parent =& $parent['parent'];
-							$parent['children'][] = $str;
-							$current =& $parent['children'][count($parent['children']) - 1];
-							$current['parent'] =& $parent;
-						} else {
-							$parent['children'][count($parent['children']) - 1]['children'][] = $str;
-							$current =& $parent['children'][count($parent['children']) - 1]['children'][0];
-							$current['parent'] =& $parent['children'][count($parent['children']) - 1];
-						}
+                        if ($keyword == '@' || $item['type'] == 'function') {
+                            // If we're processing a variable, add a string to the parent and move up to that as current.
+                            $parent['children'][] = $str;
+                            $current =& $parent['children'][count($parent['children']) - 1];
+                            $current['parent'] =& $parent;
+                        } elseif (substr($keyword, 0, 1) == '/') {
+                            // If we're processing the end of a block (if/loop), add a string to the parent's parent and move up to that.
+                            $parent =& $parent['parent'];
+                            $parent['children'][] = $str;
+                            $current =& $parent['children'][count($parent['children']) - 1];
+                            $current['parent'] =& $parent;
+                        } else {
+                            $parent['children'][count($parent['children']) - 1]['children'][] = $str;
+                            $current =& $parent['children'][count($parent['children']) - 1]['children'][0];
+                            $current['parent'] =& $parent['children'][count($parent['children']) - 1];
+                        }
 
-						break;
-					}
-				}
+                        break;
+                    }
+                }
 
-				if (!$gotKeyword) {
-					$current['body'] .= substr($string, 0, 1);
-					$string = substr($string, 1);
-				}
-			}
-		}
+                if (!$gotKeyword) {
+                    $current['body'] .= substr($string, 0, 1);
+                    $string = substr($string, 1);
+                }
+            }
+        }
 
-		return $this->processStack($stack);
-	}
+        return $this->processStack($stack);
+    }
 
-	protected function processStack($stack)
-	{
-		$res = '';
+    protected function processStack($stack)
+    {
+        $res = '';
 
-		while (count($stack['children'])) {
-			$current = array_shift($stack['children']);
+        while (count($stack['children'])) {
+            $current = array_shift($stack['children']);
 
-			switch ($current['type']) {
-				case 'string':
-					$res .= $current['body'];
-					break;
+            switch ($current['type']) {
+                case 'string':
+                    $res .= $current['body'];
+                    break;
 
-				case '@':
-					$res .= $this->doParseVar($current['cond']);
-					break;
+                case '@':
+                    $res .= $this->doParseVar($current['cond']);
+                    break;
 
-				case 'if':
-					$res .= $this->doParseIf($current['cond'], $current);
-					break;
+                case 'if':
+                    $res .= $this->doParseIf($current['cond'], $current);
+                    break;
 
-				case 'ifnot':
-					$res .= $this->doParseIfNot($current['cond'], $current);
-					break;
+                case 'ifnot':
+                    $res .= $this->doParseIfNot($current['cond'], $current);
+                    break;
 
                 case 'loop':
                     $res .= $this->doParseLoop($current['cond'], $current);
@@ -161,64 +165,64 @@ class Template extends View
                 case 'function':
                     $res .= $this->doParseFunction($current);
                     break;
-			}
-		}
+            }
+        }
 
-		return $res;
-	}
+        return $res;
+    }
 
-	protected function readUntil($until, &$string)
-	{
-		$read = '';
+    protected function readUntil($until, &$string)
+    {
+        $read = '';
 
-		while (!empty($string)) {
-			$char = substr($string, 0, 1);
+        while (!empty($string)) {
+            $char = substr($string, 0, 1);
 
-			if ($char == $until) {
-				break;
-			}
+            if ($char == $until) {
+                break;
+            }
 
-			$read .= $char;
-			$string = substr($string, 1);
-		}
+            $read .= $char;
+            $string = substr($string, 1);
+        }
 
-		return $read;
-	}
+        return $read;
+    }
 
-	protected function doParseVar($var)
-	{
-		if($var == 'year')
-		{
-			return date('Y');
-		}
+    protected function doParseVar($var)
+    {
+        if ($var == 'year') {
+            return date('Y');
+        }
 
-		$val = $this->processVariableName($var);
-		return $val;
-	}
+        $val = $this->processVariableName($var);
+        return $val;
+    }
 
-	protected function doParseIf($condition, $stack)
-	{
+    protected function doParseIf($condition, $stack)
+    {
         if ($this->ifConditionIsTrue($condition)) {
             return $this->processStack($stack);
         } else {
             return '';
         }
-	}
+    }
 
-	protected function doParseIfNot($condition, $stack)
-	{
+    protected function doParseIfNot($condition, $stack)
+    {
         if (!$this->ifConditionIsTrue($condition)) {
             return $this->processStack($stack);
         } else {
             return '';
         }
-	}
+    }
 
     protected function ifConditionIsTrue($condition)
     {
-        $matches = array();
+        $matches = [];
 
-        if (preg_match('/([a-zA-Z0-9_\-\(\):\s.\"]+)\s+?([\!\=\<\>]+)?\s+?([a-zA-Z0-9\(\)_\-:\s.\"]+)?/', $condition, $matches)) {
+        if (preg_match('/([a-zA-Z0-9_\-\(\):\s.\"]+)\s+?([\!\=\<\>]+)?\s+?([a-zA-Z0-9\(\)_\-:\s.\"]+)?/', $condition,
+            $matches)) {
             $left = is_numeric($matches[1]) ? intval($matches[1]) : $this->processVariableName($matches[1]);
             $right = is_numeric($matches[3]) ? intval($matches[3]) : $this->processVariableName($matches[3]);
             $operator = $matches[2];
@@ -248,42 +252,40 @@ class Template extends View
         }
     }
 
-	protected function doParseLoop($var, $stack)
-	{
-		$working    = $this->processVariableName($var);
+    protected function doParseLoop($var, $stack)
+    {
+        $working = $this->processVariableName($var);
 
-		if(is_null($working))
-		{
-			return '';
-		}
+        if (is_null($working)) {
+            return '';
+        }
 
-		if(!is_array($working))
-		{
-			$working = array($working);
-		}
+        if (!is_array($working)) {
+            $working = [$working];
+        }
 
-		$rtn = '';
-		foreach ($working as $key => $val) {
+        $rtn = '';
+        foreach ($working as $key => $val) {
             // Make sure we support nesting loops:
-            $keyWas = isset($this->key) ? $this->key : null;
-            $valWas = isset($this->value) ? $this->value : null;
-            $itemWas = isset($this->item) ? $this->item : null;
+            $keyWas  = isset($this->key)   ? $this->key   : null;
+            $valWas  = isset($this->value) ? $this->value : null;
+            $itemWas = isset($this->item)  ? $this->item  : null;
 
             // Set up the necessary variables within the stack:
-			$this->parent = $this;
-			$this->item = $val;
+            $this->parent = $this;
+            $this->item = $val;
             $this->key = $key;
             $this->value = $val;
-			$rtn .= $this->processStack($stack);
+            $rtn .= $this->processStack($stack);
 
             // Restore state for any parent nested loops:
             $this->item = $itemWas;
             $this->key = $keyWas;
             $this->value = $valWas;
-		}
+        }
 
-		return $rtn;
-	}
+        return $rtn;
+    }
 
     /**
      * Processes loops in templates, of the following styles:
@@ -325,7 +327,7 @@ class Template extends View
         // Process variable & incrementor / decrementor:
         $parts[1] = trim($parts[1]);
 
-        $matches = array();
+        $matches = [];
         if (preg_match('/([a-zA-Z0-9_]+)(\+\+|\-\-)/', $parts[1], $matches)) {
             $varName = $matches[1];
             $direction = $matches[2] == '++' ? 'increment' : 'decrement';
@@ -367,8 +369,8 @@ class Template extends View
         throw new \Exception('Invalid range in for loop: ' . $part);
     }
 
-	public function processVariableName($varName)
-	{
+    public function processVariableName($varName)
+    {
         // Case one - Test for function calls:
         if (substr($varName, 0, 1) == '(' && substr($varName, -1) == ')') {
 
@@ -403,23 +405,21 @@ class Template extends View
             return null;
         }
 
-		// Case five - Process as a variable:
-		$varPart    = explode('.', $varName);
-		$thisPart   = array_shift($varPart);
+        // Case five - Process as a variable:
+        $varPart = explode('.', $varName);
+        $thisPart = array_shift($varPart);
 
 
-		if(!array_key_exists($thisPart, $this->_vars))
-		{
-			return null;
-		}
+        if (!array_key_exists($thisPart, $this->_vars)) {
+            return null;
+        }
 
-		$working    = $this->{$thisPart};
+        $working = $this->{$thisPart};
 
-		while(count($varPart))
-		{
-			$thisPart   = array_shift($varPart);
+        while (count($varPart)) {
+            $thisPart = array_shift($varPart);
 
-			if(is_object($working)) {
+            if (is_object($working)) {
                 // Check if we're working with an actual property:
                 if (property_exists($working, $thisPart)) {
                     $working = $working->{$thisPart};
@@ -434,34 +434,30 @@ class Template extends View
             }
 
 
-			if(is_array($working) && array_key_exists($thisPart, $working))
-			{
-				$working = $working[$thisPart];
-				continue;
-			}
+            if (is_array($working) && array_key_exists($thisPart, $working)) {
+                $working = $working[$thisPart];
+                continue;
+            }
 
-			if($thisPart == 'toLowerCase')
-			{
-				$working = strtolower($working);
-				continue;
-			}
+            if ($thisPart == 'toLowerCase') {
+                $working = strtolower($working);
+                continue;
+            }
 
-			if($thisPart == 'toUpperCase')
-			{
-				$working = strtoupper($working);
-				continue;
-			}
+            if ($thisPart == 'toUpperCase') {
+                $working = strtoupper($working);
+                continue;
+            }
 
-			if ($thisPart == 'isNumeric')
-			{
-				return is_numeric($working);
-			}
+            if ($thisPart == 'isNumeric') {
+                return is_numeric($working);
+            }
 
-			return null;
-		}
+            return null;
+        }
 
-		return $working;
-	}
+        return $working;
+    }
 
     protected function doParseFunction($stack)
     {
@@ -481,7 +477,7 @@ class Template extends View
 
     protected function processFunctionArguments($args)
     {
-        $rtn = array();
+        $rtn = [];
 
         $args = explode(';', $args);
 
@@ -515,7 +511,7 @@ class Template extends View
 
         if (isset($args['variables'])) {
             if (!is_array($args['variables'])) {
-                $args['variables'] = array($args['variables']);
+                $args['variables'] = [$args['variables']];
             }
 
             foreach ($args['variables'] as $variable) {

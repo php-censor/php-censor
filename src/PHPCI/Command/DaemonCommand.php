@@ -67,13 +67,13 @@ class DaemonCommand extends Command
                 'pid-file', 'p', InputOption::VALUE_REQUIRED,
                 'Path of the PID file',
                 implode(DIRECTORY_SEPARATOR,
-                    array(PHPCI_DIR, 'daemon', 'daemon.pid'))
+                    [PHPCI_DIR, 'daemon', 'daemon.pid'])
             )
             ->addOption(
                 'log-file', 'l', InputOption::VALUE_REQUIRED,
                 'Path of the log file',
                 implode(DIRECTORY_SEPARATOR,
-                    array(PHPCI_DIR, 'daemon', 'daemon.log'))
+                    [PHPCI_DIR, 'daemon', 'daemon.log'])
         );
     }
 
@@ -107,7 +107,7 @@ class DaemonCommand extends Command
     {
         $pid = $this->getRunningPid();
         if ($pid) {
-            $this->logger->notice("Daemon already started", array('pid' => $pid));
+            $this->logger->notice("Daemon already started", ['pid' => $pid]);
             return "alreadystarted";
         }
 
@@ -132,7 +132,7 @@ class DaemonCommand extends Command
             return "notstarted";
         }
 
-        $this->logger->notice("Daemon started", array('pid' => $pid));
+        $this->logger->notice("Daemon started", ['pid' => $pid]);
         return "started";
     }
 
@@ -144,7 +144,7 @@ class DaemonCommand extends Command
             return "notstarted";
         }
 
-        $this->logger->info("Trying to terminate the daemon", array('pid' => $pid));
+        $this->logger->info("Trying to terminate the daemon", ['pid' => $pid]);
         $this->processControl->kill($pid);
 
         for ($i = 0; ($pid = $this->getRunningPid()) && $i < 5; $i++) {
@@ -152,7 +152,7 @@ class DaemonCommand extends Command
         }
 
         if ($pid) {
-            $this->logger->warning("The daemon is resiting, trying to kill it", array('pid' => $pid));
+            $this->logger->warning("The daemon is resiting, trying to kill it", ['pid' => $pid]);
             $this->processControl->kill($pid, true);
 
             for ($i = 0; ($pid = $this->getRunningPid()) && $i < 5; $i++) {

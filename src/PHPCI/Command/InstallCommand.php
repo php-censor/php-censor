@@ -90,7 +90,7 @@ class InstallCommand extends Command
 
         $output->writeln('');
 
-        $conf = array();
+        $conf = [];
         $conf['b8']['database'] = $db;
 
         // ----
@@ -123,7 +123,7 @@ class InstallCommand extends Command
         }
 
         // Check required extensions are present:
-        $requiredExtensions = array('PDO', 'pdo_mysql');
+        $requiredExtensions = ['PDO', 'pdo_mysql'];
 
         foreach ($requiredExtensions as $extension) {
             if (!extension_loaded($extension)) {
@@ -134,7 +134,7 @@ class InstallCommand extends Command
         }
 
         // Check required functions are callable:
-        $requiredFunctions = array('exec', 'shell_exec');
+        $requiredFunctions = ['exec', 'shell_exec'];
 
         foreach ($requiredFunctions as $function) {
             if (!function_exists($function)) {
@@ -167,7 +167,7 @@ class InstallCommand extends Command
      */
     protected function getAdminInformation(InputInterface $input, OutputInterface $output)
     {
-        $admin = array();
+        $admin = [];
 
         /**
          * @var \Symfony\Component\Console\Helper\DialogHelper
@@ -211,7 +211,7 @@ class InstallCommand extends Command
      */
     protected function getPhpciConfigInformation(InputInterface $input, OutputInterface $output)
     {
-        $phpci = array();
+        $phpci = [];
 
         /**
          * @var \Symfony\Component\Console\Helper\DialogHelper
@@ -282,7 +282,7 @@ class InstallCommand extends Command
      */
     protected function getDatabaseInformation(InputInterface $input, OutputInterface $output)
     {
-        $db = array();
+        $db = [];
 
         /**
          * @var \Symfony\Component\Console\Helper\DialogHelper
@@ -327,12 +327,12 @@ class InstallCommand extends Command
                 'mysql:host='.$db['servers']['write'].';dbname='.$db['name'],
                 $db['username'],
                 $db['password'],
-                array(
-                    \PDO::ATTR_PERSISTENT => false,
-                    \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
-                    \PDO::ATTR_TIMEOUT => 2,
+                [
+                    \PDO::ATTR_PERSISTENT         => false,
+                    \PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
+                    \PDO::ATTR_TIMEOUT            => 2,
                     \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
-                )
+                ]
             );
 
             unset($pdo);

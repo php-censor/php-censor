@@ -47,7 +47,7 @@ class BuildLogger implements LoggerAwareInterface
      * @param string $level
      * @param mixed[] $context
      */
-    public function log($message, $level = LogLevel::INFO, $context = array())
+    public function log($message, $level = LogLevel::INFO, $context = [])
     {
         // Skip if no logger has been loaded.
         if (!$this->logger) {
@@ -55,7 +55,7 @@ class BuildLogger implements LoggerAwareInterface
         }
 
         if (!is_array($message)) {
-            $message = array($message);
+            $message = [$message];
         }
 
         // The build is added to the context so the logger can use
@@ -79,18 +79,18 @@ class BuildLogger implements LoggerAwareInterface
     /**
      * Add a failure-coloured message to the log.
      * @param string $message
-     * @param \Exception $exception The exception that caused the error.
+     * @param \Exception $exception The exception that caused the error. 
      */
     public function logFailure($message, \Exception $exception = null)
     {
-        $context = array();
-
+        $context = [];
+    
         // The psr3 log interface stipulates that exceptions should be passed
         // as the exception key in the context array.
         if ($exception) {
             $context['exception'] = $exception;
         }
-
+    
         $this->log(
             "\033[0;31m" . $message . "\033[0m",
             LogLevel::ERROR,

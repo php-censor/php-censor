@@ -20,7 +20,7 @@ class LoggerConfig
 {
     const KEY_ALWAYS_LOADED = "_";
     private $config;
-    private $cache = array();
+    private $cache = [];
 
     /**
      * The filepath is expected to return an array which will be
@@ -34,7 +34,7 @@ class LoggerConfig
         if (file_exists($filePath)) {
             $configArray = require($filePath);
         } else {
-            $configArray = array();
+            $configArray = [];
         }
         return new self($configArray);
     }
@@ -45,7 +45,7 @@ class LoggerConfig
      * array of LogHandlers.
      * @param array $configArray
      */
-    public function __construct(array $configArray = array())
+    public function __construct(array $configArray = [])
     {
         $this->config = $configArray;
     }
@@ -81,7 +81,7 @@ class LoggerConfig
      */
     protected function getHandlers($key)
     {
-        $handlers = array();
+        $handlers = [];
 
         // They key is expected to either be an array or
         // a callable function that returns an array

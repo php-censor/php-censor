@@ -7,7 +7,7 @@
  * @link         https://www.phptesting.org/
  */
 
-$strings = array(
+$strings = [
     'language_name' => 'Deutsch',
     'language' => 'Sprache',
 
@@ -430,4 +430,4 @@ generiert. Um es zu verwenden, fügen Sie einfach den folgenden Public Key im Ab
     'php_unit' => 'PHP Unit',
     'php_cpd' => 'PHP Copy/Paste Detector',
     'php_docblock_checker' => 'PHP Docblock Checker',
-);
+];

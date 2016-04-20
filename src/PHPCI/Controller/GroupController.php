@@ -44,14 +44,14 @@ class GroupController extends Controller
     {
         $this->requireAdmin();
 
-        $groups = array();
-        $groupList = $this->groupStore->getWhere(array(), 100, 0, array(), array('title' => 'ASC'));
+        $groups    = [];
+        $groupList = $this->groupStore->getWhere([], 100, 0, [], ['title' => 'ASC']);
 
         foreach ($groupList['items'] as $group) {
-            $thisGroup = array(
+            $thisGroup = [
                 'title' => $group->getTitle(),
-                'id' => $group->getId(),
-            );
+                'id'    => $group->getId(),
+            ];
             $projects = b8\Store\Factory::getStore('Project')->getByGroupId($group->getId());
             $thisGroup['projects'] = $projects['items'];
             $groups[] = $thisGroup;

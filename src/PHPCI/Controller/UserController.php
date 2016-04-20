@@ -48,9 +48,8 @@ class UserController extends Controller
     */
     public function index()
     {
-        $users          = $this->userStore->getWhere(array(), 1000, 0, array(), array('email' => 'ASC'));
-        $this->view->users    = $users;
-
+        $users               = $this->userStore->getWhere([], 1000, 0, [], ['email' => 'ASC']);
+        $this->view->users   = $users;
         $this->layout->title = Lang::get('manage_users');
 
         return $this->view->render();
@@ -152,16 +151,16 @@ class UserController extends Controller
         if ($method == 'POST') {
             $values = $this->getParams();
         } else {
-            $values = array();
+            $values = [];
         }
 
         $form   = $this->userForm($values);
 
         if ($method != 'POST' || ($method == 'POST' && !$form->validate())) {
-            $view           = new b8\View('UserForm');
-            $view->type     = 'add';
-            $view->user     = null;
-            $view->form     = $form;
+            $view       = new b8\View('UserForm');
+            $view->type = 'add';
+            $view->user = null;
+            $view->form = $form;
 
             return $view->render();
         }

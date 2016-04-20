@@ -7,7 +7,7 @@
  * @link         https://www.phptesting.org/
  */
 
-$strings = array(
+$strings = [
     'language_name' => 'Polski',
     'language' => 'Język',
 
@@ -397,4 +397,4 @@ Przejrzyj powyższą listę błędów przed kontynuowaniem.',
     'property_file_missing' => 'Podany plik właściwości nie istnieje.',
     'could_not_process_report' => 'Nie udało się przetworzyć raportu wygenerowanego przez to narzędzie.',
     'shell_not_enabled' => 'Plugin powłoki jest nieaktywny. Aktywuj go poprzez config.yml.'
-);
+];

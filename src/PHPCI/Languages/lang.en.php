@@ -7,7 +7,7 @@
  * @link         https://www.phptesting.org/
  */
 
-$strings = array(
+$strings =[
     'language_name' => 'English',
     'language' => 'Language',
 
@@ -451,5 +451,4 @@ PHPCI',
     'php_docblock_checker' => 'PHP Docblock Checker',
     'behat' => 'Behat',
     'technical_debt' => 'Technical Debt',
-
-);
+];

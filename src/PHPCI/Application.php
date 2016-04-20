@@ -32,8 +32,8 @@ class Application extends b8\Application
     public function init()
     {
         $request =& $this->request;
-        $route = '/:controller/:action';
-        $opts = array('controller' => 'Home', 'action' => 'index');
+        $route   = '/:controller/:action';
+        $opts    = ['controller' => 'Home', 'action' => 'index'];
 
         // Inlined as a closure to fix "using $this when not in object context" on 5.3
         $validateSession = function () {
@@ -51,11 +51,11 @@ class Application extends b8\Application
             return false;
         };
 
-        $skipAuth = array($this, 'shouldSkipAuth');
+        $skipAuth = [$this, 'shouldSkipAuth'];
 
         // Handler for the route we're about to register, checks for a valid session where necessary:
         $routeHandler = function (&$route, Response &$response) use (&$request, $validateSession, $skipAuth) {
-            $skipValidation = in_array($route['controller'], array('session', 'webhook', 'build-status'));
+            $skipValidation = in_array($route['controller'], ['session', 'webhook', 'build-status']);
 
             if (!$skipValidation && !$validateSession() && (!is_callable($skipAuth) || !$skipAuth())) {
                 if ($request->isAjax()) {
@@ -121,10 +121,10 @@ class Application extends b8\Application
      */
     protected function loadController($class)
     {
-        $controller = parent::loadController($class);
-        $controller->layout = new View('layout');
-        $controller->layout->title = 'PHPCI';
-        $controller->layout->breadcrumb = array();
+        $controller                     = parent::loadController($class);
+        $controller->layout             = new View('layout');
+        $controller->layout->title      = 'PHPCI';
+        $controller->layout->breadcrumb = [];
 
         return $controller;
     }
@@ -135,12 +135,12 @@ class Application extends b8\Application
      */
     protected function setLayoutVariables(View &$layout)
     {
-        $groups = array();
+        $groups = [];
         $groupStore = b8\Store\Factory::getStore('ProjectGroup');
-        $groupList = $groupStore->getWhere(array(), 100, 0, array(), array('title' => 'ASC'));
+        $groupList = $groupStore->getWhere([], 100, 0, [], ['title' => 'ASC']);
 
         foreach ($groupList['items'] as $group) {
-            $thisGroup = array('title' => $group->getTitle());
+            $thisGroup = ['title' => $group->getTitle()];
             $projects = b8\Store\Factory::getStore('Project')->getByGroupId($group->getId());
             $thisGroup['projects'] = $projects['items'];
             $groups[] = $thisGroup;

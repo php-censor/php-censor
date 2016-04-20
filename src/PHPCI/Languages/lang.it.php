@@ -7,8 +7,7 @@
  * @link         https://www.phptesting.org/
  */
 
-$strings = array(
-
+$strings = [
     'language_name' => 'Italiano',
     'language' => 'Lingua',
 
@@ -398,4 +397,4 @@ PHPCI',
     'property_file_missing' => 'Il file di proprietà specificato non esiste.',
     'could_not_process_report' => 'Non è possibile processare il report generato da questo tool.',
     'shell_not_enabled' => 'Il plugin shell non è attivato. Per favore attivalo tramite config.yml.'
-);
+];

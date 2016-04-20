@@ -19,7 +19,7 @@ class ErrorHandler
     /**
      * @var array
      */
-    protected $levels = array(
+    protected $levels = [
         E_WARNING           => 'Warning',
         E_NOTICE            => 'Notice',
         E_USER_ERROR        => 'User Error',
@@ -29,7 +29,7 @@ class ErrorHandler
         E_RECOVERABLE_ERROR => 'Catchable Fatal Error',
         E_DEPRECATED        => 'Deprecated',
         E_USER_DEPRECATED   => 'User Deprecated',
-    );
+    ];
 
     /**
      * Registers an instance of the error handler to throw ErrorException.
@@ -37,7 +37,7 @@ class ErrorHandler
     public static function register()
     {
         $handler = new static();
-        set_error_handler(array($handler, 'handleError'));
+        set_error_handler([$handler, 'handleError']);
     }
 
     /**

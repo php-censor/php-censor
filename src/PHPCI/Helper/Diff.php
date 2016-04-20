@@ -30,7 +30,7 @@ class Diff
             return null;
         }
 
-        $rtn = array();
+        $rtn = [];
 
         $diffLines = explode(PHP_EOL, $diff);
 

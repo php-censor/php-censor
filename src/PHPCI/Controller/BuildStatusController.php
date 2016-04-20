@@ -57,7 +57,7 @@ class BuildStatusController extends \PHPCI\Controller
             }
 
             if (isset($project) && $project instanceof Project) {
-                $build = $project->getLatestBuild($branch, array(2,3));
+                $build = $project->getLatestBuild($branch, [2,3]);
 
                 if (isset($build) && $build instanceof Build && $build->getStatus() != 2) {
                     $status = 'failed';
@@ -92,7 +92,7 @@ class BuildStatusController extends \PHPCI\Controller
             $branchList = $this->buildStore->getBuildBranches($projectId);
 
             if (!$branchList) {
-                $branchList = array($project->getBranch());
+                $branchList = [$project->getBranch()];
             }
 
             foreach ($branchList as $branch) {
@@ -191,9 +191,9 @@ class BuildStatusController extends \PHPCI\Controller
      */
     protected function getLatestBuilds($projectId)
     {
-        $criteria       = array('project_id' => $projectId);
-        $order          = array('id' => 'DESC');
-        $builds         = $this->buildStore->getWhere($criteria, 10, 0, array(), $order);
+        $criteria       = ['project_id' => $projectId];
+        $order          = ['id' => 'DESC'];
+        $builds         = $this->buildStore->getWhere($criteria, 10, 0, [], $order);
 
         foreach ($builds['items'] as &$build) {
             $build = BuildFactory::getBuild($build);

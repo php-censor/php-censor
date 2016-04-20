@@ -7,7 +7,7 @@
  * @link         https://www.phptesting.org/
  */
 
-$strings = array(
+$strings = [
     'language_name' => 'Dansk',
     'language' => 'Sprog',
 
@@ -394,4 +394,4 @@ Kontrollér venligst nedenstående fejl før du fortsætter.',
     'property_file_missing' => 'Den angivne property-fil findes ikke',
     'could_not_process_report' => 'Kunne ikke behandle rapporten, som dette værktøj genererede.',
     'shell_not_enabled' => 'Shell-plugin er ikke aktiveret. Aktivér det via config.yml.'
-);
+];

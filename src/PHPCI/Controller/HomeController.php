@@ -81,7 +81,7 @@ class HomeController extends \PHPCI\Controller
     public function summary()
     {
         $this->response->disableLayout();
-        $projects = $this->projectStore->getWhere(array(), 50, 0, array(), array('title' => 'ASC'));
+        $projects = $this->projectStore->getWhere([], 50, 0, [], ['title' => 'ASC']);
         $this->response->setContent($this->getSummaryHtml($projects));
         return $this->response;
     }
@@ -93,20 +93,20 @@ class HomeController extends \PHPCI\Controller
      */
     protected function getSummaryHtml($projects)
     {
-        $summaryBuilds = array();
-        $successes     = array();
-        $failures      = array();
-        $counts        = array();
+        $summaryBuilds = [];
+        $successes     = [];
+        $failures      = [];
+        $counts        = [];
 
         foreach ($projects as $project) {
             $summaryBuilds[$project->getId()] = $this->buildStore->getLatestBuilds($project->getId());
 
             $count = $this->buildStore->getWhere(
-                array('project_id' => $project->getId()),
+                ['project_id' => $project->getId()],
                 1,
                 0,
-                array(),
-                array('id' => 'DESC')
+                [],
+                ['id' => 'DESC']
             );
             $counts[$project->getId()] = $count['count'];
 
@@ -132,7 +132,7 @@ class HomeController extends \PHPCI\Controller
     */
     protected function getLatestBuildsHtml()
     {
-        $builds         = $this->buildStore->getWhere(array(), 5, 0, array(), array('id' => 'DESC'));
+        $builds         = $this->buildStore->getWhere([], 5, 0, [], ['id' => 'DESC']);
         $view           = new b8\View('BuildsTable');
 
         foreach ($builds['items'] as &$build) {
@@ -150,11 +150,11 @@ class HomeController extends \PHPCI\Controller
      */
     protected function getGroupInfo()
     {
-        $rtn = array();
-        $groups = $this->groupStore->getWhere(array(), 100, 0, array(), array('title' => 'ASC'));
+        $rtn = [];
+        $groups = $this->groupStore->getWhere([], 100, 0, [], ['title' => 'ASC']);
 
         foreach ($groups['items'] as $group) {
-            $thisGroup = array('title' => $group->getTitle());
+            $thisGroup = ['title' => $group->getTitle()];
             $projects = $this->projectStore->getByGroupId($group->getId());
             $thisGroup['projects'] = $projects['items'];
             $thisGroup['summary'] = $this->getSummaryHtml($thisGroup['projects']);

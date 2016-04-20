@@ -79,7 +79,7 @@ class RebuildCommand extends Command
         $lastBuild = array_shift($builds);
         $service->createDuplicateBuild($lastBuild);
 
-        $runner->run(new ArgvInput(array()), $output);
+        $runner->run(new ArgvInput([]), $output);
     }
 
     /**

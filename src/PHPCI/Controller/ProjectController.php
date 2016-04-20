@@ -163,14 +163,14 @@ class ProjectController extends PHPCI\Controller
      */
     protected function getLatestBuildsHtml($projectId, $branch = '', $start = 0)
     {
-        $criteria = array('project_id' => $projectId);
+        $criteria = ['project_id' => $projectId];
         if (!empty($branch)) {
             $criteria['branch'] = $branch;
         }
 
-        $order = array('id' => 'DESC');
-        $builds = $this->buildStore->getWhere($criteria, 10, $start, array(), $order);
-        $view = new b8\View('BuildsTable');
+        $order  = ['id' => 'DESC'];
+        $builds = $this->buildStore->getWhere($criteria, 10, $start, [], $order);
+        $view   = new b8\View('BuildsTable');
 
         foreach ($builds['items'] as &$build) {
             $build = BuildFactory::getBuild($build);
@@ -178,7 +178,7 @@ class ProjectController extends PHPCI\Controller
 
         $view->builds   = $builds['items'];
 
-        return array($view->render(), $builds['count']);
+        return [$view->render(), $builds['count']];
     }
 
     /**
@@ -214,18 +214,18 @@ class ProjectController extends PHPCI\Controller
 
             return $view->render();
         } else {
-            $title = $this->getParam('title', 'New Project');
+            $title     = $this->getParam('title', 'New Project');
             $reference = $this->getParam('reference', null);
-            $type = $this->getParam('type', null);
+            $type      = $this->getParam('type', null);
 
-            $options = array(
-                'ssh_private_key' => $this->getParam('key', null),
-                'ssh_public_key' => $this->getParam('pubkey', null),
-                'build_config' => $this->getParam('build_config', null),
+            $options = [
+                'ssh_private_key'     => $this->getParam('key', null),
+                'ssh_public_key'      => $this->getParam('pubkey', null),
+                'build_config'        => $this->getParam('build_config', null),
                 'allow_public_status' => $this->getParam('allow_public_status', 0),
-                'branch' => $this->getParam('branch', null),
-                'group' => $this->getParam('group_id', null),
-            );
+                'branch'              => $this->getParam('branch', null),
+                'group'               => $this->getParam('group_id', null),
+            ];
 
             $project = $this->projectService->createProject($title, $type, $reference, $options);
 
@@ -282,15 +282,15 @@ class ProjectController extends PHPCI\Controller
         $reference = $this->getParam('reference', null);
         $type = $this->getParam('type', null);
 
-        $options = array(
-            'ssh_private_key' => $this->getParam('key', null),
-            'ssh_public_key' => $this->getParam('pubkey', null),
-            'build_config' => $this->getParam('build_config', null),
+        $options = [
+            'ssh_private_key'     => $this->getParam('key', null),
+            'ssh_public_key'      => $this->getParam('pubkey', null),
+            'build_config'        => $this->getParam('build_config', null),
             'allow_public_status' => $this->getParam('allow_public_status', 0),
-            'archived' => $this->getParam('archived', 0),
-            'branch' => $this->getParam('branch', null),
-            'group' => $this->getParam('group_id', null),
-        );
+            'archived'            => $this->getParam('archived', 0),
+            'branch'              => $this->getParam('branch', null),
+            'group'               => $this->getParam('group_id', null),
+        ];
 
         $project = $this->projectService->updateProject($project, $title, $type, $reference, $options);
 
@@ -310,16 +310,16 @@ class ProjectController extends PHPCI\Controller
         $form->addField(new Form\Element\Csrf('csrf'));
         $form->addField(new Form\Element\Hidden('pubkey'));
 
-        $options = array(
-            'choose' => Lang::get('select_repository_type'),
-            'github' => Lang::get('github'),
+        $options = [
+            'choose'    => Lang::get('select_repository_type'),
+            'github'    => Lang::get('github'),
             'bitbucket' => Lang::get('bitbucket'),
-            'gitlab' => Lang::get('gitlab'),
-            'remote' => Lang::get('remote'),
-            'local' => Lang::get('local'),
-            'hg'    => Lang::get('hg'),
-            'svn'    => Lang::get('svn'),
-            );
+            'gitlab'    => Lang::get('gitlab'),
+            'remote'    => Lang::get('remote'),
+            'local'     => Lang::get('local'),
+            'hg'        => Lang::get('hg'),
+            'svn'       => Lang::get('svn'),
+        ];
 
         $field = Form\Element\Select::create('type', Lang::get('where_hosted'), true);
         $field->setPattern('^(github|bitbucket|gitlab|remote|local|hg|svn)');
@@ -361,9 +361,9 @@ class ProjectController extends PHPCI\Controller
         $field = Form\Element\Select::create('group_id', 'Project Group', true);
         $field->setClass('form-control')->setContainerClass('form-group')->setValue(1);
 
-        $groups = array();
+        $groups = [];
         $groupStore = b8\Store\Factory::getStore('ProjectGroup');
-        $groupList = $groupStore->getWhere(array(), 100, 0, array(), array('title' => 'ASC'));
+        $groupList = $groupStore->getWhere([], 100, 0, [], ['title' => 'ASC']);
 
         foreach ($groupList['items'] as $group) {
             $groups[$group->getId()] = $group->getTitle();
@@ -416,28 +416,28 @@ class ProjectController extends PHPCI\Controller
         return function ($val) use ($values) {
             $type = $values['type'];
 
-            $validators = array(
-                'hg' => array(
-                    'regex' => '/^(https?):\/\//',
+            $validators = [
+                'hg' => [
+                    'regex'   => '/^(https?):\/\//',
                     'message' => Lang::get('error_mercurial')
-                ),
-                'remote' => array(
-                    'regex' => '/^(git|https?):\/\//',
+                ],
+                'remote' => [
+                    'regex'   => '/^(git|https?):\/\//',
                     'message' => Lang::get('error_remote')
-                ),
-                'gitlab' => array(
-                    'regex' => '`^(.*)@(.*):(.*)/(.*)\.git`',
+                ],
+                'gitlab' => [
+                    'regex'   => '`^(.*)@(.*):(.*)/(.*)\.git`',
                     'message' => Lang::get('error_gitlab')
-                ),
-                'github' => array(
-                    'regex' => '/^[a-zA-Z0-9_\-]+\/[a-zA-Z0-9_\-\.]+$/',
+                ],
+                'github' => [
+                    'regex'   => '/^[a-zA-Z0-9_\-]+\/[a-zA-Z0-9_\-\.]+$/',
                     'message' => Lang::get('error_github')
-                ),
-                'bitbucket' => array(
-                    'regex' => '/^[a-zA-Z0-9_\-]+\/[a-zA-Z0-9_\-\.]+$/',
+                ],
+                'bitbucket' => [
+                    'regex'   => '/^[a-zA-Z0-9_\-]+\/[a-zA-Z0-9_\-\.]+$/',
                     'message' => Lang::get('error_bitbucket')
-                ),
-            );
+                ],
+            ];
 
             if (in_array($type, $validators) && !preg_match($validators[$type]['regex'], $val)) {
                 throw new \Exception($validators[$type]['message']);

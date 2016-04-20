@@ -7,7 +7,7 @@
  * @link         https://www.phptesting.org/
  */
 
-$strings = array(
+$strings = [
     'language_name' => 'Ελληνικά',
     'language' => 'Γλώσσα',
 
@@ -396,4 +396,4 @@ Services</a> του Bitbucket αποθετηρίου σας.',
     'property_file_missing' => 'Καθορισμένο αρχείο ιδιοκτησίας δεν υπάρχει.',
     'could_not_process_report' => 'Δεν ήταν δυνατή η επεξεργασία της έκθεσης που δημιουργείται από αυτό το εργαλείο.',
     'shell_not_enabled' => 'Το πρόσθετο για το κέλυφος δεν είναι ενεργοποιημένο. Παρακαλούμε ενεργοποιήστε το μέσω του αρχείου config.yml.'
-);
+];

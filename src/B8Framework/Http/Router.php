@@ -26,7 +26,7 @@ class Router
     /**
      * @var array
      */
-    protected $routes = array(array('route' => '/:controller/:action', 'callback' => null, 'defaults' => array()));
+    protected $routes = [['route' => '/:controller/:action', 'callback' => null, 'defaults' => []]];
 
     public function __construct(Application $application, Request $request, Config $config)
     {
@@ -37,7 +37,7 @@ class Router
 
     public function clearRoutes()
     {
-        $this->routes = array();
+        $this->routes = [];
     }
 
     /**
@@ -46,13 +46,13 @@ class Router
      * @param callable $callback
      * @throws \InvalidArgumentException
      */
-    public function register($route, $options = array(), $callback = null)
+    public function register($route, $options = [], $callback = null)
     {
         if (!is_callable($callback)) {
             throw new \InvalidArgumentException('$callback must be callable.');
         }
 
-        array_unshift($this->routes, array('route' => $route, 'callback' => $callback, 'defaults' => $options));
+        array_unshift($this->routes, ['route' => $route, 'callback' => $callback, 'defaults' => $options]);
     }
 
     public function dispatch()
@@ -110,7 +110,13 @@ class Router
             $thisArgs = $pathParts;
 
             if ($routeMatches) {
-                $route = array('namespace' => $thisNamespace, 'controller' => $thisController, 'action' => $thisAction, 'args' => $thisArgs, 'callback' => $route['callback']);
+                $route = [
+                    'namespace'  => $thisNamespace,
+                    'controller' => $thisController,
+                    'action'     => $thisAction,
+                    'args'       => $thisArgs,
+                    'callback'   => $route['callback']
+                ];
 
                 if ($this->application->isValidRoute($route)) {
                     return $route;

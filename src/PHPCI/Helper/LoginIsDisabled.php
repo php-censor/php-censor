@@ -25,7 +25,7 @@ class LoginIsDisabled
      * @param array $params
      * @return mixed|null
      */
-    public function __call($method, $params = array())
+    public function __call($method, $params = [])
     {
         unset($method, $params);
         
