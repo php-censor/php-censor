@@ -16,7 +16,7 @@ class ApcCache implements Type\Cache
         $rtn    = false;
         $apcCli = ini_get('apc.enable_cli');
 
-        if (function_exists('apc_fetch') && (php_sapi_name() != 'cli' || in_array($apcCli, array('1', 1, true, 'On')))) {
+        if (function_exists('apc_fetch') && (php_sapi_name() != 'cli' || in_array($apcCli, ['1', 1, true, 'On']))) {
             $rtn = true;
         }
 

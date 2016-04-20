@@ -20,7 +20,7 @@ class Config
     /**
     * @var array
     */
-    protected $config = array();
+    protected $config = [];
 
     public function __construct($settings = null)
     {

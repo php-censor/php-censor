@@ -53,7 +53,7 @@ class Image
 
     public function doRender($media, $width, $height, $format = 'jpeg')
     {
-        $focal                  = !empty($media['focal_point']) ? $media['focal_point'] : array(0, 0);
+        $focal                  = !empty($media['focal_point']) ? $media['focal_point'] : [0, 0];
         $focalX = (int)$focal[0];
         $focalY = (int)$focal[1];
 
@@ -136,13 +136,13 @@ class Image
 
     protected function _getQuadrants($x, $y)
     {
-        $rtn                    = array();
-        $rtn['top_left']        = array(0, $x / 2, 0, $y / 3);
-        $rtn['top_right']       = array(($x / 2) + 1, $x, 0, $y / 3);
-        $rtn['middle_left']     = array(0, $y / 2, ($y / 3)+1, (($y / 3) * 2));
-        $rtn['middle_right']    = array(($x / 2) + 1, $x, ($y / 3)+1, (($y / 3) * 2));
-        $rtn['bottom_left']     = array(0, $y / 2, (($y / 3) * 2)+1, $y);
-        $rtn['bottom_right']    = array(($x / 2) + 1, $x, (($y / 3) * 2)+1, $y);
+        $rtn                 = [];
+        $rtn['top_left']     = [0, $x / 2, 0, $y / 3];
+        $rtn['top_right']    = [($x / 2) + 1, $x, 0, $y / 3];
+        $rtn['middle_left']  = [0, $y / 2, ($y / 3)+1, (($y / 3) * 2)];
+        $rtn['middle_right'] = [($x / 2) + 1, $x, ($y / 3)+1, (($y / 3) * 2)];
+        $rtn['bottom_left']  = [0, $y / 2, (($y / 3) * 2)+1, $y];
+        $rtn['bottom_right'] = [($x / 2) + 1, $x, (($y / 3) * 2)+1, $y];
 
         return $rtn;
     }

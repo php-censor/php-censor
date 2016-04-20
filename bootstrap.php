@@ -51,11 +51,11 @@ if (defined('PHPCI_IS_CONSOLE') && PHPCI_IS_CONSOLE) {
 }
 
 // Load configuration if present:
-$conf = array();
-$conf['b8']['app']['namespace'] = 'PHPCI';
+$conf = [];
+$conf['b8']['app']['namespace']          = 'PHPCI';
 $conf['b8']['app']['default_controller'] = 'Home';
-$conf['b8']['view']['path'] = dirname(__FILE__) . '/src/PHPCI/View/';
-$conf['using_custom_file'] = $usingCustomConfigFile;
+$conf['b8']['view']['path']              = dirname(__FILE__) . '/src/PHPCI/View/';
+$conf['using_custom_file']               = $usingCustomConfigFile;
 
 $config = new b8\Config($conf);
 

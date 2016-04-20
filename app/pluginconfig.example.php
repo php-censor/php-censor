@@ -4,10 +4,10 @@ return function (PHPCI\Plugin\Util\Factory $factory) {
     $factory->registerResource(
         // This function will be called when the resource is needed.
         function() {
-            return array(
+            return [
                 'Foo' => "Stuff",
                 'Bar' => "More Stuff"
-            );
+            ];
         },
 
         // In addition to the function for building the resource the system
