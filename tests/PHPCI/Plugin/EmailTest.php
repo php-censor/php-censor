@@ -57,14 +57,14 @@ class EmailTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->message = array();
+        $this->message       = [];
         $this->mailDelivered = true;
-        $self = $this;
+        $self                = $this;
 
         $this->mockProject = $this->getMock(
             '\PHPCI\Model\Project',
-            array('getTitle'),
-            array(),
+            ['getTitle'],
+            [],
             "mockProject",
             false
         );
@@ -75,8 +75,8 @@ class EmailTest extends \PHPUnit_Framework_TestCase
 
         $this->mockBuild = $this->getMock(
             '\PHPCI\Model\Build',
-            array('getLog', 'getStatus', 'getProject', 'getCommitterEmail'),
-            array(),
+            ['getLog', 'getStatus', 'getProject', 'getCommitterEmail'],
+            [],
             "mockBuild",
             false
         );
@@ -101,12 +101,12 @@ class EmailTest extends \PHPUnit_Framework_TestCase
 
         $this->mockCiBuilder = $this->getMock(
             '\PHPCI\Builder',
-            array(
+            [
                 'getSystemConfig',
                 'getBuild',
                 'log'
-            ),
-            array(),
+            ],
+            [],
             "mockBuilder_email",
             false
         );
@@ -127,7 +127,7 @@ class EmailTest extends \PHPUnit_Framework_TestCase
             );
     }
 
-    protected function loadEmailPluginWithOptions($arrOptions = array(), $buildStatus = null, $mailDelivered = true)
+    protected function loadEmailPluginWithOptions($arrOptions = [], $buildStatus = null, $mailDelivered = true)
     {
         $this->mailDelivered = $mailDelivered;
 
@@ -138,7 +138,7 @@ class EmailTest extends \PHPUnit_Framework_TestCase
         }
 
         // Reset current message.
-        $this->message = array();
+        $this->message = [];
 
         $self = $this;
 

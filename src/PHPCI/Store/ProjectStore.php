@@ -42,7 +42,7 @@ class ProjectStore extends ProjectStoreBase
 
             return $rtn;
         } else {
-            return array();
+            return [];
         }
     }
 
@@ -66,9 +66,9 @@ class ProjectStore extends ProjectStoreBase
             $count = count($rtn);
 
 
-            return array('items' => $rtn, 'count' => $count);
+            return ['items' => $rtn, 'count' => $count];
         } else {
-            return array('items' => array(), 'count' => 0);
+            return ['items' => [], 'count' => 0];
         }
     }
 
@@ -101,9 +101,9 @@ class ProjectStore extends ProjectStoreBase
 
             $count = count($rtn);
 
-            return array('items' => $rtn, 'count' => $count);
+            return ['items' => $rtn, 'count' => $count];
         } else {
-            return array('items' => array(), 'count' => 0);
+            return ['items' => [], 'count' => 0];
         }
     }
 }

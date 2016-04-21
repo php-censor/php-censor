@@ -34,7 +34,7 @@ class Pgsql implements \PHPCI\Plugin
     /**
      * @var array
      */
-    protected $queries = array();
+    protected $queries = [];
 
     /**
      * @var string
@@ -56,7 +56,7 @@ class Pgsql implements \PHPCI\Plugin
      * @param Build   $build
      * @param array   $options
      */
-    public function __construct(Builder $phpci, Build $build, array $options = array())
+    public function __construct(Builder $phpci, Build $build, array $options = [])
     {
         $this->phpci   = $phpci;
         $this->build   = $build;
@@ -79,8 +79,8 @@ class Pgsql implements \PHPCI\Plugin
     public function execute()
     {
         try {
-            $opts = array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION);
-            $pdo = new PDO('pgsql:host=' . $this->host, $this->user, $this->pass, $opts);
+            $opts = [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION];
+            $pdo  = new PDO('pgsql:host=' . $this->host, $this->user, $this->pass, $opts);
 
             foreach ($this->queries as $query) {
                 $pdo->query($this->phpci->interpolate($query));

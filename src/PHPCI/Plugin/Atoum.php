@@ -29,7 +29,7 @@ class Atoum implements \PHPCI\Plugin
      * @param Build $build
      * @param array $options
      */
-    public function __construct(Builder $phpci, Build $build, array $options = array())
+    public function __construct(Builder $phpci, Build $build, array $options = [])
     {
         $this->phpci = $phpci;
         $this->build = $build;

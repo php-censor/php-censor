@@ -17,7 +17,7 @@ class BuildErrorBase extends Model
     /**
     * @var array
     */
-    public static $sleepable = array();
+    public static $sleepable = [];
 
     /**
     * @var string
@@ -32,131 +32,131 @@ class BuildErrorBase extends Model
     /**
     * @var array
     */
-    protected $data = array(
-        'id' => null,
-        'build_id' => null,
-        'plugin' => null,
-        'file' => null,
-        'line_start' => null,
-        'line_end' => null,
-        'severity' => null,
-        'message' => null,
+    protected $data = [
+        'id'           => null,
+        'build_id'     => null,
+        'plugin'       => null,
+        'file'         => null,
+        'line_start'   => null,
+        'line_end'     => null,
+        'severity'     => null,
+        'message'      => null,
         'created_date' => null,
-    );
+    ];
 
     /**
     * @var array
     */
-    protected $getters = array(
+    protected $getters = [
         // Direct property getters:
-        'id' => 'getId',
-        'build_id' => 'getBuildId',
-        'plugin' => 'getPlugin',
-        'file' => 'getFile',
-        'line_start' => 'getLineStart',
-        'line_end' => 'getLineEnd',
-        'severity' => 'getSeverity',
-        'message' => 'getMessage',
+        'id'           => 'getId',
+        'build_id'     => 'getBuildId',
+        'plugin'       => 'getPlugin',
+        'file'         => 'getFile',
+        'line_start'   => 'getLineStart',
+        'line_end'     => 'getLineEnd',
+        'severity'     => 'getSeverity',
+        'message'      => 'getMessage',
         'created_date' => 'getCreatedDate',
 
         // Foreign key getters:
         'Build' => 'getBuild',
-    );
+    ];
 
     /**
     * @var array
     */
-    protected $setters = array(
+    protected $setters = [
         // Direct property setters:
-        'id' => 'setId',
-        'build_id' => 'setBuildId',
-        'plugin' => 'setPlugin',
-        'file' => 'setFile',
-        'line_start' => 'setLineStart',
-        'line_end' => 'setLineEnd',
-        'severity' => 'setSeverity',
-        'message' => 'setMessage',
+        'id'           => 'setId',
+        'build_id'     => 'setBuildId',
+        'plugin'       => 'setPlugin',
+        'file'         => 'setFile',
+        'line_start'   => 'setLineStart',
+        'line_end'     => 'setLineEnd',
+        'severity'     => 'setSeverity',
+        'message'      => 'setMessage',
         'created_date' => 'setCreatedDate',
 
         // Foreign key setters:
         'Build' => 'setBuild',
-    );
+    ];
 
     /**
     * @var array
     */
-    public $columns = array(
-        'id' => array(
-            'type' => 'int',
-            'length' => 11,
-            'primary_key' => true,
+    public $columns = [
+        'id' => [
+            'type'           => 'int',
+            'length'         => 11,
+            'primary_key'    => true,
             'auto_increment' => true,
+            'default'        => null,
+        ],
+        'build_id' => [
+            'type'    => 'int',
+            'length'  => 11,
             'default' => null,
-        ),
-        'build_id' => array(
-            'type' => 'int',
-            'length' => 11,
+        ],
+        'plugin' => [
+            'type'    => 'varchar',
+            'length'  => 100,
             'default' => null,
-        ),
-        'plugin' => array(
-            'type' => 'varchar',
-            'length' => 100,
-            'default' => null,
-        ),
-        'file' => array(
-            'type' => 'varchar',
-            'length' => 250,
+        ],
+        'file' => [
+            'type'     => 'varchar',
+            'length'   => 250,
             'nullable' => true,
-            'default' => null,
-        ),
-        'line_start' => array(
-            'type' => 'int',
-            'length' => 11,
+            'default'  => null,
+        ],
+        'line_start' => [
+            'type'     => 'int',
+            'length'   => 11,
             'nullable' => true,
-            'default' => null,
-        ),
-        'line_end' => array(
-            'type' => 'int',
-            'length' => 11,
+            'default'  => null,
+        ],
+        'line_end' => [
+            'type'     => 'int',
+            'length'   => 11,
             'nullable' => true,
+            'default'  => null,
+        ],
+        'severity' => [
+            'type'    => 'tinyint',
+            'length'  => 3,
             'default' => null,
-        ),
-        'severity' => array(
-            'type' => 'tinyint',
-            'length' => 3,
+        ],
+        'message' => [
+            'type'    => 'varchar',
+            'length'  => 250,
             'default' => null,
-        ),
-        'message' => array(
-            'type' => 'varchar',
-            'length' => 250,
+        ],
+        'created_date' => [
+            'type'    => 'datetime',
             'default' => null,
-        ),
-        'created_date' => array(
-            'type' => 'datetime',
-            'default' => null,
-        ),
-    );
+        ],
+    ];
 
     /**
     * @var array
     */
-    public $indexes = array(
-            'PRIMARY' => array('unique' => true, 'columns' => 'id'),
-            'build_id' => array('columns' => 'build_id, created_date'),
-    );
+    public $indexes = [
+        'PRIMARY'  => ['unique' => true, 'columns' => 'id'],
+        'build_id' => ['columns' => 'build_id, created_date'],
+    ];
 
     /**
     * @var array
     */
-    public $foreignKeys = array(
-            'build_error_ibfk_1' => array(
-                'local_col' => 'build_id',
-                'update' => 'CASCADE',
-                'delete' => 'CASCADE',
-                'table' => 'build',
-                'col' => 'id'
-                ),
-    );
+    public $foreignKeys = [
+        'build_error_ibfk_1' => [
+            'local_col' => 'build_id',
+            'update'    => 'CASCADE',
+            'delete'    => 'CASCADE',
+            'table'     => 'build',
+            'col'       => 'id'
+        ],
+    ];
 
     /**
     * Get the value of Id / id.
@@ -165,7 +165,7 @@ class BuildErrorBase extends Model
     */
     public function getId()
     {
-        $rtn    = $this->data['id'];
+        $rtn = $this->data['id'];
 
         return $rtn;
     }
@@ -177,7 +177,7 @@ class BuildErrorBase extends Model
     */
     public function getBuildId()
     {
-        $rtn    = $this->data['build_id'];
+        $rtn = $this->data['build_id'];
 
         return $rtn;
     }
@@ -189,7 +189,7 @@ class BuildErrorBase extends Model
     */
     public function getPlugin()
     {
-        $rtn    = $this->data['plugin'];
+        $rtn = $this->data['plugin'];
 
         return $rtn;
     }
@@ -201,7 +201,7 @@ class BuildErrorBase extends Model
     */
     public function getFile()
     {
-        $rtn    = $this->data['file'];
+        $rtn = $this->data['file'];
 
         return $rtn;
     }
@@ -213,7 +213,7 @@ class BuildErrorBase extends Model
     */
     public function getLineStart()
     {
-        $rtn    = $this->data['line_start'];
+        $rtn = $this->data['line_start'];
 
         return $rtn;
     }
@@ -225,7 +225,7 @@ class BuildErrorBase extends Model
     */
     public function getLineEnd()
     {
-        $rtn    = $this->data['line_end'];
+        $rtn = $this->data['line_end'];
 
         return $rtn;
     }
@@ -237,7 +237,7 @@ class BuildErrorBase extends Model
     */
     public function getSeverity()
     {
-        $rtn    = $this->data['severity'];
+        $rtn = $this->data['severity'];
 
         return $rtn;
     }
@@ -249,7 +249,7 @@ class BuildErrorBase extends Model
     */
     public function getMessage()
     {
-        $rtn    = $this->data['message'];
+        $rtn = $this->data['message'];
 
         return $rtn;
     }
@@ -261,10 +261,10 @@ class BuildErrorBase extends Model
     */
     public function getCreatedDate()
     {
-        $rtn    = $this->data['created_date'];
+        $rtn = $this->data['created_date'];
 
         if (!empty($rtn)) {
-            $rtn    = new \DateTime($rtn);
+            $rtn = new \DateTime($rtn);
         }
         
         return $rtn;

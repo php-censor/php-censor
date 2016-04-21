@@ -81,16 +81,16 @@ class TechnicalDebt implements PHPCI\Plugin, PHPCI\ZeroConfigPlugin
      * @param \PHPCI\Model\Build $build
      * @param array              $options
      */
-    public function __construct(Builder $phpci, Build $build, array $options = array())
+    public function __construct(Builder $phpci, Build $build, array $options = [])
     {
         $this->phpci = $phpci;
         $this->build = $build;
-        $this->suffixes = array('php');
+        $this->suffixes = ['php'];
         $this->directory = $phpci->buildPath;
         $this->path = '';
         $this->ignore = $this->phpci->ignore;
         $this->allowed_errors = 0;
-        $this->searches = array('TODO', 'FIXME', 'TO DO', 'FIX ME');
+        $this->searches = ['TODO', 'FIXME', 'TO DO', 'FIX ME'];
 
         if (isset($options['searches']) && is_array($options['searches'])) {
             $this->searches = $options['searches'];
@@ -109,7 +109,7 @@ class TechnicalDebt implements PHPCI\Plugin, PHPCI\ZeroConfigPlugin
      */
     protected function setOptions($options)
     {
-        foreach (array('directory', 'path', 'ignore', 'allowed_errors') as $key) {
+        foreach (['directory', 'path', 'ignore', 'allowed_errors'] as $key) {
             if (array_key_exists($key, $options)) {
                 $this->{$key} = $options[$key];
             }
@@ -145,10 +145,10 @@ class TechnicalDebt implements PHPCI\Plugin, PHPCI\ZeroConfigPlugin
     public function getErrorList()
     {
         $dirIterator = new \RecursiveDirectoryIterator($this->directory);
-        $iterator = new \RecursiveIteratorIterator($dirIterator, \RecursiveIteratorIterator::SELF_FIRST);
-        $files = array();
+        $iterator    = new \RecursiveIteratorIterator($dirIterator, \RecursiveIteratorIterator::SELF_FIRST);
+        $files       = [];
 
-        $ignores = $this->ignore;
+        $ignores   = $this->ignore;
         $ignores[] = 'phpci.yml';
         $ignores[] = '.phpci.yml';
 

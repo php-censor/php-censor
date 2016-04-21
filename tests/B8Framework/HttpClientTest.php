@@ -25,7 +25,7 @@ class HttpClientTest extends \PHPUnit_Framework_TestCase
 	public function testGet()
 	{
 		$http = new HttpClient('https://www.cloudflare.com');
-		$html = $http->get('overview', array('x' => 1));
+		$html = $http->get('overview', ['x' => 1]);
 
 		$this->assertContains('CloudFlare', $html['body']);
 	}
@@ -41,7 +41,7 @@ class HttpClientTest extends \PHPUnit_Framework_TestCase
 	public function testPost()
 	{
 		$http = new HttpClient('http://echo.jsontest.com');
-		$data = $http->post('/key/value', array('test' => 'x'));
+		$data = $http->post('/key/value', ['test' => 'x']);
 
 		$this->assertTrue(is_array($data));
 	}
@@ -49,7 +49,7 @@ class HttpClientTest extends \PHPUnit_Framework_TestCase
 	public function testPut()
 	{
 		$http = new HttpClient('http://echo.jsontest.com');
-		$data = $http->put('/key/value', array('test' => 'x'));
+		$data = $http->put('/key/value', ['test' => 'x']);
 
 		$this->assertTrue(is_array($data));
 	}
@@ -57,7 +57,7 @@ class HttpClientTest extends \PHPUnit_Framework_TestCase
 	public function testDelete()
 	{
 		$http = new HttpClient('http://echo.jsontest.com');
-		$data = $http->delete('/key/value', array('test' => 'x'));
+		$data = $http->delete('/key/value', ['test' => 'x']);
 
 		$this->assertTrue(is_array($data));
 	}

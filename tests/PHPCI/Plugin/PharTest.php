@@ -22,7 +22,7 @@ class PharTest extends \PHPUnit_Framework_TestCase
         $this->cleanSource();
     }
 
-    protected function getPlugin(array $options = array())
+    protected function getPlugin(array $options = [])
     {
         $build = $this
             ->getMockBuilder('PHPCI\Model\Build')

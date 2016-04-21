@@ -83,14 +83,14 @@ class PhpMessDetector implements PHPCI\Plugin, PHPCI\ZeroConfigPlugin
      * @param Build   $build
      * @param array   $options
      */
-    public function __construct(Builder $phpci, Build $build, array $options = array())
+    public function __construct(Builder $phpci, Build $build, array $options = [])
     {
         $this->phpci = $phpci;
         $this->build = $build;
-        $this->suffixes = array('php');
+        $this->suffixes = ['php'];
         $this->ignore = $phpci->ignore;
         $this->path = '';
-        $this->rules = array('codesize', 'unusedcode', 'naming');
+        $this->rules = ['codesize', 'unusedcode', 'naming'];
         $this->allowed_warnings = 0;
 
         if (isset($options['zero_config']) && $options['zero_config']) {
@@ -105,7 +105,7 @@ class PhpMessDetector implements PHPCI\Plugin, PHPCI\ZeroConfigPlugin
             $this->allowed_warnings = (int)$options['allowed_warnings'];
         }
 
-        foreach (array('rules', 'ignore', 'suffixes') as $key) {
+        foreach (['rules', 'ignore', 'suffixes'] as $key) {
             $this->overrideSetting($options, $key);
         }
     }

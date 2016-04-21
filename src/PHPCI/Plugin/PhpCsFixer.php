@@ -35,7 +35,7 @@ class PhpCsFixer implements \PHPCI\Plugin
     protected $level = ' --level=psr2';
     protected $verbose = '';
     protected $diff = '';
-    protected $levels = array('psr0', 'psr1', 'psr2', 'symfony');
+    protected $levels = ['psr0', 'psr1', 'psr2', 'symfony'];
 
     /**
      * Standard Constructor
@@ -49,7 +49,7 @@ class PhpCsFixer implements \PHPCI\Plugin
      * @param Build   $build
      * @param array   $options
      */
-    public function __construct(Builder $phpci, Build $build, array $options = array())
+    public function __construct(Builder $phpci, Build $build, array $options = [])
     {
         $this->phpci = $phpci;
         $this->build = $build;

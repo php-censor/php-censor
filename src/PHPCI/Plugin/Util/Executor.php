@@ -49,8 +49,8 @@ class Executor
      */
     public function executePlugins(&$config, $stage)
     {
-        $success = true;
-        $pluginsToExecute = array();
+        $success          = true;
+        $pluginsToExecute = [];
 
         // If we have global plugins to execute for this stage, add them to the list to be executed:
         if (array_key_exists($stage, $config) && is_array($config[$stage])) {
@@ -99,7 +99,7 @@ class Executor
         switch ($runOption) {
             // Replace standard plugin set for this stage with just the branch-specific ones:
             case 'replace':
-                $pluginsToExecute = array();
+                $pluginsToExecute   = [];
                 $pluginsToExecute[] = $plugins;
                 break;
 
@@ -207,7 +207,7 @@ class Executor
         $summary = $this->getBuildSummary();
 
         if (!isset($summary[$stage][$plugin])) {
-            $summary[$stage][$plugin] = array();
+            $summary[$stage][$plugin] = [];
         }
 
         $summary[$stage][$plugin]['status'] = $status;
@@ -230,7 +230,7 @@ class Executor
     {
         $build = $this->pluginFactory->getResourceFor('PHPCI\Model\Build');
         $metas = $this->store->getMeta('plugin-summary', $build->getProjectId(), $build->getId());
-        return isset($metas[0]['meta_value']) ? $metas[0]['meta_value'] : array();
+        return isset($metas[0]['meta_value']) ? $metas[0]['meta_value'] : [];
     }
 
     /**

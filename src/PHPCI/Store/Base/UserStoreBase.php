@@ -100,9 +100,9 @@ class UserStoreBase extends Store
 
             $count = count($rtn);
 
-            return array('items' => $rtn, 'count' => $count);
+            return ['items' => $rtn, 'count' => $count];
         } else {
-            return array('items' => array(), 'count' => 0);
+            return ['items' => [], 'count' => 0];
         }
     }
 }

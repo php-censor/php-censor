@@ -41,7 +41,7 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
 
     public function testExecutePlugin_AssumesPHPCINamespaceIfNoneGiven()
     {
-        $options = array();
+        $options = [];
         $pluginName = 'PhpUnit';
         $pluginNamespace = 'PHPCI\\Plugin\\';
 
@@ -54,7 +54,7 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
 
     public function testExecutePlugin_KeepsCalledNameSpace()
     {
-        $options = array();
+        $options = [];
         $pluginClass = $this->getFakePluginClassName('ExamplePluginFull');
 
         $this->mockFactory->buildPlugin($pluginClass, $options)
@@ -66,7 +66,7 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
 
     public function testExecutePlugin_CallsExecuteOnFactoryBuildPlugin()
     {
-        $options = array();
+        $options = [];
         $pluginName = 'PhpUnit';
         $build = new \PHPCI\Model\Build();
 
@@ -81,7 +81,7 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
 
     public function testExecutePlugin_ReturnsPluginSuccess()
     {
-        $options = array();
+        $options = [];
         $pluginName = 'PhpUnit';
 
         $expectedReturnValue = true;
@@ -98,7 +98,7 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
 
     public function testExecutePlugin_LogsFailureForNonExistentClasses()
     {
-        $options = array();
+        $options = [];
         $pluginName = 'DOESNTEXIST';
 
         $this->mockBuildLogger->logFailure('Plugin does not exist: ' . $pluginName)->shouldBeCalledTimes(1);
@@ -108,7 +108,7 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
 
     public function testExecutePlugin_LogsFailureWhenExceptionsAreThrownByPlugin()
     {
-        $options = array();
+        $options = [];
         $pluginName = 'PhpUnit';
 
         $expectedException = new \RuntimeException("Generic Error");
@@ -126,9 +126,9 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
 
     public function testExecutePlugins_CallsEachPluginForStage()
     {
-        $phpUnitPluginOptions = array();
-        $behatPluginOptions = array();
-        $build = new \PHPCI\Model\Build();
+        $phpUnitPluginOptions = [];
+        $behatPluginOptions   = [];
+        $build                = new \PHPCI\Model\Build();
 
         $config = array(
            'stageOne' => array(

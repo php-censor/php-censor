@@ -36,7 +36,7 @@ class Shell implements \PHPCI\Plugin
     /**
      * @var string[] $commands The commands to be executed
      */
-    protected $commands = array();
+    protected $commands = [];
 
     /**
      * Standard Constructor
@@ -50,7 +50,7 @@ class Shell implements \PHPCI\Plugin
      * @param Build   $build
      * @param array   $options
      */
-    public function __construct(Builder $phpci, Build $build, array $options = array())
+    public function __construct(Builder $phpci, Build $build, array $options = [])
     {
         $this->phpci = $phpci;
         $this->build = $build;
@@ -58,7 +58,7 @@ class Shell implements \PHPCI\Plugin
         if (isset($options['command'])) {
             // Keeping this for backwards compatibility, new projects should use interpolation vars.
             $options['command'] = str_replace("%buildpath%", $this->phpci->buildPath, $options['command']);
-            $this->commands = array($options['command']);
+            $this->commands = [$options['command']];
             return;
         }
 

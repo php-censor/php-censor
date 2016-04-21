@@ -54,7 +54,7 @@ class Pdepend implements \PHPCI\Plugin
      * @param Build $build
      * @param array $options
      */
-    public function __construct(Builder $phpci, Build $build, array $options = array())
+    public function __construct(Builder $phpci, Build $build, array $options = [])
     {
         $this->phpci = $phpci;
         $this->build = $build;
@@ -126,7 +126,7 @@ class Pdepend implements \PHPCI\Plugin
     protected function removeBuildArtifacts()
     {
         //Remove the created files first
-        foreach (array($this->summary, $this->chart, $this->pyramid) as $file) {
+        foreach ([$this->summary, $this->chart, $this->pyramid] as $file) {
             if (file_exists($this->location . DIRECTORY_SEPARATOR . $file)) {
                 unlink($this->location . DIRECTORY_SEPARATOR . $file);
             }

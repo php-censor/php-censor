@@ -184,8 +184,8 @@ class FactoryTest extends \PHPUnit_Framework_TestCase {
             function () use ($self) {
                 return $self->getMock(
                     'PHPCI\Builder',
-                    array(),
-                    array(),
+                    [],
+                    [],
                     '',
                     false
                 );
@@ -198,8 +198,8 @@ class FactoryTest extends \PHPUnit_Framework_TestCase {
             function () use ($self) {
                 return $self->getMock(
                     'PHPCI\Model\Build',
-                    array(),
-                    array(),
+                    [],
+                    [],
                     '',
                     false
                 );

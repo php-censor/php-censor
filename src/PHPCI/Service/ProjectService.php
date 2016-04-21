@@ -40,7 +40,7 @@ class ProjectService
      * @param array $options
      * @return \PHPCI\Model\Project
      */
-    public function createProject($title, $type, $reference, $options = array())
+    public function createProject($title, $type, $reference, $options = [])
     {
         // Create base project and use updateProject() to set its properties:
         $project = new Project();
@@ -56,7 +56,7 @@ class ProjectService
      * @param array $options
      * @return \PHPCI\Model\Project
      */
-    public function updateProject(Project $project, $title, $type, $reference, $options = array())
+    public function updateProject(Project $project, $title, $type, $reference, $options = [])
     {
         // Set basic properties:
         $project->setTitle($title);
@@ -117,11 +117,11 @@ class ProjectService
      */
     protected function processAccessInformation(Project &$project)
     {
-        $matches = array();
+        $matches   = [];
         $reference = $project->getReference();
 
         if ($project->getType() == 'gitlab') {
-            $info = array();
+            $info = [];
 
             if (preg_match('`^(.+)@(.+):([0-9]*)\/?(.+)\.git`', $reference, $matches)) {
                 $info['user'] = $matches[1];

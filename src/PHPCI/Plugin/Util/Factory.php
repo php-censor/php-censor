@@ -82,7 +82,7 @@ class Factory
      * @throws \InvalidArgumentException if $className doesn't represent a valid plugin
      * @return \PHPCI\Plugin
      */
-    public function buildPlugin($className, $options = array())
+    public function buildPlugin($className, $options = [])
     {
         $this->currentPluginOptions = $options;
 
@@ -97,7 +97,7 @@ class Factory
         $constructor = $reflectedPlugin->getConstructor();
 
         if ($constructor) {
-            $argsToUse = array();
+            $argsToUse = [];
             foreach ($constructor->getParameters() as $param) {
                 $argsToUse = $this->addArgFromParam($argsToUse, $param);
             }

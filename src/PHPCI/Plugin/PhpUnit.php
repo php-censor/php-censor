@@ -103,7 +103,7 @@ class PhpUnit implements PHPCI\Plugin, PHPCI\ZeroConfigPlugin
      * @param Build   $build
      * @param array   $options
      */
-    public function __construct(Builder $phpci, Build $build, array $options = array())
+    public function __construct(Builder $phpci, Build $build, array $options = [])
     {
         $this->phpci = $phpci;
         $this->build = $build;
@@ -190,7 +190,7 @@ class PhpUnit implements PHPCI\Plugin, PHPCI\ZeroConfigPlugin
     protected function runConfigFile($configPath)
     {
         if (is_array($configPath)) {
-            return $this->recurseArg($configPath, array($this, "runConfigFile"));
+            return $this->recurseArg($configPath, [$this, "runConfigFile"]);
         } else {
             if ($this->runFrom) {
                 $curdir = getcwd();
@@ -218,7 +218,7 @@ class PhpUnit implements PHPCI\Plugin, PHPCI\ZeroConfigPlugin
     protected function runDir($directory)
     {
         if (is_array($directory)) {
-            return $this->recurseArg($directory, array($this, "runDir"));
+            return $this->recurseArg($directory, [$this, "runDir"]);
         } else {
             $curdir = getcwd();
             chdir($this->phpci->buildPath);

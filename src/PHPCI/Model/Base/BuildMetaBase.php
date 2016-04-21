@@ -17,7 +17,7 @@ class BuildMetaBase extends Model
     /**
     * @var array
     */
-    public static $sleepable = array();
+    public static $sleepable = [];
 
     /**
     * @var string
@@ -32,106 +32,104 @@ class BuildMetaBase extends Model
     /**
     * @var array
     */
-    protected $data = array(
-        'id' => null,
+    protected $data = [
+        'id'         => null,
         'project_id' => null,
-        'build_id' => null,
-        'meta_key' => null,
+        'build_id'   => null,
+        'meta_key'   => null,
         'meta_value' => null,
-    );
+    ];
 
     /**
     * @var array
     */
-    protected $getters = array(
+    protected $getters = [
         // Direct property getters:
-        'id' => 'getId',
+        'id'         => 'getId',
         'project_id' => 'getProjectId',
-        'build_id' => 'getBuildId',
-        'meta_key' => 'getMetaKey',
+        'build_id'   => 'getBuildId',
+        'meta_key'   => 'getMetaKey',
         'meta_value' => 'getMetaValue',
-
         // Foreign key getters:
-        'Project' => 'getProject',
-        'Build' => 'getBuild',
-    );
+        'Project'    => 'getProject',
+        'Build'      => 'getBuild',
+    ];
 
     /**
     * @var array
     */
-    protected $setters = array(
+    protected $setters = [
         // Direct property setters:
-        'id' => 'setId',
+        'id'         => 'setId',
         'project_id' => 'setProjectId',
-        'build_id' => 'setBuildId',
-        'meta_key' => 'setMetaKey',
+        'build_id'   => 'setBuildId',
+        'meta_key'   => 'setMetaKey',
         'meta_value' => 'setMetaValue',
-
         // Foreign key setters:
-        'Project' => 'setProject',
-        'Build' => 'setBuild',
-    );
+        'Project'    => 'setProject',
+        'Build'      => 'setBuild',
+    ];
 
     /**
     * @var array
     */
-    public $columns = array(
-        'id' => array(
-            'type' => 'int',
-            'length' => 10,
-            'primary_key' => true,
+    public $columns = [
+        'id' => [
+            'type'           => 'int',
+            'length'         => 10,
+            'primary_key'    => true,
             'auto_increment' => true,
+            'default'        => null,
+        ],
+        'project_id' => [
+            'type'    => 'int',
+            'length'  => 11,
             'default' => null,
-        ),
-        'project_id' => array(
-            'type' => 'int',
-            'length' => 11,
+        ],
+        'build_id' => [
+            'type'    => 'int',
+            'length'  => 11,
             'default' => null,
-        ),
-        'build_id' => array(
-            'type' => 'int',
-            'length' => 11,
+        ],
+        'meta_key' => [
+            'type'    => 'varchar',
+            'length'  => 250,
             'default' => null,
-        ),
-        'meta_key' => array(
-            'type' => 'varchar',
-            'length' => 250,
+        ],
+        'meta_value' => [
+            'type'    => 'mediumtext',
             'default' => null,
-        ),
-        'meta_value' => array(
-            'type' => 'mediumtext',
-            'default' => null,
-        ),
-    );
+        ],
+    ];
 
     /**
     * @var array
     */
-    public $indexes = array(
-            'PRIMARY' => array('unique' => true, 'columns' => 'id'),
-            'idx_meta_id' => array('unique' => true, 'columns' => 'build_id, meta_key'),
-            'project_id' => array('columns' => 'project_id'),
-    );
+    public $indexes = [
+        'PRIMARY'     => ['unique' => true, 'columns' => 'id'],
+        'idx_meta_id' => ['unique' => true, 'columns' => 'build_id, meta_key'],
+        'project_id'  => ['columns' => 'project_id'],
+    ];
 
     /**
     * @var array
     */
-    public $foreignKeys = array(
-            'build_meta_ibfk_1' => array(
-                'local_col' => 'project_id',
-                'update' => 'CASCADE',
-                'delete' => 'CASCADE',
-                'table' => 'project',
-                'col' => 'id'
-                ),
-            'fk_meta_build_id' => array(
-                'local_col' => 'build_id',
-                'update' => 'CASCADE',
-                'delete' => 'CASCADE',
-                'table' => 'build',
-                'col' => 'id'
-                ),
-    );
+    public $foreignKeys = [
+        'build_meta_ibfk_1' => [
+            'local_col' => 'project_id',
+            'update'    => 'CASCADE',
+            'delete'    => 'CASCADE',
+            'table'     => 'project',
+            'col'       => 'id'
+        ],
+        'fk_meta_build_id' => [
+            'local_col' => 'build_id',
+            'update'    => 'CASCADE',
+            'delete'    => 'CASCADE',
+            'table'     => 'build',
+            'col'       => 'id'
+        ],
+    ];
 
     /**
     * Get the value of Id / id.

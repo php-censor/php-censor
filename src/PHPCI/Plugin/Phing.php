@@ -24,9 +24,9 @@ class Phing implements \PHPCI\Plugin
 {
 
     private $directory;
-    private $buildFile = 'build.xml';
-    private $targets = array('build');
-    private $properties = array();
+    private $buildFile  = 'build.xml';
+    private $targets    = ['build'];
+    private $properties = [];
     private $propertyFile;
 
     protected $phpci;
@@ -38,7 +38,7 @@ class Phing implements \PHPCI\Plugin
      * @param Build $build
      * @param array $options
      */
-    public function __construct(Builder $phpci, Build $build, array $options = array())
+    public function __construct(Builder $phpci, Build $build, array $options = [])
     {
         $this->setPhpci($phpci);
         $this->build = $build;
@@ -157,7 +157,7 @@ class Phing implements \PHPCI\Plugin
     public function setTargets($targets)
     {
         if (is_string($targets)) {
-            $targets = array($targets);
+            $targets = [$targets];
         }
 
         $this->targets = $targets;
@@ -216,7 +216,7 @@ class Phing implements \PHPCI\Plugin
             $this->properties['project.basedir'] = $this->getDirectory();
         }
 
-        $propertiesString = array();
+        $propertiesString = [];
 
         foreach ($this->properties as $name => $value) {
             $propertiesString[] = '-D' . $name . '="' . $value . '"';
@@ -233,7 +233,7 @@ class Phing implements \PHPCI\Plugin
     public function setProperties($properties)
     {
         if (is_string($properties)) {
-            $properties = array($properties);
+            $properties = [$properties];
         }
 
         $this->properties = $properties;

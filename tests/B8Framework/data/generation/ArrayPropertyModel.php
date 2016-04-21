@@ -5,7 +5,7 @@ use Generation\Model\Uno;
 
 class ArrayPropertyModel extends Uno
 {
-	public function __construct($initialData = array())
+	public function __construct($initialData = [])
 	{
 		$this->_getters['array_property'] = 'getArrayProperty';
 		self::$sleepable[] = 'array_property';
@@ -13,6 +13,6 @@ class ArrayPropertyModel extends Uno
 
 	public function getArrayProperty()
 	{
-		return array('one' => 'two', 'three' => array('four' => 'five'));
+		return ['one' => 'two', 'three' => ['four' => 'five']];
 	}
 }

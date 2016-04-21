@@ -67,7 +67,7 @@
 
     <div class="col-lg-3 col-md-4 col-sm-4">
 
-        <?php if (in_array($project->getType(), array('github', 'gitlab', 'bitbucket'))): ?>
+        <?php if (in_array($project->getType(), ['github', 'gitlab', 'bitbucket'])): ?>
             <div class="box box-info">
                 <div class="box-header">
                     <h4 class="box-title"><?php Lang::out('webhooks'); ?></h4>

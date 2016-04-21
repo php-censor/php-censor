@@ -120,8 +120,8 @@ class InstallCommandTest extends \PHPUnit_Framework_TestCase
     protected function executeWithoutParam($param = null, $dialog)
     {
         // Clean result variables.
-        $this->admin = array();
-        $this->config = array();
+        $this->admin  = [];
+        $this->config = [];
 
         // Get tester and execute with extracted parameters.
         $commandTester = $this->getCommandTester($dialog);

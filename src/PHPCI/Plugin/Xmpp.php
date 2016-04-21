@@ -65,7 +65,7 @@ class XMPP implements \PHPCI\Plugin
      * @param Build $build
      * @param array $options
      */
-    public function __construct(Builder $phpci, Build $build, array $options = array())
+    public function __construct(Builder $phpci, Build $build, array $options = [])
     {
         $this->phpci = $phpci;
         $this->build = $build;
@@ -74,7 +74,7 @@ class XMPP implements \PHPCI\Plugin
         $this->password    = '';
         $this->server      = '';
         $this->alias       = '';
-        $this->recipients  = array();
+        $this->recipients  = [];
         $this->tls         = false;
         $this->date_format = '%c';
 
@@ -83,7 +83,7 @@ class XMPP implements \PHPCI\Plugin
          */
         if (!empty($options['recipients'])) {
             if (is_string($options['recipients'])) {
-                $this->recipients = array($options['recipients']);
+                $this->recipients = [$options['recipients']];
             } elseif (is_array($options['recipients'])) {
                 $this->recipients = $options['recipients'];
             }
@@ -99,7 +99,7 @@ class XMPP implements \PHPCI\Plugin
      */
     protected function setOptions($options)
     {
-        foreach (array('username', 'password', 'alias', 'tls', 'server', 'date_format') as $key) {
+        foreach (['username', 'password', 'alias', 'tls', 'server', 'date_format'] as $key) {
             if (array_key_exists($key, $options)) {
                 $this->{$key} = $options[$key];
             }

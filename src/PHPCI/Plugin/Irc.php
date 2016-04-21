@@ -41,7 +41,7 @@ class Irc implements \PHPCI\Plugin
      * @param Build   $build
      * @param array   $options
      */
-    public function __construct(Builder $phpci, Build $build, array $options = array())
+    public function __construct(Builder $phpci, Build $build, array $options = [])
     {
         $this->phpci = $phpci;
         $this->build = $build;
@@ -79,10 +79,10 @@ class Irc implements \PHPCI\Plugin
         $sock = fsockopen($this->server, $this->port);
         stream_set_timeout($sock, 1);
 
-        $connectCommands = array(
+        $connectCommands = [
             'USER ' . $this->nick . ' 0 * :' . $this->nick,
             'NICK ' . $this->nick,
-        );
+        ];
         $this->executeIrcCommands($sock, $connectCommands);
         $this->executeIrcCommand($sock, 'JOIN ' . $this->room);
         $this->executeIrcCommand($sock, 'PRIVMSG ' . $this->room . ' :' . $msg);
@@ -107,7 +107,7 @@ class Irc implements \PHPCI\Plugin
 
         // almost all servers expect pingback!
         while ($response = fgets($socket)) {
-            $matches = array();
+            $matches = [];
             if (preg_match('/^PING \\:([A-Z0-9]+)/', $response, $matches)) {
                 $pingBack = $matches[1];
             }
@@ -127,6 +127,6 @@ class Irc implements \PHPCI\Plugin
      */
     private function executeIrcCommand($socket, $command)
     {
-        return $this->executeIrcCommands($socket, array($command));
+        return $this->executeIrcCommands($socket, [$command]);
     }
 }

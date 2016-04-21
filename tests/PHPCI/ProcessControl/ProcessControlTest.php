@@ -28,7 +28,7 @@ abstract class ProcessControlTest extends \PHPUnit_Framework_TestCase
     protected function startProcess()
     {
         $desc = array(array("pipe", "r"), array("pipe", "w"), array("pipe", "w"));
-        $this->pipes = array();
+        $this->pipes = [];
 
         $this->process = proc_open($this->getTestCommand(), $desc, $this->pipes);
         usleep(500);

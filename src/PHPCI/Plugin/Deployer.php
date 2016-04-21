@@ -31,7 +31,7 @@ class Deployer implements \PHPCI\Plugin
      * @param Build $build
      * @param array $options
      */
-    public function __construct(Builder $phpci, Build $build, array $options = array())
+    public function __construct(Builder $phpci, Build $build, array $options = [])
     {
         $this->phpci = $phpci;
         $this->build = $build;
@@ -60,13 +60,13 @@ class Deployer implements \PHPCI\Plugin
 
         $http = new HttpClient();
 
-        $response = $http->post($this->webhookUrl, array(
-            'reason' => $this->phpci->interpolate($this->reason),
-            'source' => 'PHPCI',
-            'url' => $this->phpci->interpolate('%BUILD_URI%'),
-            'branch' => $this->phpci->interpolate('%BRANCH%'),
+        $response = $http->post($this->webhookUrl, [
+            'reason'      => $this->phpci->interpolate($this->reason),
+            'source'      => 'PHPCI',
+            'url'         => $this->phpci->interpolate('%BUILD_URI%'),
+            'branch'      => $this->phpci->interpolate('%BRANCH%'),
             'update_only' => $this->updateOnly
-        ));
+        ]);
 
         return $response['success'];
     }

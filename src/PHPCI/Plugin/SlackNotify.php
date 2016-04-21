@@ -33,7 +33,7 @@ class SlackNotify implements \PHPCI\Plugin
      * @param array $options
      * @throws \Exception
      */
-    public function __construct(Builder $phpci, Build $build, array $options = array())
+    public function __construct(Builder $phpci, Build $build, array $options = [])
     {
         $this->phpci = $phpci;
         $this->build = $build;
@@ -112,18 +112,18 @@ class SlackNotify implements \PHPCI\Plugin
             }
 
             // Build up the attachment data
-            $attachment = new \Maknz\Slack\Attachment(array(
+            $attachment = new \Maknz\Slack\Attachment([
                 'fallback' => $body,
                 'pretext'  => $body,
                 'color'    => $color,
-                'fields'   => array(
-                    new \Maknz\Slack\AttachmentField(array(
+                'fields'   => [
+                    new \Maknz\Slack\AttachmentField([
                         'title' => 'Status',
                         'value' => $status,
                         'short' => false
-                    ))
-                )
-            ));
+                    ])
+                ]
+            ]);
 
             $message->attach($attachment);
 

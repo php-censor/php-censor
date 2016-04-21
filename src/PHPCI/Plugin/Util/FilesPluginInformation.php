@@ -81,7 +81,7 @@ class FilesPluginInformation implements InstalledPluginInformation
      */
     protected function loadPluginInfo()
     {
-        $this->pluginInfo = array();
+        $this->pluginInfo = [];
         foreach ($this->files as $fileInfo) {
             if ($fileInfo instanceof \SplFileInfo) {
                 if ($fileInfo->isFile() && $fileInfo->getExtension() == 'php') {
@@ -118,14 +118,14 @@ class FilesPluginInformation implements InstalledPluginInformation
     protected function getFullClassFromFile(\SplFileInfo $fileInfo)
     {
         $contents = file_get_contents($fileInfo->getRealPath());
-        $matches = array();
+        $matches  = [];
 
         preg_match('#class +([A-Za-z]+) +implements#i', $contents, $matches);
 
         if (isset($matches[1])) {
             $className = $matches[1];
 
-            $matches = array();
+            $matches = [];
             preg_match('#namespace +([A-Za-z\\\\]+);#i', $contents, $matches);
             $namespace = $matches[1];
 

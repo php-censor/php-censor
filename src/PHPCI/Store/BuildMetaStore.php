@@ -45,7 +45,7 @@ class BuildMetaStore extends BuildMetaStoreBase
 
             return $rtn;
         } else {
-            return array();
+            return [];
         }
     }
 }

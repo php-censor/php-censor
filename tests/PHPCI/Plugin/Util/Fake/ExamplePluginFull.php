@@ -23,7 +23,7 @@ class ExamplePluginFull implements Plugin {
     public function __construct(
         Builder $phpci,
         Build $build,
-        array $options = array()
+        array $options = []
     )
     {
         $this->Options = $options;

@@ -50,7 +50,7 @@ class Email implements \PHPCI\Plugin
     public function __construct(
         Builder $phpci,
         Build $build,
-        array $options = array()
+        array $options = []
     ) {
         $this->phpci   = $phpci;
         $this->build   = $build;
@@ -161,7 +161,7 @@ class Email implements \PHPCI\Plugin
      */
     protected function getEmailAddresses()
     {
-        $addresses = array();
+        $addresses = [];
         $committer = $this->build->getCommitterEmail();
 
         if (isset($this->options['committer']) && !empty($committer)) {
@@ -188,7 +188,7 @@ class Email implements \PHPCI\Plugin
      */
     protected function getCcAddresses()
     {
-        $ccAddresses = array();
+        $ccAddresses = [];
 
         if (isset($this->options['cc'])) {
             foreach ($this->options['cc'] as $address) {

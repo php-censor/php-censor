@@ -53,7 +53,7 @@ class BuildStore extends BuildStoreBase
 
             return $rtn;
         } else {
-            return array();
+            return [];
         }
     }
 
@@ -75,7 +75,7 @@ class BuildStore extends BuildStoreBase
                 return new Build($data);
             }
         } else {
-            return array();
+            return [];
         }
     }
 
@@ -101,9 +101,9 @@ class BuildStore extends BuildStoreBase
 
             $rtn = array_map($map, $res);
 
-            return array('items' => $rtn, 'count' => count($rtn));
+            return ['items' => $rtn, 'count' => count($rtn)];
         } else {
-            return array('items' => array(), 'count' => 0);
+            return ['items' => [], 'count' => 0];
         }
     }
 
@@ -124,7 +124,7 @@ class BuildStore extends BuildStoreBase
             $res = $stmt->fetchAll(\PDO::FETCH_COLUMN);
             return $res;
         } else {
-            return array();
+            return [];
         }
     }
 

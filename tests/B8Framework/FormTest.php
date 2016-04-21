@@ -105,7 +105,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertFalse($f->validate());
 
-		$f->setValues(array('group' => array('one' => 'ONE', 'two' => 'TWO'), 'three' => 'THREE'));
+		$f->setValues(['group' => ['one' => 'ONE', 'two' => 'TWO'], 'three' => 'THREE']);
 
 		$values = $f->getValues();
 		$this->assertTrue(is_array($values));
@@ -153,7 +153,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
 		$this->assertTrue(strpos($e->render(), 'email') !== false);
 
 		$e = new Form\Element\Select();
-		$e->setOptions(array('key' => 'Val'));
+		$e->setOptions(['key' => 'Val']);
 		$html = $e->render();
 		$this->assertTrue(strpos($html, 'select') !== false);
 		$this->assertTrue(strpos($html, 'option') !== false);

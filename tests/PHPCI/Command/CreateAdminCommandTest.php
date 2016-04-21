@@ -72,7 +72,7 @@ class CreateAdminCommandTest extends \PHPUnit_Framework_TestCase
         $this->dialog->expects($this->at(2))->method('askHiddenResponse')->will($this->returnValue('foobar123'));
 
         $commandTester = $this->getCommandTester();
-        $commandTester->execute(array());
+        $commandTester->execute([]);
 
         $this->assertEquals('User account created!' . PHP_EOL, $commandTester->getDisplay());
     }

@@ -159,15 +159,15 @@ class BuildService
             return;
         }
 
-        $config = Config::getInstance();
+        $config   = Config::getInstance();
         $settings = $config->get('phpci.worker', []);
 
         if (!empty($settings['host']) && !empty($settings['queue'])) {
             try {
-                $jobData = array(
-                    'type' => 'phpci.build',
+                $jobData = [
+                    'type'     => 'phpci.build',
                     'build_id' => $build->getId(),
-                );
+                ];
 
                 if ($config->get('using_custom_file')) {
                     $jobData['config'] = $config->getArray();

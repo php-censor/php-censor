@@ -32,7 +32,7 @@ class HipchatNotify implements \PHPCI\Plugin
      * @param array $options
      * @throws \Exception
      */
-    public function __construct(Builder $phpci, Build $build, array $options = array())
+    public function __construct(Builder $phpci, Build $build, array $options = [])
     {
         $this->phpci = $phpci;
         $this->build = $build;

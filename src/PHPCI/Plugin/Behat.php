@@ -38,7 +38,7 @@ class Behat implements \PHPCI\Plugin
      * @param Build   $build
      * @param array   $options
      */
-    public function __construct(Builder $phpci, Build $build, array $options = array())
+    public function __construct(Builder $phpci, Build $build, array $options = [])
     {
         $this->phpci    = $phpci;
         $this->build    = $build;
@@ -94,13 +94,13 @@ class Behat implements \PHPCI\Plugin
         $parts = explode('---', $output);
 
         if (count($parts) <= 1) {
-            return array(0, array());
+            return [0, []];
         }
 
         $lines = explode(PHP_EOL, $parts[1]);
 
         $storeFailures = false;
-        $data = array();
+        $data          = [];
 
         foreach ($lines as $line) {
             $line = trim($line);
@@ -115,10 +115,10 @@ class Behat implements \PHPCI\Plugin
 
             if ($storeFailures) {
                 $lineParts = explode(':', $line);
-                $data[] = array(
+                $data[]    = [
                     'file' => $lineParts[0],
                     'line' => $lineParts[1]
-                );
+                ];
 
                 $this->build->reportError(
                     $this->phpci,
@@ -133,6 +133,6 @@ class Behat implements \PHPCI\Plugin
 
         $errorCount = count($data);
 
-        return array($errorCount, $data);
+        return [$errorCount, $data];
     }
 }

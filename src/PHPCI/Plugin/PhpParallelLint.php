@@ -53,7 +53,7 @@ class PhpParallelLint implements \PHPCI\Plugin
      * @param Build   $build
      * @param array   $options
      */
-    public function __construct(Builder $phpci, Build $build, array $options = array())
+    public function __construct(Builder $phpci, Build $build, array $options = [])
     {
         $this->phpci = $phpci;
         $this->build = $build;
@@ -87,7 +87,7 @@ class PhpParallelLint implements \PHPCI\Plugin
 
         $output = $this->phpci->getLastOutput();
 
-        $matches = array();
+        $matches = [];
         if (preg_match_all('/Parse error\:/', $output, $matches)) {
             $this->build->storeMeta('phplint-errors', count($matches[0]));
         }
@@ -101,12 +101,12 @@ class PhpParallelLint implements \PHPCI\Plugin
      */
     protected function getFlags()
     {
-        $ignoreFlags = array();
+        $ignoreFlags = [];
         foreach ($this->ignore as $ignoreDir) {
             $ignoreFlags[] = '--exclude "' . $this->phpci->buildPath . $ignoreDir . '"';
         }
         $ignore = implode(' ', $ignoreFlags);
 
-        return array($ignore);
+        return [$ignore];
     }
 }

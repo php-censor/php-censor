@@ -54,7 +54,7 @@ class PhpTalLint implements PHPCI\Plugin
     /**
      * @var array The results of the lint scan
      */
-    protected $failedPaths = array();
+    protected $failedPaths = [];
 
     /**
      * Standard Constructor
@@ -63,19 +63,19 @@ class PhpTalLint implements PHPCI\Plugin
      * @param Build   $build
      * @param array   $options
      */
-    public function __construct(Builder $phpci, Build $build, array $options = array())
+    public function __construct(Builder $phpci, Build $build, array $options = [])
     {
         $this->phpci = $phpci;
         $this->build = $build;
-        $this->directories = array('');
-        $this->suffixes = array('zpt');
+        $this->directories = [''];
+        $this->suffixes = ['zpt'];
         $this->ignore = $phpci->ignore;
 
         $this->allowed_warnings = 0;
         $this->allowed_errors = 0;
 
         if (!empty($options['directory'])) {
-            $this->directories = array($options['directory']);
+            $this->directories = [$options['directory']];
         }
 
         if (isset($options['suffixes'])) {
@@ -91,7 +91,7 @@ class PhpTalLint implements PHPCI\Plugin
      */
     protected function setOptions($options)
     {
-        foreach (array('directories', 'tales', 'allowed_warnings', 'allowed_errors') as $key) {
+        foreach (['directories', 'tales', 'allowed_warnings', 'allowed_errors'] as $key) {
             if (array_key_exists($key, $options)) {
                 $this->{$key} = $options[$key];
             }
@@ -230,12 +230,12 @@ class PhpTalLint implements PHPCI\Plugin
                 $message = trim($parts[0]);
                 $line = str_replace(')', '', $parts[1]);
 
-                $this->failedPaths[] = array(
-                    'file' => $path,
-                    'line' => $line,
-                    'type' => $matches[2],
+                $this->failedPaths[] = [
+                    'file'    => $path,
+                    'line'    => $line,
+                    'type'    => $matches[2],
                     'message' => $message
-                );
+                ];
             }
 
             $success = false;
@@ -260,6 +260,6 @@ class PhpTalLint implements PHPCI\Plugin
             $suffixes = ' -e ' . implode(',', $this->suffixes);
         }
 
-        return array($suffixes, $tales);
+        return [$suffixes, $tales];
     }
 }

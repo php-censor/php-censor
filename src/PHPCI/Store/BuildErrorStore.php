@@ -51,7 +51,7 @@ class BuildErrorStore extends BuildErrorStoreBase
 
             return $rtn;
         } else {
-            return array();
+            return [];
         }
     }
 

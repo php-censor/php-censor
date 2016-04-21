@@ -36,7 +36,7 @@ class Campfire implements \PHPCI\Plugin
      * @param array $options
      * @throws \Exception
      */
-    public function __construct(Builder $phpci, Build $build, array $options = array())
+    public function __construct(Builder $phpci, Build $build, array $options = [])
     {
         $this->phpci     = $phpci;
         $this->build     = $build;
@@ -108,7 +108,7 @@ class Campfire implements \PHPCI\Plugin
             $type = 'TextMessage';
         }
 
-        return $this->getPageByPost($page, array('message' => array('type' => $type, 'body' => $message)));
+        return $this->getPageByPost($page, ['message' => ['type' => $type, 'body' => $message]]);
 
     }
 
@@ -134,7 +134,7 @@ class Campfire implements \PHPCI\Plugin
         curl_setopt($handle, CURLOPT_VERBOSE, $this->verbose);
         curl_setopt($handle, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($handle, CURLOPT_USERPWD, $this->authToken . ':x');
-        curl_setopt($handle, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+        curl_setopt($handle, CURLOPT_HTTPHEADER, ["Content-type: application/json"]);
         curl_setopt($handle, CURLOPT_COOKIEFILE, $this->cookie);
 
         curl_setopt($handle, CURLOPT_POSTFIELDS, $json);

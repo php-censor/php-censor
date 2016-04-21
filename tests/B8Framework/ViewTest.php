@@ -74,7 +74,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 		$this->assertTrue($view->render() == 'Hello ');
 
 		$view = new UserView('Hello {@who.name}');
-		$view->who = array('name' => 'Dan');
+		$view->who = ['name' => 'Dan'];
 		$this->assertTrue($view->render() == 'Hello Dan');
 
 		$tmp = new UserView('Hello');
@@ -123,7 +123,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 	public function testUserViewLoop()
 	{
 		$view = new UserView('Hello {loop who}{@item}{/loop}');
-		$view->who = array('W', 'o', 'r', 'l', 'd');
+		$view->who = ['W', 'o', 'r', 'l', 'd'];
 		$this->assertTrue($view->render() == 'Hello World');
 
 		$view = new UserView('Hello {loop who}{@item}{/loop}');

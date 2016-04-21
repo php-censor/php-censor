@@ -40,8 +40,8 @@ class BuildLoggerTest extends \PHPUnit_Framework_TestCase
     public function testLog_CallsWrappedLogger()
     {
         $level = LogLevel::NOTICE;
-        $message = "Testing";
-        $contextIn = array();
+        $message   = "Testing";
+        $contextIn = [];
 
         $this->mockLogger->log($level, $message, Argument::type('array'))
                          ->shouldBeCalledTimes(1);
@@ -51,9 +51,9 @@ class BuildLoggerTest extends \PHPUnit_Framework_TestCase
 
     public function testLog_CallsWrappedLoggerForEachMessage()
     {
-        $level = LogLevel::NOTICE;
-        $message = array("One", "Two", "Three");
-        $contextIn = array();
+        $level     = LogLevel::NOTICE;
+        $message   = ["One", "Two", "Three"];
+        $contextIn = [];
 
         $this->mockLogger->log($level, "One", Argument::type('array'))
                          ->shouldBeCalledTimes(1);
@@ -69,13 +69,13 @@ class BuildLoggerTest extends \PHPUnit_Framework_TestCase
 
     public function testLog_AddsBuildToContext()
     {
-        $level = LogLevel::NOTICE;
-        $message = "Testing";
-        $contextIn = array();
+        $level     = LogLevel::NOTICE;
+        $message   = "Testing";
+        $contextIn = [];
 
-        $expectedContext = array(
+        $expectedContext = [
             'build' => $this->mockBuild->reveal()
-        );
+        ];
 
         $this->mockLogger->log($level, $message, $expectedContext)
                          ->shouldBeCalledTimes(1);

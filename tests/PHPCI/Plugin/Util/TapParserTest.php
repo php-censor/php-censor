@@ -81,7 +81,7 @@ TAP;
         $parser = new TapParser($content);
         $result = $parser->parse();
 
-        $this->assertEquals(array(), $result);
+        $this->assertEquals([], $result);
     }
 
     /**

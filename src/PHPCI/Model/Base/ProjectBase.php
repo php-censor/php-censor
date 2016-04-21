@@ -17,7 +17,7 @@ class ProjectBase extends Model
     /**
     * @var array
     */
-    public static $sleepable = array();
+    public static $sleepable = [];
 
     /**
     * @var string

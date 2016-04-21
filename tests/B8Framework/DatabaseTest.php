@@ -14,7 +14,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
 	public function testGetReadConnection()
 	{
 		Database::setDetails($this->_name, $this->_user, $this->_pass);
-		Database::setReadServers(array($this->_host));
+		Database::setReadServers([$this->_host]);
 
 		$connection = Database::getConnection('read');
 
@@ -24,7 +24,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
 	public function testGetWriteConnection()
 	{
 		Database::setDetails($this->_name, $this->_user, $this->_pass);
-		Database::setWriteServers(array($this->_host));
+		Database::setWriteServers([$this->_host]);
 
 		$connection = Database::getConnection('write');
 
@@ -34,7 +34,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
 	public function testGetDetails()
 	{
 		Database::setDetails($this->_name, $this->_user, $this->_pass);
-		Database::setReadServers(array('localhost'));
+		Database::setReadServers(['localhost']);
 
 		$details = Database::getConnection('read')->getDetails();
 		$this->assertTrue(is_array($details));
@@ -49,7 +49,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
 	public function testConnectionFailure()
 	{
 		Database::setDetails('non_existant', 'invalid_user', 'incorrect_password');
-		Database::setReadServers(array('localhost'));
+		Database::setReadServers(['localhost']);
 		Database::getConnection('read');
 	}
 }

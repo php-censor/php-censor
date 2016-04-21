@@ -383,7 +383,7 @@ class CodeGenerationTest extends \PHPUnit_Framework_TestCase
 
 		try
 		{
-			$uno->getWhere(array('invalid_column' => 1));
+			$uno->getWhere(['invalid_column' => 1]);
 		}
 		catch(Exception $ex)
 		{
@@ -392,24 +392,24 @@ class CodeGenerationTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertTrue($caught);
 
-		$res = $uno->getWhere(array('id' => 1), 1, 0, array(), 'rand', array('LEFT JOIN dos d ON d.id = uno.id'));
+		$res = $uno->getWhere(['id' => 1], 1, 0, [], 'rand', ['LEFT JOIN dos d ON d.id = uno.id']);
 		$this->assertTrue($res['count'] != 0);
 
 
-		$res = $uno->getWhere(array('id' => 1), 1, 0, array(), 'rand', array(), 'field_varchar');
+		$res = $uno->getWhere(['id' => 1], 1, 0, [], 'rand', [], 'field_varchar');
 		$this->assertTrue($res['count'] != 0);
 
-		$res = $uno->getWhere(array(), 1, 0, array(), 'rand', array(), null, array(array('type' => 'AND', 'query' => 'id = 1', 'params' => array())));
+		$res = $uno->getWhere([], 1, 0, [], 'rand', [], null, [['type' => 'AND', 'query' => 'id = 1', 'params' => []]]);
 		$this->assertTrue($res['count'] != 0);
 
-		$res = $uno->getWhere(array('id' => 2), 1, 0, array(), 'rand', array(), null, array(array('type' => 'AND', 'query' => 'id = ?', 'params' => array('id'))));
+		$res = $uno->getWhere(['id' => 2], 1, 0, [], 'rand', [], null, [['type' => 'AND', 'query' => 'id = ?', 'params' => ['id']]]);
 		$this->assertTrue($res['count'] == 0);
 
 		$caught = false;
 
 		try
 		{
-			$uno->getWhere(array('' => 1));
+			$uno->getWhere(['' => 1]);
 		}
 		catch(Exception $ex)
 		{
@@ -610,14 +610,14 @@ class CodeGenerationTest extends \PHPUnit_Framework_TestCase
 		//----
 		// Tests for _parseWhere()
 		//----
-		$uno->setParam('where', array('id' => array(1000)));
+		$uno->setParam('where', ['id' => [1000]]);
 		$uno->setParam('neq', 'id');
 		$list = $uno->index();
 
 		$this->assertTrue(is_array($list));
 		$this->assertTrue(count($list['items']) != 0);
 
-		$uno->setParam('where', array('id' => 1000));
+		$uno->setParam('where', ['id' => 1000]);
 		$uno->setParam('fuzzy', 'id');
 		$list = $uno->index();
 

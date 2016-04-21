@@ -52,7 +52,7 @@ class PhpLoc implements PHPCI\Plugin, PHPCI\ZeroConfigPlugin
      * @param Build $build
      * @param array $options
      */
-    public function __construct(Builder $phpci, Build $build, array $options = array())
+    public function __construct(Builder $phpci, Build $build, array $options = [])
     {
         $this->phpci     = $phpci;
         $this->build     = $build;
@@ -85,7 +85,7 @@ class PhpLoc implements PHPCI\Plugin, PHPCI\ZeroConfigPlugin
         $output  = $this->phpci->getLastOutput();
 
         if (preg_match_all('/\((LOC|CLOC|NCLOC|LLOC)\)\s+([0-9]+)/', $output, $matches)) {
-            $data = array();
+            $data = [];
             foreach ($matches[1] as $k => $v) {
                 $data[$v] = (int)$matches[2][$k];
             }

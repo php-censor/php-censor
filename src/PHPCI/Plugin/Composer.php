@@ -53,7 +53,7 @@ class Composer implements PHPCI\Plugin, PHPCI\ZeroConfigPlugin
      * @param Build $build
      * @param array $options
      */
-    public function __construct(Builder $phpci, Build $build, array $options = array())
+    public function __construct(Builder $phpci, Build $build, array $options = [])
     {
         $path             = $phpci->buildPath;
         $this->phpci      = $phpci;
@@ -91,7 +91,7 @@ class Composer implements PHPCI\Plugin, PHPCI\ZeroConfigPlugin
     */
     public function execute()
     {
-        $composerLocation = $this->phpci->findBinary(array('composer', 'composer.phar'));
+        $composerLocation = $this->phpci->findBinary(['composer', 'composer.phar']);
 
         $cmd = '';
 

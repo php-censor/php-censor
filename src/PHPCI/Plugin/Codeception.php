@@ -79,7 +79,7 @@ class Codeception implements \PHPCI\Plugin, \PHPCI\ZeroConfigPlugin
      * @param Build $build
      * @param array $options
      */
-    public function __construct(Builder $phpci, Build $build, array $options = array())
+    public function __construct(Builder $phpci, Build $build, array $options = [])
     {
         $this->phpci = $phpci;
         $this->build = $build;
@@ -147,11 +147,11 @@ class Codeception implements \PHPCI\Plugin, \PHPCI\ZeroConfigPlugin
         $parser = new Parser($this->phpci, $xml);
         $output = $parser->parse();
 
-        $meta = array(
+        $meta = [
             'tests'     => $parser->getTotalTests(),
             'timetaken' => $parser->getTotalTimeTaken(),
             'failures'  => $parser->getTotalFailures()
-        );
+        ];
 
         $this->build->storeMeta('codeception-meta', $meta);
         $this->build->storeMeta('codeception-data', $output);

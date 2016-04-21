@@ -37,11 +37,11 @@ class CleanBuild implements \PHPCI\Plugin
      * @param Build   $build
      * @param array   $options
      */
-    public function __construct(Builder $phpci, Build $build, array $options = array())
+    public function __construct(Builder $phpci, Build $build, array $options = [])
     {
         $this->phpci  = $phpci;
         $this->build  = $build;
-        $this->remove = isset($options['remove']) && is_array($options['remove']) ? $options['remove'] : array();
+        $this->remove = isset($options['remove']) && is_array($options['remove']) ? $options['remove'] : [];
     }
 
     /**

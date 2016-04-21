@@ -68,7 +68,7 @@ class TapParser
         $this->lineNumber = 0;
 
         $this->testCount = false;
-        $this->results = array();
+        $this->results   = [];
 
         $header = $this->findTapLog();
 
@@ -208,11 +208,11 @@ class TapParser
      */
     protected function processTestLine($result, $message, $directive, $reason)
     {
-        $test = array(
+        $test = [
             'pass'     => true,
             'message'  => $message,
             'severity' => 'success',
-        );
+        ];
 
         if ($result !== 'ok') {
             $test['pass'] = false;
@@ -237,7 +237,7 @@ class TapParser
     {
         $startLine = $this->lineNumber + 1;
         $endLine   = $indent . '...';
-        $yamlLines = array();
+        $yamlLines = [];
 
         do {
             $line = $this->nextLine();

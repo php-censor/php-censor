@@ -34,10 +34,10 @@ class BuildStatusService
     protected $url;
 
     /** @var array  */
-    protected $finishedStatusIds = array(
+    protected $finishedStatusIds = [
         Build::STATUS_SUCCESS,
         Build::STATUS_FAILED,
-    );
+    ];
 
     /**
      * @param $branch
@@ -208,15 +208,15 @@ class BuildStatusService
     public function toArray()
     {
         if (!$this->build) {
-            return array();
+            return [];
         }
-        return array(
-            'name' => $this->getName(),
-            'activity' => $this->getActivity(),
-            'lastBuildLabel' => $this->getLastBuildLabel(),
+        return [
+            'name'            => $this->getName(),
+            'activity'        => $this->getActivity(),
+            'lastBuildLabel'  => $this->getLastBuildLabel(),
             'lastBuildStatus' => $this->getLastBuildStatus(),
-            'lastBuildTime' => $this->getLastBuildTime(),
-            'webUrl' => $this->getBuildUrl(),
-        );
+            'lastBuildTime'   => $this->getLastBuildTime(),
+            'webUrl'          => $this->getBuildUrl(),
+        ];
     }
 }

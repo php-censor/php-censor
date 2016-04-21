@@ -33,7 +33,7 @@ class FlowdockNotify implements \PHPCI\Plugin
      * @param array   $options
      * @throws \Exception
      */
-    public function __construct(Builder $phpci, Build $build, array $options = array())
+    public function __construct(Builder $phpci, Build $build, array $options = [])
     {
         $this->phpci = $phpci;
         $this->build = $build;
@@ -65,7 +65,7 @@ class FlowdockNotify implements \PHPCI\Plugin
             ->setLink($this->build->getBranchLink())
             ->setContent($message);
 
-        if (!$push->sendTeamInboxMessage($flowMessage, array('connect_timeout' => 5000, 'timeout' => 5000))) {
+        if (!$push->sendTeamInboxMessage($flowMessage, ['connect_timeout' => 5000, 'timeout' => 5000])) {
             throw new \Exception(sprintf('Flowdock Failed: %s', $flowMessage->getResponseErrors()));
         }
         return true;

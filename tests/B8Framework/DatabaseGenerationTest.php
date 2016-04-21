@@ -15,7 +15,7 @@ class DatabaseGenerationTest extends \PHPUnit_Framework_TestCase
 	public function setUp()
 	{
 		Database::setDetails($this->_name, $this->_user, $this->_pass);
-		Database::setWriteServers(array($this->_host));
+		Database::setWriteServers([$this->_host]);
 
 		$this->_db = Database::getConnection('write');
 

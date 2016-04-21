@@ -11,7 +11,7 @@ class PluginInformationCollection implements InstalledPluginInformation
     /**
      * @var InstalledPluginInformation[]
      */
-    protected $pluginInformations = array();
+    protected $pluginInformations = [];
 
     /**
      * Add a plugin to the collection.
@@ -31,7 +31,7 @@ class PluginInformationCollection implements InstalledPluginInformation
      */
     public function getInstalledPlugins()
     {
-        $arr = array();
+        $arr = [];
 
         foreach ($this->pluginInformations as $single) {
             $arr = array_merge($arr, $single->getInstalledPlugins());
@@ -48,7 +48,7 @@ class PluginInformationCollection implements InstalledPluginInformation
      */
     public function getPluginClasses()
     {
-        $arr = array();
+        $arr = [];
 
         foreach ($this->pluginInformations as $single) {
             $arr = array_merge($arr, $single->getPluginClasses());

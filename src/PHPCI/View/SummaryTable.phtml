@@ -2,13 +2,12 @@
 use PHPCI\Helper\Lang;
 
 foreach($projects as $project):
-    $statuses = array();
+    $statuses = [];
     $failures = 0;
-    $subcls = 'yellow';
-    $cls = '';
-
-    $success = null;
-    $failure = null;
+    $subcls   = 'yellow';
+    $cls      = '';
+    $success  = null;
+    $failure  = null;
 
     if (count($builds[$project->getId()])) {
         // Get the most recent build status to determine the main block colour.

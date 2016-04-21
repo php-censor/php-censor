@@ -23,7 +23,7 @@ class Git implements \PHPCI\Plugin
 {
     protected $phpci;
     protected $build;
-    protected $actions = array();
+    protected $actions = [];
 
     /**
      * Set up the plugin, configure options, etc.
@@ -31,7 +31,7 @@ class Git implements \PHPCI\Plugin
      * @param Build $build
      * @param array $options
      */
-    public function __construct(Builder $phpci, Build $build, array $options = array())
+    public function __construct(Builder $phpci, Build $build, array $options = [])
     {
         $this->phpci = $phpci;
         $this->build = $build;
@@ -74,7 +74,7 @@ class Git implements \PHPCI\Plugin
      * @param array $options
      * @return bool
      */
-    protected function runAction($action, array $options = array())
+    protected function runAction($action, array $options = [])
     {
         switch ($action) {
             case 'merge':

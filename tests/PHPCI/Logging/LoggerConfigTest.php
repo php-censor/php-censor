@@ -16,14 +16,14 @@ class LoggerConfigTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetFor_ReturnsPSRLogger()
     {
-        $config = new LoggerConfig(array());
+        $config = new LoggerConfig([]);
         $logger = $config->getFor("something");
         $this->assertInstanceOf('\Psr\Log\LoggerInterface', $logger);
     }
 
     public function testGetFor_ReturnsMonologInstance()
     {
-        $config = new LoggerConfig(array());
+        $config = new LoggerConfig([]);
         $logger = $config->getFor("something");
         $this->assertInstanceOf('\Monolog\Logger', $logger);
     }
@@ -84,7 +84,7 @@ class LoggerConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testGetFor_SameInstance()
     {
-        $config = new LoggerConfig(array());
+        $config = new LoggerConfig([]);
 
         $logger1 = $config->getFor("something");
         $logger2 = $config->getFor("something");

@@ -94,11 +94,11 @@ class PhpCodeSniffer implements PHPCI\Plugin, PHPCI\ZeroConfigPlugin
      * @param \PHPCI\Model\Build $build
      * @param array $options
      */
-    public function __construct(Builder $phpci, Build $build, array $options = array())
+    public function __construct(Builder $phpci, Build $build, array $options = [])
     {
         $this->phpci = $phpci;
         $this->build = $build;
-        $this->suffixes = array('php');
+        $this->suffixes = ['php'];
         $this->directory = $phpci->buildPath;
         $this->standard = 'PSR2';
         $this->tab_width = '';
@@ -134,7 +134,7 @@ class PhpCodeSniffer implements PHPCI\Plugin, PHPCI\ZeroConfigPlugin
      */
     protected function setOptions($options)
     {
-        foreach (array('directory', 'standard', 'path', 'ignore', 'allowed_warnings', 'allowed_errors') as $key) {
+        foreach (['directory', 'standard', 'path', 'ignore', 'allowed_warnings', 'allowed_errors'] as $key) {
             if (array_key_exists($key, $options)) {
                 $this->{$key} = $options[$key];
             }
@@ -205,7 +205,7 @@ class PhpCodeSniffer implements PHPCI\Plugin, PHPCI\ZeroConfigPlugin
             $suffixes = ' --extensions=' . implode(',', $this->suffixes);
         }
 
-        return array($ignore, $standard, $suffixes);
+        return [$ignore, $standard, $suffixes];
     }
 
     /**
@@ -241,6 +241,6 @@ class PhpCodeSniffer implements PHPCI\Plugin, PHPCI\ZeroConfigPlugin
             }
         }
 
-        return array($errors, $warnings);
+        return [$errors, $warnings];
     }
 }

@@ -80,17 +80,17 @@ class GithubBuild extends RemoteGitBuild
 
         $phpciUrl = \b8\Config::getInstance()->get('phpci.url');
 
-        $params = array(
-            'state' => $status,
-            'target_url' => $phpciUrl . '/build/view/' . $this->getId(),
+        $params = [
+            'state'       => $status,
+            'target_url'  => $phpciUrl . '/build/view/' . $this->getId(),
             'description' => $description,
-            'context' => 'PHPCI',
-        );
+            'context'     => 'PHPCI',
+        ];
 
-        $headers = array(
+        $headers = [
             'Authorization: token ' . $token,
             'Content-Type: application/x-www-form-urlencoded'
-        );
+        ];
 
         $http->setHeaders($headers);
         $http->request('POST', $url, json_encode($params));
@@ -141,7 +141,7 @@ class GithubBuild extends RemoteGitBuild
         $branch = $this->getBranch();
 
         if ($this->getExtra('build_type') == 'pull_request') {
-            $matches = array();
+            $matches = [];
             preg_match('/[\/:]([a-zA-Z0-9_\-]+\/[a-zA-Z0-9_\-]+)/', $this->getExtra('remote_url'), $matches);
 
             $reference = $matches[1];

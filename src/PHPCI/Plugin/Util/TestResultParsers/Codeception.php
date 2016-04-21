@@ -38,7 +38,7 @@ class Codeception implements ParserInterface
      */
     public function parse()
     {
-        $rtn = array();
+        $rtn = [];
 
         $this->results = new \SimpleXMLElement($this->resultsXml);
 
@@ -50,14 +50,14 @@ class Codeception implements ParserInterface
             $this->totalErrors += (int) $testsuite['errors'];
 
             foreach ($testsuite->testcase as $testcase) {
-                $testresult = array(
-                    'suite' => (string) $testsuite['name'],
-                    'file' => str_replace($this->phpci->buildPath, '/', (string) $testcase['file']),
-                    'name' => (string) $testcase['name'],
-                    'feature' => (string) $testcase['feature'],
+                $testresult = [
+                    'suite'      => (string) $testsuite['name'],
+                    'file'       => str_replace($this->phpci->buildPath, '/', (string) $testcase['file']),
+                    'name'       => (string) $testcase['name'],
+                    'feature'    => (string) $testcase['feature'],
                     'assertions' => (int) $testcase['assertions'],
-                    'time' => (float) $testcase['time']
-                );
+                    'time'       => (float) $testcase['time']
+                ];
 
                 if (isset($testcase['class'])) {
                     $testresult['class'] = (string) $testcase['class'];

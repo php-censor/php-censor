@@ -29,7 +29,7 @@ class ComposerPluginInformation implements InstalledPluginInformation
         if (file_exists($filePath)) {
             $installed = json_decode(file_get_contents($filePath));
         } else {
-            $installed = array();
+            $installed = [];
         }
         return new self($installed);
     }
@@ -80,7 +80,7 @@ class ComposerPluginInformation implements InstalledPluginInformation
         if ($this->pluginInfo !== null) {
             return;
         }
-        $this->pluginInfo = array();
+        $this->pluginInfo = [];
         foreach ($this->composerPackages as $package) {
             $this->addPluginsFromPackage($package);
         }

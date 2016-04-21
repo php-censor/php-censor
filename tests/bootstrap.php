@@ -26,10 +26,10 @@ if (!file_exists($configFile)) {
 }
 
 // Load configuration if present:
-$conf = array();
-$conf['b8']['app']['namespace'] = 'PHPCI';
+$conf                                    = [];
+$conf['b8']['app']['namespace']          = 'PHPCI';
 $conf['b8']['app']['default_controller'] = 'Home';
-$conf['b8']['view']['path'] = dirname(__DIR__) . '/src/PHPCI/View/';
+$conf['b8']['view']['path']              = dirname(__DIR__) . '/src/PHPCI/View/';
 
 $config = new b8\Config($conf);
 
