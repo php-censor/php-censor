@@ -95,10 +95,10 @@ class ProjectTest extends \PHPUnit_Framework_TestCase
      */
     public function testExecute_TestProjectAccessInformation()
     {
-        $info = array(
+        $info = [
             'item1' => 'Item One',
             'item2' => 2,
-        );
+        ];
 
         $project = new Project();
         $project->setAccessInformation($info);

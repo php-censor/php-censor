@@ -70,10 +70,10 @@ class BuildTest extends \PHPUnit_Framework_TestCase
      */
     public function testExecute_TestBuildExtra()
     {
-        $info = array(
+        $info = [
             'item1' => 'Item One',
             'item2' => 2,
-        );
+        ];
 
         $build = new Build();
         $build->setExtra(json_encode($info));

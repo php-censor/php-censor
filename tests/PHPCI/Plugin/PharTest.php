@@ -61,7 +61,7 @@ class PharTest extends \PHPUnit_Framework_TestCase
     protected function cleanSource()
     {
         if ($this->directory) {
-            $filenames = array(
+            $filenames = [
                 '/build.phar',
                 '/stub.php',
                 '/views/index.phtml',
@@ -70,7 +70,7 @@ class PharTest extends \PHPUnit_Framework_TestCase
                 '/config',
                 '/two.php',
                 '/one.php',
-            );
+            ];
             foreach ($filenames as $filename) {
                 if (is_dir($this->directory . $filename)) {
                     rmdir($this->directory . $filename);
@@ -104,7 +104,7 @@ class PharTest extends \PHPUnit_Framework_TestCase
         $plugin->getPHPCI()->buildPath = 'foo';
         $this->assertEquals('foo', $plugin->getDirectory());
 
-        $plugin = $this->getPlugin(array('directory' => 'dirname'));
+        $plugin = $this->getPlugin(['directory' => 'dirname']);
         $this->assertEquals('dirname', $plugin->getDirectory());
     }
 
@@ -113,7 +113,7 @@ class PharTest extends \PHPUnit_Framework_TestCase
         $plugin = $this->getPlugin();
         $this->assertEquals('build.phar', $plugin->getFilename());
 
-        $plugin = $this->getPlugin(array('filename' => 'another.phar'));
+        $plugin = $this->getPlugin(['filename' => 'another.phar']);
         $this->assertEquals('another.phar', $plugin->getFilename());
     }
 
@@ -122,7 +122,7 @@ class PharTest extends \PHPUnit_Framework_TestCase
         $plugin = $this->getPlugin();
         $this->assertEquals('/\.php$/', $plugin->getRegExp());
 
-        $plugin = $this->getPlugin(array('regexp' => '/\.(php|phtml)$/'));
+        $plugin = $this->getPlugin(['regexp' => '/\.(php|phtml)$/']);
         $this->assertEquals('/\.(php|phtml)$/', $plugin->getRegExp());
     }
 
@@ -131,7 +131,7 @@ class PharTest extends \PHPUnit_Framework_TestCase
         $plugin = $this->getPlugin();
         $this->assertNull($plugin->getStub());
 
-        $plugin = $this->getPlugin(array('stub' => 'stub.php'));
+        $plugin = $this->getPlugin(['stub' => 'stub.php']);
         $this->assertEquals('stub.php', $plugin->getStub());
     }
 
@@ -157,7 +157,7 @@ class PharTest extends \PHPUnit_Framework_TestCase
     {
         $this->checkReadonly();
 
-        $plugin = $this->getPlugin(array('regexp' => '/\.(php|phtml)$/'));
+        $plugin = $this->getPlugin(['regexp' => '/\.(php|phtml)$/']);
         $path   = $this->buildSource();
         $plugin->getPHPCI()->buildPath = $path;
 
@@ -184,7 +184,7 @@ STUB;
         $path = $this->buildSource();
         file_put_contents($path . '/stub.php', $content);
 
-        $plugin = $this->getPlugin(array('stub' => 'stub.php'));
+        $plugin = $this->getPlugin(['stub' => 'stub.php']);
         $plugin->getPHPCI()->buildPath = $path;
 
         $this->assertTrue($plugin->execute());
@@ -200,7 +200,7 @@ STUB;
 
         $directory = $this->buildTemp();
 
-        $plugin = $this->getPlugin(array('directory' => $directory));
+        $plugin = $this->getPlugin(['directory' => $directory]);
         $plugin->getPHPCI()->buildPath = $this->buildSource();
 
         $this->assertFalse($plugin->execute());

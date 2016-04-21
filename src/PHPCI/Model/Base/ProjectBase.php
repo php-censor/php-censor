@@ -32,163 +32,161 @@ class ProjectBase extends Model
     /**
     * @var array
     */
-    protected $data = array(
-        'id' => null,
-        'title' => null,
-        'reference' => null,
-        'branch' => null,
-        'ssh_private_key' => null,
-        'type' => null,
-        'access_information' => null,
-        'last_commit' => null,
-        'build_config' => null,
-        'ssh_public_key' => null,
+    protected $data = [
+        'id'                  => null,
+        'title'               => null,
+        'reference'           => null,
+        'branch'              => null,
+        'ssh_private_key'     => null,
+        'type'                => null,
+        'access_information'  => null,
+        'last_commit'         => null,
+        'build_config'        => null,
+        'ssh_public_key'      => null,
         'allow_public_status' => null,
-        'archived' => null,
-        'group_id' => null,
-    );
+        'archived'            => null,
+        'group_id'            => null,
+    ];
 
     /**
     * @var array
     */
-    protected $getters = array(
+    protected $getters = [
         // Direct property getters:
-        'id' => 'getId',
-        'title' => 'getTitle',
-        'reference' => 'getReference',
-        'branch' => 'getBranch',
-        'ssh_private_key' => 'getSshPrivateKey',
-        'type' => 'getType',
-        'access_information' => 'getAccessInformation',
-        'last_commit' => 'getLastCommit',
-        'build_config' => 'getBuildConfig',
-        'ssh_public_key' => 'getSshPublicKey',
+        'id'                  => 'getId',
+        'title'               => 'getTitle',
+        'reference'           => 'getReference',
+        'branch'              => 'getBranch',
+        'ssh_private_key'     => 'getSshPrivateKey',
+        'type'                => 'getType',
+        'access_information'  => 'getAccessInformation',
+        'last_commit'         => 'getLastCommit',
+        'build_config'        => 'getBuildConfig',
+        'ssh_public_key'      => 'getSshPublicKey',
         'allow_public_status' => 'getAllowPublicStatus',
-        'archived' => 'getArchived',
-        'group_id' => 'getGroupId',
-
+        'archived'            => 'getArchived',
+        'group_id'            => 'getGroupId',
         // Foreign key getters:
-        'Group' => 'getGroup',
-    );
+        'Group'               => 'getGroup',
+    ];
 
     /**
     * @var array
     */
-    protected $setters = array(
+    protected $setters = [
         // Direct property setters:
-        'id' => 'setId',
-        'title' => 'setTitle',
-        'reference' => 'setReference',
-        'branch' => 'setBranch',
-        'ssh_private_key' => 'setSshPrivateKey',
-        'type' => 'setType',
-        'access_information' => 'setAccessInformation',
-        'last_commit' => 'setLastCommit',
-        'build_config' => 'setBuildConfig',
-        'ssh_public_key' => 'setSshPublicKey',
+        'id'                  => 'setId',
+        'title'               => 'setTitle',
+        'reference'           => 'setReference',
+        'branch'              => 'setBranch',
+        'ssh_private_key'     => 'setSshPrivateKey',
+        'type'                => 'setType',
+        'access_information'  => 'setAccessInformation',
+        'last_commit'         => 'setLastCommit',
+        'build_config'        => 'setBuildConfig',
+        'ssh_public_key'      => 'setSshPublicKey',
         'allow_public_status' => 'setAllowPublicStatus',
-        'archived' => 'setArchived',
-        'group_id' => 'setGroupId',
-
+        'archived'            => 'setArchived',
+        'group_id'            => 'setGroupId',
         // Foreign key setters:
-        'Group' => 'setGroup',
-    );
+        'Group'               => 'setGroup',
+    ];
 
     /**
     * @var array
     */
-    public $columns = array(
-        'id' => array(
-            'type' => 'int',
-            'length' => 11,
-            'primary_key' => true,
+    public $columns = [
+        'id' => [
+            'type'           => 'int',
+            'length'         => 11,
+            'primary_key'    => true,
             'auto_increment' => true,
+            'default'        => null,
+        ],
+        'title' => [
+            'type'    => 'varchar',
+            'length'  => 250,
             'default' => null,
-        ),
-        'title' => array(
-            'type' => 'varchar',
-            'length' => 250,
+        ],
+        'reference' => [
+            'type'    => 'varchar',
+            'length'  => 250,
             'default' => null,
-        ),
-        'reference' => array(
-            'type' => 'varchar',
-            'length' => 250,
-            'default' => null,
-        ),
-        'branch' => array(
-            'type' => 'varchar',
-            'length' => 50,
+        ],
+        'branch' => [
+            'type'    => 'varchar',
+            'length'  => 50,
             'default' => 'master',
-        ),
-        'ssh_private_key' => array(
-            'type' => 'text',
+        ],
+        'ssh_private_key' => [
+            'type'     => 'text',
             'nullable' => true,
+            'default'  => null,
+        ],
+        'type' => [
+            'type'    => 'varchar',
+            'length'  => 50,
             'default' => null,
-        ),
-        'type' => array(
-            'type' => 'varchar',
-            'length' => 50,
-            'default' => null,
-        ),
-        'access_information' => array(
-            'type' => 'varchar',
-            'length' => 250,
+        ],
+        'access_information' => [
+            'type'     => 'varchar',
+            'length'   => 250,
             'nullable' => true,
-            'default' => null,
-        ),
-        'last_commit' => array(
-            'type' => 'varchar',
-            'length' => 250,
+            'default'  => null,
+        ],
+        'last_commit' => [
+            'type'     => 'varchar',
+            'length'   => 250,
             'nullable' => true,
-            'default' => null,
-        ),
-        'build_config' => array(
-            'type' => 'text',
+            'default'  => null,
+        ],
+        'build_config' => [
+            'type'     => 'text',
             'nullable' => true,
-            'default' => null,
-        ),
-        'ssh_public_key' => array(
-            'type' => 'text',
+            'default'  => null,
+        ],
+        'ssh_public_key' => [
+            'type'     => 'text',
             'nullable' => true,
-            'default' => null,
-        ),
-        'allow_public_status' => array(
-            'type' => 'int',
+            'default'  => null,
+        ],
+        'allow_public_status' => [
+            'type'   => 'int',
             'length' => 11,
-        ),
-        'archived' => array(
-            'type' => 'tinyint',
-            'length' => 1,
+        ],
+        'archived' => [
+            'type'    => 'tinyint',
+            'length'  => 1,
             'default' => null,
-        ),
-        'group_id' => array(
-            'type' => 'int',
-            'length' => 11,
+        ],
+        'group_id' => [
+            'type'    => 'int',
+            'length'  => 11,
             'default' => 1,
-        ),
-    );
+        ],
+    ];
 
     /**
     * @var array
     */
-    public $indexes = array(
-            'PRIMARY' => array('unique' => true, 'columns' => 'id'),
-            'idx_project_title' => array('columns' => 'title'),
-            'group_id' => array('columns' => 'group_id'),
-    );
+    public $indexes = [
+        'PRIMARY'           => ['unique' => true, 'columns' => 'id'],
+        'idx_project_title' => ['columns' => 'title'],
+        'group_id'          => ['columns' => 'group_id'],
+    ];
 
     /**
     * @var array
     */
-    public $foreignKeys = array(
-            'project_ibfk_1' => array(
-                'local_col' => 'group_id',
-                'update' => 'CASCADE',
-                'delete' => '',
-                'table' => 'project_group',
-                'col' => 'id'
-                ),
-    );
+    public $foreignKeys = [
+        'project_ibfk_1' => [
+            'local_col' => 'group_id',
+            'update'    => 'CASCADE',
+            'delete'    => '',
+            'table'     => 'project_group',
+            'col'       => 'id'
+        ],
+    ];
 
     /**
     * Get the value of Id / id.

@@ -35,18 +35,16 @@ class CreateAdminCommandTest extends \PHPUnit_Framework_TestCase
         parent::setup();
 
         $this->command = $this->getMockBuilder('PHPCI\\Command\\CreateAdminCommand')
-            ->setConstructorArgs(array($this->getMock('PHPCI\\Store\\UserStore')))
-            ->setMethods(array('reloadConfig'))
-            ->getMock()
-        ;
+            ->setConstructorArgs([$this->getMock('PHPCI\\Store\\UserStore')])
+            ->setMethods(['reloadConfig'])
+            ->getMock();
 
         $this->dialog = $this->getMockBuilder('Symfony\\Component\\Console\\Helper\\DialogHelper')
-            ->setMethods(array(
+            ->setMethods([
                 'ask',
                 'askAndValidate',
                 'askHiddenResponse',
-            ))
-            ->getMock()
+            ])->getMock()
         ;
 
         $this->application = new Application();

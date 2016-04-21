@@ -32,63 +32,60 @@ class ProjectGroupBase extends Model
     /**
     * @var array
     */
-    protected $data = array(
-        'id' => null,
+    protected $data = [
+        'id'    => null,
         'title' => null,
-    );
+    ];
 
     /**
     * @var array
     */
-    protected $getters = array(
+    protected $getters = [
         // Direct property getters:
-        'id' => 'getId',
+        'id'    => 'getId',
         'title' => 'getTitle',
-
         // Foreign key getters:
-    );
+    ];
 
     /**
     * @var array
     */
-    protected $setters = array(
+    protected $setters = [
         // Direct property setters:
-        'id' => 'setId',
+        'id'    => 'setId',
         'title' => 'setTitle',
-
         // Foreign key setters:
-    );
+    ];
 
     /**
     * @var array
     */
-    public $columns = array(
-        'id' => array(
-            'type' => 'int',
-            'length' => 11,
-            'primary_key' => true,
+    public $columns = [
+        'id' => [
+            'type'           => 'int',
+            'length'         => 11,
+            'primary_key'    => true,
             'auto_increment' => true,
+            'default'        => null,
+        ],
+        'title' => [
+            'type'    => 'varchar',
+            'length'  => 100,
             'default' => null,
-        ),
-        'title' => array(
-            'type' => 'varchar',
-            'length' => 100,
-            'default' => null,
-        ),
-    );
+        ],
+    ];
 
     /**
     * @var array
     */
-    public $indexes = array(
-            'PRIMARY' => array('unique' => true, 'columns' => 'id'),
-    );
+    public $indexes = [
+        'PRIMARY' => ['unique' => true, 'columns' => 'id'],
+    ];
 
     /**
     * @var array
     */
-    public $foreignKeys = array(
-    );
+    public $foreignKeys = [];
 
     /**
     * Get the value of Id / id.

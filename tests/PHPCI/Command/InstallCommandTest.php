@@ -35,14 +35,13 @@ class InstallCommandTest extends \PHPUnit_Framework_TestCase
     {
         // We check that there's no interaction with user.
         $dialog = $this->getMockBuilder('Symfony\\Component\\Console\\Helper\\DialogHelper')
-                       ->setMethods(array(
-                           'ask',
-                           'askConfirmation',
-                           'askAndValidate',
-                           'askHiddenResponse',
-                           'askHiddenResponseAndValidate',
-                       ))
-                       ->getMock();
+            ->setMethods([
+                'ask',
+                'askConfirmation',
+                'askAndValidate',
+                'askHiddenResponse',
+                'askHiddenResponseAndValidate',
+            ])->getMock();
 
         return $dialog;
     }
@@ -55,7 +54,7 @@ class InstallCommandTest extends \PHPUnit_Framework_TestCase
         // Current command, we need to mock all method that interact with
         // Database & File system.
         $command = $this->getMockBuilder('PHPCI\\Command\\InstallCommand')
-            ->setMethods(array(
+            ->setMethods([
                 'reloadConfig',
                 'verifyNotInstalled',
                 'verifyDatabaseDetails',
@@ -63,8 +62,7 @@ class InstallCommandTest extends \PHPUnit_Framework_TestCase
                 'createAdminUser',
                 'writeConfigFile',
                 'checkRequirements',
-            ))
-            ->getMock();
+            ])->getMock();
 
         $self = $this;
 
@@ -98,17 +96,17 @@ class InstallCommandTest extends \PHPUnit_Framework_TestCase
 
     protected function getConfig($exclude = null)
     {
-        $config = array(
-            '--db-host' => 'localhost',
-            '--db-name' => 'phpci1',
-            '--db-user' => 'phpci2',
-            '--db-pass' => 'phpci3',
-            '--admin-mail' => 'phpci@phpci.test',
-            '--admin-name' => 'phpci4',
-            '--admin-pass' => 'phpci5',
-            '--url' => 'http://test.phpci.org',
+        $config = [
+            '--db-host'        => 'localhost',
+            '--db-name'        => 'phpci1',
+            '--db-user'        => 'phpci2',
+            '--db-pass'        => 'phpci3',
+            '--admin-mail'     => 'phpci@phpci.test',
+            '--admin-name'     => 'phpci4',
+            '--admin-pass'     => 'phpci5',
+            '--url'            => 'http://test.phpci.org',
             '--queue-disabled' => null,
-        );
+        ];
 
         if (!is_null($exclude)) {
           unset($config[$exclude]);

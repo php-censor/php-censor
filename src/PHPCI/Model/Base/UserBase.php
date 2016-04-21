@@ -32,89 +32,86 @@ class UserBase extends Model
     /**
     * @var array
     */
-    protected $data = array(
-        'id' => null,
-        'email' => null,
-        'hash' => null,
+    protected $data = [
+        'id'       => null,
+        'email'    => null,
+        'hash'     => null,
         'is_admin' => null,
-        'name' => null,
-    );
+        'name'     => null,
+    ];
 
     /**
     * @var array
     */
-    protected $getters = array(
+    protected $getters = [
         // Direct property getters:
-        'id' => 'getId',
-        'email' => 'getEmail',
-        'hash' => 'getHash',
+        'id'       => 'getId',
+        'email'    => 'getEmail',
+        'hash'     => 'getHash',
         'is_admin' => 'getIsAdmin',
-        'name' => 'getName',
-
+        'name'     => 'getName',
         // Foreign key getters:
-    );
+    ];
 
     /**
     * @var array
     */
-    protected $setters = array(
+    protected $setters = [
         // Direct property setters:
-        'id' => 'setId',
-        'email' => 'setEmail',
-        'hash' => 'setHash',
+        'id'       => 'setId',
+        'email'    => 'setEmail',
+        'hash'     => 'setHash',
         'is_admin' => 'setIsAdmin',
-        'name' => 'setName',
-
+        'name'     => 'setName',
         // Foreign key setters:
-    );
+    ];
 
     /**
     * @var array
     */
-    public $columns = array(
-        'id' => array(
-            'type' => 'int',
-            'length' => 11,
-            'primary_key' => true,
+    public $columns = [
+        'id' => [
+            'type'           => 'int',
+            'length'         => 11,
+            'primary_key'    => true,
             'auto_increment' => true,
+            'default'        => null,
+        ],
+        'email' => [
+            'type'    => 'varchar',
+            'length'  => 250,
             'default' => null,
-        ),
-        'email' => array(
-            'type' => 'varchar',
-            'length' => 250,
+        ],
+        'hash' => [
+            'type'    => 'varchar',
+            'length'  => 250,
             'default' => null,
-        ),
-        'hash' => array(
-            'type' => 'varchar',
-            'length' => 250,
-            'default' => null,
-        ),
-        'is_admin' => array(
-            'type' => 'int',
+        ],
+        'is_admin' => [
+            'type'   => 'int',
             'length' => 11,
-        ),
-        'name' => array(
-            'type' => 'varchar',
-            'length' => 250,
+        ],
+        'name' => [
+            'type'    => 'varchar',
+            'length'  => 250,
             'default' => null,
-        ),
-    );
+        ],
+    ];
 
     /**
     * @var array
     */
-    public $indexes = array(
-            'PRIMARY' => array('unique' => true, 'columns' => 'id'),
-            'idx_email' => array('unique' => true, 'columns' => 'email'),
-            'email' => array('unique' => true, 'columns' => 'email'),
-            'name' => array('columns' => 'name'),
-    );
+    public $indexes = [
+        'PRIMARY'   => ['unique' => true, 'columns' => 'id'],
+        'idx_email' => ['unique' => true, 'columns' => 'email'],
+        'email'     => ['unique' => true, 'columns' => 'email'],
+        'name'      => ['columns' => 'name'],
+    ];
 
     /**
     * @var array
     */
-    public $foreignKeys = array(
-    );
+    public $foreignKeys = [];
 
     /**
     * Get the value of Id / id.

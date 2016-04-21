@@ -130,12 +130,12 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
         $behatPluginOptions   = [];
         $build                = new \PHPCI\Model\Build();
 
-        $config = array(
-           'stageOne' => array(
+        $config = [
+           'stageOne' => [
                'PhpUnit' => $phpUnitPluginOptions,
-               'Behat' => $behatPluginOptions,
-           )
-        );
+               'Behat'   => $behatPluginOptions,
+           ]
+        ];
 
         $pluginNamespace = 'PHPCI\\Plugin\\';
 

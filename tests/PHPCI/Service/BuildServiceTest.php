@@ -91,7 +91,7 @@ class BuildServiceTest extends \PHPUnit_Framework_TestCase
         $project->setType('bitbucket');
         $project->setId(101);
 
-        $returnValue = $this->testedService->createBuild($project, null, null, null, null, array('item1' => 1001));
+        $returnValue = $this->testedService->createBuild($project, null, null, null, null, ['item1' => 1001]);
 
         $this->assertEquals(1001, $returnValue->getExtra('item1'));
     }
@@ -112,7 +112,7 @@ class BuildServiceTest extends \PHPUnit_Framework_TestCase
         $build->setFinished(new \DateTime());
         $build->setCommitMessage('test');
         $build->setCommitterEmail('test@example.com');
-        $build->setExtra(json_encode(array('item1' => 1001)));
+        $build->setExtra(json_encode(['item1' => 1001]));
 
         $returnValue = $this->testedService->createDuplicateBuild($build);
 

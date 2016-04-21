@@ -50,7 +50,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase {
     public function testRegisterResourceThrowsExceptionIfLoaderIsntFunction()
     {
         $this->setExpectedException('InvalidArgumentException', '$loader is expected to be a function');
-        $this->testedFactory->registerResource(array("dummy"), "TestName", "TestClass");
+        $this->testedFactory->registerResource(["dummy"], "TestName", "TestClass");
     }
 
     public function testBuildPluginWorksWithConstructorlessPlugins()
@@ -131,9 +131,9 @@ class FactoryTest extends \PHPUnit_Framework_TestCase {
     {
         $pluginClass = $this->getFakePluginClassName('ExamplePluginFull');
 
-        $expectedArgs = array(
+        $expectedArgs = [
             'thing' => "stuff"
-        );
+        ];
 
         $this->registerBuildAndBuilder();
 
@@ -167,7 +167,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase {
 
         // The Example config file defines an array as the resource.
         $this->assertEquals(
-            array("bar" => "Hello"),
+            ["bar" => "Hello"],
             $plugin->RequiredArgument
         );
     }

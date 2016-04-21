@@ -1,27 +1,26 @@
 <?php
 
 namespace Update\Model\Base;
+
 use b8\Model;
 
 class Uno extends Model
 {
-	protected $_tableName = 'uno';
+    protected $_tableName = 'uno';
 
-	public $columns         = array(
-		'id'            =>  array('type' => 'int', 'primary_key' => true),
-		'field_varchar' =>  array('type' => 'varchar', 'length' => '250'),
-		'field_text'    =>  array('type'  => 'text'),
-		'field_ltext'   =>  array('type'  => 'longtext'),
-		'field_mtext'   =>  array('type'  => 'mediumtext'),
-		'field_datetime'=>  array('type'  => 'datetime'),
-		'field_int'     =>  array('type'  => 'int'),
-		'field_tinyint' =>  array('type'  => 'tinyint', 'length' => '1'),
-		'field_float'   =>  array('type'  => 'float'),
-		'field_double'  =>  array('type'  => 'double', 'length' => '15,2'),
-	);
+    public $columns = [
+        'id'             => ['type' => 'int', 'primary_key' => true],
+        'field_varchar'  => ['type' => 'varchar', 'length' => '250'],
+        'field_text'     => ['type' => 'text'],
+        'field_ltext'    => ['type' => 'longtext'],
+        'field_mtext'    => ['type' => 'mediumtext'],
+        'field_datetime' => ['type' => 'datetime'],
+        'field_int'      => ['type' => 'int'],
+        'field_tinyint'  => ['type' => 'tinyint', 'length' => '1'],
+        'field_float'    => ['type' => 'float'],
+        'field_double'   => ['type' => 'double', 'length' => '15,2'],
+    ];
 
-	public $indexes         = array(
-	);
-	public $foreignKeys     = array(
-	);
+    public $indexes     = [];
+    public $foreignKeys = [];
 }

@@ -37,28 +37,28 @@ class CommandExecutorTest extends \PHPUnit_Framework_TestCase
 
     public function testGetLastOutput_ReturnsOutputOfCommand()
     {
-        $this->testedExecutor->executeCommand(array('echo "%s"', 'Hello World'));
+        $this->testedExecutor->executeCommand(['echo "%s"', 'Hello World']);
         $output = $this->testedExecutor->getLastOutput();
         $this->assertEquals("Hello World", $output);
     }
 
     public function testGetLastOutput_ForgetsPreviousCommandOutput()
     {
-        $this->testedExecutor->executeCommand(array('echo "%s"', 'Hello World'));
-        $this->testedExecutor->executeCommand(array('echo "%s"', 'Hello Tester'));
+        $this->testedExecutor->executeCommand(['echo "%s"', 'Hello World']);
+        $this->testedExecutor->executeCommand(['echo "%s"', 'Hello Tester']);
         $output = $this->testedExecutor->getLastOutput();
         $this->assertEquals("Hello Tester", $output);
     }
 
     public function testExecuteCommand_ReturnsTrueForValidCommands()
     {
-        $returnValue = $this->testedExecutor->executeCommand(array('echo "%s"', 'Hello World'));
+        $returnValue = $this->testedExecutor->executeCommand(['echo "%s"', 'Hello World']);
         $this->assertTrue($returnValue);
     }
 
     public function testExecuteCommand_ReturnsFalseForInvalidCommands()
     {
-        $returnValue = $this->testedExecutor->executeCommand(array('eerfdcvcho "%s" > /dev/null 2>&1', 'Hello World'));
+        $returnValue = $this->testedExecutor->executeCommand(['eerfdcvcho "%s" > /dev/null 2>&1', 'Hello World']);
         $this->assertFalse($returnValue);
     }
 

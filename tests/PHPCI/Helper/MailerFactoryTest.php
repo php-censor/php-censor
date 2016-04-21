@@ -27,16 +27,16 @@ class MailerFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testExecute_TestGetMailConfig()
     {
-        $config = array(
-            'smtp_address' => 'mail.example.com',
-            'smtp_port' => 225,
-            'smtp_encryption' => true,
-            'smtp_username' => 'example.user',
-            'smtp_password' => 'examplepassword',
+        $config = [
+            'smtp_address'           => 'mail.example.com',
+            'smtp_port'              => 225,
+            'smtp_encryption'        => true,
+            'smtp_username'          => 'example.user',
+            'smtp_password'          => 'examplepassword',
             'default_mailto_address' => 'phpci@example.com',
-        );
+        ];
 
-        $factory = new MailerFactory(array('email_settings' => $config));
+        $factory = new MailerFactory(['email_settings' => $config]);
 
         $this->assertEquals($config['smtp_address'], $factory->getMailConfig('smtp_address'));
         $this->assertEquals($config['smtp_port'], $factory->getMailConfig('smtp_port'));
@@ -51,16 +51,16 @@ class MailerFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testExecute_TestMailer()
     {
-        $config = array(
-            'smtp_address' => 'mail.example.com',
-            'smtp_port' => 225,
-            'smtp_encryption' => true,
-            'smtp_username' => 'example.user',
-            'smtp_password' => 'examplepassword',
+        $config = [
+            'smtp_address'           => 'mail.example.com',
+            'smtp_port'              => 225,
+            'smtp_encryption'        => true,
+            'smtp_username'          => 'example.user',
+            'smtp_password'          => 'examplepassword',
             'default_mailto_address' => 'phpci@example.com',
-        );
+        ];
 
-        $factory = new MailerFactory(array('email_settings' => $config));
+        $factory = new MailerFactory(['email_settings' => $config]);
         $mailer = $factory->getSwiftMailerFromConfig();
 
         $this->assertEquals($config['smtp_address'], $mailer->getTransport()->getHost());
