@@ -202,10 +202,10 @@ class PhpTalLint implements PHPCI\Plugin
 
         list($suffixes, $tales) = $this->getFlags();
 
-        $lint  = dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR;
+        $lint = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR;
         $lint .= 'vendor' . DIRECTORY_SEPARATOR . 'phptal' . DIRECTORY_SEPARATOR . 'phptal' . DIRECTORY_SEPARATOR;
         $lint .= 'tools' . DIRECTORY_SEPARATOR . 'phptal_lint.php';
-        $cmd = '/usr/bin/env php ' . $lint . ' %s %s "%s"';
+        $cmd  = '/usr/bin/env php ' . $lint . ' %s %s "%s"';
 
         $this->phpci->executeCommand($cmd, $suffixes, $tales, $this->phpci->buildPath . $path);
 

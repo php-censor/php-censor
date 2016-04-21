@@ -21,7 +21,7 @@ class Request
     {
         $this->parseInput();
 
-        $this->data['path'] = $this->getRequestPath();
+        $this->data['path']  = $this->getRequestPath();
         $this->data['parts'] = array_values(array_filter(explode('/', $this->data['path'])));
     }
 

@@ -2,8 +2,6 @@
 
 namespace b8\View;
 
-use b8\View\Template;
-
 class UserView extends Template
 {
     public function __construct($string)

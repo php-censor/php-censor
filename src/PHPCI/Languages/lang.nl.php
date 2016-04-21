@@ -7,7 +7,7 @@
  * @link         https://www.phptesting.org/
  */
 
-$strings = [
+return [
     'language_name' => 'Nederlands',
     'language' => 'Taal',
 

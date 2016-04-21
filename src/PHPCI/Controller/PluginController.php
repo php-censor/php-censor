@@ -35,11 +35,9 @@ class PluginController extends \PHPCI\Controller
         $this->view->installedPackages = $json['require'];
 
         $pluginInfo = new PluginInformationCollection();
-        $pluginInfo->add(FilesPluginInformation::newFromDir(
-            PHPCI_DIR . "PHPCI/Plugin/"
-        ));
+        $pluginInfo->add(FilesPluginInformation::newFromDir(PHPCI_DIR . "Plugin" . DIRECTORY_SEPARATOR));
         $pluginInfo->add(ComposerPluginInformation::buildFromYaml(
-            PHPCI_DIR . "vendor/composer/installed.json"
+            ROOT_DIR . "vendor" . DIRECTORY_SEPARATOR . "composer" . DIRECTORY_SEPARATOR . "installed.json"
         ));
 
         $this->view->plugins = $pluginInfo->getInstalledPlugins();
@@ -55,7 +53,7 @@ class PluginController extends \PHPCI\Controller
      */
     protected function getComposerJson()
     {
-        $json = file_get_contents(APPLICATION_PATH . 'composer.json');
+        $json = file_get_contents(ROOT_DIR . 'composer.json');
         return json_decode($json, true);
     }
 }

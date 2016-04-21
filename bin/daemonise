@@ -8,12 +8,12 @@
 * @link         http://www.phptesting.org/
 */
 
+use PHPCI\Command\DaemoniseCommand;
+use Symfony\Component\Console\Application;
+
 define('PHPCI_IS_CONSOLE', true);
 
 require_once(dirname(__DIR__) . '/bootstrap.php');
-
-use PHPCI\Command\DaemoniseCommand;
-use Symfony\Component\Console\Application;
 
 $application = new Application();
 $application->add(new DaemoniseCommand($loggerConfig->getFor('DaemoniseCommand')));

@@ -79,10 +79,6 @@ class Shell implements \PHPCI\Plugin
      */
     public function execute()
     {
-        if (!defined('ENABLE_SHELL_PLUGIN') || !ENABLE_SHELL_PLUGIN) {
-            throw new \Exception(Lang::get('shell_not_enabled'));
-        }
-
         $success = true;
 
         foreach ($this->commands as $command) {

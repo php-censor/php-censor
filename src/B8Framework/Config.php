@@ -5,7 +5,7 @@ namespace b8;
 use Symfony\Component\Yaml\Parser as YamlParser;
 
 if (!defined('B8_PATH')) {
-    define('B8_PATH', dirname(__FILE__) . '/');
+    define('B8_PATH', __DIR__ . '/');
 }
 
 class Config

@@ -9,10 +9,6 @@
 
 namespace PHPCI\Helper;
 
-use b8\Cache;
-use b8\Config;
-use b8\HttpClient;
-
 /**
  * Provides some basic diff processing functionality.
  * @package PHPCI\Helper

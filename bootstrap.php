@@ -7,73 +7,67 @@
 * @link         http://www.phptesting.org/
 */
 
-// Let PHP take a guess as to the default timezone, if the user hasn't set one:
 use PHPCI\Logging\LoggerConfig;
 
-$timezone = ini_get('date.timezone');
-if (empty($timezone)) {
-    date_default_timezone_set('UTC');
+if (!defined('ROOT_DIR')) {
+    define('ROOT_DIR', __DIR__ . DIRECTORY_SEPARATOR);
 }
 
-$configFile = dirname(__FILE__) . '/app/config.yml';
-$configEnv = getenv('phpci_config_file');
-$usingCustomConfigFile = false;
-
-if (!empty($configEnv) && file_exists($configEnv)) {
-    $configFile = $configEnv;
-    $usingCustomConfigFile = true;
+if (!defined('PHPCI_DIR')) {
+    define('PHPCI_DIR', ROOT_DIR . 'src' . DIRECTORY_SEPARATOR . 'PHPCI' . DIRECTORY_SEPARATOR);
 }
 
-// If we don't have a config file at all, fail at this point and tell the user to install:
-if (!file_exists($configFile) && (!defined('PHPCI_IS_CONSOLE') || !PHPCI_IS_CONSOLE)) {
-    $message = 'PHPCI has not yet been installed - Please use the command "./console phpci:install" ';
-    $message .= '(or "php ./console phpci:install" for Windows) to install it.';
-
-    die($message);
+if (!defined('PHPCI_PUBLIC_DIR')) {
+    define('PHPCI_PUBLIC_DIR', ROOT_DIR . 'public' . DIRECTORY_SEPARATOR);
 }
 
-// If composer has not been run, fail at this point and tell the user to install:
-if (!file_exists(dirname(__FILE__) . '/vendor/autoload.php') && defined('PHPCI_IS_CONSOLE') && PHPCI_IS_CONSOLE) {
-    $message = 'Please install PHPCI with "composer install" (or "php composer.phar install"';
-    $message .= ' for Windows) before using console';
-    
-    file_put_contents('php://stderr', $message);
-    exit(1);
+if (!defined('PHPCI_APP_DIR')) {
+    define('PHPCI_APP_DIR', ROOT_DIR . 'app' . DIRECTORY_SEPARATOR);
 }
 
-// Load Composer autoloader:
-require_once(dirname(__FILE__) . '/vendor/autoload.php');
+if (!defined('PHPCI_BIN_DIR')) {
+    define('PHPCI_BIN_DIR', ROOT_DIR . 'bin' . DIRECTORY_SEPARATOR);
+}
+
+if (!defined('PHPCI_RUNTIME_DIR')) {
+    define('PHPCI_RUNTIME_DIR', ROOT_DIR . 'runtime' . DIRECTORY_SEPARATOR);
+}
+
+if (!defined('PHPCI_BUILDS_DIR')) {
+    define('PHPCI_BUILDS_DIR', ROOT_DIR . 'runtime' . DIRECTORY_SEPARATOR . 'builds' . DIRECTORY_SEPARATOR);
+}
+
+if (!defined('IS_WIN')) {
+    define('IS_WIN', ((strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? true : false));
+}
+
+require_once(ROOT_DIR . 'vendor/autoload.php');
 
 \PHPCI\ErrorHandler::register();
 
 if (defined('PHPCI_IS_CONSOLE') && PHPCI_IS_CONSOLE) {
-    $loggerConfig = LoggerConfig::newFromFile(__DIR__ . "/app/loggerconfig.php");
+    $loggerConfig = LoggerConfig::newFromFile(PHPCI_APP_DIR . "loggerconfig.php");
 }
 
 // Load configuration if present:
 $conf = [];
 $conf['b8']['app']['namespace']          = 'PHPCI';
 $conf['b8']['app']['default_controller'] = 'Home';
-$conf['b8']['view']['path']              = dirname(__FILE__) . '/src/PHPCI/View/';
-$conf['using_custom_file']               = $usingCustomConfigFile;
+$conf['b8']['view']['path']              = PHPCI_DIR . 'View' . DIRECTORY_SEPARATOR;
 
 $config = new b8\Config($conf);
 
+$configFile = PHPCI_APP_DIR . 'config.yml';
 if (file_exists($configFile)) {
     $config->loadYaml($configFile);
 }
 
-/**
- * Allow to modify PHPCI configuration without modify versioned code.
- * Daemons should be killed to apply changes in the file.
- *
- * @ticket 781
- */
-$localVarsFile = dirname(__FILE__) . '/local_vars.php';
-if (is_readable($localVarsFile)) {
-    require_once $localVarsFile;
+if (!defined('PHPCI_URL') && !empty($config)) {
+    define('PHPCI_URL', $config->get('phpci.url', '') . '/');
 }
 
-require_once(dirname(__FILE__) . '/vars.php');
+if (!defined('PHPCI_IS_CONSOLE')) {
+    define('PHPCI_IS_CONSOLE', false);
+}
 
 \PHPCI\Helper\Lang::init($config);

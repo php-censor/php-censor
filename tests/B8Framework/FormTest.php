@@ -16,7 +16,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
 		$this->assertTrue($f->getMethod() == 'POST');
 
 		$config = new Config();
-		Config::getInstance()->set('ViewPath', dirname(__FILE__) . '/data/view/');
+		Config::getInstance()->set('ViewPath', __DIR__ . '/data/view/');
 
 		$this->assertTrue($f->render('form') == '/POST');
 

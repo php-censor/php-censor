@@ -7,7 +7,6 @@ class Image
     public static $cachePath = '/tmp/';
     public static $sourcePath = './';
 
-
     /**
      * @var \Imagick
      */

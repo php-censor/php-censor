@@ -59,11 +59,11 @@ abstract class BaseCommandExecutor implements CommandExecutor
      */
     public function __construct(BuildLogger $logger, $rootDir, &$quiet = false, &$verbose = false)
     {
-        $this->logger = $logger;
-        $this->quiet = $quiet;
+        $this->logger     = $logger;
+        $this->quiet      = $quiet;
         $this->verbose    = $verbose;
         $this->lastOutput = [];
-        $this->rootDir = rtrim($rootDir, '/\\') . DIRECTORY_SEPARATOR;
+        $this->rootDir    = $rootDir;
     }
 
     /**
@@ -158,9 +158,9 @@ abstract class BaseCommandExecutor implements CommandExecutor
         foreach ($binary as $bin) {
             $this->logger->log(Lang::get('looking_for_binary', $bin), LogLevel::DEBUG);
 
-            if (is_dir($composerBin) && is_file($composerBin.'/'.$bin)) {
+            if (is_dir($composerBin) && is_file($composerBin . DIRECTORY_SEPARATOR . $bin)) {
                 $this->logger->log(Lang::get('found_in_path', $composerBin, $bin), LogLevel::DEBUG);
-                return $composerBin . '/' . $bin;
+                return $composerBin . DIRECTORY_SEPARATOR . $bin;
             }
 
             if (is_file($this->rootDir . $bin)) {
@@ -168,9 +168,9 @@ abstract class BaseCommandExecutor implements CommandExecutor
                 return $this->rootDir . $bin;
             }
 
-            if (is_file($this->rootDir . 'vendor/bin/' . $bin)) {
+            if (is_file($this->rootDir . 'vendor' . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . $bin)) {
                 $this->logger->log(Lang::get('found_in_path', 'vendor/bin', $bin), LogLevel::DEBUG);
-                return $this->rootDir . 'vendor/bin/' . $bin;
+                return $this->rootDir . 'vendor' . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . $bin;
             }
 
             $findCmdResult = $this->findGlobalBinary($bin);
@@ -202,14 +202,14 @@ abstract class BaseCommandExecutor implements CommandExecutor
     public function getComposerBinDir($path)
     {
         if (is_dir($path)) {
-            $composer = $path.'/composer.json';
+            $composer = $path . DIRECTORY_SEPARATOR . 'composer.json';
             if (is_file($composer)) {
                 $json = json_decode(file_get_contents($composer));
 
                 if (isset($json->config->{"bin-dir"})) {
-                    return $path.'/'.$json->config->{"bin-dir"};
-                } elseif (is_dir($path . '/vendor/bin')) {
-                    return $path  . '/vendor/bin';
+                    return $path . DIRECTORY_SEPARATOR . $json->config->{"bin-dir"};
+                } elseif (is_dir($path . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'bin')) {
+                    return $path  . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'bin';
                 }
             }
         }

@@ -65,14 +65,14 @@ class DaemoniseCommand extends Command
     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $cmd = "echo %s > '%s/daemon/daemon.pid'";
-        $command = sprintf($cmd, getmypid(), PHPCI_DIR);
+        $cmd = "echo %s > '%sdaemon/daemon.pid'";
+        $command = sprintf($cmd, getmypid(), PHPCI_RUNTIME_DIR);
         exec($command);
 
         $this->output = $output;
-        $this->run   = true;
-        $this->sleep = 0;
-        $runner      = new RunCommand($this->logger);
+        $this->run    = true;
+        $this->sleep  = 0;
+        $runner       = new RunCommand($this->logger);
         $runner->setMaxBuilds(1);
         $runner->setDaemon(true);
 

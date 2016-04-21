@@ -62,19 +62,19 @@ class DaemonCommand extends Command
             ->setDescription('Initiates the daemon to run commands.')
             ->addArgument(
                 'state', InputArgument::REQUIRED, 'start|stop|status'
-            )
-            ->addOption(
-                'pid-file', 'p', InputOption::VALUE_REQUIRED,
+            )->addOption(
+                'pid-file',
+                'p',
+                InputOption::VALUE_REQUIRED,
                 'Path of the PID file',
-                implode(DIRECTORY_SEPARATOR,
-                    [PHPCI_DIR, 'daemon', 'daemon.pid'])
-            )
-            ->addOption(
-                'log-file', 'l', InputOption::VALUE_REQUIRED,
+                (ROOT_DIR . 'runtime' . DIRECTORY_SEPARATOR . 'daemon' . DIRECTORY_SEPARATOR . 'daemon.pid')
+            )->addOption(
+                'log-file',
+                'l',
+                InputOption::VALUE_REQUIRED,
                 'Path of the log file',
-                implode(DIRECTORY_SEPARATOR,
-                    [PHPCI_DIR, 'daemon', 'daemon.log'])
-        );
+                (ROOT_DIR . 'runtime' . DIRECTORY_SEPARATOR . 'daemon' . DIRECTORY_SEPARATOR . 'daemon.log')
+            );
     }
 
     /**
@@ -113,8 +113,8 @@ class DaemonCommand extends Command
 
         $this->logger->info("Trying to start the daemon");
 
-        $cmd = "nohup %s/daemonise phpci:daemonise > %s 2>&1 &";
-        $command = sprintf($cmd, PHPCI_DIR, $this->logFilePath);
+        $cmd = "nohup %sdaemonise phpci:daemonise > %s 2>&1 &";
+        $command = sprintf($cmd, PHPCI_BIN_DIR, $this->logFilePath);
         $output = $exitCode = null;
         exec($command, $output, $exitCode);
 

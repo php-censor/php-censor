@@ -313,7 +313,7 @@
 <script src="<?php print PHPCI_URL; ?>assets/plugins/chartjs/Chart.min.js" type="text/javascript"></script>
 <script src="<?php print PHPCI_URL; ?>assets/plugins/daterangepicker/daterangepicker.js" type="text/javascript"></script>
 <script src="<?php print PHPCI_URL; ?>assets/plugins/datepicker/bootstrap-datepicker.js" type="text/javascript"></script>
-<?php if (file_exists(PHPCI_DIR . 'assets/plugins/datepicker/locales/bootstrap-datepicker.' . Lang::getLanguage() . '.js')) :?>
+<?php if (file_exists(PHPCI_PUBLIC_DIR . 'assets/plugins/datepicker/locales/bootstrap-datepicker.' . Lang::getLanguage() . '.js')) :?>
 <script src="<?php print PHPCI_URL; ?>assets/plugins/datepicker/locales/bootstrap-datepicker.<?php print Lang::getLanguage(); ?>.js" type="text/javascript"></script>
 <?php endif; ?>
 <script src="<?php print PHPCI_URL; ?>assets/js/AdminLTE/app.min.js" type="text/javascript"></script>

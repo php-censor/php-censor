@@ -103,11 +103,9 @@ class Lang
     public static function getLanguageOptions()
     {
         $languages = [];
-
         foreach (self::$languages as $language) {
-            $strings = [];
-            require(PHPCI_DIR . 'src/PHPCI/Languages/lang.' . $language . '.php');
-            $languages[$language] = $strings['language_name'];
+            $strings = include_once(PHPCI_DIR . 'Languages' . DIRECTORY_SEPARATOR . 'lang.' . $language . '.php');
+            $languages[$language] = !empty($strings['language_name']) ? $strings['language_name'] : $language;
         }
 
         return $languages;
@@ -172,16 +170,14 @@ class Lang
      */
     protected static function loadLanguage($language = null)
     {
-        $language = $language
-            ? $language
-            : self::$language;
-        $langFile = PHPCI_DIR . 'src/PHPCI/Languages/lang.' . $language . '.php';
+        $language = $language ? $language : self::$language;
+        $langFile = PHPCI_DIR . 'Languages' . DIRECTORY_SEPARATOR . 'lang.' . $language . '.php';
 
         if (!file_exists($langFile)) {
             return null;
         }
 
-        require($langFile);
+        $strings = include_once($langFile);
 
         if (is_null($strings) || !is_array($strings) || !count($strings)) {
             return null;
@@ -196,7 +192,7 @@ class Lang
     protected static function loadAvailableLanguages()
     {
         $matches = [];
-        foreach (glob(PHPCI_DIR . 'src/PHPCI/Languages/lang.*.php') as $file) {
+        foreach (glob(PHPCI_DIR . 'Languages' . DIRECTORY_SEPARATOR . 'lang.*.php') as $file) {
             if (preg_match('/lang\.([a-z]{2}\-?[a-z]*)\.php/', $file, $matches)) {
                 self::$languages[] = $matches[1];
             }

@@ -107,9 +107,9 @@ class BuildController extends \PHPCI\Controller
      */
     protected function getUiPlugins()
     {
-        $rtn = [];
-        $path = APPLICATION_PATH . 'public/assets/js/build-plugins/';
-        $dir = opendir($path);
+        $rtn  = [];
+        $path = PHPCI_PUBLIC_DIR . 'assets' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'build-plugins' . DIRECTORY_SEPARATOR;
+        $dir  = opendir($path);
 
         while ($item = readdir($dir)) {
             if (substr($item, 0, 1) == '.' || substr($item, -3) != '.js') {

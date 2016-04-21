@@ -4,17 +4,16 @@ namespace b8\Http;
 
 use b8\Application;
 use b8\Config;
-use b8\Http\Request;
 
 class Router
 {
     /**
-     * @var \b8\Http\Request;
+     * @var Request;
      */
     protected $request;
 
     /**
-     * @var \b8\Http\Config;
+     * @var Config;
      */
     protected $config;
 

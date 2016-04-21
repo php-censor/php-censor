@@ -2,8 +2,7 @@
 
 namespace b8\Form;
 
-use b8\Form\Element,
-    b8\View;
+use b8\Form\Element, b8\View;
 
 class Input extends Element
 {

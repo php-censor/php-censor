@@ -118,9 +118,6 @@ class Model
         $this->modified[$column] = $column;
     }
 
-    //----------------
-    // Validation
-    //----------------
     protected function _validateString($name, $value)
     {
         if (!is_string($value) && !is_null($value)) {

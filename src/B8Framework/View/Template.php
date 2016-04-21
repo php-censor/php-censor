@@ -7,7 +7,7 @@ use b8\View;
 class Template extends View
 {
     public static $templateFunctions = [];
-    protected static $extension      = 'html';
+    protected static $extension = 'html';
 
     public function __construct($viewCode)
     {
@@ -267,9 +267,9 @@ class Template extends View
         $rtn = '';
         foreach ($working as $key => $val) {
             // Make sure we support nesting loops:
-            $keyWas  = isset($this->key)   ? $this->key   : null;
-            $valWas  = isset($this->value) ? $this->value : null;
-            $itemWas = isset($this->item)  ? $this->item  : null;
+            $keyWas = isset($this->key) ? $this->key : null;
+            $valWas = isset($this->value) ? $this->value : null;
+            $itemWas = isset($this->item) ? $this->item : null;
 
             // Set up the necessary variables within the stack:
             $this->parent = $this;

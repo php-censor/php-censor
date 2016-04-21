@@ -39,7 +39,7 @@ class PharTest extends \PHPUnit_Framework_TestCase
 
     protected function buildTemp()
     {
-        $directory = tempnam(APPLICATION_PATH . '/Tests/temp', 'source');
+        $directory = tempnam(ROOT_DIR . 'tests' . DIRECTORY_SEPARATOR . 'PHPCI' . DIRECTORY_SEPARATOR . 'temp' . DIRECTORY_SEPARATOR, 'source');
         unlink($directory);
         return $directory;
     }

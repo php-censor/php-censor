@@ -51,7 +51,7 @@ class PollCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $parser = new Parser();
-        $yaml = file_get_contents(APPLICATION_PATH . 'PHPCI/config.yml');
+        $yaml = file_get_contents(PHPCI_APP_DIR . 'config.yml');
         $this->settings = $parser->parse($yaml);
 
         $token = $this->settings['phpci']['github']['token'];

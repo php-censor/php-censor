@@ -8,7 +8,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 {
 	public function testSimpleView()
 	{
-		$view = new View('simple', dirname(__FILE__) . '/data/view/');
+		$view = new View('simple', __DIR__ . '/data/view/');
 		$this->assertTrue($view->render() == 'Hello');
 	}
 
@@ -17,12 +17,12 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testInvalidView()
 	{
-		new View('dogs', dirname(__FILE__) . '/data/view/');
+		new View('dogs', __DIR__ . '/data/view/');
 	}
 
 	public function testViewVars()
 	{
-		$view = new View('vars', dirname(__FILE__) . '/data/view/');
+		$view = new View('vars', __DIR__ . '/data/view/');
 		$view->who = 'World';
 
 		$this->assertTrue(isset($view->who));
@@ -32,7 +32,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 
 	public function testFormatViewHelper()
 	{
-		$view = new View('format', dirname(__FILE__) . '/data/view/');
+		$view = new View('format', __DIR__ . '/data/view/');
 		$view->number = 1000000.25;
 		$view->symbol = true;
 

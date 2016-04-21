@@ -26,7 +26,7 @@ class DatabaseGenerationTest extends \PHPUnit_Framework_TestCase
 
 	public function testCreateDatabase()
 	{
-		$gen = new Generator($this->_db, 'Test', dirname(__FILE__) . '/data/generation/models/');
+		$gen = new Generator($this->_db, 'Test', __DIR__ . '/data/generation/models/');
 		$gen->generate();
 
 		$map    = new Map($this->_db);
@@ -49,10 +49,10 @@ class DatabaseGenerationTest extends \PHPUnit_Framework_TestCase
 
 	public function testUpdateDatabase()
 	{
-		$gen = new Generator($this->_db, 'Test', dirname(__FILE__) . '/data/generation/models/');
+		$gen = new Generator($this->_db, 'Test', __DIR__ . '/data/generation/models/');
 		$gen->generate();
 
-		$gen = new Generator($this->_db, 'Update', dirname(__FILE__) . '/data/generation/update_models/');
+		$gen = new Generator($this->_db, 'Update', __DIR__ . '/data/generation/update_models/');
 		$gen->generate();
 
 		$map    = new Map($this->_db);
