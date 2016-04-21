@@ -227,13 +227,13 @@ abstract class Store
         $updates       = [];
         $update_params = [];
         foreach ($modified as $key) {
-            $updates[] = $key . ' = :' . $key;
+            $updates[]       = $key . ' = :' . $key;
             $update_params[] = [$key, $data[$key]];
         }
 
         if (count($updates)) {
-            $qs = 'UPDATE ' . $this->tableName . 'SET ' . implode(', ', $updates) . 'WHERE ' . $this->primaryKey . ' = :primaryKey';
-            $q = Database::getConnection('write')->prepare($qs);
+            $qs = 'UPDATE ' . $this->tableName . ' SET ' . implode(', ', $updates) . ' WHERE ' . $this->primaryKey . ' = :primaryKey';
+            $q  = Database::getConnection('write')->prepare($qs);
 
             foreach ($update_params as $update_param) {
                 $q->bindValue(':' . $update_param[0], $update_param[1]);
