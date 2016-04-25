@@ -18,8 +18,8 @@ class Config
     }
 
     /**
-    * @var array
-    */
+     * @var array
+     */
     protected $config = [];
 
     public function __construct($settings = null)
@@ -51,11 +51,11 @@ class Config
     }
 
     /**
-    * Get a configuration value by key, returning a default value if not set.
-    * @param $key string
-    * @param $default mixed
-    * @return mixed
-    */
+     * Get a configuration value by key, returning a default value if not set.
+     * @param $key string
+     * @param $default mixed
+     * @return mixed
+     */
     public function get($key, $default = null)
     {
         $keyParts = explode('.', $key);
@@ -81,52 +81,56 @@ class Config
     }
 
     /**
-    * Set a value by key.
-    * @param $key string
-    * @param $value mixed
-    */
+     * Set a value by key.
+     * @param $key string
+     * @param $value mixed
+     * 
+     * @return boolean
+     */
     public function set($key, $value = null)
     {
         $this->config[$key] = $value;
+
+        return true;
     }
 
     /**
-    * Set an array of values.
-    */
+     * Set an array of values.
+     */
     public function setArray($array)
     {
         self::deepMerge($this->config, $array);
     }
 
     /**
-    * Short-hand syntax for get()
-    * @see Config::get()
-    */
+     * Short-hand syntax for get()
+     * @see Config::get()
+     */
     public function __get($key)
     {
         return $this->get($key);
     }
 
     /**
-    * Short-hand syntax for set()
-    * @see Config::set()
-    */
+     * Short-hand syntax for set()
+     * @see Config::set()
+     */
     public function __set($key, $value = null)
     {
         return $this->set($key, $value);
     }
 
     /**
-    * Is set
-    */
+     * Is set
+     */
     public function __isset($key)
     {
         return isset($this->config[$key]);
     }
 
     /**
-    * Unset
-    */
+     * Unset
+     */
     public function __unset($key)
     {
         unset($this->config[$key]);

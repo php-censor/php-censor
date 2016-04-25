@@ -152,6 +152,9 @@ PHPCI',
                                 <a href="https://bitbucket.org/%s/admin/services">
                                 Services</a> de votre dépôt Bitbucket.',
 
+    'errors' => 'Erreurs',
+    'information' => 'Informations',
+    
     // View Build
     'build_x_not_found' => 'Le Build avec l\'ID %d n\'existe pas.',
     'build_n' => 'Build %d',
@@ -187,6 +190,7 @@ PHPCI',
     'phpmd' => 'PHP Mess Detector',
     'phpspec' => 'PHP Spec',
     'phpunit' => 'PHP Unit',
+    'behat' => 'Behat',
 
     'file' => 'Fichier',
     'line' => 'Ligne',
@@ -406,5 +410,11 @@ PHPCI',
     'build_file_missing' => 'Le fichier de build spécifié n\'existe pas.',
     'property_file_missing' => 'Le fichier de propriété spécifié n\'existe pas.',
     'could_not_process_report' => 'Impossible de traiter le rapport généré par cet outil.',
-    'shell_not_enabled' => 'Le plugn shell n\'est pas activé. Merci de l\'activer via le fichier config.yml.'
+    'shell_not_enabled' => 'Le plugn shell n\'est pas activé. Merci de l\'activer via le fichier config.yml.',
+
+    // Error Levels:
+    'critical' => 'Critique',
+    'high' => 'Haut',
+    'normal' => 'Normal',
+    'low' => 'Base',
 ];

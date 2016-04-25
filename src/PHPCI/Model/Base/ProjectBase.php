@@ -115,7 +115,7 @@ class ProjectBase extends Model
         ],
         'branch' => [
             'type'    => 'varchar',
-            'length'  => 50,
+            'length'  => 250,
             'default' => 'master',
         ],
         'ssh_private_key' => [

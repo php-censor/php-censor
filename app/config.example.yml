@@ -1,13 +1,13 @@
 b8:
-    database:
-        servers:
-            read:  localhost
-            write: localhost
-        name: phpci
-        username: root
-        password: root
+  database:
+    servers:
+      read:  localhost
+      write: localhost
+    name: phpci
+    username: root
+    password: root
 phpci:
-    url: 'http://phpci.local'
-    worker:
-        host:  localhost
-        queue: phpci
+  url: 'http://phpci.local'
+  worker:
+    host:  localhost
+    queue: phpci

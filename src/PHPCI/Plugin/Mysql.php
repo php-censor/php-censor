@@ -146,8 +146,10 @@ class Mysql implements \PHPCI\Plugin
 
     /**
      * Builds the MySQL import command required to import/execute the specified file
+     * 
      * @param string $import_file Path to file, relative to the build root
      * @param string $database If specified, this database is selected before execution
+     * 
      * @return string
      */
     protected function getImportCommand($import_file, $database = null)
@@ -168,9 +170,10 @@ class Mysql implements \PHPCI\Plugin
             ':decomp_cmd'  => $decomp_cmd,
             ':host'        => escapeshellarg($this->host),
             ':user'        => escapeshellarg($this->user),
-            ':pass'        => escapeshellarg($this->pass),
+            ':pass'        => (!$this->pass) ? '' : '-p' . escapeshellarg($this->pass),
             ':database'    => ($database === null)? '': escapeshellarg($database),
         ];
-        return strtr('cat :import_file :decomp_cmd | mysql -h:host -u:user -p:pass :database', $args);
+
+        return strtr('cat :import_file :decomp_cmd | mysql -h:host -u:user :pass :database', $args);
     }
 }

@@ -88,7 +88,7 @@ class Lang
     {
         if (in_array($language, self::$languages)) {
             self::$language = $language;
-            self::$strings = self::loadLanguage();
+            self::$strings  = self::loadLanguage();
             return true;
         }
 
@@ -177,12 +177,11 @@ class Lang
             return null;
         }
 
-        $strings = include_once($langFile);
-
+        $strings = include($langFile);
         if (is_null($strings) || !is_array($strings) || !count($strings)) {
             return null;
         }
-
+        
         return $strings;
     }
 

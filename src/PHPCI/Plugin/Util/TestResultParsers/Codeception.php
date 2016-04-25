@@ -28,7 +28,7 @@ class Codeception implements ParserInterface
      */
     public function __construct(Builder $phpci, $resultsXml)
     {
-        $this->phpci = $phpci;
+        $this->phpci      = $phpci;
         $this->resultsXml = $resultsXml;
         $this->totalTests = 0;
     }
@@ -38,44 +38,43 @@ class Codeception implements ParserInterface
      */
     public function parse()
     {
-        $rtn = [];
-
+        $rtn           = [];
         $this->results = new \SimpleXMLElement($this->resultsXml);
 
         // calculate total results
-        foreach ($this->results->testsuite as $testsuite) {
-            $this->totalTests += (int) $testsuite['tests'];
-            $this->totalTimeTaken += (float) $testsuite['time'];
-            $this->totalFailures += (int) $testsuite['failures'];
-            $this->totalErrors += (int) $testsuite['errors'];
+        foreach ($this->results->testsuite as $test_suite) {
+            $this->totalTests     += (int)$test_suite['tests'];
+            $this->totalTimeTaken += (float)$test_suite['time'];
+            $this->totalFailures  += (int)$test_suite['failures'];
+            $this->totalErrors    += (int)$test_suite['errors'];
 
-            foreach ($testsuite->testcase as $testcase) {
-                $testresult = [
-                    'suite'      => (string) $testsuite['name'],
-                    'file'       => str_replace($this->phpci->buildPath, '/', (string) $testcase['file']),
-                    'name'       => (string) $testcase['name'],
-                    'feature'    => (string) $testcase['feature'],
-                    'assertions' => (int) $testcase['assertions'],
-                    'time'       => (float) $testcase['time']
+            foreach ($test_suite->testcase as $test_case) {
+                $test_result = [
+                    'suite'      => (string)$test_suite['name'],
+                    'file'       => str_replace($this->phpci->buildPath, '/', (string) $test_case['file']),
+                    'name'       => (string)$test_case['name'],
+                    'feature'    => (string)$test_case['feature'],
+                    'assertions' => (int)$test_case['assertions'],
+                    'time'       => (float)$test_case['time']
                 ];
 
-                if (isset($testcase['class'])) {
-                    $testresult['class'] = (string) $testcase['class'];
+                if (isset($test_case['class'])) {
+                    $test_result['class'] = (string) $test_case['class'];
                 }
 
                 // PHPUnit testcases does not have feature field. Use class::method instead
-                if (!$testresult['feature']) {
-                    $testresult['feature'] = sprintf('%s::%s', $testresult['class'], $testresult['name']);
+                if (!$test_result['feature']) {
+                    $test_result['feature'] = sprintf('%s::%s', $test_result['class'], $test_result['name']);
                 }
 
-                if (isset($testcase->failure) || isset($testcase->error)) {
-                    $testresult['pass'] = false;
-                    $testresult['message'] =  (string)$testcase->failure . (string)$testcase->error;
+                if (isset($test_case->failure) || isset($test_case->error)) {
+                    $test_result['pass']    = false;
+                    $test_result['message'] = isset($test_case->failure) ? (string)$test_case->failure : (string)$test_case->error;
                 } else {
-                    $testresult['pass'] = true;
+                    $test_result['pass'] = true;
                 }
 
-                $rtn[] = $testresult;
+                $rtn[] = $test_result;
             }
         }
 

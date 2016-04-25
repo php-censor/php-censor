@@ -5,7 +5,6 @@ namespace b8;
 use b8\Exception\HttpException\NotFoundException;
 use b8\Http;
 use b8\View;
-use b8\Controller;
 use b8\Http\Response;
 use b8\Http\Request;
 

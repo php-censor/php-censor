@@ -13,9 +13,8 @@ class FixColumnTypes extends AbstractMigration
         // Update the build log column to MEDIUMTEXT:
         $build = $this->table('build');
         $build->changeColumn('log', 'text', [
-            'null'    => true,
-            'default' => '',
-            'limit'   => MysqlAdapter::TEXT_MEDIUM,
+            'null'  => true,
+            'limit' => MysqlAdapter::TEXT_MEDIUM,
         ]);
 
         // Update the build meta value column to MEDIUMTEXT:
