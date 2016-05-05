@@ -4,9 +4,6 @@ use Phinx\Migration\AbstractMigration;
 
 class FixDatabaseColumns extends AbstractMigration
 {
-    /**
-     * Migrate Up.
-     */
     public function up()
     {
         $dbAdapter = $this->getAdapter();

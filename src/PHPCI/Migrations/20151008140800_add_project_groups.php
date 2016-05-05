@@ -4,9 +4,13 @@ use Phinx\Migration\AbstractMigration;
 
 class AddProjectGroups extends AbstractMigration
 {
-    public function change()
+    public function up()
     {
         $table = $this->table('project_group');
+        if (!$this->hasTable('project_group')) {
+            $table->create();
+        }
+
         if (!$table->hasColumn('title')) {
             $table->addColumn('title', 'string', ['limit' => 100, 'null' => false])->save();
 
@@ -24,6 +28,19 @@ class AddProjectGroups extends AbstractMigration
                 'default' => 1,
             ]);
             $table->addForeignKey('group_id', 'project_group', 'id', ['delete'=> 'RESTRICT', 'update' => 'CASCADE'])->save();
+        }
+    }
+
+    public function down()
+    {
+        $table = $this->table('project_group');
+        if ($this->hasTable('project_group')) {
+            $table->drop();
+        }
+
+        $table = $this->table('project');
+        if ($table->hasColumn('group_id')) {
+            $table->removeColumn('group_id');
         }
     }
 }

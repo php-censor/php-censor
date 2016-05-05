@@ -4,9 +4,6 @@ use Phinx\Migration\AbstractMigration;
 
 class UniqueEmailAndNameUserFields extends AbstractMigration
 {
-    /**
-     * Migrate Up.
-     */
     public function up()
     {
         $user_table = $this->table('user');
@@ -18,9 +15,6 @@ class UniqueEmailAndNameUserFields extends AbstractMigration
         }
     }
 
-    /**
-     * Migrate Down.
-     */
     public function down()
     {
         $user_table = $this->table('user');

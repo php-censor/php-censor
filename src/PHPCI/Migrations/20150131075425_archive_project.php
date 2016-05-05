@@ -4,9 +4,6 @@ use Phinx\Migration\AbstractMigration;
 
 class ArchiveProject extends AbstractMigration
 {
-    /**
-     * Migrate Up.
-     */
     public function up()
     {
         $project = $this->table('project');
@@ -15,9 +12,6 @@ class ArchiveProject extends AbstractMigration
         }
     }
 
-    /**
-     * Migrate Down.
-     */
     public function down()
     {
         $project = $this->table('project');

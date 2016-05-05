@@ -7,9 +7,6 @@ use Phinx\Migration\AbstractMigration;
  */
 class InitialMigration extends AbstractMigration
 {
-    /**
-     * Migrate Up.
-     */
     public function up()
     {
         // Set up tables:
@@ -40,9 +37,6 @@ class InitialMigration extends AbstractMigration
         $buildMeta->save();
     }
 
-    /**
-     * Migrate Down.
-     */
     public function down()
     {
 

@@ -4,9 +4,6 @@ use Phinx\Migration\AbstractMigration;
 
 class ChangeBuildKeysMigration extends AbstractMigration
 {
-    /**
-     * Migrate Up.
-     */
     public function up()
     {
         $project = $this->table('project');
@@ -18,9 +15,6 @@ class ChangeBuildKeysMigration extends AbstractMigration
         }
     }
 
-    /**
-     * Migrate Down.
-     */
     public function down()
     {
         $project = $this->table('project');

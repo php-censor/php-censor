@@ -5,9 +5,6 @@ use Phinx\Db\Adapter\MysqlAdapter;
 
 class FixColumnTypes extends AbstractMigration
 {
-    /**
-     * Migrate Up.
-     */
     public function up()
     {
         // Update the build log column to MEDIUMTEXT:
