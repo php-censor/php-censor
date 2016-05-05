@@ -12,16 +12,10 @@ class FixColumnTypes extends AbstractMigration
     {
         // Update the build log column to MEDIUMTEXT:
         $build = $this->table('build');
-        $build->changeColumn('log', 'text', [
-            'null'  => true,
-            'limit' => MysqlAdapter::TEXT_MEDIUM,
-        ]);
+        $build->changeColumn('log', 'text', ['null'  => true, 'limit' => MysqlAdapter::TEXT_MEDIUM]);
 
         // Update the build meta value column to MEDIUMTEXT:
         $buildMeta = $this->table('build_meta');
-        $buildMeta->changeColumn('meta_value', 'text', [
-            'null'  => false,
-            'limit' => MysqlAdapter::TEXT_MEDIUM,
-        ]);
+        $buildMeta->changeColumn('meta_value', 'text', ['null'  => false, 'limit' => MysqlAdapter::TEXT_MEDIUM]);
     }
 }

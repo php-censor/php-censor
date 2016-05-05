@@ -23,10 +23,9 @@ class ChooseBranch extends AbstractMigration
     public function up()
     {
         $project = $this->table('project');
-        $project->addColumn('branch', 'string', [
-            'after' => 'reference',
-            'limit' => 250
-        ])->save();
+        if (!$project->hasColumn('branch')) {
+            $project->addColumn('branch', 'string', ['after' => 'reference', 'limit' => 250])->save();
+        }
     }
 
     /**
@@ -35,6 +34,8 @@ class ChooseBranch extends AbstractMigration
     public function down()
     {
         $project = $this->table('project');
-        $project->removeColumn('branch')->save();
+        if ($project->hasColumn('branch')) {
+            $project->removeColumn('branch')->save();
+        }
     }
 }
