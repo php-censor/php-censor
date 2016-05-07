@@ -4,7 +4,7 @@ use Phinx\Migration\AbstractMigration;
 
 class RemoveUniqueNameIndex extends AbstractMigration
 {
-    public function change()
+    public function up()
     {
         $user = $this->table('user');
 

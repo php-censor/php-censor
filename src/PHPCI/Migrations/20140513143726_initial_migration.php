@@ -9,7 +9,6 @@ class InitialMigration extends AbstractMigration
 {
     public function up()
     {
-        // Set up tables:
         $this->createBuildTable();
         $this->createBuildMetaTable();
         $this->createProjectTable();
@@ -19,27 +18,18 @@ class InitialMigration extends AbstractMigration
         $build = $this->table('build');
 
         if (!$build->hasForeignKey('project_id')) {
-            $build->addForeignKey('project_id', 'project', 'id', ['delete'=> 'CASCADE', 'update' => 'CASCADE']);
+            $build->addForeignKey('project_id', 'project', 'id', ['delete'=> 'CASCADE', 'update' => 'CASCADE'])->save();
         }
-
-        $build->save();
 
         $buildMeta = $this->table('build_meta');
 
         if (!$buildMeta->hasForeignKey('build_id')) {
-            $buildMeta->addForeignKey('build_id', 'build', 'id', ['delete'=> 'CASCADE', 'update' => 'CASCADE']);
+            $buildMeta->addForeignKey('build_id', 'build', 'id', ['delete'=> 'CASCADE', 'update' => 'CASCADE'])->save();
         }
 
         if (!$buildMeta->hasForeignKey('project_id')) {
-            $buildMeta->addForeignKey('project_id', 'project', 'id', ['delete'=> 'CASCADE', 'update' => 'CASCADE']);
+            $buildMeta->addForeignKey('project_id', 'project', 'id', ['delete'=> 'CASCADE', 'update' => 'CASCADE'])->save();
         }
-
-        $buildMeta->save();
-    }
-
-    public function down()
-    {
-
     }
 
     protected function createBuildTable()
@@ -51,62 +41,60 @@ class InitialMigration extends AbstractMigration
         }
 
         if (!$table->hasColumn('project_id')) {
-            $table->addColumn('project_id', 'integer');
+            $table->addColumn('project_id', 'integer')->save();
         }
 
         if (!$table->hasColumn('commit_id')) {
-            $table->addColumn('commit_id', 'string', ['limit' => 50]);
+            $table->addColumn('commit_id', 'string', ['limit' => 50])->save();
         }
 
         if (!$table->hasColumn('status')) {
-            $table->addColumn('status', 'integer', ['limit' => 4]);
+            $table->addColumn('status', 'integer', ['limit' => 4])->save();
         }
 
         if (!$table->hasColumn('log')) {
-            $table->addColumn('log', 'text');
+            $table->addColumn('log', 'text')->save();
         }
 
         if (!$table->hasColumn('branch')) {
-            $table->addColumn('branch', 'string', ['limit' => 50]);
+            $table->addColumn('branch', 'string', ['limit' => 50])->save();
         }
 
         if (!$table->hasColumn('created')) {
-            $table->addColumn('created', 'datetime');
+            $table->addColumn('created', 'datetime')->save();
         }
 
         if (!$table->hasColumn('started')) {
-            $table->addColumn('started', 'datetime');
+            $table->addColumn('started', 'datetime')->save();
         }
 
         if (!$table->hasColumn('finished')) {
-            $table->addColumn('finished', 'datetime');
+            $table->addColumn('finished', 'datetime')->save();
         }
 
         if (!$table->hasColumn('committer_email')) {
-            $table->addColumn('committer_email', 'string', ['limit' => 250]);
+            $table->addColumn('committer_email', 'string', ['limit' => 250])->save();
         }
 
         if (!$table->hasColumn('commit_message')) {
-            $table->addColumn('commit_message', 'text');
+            $table->addColumn('commit_message', 'text')->save();
         }
 
         if (!$table->hasColumn('extra')) {
-            $table->addColumn('extra', 'text');
+            $table->addColumn('extra', 'text')->save();
         }
 
         if ($table->hasColumn('plugins')) {
-            $table->removeColumn('plugins');
+            $table->removeColumn('plugins')->save();
         }
 
         if (!$table->hasIndex(['project_id'])) {
-            $table->addIndex(['project_id']);
+            $table->addIndex(['project_id'])->save();
         }
 
         if (!$table->hasIndex(['status'])) {
-            $table->addIndex(['status']);
+            $table->addIndex(['status'])->save();
         }
-
-        $table->save();
     }
 
     protected function createBuildMetaTable()
@@ -118,26 +106,24 @@ class InitialMigration extends AbstractMigration
         }
 
         if (!$table->hasColumn('project_id')) {
-            $table->addColumn('project_id', 'integer');
+            $table->addColumn('project_id', 'integer')->save();
         }
 
         if (!$table->hasColumn('build_id')) {
-            $table->addColumn('build_id', 'integer');
+            $table->addColumn('build_id', 'integer')->save();
         }
 
         if (!$table->hasColumn('meta_key')) {
-            $table->addColumn('meta_key', 'string', ['limit' => 250]);
+            $table->addColumn('meta_key', 'string', ['limit' => 250])->save();
         }
 
         if (!$table->hasColumn('meta_value')) {
-            $table->addColumn('meta_value', 'text');
+            $table->addColumn('meta_value', 'text')->save();
         }
 
         if (!$table->hasIndex(['build_id', 'meta_key'])) {
-            $table->addIndex(['build_id', 'meta_key']);
+            $table->addIndex(['build_id', 'meta_key'])->save();
         }
-
-        $table->save();
     }
 
     protected function createProjectTable()
@@ -149,50 +135,48 @@ class InitialMigration extends AbstractMigration
         }
 
         if (!$table->hasColumn('title')) {
-            $table->addColumn('title', 'string', ['limit' => 250]);
+            $table->addColumn('title', 'string', ['limit' => 250])->save();
         }
 
         if (!$table->hasColumn('reference')) {
-            $table->addColumn('reference', 'string', ['limit' => 250]);
+            $table->addColumn('reference', 'string', ['limit' => 250])->save();
         }
 
         if (!$table->hasColumn('git_key')) {
-            $table->addColumn('git_key', 'text');
+            $table->addColumn('git_key', 'text')->save();
         }
 
         if (!$table->hasColumn('public_key')) {
-            $table->addColumn('public_key', 'text');
+            $table->addColumn('public_key', 'text')->save();
         }
 
         if (!$table->hasColumn('type')) {
-            $table->addColumn('type', 'string', ['limit' => 50]);
+            $table->addColumn('type', 'string', ['limit' => 50])->save();
         }
 
         if (!$table->hasColumn('access_information')) {
-            $table->addColumn('access_information', 'string', ['limit' => 250]);
+            $table->addColumn('access_information', 'string', ['limit' => 250])->save();
         }
 
         if (!$table->hasColumn('last_commit')) {
-            $table->addColumn('last_commit', 'string', ['limit' => 250]);
+            $table->addColumn('last_commit', 'string', ['limit' => 250])->save();
         }
 
         if (!$table->hasColumn('build_config')) {
-            $table->addColumn('build_config', 'text');
+            $table->addColumn('build_config', 'text')->save();
         }
 
         if (!$table->hasColumn('allow_public_status')) {
-            $table->addColumn('allow_public_status', 'integer');
+            $table->addColumn('allow_public_status', 'integer')->save();
         }
 
         if ($table->hasColumn('token')) {
-            $table->removeColumn('token');
+            $table->removeColumn('token')->save();
         }
 
         if (!$table->hasIndex(['title'])) {
-            $table->addIndex(['title']);
+            $table->addIndex(['title'])->save();
         }
-
-        $table->save();
     }
 
     protected function createUserTable()
@@ -204,25 +188,23 @@ class InitialMigration extends AbstractMigration
         }
 
         if (!$table->hasColumn('email')) {
-            $table->addColumn('email', 'string', ['limit' => 250]);
+            $table->addColumn('email', 'string', ['limit' => 250])->save();
         }
 
         if (!$table->hasColumn('hash')) {
-            $table->addColumn('hash', 'string', ['limit' => 250]);
+            $table->addColumn('hash', 'string', ['limit' => 250])->save();
         }
 
         if (!$table->hasColumn('name')) {
-            $table->addColumn('name', 'string', ['limit' => 250]);
+            $table->addColumn('name', 'string', ['limit' => 250])->save();
         }
 
         if (!$table->hasColumn('is_admin')) {
-            $table->addColumn('is_admin', 'integer');
+            $table->addColumn('is_admin', 'integer')->save();
         }
 
         if (!$table->hasIndex(['email'])) {
-            $table->addIndex(['email']);
+            $table->addIndex(['email'])->save();
         }
-
-        $table->save();
     }
 }

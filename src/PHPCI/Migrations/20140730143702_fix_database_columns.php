@@ -14,6 +14,7 @@ class FixDatabaseColumns extends AbstractMigration
         }
 
         $build = $this->table('build');
+
         $build->changeColumn('project_id', 'integer', ['null' => false]);
         $build->changeColumn('commit_id', 'string', ['limit' => 50, 'null' => false]);
         $build->changeColumn('status', 'integer', ['null' => false]);
@@ -27,12 +28,14 @@ class FixDatabaseColumns extends AbstractMigration
         $build->changeColumn('extra', 'text', ['null' => true]);
 
         $buildMeta = $this->table('build_meta');
+
         $buildMeta->changeColumn('project_id', 'integer', ['null' => false]);
         $buildMeta->changeColumn('build_id', 'integer', ['null' => false]);
         $buildMeta->changeColumn('meta_key', 'string', ['limit' => 250, 'null' => false]);
         $buildMeta->changeColumn('meta_value', 'text', ['null' => false]);
 
         $project = $this->table('project');
+
         $project->changeColumn('title', 'string', ['limit' => 250, 'null' => false]);
         $project->changeColumn('reference', 'string', ['limit' => 250, 'null' => false]);
         $project->changeColumn('branch', 'string', ['limit' => 50, 'null' => false, 'default' => 'master']);
@@ -45,6 +48,7 @@ class FixDatabaseColumns extends AbstractMigration
         $project->changeColumn('allow_public_status', 'integer', ['null' => false, 'default' => 0]);
 
         $user = $this->table('user');
+
         $user->changeColumn('email', 'string', ['limit' => 250, 'null' => false]);
         $user->changeColumn('hash', 'string', ['limit' => 250, 'null' => false]);
         $user->changeColumn('is_admin', 'integer', ['null' => false, 'default' => 0]);
@@ -54,5 +58,10 @@ class FixDatabaseColumns extends AbstractMigration
             $pdo = $dbAdapter->getConnection();
             $pdo->exec('SET foreign_key_checks = 1');
         }
+    }
+
+    public function down()
+    {
+        
     }
 }

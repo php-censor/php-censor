@@ -16,11 +16,11 @@ class ConvertErrors extends AbstractMigration
      */
     protected $errorStore;
 
-    public function change()
+    public function up()
     {
         $count = 100;
 
-        $this->metaStore = \b8\Store\Factory::getStore('BuildMeta');
+        $this->metaStore  = \b8\Store\Factory::getStore('BuildMeta');
         $this->errorStore = \b8\Store\Factory::getStore('BuildError');
 
         while ($count == 100) {
@@ -29,29 +29,27 @@ class ConvertErrors extends AbstractMigration
 
             /** @var \PHPCI\Model\BuildMeta $meta */
             foreach ($data as $meta) {
-                try {
-                    switch ($meta->getMetaKey()) {
-                        case 'phpmd-data':
-                            $this->processPhpMdMeta($meta);
-                            break;
+                switch ($meta->getMetaKey()) {
+                    case 'phpmd-data':
+                        $this->processPhpMdMeta($meta);
+                        break;
 
-                        case 'phpcs-data':
-                            $this->processPhpCsMeta($meta);
-                            break;
+                    case 'phpcs-data':
+                        $this->processPhpCsMeta($meta);
+                        break;
 
-                        case 'phpdoccheck-data':
-                            $this->processPhpDocCheckMeta($meta);
-                            break;
+                    case 'phpdoccheck-data':
+                        $this->processPhpDocCheckMeta($meta);
+                        break;
 
-                        case 'phpcpd-data':
-                            $this->processPhpCpdMeta($meta);
-                            break;
+                    case 'phpcpd-data':
+                        $this->processPhpCpdMeta($meta);
+                        break;
 
-                        case 'technical_debt-data':
-                            $this->processTechnicalDebtMeta($meta);
-                            break;
-                    }
-                } catch (\Exception $ex) {}
+                    case 'technical_debt-data':
+                        $this->processTechnicalDebtMeta($meta);
+                        break;
+                }
 
                 $this->metaStore->delete($meta);
             }

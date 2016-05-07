@@ -7,6 +7,7 @@ class ChooseBranch extends AbstractMigration
     public function up()
     {
         $project = $this->table('project');
+
         if (!$project->hasColumn('branch')) {
             $project->addColumn('branch', 'string', ['after' => 'reference', 'limit' => 250])->save();
         }
@@ -15,6 +16,7 @@ class ChooseBranch extends AbstractMigration
     public function down()
     {
         $project = $this->table('project');
+
         if ($project->hasColumn('branch')) {
             $project->removeColumn('branch')->save();
         }
