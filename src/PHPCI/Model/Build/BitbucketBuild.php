@@ -10,7 +10,6 @@
 namespace PHPCI\Model\Build;
 
 use PHPCI\Model\Build;
-use PHPCI\Model\Build\RemoteGitBuild;
 
 /**
 * BitBucket Build Model

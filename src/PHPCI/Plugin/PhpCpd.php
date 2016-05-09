@@ -13,6 +13,7 @@ use PHPCI\Builder;
 use PHPCI\Helper\Lang;
 use PHPCI\Model\Build;
 use PHPCI\Model\BuildError;
+use PHPCI\Plugin;
 
 /**
 * PHP Copy / Paste Detector - Allows PHP Copy / Paste Detector testing.
@@ -20,7 +21,7 @@ use PHPCI\Model\BuildError;
 * @package      PHPCI
 * @subpackage   Plugins
 */
-class PhpCpd implements \PHPCI\Plugin
+class PhpCpd implements Plugin
 {
     protected $directory;
     protected $args;

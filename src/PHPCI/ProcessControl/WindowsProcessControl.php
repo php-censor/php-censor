@@ -19,7 +19,8 @@ class WindowsProcessControl implements ProcessControlInterface
     /**
      * Check if the process is running using the "tasklist" command.
      *
-     * @param type $pid
+     * @param integer $pid
+     * 
      * @return bool
      */
     public function isRunning($pid)
@@ -32,7 +33,8 @@ class WindowsProcessControl implements ProcessControlInterface
     /**
      * Terminate the process using the "taskkill" command.
      *
-     * @param type $pid
+     * @param integer $pid
+     * 
      * @param bool $forcefully
      */
     public function kill($pid, $forcefully = false)

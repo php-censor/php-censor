@@ -18,6 +18,7 @@ use PHPCI\Helper\Lang;
 use PHPCI\Model\Build;
 use PHPCI\Model\Project;
 use PHPCI\Service\BuildService;
+use PHPCI\Controller;
 
 /**
 * Build Controller - Allows users to run and view builds.
@@ -25,7 +26,7 @@ use PHPCI\Service\BuildService;
 * @package      PHPCI
 * @subpackage   Web
 */
-class BuildController extends \PHPCI\Controller
+class BuildController extends Controller
 {
     /**
      * @var \PHPCI\Store\BuildStore

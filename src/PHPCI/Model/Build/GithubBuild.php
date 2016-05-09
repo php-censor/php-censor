@@ -12,7 +12,9 @@ namespace PHPCI\Model\Build;
 use PHPCI\Builder;
 use PHPCI\Helper\Diff;
 use PHPCI\Helper\Github;
-use PHPCI\Model\Build\RemoteGitBuild;
+use b8\Config;
+use b8\HttpClient;
+use PHPCI\Model\BuildError;
 
 /**
 * Github Build Model
@@ -43,7 +45,7 @@ class GithubBuild extends RemoteGitBuild
     */
     public function sendStatusPostback()
     {
-        $token = \b8\Config::getInstance()->get('phpci.github.token');
+        $token = Config::getInstance()->get('phpci.github.token');
 
         if (empty($token) || empty($this->data['id'])) {
             return;
@@ -56,7 +58,7 @@ class GithubBuild extends RemoteGitBuild
         }
 
         $url    = 'https://api.github.com/repos/'.$project->getReference().'/statuses/'.$this->getCommitId();
-        $http   = new \b8\HttpClient();
+        $http   = new HttpClient();
 
         switch ($this->getStatus()) {
             case 0:
@@ -78,7 +80,7 @@ class GithubBuild extends RemoteGitBuild
                 break;
         }
 
-        $phpciUrl = \b8\Config::getInstance()->get('phpci.url');
+        $phpciUrl = Config::getInstance()->get('phpci.url');
 
         $params = [
             'state'       => $status,
@@ -112,11 +114,12 @@ class GithubBuild extends RemoteGitBuild
 
     /**
      * Get a parsed version of the commit message, with links to issues and commits.
+     * 
      * @return string
      */
     public function getCommitMessage()
     {
-        $rtn = parent::getCommitMessage($this->data['commit_message']);
+        $rtn = parent::getCommitMessage();
 
         $project = $this->getProject();
 

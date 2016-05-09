@@ -8,6 +8,7 @@ namespace PHPCI\Model\Base;
 
 use PHPCI\Model;
 use b8\Store\Factory;
+use PHPCI\Model\Project;
 
 /**
  * Build Base Model
@@ -598,7 +599,7 @@ class BuildBase extends Model
     public function setProject($value)
     {
         // Is this an instance of Project?
-        if ($value instanceof \PHPCI\Model\Project) {
+        if ($value instanceof Project) {
             return $this->setProjectObject($value);
         }
 
@@ -614,9 +615,9 @@ class BuildBase extends Model
     /**
     * Set Project - Accepts a Project model.
     * 
-    * @param $value \PHPCI\Model\Project
+    * @param $value Project
     */
-    public function setProjectObject(\PHPCI\Model\Project $value)
+    public function setProjectObject(Project $value)
     {
         return $this->setProjectId($value->getId());
     }

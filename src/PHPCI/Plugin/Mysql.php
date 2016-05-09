@@ -13,6 +13,8 @@ use PDO;
 use PHPCI\Builder;
 use PHPCI\Helper\Lang;
 use PHPCI\Model\Build;
+use PHPCI\Plugin;
+use b8\Database;
 
 /**
 * MySQL Plugin - Provides access to a MySQL database.
@@ -21,7 +23,7 @@ use PHPCI\Model\Build;
 * @package      PHPCI
 * @subpackage   Plugins
 */
-class Mysql implements \PHPCI\Plugin
+class Mysql implements Plugin
 {
     /**
      * @var \PHPCI\Builder
@@ -65,7 +67,7 @@ class Mysql implements \PHPCI\Plugin
 
         $this->queries = $options;
 
-        $config = \b8\Database::getConnection('write')->getDetails();
+        $config = Database::getConnection('write')->getDetails();
 
         $this->host =(defined('PHPCI_DB_HOST')) ? PHPCI_DB_HOST : null;
         $this->user = $config['user'];

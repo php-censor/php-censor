@@ -116,8 +116,7 @@ class BuildWorker
             if (!empty($jobData['config'])) {
                 $this->logger->addDebug('Using job-specific config.');
                 $currentConfig = Config::getInstance()->getArray();
-                $config = new Config($jobData['config']);
-                Database::reset($config);
+                Database::reset();
             }
 
             try {
@@ -138,7 +137,7 @@ class BuildWorker
 
                 // After execution we no longer want to record the information
                 // back to this specific build so the handler should be removed.
-                $this->logger->popHandler($buildDbLog);
+                $this->logger->popHandler();
             } catch (\PDOException $ex) {
                 // If we've caught a PDO Exception, it is probably not the fault of the build, but of a failed
                 // connection or similar. Release the job and kill the worker.
@@ -154,8 +153,7 @@ class BuildWorker
 
             // Reset the config back to how it was prior to running this job:
             if (!empty($currentConfig)) {
-                $config = new Config($currentConfig);
-                Database::reset($config);
+                Database::reset();
             }
 
             // Delete the job when we're done:

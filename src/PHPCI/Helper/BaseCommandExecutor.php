@@ -68,7 +68,9 @@ abstract class BaseCommandExecutor implements CommandExecutor
 
     /**
      * Executes shell commands.
+     * 
      * @param array $args
+     * 
      * @return bool Indicates success
      */
     public function executeCommand($args = [])

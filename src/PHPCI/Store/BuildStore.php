@@ -47,7 +47,7 @@ class BuildStore extends BuildStoreBase
             $res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
             $map = function ($item) {
-                return new \PHPCI\Model\Build($item);
+                return new Build($item);
             };
             $rtn = array_map($map, $res);
 

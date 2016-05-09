@@ -11,6 +11,7 @@ namespace PHPCI\Plugin;
 
 use PHPCI\Builder;
 use PHPCI\Model\Build;
+use PHPCI\Plugin;
 
 /**
 * Gulp Plugin - Provides access to gulp functionality.
@@ -18,7 +19,7 @@ use PHPCI\Model\Build;
 * @package      PHPCI
 * @subpackage   Plugins
 */
-class Gulp implements \PHPCI\Plugin
+class Gulp implements Plugin
 {
     protected $directory;
     protected $task;

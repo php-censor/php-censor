@@ -14,6 +14,7 @@ use PHPCI\Helper\Lang;
 use PHPCI\Plugin\Util\ComposerPluginInformation;
 use PHPCI\Plugin\Util\FilesPluginInformation;
 use PHPCI\Plugin\Util\PluginInformationCollection;
+use PHPCI\Controller;
 
 /**
  * Plugin Controller - Provides support for installing Composer packages.
@@ -21,7 +22,7 @@ use PHPCI\Plugin\Util\PluginInformationCollection;
  * @package      PHPCI
  * @subpackage   Web
  */
-class PluginController extends \PHPCI\Controller
+class PluginController extends Controller
 {
     /**
      * List all enabled plugins, installed and recommend packages.

@@ -80,7 +80,7 @@ class Application extends b8\Application
     /**
      * Handle an incoming web request.
      *
-     * @return b8\b8\Http\Response|Response
+     * @return Response
      */
     public function handleRequest()
     {

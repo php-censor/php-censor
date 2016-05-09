@@ -12,6 +12,7 @@ namespace PHPCI\Plugin;
 use PHPCI\Builder;
 use PHPCI\Helper\Lang;
 use PHPCI\Model\Build;
+use PHPCI\Plugin;
 
 /**
  * Git plugin.
@@ -19,7 +20,7 @@ use PHPCI\Model\Build;
  * @package      PHPCI
  * @subpackage   Plugins
  */
-class Git implements \PHPCI\Plugin
+class Git implements Plugin
 {
     protected $phpci;
     protected $build;

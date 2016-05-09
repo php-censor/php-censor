@@ -12,11 +12,13 @@ namespace PHPCI\Controller;
 use b8;
 use b8\Store;
 use Exception;
-use PHPCI\BuildFactory;
 use PHPCI\Model\Project;
 use PHPCI\Service\BuildService;
 use PHPCI\Store\BuildStore;
 use PHPCI\Store\ProjectStore;
+use b8\Controller;
+use b8\Config;
+use b8\HttpClient;
 
 /**
  * Webhook Controller - Processes webhook pings from BitBucket, Github, Gitlab, etc.
@@ -30,7 +32,7 @@ use PHPCI\Store\ProjectStore;
  *
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
-class WebhookController extends \b8\Controller
+class WebhookController extends Controller
 {
     /**
      * @var BuildStore
@@ -170,6 +172,8 @@ class WebhookController extends \b8\Controller
      * Called by POSTing to /webhook/git/<project_id>?branch=<branch>&commit=<commit>
      *
      * @param string $projectId
+     * 
+     * @return array
      */
     public function git($projectId)
     {
@@ -272,9 +276,13 @@ class WebhookController extends \b8\Controller
 
     /**
      * Handle the payload when Github sends a Pull Request webhook.
-     *
+     * 
      * @param Project $project
-     * @param array $payload
+     * @param array   $payload
+     * 
+     * @return array
+     * 
+     * @throws Exception
      */
     protected function githubPullRequest(Project $project, array $payload)
     {
@@ -284,18 +292,18 @@ class WebhookController extends \b8\Controller
         }
 
         $headers = [];
-        $token   = \b8\Config::getInstance()->get('phpci.github.token');
+        $token   = Config::getInstance()->get('phpci.github.token');
 
         if (!empty($token)) {
             $headers[] = 'Authorization: token ' . $token;
         }
 
         $url    = $payload['pull_request']['commits_url'];
-        $http   = new \b8\HttpClient();
+        $http   = new HttpClient();
         $http->setHeaders($headers);
 
         //for large pull requests, allow grabbing more then the default number of commits
-        $custom_per_page = \b8\Config::getInstance()->get('phpci.github.per_page');
+        $custom_per_page = Config::getInstance()->get('phpci.github.per_page');
         $params          = [];
         if ($custom_per_page) {
             $params["per_page"] = $custom_per_page;

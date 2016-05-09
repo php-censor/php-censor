@@ -11,6 +11,7 @@ namespace PHPCI\Plugin;
 
 use PHPCI\Builder;
 use PHPCI\Model\Build;
+use PHPCI\Plugin;
 
 /**
 * Create a ZIP or TAR.GZ archive of the entire build.
@@ -18,7 +19,7 @@ use PHPCI\Model\Build;
 * @package      PHPCI
 * @subpackage   Plugins
 */
-class PackageBuild implements \PHPCI\Plugin
+class PackageBuild implements Plugin
 {
     protected $directory;
     protected $filename;

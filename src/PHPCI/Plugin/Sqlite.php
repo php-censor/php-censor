@@ -12,6 +12,7 @@ namespace PHPCI\Plugin;
 use PDO;
 use PHPCI\Builder;
 use PHPCI\Model\Build;
+use PHPCI\Plugin;
 
 /**
 * SQLite Plugin — Provides access to a SQLite database.
@@ -19,7 +20,7 @@ use PHPCI\Model\Build;
 * @package      PHPCI
 * @subpackage   Plugins
 */
-class Sqlite implements \PHPCI\Plugin
+class Sqlite implements Plugin
 {
     /**
      * @var \PHPCI\Builder

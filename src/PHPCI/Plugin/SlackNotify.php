@@ -10,6 +10,10 @@ namespace PHPCI\Plugin;
 
 use PHPCI\Builder;
 use PHPCI\Model\Build;
+use PHPCI\Plugin;
+use Maknz\Slack\Client;
+use Maknz\Slack\Attachment;
+use Maknz\Slack\AttachmentField;
 
 /**
  * Slack Plugin
@@ -17,7 +21,7 @@ use PHPCI\Model\Build;
  * @package      PHPCI
  * @subpackage   Plugins
  */
-class SlackNotify implements \PHPCI\Plugin
+class SlackNotify implements Plugin
 {
     private $webHook;
     private $room;
@@ -83,7 +87,7 @@ class SlackNotify implements \PHPCI\Plugin
     {
         $body = $this->phpci->interpolate($this->message);
 
-        $client = new \Maknz\Slack\Client($this->webHook);
+        $client = new Client($this->webHook);
 
         $message = $client->createMessage();
 
@@ -112,12 +116,12 @@ class SlackNotify implements \PHPCI\Plugin
             }
 
             // Build up the attachment data
-            $attachment = new \Maknz\Slack\Attachment([
+            $attachment = new Attachment([
                 'fallback' => $body,
                 'pretext'  => $body,
                 'color'    => $color,
                 'fields'   => [
-                    new \Maknz\Slack\AttachmentField([
+                    new AttachmentField([
                         'title' => 'Status',
                         'value' => $status,
                         'short' => false

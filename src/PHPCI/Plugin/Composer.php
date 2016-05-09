@@ -12,7 +12,6 @@ namespace PHPCI\Plugin;
 use PHPCI;
 use PHPCI\Builder;
 use PHPCI\Model\Build;
-use PHPCI\Helper\Lang;
 
 /**
 * Composer Plugin - Provides access to Composer functionality.

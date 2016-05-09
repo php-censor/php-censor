@@ -90,22 +90,7 @@ foreach($projects as $project):
 ?>
 
     <div class="small-box <?php print $containerClass; ?> bg-<?php print $subcls; ?>">
-
-    <?php if (count($projects) > 5): ?>
-
-        <div class="inner">
-            <h4>
-                <strong>
-                    <a href="<?php print PHPCI_URL; ?>project/view/<?php print $project->getId(); ?>">
-                        <?php print $project->getTitle(); ?>
-                    </a>
-                </strong> -
-                <?php print $shortMessage; ?>
-            </h4>
-        </div>
-
-    <?php else: ?>
-
+        
         <div class="inner">
             <h3>
                 <a href="<?php print PHPCI_URL; ?>project/view/<?php print $project->getId(); ?>">
@@ -124,8 +109,6 @@ foreach($projects as $project):
         <a href="<?php print PHPCI_URL; ?>project/view/<?php print $project->getId(); ?>" class="small-box-footer small-box-footer-project">
             <?php Lang::out('view_project'); ?> (<?php print $counts[$project->getId()]; ?>) <i class="fa fa-arrow-circle-right"></i>
         </a>
-
-    <?php endif; ?>
 
             <?php for ($idx=0; $idx < 5; $idx++) {
             if (empty($builds[$project->getId()][$idx])) {

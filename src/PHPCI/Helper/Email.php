@@ -10,7 +10,6 @@
 namespace PHPCI\Helper;
 
 use b8\Config;
-use PHPCI\Helper\MailerFactory;
 
 /**
  * Helper class for sending emails using PHPCI's email configuration.

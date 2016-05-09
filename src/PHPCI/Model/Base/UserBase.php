@@ -7,7 +7,6 @@
 namespace PHPCI\Model\Base;
 
 use PHPCI\Model;
-use b8\Store\Factory;
 
 /**
  * User Base Model

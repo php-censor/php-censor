@@ -11,6 +11,7 @@ namespace PHPCI\Plugin;
 
 use PHPCI\Builder;
 use PHPCI\Model\Build;
+use PHPCI\Plugin;
 
 /**
 * Grunt Plugin - Provides access to grunt functionality.
@@ -18,7 +19,7 @@ use PHPCI\Model\Build;
 * @package      PHPCI
 * @subpackage   Plugins
 */
-class Grunt implements \PHPCI\Plugin
+class Grunt implements Plugin
 {
     protected $directory;
     protected $task;

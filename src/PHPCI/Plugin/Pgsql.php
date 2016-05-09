@@ -12,6 +12,7 @@ namespace PHPCI\Plugin;
 use PDO;
 use PHPCI\Builder;
 use PHPCI\Model\Build;
+use PHPCI\Plugin;
 
 /**
 * PgSQL Plugin - Provides access to a PgSQL database.
@@ -19,7 +20,7 @@ use PHPCI\Model\Build;
 * @package      PHPCI
 * @subpackage   Plugins
 */
-class Pgsql implements \PHPCI\Plugin
+class Pgsql implements Plugin
 {
     /**
      * @var \PHPCI\Builder

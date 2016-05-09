@@ -85,7 +85,8 @@ class Controller extends \b8\Controller
      * Handle the incoming request.
      * @param $action
      * @param $actionParams
-     * @return \b8\b8\Http\Response|Response
+     * 
+     * @return Response
      */
     public function handleAction($action, $actionParams)
     {

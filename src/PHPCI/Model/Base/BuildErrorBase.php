@@ -8,6 +8,7 @@ namespace PHPCI\Model\Base;
 
 use PHPCI\Model;
 use b8\Store\Factory;
+use PHPCI\Model\Build;
 
 /**
  * BuildError Base Model
@@ -478,7 +479,7 @@ class BuildErrorBase extends Model
     public function setBuild($value)
     {
         // Is this an instance of Build?
-        if ($value instanceof \PHPCI\Model\Build) {
+        if ($value instanceof Build) {
             return $this->setBuildObject($value);
         }
 
@@ -494,9 +495,9 @@ class BuildErrorBase extends Model
     /**
     * Set Build - Accepts a Build model.
     * 
-    * @param $value \PHPCI\Model\Build
+    * @param $value Build
     */
-    public function setBuildObject(\PHPCI\Model\Build $value)
+    public function setBuildObject(Build $value)
     {
         return $this->setBuildId($value->getId());
     }

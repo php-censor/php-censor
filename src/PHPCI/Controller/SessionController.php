@@ -12,6 +12,7 @@ namespace PHPCI\Controller;
 use b8;
 use PHPCI\Helper\Email;
 use PHPCI\Helper\Lang;
+use PHPCI\Controller;
 
 /**
 * Session Controller - Handles user login / logout.
@@ -19,7 +20,7 @@ use PHPCI\Helper\Lang;
 * @package      PHPCI
 * @subpackage   Web
 */
-class SessionController extends \PHPCI\Controller
+class SessionController extends Controller
 {
     /**
      * @var \PHPCI\Store\UserStore

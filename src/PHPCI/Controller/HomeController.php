@@ -13,6 +13,7 @@ use b8;
 use PHPCI\BuildFactory;
 use PHPCI\Helper\Lang;
 use PHPCI\Model\Build;
+use PHPCI\Controller;
 
 /**
 * Home Controller - Displays the PHPCI Dashboard.
@@ -20,7 +21,7 @@ use PHPCI\Model\Build;
 * @package      PHPCI
 * @subpackage   Web
 */
-class HomeController extends \PHPCI\Controller
+class HomeController extends Controller
 {
     /**
      * @var \PHPCI\Store\BuildStore

@@ -9,8 +9,6 @@
 
 namespace PHPCI\Model\Build;
 
-use PHPCI\Model\Build\RemoteGitBuild;
-
 /**
 * Gitlab Build Model
 * @author       André Cianfarani <a.cianfarani@c2is.fr>

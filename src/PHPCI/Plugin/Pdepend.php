@@ -10,8 +10,8 @@
 namespace PHPCI\Plugin;
 
 use PHPCI\Builder;
-use PHPCI\Helper\Lang;
 use PHPCI\Model\Build;
+use PHPCI\Plugin;
 
 /**
  * Pdepend Plugin - Allows Pdepend report
@@ -19,7 +19,7 @@ use PHPCI\Model\Build;
  * @package      PHPCI
  * @subpackage   Plugins
  */
-class Pdepend implements \PHPCI\Plugin
+class Pdepend implements Plugin
 {
     protected $args;
     /**

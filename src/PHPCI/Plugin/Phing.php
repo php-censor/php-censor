@@ -12,6 +12,7 @@ namespace PHPCI\Plugin;
 use PHPCI\Builder;
 use PHPCI\Helper\Lang;
 use PHPCI\Model\Build;
+use PHPCI\Plugin;
 
 /**
  * Phing Plugin - Provides access to Phing functionality.
@@ -20,7 +21,7 @@ use PHPCI\Model\Build;
  * @package      PHPCI
  * @subpackage   Plugins
  */
-class Phing implements \PHPCI\Plugin
+class Phing implements Plugin
 {
 
     private $directory;

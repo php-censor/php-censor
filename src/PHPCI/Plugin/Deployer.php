@@ -12,6 +12,7 @@ namespace PHPCI\Plugin;
 use b8\HttpClient;
 use PHPCI\Builder;
 use PHPCI\Model\Build;
+use PHPCI\Plugin;
 
 /**
 * Integrates PHPCI with Deployer: https://github.com/rebelinblue/deployer
@@ -19,7 +20,7 @@ use PHPCI\Model\Build;
 * @package      PHPCI
 * @subpackage   Plugins
 */
-class Deployer implements \PHPCI\Plugin
+class Deployer implements Plugin
 {
     protected $webhookUrl;
     protected $reason;

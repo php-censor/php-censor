@@ -13,6 +13,7 @@ use PHPCI\Builder;
 use PHPCI\Helper\Lang;
 use PHPCI\Model\Build;
 use PHPCI\Model\BuildError;
+use PHPCI\Plugin;
 
 /**
  * Behat BDD Plugin
@@ -20,7 +21,7 @@ use PHPCI\Model\BuildError;
  * @package      PHPCI
  * @subpackage   Plugins
  */
-class Behat implements \PHPCI\Plugin
+class Behat implements Plugin
 {
     protected $phpci;
     protected $build;

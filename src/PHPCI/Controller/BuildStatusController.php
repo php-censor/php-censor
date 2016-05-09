@@ -16,6 +16,7 @@ use PHPCI\BuildFactory;
 use PHPCI\Model\Project;
 use PHPCI\Model\Build;
 use PHPCI\Service\BuildStatusService;
+use PHPCI\Controller;
 
 /**
 * Build Status Controller - Allows external access to build status information / images.
@@ -23,7 +24,7 @@ use PHPCI\Service\BuildStatusService;
 * @package      PHPCI
 * @subpackage   Web
 */
-class BuildStatusController extends \PHPCI\Controller
+class BuildStatusController extends Controller
 {
     /* @var \PHPCI\Store\ProjectStore */
     protected $projectStore;

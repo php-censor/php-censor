@@ -1,4 +1,5 @@
 <?php
+
 namespace PHPCI\Plugin;
 
 use Exception;
@@ -6,11 +7,12 @@ use PHPCI\Builder;
 use PHPCI\Helper\Lang;
 use PHPCI\Model\Build;
 use Phar as PHPPhar;
+use PHPCI\Plugin;
 
 /**
  * Phar Plugin
  */
-class Phar implements \PHPCI\Plugin
+class Phar implements Plugin
 {
     /**
      * PHPCI
@@ -90,7 +92,7 @@ class Phar implements \PHPCI\Plugin
     /**
      * Returns PHPCI
      *
-     * @return PHPCI
+     * @return Builder
      */
     public function getPHPCI()
     {

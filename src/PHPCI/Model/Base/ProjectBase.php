@@ -8,6 +8,7 @@ namespace PHPCI\Model\Base;
 
 use PHPCI\Model;
 use b8\Store\Factory;
+use PHPCI\Model\ProjectGroup;
 
 /**
  * Project Base Model
@@ -628,7 +629,7 @@ class ProjectBase extends Model
     public function setGroup($value)
     {
         // Is this an instance of ProjectGroup?
-        if ($value instanceof \PHPCI\Model\ProjectGroup) {
+        if ($value instanceof ProjectGroup) {
             return $this->setGroupObject($value);
         }
 
@@ -644,9 +645,9 @@ class ProjectBase extends Model
     /**
     * Set Group - Accepts a ProjectGroup model.
     * 
-    * @param $value \PHPCI\Model\ProjectGroup
+    * @param $value ProjectGroup
     */
-    public function setGroupObject(\PHPCI\Model\ProjectGroup $value)
+    public function setGroupObject(ProjectGroup $value)
     {
         return $this->setGroupId($value->getId());
     }

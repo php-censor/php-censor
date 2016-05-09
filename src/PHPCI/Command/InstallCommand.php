@@ -22,6 +22,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use PHPCI\Service\UserService;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Symfony\Component\Yaml\Dumper;
 
 /**
  * Install console command - Installs PHPCI.
@@ -359,8 +360,8 @@ class InstallCommand extends Command
      */
     protected function writeConfigFile(array $config)
     {
-        $dumper = new \Symfony\Component\Yaml\Dumper();
-        $yaml = $dumper->dump($config, 4);
+        $dumper = new Dumper();
+        $yaml   = $dumper->dump($config, 4);
 
         file_put_contents($this->configFilePath, $yaml);
     }

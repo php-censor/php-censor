@@ -11,7 +11,6 @@ namespace PHPCI\Service\Tests;
 
 use PHPCI\Model\Build;
 use PHPCI\Model\Project;
-use PHPCI\Service\BuildService;
 use PHPCI\Service\BuildStatusService;
 
 /**

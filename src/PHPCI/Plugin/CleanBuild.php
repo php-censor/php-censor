@@ -11,6 +11,7 @@ namespace PHPCI\Plugin;
 
 use PHPCI\Builder;
 use PHPCI\Model\Build;
+use PHPCI\Plugin;
 
 /**
 * Clean build removes Composer related files and allows PHPCI users to clean up their build directory.
@@ -19,7 +20,7 @@ use PHPCI\Model\Build;
 * @package      PHPCI
 * @subpackage   Plugins
 */
-class CleanBuild implements \PHPCI\Plugin
+class CleanBuild implements Plugin
 {
     protected $remove;
     protected $phpci;

@@ -192,7 +192,7 @@ class DaemonCommand extends Command
 
         $pid = intval(trim(file_get_contents($this->pidFilePath)));
 
-        if($this->processControl->isRunning($pid, true)) {
+        if($this->processControl->isRunning($pid)) {
             return $pid;
         }
 

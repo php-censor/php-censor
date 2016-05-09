@@ -12,6 +12,7 @@ use PHPCI\Builder;
 use PHPCI\Model\Build;
 use Mremi\Flowdock\Api\Push\Push;
 use Mremi\Flowdock\Api\Push\TeamInboxMessage;
+use PHPCI\Plugin;
 
 /**
  * Flowdock Plugin
@@ -19,7 +20,7 @@ use Mremi\Flowdock\Api\Push\TeamInboxMessage;
  * @package      PHPCI
  * @subpackage   Plugins
  */
-class FlowdockNotify implements \PHPCI\Plugin
+class FlowdockNotify implements Plugin
 {
     private $api_key;
     private $email;

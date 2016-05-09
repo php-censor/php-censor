@@ -53,7 +53,6 @@ class Template extends View
 
     protected function parse($string)
     {
-        $lastCond = null;
         $keywords = ['ifnot', 'if', 'else', 'for', 'loop', '@', '/ifnot', '/if', '/for', '/loop'];
 
         foreach (self::$templateFunctions as $function => $handler) {
@@ -80,8 +79,7 @@ class Template extends View
 
                         $cond = trim($this->readUntil('}', $string));
                         $item['cond'] = $cond;
-                        $lastCond = $cond;
-                        $string = substr($string, 1);
+                        $string       = substr($string, 1);
 
                         if (array_key_exists($keyword, self::$templateFunctions)) {
                             $item['function_name'] = $keyword;

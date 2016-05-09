@@ -11,6 +11,7 @@ namespace PHPCI\Plugin;
 
 use PHPCI\Builder;
 use PHPCI\Model\Build;
+use PHPCI\Plugin;
 
 /**
 * Wipe Plugin - Wipes a folder
@@ -18,7 +19,7 @@ use PHPCI\Model\Build;
 * @package      PHPCI
 * @subpackage   Plugins
 */
-class Wipe implements \PHPCI\Plugin
+class Wipe implements Plugin
 {
     /**
      * @var \PHPCI\Builder

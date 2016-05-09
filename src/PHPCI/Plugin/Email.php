@@ -12,10 +12,10 @@ namespace PHPCI\Plugin;
 use Exception;
 use b8\View;
 use PHPCI\Builder;
-use PHPCI\Helper\Lang;
 use PHPCI\Model\Build;
 use PHPCI\Helper\Email as EmailHelper;
 use Psr\Log\LogLevel;
+use PHPCI\Plugin;
 
 /**
 * Email Plugin - Provides simple email capability to PHPCI.
@@ -23,7 +23,7 @@ use Psr\Log\LogLevel;
 * @package      PHPCI
 * @subpackage   Plugins
 */
-class Email implements \PHPCI\Plugin
+class Email implements Plugin
 {
     /**
      * @var \PHPCI\Builder

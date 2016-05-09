@@ -10,8 +10,8 @@
 namespace PHPCI\Plugin;
 
 use PHPCI\Builder;
-use PHPCI\Helper\Lang;
 use PHPCI\Model\Build;
+use PHPCI\Plugin;
 
 /**
 * PHP CS Fixer - Works with the PHP Coding Standards Fixer for testing coding standards.
@@ -19,7 +19,7 @@ use PHPCI\Model\Build;
 * @package      PHPCI
 * @subpackage   Plugins
 */
-class PhpCsFixer implements \PHPCI\Plugin
+class PhpCsFixer implements Plugin
 {
     /**
      * @var \PHPCI\Builder

@@ -12,6 +12,8 @@ namespace PHPCI\Plugin;
 use PHPCI\Builder;
 use PHPCI\Helper\Lang;
 use PHPCI\Model\Build;
+use PHPCI\Plugin;
+use HipChat\HipChat;
 
 /**
  * Hipchat Plugin
@@ -19,7 +21,7 @@ use PHPCI\Model\Build;
  * @package      PHPCI
  * @subpackage   Plugins
  */
-class HipchatNotify implements \PHPCI\Plugin
+class HipchatNotify implements Plugin
 {
     protected $authToken;
     protected $color;
@@ -73,7 +75,7 @@ class HipchatNotify implements \PHPCI\Plugin
      */
     public function execute()
     {
-        $hipChat = new \HipChat\HipChat($this->authToken);
+        $hipChat = new HipChat($this->authToken);
         $message = $this->phpci->interpolate($this->message);
 
         $result = true;

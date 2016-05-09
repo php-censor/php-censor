@@ -11,6 +11,7 @@ namespace PHPCI\Plugin;
 
 use PHPCI\Builder;
 use PHPCI\Model\Build;
+use PHPCI\Plugin;
 
 /**
 * XMPP Notification - Send notification for successful or failure build
@@ -18,7 +19,7 @@ use PHPCI\Model\Build;
 * @package      PHPCI
 * @subpackage   Plugins
 */
-class XMPP implements \PHPCI\Plugin
+class XMPP implements Plugin
 {
     protected $directory;
     protected $phpci;

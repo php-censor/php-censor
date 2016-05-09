@@ -10,8 +10,8 @@
 namespace PHPCI\Plugin;
 
 use PHPCI\Builder;
-use PHPCI\Helper\Lang;
 use PHPCI\Model\Build;
+use PHPCI\Plugin;
 
 /**
  * Shell Plugin - Allows execute shell commands.
@@ -19,7 +19,7 @@ use PHPCI\Model\Build;
  * @package      PHPCI
  * @subpackage   Plugins
  */
-class Shell implements \PHPCI\Plugin
+class Shell implements Plugin
 {
     /**
      * @var \PHPCI\Builder

@@ -47,7 +47,7 @@ class UpdateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if (!$this->verifyInstalled($output)) {
+        if (!$this->verifyInstalled()) {
             return;
         }
 
@@ -58,7 +58,7 @@ class UpdateCommand extends Command
         $output->writeln('<info>'.Lang::get('ok').'</info>');
     }
 
-    protected function verifyInstalled(OutputInterface $output)
+    protected function verifyInstalled()
     {
         $config = Config::getInstance();
         $phpciUrl = $config->get('phpci.url');

@@ -14,9 +14,12 @@ interface CommandExecutor
     /**
      * Executes shell commands. Accepts multiple arguments the first
      * is the template and everything else is inserted in. c.f. sprintf
+     *
+     * @param array $args
+     *
      * @return bool Indicates success
      */
-    public function executeCommand();
+    public function executeCommand($args = []);
 
     /**
      * Returns the output from the last command run.
@@ -25,6 +28,7 @@ interface CommandExecutor
 
     /**
      * Find a binary required by a plugin.
+     * 
      * @param string $binary
      * @param bool $quiet Returns null instead of throwing an execption.
      *

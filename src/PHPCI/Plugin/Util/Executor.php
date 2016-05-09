@@ -236,7 +236,7 @@ class Executor
     /**
      * Sets the summary data of the current build.
      *
-     * @param array summary
+     * @param array $summary
      */
     private function setBuildSummary($summary)
     {

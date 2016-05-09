@@ -12,12 +12,13 @@ namespace PHPCI\Plugin;
 use PHPCI\Builder;
 use PHPCI\Helper\Lang;
 use PHPCI\Model\Build;
+use PHPCI\Plugin;
 
 /**
  * Atoum plugin, runs Atoum tests within a project.
  * @package PHPCI\Plugin
  */
-class Atoum implements \PHPCI\Plugin
+class Atoum implements Plugin
 {
     private $args;
     private $config;

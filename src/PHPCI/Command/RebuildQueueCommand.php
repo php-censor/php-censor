@@ -9,7 +9,6 @@
 
 namespace PHPCI\Command;
 
-use b8\Config;
 use b8\Store\Factory;
 use Monolog\Logger;
 use PHPCI\BuildFactory;

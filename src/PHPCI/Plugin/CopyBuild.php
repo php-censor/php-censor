@@ -12,6 +12,7 @@ namespace PHPCI\Plugin;
 use PHPCI\Builder;
 use PHPCI\Model\Build;
 use PHPCI\Helper\Lang;
+use PHPCI\Plugin;
 
 /**
 * Copy Build Plugin - Copies the entire build to another directory.
@@ -19,7 +20,7 @@ use PHPCI\Helper\Lang;
 * @package      PHPCI
 * @subpackage   Plugins
 */
-class CopyBuild implements \PHPCI\Plugin
+class CopyBuild implements Plugin
 {
     protected $directory;
     protected $ignore;
