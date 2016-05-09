@@ -161,20 +161,20 @@ var Build = Class.extend({
         var output = plugin.render();
 
         if (!plugin.box) {
-            output = $('<div class="box-body"></div>').append(output);
+            output = $('<div class="box-body"></div>').html(output);
         }
 
         var container = $('<div></div>').addClass('ui-plugin ' + plugin.css).attr('id', plugin.id);
-        var content = $('<div></div>').append(output);
+        var content = $('<div></div>').html(output);
         content.addClass('box box-default');
 
         if (plugin.title) {
             content.prepend('<div class="box-header"><h3 class="box-title">'+plugin.title+'</h3></div>');
         }
 
-        container.append(content);
+        container.html(content);
 
-        $('#plugins').append(container);
+        $('#plugins').html(container);
     },
 
     UiPlugin: Class.extend({

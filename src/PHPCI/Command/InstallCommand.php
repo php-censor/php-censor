@@ -220,7 +220,7 @@ class InstallCommand extends Command
          */
         $dialog = $this->getHelperSet()->get('dialog');
 
-        // FUnction do validate URL.
+        // Function do validate URL.
         $urlValidator = function ($answer) {
             if (!filter_var($answer, FILTER_VALIDATE_URL)) {
                 throw new Exception(Lang::get('must_be_valid_url'));
