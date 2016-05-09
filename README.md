@@ -1,5 +1,5 @@
-PHPCI
-=====
+KeeperCI
+========
 
 PHPCI is a free and open source (BSD License) continuous integration tool specifically designed for PHP. We've  built it with simplicity in mind, so whilst it doesn't do *everything* Jenkins can do, it is a breeze to set up and use.
 
@@ -7,17 +7,7 @@ PHPCI is a free and open source (BSD License) continuous integration tool specif
 
 [![Build Status](http://phpci.block8.net/build-status/image/2?branch=master)](http://phpci.block8.net/build-status/view/2?branch=master)
 
-**Chat Room**
-
-We have a chat room for discussing PHPCI, you can access it here: [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/Block8/PHPCI?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge)
-
-**Support the development of PHPCI**
-
-We [now accept donations](https://www.phptesting.org/support) to directly support the ongoing development of PHPCI. There is of course no obligation to donate, nor any commitment if you do. 
-
-[Donate](https://www.phptesting.org/support)
-
-## What it does:
+##What it does:
 * Clones your project from Github, Bitbucket or a local path
 * Allows you to set up and tear down test databases.
 * Installs your project's Composer dependencies.
