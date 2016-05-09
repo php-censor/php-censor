@@ -175,7 +175,7 @@ class BuildController extends Controller
 
         /** @var \PHPCI\Store\BuildErrorStore $errorStore */
         $errorStore = b8\Store\Factory::getStore('BuildError');
-        $errors = $errorStore->getErrorsForBuild($build->getId(), $this->getParam('since', null));
+        $errors = $errorStore->getErrorsForBuild($build->getId());
 
         $errorView = new b8\View('Build/errors');
         $errorView->build = $build;
