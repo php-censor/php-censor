@@ -16,11 +16,12 @@ use b8\Config;
 use b8\Store\Factory;
 use PHPCI\Helper\Lang;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\DialogHelper;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use PHPCI\Service\UserService;
+use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Yaml\Dumper;
 
@@ -171,10 +172,8 @@ class InstallCommand extends Command
     {
         $admin = [];
 
-        /**
-         * @var \Symfony\Component\Console\Helper\DialogHelper
-         */
-        $dialog = $this->getHelperSet()->get('dialog');
+        /** @var $helper QuestionHelper */
+        $helper = $this->getHelperSet()->get('question');
 
         // Function to validate mail address.
         $mailValidator = function ($answer) {
@@ -188,13 +187,20 @@ class InstallCommand extends Command
         if ($adminEmail = $input->getOption('admin-mail')) {
             $adminEmail = $mailValidator($adminEmail);
         } else {
-            $adminEmail = $dialog->askAndValidate($output, Lang::get('enter_email'), $mailValidator, false);
+            $questionEmail = new Question(Lang::get('enter_email'));
+            $adminEmail    = $helper->ask($input, $output, $questionEmail);
         }
+
         if (!$adminName = $input->getOption('admin-name')) {
-            $adminName = $dialog->ask($output, Lang::get('enter_name'));
+            $questionName = new Question(Lang::get('admin-name'));
+            $adminName    = $helper->ask($input, $output, $questionName);
         }
+
         if (!$adminPass = $input->getOption('admin-pass')) {
-            $adminPass = $dialog->askHiddenResponse($output, Lang::get('enter_password'));
+            $questionPass = new Question(Lang::get('enter_password'));
+            $questionPass->setHidden(true);
+            $questionPass->setHiddenFallback(false);
+            $adminPass    = $helper->ask($input, $output, $questionPass);
         }
 
         $admin['mail'] = $adminEmail;
@@ -215,12 +221,9 @@ class InstallCommand extends Command
     {
         $phpci = [];
 
-        /**
-         * @var \Symfony\Component\Console\Helper\DialogHelper
-         */
-        $dialog = $this->getHelperSet()->get('dialog');
+        /** @var $helper QuestionHelper */
+        $helper = $this->getHelperSet()->get('question');
 
-        // Function do validate URL.
         $urlValidator = function ($answer) {
             if (!filter_var($answer, FILTER_VALIDATE_URL)) {
                 throw new Exception(Lang::get('must_be_valid_url'));
@@ -232,23 +235,25 @@ class InstallCommand extends Command
         if ($url = $input->getOption('url')) {
             $url = $urlValidator($url);
         } else {
-            $url = $dialog->askAndValidate($output, Lang::get('enter_phpci_url'), $urlValidator, false);
+            $question = new Question(Lang::get('enter_phpci_url'));
+            $question->setValidator($urlValidator);
+            $url = $helper->ask($input, $output, $question);
         }
 
         $phpci['url'] = $url;
-        $phpci['worker'] = $this->getQueueInformation($input, $output, $dialog);
+        $phpci['worker'] = $this->getQueueInformation($input, $output, $helper);
 
         return $phpci;
     }
 
     /**
      * If the user wants to use a queue, get the necessary details.
-     * @param InputInterface $input
+     * @param InputInterface  $input
      * @param OutputInterface $output
-     * @param DialogHelper $dialog
+     * @param QuestionHelper  $helper
      * @return array
      */
-    protected function getQueueInformation(InputInterface $input, OutputInterface $output, DialogHelper $dialog)
+    protected function getQueueInformation(InputInterface $input, OutputInterface $output, QuestionHelper $helper)
     {
         if ($input->getOption('queue-disabled')) {
             return null;
@@ -265,11 +270,13 @@ class InstallCommand extends Command
         }
 
         if (!$rtn['host'] = $input->getOption('queue-server')) {
-            $rtn['host'] = $dialog->ask($output, 'Enter your beanstalkd hostname [localhost]: ', 'localhost');
+            $questionQueue = new Question('Enter your beanstalkd hostname [localhost]: ', 'localhost');
+            $rtn['host']   = $helper->ask($input, $output, $questionQueue);
         }
 
         if (!$rtn['queue'] = $input->getOption('queue-name')) {
-            $rtn['queue'] = $dialog->ask($output, 'Enter the queue (tube) name to use [phpci]: ', 'phpci');
+            $questionName = new Question('Enter the queue (tube) name to use [phpci]: ', 'phpci');
+            $rtn['queue'] = $helper->ask($input, $output, $questionName);
         }
 
         return $rtn;
@@ -286,29 +293,34 @@ class InstallCommand extends Command
     {
         $db = [];
 
-        /**
-         * @var \Symfony\Component\Console\Helper\DialogHelper
-         */
-        $dialog = $this->getHelperSet()->get('dialog');
+        /** @var $helper QuestionHelper */
+        $helper = $this->getHelperSet()->get('question');
 
         if (!$dbHost = $input->getOption('db-host')) {
-            $dbHost = $dialog->ask($output, Lang::get('enter_db_host'), 'localhost');
+            $questionHost = new Question(Lang::get('enter_db_host'), 'localhost');
+            $dbHost       = $helper->ask($input, $output, $questionHost);
         }
 
         if (!$dbPort = $input->getOption('db-port')) {
-            $dbPort = $dialog->ask($output, Lang::get('enter_db_port'), '3306');
+            $questionPort = new Question(Lang::get('enter_db_port'), '3306');
+            $dbPort       = $helper->ask($input, $output, $questionPort);
         }
 
         if (!$dbName = $input->getOption('db-name')) {
-            $dbName = $dialog->ask($output, Lang::get('enter_db_name'), 'phpci');
+            $questionDb = new Question(Lang::get('enter_db_name'), 'phpci');
+            $dbName     = $helper->ask($input, $output, $questionDb);
         }
 
         if (!$dbUser = $input->getOption('db-user')) {
-            $dbUser = $dialog->ask($output, Lang::get('enter_db_user'), 'phpci');
+            $questionUser = new Question(Lang::get('enter_db_user'), 'phpci');
+            $dbUser       = $helper->ask($input, $output, $questionUser);
         }
 
         if (!$dbPass = $input->getOption('db-pass')) {
-            $dbPass = $dialog->askHiddenResponse($output, Lang::get('enter_db_pass'));
+            $questionPass = new Question(Lang::get('enter_db_pass'));
+            $questionPass->setHidden(true);
+            $questionPass->setHiddenFallback(false);
+            $dbPass = $helper->ask($input, $output, $questionPass);
         }
 
         $db['servers']['read']  = $dbHost;

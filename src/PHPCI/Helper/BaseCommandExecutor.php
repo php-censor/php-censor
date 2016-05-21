@@ -183,7 +183,7 @@ abstract class BaseCommandExecutor implements CommandExecutor
         }
 
         if ($quiet) {
-            return;
+            return null;
         }
         throw new Exception(Lang::get('could_not_find', implode('/', $binary)));
     }

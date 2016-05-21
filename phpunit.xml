@@ -12,9 +12,9 @@
     bootstrap="./tests/bootstrap.php"
 >
     <testsuites>
-        <testsuite name="PHPCI Command Test Suite">
+        <!--<testsuite name="PHPCI Command Test Suite">
             <directory suffix="Test.php">./tests/PHPCI/Command</directory>
-        </testsuite>
+        </testsuite>-->
         <testsuite name="PHPCI Controller Test Suite">
             <directory suffix="Test.php">./tests/PHPCI/Controller</directory>
         </testsuite>

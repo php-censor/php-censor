@@ -15,6 +15,8 @@ use PHPCI\Store\UserStore;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Helper\QuestionHelper;
+use Symfony\Component\Console\Question\Question;
 
 /**
  * Create admin command - creates an admin user
@@ -55,21 +57,27 @@ class CreateAdminCommand extends Command
     {
         $userService = new UserService($this->userStore);
 
-        /** @var $dialog \Symfony\Component\Console\Helper\DialogHelper */
-        $dialog = $this->getHelperSet()->get('dialog');
+        /** @var $helper QuestionHelper */
+        $helper = $this->getHelperSet()->get('question');
 
-        // Function to validate mail address.
-        $mailValidator = function ($answer) {
+        $question = new Question(Lang::get('enter_email'));
+        $question->setValidator(function ($answer) {
             if (!filter_var($answer, FILTER_VALIDATE_EMAIL)) {
                 throw new \InvalidArgumentException(Lang::get('must_be_valid_email'));
             }
 
             return $answer;
-        };
+        });
+        $adminEmail = $helper->ask($input, $output, $question);
 
-        $adminEmail = $dialog->askAndValidate($output, Lang::get('enter_email'), $mailValidator, false);
-        $adminName = $dialog->ask($output, Lang::get('enter_name'));
-        $adminPass = $dialog->askHiddenResponse($output, Lang::get('enter_password'));
+        $question  = new Question(Lang::get('enter_name'));
+        $adminName = $helper->ask($input, $output, $question);
+
+        $question  = new Question(Lang::get('enter_password'));
+        $question->setHidden(true);
+        $question->setHiddenFallback(false);
+
+        $adminPass = $helper->ask($input, $output, $question);
 
         try {
             $userService->createUser($adminName, $adminEmail, $adminPass, true);

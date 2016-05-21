@@ -65,7 +65,7 @@ class CommandExecutorTest extends \PHPUnit_Framework_TestCase
     public function testFindBinary_ReturnsPathInSpecifiedRoot()
     {
         $thisFileName = "CommandExecutorTest.php";
-        $returnValue = $this->testedExecutor->findBinary($thisFileName);
+        $returnValue  = $this->testedExecutor->findBinary($thisFileName, true);
         $this->assertEquals(__DIR__ . DIRECTORY_SEPARATOR . $thisFileName, $returnValue);
     }
 
