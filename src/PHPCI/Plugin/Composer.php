@@ -79,7 +79,7 @@ class Composer implements PHPCI\Plugin, PHPCI\ZeroConfigPlugin
         }
 
         if (array_key_exists('prefer_source', $options)) {
-            $this->preferDist = false;
+            $this->preferDist   = false;
             $this->preferSource = (bool)$options['prefer_source'];
         }
 
