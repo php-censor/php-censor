@@ -202,36 +202,6 @@
                                 <i class="fa fa-<?php print $project->getIcon(); ?>"></i>
                                 <span><?php print $project->getTitle(); ?></span>
                             </a>
-
-                            <?php /* <ul class="treeview-menu">
-
-                                <li>
-                                    <a href="<?php print PHPCI_URL; ?>project/view/<?php print $project->getId(); ?>">
-                                        <i class="fa fa-angle-double-right"></i> <?php Lang::out('view'); ?>
-                                    </a>
-                                </li>
-
-                                <li>
-                                    <a href="<?php print PHPCI_URL; ?>project/build/<?php print $project->getId(); ?>">
-                                        <i class="fa fa-angle-double-right"></i> <?php Lang::out('build_now'); ?>
-                                    </a>
-                                </li>
-
-                                <?php if ($this->User()->getIsAdmin()): ?>
-                                    <li>
-                                        <a href="<?php print PHPCI_URL; ?>project/edit/<?php print $project->getId(); ?>">
-                                            <i class="fa fa-angle-double-right"></i> <?php Lang::out('edit_project'); ?>
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <a href="<?php print PHPCI_URL; ?>project/delete/<?php print $project->getId(); ?>">
-                                            <i class="fa fa-angle-double-right"></i> <?php Lang::out('delete_project'); ?>
-                                        </a>
-                                    </li>
-                                <?php endif; ?>
-                            </ul>
-                            */ ?>
                         </li>
                         <?php endforeach; ?>
                     </ul>

@@ -33,7 +33,7 @@ var Build = Class.extend({
                 $('.build-started').data('date', self.buildData.started ? self.buildData.started : '');
                 $('.build-finished').data('date', self.buildData.finished ? self.buildData.finished : '');
                 $('#log pre').html(self.buildData.log);
-                $('.errors-table tbody').html(self.buildData.error_html);
+                $('.errors-table tbody').append(self.buildData.error_html);
 
                 if (self.buildData.errors == 0) {
                     $('.errors-label').hide();
@@ -79,7 +79,7 @@ var Build = Class.extend({
             var fullUri = window.PHPCI_URL + uri;
 
             if (name == 'build-updated') {
-                fullUri = window.PHPCI_URL + 'build/data/' + self.buildId;
+                fullUri = window.PHPCI_URL + 'build/data/' + self.buildId + '?since=' + self.buildData.since;
             }
 
             $.ajax({
@@ -161,20 +161,20 @@ var Build = Class.extend({
         var output = plugin.render();
 
         if (!plugin.box) {
-            output = $('<div class="box-body"></div>').html(output);
+            output = $('<div class="box-body"></div>').append(output);
         }
 
         var container = $('<div></div>').addClass('ui-plugin ' + plugin.css).attr('id', plugin.id);
-        var content = $('<div></div>').html(output);
+        var content = $('<div></div>').append(output);
         content.addClass('box box-default');
 
         if (plugin.title) {
             content.prepend('<div class="box-header"><h3 class="box-title">'+plugin.title+'</h3></div>');
         }
 
-        container.html(content);
+        container.append(content);
 
-        $('#plugins').html(container);
+        $('#plugins').append(container);
     },
 
     UiPlugin: Class.extend({
