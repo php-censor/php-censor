@@ -33,7 +33,7 @@ var Build = Class.extend({
                 $('.build-started').data('date', self.buildData.started ? self.buildData.started : '');
                 $('.build-finished').data('date', self.buildData.finished ? self.buildData.finished : '');
                 $('#log pre').html(self.buildData.log);
-                $('.errors-table tbody').append(self.buildData.error_html);
+                $('.errors-table tbody').html(self.buildData.error_html);
 
                 if (self.buildData.errors == 0) {
                     $('.errors-label').hide();
@@ -79,7 +79,7 @@ var Build = Class.extend({
             var fullUri = window.PHPCI_URL + uri;
 
             if (name == 'build-updated') {
-                fullUri = window.PHPCI_URL + 'build/data/' + self.buildId + '?since=' + self.buildData.since;
+                fullUri = window.PHPCI_URL + 'build/data/' + self.buildId;
             }
 
             $.ajax({
