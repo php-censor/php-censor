@@ -43,18 +43,16 @@ class Email implements Plugin
     /**
      * Set up the plugin, configure options, etc.
      * @param Builder $phpci
-     * @param Build $build
-     * @param \Swift_Mailer $mailer
-     * @param array $options
+     * @param Build   $build
+     * @param array   $options
      */
-    public function __construct(
-        Builder $phpci,
-        Build $build,
-        array $options = []
-    ) {
+    public function __construct(Builder $phpci, Build $build, array $options = [])
+    {
         $this->phpci   = $phpci;
         $this->build   = $build;
         $this->options = $options;
+
+        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**
@@ -83,14 +81,14 @@ class Email implements Plugin
             $view = $this->getDefaultMailTemplate();
         }
 
-        $view->build = $this->build;
+        $view->build   = $this->build;
         $view->project = $this->build->getProject();
 
-        $layout = new View('Email/layout');
-        $layout->build = $this->build;
+        $layout          = new View('Email/layout');
+        $layout->build   = $this->build;
         $layout->project = $this->build->getProject();
         $layout->content = $view->render();
-        $body = $layout->render();
+        $body            = $layout->render();
 
         $sendFailures = $this->sendSeparateEmails(
             $addresses,
@@ -127,7 +125,7 @@ class Email implements Plugin
             }
         }
 
-        return $email->send();
+        return $email->send($this->phpci);
     }
 
     /**
@@ -145,13 +143,14 @@ class Email implements Plugin
     public function sendSeparateEmails(array $toAddresses, $subject, $body)
     {
         $failures = 0;
-        $ccList = $this->getCcAddresses();
+        $ccList   = $this->getCcAddresses();
 
         foreach ($toAddresses as $address) {
             if (!$this->sendEmail($address, $ccList, $subject, $body)) {
                 $failures++;
             }
         }
+
         return $failures;
     }
 
@@ -164,17 +163,35 @@ class Email implements Plugin
         $addresses = [];
         $committer = $this->build->getCommitterEmail();
 
-        if (isset($this->options['committer']) && !empty($committer)) {
-            $addresses[] = $committer;
+        $this->phpci->logDebug(sprintf("Committer email: '%s'", $committer));
+        $this->phpci->logDebug(sprintf(
+            "Committer option: '%s'",
+            (!empty($this->options['committer']) && $this->options['committer']) ? 'true' : 'false'
+        ));
+
+        if (!empty($this->options['committer']) && $this->options['committer']) {
+            if ($committer) {
+                $addresses[] = $committer;
+            }
         }
 
-        if (isset($this->options['addresses'])) {
+        $this->phpci->logDebug(sprintf(
+            "Addresses option: '%s'",
+            (!empty($this->options['addresses']) && is_array($this->options['addresses'])) ? implode(', ', $this->options['addresses']) : 'false'
+        ));
+
+        if (!empty($this->options['addresses']) && is_array($this->options['addresses'])) {
             foreach ($this->options['addresses'] as $address) {
                 $addresses[] = $address;
             }
         }
 
-        if (empty($addresses) && isset($this->options['default_mailto_address'])) {
+        $this->phpci->logDebug(sprintf(
+            "Default mailTo option: '%s'",
+            !empty($this->options['default_mailto_address']) ? $this->options['default_mailto_address'] : 'false'
+        ));
+
+        if (empty($addresses) && !empty($this->options['default_mailto_address'])) {
             $addresses[] = $this->options['default_mailto_address'];
         }
 

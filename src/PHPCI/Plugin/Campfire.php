@@ -55,7 +55,6 @@ class Campfire implements Plugin
         } else {
             throw new \Exception(Lang::get('no_campfire_settings'));
         }
-
     }
 
     /**

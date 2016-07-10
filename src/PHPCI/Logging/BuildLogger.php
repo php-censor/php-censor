@@ -91,11 +91,7 @@ class BuildLogger implements LoggerAwareInterface
             $context['exception'] = $exception;
         }
     
-        $this->log(
-            "\033[0;31m" . $message . "\033[0m",
-            LogLevel::ERROR,
-            $context
-        );
+        $this->log("\033[0;31m" . $message . "\033[0m", LogLevel::ERROR, $context);
     }
 
     /**
@@ -105,7 +101,7 @@ class BuildLogger implements LoggerAwareInterface
     public function logDebug($message)
     {
         if (defined('PHPCI_DEBUG_MODE') && PHPCI_DEBUG_MODE) {
-            $this->log("\033[0;33m" . $message . "\033[0m");
+            $this->log("\033[0;36m" . $message . "\033[0m");
         }
     }
 

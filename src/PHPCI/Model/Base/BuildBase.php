@@ -190,7 +190,7 @@ class BuildBase extends Model
     */
     public function getId()
     {
-        $rtn    = $this->data['id'];
+        $rtn = $this->data['id'];
 
         return $rtn;
     }
@@ -202,7 +202,7 @@ class BuildBase extends Model
     */
     public function getProjectId()
     {
-        $rtn    = $this->data['project_id'];
+        $rtn = $this->data['project_id'];
 
         return $rtn;
     }
@@ -214,7 +214,7 @@ class BuildBase extends Model
     */
     public function getCommitId()
     {
-        $rtn    = $this->data['commit_id'];
+        $rtn = $this->data['commit_id'];
 
         return $rtn;
     }
@@ -226,7 +226,7 @@ class BuildBase extends Model
     */
     public function getStatus()
     {
-        $rtn    = $this->data['status'];
+        $rtn = $this->data['status'];
 
         return $rtn;
     }
@@ -238,7 +238,7 @@ class BuildBase extends Model
     */
     public function getLog()
     {
-        $rtn    = $this->data['log'];
+        $rtn = $this->data['log'];
 
         return $rtn;
     }
@@ -250,7 +250,7 @@ class BuildBase extends Model
     */
     public function getBranch()
     {
-        $rtn    = $this->data['branch'];
+        $rtn = $this->data['branch'];
 
         return $rtn;
     }
@@ -262,10 +262,10 @@ class BuildBase extends Model
     */
     public function getCreated()
     {
-        $rtn    = $this->data['created'];
+        $rtn = $this->data['created'];
 
         if (!empty($rtn)) {
-            $rtn    = new \DateTime($rtn);
+            $rtn = new \DateTime($rtn);
         }
         
         return $rtn;
@@ -278,10 +278,10 @@ class BuildBase extends Model
     */
     public function getStarted()
     {
-        $rtn    = $this->data['started'];
+        $rtn = $this->data['started'];
 
         if (!empty($rtn)) {
-            $rtn    = new \DateTime($rtn);
+            $rtn = new \DateTime($rtn);
         }
         
         return $rtn;
@@ -294,10 +294,10 @@ class BuildBase extends Model
     */
     public function getFinished()
     {
-        $rtn    = $this->data['finished'];
+        $rtn = $this->data['finished'];
 
         if (!empty($rtn)) {
-            $rtn    = new \DateTime($rtn);
+            $rtn = new \DateTime($rtn);
         }
         
         return $rtn;
@@ -310,7 +310,7 @@ class BuildBase extends Model
     */
     public function getCommitterEmail()
     {
-        $rtn    = $this->data['committer_email'];
+        $rtn = $this->data['committer_email'];
 
         return $rtn;
     }
@@ -322,7 +322,7 @@ class BuildBase extends Model
     */
     public function getCommitMessage()
     {
-        $rtn    = $this->data['commit_message'];
+        $rtn = $this->data['commit_message'];
 
         return $rtn;
     }
@@ -334,7 +334,7 @@ class BuildBase extends Model
     */
     public function getExtra()
     {
-        $rtn    = $this->data['extra'];
+        $rtn = $this->data['extra'];
 
         return $rtn;
     }
@@ -580,11 +580,11 @@ class BuildBase extends Model
             return null;
         }
 
-        $cacheKey   = 'Cache.Project.' . $key;
-        $rtn        = $this->cache->get($cacheKey, null);
+        $cacheKey = 'Cache.Project.' . $key;
+        $rtn      = $this->cache->get($cacheKey, null);
 
         if (empty($rtn)) {
-            $rtn    = Factory::getStore('Project', 'PHPCI')->getById($key);
+            $rtn = Factory::getStore('Project', 'PHPCI')->getById($key);
             $this->cache->set($cacheKey, $rtn);
         }
 

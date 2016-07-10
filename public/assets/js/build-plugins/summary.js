@@ -27,7 +27,7 @@ var SummaryPlugin = ActiveBuild.UiPlugin.extend({
                     '<th>'+Lang.get('stage')+'</th>' +
                     '<th>'+Lang.get('plugin')+'</th>' +
                     '<th>'+Lang.get('status')+'</th>' +
-                    '<th class="text-right">'+Lang.get('duration')+' (s)</th>' +
+                    '<th class="text-right">' + Lang.get('duration') + ' (' + Lang.get('seconds') + ')</th>' +
             '</tr></thead><tbody></tbody></table></div>'
         );
     },
@@ -48,8 +48,8 @@ var SummaryPlugin = ActiveBuild.UiPlugin.extend({
                     duration = data.started ? ((data.ended || Math.floor(Date.now()/1000)) - data.started) : '-';
                 tbody.append(
                     '<tr>' +
-                        '<td>' + Lang.get('stage_'+stage) + '</td>' +
-                        '<td>' + plugin + '</td>' +
+                        '<td>' + Lang.get('stage_' + stage) + '</td>' +
+                        '<td>' + Lang.get(plugin) + '</td>' +
                         '<td><span  class="' + this.statusClasses[data.status] + '">' +
                             '<i class="fa ' + this.statusIcons[data.status] + '"></i>&nbsp;' +
                             this.statusLabels[data.status] +

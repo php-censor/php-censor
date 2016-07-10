@@ -78,7 +78,7 @@ class Executor
     protected function getBranchSpecificPlugins(&$config, $stage, $pluginsToExecute)
     {
         /** @var \PHPCI\Model\Build $build */
-        $build = $this->pluginFactory->getResourceFor('PHPCI\Model\Build');
+        $build  = $this->pluginFactory->getResourceFor('PHPCI\Model\Build');
         $branch = $build->getBranch();
 
         // If we don't have any branch-specific plugins:
@@ -133,7 +133,7 @@ class Executor
         $success = true;
 
         foreach ($plugins as $plugin => $options) {
-            $this->logger->log(Lang::get('running_plugin', $plugin));
+            $this->logger->log("\n" . Lang::get('running_plugin', Lang::get($plugin)) . ' (' . Lang::get('stage') . ': ' . Lang::get('stage_' . $stage) . ')');
 
             $this->setPluginStatus($stage, $plugin, Build::STATUS_RUNNING);
 
@@ -144,18 +144,21 @@ class Executor
                 $this->setPluginStatus($stage, $plugin, Build::STATUS_SUCCESS);
             } else {
                 // Execution failed
-                $this->logger->logFailure(Lang::get('plugin_failed'));
                 $this->setPluginStatus($stage, $plugin, Build::STATUS_FAILED);
 
                 if ($stage === 'setup') {
+                    $this->logger->logFailure(Lang::get('plugin_failed'));
                     // If we're in the "setup" stage, execution should not continue after
                     // a plugin has failed:
                     throw new Exception('Plugin failed: ' . $plugin);
-                } elseif ($stage === 'test') {
+                } else {
                     // If we're in the "test" stage and the plugin is not allowed to fail,
                     // then mark the build as failed:
-                    if (empty($options['allow_failures'])) {
+                    if (empty($options['allow_failures']) && $stage === 'test') {
+                        $this->logger->logFailure(Lang::get('plugin_failed'));
                         $success = false;
+                    } else {
+                        $this->logger->logFailure(Lang::get('plugin_failed') . ' (' . Lang::get('failed_allowed') . ')');
                     }
                 }
             }
@@ -182,15 +185,18 @@ class Executor
 
         if (!class_exists($class)) {
             $this->logger->logFailure(Lang::get('plugin_missing', $plugin));
+
             return false;
         }
 
         try {
             // Build and run it
             $obj = $this->pluginFactory->buildPlugin($class, $options);
+
             return $obj->execute();
         } catch (\Exception $ex) {
             $this->logger->logFailure(Lang::get('exception') . $ex->getMessage(), $ex);
+
             return false;
         }
     }
@@ -228,6 +234,7 @@ class Executor
      */
     private function getBuildSummary()
     {
+        /** @var Build $build */
         $build = $this->pluginFactory->getResourceFor('PHPCI\Model\Build');
         $metas = $this->store->getMeta('plugin-summary', $build->getProjectId(), $build->getId());
         return isset($metas[0]['meta_value']) ? $metas[0]['meta_value'] : [];
@@ -240,6 +247,7 @@ class Executor
      */
     private function setBuildSummary($summary)
     {
+        /** @var Build $build */
         $build = $this->pluginFactory->getResourceFor('PHPCI\Model\Build');
         $this->store->setMeta($build->getProjectId(), $build->getId(), 'plugin-summary', json_encode($summary));
     }

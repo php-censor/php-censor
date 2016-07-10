@@ -42,6 +42,8 @@ class CopyBuild implements Plugin
         $this->directory = isset($options['directory']) ? $options['directory'] : $path;
         $this->wipe      = isset($options['wipe']) ?  (bool)$options['wipe'] : false;
         $this->ignore    = isset($options['respect_ignore']) ?  (bool)$options['respect_ignore'] : false;
+
+        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**

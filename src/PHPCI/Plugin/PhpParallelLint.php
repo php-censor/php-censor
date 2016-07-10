@@ -67,6 +67,8 @@ class PhpParallelLint implements Plugin
         if (isset($options['ignore'])) {
             $this->ignore = $options['ignore'];
         }
+
+        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**

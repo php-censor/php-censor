@@ -40,6 +40,8 @@ class PackageBuild implements Plugin
         $this->directory = isset($options['directory']) ? $options['directory'] : $path;
         $this->filename  = isset($options['filename']) ? $options['filename'] : 'build';
         $this->format    = isset($options['format']) ?  $options['format'] : 'zip';
+
+        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**

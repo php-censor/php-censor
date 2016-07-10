@@ -31,15 +31,6 @@ class Factory
         } else {
             $this->container = new Container();
         }
-
-        $self = $this;
-        $this->registerResource(
-            function () use ($self) {
-                return $self->getLastOptions();
-            },
-            'options',
-            'array'
-        );
     }
 
     /**
@@ -99,7 +90,11 @@ class Factory
         if ($constructor) {
             $argsToUse = [];
             foreach ($constructor->getParameters() as $param) {
-                $argsToUse = $this->addArgFromParam($argsToUse, $param);
+                if ('options' === $param->getName()) {
+                    $argsToUse[] = $options;
+                } else {
+                    $argsToUse = $this->addArgFromParam($argsToUse, $param);
+                }
             }
             $plugin = $reflectedPlugin->newInstanceArgs($argsToUse);
         } else {
@@ -204,7 +199,7 @@ class Factory
     {
         $name = $param->getName();
         $type = $this->getParamType($param);
-        $arg = $this->getResourceFor($type, $name);
+        $arg  = $this->getResourceFor($type, $name);
 
         if ($arg !== null) {
             $existingArgs[] = $arg;

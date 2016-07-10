@@ -57,6 +57,8 @@ class Lint implements PHPCI\Plugin
         if (array_key_exists('recursive', $options)) {
             $this->recursive = $options['recursive'];
         }
+
+        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**

@@ -76,7 +76,7 @@ var locPlugin = ActiveBuild.UiPlugin.extend({
         };
 
         for (var i in builds) {
-            self.chartData.labels.push('Build ' + builds[i].build_id);
+            self.chartData.labels.push(Lang.get('build') + ' ' + builds[i].build_id);
             self.chartData.datasets[0].data.push(builds[i].meta_value.LOC);
             self.chartData.datasets[1].data.push(builds[i].meta_value.LLOC);
             self.chartData.datasets[2].data.push(builds[i].meta_value.CLOC);

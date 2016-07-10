@@ -90,6 +90,8 @@ class Mysql implements Plugin
         if (array_key_exists('pass', $buildSettings['mysql'])) {
             $this->pass = $buildSettings['mysql']['pass'];
         }
+
+        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**

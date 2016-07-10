@@ -45,6 +45,8 @@ class Wipe implements Plugin
         $this->phpci        = $phpci;
         $this->build = $build;
         $this->directory    = isset($options['directory']) ? $this->phpci->interpolate($options['directory']) : $path;
+
+        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**

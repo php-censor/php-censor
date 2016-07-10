@@ -67,6 +67,8 @@ class Gulp implements Plugin
         if (isset($options['gulpfile'])) {
             $this->gulpfile = $options['gulpfile'];
         }
+
+        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**

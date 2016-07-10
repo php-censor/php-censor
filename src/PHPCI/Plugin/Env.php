@@ -34,9 +34,11 @@ class Env implements Plugin
      */
     public function __construct(Builder $phpci, Build $build, array $options = [])
     {
-        $this->phpci = $phpci;
-        $this->build = $build;
+        $this->phpci    = $phpci;
+        $this->build    = $build;
         $this->env_vars = $options;
+
+        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**
