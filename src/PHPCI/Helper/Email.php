@@ -10,6 +10,7 @@
 namespace PHPCI\Helper;
 
 use b8\Config;
+use PHPCI\Builder;
 
 /**
  * Helper class for sending emails using PHPCI's email configuration.
@@ -98,11 +99,15 @@ class Email
 
     /**
      * Send the email.
+     * 
+     * @param Builder $phpci
+     * 
      * @return bool|int
      */
-    public function send()
+    public function send(Builder $phpci)
     {
         $smtpServer = $this->config->get('phpci.email_settings.smtp_address');
+        $phpci->logDebug(sprintf("SMTP: '%s'", !empty($smtpServer) ? 'true' : 'false'));
 
         if (empty($smtpServer)) {
             return $this->sendViaMail();

@@ -66,6 +66,8 @@ class Pdepend implements Plugin
         $this->pyramid  = $title . '-pyramid.svg';
         $this->chart    = $title . '-chart.svg';
         $this->location = $this->phpci->buildPath . '..' . DIRECTORY_SEPARATOR . 'pdepend';
+
+        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**

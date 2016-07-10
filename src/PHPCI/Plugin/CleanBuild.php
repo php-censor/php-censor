@@ -43,6 +43,8 @@ class CleanBuild implements Plugin
         $this->phpci  = $phpci;
         $this->build  = $build;
         $this->remove = isset($options['remove']) && is_array($options['remove']) ? $options['remove'] : [];
+
+        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**

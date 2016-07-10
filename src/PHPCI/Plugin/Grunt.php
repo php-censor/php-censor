@@ -67,6 +67,8 @@ class Grunt implements Plugin
         if (isset($options['gruntfile'])) {
             $this->gruntfile = $options['gruntfile'];
         }
+
+        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**

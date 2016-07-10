@@ -101,6 +101,8 @@ class TechnicalDebt implements PHPCI\Plugin, PHPCI\ZeroConfigPlugin
         }
 
         $this->setOptions($options);
+
+        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**

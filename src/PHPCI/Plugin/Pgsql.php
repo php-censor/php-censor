@@ -71,6 +71,8 @@ class Pgsql implements Plugin
             $this->user = $sql['user'];
             $this->pass = $sql['pass'];
         }
+
+        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**

@@ -58,6 +58,8 @@ class Sqlite implements Plugin
             $sql = $buildSettings['sqlite'];
             $this->path = $sql['path'];
         }
+
+        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**

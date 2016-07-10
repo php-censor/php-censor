@@ -94,6 +94,8 @@ class PhpDocblockChecker implements PHPCI\Plugin, PHPCI\ZeroConfigPlugin
         if (array_key_exists('allowed_warnings', $options)) {
             $this->allowed_warnings = (int)$options['allowed_warnings'];
         }
+
+        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**

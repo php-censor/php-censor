@@ -108,6 +108,8 @@ class PhpMessDetector implements PHPCI\Plugin, PHPCI\ZeroConfigPlugin
         foreach (['rules', 'ignore', 'suffixes'] as $key) {
             $this->overrideSetting($options, $key);
         }
+
+        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**

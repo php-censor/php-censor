@@ -66,7 +66,6 @@ class HipchatNotify implements Plugin
         } else {
             throw new \Exception(Lang::get('hipchat_settings'));
         }
-
     }
 
     /**

@@ -135,6 +135,8 @@ class PhpUnit implements PHPCI\Plugin, PHPCI\ZeroConfigPlugin
         if (isset($options['coverage'])) {
             $this->coverage = ' --coverage-html ' . $this->phpci->interpolate($options['coverage']) . ' ';
         }
+
+        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**

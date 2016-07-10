@@ -220,32 +220,37 @@ class Builder implements LoggerAwareInterface
                 if ($previous_state == Build::STATUS_FAILED) {
                     $this->pluginExecutor->executePlugins($this->config, 'fixed');
                 }
-
-                $this->buildLogger->logSuccess(Lang::get('build_success'));
             } else {
                 $this->pluginExecutor->executePlugins($this->config, 'failure');
 
                 if ($previous_state == Build::STATUS_SUCCESS || $previous_state == Build::STATUS_NEW) {
                     $this->pluginExecutor->executePlugins($this->config, 'broken');
                 }
-
-                $this->buildLogger->logFailure(Lang::get('build_failed'));
             }
         } catch (\Exception $ex) {
             $this->build->setStatus(Build::STATUS_FAILED);
             $this->buildLogger->logFailure(Lang::get('exception') . $ex->getMessage());
-        }finally{
-            // Complete stage plugins are always run
-            $this->pluginExecutor->executePlugins($this->config, 'complete');
+        }
+        
+        if (Build::STATUS_FAILED === $this->build->getStatus()) {
+            $this->buildLogger->logFailure("\n" . Lang::get('build_failed'));
+        } else {
+            $this->buildLogger->logSuccess("\n" . Lang::get('build_success'));
         }
 
+        try {
+            // Complete stage plugins are always run
+            $this->pluginExecutor->executePlugins($this->config, 'complete');
+        } catch (\Exception $ex) {
+            $this->buildLogger->logFailure(Lang::get('exception') . $ex->getMessage());
+        }
 
         // Update the build in the database, ping any external services, etc.
         $this->build->sendStatusPostback();
         $this->build->setFinished(new \DateTime());
 
         // Clean up:
-        $this->buildLogger->log(Lang::get('removing_build'));
+        $this->buildLogger->log("\n" . Lang::get('removing_build'));
         $this->build->removeBuildDirectory();
 
         $this->store->save($this->build);
@@ -355,8 +360,9 @@ class Builder implements LoggerAwareInterface
         $this->buildLogger->log($message, $level, $context);
     }
 
-   /**
+    /**
      * Add a success-coloured message to the log.
+     * 
      * @param string
      */
     public function logSuccess($message)
@@ -366,6 +372,7 @@ class Builder implements LoggerAwareInterface
 
     /**
      * Add a failure-coloured message to the log.
+     * 
      * @param string $message
      * @param \Exception $exception The exception that caused the error.
      */
@@ -373,6 +380,17 @@ class Builder implements LoggerAwareInterface
     {
         $this->buildLogger->logFailure($message, $exception);
     }
+
+    /**
+     * Add a debug message to the log.
+     * 
+     * @param string
+     */
+    public function logDebug($message)
+    {
+        $this->buildLogger->logDebug($message);
+    }
+
     /**
      * Returns a configured instance of the plugin factory.
      *

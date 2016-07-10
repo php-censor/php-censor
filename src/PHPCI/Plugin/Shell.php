@@ -72,6 +72,8 @@ class Shell implements Plugin
         if (is_array($options)) {
             $this->commands = $options;
         }
+
+        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**

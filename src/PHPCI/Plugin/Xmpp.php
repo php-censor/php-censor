@@ -91,6 +91,8 @@ class XMPP implements Plugin
         }
 
         $this->setOptions($options);
+
+        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**

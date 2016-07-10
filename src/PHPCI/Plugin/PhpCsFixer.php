@@ -56,6 +56,8 @@ class PhpCsFixer implements Plugin
 
         $this->workingdir = $this->phpci->buildPath;
         $this->buildArgs($options);
+
+        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**

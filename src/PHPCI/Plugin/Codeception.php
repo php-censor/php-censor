@@ -98,6 +98,8 @@ class Codeception implements Plugin, ZeroConfigPlugin
         if (isset($options['path'])) {
             $this->path = $options['path'];
         }
+
+        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**

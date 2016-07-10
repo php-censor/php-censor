@@ -87,6 +87,8 @@ class Phar implements Plugin
         if (isset($options['stub'])) {
             $this->setStub($options['stub']);
         }
+
+        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**

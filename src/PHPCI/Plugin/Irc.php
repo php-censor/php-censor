@@ -59,6 +59,8 @@ class Irc implements Plugin
             $this->room = $irc['room'];
             $this->nick = $irc['nick'];
         }
+
+        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**

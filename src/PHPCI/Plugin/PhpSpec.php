@@ -44,9 +44,11 @@ class PhpSpec implements PHPCI\Plugin
      */
     public function __construct(Builder $phpci, Build $build, array $options = [])
     {
-        $this->phpci = $phpci;
-        $this->build = $build;
+        $this->phpci   = $phpci;
+        $this->build   = $build;
         $this->options = $options;
+
+        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**

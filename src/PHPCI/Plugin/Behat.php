@@ -54,6 +54,8 @@ class Behat implements Plugin
         if (!empty($options['features'])) {
             $this->features = $options['features'];
         }
+
+        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**

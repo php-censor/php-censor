@@ -298,4 +298,17 @@ class Build extends BuildBase
 
         return $end->getTimestamp() - $start->getTimestamp();
     }
+
+    /**
+     * Create a working copy by cloning, copying, or similar.
+     * 
+     * @param Builder $builder
+     * @param string  $buildPath
+     * 
+     * @return boolean
+     */
+    public function createWorkingCopy(Builder $builder, $buildPath)
+    {
+        return false;
+    }
 }

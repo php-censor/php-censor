@@ -90,6 +90,8 @@ class Composer implements PHPCI\Plugin, PHPCI\ZeroConfigPlugin
         if (array_key_exists('ignore_platform_reqs', $options)) {
             $this->ignorePlatformReqs = (bool)$options['ignore_platform_reqs'];
         }
+
+        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**

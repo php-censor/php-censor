@@ -61,6 +61,8 @@ class PhpLoc implements PHPCI\Plugin, PHPCI\ZeroConfigPlugin
         if (isset($options['directory'])) {
             $this->directory .= $options['directory'];
         }
+
+        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**

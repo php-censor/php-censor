@@ -31,15 +31,6 @@ class Factory
         } else {
             $this->container = new Container();
         }
-
-        $self = $this;
-        $this->registerResource(
-            function () use ($self) {
-                return $self->getLastOptions();
-            },
-            'options',
-            'array'
-        );
     }
 
     /**
