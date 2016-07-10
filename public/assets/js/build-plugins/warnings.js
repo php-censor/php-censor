@@ -102,7 +102,7 @@ var warningsPlugin = ActiveBuild.UiPlugin.extend({
         }
 
         for (var build in self.data) {
-            self.chartData.labels.push('Build ' + build);
+            self.chartData.labels.push(Lang.get('build') + ' ' + build);
 
             var i = 0;
             for (var key in self.keys) {
