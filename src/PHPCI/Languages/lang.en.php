@@ -320,6 +320,7 @@ PHPCI',
     'stage_failure'  => 'Failure',
     'stage_broken'   => 'Broken',
     'stage_fixed'    => 'Fixed',
+    'severity'       => 'Severity',
     
     'build_details'  => 'Build Details',
     'commit_details' => 'Commit Details',
