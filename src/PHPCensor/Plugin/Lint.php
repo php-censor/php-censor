@@ -12,6 +12,7 @@ namespace PHPCensor\Plugin;
 use PHPCensor;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
+use PHPCensor\Plugin;
 
 /**
  * PHP Lint Plugin - Provides access to PHP lint functionality.
@@ -19,32 +20,21 @@ use PHPCensor\Model\Build;
  * @package      PHPCI
  * @subpackage   Plugins
  */
-class Lint implements PHPCensor\Plugin
+class Lint extends Plugin
 {
     protected $directories;
     protected $recursive = true;
     protected $ignore;
-    protected $phpci;
-    protected $build;
 
     /**
-     * Standard Constructor
-     *
-     * $options['directory'] Output Directory. Default: %BUILDPATH%
-     * $options['filename']  Phar Filename. Default: build.phar
-     * $options['regexp']    Regular Expression Filename Capture. Default: /\.php$/
-     * $options['stub']      Stub Content. No Default Value
-     *
-     * @param Builder $phpci
-     * @param Build   $build
-     * @param array   $options
+     * {@inheritdoc}
      */
     public function __construct(Builder $phpci, Build $build, array $options = [])
     {
-        $this->phpci = $phpci;
-        $this->build = $build;
+        parent::__construct($phpci, $build, $options);
+
         $this->directories = [''];
-        $this->ignore = $phpci->ignore;
+        $this->ignore      = $this->phpci->ignore;
 
         if (!empty($options['directory'])) {
             $this->directories[] = $options['directory'];
@@ -57,8 +47,6 @@ class Lint implements PHPCensor\Plugin
         if (array_key_exists('recursive', $options)) {
             $this->recursive = $options['recursive'];
         }
-
-        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**
@@ -67,7 +55,7 @@ class Lint implements PHPCensor\Plugin
     public function execute()
     {
         $this->phpci->quiet = true;
-        $success = true;
+        $success            = true;
 
         $php = $this->phpci->findBinary('php');
 

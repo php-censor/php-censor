@@ -19,36 +19,25 @@ use PHPCensor\Plugin;
 * @package      PHPCI
 * @subpackage   Plugins
 */
-class Grunt implements Plugin
+class Grunt extends Plugin
 {
     protected $directory;
     protected $task;
     protected $preferDist;
-    protected $phpci;
-    protected $build;
     protected $grunt;
     protected $gruntfile;
 
     /**
-     * Standard Constructor
-     *
-     * $options['directory'] Output Directory. Default: %BUILDPATH%
-     * $options['filename']  Phar Filename. Default: build.phar
-     * $options['regexp']    Regular Expression Filename Capture. Default: /\.php$/
-     * $options['stub']      Stub Content. No Default Value
-     *
-     * @param Builder $phpci
-     * @param Build   $build
-     * @param array   $options
+     * {@inheritdoc}
      */
     public function __construct(Builder $phpci, Build $build, array $options = [])
     {
-        $path = $phpci->buildPath;
-        $this->build = $build;
-        $this->phpci = $phpci;
+        parent::__construct($phpci, $build, $options);
+        
+        $path            = $this->phpci->buildPath;
         $this->directory = $path;
-        $this->task = null;
-        $this->grunt = $this->phpci->findBinary('grunt');
+        $this->task      = null;
+        $this->grunt     = $this->phpci->findBinary('grunt');
         $this->gruntfile = 'Gruntfile.js';
 
         // Handle options:
@@ -67,8 +56,6 @@ class Grunt implements Plugin
         if (isset($options['gruntfile'])) {
             $this->gruntfile = $options['gruntfile'];
         }
-
-        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**

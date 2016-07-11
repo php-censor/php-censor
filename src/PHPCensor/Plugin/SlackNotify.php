@@ -21,7 +21,7 @@ use Maknz\Slack\AttachmentField;
  * @package      PHPCI
  * @subpackage   Plugins
  */
-class SlackNotify implements Plugin
+class SlackNotify extends Plugin
 {
     private $webHook;
     private $room;
@@ -31,16 +31,11 @@ class SlackNotify implements Plugin
     private $show_status;
 
     /**
-     * Set up the plugin, configure options, etc.
-     * @param Builder $phpci
-     * @param Build $build
-     * @param array $options
-     * @throws \Exception
+     * {@inheritdoc}
      */
     public function __construct(Builder $phpci, Build $build, array $options = [])
     {
-        $this->phpci = $phpci;
-        $this->build = $build;
+        parent::__construct($phpci, $build, $options);
 
         if (is_array($options) && isset($options['webhook_url'])) {
             $this->webHook = trim($options['webhook_url']);

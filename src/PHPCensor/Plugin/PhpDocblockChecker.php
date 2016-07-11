@@ -12,6 +12,8 @@ namespace PHPCensor\Plugin;
 use PHPCensor;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
+use PHPCensor\Plugin;
+use PHPCensor\ZeroConfigPlugin;
 
 /**
 * PHP Docblock Checker Plugin - Checks your PHP files for appropriate uses of Docblocks
@@ -19,18 +21,8 @@ use PHPCensor\Model\Build;
 * @package      PHPCI
 * @subpackage   Plugins
 */
-class PhpDocblockChecker implements PHPCensor\Plugin, PHPCensor\ZeroConfigPlugin
+class PhpDocblockChecker extends Plugin implements ZeroConfigPlugin
 {
-    /**
-     * @var \PHPCensor\Builder
-     */
-    protected $phpci;
-
-    /**
-     * @var \PHPCensor\Model\Build
-     */
-    protected $build;
-
     /**
      * @var string Based on the assumption the root may not hold the code to be
      * tested, extends the build path.
@@ -44,34 +36,16 @@ class PhpDocblockChecker implements PHPCensor\Plugin, PHPCensor\ZeroConfigPlugin
 
     protected $skipClasses = false;
     protected $skipMethods = false;
+    protected $allowed_warnings;
 
     /**
-     * Check if this plugin can be executed.
-     * @param $stage
-     * @param Builder $builder
-     * @param Build $build
-     * @return bool
-     */
-    public static function canExecute($stage, Builder $builder, Build $build)
-    {
-        if ($stage == 'test') {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Set up the plugin, configure options, etc.
-     * @param Builder $phpci
-     * @param Build $build
-     * @param array $options
+     * {@inheritdoc}
      */
     public function __construct(Builder $phpci, Build $build, array $options = [])
     {
-        $this->phpci = $phpci;
-        $this->build = $build;
-        $this->ignore = $phpci->ignore;
+        parent::__construct($phpci, $build, $options);
+
+        $this->ignore = $this->phpci->ignore;
         $this->path = '';
         $this->allowed_warnings = 0;
 
@@ -94,8 +68,22 @@ class PhpDocblockChecker implements PHPCensor\Plugin, PHPCensor\ZeroConfigPlugin
         if (array_key_exists('allowed_warnings', $options)) {
             $this->allowed_warnings = (int)$options['allowed_warnings'];
         }
+    }
 
-        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
+    /**
+     * Check if this plugin can be executed.
+     * @param $stage
+     * @param Builder $builder
+     * @param Build $build
+     * @return bool
+     */
+    public static function canExecute($stage, Builder $builder, Build $build)
+    {
+        if ($stage == 'test') {
+            return true;
+        }
+
+        return false;
     }
 
     /**

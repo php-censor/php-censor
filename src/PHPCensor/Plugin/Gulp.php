@@ -19,37 +19,26 @@ use PHPCensor\Plugin;
 * @package      PHPCI
 * @subpackage   Plugins
 */
-class Gulp implements Plugin
+class Gulp extends Plugin
 {
     protected $directory;
     protected $task;
     protected $preferDist;
-    protected $phpci;
-    protected $build;
     protected $gulp;
     protected $gulpfile;
 
     /**
-     * Standard Constructor
-     *
-     * $options['directory'] Output Directory. Default: %BUILDPATH%
-     * $options['filename']  Phar Filename. Default: build.phar
-     * $options['regexp']    Regular Expression Filename Capture. Default: /\.php$/
-     * $options['stub']      Stub Content. No Default Value
-     *
-     * @param Builder $phpci
-     * @param Build   $build
-     * @param array   $options
+     * {@inheritdoc}
      */
     public function __construct(Builder $phpci, Build $build, array $options = [])
     {
-        $path = $phpci->buildPath;
-        $this->build = $build;
-        $this->phpci = $phpci;
+        parent::__construct($phpci, $build, $options);
+        
+        $path            = $this->phpci->buildPath;
         $this->directory = $path;
-        $this->task = null;
-        $this->gulp = $this->phpci->findBinary('gulp');
-        $this->gulpfile = 'gulpfile.js';
+        $this->task      = null;
+        $this->gulp      = $this->phpci->findBinary('gulp');
+        $this->gulpfile  = 'gulpfile.js';
 
         // Handle options:
         if (isset($options['directory'])) {
@@ -67,8 +56,6 @@ class Gulp implements Plugin
         if (isset($options['gulpfile'])) {
             $this->gulpfile = $options['gulpfile'];
         }
-
-        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**

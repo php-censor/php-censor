@@ -12,6 +12,7 @@ namespace PHPCensor\Plugin;
 use PHPCensor;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
+use PHPCensor\Plugin;
 
 /**
  * PHPTAL Lint Plugin - Provides access to PHPTAL lint functionality.
@@ -19,22 +20,12 @@ use PHPCensor\Model\Build;
  * @package      PHPCI
  * @subpackage   Plugins
  */
-class PhpTalLint implements PHPCensor\Plugin
+class PhpTalLint extends Plugin
 {
     protected $directories;
     protected $recursive = true;
     protected $suffixes;
     protected $ignore;
-
-    /**
-     * @var \PHPCensor\Builder
-     */
-    protected $phpci;
-
-    /**
-     * @var \PHPCensor\Model\Build
-     */
-    protected $build;
 
     /**
      * @var string The path to a file contain custom phptal_tales_ functions
@@ -57,19 +48,15 @@ class PhpTalLint implements PHPCensor\Plugin
     protected $failedPaths = [];
 
     /**
-     * Standard Constructor
-     *
-     * @param Builder $phpci
-     * @param Build   $build
-     * @param array   $options
+     * {@inheritdoc}
      */
     public function __construct(Builder $phpci, Build $build, array $options = [])
     {
-        $this->phpci = $phpci;
-        $this->build = $build;
+        parent::__construct($phpci, $build, $options);
+
         $this->directories = [''];
         $this->suffixes = ['zpt'];
-        $this->ignore = $phpci->ignore;
+        $this->ignore = $this->phpci->ignore;
 
         $this->allowed_warnings = 0;
         $this->allowed_errors = 0;
@@ -80,23 +67,6 @@ class PhpTalLint implements PHPCensor\Plugin
 
         if (isset($options['suffixes'])) {
             $this->suffixes = (array)$options['suffixes'];
-        }
-
-        $this->setOptions($options);
-
-        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
-    }
-
-    /**
-     * Handle this plugin's options.
-     * @param $options
-     */
-    protected function setOptions($options)
-    {
-        foreach (['directories', 'tales', 'allowed_warnings', 'allowed_errors'] as $key) {
-            if (array_key_exists($key, $options)) {
-                $this->{$key} = $options[$key];
-            }
         }
     }
 

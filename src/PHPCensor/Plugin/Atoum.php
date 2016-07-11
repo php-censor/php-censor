@@ -16,24 +16,22 @@ use PHPCensor\Plugin;
 
 /**
  * Atoum plugin, runs Atoum tests within a project.
+ * 
  * @package PHPCensor\Plugin
  */
-class Atoum implements Plugin
+class Atoum extends Plugin
 {
-    private $args;
-    private $config;
-    private $directory;
+    protected $executable;
+    protected $args;
+    protected $config;
+    protected $directory;
 
     /**
-     * Set up the plugin, configure options, etc.
-     * @param Builder $phpci
-     * @param Build $build
-     * @param array $options
+     * {@inheritdoc}
      */
     public function __construct(Builder $phpci, Build $build, array $options = [])
     {
-        $this->phpci = $phpci;
-        $this->build = $build;
+        parent::__construct($phpci, $build, $options);
 
         if (isset($options['executable'])) {
             $this->executable = $this->phpci->buildPath . DIRECTORY_SEPARATOR.$options['executable'];

@@ -12,6 +12,8 @@ namespace PHPCensor\Plugin;
 use PHPCensor;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
+use PHPCensor\Plugin;
+use PHPCensor\ZeroConfigPlugin;
 
 /**
 * PHP Mess Detector Plugin - Allows PHP Mess Detector testing.
@@ -19,18 +21,8 @@ use PHPCensor\Model\Build;
 * @package      PHPCI
 * @subpackage   Plugins
 */
-class PhpMessDetector implements PHPCensor\Plugin, PHPCensor\ZeroConfigPlugin
+class PhpMessDetector extends Plugin implements ZeroConfigPlugin
 {
-    /**
-     * @var \PHPCensor\Builder
-     */
-    protected $phpci;
-
-    /**
-     * @var \PHPCensor\Model\Build
-     */
-    protected $build;
-
     /**
      * @var array
      */
@@ -54,43 +46,19 @@ class PhpMessDetector implements PHPCensor\Plugin, PHPCensor\ZeroConfigPlugin
      * @var array
      */
     protected $rules;
+    protected $allowed_warnings;
 
     /**
-     * Check if this plugin can be executed.
-     * @param $stage
-     * @param Builder $builder
-     * @param Build $build
-     * @return bool
-     */
-    public static function canExecute($stage, Builder $builder, Build $build)
-    {
-        if ($stage == 'test') {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Standard Constructor
-     *
-     * $options['directory'] Output Directory. Default: %BUILDPATH%
-     * $options['filename']  Phar Filename. Default: build.phar
-     * $options['regexp']    Regular Expression Filename Capture. Default: /\.php$/
-     * $options['stub']      Stub Content. No Default Value
-     *
-     * @param Builder $phpci
-     * @param Build   $build
-     * @param array   $options
+     * {@inheritdoc}
      */
     public function __construct(Builder $phpci, Build $build, array $options = [])
     {
-        $this->phpci = $phpci;
-        $this->build = $build;
-        $this->suffixes = ['php'];
-        $this->ignore = $phpci->ignore;
-        $this->path = '';
-        $this->rules = ['codesize', 'unusedcode', 'naming'];
+        parent::__construct($phpci, $build, $options);
+
+        $this->suffixes         = ['php'];
+        $this->ignore           = $this->phpci->ignore;
+        $this->path             = '';
+        $this->rules            = ['codesize', 'unusedcode', 'naming'];
         $this->allowed_warnings = 0;
 
         if (isset($options['zero_config']) && $options['zero_config']) {
@@ -108,8 +76,22 @@ class PhpMessDetector implements PHPCensor\Plugin, PHPCensor\ZeroConfigPlugin
         foreach (['rules', 'ignore', 'suffixes'] as $key) {
             $this->overrideSetting($options, $key);
         }
+    }
 
-        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
+    /**
+     * Check if this plugin can be executed.
+     * @param $stage
+     * @param Builder $builder
+     * @param Build $build
+     * @return bool
+     */
+    public static function canExecute($stage, Builder $builder, Build $build)
+    {
+        if ($stage == 'test') {
+            return true;
+        }
+
+        return false;
     }
 
     /**

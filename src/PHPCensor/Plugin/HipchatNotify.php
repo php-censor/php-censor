@@ -21,26 +21,25 @@ use HipChat\HipChat;
  * @package      PHPCI
  * @subpackage   Plugins
  */
-class HipchatNotify implements Plugin
+class HipchatNotify extends Plugin
 {
     protected $authToken;
     protected $color;
     protected $notify;
+    protected $userAgent;
+    protected $cookie;
+    protected $message;
+    protected $room;
 
     /**
-     * Set up the plugin, configure options, etc.
-     * @param Builder $phpci
-     * @param Build $build
-     * @param array $options
-     * @throws \Exception
+     * {@inheritdoc}
      */
     public function __construct(Builder $phpci, Build $build, array $options = [])
     {
-        $this->phpci = $phpci;
-        $this->build = $build;
+        parent::__construct($phpci, $build, $options);
 
         $this->userAgent = "PHP Censor/1.0";
-        $this->cookie = "php-censor-cookie";
+        $this->cookie    = "php-censor-cookie";
 
         if (is_array($options) && isset($options['authToken']) && isset($options['room'])) {
             $this->authToken = $options['authToken'];

@@ -12,6 +12,8 @@ namespace PHPCensor\Plugin;
 use PHPCensor;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
+use PHPCensor\Plugin;
+use PHPCensor\ZeroConfigPlugin;
 
 /**
  * PHP Loc - Allows PHP Copy / Lines of Code testing.
@@ -19,16 +21,12 @@ use PHPCensor\Model\Build;
  * @package      PHPCI
  * @subpackage   Plugins
  */
-class PhpLoc implements PHPCensor\Plugin, PHPCensor\ZeroConfigPlugin
+class PhpLoc extends Plugin implements ZeroConfigPlugin
 {
     /**
      * @var string
      */
     protected $directory;
-    /**
-     * @var \PHPCensor\Builder
-     */
-    protected $phpci;
 
     /**
      * Check if this plugin can be executed.
@@ -47,22 +45,17 @@ class PhpLoc implements PHPCensor\Plugin, PHPCensor\ZeroConfigPlugin
     }
 
     /**
-     * Set up the plugin, configure options, etc.
-     * @param Builder $phpci
-     * @param Build $build
-     * @param array $options
+     * {@inheritdoc}
      */
     public function __construct(Builder $phpci, Build $build, array $options = [])
     {
-        $this->phpci     = $phpci;
-        $this->build     = $build;
-        $this->directory = $phpci->buildPath;
+        parent::__construct($phpci, $build, $options);
+
+        $this->directory = $this->phpci->buildPath;
 
         if (isset($options['directory'])) {
             $this->directory .= $options['directory'];
         }
-
-        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**

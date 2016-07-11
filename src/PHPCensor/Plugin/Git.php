@@ -20,26 +20,9 @@ use PHPCensor\Plugin;
  * @package      PHPCI
  * @subpackage   Plugins
  */
-class Git implements Plugin
+class Git extends Plugin
 {
-    protected $phpci;
-    protected $build;
     protected $actions = [];
-
-    /**
-     * Set up the plugin, configure options, etc.
-     * @param Builder $phpci
-     * @param Build $build
-     * @param array $options
-     */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
-    {
-        $this->phpci   = $phpci;
-        $this->build   = $build;
-        $this->actions = $options;
-
-        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
-    }
 
     /**
      * Run the Git plugin.

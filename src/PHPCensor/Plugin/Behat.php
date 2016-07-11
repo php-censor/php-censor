@@ -17,32 +17,23 @@ use PHPCensor\Plugin;
 
 /**
  * Behat BDD Plugin
+ * 
  * @author       Dan Cryer <dan@block8.co.uk>
  * @package      PHPCI
  * @subpackage   Plugins
  */
-class Behat implements Plugin
+class Behat extends Plugin
 {
-    protected $phpci;
-    protected $build;
     protected $features;
+    protected $executable;
 
     /**
-     * Standard Constructor
-     *
-     * $options['directory'] Output Directory. Default: %BUILDPATH%
-     * $options['filename']  Phar Filename. Default: build.phar
-     * $options['regexp']    Regular Expression Filename Capture. Default: /\.php$/
-     * $options['stub']      Stub Content. No Default Value
-     *
-     * @param Builder $phpci
-     * @param Build   $build
-     * @param array   $options
+     * {@inheritdoc}
      */
     public function __construct(Builder $phpci, Build $build, array $options = [])
     {
-        $this->phpci    = $phpci;
-        $this->build    = $build;
+        parent::__construct($phpci, $build, $options);
+
         $this->features = '';
 
         if (isset($options['executable'])) {
@@ -54,8 +45,6 @@ class Behat implements Plugin
         if (!empty($options['features'])) {
             $this->features = $options['features'];
         }
-
-        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**
@@ -63,7 +52,7 @@ class Behat implements Plugin
      */
     public function execute()
     {
-        $curdir = getcwd();
+        $current_dir = getcwd();
         chdir($this->phpci->buildPath);
 
         $behat = $this->executable;
@@ -75,7 +64,7 @@ class Behat implements Plugin
         }
 
         $success = $this->phpci->executeCommand($behat . ' %s', $this->features);
-        chdir($curdir);
+        chdir($current_dir);
 
         list($errorCount, $data) = $this->parseBehatOutput();
 

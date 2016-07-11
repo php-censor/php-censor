@@ -19,34 +19,19 @@ use PHPCensor\Plugin;
 * @package      PHPCI
 * @subpackage   Plugins
 */
-class Wipe implements Plugin
+class Wipe extends Plugin
 {
-    /**
-     * @var \PHPCensor\Builder
-     */
-    protected $phpci;
-
-    /**
-     * @var \PHPCensor\Model\Build
-     */
-    protected $build;
-
     protected $directory;
 
     /**
-     * Set up the plugin, configure options, etc.
-     * @param Builder $phpci
-     * @param Build $build
-     * @param array $options
+     * {@inheritdoc}
      */
     public function __construct(Builder $phpci, Build $build, array $options = [])
     {
-        $path               = $phpci->buildPath;
-        $this->phpci        = $phpci;
-        $this->build = $build;
-        $this->directory    = isset($options['directory']) ? $this->phpci->interpolate($options['directory']) : $path;
-
-        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
+        parent::__construct($phpci, $build, $options);
+        
+        $path            = $this->phpci->buildPath;
+        $this->directory = isset($options['directory']) ? $this->phpci->interpolate($options['directory']) : $path;
     }
 
     /**

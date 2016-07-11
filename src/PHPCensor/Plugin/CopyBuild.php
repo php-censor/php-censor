@@ -20,30 +20,23 @@ use PHPCensor\Plugin;
 * @package      PHPCI
 * @subpackage   Plugins
 */
-class CopyBuild implements Plugin
+class CopyBuild extends Plugin
 {
     protected $directory;
     protected $ignore;
     protected $wipe;
-    protected $phpci;
-    protected $build;
 
     /**
-     * Set up the plugin, configure options, etc.
-     * @param Builder $phpci
-     * @param Build $build
-     * @param array $options
+     * {@inheritdoc}
      */
     public function __construct(Builder $phpci, Build $build, array $options = [])
     {
-        $path            = $phpci->buildPath;
-        $this->phpci     = $phpci;
-        $this->build     = $build;
+        parent::__construct($phpci, $build, $options);
+        
+        $path            = $this->phpci->buildPath;
         $this->directory = isset($options['directory']) ? $options['directory'] : $path;
         $this->wipe      = isset($options['wipe']) ?  (bool)$options['wipe'] : false;
         $this->ignore    = isset($options['respect_ignore']) ?  (bool)$options['respect_ignore'] : false;
-
-        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**

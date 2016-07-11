@@ -12,6 +12,7 @@ namespace PHPCensor\Plugin;
 use PHPCensor;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
+use PHPCensor\Plugin;
 
 /**
 * PHP Spec Plugin - Allows PHP Spec testing.
@@ -19,38 +20,8 @@ use PHPCensor\Model\Build;
 * @package      PHPCI
 * @subpackage   Plugins
 */
-class PhpSpec implements PHPCensor\Plugin
+class PhpSpec extends Plugin
 {
-    /**
-     * @var \PHPCensor\Builder
-     */
-    protected $phpci;
-
-    /**
-     * @var \PHPCensor\Model\Build
-     */
-    protected $build;
-
-    /**
-     * @var array
-     */
-    protected $options;
-
-    /**
-     * Set up the plugin, configure options, etc.
-     * @param Builder $phpci
-     * @param Build $build
-     * @param array $options
-     */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
-    {
-        $this->phpci   = $phpci;
-        $this->build   = $build;
-        $this->options = $options;
-
-        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
-    }
-
     /**
     * Runs PHP Spec tests.
     */

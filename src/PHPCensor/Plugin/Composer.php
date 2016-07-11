@@ -12,6 +12,8 @@ namespace PHPCensor\Plugin;
 use PHPCensor;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
+use PHPCensor\Plugin;
+use PHPCensor\ZeroConfigPlugin;
 
 /**
 * Composer Plugin - Provides access to Composer functionality.
@@ -19,46 +21,23 @@ use PHPCensor\Model\Build;
 * @package      PHPCI
 * @subpackage   Plugins
 */
-class Composer implements PHPCensor\Plugin, PHPCensor\ZeroConfigPlugin
+class Composer extends Plugin implements ZeroConfigPlugin
 {
     protected $directory;
     protected $action;
     protected $preferDist;
-    protected $phpci;
-    protected $build;
     protected $nodev;
     protected $ignorePlatformReqs;
     protected $preferSource;
 
     /**
-     * Check if this plugin can be executed.
-     * @param $stage
-     * @param Builder $builder
-     * @param Build $build
-     * @return bool
-     */
-    public static function canExecute($stage, Builder $builder, Build $build)
-    {
-        $path = $builder->buildPath . DIRECTORY_SEPARATOR . 'composer.json';
-
-        if (file_exists($path) && $stage == 'setup') {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Set up the plugin, configure options, etc.
-     * @param Builder $phpci
-     * @param Build $build
-     * @param array $options
+     * {@inheritdoc}
      */
     public function __construct(Builder $phpci, Build $build, array $options = [])
     {
-        $path                     = $phpci->buildPath;
-        $this->phpci              = $phpci;
-        $this->build              = $build;
+        parent::__construct($phpci, $build, $options);
+
+        $path                     = $this->phpci->buildPath;
         $this->directory          = $path;
         $this->action             = 'install';
         $this->preferDist         = false;
@@ -90,8 +69,24 @@ class Composer implements PHPCensor\Plugin, PHPCensor\ZeroConfigPlugin
         if (array_key_exists('ignore_platform_reqs', $options)) {
             $this->ignorePlatformReqs = (bool)$options['ignore_platform_reqs'];
         }
+    }
 
-        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
+    /**
+     * Check if this plugin can be executed.
+     * @param $stage
+     * @param Builder $builder
+     * @param Build $build
+     * @return bool
+     */
+    public static function canExecute($stage, Builder $builder, Build $build)
+    {
+        $path = $builder->buildPath . DIRECTORY_SEPARATOR . 'composer.json';
+
+        if (file_exists($path) && $stage == 'setup') {
+            return true;
+        }
+
+        return false;
     }
 
     /**

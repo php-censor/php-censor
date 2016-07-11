@@ -20,31 +20,18 @@ use PHPCensor\Plugin;
 * @package      PHPCI
 * @subpackage   Plugins
 */
-class CleanBuild implements Plugin
+class CleanBuild extends Plugin
 {
     protected $remove;
-    protected $phpci;
-    protected $build;
 
     /**
-     * Standard Constructor
-     *
-     * $options['directory'] Output Directory. Default: %BUILDPATH%
-     * $options['filename']  Phar Filename. Default: build.phar
-     * $options['regexp']    Regular Expression Filename Capture. Default: /\.php$/
-     * $options['stub']      Stub Content. No Default Value
-     *
-     * @param Builder $phpci
-     * @param Build   $build
-     * @param array   $options
+     * {@inheritdoc}
      */
     public function __construct(Builder $phpci, Build $build, array $options = [])
     {
-        $this->phpci  = $phpci;
-        $this->build  = $build;
-        $this->remove = isset($options['remove']) && is_array($options['remove']) ? $options['remove'] : [];
+        parent::__construct($phpci, $build, $options);
 
-        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
+        $this->remove = isset($options['remove']) && is_array($options['remove']) ? $options['remove'] : [];
     }
 
     /**

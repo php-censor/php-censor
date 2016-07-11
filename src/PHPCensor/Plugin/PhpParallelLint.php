@@ -19,18 +19,8 @@ use PHPCensor\Plugin;
 * @package      PHPCI
 * @subpackage   Plugins
 */
-class PhpParallelLint implements Plugin
+class PhpParallelLint extends Plugin
 {
-    /**
-     * @var \PHPCensor\Builder
-     */
-    protected $phpci;
-
-    /**
-     * @var \PHPCensor\Model\Build
-     */
-    protected $build;
-
     /**
      * @var string
      */
@@ -42,33 +32,22 @@ class PhpParallelLint implements Plugin
     protected $ignore;
 
     /**
-     * Standard Constructor
-     *
-     * $options['directory'] Output Directory. Default: %BUILDPATH%
-     * $options['filename']  Phar Filename. Default: build.phar
-     * $options['regexp']    Regular Expression Filename Capture. Default: /\.php$/
-     * $options['stub']      Stub Content. No Default Value
-     *
-     * @param Builder $phpci
-     * @param Build   $build
-     * @param array   $options
+     * {@inheritdoc}
      */
     public function __construct(Builder $phpci, Build $build, array $options = [])
     {
-        $this->phpci = $phpci;
-        $this->build = $build;
-        $this->directory = $phpci->buildPath;
+        parent::__construct($phpci, $build, $options);
+
+        $this->directory = $this->phpci->buildPath;
         $this->ignore = $this->phpci->ignore;
 
         if (isset($options['directory'])) {
-            $this->directory = $phpci->buildPath.$options['directory'];
+            $this->directory = $this->phpci->buildPath.$options['directory'];
         }
 
         if (isset($options['ignore'])) {
             $this->ignore = $options['ignore'];
         }
-
-        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**

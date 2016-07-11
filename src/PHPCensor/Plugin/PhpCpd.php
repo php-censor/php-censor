@@ -21,12 +21,10 @@ use PHPCensor\Plugin;
 * @package      PHPCI
 * @subpackage   Plugins
 */
-class PhpCpd implements Plugin
+class PhpCpd extends Plugin
 {
     protected $directory;
     protected $args;
-    protected $phpci;
-    protected $build;
 
     /**
      * @var string, based on the assumption the root may not hold the code to be
@@ -40,28 +38,22 @@ class PhpCpd implements Plugin
     protected $ignore;
 
     /**
-     * Set up the plugin, configure options, etc.
-     * @param Builder $phpci
-     * @param Build $build
-     * @param array $options
+     * {@inheritdoc}
      */
     public function __construct(Builder $phpci, Build $build, array $options = [])
     {
-        $this->phpci = $phpci;
-        $this->build = $build;
+        parent::__construct($phpci, $build, $options);
 
-        $this->path   = $phpci->buildPath;
-        $this->ignore = $phpci->ignore;
+        $this->path   = $this->phpci->buildPath;
+        $this->ignore = $this->phpci->ignore;
 
         if (!empty($options['path'])) {
-            $this->path = $phpci->buildPath . $options['path'];
+            $this->path = $this->phpci->buildPath . $options['path'];
         }
-
+        
         if (!empty($options['ignore'])) {
             $this->ignore = $options['ignore'];
         }
-
-        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**

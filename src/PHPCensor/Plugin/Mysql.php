@@ -23,23 +23,8 @@ use b8\Database;
 * @package      PHPCI
 * @subpackage   Plugins
 */
-class Mysql implements Plugin
+class Mysql extends Plugin
 {
-    /**
-     * @var \PHPCensor\Builder
-     */
-    protected $phpci;
-
-    /**
-     * @var \PHPCensor\Model\Build
-     */
-    protected $build;
-
-    /**
-     * @var array
-     */
-    protected $queries = [];
-
     /**
      * @var string
      */
@@ -56,16 +41,11 @@ class Mysql implements Plugin
     protected $pass;
 
     /**
-     * @param Builder $phpci
-     * @param Build   $build
-     * @param array   $options
+     * {@inheritdoc}
      */
     public function __construct(Builder $phpci, Build $build, array $options = [])
     {
-        $this->phpci = $phpci;
-        $this->build = $build;
-
-        $this->queries = $options;
+        parent::__construct($phpci, $build, $options);
 
         $config = Database::getConnection('write')->getDetails();
 
@@ -73,7 +53,7 @@ class Mysql implements Plugin
         $this->user = $config['user'];
         $this->pass = $config['pass'];
 
-        $buildSettings = $phpci->getConfig('build_settings');
+        $buildSettings = $this->phpci->getConfig('build_settings');
 
         if (!isset($buildSettings['mysql'])) {
             return;
@@ -90,8 +70,6 @@ class Mysql implements Plugin
         if (array_key_exists('pass', $buildSettings['mysql'])) {
             $this->pass = $buildSettings['mysql']['pass'];
         }
-
-        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**
@@ -104,7 +82,7 @@ class Mysql implements Plugin
             $opts = [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION];
             $pdo  = new PDO('mysql:host=' . $this->host, $this->user, $this->pass, $opts);
 
-            foreach ($this->queries as $query) {
+            foreach ($this->options as $query) {
                 if (!is_array($query)) {
                     // Simple query
                     $pdo->query($this->phpci->interpolate($query));

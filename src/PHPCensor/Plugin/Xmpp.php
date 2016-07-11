@@ -19,11 +19,9 @@ use PHPCensor\Plugin;
 * @package      PHPCI
 * @subpackage   Plugins
 */
-class XMPP implements Plugin
+class XMPP extends Plugin
 {
     protected $directory;
-    protected $phpci;
-    protected $build;
 
     /**
      * @var string, username of sender account xmpp
@@ -61,15 +59,11 @@ class XMPP implements Plugin
     protected $date_format;
 
     /**
-     *
-     * @param Builder $phpci
-     * @param Build $build
-     * @param array $options
+     * {@inheritdoc}
      */
     public function __construct(Builder $phpci, Build $build, array $options = [])
     {
-        $this->phpci = $phpci;
-        $this->build = $build;
+        parent::__construct($phpci, $build, $options);
 
         $this->username    = '';
         $this->password    = '';
@@ -87,24 +81,6 @@ class XMPP implements Plugin
                 $this->recipients = [$options['recipients']];
             } elseif (is_array($options['recipients'])) {
                 $this->recipients = $options['recipients'];
-            }
-        }
-
-        $this->setOptions($options);
-
-        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
-    }
-
-    /**
-     * Set options configuration for plugin
-     *
-     * @param array $options
-     */
-    protected function setOptions($options)
-    {
-        foreach (['username', 'password', 'alias', 'tls', 'server', 'date_format'] as $key) {
-            if (array_key_exists($key, $options)) {
-                $this->{$key} = $options[$key];
             }
         }
     }

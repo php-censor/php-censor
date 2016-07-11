@@ -12,20 +12,8 @@ use PHPCensor\Plugin;
 /**
  * Phar Plugin
  */
-class Phar implements Plugin
+class Phar extends Plugin
 {
-    /**
-     * PHPCI
-     * @var Builder
-     */
-    protected $phpci;
-
-    /**
-     * Build
-     * @var Build
-     */
-    protected $build;
-
     /**
      * Output Directory
      * @var string
@@ -51,22 +39,11 @@ class Phar implements Plugin
     protected $stub;
 
     /**
-     * Standard Constructor
-     *
-     * $options['directory'] Output Directory. Default: %BUILDPATH%
-     * $options['filename']  Phar Filename. Default: build.phar
-     * $options['regexp']    Regular Expression Filename Capture. Default: /\.php$/
-     * $options['stub']      Stub Content. No Default Value
-     *
-     * @param Builder $phpci
-     * @param Build   $build
-     * @param array   $options
+     * {@inheritdoc}
      */
     public function __construct(Builder $phpci, Build $build, array $options = [])
     {
-        // Basic
-        $this->phpci = $phpci;
-        $this->build = $build;
+        parent::__construct($phpci, $build, $options);
 
         // Directory?
         if (isset($options['directory'])) {
@@ -87,28 +64,6 @@ class Phar implements Plugin
         if (isset($options['stub'])) {
             $this->setStub($options['stub']);
         }
-
-        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
-    }
-
-    /**
-     * Returns PHPCI
-     *
-     * @return Builder
-     */
-    public function getPHPCI()
-    {
-        return $this->phpci;
-    }
-
-    /**
-     * Returns Build
-     *
-     * @return Build
-     */
-    public function getBuild()
-    {
-        return $this->build;
     }
 
     /**
@@ -131,7 +86,7 @@ class Phar implements Plugin
     public function getDirectory()
     {
         if (!isset($this->directory)) {
-            $this->setDirectory($this->getPHPCI()->buildPath);
+            $this->setDirectory($this->phpci->buildPath);
         }
         return $this->directory;
     }
@@ -217,7 +172,7 @@ class Phar implements Plugin
         $content  = '';
         $filename = $this->getStub();
         if ($filename) {
-            $content = file_get_contents($this->getPHPCI()->buildPath . DIRECTORY_SEPARATOR . $this->getStub());
+            $content = file_get_contents($this->phpci->buildPath . DIRECTORY_SEPARATOR . $this->getStub());
         }
         return $content;
     }
@@ -233,7 +188,7 @@ class Phar implements Plugin
         try {
             $file = $this->getDirectory() . DIRECTORY_SEPARATOR . $this->getFilename();
             $phar = new PHPPhar($file, 0, $this->getFilename());
-            $phar->buildFromDirectory($this->getPHPCI()->buildPath, $this->getRegExp());
+            $phar->buildFromDirectory($this->phpci->buildPath, $this->getRegExp());
 
             $stub = $this->getStubContent();
             if ($stub) {
@@ -242,8 +197,8 @@ class Phar implements Plugin
 
             $success = true;
         } catch (Exception $e) {
-            $this->getPHPCI()->log(Lang::get('phar_internal_error'));
-            $this->getPHPCI()->log($e->getMessage());
+            $this->phpci->log(Lang::get('phar_internal_error'));
+            $this->phpci->log($e->getMessage());
         }
 
         return $success;

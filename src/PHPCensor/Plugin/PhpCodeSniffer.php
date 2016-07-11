@@ -13,6 +13,8 @@ use PHPCensor;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
+use PHPCensor\Plugin;
+use PHPCensor\ZeroConfigPlugin;
 
 /**
 * PHP Code Sniffer Plugin - Allows PHP Code Sniffer testing.
@@ -20,13 +22,8 @@ use PHPCensor\Model\BuildError;
 * @package      PHPCI
 * @subpackage   Plugins
 */
-class PhpCodeSniffer implements PHPCensor\Plugin, PHPCensor\ZeroConfigPlugin
+class PhpCodeSniffer extends Plugin implements ZeroConfigPlugin
 {
-    /**
-     * @var \PHPCensor\Builder
-     */
-    protected $phpci;
-
     /**
      * @var array
      */
@@ -74,43 +71,25 @@ class PhpCodeSniffer implements PHPCensor\Plugin, PHPCensor\ZeroConfigPlugin
     protected $ignore;
 
     /**
-     * Check if this plugin can be executed.
-     * @param $stage
-     * @param Builder $builder
-     * @param Build $build
-     * @return bool
-     */
-    public static function canExecute($stage, Builder $builder, Build $build)
-    {
-        if ($stage == 'test') {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * @param \PHPCensor\Builder $phpci
-     * @param \PHPCensor\Model\Build $build
-     * @param array $options
+     * {@inheritdoc}
      */
     public function __construct(Builder $phpci, Build $build, array $options = [])
     {
-        $this->phpci = $phpci;
-        $this->build = $build;
-        $this->suffixes = ['php'];
-        $this->directory = $phpci->buildPath;
-        $this->standard = 'PSR2';
-        $this->tab_width = '';
-        $this->encoding = '';
-        $this->path = '';
-        $this->ignore = $this->phpci->ignore;
+        parent::__construct($phpci, $build, $options);
+
+        $this->suffixes         = ['php'];
+        $this->directory        = $this->phpci->buildPath;
+        $this->standard         = 'PSR2';
+        $this->tab_width        = '';
+        $this->encoding         = '';
+        $this->path             = '';
+        $this->ignore           = $this->phpci->ignore;
         $this->allowed_warnings = 0;
-        $this->allowed_errors = 0;
+        $this->allowed_errors   = 0;
 
         if (isset($options['zero_config']) && $options['zero_config']) {
             $this->allowed_warnings = -1;
-            $this->allowed_errors = -1;
+            $this->allowed_errors   = -1;
         }
 
         if (isset($options['suffixes'])) {
@@ -124,23 +103,22 @@ class PhpCodeSniffer implements PHPCensor\Plugin, PHPCensor\ZeroConfigPlugin
         if (!empty($options['encoding'])) {
             $this->encoding = ' --encoding=' . $options['encoding'];
         }
-
-        $this->setOptions($options);
-
-        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**
-     * Handle this plugin's options.
-     * @param $options
+     * Check if this plugin can be executed.
+     * @param $stage
+     * @param Builder $builder
+     * @param Build $build
+     * @return bool
      */
-    protected function setOptions($options)
+    public static function canExecute($stage, Builder $builder, Build $build)
     {
-        foreach (['directory', 'standard', 'path', 'ignore', 'allowed_warnings', 'allowed_errors'] as $key) {
-            if (array_key_exists($key, $options)) {
-                $this->{$key} = $options[$key];
-            }
+        if ($stage == 'test') {
+            return true;
         }
+
+        return false;
     }
 
     /**

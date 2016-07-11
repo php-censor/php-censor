@@ -17,6 +17,8 @@ use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
 use PHPCensor\Plugin\Option\PhpUnitOptions;
 use PHPCensor\Plugin\Util\PhpUnitResult;
+use PHPCensor\Plugin;
+use PHPCensor\ZeroConfigPlugin;
 
 /**
  * PHP Unit Plugin - A rewrite of the original PHP Unit plugin
@@ -26,11 +28,8 @@ use PHPCensor\Plugin\Util\PhpUnitResult;
  * @package      PHPCI
  * @subpackage   Plugins
  */
-class PhpUnit implements PHPCensor\Plugin, PHPCensor\ZeroConfigPlugin
+class PhpUnit extends Plugin implements ZeroConfigPlugin
 {
-    protected $phpci;
-    protected $build;
-
     /** @var string[] Raw options from the PHPCI config file */
     protected $options = array();
 
@@ -48,8 +47,8 @@ class PhpUnit implements PHPCensor\Plugin, PHPCensor\ZeroConfigPlugin
      */
     public function __construct(Builder $phpci, Build $build, array $options = array())
     {
-        $this->phpci   = $phpci;
-        $this->build   = $build;
+        parent::__construct($phpci, $build, $options);
+
         $this->options = new PhpUnitOptions($options);
     }
 
@@ -168,7 +167,6 @@ class PhpUnit implements PHPCensor\Plugin, PHPCensor\ZeroConfigPlugin
      */
     protected function processResults($jsonFile)
     {
-        var_dump('fuck!');
         if (file_exists($jsonFile)) {
             $parser = new PhpUnitResult($jsonFile, $this->build->getBuildPath());
 

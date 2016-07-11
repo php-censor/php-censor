@@ -25,16 +25,10 @@ use PHPCensor\ZeroConfigPlugin;
  * @package      PHPCI
  * @subpackage   Plugins
  */
-class Codeception implements Plugin, ZeroConfigPlugin
+class Codeception extends Plugin implements ZeroConfigPlugin
 {
     /** @var string */
     protected $args = '';
-
-    /** @var Builder */
-    protected $phpci;
-
-    /** @var Build */
-    protected $build;
 
     /**
      * @var string $ymlConfigFile The path of a yml config for Codeception
@@ -45,6 +39,28 @@ class Codeception implements Plugin, ZeroConfigPlugin
      * @var string $path The path to the codeception tests folder.
      */
     protected $path;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function __construct(Builder $phpci, Build $build, array $options = [])
+    {
+        parent::__construct($phpci, $build, $options);
+
+        $this->path = 'tests' . DIRECTORY_SEPARATOR . '_output' . DIRECTORY_SEPARATOR;
+
+        if (empty($options['config'])) {
+            $this->ymlConfigFile = self::findConfigFile($this->phpci->buildPath);
+        } else {
+            $this->ymlConfigFile = $options['config'];
+        }
+        if (isset($options['args'])) {
+            $this->args = (string) $options['args'];
+        }
+        if (isset($options['path'])) {
+            $this->path = $options['path'];
+        }
+    }
 
     /**
      * @param $stage
@@ -76,33 +92,6 @@ class Codeception implements Plugin, ZeroConfigPlugin
     }
 
     /**
-     * Set up the plugin, configure options, etc.
-     * @param Builder $phpci
-     * @param Build $build
-     * @param array $options
-     */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
-    {
-        $this->phpci = $phpci;
-        $this->build = $build;
-        $this->path = 'tests' . DIRECTORY_SEPARATOR . '_output' . DIRECTORY_SEPARATOR;
-
-        if (empty($options['config'])) {
-            $this->ymlConfigFile = self::findConfigFile($this->phpci->buildPath);
-        } else {
-            $this->ymlConfigFile = $options['config'];
-        }
-        if (isset($options['args'])) {
-            $this->args = (string) $options['args'];
-        }
-        if (isset($options['path'])) {
-            $this->path = $options['path'];
-        }
-
-        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
-    }
-
-    /**
      * Runs Codeception tests
      */
     public function execute()
@@ -125,18 +114,18 @@ class Codeception implements Plugin, ZeroConfigPlugin
     {
         $this->phpci->logExecOutput(false);
 
-        $codecept = $this->phpci->findBinary('codecept');
+        $codeception = $this->phpci->findBinary('codecept');
 
-        if (!$codecept) {
+        if (!$codeception) {
             $this->phpci->logFailure(Lang::get('could_not_find', 'codecept'));
 
             return false;
         }
 
-        $cmd = 'cd "%s" && ' . $codecept . ' run -c "%s" --xml ' . $this->args;
+        $cmd = 'cd "%s" && ' . $codeception . ' run -c "%s" --xml ' . $this->args;
 
         if (IS_WIN) {
-            $cmd = 'cd /d "%s" && ' . $codecept . ' run -c "%s" --xml ' . $this->args;
+            $cmd = 'cd /d "%s" && ' . $codeception . ' run -c "%s" --xml ' . $this->args;
         }
 
         $configPath = $this->phpci->buildPath . $configPath;

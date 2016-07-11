@@ -21,36 +21,29 @@ use PHPCensor\Plugin;
  * @package      PHPCI
  * @subpackage   Plugins
  */
-class Phing implements Plugin
+class Phing extends Plugin
 {
 
-    private $directory;
-    private $buildFile  = 'build.xml';
-    private $targets    = ['build'];
-    private $properties = [];
-    private $propertyFile;
-
-    protected $phpci;
-    protected $build;
+    protected $directory;
+    protected $buildFile  = 'build.xml';
+    protected $targets    = ['build'];
+    protected $properties = [];
+    protected $propertyFile;
 
     /**
-     * Set up the plugin, configure options, etc.
-     * @param Builder $phpci
-     * @param Build $build
-     * @param array $options
+     * {@inheritdoc}
      */
     public function __construct(Builder $phpci, Build $build, array $options = [])
     {
-        $this->setPhpci($phpci);
-        $this->build = $build;
+        parent::__construct($phpci, $build, $options);
 
         /*
          * Set working directory
          */
         if (isset($options['directory'])) {
-            $directory = $phpci->buildPath . DIRECTORY_SEPARATOR . $options['directory'];
+            $directory = $this->phpci->buildPath . DIRECTORY_SEPARATOR . $options['directory'];
         } else {
-            $directory = $phpci->buildPath;
+            $directory = $this->phpci->buildPath;
         }
 
         $this->setDirectory($directory);
@@ -95,24 +88,6 @@ class Phing implements Plugin
         $cmd[] = '2>&1';
 
         return $this->phpci->executeCommand(implode(' ', $cmd), $this->directory, $this->targets);
-    }
-
-    /**
-     * @return \PHPCensor\Builder
-     */
-    public function getPhpci()
-    {
-        return $this->phpci;
-    }
-
-    /**
-     * @param \PHPCensor\Builder $phpci
-     *
-     * @return $this
-     */
-    public function setPhpci($phpci)
-    {
-        $this->phpci = $phpci;
     }
 
     /**

@@ -26,38 +26,8 @@ use PHPCensor\Plugin;
 * @package      PHPCI
 * @subpackage   Plugins
 */
-class Email implements Plugin
+class Email extends Plugin
 {
-    /**
-     * @var \PHPCensor\Builder
-     */
-    protected $phpci;
-
-    /**
-     * @var \PHPCensor\Model\Build
-     */
-    protected $build;
-
-    /**
-     * @var array
-     */
-    protected $options;
-
-    /**
-     * Set up the plugin, configure options, etc.
-     * @param Builder $phpci
-     * @param Build   $build
-     * @param array   $options
-     */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
-    {
-        $this->phpci   = $phpci;
-        $this->build   = $build;
-        $this->options = $options;
-
-        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
-    }
-
     /**
      * Send a notification mail.
      * 

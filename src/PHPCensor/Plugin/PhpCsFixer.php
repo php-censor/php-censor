@@ -19,45 +19,23 @@ use PHPCensor\Plugin;
 * @package      PHPCI
 * @subpackage   Plugins
 */
-class PhpCsFixer implements Plugin
+class PhpCsFixer extends Plugin
 {
-    /**
-     * @var \PHPCensor\Builder
-     */
-    protected $phpci;
-
-    /**
-     * @var \PHPCensor\Model\Build
-     */
-    protected $build;
-
     protected $workingDir = '';
     protected $level      = ' --level=psr2';
     protected $verbose    = '';
     protected $diff       = '';
-    protected $levels     = array('psr0', 'psr1', 'psr2', 'symfony');
+    protected $levels     = ['psr0', 'psr1', 'psr2', 'symfony'];
 
     /**
-     * Standard Constructor
-     *
-     * $options['directory'] Output Directory. Default: %BUILDPATH%
-     * $options['filename']  Phar Filename. Default: build.phar
-     * $options['regexp']    Regular Expression Filename Capture. Default: /\.php$/
-     * $options['stub']      Stub Content. No Default Value
-     *
-     * @param Builder $phpci
-     * @param Build   $build
-     * @param array   $options
+     * {@inheritdoc}
      */
     public function __construct(Builder $phpci, Build $build, array $options = [])
     {
-        $this->phpci = $phpci;
-        $this->build = $build;
+        parent::__construct($phpci, $build, $options);
 
-        $this->workingdir = $this->phpci->buildPath;
+        $this->workingDir = $this->phpci->buildPath;
         $this->buildArgs($options);
-
-        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**
@@ -67,7 +45,7 @@ class PhpCsFixer implements Plugin
     public function execute()
     {
         $curdir = getcwd();
-        chdir($this->workingdir);
+        chdir($this->workingDir);
 
         $phpcsfixer = $this->phpci->findBinary('php-cs-fixer');
 
@@ -98,7 +76,7 @@ class PhpCsFixer implements Plugin
         }
 
         if (isset($options['workingdir']) && $options['workingdir']) {
-            $this->workingdir = $this->phpci->buildPath . $options['workingdir'];
+            $this->workingDir = $this->phpci->buildPath . $options['workingdir'];
         }
 
     }

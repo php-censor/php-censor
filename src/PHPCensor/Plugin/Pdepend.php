@@ -19,29 +19,30 @@ use PHPCensor\Plugin;
  * @package      PHPCI
  * @subpackage   Plugins
  */
-class Pdepend implements Plugin
+class Pdepend extends Plugin
 {
     protected $args;
-    /**
-     * @var \PHPCensor\Builder
-     */
-    protected $phpci;
+
     /**
      * @var string Directory which needs to be scanned
      */
     protected $directory;
+
     /**
      * @var string File where the summary.xml is stored
      */
     protected $summary;
+
     /**
      * @var string File where the chart.svg is stored
      */
     protected $chart;
+
     /**
      * @var string File where the pyramid.svg is stored
      */
     protected $pyramid;
+
     /**
      * @var string Location on the server where the files are stored. Preferably in the webroot for inclusion
      *             in the readme.md of the repository
@@ -49,25 +50,19 @@ class Pdepend implements Plugin
     protected $location;
 
     /**
-     * Set up the plugin, configure options, etc.
-     * @param Builder $phpci
-     * @param Build $build
-     * @param array $options
+     * {@inheritdoc}
      */
     public function __construct(Builder $phpci, Build $build, array $options = [])
     {
-        $this->phpci = $phpci;
-        $this->build = $build;
+        parent::__construct($phpci, $build, $options);
 
-        $this->directory = isset($options['directory']) ? $options['directory'] : $phpci->buildPath;
+        $this->directory = isset($options['directory']) ? $options['directory'] : $this->phpci->buildPath;
 
-        $title = $phpci->getBuildProjectTitle();
+        $title          = $this->phpci->getBuildProjectTitle();
         $this->summary  = $title . '-summary.xml';
         $this->pyramid  = $title . '-pyramid.svg';
         $this->chart    = $title . '-chart.svg';
         $this->location = $this->phpci->buildPath . '..' . DIRECTORY_SEPARATOR . 'pdepend';
-
-        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**

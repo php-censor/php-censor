@@ -20,24 +20,20 @@ use PHPCensor\Plugin;
 * @package      PHPCI
 * @subpackage   Plugins
 */
-class Deployer implements Plugin
+class Deployer extends Plugin
 {
     protected $webhookUrl;
     protected $reason;
     protected $updateOnly;
 
     /**
-     * Set up the plugin, configure options, etc.
-     * @param Builder $phpci
-     * @param Build $build
-     * @param array $options
+     * {@inheritdoc}
      */
     public function __construct(Builder $phpci, Build $build, array $options = [])
     {
-        $this->phpci = $phpci;
-        $this->build = $build;
-        $this->reason = 'PHP Censor Build #%BUILD% - %COMMIT_MESSAGE%';
+        parent::__construct($phpci, $build, $options);
 
+        $this->reason = 'PHP Censor Build #%BUILD% - %COMMIT_MESSAGE%';
         if (isset($options['webhook_url'])) {
             $this->webhookUrl = $options['webhook_url'];
         }
@@ -45,7 +41,7 @@ class Deployer implements Plugin
         if (isset($options['reason'])) {
             $this->reason = $options['reason'];
         }
-        
+
         $this->updateOnly = isset($options['update_only']) ? (bool) $options['update_only'] : true;
     }
 

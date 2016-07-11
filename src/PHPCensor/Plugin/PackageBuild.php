@@ -19,29 +19,23 @@ use PHPCensor\Plugin;
 * @package      PHPCI
 * @subpackage   Plugins
 */
-class PackageBuild implements Plugin
+class PackageBuild extends Plugin
 {
     protected $directory;
     protected $filename;
     protected $format;
-    protected $phpci;
 
     /**
-     * Set up the plugin, configure options, etc.
-     * @param Builder $phpci
-     * @param Build $build
-     * @param array $options
+     * {@inheritdoc}
      */
     public function __construct(Builder $phpci, Build $build, array $options = [])
     {
-        $path            = $phpci->buildPath;
-        $this->build     = $build;
-        $this->phpci     = $phpci;
+        parent::__construct($phpci, $build, $options);
+
+        $path            = $this->phpci->buildPath;
         $this->directory = isset($options['directory']) ? $options['directory'] : $path;
         $this->filename  = isset($options['filename']) ? $options['filename'] : 'build';
         $this->format    = isset($options['format']) ?  $options['format'] : 'zip';
-
-        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**
