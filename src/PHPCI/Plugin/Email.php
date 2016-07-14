@@ -12,6 +12,7 @@ namespace PHPCI\Plugin;
 use Exception;
 use b8\View;
 use PHPCI\Builder;
+use PHPCI\Helper\Lang;
 use PHPCI\Model\Build;
 use PHPCI\Helper\Email as EmailHelper;
 use Psr\Log\LogLevel;
@@ -97,8 +98,8 @@ class Email implements Plugin
         );
 
         // This is a success if we've not failed to send anything.
-        $this->phpci->log(sprintf("%d emails sent", (count($addresses) - $sendFailures)));
-        $this->phpci->log(sprintf("%d emails failed to send", $sendFailures));
+        $this->phpci->log(Lang::get('n_emails_sent', (count($addresses) - $sendFailures)));
+        $this->phpci->log(Lang::get('n_emails_failed', $sendFailures));
 
         return ($sendFailures === 0);
     }
