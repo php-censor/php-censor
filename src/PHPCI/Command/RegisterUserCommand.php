@@ -22,7 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @package      PHPCI
  * @subpackage   Console
  */
-class RegisterLdapUserCommand extends Command
+class RegisterUserCommand extends Command
 {
     /**
      * @var UserStore
@@ -42,8 +42,8 @@ class RegisterLdapUserCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('phpci:register-ldap-user')
-            ->setDescription(Lang::get('register_ldap_user'));
+            ->setName('phpci:register-user')
+            ->setDescription(Lang::get('register_user'));
     }
 
     /**
@@ -67,16 +67,17 @@ class RegisterLdapUserCommand extends Command
             return $answer;
         };
 
-	$email = $dialog->askAndValidate($output, Lang::get('enter_email'), $mailValidator, false);
+        $id           = $dialog->ask($output, Lang::get('enter_id'));
+        $password     = $dialog->askHiddenResponse($output, Lang::get('enter_password'));
+        $emailAddress = $dialog->askAndValidate($output, Lang::get('enter_email'), $mailValidator, false);
+        $providerKey  = $dialog->ask($output, Lang::get('enter_providerkey'));
+        $providerData = $dialog->ask($output, Lang::get('enter_providerdata'));
+        $isAdmin      = $dialog->ask($output, Lang::get('enter_isadmin'));
+        $isAdmin      = !empty($isAdmin);
         $name = $dialog->ask($output, Lang::get('enter_name'));
-	$providerKey = "ldap";
-	$providerData = null;
-	$isAdmin = ($dialog->ask($output, Lang::get('enter_isadmin')));
-	$isAdmin = !empty($isAdmin);
-	$password = "";
 
         try {
-	    $userService->createUserWithProvider($name, $email, $password, $providerKey, $providerData, $isAdmin);
+            $userService->createUserWithProvider($name, $emailAddress, $id, $password, $providerKey, $providerData, $isAdmin = false);
             $output->writeln(Lang::get('user_created'));
         } catch (\Exception $e) {
             $output->writeln(sprintf('<error>%s</error>', Lang::get('failed_to_create')));

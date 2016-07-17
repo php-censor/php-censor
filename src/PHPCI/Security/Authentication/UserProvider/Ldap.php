@@ -16,23 +16,31 @@ use PHPCI\Security\Authentication\LoginPasswordProvider;
 
 /**
  * Ldap user provider.
- * @author   Adirelle <adirelle@gmail.com>
+ *
+ * @author Dmitrii Zolotov (@itherz)
  */
 class Ldap extends AbstractProvider implements LoginPasswordProvider
 {
 
     public function verifyPassword(User $user, $password)
     {
-        $config = Config::getInstance()->get('phpci.security.ldap', []);
-	$server = $config["server"];
-	$mailAttribute = $config["mailAttribute"];
-	$ldap = ldap_connect($server);
-	ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
-	$ls = ldap_search($ldap, $config["base"], $mailAttribute."=".$user->getEmail());
-	$le = ldap_get_entries($ldap, $ls);
-	if ($le["count"]==0) return false;
-	$dn = $le[0]["dn"];
-	return ldap_bind($ldap, $dn, $password);
+        $config        = Config::getInstance()->get('phpci.security.ldap', []);
+        $server        = $config["server"];
+        $mailAttribute = $config["mailAttribute"];
+        $ldap          = ldap_connect($server);
+
+        ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
+
+        $ls = ldap_search($ldap, $config["base"], $mailAttribute . "=" . $user->getEmail());
+        $le = ldap_get_entries($ldap, $ls);
+
+        if ($le["count"] == 0) {
+            return false;
+        }
+
+        $dn = $le[0]["dn"];
+
+        return ldap_bind($ldap, $dn, $password);
     }
 
     public function checkRequirements()

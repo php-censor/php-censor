@@ -34,7 +34,7 @@ class Service
         if (self::$instance === null) {
             $config = Config::getInstance()->get(
                 'phpci.security.authentication',
-                array('internal' => 'internal')
+                ['internal' => ['type' => 'internal']]
             );
 
             $providers = [];
@@ -54,17 +54,9 @@ class Service
      */
     public static function buildProvider($key, $config)
     {
-        if (is_string($config)) {
-            $config = array('type' => $config);
-        }
-
-        $type = $config['type'];
-        if (class_exists($type)) {
-            $class = $type;
-        } elseif (class_exists('PHPCI\\Security\\Authentication\\UserProvider\\' . $type)) {
-            $class = 'PHPCI\\Security\\Authentication\\UserProvider\\' . $type;
-        } else {
-            // TODO: error
+        $class = ucfirst($config['type']);
+        if (class_exists('\\PHPCI\\Security\\Authentication\\UserProvider\\' . $class)) {
+            $class = '\\PHPCI\\Security\\Authentication\\UserProvider\\' . $class;
         }
 
         return new $class($key, $config);

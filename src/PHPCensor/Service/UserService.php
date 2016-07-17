@@ -58,6 +58,31 @@ class UserService
     }
 
     /**
+     * Create a new user within PHPCI (with provider).
+     * @param $name
+     * @param $emailAddress
+     * @param $id
+     * @param $password
+     * @param $providerKey
+     * @param $providerData
+     * @param bool $isAdmin
+     * @return \PHPCI\Model\User
+     */
+
+    public function createUserWithProvider($name, $emailAddress, $id, $password, $providerKey, $providerData, $isAdmin = false)
+    {
+        $user = new User();
+        $user->setName($name);
+        $user->setEmail($emailAddress);
+        $user->setHash("");
+        $user->setProviderKey($providerKey);
+        $user->setProviderData($providerData);
+        $user->setIsAdmin(($isAdmin ? 1 : 0));
+
+        return $this->store->save($user);
+    }
+
+    /**
      * Update a user.
      * 
      * @param User    $user
