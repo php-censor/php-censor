@@ -1,5 +1,5 @@
 
-var PHPCI = {
+var PHPCensor = {
     intervals: {},
 
     init: function () {
@@ -15,19 +15,19 @@ var PHPCI = {
             });
 
             // Update latest builds every 5 seconds:
-            PHPCI.getBuilds();
-            PHPCI.intervals.getBuilds = setInterval(PHPCI.getBuilds, 5000);
+            PHPCensor.getBuilds();
+            PHPCensor.intervals.getBuilds = setInterval(PHPCensor.getBuilds, 5000);
 
             // Update latest project builds every 10 seconds:
             if (typeof PHPCI_PROJECT_ID != 'undefined') {
-                PHPCI.intervals.getProjectBuilds = setInterval(PHPCI.getProjectBuilds, 10000);
+                PHPCensor.intervals.getProjectBuilds = setInterval(PHPCensor.getProjectBuilds, 10000);
             }
 
-            PHPCI.uiUpdated();
+            PHPCensor.uiUpdated();
         });
 
         $(window).on('builds-updated', function (e, data) {
-            PHPCI.updateHeaderBuilds(data);
+            PHPCensor.updateHeaderBuilds(data);
         });
     },
 
@@ -39,7 +39,7 @@ var PHPCI = {
                 $(window).trigger('builds-updated', [data]);
             },
 
-            error: PHPCI.handleFailedAjax
+            error: PHPCensor.handleFailedAjax
         });
     },
 
@@ -51,7 +51,7 @@ var PHPCI = {
                 $('#latest-builds').html(data);
             },
 
-            error: PHPCI.handleFailedAjax
+            error: PHPCensor.handleFailedAjax
         });
     },
 
@@ -90,10 +90,10 @@ var PHPCI = {
 
             success: function (data) {
                 success();
-                PHPCI.uiUpdated();
+                PHPCensor.uiUpdated();
             },
 
-            error: PHPCI.handleFailedAjax
+            error: PHPCensor.handleFailedAjax
         });
     },
 
@@ -126,10 +126,10 @@ var PHPCI = {
     }
 };
 
-PHPCI.init();
+PHPCensor.init();
 
 function handleFailedAjax(xhr) {
-    PHPCI.handleFailedAjax(xhr);
+    PHPCensor.handleFailedAjax(xhr);
 }
 
 /**
@@ -166,7 +166,7 @@ if (!Function.prototype.bind) {
  */
 function confirmDelete(url, subject, reloadAfter) {
 
-    var dialog = new PHPCIConfirmDialog({
+    var dialog = new PHPCensorConfirmDialog({
         message: subject + ' will be permanently deleted. Are you sure?',
         confirmBtnCaption: 'Delete',
         /*
@@ -206,10 +206,10 @@ function confirmDelete(url, subject, reloadAfter) {
 }
 
 /**
- * PHPCIConfirmDialog constructor options object
+ * PHPCensorConfirmDialog constructor options object
  * @type {{message: string, title: string, confirmBtnCaption: string, cancelBtnCaption: string, confirmed: Function}}
  */
-var PHPCIConfirmDialogOptions = {
+var PHPCensorConfirmDialogOptions = {
     message: 'The action will be performed and cannot be undone. Are you sure?',
     title: 'Confirmation Dialog',
     confirmBtnCaption: 'Ok',
@@ -219,7 +219,7 @@ var PHPCIConfirmDialogOptions = {
     }
 };
 
-var PHPCIConfirmDialog = Class.extend({
+var PHPCensorConfirmDialog = Class.extend({
     /**
      * @private
      * @var {bool} Determines whether the dialog has been confirmed
@@ -227,11 +227,11 @@ var PHPCIConfirmDialog = Class.extend({
     confirmed: false,
 
     /**
-     * @param {PHPCIConfirmDialogOptions} options
+     * @param {PHPCensorConfirmDialogOptions} options
      */
     init: function (options) {
 
-        options = options ? $.extend(PHPCIConfirmDialogOptions, options) : PHPCIConfirmDialogOptions;
+        options = options ? $.extend(PHPCensorConfirmDialogOptions, options) : PHPCensorConfirmDialogOptions;
 
         if (!$('#confirm-dialog').length) {
             /*
@@ -270,14 +270,14 @@ var PHPCIConfirmDialog = Class.extend({
         /*
          Initialize its values
          */
-        this.$title.html(options.title ? options.title : PHPCIConfirmDialogOptions.title);
-        this.$body.html(options.message ? options.message : PHPCIConfirmDialogOptions.message);
+        this.$title.html(options.title ? options.title : PHPCensorConfirmDialogOptions.title);
+        this.$body.html(options.message ? options.message : PHPCensorConfirmDialogOptions.message);
         this.$confirmBtn.html(
-            options.confirmBtnCaption ? options.confirmBtnCaption : PHPCIConfirmDialogOptions.confirmBtnCaption
+            options.confirmBtnCaption ? options.confirmBtnCaption : PHPCensorConfirmDialogOptions.confirmBtnCaption
         );
 
         this.$cancelBtn.html(
-            options.cancelBtnCaption ? options.cancelBtnCaption : PHPCIConfirmDialogOptions.cancelBtnCaption
+            options.cancelBtnCaption ? options.cancelBtnCaption : PHPCensorConfirmDialogOptions.cancelBtnCaption
         );
 
         /*

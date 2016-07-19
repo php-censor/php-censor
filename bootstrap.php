@@ -7,14 +7,14 @@
 * @link         http://www.phptesting.org/
 */
 
-use PHPCI\Logging\LoggerConfig;
+use PHPCensor\Logging\LoggerConfig;
 
 if (!defined('ROOT_DIR')) {
     define('ROOT_DIR', __DIR__ . DIRECTORY_SEPARATOR);
 }
 
 if (!defined('PHPCI_DIR')) {
-    define('PHPCI_DIR', ROOT_DIR . 'src' . DIRECTORY_SEPARATOR . 'PHPCI' . DIRECTORY_SEPARATOR);
+    define('PHPCI_DIR', ROOT_DIR . 'src' . DIRECTORY_SEPARATOR . 'PHPCensor' . DIRECTORY_SEPARATOR);
 }
 
 if (!defined('PHPCI_PUBLIC_DIR')) {
@@ -43,7 +43,7 @@ if (!defined('IS_WIN')) {
 
 require_once(ROOT_DIR . 'vendor/autoload.php');
 
-\PHPCI\ErrorHandler::register();
+\PHPCensor\ErrorHandler::register();
 
 if (defined('PHPCI_IS_CONSOLE') && PHPCI_IS_CONSOLE) {
     $loggerConfig = LoggerConfig::newFromFile(PHPCI_APP_DIR . "loggerconfig.php");
@@ -51,7 +51,7 @@ if (defined('PHPCI_IS_CONSOLE') && PHPCI_IS_CONSOLE) {
 
 // Load configuration if present:
 $conf = [];
-$conf['b8']['app']['namespace']          = 'PHPCI';
+$conf['b8']['app']['namespace']          = 'PHPCensor';
 $conf['b8']['app']['default_controller'] = 'Home';
 $conf['b8']['view']['path']              = PHPCI_DIR . 'View' . DIRECTORY_SEPARATOR;
 
@@ -70,4 +70,4 @@ if (!defined('PHPCI_IS_CONSOLE')) {
     define('PHPCI_IS_CONSOLE', false);
 }
 
-\PHPCI\Helper\Lang::init($config);
+\PHPCensor\Helper\Lang::init($config);

@@ -9,7 +9,7 @@
 * @link         http://www.phptesting.org/
 */
 
-use PHPCI\Command\DaemoniseCommand;
+use PHPCensor\Command\DaemoniseCommand;
 use Symfony\Component\Console\Application;
 
 define('PHPCI_IS_CONSOLE', true);

@@ -1,6 +1,6 @@
 <?php
 
-return function (PHPCI\Plugin\Util\Factory $factory) {
+return function (PHPCensor\Plugin\Util\Factory $factory) {
     $factory->registerResource(
         // This function will be called when the resource is needed.
         function() {
@@ -18,6 +18,6 @@ return function (PHPCI\Plugin\Util\Factory $factory) {
         "ResourceArray",
 
         // The resource will only be given when the type hint is:
-        PHPCI\Plugin\Util\Factory::TYPE_ARRAY
+        PHPCensor\Plugin\Util\Factory::TYPE_ARRAY
     );
 };

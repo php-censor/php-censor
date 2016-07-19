@@ -18,7 +18,7 @@ if (!is_array($writeServers)) {
 
 $conf = [
     'paths' => [
-        'migrations' => 'src/PHPCI/Migrations',
+        'migrations' => 'src/PHPCensor/Migrations',
     ],
     'environments'                => [
         'default_migration_table' => 'migration',

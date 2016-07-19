@@ -66,7 +66,7 @@ var Build = Class.extend({
                 }
             }
 
-            PHPCI.uiUpdated();
+            PHPCensor.uiUpdated();
         });
     },
 

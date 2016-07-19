@@ -9,17 +9,17 @@
 * @link         http://www.phptesting.org/
 */
 
-use PHPCI\Command\RunCommand;
-use PHPCI\Command\RebuildCommand;
-use PHPCI\Command\UpdateCommand;
-use PHPCI\Command\InstallCommand;
-use PHPCI\Command\DaemonCommand;
-use PHPCI\Command\PollCommand;
-use PHPCI\Command\CreateAdminCommand;
-use PHPCI\Command\CreateBuildCommand;
-use PHPCI\Command\WorkerCommand;
-use PHPCI\Command\RebuildQueueCommand;
-use PHPCI\Service\BuildService;
+use PHPCensor\Command\RunCommand;
+use PHPCensor\Command\RebuildCommand;
+use PHPCensor\Command\UpdateCommand;
+use PHPCensor\Command\InstallCommand;
+use PHPCensor\Command\DaemonCommand;
+use PHPCensor\Command\PollCommand;
+use PHPCensor\Command\CreateAdminCommand;
+use PHPCensor\Command\CreateBuildCommand;
+use PHPCensor\Command\WorkerCommand;
+use PHPCensor\Command\RebuildQueueCommand;
+use PHPCensor\Service\BuildService;
 use Symfony\Component\Console\Application;
 use b8\Store\Factory;
 

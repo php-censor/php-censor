@@ -10,9 +10,9 @@
     <arg name="encoding" value="UTF-8"/>
     <arg name="extensions" value="php"/>
 
-    <exclude-pattern>src/PHPCI/Migrations/*</exclude-pattern>
-    <exclude-pattern>src/PHPCI/Model/Base/*</exclude-pattern>
-    <exclude-pattern>src/PHPCI/Languages/*</exclude-pattern>
+    <exclude-pattern>src/PHPCensor/Migrations/*</exclude-pattern>
+    <exclude-pattern>src/PHPCensor/Model/Base/*</exclude-pattern>
+    <exclude-pattern>src/PHPCensor/Languages/*</exclude-pattern>
     <exclude-pattern>tests/*</exclude-pattern>
     <exclude-pattern>vendor/*</exclude-pattern>
 
