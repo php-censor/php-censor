@@ -12,28 +12,28 @@
     bootstrap="./tests/bootstrap.php"
 >
     <testsuites>
-        <!--<testsuite name="PHPCI Command Test Suite">
+        <!--<testsuite name="PHP Censor Command Test Suite">
             <directory suffix="Test.php">./tests/PHPCI/Command</directory>
         </testsuite>-->
-        <testsuite name="PHPCI Controller Test Suite">
+        <testsuite name="PHP Censor Controller Test Suite">
             <directory suffix="Test.php">./tests/PHPCI/Controller</directory>
         </testsuite>
-        <testsuite name="PHPCI Helper Test Suite">
+        <testsuite name="PHP Censor Helper Test Suite">
             <directory suffix="Test.php">./tests/PHPCI/Helper</directory>
         </testsuite>
-        <testsuite name="PHPCI Logging Test Suite">
+        <testsuite name="PHP Censor Logging Test Suite">
             <directory suffix="Test.php">./tests/PHPCI/Logging</directory>
         </testsuite>
-        <testsuite name="PHPCI Model Test Suite">
+        <testsuite name="PHP Censor Model Test Suite">
             <directory suffix="Test.php">./tests/PHPCI/Model</directory>
         </testsuite>
-        <testsuite name="PHPCI Plugin Test Suite">
+        <testsuite name="PHP Censor Plugin Test Suite">
             <directory suffix="Test.php">./tests/PHPCI/Plugin</directory>
         </testsuite>
-        <!--<testsuite name="PHPCI ProcessControl Test Suite">
+        <!--<testsuite name="PHP Censor ProcessControl Test Suite">
             <directory suffix="Test.php">./tests/PHPCI/ProcessControl</directory>
         </testsuite>-->
-        <testsuite name="PHPCI Service Test Suite">
+        <testsuite name="PHP Censor Service Test Suite">
             <directory suffix="Test.php">./tests/PHPCI/Service</directory>
         </testsuite>
         <!--<testsuite name="B8Framework Test Suite">

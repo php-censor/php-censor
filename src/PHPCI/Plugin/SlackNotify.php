@@ -56,13 +56,13 @@ class SlackNotify implements Plugin
             if (isset($options['room'])) {
                 $this->room = $options['room'];
             } else {
-                $this->room = '#phpci';
+                $this->room = '#php-censor';
             }
 
             if (isset($options['username'])) {
                 $this->username = $options['username'];
             } else {
-                $this->username = 'PHPCI';
+                $this->username = 'PHP Censor';
             }
 
             if (isset($options['show_status'])) {

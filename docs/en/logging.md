@@ -6,8 +6,8 @@ Basics
 
 The phpci codebase makes use of the [psr3](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-3-logger-interface.md) logging standard. By default we use [Monolog](https://github.com/Seldaek/monolog) to handle the actual work implementing this standard.
 
-How to Setup Logging (For people running a PHPCI instance)
-==========================================================
+How to Setup Logging (For people running a PHP Censor instance)
+===============================================================
 
 The only step required to activate logging is to create a file in the root directory called loggerconfig.php with content like the following:
 

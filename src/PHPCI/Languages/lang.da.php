@@ -12,7 +12,7 @@ return [
     'language' => 'Sprog',
 
     // Log in:
-    'log_in_to_phpci' => 'Log ind i PHPCI',
+    'log_in_to_phpci' => 'Log ind i PHP Censor',
     'login_error' => 'Forkert email-adresse eller adgangskode',
     'forgotten_password_link' => 'Har du glemt din adgangskode?',
     'reset_emailed' => 'Vi har sendt dig en email med et link til at nulstille din adgangskode.',
@@ -26,7 +26,7 @@ vi dig et link til at nulstille din adgangskode.',
     'reset_no_user_exists' => 'Der findes ingen bruger med den email-adresse, prøv igen.',
     'reset_email_body' => 'Hej %s,
 
-Du modtager denne email fordi du eller en anden person har anmodet om at nulstille din adgangskode til PHPCI.
+Du modtager denne email fordi du eller en anden person har anmodet om at nulstille din adgangskode til PHP Censor.
 
 Hvis det var dig kan du klikke følgende link for at nulstille din adgangskode: %ssession/reset-password/%d/%s
 
@@ -34,9 +34,9 @@ Hvis det ikke var dig kan du ignorere denne email og intet vil ske.
 
 Tak,
 
-PHPCI',
+PHP Censor',
 
-    'reset_email_title' => 'PHPCI Adgangskode-nulstilling for %s',
+    'reset_email_title' => 'PHP Censor Adgangskode-nulstilling for %s',
     'reset_invalid' => 'Ugyldig anmodning om adgangskode-nulstilling.',
     'email_address' => 'Email-addresse',
     'login' => 'Login / Email Address',
@@ -109,7 +109,7 @@ i din foretrukne hosting-platform.',
     'project_title' => 'Projekt-titel',
     'project_private_key' => 'Privat nøgle med adgang til dette repository
 (tom for lokal nøgle og/eller anonym adgang)',
-    'build_config' => 'PHPCI build-konfiguration for dette projekt
+    'build_config' => 'PHP Censor build-konfiguration for dette projekt
 (hvis du ikke har mulighed for at tilføje en phpci.yml fil i projektets repository)',
     'default_branch' => 'Default branch navn',
     'allow_public_status' => 'Tillad offentlig status-side og -billede for dette projekt?',
@@ -231,20 +231,20 @@ Services</a> sektionen under dit Bitbucket-repository.',
     // Settings:
     'settings_saved' => 'Dine indstillinger blev gemt.',
     'settings_check_perms' => 'Dine indstillinger kunne ikke gemmes, kontrollér rettighederne på din config.yml fil.',
-    'settings_cannot_write' => 'PHPCI kan ikke skrive til din config.yml fil, indstillinger bliver muligvis ikke gemt korrekt før dette problem løses.',
+    'settings_cannot_write' => 'PHP Censor kan ikke skrive til din config.yml fil, indstillinger bliver muligvis ikke gemt korrekt før dette problem løses.',
     'settings_github_linked' => 'Din GitHub-konto er nu tilsluttet.',
     'settings_github_not_linked' => 'Din GitHub-konto kunne ikke tilsluttes.',
     'build_settings' => 'Build-indstillinger',
     'github_application' => 'GitHub-applikation',
-    'github_sign_in' => 'Før du kan bruge GitHub skal du <a href="%s">logge ind</a> og give PHPCI
+    'github_sign_in' => 'Før du kan bruge GitHub skal du <a href="%s">logge ind</a> og give PHP Censor
 adgang til din konto.',
-    'github_phpci_linked' => 'PHPCI blev tilsluttet din GitHub-konto.',
+    'github_phpci_linked' => 'PHP Censor blev tilsluttet din GitHub-konto.',
     'github_where_to_find' => 'Hvor disse findes...',
     'github_where_help' => 'Hvis du ejer applikationen du ønsker at bruge kan du finde denne information i
 <a href="https://github.com/settings/applications">applications</a> under indstillinger.',
 
     'email_settings' => 'Email-indstillinger',
-    'email_settings_help' => 'Før PHPCI kan sende build-notifikationer via email
+    'email_settings_help' => 'Før PHP Censor kan sende build-notifikationer via email
 skal du konfigurere nedenstående SMTP-indstillinger.',
 
     'application_id' => 'Application ID',
@@ -269,7 +269,7 @@ skal du konfigurere nedenstående SMTP-indstillinger.',
     '3_hours' => '3 timer',
 
     // Plugins
-    'cannot_update_composer' => 'PHPCI kan ikke opdatere composer.json da filen ikke kan skrives.',
+    'cannot_update_composer' => 'PHP Censor kan ikke opdatere composer.json da filen ikke kan skrives.',
     'x_has_been_removed' => '%s er blevet slettet.',
     'x_has_been_added' => '%s blev tilføjet til composer.json for dig og vil blive installeret næste gang
 du kører composer update.',
@@ -286,7 +286,7 @@ du kører composer update.',
     'search' => 'Søg &raquo;',
 
     // Installer
-    'installation_url' => 'PHPCI Installations-URL',
+    'installation_url' => 'PHP Censor Installations-URL',
     'db_host' => 'Database-hostnavn',
     'db_name' => 'Database-navn',
     'db_user' => 'Database-brugernavn',
@@ -295,37 +295,37 @@ du kører composer update.',
     'admin_pass' => 'Administrator-adgangskode',
     'admin_email' => 'Administrators email-adresse',
     'config_path' => 'Konfigurations-fil',
-    'install_phpci' => 'Installér PHPCI',
-    'welcome_to_phpci' => 'Velkommen til PHPCI',
+    'install_phpci' => 'Installér PHP Censor',
+    'welcome_to_phpci' => 'Velkommen til PHP Censor',
     'please_answer' => 'Besvar venligst følgende spørgsmål:',
-    'phpci_php_req' => 'PHPCI kræver minimum PHP version 5.3.8 for at fungere.',
+    'phpci_php_req' => 'PHP Censor kræver minimum PHP version 5.3.8 for at fungere.',
     'extension_required' => 'Extension påkrævet: %s',
-    'function_required' => 'PHPCI behøver adgang til funktion %s() i PHP. Er den deaktiveret i php.ini?',
-    'requirements_not_met' => 'PHPCI kan ikke installeres da nogle krav ikke opfyldtes.
+    'function_required' => 'PHP Censor behøver adgang til funktion %s() i PHP. Er den deaktiveret i php.ini?',
+    'requirements_not_met' => 'PHP Censor kan ikke installeres da nogle krav ikke opfyldtes.
 Kontrollér venligst nedenstående fejl før du fortsætter.',
     'must_be_valid_email' => 'Skal være en gyldig email-adresse.',
     'must_be_valid_url' => 'Skal være en gyldig URL.',
     'enter_name' => 'Administrator-navn: ',
     'enter_email' => 'Administrators email-adresse: ',
     'enter_password' => 'Administrator-adgangskode: ',
-    'enter_phpci_url' => 'Din PHPCI URL (eksempelvis "http://phpci.local"): ',
+    'enter_phpci_url' => 'Din PHP Censor URL (eksempelvis "http://phpci.local"): ',
 
     'enter_db_host' => 'Indtast dit MySQL-hostnavn [localhost]: ',
     'enter_db_name' => 'Indtast dit MySQL database-navn [phpci]: ',
     'enter_db_user' => 'Indtast dit MySQL-brugernavn [phpci]: ',
     'enter_db_pass' => 'Indtast dit MySQL-password: ',
-    'could_not_connect' => 'PHPCI kunne ikke forbinde til MySQL med de angivning oplysninger. Forsøg igen.',
+    'could_not_connect' => 'PHP Censor kunne ikke forbinde til MySQL med de angivning oplysninger. Forsøg igen.',
     'setting_up_db' => 'Indlæser database...',
     'user_created' => 'Brugerkonto oprettet!',
-    'failed_to_create' => 'PHPCI kunne ikke oprette din administrator-konto.',
-    'config_exists' => 'PHPCI konfigurationsfilen findes og er ikke tom.',
-    'update_instead' => 'Hvis du forsøgte at opdatere PHPCI, forsøg da venligst med phpci:update istedet.',
+    'failed_to_create' => 'PHP Censor kunne ikke oprette din administrator-konto.',
+    'config_exists' => 'PHP Censor konfigurationsfilen findes og er ikke tom.',
+    'update_instead' => 'Hvis du forsøgte at opdatere PHP Censor, forsøg da venligst med phpci:update istedet.',
 
     // Update
     'update_phpci' => 'Opdatér databasen med ændrede modeller',
-    'updating_phpci' => 'Opdaterer PHPCI-database:',
-    'not_installed' => 'PHPCI lader til ikke at være installeret.',
-    'install_instead' => 'Installér venligst PHPCI via phpci:install istedet.',
+    'updating_phpci' => 'Opdaterer PHP Censor-database:',
+    'not_installed' => 'PHP Censor lader til ikke at være installeret.',
+    'install_instead' => 'Installér venligst PHP Censor via phpci:install istedet.',
 
     // Poll Command
     'poll_github' => 'Check via GitHub om et build skal startes.',
@@ -347,7 +347,7 @@ Kontrollér venligst nedenstående fejl før du fortsætter.',
     'branch_name_option' => 'Branch to build',
 
     // Run Command
-    'run_all_pending' => 'Kør alle PHPCI builds i køen.',
+    'run_all_pending' => 'Kør alle PHP Censor builds i køen.',
     'finding_builds' => 'Finder builds der skal køres',
     'found_n_builds' => '%d builds fundet',
     'skipping_build' => 'Springer over Build %d - projektet kører et build lige nu.',
@@ -381,7 +381,7 @@ Kontrollér venligst nedenstående fejl før du fortsætter.',
     'n_emails_sent' => '%d emails afsendt.',
     'n_emails_failed' => '%d emails kunne ikke afsendes.',
     'unable_to_set_env' => 'Kunne ikke sætte environment-variabel',
-    'tag_created' => 'Tag oprettet af PHPCI: %s',
+    'tag_created' => 'Tag oprettet af PHP Censor: %s',
     'x_built_at_x' => '%PROJECT_TITLE% bygget på %BUILD_URI%',
     'hipchat_settings' => 'Angiv venligst rum og autoToken i hipchat_notify plugin',
     'irc_settings' => 'Du skal som minimum indstille en server, et rum og et nicknavn.',

@@ -64,19 +64,19 @@ class GithubBuild extends RemoteGitBuild
             case 0:
             case 1:
                 $status = 'pending';
-                $description = 'PHPCI build running.';
+                $description = 'PHP Censor build running.';
                 break;
             case 2:
                 $status = 'success';
-                $description = 'PHPCI build passed.';
+                $description = 'PHP Censor build passed.';
                 break;
             case 3:
                 $status = 'failure';
-                $description = 'PHPCI build failed.';
+                $description = 'PHP Censor build failed.';
                 break;
             default:
                 $status = 'error';
-                $description = 'PHPCI build failed to complete.';
+                $description = 'PHP Censor build failed to complete.';
                 break;
         }
 
@@ -86,7 +86,7 @@ class GithubBuild extends RemoteGitBuild
             'state'       => $status,
             'target_url'  => $phpciUrl . '/build/view/' . $this->getId(),
             'description' => $description,
-            'context'     => 'PHPCI',
+            'context'     => 'PHP Censor',
         ];
 
         $headers = [

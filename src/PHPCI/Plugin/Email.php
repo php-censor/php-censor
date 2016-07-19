@@ -93,7 +93,7 @@ class Email implements Plugin
 
         $sendFailures = $this->sendSeparateEmails(
             $addresses,
-            sprintf("PHPCI - %s - %s", $projectName, $buildStatus),
+            sprintf("PHP Censor - %s - %s", $projectName, $buildStatus),
             $body
         );
 

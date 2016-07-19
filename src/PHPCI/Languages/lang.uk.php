@@ -12,7 +12,7 @@ return [
     'language' => 'Мова',
 
     // Log in:
-    'log_in_to_phpci' => 'Увійти до PHPCI',
+    'log_in_to_phpci' => 'Увійти до PHP Censor',
     'login_error' => 'Невірний email або пароль',
     'forgotten_password_link' => 'Забули свій пароль?',
     'reset_emailed' => 'Ми відправили вам посилання для скидання вашого паролю.',
@@ -26,7 +26,7 @@ return [
     'reset_no_user_exists' => 'Не існує користувача з такою email адресою, будь ласка, повторіть знову.',
     'reset_email_body' => 'Привіт, %s,
 
-Ви отримали цей лист, тому що ви або хтось інший запросили скидання пароля в PHPCI.
+Ви отримали цей лист, тому що ви або хтось інший запросили скидання пароля в PHP Censor.
 
 Якщо це були ви, будь ласка, перейдіть за посиланням нижче для скидання пароля: %ssession/reset-password/%d/%s,
 
@@ -34,9 +34,9 @@ return [
 
 Дякуємо,
 
-PHPCI',
+PHP Censor',
 
-    'reset_email_title' => 'Скидання пароль PHPCI для %s',
+    'reset_email_title' => 'Скидання пароль PHP Censor для %s',
     'reset_invalid' => 'Невірний запит скидання паролю.',
     'email_address' => 'Email адреса',
     'login' => 'Логин / Email адреса',
@@ -109,7 +109,7 @@ PHPCI',
     'project_title' => 'Заголовок проекту',
     'project_private_key' => 'Приватний ключ доступу до репозиторія
 (залишити поле порожнім для локального використання та/або анонімного доступу)',
-    'build_config' => 'Конфігурація збірки цього проекта для PHPCI
+    'build_config' => 'Конфігурація збірки цього проекта для PHP Censor
 (якщо ви не додали файл phpci.yml до репозиторію вашого проекту)',
     'default_branch' => 'Назва гілки за замовчуванням',
     'allow_public_status' => 'Увімкнути публічну сторінку статусу та зображення для цього проекта?',
@@ -232,21 +232,21 @@ PHPCI',
     // Settings:
     'settings_saved' => 'Ваші налаштування були збережені.',
     'settings_check_perms' => 'Ваші налаштування не можуть бути збережені, перевірте права на ваш файл налаштувань config.yml.',
-    'settings_cannot_write' => 'PHPCI не може записати файл config.yml, налаштування не будуть коректно збережені,
+    'settings_cannot_write' => 'PHP Censor не може записати файл config.yml, налаштування не будуть коректно збережені,
 доки це не буде виправлено.',
     'settings_github_linked' => 'Ваш GitHub аккаунт було підключено.',
     'settings_github_not_linked' => 'Ваш GitHub аккаунт не може бути підключеним.',
     'build_settings' => 'Налаштування збірки',
     'github_application' => 'GitHub додаток',
     'github_sign_in' => 'Перед початком користування GitHub, вам необхідно <a href="%s">увійти</a> та надати
-доступ для PHPCI до вашого аккаунту.',
-    'github_phpci_linked' => 'PHPCI успішно зв\'язаний з аккаунтом GitHub.',
+доступ для PHP Censor до вашого аккаунту.',
+    'github_phpci_linked' => 'PHP Censor успішно зв\'язаний з аккаунтом GitHub.',
     'github_where_to_find' => 'Де це знайти...',
     'github_where_help' => 'Якщо ви є власником додатку, який би ви хотіли використовувати, то ви можете знайти інформацію про це у розділі
 налаштувань ваших <a href="https://github.com/settings/applications">додатків</a>.',
 
     'email_settings' => 'Налаштування Email',
-    'email_settings_help' => 'Перед тим, як PHPCI почне надсилати статуси збірок на email,
+    'email_settings_help' => 'Перед тим, як PHP Censor почне надсилати статуси збірок на email,
 вам необхідно налаштувати параметри SMTP нижче.',
 
     'application_id' => 'ID додатка',
@@ -271,7 +271,7 @@ PHPCI',
     '3_hours' => '3 години',
 
     // Plugins
-    'cannot_update_composer' => 'PHPCI не може оновити composer.json, оскільки він не є доступним для запису.',
+    'cannot_update_composer' => 'PHP Censor не може оновити composer.json, оскільки він не є доступним для запису.',
     'x_has_been_removed' => '%s було видалено.',
     'x_has_been_added' => '%s був доданий до composer.json і буде встановлений, як тільки
 ви виконаєте composer update.',
@@ -288,7 +288,7 @@ PHPCI',
     'search' => 'Знайти &raquo;',
 
     // Installer
-    'installation_url' => 'URL встановлення PHPCI',
+    'installation_url' => 'URL встановлення PHP Censor',
     'db_host' => 'Хост бази даних',
     'db_name' => 'Назва бази даних',
     'db_user' => 'Ім’я користувача бази даних',
@@ -297,37 +297,37 @@ PHPCI',
     'admin_pass' => 'Пароль адміністратора',
     'admin_email' => 'Email адреса адміністратора',
     'config_path' => 'Шлях до файла конфігурації',
-    'install_phpci' => 'Встановити PHPCI',
-    'welcome_to_phpci' => 'Ласкаво просимо до PHPCI',
+    'install_phpci' => 'Встановити PHP Censor',
+    'welcome_to_phpci' => 'Ласкаво просимо до PHP Censor',
     'please_answer' => 'Будь ласка, дайте відповідь на наступні питання:',
-    'phpci_php_req' => 'PHPCI вимагає для роботи, принаймні, версію PHP 5.3.8.',
+    'phpci_php_req' => 'PHP Censor вимагає для роботи, принаймні, версію PHP 5.3.8.',
     'extension_required' => 'Необхідне розширення: %s',
-    'function_required' => 'PHPCI необхідна можливість викликати функцію %s(). Вона відключена у php.ini?',
-    'requirements_not_met' => 'Неможливо встановити PHPCI, оскільки не всі вимоги виконані.
+    'function_required' => 'PHP Censor необхідна можливість викликати функцію %s(). Вона відключена у php.ini?',
+    'requirements_not_met' => 'Неможливо встановити PHP Censor, оскільки не всі вимоги виконані.
 Будь ласка, продивіться наявні помилки перед тим, як продовжити.',
     'must_be_valid_email' => 'Повинно бути коректною email адресою.',
     'must_be_valid_url' => 'Повинно бути коректним URL.',
     'enter_name' => 'Ім’я адміністратора: ',
     'enter_email' => 'Email адміністратора: ',
     'enter_password' => 'Пароль адміністратора: ',
-    'enter_phpci_url' => 'URL адреса вашого PHPCI (наприклад, "http://phpci.local"): ',
+    'enter_phpci_url' => 'URL адреса вашого PHP Censor (наприклад, "http://phpci.local"): ',
 
     'enter_db_host' => 'Будь ласка, введіть хост MySQL [localhost]: ',
     'enter_db_name' => 'Будь ласка, введить ім’я бази даних MySQL [phpci]: ',
     'enter_db_user' => 'Будь ласка, введить ім’я користувача MySQL [phpci]: ',
     'enter_db_pass' => 'Будь ласка, введить ваш пароль MySQL: ',
-    'could_not_connect' => 'PHPCI не може підключитися до MySQL із наданими параметрами. Будь ласка, спробуйте ще раз.',
+    'could_not_connect' => 'PHP Censor не може підключитися до MySQL із наданими параметрами. Будь ласка, спробуйте ще раз.',
     'setting_up_db' => 'Налаштування вашої бази даних...',
     'user_created' => 'Аккаунт користувача створено!',
-    'failed_to_create' => 'PHPCI не вдалося створити ваш аккаунт адміністратора.',
-    'config_exists' => 'Файл конфігурації PHPCI вже існує та не є порожнім.',
-    'update_instead' => 'Якщо ви збираєтесь оновити PHPCI, будь ласка, використовуйте команду phpci:update.',
+    'failed_to_create' => 'PHP Censor не вдалося створити ваш аккаунт адміністратора.',
+    'config_exists' => 'Файл конфігурації PHP Censor вже існує та не є порожнім.',
+    'update_instead' => 'Якщо ви збираєтесь оновити PHP Censor, будь ласка, використовуйте команду phpci:update.',
 
     // Update
     'update_phpci' => 'Оновити базу даних для відображення змінених моделей.',
-    'updating_phpci' => 'Оновлення бази даних PHPCI:',
-    'not_installed' => 'Неможливо встановити PHPCI.',
-    'install_instead' => 'Будь ласка, встановіть PHPCI через команду phpci:install.',
+    'updating_phpci' => 'Оновлення бази даних PHP Censor:',
+    'not_installed' => 'Неможливо встановити PHP Censor.',
+    'install_instead' => 'Будь ласка, встановіть PHP Censor через команду phpci:install.',
 
     // Poll Command
     'poll_github' => 'Зробити запит до GitHub для перевірки запуску збірки.',
@@ -349,7 +349,7 @@ PHPCI',
     'branch_name_option' => 'Branch to build',
 
     // Run Command
-    'run_all_pending' => 'Запустити всі PHPCI збірки, які очікують.',
+    'run_all_pending' => 'Запустити всі PHP Censor збірки, які очікують.',
     'finding_builds' => 'Пошук збірок для обробки',
     'found_n_builds' => 'Знайдено %d збірок',
     'skipping_build' => 'Збірка %d пропущена - Збірка проекта вже у процесі.',
@@ -383,7 +383,7 @@ PHPCI',
     'n_emails_sent' => '%d листів відправлено.',
     'n_emails_failed' => '%d листів не вдалося відправити.',
     'unable_to_set_env' => 'Неможливо встановити змінну оточення',
-    'tag_created' => 'Тег, створений PHPCI: %s',
+    'tag_created' => 'Тег, створений PHP Censor: %s',
     'x_built_at_x' => '%PROJECT_TITLE% зібрано у %BUILD_URI%',
     'hipchat_settings' => 'Будь ласка, вкажіть кімнату та "authToken" параметр для плагіна hipchat_notify',
     'irc_settings' => 'Ви повинні вказати сервер, кімнату та нік.',

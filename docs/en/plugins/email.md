@@ -19,7 +19,7 @@ Configuration
 
 ### Examples
 
-See [Adding PHPCI Support to Your Projects](https://www.phptesting.org/wiki/Adding-PHPCI-Support-to-Your-Projects) for more information about how to configure plugins.
+See [Adding PHP Censor Support to Your Projects](../config.md) for more information about how to configure plugins.
 
 Send an email to the committer as well as one@exameple.com if a build fails:
 ```yml

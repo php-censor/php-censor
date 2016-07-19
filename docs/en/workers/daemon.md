@@ -1,11 +1,11 @@
 Run Builds Using a Daemon
 -------------------------
 
-The PHPCI daemon runs in the background on your server and continuously checks for new builds. Unless already running a build, the daemon should pick up and start running new builds within seconds of being created.
+The PHP Censor daemon runs in the background on your server and continuously checks for new builds. Unless already running a build, the daemon should pick up and start running new builds within seconds of being created.
 
-The daemon is also useful if you want to run multiple PHPCI workers in a virtualised environment (i.e. Docker)
+The daemon is also useful if you want to run multiple PHP Censor workers in a virtualised environment (i.e. Docker)
 
-If you want to run PHPCI builds on a regular schedule instead, you should [set up a cron-job](workers/cron.md).
+If you want to run PHP Censor builds on a regular schedule instead, you should [set up a cron-job](workers/cron.md).
 
 Starting the Daemon
 ===================

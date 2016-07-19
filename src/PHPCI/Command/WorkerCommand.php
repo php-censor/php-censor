@@ -50,8 +50,8 @@ class WorkerCommand extends Command
     {
         $this
             ->setName('phpci:worker')
-            ->setDescription('Runs the PHPCI build worker.')
-            ->addOption('debug', null, null, 'Run PHPCI in Debug Mode');
+            ->setDescription('Runs the PHP Censor build worker.')
+            ->addOption('debug', null, null, 'Run PHP Censor in Debug Mode');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

@@ -43,7 +43,7 @@ class FlowdockNotify implements Plugin
         }
         $this->api_key = trim($options['api_key']);
         $this->message = isset($options['message']) ? $options['message'] : self::MESSAGE_DEFAULT;
-        $this->email = isset($options['email']) ? $options['email'] : 'PHPCI';
+        $this->email = isset($options['email']) ? $options['email'] : 'PHP Censor';
     }
 
     /**

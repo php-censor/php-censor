@@ -12,7 +12,7 @@ return [
     'language' => 'Język',
 
     // Log in:
-    'log_in_to_phpci' => 'Zaloguj się do PHPCI',
+    'log_in_to_phpci' => 'Zaloguj się do PHP Censor',
     'login_error' => 'Nieprawidłowy email lub hasło',
     'forgotten_password_link' => 'Zapomniałeś hasła?',
     'reset_emailed' => 'Email z linkiem resetującym hasło został wysłany.',
@@ -26,7 +26,7 @@ resetujący hasło.',
     'reset_no_user_exists' => 'Użytkownik o takim emailu nie istnieje. Spróbuj jeszcze raz.',
     'reset_email_body' => 'Witaj %s,
 
-Otrzymałeś ten email ponieważ Ty, lub ktoś inny, wysłał prośbę o zmianę hasła w PHPCI.
+Otrzymałeś ten email ponieważ Ty, lub ktoś inny, wysłał prośbę o zmianę hasła w PHP Censor.
 
 Jeśli to faktycznie Ty, kliknij w następujący link aby zresetować hasło: %ssession/reset-password/%d/%s
 
@@ -34,9 +34,9 @@ Jeśli nie, zignoruj tego emaila i wszystko pozostanie bez zmian,
 
 Pozdrawiamy,
 
-PHPCI',
+PHP Censor',
 
-    'reset_email_title' => 'Reset Hasła PHPCI dla %s',
+    'reset_email_title' => 'Reset Hasła PHP Censor dla %s',
     'reset_invalid' => 'Prośba o zmianę hasła jest nieważna.',
     'email_address' => 'Adres email',
     'login' => 'Login / Email Address',
@@ -111,7 +111,7 @@ od wybranego kodu źródłowego platformy hostingowej.',
     'project_title' => 'Tytuł Projektu',
     'project_private_key' => 'Prywanty klucz dostępu do repozytoriów
 (pozostaw puste pole dla zdalnych lokalnych i/lub anonimowych)',
-    'build_config' => 'PHPCI zbudowało config dla tego projektu
+    'build_config' => 'PHP Censor zbudowało config dla tego projektu
 (jeśli nie możesz dodać pliku phpci.yml do repozytorium projektu)',
     'default_branch' => 'Domyślna nazwa gałęzi',
     'allow_public_status' => 'Włączyć status publiczny dla tego projektu?',
@@ -235,20 +235,20 @@ Services</a> repozytoria Bitbucket.',
     // Settings:
     'settings_saved' => 'Ustawienia zostały zapisane.',
     'settings_check_perms' => 'Twoje ustawienia nie mogły zostać zapisane. Sprawdź uprawnienia do pliku config.yml.',
-    'settings_cannot_write' => 'PHPCI nie może zapisać do pliku config.yml. Dopóty nie będzie można poprawnie zachować ustawie,
+    'settings_cannot_write' => 'PHP Censor nie może zapisać do pliku config.yml. Dopóty nie będzie można poprawnie zachować ustawie,
 dopóki nie będzie to naprawione.',
     'settings_github_linked' => 'Połaczono z Twoim kontem Github',
     'settings_github_not_linked' => 'Nie udało się połaczyć z Twoim kontem Github',
     'build_settings' => 'Ustawienia budowania',
     'github_application' => 'Aplikacja GitHub',
-    'github_sign_in' => 'Zanim będzie można zacząć korzystać z GitHub, musisz najpierw  <a href="%s">Sign in</a>, a następnie udzielić dostęp dla PHPCI do Twojego konta.',
-    'github_phpci_linked' => 'PHPCI zostało pomyślnie połączone z konten GitHub.',
+    'github_sign_in' => 'Zanim będzie można zacząć korzystać z GitHub, musisz najpierw  <a href="%s">Sign in</a>, a następnie udzielić dostęp dla PHP Censor do Twojego konta.',
+    'github_phpci_linked' => 'PHP Censor zostało pomyślnie połączone z konten GitHub.',
     'github_where_to_find' => 'Gdzie można znaleźć...',
     'github_where_help' => 'Jeśli to jest Twoja aplikacjia i chcesz jej użyć to więcej informacji znajdziesz w sekcji ustawień:
  <a href="https://github.com/settings/applications">applications</a>',
 
     'email_settings' => 'Ustawienia Email',
-    'email_settings_help' => 'Aby PHPCI mógł wysyłać emaile z stanem budowy, musisz najpierw skonfigurować poniższe ustawienia SMTP.',
+    'email_settings_help' => 'Aby PHP Censor mógł wysyłać emaile z stanem budowy, musisz najpierw skonfigurować poniższe ustawienia SMTP.',
 
     'application_id' => 'ID Aplikacji',
     'application_secret' => 'Klucz Secret aplikacji',
@@ -272,7 +272,7 @@ dopóki nie będzie to naprawione.',
     '3_hours' => '3 Godzinach',
 
     // Plugins
-    'cannot_update_composer' => 'PHPCI nie może zaktualizować copmposer.json, ponieważ nie ma uprawnień do zapisu.',
+    'cannot_update_composer' => 'PHP Censor nie może zaktualizować copmposer.json, ponieważ nie ma uprawnień do zapisu.',
     'x_has_been_removed' => 'Usunięto %s. ',
     'x_has_been_added' => 'Dodano %s do composer.json. Zostanie zainstalowane po
 wywołaniu polecenia composer update.',
@@ -289,7 +289,7 @@ wywołaniu polecenia composer update.',
     'search' => 'Szukaj &raquo;',
 
     // Installer
-    'installation_url' => 'URL instalacyjny PHPCI',
+    'installation_url' => 'URL instalacyjny PHP Censor',
     'db_host' => 'Host Bazy Danych',
     'db_name' => 'Nazwa Bazy Danych',
     'db_user' => 'Nazwa Użytkownika Bazy Danych',
@@ -298,37 +298,37 @@ wywołaniu polecenia composer update.',
     'admin_pass' => 'Hasło Admina',
     'admin_email' => 'Adres Email Admina',
     'config_path' => 'Ścieżka Pliku Config',
-    'install_phpci' => 'Zainstaluj PHPCI',
-    'welcome_to_phpci' => 'Witaj w PHPCI',
+    'install_phpci' => 'Zainstaluj PHP Censor',
+    'welcome_to_phpci' => 'Witaj w PHP Censor',
     'please_answer' => 'Odpowiedz na poniższe pytania:',
-    'phpci_php_req' => 'PHPCI wymaga przynajmniej PHP 5.3.8 do prawidłowego funkcjonowania.',
+    'phpci_php_req' => 'PHP Censor wymaga przynajmniej PHP 5.3.8 do prawidłowego funkcjonowania.',
     'extension_required' => 'Wymagane rozszerzenie: %s',
-    'function_required' => 'PHPCI musi mieć możliwość wywołania funkcji %s(). Czy ona jest wyłączona w php.ini?',
-    'requirements_not_met' => 'Nie można zainstalować PHPCI, ponieważ nie wszystkie wymagania zostały spełnione.
+    'function_required' => 'PHP Censor musi mieć możliwość wywołania funkcji %s(). Czy ona jest wyłączona w php.ini?',
+    'requirements_not_met' => 'Nie można zainstalować PHP Censor, ponieważ nie wszystkie wymagania zostały spełnione.
 Przejrzyj powyższą listę błędów przed kontynuowaniem.',
     'must_be_valid_email' => 'Poprawny adres email jest wymagany.',
     'must_be_valid_url' => 'Poprawny URL jest wymagany.',
     'enter_name' => 'Imię Admina: ',
     'enter_email' => 'Email Admina: ',
     'enter_password' => 'Hasło Admina: ',
-    'enter_phpci_url' => 'URL PHPCI (na przykład "http://phpci.local"): ',
+    'enter_phpci_url' => 'URL PHP Censor (na przykład "http://phpci.local"): ',
 
     'enter_db_host' => 'Wpisz hosta MySQL [host lokalny]: ',
     'enter_db_name' => 'Wpisz nazwę bazy danych MySQL [phpci]: ',
     'enter_db_user' => 'Wpisz nazwę użytkownika MySQL [phpci]: ',
     'enter_db_pass' => 'Wpisz hasło MySQL: ',
-    'could_not_connect' => 'Z podanymi ustawieniami PHPCI nie udało się połączyć z MySQL. Spróbuj ponownie.',
+    'could_not_connect' => 'Z podanymi ustawieniami PHP Censor nie udało się połączyć z MySQL. Spróbuj ponownie.',
     'setting_up_db' => 'Ustawianie Twojej bazy danych...',
     'user_created' => 'Utworzono konto użytkownika!',
-    'failed_to_create' => 'PHPCI nie udało się założyc Twojego konta administratora.',
-    'config_exists' => 'Plik konfiguracji PHPCI istnieje i nie jest pusty.',
-    'update_instead' => 'Jeśli próbowałeś zaktualizować PHPCI, użyj phpci:update.',
+    'failed_to_create' => 'PHP Censor nie udało się założyc Twojego konta administratora.',
+    'config_exists' => 'Plik konfiguracji PHP Censor istnieje i nie jest pusty.',
+    'update_instead' => 'Jeśli próbowałeś zaktualizować PHP Censor, użyj phpci:update.',
 
     // Update
     'update_phpci' => 'Zaktualizuj bazę danych zgodnie ze zmodyfikowanymi modelami.',
-    'updating_phpci' => 'Aktualizacja bazy danych PHPCI:',
-    'not_installed' => 'Wygląda na to, że PHPCI nie jest zainstalowane.',
-    'install_instead' => 'Proszę zainstalować PHPCI poprzez phpci:install',
+    'updating_phpci' => 'Aktualizacja bazy danych PHP Censor:',
+    'not_installed' => 'Wygląda na to, że PHP Censor nie jest zainstalowane.',
+    'install_instead' => 'Proszę zainstalować PHP Censor poprzez phpci:install',
 
     // Poll Command
     'poll_github' => 'Odpytuj GitHub, aby sprawdzić czy należy uruchomić budowę.',
@@ -350,7 +350,7 @@ Przejrzyj powyższą listę błędów przed kontynuowaniem.',
     'branch_name_option' => 'Gałąź do budowania',
 
     // Run Command
-    'run_all_pending' => 'Uruchom wszystkie oczekujące budowy w PHPCI',
+    'run_all_pending' => 'Uruchom wszystkie oczekujące budowy w PHP Censor',
     'finding_builds' => 'Szukam budów do przetwarzania.',
     'found_n_builds' => 'Znaleziono %d budowań',
     'skipping_build' => 'Budowanie %d jest pomijane - Budowanie projektu jest już w toku',
@@ -384,7 +384,7 @@ Przejrzyj powyższą listę błędów przed kontynuowaniem.',
     'n_emails_sent' => 'Wysłano %d emaili.',
     'n_emails_failed' => 'Nie wysłano %d emaili.',
     'unable_to_set_env' => 'Nie można ustawić zmiennej środowiskowej',
-    'tag_created' => 'Tag stworzony przez PHPCI: %s',
+    'tag_created' => 'Tag stworzony przez PHP Censor: %s',
     'x_built_at_x' => '%PROJECT_TITLE% zbudowano pod %BUILD_URI%',
     'hipchat_settings' => 'Proszę podać pokój i authToken dla pluginu hipchat_notify.',
     'irc_settings' => 'Musisz skonfigurować serwer, pokój i swoją nazwę.',

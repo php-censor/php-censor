@@ -1,7 +1,7 @@
 Plugin Env
 ----------
 
-Sets environment variables on the PHPCI server for the build.
+Sets environment variables on the PHP Censor server for the build.
 
 Configuration
 =============

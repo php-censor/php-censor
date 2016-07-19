@@ -12,7 +12,7 @@ return [
     'language' => 'Sprache',
 
     // Log in:
-    'log_in_to_phpci' => 'In PHPCI einloggen',
+    'log_in_to_phpci' => 'In PHP Censor einloggen',
     'login_error' => 'Fehlerhafte Emailadresse oder fehlerhaftes Passwort',
     'forgotten_password_link' => 'Passwort vergessen?',
     'reset_emailed' => 'Wir haben Ihnen einen Link geschickt, um Ihr Passwort zurückzusetzen',
@@ -26,7 +26,7 @@ return [
     'reset_no_user_exists' => 'Es existiert kein User mit dieser Emailadresse, versuchen Sie es bitte noch einmal.',
     'reset_email_body' => 'Hallo %s,
 
-Sie haben diese Email erhalten, weil Sie, oder jemand anders, einen Link zum Zurücksetzen Ihres Passwortes für PHPCI verlangt hat.
+Sie haben diese Email erhalten, weil Sie, oder jemand anders, einen Link zum Zurücksetzen Ihres Passwortes für PHP Censor verlangt hat.
 
 Wenn Sie diesen Link verlangt haben, klicken Sie bitte hier, um Ihr Passwort zurückzusetzen: %ssession/reset-password/%d/%s
 
@@ -34,9 +34,9 @@ Falls nicht, ignorieren Sie diese Email bitte, und es wird nichts geändert.
 
 Danke,
 
-PHPCI',
+PHP Censor',
 
-    'reset_email_title' => 'PHPCI Passwort zurücksetzen für %s',
+    'reset_email_title' => 'PHP Censor Passwort zurücksetzen für %s',
     'reset_invalid' => 'Fehlerhafte Anfrage für das Zurücksetzen eines Passwortes',
     'email_address' => 'Emailadresse',
     'login' => 'Login / Emailadresse',
@@ -111,7 +111,7 @@ generiert. Um es zu verwenden, fügen Sie einfach den folgenden Public Key im Ab
     'project_title' => 'Projekttitel',
     'project_private_key' => 'Private Key für den Zugang zum Repository
                                 (leer lassen für lokale und oder anonyme externe Zugriffe)',
-    'build_config' => 'PHPCI Buildkonfiguration für dieses Projekt
+    'build_config' => 'PHP Censor Buildkonfiguration für dieses Projekt
                                 (falls Sie Ihrem Projektrepository kein phpci.yml hinzufügen können)',
     'default_branch' => 'Name des Standardbranches',
     'allow_public_status' => 'Öffentliche Statusseite und -bild für dieses Projekt einschalten?',
@@ -242,20 +242,20 @@ generiert. Um es zu verwenden, fügen Sie einfach den folgenden Public Key im Ab
     'settings_saved' => 'Ihre Einstellungen wurden gespeichert.',
     'settings_check_perms' => 'Ihre Einstellungen konnten nicht gespeichert werden, bitte überprüfen Sie die
                                 Berechtigungen Ihrer config.yml-Datei',
-    'settings_cannot_write' => 'PHPCI konnte config.yml nicht schreiben. Einstellungen könnten nicht richtig gespeichert werden, bis das Problem behoben ist.',
+    'settings_cannot_write' => 'PHP Censor konnte config.yml nicht schreiben. Einstellungen könnten nicht richtig gespeichert werden, bis das Problem behoben ist.',
     'settings_github_linked' => 'Ihr GitHub-Konto wurde verknüpft.',
     'settings_github_not_linked' => 'Ihr GitHub-Konto konnte nicht verknüpft werden.',
     'build_settings' => 'Buildeinstellungen',
     'github_application' => 'GitHub-Applikation',
-    'github_sign_in' => 'Bevor Sie anfangen GitHub zu verwenden, müssen Sie sich erst <a href="%s">einloggen</a> und PHPCI Zugriff auf Ihr Nutzerkonto gewähren',
-    'github_phpci_linked' => 'PHPCI wurde erfolgreich mit Ihrem GitHub-Konto verknüpft.',
+    'github_sign_in' => 'Bevor Sie anfangen GitHub zu verwenden, müssen Sie sich erst <a href="%s">einloggen</a> und PHP Censor Zugriff auf Ihr Nutzerkonto gewähren',
+    'github_phpci_linked' => 'PHP Censor wurde erfolgreich mit Ihrem GitHub-Konto verknüpft.',
     'github_where_to_find' => 'Wo Sie diese finden...',
     'github_where_help' => 'Wenn Sie der Besitzer der Applikation sind, die Sie gerne verwenden möchten, können Sie
                             diese Einstellungen in Ihrem "<a href="https://github.com/settings/applications">applications</a>
                             settings"-Bereich finden.',
 
     'email_settings' => 'Emaileinstellungen',
-    'email_settings_help' => 'Bevor PHPCI E-Mails zum Buildstatus verschicken kann,
+    'email_settings_help' => 'Bevor PHP Censor E-Mails zum Buildstatus verschicken kann,
                                 müssen Sie Ihre SMTP-Einstellungen unten konfigurieren',
 
     'application_id' => 'Applikations-ID',
@@ -280,7 +280,7 @@ generiert. Um es zu verwenden, fügen Sie einfach den folgenden Public Key im Ab
     '3_hours' => '3 Stunden',
 
     // Plugins
-    'cannot_update_composer' => 'PHPCI kann composer.json nicht für Sie aktualisieren, da Schreibrechte benötigt werden.',
+    'cannot_update_composer' => 'PHP Censor kann composer.json nicht für Sie aktualisieren, da Schreibrechte benötigt werden.',
     'x_has_been_removed' => '%s wurde entfernt.',
     'x_has_been_added' => '%s wurde für Sie dem composer.json hinzugefügt und wird installiert, sobald Sie das nächste mal composer update ausführen.',
     'enabled_plugins' => 'Eingeschaltene Plugins',
@@ -309,7 +309,7 @@ generiert. Um es zu verwenden, fügen Sie einfach den folgenden Public Key im Ab
     'stage_fixed' => 'Behoben',
 
     // Installer
-    'installation_url' => 'PHPCI Installations-URL',
+    'installation_url' => 'PHP Censor Installations-URL',
     'db_host' => 'Datenbankserver',
     'db_name' => 'Datenbankname',
     'db_user' => 'Datenbankbenutzer',
@@ -318,37 +318,37 @@ generiert. Um es zu verwenden, fügen Sie einfach den folgenden Public Key im Ab
     'admin_pass' => 'Administratorpasswort',
     'admin_email' => 'Emailadresse des Administrators',
     'config_path' => 'Dateipfad für Konfiguration',
-    'install_phpci' => 'PHPCI installieren',
-    'welcome_to_phpci' => 'Willkommen bei PHPCI',
+    'install_phpci' => 'PHP Censor installieren',
+    'welcome_to_phpci' => 'Willkommen bei PHP Censor',
     'please_answer' => 'Bitte beantworten Sie die folgenden Fragen:',
-    'phpci_php_req' => 'PHPCI benötigt mindestens PHP 5.3.8 um zu funktionieren.',
+    'phpci_php_req' => 'PHP Censor benötigt mindestens PHP 5.3.8 um zu funktionieren.',
     'extension_required' => 'Benötigte Extensions: %s',
-    'function_required' => 'PHPCI muss die Funktion %s() aufrufen können. Ist sie in php.ini deaktiviert?',
-    'requirements_not_met' => 'PHPCI konnte nicht installiert werden, weil nicht alle Bedingungen erfüllt sind.
+    'function_required' => 'PHP Censor muss die Funktion %s() aufrufen können. Ist sie in php.ini deaktiviert?',
+    'requirements_not_met' => 'PHP Censor konnte nicht installiert werden, weil nicht alle Bedingungen erfüllt sind.
                                 Bitte überprüfen Sie die Fehler, bevor Sie fortfahren,',
     'must_be_valid_email' => 'Muss eine gültige Emailadresse sein.',
     'must_be_valid_url' => 'Muss eine valide URL sein.',
     'enter_name' => 'Name des Administrators: ',
     'enter_email' => 'Emailadresse des Administrators: ',
     'enter_password' => 'Passwort des Administrators: ',
-    'enter_phpci_url' => 'Ihre PHPCI-URL (z.B. "http://phpci.local"): ',
+    'enter_phpci_url' => 'Ihre PHP Censor-URL (z.B. "http://phpci.local"): ',
 
     'enter_db_host' => 'Bitte geben Sie Ihren MySQL-Host ein [localhost]: ',
     'enter_db_name' => 'Bitte geben Sie Ihren MySQL-Namen ein [phpci]: ',
     'enter_db_user' => 'Bitte geben Sie Ihren MySQL-Benutzernamen ein [phpci]: ',
     'enter_db_pass' => 'Bitte geben Sie Ihr MySQL-Passwort ein: ',
-    'could_not_connect' => 'PHPCI konnte wegen folgender Details nicht mit MySQL verbinden. Bitte versuchen Sie es erneut.',
+    'could_not_connect' => 'PHP Censor konnte wegen folgender Details nicht mit MySQL verbinden. Bitte versuchen Sie es erneut.',
     'setting_up_db' => 'Ihre Datenbank wird aufgesetzt... ',
     'user_created' => 'Benutzerkonto wurde erstellt!',
-    'failed_to_create' => 'PHPCI konnte Ihr Administratorenkonto nicht erstellen.',
-    'config_exists' => 'Die PHPCI-Konfigurationsdatei existiert und ist nicht leer..',
-    'update_instead' => 'Falls Sie versucht haben PHPCI zu aktualisieren, benutzen Sie bitte stattdessen phpci:update.',
+    'failed_to_create' => 'PHP Censor konnte Ihr Administratorenkonto nicht erstellen.',
+    'config_exists' => 'Die PHP Censor-Konfigurationsdatei existiert und ist nicht leer..',
+    'update_instead' => 'Falls Sie versucht haben PHP Censor zu aktualisieren, benutzen Sie bitte stattdessen phpci:update.',
 
     // Update
     'update_phpci' => 'Datenbank wird aktualisiert, um den Änderungen der Models zu entsprechen.',
-    'updating_phpci' => 'Aktualisiere PHPCI-Datenbank:',
-    'not_installed' => 'PHPCI scheint nicht installiert zu sein.',
-    'install_instead' => 'Bitte installieren Sie PHPCI stattdessen via phpci:install.',
+    'updating_phpci' => 'Aktualisiere PHP Censor-Datenbank:',
+    'not_installed' => 'PHP Censor scheint nicht installiert zu sein.',
+    'install_instead' => 'Bitte installieren Sie PHP Censor stattdessen via phpci:install.',
 
     // Poll Command
     'poll_github' => 'GitHub abfragen, um herauszufinden, ob ein Build gestartet werden muss.',
@@ -370,7 +370,7 @@ generiert. Um es zu verwenden, fügen Sie einfach den folgenden Public Key im Ab
     'branch_name_option' => 'Branch to build',
 
     // Run Command
-    'run_all_pending' => 'Führe alle ausstehenden PHPCI Builds aus.',
+    'run_all_pending' => 'Führe alle ausstehenden PHP Censor Builds aus.',
     'finding_builds' => 'Suche verarbeitbare Builds',
     'found_n_builds' => '%d Builds gefunden',
     'skipping_build' => 'Überspringe Build %d - Es wird bereits ein Build auf diesem Projekt ausgeführt.',
@@ -404,7 +404,7 @@ generiert. Um es zu verwenden, fügen Sie einfach den folgenden Public Key im Ab
     'n_emails_sent' => '%d Emails verschickt.',
     'n_emails_failed' => 'Konnte %d Emails nicht verschicken.',
     'unable_to_set_env' => 'Konnte Umgebungsvariable nicht setzen',
-    'tag_created' => 'Tag erstellt durch PHPCI: %s',
+    'tag_created' => 'Tag erstellt durch PHP Censor: %s',
     'x_built_at_x' => '%PROJECT_TITLE% gebuildet auf %BUILD_URI%',
     'hipchat_settings' => 'Bitte definieren Sie Room und AuthToken für das hipchat_notify-Plugin',
     'irc_settings' => 'Sie müssen einen Server, Room und Nick definieren.',

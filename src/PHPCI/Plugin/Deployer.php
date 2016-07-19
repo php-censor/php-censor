@@ -36,7 +36,7 @@ class Deployer implements Plugin
     {
         $this->phpci = $phpci;
         $this->build = $build;
-        $this->reason = 'PHPCI Build #%BUILD% - %COMMIT_MESSAGE%';
+        $this->reason = 'PHP Censor Build #%BUILD% - %COMMIT_MESSAGE%';
 
         if (isset($options['webhook_url'])) {
             $this->webhookUrl = $options['webhook_url'];
@@ -63,7 +63,7 @@ class Deployer implements Plugin
 
         $response = $http->post($this->webhookUrl, [
             'reason'      => $this->phpci->interpolate($this->reason),
-            'source'      => 'PHPCI',
+            'source'      => 'PHP Censor',
             'url'         => $this->phpci->interpolate('%BUILD_URI%'),
             'branch'      => $this->phpci->interpolate('%BRANCH%'),
             'update_only' => $this->updateOnly

@@ -39,8 +39,8 @@ class HipchatNotify implements Plugin
         $this->phpci = $phpci;
         $this->build = $build;
 
-        $this->userAgent = "PHPCI/1.0 (+http://www.phptesting.org/)";
-        $this->cookie = "phpcicookie";
+        $this->userAgent = "PHP Censor/1.0";
+        $this->cookie = "php-censor-cookie";
 
         if (is_array($options) && isset($options['authToken']) && isset($options['room'])) {
             $this->authToken = $options['authToken'];
@@ -80,12 +80,12 @@ class HipchatNotify implements Plugin
         $result = true;
         if (is_array($this->room)) {
             foreach ($this->room as $room) {
-                if (!$hipChat->message_room($room, 'PHPCI', $message, $this->notify, $this->color)) {
+                if (!$hipChat->message_room($room, 'PHP Censor', $message, $this->notify, $this->color)) {
                     $result = false;
                 }
             }
         } else {
-            if (!$hipChat->message_room($this->room, 'PHPCI', $message, $this->notify, $this->color)) {
+            if (!$hipChat->message_room($this->room, 'PHP Censor', $message, $this->notify, $this->color)) {
                 $result = false;
             }
         }

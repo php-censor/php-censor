@@ -12,7 +12,7 @@ return [
     'language' => 'Taal',
 
     // Log in:
-    'log_in_to_phpci' => 'Log in op PHPCI',
+    'log_in_to_phpci' => 'Log in op PHP Censor',
     'login_error' => 'Incorrect e-mailadres of wachtwoord',
     'forgotten_password_link' => 'Wachtwoord vergeten?',
     'reset_emailed' => 'We hebben je een link gemaild om je wachtwoord opnieuw in te stellen.',
@@ -26,7 +26,7 @@ je een link on je wachtwoord te resetten.',
     'reset_no_user_exists' => 'Er bestaat geen gebruiker met dit e-mailadres, gelieve opnieuw te proberen.',
     'reset_email_body' => 'Hallo %s,
 
-Je ontvangt deze email omdat jij, of iemand anders, je wachtwoord voor PHPCI opnieuw wenst in te stellen.
+Je ontvangt deze email omdat jij, of iemand anders, je wachtwoord voor PHP Censor opnieuw wenst in te stellen.
 
 Indien jij dit was, klik op deze link op je wachtwoord opnieuw in te stellen: %ssession/reset-password/%d/%s
 
@@ -34,9 +34,9 @@ Zoniet, negeer deze e-mail en er zal geen verdere actie ondernomen worden.
 
 Bedankt,
 
-PHPCI',
+PHP Censor',
 
-    'reset_email_title' => 'PHPCI wachtwoord reset voor %s',
+    'reset_email_title' => 'PHP Censor wachtwoord reset voor %s',
     'reset_invalid' => 'Ongeldig wachtwoord reset verzoek',
     'email_address' => 'E-mailadres',
     'login' => 'Login / Email Address',
@@ -110,7 +110,7 @@ van je gekozen source code hosting platform',
     'project_title' => 'Projecttitel',
     'project_private_key' => 'Private key voor toegang tot repository
 (laat leeg voor lokaal en/of anonieme externen)',
-    'build_config' => 'PHPCI build configuratie voor dit project
+    'build_config' => 'PHP Censor build configuratie voor dit project
 (indien je geen phpci.yml bestand aan de project repository kan toevoegen)',
     'default_branch' => 'Standaard branch naam',
     'allow_public_status' => 'Publieke statuspagina en afbeelding beschikbaar maken voor dit project?',
@@ -232,21 +232,21 @@ Services</a> sectie van je Bitbucket repository toegevoegd worden.',
     // Settings:
     'settings_saved' => 'Je instellingen werden opgeslagen.',
     'settings_check_perms' => 'Je instellingen konden niet worden opgeslagen, controleer de permissies van je config.yml bestand.',
-    'settings_cannot_write' => 'PHPCI kan niet schrijven naar je config.yml bestand, instellingen worden mogelijks
+    'settings_cannot_write' => 'PHP Censor kan niet schrijven naar je config.yml bestand, instellingen worden mogelijks
 niet goed opgeslagen tot dit opgelost is.',
     'settings_github_linked' => 'Je GitHub account werd gelinkt.',
     'settings_github_not_linked' => 'Je GitHub account kon niet gelinkt worden.',
     'build_settings' => 'Build instellingen',
     'github_application' => 'GitHub toepassing',
     'github_sign_in' => 'Vooraleer je GitHub kan gebruiken, dien je <a href="%s">in te loggen</a> en
-PHPCI toegang te verlenen tot je account.',
+PHP Censor toegang te verlenen tot je account.',
     'github_phpci_linked' => 'PHP werd succesvol gelinkt aan je GitHub account.',
     'github_where_to_find' => 'Waar zijn deze te vinden...',
     'github_where_help' => 'Indien je eigenaar bent van de toepassing die je wens te gebruiken, kan je deze informatie
 in je <a href="https://github.com/settings/applications">applications</a> instellingen pagina vinden.',
 
     'email_settings' => 'E-mail instellingen',
-    'email_settings_help' => 'Vooraleer PHPCI je build status e-mails kan sturen,
+    'email_settings_help' => 'Vooraleer PHP Censor je build status e-mails kan sturen,
 dien je eerst je SMTP instellingen te configureren.',
 
     'application_id' => 'Toepassings ID',
@@ -271,7 +271,7 @@ dien je eerst je SMTP instellingen te configureren.',
     '3_hours' => '3 uur',
 
     // Plugins
-    'cannot_update_composer' => 'PHPCI kan composer.json niet aanpassen gezien het niet schrijfbaar is.',
+    'cannot_update_composer' => 'PHP Censor kan composer.json niet aanpassen gezien het niet schrijfbaar is.',
     'x_has_been_removed' => '%s werd verwijderd.',
     'x_has_been_added' => '%s werd toegevoegd aan composer.json en zal geïnstalleerd worden de volgende
 keer je composer update uitvoert.',
@@ -288,7 +288,7 @@ keer je composer update uitvoert.',
     'search' => 'Zoek &raquo;',
 
     // Installer
-    'installation_url' => 'PHPCI installatie URL',
+    'installation_url' => 'PHP Censor installatie URL',
     'db_host' => 'Database host',
     'db_name' => 'Database naam',
     'db_user' => 'Database gebruikersnaam',
@@ -297,37 +297,37 @@ keer je composer update uitvoert.',
     'admin_pass' => 'Administrator wachtwoord',
     'admin_email' => 'Administrator e-mailadres',
     'config_path' => 'Pad naar configuratiebestand',
-    'install_phpci' => 'Installeer PHPCI',
-    'welcome_to_phpci' => 'Welkom bij PHPCI',
+    'install_phpci' => 'Installeer PHP Censor',
+    'welcome_to_phpci' => 'Welkom bij PHP Censor',
     'please_answer' => 'Gelieve onderstaande vragen te beantwoorden:',
-    'phpci_php_req' => 'PHPCI heeft ten minste PHP 5.3.8 nodig om te werken.',
+    'phpci_php_req' => 'PHP Censor heeft ten minste PHP 5.3.8 nodig om te werken.',
     'extension_required' => 'Extensie benodigd: %s',
-    'function_required' => 'PHPCI moet functie %s() kunnen aanroepen. Is deze uitgeschakeld in php.ini?',
-    'requirements_not_met' => 'PHPCI kan niet worden geïnstalleerd omdat niet aan alle vereisten is voldaan.
+    'function_required' => 'PHP Censor moet functie %s() kunnen aanroepen. Is deze uitgeschakeld in php.ini?',
+    'requirements_not_met' => 'PHP Censor kan niet worden geïnstalleerd omdat niet aan alle vereisten is voldaan.
 Gelieve de fouten na te kijken vooraleer verder te gaan.',
     'must_be_valid_email' => 'Moet een geldig e-mailadres zijn.',
     'must_be_valid_url' => 'Moet een geldige URL zijn.',
     'enter_name' => 'Administrator naam: ',
     'enter_email' => 'Administrator e-mailadres: ',
     'enter_password' => 'Administrator wachtwoord: ',
-    'enter_phpci_url' => 'Je PHPCI URL (bijvoorbeeld "http://phpci.local"): ',
+    'enter_phpci_url' => 'Je PHP Censor URL (bijvoorbeeld "http://phpci.local"): ',
 
     'enter_db_host' => 'Vul je MySQL host in [localhost]: ',
     'enter_db_name' => 'Vul je MySQL databasenaam in [phpci]: ',
     'enter_db_user' => 'Vul je MySQL gebruikersnaam in [phpci]: ',
     'enter_db_pass' => 'Vul je MySQL watchtwoord in: ',
-    'could_not_connect' => 'PHPCI kon met deze gegevens geen verbinding maken met MySQL. Gelieve opnieuw te proberen.',
+    'could_not_connect' => 'PHP Censor kon met deze gegevens geen verbinding maken met MySQL. Gelieve opnieuw te proberen.',
     'setting_up_db' => 'Database wordt aangemaakt...',
     'user_created' => 'Gebruikersprofiel aangemaakt!',
-    'failed_to_create' => 'PHPCI kon je administratorprofiel niet aanmaken.',
-    'config_exists' => 'Het PHPCI configuratiebestand bestaat en is niet leeg.',
-    'update_instead' => 'Liever phpci:update te gebruiken indien je PHPCI probeerde te updaten, ',
+    'failed_to_create' => 'PHP Censor kon je administratorprofiel niet aanmaken.',
+    'config_exists' => 'Het PHP Censor configuratiebestand bestaat en is niet leeg.',
+    'update_instead' => 'Liever phpci:update te gebruiken indien je PHP Censor probeerde te updaten, ',
 
     // Update
     'update_phpci' => 'Update de database naar het beeld van gewijzigde modellen.',
-    'updating_phpci' => 'PHPCI database wordt geüpdatet:',
-    'not_installed' => 'PHPCI lijkt niet geïnstalleerd te zijn.',
-    'install_instead' => 'Gelieve PHPCI via phpci:install te installeren.',
+    'updating_phpci' => 'PHP Censor database wordt geüpdatet:',
+    'not_installed' => 'PHP Censor lijkt niet geïnstalleerd te zijn.',
+    'install_instead' => 'Gelieve PHP Censor via phpci:install te installeren.',
 
     // Poll Command
     'poll_github' => 'Poll GitHub om te controleren of we een build moeten starten.',
@@ -349,7 +349,7 @@ Gelieve de fouten na te kijken vooraleer verder te gaan.',
     'branch_name_option' => 'Branch to build',
 
     // Run Command
-    'run_all_pending' => 'Voer alle wachtende PHPCI builds uit.',
+    'run_all_pending' => 'Voer alle wachtende PHP Censor builds uit.',
     'finding_builds' => 'Zoekt builds om te verwerken',
     'found_n_builds' => '%d builds gevonden',
     'skipping_build' => 'Build %d overslaan - Project build reeds aan de gang.',
@@ -383,7 +383,7 @@ Gelieve de fouten na te kijken vooraleer verder te gaan.',
     'n_emails_sent' => '%d e-mails versuurd.',
     'n_emails_failed' => '%d e-mails faalden te versturen.',
     'unable_to_set_env' => 'Niet geslaagd om environment variable in te stellen',
-    'tag_created' => 'Tag aangemaakt door PHPCI: %s',
+    'tag_created' => 'Tag aangemaakt door PHP Censor: %s',
     'x_built_at_x' => '%PROJECT_TITLE% built op %BUILD_URI%',
     'hipchat_settings' => 'Gelieve kamer & authToken voor hipchat_notify plugin te definiëren',
     'irc_settings' => 'Je dient server, kamer & nick op te geven.',

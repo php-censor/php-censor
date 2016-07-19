@@ -1,74 +1,80 @@
 {
-    "name":              "block8/phpci",
-    "description":       "Simple continuous integration for PHP projects.",
-    "minimum-stability": "stable",
-    "type":              "library",
-    "keywords":          ["php", "phpci", "ci", "continuous", "integration", "testing", "phpunit", "continuous integration", "jenkins", "travis"],
-    "homepage":          "http://www.phptesting.org/",
-    "license":           "BSD-2-Clause",
-    "authors": [
-        {
-            "name":     "Dan Cryer",
-            "email":    "dan.cryer@block8.co.uk",
-            "homepage": "http://www.block8.co.uk",
-            "role":     "Developer"
-        }
-    ],
-    "support": {
-        "email":  "hello+phpci@block8.co.uk",
-        "issues": "https://github.com/Block8/PHPCI/issues",
-        "source": "https://github.com/Block8/PHPCI"
+  "name":              "corpsee/php-censor",
+  "description":       "Simple continuous integration for PHP projects. PHPCI fork.",
+  "minimum-stability": "stable",
+  "type":              "library",
+  "keywords":          ["php", "php-censor", "ci", "continuous integration"],
+  "homepage":          "https://github.com/corpsee/php-censor",
+  "license":           "BSD-2-Clause",
+  "authors":           [
+    {
+      "name":     "Corpsee",
+      "email":    "poisoncorpsee@gmail.com",
+      "homepage": "http://corpsee.com",
+      "role":     "PHP Censor developer"
     },
-    "autoload": {
-        "psr-4": {
-            "PHPCI\\": "src/PHPCI/",
-            "b8\\":    "src/B8Framework/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Tests\\PHPCI\\": "tests/PHPCI/",
-            "Tests\\b8\\":    "tests/B8Framework/"
-        }
-    },
-    "require": {
-        "php":                       ">=5.4.0",
-        "ext-pdo":                   "*",
-        "ext-pdo_mysql":             "*",
-        "ircmaxell/password-compat": "1.0.*",
-        "swiftmailer/swiftmailer":   "5.4.*",
-        "symfony/yaml":              "2.8.*",
-        "symfony/console":           "2.8.*",
-        "psr/log":                   "1.0.*",
-        "monolog/monolog":           "1.17.*",
-        "pimple/pimple":             "3.0.*",
-        "robmorgan/phinx":           "0.5.*",
-        "sensiolabs/ansi-to-html":   "1.1.*",
-        "pda/pheanstalk":            "3.1.*"
-    },
-    "require-dev": {
-        "phpunit/phpunit":                 "4.8.*",
-        "phpmd/phpmd":                     "2.4.*",
-        "sebastian/phpcpd":                "2.0.*",
-        "squizlabs/php_codesniffer":       "2.6.*",
-        "block8/php-docblock-checker":     "1.0.*",
-        "phploc/phploc":                   "3.0.*",
-        "jakub-onderka/php-parallel-lint": "0.9.*"
-    },
-    "suggest": {
-        "block8/php-docblock-checker":     "PHP Docblock Checker",
-        "phpmd/phpmd":                     "PHP Mess Detector",
-        "sebastian/phpcpd":                "PHP Copy/Paste Detector",
-        "squizlabs/php_codesniffer":       "PHP Code Sniffer",
-        "phpspec/phpspec":                 "PHP Spec",
-        "fabpot/php-cs-fixer":             "PHP Coding Standards Fixer",
-        "phploc/phploc":                   "PHP Lines of Code",
-        "atoum/atoum":                     "Atoum",
-        "jakub-onderka/php-parallel-lint": "Parallel Linting Tool",
-        "behat/behat":                     "Behat BDD Testing",
-        "phptal/phptal":                   "PHPTAL templating engine",
-        "maknz/slack":                     "Slack",
-        "hipchat/hipchat-php":             "Hipchat",
-        "mremi/flowdock":                  "Flowdock"
+    {
+      "name":     "Dan Cryer",
+      "email":    "dan.cryer@block8.co.uk",
+      "homepage": "http://www.block8.co.uk",
+      "role":     "PHPCI developer"
     }
+  ],
+  "support": {
+    "issues": "https://github.com/corpsee/php-censor/issues",
+    "source": "https://github.com/corpsee/php-censor"
+  },
+  "autoload": {
+    "psr-4": {
+      "PHPCI\\": "src/PHPCI/",
+      "b8\\":    "src/B8Framework/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\PHPCI\\": "tests/PHPCI/",
+      "Tests\\b8\\":    "tests/B8Framework/"
+    }
+  },
+  "require": {
+    "php":           ">=5.4.0",
+    "ext-pdo":       "*",
+    "ext-pdo_mysql": "*",
+
+    "ircmaxell/password-compat": "1.0.*",
+    "swiftmailer/swiftmailer":   "5.4.*",
+    "symfony/yaml":              "2.8.*",
+    "symfony/console":           "2.8.*",
+    "psr/log":                   "1.0.*",
+    "monolog/monolog":           "1.17.*",
+    "pimple/pimple":             "3.0.*",
+    "robmorgan/phinx":           "0.5.*",
+    "sensiolabs/ansi-to-html":   "1.1.*",
+    "pda/pheanstalk":            "3.1.*"
+  },
+  "require-dev": {
+    "phpunit/phpunit":                 "4.8.*",
+    "phpmd/phpmd":                     "2.4.*",
+    "sebastian/phpcpd":                "2.0.*",
+    "squizlabs/php_codesniffer":       "2.6.*",
+    "block8/php-docblock-checker":     "1.0.*",
+    "phploc/phploc":                   "3.0.*",
+    "jakub-onderka/php-parallel-lint": "0.9.*"
+  },
+  "suggest": {
+    "block8/php-docblock-checker":     "PHP Docblock Checker",
+    "phpmd/phpmd":                     "PHP Mess Detector",
+    "sebastian/phpcpd":                "PHP Copy/Paste Detector",
+    "squizlabs/php_codesniffer":       "PHP Code Sniffer",
+    "phpspec/phpspec":                 "PHP Spec",
+    "fabpot/php-cs-fixer":             "PHP Coding Standards Fixer",
+    "phploc/phploc":                   "PHP Lines of Code",
+    "atoum/atoum":                     "Atoum",
+    "jakub-onderka/php-parallel-lint": "Parallel Linting Tool",
+    "behat/behat":                     "Behat BDD Testing",
+    "phptal/phptal":                   "PHPTAL templating engine",
+    "maknz/slack":                     "Slack",
+    "hipchat/hipchat-php":             "Hipchat",
+    "mremi/flowdock":                  "Flowdock"
+  }
 }

@@ -51,7 +51,7 @@ class RebuildQueueCommand extends Command
     {
         $this
             ->setName('phpci:rebuild-queue')
-            ->setDescription('Rebuilds the PHPCI worker queue.');
+            ->setDescription('Rebuilds the PHP Censor worker queue.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

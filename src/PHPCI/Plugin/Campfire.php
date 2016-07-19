@@ -42,8 +42,8 @@ class Campfire implements Plugin
         $this->phpci     = $phpci;
         $this->build     = $build;
         $this->message   = $options['message'];
-        $this->userAgent = "PHPCI/1.0 (+http://www.phptesting.org/)";
-        $this->cookie    = "phpcicookie";
+        $this->userAgent = "PHP Censor/1.0";
+        $this->cookie    = "php-censor-cookie";
 
         $buildSettings = $phpci->getConfig('build_settings');
 

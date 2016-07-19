@@ -1,4 +1,7 @@
-Copyright (c) 2013-2014, Block 8 Limited
+PHP Censor Copyright (c) 2016, Corpsee
+All rights reserved.
+
+PHPCI Copyright (c) 2013, Block 8 Limited
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:

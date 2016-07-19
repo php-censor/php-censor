@@ -66,7 +66,7 @@ class RunCommand extends Command
         $this
             ->setName('phpci:run-builds')
             ->setDescription(Lang::get('run_all_pending'))
-            ->addOption('debug', null, null, 'Run PHPCI in Debug Mode');
+            ->addOption('debug', null, null, 'Run PHP Censor in Debug Mode');
     }
 
     /**

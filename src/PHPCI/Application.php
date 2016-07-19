@@ -123,7 +123,7 @@ class Application extends b8\Application
     {
         $controller                     = parent::loadController($class);
         $controller->layout             = new View('layout');
-        $controller->layout->title      = 'PHPCI';
+        $controller->layout->title      = 'PHP Censor';
         $controller->layout->breadcrumb = [];
 
         return $controller;

@@ -28,7 +28,7 @@ setup:
 Warning
 =======
 
-If you are using a Composer private repository like Satis, with HTTP authentication, you must check your username and password inside the ```auth.json``` file. PHPCI uses the ```--no-interaction``` flag, so it will not warn if you must provide that info.
+If you are using a Composer private repository like Satis, with HTTP authentication, you must check your username and password inside the ```auth.json``` file. PHP Censor uses the ```--no-interaction``` flag, so it will not warn if you must provide that info.
 
 For more info, please check the Composer documentation.
 

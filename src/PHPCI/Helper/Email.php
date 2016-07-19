@@ -18,11 +18,11 @@ use PHPCI\Builder;
  */
 class Email
 {
-    const DEFAULT_FROM = 'PHPCI <no-reply@phptesting.org>';
+    const DEFAULT_FROM = 'PHP Censor <no-reply@php-censor.local>';
 
     protected $emailTo = [];
     protected $emailCc = [];
-    protected $subject = 'Email from PHPCI';
+    protected $subject = 'Email from PHP Censor';
     protected $body    = '';
     protected $isHtml  = false;
     protected $config;
