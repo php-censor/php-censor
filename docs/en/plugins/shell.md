@@ -1,3 +1,6 @@
+Plugin Shell
+------------
+
 Runs a given Shell command.
 
 **Note: ** Because this plugin could potentially be abused, it requires extra steps to enable it:
@@ -13,7 +16,10 @@ define('ENABLE_SHELL_PLUGIN', true);
 
 If `ENABLE_SHELL_PLUGIN` is either false or undefined, the shell plugin won't work.
 
-### Configuration Options:
+Configuration
+=============
+
+### Options
 
 * **command** - Required - The shell command to run.
 
@@ -24,7 +30,7 @@ setup:
 ```
  You should understand, that in old configuration type, you can run only one command!
 
-### New format of Configuration Options
+#### New format of Configuration Options
 
 ```yml
 setup:
@@ -43,6 +49,5 @@ setup:
     shell:
         - "cd %BUILD_PATH% && php artisan migrate" # Laravel Migrations
 ```
-
 
 [See variables which you can use in shell commands](../interpolation.md)

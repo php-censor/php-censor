@@ -1,10 +1,16 @@
+Plugin IRC
+----------
+
 Connects to an IRC server and sends a defined message.
 
-### Configuration Options:
+Configuration
+=============
+
+### Options
 
 * **message** - Required - The message to send.
 
-### Build Settings
+#### Build Settings
 
 * **irc** - All child properties are required
     * **server** - IRC server to connect to.

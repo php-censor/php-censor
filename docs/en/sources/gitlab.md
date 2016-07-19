@@ -1,4 +1,7 @@
-If you would like your builds to run automatically whenever there is a commit or other similar activity in your Gitlab repository, perform the following steps:
+Automatically building commits pushed to GitLab
+-----------------------------------------------
+
+If you would like your builds to run automatically whenever there is a commit or other similar activity in your GitLab repository, perform the following steps:
 
 1. Log into PHPCI.
 2. Click on your Gitlab project.

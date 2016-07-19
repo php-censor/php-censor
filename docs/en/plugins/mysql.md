@@ -1,6 +1,12 @@
+Plugin MySQL
+------------
+
 Connects to a given MySQL server and runs a selection of queries.
 
-### Example Configuration:
+Configuration
+=============
+
+### Examples
 
 ```yaml
 build_settings:

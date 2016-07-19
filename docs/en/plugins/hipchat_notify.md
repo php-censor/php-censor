@@ -1,6 +1,12 @@
+Plugin Hipchat Notify
+---------------------
+
 This plugin joins a [HipChat](https://www.hipchat.com/) room and sends a user-defined message, for example a "Build Succeeded" message.
 
-**Configuration Options:**
+Configuration
+=============
+
+### Options
 
 | Field | Required? | Description |
 |-------|-----------|-------------|
@@ -15,7 +21,8 @@ Message can be formatted via HTML. Example:
 <b>%PROJECT_TITLE%</b> - build <a href="%BUILD_URI%">%BUILD%</a> failed!
 ```
 
-Configuration example: 
+### Examples
+
 ```yaml
 hipchat_notify:
     authToken: 123

@@ -1,12 +1,19 @@
+Plugin Lint
+-----------
+
 This plugin runs PHP's built in Lint (syntax / error check) functionality.
 
-## Configuration
+Configuration
+=============
+
 ### Options
+
 - **directory** [string, optional] - A single path in which you wish to lint files.
 - **directories** [array, optional] - An array of paths in which you wish to lint files. This overrides  `directory`.
 - **recursive** [bool, optional] - Whether or not you want to recursively check sub-directories of the above (defaults to true).
 
-### Example
+### Examples
+
 ```yml
   test:
     lint:

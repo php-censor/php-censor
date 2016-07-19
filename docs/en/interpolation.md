@@ -1,9 +1,11 @@
+Injecting variables into messages
+---------------------------------
+
 Most strings used in the build configuration can have variables related to the build inserted into them with the following syntax:
 
 "My important message is about %SOMETHING%"
 
 Where something can be one of the following:
-
 
 * **COMMIT** - The commit hash
 * **SHORT_COMMIT** - The shortened version of the commit hash

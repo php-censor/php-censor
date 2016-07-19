@@ -1,13 +1,19 @@
+Plugin Campfire
+---------------
+
 This plugin joins a [Campfire](https://campfirenow.com/) room and sends a user-defined message, for example a "Build Succeeded" message.
 
-## Configuration
+Configuration
+=============
+
 ### Options
+
 - **authToken** [string, required] - Your Campfire user authentication token.
 - **message** [string, required] - The message to send to the room.
 - **roomId** [string, required] - Your Campfire room ID number.
 - **url** [string, required] - Your Campfire chat room URL.
 
-### Example
+### Examples
 ```yml
   build_settings:
     campfire:

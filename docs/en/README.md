@@ -1,4 +1,9 @@
-#### Getting Started
+PHPCI documentation
+-------------------
+
+Getting Started
+===============
+
 * [Installing PHPCI](installing.md)
     * [Adding a Virtual Host](virtual_host.md)
     * [Run Builds Using a Worker](workers/worker.md)
@@ -9,16 +14,20 @@
 * [Updating PHPCI](updating.md)
 * [Configuring PHPCI](configuring.md)
 
-#### Using PHPCI
+Using PHPCI
+===========
+
 * Automatically building commits pushed to
-  * [Github](sources/github.md)
-  * [Bitbucket](sources/bitbucket.md)
-  * [GitLab](sources/gitlab.md)
-  * [Git](sources/git.md)
+    * [Github](sources/github.md)
+    * [Bitbucket](sources/bitbucket.md)
+    * [GitLab](sources/gitlab.md)
+    * [Git](sources/git.md)
 * [Injecting variables into messages](interpolation.md)
 * [Project Status Images and Status Page](status.md)
 
-#### Plugins
+Plugins
+=======
+
 * [Atoum](plugins/atoum.md) - `atoum`
 * [Behat](plugins/behat.md) - `behat`
 * [Campfire](plugins/campfire.md) - `campfire`

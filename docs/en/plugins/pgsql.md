@@ -1,6 +1,12 @@
+Plugin PostgreSQL
+-----------------
+
 Connects to a given PostgreSQL server and runs a list of queries.
 
-### Example Configuration:
+Configuration
+=============
+
+### Examples
 
 ```yaml
 build_settings:

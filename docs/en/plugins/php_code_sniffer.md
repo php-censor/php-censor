@@ -1,7 +1,13 @@
+Plugin PHP Code Sniffer
+-----------------------
+
 Runs PHP Code Sniffer against your build.
 
-## Configuration
+Configuration
+=============
+
 ### Options
+
 * **allowed_warnings** [int, optional] - The warning limit for a successful build.
 * **allowed_errors** [int, optional] - The error limit for a successful build.
 * **suffixes** [array, optional] - An array of file extensions to check.
@@ -11,7 +17,8 @@ Runs PHP Code Sniffer against your build.
 * **path** [string, optional] - Path in which to run PHP Code Sniffer.
 * **ignore** [array, optional] - A list of files / paths to ignore, defaults to the build_settings ignore list.
 
-### Example
+### Examples
+
 Simple example where PHPCS will run on app directory, but ignore the views folder, and use PSR-1 and PSR-2 rules for validation:
 ```yml
 test:

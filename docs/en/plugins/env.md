@@ -1,6 +1,12 @@
+Plugin Env
+----------
+
 Sets environment variables on the PHPCI server for the build.
 
-### Sample Configuration:
+Configuration
+=============
+
+### Examples:
 
 ```yml
 setup:

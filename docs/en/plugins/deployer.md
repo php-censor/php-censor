@@ -1,12 +1,19 @@
+Plugin Deployer
+---------------
+
 Triggers a deployment of the project to run via [Deployer](http://phpdeployment.org)
 
-**Configuration Options:**
+Configuration
+=============
+
 ### Options
+
 * **webhook_url** [required, string] - The URL to your Deployer WebHook 
 * **reason** [optional, string] - Your deployment message. Default - PHPCI Build #%BUILD% - %COMMIT_MESSAGE%
 * **update_only** [optional, bool, true|false] - Whether the deployment should only be run if the currently deployed branches matches the one being built. Default - true
 
-### Example
+### Examples
+
 ```yaml
 success:
     deployer:

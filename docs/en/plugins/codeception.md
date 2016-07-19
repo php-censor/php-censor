@@ -1,6 +1,12 @@
+Plugin Codeception
+------------------
+
 A simple plugin that allows you to run [Codeception](http://codeception.com/) tests.
 
-### Configuration Options:
+Configuration
+=============
+
+### Options
 
 * **config** - Required - Can be either a single string pointing to a Codeception configuration file, or an array of configuration file paths. By default this is called `codeception.yml` and will be in the root of your project.
 
@@ -8,7 +14,7 @@ A simple plugin that allows you to run [Codeception](http://codeception.com/) te
 
 * **path** - Optional - The path from the root of your project to the root of the codeception _output directory
 
-##### Default values
+#### Default values
 
 - config
  - `codeception.yml` if it exists in the root of the project
@@ -21,7 +27,9 @@ A simple plugin that allows you to run [Codeception](http://codeception.com/) te
 - path
  - `tests/_output/`
 
-##### Example on running codeception with default settings (when tests are in tests/ directory):
+### Examples
+
+#### Example on running codeception with default settings (when tests are in tests/ directory):
 
 ```
   codeception:
@@ -29,7 +37,7 @@ A simple plugin that allows you to run [Codeception](http://codeception.com/) te
     path: "tests/"
 ```
 
-##### Example usage against the Yii2 framework
+#### Example usage against the Yii2 framework
 
 ```
 codeception:

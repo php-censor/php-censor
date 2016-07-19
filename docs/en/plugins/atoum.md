@@ -1,6 +1,11 @@
+Plugin Atoum
+------------
+
 Allows you to run [Atoum](https://github.com/atoum/atoum) unit tests.
 
-## Configuration
+Configuration
+=============
+
 ### Options
 
 - **args** [string, optional] - Allows you to pass command line arguments to Atoum.
@@ -8,7 +13,7 @@ Allows you to run [Atoum](https://github.com/atoum/atoum) unit tests.
 - **directory** [string, optional] - Path in which to run Atom (defaults to the build root).
 - **executable** [string, optional] - Allows you to provide a path to the Atom binary (defaults to PHPCI root, vendor/bin, or a system-provided Atom binary).
 
-### Example
+### Examples
 ```yml
   test:
     atoum:
