@@ -11,7 +11,7 @@ namespace PHPCensor\Helper;
 
 /**
  * Windows-specific extension of the CommandExecutor class.
- * @package PHPCI\Helper
+ * @package PHPCensor\Helper
  */
 class WindowsCommandExecutor extends BaseCommandExecutor
 {

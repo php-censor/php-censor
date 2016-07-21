@@ -13,10 +13,10 @@ server {
         ... standard virtual host ...
 
         location / {
-                try_files $uri @phpci;
+                try_files $uri @php-censor;
         }
 
-        location @phpci {
+        location @php-censor {
                 # Pass to FastCGI:
                 fastcgi_pass    unix:/path/to/phpfpm.sock;
                 fastcgi_index   index.php;
@@ -47,23 +47,22 @@ For Apache, you can use a standard virtual host, as long as your server supports
 ```
 <VirtualHost *:80>
     ServerAdmin user@domain.com
-    DocumentRoot /var/www/phpci/public
-    ServerName phpci.vagrant
-    ServerAlias phpci.vagrant
+    DocumentRoot /var/www/php-censor.local/public
+    ServerName php-censor.local
 
-    <Directory /var/www/phpci/public/>
+    <Directory /var/www/php-censor.local/public/>
         Options Indexes FollowSymLinks
         AllowOverride All
         Require all granted
     </Directory>
-    ErrorLog ${APACHE_LOG_DIR}/phpci-error_log
-    CustomLog ${APACHE_LOG_DIR}/phpci-access_log combined
+    ErrorLog ${APACHE_LOG_DIR}/php-censor-error_log
+    CustomLog ${APACHE_LOG_DIR}/php-censor-access_log combined
 </VirtualHost>
 ```
 
 - Add in /etc/hosts
 ```
-127.0.0.1   phpci.vagrant
+127.0.0.1   php-censor.local
 ```
 
 Built-in PHP Server Example

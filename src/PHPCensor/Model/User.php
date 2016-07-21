@@ -13,7 +13,7 @@ use PHPCensor\Model\Base\UserBase;
 
 /**
 * User Model
-* @uses         PHPCI\Model\Base\UserBase
+* @uses         PHPCensor\Model\Base\UserBase
 * @author       Dan Cryer <dan@block8.co.uk>
 * @package      PHPCI
 * @subpackage   Core

@@ -23,7 +23,7 @@ use PHPCensor\Controller;
 class SessionController extends Controller
 {
     /**
-     * @var \PHPCI\Store\UserStore
+     * @var \PHPCensor\Store\UserStore
      */
     protected $userStore;
 

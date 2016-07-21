@@ -11,7 +11,7 @@ namespace PHPCensor\Helper;
 
 /**
  * Provides some basic diff processing functionality.
- * @package PHPCI\Helper
+ * @package PHPCensor\Helper
  */
 class Diff
 {

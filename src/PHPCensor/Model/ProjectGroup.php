@@ -10,7 +10,7 @@ use PHPCensor\Model\Base\ProjectGroupBase;
 
 /**
  * ProjectGroup Model
- * @uses PHPCI\Model\Base\ProjectGroupBase
+ * @uses PHPCensor\Model\Base\ProjectGroupBase
  */
 class ProjectGroup extends ProjectGroupBase
 {

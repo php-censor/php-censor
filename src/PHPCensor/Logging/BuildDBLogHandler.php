@@ -16,7 +16,7 @@ use Psr\Log\LogLevel;
 
 /**
  * Class BuildDBLogHandler writes the build log to the database.
- * @package PHPCI\Logging
+ * @package PHPCensor\Logging
  */
 class BuildDBLogHandler extends AbstractProcessingHandler
 {

@@ -14,7 +14,7 @@ use Monolog\Logger;
 
 /**
  * Class LoggerConfig
- * @package PHPCI\Logging
+ * @package PHPCensor\Logging
  */
 class LoggerConfig
 {

@@ -12,7 +12,7 @@ use PHPCensor\Store\Base\BuildErrorStoreBase;
 
 /**
  * BuildError Store
- * @uses PHPCI\Store\Base\BuildErrorStoreBase
+ * @uses PHPCensor\Store\Base\BuildErrorStoreBase
  */
 class BuildErrorStore extends BuildErrorStoreBase
 {

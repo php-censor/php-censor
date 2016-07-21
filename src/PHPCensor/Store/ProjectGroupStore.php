@@ -10,7 +10,7 @@ use PHPCensor\Store\Base\ProjectGroupStoreBase;
 
 /**
  * ProjectGroup Store
- * @uses PHPCI\Store\Base\ProjectGroupStoreBase
+ * @uses PHPCensor\Store\Base\ProjectGroupStoreBase
  */
 class ProjectGroupStore extends ProjectGroupStoreBase
 {

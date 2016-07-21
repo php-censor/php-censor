@@ -15,7 +15,7 @@ use Psr\Log\LogLevel;
 
 /**
  * Handles running system commands with variables.
- * @package PHPCI\Helper
+ * @package PHPCensor\Helper
  */
 abstract class BaseCommandExecutor implements CommandExecutor
 {

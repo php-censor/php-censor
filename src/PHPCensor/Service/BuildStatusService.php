@@ -14,7 +14,7 @@ use PHPCensor\Model\Build;
 
 /**
  * Class BuildStatusService
- * @package PHPCI\Service
+ * @package PHPCensor\Service
  */
 class BuildStatusService
 {

@@ -23,7 +23,7 @@ class Pdepend implements Plugin
 {
     protected $args;
     /**
-     * @var \PHPCI\Builder
+     * @var \PHPCensor\Builder
      */
     protected $phpci;
     /**

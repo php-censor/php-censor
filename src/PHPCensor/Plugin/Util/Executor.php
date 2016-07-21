@@ -11,7 +11,7 @@ use PHPCensor\Store\BuildStore;
 
 /**
  * Plugin Executor - Runs the configured plugins for a given build stage.
- * @package PHPCI\Plugin\Util
+ * @package PHPCensor\Plugin\Util
  */
 class Executor
 {
@@ -77,7 +77,7 @@ class Executor
      */
     protected function getBranchSpecificPlugins(&$config, $stage, $pluginsToExecute)
     {
-        /** @var \PHPCI\Model\Build $build */
+        /** @var \PHPCensor\Model\Build $build */
         $build  = $this->pluginFactory->getResourceFor('PHPCensor\Model\Build');
         $branch = $build->getBranch();
 

@@ -16,7 +16,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 class CreateAdminCommandTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \PHPCI\Command\CreateAdminCommand|\PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPCensor\Command\CreateAdminCommand|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $command;
 

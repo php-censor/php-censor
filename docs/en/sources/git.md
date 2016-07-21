@@ -16,7 +16,7 @@ Installation
 #!/bin/sh
 
 PROJECT_ID=1
-APP_URL="http://my.server.com/PHPCI/"
+APP_URL="http://my.server.com/php-censor/"
 
 trigger_hook() {
     NEWREV="$2"

@@ -8,7 +8,7 @@ use PHPCensor\Builder;
  * Class Codeception
  *
  * @author  Adam Cooper <adam@networkpie.co.uk>
- * @package PHPCI\Plugin\Util\TestResultParsers
+ * @package PHPCensor\Plugin\Util\TestResultParsers
  */
 class Codeception implements ParserInterface
 {

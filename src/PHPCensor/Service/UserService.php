@@ -15,12 +15,12 @@ use PHPCensor\Store\UserStore;
 /**
  * The user service handles the creation, modification and deletion of users.
  * Class UserService
- * @package PHPCI\Service
+ * @package PHPCensor\Service
  */
 class UserService
 {
     /**
-     * @var \PHPCI\Store\UserStore
+     * @var \PHPCensor\Store\UserStore
      */
     protected $store;
 
@@ -38,7 +38,7 @@ class UserService
      * @param $emailAddress
      * @param $password
      * @param bool $isAdmin
-     * @return \PHPCI\Model\User
+     * @return \PHPCensor\Model\User
      */
     public function createUser($name, $emailAddress, $password, $isAdmin = false)
     {
@@ -58,7 +58,7 @@ class UserService
      * @param $emailAddress
      * @param null $password
      * @param null $isAdmin
-     * @return \PHPCI\Model\User
+     * @return \PHPCensor\Model\User
      */
     public function updateUser(User $user, $name, $emailAddress, $password = null, $isAdmin = null)
     {

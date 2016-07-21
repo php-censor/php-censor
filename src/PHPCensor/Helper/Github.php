@@ -15,7 +15,7 @@ use b8\HttpClient;
 
 /**
  * The Github Helper class provides some Github API call functionality.
- * @package PHPCI\Helper
+ * @package PHPCensor\Helper
  */
 class Github
 {

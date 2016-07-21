@@ -13,7 +13,7 @@ use PHPCensor\Model\Build;
 
 /**
  * The BuildInterpolator class replaces variables in a string with build-specific information.
- * @package PHPCI\Helper
+ * @package PHPCensor\Helper
  */
 class BuildInterpolator
 {

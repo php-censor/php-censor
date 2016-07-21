@@ -6,7 +6,7 @@ use PHPCensor\Plugin;
 
 /**
  * Class FilesPluginInformation
- * @package PHPCI\Plugin\Util
+ * @package PHPCensor\Plugin\Util
  */
 class FilesPluginInformation implements InstalledPluginInformation
 {

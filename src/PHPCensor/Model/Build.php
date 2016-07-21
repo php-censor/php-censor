@@ -16,7 +16,7 @@ use Symfony\Component\Yaml\Parser as YamlParser;
 
 /**
 * Build Model
-* @uses         PHPCI\Model\Base\BuildBase
+* @uses         PHPCensor\Model\Base\BuildBase
 * @author       Dan Cryer <dan@block8.co.uk>
 * @package      PHPCI
 * @subpackage   Core

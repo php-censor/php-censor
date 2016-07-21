@@ -22,7 +22,7 @@ use b8\View;
 class Application extends b8\Application
 {
     /**
-     * @var \PHPCI\Controller
+     * @var \PHPCensor\Controller
      */
     protected $controller;
 

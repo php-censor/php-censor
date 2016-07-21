@@ -36,15 +36,15 @@ Once you've set up PHP Censor to add your jobs to a beanstalkd queue, you need t
 Using your preferred text editor, create a file named `php-censor.conf` under `/etc/supervisor/conf.d`. In it, enter the following config:
 
 ```
-[program:phpci]
-command=/path/to/phpci/latest/console phpci:worker
+[program:php-censor]
+command=/path/to/php-censor/latest/console php-censor:worker
 process_name=%(program_name)s_%(process_num)02d
-stdout_logfile=/var/log/phpci.log
-stderr_logfile=/var/log/phpci-err.log
-user=phpci
+stdout_logfile=/var/log/php-censor.log
+stderr_logfile=/var/log/php-censor-err.log
+user=php-censor
 autostart=true
 autorestart=true
-environment=HOME="/home/phpci",USER="phpci"
+environment=HOME="/home/php-censor",USER="php-censor"
 numprocs=2
 ```
 
@@ -53,9 +53,9 @@ You'll need to edit the '/path/to/php-censor', the `user` value and the `environ
 Once you've created this file, simply restart supervisord using the command `service supervisor restart` and 2 instances of PHP Censor's worker should start immediately. You can verify this by running the command `ps aux | grep php-censor`, which should give you output as follows:
 
 ```
-➜  ~ ps aux | grep phpci
-phpci    19057  0.0  0.9 200244 18720 ?        S    03:00   0:01 php /phpci/console phpci:worker
-phpci    19058  0.0  0.9 200244 18860 ?        S    03:00   0:01 php /phpci/console phpci:worker
+➜  ~ ps aux | grep php-censor
+php-censor    19057  0.0  0.9 200244 18720 ?        S    03:00   0:01 php /php-censor/console php-censor:worker
+php-censor    19058  0.0  0.9 200244 18860 ?        S    03:00   0:01 php /php-censor/console php-censor:worker
 ```
 
 That's it! Now, whenever you create a new build in PHP Censor, it should start building immediately.

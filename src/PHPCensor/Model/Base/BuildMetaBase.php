@@ -296,9 +296,9 @@ class BuildMetaBase extends Model
     /**
      * Get the Project model for this BuildMeta by Id.
      *
-     * @uses \PHPCI\Store\ProjectStore::getById()
-     * @uses \PHPCI\Model\Project
-     * @return \PHPCI\Model\Project
+     * @uses \PHPCensor\Store\ProjectStore::getById()
+     * @uses \PHPCensor\Model\Project
+     * @return \PHPCensor\Model\Project
      */
     public function getProject()
     {
@@ -353,9 +353,9 @@ class BuildMetaBase extends Model
     /**
      * Get the Build model for this BuildMeta by Id.
      *
-     * @uses \PHPCI\Store\BuildStore::getById()
-     * @uses \PHPCI\Model\Build
-     * @return \PHPCI\Model\Build
+     * @uses \PHPCensor\Store\BuildStore::getById()
+     * @uses \PHPCensor\Model\Build
+     * @return \PHPCensor\Model\Build
      */
     public function getBuild()
     {

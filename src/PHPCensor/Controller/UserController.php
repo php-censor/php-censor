@@ -25,12 +25,12 @@ use PHPCensor\Service\UserService;
 class UserController extends Controller
 {
     /**
-     * @var \PHPCI\Store\UserStore
+     * @var \PHPCensor\Store\UserStore
      */
     protected $userStore;
 
     /**
-     * @var \PHPCI\Service\UserService
+     * @var \PHPCensor\Service\UserService
      */
     protected $userService;
 

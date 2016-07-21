@@ -15,7 +15,7 @@ use b8\Store;
 
 /**
 * Project Model
-* @uses         PHPCI\Model\Base\ProjectBase
+* @uses         PHPCensor\Model\Base\ProjectBase
 * @author       Dan Cryer <dan@block8.co.uk>
 * @package      PHPCI
 * @subpackage   Core

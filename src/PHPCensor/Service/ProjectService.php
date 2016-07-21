@@ -15,12 +15,12 @@ use PHPCensor\Store\ProjectStore;
 /**
  * The project service handles the creation, modification and deletion of projects.
  * Class ProjectService
- * @package PHPCI\Service
+ * @package PHPCensor\Service
  */
 class ProjectService
 {
     /**
-     * @var \PHPCI\Store\ProjectStore
+     * @var \PHPCensor\Store\ProjectStore
      */
     protected $projectStore;
 
@@ -38,7 +38,7 @@ class ProjectService
      * @param string $type
      * @param string $reference
      * @param array $options
-     * @return \PHPCI\Model\Project
+     * @return \PHPCensor\Model\Project
      */
     public function createProject($title, $type, $reference, $options = [])
     {
@@ -54,7 +54,7 @@ class ProjectService
      * @param string $type
      * @param string $reference
      * @param array $options
-     * @return \PHPCI\Model\Project
+     * @return \PHPCensor\Model\Project
      */
     public function updateProject(Project $project, $title, $type, $reference, $options = [])
     {

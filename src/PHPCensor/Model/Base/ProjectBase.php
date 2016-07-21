@@ -598,9 +598,9 @@ class ProjectBase extends Model
     /**
      * Get the ProjectGroup model for this Project by Id.
      *
-     * @uses \PHPCI\Store\ProjectGroupStore::getById()
-     * @uses \PHPCI\Model\ProjectGroup
-     * @return \PHPCI\Model\ProjectGroup
+     * @uses \PHPCensor\Store\ProjectGroupStore::getById()
+     * @uses \PHPCensor\Model\ProjectGroup
+     * @return \PHPCensor\Model\ProjectGroup
      */
     public function getGroup()
     {

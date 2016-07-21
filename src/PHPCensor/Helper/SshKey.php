@@ -11,7 +11,7 @@ namespace PHPCensor\Helper;
 
 /**
  * Helper class for dealing with SSH keys.
- * @package PHPCI\Helper
+ * @package PHPCensor\Helper
  */
 class SshKey
 {

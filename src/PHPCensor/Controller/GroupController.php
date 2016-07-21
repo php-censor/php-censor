@@ -25,7 +25,7 @@ use PHPCensor\Helper\Lang;
 class GroupController extends Controller
 {
     /**
-     * @var \PHPCI\Store\ProjectGroupStore
+     * @var \PHPCensor\Store\ProjectGroupStore
      */
     protected $groupStore;
 

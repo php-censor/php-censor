@@ -16,7 +16,7 @@ use Psr\Log\LogLevel;
 
 /**
  * Class BuildLogger
- * @package PHPCI\Logging
+ * @package PHPCensor\Logging
  */
 class BuildLogger implements LoggerAwareInterface
 {

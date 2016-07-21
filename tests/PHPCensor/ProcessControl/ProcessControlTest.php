@@ -17,7 +17,7 @@ abstract class ProcessControlTest extends \PHPUnit_Framework_TestCase
     protected $pipes;
 
     /**
-     * @var \PHPCI\ProcessControl\ProcessControlInterface
+     * @var \PHPCensor\ProcessControl\ProcessControlInterface
      */
     protected $object;
 

@@ -30,22 +30,22 @@ use PHPCensor\Service\ProjectService;
 class ProjectController extends PHPCensor\Controller
 {
     /**
-     * @var \PHPCI\Store\ProjectStore
+     * @var \PHPCensor\Store\ProjectStore
      */
     protected $projectStore;
 
     /**
-     * @var \PHPCI\Service\ProjectService
+     * @var \PHPCensor\Service\ProjectService
      */
     protected $projectService;
 
     /**
-     * @var \PHPCI\Store\BuildStore
+     * @var \PHPCensor\Store\BuildStore
      */
     protected $buildStore;
 
     /**
-     * @var \PHPCI\Service\BuildService
+     * @var \PHPCensor\Service\BuildService
      */
     protected $buildService;
 
@@ -102,7 +102,7 @@ class ProjectController extends PHPCensor\Controller
     */
     public function build($projectId, $branch = '')
     {
-        /* @var \PHPCI\Model\Project $project */
+        /* @var \PHPCensor\Model\Project $project */
         $project = $this->projectStore->getById($projectId);
 
         if (empty($branch)) {

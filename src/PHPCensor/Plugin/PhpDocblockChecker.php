@@ -22,12 +22,12 @@ use PHPCensor\Model\Build;
 class PhpDocblockChecker implements PHPCensor\Plugin, PHPCensor\ZeroConfigPlugin
 {
     /**
-     * @var \PHPCI\Builder
+     * @var \PHPCensor\Builder
      */
     protected $phpci;
 
     /**
-     * @var \PHPCI\Model\Build
+     * @var \PHPCensor\Model\Build
      */
     protected $build;
 

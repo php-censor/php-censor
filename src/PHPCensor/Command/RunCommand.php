@@ -154,7 +154,7 @@ class RunCommand extends Command
 
     protected function validateRunningBuilds()
     {
-        /** @var \PHPCI\Store\BuildStore $store */
+        /** @var \PHPCensor\Store\BuildStore $store */
         $store   = Factory::getStore('Build');
         $running = $store->getByStatus(1);
         $rtn     = [];
@@ -162,7 +162,7 @@ class RunCommand extends Command
         $timeout = Config::getInstance()->get('php-censor.build.failed_after', 1800);
 
         foreach ($running['items'] as $build) {
-            /** @var \PHPCI\Model\Build $build */
+            /** @var \PHPCensor\Model\Build $build */
             $build = BuildFactory::getBuild($build);
 
             $now = time();

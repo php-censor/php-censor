@@ -13,7 +13,7 @@ use PHPCensor\Model\Build;
 
 /**
  * Class LoggedBuildContextTidier cleans up build log entries.
- * @package PHPCI\Logging
+ * @package PHPCensor\Logging
  */
 class LoggedBuildContextTidier
 {

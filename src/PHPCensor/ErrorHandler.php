@@ -12,7 +12,7 @@ namespace PHPCensor;
 /**
  * Error Handler
  *
- * @package PHPCI\Logging
+ * @package PHPCensor\Logging
  */
 class ErrorHandler
 {

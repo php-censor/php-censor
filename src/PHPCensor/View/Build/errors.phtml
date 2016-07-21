@@ -3,7 +3,7 @@ use PHPCensor\Helper\Lang;
 
 $linkTemplate = $build->getFileLinkTemplate();
 
-/** @var \PHPCI\Model\BuildError $error */
+/** @var \PHPCensor\Model\BuildError $error */
 foreach ($errors as $error):
 
     $link = str_replace('{FILE}', $error->getFile(), $linkTemplate);

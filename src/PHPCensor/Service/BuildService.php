@@ -21,12 +21,12 @@ use PHPCensor\Store\BuildStore;
 /**
  * The build service handles the creation, duplication and deletion of builds.
  * Class BuildService
- * @package PHPCI\Service
+ * @package PHPCensor\Service
  */
 class BuildService
 {
     /**
-     * @var \PHPCI\Store\BuildStore
+     * @var \PHPCensor\Store\BuildStore
      */
     protected $buildStore;
 
@@ -50,7 +50,7 @@ class BuildService
      * @param string|null $committerEmail
      * @param string|null $commitMessage
      * @param string|null $extra
-     * @return \PHPCI\Model\Build
+     * @return \PHPCensor\Model\Build
      */
     public function createBuild(
         Project $project,
@@ -105,7 +105,7 @@ class BuildService
 
     /**
      * @param Build $copyFrom
-     * @return \PHPCI\Model\Build
+     * @return \PHPCensor\Model\Build
      */
     public function createDuplicateBuild(Build $copyFrom)
     {

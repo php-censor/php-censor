@@ -14,7 +14,7 @@ use SensioLabs\AnsiConverter\AnsiToHtmlConverter;
 /**
  * Converts ANSI output to HTML.
  *
- * @package PHPCI\Helper
+ * @package PHPCensor\Helper
  */
 final class AnsiConverter
 {

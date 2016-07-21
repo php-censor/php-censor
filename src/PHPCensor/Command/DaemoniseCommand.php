@@ -100,9 +100,10 @@ class DaemoniseCommand extends Command
     }
 
     /**
-    * Called when log entries are made in Builder / the plugins.
-    * @see \PHPCI\Builder::log()
-    */
+     * Called when log entries are made in Builder / the plugins.
+     * 
+     * @see \PHPCensor\Builder::log()
+     */
     public function logCallback($log)
     {
         $this->output->writeln($log);

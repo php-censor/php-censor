@@ -28,7 +28,7 @@ class Sqlite implements Plugin
     protected $phpci;
 
     /**
-     * @var \PHPCI\Model\Build
+     * @var \PHPCensor\Model\Build
      */
     protected $build;
 

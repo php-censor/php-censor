@@ -71,7 +71,7 @@ class RebuildCommand extends Command
         $runner->setMaxBuilds(1);
         $runner->setDaemon(false);
 
-        /** @var \PHPCI\Store\BuildStore $store */
+        /** @var \PHPCensor\Store\BuildStore $store */
         $store = Factory::getStore('Build');
         $service = new BuildService($store);
 
@@ -83,9 +83,10 @@ class RebuildCommand extends Command
     }
 
     /**
-    * Called when log entries are made in Builder / the plugins.
-    * @see \PHPCI\Builder::log()
-    */
+     * Called when log entries are made in Builder / the plugins.
+     * 
+     * @see \PHPCensor\Builder::log()
+     */
     public function logCallback($log)
     {
         $this->output->writeln($log);

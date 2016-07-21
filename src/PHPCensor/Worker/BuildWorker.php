@@ -15,7 +15,7 @@ use PHPCensor\Model\Build;
 
 /**
  * Class BuildWorker
- * @package PHPCI\Worker
+ * @package PHPCensor\Worker
  */
 class BuildWorker
 {

@@ -33,7 +33,7 @@ How to write to the Log (For people creating a new plugin)
 
 For plugin creators the simplest way to get hold of an error logger is to add a parameter to the constructor and typehint on 'Psr\Log\LoggerInterface'. The code that loads your plugin will automatically inject the logger when it sees this. For example:
 ```php
-class ExampleLoggingPlugin implements \PHPCI\Plugin
+class ExampleLoggingPlugin implements \PHPCensor\Plugin
 {
     protected $log;
 

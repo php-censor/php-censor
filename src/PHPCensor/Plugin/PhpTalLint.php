@@ -27,12 +27,12 @@ class PhpTalLint implements PHPCensor\Plugin
     protected $ignore;
 
     /**
-     * @var \PHPCI\Builder
+     * @var \PHPCensor\Builder
      */
     protected $phpci;
 
     /**
-     * @var \PHPCI\Model\Build
+     * @var \PHPCensor\Model\Build
      */
     protected $build;
 

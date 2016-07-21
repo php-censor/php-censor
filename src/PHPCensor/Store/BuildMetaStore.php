@@ -15,7 +15,7 @@ use PHPCensor\Model\BuildMeta;
 
 /**
  * BuildMeta Store
- * @uses PHPCI\Store\Base\BuildMetaStoreBase
+ * @uses PHPCensor\Store\Base\BuildMetaStoreBase
  */
 class BuildMetaStore extends BuildMetaStoreBase
 {

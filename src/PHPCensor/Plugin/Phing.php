@@ -98,7 +98,7 @@ class Phing implements Plugin
     }
 
     /**
-     * @return \PHPCI\Builder
+     * @return \PHPCensor\Builder
      */
     public function getPhpci()
     {
@@ -106,7 +106,7 @@ class Phing implements Plugin
     }
 
     /**
-     * @param \PHPCI\Builder $phpci
+     * @param \PHPCensor\Builder $phpci
      *
      * @return $this
      */

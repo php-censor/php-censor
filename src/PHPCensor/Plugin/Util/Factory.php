@@ -6,7 +6,7 @@ use Pimple\Container;
 
 /**
  * Plugin Factory - Loads Plugins and passes required dependencies.
- * @package PHPCI\Plugin\Util
+ * @package PHPCensor\Plugin\Util
  */
 class Factory
 {
@@ -71,7 +71,7 @@ class Factory
      * @param $className
      * @param array|null $options
      * @throws \InvalidArgumentException if $className doesn't represent a valid plugin
-     * @return \PHPCI\Plugin
+     * @return \PHPCensor\Plugin
      */
     public function buildPlugin($className, $options = [])
     {

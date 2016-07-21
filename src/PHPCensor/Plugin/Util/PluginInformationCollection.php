@@ -4,7 +4,7 @@ namespace PHPCensor\Plugin\Util;
 
 /**
  * Class PluginInformationCollection
- * @package PHPCI\Plugin\Util
+ * @package PHPCensor\Plugin\Util
  */
 class PluginInformationCollection implements InstalledPluginInformation
 {

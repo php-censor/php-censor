@@ -13,7 +13,7 @@ use Psr\Log\LoggerInterface;
 
 /**
  * Base Log Handler
- * @package PHPCI\Logging
+ * @package PHPCensor\Logging
  */
 class Handler
 {

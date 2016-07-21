@@ -22,12 +22,12 @@ use PHPCensor\Plugin;
 class PhpParallelLint implements Plugin
 {
     /**
-     * @var \PHPCI\Builder
+     * @var \PHPCensor\Builder
      */
     protected $phpci;
 
     /**
-     * @var \PHPCI\Model\Build
+     * @var \PHPCensor\Model\Build
      */
     protected $build;
 

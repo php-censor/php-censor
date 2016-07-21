@@ -7,12 +7,12 @@ use PHPCensor\Model\BuildError;
 class ConvertErrors extends AbstractMigration
 {
     /**
-     * @var \PHPCI\Store\BuildMetaStore
+     * @var \PHPCensor\Store\BuildMetaStore
      */
     protected $metaStore;
 
     /**
-     * @var \PHPCI\Store\BuildErrorStore
+     * @var \PHPCensor\Store\BuildErrorStore
      */
     protected $errorStore;
 
@@ -27,7 +27,7 @@ class ConvertErrors extends AbstractMigration
             $data = $this->metaStore->getErrorsForUpgrade(100);
             $count = count($data);
 
-            /** @var \PHPCI\Model\BuildMeta $meta */
+            /** @var \PHPCensor\Model\BuildMeta $meta */
             foreach ($data as $meta) {
                 switch ($meta->getMetaKey()) {
                     case 'phpmd-data':

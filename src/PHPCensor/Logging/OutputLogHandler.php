@@ -15,7 +15,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Class OutputLogHandler outputs the build log to the terminal.
- * @package PHPCI\Logging
+ * @package PHPCensor\Logging
  */
 class OutputLogHandler extends AbstractProcessingHandler
 {

@@ -29,12 +29,12 @@ use PHPCensor\Controller;
 class BuildController extends Controller
 {
     /**
-     * @var \PHPCI\Store\BuildStore
+     * @var \PHPCensor\Store\BuildStore
      */
     protected $buildStore;
 
     /**
-     * @var \PHPCI\Service\BuildService
+     * @var \PHPCensor\Service\BuildService
      */
     protected $buildService;
 
@@ -173,7 +173,7 @@ class BuildController extends Controller
         $data['finished']   = !is_null($build->getFinished()) ? $build->getFinished()->format('Y-m-d H:i:s') : null;
         $data['duration']   = $build->getDuration();
 
-        /** @var \PHPCI\Store\BuildErrorStore $errorStore */
+        /** @var \PHPCensor\Store\BuildErrorStore $errorStore */
         $errorStore = b8\Store\Factory::getStore('BuildError');
         $errors = $errorStore->getErrorsForBuild($build->getId());
 

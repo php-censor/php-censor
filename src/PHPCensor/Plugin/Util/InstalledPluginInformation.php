@@ -3,7 +3,7 @@ namespace PHPCensor\Plugin\Util;
 
 /**
  * Interface InstalledPluginInformation
- * @package PHPCI\Plugin\Util
+ * @package PHPCensor\Plugin\Util
  */
 interface InstalledPluginInformation
 {

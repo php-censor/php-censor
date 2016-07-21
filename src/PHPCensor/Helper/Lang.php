@@ -14,7 +14,7 @@ use b8\Config;
 /**
  * Languages Helper Class - Handles loading strings files and the strings within them.
  *
- * @package PHPCI\Helper
+ * @package PHPCensor\Helper
  */
 class Lang
 {

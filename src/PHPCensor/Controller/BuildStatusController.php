@@ -26,9 +26,9 @@ use PHPCensor\Controller;
 */
 class BuildStatusController extends Controller
 {
-    /* @var \PHPCI\Store\ProjectStore */
+    /* @var \PHPCensor\Store\ProjectStore */
     protected $projectStore;
-    /* @var \PHPCI\Store\BuildStore */
+    /* @var \PHPCensor\Store\BuildStore */
     protected $buildStore;
 
     /**

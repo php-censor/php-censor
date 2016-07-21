@@ -77,8 +77,8 @@ class TechnicalDebt implements PHPCensor\Plugin, PHPCensor\ZeroConfigPlugin
     }
 
     /**
-     * @param \PHPCI\Builder     $phpci
-     * @param \PHPCI\Model\Build $build
+     * @param \PHPCensor\Builder     $phpci
+     * @param \PHPCensor\Model\Build $build
      * @param array              $options
      */
     public function __construct(Builder $phpci, Build $build, array $options = [])

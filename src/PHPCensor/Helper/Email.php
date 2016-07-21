@@ -14,7 +14,7 @@ use PHPCensor\Builder;
 
 /**
  * Helper class for sending emails using PHPCI's email configuration.
- * @package PHPCI\Helper
+ * @package PHPCensor\Helper
  */
 class Email
 {

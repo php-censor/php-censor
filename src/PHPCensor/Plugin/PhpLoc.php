@@ -26,7 +26,7 @@ class PhpLoc implements PHPCensor\Plugin, PHPCensor\ZeroConfigPlugin
      */
     protected $directory;
     /**
-     * @var \PHPCI\Builder
+     * @var \PHPCensor\Builder
      */
     protected $phpci;
 

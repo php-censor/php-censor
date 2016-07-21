@@ -568,9 +568,9 @@ class BuildBase extends Model
     /**
      * Get the Project model for this Build by Id.
      *
-     * @uses \PHPCI\Store\ProjectStore::getById()
-     * @uses \PHPCI\Model\Project
-     * @return \PHPCI\Model\Project
+     * @uses \PHPCensor\Store\ProjectStore::getById()
+     * @uses \PHPCensor\Model\Project
+     * @return \PHPCensor\Model\Project
      */
     public function getProject()
     {

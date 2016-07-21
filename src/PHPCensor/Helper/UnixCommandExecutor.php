@@ -11,7 +11,7 @@ namespace PHPCensor\Helper;
 
 /**
  * Unix/Linux specific extension of the CommandExecutor class.
- * @package PHPCI\Helper
+ * @package PHPCensor\Helper
  */
 class UnixCommandExecutor extends BaseCommandExecutor
 {

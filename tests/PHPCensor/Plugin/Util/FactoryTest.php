@@ -15,7 +15,7 @@ use PHPCensor\Plugin\Util\Factory;
 class FactoryTest extends \PHPUnit_Framework_TestCase {
 
     /**
-     * @var \PHPCI\Plugin\Util\Factory
+     * @var \PHPCensor\Plugin\Util\Factory
      */
     protected $testedFactory;
 

@@ -24,17 +24,17 @@ use PHPCensor\Controller;
 class HomeController extends Controller
 {
     /**
-     * @var \PHPCI\Store\BuildStore
+     * @var \PHPCensor\Store\BuildStore
      */
     protected $buildStore;
 
     /**
-     * @var \PHPCI\Store\ProjectStore
+     * @var \PHPCensor\Store\ProjectStore
      */
     protected $projectStore;
 
     /**
-     * @var \PHPCI\Store\ProjectGroupStore
+     * @var \PHPCensor\Store\ProjectGroupStore
      */
     protected $groupStore;
 

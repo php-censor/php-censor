@@ -8,7 +8,7 @@ use Symfony\Component\Yaml\Yaml;
 
 /**
  * Processes TAP format strings into usable test result data.
- * @package PHPCI\Plugin\Util
+ * @package PHPCensor\Plugin\Util
  */
 class TapParser
 {

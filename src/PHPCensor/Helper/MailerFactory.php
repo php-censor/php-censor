@@ -11,7 +11,7 @@ namespace PHPCensor\Helper;
 
 /**
  * Class MailerFactory helps to set up and configure a SwiftMailer object.
- * @package PHPCI\Helper
+ * @package PHPCensor\Helper
  */
 class MailerFactory
 {

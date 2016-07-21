@@ -48,7 +48,7 @@ class Builder implements LoggerAwareInterface
     protected $verbose = true;
 
     /**
-     * @var \PHPCI\Model\Build
+     * @var \PHPCensor\Model\Build
      */
     protected $build;
 
@@ -73,7 +73,7 @@ class Builder implements LoggerAwareInterface
     protected $interpolator;
 
     /**
-     * @var \PHPCI\Store\BuildStore
+     * @var \PHPCensor\Store\BuildStore
      */
     protected $store;
 
@@ -83,7 +83,7 @@ class Builder implements LoggerAwareInterface
     public $quiet = false;
 
     /**
-     * @var \PHPCI\Plugin\Util\Executor
+     * @var \PHPCensor\Plugin\Util\Executor
      */
     protected $pluginExecutor;
 
@@ -99,8 +99,9 @@ class Builder implements LoggerAwareInterface
 
     /**
      * Set up the builder.
-     * @param \PHPCI\Model\Build $build
-     * @param LoggerInterface $logger
+     * 
+     * @param \PHPCensor\Model\Build $build
+     * @param LoggerInterface        $logger
      */
     public function __construct(Build $build, LoggerInterface $logger = null)
     {
