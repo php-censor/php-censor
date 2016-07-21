@@ -301,7 +301,7 @@ wywołaniu polecenia composer update.',
     'install_app' => 'Zainstaluj PHP Censor',
     'welcome_to_app' => 'Witaj w PHP Censor',
     'please_answer' => 'Odpowiedz na poniższe pytania:',
-    'app_php_req' => 'PHP Censor wymaga przynajmniej PHP 5.3.8 do prawidłowego funkcjonowania.',
+    'app_php_req' => 'PHP Censor wymaga przynajmniej PHP 5.4.0 do prawidłowego funkcjonowania.',
     'extension_required' => 'Wymagane rozszerzenie: %s',
     'function_required' => 'PHP Censor musi mieć możliwość wywołania funkcji %s(). Czy ona jest wyłączona w php.ini?',
     'requirements_not_met' => 'Nie można zainstalować PHP Censor, ponieważ nie wszystkie wymagania zostały spełnione.

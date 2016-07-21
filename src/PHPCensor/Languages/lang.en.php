@@ -343,7 +343,7 @@ PHP Censor',
     'install_app' => 'Install PHP Censor',
     'welcome_to_app' => 'Welcome to PHP Censor',
     'please_answer' => 'Please answer the following questions:',
-    'app_php_req' => 'PHP Censor requires at least PHP 5.3.8 to function.',
+    'app_php_req' => 'PHP Censor requires at least PHP 5.4.0 to function.',
     'extension_required' => 'Extension required: %s',
     'function_required' => 'PHP Censor needs to be able to call the %s() function. Is it disabled in php.ini?',
     'requirements_not_met' => 'PHP Censor cannot be installed, as not all requirements are met.

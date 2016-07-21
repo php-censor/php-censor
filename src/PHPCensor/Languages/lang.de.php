@@ -321,7 +321,7 @@ generiert. Um es zu verwenden, fügen Sie einfach den folgenden Public Key im Ab
     'install_app' => 'PHP Censor installieren',
     'welcome_to_app' => 'Willkommen bei PHP Censor',
     'please_answer' => 'Bitte beantworten Sie die folgenden Fragen:',
-    'app_php_req' => 'PHP Censor benötigt mindestens PHP 5.3.8 um zu funktionieren.',
+    'app_php_req' => 'PHP Censor benötigt mindestens PHP 5.4.0 um zu funktionieren.',
     'extension_required' => 'Benötigte Extensions: %s',
     'function_required' => 'PHP Censor muss die Funktion %s() aufrufen können. Ist sie in php.ini deaktiviert?',
     'requirements_not_met' => 'PHP Censor konnte nicht installiert werden, weil nicht alle Bedingungen erfüllt sind.

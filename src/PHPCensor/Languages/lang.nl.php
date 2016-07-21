@@ -300,7 +300,7 @@ keer je composer update uitvoert.',
     'install_app' => 'Installeer PHP Censor',
     'welcome_to_app' => 'Welkom bij PHP Censor',
     'please_answer' => 'Gelieve onderstaande vragen te beantwoorden:',
-    'app_php_req' => 'PHP Censor heeft ten minste PHP 5.3.8 nodig om te werken.',
+    'app_php_req' => 'PHP Censor heeft ten minste PHP 5.4.0 nodig om te werken.',
     'extension_required' => 'Extensie benodigd: %s',
     'function_required' => 'PHP Censor moet functie %s() kunnen aanroepen. Is deze uitgeschakeld in php.ini?',
     'requirements_not_met' => 'PHP Censor kan niet worden geïnstalleerd omdat niet aan alle vereisten is voldaan.

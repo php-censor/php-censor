@@ -298,7 +298,7 @@ du kører composer update.',
     'install_app' => 'Installér PHP Censor',
     'welcome_to_app' => 'Velkommen til PHP Censor',
     'please_answer' => 'Besvar venligst følgende spørgsmål:',
-    'app_php_req' => 'PHP Censor kræver minimum PHP version 5.3.8 for at fungere.',
+    'app_php_req' => 'PHP Censor kræver minimum PHP version 5.4.0 for at fungere.',
     'extension_required' => 'Extension påkrævet: %s',
     'function_required' => 'PHP Censor behøver adgang til funktion %s() i PHP. Er den deaktiveret i php.ini?',
     'requirements_not_met' => 'PHP Censor kan ikke installeres da nogle krav ikke opfyldtes.

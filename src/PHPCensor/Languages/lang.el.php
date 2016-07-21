@@ -300,7 +300,7 @@ Services</a> του Bitbucket αποθετηρίου σας.',
     'install_app' => 'Εγκατάσταση PHP Censor',
     'welcome_to_app' => 'Καλώς ήρθατε στο PHP Censor',
     'please_answer' => 'Παρακαλώ απαντήστε στις ακόλουθες ερωτήσεις:',
-    'app_php_req' => 'Το PHP Censor απαιτεί τουλάχιστον την έκδοση PHP 5.3.8 για να λειτουργήσει',
+    'app_php_req' => 'Το PHP Censor απαιτεί τουλάχιστον την έκδοση PHP 5.4.0 για να λειτουργήσει',
     'extension_required' => 'Απαιτούμενη επέκταση: %s ',
     'function_required' => 'Το PHP Censor πρέπει να είναι σε θέση να καλέσει την %s() συνάρτηση. Είναι απενεργοποιημένη στο php.ini;',
     'requirements_not_met' => 'Το PHP Censor δεν μπορεί να εγκατασταθεί, καθώς όλες οι απαιτήσεις δεν ικανοποιούνται.

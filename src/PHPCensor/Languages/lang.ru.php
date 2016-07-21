@@ -332,7 +332,7 @@ PHP Censor',
     'install_app' => 'Установить PHP Censor',
     'welcome_to_app' => 'Добро пожаловать в PHP Censor',
     'please_answer' => 'Пожалуйста, ответьте на несколько вопросов:',
-    'app_php_req' => 'PHP Censor необходима для работы версия PHP не ниже 5.3.8.',
+    'app_php_req' => 'PHP Censor необходима для работы версия PHP не ниже 5.4.0.',
     'extension_required' => 'Требуется расширение PHP: %s',
     'function_required' => 'PHP Censor необходима возможность вызывать %s() функцию. Она выключена в php.ini?',
     'requirements_not_met' => 'PHP Censor не может быть установлен, пока не все требования выполнены.

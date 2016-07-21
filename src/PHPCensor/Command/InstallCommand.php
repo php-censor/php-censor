@@ -119,7 +119,7 @@ class InstallCommand extends Command
         $errors = false;
 
         // Check PHP version:
-        if (!(version_compare(PHP_VERSION, '5.3.8') >= 0)) {
+        if (!(version_compare(PHP_VERSION, '5.4.0') >= 0)) {
             $output->writeln('');
             $output->writeln('<error>'.Lang::get('app_php_req').'</error>');
             $errors = true;

@@ -300,7 +300,7 @@ PHP Censor',
     'install_app' => 'Installa PHP Censor',
     'welcome_to_app' => 'Benvenuto in PHP Censor',
     'please_answer' => 'Per favore rispondi alle seguenti domande:',
-    'app_php_req' => 'PHP Censor richiede come minimo PHP 5.3.8 per funzionare.',
+    'app_php_req' => 'PHP Censor richiede come minimo PHP 5.4.0 per funzionare.',
     'extension_required' => 'Le estensioni richieste sono: %s',
     'function_required' => 'PHP Censor richiede di poter chiamare la funzione %s(). Questa funzionalità è disabibiltata nel
                               php.ini?',
