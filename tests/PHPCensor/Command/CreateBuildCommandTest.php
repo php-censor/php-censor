@@ -60,7 +60,7 @@ class CreateBuildCommandTest extends \PHPUnit_Framework_TestCase
     {
         $this->application->add($this->command);
 
-        $command = $this->application->find('phpci:create-build');
+        $command = $this->application->find('php-censor:create-build');
         $commandTester = new CommandTester($command);
 
         return $commandTester;

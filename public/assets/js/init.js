@@ -16,7 +16,7 @@ $(function () {
 });
 
 function bindAppDeleteEvents () {
-    $('.phpci-app-delete-build').on('click', function (e) {
+    $('.app-delete-build').on('click', function (e) {
         e.preventDefault();
 
         confirmDelete(e.target.href, 'Build').onClose = function () {
@@ -26,7 +26,7 @@ function bindAppDeleteEvents () {
         return false;
     });
 
-    $('.phpci-app-delete-user').on('click', function (e) {
+    $('.app-delete-user').on('click', function (e) {
         e.preventDefault();
 
         confirmDelete(e.target.href, 'User', true);

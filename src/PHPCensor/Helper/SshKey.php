@@ -39,7 +39,7 @@ class SshKey
 
         $return = ['private_key' => '', 'public_key' => ''];
 
-        $output = @shell_exec('ssh-keygen -t rsa -b 2048 -f '.$keyFile.' -N "" -C "deploy@phpci"');
+        $output = @shell_exec('ssh-keygen -t rsa -b 2048 -f '.$keyFile.' -N "" -C "deploy@php-censor"');
 
         if (!empty($output)) {
             $pub = file_get_contents($keyFile . '.pub');

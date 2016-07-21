@@ -1,4 +1,4 @@
-.phpci .main-header .logo, .phpci .main-header .logo:hover  {
+.app-layout .main-header .logo, .app-layout .main-header .logo:hover  {
     background-image: url('/assets/img/php-censor-logo.png');
     background-repeat: no-repeat;
     background-size: 40%;

@@ -11,7 +11,7 @@ Configuration
 | Field | Required? | Description |
 |-------|-----------|-------------|
 | `webhook_url` | Yes | The URL to your Slack WebHook |
-| `room`      | No | Your Slack room name. Default - #phpci |
+| `room`      | No | Your Slack room name. Default - #php-censor |
 | `username`  | No | The name to send the message as. Default - PHP Censor |
 | `icon`      | No | The URL to the user icon or an emoji such as :ghost:. Default - The value configured on Slack's WebHook setup |
 | `message`   | No | The message to send to the room. Default - `<%PROJECT_URI%|%PROJECT_TITLE%> - <%BUILD_URI%|Build #%BUILD%> has finished for commit <%COMMIT_URI%|%SHORT_COMMIT% (%COMMIT_EMAIL%)> on branch <%BRANCH_URI%|%BRANCH%>` |

@@ -30,7 +30,7 @@ class LoginIsDisabled
         unset($method, $params);
         
         $config = Config::getInstance();
-        $state = (bool) $config->get('phpci.authentication_settings.state', false);
+        $state = (bool) $config->get('php-censor.authentication_settings.state', false);
 
         return (false !== $state);
     }

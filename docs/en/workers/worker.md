@@ -18,13 +18,13 @@ Setting up the PHP Censor worker
 
 ### On a new installation
 
-Setting up the worker on a new installation of PHP Censor is as simple as entering the appropriate values for your Beanstalkd server hostname and queue name when running the PHP Censor installer. By default, the installer assumes that you'll be using beanstalkd on `localhost` and will use the queue name `phpci`.
+Setting up the worker on a new installation of PHP Censor is as simple as entering the appropriate values for your Beanstalkd server hostname and queue name when running the PHP Censor installer. By default, the installer assumes that you'll be using beanstalkd on `localhost` and will use the queue name `php-censor-queue`.
 
 ![PHP Censor Worker Installer](https://www.phptesting.org/media/render/f48f63699a04444630352643af18b643)
 
 ### On an existing installation
 
-On an existing installation, to set up the worker, you simply need to add the beanstalkd host and queue names directly into your `config.yml` file. You should add a `worker` key beneath the `phpci` section, with the properties `host` and `queue` as outlined in the screenshot below:
+On an existing installation, to set up the worker, you simply need to add the beanstalkd host and queue names directly into your `config.yml` file. You should add a `worker` key beneath the `php-censor` section, with the properties `host` and `queue` as outlined in the screenshot below:
 
 ![PHP Censor Worker Config](https://www.phptesting.org/media/render/9a88e9298670f2913f5798e68b94c9ed)
 
@@ -33,7 +33,7 @@ Running the PHP Censor worker
 
 Once you've set up PHP Censor to add your jobs to a beanstalkd queue, you need to start the worker so that it can pick up and run your builds. On most servers, it is best to manage this using supervisord. The following instructions work on Ubuntu, but will need slight amendments for other distributions.
 
-Using your preferred text editor, create a file named `phpci.conf` under `/etc/supervisor/conf.d`. In it, enter the following config:
+Using your preferred text editor, create a file named `php-censor.conf` under `/etc/supervisor/conf.d`. In it, enter the following config:
 
 ```
 [program:phpci]
@@ -48,9 +48,9 @@ environment=HOME="/home/phpci",USER="phpci"
 numprocs=2
 ```
 
-You'll need to edit the '/path/to/phpci', the `user` value and the `environment` value to suit your server. The user needs to be an actual system user with suitable permissions to execute PHP and PHP Censor.
+You'll need to edit the '/path/to/php-censor', the `user` value and the `environment` value to suit your server. The user needs to be an actual system user with suitable permissions to execute PHP and PHP Censor.
 
-Once you've created this file, simply restart supervisord using the command `service supervisor restart` and 2 instances of PHP Censor's worker should start immediately. You can verify this by running the command `ps aux | grep phpci`, which should give you output as follows:
+Once you've created this file, simply restart supervisord using the command `service supervisor restart` and 2 instances of PHP Censor's worker should start immediately. You can verify this by running the command `ps aux | grep php-censor`, which should give you output as follows:
 
 ```
 ➜  ~ ps aux | grep phpci

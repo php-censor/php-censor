@@ -44,7 +44,7 @@ class CreateAdminCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('phpci:create-admin')
+            ->setName('php-censor:create-admin')
             ->setDescription(Lang::get('create_admin_user'));
     }
 

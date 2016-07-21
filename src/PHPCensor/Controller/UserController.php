@@ -61,7 +61,7 @@ class UserController extends Controller
      */
     public function profile()
     {
-        $user = $_SESSION['phpci_user'];
+        $user = $_SESSION['php-censor-user'];
 
         if ($this->request->getMethod() == 'POST') {
             $name = $this->getParam('name', null);
@@ -72,12 +72,12 @@ class UserController extends Controller
             $chosenLang = $this->getParam('language', $currentLang);
 
             if ($chosenLang !== $currentLang) {
-                setcookie('phpcilang', $chosenLang, time() + (10 * 365 * 24 * 60 * 60), '/');
+                setcookie('php-censor-language', $chosenLang, time() + (10 * 365 * 24 * 60 * 60), '/');
                 Lang::setLanguage($chosenLang);
             }
 
-            $_SESSION['phpci_user'] = $this->userService->updateUser($user, $name, $email, $password);
-            $user = $_SESSION['phpci_user'];
+            $_SESSION['php-censor-user'] = $this->userService->updateUser($user, $name, $email, $password);
+            $user = $_SESSION['php-censor-user'];
 
             $this->view->updated = 1;
         }
@@ -87,8 +87,8 @@ class UserController extends Controller
 
         $values = $user->getDataArray();
 
-        if (array_key_exists('phpcilang', $_COOKIE)) {
-            $values['language'] = $_COOKIE['phpcilang'];
+        if (array_key_exists('php-censor-language', $_COOKIE)) {
+            $values['language'] = $_COOKIE['php-censor-language'];
         }
 
         $form = new Form();

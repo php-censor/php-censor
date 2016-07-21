@@ -52,21 +52,21 @@
                 <?php
                 $id = null;
 
-                if (isset($settings['phpci']['github']['id'])) {
-                    $id = $settings['phpci']['github']['id'];
+                if (isset($settings['php-censor']['github']['id'])) {
+                    $id = $settings['php-censor']['github']['id'];
                 }
 
                 $returnTo = APP_URL . 'settings/github-callback';
                 $githubUri = 'https://github.com/login/oauth/authorize?client_id='.$id.'&scope=repo&redirect_uri=' . $returnTo;
                 ?>
                 <?php if (!empty($id)): ?>
-                    <?php if (empty($githubUser['name']) || empty($settings['phpci']['github']['token'])): ?>
+                    <?php if (empty($githubUser['name']) || empty($settings['php-censor']['github']['token'])): ?>
                         <p class="alert alert-warning clearfix">
                             <?php Lang::out('github_sign_in', $githubUri); ?>
                         </p>
                     <?php else: ?>
                         <p class="alert alert-success">
-                            <?php Lang::out('github_phpci_linked'); ?>
+                            <?php Lang::out('github_app_linked'); ?>
 
                             <strong>
                                 <a href="<?php echo $githubUser['html_url']; ?>"><?php echo $githubUser['name']; ?></a>
@@ -105,7 +105,7 @@
     </div>
 
     <div class="box-body clearfix">
-        <?php if (!isset($settings['phpci']['email_settings'])): ?>
+        <?php if (!isset($settings['php-censor']['email_settings'])): ?>
             <p class="alert alert-warning clearfix">
                 <?php Lang::out('email_settings_help'); ?>
             </p>
@@ -123,7 +123,7 @@
 
     <div class="box-body clearfix">
         <p class="alert alert-warning clearfix">
-            Be careful: This setting disables authentication and uses your current admin account for all actions within phpci with admin rights.
+            Be careful: This setting disables authentication and uses your current admin account for all actions within PHP Censor with admin rights.
         </p>
 
         <?php print $authenticationSettings; ?>

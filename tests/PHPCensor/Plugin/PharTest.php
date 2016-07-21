@@ -29,12 +29,12 @@ class PharTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $phpci = $this
+        $builder = $this
             ->getMockBuilder('PHPCensor\Builder')
             ->disableOriginalConstructor()
             ->getMock();
 
-        return new PharPlugin($phpci, $build, $options);
+        return new PharPlugin($builder, $build, $options);
     }
 
     protected function buildTemp()
@@ -95,13 +95,13 @@ class PharTest extends \PHPUnit_Framework_TestCase
         $plugin = $this->getPlugin();
         $this->assertInstanceOf('PHPCensor\Plugin', $plugin);
         $this->assertInstanceOf('PHPCensor\Model\Build', $plugin->getBuild());
-        $this->assertInstanceOf('PHPCensor\Builder', $plugin->getPHPCI());
+        $this->assertInstanceOf('PHPCensor\Builder', $plugin->getBuilder());
     }
 
     public function testDirectory()
     {
         $plugin = $this->getPlugin();
-        $plugin->getPHPCI()->buildPath = 'foo';
+        $plugin->getBuilder()->buildPath = 'foo';
         $this->assertEquals('foo', $plugin->getDirectory());
 
         $plugin = $this->getPlugin(['directory' => 'dirname']);
@@ -141,7 +141,7 @@ class PharTest extends \PHPUnit_Framework_TestCase
 
         $plugin = $this->getPlugin();
         $path   = $this->buildSource();
-        $plugin->getPHPCI()->buildPath = $path;
+        $plugin->getBuilder()->buildPath = $path;
 
         $this->assertTrue($plugin->execute());
 
@@ -159,7 +159,7 @@ class PharTest extends \PHPUnit_Framework_TestCase
 
         $plugin = $this->getPlugin(['regexp' => '/\.(php|phtml)$/']);
         $path   = $this->buildSource();
-        $plugin->getPHPCI()->buildPath = $path;
+        $plugin->getBuilder()->buildPath = $path;
 
         $this->assertTrue($plugin->execute());
 
@@ -185,7 +185,7 @@ STUB;
         file_put_contents($path . '/stub.php', $content);
 
         $plugin = $this->getPlugin(['stub' => 'stub.php']);
-        $plugin->getPHPCI()->buildPath = $path;
+        $plugin->getBuilder()->buildPath = $path;
 
         $this->assertTrue($plugin->execute());
 
@@ -201,7 +201,7 @@ STUB;
         $directory = $this->buildTemp();
 
         $plugin = $this->getPlugin(['directory' => $directory]);
-        $plugin->getPHPCI()->buildPath = $this->buildSource();
+        $plugin->getBuilder()->buildPath = $this->buildSource();
 
         $this->assertFalse($plugin->execute());
     }

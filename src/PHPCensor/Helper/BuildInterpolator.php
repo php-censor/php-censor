@@ -27,11 +27,12 @@ class BuildInterpolator
 
     /**
      * Sets the variables that will be used for interpolation.
-     * @param Build $build
+     * 
+     * @param Build  $build
      * @param string $buildPath
-     * @param string $phpCiUrl
+     * @param string $url
      */
-    public function setupInterpolationVars(Build $build, $buildPath, $phpCiUrl)
+    public function setupInterpolationVars(Build $build, $buildPath, $url)
     {
         $this->interpolation_vars = [];
         $this->interpolation_vars['%PHPCI%'] = 1;
@@ -45,9 +46,9 @@ class BuildInterpolator
         $this->interpolation_vars['%PROJECT%'] = $build->getProjectId();
         $this->interpolation_vars['%BUILD%'] = $build->getId();
         $this->interpolation_vars['%PROJECT_TITLE%'] = $build->getProjectTitle();
-        $this->interpolation_vars['%PROJECT_URI%'] = $phpCiUrl . "project/view/" . $build->getProjectId();
+        $this->interpolation_vars['%PROJECT_URI%'] = $url . "project/view/" . $build->getProjectId();
         $this->interpolation_vars['%BUILD_PATH%'] = $buildPath;
-        $this->interpolation_vars['%BUILD_URI%'] = $phpCiUrl . "build/view/" . $build->getId();
+        $this->interpolation_vars['%BUILD_URI%'] = $url . "build/view/" . $build->getId();
         $this->interpolation_vars['%PHPCI_COMMIT%'] = $this->interpolation_vars['%COMMIT%'];
         $this->interpolation_vars['%PHPCI_SHORT_COMMIT%'] = $this->interpolation_vars['%SHORT_COMMIT%'];
         $this->interpolation_vars['%PHPCI_COMMIT_MESSAGE%'] = $this->interpolation_vars['%COMMIT_MESSAGE%'];

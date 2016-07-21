@@ -50,7 +50,7 @@ class RebuildQueueCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('phpci:rebuild-queue')
+            ->setName('php-censor:rebuild-queue')
             ->setDescription('Rebuilds the PHP Censor worker queue.');
     }
 

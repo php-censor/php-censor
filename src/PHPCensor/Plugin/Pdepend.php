@@ -104,7 +104,7 @@ class Pdepend implements Plugin
             $this->directory
         );
 
-        $config = $this->phpci->getSystemConfig('phpci');
+        $config = $this->phpci->getSystemConfig('php-censor');
 
         if ($success) {
             $this->phpci->logSuccess(

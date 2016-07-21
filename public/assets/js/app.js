@@ -56,28 +56,28 @@ var PHPCensor = {
     },
 
     updateHeaderBuilds: function (data) {
-        $('.phpci-pending-list').empty();
-        $('.phpci-running-list').empty();
+        $('.app-pending-list').empty();
+        $('.app-running-list').empty();
 
         if (!data.pending.count) {
-            $('.phpci-pending').hide();
+            $('.app-pending').hide();
         } else {
-            $('.phpci-pending').show();
-            $('.phpci-pending .header').text(Lang.get('n_builds_pending', data.pending.count));
+            $('.app-pending').show();
+            $('.app-pending .header').text(Lang.get('n_builds_pending', data.pending.count));
 
             $.each(data.pending.items, function (idx, build) {
-                $('.phpci-pending-list').append(build.header_row);
+                $('.app-pending-list').append(build.header_row);
             });
         }
 
         if (!data.running.count) {
-            $('.phpci-running').hide();
+            $('.app-running').hide();
         } else {
-            $('.phpci-running').show();
-            $('.phpci-running .header').text(Lang.get('n_builds_running', data.running.count));
+            $('.app-running').show();
+            $('.app-running .header').text(Lang.get('n_builds_running', data.running.count));
 
             $.each(data.running.items, function (idx, build) {
-                $('.phpci-running-list').append(build.header_row);
+                $('.app-running-list').append(build.header_row);
             });
         }
 

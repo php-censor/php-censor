@@ -54,7 +54,7 @@ class SessionController extends Controller
 
                 if ($user && password_verify($this->getParam('password', ''), $user->getHash())) {
                     session_regenerate_id(true);
-                    $_SESSION['phpci_user_id']    = $user->getId();
+                    $_SESSION['php-censor-user-id']    = $user->getId();
                     $response = new b8\Http\Response\RedirectResponse();
                     $response->setHeader('Location', $this->getLoginRedirect());
                     return $response;
@@ -104,8 +104,8 @@ class SessionController extends Controller
     */
     public function logout()
     {
-        unset($_SESSION['phpci_user']);
-        unset($_SESSION['phpci_user_id']);
+        unset($_SESSION['php-censor-user']);
+        unset($_SESSION['php-censor-user-id']);
 
         session_destroy();
 
@@ -166,8 +166,8 @@ class SessionController extends Controller
             $hash = password_hash($this->getParam('password'), PASSWORD_DEFAULT);
             $user->setHash($hash);
 
-            $_SESSION['phpci_user'] = $this->userStore->save($user);
-            $_SESSION['phpci_user_id'] = $user->getId();
+            $_SESSION['php-censor-user']    = $this->userStore->save($user);
+            $_SESSION['php-censor-user-id'] = $user->getId();
 
             $response = new b8\Http\Response\RedirectResponse();
             $response->setHeader('Location', APP_URL);
@@ -188,9 +188,9 @@ class SessionController extends Controller
     {
         $rtn = APP_URL;
 
-        if (!empty($_SESSION['phpci_login_redirect'])) {
-            $rtn .= $_SESSION['phpci_login_redirect'];
-            $_SESSION['phpci_login_redirect'] = null;
+        if (!empty($_SESSION['php-censor-login-redirect'])) {
+            $rtn .= $_SESSION['php-censor-login-redirect'];
+            $_SESSION['php-censor-login-redirect'] = null;
         }
 
         return $rtn;

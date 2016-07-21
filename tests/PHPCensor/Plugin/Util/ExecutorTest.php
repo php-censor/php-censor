@@ -39,7 +39,7 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testExecutePlugin_AssumesPHPCINamespaceIfNoneGiven()
+    public function testExecutePlugin_AssumesNamespaceIfNoneGiven()
     {
         $options = [];
         $pluginName = 'PhpUnit';

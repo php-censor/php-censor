@@ -113,7 +113,7 @@ class ProjectController extends PHPCensor\Controller
             throw new NotFoundException(Lang::get('project_x_not_found', $projectId));
         }
 
-        $email = $_SESSION['phpci_user']->getEmail();
+        $email = $_SESSION['php-censor-user']->getEmail();
         $build = $this->buildService->createBuild($project, null, urldecode($branch), $email);
 
         if ($this->buildService->queueError) {

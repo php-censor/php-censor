@@ -38,8 +38,8 @@ class UpdateCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('phpci:update')
-            ->setDescription(Lang::get('update_phpci'));
+            ->setName('php-censor:update')
+            ->setDescription(Lang::get('update_app'));
     }
 
     /**
@@ -51,7 +51,7 @@ class UpdateCommand extends Command
             return;
         }
 
-        $output->write(Lang::get('updating_phpci'));
+        $output->write(Lang::get('updating_app'));
 
         shell_exec(ROOT_DIR . 'vendor/bin/phinx migrate -c "' . APP_DIR . 'phinx.php"');
 
@@ -61,8 +61,8 @@ class UpdateCommand extends Command
     protected function verifyInstalled()
     {
         $config = Config::getInstance();
-        $phpciUrl = $config->get('phpci.url');
+        $url    = $config->get('php-censor.url');
 
-        return !empty($phpciUrl);
+        return !empty($url);
     }
 }

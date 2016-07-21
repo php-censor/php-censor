@@ -24,7 +24,7 @@ class ComposerPluginInformationTest extends \PHPUnit_Framework_TestCase
         $this->testedInformation = ComposerPluginInformation::buildFromYaml($file);
     }
 
-    protected function phpciSetup()
+    protected function setup()
     {
         $this->setUpFromFile(
             __DIR__ . "/../../../../vendor/composer/installed.json"
@@ -33,7 +33,7 @@ class ComposerPluginInformationTest extends \PHPUnit_Framework_TestCase
 
     public function testBuildFromYaml_ReturnsInstance()
     {
-        $this->phpciSetup();
+        $this->setup();
         $this->assertInstanceOf(
             '\PHPCensor\Plugin\Util\ComposerPluginInformation',
             $this->testedInformation
@@ -42,7 +42,7 @@ class ComposerPluginInformationTest extends \PHPUnit_Framework_TestCase
 
     public function testGetInstalledPlugins_ReturnsStdClassArray()
     {
-        $this->phpciSetup();
+        $this->setup();
         $plugins = $this->testedInformation->getInstalledPlugins();
         $this->assertInternalType("array", $plugins);
         $this->assertContainsOnly("stdClass", $plugins);
@@ -50,7 +50,7 @@ class ComposerPluginInformationTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPluginClasses_ReturnsStringArray()
     {
-        $this->phpciSetup();
+        $this->setup();
         $classes = $this->testedInformation->getPluginClasses();
         $this->assertInternalType("array", $classes);
         $this->assertContainsOnly("string", $classes);

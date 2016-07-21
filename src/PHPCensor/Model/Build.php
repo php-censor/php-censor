@@ -104,6 +104,11 @@ class Build extends BuildBase
             $build_config = $this->getProject()->getBuildConfig();
         }
 
+        // Try .php-censor.yml
+        if (is_file($buildPath . '/.php-censor.yml')) {
+            $build_config = file_get_contents($buildPath . '/.php-censor.yml');
+        }
+
         // Try .phpci.yml
         if (is_file($buildPath . '/.phpci.yml')) {
             $build_config = file_get_contents($buildPath . '/.phpci.yml');

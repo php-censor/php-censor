@@ -88,7 +88,7 @@ class InstallCommandTest extends \PHPUnit_Framework_TestCase
     {
         $this->application->getHelperSet()->set($dialog, 'dialog');
         $this->application->add($this->getInstallCommandMock());
-        $command = $this->application->find('phpci:install');
+        $command = $this->application->find('php-censor:install');
         $commandTester = new CommandTester($command);
 
         return $commandTester;
@@ -208,7 +208,7 @@ class InstallCommandTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('testedvalue', $this->config['b8']['database']['password']);
     }
 
-    public function testPhpciUrlConfig()
+    public function testUrlConfig()
     {
         $dialog = $this->getDialogHelperMock();
 
@@ -222,7 +222,7 @@ class InstallCommandTest extends \PHPUnit_Framework_TestCase
         $this->executeWithoutParam('--url', $dialog);
 
         // Check that specified arguments are correctly loaded.
-        $this->assertEquals('http://testedvalue.com', $this->config['phpci']['url']);
+        $this->assertEquals('http://testedvalue.com', $this->config['php-censor']['url']);
     }
 
     public function testAdminEmailConfig()

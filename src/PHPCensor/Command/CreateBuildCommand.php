@@ -53,7 +53,7 @@ class CreateBuildCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('phpci:create-build')
+            ->setName('php-censor:create-build')
             ->setDescription(Lang::get('create_build_project'))
             ->addArgument('projectId', InputArgument::REQUIRED, Lang::get('project_id_argument'))
             ->addOption('commit', null, InputOption::VALUE_OPTIONAL, Lang::get('commit_id_option'))

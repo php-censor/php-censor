@@ -21,11 +21,10 @@ class ExamplePluginFull implements Plugin {
     public $Options;
 
     public function __construct(
-        Builder $phpci,
+        Builder $builder,
         Build $build,
         array $options = []
-    )
-    {
+    ) {
         $this->Options = $options;
     }
 

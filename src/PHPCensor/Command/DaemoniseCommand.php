@@ -56,7 +56,7 @@ class DaemoniseCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('phpci:daemonise')
+            ->setName('php-censor:daemonise')
             ->setDescription('Starts the daemon to run commands.');
     }
 

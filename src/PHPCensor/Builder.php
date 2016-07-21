@@ -136,7 +136,7 @@ class Builder implements LoggerAwareInterface
     public function setConfigArray($config)
     {
         if (is_null($config) || !is_array($config)) {
-            throw new \Exception(Lang::get('missing_phpci_yml'));
+            throw new \Exception(Lang::get('missing_app_yml'));
         }
 
         $this->config = $config;
@@ -429,7 +429,7 @@ class Builder implements LoggerAwareInterface
 
         $pluginFactory->registerResource(
             function () use ($self) {
-                $factory = new MailerFactory($self->getSystemConfig('phpci'));
+                $factory = new MailerFactory($self->getSystemConfig('php-censor'));
                 return $factory->getSwiftMailerFromConfig();
             },
             null,

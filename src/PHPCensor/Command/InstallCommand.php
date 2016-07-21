@@ -40,7 +40,7 @@ class InstallCommand extends Command
         $defaultPath = APP_DIR . 'config.yml';
 
         $this
-            ->setName('phpci:install')
+            ->setName('php-censor:install')
             ->addOption('url', null, InputOption::VALUE_OPTIONAL, Lang::get('installation_url'))
             ->addOption('db-host', null, InputOption::VALUE_OPTIONAL, Lang::get('db_host'))
             ->addOption('db-port', null, InputOption::VALUE_OPTIONAL, Lang::get('db_port'))
@@ -54,7 +54,7 @@ class InstallCommand extends Command
             ->addOption('queue-disabled', null, InputOption::VALUE_NONE, 'Don\'t ask for queue details')
             ->addOption('queue-server', null, InputOption::VALUE_OPTIONAL, 'Beanstalkd queue server hostname')
             ->addOption('queue-name', null, InputOption::VALUE_OPTIONAL, 'Beanstalkd queue name')
-            ->setDescription(Lang::get('install_phpci'));
+            ->setDescription(Lang::get('install_app'));
     }
 
     /**
@@ -70,7 +70,7 @@ class InstallCommand extends Command
 
         $output->writeln('');
         $output->writeln('<info>******************</info>');
-        $output->writeln('<info> '.Lang::get('welcome_to_phpci').'</info>');
+        $output->writeln('<info> '.Lang::get('welcome_to_app').'</info>');
         $output->writeln('<info>******************</info>');
         $output->writeln('');
 
@@ -99,7 +99,7 @@ class InstallCommand extends Command
         // ----
         // Get basic installation details (URL, etc)
         // ----
-        $conf['phpci'] = $this->getPhpciConfigInformation($input, $output);
+        $conf['php-censor'] = $this->getConfigInformation($input, $output);
 
         $this->writeConfigFile($conf);
         $this->setupDatabase($output);
@@ -121,7 +121,7 @@ class InstallCommand extends Command
         // Check PHP version:
         if (!(version_compare(PHP_VERSION, '5.3.8') >= 0)) {
             $output->writeln('');
-            $output->writeln('<error>'.Lang::get('phpci_php_req').'</error>');
+            $output->writeln('<error>'.Lang::get('app_php_req').'</error>');
             $errors = true;
         }
 
@@ -217,9 +217,9 @@ class InstallCommand extends Command
      * @param OutputInterface $output
      * @return array
      */
-    protected function getPhpciConfigInformation(InputInterface $input, OutputInterface $output)
+    protected function getConfigInformation(InputInterface $input, OutputInterface $output)
     {
-        $phpci = [];
+        $config = [];
 
         /** @var $helper QuestionHelper */
         $helper = $this->getHelperSet()->get('question');
@@ -235,15 +235,15 @@ class InstallCommand extends Command
         if ($url = $input->getOption('url')) {
             $url = $urlValidator($url);
         } else {
-            $question = new Question(Lang::get('enter_phpci_url'));
+            $question = new Question(Lang::get('enter_app_url'));
             $question->setValidator($urlValidator);
             $url = $helper->ask($input, $output, $question);
         }
 
-        $phpci['url'] = $url;
-        $phpci['worker'] = $this->getQueueInformation($input, $output, $helper);
+        $config['url'] = $url;
+        $config['worker'] = $this->getQueueInformation($input, $output, $helper);
 
-        return $phpci;
+        return $config;
     }
 
     /**
@@ -275,7 +275,7 @@ class InstallCommand extends Command
         }
 
         if (!$rtn['queue'] = $input->getOption('queue-name')) {
-            $questionName = new Question('Enter the queue (tube) name to use [phpci]: ', 'phpci');
+            $questionName = new Question('Enter the queue (tube) name to use [php-censor-queue]: ', 'php-censor-queue');
             $rtn['queue'] = $helper->ask($input, $output, $questionName);
         }
 
@@ -307,12 +307,12 @@ class InstallCommand extends Command
         }
 
         if (!$dbName = $input->getOption('db-name')) {
-            $questionDb = new Question(Lang::get('enter_db_name'), 'phpci');
+            $questionDb = new Question(Lang::get('enter_db_name'), 'php-censor-db');
             $dbName     = $helper->ask($input, $output, $questionDb);
         }
 
         if (!$dbUser = $input->getOption('db-user')) {
-            $questionUser = new Question(Lang::get('enter_db_user'), 'phpci');
+            $questionUser = new Question(Lang::get('enter_db_user'), 'php-censor-user');
             $dbUser       = $helper->ask($input, $output, $questionUser);
         }
 

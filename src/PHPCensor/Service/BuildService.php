@@ -160,12 +160,12 @@ class BuildService
         }
 
         $config   = Config::getInstance();
-        $settings = $config->get('phpci.worker', []);
+        $settings = $config->get('php-censor.worker', []);
 
         if (!empty($settings['host']) && !empty($settings['queue'])) {
             try {
                 $jobData = [
-                    'type'     => 'phpci.build',
+                    'type'     => 'php-censor.build',
                     'build_id' => $build->getId(),
                 ];
 
@@ -179,7 +179,7 @@ class BuildService
                     json_encode($jobData),
                     PheanstalkInterface::DEFAULT_PRIORITY,
                     PheanstalkInterface::DEFAULT_DELAY,
-                    $config->get('phpci.worker.job_timeout', 600)
+                    $config->get('php-censor.worker.job_timeout', 600)
                 );
             } catch (\Exception $ex) {
                 $this->queueError = true;

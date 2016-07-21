@@ -115,7 +115,7 @@ class EmailTest extends \PHPUnit_Framework_TestCase
 
         $this->mockCiBuilder->expects($this->any())
             ->method('getSystemConfig')
-            ->with('phpci')
+            ->with('php-censor')
             ->will($this->returnValue(['email_settings' => ['from_address' => "test-from-address@example.com"]]));
     }
 

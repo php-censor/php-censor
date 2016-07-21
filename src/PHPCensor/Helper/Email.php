@@ -100,14 +100,14 @@ class Email
     /**
      * Send the email.
      * 
-     * @param Builder $phpci
+     * @param Builder $builder
      * 
      * @return bool|int
      */
-    public function send(Builder $phpci)
+    public function send(Builder $builder)
     {
-        $smtpServer = $this->config->get('phpci.email_settings.smtp_address');
-        $phpci->logDebug(sprintf("SMTP: '%s'", !empty($smtpServer) ? 'true' : 'false'));
+        $smtpServer = $this->config->get('php-censor.email_settings.smtp_address');
+        $builder->logDebug(sprintf("SMTP: '%s'", !empty($smtpServer) ? 'true' : 'false'));
 
         if (empty($smtpServer)) {
             return $this->sendViaMail();
@@ -152,7 +152,7 @@ class Email
      */
     protected function sendViaSwiftMailer()
     {
-        $factory = new MailerFactory($this->config->get('phpci'));
+        $factory = new MailerFactory($this->config->get('php-censor'));
         $mailer = $factory->getSwiftMailerFromConfig();
 
         $message = \Swift_Message::newInstance($this->subject)
@@ -177,7 +177,7 @@ class Email
      */
     protected function getFrom()
     {
-        $email = $this->config->get('phpci.email_settings.from_address', self::DEFAULT_FROM);
+        $email = $this->config->get('php-censor.email_settings.from_address', self::DEFAULT_FROM);
 
         if (empty($email)) {
             $email = self::DEFAULT_FROM;

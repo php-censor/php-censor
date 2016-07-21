@@ -64,7 +64,7 @@ class RunCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('phpci:run-builds')
+            ->setName('php-censor:run-builds')
             ->setDescription(Lang::get('run_all_pending'))
             ->addOption('debug', null, null, 'Run PHP Censor in Debug Mode');
     }
@@ -159,7 +159,7 @@ class RunCommand extends Command
         $running = $store->getByStatus(1);
         $rtn     = [];
 
-        $timeout = Config::getInstance()->get('phpci.build.failed_after', 1800);
+        $timeout = Config::getInstance()->get('php-censor.build.failed_after', 1800);
 
         foreach ($running['items'] as $build) {
             /** @var \PHPCI\Model\Build $build */

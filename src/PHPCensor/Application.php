@@ -37,15 +37,15 @@ class Application extends b8\Application
 
         // Inlined as a closure to fix "using $this when not in object context" on 5.3
         $validateSession = function () {
-            if (!empty($_SESSION['phpci_user_id'])) {
-                $user = b8\Store\Factory::getStore('User')->getByPrimaryKey($_SESSION['phpci_user_id']);
+            if (!empty($_SESSION['php-censor-user-id'])) {
+                $user = b8\Store\Factory::getStore('User')->getByPrimaryKey($_SESSION['php-censor-user-id']);
 
                 if ($user) {
-                    $_SESSION['phpci_user'] = $user;
+                    $_SESSION['php-censor-user'] = $user;
                     return true;
                 }
 
-                unset($_SESSION['phpci_user_id']);
+                unset($_SESSION['php-censor-user-id']);
             }
 
             return false;
@@ -62,7 +62,7 @@ class Application extends b8\Application
                     $response->setResponseCode(401);
                     $response->setContent('');
                 } else {
-                    $_SESSION['phpci_login_redirect'] = substr($request->getPath(), 1);
+                    $_SESSION['php-censor-login-redirect'] = substr($request->getPath(), 1);
                     $response = new RedirectResponse($response);
                     $response->setHeader('Location', APP_URL . 'session/login');
                 }
@@ -156,15 +156,15 @@ class Application extends b8\Application
     protected function shouldSkipAuth()
     {
         $config = b8\Config::getInstance();
-        $state = (bool)$config->get('phpci.authentication_settings.state', false);
-        $userId    = $config->get('phpci.authentication_settings.user_id', 0);
+        $state = (bool)$config->get('php-censor.authentication_settings.state', false);
+        $userId    = $config->get('php-censor.authentication_settings.user_id', 0);
 
         if (false !== $state && 0 != (int)$userId) {
             $user = b8\Store\Factory::getStore('User')
                 ->getByPrimaryKey($userId);
 
             if ($user) {
-                $_SESSION['phpci_user'] = $user;
+                $_SESSION['php-censor-user'] = $user;
                 return true;
             }
         }

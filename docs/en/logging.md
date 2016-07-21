@@ -4,7 +4,7 @@ Setting up Logging
 Basics
 ======
 
-The phpci codebase makes use of the [psr3](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-3-logger-interface.md) logging standard. By default we use [Monolog](https://github.com/Seldaek/monolog) to handle the actual work implementing this standard.
+The PHP Censor codebase makes use of the [PSR3](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-3-logger-interface.md) logging standard. By default we use [Monolog](https://github.com/Seldaek/monolog) to handle the actual work implementing this standard.
 
 How to Setup Logging (For people running a PHP Censor instance)
 ===============================================================
@@ -22,9 +22,9 @@ return array(
     }
 );
 ```
-This file should return an array of key value pairs. Each key tells phpci which command to attach the logger to (the underscore is a special value which matches all commands). For each command an array of [Monolog](https://github.com/Seldaek/monolog) handlers should be returned. In the example above we've used one that simply writes to the file system but in practise this could be any handler written for monolog.
+This file should return an array of key value pairs. Each key tells PHP Censor which command to attach the logger to (the underscore is a special value which matches all commands). For each command an array of [Monolog](https://github.com/Seldaek/monolog) handlers should be returned. In the example above we've used one that simply writes to the file system but in practise this could be any handler written for monolog.
 
-Once this file is created all plugins and core phpci functionality should start writing to the configured handlers. 
+Once this file is created all plugins and core PHP Censor functionality should start writing to the configured handlers. 
 
 How to write to the Log (For people creating a new plugin)
 ==========================================================

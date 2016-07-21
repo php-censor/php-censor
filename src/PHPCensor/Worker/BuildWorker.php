@@ -197,7 +197,7 @@ class BuildWorker
             return false;
         }
 
-        if (!array_key_exists('type', $jobData) || $jobData['type'] !== 'phpci.build') {
+        if (!array_key_exists('type', $jobData) || $jobData['type'] !== 'php-censor.build') {
             // Probably not from PHPCI.
             $this->pheanstalk->delete($job);
             return false;

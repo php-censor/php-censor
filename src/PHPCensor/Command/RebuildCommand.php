@@ -58,7 +58,7 @@ class RebuildCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('phpci:rebuild')
+            ->setName('php-censor:rebuild')
             ->setDescription('Re-runs the last run build.');
     }
 

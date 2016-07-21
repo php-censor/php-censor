@@ -151,6 +151,7 @@ class TechnicalDebt implements PHPCensor\Plugin, PHPCensor\ZeroConfigPlugin
         $files       = [];
 
         $ignores   = $this->ignore;
+        $ignores[] = '.php-censor.yml';
         $ignores[] = 'phpci.yml';
         $ignores[] = '.phpci.yml';
 

@@ -3,11 +3,11 @@ b8:
     servers:
       read:  localhost
       write: localhost
-    name: phpci
-    username: root
-    password: root
-phpci:
-  url: 'http://phpci.local'
+    name: php-censor-db
+    username: php-censor-user
+    password: php-censor-password
+php-censor:
+  url: 'http://php-censor.local'
   worker:
     host:  localhost
-    queue: phpci
+    queue: php-censor-queue

@@ -22,8 +22,8 @@ $conf = [
     ],
     'environments'                => [
         'default_migration_table' => 'migration',
-        'default_database'        => 'phpci',
-        'phpci'                   => [
+        'default_database'        => 'php-censor',
+        'php-censor'              => [
             'adapter' => 'mysql',
             'host'    => end($writeServers),
             'name'    => $config->get('b8.database.name'),

@@ -25,7 +25,7 @@ class User
      */
     public function __call($method, $params = [])
     {
-        $user = $_SESSION['phpci_user'];
+        $user = $_SESSION['php-censor-user'];
 
         if (!is_object($user)) {
             return null;

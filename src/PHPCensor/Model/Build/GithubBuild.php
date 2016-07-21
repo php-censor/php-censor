@@ -45,7 +45,7 @@ class GithubBuild extends RemoteGitBuild
     */
     public function sendStatusPostback()
     {
-        $token = Config::getInstance()->get('phpci.github.token');
+        $token = Config::getInstance()->get('php-censor.github.token');
 
         if (empty($token) || empty($this->data['id'])) {
             return;
@@ -80,11 +80,11 @@ class GithubBuild extends RemoteGitBuild
                 break;
         }
 
-        $phpciUrl = Config::getInstance()->get('phpci.url');
+        $url = Config::getInstance()->get('php-censor.url');
 
         $params = [
             'state'       => $status,
-            'target_url'  => $phpciUrl . '/build/view/' . $this->getId(),
+            'target_url'  => $url . '/build/view/' . $this->getId(),
             'description' => $description,
             'context'     => 'PHP Censor',
         ];
@@ -176,7 +176,7 @@ class GithubBuild extends RemoteGitBuild
                 $remoteUrl = $this->getExtra('remote_url');
                 $remoteBranch = $this->getExtra('remote_branch');
 
-                $cmd = 'cd "%s" && git checkout -b phpci/' . $this->getId() . ' %s && git pull -q --no-edit %s %s';
+                $cmd = 'cd "%s" && git checkout -b php-censor/' . $this->getId() . ' %s && git pull -q --no-edit %s %s';
                 $success = $builder->executeCommand($cmd, $cloneTo, $this->getBranch(), $remoteUrl, $remoteBranch);
             }
         } catch (\Exception $ex) {

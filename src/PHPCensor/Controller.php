@@ -125,6 +125,6 @@ class Controller extends \b8\Controller
      */
     protected function currentUserIsAdmin()
     {
-        return $_SESSION['phpci_user']->getIsAdmin();
+        return $_SESSION['php-censor-user']->getIsAdmin();
     }
 }

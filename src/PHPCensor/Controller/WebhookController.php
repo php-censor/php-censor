@@ -292,7 +292,7 @@ class WebhookController extends Controller
         }
 
         $headers = [];
-        $token   = Config::getInstance()->get('phpci.github.token');
+        $token   = Config::getInstance()->get('php-censor.github.token');
 
         if (!empty($token)) {
             $headers[] = 'Authorization: token ' . $token;
@@ -303,7 +303,7 @@ class WebhookController extends Controller
         $http->setHeaders($headers);
 
         //for large pull requests, allow grabbing more then the default number of commits
-        $custom_per_page = Config::getInstance()->get('phpci.github.per_page');
+        $custom_per_page = Config::getInstance()->get('php-censor.github.per_page');
         $params          = [];
         if ($custom_per_page) {
             $params["per_page"] = $custom_per_page;

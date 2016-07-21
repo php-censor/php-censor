@@ -132,7 +132,7 @@ class Lang
         self::loadAvailableLanguages();
 
         // Try cookies first:
-        if (isset($_COOKIE) && array_key_exists('phpcilang', $_COOKIE) && self::setLanguage($_COOKIE['phpcilang'])) {
+        if (isset($_COOKIE) && array_key_exists('php-censor-language', $_COOKIE) && self::setLanguage($_COOKIE['php-censor-language'])) {
             return;
         }
 
@@ -151,7 +151,7 @@ class Lang
         }
 
         // Try the installation default language:
-        $language = $config->get('phpci.basic.language', null);
+        $language = $config->get('php-censor.basic.language', null);
         if (self::setLanguage($language)) {
             return;
         }

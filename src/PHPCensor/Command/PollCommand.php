@@ -41,7 +41,7 @@ class PollCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('phpci:poll-github')
+            ->setName('php-censor:poll-github')
             ->setDescription(Lang::get('poll_github'));
     }
 
@@ -54,7 +54,7 @@ class PollCommand extends Command
         $yaml = file_get_contents(APP_DIR . 'config.yml');
         $this->settings = $parser->parse($yaml);
 
-        $token = $this->settings['phpci']['github']['token'];
+        $token = $this->settings['php-censor']['github']['token'];
 
         if (!$token) {
             $this->logger->error(Lang::get('no_token'));

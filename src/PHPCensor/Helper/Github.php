@@ -70,14 +70,14 @@ class Github
      */
     public function getRepositories()
     {
-        $token = Config::getInstance()->get('phpci.github.token');
+        $token = Config::getInstance()->get('php-censor.github.token');
 
         if (!$token) {
             return null;
         }
 
         $cache = Cache::getCache(Cache::TYPE_APC);
-        $rtn = $cache->get('phpci_github_repos');
+        $rtn = $cache->get('php-censor-github-repos');
 
         if (!$rtn) {
             $orgs = $this->makeRequest('/user/orgs', ['access_token' => $token]);
@@ -97,7 +97,7 @@ class Github
                 }
             }
 
-            $cache->set('phpci_github_repos', $rtn);
+            $cache->set('php-censor-github-repos', $rtn);
         }
 
         return $rtn;
@@ -115,7 +115,7 @@ class Github
      */
     public function createPullRequestComment($repo, $pullId, $commitId, $file, $line, $comment)
     {
-        $token = Config::getInstance()->get('phpci.github.token');
+        $token = Config::getInstance()->get('php-censor.github.token');
 
         if (!$token) {
             return null;
@@ -150,7 +150,7 @@ class Github
      */
     public function createCommitComment($repo, $commitId, $file, $line, $comment)
     {
-        $token = Config::getInstance()->get('phpci.github.token');
+        $token = Config::getInstance()->get('php-censor.github.token');
 
         if (!$token) {
             return null;

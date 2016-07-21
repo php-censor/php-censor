@@ -12,7 +12,7 @@ return [
     'language' => 'Sprache',
 
     // Log in:
-    'log_in_to_phpci' => 'In PHP Censor einloggen',
+    'log_in_to_app' => 'In PHP Censor einloggen',
     'login_error' => 'Fehlerhafte Emailadresse oder fehlerhaftes Passwort',
     'forgotten_password_link' => 'Passwort vergessen?',
     'reset_emailed' => 'Wir haben Ihnen einen Link geschickt, um Ihr Passwort zurückzusetzen',
@@ -248,7 +248,7 @@ generiert. Um es zu verwenden, fügen Sie einfach den folgenden Public Key im Ab
     'build_settings' => 'Buildeinstellungen',
     'github_application' => 'GitHub-Applikation',
     'github_sign_in' => 'Bevor Sie anfangen GitHub zu verwenden, müssen Sie sich erst <a href="%s">einloggen</a> und PHP Censor Zugriff auf Ihr Nutzerkonto gewähren',
-    'github_phpci_linked' => 'PHP Censor wurde erfolgreich mit Ihrem GitHub-Konto verknüpft.',
+    'github_app_linked' => 'PHP Censor wurde erfolgreich mit Ihrem GitHub-Konto verknüpft.',
     'github_where_to_find' => 'Wo Sie diese finden...',
     'github_where_help' => 'Wenn Sie der Besitzer der Applikation sind, die Sie gerne verwenden möchten, können Sie
                             diese Einstellungen in Ihrem "<a href="https://github.com/settings/applications">applications</a>
@@ -318,10 +318,10 @@ generiert. Um es zu verwenden, fügen Sie einfach den folgenden Public Key im Ab
     'admin_pass' => 'Administratorpasswort',
     'admin_email' => 'Emailadresse des Administrators',
     'config_path' => 'Dateipfad für Konfiguration',
-    'install_phpci' => 'PHP Censor installieren',
-    'welcome_to_phpci' => 'Willkommen bei PHP Censor',
+    'install_app' => 'PHP Censor installieren',
+    'welcome_to_app' => 'Willkommen bei PHP Censor',
     'please_answer' => 'Bitte beantworten Sie die folgenden Fragen:',
-    'phpci_php_req' => 'PHP Censor benötigt mindestens PHP 5.3.8 um zu funktionieren.',
+    'app_php_req' => 'PHP Censor benötigt mindestens PHP 5.3.8 um zu funktionieren.',
     'extension_required' => 'Benötigte Extensions: %s',
     'function_required' => 'PHP Censor muss die Funktion %s() aufrufen können. Ist sie in php.ini deaktiviert?',
     'requirements_not_met' => 'PHP Censor konnte nicht installiert werden, weil nicht alle Bedingungen erfüllt sind.
@@ -331,24 +331,24 @@ generiert. Um es zu verwenden, fügen Sie einfach den folgenden Public Key im Ab
     'enter_name' => 'Name des Administrators: ',
     'enter_email' => 'Emailadresse des Administrators: ',
     'enter_password' => 'Passwort des Administrators: ',
-    'enter_phpci_url' => 'Ihre PHP Censor-URL (z.B. "http://phpci.local"): ',
+    'enter_app_url' => 'Ihre PHP Censor-URL (z.B. "http://php-censor.local"): ',
 
     'enter_db_host' => 'Bitte geben Sie Ihren MySQL-Host ein [localhost]: ',
-    'enter_db_name' => 'Bitte geben Sie Ihren MySQL-Namen ein [phpci]: ',
-    'enter_db_user' => 'Bitte geben Sie Ihren MySQL-Benutzernamen ein [phpci]: ',
+    'enter_db_name' => 'Bitte geben Sie Ihren MySQL-Namen ein [php-censor-db]: ',
+    'enter_db_user' => 'Bitte geben Sie Ihren MySQL-Benutzernamen ein [php-censor-user]: ',
     'enter_db_pass' => 'Bitte geben Sie Ihr MySQL-Passwort ein: ',
     'could_not_connect' => 'PHP Censor konnte wegen folgender Details nicht mit MySQL verbinden. Bitte versuchen Sie es erneut.',
     'setting_up_db' => 'Ihre Datenbank wird aufgesetzt... ',
     'user_created' => 'Benutzerkonto wurde erstellt!',
     'failed_to_create' => 'PHP Censor konnte Ihr Administratorenkonto nicht erstellen.',
     'config_exists' => 'Die PHP Censor-Konfigurationsdatei existiert und ist nicht leer..',
-    'update_instead' => 'Falls Sie versucht haben PHP Censor zu aktualisieren, benutzen Sie bitte stattdessen phpci:update.',
+    'update_instead' => 'Falls Sie versucht haben PHP Censor zu aktualisieren, benutzen Sie bitte stattdessen php-censor:update.',
 
     // Update
-    'update_phpci' => 'Datenbank wird aktualisiert, um den Änderungen der Models zu entsprechen.',
-    'updating_phpci' => 'Aktualisiere PHP Censor-Datenbank:',
+    'update_app' => 'Datenbank wird aktualisiert, um den Änderungen der Models zu entsprechen.',
+    'updating_app' => 'Aktualisiere PHP Censor-Datenbank:',
     'not_installed' => 'PHP Censor scheint nicht installiert zu sein.',
-    'install_instead' => 'Bitte installieren Sie PHP Censor stattdessen via phpci:install.',
+    'install_instead' => 'Bitte installieren Sie PHP Censor stattdessen via php-censor:install.',
 
     // Poll Command
     'poll_github' => 'GitHub abfragen, um herauszufinden, ob ein Build gestartet werden muss.',
@@ -377,7 +377,7 @@ generiert. Um es zu verwenden, fügen Sie einfach den folgenden Public Key im Ab
     'marked_as_failed' => 'Build %d wegen Zeitüberschreitung als fehlgeschlagen markiert.',
 
     // Builder
-    'missing_phpci_yml' => 'Dieses Projekt beinhaltet keine phpci.yml-Datei, oder sie ist leer.',
+    'missing_app_yml' => 'Dieses Projekt beinhaltet keine phpci.yml-Datei, oder sie ist leer.',
     'build_success' => 'BUILD ERFOLGREICH',
     'build_failed' => 'BUILD FEHLGESCHLAGEN',
     'removing_build' => 'Entferne Build.',

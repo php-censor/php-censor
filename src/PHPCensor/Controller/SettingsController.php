@@ -57,23 +57,23 @@ class SettingsController extends Controller
         $this->view->settings = $this->settings;
 
         $basicSettings = [];
-        if (isset($this->settings['phpci']['basic'])) {
-            $basicSettings = $this->settings['phpci']['basic'];
+        if (isset($this->settings['php-censor']['basic'])) {
+            $basicSettings = $this->settings['php-censor']['basic'];
         }
 
         $buildSettings = [];
-        if (isset($this->settings['phpci']['build'])) {
-            $buildSettings = $this->settings['phpci']['build'];
+        if (isset($this->settings['php-censor']['build'])) {
+            $buildSettings = $this->settings['php-censor']['build'];
         }
 
         $emailSettings = [];
-        if (isset($this->settings['phpci']['email_settings'])) {
-            $emailSettings = $this->settings['phpci']['email_settings'];
+        if (isset($this->settings['php-censor']['email_settings'])) {
+            $emailSettings = $this->settings['php-censor']['email_settings'];
         }
 
         $authSettings = [];
-        if (isset($this->settings['phpci']['authentication_settings'])) {
-            $authSettings = $this->settings['phpci']['authentication_settings'];
+        if (isset($this->settings['php-censor']['authentication_settings'])) {
+            $authSettings = $this->settings['php-censor']['authentication_settings'];
         }
 
         $this->view->configFile             = APP_DIR . 'config.yml';
@@ -84,8 +84,8 @@ class SettingsController extends Controller
         $this->view->authenticationSettings = $this->getAuthenticationForm($authSettings);
         $this->view->isWriteable            = $this->canWriteConfig();
 
-        if (!empty($this->settings['phpci']['github']['token'])) {
-            $this->view->githubUser = $this->getGithubUser($this->settings['phpci']['github']['token']);
+        if (!empty($this->settings['php-censor']['github']['token'])) {
+            $this->view->githubUser = $this->getGithubUser($this->settings['php-censor']['github']['token']);
         }
 
         return $this->view->render();
@@ -98,9 +98,9 @@ class SettingsController extends Controller
     {
         $this->requireAdmin();
 
-        $this->settings['phpci']['github']['id']     = $this->getParam('githubid', '');
-        $this->settings['phpci']['github']['secret'] = $this->getParam('githubsecret', '');
-        $error                                       = $this->storeSettings();
+        $this->settings['php-censor']['github']['id']     = $this->getParam('githubid', '');
+        $this->settings['php-censor']['github']['secret'] = $this->getParam('githubsecret', '');
+        $error                                            = $this->storeSettings();
 
         $response = new b8\Http\Response\RedirectResponse();
 
@@ -120,8 +120,8 @@ class SettingsController extends Controller
     {
         $this->requireAdmin();
 
-        $this->settings['phpci']['email_settings']                    = $this->getParams();
-        $this->settings['phpci']['email_settings']['smtp_encryption'] = $this->getParam('smtp_encryption', 0);
+        $this->settings['php-censor']['email_settings']                    = $this->getParams();
+        $this->settings['php-censor']['email_settings']['smtp_encryption'] = $this->getParam('smtp_encryption', 0);
 
         $error = $this->storeSettings();
 
@@ -143,7 +143,7 @@ class SettingsController extends Controller
     {
         $this->requireAdmin();
 
-        $this->settings['phpci']['build'] = $this->getParams();
+        $this->settings['php-censor']['build'] = $this->getParams();
 
         $error = $this->storeSettings();
 
@@ -165,7 +165,7 @@ class SettingsController extends Controller
     {
         $this->requireAdmin();
 
-        $this->settings['phpci']['basic'] = $this->getParams();
+        $this->settings['php-censor']['basic'] = $this->getParams();
         $error = $this->storeSettings();
 
         $response = new b8\Http\Response\RedirectResponse();
@@ -186,8 +186,8 @@ class SettingsController extends Controller
     {
         $this->requireAdmin();
 
-        $this->settings['phpci']['authentication_settings']['state']   = $this->getParam('disable_authentication', 0);
-        $this->settings['phpci']['authentication_settings']['user_id'] = $_SESSION['phpci_user_id'];
+        $this->settings['php-censor']['authentication_settings']['state']   = $this->getParam('disable_authentication', 0);
+        $this->settings['php-censor']['authentication_settings']['user_id'] = $_SESSION['php-censor-user-id'];
 
         $error = $this->storeSettings();
 
@@ -208,7 +208,7 @@ class SettingsController extends Controller
     public function githubCallback()
     {
         $code   = $this->getParam('code', null);
-        $github = $this->settings['phpci']['github'];
+        $github = $this->settings['php-censor']['github'];
 
         if (!is_null($code)) {
             $http   = new HttpClient();
@@ -219,7 +219,7 @@ class SettingsController extends Controller
             if ($resp['success']) {
                 parse_str($resp['body'], $resp);
 
-                $this->settings['phpci']['github']['token'] = $resp['access_token'];
+                $this->settings['php-censor']['github']['token'] = $resp['access_token'];
                 $this->storeSettings();
 
                 $response = new b8\Http\Response\RedirectResponse();
@@ -269,8 +269,8 @@ class SettingsController extends Controller
         $field->setContainerClass('form-group');
         $form->addField($field);
 
-        if (isset($this->settings['phpci']['github']['id'])) {
-            $field->setValue($this->settings['phpci']['github']['id']);
+        if (isset($this->settings['php-censor']['github']['id'])) {
+            $field->setValue($this->settings['php-censor']['github']['id']);
         }
 
         $field = new Form\Element\Text('githubsecret');
@@ -281,8 +281,8 @@ class SettingsController extends Controller
         $field->setContainerClass('form-group');
         $form->addField($field);
 
-        if (isset($this->settings['phpci']['github']['secret'])) {
-            $field->setValue($this->settings['phpci']['github']['secret']);
+        if (isset($this->settings['php-censor']['github']['secret'])) {
+            $field->setValue($this->settings['php-censor']['github']['secret']);
         }
 
         $field = new Form\Element\Submit();

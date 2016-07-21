@@ -58,7 +58,7 @@ class DaemonCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('phpci:daemon')
+            ->setName('php-censor:daemon')
             ->setDescription('Initiates the daemon to run commands.')
             ->addArgument(
                 'state', InputArgument::REQUIRED, 'start|stop|status'
@@ -113,7 +113,7 @@ class DaemonCommand extends Command
 
         $this->logger->info("Trying to start the daemon");
 
-        $cmd = "nohup %sdaemonise phpci:daemonise > %s 2>&1 &";
+        $cmd = "nohup %sdaemonise php-censor:daemonise > %s 2>&1 &";
         $command = sprintf($cmd, BIN_DIR, $this->logFilePath);
         $output = $exitCode = null;
         exec($command, $output, $exitCode);

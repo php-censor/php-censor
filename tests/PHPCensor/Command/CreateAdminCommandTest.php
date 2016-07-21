@@ -57,7 +57,7 @@ class CreateAdminCommandTest extends \PHPUnit_Framework_TestCase
     {
         $this->application->getHelperSet()->set($this->dialog, 'dialog');
         $this->application->add($this->command);
-        $command = $this->application->find('phpci:create-admin');
+        $command = $this->application->find('php-censor:create-admin');
         $commandTester = new CommandTester($command);
 
         return $commandTester;

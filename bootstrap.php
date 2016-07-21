@@ -59,7 +59,7 @@ if (file_exists($configFile)) {
 }
 
 if (!defined('APP_URL') && !empty($config)) {
-    define('APP_URL', $config->get('phpci.url', '') . '/');
+    define('APP_URL', $config->get('php-censor.url', '') . '/');
 }
 
 if (!defined('IS_CONSOLE')) {
