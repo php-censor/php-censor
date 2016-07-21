@@ -76,10 +76,10 @@ var Build = Class.extend({
         var query = query || {};
 
         var cb = function() {
-            var fullUri = window.PHPCI_URL + uri;
+            var fullUri = window.APP_URL + uri;
 
             if (name == 'build-updated') {
-                fullUri = window.PHPCI_URL + 'build/data/' + self.buildId;
+                fullUri = window.APP_URL + 'build/data/' + self.buildId;
             }
 
             $.ajax({

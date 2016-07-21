@@ -57,8 +57,8 @@ class BuildStatusService
         if ($this->build) {
             $this->loadParentBuild($isParent);
         }
-        if (defined('PHPCI_URL')) {
-            $this->setUrl(PHPCI_URL);
+        if (defined('APP_URL')) {
+            $this->setUrl(APP_URL);
         }
     }
 

@@ -85,7 +85,7 @@ foreach($projects as $project):
         
         <div class="inner">
             <h3>
-                <a href="<?php print PHPCI_URL; ?>project/view/<?php print $project->getId(); ?>">
+                <a href="<?php print APP_URL; ?>project/view/<?php print $project->getId(); ?>">
                     <?php print $project->getTitle(); ?>
                 </a>
             </h3>
@@ -98,7 +98,7 @@ foreach($projects as $project):
         <div class="icon">
             <i class="fa fa-<?php print $project->getIcon(); ?>"></i>
         </div>
-        <a href="<?php print PHPCI_URL; ?>project/view/<?php print $project->getId(); ?>" class="small-box-footer small-box-footer-project">
+        <a href="<?php print APP_URL; ?>project/view/<?php print $project->getId(); ?>" class="small-box-footer small-box-footer-project">
             <?php Lang::out('view_project'); ?> (<?php print $counts[$project->getId()]; ?>) <i class="fa fa-arrow-circle-right"></i>
         </a>
 
@@ -107,7 +107,7 @@ foreach($projects as $project):
                 echo '<span class="small-box-footer-build small-box-footer bg-blue"><i class="fa fa-minus"></i></span>';
             } else {
                 $build = $builds[$project->getId()][$idx];
-                $link = PHPCI_URL . 'build/view/' . $build->id;
+                $link = APP_URL . 'build/view/' . $build->id;
                 switch ($build->getStatus()) {
                     case 0:
                         $class = 'bg-blue';

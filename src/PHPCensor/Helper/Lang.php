@@ -104,7 +104,7 @@ class Lang
     {
         $languages = [];
         foreach (self::$languages as $language) {
-            $strings = include_once(PHPCI_DIR . 'Languages' . DIRECTORY_SEPARATOR . 'lang.' . $language . '.php');
+            $strings = include_once(SRC_DIR . 'Languages' . DIRECTORY_SEPARATOR . 'lang.' . $language . '.php');
             $languages[$language] = !empty($strings['language_name']) ? $strings['language_name'] : $language;
         }
 
@@ -171,7 +171,7 @@ class Lang
     protected static function loadLanguage($language = null)
     {
         $language = $language ? $language : self::$language;
-        $langFile = PHPCI_DIR . 'Languages' . DIRECTORY_SEPARATOR . 'lang.' . $language . '.php';
+        $langFile = SRC_DIR . 'Languages' . DIRECTORY_SEPARATOR . 'lang.' . $language . '.php';
 
         if (!file_exists($langFile)) {
             return null;
@@ -191,7 +191,7 @@ class Lang
     protected static function loadAvailableLanguages()
     {
         $matches = [];
-        foreach (glob(PHPCI_DIR . 'Languages' . DIRECTORY_SEPARATOR . 'lang.*.php') as $file) {
+        foreach (glob(SRC_DIR . 'Languages' . DIRECTORY_SEPARATOR . 'lang.*.php') as $file) {
             if (preg_match('/lang\.([a-z]{2}\-?[a-z]*)\.php/', $file, $matches)) {
                 self::$languages[] = $matches[1];
             }

@@ -69,7 +69,7 @@ class Mysql implements Plugin
 
         $config = Database::getConnection('write')->getDetails();
 
-        $this->host =(defined('PHPCI_DB_HOST')) ? PHPCI_DB_HOST : null;
+        $this->host =(defined('DB_HOST')) ? DB_HOST : null;
         $this->user = $config['user'];
         $this->pass = $config['pass'];
 

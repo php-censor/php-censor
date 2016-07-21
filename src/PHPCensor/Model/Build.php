@@ -135,7 +135,7 @@ class Build extends BuildBase
      */
     protected function getZeroConfigPlugins(Builder $builder)
     {
-        $pluginDir = PHPCI_DIR . 'Plugin' . DIRECTORY_SEPARATOR;
+        $pluginDir = SRC_DIR . 'Plugin' . DIRECTORY_SEPARATOR;
         $dir = new \DirectoryIterator($pluginDir);
 
         $config = [
@@ -258,7 +258,7 @@ class Build extends BuildBase
 
         if (empty($this->currentBuildPath)) {
             $buildDirectory         = $this->getId() . '_' . substr(md5(microtime(true)), 0, 5);
-            $this->currentBuildPath = PHPCI_BUILDS_DIR . $buildDirectory . DIRECTORY_SEPARATOR;
+            $this->currentBuildPath = RUNTIME_DIR . 'builds' . DIRECTORY_SEPARATOR . $buildDirectory . DIRECTORY_SEPARATOR;
         }
 
         return $this->currentBuildPath;

@@ -37,7 +37,7 @@ class InstallCommand extends Command
 
     protected function configure()
     {
-        $defaultPath = PHPCI_APP_DIR . 'config.yml';
+        $defaultPath = APP_DIR . 'config.yml';
 
         $this
             ->setName('phpci:install')
@@ -383,7 +383,7 @@ class InstallCommand extends Command
         $output->write(Lang::get('setting_up_db'));
 
         $phinxBinary = escapeshellarg(ROOT_DIR . 'vendor' . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'phinx');
-        $phinxScript = escapeshellarg(PHPCI_APP_DIR . 'phinx.php');
+        $phinxScript = escapeshellarg(APP_DIR . 'phinx.php');
         shell_exec($phinxBinary . ' migrate -c ' . $phinxScript);
 
         $output->writeln('<info>'.Lang::get('ok').'</info>');

@@ -40,7 +40,7 @@ class SettingsController extends Controller
         parent::init();
 
         $parser         = new Parser();
-        $yaml           = file_get_contents(PHPCI_APP_DIR . 'config.yml');
+        $yaml           = file_get_contents(APP_DIR . 'config.yml');
         $this->settings = $parser->parse($yaml);
     }
 
@@ -76,7 +76,7 @@ class SettingsController extends Controller
             $authSettings = $this->settings['phpci']['authentication_settings'];
         }
 
-        $this->view->configFile             = PHPCI_APP_DIR . 'config.yml';
+        $this->view->configFile             = APP_DIR . 'config.yml';
         $this->view->basicSettings          = $this->getBasicForm($basicSettings);
         $this->view->buildSettings          = $this->getBuildForm($buildSettings);
         $this->view->github                 = $this->getGithubForm();
@@ -105,9 +105,9 @@ class SettingsController extends Controller
         $response = new b8\Http\Response\RedirectResponse();
 
         if ($error) {
-            $response->setHeader('Location', PHPCI_URL . 'settings?saved=2');
+            $response->setHeader('Location', APP_URL . 'settings?saved=2');
         } else {
-            $response->setHeader('Location', PHPCI_URL . 'settings?saved=1');
+            $response->setHeader('Location', APP_URL . 'settings?saved=1');
         }
 
         return $response;
@@ -128,9 +128,9 @@ class SettingsController extends Controller
         $response = new b8\Http\Response\RedirectResponse();
 
         if ($error) {
-            $response->setHeader('Location', PHPCI_URL . 'settings?saved=2');
+            $response->setHeader('Location', APP_URL . 'settings?saved=2');
         } else {
-            $response->setHeader('Location', PHPCI_URL . 'settings?saved=1');
+            $response->setHeader('Location', APP_URL . 'settings?saved=1');
         }
 
         return $response;
@@ -150,9 +150,9 @@ class SettingsController extends Controller
         $response = new b8\Http\Response\RedirectResponse();
 
         if ($error) {
-            $response->setHeader('Location', PHPCI_URL . 'settings?saved=2');
+            $response->setHeader('Location', APP_URL . 'settings?saved=2');
         } else {
-            $response->setHeader('Location', PHPCI_URL . 'settings?saved=1');
+            $response->setHeader('Location', APP_URL . 'settings?saved=1');
         }
 
         return $response;
@@ -171,9 +171,9 @@ class SettingsController extends Controller
         $response = new b8\Http\Response\RedirectResponse();
 
         if ($error) {
-            $response->setHeader('Location', PHPCI_URL . 'settings?saved=2');
+            $response->setHeader('Location', APP_URL . 'settings?saved=2');
         } else {
-            $response->setHeader('Location', PHPCI_URL . 'settings?saved=1');
+            $response->setHeader('Location', APP_URL . 'settings?saved=1');
         }
 
         return $response;
@@ -194,9 +194,9 @@ class SettingsController extends Controller
         $response = new b8\Http\Response\RedirectResponse();
 
         if ($error) {
-            $response->setHeader('Location', PHPCI_URL . 'settings?saved=2');
+            $response->setHeader('Location', APP_URL . 'settings?saved=2');
         } else {
-            $response->setHeader('Location', PHPCI_URL . 'settings?saved=1');
+            $response->setHeader('Location', APP_URL . 'settings?saved=1');
         }
 
         return $response;
@@ -223,13 +223,13 @@ class SettingsController extends Controller
                 $this->storeSettings();
 
                 $response = new b8\Http\Response\RedirectResponse();
-                $response->setHeader('Location', PHPCI_URL . 'settings?linked=1');
+                $response->setHeader('Location', APP_URL . 'settings?linked=1');
                 return $response;
             }
         }
 
         $response = new b8\Http\Response\RedirectResponse();
-        $response->setHeader('Location', PHPCI_URL . 'settings?linked=2');
+        $response->setHeader('Location', APP_URL . 'settings?linked=2');
         return $response;
     }
 
@@ -242,7 +242,7 @@ class SettingsController extends Controller
     {
         $dumper = new Dumper();
         $yaml   = $dumper->dump($this->settings, 4);
-        file_put_contents(PHPCI_APP_DIR . 'config.yml', $yaml);
+        file_put_contents(APP_DIR . 'config.yml', $yaml);
 
         if (error_get_last()) {
             $error_get_last = error_get_last();
@@ -258,7 +258,7 @@ class SettingsController extends Controller
     {
         $form = new Form();
         $form->setMethod('POST');
-        $form->setAction(PHPCI_URL . 'settings/github');
+        $form->setAction(APP_URL . 'settings/github');
         $form->addField(new Form\Element\Csrf('csrf'));
 
         $field = new Form\Element\Text('githubid');
@@ -302,7 +302,7 @@ class SettingsController extends Controller
     {
         $form = new Form();
         $form->setMethod('POST');
-        $form->setAction(PHPCI_URL . 'settings/email');
+        $form->setAction(APP_URL . 'settings/email');
         $form->addField(new Form\Element\Csrf('csrf'));
 
         $field = new Form\Element\Text('smtp_address');
@@ -387,7 +387,7 @@ class SettingsController extends Controller
      */
     protected function canWriteConfig()
     {
-        return is_writeable(PHPCI_APP_DIR . 'config.yml');
+        return is_writeable(APP_DIR . 'config.yml');
     }
 
     /**
@@ -399,7 +399,7 @@ class SettingsController extends Controller
     {
         $form = new Form();
         $form->setMethod('POST');
-        $form->setAction(PHPCI_URL . 'settings/build');
+        $form->setAction(APP_URL . 'settings/build');
 
         $field = new Form\Element\Select('failed_after');
         $field->setRequired(false);
@@ -436,7 +436,7 @@ class SettingsController extends Controller
     {
         $form = new Form();
         $form->setMethod('POST');
-        $form->setAction(PHPCI_URL . 'settings/basic');
+        $form->setAction(APP_URL . 'settings/basic');
 
         $field = new Form\Element\Select('language');
         $field->setRequired(true);
@@ -468,7 +468,7 @@ class SettingsController extends Controller
     {
         $form = new Form();
         $form->setMethod('POST');
-        $form->setAction(PHPCI_URL . 'settings/authentication');
+        $form->setAction(APP_URL . 'settings/authentication');
         $form->addField(new Form\Element\Csrf('csrf'));
 
         $field = new Form\Element\Checkbox('disable_authentication');

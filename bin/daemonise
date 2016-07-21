@@ -12,7 +12,7 @@
 use PHPCensor\Command\DaemoniseCommand;
 use Symfony\Component\Console\Application;
 
-define('PHPCI_IS_CONSOLE', true);
+define('IS_CONSOLE', true);
 
 require_once(dirname(__DIR__) . '/bootstrap.php');
 

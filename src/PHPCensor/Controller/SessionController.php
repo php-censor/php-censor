@@ -66,7 +66,7 @@ class SessionController extends Controller
 
         $form = new b8\Form();
         $form->setMethod('POST');
-        $form->setAction(PHPCI_URL.'session/login');
+        $form->setAction(APP_URL.'session/login');
 
         $email = new b8\Form\Element\Email('email');
         $email->setLabel(Lang::get('email_address'));
@@ -110,7 +110,7 @@ class SessionController extends Controller
         session_destroy();
 
         $response = new b8\Http\Response\RedirectResponse();
-        $response->setHeader('Location', PHPCI_URL);
+        $response->setHeader('Location', APP_URL);
         return $response;
     }
 
@@ -130,7 +130,7 @@ class SessionController extends Controller
             }
 
             $key = md5(date('Y-m-d') . $user->getHash());
-            $url = PHPCI_URL;
+            $url = APP_URL;
 
             $message = Lang::get('reset_email_body', $user->getName(), $url, $user->getId(), $key);
 
@@ -170,7 +170,7 @@ class SessionController extends Controller
             $_SESSION['phpci_user_id'] = $user->getId();
 
             $response = new b8\Http\Response\RedirectResponse();
-            $response->setHeader('Location', PHPCI_URL);
+            $response->setHeader('Location', APP_URL);
             return $response;
         }
 
@@ -186,7 +186,7 @@ class SessionController extends Controller
      */
     protected function getLoginRedirect()
     {
-        $rtn = PHPCI_URL;
+        $rtn = APP_URL;
 
         if (!empty($_SESSION['phpci_login_redirect'])) {
             $rtn .= $_SESSION['phpci_login_redirect'];

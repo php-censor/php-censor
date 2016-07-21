@@ -73,11 +73,11 @@
                             <div class="timeline-item">
                                 <span class="time"><i class="fa fa-clock-o"></i> <?php print Lang::formatDateTime($updated, 'LT'); ?></span>
                                 <h3 class="timeline-header">
-                                    <a href="<?php print PHPCI_URL; ?>project/view/<?php print $build->getProjectId(); ?>">
+                                    <a href="<?php print APP_URL; ?>project/view/<?php print $build->getProjectId(); ?>">
                                         <?php print $build->getProject()->getTitle(); ?>
                                     </a>
                                     -
-                                    <a href="<?php print PHPCI_URL; ?>build/view/<?php print $build->getId(); ?>">
+                                    <a href="<?php print APP_URL; ?>build/view/<?php print $build->getId(); ?>">
                                         Build #<?php print $build->getId(); ?>
                                     </a>
                                     -

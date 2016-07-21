@@ -92,7 +92,7 @@ class UserController extends Controller
         }
 
         $form = new Form();
-        $form->setAction(PHPCI_URL.'user/profile');
+        $form->setAction(APP_URL.'user/profile');
         $form->setMethod('POST');
 
         $name = new Form\Element\Text('name');
@@ -174,7 +174,7 @@ class UserController extends Controller
         $this->userService->createUser($name, $email, $password, $isAdmin);
 
         $response = new b8\Http\Response\RedirectResponse();
-        $response->setHeader('Location', PHPCI_URL . 'user');
+        $response->setHeader('Location', APP_URL . 'user');
         return $response;
     }
 
@@ -215,7 +215,7 @@ class UserController extends Controller
         $this->userService->updateUser($user, $name, $email, $password, $isAdmin);
 
         $response = new b8\Http\Response\RedirectResponse();
-        $response->setHeader('Location', PHPCI_URL . 'user');
+        $response->setHeader('Location', APP_URL . 'user');
         return $response;
     }
 
@@ -226,7 +226,7 @@ class UserController extends Controller
     {
         $form = new Form();
         $form->setMethod('POST');
-        $form->setAction(PHPCI_URL.'user/' . $type);
+        $form->setAction(APP_URL.'user/' . $type);
         $form->addField(new Form\Element\Csrf('csrf'));
 
         $field = new Form\Element\Email('email');
@@ -289,7 +289,7 @@ class UserController extends Controller
         $this->userService->deleteUser($user);
 
         $response = new b8\Http\Response\RedirectResponse();
-        $response->setHeader('Location', PHPCI_URL . 'user');
+        $response->setHeader('Location', APP_URL . 'user');
         return $response;
     }
 }

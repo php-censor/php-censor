@@ -63,7 +63,7 @@ class Campfire implements Plugin
      */
     public function execute()
     {
-        $url = PHPCI_URL . "build/view/" . $this->build->getId();
+        $url = APP_URL . "build/view/" . $this->build->getId();
         $message = str_replace("%buildurl%", $url, $this->message);
         $this->joinRoom($this->roomId);
         $status = $this->speak($message, $this->roomId);

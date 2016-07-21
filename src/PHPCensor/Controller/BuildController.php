@@ -88,10 +88,10 @@ class BuildController extends Controller
         }
 
         $rebuild = Lang::get('rebuild_now');
-        $rebuildLink = PHPCI_URL . 'build/rebuild/' . $build->getId();
+        $rebuildLink = APP_URL . 'build/rebuild/' . $build->getId();
 
         $delete = Lang::get('delete_build');
-        $deleteLink = PHPCI_URL . 'build/delete/' . $build->getId();
+        $deleteLink = APP_URL . 'build/delete/' . $build->getId();
 
         $actions = "<a class=\"btn btn-default\" href=\"{$rebuildLink}\">{$rebuild}</a> ";
 
@@ -109,7 +109,7 @@ class BuildController extends Controller
     protected function getUiPlugins()
     {
         $rtn  = [];
-        $path = PHPCI_PUBLIC_DIR . 'assets' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'build-plugins' . DIRECTORY_SEPARATOR;
+        $path = PUBLIC_DIR . 'assets' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'build-plugins' . DIRECTORY_SEPARATOR;
         $dir  = opendir($path);
 
         while ($item = readdir($dir)) {
@@ -206,7 +206,7 @@ class BuildController extends Controller
         }
 
         $response = new b8\Http\Response\RedirectResponse();
-        $response->setHeader('Location', PHPCI_URL.'build/view/' . $build->getId());
+        $response->setHeader('Location', APP_URL.'build/view/' . $build->getId());
         return $response;
     }
 
@@ -226,7 +226,7 @@ class BuildController extends Controller
         $this->buildService->deleteBuild($build);
 
         $response = new b8\Http\Response\RedirectResponse();
-        $response->setHeader('Location', PHPCI_URL.'project/view/' . $build->getProjectId());
+        $response->setHeader('Location', APP_URL.'project/view/' . $build->getProjectId());
         return $response;
     }
 

@@ -4,7 +4,7 @@ var PHPCensor = {
 
     init: function () {
         // Setup the date locale
-        moment.locale(PHPCI_LANGUAGE);
+        moment.locale(LANGUAGE);
 
         $(document).ready(function () {
             // Format datetimes
@@ -19,7 +19,7 @@ var PHPCensor = {
             PHPCensor.intervals.getBuilds = setInterval(PHPCensor.getBuilds, 5000);
 
             // Update latest project builds every 10 seconds:
-            if (typeof PHPCI_PROJECT_ID != 'undefined') {
+            if (typeof PROJECT_ID != 'undefined') {
                 PHPCensor.intervals.getProjectBuilds = setInterval(PHPCensor.getProjectBuilds, 10000);
             }
 
@@ -33,7 +33,7 @@ var PHPCensor = {
 
     getBuilds: function () {
         $.ajax({
-            url: PHPCI_URL + 'build/latest',
+            url: APP_URL + 'build/latest',
 
             success: function (data) {
                 $(window).trigger('builds-updated', [data]);
@@ -45,7 +45,7 @@ var PHPCensor = {
 
     getProjectBuilds: function () {
         $.ajax({
-            url: PHPCI_URL + 'project/builds/' + PHPCI_PROJECT_ID + '?branch=' + PHPCI_PROJECT_BRANCH,
+            url: APP_URL + 'project/builds/' + PROJECT_ID + '?branch=' + PROJECT_BRANCH,
 
             success: function (data) {
                 $('#latest-builds').html(data);
@@ -86,7 +86,7 @@ var PHPCensor = {
     get: function (uri, success) {
 
         $.ajax({
-            url: window.PHPCI_URL + uri,
+            url: window.APP_URL + uri,
 
             success: function (data) {
                 success();
@@ -99,7 +99,7 @@ var PHPCensor = {
 
     handleFailedAjax: function (xhr) {
         if (xhr.status == 401) {
-            window.location.href = window.PHPCI_URL + 'session/login';
+            window.location.href = window.APP_URL + 'session/login';
         }
     },
 
@@ -409,7 +409,7 @@ function setupProjectForm()
 
             $.ajax({
                 dataType: "json",
-                url: window.PHPCI_URL + 'project/github-repositories',
+                url: window.APP_URL + 'project/github-repositories',
                 success: function (data) {
                     $('#loading').hide();
 
@@ -463,8 +463,8 @@ var Lang = {
         var args = Array.prototype.slice.call(arguments);;
         var string = args.shift();
 
-        if (PHPCI_STRINGS[string]) {
-            args.unshift(PHPCI_STRINGS[string]);
+        if (STRINGS[string]) {
+            args.unshift(STRINGS[string]);
             return sprintf.apply(sprintf[0], args);
         }
 
@@ -472,4 +472,4 @@ var Lang = {
     }
 };
 
-moment.locale(PHPCI_LANGUAGE);
+moment.locale(LANGUAGE);

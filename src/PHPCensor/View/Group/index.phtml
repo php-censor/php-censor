@@ -1,6 +1,6 @@
 <?php use PHPCensor\Helper\Lang; ?>
 <div class="clearfix"  style="margin-bottom: 20px;">
-    <a class="btn btn-success pull-right" href="<?php print PHPCI_URL . 'group/edit'; ?>">
+    <a class="btn btn-success pull-right" href="<?php print APP_URL . 'group/edit'; ?>">
         <?php Lang::out('group_add'); ?>
     </a>
 </div>
@@ -24,12 +24,12 @@
                 <td><?php print $group['title']; ?></td>
                 <td><?php print count($group['projects']); ?></td>
                 <td>
-                    <a class="btn btn-sm btn-default" href="<?php print PHPCI_URL . 'group/edit/' . $group['id']; ?>">
+                    <a class="btn btn-sm btn-default" href="<?php print APP_URL . 'group/edit/' . $group['id']; ?>">
                         <?php Lang::out('group_edit'); ?>
                     </a>
 
                     <?php if (!count($group['projects'])): ?>
-                    <a class="btn btn-sm btn-danger delete-group" href="<?php print PHPCI_URL . 'group/delete/' . $group['id']; ?>">
+                    <a class="btn btn-sm btn-danger delete-group" href="<?php print APP_URL . 'group/delete/' . $group['id']; ?>">
                         <?php Lang::out('group_delete'); ?>
                     </a>
                     <?php endif; ?>

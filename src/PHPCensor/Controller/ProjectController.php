@@ -79,7 +79,7 @@ class ProjectController extends PHPCensor\Controller
 
         if ($page > $pages) {
             $response = new b8\Http\Response\RedirectResponse();
-            $response->setHeader('Location', PHPCI_URL.'project/view/'.$projectId);
+            $response->setHeader('Location', APP_URL.'project/view/'.$projectId);
             return $response;
         }
 
@@ -121,7 +121,7 @@ class ProjectController extends PHPCensor\Controller
         }
 
         $response = new b8\Http\Response\RedirectResponse();
-        $response->setHeader('Location', PHPCI_URL.'build/view/' . $build->getId());
+        $response->setHeader('Location', APP_URL.'build/view/' . $build->getId());
         return $response;
     }
 
@@ -136,7 +136,7 @@ class ProjectController extends PHPCensor\Controller
         $this->projectService->deleteProject($project);
 
         $response = new b8\Http\Response\RedirectResponse();
-        $response->setHeader('Location', PHPCI_URL);
+        $response->setHeader('Location', APP_URL);
         return $response;
     }
 
@@ -230,7 +230,7 @@ class ProjectController extends PHPCensor\Controller
             $project = $this->projectService->createProject($title, $type, $reference, $options);
 
             $response = new b8\Http\Response\RedirectResponse();
-            $response->setHeader('Location', PHPCI_URL.'project/view/' . $project->getId());
+            $response->setHeader('Location', APP_URL.'project/view/' . $project->getId());
             return $response;
         }
     }
@@ -295,7 +295,7 @@ class ProjectController extends PHPCensor\Controller
         $project = $this->projectService->updateProject($project, $title, $type, $reference, $options);
 
         $response = new b8\Http\Response\RedirectResponse();
-        $response->setHeader('Location', PHPCI_URL.'project/view/' . $project->getId());
+        $response->setHeader('Location', APP_URL.'project/view/' . $project->getId());
         return $response;
     }
 
@@ -306,7 +306,7 @@ class ProjectController extends PHPCensor\Controller
     {
         $form = new Form();
         $form->setMethod('POST');
-        $form->setAction(PHPCI_URL.'project/' . $type);
+        $form->setAction(APP_URL.'project/' . $type);
         $form->addField(new Form\Element\Csrf('csrf'));
         $form->addField(new Form\Element\Hidden('pubkey'));
 

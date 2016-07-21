@@ -36,7 +36,7 @@ class PluginController extends Controller
         $this->view->installedPackages = $json['require'];
 
         $pluginInfo = new PluginInformationCollection();
-        $pluginInfo->add(FilesPluginInformation::newFromDir(PHPCI_DIR . "Plugin" . DIRECTORY_SEPARATOR));
+        $pluginInfo->add(FilesPluginInformation::newFromDir(SRC_DIR . "Plugin" . DIRECTORY_SEPARATOR));
         $pluginInfo->add(ComposerPluginInformation::buildFromYaml(
             ROOT_DIR . "vendor" . DIRECTORY_SEPARATOR . "composer" . DIRECTORY_SEPARATOR . "installed.json"
         ));

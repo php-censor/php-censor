@@ -66,7 +66,7 @@ class DaemoniseCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $cmd = "echo %s > '%sdaemon/daemon.pid'";
-        $command = sprintf($cmd, getmypid(), PHPCI_RUNTIME_DIR);
+        $command = sprintf($cmd, getmypid(), RUNTIME_DIR);
         exec($command);
 
         $this->output = $output;

@@ -80,13 +80,13 @@ class GroupController extends Controller
             $this->groupStore->save($group);
 
             $response = new b8\Http\Response\RedirectResponse();
-            $response->setHeader('Location', PHPCI_URL.'group');
+            $response->setHeader('Location', APP_URL.'group');
             return $response;
         }
 
         $form = new Form();
         $form->setMethod('POST');
-        $form->setAction(PHPCI_URL . 'group/edit' . (!is_null($groupId) ? '/' . $groupId : ''));
+        $form->setAction(APP_URL . 'group/edit' . (!is_null($groupId) ? '/' . $groupId : ''));
 
         $title = new Form\Element\Text('title');
         $title->setContainerClass('form-group');
@@ -115,7 +115,7 @@ class GroupController extends Controller
 
         $this->groupStore->delete($group);
         $response = new b8\Http\Response\RedirectResponse();
-        $response->setHeader('Location', PHPCI_URL.'group');
+        $response->setHeader('Location', APP_URL.'group');
         return $response;
     }
 }
