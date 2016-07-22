@@ -31,13 +31,13 @@ class Shell extends Plugin
     /**
      * {@inheritdoc}
      */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        parent::__construct($phpci, $build, $options);
+        parent::__construct($builder, $build, $options);
 
         if (isset($options['command'])) {
             // Keeping this for backwards compatibility, new projects should use interpolation vars.
-            $options['command'] = str_replace("%buildpath%", $this->phpci->buildPath, $options['command']);
+            $options['command'] = str_replace("%buildpath%", $this->builder->buildPath, $options['command']);
             $this->commands = [$options['command']];
             return;
         }
@@ -62,9 +62,9 @@ class Shell extends Plugin
         $success = true;
 
         foreach ($this->commands as $command) {
-            $command = $this->phpci->interpolate($command);
+            $command = $this->builder->interpolate($command);
 
-            if (!$this->phpci->executeCommand($command)) {
+            if (!$this->builder->executeCommand($command)) {
                 $success = false;
             }
         }

@@ -41,9 +41,9 @@ class Phar extends Plugin
     /**
      * {@inheritdoc}
      */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        parent::__construct($phpci, $build, $options);
+        parent::__construct($builder, $build, $options);
 
         // Directory?
         if (isset($options['directory'])) {
@@ -86,7 +86,7 @@ class Phar extends Plugin
     public function getDirectory()
     {
         if (!isset($this->directory)) {
-            $this->setDirectory($this->phpci->buildPath);
+            $this->setDirectory($this->builder->buildPath);
         }
         return $this->directory;
     }
@@ -172,7 +172,7 @@ class Phar extends Plugin
         $content  = '';
         $filename = $this->getStub();
         if ($filename) {
-            $content = file_get_contents($this->phpci->buildPath . DIRECTORY_SEPARATOR . $this->getStub());
+            $content = file_get_contents($this->builder->buildPath . DIRECTORY_SEPARATOR . $this->getStub());
         }
         return $content;
     }
@@ -188,7 +188,7 @@ class Phar extends Plugin
         try {
             $file = $this->getDirectory() . DIRECTORY_SEPARATOR . $this->getFilename();
             $phar = new PHPPhar($file, 0, $this->getFilename());
-            $phar->buildFromDirectory($this->phpci->buildPath, $this->getRegExp());
+            $phar->buildFromDirectory($this->builder->buildPath, $this->getRegExp());
 
             $stub = $this->getStubContent();
             if ($stub) {
@@ -197,8 +197,8 @@ class Phar extends Plugin
 
             $success = true;
         } catch (Exception $e) {
-            $this->phpci->log(Lang::get('phar_internal_error'));
-            $this->phpci->log($e->getMessage());
+            $this->builder->log(Lang::get('phar_internal_error'));
+            $this->builder->log($e->getMessage());
         }
 
         return $success;

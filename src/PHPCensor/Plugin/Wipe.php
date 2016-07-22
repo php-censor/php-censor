@@ -26,12 +26,12 @@ class Wipe extends Plugin
     /**
      * {@inheritdoc}
      */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        parent::__construct($phpci, $build, $options);
+        parent::__construct($builder, $build, $options);
         
-        $path            = $this->phpci->buildPath;
-        $this->directory = isset($options['directory']) ? $this->phpci->interpolate($options['directory']) : $path;
+        $path            = $this->builder->buildPath;
+        $this->directory = isset($options['directory']) ? $this->builder->interpolate($options['directory']) : $path;
     }
 
     /**
@@ -39,7 +39,7 @@ class Wipe extends Plugin
     */
     public function execute()
     {
-        $build = $this->phpci->buildPath;
+        $build = $this->builder->buildPath;
 
         if ($this->directory == $build || empty($this->directory)) {
             return true;
@@ -49,7 +49,7 @@ class Wipe extends Plugin
             if (IS_WIN) {
                 $cmd = 'rmdir /S /Q "%s"';
             }
-            return $this->phpci->executeCommand($cmd, $this->directory);
+            return $this->builder->executeCommand($cmd, $this->directory);
         }
         return true;
     }

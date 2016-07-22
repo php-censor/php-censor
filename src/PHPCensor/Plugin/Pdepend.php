@@ -52,17 +52,17 @@ class Pdepend extends Plugin
     /**
      * {@inheritdoc}
      */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        parent::__construct($phpci, $build, $options);
+        parent::__construct($builder, $build, $options);
 
-        $this->directory = isset($options['directory']) ? $options['directory'] : $this->phpci->buildPath;
+        $this->directory = isset($options['directory']) ? $options['directory'] : $this->builder->buildPath;
 
-        $title          = $this->phpci->getBuildProjectTitle();
+        $title          = $this->builder->getBuildProjectTitle();
         $this->summary  = $title . '-summary.xml';
         $this->pyramid  = $title . '-pyramid.svg';
         $this->chart    = $title . '-chart.svg';
-        $this->location = $this->phpci->buildPath . '..' . DIRECTORY_SEPARATOR . 'pdepend';
+        $this->location = $this->builder->buildPath . '..' . DIRECTORY_SEPARATOR . 'pdepend';
     }
 
     /**
@@ -77,20 +77,20 @@ class Pdepend extends Plugin
             throw new \Exception(sprintf('The location %s is not writable or does not exist.', $this->location));
         }
 
-        $pdepend = $this->phpci->findBinary('pdepend');
+        $pdepend = $this->builder->findBinary('pdepend');
 
         $cmd = $pdepend . ' --summary-xml="%s" --jdepend-chart="%s" --overview-pyramid="%s" %s "%s"';
 
         $this->removeBuildArtifacts();
 
         // If we need to ignore directories
-        if (count($this->phpci->ignore)) {
-            $ignore = ' --ignore=' . implode(',', $this->phpci->ignore);
+        if (count($this->builder->ignore)) {
+            $ignore = ' --ignore=' . implode(',', $this->builder->ignore);
         } else {
             $ignore = '';
         }
 
-        $success = $this->phpci->executeCommand(
+        $success = $this->builder->executeCommand(
             $cmd,
             $this->location . DIRECTORY_SEPARATOR . $this->summary,
             $this->location . DIRECTORY_SEPARATOR . $this->chart,
@@ -99,10 +99,10 @@ class Pdepend extends Plugin
             $this->directory
         );
 
-        $config = $this->phpci->getSystemConfig('php-censor');
+        $config = $this->builder->getSystemConfig('php-censor');
 
         if ($success) {
-            $this->phpci->logSuccess(
+            $this->builder->logSuccess(
                 sprintf(
                     "Pdepend successful. You can use %s\n, ![Chart](%s \"Pdepend Chart\")\n
                     and ![Pyramid](%s \"Pdepend Pyramid\")\n

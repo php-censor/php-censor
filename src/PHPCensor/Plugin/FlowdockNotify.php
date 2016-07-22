@@ -32,9 +32,9 @@ class FlowdockNotify extends Plugin
     /**
      * {@inheritdoc}
      */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        parent::__construct($phpci, $build, $options);
+        parent::__construct($builder, $build, $options);
 
         if (!is_array($options) || !isset($options['api_key'])) {
             throw new \Exception('Please define the api_key for Flowdock Notify plugin!');
@@ -52,7 +52,7 @@ class FlowdockNotify extends Plugin
     public function execute()
     {
 
-        $message = $this->phpci->interpolate($this->message);
+        $message = $this->builder->interpolate($this->message);
         $successfulBuild = $this->build->isSuccessful() ? 'Success' : 'Failed';
         $push = new Push($this->api_key);
         $flowMessage = TeamInboxMessage::create()

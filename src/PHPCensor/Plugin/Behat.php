@@ -30,16 +30,16 @@ class Behat extends Plugin
     /**
      * {@inheritdoc}
      */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        parent::__construct($phpci, $build, $options);
+        parent::__construct($builder, $build, $options);
 
         $this->features = '';
 
         if (isset($options['executable'])) {
             $this->executable = $options['executable'];
         } else {
-            $this->executable = $this->phpci->findBinary('behat');
+            $this->executable = $this->builder->findBinary('behat');
         }
 
         if (!empty($options['features'])) {
@@ -53,17 +53,17 @@ class Behat extends Plugin
     public function execute()
     {
         $current_dir = getcwd();
-        chdir($this->phpci->buildPath);
+        chdir($this->builder->buildPath);
 
         $behat = $this->executable;
 
         if (!$behat) {
-            $this->phpci->logFailure(Lang::get('could_not_find', 'behat'));
+            $this->builder->logFailure(Lang::get('could_not_find', 'behat'));
 
             return false;
         }
 
-        $success = $this->phpci->executeCommand($behat . ' %s', $this->features);
+        $success = $this->builder->executeCommand($behat . ' %s', $this->features);
         chdir($current_dir);
 
         list($errorCount, $data) = $this->parseBehatOutput();
@@ -81,7 +81,7 @@ class Behat extends Plugin
      */
     public function parseBehatOutput()
     {
-        $output = $this->phpci->getLastOutput();
+        $output = $this->builder->getLastOutput();
 
         $parts = explode('---', $output);
 
@@ -113,7 +113,7 @@ class Behat extends Plugin
                 ];
 
                 $this->build->reportError(
-                    $this->phpci,
+                    $this->builder,
                     'behat',
                     'Behat scenario failed.',
                     BuildError::SEVERITY_HIGH,

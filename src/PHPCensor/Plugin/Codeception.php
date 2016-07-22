@@ -43,14 +43,14 @@ class Codeception extends Plugin implements ZeroConfigPlugin
     /**
      * {@inheritdoc}
      */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        parent::__construct($phpci, $build, $options);
+        parent::__construct($builder, $build, $options);
 
         $this->path = 'tests' . DIRECTORY_SEPARATOR . '_output' . DIRECTORY_SEPARATOR;
 
         if (empty($options['config'])) {
-            $this->ymlConfigFile = self::findConfigFile($this->phpci->buildPath);
+            $this->ymlConfigFile = self::findConfigFile($this->builder->buildPath);
         } else {
             $this->ymlConfigFile = $options['config'];
         }
@@ -112,12 +112,12 @@ class Codeception extends Plugin implements ZeroConfigPlugin
      */
     protected function runConfigFile($configPath)
     {
-        $this->phpci->logExecOutput(false);
+        $this->builder->logExecOutput(false);
 
-        $codeception = $this->phpci->findBinary('codecept');
+        $codeception = $this->builder->findBinary('codecept');
 
         if (!$codeception) {
-            $this->phpci->logFailure(Lang::get('could_not_find', 'codecept'));
+            $this->builder->logFailure(Lang::get('could_not_find', 'codecept'));
 
             return false;
         }
@@ -128,16 +128,16 @@ class Codeception extends Plugin implements ZeroConfigPlugin
             $cmd = 'cd /d "%s" && ' . $codeception . ' run -c "%s" --xml ' . $this->args;
         }
 
-        $configPath = $this->phpci->buildPath . $configPath;
-        $success = $this->phpci->executeCommand($cmd, $this->phpci->buildPath, $configPath);
+        $configPath = $this->builder->buildPath . $configPath;
+        $success = $this->builder->executeCommand($cmd, $this->builder->buildPath, $configPath);
 
-        $this->phpci->log(
-            'Codeception XML path: '. $this->phpci->buildPath . $this->path . 'report.xml',
+        $this->builder->log(
+            'Codeception XML path: '. $this->builder->buildPath . $this->path . 'report.xml',
             Loglevel::DEBUG
         );
 
-        $xml = file_get_contents($this->phpci->buildPath . $this->path . 'report.xml', false);
-        $parser = new Parser($this->phpci, $xml);
+        $xml = file_get_contents($this->builder->buildPath . $this->path . 'report.xml', false);
+        $parser = new Parser($this->builder, $xml);
         $output = $parser->parse();
 
         $meta = [
@@ -149,7 +149,7 @@ class Codeception extends Plugin implements ZeroConfigPlugin
         $this->build->storeMeta('codeception-meta', $meta);
         $this->build->storeMeta('codeception-data', $output);
         $this->build->storeMeta('codeception-errors', $parser->getTotalFailures());
-        $this->phpci->logExecOutput(true);
+        $this->builder->logExecOutput(true);
 
         return $success;
     }

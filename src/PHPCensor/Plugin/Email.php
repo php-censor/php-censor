@@ -46,7 +46,15 @@ class Email extends Plugin
         $buildStatus  = $this->build->isSuccessful() ? "Passing Build" : "Failing Build";
         $projectName  = $this->build->getProject()->getTitle();
 
-        $view = $this->getMailTemplate();
+        try {
+            $view = $this->getMailTemplate();
+        } catch (ViewRuntimeException $e) {
+            $this->builder->log(
+                sprintf('Unknown mail template "%s", falling back to default.', $this->options['template']),
+                LogLevel::WARNING
+            );
+            $view = $this->getDefaultMailTemplate();
+        }
 
         $view->build   = $this->build;
         $view->project = $this->build->getProject();
@@ -64,8 +72,8 @@ class Email extends Plugin
         );
 
         // This is a success if we've not failed to send anything.
-        $this->phpci->log(Lang::get('n_emails_sent', (count($addresses) - $sendFailures)));
-        $this->phpci->log(Lang::get('n_emails_failed', $sendFailures));
+        $this->builder->log(Lang::get('n_emails_sent', (count($addresses) - $sendFailures)));
+        $this->builder->log(Lang::get('n_emails_failed', $sendFailures));
 
         return ($sendFailures === 0);
     }
@@ -93,7 +101,7 @@ class Email extends Plugin
             }
         }
 
-        return $email->send($this->phpci);
+        return $email->send($this->builder);
     }
 
     /**
@@ -131,8 +139,8 @@ class Email extends Plugin
         $addresses = [];
         $committer = $this->build->getCommitterEmail();
 
-        $this->phpci->logDebug(sprintf("Committer email: '%s'", $committer));
-        $this->phpci->logDebug(sprintf(
+        $this->builder->logDebug(sprintf("Committer email: '%s'", $committer));
+        $this->builder->logDebug(sprintf(
             "Committer option: '%s'",
             (!empty($this->options['committer']) && $this->options['committer']) ? 'true' : 'false'
         ));
@@ -143,7 +151,7 @@ class Email extends Plugin
             }
         }
 
-        $this->phpci->logDebug(sprintf(
+        $this->builder->logDebug(sprintf(
             "Addresses option: '%s'",
             (!empty($this->options['addresses']) && is_array($this->options['addresses'])) ? implode(', ', $this->options['addresses']) : 'false'
         ));
@@ -154,7 +162,7 @@ class Email extends Plugin
             }
         }
 
-        $this->phpci->logDebug(sprintf(
+        $this->builder->logDebug(sprintf(
             "Default mailTo option: '%s'",
             !empty($this->options['default_mailto_address']) ? $this->options['default_mailto_address'] : 'false'
         ));
@@ -191,17 +199,8 @@ class Email extends Plugin
      */
     protected function getMailTemplate()
     {
-        try {
-            if (isset($this->options['template'])) {
-                return new View('Email/' . $this->options['template']);
-            }
-        } catch (ViewRuntimeException $e) {
-            $this->phpci->log(
-                sprintf('Unknown mail template "%s", falling back to default.', $this->options['template']),
-                LogLevel::WARNING
-            );
-
-            return $this->getDefaultMailTemplate();
+        if (isset($this->options['template'])) {
+            return new View('Email/' . $this->options['template']);
         }
 
         return $this->getDefaultMailTemplate();

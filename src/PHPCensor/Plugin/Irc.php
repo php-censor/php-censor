@@ -31,12 +31,12 @@ class Irc extends Plugin
     /**
      * {@inheritdoc}
      */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        parent::__construct($phpci, $build, $options);
+        parent::__construct($builder, $build, $options);
 
         $this->message = $options['message'];
-        $buildSettings = $this->phpci->getConfig('build_settings');
+        $buildSettings = $this->builder->getConfig('build_settings');
 
         if (isset($buildSettings['irc'])) {
             $irc = $buildSettings['irc'];
@@ -54,10 +54,10 @@ class Irc extends Plugin
      */
     public function execute()
     {
-        $msg = $this->phpci->interpolate($this->message);
+        $msg = $this->builder->interpolate($this->message);
 
         if (empty($this->server) || empty($this->room) || empty($this->nick)) {
-            $this->phpci->logFailure(Lang::get('irc_settings'));
+            $this->builder->logFailure(Lang::get('irc_settings'));
         }
 
         if (empty($this->port)) {

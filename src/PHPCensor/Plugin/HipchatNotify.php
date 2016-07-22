@@ -34,9 +34,9 @@ class HipchatNotify extends Plugin
     /**
      * {@inheritdoc}
      */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        parent::__construct($phpci, $build, $options);
+        parent::__construct($builder, $build, $options);
 
         $this->userAgent = "PHP Censor/1.0";
         $this->cookie    = "php-censor-cookie";
@@ -74,7 +74,7 @@ class HipchatNotify extends Plugin
     public function execute()
     {
         $hipChat = new HipChat($this->authToken);
-        $message = $this->phpci->interpolate($this->message);
+        $message = $this->builder->interpolate($this->message);
 
         $result = true;
         if (is_array($this->room)) {

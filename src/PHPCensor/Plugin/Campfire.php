@@ -34,15 +34,15 @@ class Campfire extends Plugin
     /**
      * {@inheritdoc}
      */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        parent::__construct($phpci, $build, $options);
+        parent::__construct($builder, $build, $options);
 
         $this->message   = $options['message'];
         $this->userAgent = "PHP Censor/1.0";
         $this->cookie    = "php-censor-cookie";
 
-        $buildSettings = $this->phpci->getConfig('build_settings');
+        $buildSettings = $this->builder->getConfig('build_settings');
 
         if (isset($buildSettings['campfire'])) {
             $campfire        = $buildSettings['campfire'];

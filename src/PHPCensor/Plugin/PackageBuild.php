@@ -28,11 +28,11 @@ class PackageBuild extends Plugin
     /**
      * {@inheritdoc}
      */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        parent::__construct($phpci, $build, $options);
+        parent::__construct($builder, $build, $options);
 
-        $path            = $this->phpci->buildPath;
+        $path            = $this->builder->buildPath;
         $this->directory = isset($options['directory']) ? $options['directory'] : $path;
         $this->filename  = isset($options['filename']) ? $options['filename'] : 'build';
         $this->format    = isset($options['format']) ?  $options['format'] : 'zip';
@@ -43,7 +43,7 @@ class PackageBuild extends Plugin
     */
     public function execute()
     {
-        $path  = $this->phpci->buildPath;
+        $path  = $this->builder->buildPath;
         $build = $this->build;
 
         if ($this->directory == $path) {
@@ -59,7 +59,7 @@ class PackageBuild extends Plugin
         $filename = preg_replace('/([^a-zA-Z0-9_-]+)/', '', $filename);
 
         $curdir = getcwd();
-        chdir($this->phpci->buildPath);
+        chdir($this->builder->buildPath);
 
         if (!is_array($this->format)) {
             $this->format = [$this->format];
@@ -76,7 +76,7 @@ class PackageBuild extends Plugin
                     break;
             }
 
-            $success = $this->phpci->executeCommand($cmd, $this->directory, $filename);
+            $success = $this->builder->executeCommand($cmd, $this->directory, $filename);
         }
 
         chdir($curdir);

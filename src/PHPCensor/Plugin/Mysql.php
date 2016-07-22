@@ -43,9 +43,9 @@ class Mysql extends Plugin
     /**
      * {@inheritdoc}
      */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        parent::__construct($phpci, $build, $options);
+        parent::__construct($builder, $build, $options);
 
         $config = Database::getConnection('write')->getDetails();
 
@@ -53,18 +53,18 @@ class Mysql extends Plugin
         $this->user = $config['user'];
         $this->pass = $config['pass'];
 
-        $buildSettings = $this->phpci->getConfig('build_settings');
+        $buildSettings = $this->builder->getConfig('build_settings');
 
         if (!isset($buildSettings['mysql'])) {
             return;
         }
 
         if (!empty($buildSettings['mysql']['host'])) {
-            $this->host = $this->phpci->interpolate($buildSettings['mysql']['host']);
+            $this->host = $this->builder->interpolate($buildSettings['mysql']['host']);
         }
 
         if (!empty($buildSettings['mysql']['user'])) {
-            $this->user = $this->phpci->interpolate($buildSettings['mysql']['user']);
+            $this->user = $this->builder->interpolate($buildSettings['mysql']['user']);
         }
 
         if (array_key_exists('pass', $buildSettings['mysql'])) {
@@ -85,7 +85,7 @@ class Mysql extends Plugin
             foreach ($this->options as $query) {
                 if (!is_array($query)) {
                     // Simple query
-                    $pdo->query($this->phpci->interpolate($query));
+                    $pdo->query($this->builder->interpolate($query));
                 } elseif (isset($query['import'])) {
                     // SQL file execution
                     $this->executeFile($query['import']);
@@ -94,7 +94,7 @@ class Mysql extends Plugin
                 }
             }
         } catch (\Exception $ex) {
-            $this->phpci->logFailure($ex->getMessage());
+            $this->builder->logFailure($ex->getMessage());
             return false;
         }
         return true;
@@ -111,15 +111,15 @@ class Mysql extends Plugin
             throw new \Exception(Lang::get('import_file_key'));
         }
 
-        $import_file = $this->phpci->buildPath . $this->phpci->interpolate($query['file']);
+        $import_file = $this->builder->buildPath . $this->builder->interpolate($query['file']);
         if (!is_readable($import_file)) {
             throw new \Exception(Lang::get('cannot_open_import', $import_file));
         }
 
-        $database = isset($query['database']) ? $this->phpci->interpolate($query['database']) : null;
+        $database = isset($query['database']) ? $this->builder->interpolate($query['database']) : null;
 
         $import_command = $this->getImportCommand($import_file, $database);
-        if (!$this->phpci->executeCommand($import_command)) {
+        if (!$this->builder->executeCommand($import_command)) {
             throw new \Exception(Lang::get('unable_to_execute'));
         }
 

@@ -29,12 +29,12 @@ class Lint extends Plugin
     /**
      * {@inheritdoc}
      */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        parent::__construct($phpci, $build, $options);
+        parent::__construct($builder, $build, $options);
 
         $this->directories = [''];
-        $this->ignore      = $this->phpci->ignore;
+        $this->ignore      = $this->builder->ignore;
 
         if (!empty($options['directory'])) {
             $this->directories[] = $options['directory'];
@@ -54,10 +54,10 @@ class Lint extends Plugin
      */
     public function execute()
     {
-        $this->phpci->quiet = true;
+        $this->builder->quiet = true;
         $success            = true;
 
-        $php = $this->phpci->findBinary('php');
+        $php = $this->builder->findBinary('php');
 
         foreach ($this->directories as $dir) {
             if (!$this->lintDirectory($php, $dir)) {
@@ -65,7 +65,7 @@ class Lint extends Plugin
             }
         }
 
-        $this->phpci->quiet = false;
+        $this->builder->quiet = false;
 
         return $success;
     }
@@ -99,7 +99,7 @@ class Lint extends Plugin
     protected function lintDirectory($php, $path)
     {
         $success = true;
-        $directory = new \DirectoryIterator($this->phpci->buildPath . $path);
+        $directory = new \DirectoryIterator($this->builder->buildPath . $path);
 
         foreach ($directory as $item) {
             if ($item->isDot()) {
@@ -130,8 +130,8 @@ class Lint extends Plugin
     {
         $success = true;
 
-        if (!$this->phpci->executeCommand($php . ' -l "%s"', $this->phpci->buildPath . $path)) {
-            $this->phpci->logFailure($path);
+        if (!$this->builder->executeCommand($php . ' -l "%s"', $this->builder->buildPath . $path)) {
+            $this->builder->logFailure($path);
             $success = false;
         }
 

@@ -27,9 +27,9 @@ class CleanBuild extends Plugin
     /**
      * {@inheritdoc}
      */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        parent::__construct($phpci, $build, $options);
+        parent::__construct($builder, $build, $options);
 
         $this->remove = isset($options['remove']) && is_array($options['remove']) ? $options['remove'] : [];
     }
@@ -43,13 +43,13 @@ class CleanBuild extends Plugin
         if (IS_WIN) {
             $cmd = 'rmdir /S /Q "%s"';
         }
-        $this->phpci->executeCommand($cmd, $this->phpci->buildPath . 'composer.phar');
-        $this->phpci->executeCommand($cmd, $this->phpci->buildPath . 'composer.lock');
+        $this->builder->executeCommand($cmd, $this->builder->buildPath . 'composer.phar');
+        $this->builder->executeCommand($cmd, $this->builder->buildPath . 'composer.lock');
 
         $success = true;
 
         foreach ($this->remove as $file) {
-            $ok = $this->phpci->executeCommand($cmd, $this->phpci->buildPath . $file);
+            $ok = $this->builder->executeCommand($cmd, $this->builder->buildPath . $file);
 
             if (!$ok) {
                 $success = false;

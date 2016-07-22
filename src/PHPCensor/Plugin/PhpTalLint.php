@@ -16,6 +16,7 @@ use PHPCensor\Plugin;
 
 /**
  * PHPTAL Lint Plugin - Provides access to PHPTAL lint functionality.
+ * 
  * @author       Stephen Ball <phpci@stephen.rebelinblue.com>
  * @package      PHPCI
  * @subpackage   Plugins
@@ -50,13 +51,13 @@ class PhpTalLint extends Plugin
     /**
      * {@inheritdoc}
      */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        parent::__construct($phpci, $build, $options);
+        parent::__construct($builder, $build, $options);
 
         $this->directories = [''];
         $this->suffixes = ['zpt'];
-        $this->ignore = $this->phpci->ignore;
+        $this->ignore = $this->builder->ignore;
 
         $this->allowed_warnings = 0;
         $this->allowed_errors = 0;
@@ -75,15 +76,15 @@ class PhpTalLint extends Plugin
      */
     public function execute()
     {
-        $this->phpci->quiet = true;
-        $this->phpci->logExecOutput(false);
+        $this->builder->quiet = true;
+        $this->builder->logExecOutput(false);
 
         foreach ($this->directories as $dir) {
             $this->lintDirectory($dir);
         }
 
-        $this->phpci->quiet = false;
-        $this->phpci->logExecOutput(true);
+        $this->builder->quiet = false;
+        $this->builder->logExecOutput(true);
 
         $errors = 0;
         $warnings = 0;
@@ -142,7 +143,7 @@ class PhpTalLint extends Plugin
     protected function lintDirectory($path)
     {
         $success = true;
-        $directory = new \DirectoryIterator($this->phpci->buildPath . $path);
+        $directory = new \DirectoryIterator($this->builder->buildPath . $path);
 
         foreach ($directory as $item) {
             if ($item->isDot()) {
@@ -179,9 +180,9 @@ class PhpTalLint extends Plugin
         $lint .= 'tools' . DIRECTORY_SEPARATOR . 'phptal_lint.php';
         $cmd  = '/usr/bin/env php ' . $lint . ' %s %s "%s"';
 
-        $this->phpci->executeCommand($cmd, $suffixes, $tales, $this->phpci->buildPath . $path);
+        $this->builder->executeCommand($cmd, $suffixes, $tales, $this->builder->buildPath . $path);
 
-        $output = $this->phpci->getLastOutput();
+        $output = $this->builder->getLastOutput();
 
         if (preg_match('/Found (.+?) (error|warning)/i', $output, $matches)) {
             $rows = explode(PHP_EOL, $output);
@@ -224,7 +225,7 @@ class PhpTalLint extends Plugin
     {
         $tales = '';
         if (!empty($this->tales)) {
-            $tales = ' -i ' . $this->phpci->buildPath . $this->tales;
+            $tales = ' -i ' . $this->builder->buildPath . $this->tales;
         }
 
         $suffixes = '';

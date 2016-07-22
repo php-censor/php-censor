@@ -20,7 +20,7 @@ class Executor
     /**
      * @var \PHPCensor\Builder
      */
-    protected $phpci;
+    protected $builder;
 
     /**
      * @var \PHPCensor\Model\Build
@@ -38,16 +38,16 @@ class Executor
     protected $store;
 
     /**
-     * @param Builder     $phpci
+     * @param Builder     $builder
      * @param Build       $build
      * @param BuildLogger $logger
      */
-    public function __construct(Builder $phpci, Build $build, BuildLogger $logger)
+    public function __construct(Builder $builder, Build $build, BuildLogger $logger)
     {
-        $this->phpci  = $phpci;
-        $this->build  = $build;
-        $this->logger = $logger;
-        $this->store  = StoreFactory::getStore('Build');
+        $this->builder = $builder;
+        $this->build   = $build;
+        $this->logger  = $logger;
+        $this->store   = StoreFactory::getStore('Build');
     }
 
     /**
@@ -199,7 +199,7 @@ class Executor
         }
 
         try {
-            return (new $class($this->phpci, $this->build, $options))->execute();
+            return (new $class($this->builder, $this->build, $options))->execute();
         } catch (\Exception $ex) {
             $this->logger->logFailure(Lang::get('exception') . $ex->getMessage(), $ex);
 

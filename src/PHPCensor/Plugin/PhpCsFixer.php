@@ -30,11 +30,11 @@ class PhpCsFixer extends Plugin
     /**
      * {@inheritdoc}
      */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        parent::__construct($phpci, $build, $options);
+        parent::__construct($builder, $build, $options);
 
-        $this->workingDir = $this->phpci->buildPath;
+        $this->workingDir = $this->builder->buildPath;
         $this->buildArgs($options);
     }
 
@@ -47,10 +47,10 @@ class PhpCsFixer extends Plugin
         $curdir = getcwd();
         chdir($this->workingDir);
 
-        $phpcsfixer = $this->phpci->findBinary('php-cs-fixer');
+        $phpcsfixer = $this->builder->findBinary('php-cs-fixer');
 
         $cmd = $phpcsfixer . ' fix . %s %s %s';
-        $success = $this->phpci->executeCommand($cmd, $this->verbose, $this->diff, $this->level);
+        $success = $this->builder->executeCommand($cmd, $this->verbose, $this->diff, $this->level);
 
         chdir($curdir);
 
@@ -76,7 +76,7 @@ class PhpCsFixer extends Plugin
         }
 
         if (isset($options['workingdir']) && $options['workingdir']) {
-            $this->workingDir = $this->phpci->buildPath . $options['workingdir'];
+            $this->workingDir = $this->builder->buildPath . $options['workingdir'];
         }
 
     }

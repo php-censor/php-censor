@@ -47,11 +47,11 @@ class PhpLoc extends Plugin implements ZeroConfigPlugin
     /**
      * {@inheritdoc}
      */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        parent::__construct($phpci, $build, $options);
+        parent::__construct($builder, $build, $options);
 
-        $this->directory = $this->phpci->buildPath;
+        $this->directory = $this->builder->buildPath;
 
         if (isset($options['directory'])) {
             $this->directory .= $options['directory'];
@@ -65,19 +65,19 @@ class PhpLoc extends Plugin implements ZeroConfigPlugin
     {
         $ignore = '';
 
-        if (count($this->phpci->ignore)) {
+        if (count($this->builder->ignore)) {
             $map = function ($item) {
                 return ' --exclude ' . rtrim($item, DIRECTORY_SEPARATOR);
             };
 
-            $ignore = array_map($map, $this->phpci->ignore);
+            $ignore = array_map($map, $this->builder->ignore);
             $ignore = implode('', $ignore);
         }
 
-        $phploc = $this->phpci->findBinary('phploc');
+        $phploc = $this->builder->findBinary('phploc');
 
-        $success = $this->phpci->executeCommand($phploc . ' %s "%s"', $ignore, $this->directory);
-        $output  = $this->phpci->getLastOutput();
+        $success = $this->builder->executeCommand($phploc . ' %s "%s"', $ignore, $this->directory);
+        $output  = $this->builder->getLastOutput();
 
         if (preg_match_all('/\((LOC|CLOC|NCLOC|LLOC)\)\s+([0-9]+)/', $output, $matches)) {
             $data = [];

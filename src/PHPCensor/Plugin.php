@@ -21,7 +21,7 @@ abstract class Plugin
     /**
      * @var \PHPCensor\Builder
      */
-    protected $phpci;
+    protected $builder;
 
     /**
      * @var \PHPCensor\Model\Build
@@ -34,17 +34,17 @@ abstract class Plugin
     protected $options;
 
     /**
-     * @param Builder $phpci
+     * @param Builder $builder
      * @param Build   $build
      * @param array   $options
      */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        $this->phpci   = $phpci;
+        $this->builder = $builder;
         $this->build   = $build;
         $this->options = $options;
 
-        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
+        $this->builder->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**

@@ -40,11 +40,11 @@ class Pgsql extends Plugin
     /**
      * {@inheritdoc}
      */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        parent::__construct($phpci, $build, $options);
+        parent::__construct($builder, $build, $options);
 
-        $buildSettings = $this->phpci->getConfig('build_settings');
+        $buildSettings = $this->builder->getConfig('build_settings');
 
         if (isset($buildSettings['pgsql'])) {
             $sql = $buildSettings['pgsql'];
@@ -65,10 +65,10 @@ class Pgsql extends Plugin
             $pdo  = new PDO('pgsql:host=' . $this->host, $this->user, $this->pass, $opts);
 
             foreach ($this->options as $query) {
-                $pdo->query($this->phpci->interpolate($query));
+                $pdo->query($this->builder->interpolate($query));
             }
         } catch (\Exception $ex) {
-            $this->phpci->logFailure($ex->getMessage());
+            $this->builder->logFailure($ex->getMessage());
             return false;
         }
         return true;

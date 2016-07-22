@@ -30,14 +30,14 @@ class Grunt extends Plugin
     /**
      * {@inheritdoc}
      */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        parent::__construct($phpci, $build, $options);
+        parent::__construct($builder, $build, $options);
         
-        $path            = $this->phpci->buildPath;
+        $path            = $this->builder->buildPath;
         $this->directory = $path;
         $this->task      = null;
-        $this->grunt     = $this->phpci->findBinary('grunt');
+        $this->grunt     = $this->builder->findBinary('grunt');
         $this->gruntfile = 'Gruntfile.js';
 
         // Handle options:
@@ -68,7 +68,7 @@ class Grunt extends Plugin
         if (IS_WIN) {
             $cmd = 'cd /d %s && npm install';
         }
-        if (!$this->phpci->executeCommand($cmd, $this->directory)) {
+        if (!$this->builder->executeCommand($cmd, $this->directory)) {
             return false;
         }
 
@@ -82,6 +82,6 @@ class Grunt extends Plugin
         $cmd .= ' %s'; // the task that will be executed
 
         // and execute it
-        return $this->phpci->executeCommand($cmd, $this->directory, $this->gruntfile, $this->task);
+        return $this->builder->executeCommand($cmd, $this->directory, $this->gruntfile, $this->task);
     }
 }

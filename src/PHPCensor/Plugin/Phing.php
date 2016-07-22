@@ -33,17 +33,17 @@ class Phing extends Plugin
     /**
      * {@inheritdoc}
      */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        parent::__construct($phpci, $build, $options);
+        parent::__construct($builder, $build, $options);
 
         /*
          * Set working directory
          */
         if (isset($options['directory'])) {
-            $directory = $this->phpci->buildPath . DIRECTORY_SEPARATOR . $options['directory'];
+            $directory = $this->builder->buildPath . DIRECTORY_SEPARATOR . $options['directory'];
         } else {
-            $directory = $this->phpci->buildPath;
+            $directory = $this->builder->buildPath;
         }
 
         $this->setDirectory($directory);
@@ -73,7 +73,7 @@ class Phing extends Plugin
      */
     public function execute()
     {
-        $phingExecutable = $this->phpci->findBinary('phing');
+        $phingExecutable = $this->builder->findBinary('phing');
 
         $cmd[] = $phingExecutable . ' -f ' . $this->getBuildFilePath();
 
@@ -87,7 +87,7 @@ class Phing extends Plugin
         $cmd[] = $this->targetsToString();
         $cmd[] = '2>&1';
 
-        return $this->phpci->executeCommand(implode(' ', $cmd), $this->directory, $this->targets);
+        return $this->builder->executeCommand(implode(' ', $cmd), $this->directory, $this->targets);
     }
 
     /**

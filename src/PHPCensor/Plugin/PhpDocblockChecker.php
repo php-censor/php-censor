@@ -41,11 +41,11 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPlugin
     /**
      * {@inheritdoc}
      */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        parent::__construct($phpci, $build, $options);
+        parent::__construct($builder, $build, $options);
 
-        $this->ignore = $this->phpci->ignore;
+        $this->ignore = $this->builder->ignore;
         $this->path = '';
         $this->allowed_warnings = 0;
 
@@ -92,7 +92,7 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPlugin
     public function execute()
     {
         // Check that the binary exists:
-        $checker = $this->phpci->findBinary('phpdoccheck');
+        $checker = $this->builder->findBinary('phpdoccheck');
 
         // Build ignore string:
         $ignore = '';
@@ -111,14 +111,14 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPlugin
         }
 
         // Build command string:
-        $path = $this->phpci->buildPath . $this->path;
+        $path = $this->builder->buildPath . $this->path;
         $cmd = $checker . ' --json --directory="%s"%s%s';
 
         // Disable exec output logging, as we don't want the XML report in the log:
-        $this->phpci->logExecOutput(false);
+        $this->builder->logExecOutput(false);
 
         // Run checker:
-        $this->phpci->executeCommand(
+        $this->builder->executeCommand(
             $cmd,
             $path,
             $ignore,
@@ -126,9 +126,9 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPlugin
         );
 
         // Re-enable exec output logging:
-        $this->phpci->logExecOutput(true);
+        $this->builder->logExecOutput(true);
 
-        $output = json_decode($this->phpci->getLastOutput(), true);
+        $output = json_decode($this->builder->getLastOutput(), true);
         $errors = count($output);
         $success = true;
 
@@ -158,7 +158,7 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPlugin
             }
 
             $this->build->reportError(
-                $this->phpci,
+                $this->builder,
                 'php_docblock_checker',
                 $message,
                 $severity,

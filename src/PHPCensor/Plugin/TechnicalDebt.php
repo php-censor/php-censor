@@ -58,14 +58,14 @@ class TechnicalDebt extends Plugin implements ZeroConfigPlugin
     /**
      * {@inheritdoc}
      */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        parent::__construct($phpci, $build, $options);
+        parent::__construct($builder, $build, $options);
 
         $this->suffixes       = ['php'];
-        $this->directory      = $this->phpci->buildPath;
+        $this->directory      = $this->builder->buildPath;
         $this->path           = '';
-        $this->ignore         = $this->phpci->ignore;
+        $this->ignore         = $this->builder->ignore;
         $this->allowed_errors = 0;
         $this->searches       = ['TODO', 'FIXME', 'TO DO', 'FIX ME'];
 
@@ -101,11 +101,11 @@ class TechnicalDebt extends Plugin implements ZeroConfigPlugin
     public function execute()
     {
         $success = true;
-        $this->phpci->logExecOutput(false);
+        $this->builder->logExecOutput(false);
 
         $errorCount = $this->getErrorList();
 
-        $this->phpci->log("Found $errorCount instances of " . implode(', ', $this->searches));
+        $this->builder->log("Found $errorCount instances of " . implode(', ', $this->searches));
 
         $this->build->storeMeta('technical_debt-warnings', $errorCount);
 
@@ -171,7 +171,7 @@ class TechnicalDebt extends Plugin implements ZeroConfigPlugin
                     $fileName = str_replace($this->directory, '', $file);
 
                     $this->build->reportError(
-                        $this->phpci,
+                        $this->builder,
                         'technical_debt',
                         $content,
                         PHPCensor\Model\BuildError::SEVERITY_LOW,

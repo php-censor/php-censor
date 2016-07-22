@@ -39,9 +39,9 @@ class Env extends Plugin
                 $env_var = "$key=$value";
             }
 
-            if (!putenv($this->phpci->interpolate($env_var))) {
+            if (!putenv($this->builder->interpolate($env_var))) {
                 $success = false;
-                $this->phpci->logFailure(Lang::get('unable_to_set_env'));
+                $this->builder->logFailure(Lang::get('unable_to_set_env'));
             }
         }
         return $success;

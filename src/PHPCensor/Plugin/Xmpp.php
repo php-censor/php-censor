@@ -61,9 +61,9 @@ class XMPP extends Plugin
     /**
      * {@inheritdoc}
      */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        parent::__construct($phpci, $build, $options);
+        parent::__construct($builder, $build, $options);
 
         $this->username    = '';
         $this->password    = '';
@@ -111,8 +111,8 @@ class XMPP extends Plugin
      */
     public function findConfigFile()
     {
-        if (file_exists($this->phpci->buildPath . DIRECTORY_SEPARATOR . '.sendxmpprc')) {
-            if (md5(file_get_contents($this->phpci->buildPath . DIRECTORY_SEPARATOR . '.sendxmpprc'))
+        if (file_exists($this->builder->buildPath . DIRECTORY_SEPARATOR . '.sendxmpprc')) {
+            if (md5(file_get_contents($this->builder->buildPath . DIRECTORY_SEPARATOR . '.sendxmpprc'))
                 !== md5($this->getConfigFormat())) {
                 return null;
             }
@@ -128,7 +128,7 @@ class XMPP extends Plugin
     */
     public function execute()
     {
-        $sendxmpp = $this->phpci->findBinary('sendxmpp');
+        $sendxmpp = $this->builder->findBinary('sendxmpp');
 
         /*
          * Without recipients we can't send notification
@@ -140,7 +140,7 @@ class XMPP extends Plugin
         /*
          * Try to build conf file
          */
-        $config_file = $this->phpci->buildPath . DIRECTORY_SEPARATOR . '.sendxmpprc';
+        $config_file = $this->builder->buildPath . DIRECTORY_SEPARATOR . '.sendxmpprc';
         if (is_null($this->findConfigFile())) {
             file_put_contents($config_file, $this->getConfigFormat());
             chmod($config_file, 0600);
@@ -154,7 +154,7 @@ class XMPP extends Plugin
             $tls = ' -t';
         }
 
-        $message_file = $this->phpci->buildPath . DIRECTORY_SEPARATOR . uniqid('xmppmessage');
+        $message_file = $this->builder->buildPath . DIRECTORY_SEPARATOR . uniqid('xmppmessage');
         if ($this->buildMessage($message_file) === false) {
             return false;
         }
@@ -165,14 +165,14 @@ class XMPP extends Plugin
         $cmd = $sendxmpp . "%s -f %s -m %s %s";
         $recipients = implode(' ', $this->recipients);
 
-        $success = $this->phpci->executeCommand($cmd, $tls, $config_file, $message_file, $recipients);
+        $success = $this->builder->executeCommand($cmd, $tls, $config_file, $message_file, $recipients);
 
-        print $this->phpci->getLastOutput();
+        print $this->builder->getLastOutput();
 
         /*
          * Remove temp message file
          */
-        $this->phpci->executeCommand("rm -rf ".$message_file);
+        $this->builder->executeCommand("rm -rf ".$message_file);
 
         return $success;
     }

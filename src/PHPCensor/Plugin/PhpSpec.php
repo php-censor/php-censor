@@ -28,12 +28,12 @@ class PhpSpec extends Plugin
     public function execute()
     {
         $curdir = getcwd();
-        chdir($this->phpci->buildPath);
+        chdir($this->builder->buildPath);
 
-        $phpspec = $this->phpci->findBinary(['phpspec', 'phpspec.php']);
+        $phpspec = $this->builder->findBinary(['phpspec', 'phpspec.php']);
 
-        $success = $this->phpci->executeCommand($phpspec . ' --format=junit --no-code-generation run');
-        $output = $this->phpci->getLastOutput();
+        $success = $this->builder->executeCommand($phpspec . ' --format=junit --no-code-generation run');
+        $output = $this->builder->getLastOutput();
 
         chdir($curdir);
 

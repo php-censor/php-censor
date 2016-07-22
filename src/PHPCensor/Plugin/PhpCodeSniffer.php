@@ -73,17 +73,17 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPlugin
     /**
      * {@inheritdoc}
      */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        parent::__construct($phpci, $build, $options);
+        parent::__construct($builder, $build, $options);
 
         $this->suffixes         = ['php'];
-        $this->directory        = $this->phpci->buildPath;
+        $this->directory        = $this->builder->buildPath;
         $this->standard         = 'PSR2';
         $this->tab_width        = '';
         $this->encoding         = '';
         $this->path             = '';
-        $this->ignore           = $this->phpci->ignore;
+        $this->ignore           = $this->builder->ignore;
         $this->allowed_warnings = 0;
         $this->allowed_errors   = 0;
 
@@ -128,25 +128,25 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPlugin
     {
         list($ignore, $standard, $suffixes) = $this->getFlags();
 
-        $phpcs = $this->phpci->findBinary('phpcs');
+        $phpcs = $this->builder->findBinary('phpcs');
 
-        $this->phpci->logExecOutput(false);
+        $this->builder->logExecOutput(false);
 
         $cmd = $phpcs . ' --report=json %s %s %s %s %s "%s"';
-        $this->phpci->executeCommand(
+        $this->builder->executeCommand(
             $cmd,
             $standard,
             $suffixes,
             $ignore,
             $this->tab_width,
             $this->encoding,
-            $this->phpci->buildPath . $this->path
+            $this->builder->buildPath . $this->path
         );
 
-        $output = $this->phpci->getLastOutput();
+        $output = $this->builder->getLastOutput();
         list($errors, $warnings) = $this->processReport($output);
 
-        $this->phpci->logExecOutput(true);
+        $this->builder->logExecOutput(true);
 
         $success = true;
         $this->build->storeMeta('phpcs-warnings', $warnings);
@@ -199,7 +199,7 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPlugin
         $data = json_decode(trim($output), true);
 
         if (!is_array($data)) {
-            $this->phpci->log($output);
+            $this->builder->log($output);
             throw new \Exception(PHPCensor\Helper\Lang::get('could_not_process_report'));
         }
 
@@ -207,11 +207,11 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPlugin
         $warnings = $data['totals']['warnings'];
 
         foreach ($data['files'] as $fileName => $file) {
-            $fileName = str_replace($this->phpci->buildPath, '', $fileName);
+            $fileName = str_replace($this->builder->buildPath, '', $fileName);
 
             foreach ($file['messages'] as $message) {
                 $this->build->reportError(
-                    $this->phpci,
+                    $this->builder,
                     'php_code_sniffer',
                     'PHPCS: ' . $message['message'],
                     $message['type'] == 'ERROR' ? BuildError::SEVERITY_HIGH : BuildError::SEVERITY_LOW,

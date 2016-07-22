@@ -29,14 +29,14 @@ class Atoum extends Plugin
     /**
      * {@inheritdoc}
      */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        parent::__construct($phpci, $build, $options);
+        parent::__construct($builder, $build, $options);
 
         if (isset($options['executable'])) {
-            $this->executable = $this->phpci->buildPath . DIRECTORY_SEPARATOR.$options['executable'];
+            $this->executable = $this->builder->buildPath . DIRECTORY_SEPARATOR.$options['executable'];
         } else {
-            $this->executable = $this->phpci->findBinary('atoum');
+            $this->executable = $this->builder->findBinary('atoum');
         }
 
         if (isset($options['args'])) {
@@ -67,21 +67,21 @@ class Atoum extends Plugin
             $cmd .= " -c '{$this->config}'";
         }
         if ($this->directory !== null) {
-            $dirPath = $this->phpci->buildPath . DIRECTORY_SEPARATOR . $this->directory;
+            $dirPath = $this->builder->buildPath . DIRECTORY_SEPARATOR . $this->directory;
             $cmd .= " -d '{$dirPath}'";
         }
-        chdir($this->phpci->buildPath);
+        chdir($this->builder->buildPath);
         $output = '';
         $status = true;
         exec($cmd, $output);
 
         if (count(preg_grep("/Success \(/", $output)) == 0) {
             $status = false;
-            $this->phpci->log($output);
+            $this->builder->log($output);
         }
         if (count($output) == 0) {
             $status = false;
-            $this->phpci->log(Lang::get('no_tests_performed'));
+            $this->builder->log(Lang::get('no_tests_performed'));
         }
         
         return $status;

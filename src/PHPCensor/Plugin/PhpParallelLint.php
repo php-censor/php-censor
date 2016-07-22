@@ -34,15 +34,15 @@ class PhpParallelLint extends Plugin
     /**
      * {@inheritdoc}
      */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        parent::__construct($phpci, $build, $options);
+        parent::__construct($builder, $build, $options);
 
-        $this->directory = $this->phpci->buildPath;
-        $this->ignore = $this->phpci->ignore;
+        $this->directory = $this->builder->buildPath;
+        $this->ignore = $this->builder->ignore;
 
         if (isset($options['directory'])) {
-            $this->directory = $this->phpci->buildPath.$options['directory'];
+            $this->directory = $this->builder->buildPath.$options['directory'];
         }
 
         if (isset($options['ignore'])) {
@@ -57,16 +57,16 @@ class PhpParallelLint extends Plugin
     {
         list($ignore) = $this->getFlags();
 
-        $phplint = $this->phpci->findBinary('parallel-lint');
+        $phplint = $this->builder->findBinary('parallel-lint');
 
         $cmd = $phplint . ' %s "%s"';
-        $success = $this->phpci->executeCommand(
+        $success = $this->builder->executeCommand(
             $cmd,
             $ignore,
             $this->directory
         );
 
-        $output = $this->phpci->getLastOutput();
+        $output = $this->builder->getLastOutput();
 
         $matches = [];
         if (preg_match_all('/Parse error\:/', $output, $matches)) {
@@ -84,7 +84,7 @@ class PhpParallelLint extends Plugin
     {
         $ignoreFlags = [];
         foreach ($this->ignore as $ignoreDir) {
-            $ignoreFlags[] = '--exclude "' . $this->phpci->buildPath . $ignoreDir . '"';
+            $ignoreFlags[] = '--exclude "' . $this->builder->buildPath . $ignoreDir . '"';
         }
         $ignore = implode(' ', $ignoreFlags);
 

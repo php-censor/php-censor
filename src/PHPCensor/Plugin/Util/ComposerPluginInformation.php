@@ -6,6 +6,7 @@ use PHPCensor\Plugin;
 
 /**
  * Class ComposerPluginInformation
+ * 
  * @package PHPCensor\Plugin\Util
  */
 class ComposerPluginInformation implements InstalledPluginInformation
@@ -35,15 +36,6 @@ class ComposerPluginInformation implements InstalledPluginInformation
     }
 
     /**
-     * @param \stdClass[] $composerPackages This should be the contents of the
-     *                                   installed.json file created by composer
-     */
-    public function __construct(array $composerPackages)
-    {
-        $this->composerPackages = $composerPackages;
-    }
-
-    /**
      * Returns an array of objects. Each one represents an available plugin
      * and will have the following properties:
      *      name  - The friendly name of the plugin (may be an empty string)
@@ -52,7 +44,6 @@ class ComposerPluginInformation implements InstalledPluginInformation
      */
     public function getInstalledPlugins()
     {
-        $this->loadPluginInfo();
         return $this->pluginInfo;
     }
 
@@ -70,44 +61,6 @@ class ComposerPluginInformation implements InstalledPluginInformation
             },
             $this->getInstalledPlugins()
         );
-    }
-
-    /**
-     * Load a list of available plugins from the installed composer packages.
-     */
-    protected function loadPluginInfo()
-    {
-        if ($this->pluginInfo !== null) {
-            return;
-        }
-        $this->pluginInfo = [];
-        foreach ($this->composerPackages as $package) {
-            $this->addPluginsFromPackage($package);
-        }
-    }
-
-    /**
-     * @param \stdClass $package
-     */
-    protected function addPluginsFromPackage($package)
-    {
-        if (isset($package->extra->phpci)) {
-            $phpciData = $package->extra->phpci;
-
-            if (isset($phpciData->pluginNamespace)) {
-                $rootNamespace = $phpciData->pluginNamespace;
-            } else {
-                $rootNamespace = "";
-            }
-
-            if (is_array($phpciData->suppliedPlugins)) {
-                $this->addPlugins(
-                    $phpciData->suppliedPlugins,
-                    $package->name,
-                    $rootNamespace
-                );
-            }
-        }
     }
 
     /**

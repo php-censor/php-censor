@@ -51,12 +51,12 @@ class PhpMessDetector extends Plugin implements ZeroConfigPlugin
     /**
      * {@inheritdoc}
      */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        parent::__construct($phpci, $build, $options);
+        parent::__construct($builder, $build, $options);
 
         $this->suffixes         = ['php'];
-        $this->ignore           = $this->phpci->ignore;
+        $this->ignore           = $this->builder->ignore;
         $this->path             = '';
         $this->rules            = ['codesize', 'unusedcode', 'naming'];
         $this->allowed_warnings = 0;
@@ -103,11 +103,11 @@ class PhpMessDetector extends Plugin implements ZeroConfigPlugin
             return false;
         }
 
-        $phpmdBinaryPath = $this->phpci->findBinary('phpmd');
+        $phpmdBinaryPath = $this->builder->findBinary('phpmd');
 
         $this->executePhpMd($phpmdBinaryPath);
 
-        $errorCount = $this->processReport(trim($this->phpci->getLastOutput()));
+        $errorCount = $this->processReport(trim($this->builder->getLastOutput()));
         $this->build->storeMeta('phpmd-warnings', $errorCount);
 
         return $this->wasLastExecSuccessful($errorCount);
@@ -127,8 +127,11 @@ class PhpMessDetector extends Plugin implements ZeroConfigPlugin
 
     /**
      * Process PHPMD's XML output report.
+     * 
      * @param $xmlString
-     * @return array
+     * 
+     * @return integer
+     * 
      * @throws \Exception
      */
     protected function processReport($xmlString)
@@ -136,7 +139,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPlugin
         $xml = simplexml_load_string($xmlString);
 
         if ($xml === false) {
-            $this->phpci->log($xmlString);
+            $this->builder->log($xmlString);
             throw new \Exception('Could not process PHPMD report XML.');
         }
 
@@ -144,13 +147,13 @@ class PhpMessDetector extends Plugin implements ZeroConfigPlugin
 
         foreach ($xml->file as $file) {
             $fileName = (string)$file['name'];
-            $fileName = str_replace($this->phpci->buildPath, '', $fileName);
+            $fileName = str_replace($this->builder->buildPath, '', $fileName);
 
             foreach ($file->violation as $violation) {
                 $warnings++;
 
                 $this->build->reportError(
-                    $this->phpci,
+                    $this->builder,
                     'php_mess_detector',
                     (string)$violation,
                     PHPCensor\Model\BuildError::SEVERITY_HIGH,
@@ -165,19 +168,19 @@ class PhpMessDetector extends Plugin implements ZeroConfigPlugin
     }
 
     /**
-     * Try and process the rules parameter from phpci.yml.
+     * Try and process the rules parameter from .php-censor.yml.
      * @return bool
      */
     protected function tryAndProcessRules()
     {
         if (!empty($this->rules) && !is_array($this->rules)) {
-            $this->phpci->logFailure('The "rules" option must be an array.');
+            $this->builder->logFailure('The "rules" option must be an array.');
             return false;
         }
 
         foreach ($this->rules as &$rule) {
             if (strpos($rule, '/') !== false) {
-                $rule = $this->phpci->buildPath . $rule;
+                $rule = $this->builder->buildPath . $rule;
             }
         }
 
@@ -205,10 +208,10 @@ class PhpMessDetector extends Plugin implements ZeroConfigPlugin
         }
 
         // Disable exec output logging, as we don't want the XML report in the log:
-        $this->phpci->logExecOutput(false);
+        $this->builder->logExecOutput(false);
 
         // Run PHPMD:
-        $this->phpci->executeCommand(
+        $this->builder->executeCommand(
             $cmd,
             $path,
             implode(',', $this->rules),
@@ -217,7 +220,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPlugin
         );
 
         // Re-enable exec output logging:
-        $this->phpci->logExecOutput(true);
+        $this->builder->logExecOutput(true);
     }
 
     /**
@@ -226,7 +229,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPlugin
      */
     protected function getTargetPath()
     {
-        $path = $this->phpci->buildPath . $this->path;
+        $path = $this->builder->buildPath . $this->path;
         if (!empty($this->path) && $this->path{0} == '/') {
             $path = $this->path;
             return $path;

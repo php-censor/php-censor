@@ -40,17 +40,17 @@ class PhpCpd extends Plugin
     /**
      * {@inheritdoc}
      */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        parent::__construct($phpci, $build, $options);
+        parent::__construct($builder, $build, $options);
 
-        $this->path   = $this->phpci->buildPath;
-        $this->ignore = $this->phpci->ignore;
+        $this->path   = $this->builder->buildPath;
+        $this->ignore = $this->builder->ignore;
 
         if (!empty($options['path'])) {
-            $this->path = $this->phpci->buildPath . $options['path'];
+            $this->path = $this->builder->buildPath . $options['path'];
         }
-        
+
         if (!empty($options['ignore'])) {
             $this->ignore = $options['ignore'];
         }
@@ -79,14 +79,14 @@ class PhpCpd extends Plugin
             $ignore = implode('', $ignore);
         }
 
-        $phpcpd = $this->phpci->findBinary('phpcpd');
+        $phpcpd = $this->builder->findBinary('phpcpd');
 
         $tmpfilename = tempnam('/tmp', 'phpcpd');
 
         $cmd = $phpcpd . ' --log-pmd "%s" %s "%s"';
-        $success = $this->phpci->executeCommand($cmd, $tmpfilename, $ignore, $this->path);
+        $success = $this->builder->executeCommand($cmd, $tmpfilename, $ignore, $this->path);
 
-        print $this->phpci->getLastOutput();
+        print $this->builder->getLastOutput();
 
         $errorCount = $this->processReport(file_get_contents($tmpfilename));
         $this->build->storeMeta('phpcpd-warnings', $errorCount);
@@ -107,7 +107,7 @@ class PhpCpd extends Plugin
         $xml = simplexml_load_string($xmlString);
 
         if ($xml === false) {
-            $this->phpci->log($xmlString);
+            $this->builder->log($xmlString);
             throw new \Exception(Lang::get('could_not_process_report'));
         }
 
@@ -115,7 +115,7 @@ class PhpCpd extends Plugin
         foreach ($xml->duplication as $duplication) {
             foreach ($duplication->file as $file) {
                 $fileName = (string)$file['path'];
-                $fileName = str_replace($this->phpci->buildPath, '', $fileName);
+                $fileName = str_replace($this->builder->buildPath, '', $fileName);
 
                 $message = <<<CPD
 Copy and paste detected:
@@ -126,7 +126,7 @@ Copy and paste detected:
 CPD;
 
                 $this->build->reportError(
-                    $this->phpci,
+                    $this->builder,
                     'php_cpd',
                     $message,
                     BuildError::SEVERITY_NORMAL,
