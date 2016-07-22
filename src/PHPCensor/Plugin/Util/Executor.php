@@ -12,17 +12,18 @@ use PHPCensor\Builder;
 
 /**
  * Plugin Executor - Runs the configured plugins for a given build stage.
+ * 
  * @package PHPCensor\Plugin\Util
  */
 class Executor
 {
     /**
-     * @var \PHPCI\Builder
+     * @var \PHPCensor\Builder
      */
     protected $phpci;
 
     /**
-     * @var \PHPCI\Model\Build
+     * @var \PHPCensor\Model\Build
      */
     protected $build;
 
@@ -30,11 +31,6 @@ class Executor
      * @var BuildLogger
      */
     protected $logger;
-
-    /**
-     * @var Factory
-     */
-    protected $pluginFactory;
 
     /**
      * @var BuildStore
