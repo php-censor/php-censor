@@ -18,12 +18,12 @@ if (!is_array($writeServers)) {
 
 $conf = [
     'paths' => [
-        'migrations' => 'src/PHPCI/Migrations',
+        'migrations' => 'src/PHPCensor/Migrations',
     ],
     'environments'                => [
         'default_migration_table' => 'migration',
-        'default_database'        => 'phpci',
-        'phpci'                   => [
+        'default_database'        => 'php-censor',
+        'php-censor'              => [
             'adapter' => 'mysql',
             'host'    => end($writeServers),
             'name'    => $config->get('b8.database.name'),

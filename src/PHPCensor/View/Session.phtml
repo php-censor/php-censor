@@ -1,0 +1,59 @@
+<?php use PHPCensor\Helper\Lang; ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title><?php Lang::out('log_in_to_app'); ?></title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+
+    <style type="text/css">
+
+        html {
+            min-height: 100%;
+        }
+
+        body
+        {
+            background: #224466;
+            min-height: 100%;
+            font-family: Roboto, Arial, Sans-Serif;
+            font-style: normal;
+            font-weight: 300;
+            padding-top: 0px;
+        }
+
+        #login-box
+        {
+            background: #fcfcfc;
+            border-radius: 5px;
+            box-shadow: 0 0 30px rgba(0,0,0, 0.3);
+            margin: 0 auto;
+            padding: 15px 30px;
+            text-align: left;
+            width: 350px;
+        }
+
+        #logo img {
+            margin-bottom: 30px;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row" style="margin-top: 10%; text-align: center">
+        <a id="logo" href="/">
+            <img src="<?php print APP_URL; ?>assets/img/php-censor-logo.png">
+        </a>
+        <div class="" id="login-box">
+            <?php print $content; ?>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,7 +1,8 @@
-Adding PHPCI Support to Your Projects
--------------------------------------
+Adding PHP Censor Support to Your Projects
+------------------------------------------
 
-Similar to Travis CI, to support PHPCI in your project, you simply need to add a `phpci.yml` file to the root of your repository. The file should look something like this:
+Similar to Travis CI, to support PHP Censor in your project, you simply need to add a `.php-censor.yml` (`phpci.yml`/`.phpci.yml` for backward compatibility with PHPCI) file to the root of
+your repository. The file should look something like this:
 
 ```yml
 build_settings:
@@ -48,7 +49,7 @@ complete:
         - "DROP DATABASE IF EXISTS test;"
 ```
 
-As mentioned earlier, PHPCI is powered by plugins, there are several phases in which plugins can be run:
+As mentioned earlier, PHP Censor is powered by plugins, there are several phases in which plugins can be run:
 
 * `setup` - This phase is designed to initialise the build procedure.
 * `test` - The tests that should be run during the build. Plugins run during this phase will contribute to the success or failure of the build.

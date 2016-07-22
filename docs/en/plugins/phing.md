@@ -22,5 +22,5 @@ phing:
       targets:
         - "build:test"
       properties:
-        config_file: "PHPCI"
+        config_file: "php-censor"
 ```

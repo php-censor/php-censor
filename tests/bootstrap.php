@@ -7,34 +7,30 @@
  * @link         http://www.phptesting.org/
  */
 
-use PHPCI\Logging\LoggerConfig;
+use PHPCensor\Logging\LoggerConfig;
 
 if (!defined('ROOT_DIR')) {
     define('ROOT_DIR', dirname(__DIR__) . DIRECTORY_SEPARATOR);
 }
 
-if (!defined('PHPCI_DIR')) {
-    define('PHPCI_DIR', ROOT_DIR . 'src' . DIRECTORY_SEPARATOR . 'PHPCI' . DIRECTORY_SEPARATOR);
+if (!defined('SRC_DIR')) {
+    define('SRC_DIR', ROOT_DIR . 'src' . DIRECTORY_SEPARATOR . 'PHPCensor' . DIRECTORY_SEPARATOR);
 }
 
-if (!defined('PHPCI_PUBLIC_DIR')) {
-    define('PHPCI_PUBLIC_DIR', ROOT_DIR . 'public' . DIRECTORY_SEPARATOR);
+if (!defined('PUBLIC_DIR')) {
+    define('PUBLIC_DIR', ROOT_DIR . 'public' . DIRECTORY_SEPARATOR);
 }
 
-if (!defined('PHPCI_APP_DIR')) {
-    define('PHPCI_APP_DIR', ROOT_DIR . 'app' . DIRECTORY_SEPARATOR);
+if (!defined('APP_DIR')) {
+    define('APP_DIR', ROOT_DIR . 'app' . DIRECTORY_SEPARATOR);
 }
 
-if (!defined('PHPCI_BIN_DIR')) {
-    define('PHPCI_BIN_DIR', ROOT_DIR . 'bin' . DIRECTORY_SEPARATOR);
+if (!defined('BIN_DIR')) {
+    define('BIN_DIR', ROOT_DIR . 'bin' . DIRECTORY_SEPARATOR);
 }
 
-if (!defined('PHPCI_RUNTIME_DIR')) {
-    define('PHPCI_RUNTIME_DIR', ROOT_DIR . 'runtime' . DIRECTORY_SEPARATOR);
-}
-
-if (!defined('PHPCI_BUILDS_DIR')) {
-    define('PHPCI_BUILDS_DIR', ROOT_DIR . 'runtime' . DIRECTORY_SEPARATOR . 'builds' . DIRECTORY_SEPARATOR);
+if (!defined('RUNTIME_DIR')) {
+    define('RUNTIME_DIR', ROOT_DIR . 'runtime' . DIRECTORY_SEPARATOR);
 }
 
 if (!defined('IS_WIN')) {
@@ -43,31 +39,31 @@ if (!defined('IS_WIN')) {
 
 require_once(ROOT_DIR . 'vendor/autoload.php');
 
-\PHPCI\ErrorHandler::register();
+\PHPCensor\ErrorHandler::register();
 
-if (defined('PHPCI_IS_CONSOLE') && PHPCI_IS_CONSOLE) {
-    $loggerConfig = LoggerConfig::newFromFile(PHPCI_APP_DIR . "loggerconfig.php");
+if (defined('IS_CONSOLE') && IS_CONSOLE) {
+    $loggerConfig = LoggerConfig::newFromFile(APP_DIR . "loggerconfig.php");
 }
 
 // Load configuration if present:
 $conf = [];
-$conf['b8']['app']['namespace']          = 'PHPCI';
+$conf['b8']['app']['namespace']          = 'PHPCensor';
 $conf['b8']['app']['default_controller'] = 'Home';
-$conf['b8']['view']['path']              = PHPCI_DIR . 'View' . DIRECTORY_SEPARATOR;
+$conf['b8']['view']['path']              = SRC_DIR . 'View' . DIRECTORY_SEPARATOR;
 
 $config = new b8\Config($conf);
 
-$configFile = PHPCI_APP_DIR . 'config.yml';
+$configFile = APP_DIR . 'config.yml';
 if (file_exists($configFile)) {
     $config->loadYaml($configFile);
 }
 
-if (!defined('PHPCI_URL') && !empty($config)) {
-    define('PHPCI_URL', $config->get('phpci.url', '') . '/');
+if (!defined('APP_URL') && !empty($config)) {
+    define('APP_URL', $config->get('php-censor.url', '') . '/');
 }
 
-if (!defined('PHPCI_IS_CONSOLE')) {
-    define('PHPCI_IS_CONSOLE', false);
+if (!defined('IS_CONSOLE')) {
+    define('IS_CONSOLE', false);
 }
 
-\PHPCI\Helper\Lang::init($config);
+\PHPCensor\Helper\Lang::init($config);

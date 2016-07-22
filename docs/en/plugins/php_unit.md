@@ -39,8 +39,8 @@ test:
 Troubleshooting
 ===============
 
-If standard logging of PHPCI is not enough, to get standard output from any command, including PHPUnit, edit `BaseCommandExecutor::executeCommand()` to see what exactly is wrong
-* Run `composer update` in phpunit plugin directory of PHPCI to get all of its dependencies
-* If phpunit is inside of the project's composer.json, it might interfere with PHPCI's phpunit installation
+If standard logging of PHP Censor is not enough, to get standard output from any command, including PHPUnit, edit `BaseCommandExecutor::executeCommand()` to see what exactly is wrong
+* Run `composer update` in phpunit plugin directory of PHP Censor to get all of its dependencies
+* If phpunit is inside of the project's composer.json, it might interfere with PHP Censor's phpunit installation
 * Make sure you have XDebug installed.`The Xdebug extension is not loaded. No code coverage will be generated.`
 Otherwise test report parsing in `TapParser` will fail, wanting coverage report as well `Invalid TAP string, number of tests does not match specified test count.`

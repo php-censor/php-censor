@@ -1,21 +1,21 @@
-PHPCI documentation
--------------------
+PHP Censor documentation
+------------------------
 
 Getting Started
 ===============
 
-* [Installing PHPCI](installing.md)
+* [Installing PHP Censor](installing.md)
     * [Adding a Virtual Host](virtual_host.md)
     * [Run Builds Using a Worker](workers/worker.md)
     * [Run Builds Using a Daemon](workers/daemon.md)
     * [Run Builds Using Cron](workers/cron.md)
-* [Adding PHPCI Support to Your Projects](config.md)
+* [Adding PHP Censor Support to Your Projects](config.md)
 * [Setting up Logging](logging.md)
-* [Updating PHPCI](updating.md)
-* [Configuring PHPCI](configuring.md)
+* [Updating PHP Censor](updating.md)
+* [Configuring PHP Censor](configuring.md)
 
-Using PHPCI
-===========
+Using PHP Censor
+================
 
 * Automatically building commits pushed to
     * [Github](sources/github.md)

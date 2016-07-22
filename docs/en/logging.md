@@ -4,10 +4,10 @@ Setting up Logging
 Basics
 ======
 
-The phpci codebase makes use of the [psr3](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-3-logger-interface.md) logging standard. By default we use [Monolog](https://github.com/Seldaek/monolog) to handle the actual work implementing this standard.
+The PHP Censor codebase makes use of the [PSR3](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-3-logger-interface.md) logging standard. By default we use [Monolog](https://github.com/Seldaek/monolog) to handle the actual work implementing this standard.
 
-How to Setup Logging (For people running a PHPCI instance)
-==========================================================
+How to Setup Logging (For people running a PHP Censor instance)
+===============================================================
 
 The only step required to activate logging is to create a file in the root directory called loggerconfig.php with content like the following:
 
@@ -22,9 +22,9 @@ return array(
     }
 );
 ```
-This file should return an array of key value pairs. Each key tells phpci which command to attach the logger to (the underscore is a special value which matches all commands). For each command an array of [Monolog](https://github.com/Seldaek/monolog) handlers should be returned. In the example above we've used one that simply writes to the file system but in practise this could be any handler written for monolog.
+This file should return an array of key value pairs. Each key tells PHP Censor which command to attach the logger to (the underscore is a special value which matches all commands). For each command an array of [Monolog](https://github.com/Seldaek/monolog) handlers should be returned. In the example above we've used one that simply writes to the file system but in practise this could be any handler written for monolog.
 
-Once this file is created all plugins and core phpci functionality should start writing to the configured handlers. 
+Once this file is created all plugins and core PHP Censor functionality should start writing to the configured handlers. 
 
 How to write to the Log (For people creating a new plugin)
 ==========================================================
@@ -33,7 +33,7 @@ How to write to the Log (For people creating a new plugin)
 
 For plugin creators the simplest way to get hold of an error logger is to add a parameter to the constructor and typehint on 'Psr\Log\LoggerInterface'. The code that loads your plugin will automatically inject the logger when it sees this. For example:
 ```php
-class ExampleLoggingPlugin implements \PHPCI\Plugin
+class ExampleLoggingPlugin implements \PHPCensor\Plugin
 {
     protected $log;
 

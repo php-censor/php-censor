@@ -16,7 +16,7 @@ Installation
 #!/bin/sh
 
 PROJECT_ID=1
-PHPCI_URL="http://my.server.com/PHPCI/"
+APP_URL="http://my.server.com/php-censor/"
 
 trigger_hook() {
     NEWREV="$2"
@@ -44,7 +44,7 @@ trigger_hook() {
         --data-urlencode commit="$NEWREV" \
         --data-urlencode committer="$COMMITTER" \
         --data-urlencode message="$MESSAGE" \
-        "$PHPCI_URL/webhook/git/$PROJECT_ID"
+        "$APP_URL/webhook/git/$PROJECT_ID"
 }
 
 if [ -n "$1" -a -n "$2" -a -n "$3" ]; then

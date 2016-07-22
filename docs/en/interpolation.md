@@ -18,4 +18,4 @@ Where something can be one of the following:
 * **BUILD** - The build number
 * **PROJECT_TITLE** - The name of the project
 * **BUILD_PATH** - The path to the build
-* **BUILD_URI** - The URL to the build in PHPCI
+* **BUILD_URI** - The URL to the build in PHP Censor

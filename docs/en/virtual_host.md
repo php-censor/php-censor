@@ -1,7 +1,7 @@
 Adding a Virtual Host
 ---------------------
 
-In order to access the PHPCI web interface, you need to set up a virtual host in your web server. 
+In order to access the PHP Censor web interface, you need to set up a virtual host in your web server. 
 
 Below are a few examples of how to do this for various different web servers.
 
@@ -13,10 +13,10 @@ server {
         ... standard virtual host ...
 
         location / {
-                try_files $uri @phpci;
+                try_files $uri @php-censor;
         }
 
-        location @phpci {
+        location @php-censor {
                 # Pass to FastCGI:
                 fastcgi_pass    unix:/path/to/phpfpm.sock;
                 fastcgi_index   index.php;
@@ -31,7 +31,7 @@ server {
 Apache Example
 ==============
 
-For Apache, you can use a standard virtual host, as long as your server supports PHP. All you need to do is add the following to a `.htaccess` file in your PHPCI `/public` directory.
+For Apache, you can use a standard virtual host, as long as your server supports PHP. All you need to do is add the following to a `.htaccess` file in your PHP Censor `/public` directory.
 
 ```
 <IfModule mod_rewrite.c>
@@ -47,23 +47,22 @@ For Apache, you can use a standard virtual host, as long as your server supports
 ```
 <VirtualHost *:80>
     ServerAdmin user@domain.com
-    DocumentRoot /var/www/phpci/public
-    ServerName phpci.vagrant
-    ServerAlias phpci.vagrant
+    DocumentRoot /var/www/php-censor.local/public
+    ServerName php-censor.local
 
-    <Directory /var/www/phpci/public/>
+    <Directory /var/www/php-censor.local/public/>
         Options Indexes FollowSymLinks
         AllowOverride All
         Require all granted
     </Directory>
-    ErrorLog ${APACHE_LOG_DIR}/phpci-error_log
-    CustomLog ${APACHE_LOG_DIR}/phpci-access_log combined
+    ErrorLog ${APACHE_LOG_DIR}/php-censor-error_log
+    CustomLog ${APACHE_LOG_DIR}/php-censor-access_log combined
 </VirtualHost>
 ```
 
 - Add in /etc/hosts
 ```
-127.0.0.1   phpci.vagrant
+127.0.0.1   php-censor.local
 ```
 
 Built-in PHP Server Example

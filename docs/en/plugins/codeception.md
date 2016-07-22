@@ -10,7 +10,7 @@ Configuration
 
 * **config** - Required - Can be either a single string pointing to a Codeception configuration file, or an array of configuration file paths. By default this is called `codeception.yml` and will be in the root of your project.
 
-* **args** - Optional - The string of arguments to be passed to the run command. **Important**, due to the assumption made on line [132](https://github.com/Block8/PHPCI/blob/master/PHPCI/Plugin/Codeception.php#L132) regarding the value of `--xml` being the next argument which will not be correct if the user provides arguments using this config param, you must specify `report.xml` before any user input arguments to satisfy the report processing on line [146](https://github.com/Block8/PHPCI/blob/master/PHPCI/Plugin/Codeception.php#L146)
+* **args** - Optional - The string of arguments to be passed to the run command.**Important**, due to the assumption made on line [132](https://github.com/Block8/PHPCI/blob/master/PHPCI/Plugin/Codeception.php#L132) regarding the value of `--xml` being the next argument which will not be correct if the user provides arguments using this config param, you must specify `report.xml` before any user input arguments to satisfy the report processing on line [146](https://github.com/Block8/PHPCI/blob/master/PHPCI/Plugin/Codeception.php#L146)
 
 * **path** - Optional - The path from the root of your project to the root of the codeception _output directory
 

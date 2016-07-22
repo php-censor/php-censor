@@ -10,7 +10,7 @@ Installation
 ============
 
 1. On debian system (for example) use aptitude command to install sendxmpp 
-2. Add XMPP plugin in "complete" section of your phpci.yml
+2. Add XMPP plugin in "complete" section of your `php-censor.yml`
 
 Configuration
 =============
@@ -37,6 +37,6 @@ complete:
             - "recipient2@jabber.org"    
         server: "gtalk.google.com"
         tls: 1
-        alias: "PHPCi Notification"
+        alias: "PHP Censor Notification"
         date_format: "%d/%m/%Y"
 ```

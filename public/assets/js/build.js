@@ -66,7 +66,7 @@ var Build = Class.extend({
                 }
             }
 
-            PHPCI.uiUpdated();
+            PHPCensor.uiUpdated();
         });
     },
 
@@ -76,10 +76,10 @@ var Build = Class.extend({
         var query = query || {};
 
         var cb = function() {
-            var fullUri = window.PHPCI_URL + uri;
+            var fullUri = window.APP_URL + uri;
 
             if (name == 'build-updated') {
-                fullUri = window.PHPCI_URL + 'build/data/' + self.buildId;
+                fullUri = window.APP_URL + 'build/data/' + self.buildId;
             }
 
             $.ajax({
@@ -116,13 +116,13 @@ var Build = Class.extend({
             renderOrder.push($(this).attr('id'));
         });
 
-        localStorage.setItem('phpci-plugin-order', JSON.stringify(renderOrder));
+        localStorage.setItem('app-plugin-order', JSON.stringify(renderOrder));
     },
 
     renderPlugins: function() {
         var self = this;
         var rendered = [];
-        var renderOrder = localStorage.getItem('phpci-plugin-order');
+        var renderOrder = localStorage.getItem('app-plugin-order');
 
         if (renderOrder) {
             renderOrder = JSON.parse(renderOrder);
@@ -135,7 +135,7 @@ var Build = Class.extend({
 
             // Plugins have changed, clear the order.
             if (typeof self.plugins[key] == 'undefined') {
-                localStorage.setItem('phpci-plugin-order', []);
+                localStorage.setItem('app-plugin-order', []);
             }
 
             self.renderPlugin(self.plugins[key]);

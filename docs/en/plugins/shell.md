@@ -3,19 +3,6 @@ Plugin Shell
 
 Runs a given Shell command.
 
-**Note: ** Because this plugin could potentially be abused, it requires extra steps to enable it:
-
-1. In the root of your PHPCI system, in the same directory where you'll find composer.json and vars.php, look for a file local_vars.php. If it does not exist, create it.
-2. In local_vars.php add this code:
-
-```php
-<?php
-
-define('ENABLE_SHELL_PLUGIN', true);
-```
-
-If `ENABLE_SHELL_PLUGIN` is either false or undefined, the shell plugin won't work.
-
 Configuration
 =============
 
