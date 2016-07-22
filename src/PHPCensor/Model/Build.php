@@ -104,17 +104,14 @@ class Build extends BuildBase
             $build_config = $this->getProject()->getBuildConfig();
         }
 
-        // Try .php-censor.yml
         if (is_file($buildPath . '/.php-censor.yml')) {
             $build_config = file_get_contents($buildPath . '/.php-censor.yml');
         }
 
-        // Try .phpci.yml
         if (is_file($buildPath . '/.phpci.yml')) {
             $build_config = file_get_contents($buildPath . '/.phpci.yml');
         }
 
-        // Try phpci.yml first:
         if (empty($build_config) && is_file($buildPath . '/phpci.yml')) {
             $build_config = file_get_contents($buildPath . '/phpci.yml');
         }
@@ -134,7 +131,7 @@ class Build extends BuildBase
     }
 
     /**
-     * Get an array of plugins to run if there's no phpci.yml file.
+     * Get an array of plugins to run if there's no .php-censor.yml file.
      * @param Builder $builder
      * @return array
      */

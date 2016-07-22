@@ -31,9 +31,9 @@ class MailerFactoryTest extends \PHPUnit_Framework_TestCase
             'smtp_address'           => 'mail.example.com',
             'smtp_port'              => 225,
             'smtp_encryption'        => true,
-            'smtp_username'          => 'example.user',
-            'smtp_password'          => 'examplepassword',
-            'default_mailto_address' => 'phpci@example.com',
+            'smtp_username'          => 'php-censor-user',
+            'smtp_password'          => 'php-censor-password',
+            'default_mailto_address' => 'admin@php-censor.local',
         ];
 
         $factory = new MailerFactory(['email_settings' => $config]);
@@ -55,9 +55,9 @@ class MailerFactoryTest extends \PHPUnit_Framework_TestCase
             'smtp_address'           => 'mail.example.com',
             'smtp_port'              => 225,
             'smtp_encryption'        => true,
-            'smtp_username'          => 'example.user',
-            'smtp_password'          => 'examplepassword',
-            'default_mailto_address' => 'phpci@example.com',
+            'smtp_username'          => 'php-censor-user',
+            'smtp_password'          => 'php-censor-password',
+            'default_mailto_address' => 'admin@php-censor.local',
         ];
 
         $factory = new MailerFactory(['email_settings' => $config]);

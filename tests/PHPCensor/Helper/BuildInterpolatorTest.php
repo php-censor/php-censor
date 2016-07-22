@@ -39,13 +39,13 @@ class BuildInterpolatorTest extends \PHPUnit_Framework_TestCase
     {
         $build = $this->prophesize('PHPCensor\\Model\\Build')->reveal();
 
-        $string = "Hello World";
+        $string         = "Hello World";
         $expectedOutput = "Hello World";
 
         $this->testedInterpolator->setupInterpolationVars(
             $build,
             "/buildpath/",
-            "phpci.com"
+            "php-censor.local"
         );
 
         $actualOutput = $this->testedInterpolator->interpolate($string);

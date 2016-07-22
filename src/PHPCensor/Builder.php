@@ -130,7 +130,7 @@ class Builder implements LoggerAwareInterface
     }
 
     /**
-     * Set the config array, as read from phpci.yml
+     * Set the config array, as read from .php-censor.yml
      * @param array|null $config
      * @throws \Exception
      */
@@ -144,7 +144,7 @@ class Builder implements LoggerAwareInterface
     }
 
     /**
-     * Access a variable from the phpci.yml file.
+     * Access a variable from the .php-censor.yml file.
      * @param string
      * @return mixed
      */
@@ -325,7 +325,7 @@ class Builder implements LoggerAwareInterface
             throw new \Exception(Lang::get('could_not_create_working'));
         }
 
-        // Does the project's phpci.yml request verbose mode?
+        // Does the project's .php-censor.yml request verbose mode?
         if (!isset($this->config['build_settings']['verbose']) || !$this->config['build_settings']['verbose']) {
             $this->verbose = false;
         }

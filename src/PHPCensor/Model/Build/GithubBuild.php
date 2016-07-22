@@ -135,7 +135,7 @@ class GithubBuild extends RemoteGitBuild
 
     /**
      * Get a template to use for generating links to files.
-     * e.g. https://github.com/block8/phpci/blob/master/{FILE}#L{LINE}
+     * 
      * @return string
      */
     public function getFileLinkTemplate()

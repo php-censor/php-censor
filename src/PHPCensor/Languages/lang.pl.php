@@ -112,7 +112,7 @@ od wybranego kodu źródłowego platformy hostingowej.',
     'project_private_key' => 'Prywanty klucz dostępu do repozytoriów
 (pozostaw puste pole dla zdalnych lokalnych i/lub anonimowych)',
     'build_config' => 'PHP Censor zbudowało config dla tego projektu
-(jeśli nie możesz dodać pliku phpci.yml do repozytorium projektu)',
+(jeśli nie możesz dodać pliku .php-censor.yml (.phpci.yml|phpci.yml) do repozytorium projektu)',
     'default_branch' => 'Domyślna nazwa gałęzi',
     'allow_public_status' => 'Włączyć status publiczny dla tego projektu?',
     'archived' => 'W archiwum',
@@ -357,7 +357,7 @@ Przejrzyj powyższą listę błędów przed kontynuowaniem.',
     'marked_as_failed' => 'Budowanie %d nie powiodło się z powodu przekroczenia limitu czasu.',
 
     // Builder
-    'missing_app_yml' => 'Projekt nie zawiera pliku phpci.yml lub projekt jest pusty.',
+    'missing_app_yml' => 'Projekt nie zawiera pliku .php-censor.yml (.phpci.yml|phpci.yml) lub projekt jest pusty.',
     'build_success' => 'BUDOWANIE ZAKOŃCZONE SUKCESEM',
     'build_failed' => 'BUDOWANIE NIE POWIODŁO SIĘ',
     'removing_build' => 'Usuwanie Budowania.',

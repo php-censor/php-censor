@@ -144,7 +144,7 @@ class BuildStatusServiceTest extends \PHPUnit_Framework_TestCase
     {
         $build = $this->getBuild($buildConfigId);
         $service = new BuildStatusService(self::BRANCH, $this->project, $build);
-        $service->setUrl('http://phpci.dev/');
+        $service->setUrl('http://php-censor.local/');
         $this->assertEquals($expectedResult, $service->toArray());
     }
 
@@ -159,7 +159,7 @@ class BuildStatusServiceTest extends \PHPUnit_Framework_TestCase
                     'lastBuildLabel' => '',
                     'lastBuildStatus' => '',
                     'lastBuildTime' => '',
-                    'webUrl' => 'http://phpci.dev/build/view/77',
+                    'webUrl' => 'http://php-censor.local/build/view/77',
                 )
             ),
             'buildingStatusWithPrev' => array(
@@ -170,7 +170,7 @@ class BuildStatusServiceTest extends \PHPUnit_Framework_TestCase
                     'lastBuildLabel' => 13,
                     'lastBuildStatus' => 'Failure',
                     'lastBuildTime' => '2014-10-13T13:13:13+0000',
-                    'webUrl' => 'http://phpci.dev/build/view/78',
+                    'webUrl' => 'http://php-censor.local/build/view/78',
                 )
             ),
             'successStatus' => array(
@@ -181,7 +181,7 @@ class BuildStatusServiceTest extends \PHPUnit_Framework_TestCase
                     'lastBuildLabel' => 7,
                     'lastBuildStatus' => 'Success',
                     'lastBuildTime' => '2014-10-25T21:50:02+0000',
-                    'webUrl' => 'http://phpci.dev/build/view/7',
+                    'webUrl' => 'http://php-censor.local/build/view/7',
                 )
             ),
             'failureStatus' => array(
@@ -192,7 +192,7 @@ class BuildStatusServiceTest extends \PHPUnit_Framework_TestCase
                     'lastBuildLabel' => 13,
                     'lastBuildStatus' => 'Failure',
                     'lastBuildTime' => '2014-10-13T13:13:13+0000',
-                    'webUrl' => 'http://phpci.dev/build/view/13',
+                    'webUrl' => 'http://php-censor.local/build/view/13',
                 )
             ),
             'pending' => array(
@@ -203,7 +203,7 @@ class BuildStatusServiceTest extends \PHPUnit_Framework_TestCase
                     'lastBuildLabel' => 7,
                     'lastBuildStatus' => 'Success',
                     'lastBuildTime' => '2014-10-25T21:50:02+0000',
-                    'webUrl' => 'http://phpci.dev/build/view/1000',
+                    'webUrl' => 'http://php-censor.local/build/view/1000',
                 )
             ),
         );

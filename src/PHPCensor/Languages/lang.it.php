@@ -109,7 +109,7 @@ PHP Censor',
     'project_private_key' => 'Chiave provata da usare per accedere al repository
                                 (lascia vuota per repository locali o remoti con accesso anonimo)',
     'build_config' => 'condigurazione della build di PHP Censor per questo progetto
-                                (se non puoi aggiungere il file phpci.yml nel repository di questo progetto)',
+                                (se non puoi aggiungere il file .php-censor.yml (.phpci.yml|phpci.yml) nel repository di questo progetto)',
     'default_branch' => 'Nome del branch di default',
     'allow_public_status' => 'Vuoi rendere pubblica la pagina dello stato e l\'immagine per questo progetto?',
     'archived' => 'Archived',
@@ -357,7 +357,7 @@ PHP Censor',
     'marked_as_failed' => 'Build %d è stata contrassegnata come fallita per un timeout.',
 
     // Builder
-    'missing_app_yml' => 'Questo progetto non contiene il file phpci.yml, o il file è vuoto.',
+    'missing_app_yml' => 'Questo progetto non contiene il file .php-censor.yml (.phpci.yml|phpci.yml), o il file è vuoto.',
     'build_success' => 'BUILD PASSATA',
     'build_failed' => 'BUILD FALLITA',
     'removing_build' => 'Rimozione build.',

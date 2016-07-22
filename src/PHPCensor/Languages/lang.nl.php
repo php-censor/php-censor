@@ -111,7 +111,7 @@ van je gekozen source code hosting platform',
     'project_private_key' => 'Private key voor toegang tot repository
 (laat leeg voor lokaal en/of anonieme externen)',
     'build_config' => 'PHP Censor build configuratie voor dit project
-(indien je geen phpci.yml bestand aan de project repository kan toevoegen)',
+(indien je geen .php-censor.yml (.phpci.yml|phpci.yml) bestand aan de project repository kan toevoegen)',
     'default_branch' => 'Standaard branch naam',
     'allow_public_status' => 'Publieke statuspagina en afbeelding beschikbaar maken voor dit project?',
     'archived' => 'Archived',
@@ -356,7 +356,7 @@ Gelieve de fouten na te kijken vooraleer verder te gaan.',
     'marked_as_failed' => 'Build %d gemarkeerd als falende door timeout.',
 
     // Builder
-    'missing_app_yml' => 'Dit project bevat geen phpci.yml bestand, of het is leeg.',
+    'missing_app_yml' => 'Dit project bevat geen .php-censor.yml (.phpci.yml|phpci.yml) bestand, of het is leeg.',
     'build_success' => 'BUILD SUCCES',
     'build_failed' => 'BUILD GEFAALD',
     'removing_build' => 'Build wordt verwijderd.',

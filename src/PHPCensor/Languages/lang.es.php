@@ -111,7 +111,7 @@ PHP Censor',
     'project_private_key' => 'Clave privada a usar para acceder al repositorio
                                 (dejar en blanco para remotos locales o anónimos)',
     'build_config' => 'Configuración PHP Censor para builds del proyecto
-                                (en caso que no puedas agregar el archivo phpci.yml al repositorio)',
+                                (en caso que no puedas agregar el archivo .php-censor.yml (.phpci.yml|phpci.yml) al repositorio)',
     'default_branch' => 'Nombre de la rama por defecto',
     'allow_public_status' => '¿Activar página pública con el estado del proyecto?',
     'archived' => 'Archivado',
@@ -344,7 +344,7 @@ PHP Censor',
     'marked_as_failed' => 'Build %d falló debido a timeout.',
 
     // Builder
-    'missing_app_yml' => 'Este proyecto no contiene el archivo phpci.yml o está vacío.',
+    'missing_app_yml' => 'Este proyecto no contiene el archivo .php-censor.yml (.phpci.yml|phpci.yml) o está vacío.',
     'build_success' => 'BUILD EXITOSO',
     'build_failed' => 'BUILD FALLIDO',
     'removing_build' => 'Eliminando Build.',

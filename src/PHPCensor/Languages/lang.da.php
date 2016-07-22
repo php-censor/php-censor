@@ -110,7 +110,7 @@ i din foretrukne hosting-platform.',
     'project_private_key' => 'Privat nøgle med adgang til dette repository
 (tom for lokal nøgle og/eller anonym adgang)',
     'build_config' => 'PHP Censor build-konfiguration for dette projekt
-(hvis du ikke har mulighed for at tilføje en phpci.yml fil i projektets repository)',
+(hvis du ikke har mulighed for at tilføje en .php-censor.yml (.phpci.yml|phpci.yml) fil i projektets repository)',
     'default_branch' => 'Default branch navn',
     'allow_public_status' => 'Tillad offentlig status-side og -billede for dette projekt?',
     'archived' => 'Archived',
@@ -354,7 +354,7 @@ Kontrollér venligst nedenstående fejl før du fortsætter.',
     'marked_as_failed' => 'Build %d blev markeret som fejlet pga. timeout.',
 
     // Builder
-    'missing_app_yml' => 'Dette projekt har ingen phpci.yml fil, eller filen er tom.',
+    'missing_app_yml' => 'Dette projekt har ingen .php-censor.yml (.phpci.yml|phpci.yml) fil, eller filen er tom.',
     'build_success' => 'BUILD SUCCES',
     'build_failed' => 'BUILD FEJLET',
     'removing_build' => 'Fjerner Build',

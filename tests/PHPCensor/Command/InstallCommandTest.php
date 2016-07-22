@@ -98,13 +98,13 @@ class InstallCommandTest extends \PHPUnit_Framework_TestCase
     {
         $config = [
             '--db-host'        => 'localhost',
-            '--db-name'        => 'phpci1',
-            '--db-user'        => 'phpci2',
-            '--db-pass'        => 'phpci3',
-            '--admin-mail'     => 'phpci@phpci.test',
-            '--admin-name'     => 'phpci4',
-            '--admin-pass'     => 'phpci5',
-            '--url'            => 'http://test.phpci.org',
+            '--db-name'        => 'php-censor-db',
+            '--db-user'        => 'php-censor-user',
+            '--db-pass'        => 'php-censor-password',
+            '--admin-mail'     => 'admin@php-censor.local',
+            '--admin-name'     => 'admin',
+            '--admin-pass'     => 'admin-password',
+            '--url'            => 'http://php-censor.local',
             '--queue-disabled' => null,
         ];
 
@@ -232,14 +232,14 @@ class InstallCommandTest extends \PHPUnit_Framework_TestCase
         // We specified an input value for hostname.
         $dialog->expects($this->never())->method('ask');
         $dialog->expects($this->never())->method('askConfirmation');
-        $dialog->expects($this->once())->method('askAndValidate')->willReturn('test@phpci.com');
+        $dialog->expects($this->once())->method('askAndValidate')->willReturn('admin@php-censor.local');
         $dialog->expects($this->never())->method('askHiddenResponse');
         $dialog->expects($this->never())->method('askHiddenResponseAndValidate');
 
         $this->executeWithoutParam('--admin-mail', $dialog);
 
         // Check that specified arguments are correctly loaded.
-        $this->assertEquals('test@phpci.com', $this->admin['mail']);
+        $this->assertEquals('admin@php-censor.local', $this->admin['mail']);
     }
 
     public function testAdminNameConfig()
