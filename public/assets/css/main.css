@@ -10,31 +10,31 @@
 
 }
 
-    .build-info-panel .box-header h1.box-title {
-        border: 0;
-        font-size: 1.5em;
-        font-weight: bold;
-        margin-left: 110px;
-    }
+.build-info-panel .box-header h1.box-title {
+    border: 0;
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-left: 110px;
+}
 
-    .build-info-panel h1.box-title span {
-        font-weight: normal;
-    }
+.build-info-panel h1.box-title span {
+    font-weight: normal;
+}
 
-    .build-info-panel img {
-        border: 2px solid #fff;
-        border-radius: 50%;
-        margin-top: -40px;
-    }
+.build-info-panel img {
+    border: 2px solid #fff;
+    border-radius: 50%;
+    margin-top: -40px;
+}
 
-    .build-info-panel #build-info {
-        margin-left: 110px;
-        min-height: 50px;
-    }
+.build-info-panel #build-info {
+    margin-left: 110px;
+    min-height: 50px;
+}
 
-    .build-info-panel .commit-message {
-        margin-bottom: 20px;
-    }
+.build-info-panel .commit-message {
+    margin-bottom: 20px;
+}
 
 .small-box h3 a, .small-box h4 a {
     color: #fff;

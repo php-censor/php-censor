@@ -4,9 +4,73 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "051fd6b7588f4f8e7d0a838f6a98b892",
-    "content-hash": "aadffadc413d506fc161c5486c8bd885",
+    "hash": "e109694f696ac2bcc16db62832905eb8",
+    "content-hash": "813fe1e7b00edc029b1137481591822c",
     "packages": [
+        {
+            "name": "bower-asset/admin-lte",
+            "version": "2.3.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/almasaeed2010/AdminLTE.git",
+                "reference": "0ab2eb7f382e79810ebf3032ce766a02af2b0f3b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/almasaeed2010/AdminLTE/zipball/0ab2eb7f382e79810ebf3032ce766a02af2b0f3b",
+                "reference": "0ab2eb7f382e79810ebf3032ce766a02af2b0f3b",
+                "shasum": null
+            },
+            "type": "library"
+        },
+        {
+            "name": "bower-asset/font-awesome",
+            "version": "4.6.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FortAwesome/Font-Awesome.git",
+                "reference": "8e241f209faa1dd2182c9fdc9c352d8806504a4e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FortAwesome/Font-Awesome/zipball/8e241f209faa1dd2182c9fdc9c352d8806504a4e",
+                "reference": "8e241f209faa1dd2182c9fdc9c352d8806504a4e",
+                "shasum": null
+            },
+            "type": "library"
+        },
+        {
+            "name": "bower-asset/ionicons",
+            "version": "2.0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/driftyco/ionicons.git",
+                "reference": "ecb4b806831005c25b97ed9089fbb1d7dcc0879c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/driftyco/ionicons/zipball/ecb4b806831005c25b97ed9089fbb1d7dcc0879c",
+                "reference": "ecb4b806831005c25b97ed9089fbb1d7dcc0879c",
+                "shasum": null
+            },
+            "type": "library"
+        },
+        {
+            "name": "bower-asset/raphael",
+            "version": "2.2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/DmitryBaranovskiy/raphael.git",
+                "reference": "5fec7097de6badae2d2f808ae5db71e971adf718"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/DmitryBaranovskiy/raphael/zipball/5fec7097de6badae2d2f808ae5db71e971adf718",
+                "reference": "5fec7097de6badae2d2f808ae5db71e971adf718",
+                "shasum": null
+            },
+            "type": "library"
+        },
         {
             "name": "ircmaxell/password-compat",
             "version": "v1.0.4",
@@ -48,6 +112,59 @@
                 "password"
             ],
             "time": "2014-11-20 16:49:30"
+        },
+        {
+            "name": "mnsami/composer-custom-directory-installer",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mnsami/composer-custom-directory-installer.git",
+                "reference": "0d4a476e54063f0da191224a27e505f5ad6e15ff"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mnsami/composer-custom-directory-installer/zipball/0d4a476e54063f0da191224a27e505f5ad6e15ff",
+                "reference": "0d4a476e54063f0da191224a27e505f5ad6e15ff",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^1.0",
+                "php": ">=5.3"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": [
+                    "Composer\\CustomDirectoryInstaller\\LibraryPlugin",
+                    "Composer\\CustomDirectoryInstaller\\PearPlugin",
+                    "Composer\\CustomDirectoryInstaller\\PluginPlugin",
+                    "Composer\\CustomDirectoryInstaller\\MetapackagePlugin"
+                ],
+                "branch-alias": {
+                    "dev-master": "1.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Composer\\CustomDirectoryInstaller": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mina Nabil Sami",
+                    "email": "mina.nsami@gmail.com"
+                }
+            ],
+            "description": "A composer plugin, to help install packages of different types in custom paths.",
+            "keywords": [
+                "composer",
+                "composer-installer",
+                "composer-plugin"
+            ],
+            "time": "2016-02-04 14:48:35"
         },
         {
             "name": "monolog/monolog",
@@ -125,6 +242,17 @@
                 "psr-3"
             ],
             "time": "2015-10-14 12:51:02"
+        },
+        {
+            "name": "npm-asset/sprintf-js",
+            "version": "1.0.3.0",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/sprintf-js/-/sprintf-js-1.0.3.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "type": "library"
         },
         {
             "name": "pda/pheanstalk",

@@ -93,7 +93,9 @@ var locPlugin = ActiveBuild.UiPlugin.extend({
             $('#build-lines-chart').show();
 
             var ctx = $("#phploc-lines-chart").get(0).getContext("2d");
-            var phpLocChart = new Chart(ctx);
+            var phpLocChart = new Chart(ctx, {"responsive": true});
+
+            Chart.defaults.global.responsive = true;
 
             phpLocChart.Line(self.chartData, {
                 datasetFill: false,
