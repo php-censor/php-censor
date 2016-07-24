@@ -124,6 +124,8 @@ var warningsPlugin = ActiveBuild.UiPlugin.extend({
             var ctx = $("#build-warnings-linechart").get(0).getContext("2d");
             var buildWarningsChart = new Chart(ctx);
 
+            Chart.defaults.global.responsive = true;
+
             buildWarningsChart.Line(self.chartData, {
                 datasetFill: false,
                 multiTooltipTemplate: "<%=datasetLabel%>: <%= value %>"

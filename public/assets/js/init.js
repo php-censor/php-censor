@@ -1,13 +1,7 @@
 /**
- * @file init.js
  * Initialization of frontend of the application goes here
  *
  * @author Pavel Pavlov <Pavel.Pavlov@alera.ru>
- * @date 12/31/13
- * @time 3:44 AM
- * @license LICENSE.md
- *
- * @package PHPCensor
  */
 
 $(function () {
