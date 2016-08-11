@@ -20,9 +20,10 @@ use Symfony\Component\Console\Question\Question;
 
 /**
  * Create admin command - creates an admin user
- * @author       Wogan May (@woganmay)
- * @package      PHPCI
- * @subpackage   Console
+ * 
+ * @author     Wogan May (@woganmay)
+ * @package    PHPCI
+ * @subpackage Console
  */
 class CreateAdminCommand extends Command
 {

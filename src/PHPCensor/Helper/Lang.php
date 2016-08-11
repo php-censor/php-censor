@@ -125,12 +125,17 @@ class Lang
      * Initialise the Language helper, try load the language file for the user's browser or the configured default.
      *
      * @param Config $config
+     * @param string $language_force
      */
-    public static function init(Config $config)
+    public static function init(Config $config, $language_force = null)
     {
         self::$en_strings = self::loadLanguage('en');
         self::loadAvailableLanguages();
 
+        if ($language_force && self::setLanguage($language_force)) {
+            return;
+        }
+        
         // Try cookies first:
         if (isset($_COOKIE) && array_key_exists('php-censor-language', $_COOKIE) && self::setLanguage($_COOKIE['php-censor-language'])) {
             return;
@@ -141,7 +146,7 @@ class Lang
             $langs = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
 
             foreach ($langs as $lang) {
-                $parts = explode(';', $lang);
+                $parts    = explode(';', $lang);
                 $language = strtolower($parts[0]);
 
                 if (self::setLanguage($language)) {

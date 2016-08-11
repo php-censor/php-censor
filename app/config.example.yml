@@ -3,7 +3,8 @@ b8:
     servers:
       read:  localhost
       write: localhost
-    name: php-censor-db
+    port:     3306
+    name:     php-censor-db
     username: php-censor-user
     password: php-censor-password
 php-censor:

@@ -10,52 +10,16 @@ class Database extends \PDO
     protected static $details     = [];
     protected static $lastUsed    = ['read' => null, 'write' => null];
 
-    /**
-     * @deprecated
-     */
-    public static function setReadServers($read)
-    {
-        $config = Config::getInstance();
-
-        $settings = $config->get('b8.database', []);
-        $settings['servers']['read'] = $read;
-        $config->set('b8.database', $settings);
-    }
-
-    /**
-     * @deprecated
-     */
-    public static function setWriteServers($write)
-    {
-        $config = Config::getInstance();
-
-        $settings = $config->get('b8.database', []);
-        $settings['servers']['write'] = $write;
-        $config->set('b8.database', $settings);
-    }
-
-    /**
-     * @deprecated
-     */
-    public static function setDetails($database, $username, $password)
-    {
-        $config = Config::getInstance();
-        $settings = $config->get('b8.database', []);
-        $settings['name'] = $database;
-        $settings['username'] = $username;
-        $settings['password'] = $password;
-        $config->set('b8.database', $settings);
-    }
-
     protected static function init()
     {
-        $config = Config::getInstance();
+        $config   = Config::getInstance();
         $settings = $config->get('b8.database', []);
-        self::$servers['read'] = $settings['servers']['read'];
+
+        self::$servers['read']  = $settings['servers']['read'];
         self::$servers['write'] = $settings['servers']['write'];
-        self::$details['db'] = $settings['name'];
-        self::$details['user'] = $settings['username'];
-        self::$details['pass'] = $settings['password'];
+        self::$details['db']    = $settings['name'];
+        self::$details['user']  = $settings['username'];
+        self::$details['pass']  = $settings['password'];
         self::$initialised = true;
     }
 
@@ -63,6 +27,7 @@ class Database extends \PDO
      * @param string $type
      *
      * @return \b8\Database
+     * 
      * @throws \Exception
      */
     public static function getConnection($type = 'read')

@@ -30,7 +30,7 @@ class MailerFactoryTest extends \PHPUnit_Framework_TestCase
         $config = [
             'smtp_address'           => 'mail.example.com',
             'smtp_port'              => 225,
-            'smtp_encryption'        => true,
+            'smtp_encryption'        => 'tls',
             'smtp_username'          => 'php-censor-user',
             'smtp_password'          => 'php-censor-password',
             'default_mailto_address' => 'admin@php-censor.local',
@@ -54,7 +54,7 @@ class MailerFactoryTest extends \PHPUnit_Framework_TestCase
         $config = [
             'smtp_address'           => 'mail.example.com',
             'smtp_port'              => 225,
-            'smtp_encryption'        => true,
+            'smtp_encryption'        => 'tls',
             'smtp_username'          => 'php-censor-user',
             'smtp_password'          => 'php-censor-password',
             'default_mailto_address' => 'admin@php-censor.local',

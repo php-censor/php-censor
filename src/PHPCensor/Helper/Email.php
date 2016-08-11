@@ -102,7 +102,7 @@ class Email
      * 
      * @param Builder $builder
      * 
-     * @return bool|int
+     * @return integer
      */
     public function send(Builder $builder)
     {
@@ -110,9 +110,9 @@ class Email
         $builder->logDebug(sprintf("SMTP: '%s'", !empty($smtpServer) ? 'true' : 'false'));
 
         if (empty($smtpServer)) {
-            return $this->sendViaMail();
+            return (integer)$this->sendViaMail();
         } else {
-            return $this->sendViaSwiftMailer();
+            return (integer)$this->sendViaSwiftMailer();
         }
     }
 
@@ -148,6 +148,7 @@ class Email
 
     /**
      * Sends the email using SwiftMailer.
+     * 
      * @return int
      */
     protected function sendViaSwiftMailer()

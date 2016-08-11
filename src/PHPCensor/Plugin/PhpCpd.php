@@ -50,16 +50,11 @@ class PhpCpd implements Plugin
         $this->phpci = $phpci;
         $this->build = $build;
 
-        $this->path = $phpci->buildPath;
-        $this->standard = 'PSR1';
+        $this->path   = $phpci->buildPath;
         $this->ignore = $phpci->ignore;
 
         if (!empty($options['path'])) {
             $this->path = $phpci->buildPath . $options['path'];
-        }
-
-        if (!empty($options['standard'])) {
-            $this->standard = $options['standard'];
         }
 
         if (!empty($options['ignore'])) {
