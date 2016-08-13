@@ -7,7 +7,7 @@ class WindowsProcessControlTest extends ProcessControlTest
 {
     protected function setUp()
     {
-        $this->object = new WindowsProcessControl;
+        $this->object = new WindowsProcessControl();
     }
 
     public function getTestCommand()

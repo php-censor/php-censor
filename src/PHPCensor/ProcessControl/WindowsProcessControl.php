@@ -31,15 +31,16 @@ class WindowsProcessControl implements ProcessControlInterface
     }
 
     /**
-     * Terminate the process using the "taskkill" command.
-     *
-     * @param integer $pid
-     * 
-     * @param bool $forcefully
+     * {@inheritdoc}
      */
     public function kill($pid, $forcefully = false)
     {
+        $output = [];
+        $result = 1;
+
         exec(sprintf("taskkill /t /pid %d %s 2>nul:", $pid, $forcefully ? '/f' : ''));
+
+        return !$result;
     }
 
     /**

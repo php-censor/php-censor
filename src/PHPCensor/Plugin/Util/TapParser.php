@@ -16,7 +16,7 @@ class TapParser
     const TEST_LINE_PATTERN   = '/^(ok|not ok)(?:\s+\d+)?(?:\s+\-)?\s*(.*?)(?:\s*#\s*(skip|todo)\s*(.*))?\s*$/i';
     const TEST_YAML_START     = '/^(\s*)---/';
     const TEST_DIAGNOSTIC     = '/^#/';
-    const TEST_COVERAGE       = '/^Generating/';
+    const TEST_COVERAGE       = '/(Generating code coverage|The Xdebug extension is not loaded|No code coverage)/';
 
     /**
      * @var string

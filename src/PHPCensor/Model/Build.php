@@ -15,18 +15,16 @@ use PHPCensor\Builder;
 use Symfony\Component\Yaml\Parser as YamlParser;
 
 /**
-* Build Model
-* @uses         PHPCensor\Model\Base\BuildBase
-* @author       Dan Cryer <dan@block8.co.uk>
-* @package      PHPCI
-* @subpackage   Core
-*/
+ * Build Model
+ *
+ * @author Dan Cryer <dan@block8.co.uk>
+ */
 class Build extends BuildBase
 {
-    const STATUS_NEW = 0;
+    const STATUS_NEW     = 0;
     const STATUS_RUNNING = 1;
     const STATUS_SUCCESS = 2;
-    const STATUS_FAILED = 3;
+    const STATUS_FAILED  = 3;
 
     public $currentBuildPath;
 
@@ -48,6 +46,7 @@ class Build extends BuildBase
 
     /**
      * Return a template to use to generate a link to a specific file.
+     * 
      * @return null
      */
     public function getFileLinkTemplate()

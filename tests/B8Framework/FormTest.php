@@ -15,12 +15,17 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($f->getAction() == '/');
         $this->assertTrue($f->getMethod() == 'POST');
 
-        $config = new Config();
-        Config::getInstance()->set('ViewPath', __DIR__ . '/data/view/');
+        $config = new Config([
+            'b8' => [
+                'view' => [
+                    'path' => __DIR__ . '/data/view/'
+                ]
+            ]
+        ]);
 
         $this->assertTrue($f->render('form') == '/POST');
 
-        Config::getInstance()->set('ViewPath', '');
+        Config::getInstance()->set('b8.view.path', '');
         $this->assertTrue(strpos((string)$f, '<form') !== false);
     }
 
@@ -32,7 +37,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $f->setClass('element-class');
         $f->setContainerClass('container-class');
 
-        $this->assertTrue($f->getName() == 'elementname');
+        $this->assertTrue($f->getName() == 'element-name');
         $this->assertTrue($f->getId() == 'element-id');
         $this->assertTrue($f->getLabel() == 'element-label');
         $this->assertTrue($f->getClass() == 'element-class');

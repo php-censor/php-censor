@@ -7,7 +7,7 @@ namespace Tests\PHPCensor\ProcessControl;
 abstract class ProcessControlTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var type
+     * @var resource
      */
     protected $process;
 
@@ -31,13 +31,13 @@ abstract class ProcessControlTest extends \PHPUnit_Framework_TestCase
         $this->pipes = [];
 
         $this->process = proc_open($this->getTestCommand(), $desc, $this->pipes);
-        usleep(500);
+        sleep(1);
 
         $this->assertTrue(is_resource($this->process));
         $this->assertTrue($this->isRunning());
 
         $status = proc_get_status($this->process);
-        return $status['pid'];
+        return (integer)$status['pid'];
     }
 
     /** End the running process.
@@ -65,7 +65,7 @@ abstract class ProcessControlTest extends \PHPUnit_Framework_TestCase
             return false;
         }
         $status = proc_get_status($this->process);
-        return $status['running'];
+        return (boolean)$status['running'];
     }
 
     public function testIsRunning()
@@ -94,10 +94,10 @@ abstract class ProcessControlTest extends \PHPUnit_Framework_TestCase
 
         $pid = $this->startProcess();
 
-        $this->object->kill($pid);
-        usleep(500);
+        self::assertTrue($this->object->kill($pid));
+        sleep(1);
 
-        $this->assertFalse($this->isRunning());
+        self::assertFalse($this->isRunning());
     }
 
     public function testForcefullyKill()
@@ -109,9 +109,9 @@ abstract class ProcessControlTest extends \PHPUnit_Framework_TestCase
         $pid = $this->startProcess();
 
         $this->object->kill($pid, true);
-        usleep(500);
+        sleep(1);
 
-        $this->assertFalse($this->isRunning());
+        self::assertFalse($this->isRunning());
     }
 
     abstract public function testIsAvailable();

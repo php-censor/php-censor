@@ -98,7 +98,7 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
 
     public function testExecutePlugin_LogsFailureForNonExistentClasses()
     {
-        $options = [];
+        $options    = [];
         $pluginName = 'DOESNTEXIST';
 
         $this->mockBuildLogger->logFailure('Plugin does not exist: ' . $pluginName)->shouldBeCalledTimes(1);
@@ -108,7 +108,7 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
 
     public function testExecutePlugin_LogsFailureWhenExceptionsAreThrownByPlugin()
     {
-        $options = [];
+        $options    = [];
         $pluginName = 'PhpUnit';
 
         $expectedException = new \RuntimeException("Generic Error");

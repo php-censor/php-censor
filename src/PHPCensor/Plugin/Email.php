@@ -9,6 +9,8 @@
 
 namespace PHPCensor\Plugin;
 
+use b8\Config;
+use b8\ViewRuntimeException;
 use Exception;
 use b8\View;
 use PHPCensor\Builder;
@@ -58,6 +60,8 @@ class Email implements Plugin
 
     /**
      * Send a notification mail.
+     * 
+     * @return boolean
      */
     public function execute()
     {
@@ -72,15 +76,7 @@ class Email implements Plugin
         $buildStatus  = $this->build->isSuccessful() ? "Passing Build" : "Failing Build";
         $projectName  = $this->build->getProject()->getTitle();
 
-        try {
-            $view = $this->getMailTemplate();
-        } catch (Exception $e) {
-            $this->phpci->log(
-                sprintf('Unknown mail template "%s", falling back to default.', $this->options['template']),
-                LogLevel::WARNING
-            );
-            $view = $this->getDefaultMailTemplate();
-        }
+        $view = $this->getMailTemplate();
 
         $view->build   = $this->build;
         $view->project = $this->build->getProject();
@@ -109,7 +105,8 @@ class Email implements Plugin
      * @param string[] $ccList
      * @param string $subject Email subject
      * @param string $body Email body
-     * @return array                      Array of failed addresses
+     * 
+     * @return integer
      */
     protected function sendEmail($toAddress, $ccList, $subject, $body)
     {
@@ -224,8 +221,17 @@ class Email implements Plugin
      */
     protected function getMailTemplate()
     {
-        if (isset($this->options['template'])) {
-            return new View('Email/' . $this->options['template']);
+        try {
+            if (isset($this->options['template'])) {
+                return new View('Email/' . $this->options['template']);
+            }
+        } catch (ViewRuntimeException $e) {
+            $this->phpci->log(
+                sprintf('Unknown mail template "%s", falling back to default.', $this->options['template']),
+                LogLevel::WARNING
+            );
+
+            return $this->getDefaultMailTemplate();
         }
 
         return $this->getDefaultMailTemplate();

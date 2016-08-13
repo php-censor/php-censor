@@ -10,6 +10,8 @@
 
 namespace Tests\PHPCensor\Plugin\Command;
 
+use PHPCensor\Command\CreateAdminCommand;
+use PHPCensor\Store\UserStore;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -26,26 +28,22 @@ class CreateAdminCommandTest extends \PHPUnit_Framework_TestCase
     protected $application;
 
     /**
-     * @var \Symfony\Component\Console\Helper\DialogHelper|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Symfony\Component\Console\Helper\QuestionHelper|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $dialog;
+    protected $helper;
 
-    public function setup()
+    public function setUp()
     {
-        parent::setup();
+        parent::setUp();
 
-        $this->command = $this->getMockBuilder('PHPCensor\\Command\\CreateAdminCommand')
-            ->setConstructorArgs([$this->getMock('PHPCensor\\Store\\UserStore')])
-            ->setMethods(['reloadConfig'])
+        $userStoreMock = $this->getMock('PHPCensor\\Store\\UserStore');
+        
+        $this->command = new CreateAdminCommand($userStoreMock);
+
+        $this->helper = $this
+            ->getMockBuilder('Symfony\\Component\\Console\\Helper\\QuestionHelper')
+            ->setMethods(['ask'])
             ->getMock();
-
-        $this->dialog = $this->getMockBuilder('Symfony\\Component\\Console\\Helper\\DialogHelper')
-            ->setMethods([
-                'ask',
-                'askAndValidate',
-                'askHiddenResponse',
-            ])->getMock()
-        ;
 
         $this->application = new Application();
     }
@@ -55,19 +53,18 @@ class CreateAdminCommandTest extends \PHPUnit_Framework_TestCase
      */
     protected function getCommandTester()
     {
-        $this->application->getHelperSet()->set($this->dialog, 'dialog');
+        $this->application->getHelperSet()->set($this->helper, 'question');
         $this->application->add($this->command);
-        $command = $this->application->find('php-censor:create-admin');
-        $commandTester = new CommandTester($command);
+        $commandTester = new CommandTester($this->command);
 
         return $commandTester;
     }
 
     public function testExecute()
     {
-        $this->dialog->expects($this->at(0))->method('askAndValidate')->will($this->returnValue('test@example.com'));
-        $this->dialog->expects($this->at(1))->method('ask')->will($this->returnValue('A name'));
-        $this->dialog->expects($this->at(2))->method('askHiddenResponse')->will($this->returnValue('foobar123'));
+        $this->helper->expects($this->at(0))->method('ask')->will($this->returnValue('test@example.com'));
+        $this->helper->expects($this->at(1))->method('ask')->will($this->returnValue('A name'));
+        $this->helper->expects($this->at(2))->method('ask')->will($this->returnValue('foobar123'));
 
         $commandTester = $this->getCommandTester();
         $commandTester->execute([]);

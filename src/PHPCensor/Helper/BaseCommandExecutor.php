@@ -144,9 +144,13 @@ abstract class BaseCommandExecutor implements CommandExecutor
     }
 
     /**
-     * Find a binary required by a plugin.
+     * Find a binary required by a plugin
+     * 
      * @param string $binary
-     * @param bool $quiet
+     * @param bool   $quiet
+     * 
+     * @throws Exception
+     * 
      * @return null|string
      */
     public function findBinary($binary, $quiet = false)
@@ -162,22 +166,26 @@ abstract class BaseCommandExecutor implements CommandExecutor
 
             if (is_dir($composerBin) && is_file($composerBin . DIRECTORY_SEPARATOR . $bin)) {
                 $this->logger->log(Lang::get('found_in_path', $composerBin, $bin), LogLevel::DEBUG);
+
                 return $composerBin . DIRECTORY_SEPARATOR . $bin;
             }
 
-            if (is_file($this->rootDir . $bin)) {
+            if (is_file($this->rootDir . DIRECTORY_SEPARATOR . $bin)) {
                 $this->logger->log(Lang::get('found_in_path', 'root', $bin), LogLevel::DEBUG);
-                return $this->rootDir . $bin;
+
+                return $this->rootDir . DIRECTORY_SEPARATOR . $bin;
             }
 
             if (is_file($this->rootDir . 'vendor' . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . $bin)) {
                 $this->logger->log(Lang::get('found_in_path', 'vendor/bin', $bin), LogLevel::DEBUG);
+
                 return $this->rootDir . 'vendor' . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . $bin;
             }
 
             $findCmdResult = $this->findGlobalBinary($bin);
             if (is_file($findCmdResult)) {
                 $this->logger->log(Lang::get('found_in_path', '', $bin), LogLevel::DEBUG);
+
                 return $findCmdResult;
             }
         }
@@ -185,6 +193,7 @@ abstract class BaseCommandExecutor implements CommandExecutor
         if ($quiet) {
             return null;
         }
+
         throw new Exception(Lang::get('could_not_find', implode('/', $binary)));
     }
 

@@ -84,6 +84,21 @@ TAP;
         $this->assertEquals([], $result);
     }
 
+    public function testTapCoverageXdebug()
+    {
+        $content = <<<TAP
+TAP version 13
+
+Warning: The Xdebug extension is not loaded
+         No code coverage will be generated.
+
+TAP;
+        $parser = new TapParser($content);
+        $result = $parser->parse();
+
+        $this->assertEquals([], $result);
+    }
+
     /**
      * @expectedException \Exception
      * @expectedExceptionMessageRegExp /Duplicated TAP/

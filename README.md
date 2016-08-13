@@ -21,12 +21,24 @@ What it doesn't do (yet)
 * Virtualised testing.
 * Multiple PHP-version tests.
 * Install PEAR or PECL extensions.
-* Deployments - We strongly recommend using [Deployer](http://phpdeployment.org)
+* Deployments
 
 Documentation
 =============
 
 [PHP Censor documentation](docs/README.md)
+
+Tests
+=====
+
+```bash
+cd /path/to/php-censor
+./vendor/bin/phpunit
+```
+
+For Phar plugin tests set 'phar.readonly' setting to Off (0) in `php.ini` config. Otherwise tests will be skipped.
+
+For database B8Framework tests create empty 'b8_test' MySQL database on 'localhost' with user/password: `root/root`.
 
 License
 =======

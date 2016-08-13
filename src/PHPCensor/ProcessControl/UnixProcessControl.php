@@ -30,14 +30,16 @@ class UnixProcessControl implements ProcessControlInterface
     }
 
     /**
-     * Sends a signal using the "kill" command.
-     *
-     * @param int $pid
-     * @param bool $forcefully
+     * {@inheritdoc}
      */
     public function kill($pid, $forcefully = false)
     {
-        exec(sprintf("kill -%d %d", $forcefully ? 9 : 15, $pid));
+        $output = [];
+        $result = 1;
+        
+        exec(sprintf("kill -%d %d", $forcefully ? 9 : 15, $pid), $output, $result);
+        
+        return !$result;
     }
 
     /**

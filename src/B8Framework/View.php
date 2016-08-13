@@ -2,7 +2,7 @@
 
 namespace b8;
 
-use b8\Exception\HttpException;
+class ViewRuntimeException extends \RuntimeException {}
 
 class View
 {
@@ -13,7 +13,7 @@ class View
     public function __construct($file, $path = null)
     {
         if (!self::exists($file, $path)) {
-            throw new \Exception('View file does not exist: ' . $file);
+            throw new ViewRuntimeException('View file does not exist: ' . $file);
         }
 
         $this->viewFile = self::getViewFile($file, $path);
@@ -61,7 +61,7 @@ class View
             }
 
             if (!class_exists($class)) {
-                throw new HttpException('Helper class does not exist: ' . $class);
+                throw new \Exception('Helper class does not exist: ' . $class);
             }
 
             self::$_helpers[$method] = new $class();

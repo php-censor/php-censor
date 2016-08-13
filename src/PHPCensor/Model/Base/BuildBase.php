@@ -184,10 +184,10 @@ class BuildBase extends Model
     ];
 
     /**
-    * Get the value of Id / id.
-    *
-    * @return int
-    */
+     * Get the value of Id / id.
+     *
+     * @return int
+     */
     public function getId()
     {
         $rtn = $this->data['id'];
@@ -196,10 +196,10 @@ class BuildBase extends Model
     }
 
     /**
-    * Get the value of ProjectId / project_id.
-    *
-    * @return int
-    */
+     * Get the value of ProjectId / project_id.
+     *
+     * @return int
+     */
     public function getProjectId()
     {
         $rtn = $this->data['project_id'];
@@ -208,10 +208,10 @@ class BuildBase extends Model
     }
 
     /**
-    * Get the value of CommitId / commit_id.
-    *
-    * @return string
-    */
+     * Get the value of CommitId / commit_id.
+     *
+     * @return string
+     */
     public function getCommitId()
     {
         $rtn = $this->data['commit_id'];
@@ -220,10 +220,10 @@ class BuildBase extends Model
     }
 
     /**
-    * Get the value of Status / status.
-    *
-    * @return int
-    */
+     * Get the value of Status / status.
+     *
+     * @return int
+     */
     public function getStatus()
     {
         $rtn = $this->data['status'];
@@ -232,10 +232,10 @@ class BuildBase extends Model
     }
 
     /**
-    * Get the value of Log / log.
-    *
-    * @return string
-    */
+     * Get the value of Log / log.
+     *
+     * @return string
+     */
     public function getLog()
     {
         $rtn = $this->data['log'];
@@ -244,10 +244,10 @@ class BuildBase extends Model
     }
 
     /**
-    * Get the value of Branch / branch.
-    *
-    * @return string
-    */
+     * Get the value of Branch / branch.
+     *
+     * @return string
+     */
     public function getBranch()
     {
         $rtn = $this->data['branch'];
@@ -256,10 +256,10 @@ class BuildBase extends Model
     }
 
     /**
-    * Get the value of Created / created.
-    *
-    * @return \DateTime
-    */
+     * Get the value of Created / created.
+     *
+     * @return \DateTime
+     */
     public function getCreated()
     {
         $rtn = $this->data['created'];
@@ -272,10 +272,10 @@ class BuildBase extends Model
     }
 
     /**
-    * Get the value of Started / started.
-    *
-    * @return \DateTime
-    */
+     * Get the value of Started / started.
+     *
+     * @return \DateTime
+     */
     public function getStarted()
     {
         $rtn = $this->data['started'];
@@ -288,10 +288,10 @@ class BuildBase extends Model
     }
 
     /**
-    * Get the value of Finished / finished.
-    *
-    * @return \DateTime
-    */
+     * Get the value of Finished / finished.
+     *
+     * @return \DateTime
+     */
     public function getFinished()
     {
         $rtn = $this->data['finished'];
@@ -304,10 +304,10 @@ class BuildBase extends Model
     }
 
     /**
-    * Get the value of CommitterEmail / committer_email.
-    *
-    * @return string
-    */
+     * Get the value of CommitterEmail / committer_email.
+     *
+     * @return string
+     */
     public function getCommitterEmail()
     {
         $rtn = $this->data['committer_email'];
@@ -316,10 +316,10 @@ class BuildBase extends Model
     }
 
     /**
-    * Get the value of CommitMessage / commit_message.
-    *
-    * @return string
-    */
+     * Get the value of CommitMessage / commit_message.
+     *
+     * @return string
+     */
     public function getCommitMessage()
     {
         $rtn = $this->data['commit_message'];
@@ -328,10 +328,10 @@ class BuildBase extends Model
     }
 
     /**
-    * Get the value of Extra / extra.
-    *
-    * @return string
-    */
+     * Get the value of Extra / extra.
+     *
+     * @return string
+     */
     public function getExtra()
     {
         $rtn = $this->data['extra'];
@@ -340,11 +340,10 @@ class BuildBase extends Model
     }
 
     /**
-    * Set the value of Id / id.
-    *
-    * Must not be null.
-    * @param $value int
-    */
+     * Set the value of Id / id. Must not be null.
+     *
+     * @param $value int
+     */
     public function setId($value)
     {
         $this->_validateNotNull('Id', $value);
@@ -360,11 +359,10 @@ class BuildBase extends Model
     }
 
     /**
-    * Set the value of ProjectId / project_id.
-    *
-    * Must not be null.
-    * @param $value int
-    */
+     * Set the value of ProjectId / project_id. Must not be null.
+     *
+     * @param $value int
+     */
     public function setProjectId($value)
     {
         $this->_validateNotNull('ProjectId', $value);
@@ -380,11 +378,10 @@ class BuildBase extends Model
     }
 
     /**
-    * Set the value of CommitId / commit_id.
-    *
-    * Must not be null.
-    * @param $value string
-    */
+     * Set the value of CommitId / commit_id. Must not be null.
+     *
+     * @param $value string
+     */
     public function setCommitId($value)
     {
         $this->_validateNotNull('CommitId', $value);
@@ -400,11 +397,10 @@ class BuildBase extends Model
     }
 
     /**
-    * Set the value of Status / status.
-    *
-    * Must not be null.
-    * @param $value int
-    */
+     * Set the value of Status / status. Must not be null.
+     *
+     * @param $value int
+     */
     public function setStatus($value)
     {
         $this->_validateNotNull('Status', $value);
@@ -420,10 +416,10 @@ class BuildBase extends Model
     }
 
     /**
-    * Set the value of Log / log.
-    *
-    * @param $value string
-    */
+     * Set the value of Log / log.
+     *
+     * @param $value string
+     */
     public function setLog($value)
     {
         $this->_validateString('Log', $value);
@@ -438,11 +434,10 @@ class BuildBase extends Model
     }
 
     /**
-    * Set the value of Branch / branch.
-    *
-    * Must not be null.
-    * @param $value string
-    */
+     * Set the value of Branch / branch. Must not be null.
+     *
+     * @param $value string
+     */
     public function setBranch($value)
     {
         $this->_validateNotNull('Branch', $value);
@@ -458,10 +453,10 @@ class BuildBase extends Model
     }
 
     /**
-    * Set the value of Created / created.
-    *
-    * @param $value \DateTime
-    */
+     * Set the value of Created / created.
+     *
+     * @param $value \DateTime
+     */
     public function setCreated($value)
     {
         $this->_validateDate('Created', $value);
@@ -476,10 +471,10 @@ class BuildBase extends Model
     }
 
     /**
-    * Set the value of Started / started.
-    *
-    * @param $value \DateTime
-    */
+     * Set the value of Started / started.
+     *
+     * @param $value \DateTime
+     */
     public function setStarted($value)
     {
         $this->_validateDate('Started', $value);
@@ -494,10 +489,10 @@ class BuildBase extends Model
     }
 
     /**
-    * Set the value of Finished / finished.
-    *
-    * @param $value \DateTime
-    */
+     * Set the value of Finished / finished.
+     *
+     * @param $value \DateTime
+     */
     public function setFinished($value)
     {
         $this->_validateDate('Finished', $value);
@@ -512,10 +507,10 @@ class BuildBase extends Model
     }
 
     /**
-    * Set the value of CommitterEmail / committer_email.
-    *
-    * @param $value string
-    */
+     * Set the value of CommitterEmail / committer_email.
+     *
+     * @param $value string
+     */
     public function setCommitterEmail($value)
     {
         $this->_validateString('CommitterEmail', $value);
@@ -530,10 +525,10 @@ class BuildBase extends Model
     }
 
     /**
-    * Set the value of CommitMessage / commit_message.
-    *
-    * @param $value string
-    */
+     * Set the value of CommitMessage / commit_message.
+     *
+     * @param $value string
+     */
     public function setCommitMessage($value)
     {
         $this->_validateString('CommitMessage', $value);
@@ -548,10 +543,10 @@ class BuildBase extends Model
     }
 
     /**
-    * Set the value of Extra / extra.
-    *
-    * @param $value string
-    */
+     * Set the value of Extra / extra.
+     *
+     * @param $value string
+     */
     public function setExtra($value)
     {
         $this->_validateString('Extra', $value);
@@ -568,8 +563,6 @@ class BuildBase extends Model
     /**
      * Get the Project model for this Build by Id.
      *
-     * @uses \PHPCensor\Store\ProjectStore::getById()
-     * @uses \PHPCensor\Model\Project
      * @return \PHPCensor\Model\Project
      */
     public function getProject()
@@ -592,10 +585,10 @@ class BuildBase extends Model
     }
 
     /**
-    * Set Project - Accepts an ID, an array representing a Project or a Project model.
-    *
-    * @param $value mixed
-    */
+     * Set Project - Accepts an ID, an array representing a Project or a Project model.
+     *
+     * @param $value mixed
+     */
     public function setProject($value)
     {
         // Is this an instance of Project?
@@ -613,10 +606,10 @@ class BuildBase extends Model
     }
 
     /**
-    * Set Project - Accepts a Project model.
-    * 
-    * @param $value Project
-    */
+     * Set Project - Accepts a Project model.
+     *
+     * @param $value Project
+     */
     public function setProjectObject(Project $value)
     {
         return $this->setProjectId($value->getId());
@@ -624,9 +617,7 @@ class BuildBase extends Model
 
     /**
      * Get BuildError models by BuildId for this Build.
-     *
-     * @uses \PHPCensor\Store\BuildErrorStore::getByBuildId()
-     * @uses \PHPCensor\Model\BuildError
+     * 
      * @return \PHPCensor\Model\BuildError[]
      */
     public function getBuildBuildErrors()
@@ -636,9 +627,7 @@ class BuildBase extends Model
 
     /**
      * Get BuildMeta models by BuildId for this Build.
-     *
-     * @uses \PHPCensor\Store\BuildMetaStore::getByBuildId()
-     * @uses \PHPCensor\Model\BuildMeta
+     * 
      * @return \PHPCensor\Model\BuildMeta[]
      */
     public function getBuildBuildMetas()

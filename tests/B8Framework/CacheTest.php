@@ -4,12 +4,12 @@ namespace Tests\b8;
 
 use b8\Config, b8\Cache;
 
-class CacheTest extends PHPUnit_Framework_TestCase
+class CacheTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreateSingleton()
     {
         $cache = Cache::getCache(Cache::TYPE_APC);
-        $this->assertTrue($cache instanceof Cache);
+        self::assertInstanceOf('\b8\Cache\ApcCache', $cache);
     }
 
     public function testDisableCaching()

@@ -10,6 +10,7 @@
 
 namespace Tests\PHPCensor\Plugin;
 
+use b8\Config;
 use PHPCensor\Plugin\Email as EmailPlugin;
 use PHPCensor\Model\Build;
 
@@ -61,6 +62,14 @@ class EmailTest extends \PHPUnit_Framework_TestCase
         $this->mailDelivered = true;
         $self                = $this;
 
+        $config = new Config([
+            'b8' => [
+                'view' => [
+                    'path' => SRC_DIR . 'View/'
+                ]
+            ]
+        ]);
+
         $this->mockProject = $this->getMock(
             '\PHPCensor\Model\Project',
             ['getTitle'],
@@ -104,7 +113,8 @@ class EmailTest extends \PHPUnit_Framework_TestCase
             [
                 'getSystemConfig',
                 'getBuild',
-                'log'
+                'log',
+                'logDebug'
             ],
             [],
             "mockBuilder_email",
@@ -119,7 +129,7 @@ class EmailTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(['email_settings' => ['from_address' => "test-from-address@example.com"]]));
     }
 
-    protected function loadEmailPluginWithOptions($arrOptions = [], $buildStatus = null, $mailDelivered = true)
+    protected function loadEmailPluginWithOptions($arrOptions = [], $buildStatus = null, $mailDelivered = 1)
     {
         $this->mailDelivered = $mailDelivered;
 
@@ -147,10 +157,10 @@ class EmailTest extends \PHPUnit_Framework_TestCase
         $this->testedEmailPlugin->expects($this->any())
             ->method('sendEmail')
             ->will($this->returnCallback(function ($to, $cc, $subject, $body) use ($self) {
-                $self->message['to'][] = $to;
-                $self->message['cc'] = $cc;
+                $self->message['to'][]    = $to;
+                $self->message['cc']      = $cc;
                 $self->message['subject'] = $subject;
-                $self->message['body'] = $body;
+                $self->message['body']    = $body;
 
                 return $self->mailDelivered;
             }));
@@ -356,7 +366,7 @@ class EmailTest extends \PHPUnit_Framework_TestCase
                 'addresses' => ['test-receiver@example.com']
             ],
             Build::STATUS_FAILED,
-            true
+            1
         );
 
         $returnValue = $this->testedEmailPlugin->execute();
@@ -374,7 +384,7 @@ class EmailTest extends \PHPUnit_Framework_TestCase
                 'addresses' => ['test-receiver@example.com']
             ],
             Build::STATUS_FAILED,
-            false
+            0
         );
 
         $returnValue = $this->testedEmailPlugin->execute();

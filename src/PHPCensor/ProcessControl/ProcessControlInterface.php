@@ -16,7 +16,8 @@ namespace PHPCensor\ProcessControl;
  */
 interface ProcessControlInterface
 {
-    /** Checks if a process exists.
+    /**
+     * Checks if a process exists.
      *
      * @param int $pid The process identifier.
      *
@@ -24,10 +25,13 @@ interface ProcessControlInterface
      */
     public function isRunning($pid);
 
-    /** Terminate a running process.
+    /**
+     * Terminate a running process.
      *
      * @param int $pid The process identifier.
      * @param bool $forcefully Whether to gently (false) or forcefully (true) terminate the process.
+     * 
+     * @return boolean
      */
     public function kill($pid, $forcefully = false);
 }

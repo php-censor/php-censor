@@ -18,36 +18,34 @@ class InstallCommandTest extends \PHPUnit_Framework_TestCase
 {
     public $config;
     public $admin;
+
+    /**
+     * @var Application
+     */
     protected $application;
 
-    public function setup()
+    public function setUp()
     {
-        parent::setup();
+        parent::setUp();
 
         $this->application = new Application();
         $this->application->setHelperSet(new HelperSet());
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockBuilder
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    protected function getDialogHelperMock()
+    protected function getHelperMock()
     {
         // We check that there's no interaction with user.
-        $dialog = $this->getMockBuilder('Symfony\\Component\\Console\\Helper\\DialogHelper')
-            ->setMethods([
-                'ask',
-                'askConfirmation',
-                'askAndValidate',
-                'askHiddenResponse',
-                'askHiddenResponseAndValidate',
-            ])->getMock();
-
-        return $dialog;
+        return $this
+            ->getMockBuilder('Symfony\\Component\\Console\\Helper\\QuestionHelper')
+            ->setMethods(['ask'])
+            ->getMock();
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockBuilder
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function getInstallCommandMock()
     {
@@ -84,9 +82,9 @@ class InstallCommandTest extends \PHPUnit_Framework_TestCase
         return $command;
     }
 
-    protected function getCommandTester($dialog)
+    protected function getCommandTester($helper)
     {
-        $this->application->getHelperSet()->set($dialog, 'dialog');
+        $this->application->getHelperSet()->set($helper, 'question');
         $this->application->add($this->getInstallCommandMock());
         $command = $this->application->find('php-censor:install');
         $commandTester = new CommandTester($command);
@@ -98,6 +96,7 @@ class InstallCommandTest extends \PHPUnit_Framework_TestCase
     {
         $config = [
             '--db-host'        => 'localhost',
+            '--db-port'        => '3306',
             '--db-name'        => 'php-censor-db',
             '--db-user'        => 'php-censor-user',
             '--db-pass'        => 'php-censor-password',
@@ -129,26 +128,18 @@ class InstallCommandTest extends \PHPUnit_Framework_TestCase
 
     public function testAutomaticInstallation()
     {
-        $dialog = $this->getDialogHelperMock();
+        $dialog = $this->getHelperMock();
         $dialog->expects($this->never())->method('ask');
-        $dialog->expects($this->never())->method('askConfirmation');
-        $dialog->expects($this->never())->method('askAndValidate');
-        $dialog->expects($this->never())->method('askHiddenResponse');
-        $dialog->expects($this->never())->method('askHiddenResponseAndValidate');
 
         $this->executeWithoutParam(null, $dialog);
     }
 
     public function testDatabaseHostnameConfig()
     {
-        $dialog = $this->getDialogHelperMock();
+        $dialog = $this->getHelperMock();
 
         // We specified an input value for hostname.
         $dialog->expects($this->once())->method('ask')->willReturn('testedvalue');
-        $dialog->expects($this->never())->method('askConfirmation');
-        $dialog->expects($this->never())->method('askAndValidate');
-        $dialog->expects($this->never())->method('askHiddenResponse');
-        $dialog->expects($this->never())->method('askHiddenResponseAndValidate');
 
         $this->executeWithoutParam('--db-host', $dialog);
 
@@ -159,14 +150,10 @@ class InstallCommandTest extends \PHPUnit_Framework_TestCase
 
     public function testDatabaseNameConfig()
     {
-        $dialog = $this->getDialogHelperMock();
+        $dialog = $this->getHelperMock();
 
         // We specified an input value for hostname.
         $dialog->expects($this->once())->method('ask')->willReturn('testedvalue');
-        $dialog->expects($this->never())->method('askConfirmation');
-        $dialog->expects($this->never())->method('askAndValidate');
-        $dialog->expects($this->never())->method('askHiddenResponse');
-        $dialog->expects($this->never())->method('askHiddenResponseAndValidate');
 
         $this->executeWithoutParam('--db-name', $dialog);
 
@@ -176,14 +163,10 @@ class InstallCommandTest extends \PHPUnit_Framework_TestCase
 
     public function testDatabaseUserConfig()
     {
-        $dialog = $this->getDialogHelperMock();
+        $dialog = $this->getHelperMock();
 
         // We specified an input value for hostname.
         $dialog->expects($this->once())->method('ask')->willReturn('testedvalue');
-        $dialog->expects($this->never())->method('askConfirmation');
-        $dialog->expects($this->never())->method('askAndValidate');
-        $dialog->expects($this->never())->method('askHiddenResponse');
-        $dialog->expects($this->never())->method('askHiddenResponseAndValidate');
 
         $this->executeWithoutParam('--db-user', $dialog);
 
@@ -193,14 +176,9 @@ class InstallCommandTest extends \PHPUnit_Framework_TestCase
 
     public function testDatabasePasswordConfig()
     {
-        $dialog = $this->getDialogHelperMock();
-
-        // We specified an input value for hostname.
-        $dialog->expects($this->never())->method('ask');
-        $dialog->expects($this->never())->method('askConfirmation');
-        $dialog->expects($this->never())->method('askAndValidate');
-        $dialog->expects($this->once())->method('askHiddenResponse')->willReturn('testedvalue');
-        $dialog->expects($this->never())->method('askHiddenResponseAndValidate');
+        $dialog = $this->getHelperMock();
+        
+        $dialog->expects($this->once())->method('ask')->willReturn('testedvalue');
 
         $this->executeWithoutParam('--db-pass', $dialog);
 
@@ -210,14 +188,10 @@ class InstallCommandTest extends \PHPUnit_Framework_TestCase
 
     public function testUrlConfig()
     {
-        $dialog = $this->getDialogHelperMock();
+        $dialog = $this->getHelperMock();
 
         // We specified an input value for hostname.
-        $dialog->expects($this->never())->method('ask');
-        $dialog->expects($this->never())->method('askConfirmation');
-        $dialog->expects($this->once())->method('askAndValidate')->willReturn('http://testedvalue.com');
-        $dialog->expects($this->never())->method('askHiddenResponse');
-        $dialog->expects($this->never())->method('askHiddenResponseAndValidate');
+        $dialog->expects($this->once())->method('ask')->willReturn('http://testedvalue.com');
 
         $this->executeWithoutParam('--url', $dialog);
 
@@ -227,14 +201,10 @@ class InstallCommandTest extends \PHPUnit_Framework_TestCase
 
     public function testAdminEmailConfig()
     {
-        $dialog = $this->getDialogHelperMock();
+        $dialog = $this->getHelperMock();
 
         // We specified an input value for hostname.
-        $dialog->expects($this->never())->method('ask');
-        $dialog->expects($this->never())->method('askConfirmation');
-        $dialog->expects($this->once())->method('askAndValidate')->willReturn('admin@php-censor.local');
-        $dialog->expects($this->never())->method('askHiddenResponse');
-        $dialog->expects($this->never())->method('askHiddenResponseAndValidate');
+        $dialog->expects($this->once())->method('ask')->willReturn('admin@php-censor.local');
 
         $this->executeWithoutParam('--admin-mail', $dialog);
 
@@ -244,14 +214,10 @@ class InstallCommandTest extends \PHPUnit_Framework_TestCase
 
     public function testAdminNameConfig()
     {
-        $dialog = $this->getDialogHelperMock();
+        $dialog = $this->getHelperMock();
 
         // Define expectation for dialog.
         $dialog->expects($this->once())->method('ask')->willReturn('testedvalue');
-        $dialog->expects($this->never())->method('askConfirmation');
-        $dialog->expects($this->never())->method('askAndValidate');
-        $dialog->expects($this->never())->method('askHiddenResponse');
-        $dialog->expects($this->never())->method('askHiddenResponseAndValidate');
 
         $this->executeWithoutParam('--admin-name', $dialog);
 
@@ -261,14 +227,10 @@ class InstallCommandTest extends \PHPUnit_Framework_TestCase
 
     public function testAdminPasswordConfig()
     {
-        $dialog = $this->getDialogHelperMock();
+        $dialog = $this->getHelperMock();
 
         // We specified an input value for hostname.
-        $dialog->expects($this->never())->method('ask');
-        $dialog->expects($this->never())->method('askConfirmation');
-        $dialog->expects($this->never())->method('askAndValidate');
-        $dialog->expects($this->once())->method('askHiddenResponse')->willReturn('testedvalue');
-        $dialog->expects($this->never())->method('askHiddenResponseAndValidate');
+        $dialog->expects($this->once())->method('ask')->willReturn('testedvalue');
 
         $this->executeWithoutParam('--admin-pass', $dialog);
 

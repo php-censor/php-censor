@@ -9,6 +9,7 @@
 
 namespace Tests\PHPCensor\Command;
 
+use PHPCensor\Command\CreateBuildCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -24,9 +25,9 @@ class CreateBuildCommandTest extends \PHPUnit_Framework_TestCase
      */
     protected $application;
 
-    public function setup()
+    public function setUp()
     {
-        parent::setup();
+        parent::setUp();
 
         $projectMock = $this->getMock('PHPCensor\\Model\\Project');
 
@@ -41,6 +42,7 @@ class CreateBuildCommandTest extends \PHPUnit_Framework_TestCase
         $buildServiceMock = $this->getMockBuilder('PHPCensor\\Service\\BuildService')
             ->disableOriginalConstructor()
             ->getMock();
+
         $buildServiceMock->method('createBuild')
             ->withConsecutive(
                 [$projectMock, null, null, null, null, null],
@@ -48,10 +50,7 @@ class CreateBuildCommandTest extends \PHPUnit_Framework_TestCase
                 [$projectMock, null, 'master', null, null, null]
             );
 
-        $this->command = $this->getMockBuilder('PHPCensor\\Command\\CreateBuildCommand')
-            ->setConstructorArgs([$projectStoreMock, $buildServiceMock])
-            ->setMethods(['reloadConfig'])
-            ->getMock();
+        $this->command = new CreateBuildCommand($projectStoreMock, $buildServiceMock);
 
         $this->application = new Application();
     }

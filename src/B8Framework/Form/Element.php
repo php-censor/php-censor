@@ -97,11 +97,11 @@ abstract class Element
             $view = new View($viewFile, B8_PATH . 'Form/View/');
         }
 
-        $view->name = $this->getName();
-        $view->id = $this->getId();
-        $view->label = $this->getLabel();
-        $view->css = $this->getClass();
-        $view->ccss = $this->getContainerClass();
+        $view->name   = $this->getName();
+        $view->id     = $this->getId();
+        $view->label  = $this->getLabel();
+        $view->css    = $this->getClass();
+        $view->ccss   = $this->getContainerClass();
         $view->parent = $this->_parent;
 
         $this->_onPreRender($view);

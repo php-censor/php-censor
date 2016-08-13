@@ -2,7 +2,8 @@
 
 namespace Tests\b8;
 
-use b8\View, b8\View\UserView;
+use b8\View;
+use b8\View\Template;
 
 class ViewTest extends \PHPUnit_Framework_TestCase
 {
@@ -44,92 +45,94 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \b8\Exception\HttpException
+     * @expectedException \Exception
      */
     public function testInvalidHelper()
     {
-        $view = new UserView('{@Invalid:test}');
+        $view = new Template('{@Invalid:test}');
         $view->render();
     }
 
     public function testSimpleUserView()
     {
-        $view = new UserView('Hello');
+        $view = new Template('Hello');
         $this->assertTrue($view->render() == 'Hello');
     }
 
     public function testUserViewYear()
     {
-        $view = new UserView('{@year}');
+        $view = new Template('{@year}');
         $this->assertTrue($view->render() == date('Y'));
     }
 
     public function testUserViewVars()
     {
-        $view = new UserView('Hello {@who}');
+        $view      = new Template('Hello {@who}');
         $view->who = 'World';
         $this->assertTrue($view->render() == 'Hello World');
 
-        $view = new UserView('Hello {@who}');
+        $view = new Template('Hello {@who}');
         $this->assertTrue($view->render() == 'Hello ');
 
-        $view = new UserView('Hello {@who.name}');
+        $view      = new Template('Hello {@who.name}');
         $view->who = ['name' => 'Dan'];
         $this->assertTrue($view->render() == 'Hello Dan');
 
-        $tmp = new UserView('Hello');
-        $tmp->who = 'World';
-        $view = new UserView('Hello {@tmp.who}');
+        $tmp       = new Template('Hello');
+        $tmp->who  = 'World';
+        $view      = new Template('Hello {@tmp.who}');
         $view->tmp = $tmp;
-
         $this->assertTrue($view->render() == 'Hello World');
 
-        $tmp = new UserView('Hello');
-        $view = new UserView('Hello {@tmp.who}');
-        $view->tmp = $tmp;
+        try {
+            $tmp        = new Template('Hello');
+            $view       = new Template('Hello {@tmp.who}');
+            $view->tmp  = $tmp;
+            $this->assertTrue($view->render() == 'Hello ');
+        } catch (\Exception $e) {
+            self::assertInstanceOf('\ErrorException', $e);
+        }
 
-        $this->assertTrue($view->render() == 'Hello ');
-
-        $view = new UserView('Hello {@who.toUpperCase}');
+        $view      = new Template('Hello {@who.toUpperCase}');
         $view->who = 'World';
         $this->assertTrue($view->render() == 'Hello WORLD');
 
-        $view = new UserView('Hello {@who.toLowerCase}');
+        $view      = new Template('Hello {@who.toLowerCase}');
         $view->who = 'World';
         $this->assertTrue($view->render() == 'Hello world');
     }
 
     public function testUserViewIf()
     {
-        $view = new UserView('Hello{if who} World{/if}');
+        $view = new Template('Hello{if who} World{/if}');
         $view->who = true;
         $this->assertTrue($view->render() == 'Hello World');
 
-        $view = new UserView('Hello{if who} World{/if}');
+        $view = new Template('Hello{if who} World{/if}');
         $view->who = false;
         $this->assertTrue($view->render() == 'Hello');
 
-        $view = new UserView('Hello{ifnot who} World{/ifnot}');
+        $view = new Template('Hello{ifnot who} World{/ifnot}');
         $view->who = true;
         $this->assertTrue($view->render() == 'Hello');
 
-        $view = new UserView('Hello {if Format:not_present}World{/if}');
+        $view = new Template('Hello {if Format:not_present}World{/if}');
         $this->assertTrue($view->render() == 'Hello ');
 
-        $view = new UserView('Hello {ifnot Format:not_present}World{/ifnot}');
+        $view = new Template('Hello {ifnot Format:not_present}World{/ifnot}');
         $this->assertTrue($view->render() == 'Hello World');
     }
 
     public function testUserViewLoop()
     {
-        $view = new UserView('Hello {loop who}{@item}{/loop}');
+        $view = new Template('Hello {loop who}{@item}{/loop}');
         $view->who = ['W', 'o', 'r', 'l', 'd'];
         $this->assertTrue($view->render() == 'Hello World');
 
-        $view = new UserView('Hello {loop who}{@item}{/loop}');
+        $view = new Template('Hello {loop who}{@item}{/loop}');
         $this->assertTrue($view->render() == 'Hello ');
 
-        $view = new UserView('Hello {loop who}{@item}{/loop}');
+        $view = new Template('Hello {loop who}{@item}{/loop}');
         $view->who = 'World';
         $this->assertTrue($view->render() == 'Hello World');
     }
