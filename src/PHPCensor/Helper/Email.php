@@ -98,10 +98,25 @@ class Email
     }
 
     /**
+     * Get the from address to use for the email.
+     * @return mixed|string
+     */
+    protected function getFrom()
+    {
+        $email = $this->config->get('php-censor.email_settings.from_address', self::DEFAULT_FROM);
+
+        if (empty($email)) {
+            $email = self::DEFAULT_FROM;
+        }
+
+        return $email;
+    }
+
+    /**
      * Send the email.
-     * 
+     *
      * @param Builder $builder
-     * 
+     *
      * @return integer
      */
     public function send(Builder $builder)
@@ -109,50 +124,6 @@ class Email
         $smtpServer = $this->config->get('php-censor.email_settings.smtp_address');
         $builder->logDebug(sprintf("SMTP: '%s'", !empty($smtpServer) ? 'true' : 'false'));
 
-        if (empty($smtpServer)) {
-            return (integer)$this->sendViaMail();
-        } else {
-            return (integer)$this->sendViaSwiftMailer();
-        }
-    }
-
-    /**
-     * Sends the email via the built in PHP mail() function.
-     * @return bool
-     */
-    protected function sendViaMail()
-    {
-        $headers = '';
-
-        if ($this->isHtml) {
-            $headers = 'Content-Type: text/html' . PHP_EOL;
-        }
-
-        $headers .= 'From: ' . $this->getFrom() . PHP_EOL;
-
-        $emailTo = [];
-        foreach ($this->emailTo as $email => $name) {
-            $thisTo = $email;
-
-            if (!is_null($name)) {
-                $thisTo = '"' . $name . '" <' . $thisTo . '>';
-            }
-
-            $emailTo[] = $thisTo;
-        }
-
-        $emailTo = implode(', ', $emailTo);
-
-        return mail($emailTo, $this->subject, $this->body, $headers);
-    }
-
-    /**
-     * Sends the email using SwiftMailer.
-     * 
-     * @return int
-     */
-    protected function sendViaSwiftMailer()
-    {
         $factory = new MailerFactory($this->config->get('php-censor'));
         $mailer = $factory->getSwiftMailerFromConfig();
 
@@ -170,20 +141,5 @@ class Email
         }
 
         return $mailer->send($message);
-    }
-
-    /**
-     * Get the from address to use for the email.
-     * @return mixed|string
-     */
-    protected function getFrom()
-    {
-        $email = $this->config->get('php-censor.email_settings.from_address', self::DEFAULT_FROM);
-
-        if (empty($email)) {
-            $email = self::DEFAULT_FROM;
-        }
-
-        return $email;
     }
 }
