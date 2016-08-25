@@ -22,7 +22,7 @@ You can use additional parameters:
 
 Example:
 
-![](http://php-censor.local/build-status/image/2)
+![](http://php-censor.local/build-status/image/2?style=flat-squared&maxAge=3600)
 
 Status Page
 ===========
