@@ -51,41 +51,41 @@ class BuildStatusServiceTest extends \PHPUnit_Framework_TestCase
      */
     protected function getBuild($configId, $setProject = true)
     {
-        $config = array(
-            '1' => array(
-                'status' => Build::STATUS_RUNNING,
-                'id' => 77,
+        $config = [
+            '1' => [
+                'status'         => Build::STATUS_RUNNING,
+                'id'             => 77,
                 'finishDateTime' => null,
-                'startedDate' => '2014-10-25 21:20:02',
-                'previousBuild' => null,
-            ),
-            '2' => array(
-                'status' => Build::STATUS_RUNNING,
-                'id' => 78,
+                'startedDate'    => '2014-10-25 21:20:02',
+                'previousBuild'  => null,
+            ],
+            '2' => [
+                'status'         => Build::STATUS_RUNNING,
+                'id'             => 78,
                 'finishDateTime' => null,
-                'startedDate' => '2014-10-25 21:20:02',
-                'previousBuild' => 4,
-            ),
-            '3' => array(
-                'status' => Build::STATUS_SUCCESS,
-                'id' => 7,
+                'startedDate'    => '2014-10-25 21:20:02',
+                'previousBuild'  => 4,
+            ],
+            '3' => [
+                'status'         => Build::STATUS_SUCCESS,
+                'id'             => 7,
                 'finishDateTime' => '2014-10-25 21:50:02',
-                'startedDate' => '2014-10-25 21:20:02',
-                'previousBuild' => null,
-            ),
-            '4' => array(
-                'status' => Build::STATUS_FAILED,
-                'id' => 13,
+                'startedDate'    => '2014-10-25 21:20:02',
+                'previousBuild'  => null,
+            ],
+            '4' => [
+                'status'         => Build::STATUS_FAILED,
+                'id'             => 13,
                 'finishDateTime' => '2014-10-13 13:13:13',
-                'previousBuild' => null,
-            ),
-            '5' => array(
-                'status' => Build::STATUS_NEW,
-                'id' => 1000,
+                'previousBuild'  => null,
+            ],
+            '5' => [
+                'status'         => Build::STATUS_NEW,
+                'id'             => 1000,
                 'finishDateTime' => '2014-12-25 21:12:21',
-                'previousBuild' => 3,
-            )
-        );
+                'previousBuild'  => 3,
+            ]
+        ];
 
         $build = new Build();
         $build->setId($config[$configId]['id']);
@@ -112,7 +112,7 @@ class BuildStatusServiceTest extends \PHPUnit_Framework_TestCase
      */
     protected function getProjectMock($prevBuildId = null, $setProject = true) {
 
-        $project = $this->getMock('PHPCensor\Model\Project', array('getLatestBuild'));
+        $project = $this->getMock('PHPCensor\Model\Project', ['getLatestBuild']);
 
         $prevBuild = ($prevBuildId) ? $this->getBuild($prevBuildId, false) : null;
 
@@ -150,62 +150,62 @@ class BuildStatusServiceTest extends \PHPUnit_Framework_TestCase
 
     public function finishedProvider()
     {
-        return array(
-            'buildingStatus' => array(
+        return [
+            'buildingStatus' => [
                 1,
-                array(
-                    'name' => 'Test / master',
-                    'activity' => 'Building',
-                    'lastBuildLabel' => '',
+                [
+                    'name'            => 'Test / master',
+                    'activity'        => 'Building',
+                    'lastBuildLabel'  => '',
                     'lastBuildStatus' => '',
-                    'lastBuildTime' => '',
-                    'webUrl' => 'http://php-censor.local/build/view/77',
-                )
-            ),
-            'buildingStatusWithPrev' => array(
+                    'lastBuildTime'   => '',
+                    'webUrl'          => 'http://php-censor.local/build/view/77',
+                ]
+            ],
+            'buildingStatusWithPrev' => [
                 2,
-                array(
-                    'name' => 'Test / master',
-                    'activity' => 'Building',
-                    'lastBuildLabel' => 13,
+                [
+                    'name'            => 'Test / master',
+                    'activity'        => 'Building',
+                    'lastBuildLabel'  => 13,
                     'lastBuildStatus' => 'Failure',
-                    'lastBuildTime' => '2014-10-13T13:13:13+0000',
-                    'webUrl' => 'http://php-censor.local/build/view/78',
-                )
-            ),
-            'successStatus' => array(
+                    'lastBuildTime'   => '2014-10-13T13:13:13+0000',
+                    'webUrl'          => 'http://php-censor.local/build/view/78',
+                ]
+            ],
+            'successStatus' => [
                 3,
-                array(
-                    'name' => 'Test / master',
-                    'activity' => 'Sleeping',
-                    'lastBuildLabel' => 7,
+                [
+                    'name'            => 'Test / master',
+                    'activity'        => 'Sleeping',
+                    'lastBuildLabel'  => 7,
                     'lastBuildStatus' => 'Success',
-                    'lastBuildTime' => '2014-10-25T21:50:02+0000',
-                    'webUrl' => 'http://php-censor.local/build/view/7',
-                )
-            ),
-            'failureStatus' => array(
+                    'lastBuildTime'   => '2014-10-25T21:50:02+0000',
+                    'webUrl'          => 'http://php-censor.local/build/view/7',
+                ]
+            ],
+            'failureStatus' => [
                 4,
-                array(
-                    'name' => 'Test / master',
-                    'activity' => 'Sleeping',
-                    'lastBuildLabel' => 13,
+                [
+                    'name'            => 'Test / master',
+                    'activity'        => 'Sleeping',
+                    'lastBuildLabel'  => 13,
                     'lastBuildStatus' => 'Failure',
-                    'lastBuildTime' => '2014-10-13T13:13:13+0000',
-                    'webUrl' => 'http://php-censor.local/build/view/13',
-                )
-            ),
-            'pending' => array(
+                    'lastBuildTime'   => '2014-10-13T13:13:13+0000',
+                    'webUrl'          => 'http://php-censor.local/build/view/13',
+                ]
+            ],
+            'pending' => [
                 5,
-                array(
-                    'name' => 'Test / master',
-                    'activity' => 'Pending',
-                    'lastBuildLabel' => 7,
+                [
+                    'name'            => 'Test / master',
+                    'activity'        => 'Pending',
+                    'lastBuildLabel'  => 7,
                     'lastBuildStatus' => 'Success',
-                    'lastBuildTime' => '2014-10-25T21:50:02+0000',
-                    'webUrl' => 'http://php-censor.local/build/view/1000',
-                )
-            ),
-        );
+                    'lastBuildTime'   => '2014-10-25T21:50:02+0000',
+                    'webUrl'          => 'http://php-censor.local/build/view/1000',
+                ]
+            ],
+        ];
     }
 }

@@ -13,14 +13,14 @@ The only step required to activate logging is to create a file in the root direc
 
 ```php
 <?php
-return array(
+return [
     /** Loggers attached to every command */
     "_" => function () {
-        return array(
+        return [
             new \Monolog\Handler\StreamHandler('path/to/log', \Monolog\Logger::ERROR),
-        );
+        ];
     }
-);
+];
 ```
 This file should return an array of key value pairs. Each key tells PHP Censor which command to attach the logger to (the underscore is a special value which matches all commands). For each command an array of [Monolog](https://github.com/Seldaek/monolog) handlers should be returned. In the example above we've used one that simply writes to the file system but in practise this could be any handler written for monolog.
 
