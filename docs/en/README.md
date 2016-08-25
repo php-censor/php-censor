@@ -46,6 +46,7 @@ Plugins
 * [Package Build](plugins/package_build.md) - `package_build`
 * [PDepend](plugins/pdepend.md) - `pdepend`
 * [PostgreSQL](plugins/pgsql.md) - `pgsql`
+* [SQLite](plugins/sqlite.md) - `sqlite`
 * [Phar](plugins/phar.md) - `phar`
 * [Phing](plugins/phing.md) - `phing`
 * [PHP Code Sniffer](plugins/php_code_sniffer.md) - `php_code_sniffer`
