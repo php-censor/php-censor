@@ -58,7 +58,7 @@ class MailerFactory
             $transport->setUsername($this->getMailConfig('smtp_username'));
             $transport->setPassword($this->getMailConfig('smtp_password'));
         } else {
-            $transport = \Swift_MailTransport::newInstance();
+            $transport = \Swift_MailTransport::newInstance(null);
         }
 
         return \Swift_Mailer::newInstance($transport);
