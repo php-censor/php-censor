@@ -25,6 +25,10 @@ class User
      */
     public function __call($method, $params = [])
     {
+        if (empty($_SESSION['php-censor-user'])) {
+            return null;
+        }
+
         $user = $_SESSION['php-censor-user'];
 
         if (!is_object($user)) {
