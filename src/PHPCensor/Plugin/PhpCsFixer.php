@@ -32,10 +32,10 @@ class PhpCsFixer implements Plugin
     protected $build;
 
     protected $workingDir = '';
-    protected $level = ' --level=psr2';
-    protected $verbose = '';
-    protected $diff = '';
-    protected $levels = ['psr0', 'psr1', 'psr2', 'symfony'];
+    protected $level      = ' --level=psr2';
+    protected $verbose    = '';
+    protected $diff       = '';
+    protected $levels     = array('psr0', 'psr1', 'psr2', 'symfony');
 
     /**
      * Standard Constructor

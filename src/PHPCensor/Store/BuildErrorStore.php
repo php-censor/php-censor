@@ -74,7 +74,7 @@ class BuildErrorStore extends BuildErrorStoreBase
             $res = $stmt->fetch(\PDO::FETCH_ASSOC);
             return $res['total'];
         } else {
-            return array();
+            return [];
         }
     }
 }

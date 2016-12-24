@@ -53,13 +53,13 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testExecute_CreateProjectWithOptions()
     {
-        $options = array(
-            'ssh_private_key' => 'private',
-            'ssh_public_key' => 'public',
+        $options = [
+            'ssh_private_key'     => 'private',
+            'ssh_public_key'      => 'public',
             'allow_public_status' => 1,
-            'build_config' => 'config',
-            'branch' => 'testbranch',
-        );
+            'build_config'        => 'config',
+            'branch'              => 'testbranch',
+        ];
 
         $returnValue = $this->testedService->createProject('Test Project', 'github', 'block8/phpci', $options);
 
@@ -102,11 +102,11 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
         $project = new Project();
         $project->setAllowPublicStatus(1);
 
-        $options = array(
+        $options = [
             'ssh_private_key' => 'private',
-            'ssh_public_key' => 'public',
-            'build_config' => 'config',
-        );
+            'ssh_public_key'  => 'public',
+            'build_config'    => 'config',
+        ];
 
         $returnValue = $this->testedService->updateProject($project, 'Test Project', 'github', 'block8/phpci', $options);
 

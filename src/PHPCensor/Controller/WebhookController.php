@@ -113,8 +113,8 @@ class WebhookController extends Controller
      */
     protected function bitbucketWebhook($payload, $project)
     {
-        $results = array();
-        $status = 'failed';
+        $results = [];
+        $status  = 'failed';
         foreach ($payload['push']['changes'] as $commit) {
             try {
                 $email = $commit['new']['target']['author']['raw'];
@@ -130,11 +130,11 @@ class WebhookController extends Controller
                 );
                 $status = 'ok';
             } catch (Exception $ex) {
-                $results[$commit['new']['target']['hash']] = array('status' => 'failed', 'error' => $ex->getMessage());
+                $results[$commit['new']['target']['hash']] = ['status' => 'failed', 'error' => $ex->getMessage()];
             }
         }
 
-        return array('status' => $status, 'commits' => $results);
+        return ['status' => $status, 'commits' => $results];
     }
 
     /**
