@@ -1,7 +1,6 @@
 /vendor
 /composer.phar
-/runtime/builds
-/runtime/daemon
+/runtime
 /app/loggerconfig.php
 /app/pluginconfig.php
 /app/config.yml
