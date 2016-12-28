@@ -72,10 +72,12 @@ class ProjectController extends PHPCensor\Controller
             throw new NotFoundException(Lang::get('project_x_not_found', $projectId));
         }
 
-        $per_page = 10;
+        $perPage = is_numeric(b8\Config::getInstance()->get('php-censor.per_page'))
+            ? (integer)b8\Config::getInstance()->get('php-censor.per_page')
+            : 10;
         $page     = $this->getParam('p', 1);
-        $builds   = $this->getLatestBuildsHtml($projectId, urldecode($branch), (($page - 1) * $per_page));
-        $pages    = $builds[1] == 0 ? 1 : ceil($builds[1] / $per_page);
+        $builds   = $this->getLatestBuildsHtml($projectId, urldecode($branch), (($page - 1) * $perPage), $perPage);
+        $pages    = $builds[1] == 0 ? 1 : ceil($builds[1] / $perPage);
 
         if ($page > $pages) {
             $response = new b8\Http\Response\RedirectResponse();
@@ -90,8 +92,9 @@ class ProjectController extends PHPCensor\Controller
         $this->view->branches = $this->projectStore->getKnownBranches($projectId);
         $this->view->page     = $page;
         $this->view->pages    = $pages;
+        $this->view->perPage  = $perPage;
 
-        $this->layout->title = $project->getTitle();
+        $this->layout->title    = $project->getTitle();
         $this->layout->subtitle = $this->view->branch;
 
         return $this->view->render();
@@ -141,12 +144,17 @@ class ProjectController extends PHPCensor\Controller
     }
 
     /**
-    * AJAX get latest builds.
-    */
+     * AJAX get latest builds.
+     * 
+     * @param int $projectId
+     * 
+     * @return b8\Http\Response
+     */
     public function builds($projectId)
     {
-        $branch = $this->getParam('branch', '');
-        $builds = $this->getLatestBuildsHtml($projectId, urldecode($branch));
+        $branch  = $this->getParam('branch', '');
+        $perPage = (integer)$this->getParam('per_page', 10);
+        $builds  = $this->getLatestBuildsHtml($projectId, urldecode($branch), 0, $perPage);
 
         $this->response->disableLayout();
         $this->response->setContent($builds[0]);
@@ -156,12 +164,14 @@ class ProjectController extends PHPCensor\Controller
     /**
      * Render latest builds for project as HTML table.
      *
-     * @param $projectId
-     * @param string $branch A urldecoded branch name.
-     * @param int $start
+     * @param int    $projectId
+     * @param string $branch    A urldecoded branch name.
+     * @param int    $start
+     * @param int    $perPage
+     * 
      * @return array
      */
-    protected function getLatestBuildsHtml($projectId, $branch = '', $start = 0)
+    protected function getLatestBuildsHtml($projectId, $branch = '', $start = 0, $perPage = 10)
     {
         $criteria = ['project_id' => $projectId];
         if (!empty($branch)) {
@@ -169,7 +179,7 @@ class ProjectController extends PHPCensor\Controller
         }
 
         $order  = ['id' => 'DESC'];
-        $builds = $this->buildStore->getWhere($criteria, 10, $start, [], $order);
+        $builds = $this->buildStore->getWhere($criteria, $perPage, $start, [], $order);
         $view   = new b8\View('BuildsTable');
 
         foreach ($builds['items'] as &$build) {

@@ -8,7 +8,9 @@ b8:
     username: php-censor-user
     password: php-censor-password
 php-censor:
-  url: 'http://php-censor.local'
+  language: en
+  per_page: 10
+  url:      'http://php-censor.local'
   worker:
     host:  localhost
     queue: php-censor-queue
