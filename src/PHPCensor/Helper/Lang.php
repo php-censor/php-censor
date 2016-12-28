@@ -18,6 +18,8 @@ use b8\Config;
  */
 class Lang
 {
+    const DEFAULT_LANGUAGE = 'en';
+    
     /**
      * @var string
      */
@@ -36,7 +38,7 @@ class Lang
     /**
      * @var array
      */
-    protected static $en_strings = [];
+    protected static $default_strings = [];
 
     /**
      * Get a specific string from the language file.
@@ -51,8 +53,8 @@ class Lang
         if (array_key_exists($string, self::$strings)) {
             $vars[0] = self::$strings[$string];
             return call_user_func_array('sprintf', $vars);
-        } elseif ('en' !== self::$language && array_key_exists($string, self::$en_strings)) {
-            $vars[0] = self::$en_strings[$string];
+        } elseif (self::DEFAULT_LANGUAGE !== self::$language && array_key_exists($string, self::$default_strings)) {
+            $vars[0] = self::$default_strings[$string];
             return call_user_func_array('sprintf', $vars);
         }
 
@@ -129,7 +131,7 @@ class Lang
      */
     public static function init(Config $config, $language_force = null)
     {
-        self::$en_strings = self::loadLanguage('en');
+        self::$default_strings = self::loadLanguage(self::DEFAULT_LANGUAGE);
         self::loadAvailableLanguages();
 
         if ($language_force && self::setLanguage($language_force)) {
@@ -156,13 +158,13 @@ class Lang
         }
 
         // Try the installation default language:
-        $language = $config->get('php-censor.basic.language', null);
+        $language = $config->get('php-censor.language', null);
         if (self::setLanguage($language)) {
             return;
         }
 
         // Fall back to English:
-        self::$language = 'en';
+        self::$language = self::DEFAULT_LANGUAGE;
         self::$strings  = self::loadLanguage();
     }
 
