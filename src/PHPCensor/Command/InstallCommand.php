@@ -192,7 +192,7 @@ class InstallCommand extends Command
         }
 
         if (!$adminName = $input->getOption('admin-name')) {
-            $questionName = new Question(Lang::get('admin-name'));
+            $questionName = new Question(Lang::get('admin_name'));
             $adminName    = $helper->ask($input, $output, $questionName);
         }
 
