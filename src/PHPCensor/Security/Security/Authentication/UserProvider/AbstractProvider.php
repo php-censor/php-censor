@@ -3,19 +3,19 @@
 /**
  * PHPCI - Continuous Integration for PHP
  *
- * @copyright    Copyright 2014, Block 8 Limited.
- * @license      https://github.com/Block8/PHPCI/blob/master/LICENSE.md
- * @link         https://www.phptesting.org/
+ * @copyright Copyright 2014, Block 8 Limited.
+ * @license   https://github.com/Block8/PHPCI/blob/master/LICENSE.md
+ * @link      https://www.phptesting.org/
  */
 
-namespace PHPCI\Security\Authentication\UserProvider;
+namespace PHPCensor\Security\Authentication\UserProvider;
 
-use PHPCI\Security\Authentication\UserProvider;
+use PHPCensor\Security\Authentication\UserProvider;
 
 /**
  * Abstract user provider.
  *
- * @author   Adirelle <adirelle@gmail.com>
+ * @author Adirelle <adirelle@gmail.com>
  */
 abstract class AbstractProvider implements UserProvider
 {

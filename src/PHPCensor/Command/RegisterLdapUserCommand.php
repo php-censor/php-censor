@@ -7,22 +7,23 @@
  * @link         https://www.phptesting.org/
  */
 
-namespace PHPCI\Command;
+namespace PHPCensor\Command;
 
-use PHPCI\Service\UserService;
-use PHPCI\Helper\Lang;
-use PHPCI\Store\UserStore;
+use PHPCensor\Helper\Lang;
+use PHPCensor\Service\UserService;
+use PHPCensor\Store\UserStore;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Register user command - creates an user with provider (Adirelle pluggable-auth)
+ * 
  * @author       Dmitrii Zolotov (@itherz)
  * @package      PHPCI
  * @subpackage   Console
  */
-class RegisterUserCommand extends Command
+class RegisterLdapUserCommand extends Command
 {
     /**
      * @var UserStore
@@ -42,8 +43,8 @@ class RegisterUserCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('phpci:register-user')
-            ->setDescription(Lang::get('register_user'));
+            ->setName('php-censor:register-ldap-user')
+            ->setDescription(Lang::get('register_ldap_user'));
     }
 
     /**
@@ -67,17 +68,16 @@ class RegisterUserCommand extends Command
             return $answer;
         };
 
-        $id           = $dialog->ask($output, Lang::get('enter_id'));
-        $password     = $dialog->askHiddenResponse($output, Lang::get('enter_password'));
-        $emailAddress = $dialog->askAndValidate($output, Lang::get('enter_email'), $mailValidator, false);
-        $providerKey  = $dialog->ask($output, Lang::get('enter_providerkey'));
-        $providerData = $dialog->ask($output, Lang::get('enter_providerdata'));
-        $isAdmin      = $dialog->ask($output, Lang::get('enter_isadmin'));
+        $email        = $dialog->askAndValidate($output, Lang::get('enter_email'), $mailValidator, false);
+        $name         = $dialog->ask($output, Lang::get('enter_name'));
+        $providerKey  = "ldap";
+        $providerData = null;
+        $isAdmin      = ($dialog->ask($output, Lang::get('enter_isadmin')));
         $isAdmin      = !empty($isAdmin);
-        $name = $dialog->ask($output, Lang::get('enter_name'));
+        $password     = "";
 
         try {
-            $userService->createUserWithProvider($name, $emailAddress, $id, $password, $providerKey, $providerData, $isAdmin = false);
+            $userService->createUserWithProvider($name, $email, $password, $providerKey, $providerData, $isAdmin);
             $output->writeln(Lang::get('user_created'));
         } catch (\Exception $e) {
             $output->writeln(sprintf('<error>%s</error>', Lang::get('failed_to_create')));

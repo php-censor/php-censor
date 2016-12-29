@@ -14,6 +14,8 @@ use b8;
 use PHPCensor\Helper\Email;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Controller;
+use PHPCensor\Security\Authentication\Service;
+use PHPCensor\Store\UserStore;
 
 /**
 * Session Controller - Handles user login / logout.
@@ -25,12 +27,12 @@ use PHPCensor\Controller;
 class SessionController extends Controller
 {
     /**
-     * @var \PHPCensor\Store\UserStore
+     * @var UserStore
      */
     protected $userStore;
 
     /**
-     * @var \PHPCI\Security\Authentication\Service
+     * @var Service
      */
     protected $authentication;
 
@@ -41,7 +43,7 @@ class SessionController extends Controller
     {
         $this->response->disableLayout();
         $this->userStore       = b8\Store\Factory::getStore('User');
-        $this->authentication  = \PHPCI\Security\Authentication\Service::getInstance();
+        $this->authentication  = Service::getInstance();
     }
 
     /**

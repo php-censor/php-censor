@@ -3,19 +3,19 @@
 /**
  * PHPCI - Continuous Integration for PHP
  *
- * @copyright    Copyright 2015, Block 8 Limited.
- * @license      https://github.com/Block8/PHPCI/blob/master/LICENSE.md
- * @link         https://www.phptesting.org/
+ * @copyright Copyright 2015, Block 8 Limited.
+ * @license   https://github.com/Block8/PHPCI/blob/master/LICENSE.md
+ * @link      https://www.phptesting.org/
  */
 
-namespace PHPCI\Security\Authentication;
+namespace PHPCensor\Security\Authentication;
 
 use b8\Config;
 
 /**
  * Authentication facade.
  *
- * @author   Adirelle <adirelle@gmail.com>
+ * @author Adirelle <adirelle@gmail.com>
  */
 class Service
 {
@@ -33,7 +33,7 @@ class Service
     {
         if (self::$instance === null) {
             $config = Config::getInstance()->get(
-                'phpci.security.authentication',
+                'php-censor.security.authentication',
                 ['internal' => ['type' => 'internal']]
             );
 
@@ -43,6 +43,7 @@ class Service
             }
             self::$instance = new self($providers);
         }
+
         return self::$instance;
     }
 
@@ -55,8 +56,8 @@ class Service
     public static function buildProvider($key, $config)
     {
         $class = ucfirst($config['type']);
-        if (class_exists('\\PHPCI\\Security\\Authentication\\UserProvider\\' . $class)) {
-            $class = '\\PHPCI\\Security\\Authentication\\UserProvider\\' . $class;
+        if (class_exists('\\PHPCensor\\Security\\Authentication\\UserProvider\\' . $class)) {
+            $class = '\\PHPCensor\\Security\\Authentication\\UserProvider\\' . $class;
         }
 
         return new $class($key, $config);

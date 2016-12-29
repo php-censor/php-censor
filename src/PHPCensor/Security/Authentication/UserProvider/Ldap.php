@@ -3,16 +3,16 @@
 /**
  * PHPCI - Continuous Integration for PHP
  *
- * @copyright    Copyright 2014, Block 8 Limited.
- * @license      https://github.com/Block8/PHPCI/blob/master/LICENSE.md
- * @link         https://www.phptesting.org/
+ * @copyright Copyright 2014, Block 8 Limited.
+ * @license   https://github.com/Block8/PHPCI/blob/master/LICENSE.md
+ * @link      https://www.phptesting.org/
  */
 
-namespace PHPCI\Security\Authentication\UserProvider;
+namespace PHPCensor\Security\Authentication\UserProvider;
 
 use b8\Config;
-use PHPCI\Model\User;
-use PHPCI\Security\Authentication\LoginPasswordProvider;
+use PHPCensor\Model\User;
+use PHPCensor\Security\Authentication\LoginPasswordProvider;
 
 /**
  * Ldap user provider.
@@ -24,7 +24,7 @@ class Ldap extends AbstractProvider implements LoginPasswordProvider
 
     public function verifyPassword(User $user, $password)
     {
-        $config        = Config::getInstance()->get('phpci.security.ldap', []);
+        $config        = Config::getInstance()->get('php-censor.security.ldap', []);
         $server        = $config["server"];
         $mailAttribute = $config["mailAttribute"];
         $ldap          = ldap_connect($server);
