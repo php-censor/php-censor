@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PHPCI - Continuous Integration for PHP
  *
