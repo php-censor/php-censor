@@ -37,7 +37,7 @@ Using your preferred text editor, create a file named `php-censor.conf` under `/
 
 ```
 [program:php-censor]
-command=/path/to/php-censor/latest/console php-censor:worker
+command=/path/to/php-censor/bin/console php-censor:worker
 process_name=%(program_name)s_%(process_num)02d
 stdout_logfile=/var/log/php-censor.log
 stderr_logfile=/var/log/php-censor-err.log

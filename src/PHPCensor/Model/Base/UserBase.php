@@ -6,6 +6,7 @@
 
 namespace PHPCensor\Model\Base;
 
+use b8\Config;
 use PHPCensor\Model;
 
 /**
@@ -37,6 +38,8 @@ class UserBase extends Model
         'hash'     => null,
         'is_admin' => null,
         'name'     => null,
+        'language' => null,
+        'per_page' => null,
     ];
 
     /**
@@ -49,6 +52,8 @@ class UserBase extends Model
         'hash'     => 'getHash',
         'is_admin' => 'getIsAdmin',
         'name'     => 'getName',
+        'language' => 'getLanguage',
+        'per_page' => 'getPerPage',
         // Foreign key getters:
     ];
 
@@ -62,6 +67,8 @@ class UserBase extends Model
         'hash'     => 'setHash',
         'is_admin' => 'setIsAdmin',
         'name'     => 'setName',
+        'language' => 'setLanguage',
+        'per_page' => 'setPerPage',
         // Foreign key setters:
     ];
 
@@ -95,6 +102,16 @@ class UserBase extends Model
             'length'  => 250,
             'default' => null,
         ],
+        'language' => [
+            'type'    => 'varchar',
+            'length'  => 5,
+            'default' => null,
+        ],
+        'per_page' => [
+            'type'    => 'int',
+            'length'  => 11,
+            'default' => null,
+        ],
     ];
 
     /**
@@ -119,7 +136,7 @@ class UserBase extends Model
     */
     public function getId()
     {
-        $rtn    = $this->data['id'];
+        $rtn = $this->data['id'];
 
         return $rtn;
     }
@@ -131,7 +148,7 @@ class UserBase extends Model
     */
     public function getEmail()
     {
-        $rtn    = $this->data['email'];
+        $rtn = $this->data['email'];
 
         return $rtn;
     }
@@ -143,7 +160,7 @@ class UserBase extends Model
     */
     public function getHash()
     {
-        $rtn    = $this->data['hash'];
+        $rtn = $this->data['hash'];
 
         return $rtn;
     }
@@ -155,7 +172,7 @@ class UserBase extends Model
     */
     public function getIsAdmin()
     {
-        $rtn    = $this->data['is_admin'];
+        $rtn = $this->data['is_admin'];
 
         return $rtn;
     }
@@ -167,7 +184,31 @@ class UserBase extends Model
     */
     public function getName()
     {
-        $rtn    = $this->data['name'];
+        $rtn = $this->data['name'];
+
+        return $rtn;
+    }
+
+    /**
+     * Get the value of Language / language.
+     *
+     * @return string
+     */
+    public function getLanguage()
+    {
+        $rtn = $this->data['language'];
+
+        return $rtn;
+    }
+
+    /**
+     * Get the value of PerPage / per_page.
+     *
+     * @return string
+     */
+    public function getPerPage()
+    {
+        $rtn = $this->data['per_page'];
 
         return $rtn;
     }
@@ -270,5 +311,52 @@ class UserBase extends Model
         $this->data['name'] = $value;
 
         $this->_setModified('name');
+    }
+
+    /**
+     * Set the value of Language / language.
+     *
+     * Must not be null.
+     * @param $value string
+     */
+    public function setLanguage($value)
+    {
+        if ($this->data['language'] === $value) {
+            return;
+        }
+
+        $this->data['language'] = $value;
+
+        $this->_setModified('language');
+    }
+
+    /**
+     * Set the value of PerPage / per_page.
+     *
+     * Must not be null.
+     * @param $value string
+     */
+    public function setPerPage($value)
+    {
+        if ($this->data['per_page'] === $value) {
+            return;
+        }
+
+        $this->data['per_page'] = $value;
+
+        $this->_setModified('per_page');
+    }
+
+    /**
+     * @return integer
+     */
+    public function getFinalPerPage()
+    {
+        $perPage = $this->getPerPage();
+        if ($perPage) {
+            return (integer)$perPage;
+        }
+
+        return (integer)Config::getInstance()->get('php-censor.per_page', 10);
     }
 }

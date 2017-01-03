@@ -10,6 +10,7 @@
 namespace PHPCensor\Helper;
 
 use b8\Config;
+use PHPCensor\Model\User;
 
 /**
  * Languages Helper Class - Handles loading strings files and the strings within them.
@@ -18,6 +19,8 @@ use b8\Config;
  */
 class Lang
 {
+    const DEFAULT_LANGUAGE = 'en';
+    
     /**
      * @var string
      */
@@ -36,7 +39,7 @@ class Lang
     /**
      * @var array
      */
-    protected static $en_strings = [];
+    protected static $default_strings = [];
 
     /**
      * Get a specific string from the language file.
@@ -51,8 +54,8 @@ class Lang
         if (array_key_exists($string, self::$strings)) {
             $vars[0] = self::$strings[$string];
             return call_user_func_array('sprintf', $vars);
-        } elseif ('en' !== self::$language && array_key_exists($string, self::$en_strings)) {
-            $vars[0] = self::$en_strings[$string];
+        } elseif (self::DEFAULT_LANGUAGE !== self::$language && array_key_exists($string, self::$default_strings)) {
+            $vars[0] = self::$default_strings[$string];
             return call_user_func_array('sprintf', $vars);
         }
 
@@ -129,41 +132,28 @@ class Lang
      */
     public static function init(Config $config, $language_force = null)
     {
-        self::$en_strings = self::loadLanguage('en');
+        self::$default_strings = self::loadLanguage(self::DEFAULT_LANGUAGE);
         self::loadAvailableLanguages();
 
         if ($language_force && self::setLanguage($language_force)) {
             return;
         }
-        
-        // Try cookies first:
-        if (isset($_COOKIE) && array_key_exists('php-censor-language', $_COOKIE) && self::setLanguage($_COOKIE['php-censor-language'])) {
-            return;
+
+        /** @var User $user */
+        $user     = $_SESSION['php-censor-user'];
+        if (!is_object($user) && gettype($user) == 'object') {
+            $user = unserialize(serialize($_SESSION['php-censor-user']));
         }
-
-        // Try user language:
-        if (isset($_SERVER) && array_key_exists('HTTP_ACCEPT_LANGUAGE', $_SERVER)) {
-            $langs = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
-
-            foreach ($langs as $lang) {
-                $parts    = explode(';', $lang);
-                $language = strtolower($parts[0]);
-
-                if (self::setLanguage($language)) {
-                    return;
-                }
-            }
-        }
-
-        // Try the installation default language:
-        $language = $config->get('php-censor.basic.language', null);
+        $language = $user->getLanguage();
         if (self::setLanguage($language)) {
             return;
         }
 
-        // Fall back to English:
-        self::$language = 'en';
-        self::$strings  = self::loadLanguage();
+        // Try the installation default language:
+        $language = $config->get('php-censor.language', self::DEFAULT_LANGUAGE);
+        if (self::setLanguage($language)) {
+            return;
+        }
     }
 
     /**

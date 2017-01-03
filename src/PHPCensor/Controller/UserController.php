@@ -14,6 +14,7 @@ use b8\Exception\HttpException\NotFoundException;
 use b8\Form;
 use PHPCensor\Controller;
 use PHPCensor\Helper\Lang;
+use PHPCensor\Model\User;
 use PHPCensor\Service\UserService;
 
 /**
@@ -61,35 +62,24 @@ class UserController extends Controller
      */
     public function profile()
     {
+        /** @var User $user */
         $user = $_SESSION['php-censor-user'];
 
         if ($this->request->getMethod() == 'POST') {
-            $name = $this->getParam('name', null);
-            $email = $this->getParam('email', null);
+            $name     = $this->getParam('name', null);
+            $email    = $this->getParam('email', null);
             $password = $this->getParam('password', null);
+            $language = $this->getParam('language', null);
+            $perPage  = $this->getParam('per_page', null);
 
-            $currentLang = Lang::getLanguage();
-            $chosenLang = $this->getParam('language', $currentLang);
-
-            if ($chosenLang !== $currentLang) {
-                setcookie('php-censor-language', $chosenLang, time() + (10 * 365 * 24 * 60 * 60), '/');
-                Lang::setLanguage($chosenLang);
-            }
-
-            $_SESSION['php-censor-user'] = $this->userService->updateUser($user, $name, $email, $password);
-            $user = $_SESSION['php-censor-user'];
+            $_SESSION['php-censor-user'] = $this->userService->updateUser($user, $name, $email, $password, null, $language, $perPage);
+            $user                        = $_SESSION['php-censor-user'];
 
             $this->view->updated = 1;
         }
 
-        $this->layout->title = $user->getName();
+        $this->layout->title    = $user->getName();
         $this->layout->subtitle = Lang::get('edit_profile');
-
-        $values = $user->getDataArray();
-
-        if (array_key_exists('php-censor-language', $_COOKIE)) {
-            $values['language'] = $_COOKIE['php-censor-language'];
-        }
 
         $form = new Form();
         $form->setAction(APP_URL.'user/profile');
@@ -100,6 +90,7 @@ class UserController extends Controller
         $name->setContainerClass('form-group');
         $name->setLabel(Lang::get('name'));
         $name->setRequired(true);
+        $name->setValue($user->getName());
         $form->addField($name);
 
         $email = new Form\Element\Email('email');
@@ -107,6 +98,7 @@ class UserController extends Controller
         $email->setContainerClass('form-group');
         $email->setLabel(Lang::get('email_address'));
         $email->setRequired(true);
+        $email->setValue($user->getEmail());
         $form->addField($email);
 
         $password = new Form\Element\Password('password');
@@ -114,23 +106,40 @@ class UserController extends Controller
         $password->setContainerClass('form-group');
         $password->setLabel(Lang::get('password_change'));
         $password->setRequired(false);
+        $password->setValue(null);
         $form->addField($password);
 
-        $lang = new Form\Element\Select('language');
-        $lang->setClass('form-control');
-        $lang->setContainerClass('form-group');
-        $lang->setLabel(Lang::get('language'));
-        $lang->setRequired(true);
-        $lang->setOptions(Lang::getLanguageOptions());
-        $lang->setValue(Lang::getLanguage());
-        $form->addField($lang);
+        $language = new Form\Element\Select('language');
+        $language->setClass('form-control');
+        $language->setContainerClass('form-group');
+        $language->setLabel(Lang::get('language'));
+        $language->setRequired(true);
+        $language->setOptions(array_merge(
+            ['' => Lang::get('default') . ' (' . b8\Config::getInstance()->get('php-censor.language') .  ')'],
+            Lang::getLanguageOptions())
+        );
+        $language->setValue($user->getLanguage());
+        $form->addField($language);
+
+        $perPage = new Form\Element\Select('per_page');
+        $perPage->setClass('form-control');
+        $perPage->setContainerClass('form-group');
+        $perPage->setLabel(Lang::get('per_page'));
+        $perPage->setRequired(true);
+        $perPage->setOptions([
+            null => Lang::get('default') . ' (' . b8\Config::getInstance()->get('php-censor.per_page') .  ')',
+            10    => 10,
+            25    => 25,
+            50    => 50,
+            100   => 100,
+        ]);
+        $perPage->setValue($user->getPerPage());
+        $form->addField($perPage);
 
         $submit = new Form\Element\Submit();
         $submit->setClass('btn btn-success');
         $submit->setValue(Lang::get('save'));
         $form->addField($submit);
-
-        $form->setValues($values);
 
         $this->view->form = $form;
 

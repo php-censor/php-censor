@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PHPCI - Continuous Integration for PHP
  *
@@ -9,7 +10,6 @@
 
 namespace PHPCensor\Controller;
 
-use b8;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Plugin\Util\ComposerPluginInformation;
 use PHPCensor\Plugin\Util\FilesPluginInformation;
