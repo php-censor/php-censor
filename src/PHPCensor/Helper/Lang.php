@@ -10,6 +10,7 @@
 namespace PHPCensor\Helper;
 
 use b8\Config;
+use PHPCensor\Model\User;
 
 /**
  * Languages Helper Class - Handles loading strings files and the strings within them.
@@ -137,35 +138,22 @@ class Lang
         if ($language_force && self::setLanguage($language_force)) {
             return;
         }
-        
-        // Try cookies first:
-        if (isset($_COOKIE) && array_key_exists('php-censor-language', $_COOKIE) && self::setLanguage($_COOKIE['php-censor-language'])) {
-            return;
+
+        /** @var User $user */
+        $user     = $_SESSION['php-censor-user'];
+        if (!is_object($user) && gettype($user) == 'object') {
+            $user = unserialize(serialize($_SESSION['php-censor-user']));
         }
-
-        // Try user language:
-        if (isset($_SERVER) && array_key_exists('HTTP_ACCEPT_LANGUAGE', $_SERVER)) {
-            $langs = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
-
-            foreach ($langs as $lang) {
-                $parts    = explode(';', $lang);
-                $language = strtolower($parts[0]);
-
-                if (self::setLanguage($language)) {
-                    return;
-                }
-            }
-        }
-
-        // Try the installation default language:
-        $language = $config->get('php-censor.language', null);
+        $language = $user->getLanguage();
         if (self::setLanguage($language)) {
             return;
         }
 
-        // Fall back to English:
-        self::$language = self::DEFAULT_LANGUAGE;
-        self::$strings  = self::loadLanguage();
+        // Try the installation default language:
+        $language = $config->get('php-censor.language', self::DEFAULT_LANGUAGE);
+        if (self::setLanguage($language)) {
+            return;
+        }
     }
 
     /**

@@ -9,6 +9,7 @@
 
 namespace PHPCensor\Service;
 
+use PHPCensor\Helper\Lang;
 use PHPCensor\Model\User;
 use PHPCensor\Store\UserStore;
 
@@ -34,33 +35,43 @@ class UserService
 
     /**
      * Create a new user within PHPCI.
-     * @param $name
-     * @param $emailAddress
-     * @param $password
-     * @param bool $isAdmin
-     * @return \PHPCensor\Model\User
+     * 
+     * @param string  $name
+     * @param string  $emailAddress
+     * @param string  $password
+     * @param bool    $isAdmin
+     * @param string  $language
+     * @param integer $perPage
+     * 
+     * @return User
      */
-    public function createUser($name, $emailAddress, $password, $isAdmin = false)
+    public function createUser($name, $emailAddress, $password, $isAdmin = false, $language = null, $perPage = null)
     {
         $user = new User();
         $user->setName($name);
         $user->setEmail($emailAddress);
         $user->setHash(password_hash($password, PASSWORD_DEFAULT));
         $user->setIsAdmin(($isAdmin ? 1 : 0));
+        $user->setLanguage($language);
+        $user->setPerPage($perPage);
 
         return $this->store->save($user);
     }
 
     /**
      * Update a user.
-     * @param User $user
-     * @param $name
-     * @param $emailAddress
-     * @param null $password
-     * @param null $isAdmin
-     * @return \PHPCensor\Model\User
+     * 
+     * @param User    $user
+     * @param string  $name
+     * @param string  $emailAddress
+     * @param string  $password
+     * @param bool    $isAdmin
+     * @param string  $language
+     * @param integer $perPage
+     * 
+     * @return User
      */
-    public function updateUser(User $user, $name, $emailAddress, $password = null, $isAdmin = null)
+    public function updateUser(User $user, $name, $emailAddress, $password = null, $isAdmin = null, $language = null, $perPage = null)
     {
         $user->setName($name);
         $user->setEmail($emailAddress);
@@ -72,6 +83,9 @@ class UserService
         if (!is_null($isAdmin)) {
             $user->setIsAdmin(($isAdmin ? 1 : 0));
         }
+
+        $user->setLanguage($language);
+        $user->setPerPage($perPage);
 
         return $this->store->save($user);
     }

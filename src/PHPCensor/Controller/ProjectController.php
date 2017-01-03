@@ -73,9 +73,7 @@ class ProjectController extends PHPCensor\Controller
             throw new NotFoundException(Lang::get('project_x_not_found', $projectId));
         }
 
-        $perPage = is_numeric(b8\Config::getInstance()->get('php-censor.per_page'))
-            ? (integer)b8\Config::getInstance()->get('php-censor.per_page')
-            : 10;
+        $perPage = $_SESSION['php-censor-user']->getFinalPerPage();
         $page     = $this->getParam('p', 1);
         $builds   = $this->getLatestBuildsHtml($projectId, urldecode($branch), (($page - 1) * $perPage), $perPage);
         $pages    = $builds[1] == 0 ? 1 : ceil($builds[1] / $perPage);

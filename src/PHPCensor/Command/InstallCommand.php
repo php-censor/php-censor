@@ -240,6 +240,9 @@ class InstallCommand extends Command
             $url = $helper->ask($input, $output, $question);
         }
 
+        $config['language'] = 'en';
+        $config['per_page'] = 10;
+
         $config['url'] = $url;
         $config['worker'] = $this->getQueueInformation($input, $output, $helper);
 

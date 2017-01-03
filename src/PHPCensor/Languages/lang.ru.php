@@ -9,7 +9,9 @@
 
 return [
     'language_name' => 'Pусский',
-    'language' => 'язык',
+    'language'      => 'Язык',
+    'per_page'      => 'Количество элементов на странице',
+    'default'       => 'По умолчанию',
 
     // Log in:
     'log_in_to_app' => 'Войти в PHP Censor',

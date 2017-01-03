@@ -1,7 +1,7 @@
 PHP Censor
 ----------
 
-PHP Censor is a fork of PHPCI (And B8Framework). PHP Censor is a free and open source (BSD-2-Clause license) continuous
+PHP Censor is a fork of PHPCI (And B8Framework) and is a free and open source (BSD-2-Clause license) continuous
 integration tool specifically designed for PHP. We've  built it with simplicity in mind, so whilst it doesn't
 do *everything* Jenkins can do, it is a breeze to set up and use.
 
@@ -23,11 +23,6 @@ What it doesn't do (yet)
 * Install PEAR or PECL extensions.
 * Deployments
 
-Documentation
-=============
-
-[PHP Censor documentation](docs/README.md)
-
 Tests
 =====
 
@@ -40,7 +35,29 @@ For Phar plugin tests set 'phar.readonly' setting to Off (0) in `php.ini` config
 
 For database B8Framework tests create empty 'b8_test' MySQL database on 'localhost' with user/password: `root/root`.
 
+Migrations
+==========
+
+Run to apply latest migrations:
+
+```bash
+cd /path/to/php-censor
+./bin/console php-censor-migrations:migrate
+```
+
+Run to create new migration:
+
+```bash
+cd /path/to/php-censor
+./bin/console php-censor-migrations:create NewMigrationName
+```
+
+Documentation
+=============
+
+[PHP Censor documentation](docs/README.md)
+
 License
 =======
 
-The PHP Censor is open source software licensed under the BSD-2-Clause license.
+PHP Censor is open source software licensed under the BSD-2-Clause license.

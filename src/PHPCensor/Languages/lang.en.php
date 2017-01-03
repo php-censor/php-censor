@@ -9,7 +9,9 @@
 
 return [
     'language_name' => 'English',
-    'language' => 'Language',
+    'language'      => 'Language',
+    'per_page'      => 'Items per page',
+    'default'       => 'Default',
 
     // Log in:
     'log_in_to_app' => 'Log in to PHP Censor',
