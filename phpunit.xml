@@ -41,4 +41,9 @@
             <directory suffix="Test.php">./tests/PHPCensor/ProcessControl</directory>
         </testsuite>
     </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./src</directory>
+        </whitelist>
+    </filter>
 </phpunit>

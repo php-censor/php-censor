@@ -109,6 +109,9 @@ class Template extends View
                             $current =& $parent['children'][count($parent['children']) - 1];
                             $current['parent'] =& $parent;
                         } else {
+                            if (!is_array($parent['children'][count($parent['children']) - 1]['children'])) {
+                                $parent['children'][count($parent['children']) - 1]['children'] = [];
+                            }
                             $parent['children'][count($parent['children']) - 1]['children'][] = $str;
                             $current =& $parent['children'][count($parent['children']) - 1]['children'][0];
                             $current['parent'] =& $parent['children'][count($parent['children']) - 1];

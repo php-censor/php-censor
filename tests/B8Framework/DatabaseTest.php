@@ -23,23 +23,32 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
             ],
         ]);
     }
-    
-    public function testGetReadConnection()
-    {
-        $connection = Database::getConnection('read');
 
-        $this->assertInstanceOf('\b8\Database', $connection);
+    protected function checkDatabaseConnection()
+    {
+        try {
+            $connection = Database::getConnection('read');
+        } catch (\Exception $e) {
+            if ('Could not connect to any read servers.' === $e->getMessage()) {
+                $this->markTestSkipped('Test skipped because test database doesn`t exist.');
+            } else {
+                throw $e;
+            }
+        }
     }
 
     public function testGetWriteConnection()
     {
-        $connection = Database::getConnection('write');
+        $this->checkDatabaseConnection();
 
+        $connection = Database::getConnection('write');
         $this->assertInstanceOf('\b8\Database', $connection);
     }
 
     public function testGetDetails()
     {
+        $this->checkDatabaseConnection();
+
         $details = Database::getConnection('read')->getDetails();
         $this->assertTrue(is_array($details));
         $this->assertTrue(($details['db'] == 'b8_test'));
@@ -52,6 +61,8 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testConnectionFailure()
     {
+        $this->checkDatabaseConnection();
+
         Database::reset();
 
         $config = new Config([

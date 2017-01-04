@@ -33,7 +33,7 @@ cd /path/to/php-censor
 
 For Phar plugin tests set 'phar.readonly' setting to Off (0) in `php.ini` config. Otherwise tests will be skipped.
 
-For database B8Framework tests create empty 'b8_test' MySQL database on 'localhost' with user/password: `root/root`.
+For database B8Framework tests create empty 'b8_test' MySQL database on 'localhost' with user/password: `root/root`. Otherwise database tests will be skipped.
 
 Migrations
 ==========

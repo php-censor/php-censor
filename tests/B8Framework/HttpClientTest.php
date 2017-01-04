@@ -11,7 +11,7 @@ class HttpClientTest extends \PHPUnit_Framework_TestCase
         $http = new HttpClient();
         $html = $http->request('GET', 'https://www.cloudflare.com/');
 
-        $this->assertContains('CloudFlare', $html['body']);
+        $this->assertContains('Cloudflare', $html['body']);
     }
 
     public function testBaseUrl()
@@ -19,7 +19,7 @@ class HttpClientTest extends \PHPUnit_Framework_TestCase
         $http = new HttpClient('https://www.cloudflare.com');
         $html = $http->request('GET', '/');
 
-        $this->assertContains('CloudFlare', $html['body']);
+        $this->assertContains('Cloudflare', $html['body']);
     }
 
     public function testGet()
@@ -27,7 +27,7 @@ class HttpClientTest extends \PHPUnit_Framework_TestCase
         $http = new HttpClient('https://www.cloudflare.com');
         $html = $http->get('overview', ['x' => 1]);
 
-        $this->assertContains('CloudFlare', $html['body']);
+        $this->assertContains('Cloudflare', $html['body']);
     }
 
     public function testGetJson()

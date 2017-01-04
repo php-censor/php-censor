@@ -86,7 +86,7 @@ class PharTest extends \PHPUnit_Framework_TestCase
     protected function checkReadonly()
     {
         if (ini_get('phar.readonly')) {
-            $this->markTestSkipped('phar writing disabled in php.ini.');
+            $this->markTestSkipped('Test skipped because phar writing disabled in php.ini.');
         }
     }
 
