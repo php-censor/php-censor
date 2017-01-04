@@ -140,13 +140,15 @@ class Lang
         }
 
         /** @var User $user */
-        $user     = $_SESSION['php-censor-user'];
+        $user = !empty($_SESSION['php-censor-user']) ? $_SESSION['php-censor-user'] : null;
         if (!is_object($user) && gettype($user) == 'object') {
             $user = unserialize(serialize($_SESSION['php-censor-user']));
         }
-        $language = $user->getLanguage();
-        if (self::setLanguage($language)) {
-            return;
+        if ($user) {
+            $language = $user->getLanguage();
+            if ($user && self::setLanguage($language)) {
+                return;
+            }
         }
 
         // Try the installation default language:
