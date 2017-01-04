@@ -20,8 +20,6 @@ What it doesn't do (yet)
 
 * Virtualised testing.
 * Multiple PHP-version tests.
-* Install PEAR or PECL extensions.
-* Deployments
 
 Screenshots
 ===========

@@ -19,9 +19,8 @@
 
         body
         {
-            background: #224466;
+            background: #1e282c;
             min-height: 100%;
-            font-family: Roboto, Arial, Sans-Serif;
             font-style: normal;
             font-weight: 300;
             padding-top: 0px;
@@ -37,9 +36,17 @@
             text-align: left;
             width: 350px;
         }
-
-        #logo img {
-            margin-bottom: 30px;
+        
+        #logo, #logo:visited, #logo:hover, #logo:active {
+            text-decoration: none;
+            font-size: 45px;
+            line-height: 90px;
+            text-align: center;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            padding: 0 15px;
+            font-weight: 600;
+            overflow: hidden;
+            color: white;
         }
 
     </style>
@@ -48,7 +55,7 @@
 <div class="container">
     <div class="row" style="margin-top: 10%; text-align: center">
         <a id="logo" href="/">
-            <img src="<?php print APP_URL; ?>assets/img/php-censor-logo.png">
+            PHP Censor
         </a>
         <div class="" id="login-box">
             <?php print $content; ?>
