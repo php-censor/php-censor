@@ -23,6 +23,19 @@ What it doesn't do (yet)
 * Install PEAR or PECL extensions.
 * Deployments
 
+Screenshots
+===========
+
+[![Dashboard](docs/screenshots/dashboard.png)](docs/screenshots/dashboard.png)
+
+[![Project](docs/screenshots/project.png)](docs/screenshots/project.png)
+
+[![Build log](docs/screenshots/build-log.png)](docs/screenshots/build-log.png)
+
+[![Build errors](docs/screenshots/build-errors.png)](docs/screenshots/build-errors.png)
+
+[![Build information](docs/screenshots/build-information.png)](docs/screenshots/build-information.png)
+
 Tests
 =====
 
