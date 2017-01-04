@@ -1,10 +1,10 @@
 Plugin PHPLoc
--------------
+=============
 
 Runs [PHPLoc](https://github.com/sebastianbergmann/phploc) against your project and records some key metrics.
 
 Configuration
-=============
+-------------
 
 ### Options
 
@@ -12,7 +12,7 @@ Configuration
 
 ### Example
 
-Run PHPLOC against the app directory only. This will prevent inclusion of code from 3rd party libraries that are included outside of the app directory.
+Run PHPLoc against the app directory only. This will prevent inclusion of code from 3rd party libraries that are included outside of the app directory.
 
 ```yml
 test:

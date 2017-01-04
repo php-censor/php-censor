@@ -1,10 +1,10 @@
 Plugin IRC
-----------
+==========
 
 Connects to an IRC server and sends a defined message.
 
 Configuration
-=============
+-------------
 
 ### Options
 

@@ -1,10 +1,10 @@
 Plugin MySQL
-------------
+============
 
 Connects to a given MySQL server and runs a selection of queries.
 
 Configuration
-=============
+-------------
 
 ### Examples
 

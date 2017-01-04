@@ -1,8 +1,8 @@
 Project Status Images and Status Page
--------------------------------------
+=====================================
 
 Status Image
-============
+------------
 
 Most Continuous Integration systems provide a simple image URL that you can use to display your project status on other web sites (like Github) - PHP Censor is no different.
 
@@ -25,7 +25,7 @@ Example:
 ![](http://php-censor.local/build-status/image/2?style=flat-squared&maxAge=3600)
 
 Status Page
-===========
+-----------
 
 PHP Censor also provides a public project status page, that is accessible for everyone.
 

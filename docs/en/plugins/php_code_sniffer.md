@@ -1,10 +1,10 @@
 Plugin PHP Code Sniffer
------------------------
+=======================
 
 Runs PHP Code Sniffer against your build.
 
 Configuration
-=============
+-------------
 
 ### Options
 

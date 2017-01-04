@@ -1,10 +1,10 @@
 Plugin Behat
-------------
+============
 
 A very simple plugin for running [Behat](http://behat.org/) BDD tests.
 
 Configuration
-=============
+-------------
 
 ### Options
 

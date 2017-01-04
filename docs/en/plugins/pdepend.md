@@ -1,10 +1,10 @@
 Plugin Pdepend
---------------
+==============
 
 Runs [PDepend](http://pdepend.org/) software metrics.
 
 Configuration
-=============
+-------------
 
 ### Options
 

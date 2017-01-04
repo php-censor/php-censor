@@ -1,10 +1,10 @@
 Plugin PHP Mess Detector
-------------------------
+========================
 
 Runs PHP Mess Detector against your build. Records some key metrics, and also reports errors and warnings.
 
 Configuration
-=============
+-------------
 
 ### Options
 

@@ -1,10 +1,10 @@
 Plugin PHP Docblock Checker
----------------------------
+===========================
 
 Runs the PHP Docblock Checker against your build. This tool verifies that all classes and methods have docblocks.
 
 Configuration
-=============
+-------------
 
 ### Options
 

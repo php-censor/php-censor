@@ -1,14 +1,14 @@
 Automatically building commits pushed to Git
---------------------------------------------
+============================================
 
 Requirements
-============
+------------
 
 - A git repository on a server (bare or plain does not matter)
 - [curl](http://curl.haxx.se) to send the web hook
 
 Installation
-============
+------------
 
 1. Create a new file `post-receive` inside the [git `hooks` directory](http://www.git-scm.com/book/en/Customizing-Git-Git-Hooks) with the following content:
 

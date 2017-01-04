@@ -1,10 +1,10 @@
 Plugin Atoum
-------------
+============
 
 Allows you to run [Atoum](https://github.com/atoum/atoum) unit tests.
 
 Configuration
-=============
+-------------
 
 ### Options
 

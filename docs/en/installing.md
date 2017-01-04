@@ -1,8 +1,8 @@
 Installing PHP Censor
----------------------
+=====================
 
 What you'll need
-================
+----------------
 
 * PHP 5.4.0 or above
 * A web server (Nginx or Apache)
@@ -13,7 +13,7 @@ What you'll need
 * PHP must have OpenSSL support enabled.
 
 Installing PHP Censor from Composer
-===================================
+-----------------------------------
 
 * Go to the directory in which you want to install PHP Censor, for example: `/var/www`
 * Download Composer if you haven't already: `curl -sS https://getcomposer.org/installer | php`
@@ -24,7 +24,7 @@ Installing PHP Censor from Composer
 * [Set up the PHP Censor Worker](workers/worker.md), or you can run builds using the [daemon](workers/daemon.md) or [a cron-job](workers/cron.md) to run PHP Censor builds.
 
 Installing PHP Censor Manually
-==============================
+------------------------------
 
 * Go to the directory in which you want to install PHP Censor, for example: `/var/www`
 * [Download PHP Censor](https://github.com/corpsee/php-censor/releases/latest) and unzip it.

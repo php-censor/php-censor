@@ -1,5 +1,5 @@
 Automatically building commits pushed to GitHub
------------------------------------------------
+===============================================
 
 If you would like your builds to run automatically whenever there is a commit or other similar activity in your GitHub repository, perform the following steps:
 

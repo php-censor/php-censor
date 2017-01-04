@@ -1,10 +1,10 @@
 Plugin SQLite
--------------
+=============
 
 Connects to a given SQLite DB and runs a list of queries.
 
 Configuration
-=============
+-------------
 
 ### Examples
 

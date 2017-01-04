@@ -1,8 +1,8 @@
 PHP Censor documentation
-------------------------
+========================
 
 Getting Started
-===============
+---------------
 
 * [Installing PHP Censor](installing.md)
     * [Adding a Virtual Host](virtual_host.md)
@@ -15,7 +15,7 @@ Getting Started
 * [Configuring PHP Censor](configuring.md)
 
 Using PHP Censor
-================
+----------------
 
 * Automatically building commits pushed to
     * [Github](sources/github.md)
@@ -26,7 +26,7 @@ Using PHP Censor
 * [Project Status Images and Status Page](status.md)
 
 Plugins
-=======
+-------
 
 * [Atoum](plugins/atoum.md) - `atoum`
 * [Behat](plugins/behat.md) - `behat`

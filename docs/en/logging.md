@@ -1,13 +1,13 @@
 Setting up Logging
-------------------
+==================
 
 Basics
-======
+------
 
 The PHP Censor codebase makes use of the [PSR3](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-3-logger-interface.md) logging standard. By default we use [Monolog](https://github.com/Seldaek/monolog) to handle the actual work implementing this standard.
 
 How to Setup Logging (For people running a PHP Censor instance)
-===============================================================
+---------------------------------------------------------------
 
 The only step required to activate logging is to create a file in the root directory called loggerconfig.php with content like the following:
 
@@ -27,7 +27,7 @@ This file should return an array of key value pairs. Each key tells PHP Censor w
 Once this file is created all plugins and core PHP Censor functionality should start writing to the configured handlers. 
 
 How to write to the Log (For people creating a new plugin)
-==========================================================
+----------------------------------------------------------
 
 ### Using the plugin constructor to get a logger directly
 

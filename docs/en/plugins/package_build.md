@@ -1,10 +1,10 @@
 Plugin Package Build
---------------------
+====================
 
 Builds a tar or zip archive of your build and places it in a directory of your choosing.
 
 Configuration
-=============
+-------------
 
 ### Options
 

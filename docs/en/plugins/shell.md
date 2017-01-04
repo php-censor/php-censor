@@ -1,10 +1,10 @@
 Plugin Shell
-------------
+============
 
 Runs a given Shell command.
 
 Configuration
-=============
+-------------
 
 ### Options
 

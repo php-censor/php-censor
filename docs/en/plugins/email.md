@@ -1,10 +1,10 @@
 Plugin Email
-------------
+============
 
 Sends a build status email.
 
 Configuration
-=============
+-------------
 
 ### Options
 

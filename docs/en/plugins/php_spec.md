@@ -1,10 +1,10 @@
 Plugin PHP Spec
----------------
+===============
 
 Runs [PHP Spec](http://www.phpspec.net/) tests against your build.
 
 Configuration
-=============
+-------------
 
 ### Options
 

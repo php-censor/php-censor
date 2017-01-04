@@ -1,10 +1,10 @@
 Plugin Phing
-------------
+============
 
 This plugin allows you to use the Phing build system to build your project.
 
 Configuration
-=============
+-------------
 
 ### Options
 

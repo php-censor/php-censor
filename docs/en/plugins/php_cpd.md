@@ -1,10 +1,10 @@
 Plugin PHP Copy/Paste Detector
-------------------------------
+==============================
 
 Runs PHP Copy/Paste Detector against your build.
 
 Configuration
-=============
+-------------
 
 ### Options
 

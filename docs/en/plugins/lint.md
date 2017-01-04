@@ -1,10 +1,10 @@
 Plugin Lint
------------
+===========
 
 This plugin runs PHP's built in Lint (syntax / error check) functionality.
 
 Configuration
-=============
+-------------
 
 ### Options
 

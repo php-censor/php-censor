@@ -1,10 +1,10 @@
 Plugin Phar
------------
+===========
 
 Allows you to create a [Phar](http://php.net/manual/en/book.phar.php) archive from your project.
 
 Configuration
-=============
+-------------
 
 ### Options
 

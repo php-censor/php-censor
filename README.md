@@ -1,12 +1,12 @@
 PHP Censor
-----------
+==========
 
 PHP Censor is a fork of PHPCI (And B8Framework) and is a free and open source (BSD-2-Clause license) continuous
 integration tool specifically designed for PHP. We've  built it with simplicity in mind, so whilst it doesn't
 do *everything* Jenkins can do, it is a breeze to set up and use.
 
 What it does
-============
+------------
 
 * Clones your project from Github, Bitbucket or a local path
 * Allows you to set up and tear down test databases.
@@ -16,13 +16,13 @@ What it does
 * You can mark certain plugins as being allowed to fail (but still run.)
 
 What it doesn't do (yet)
-========================
+------------------------
 
 * Virtualised testing.
 * Multiple PHP-version tests.
 
 Screenshots
-===========
+-----------
 
 [![Dashboard](docs/screenshots/dashboard.png)](docs/screenshots/dashboard.png)
 
@@ -35,7 +35,7 @@ Screenshots
 [![Build information](docs/screenshots/build-information.png)](docs/screenshots/build-information.png)
 
 Tests
-=====
+-----
 
 ```bash
 cd /path/to/php-censor
@@ -47,7 +47,7 @@ For Phar plugin tests set 'phar.readonly' setting to Off (0) in `php.ini` config
 For database B8Framework tests create empty 'b8_test' MySQL database on 'localhost' with user/password: `root/root`. Otherwise database tests will be skipped.
 
 Migrations
-==========
+----------
 
 Run to apply latest migrations:
 
@@ -64,11 +64,11 @@ cd /path/to/php-censor
 ```
 
 Documentation
-=============
+-------------
 
 [PHP Censor documentation](docs/README.md)
 
 License
-=======
+-------
 
 PHP Censor is open source software licensed under the BSD-2-Clause license.

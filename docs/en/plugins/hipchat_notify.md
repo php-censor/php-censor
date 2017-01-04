@@ -1,10 +1,10 @@
 Plugin Hipchat Notify
----------------------
+=====================
 
 This plugin joins a [HipChat](https://www.hipchat.com/) room and sends a user-defined message, for example a "Build Succeeded" message.
 
 Configuration
-=============
+-------------
 
 ### Options
 

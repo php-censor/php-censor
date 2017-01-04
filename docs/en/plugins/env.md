@@ -1,10 +1,10 @@
 Plugin Env
-----------
+==========
 
 Sets environment variables on the PHP Censor server for the build.
 
 Configuration
-=============
+-------------
 
 ### Examples:
 

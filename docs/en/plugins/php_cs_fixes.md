@@ -1,10 +1,10 @@
 Plugin PHP Coding Standards Fixer
----------------------------------
+=================================
 
 Runs PHP Coding Standards Fixer against your build.
 
 Configuration
-=============
+-------------
 
 ### Options
 
@@ -25,6 +25,6 @@ test:
 ```
 
 Warning
-=======
+-------
 
 There is currently a bug with this plugin that will cause an error if you leave the level to default to `all`. That level does not exist and will cause the build to fail. Instead specify the level explicitly until this is fixed.

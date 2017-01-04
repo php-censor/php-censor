@@ -1,10 +1,10 @@
 Plugin PHPUnit
---------------
+==============
 
 Runs PHPUnit tests against your build.
 
 Configuration
-=============
+-------------
 
 ### Options
 
@@ -37,7 +37,7 @@ test:
 ```
 
 Troubleshooting
-===============
+---------------
 
 If standard logging of PHP Censor is not enough, to get standard output from any command, including PHPUnit, edit `BaseCommandExecutor::executeCommand()` to see what exactly is wrong
 * Run `composer update` in phpunit plugin directory of PHP Censor to get all of its dependencies

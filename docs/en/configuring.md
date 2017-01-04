@@ -1,5 +1,5 @@
 Configuring PHP Censor
-----------------------
+======================
 
 The PHP Censor configuration on the server is automatically generated into the `config.yml` file during installation. One might need to also edit the file manually.
 

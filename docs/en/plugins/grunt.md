@@ -1,10 +1,10 @@
 Plugin Grunt
-------------
+============
 
 This plugin runs [Grunt](http://gruntjs.com/) tasks.
 
 Configuration
-=============
+-------------
 
 ### Options
 

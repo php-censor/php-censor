@@ -1,10 +1,10 @@
 Plugin Codeception
-------------------
+==================
 
 A simple plugin that allows you to run [Codeception](http://codeception.com/) tests.
 
 Configuration
-=============
+-------------
 
 ### Options
 

@@ -1,10 +1,10 @@
 Plugin Deployer
----------------
+===============
 
 Triggers a deployment of the project to run via [Deployer](http://phpdeployment.org)
 
 Configuration
-=============
+-------------
 
 ### Options
 

@@ -1,10 +1,10 @@
 Plugin Composer
----------------
+===============
 
 Allows you to run Composer within your build, to install dependencies prior to testing. Best run as a "setup" stage plugin.
 
 Configuration
-=============
+-------------
 
 ### Options
 
@@ -26,7 +26,7 @@ setup:
 ```
 
 Warning
-=======
+-------
 
 If you are using a Composer private repository like Satis, with HTTP authentication, you must check your username and password inside the ```auth.json``` file. PHP Censor uses the ```--no-interaction``` flag, so it will not warn if you must provide that info.
 

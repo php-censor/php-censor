@@ -1,5 +1,5 @@
 Adding PHP Censor Support to Your Projects
-------------------------------------------
+==========================================
 
 Similar to Travis CI, to support PHP Censor in your project, you simply need to add a `.php-censor.yml` (`phpci.yml`/`.phpci.yml` for backward compatibility with PHPCI) file to the root of
 your repository. The file should look something like this:

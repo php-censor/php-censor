@@ -1,5 +1,5 @@
 Run Builds Using a Worker
--------------------------
+=========================
 
 The PHP Censor Worker runs in the background on your server and waits for new builds to be added to a Beanstalkd queue. Unless already running a build, the worker will pick up and start running new builds almost immediately after their creation.
 
@@ -8,13 +8,13 @@ The worker is the recommended way to run PHP Censor builds. You can run several 
 If you can't run Beanstalkd on your server, or would prefer to run builds on a regular schedule, you should consider using the [build daemon](workers/daemon.md) or [running builds via Cron](workers/cron.md).
 
 Pre-Requisites
-==============
+--------------
 
 * You need to install [Beanstalkd](http://kr.github.io/beanstalkd/) - On Ubuntu, this is as simple as running `apt-get install beanstalkd`.
 * [Supervisord](http://supervisord.org/) needs to be installed and running on your server.
 
 Setting up the PHP Censor worker
-================================
+--------------------------------
 
 ### On a new installation
 
@@ -29,7 +29,7 @@ On an existing installation, to set up the worker, you simply need to add the be
 ![PHP Censor Worker Config](https://www.phptesting.org/media/render/9a88e9298670f2913f5798e68b94c9ed)
 
 Running the PHP Censor worker
-=============================
+-----------------------------
 
 Once you've set up PHP Censor to add your jobs to a beanstalkd queue, you need to start the worker so that it can pick up and run your builds. On most servers, it is best to manage this using supervisord. The following instructions work on Ubuntu, but will need slight amendments for other distributions.
 
