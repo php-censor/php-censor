@@ -52,18 +52,53 @@ class UserStoreBase extends Store
     }
 
     /**
+     * 
      * Get a single User by Email.
-     * @return null|User
+     * 
+     * @param string $value
+     * 
+     * @throws HttpException
+     * 
+     * @return User
      */
-    public function getByEmail($value, $useConnection = 'read')
+    public function getByEmail($value)
     {
         if (is_null($value)) {
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
         $query = 'SELECT * FROM `user` WHERE `email` = :email LIMIT 1';
-        $stmt = Database::getConnection($useConnection)->prepare($query);
+        $stmt = Database::getConnection()->prepare($query);
         $stmt->bindValue(':email', $value);
+
+        if ($stmt->execute()) {
+            if ($data = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+                return new User($data);
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     *
+     * Get a single User by Email or Name.
+     *
+     * @param string $value
+     *
+     * @throws HttpException
+     *
+     * @return User
+     */
+    public function getByEmailOrName($value)
+    {
+        if (is_null($value)) {
+            throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
+        }
+
+        $query = 'SELECT * FROM `user` WHERE `email` = :value OR `name` = :value LIMIT 1';
+        $stmt = Database::getConnection()->prepare($query);
+        $stmt->bindValue(':value', $value);
 
         if ($stmt->execute()) {
             if ($data = $stmt->fetch(\PDO::FETCH_ASSOC)) {
