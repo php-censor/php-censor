@@ -96,36 +96,25 @@ class Build extends BuildBase
      */
     protected function handleConfig(Builder $builder, $buildPath)
     {
-        $build_config = null;
+        $build_config = $this->getProject()->getBuildConfig();
 
-        // Try getting the project build config from the database:
         if (empty($build_config)) {
-            $build_config = $this->getProject()->getBuildConfig();
+            if (file_exists($buildPath . '/.php-censor.yml')) {
+                $build_config = file_get_contents($buildPath . '/.php-censor.yml');
+            } elseif (file_exists($buildPath . '/.phpci.yml')) {
+                $build_config = file_get_contents($buildPath . '/.phpci.yml');
+            } elseif (file_exists($buildPath . '/phpci.yml')) {
+                $build_config = file_get_contents($buildPath . '/phpci.yml');
+            } else {
+                $build_config = $this->getZeroConfigPlugins($builder);
+            }
         }
 
-        if (is_file($buildPath . '/.php-censor.yml')) {
-            $build_config = file_get_contents($buildPath . '/.php-censor.yml');
-        }
-
-        if (is_file($buildPath . '/.phpci.yml')) {
-            $build_config = file_get_contents($buildPath . '/.phpci.yml');
-        }
-
-        if (empty($build_config) && is_file($buildPath . '/phpci.yml')) {
-            $build_config = file_get_contents($buildPath . '/phpci.yml');
-        }
-
-        // Fall back to zero config plugins:
-        if (empty($build_config)) {
-            $build_config = $this->getZeroConfigPlugins($builder);
-        }
-
-        if (is_string($build_config)) {
-            $yamlParser = new YamlParser();
-            $build_config = $yamlParser->parse($build_config);
-        }
+        $yamlParser = new YamlParser();
+        $build_config = $yamlParser->parse($build_config);
 
         $builder->setConfigArray($build_config);
+
         return true;
     }
 
