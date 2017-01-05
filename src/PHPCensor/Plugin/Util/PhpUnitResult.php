@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PHPCI - Continuous Integration for PHP
  *
@@ -7,7 +8,7 @@
  * @link         https://www.phptesting.org/
  */
 
-namespace PHPCI\Plugin\Util;
+namespace PHPCensor\Plugin\Util;
 
 /**
  * Class PhpUnitResult parses the results for the PhpUnitV2 plugin

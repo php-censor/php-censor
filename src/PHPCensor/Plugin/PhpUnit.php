@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PHPCI - Continuous Integration for PHP
  *
@@ -7,15 +8,15 @@
  * @link         https://www.phptesting.org/
  */
 
-namespace PHPCI\Plugin;
+namespace PHPCensor\Plugin;
 
-use PHPCI;
-use PHPCI\Builder;
-use PHPCI\Helper\Lang;
-use PHPCI\Model\Build;
-use PHPCI\Model\BuildError;
-use PHPCI\Plugin\Option\PhpUnitOptions;
-use PHPCI\Plugin\Util\PhpUnitResult;
+use PHPCensor;
+use PHPCensor\Builder;
+use PHPCensor\Helper\Lang;
+use PHPCensor\Model\Build;
+use PHPCensor\Model\BuildError;
+use PHPCensor\Plugin\Option\PhpUnitOptions;
+use PHPCensor\Plugin\Util\PhpUnitResult;
 
 /**
  * PHP Unit Plugin - A rewrite of the original PHP Unit plugin
@@ -25,7 +26,7 @@ use PHPCI\Plugin\Util\PhpUnitResult;
  * @package      PHPCI
  * @subpackage   Plugins
  */
-class PhpUnit implements PHPCI\Plugin, PHPCI\ZeroConfigPlugin
+class PhpUnit implements PHPCensor\Plugin, PHPCensor\ZeroConfigPlugin
 {
     protected $phpci;
     protected $build;
@@ -112,14 +113,8 @@ class PhpUnit implements PHPCI\Plugin, PHPCI\ZeroConfigPlugin
     {
         $options = clone $this->options;
 
-        $buildPath = $this->build->getBuildPath() . DIRECTORY_SEPARATOR;
-
-        $currentPath = getcwd();
-        // Change the directory
-        chdir($buildPath);
-
         // Save the results into a json file
-        $jsonFile = tempnam(dirname($buildPath), 'jLog_');
+        $jsonFile = tempnam(RUNTIME_DIR, 'jLog_');
         $options->addArgument('log-json', $jsonFile);
 
         // Removes any current configurations files
@@ -128,9 +123,6 @@ class PhpUnit implements PHPCI\Plugin, PHPCI\ZeroConfigPlugin
         $arguments = $this->phpci->interpolate($options->buildArgumentString());
         $cmd       = $this->phpci->findBinary('phpunit') . ' %s "%s"';
         $success   = $this->phpci->executeCommand($cmd, $arguments, $directory);
-
-        // Change to che original path
-        chdir($currentPath);
 
         $this->processResults($jsonFile);
 
@@ -146,18 +138,11 @@ class PhpUnit implements PHPCI\Plugin, PHPCI\ZeroConfigPlugin
      */
     protected function runConfigFile($configFile)
     {
-        $options = clone $this->options;
-        $runFrom = $options->getRunFrom();
-
+        $options   = clone $this->options;
         $buildPath = $this->build->getBuildPath() . DIRECTORY_SEPARATOR;
-        if ($runFrom) {
-            $originalPath = getcwd();
-            // Change the directory
-            chdir($buildPath . $runFrom);
-        }
 
         // Save the results into a json file
-        $jsonFile = tempnam($this->phpci->buildPath, 'jLog_');
+        $jsonFile = tempnam(RUNTIME_DIR, 'jLog_');
         $options->addArgument('log-json', $jsonFile);
 
         // Removes any current configurations files
@@ -168,11 +153,6 @@ class PhpUnit implements PHPCI\Plugin, PHPCI\ZeroConfigPlugin
         $arguments = $this->phpci->interpolate($options->buildArgumentString());
         $cmd       = $this->phpci->findBinary('phpunit') . ' %s %s';
         $success   = $this->phpci->executeCommand($cmd, $arguments, $options->getTestsPath());
-
-        if (!empty($originalPath)) {
-            // Change to che original path
-            chdir($originalPath);
-        }
 
         $this->processResults($jsonFile);
 
@@ -188,7 +168,8 @@ class PhpUnit implements PHPCI\Plugin, PHPCI\ZeroConfigPlugin
      */
     protected function processResults($jsonFile)
     {
-        if (is_file($jsonFile)) {
+        var_dump('fuck!');
+        if (file_exists($jsonFile)) {
             $parser = new PhpUnitResult($jsonFile, $this->build->getBuildPath());
 
             $this->build->storeMeta('phpunit-data', $parser->parse()->getResults());
@@ -200,7 +181,7 @@ class PhpUnit implements PHPCI\Plugin, PHPCI\ZeroConfigPlugin
                     $this->phpci, 'php_unit', $error['message'], $severity, $error['file'], $error['line']
                 );
             }
-
+            @unlink($jsonFile);
         } else {
             throw new \Exception('JSON output file does not exist: ' . $jsonFile);
         }

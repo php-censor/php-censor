@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PHPCI - Continuous Integration for PHP
  *
@@ -7,9 +8,9 @@
  * @link         https://www.phptesting.org/
  */
 
-namespace Tests\PHPCI\Plugin\Util;
+namespace Tests\PHPCensor\Plugin\Util;
 
-use PHPCI\Plugin\Util\PhpUnitResult;
+use PHPCensor\Plugin\Util\PhpUnitResult;
 
 /**
  * Class PhpUnitResultTest parses the results for the PhpUnitV2 plugin
@@ -23,7 +24,7 @@ class PhpUnitResultTest extends \PHPUnit_Framework_TestCase
     public function testInitParse()
     {
         $buildPath = '/path/to/build';
-        $parser = new PhpUnitResult(PHPCI_DIR . 'Tests/PHPCI/Plugin/SampleFiles/phpunit_money.txt', $buildPath);
+        $parser = new PhpUnitResult(ROOT_DIR . 'tests/PHPCensor/Plugin/SampleFiles/phpunit_money.txt', $buildPath);
         $output = $parser->parse()->getResults();
         $errors = $parser->getErrors();
 
@@ -49,7 +50,7 @@ class PhpUnitResultTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('\Exception', 'Failed to parse the JSON output');
 
         $buildPath = '/path/to/build';
-        $parser = new PhpUnitResult(PHPCI_DIR . 'Tests/PHPCI/Plugin/SampleFiles/invalid_format.txt', $buildPath);
+        $parser = new PhpUnitResult(ROOT_DIR . 'tests/PHPCensor/Plugin/SampleFiles/invalid_format.txt', $buildPath);
         $parser->parse();
     }
 }

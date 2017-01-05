@@ -292,7 +292,7 @@ class ProjectBase extends Model
     */
     public function getBuildConfig()
     {
-        $rtn    = $this->data['build_config'];
+        $rtn = $this->data['build_config'];
 
         return $rtn;
     }

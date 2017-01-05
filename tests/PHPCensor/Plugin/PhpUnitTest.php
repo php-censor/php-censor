@@ -8,7 +8,7 @@
  * @link         https://www.phptesting.org/
  */
 
-namespace Tests\PHPCI\Plugin;
+namespace Tests\PHPCensor\Plugin;
 
 /**
  * Unit test for the PHPUnit plugin.
@@ -20,11 +20,11 @@ class PhpUnitTest extends \PHPUnit_Framework_TestCase
     public function testSingleConfigFile()
     {
         $options = array(
-            'config' => PHPCI_DIR . 'phpunit.xml'
+            'config' => ROOT_DIR . 'phpunit.xml'
         );
 
         $mockPlugin = $this->getPluginBuilder($options)->setMethods(array('runConfigFile'))->getMock();
-        $mockPlugin->expects($this->once())->method('runConfigFile')->with(PHPCI_DIR . 'phpunit.xml');
+        $mockPlugin->expects($this->once())->method('runConfigFile')->with(ROOT_DIR . 'phpunit.xml');
 
         $mockPlugin->execute();
     }
@@ -33,14 +33,14 @@ class PhpUnitTest extends \PHPUnit_Framework_TestCase
     {
         $options = array(
             'config' => array(
-                PHPCI_DIR . 'phpunit1.xml',
-                PHPCI_DIR . 'phpunit2.xml',
+                ROOT_DIR . 'phpunit1.xml',
+                ROOT_DIR . 'phpunit2.xml',
             )
         );
 
         $mockPlugin = $this->getPluginBuilder($options)->setMethods(array('runConfigFile'))->getMock();
         $mockPlugin->expects($this->exactly(2))->method('runConfigFile')->withConsecutive(
-            array(PHPCI_DIR . 'phpunit1.xml'), array(PHPCI_DIR . 'phpunit2.xml')
+            array(ROOT_DIR . 'phpunit1.xml'), array(ROOT_DIR . 'phpunit2.xml')
         );
 
         $mockPlugin->execute();
@@ -60,12 +60,12 @@ class PhpUnitTest extends \PHPUnit_Framework_TestCase
             ->setMethods(array('addRecord'))
             ->getMock();
 
-        $mockBuild   = $this->getMockBuilder('\PHPCI\Model\Build')->getMock();
-        $mockBuilder = $this->getMockBuilder('\PHPCI\Builder')
+        $mockBuild   = $this->getMockBuilder('\PHPCensor\Model\Build')->getMock();
+        $mockBuilder = $this->getMockBuilder('\PHPCensor\Builder')
             ->setConstructorArgs(array($mockBuild, $loggerMock))
             ->setMethods(array('executeCommand'))->getMock();
 
-        return $this->getMockBuilder('PHPCI\Plugin\PhpUnitV2')->setConstructorArgs(
+        return $this->getMockBuilder('PHPCensor\Plugin\PhpUnit')->setConstructorArgs(
             array($mockBuilder, $mockBuild, $options)
         );
     }
@@ -102,7 +102,7 @@ class PhpUnitTest extends \PHPUnit_Framework_TestCase
     public function testProcessResultsFromConfig()
     {
         $options = array(
-            'config' => PHPCI_DIR . 'phpunit.xml'
+            'config' => ROOT_DIR . 'phpunit.xml'
         );
 
         $mockPlugin = $this->getPluginBuilder($options)->setMethods(array('processResults'))->getMock();
@@ -114,7 +114,7 @@ class PhpUnitTest extends \PHPUnit_Framework_TestCase
     public function testProcessResultsFromDir()
     {
         $options = array(
-            'directory' => PHPCI_DIR . 'Tests'
+            'directory' => ROOT_DIR . 'Tests'
         );
 
         $mockPlugin = $this->getPluginBuilder($options)->setMethods(array('processResults'))->getMock();

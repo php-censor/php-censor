@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PHPCI - Continuous Integration for PHP
  *
@@ -7,7 +8,7 @@
  * @link         https://www.phptesting.org/
  */
 
-namespace PHPCI\Plugin\Option;
+namespace PHPCensor\Plugin\Option;
 
 /**
  * Class PhpUnitOptions validates and parse the option for the PhpUnitV2 plugin
@@ -212,10 +213,10 @@ class PhpUnitOptions
      *
      * @return string[] path of files
      */
-    public function getConfigFiles($altPath = '')
+    public function getConfigFiles($altPath = null)
     {
         $configFiles = $this->getArgument('configuration');
-        if (empty($configFiles)) {
+        if (empty($configFiles) && $altPath) {
             $configFile = self::findConfigFile($altPath);
             if ($configFile) {
                 $configFiles[] = $configFile;
@@ -262,7 +263,7 @@ class PhpUnitOptions
         );
 
         foreach ($files as $file) {
-            if (is_file($buildPath . $file)) {
+            if (file_exists($buildPath . $file)) {
                 return $file;
             }
         }

@@ -8,9 +8,9 @@
  * @link         https://www.phptesting.org/
  */
 
-namespace Tests\PHPCI\Plugin;
+namespace Tests\PHPCensor\Plugin;
 
-use PHPCI\Plugin\Option\PhpUnitOptions;
+use PHPCensor\Plugin\Option\PhpUnitOptions;
 
 /**
  * Unit test for the PHPUnitOptions parser
@@ -124,8 +124,8 @@ class PhpUnitOptionsTest extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($options->getDirectories());
         $this->assertEmpty($options->getConfigFiles());
 
-        $files = $options->getConfigFiles(PHPCI_DIR);
+        $files = $options->getConfigFiles(ROOT_DIR);
 
-        $this->assertFileExists(PHPCI_DIR . $files[0]);
+        $this->assertFileExists(ROOT_DIR . $files[0]);
     }
 }

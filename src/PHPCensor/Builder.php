@@ -106,7 +106,7 @@ class Builder implements LoggerAwareInterface
     public function __construct(Build $build, LoggerInterface $logger = null)
     {
         $this->build = $build;
-        $this->store = Factory::getStore('Build');
+        $this->store = Factory::getStore('Build', 'PHPCensor');
 
         $this->buildLogger = new BuildLogger($logger, $build);
 
