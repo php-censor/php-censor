@@ -70,7 +70,7 @@ class SessionController extends Controller
         $form->setAction(APP_URL.'session/login');
 
         $email = new b8\Form\Element\Text('email');
-        $email->setLabel(Lang::get('email_address'));
+        $email->setLabel(Lang::get('login'));
         $email->setRequired(true);
         $email->setContainerClass('form-group');
         $email->setClass('form-control');
