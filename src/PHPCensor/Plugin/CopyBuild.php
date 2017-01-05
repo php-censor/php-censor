@@ -20,30 +20,23 @@ use PHPCensor\Plugin;
 * @package      PHPCI
 * @subpackage   Plugins
 */
-class CopyBuild implements Plugin
+class CopyBuild extends Plugin
 {
     protected $directory;
     protected $ignore;
     protected $wipe;
-    protected $phpci;
-    protected $build;
 
     /**
-     * Set up the plugin, configure options, etc.
-     * @param Builder $phpci
-     * @param Build $build
-     * @param array $options
+     * {@inheritdoc}
      */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        $path            = $phpci->buildPath;
-        $this->phpci     = $phpci;
-        $this->build     = $build;
+        parent::__construct($builder, $build, $options);
+        
+        $path            = $this->builder->buildPath;
         $this->directory = isset($options['directory']) ? $options['directory'] : $path;
         $this->wipe      = isset($options['wipe']) ?  (bool)$options['wipe'] : false;
         $this->ignore    = isset($options['respect_ignore']) ?  (bool)$options['respect_ignore'] : false;
-
-        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**
@@ -51,7 +44,7 @@ class CopyBuild implements Plugin
     */
     public function execute()
     {
-        $build = $this->phpci->buildPath;
+        $build = $this->builder->buildPath;
 
         if ($this->directory == $build) {
             return false;
@@ -64,7 +57,7 @@ class CopyBuild implements Plugin
             $cmd = 'mkdir -p "%s" && xcopy /E "%s" "%s"';
         }
 
-        $success = $this->phpci->executeCommand($cmd, $this->directory, $build, $this->directory);
+        $success = $this->builder->executeCommand($cmd, $this->directory, $build, $this->directory);
 
         $this->deleteIgnoredFiles();
 
@@ -79,7 +72,7 @@ class CopyBuild implements Plugin
     {
         if ($this->wipe === true && $this->directory != '/' && is_dir($this->directory)) {
             $cmd = 'rm -Rf "%s*"';
-            $success = $this->phpci->executeCommand($cmd, $this->directory);
+            $success = $this->builder->executeCommand($cmd, $this->directory);
 
             if (!$success) {
                 throw new \Exception(Lang::get('failed_to_wipe', $this->directory));
@@ -93,12 +86,12 @@ class CopyBuild implements Plugin
     protected function deleteIgnoredFiles()
     {
         if ($this->ignore) {
-            foreach ($this->phpci->ignore as $file) {
+            foreach ($this->builder->ignore as $file) {
                 $cmd = 'rm -Rf "%s/%s"';
                 if (IS_WIN) {
                     $cmd = 'rmdir /S /Q "%s\%s"';
                 }
-                $this->phpci->executeCommand($cmd, $this->directory, $file);
+                $this->builder->executeCommand($cmd, $this->directory, $file);
             }
         }
     }

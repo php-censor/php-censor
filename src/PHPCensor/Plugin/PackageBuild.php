@@ -19,29 +19,23 @@ use PHPCensor\Plugin;
 * @package      PHPCI
 * @subpackage   Plugins
 */
-class PackageBuild implements Plugin
+class PackageBuild extends Plugin
 {
     protected $directory;
     protected $filename;
     protected $format;
-    protected $phpci;
 
     /**
-     * Set up the plugin, configure options, etc.
-     * @param Builder $phpci
-     * @param Build $build
-     * @param array $options
+     * {@inheritdoc}
      */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        $path            = $phpci->buildPath;
-        $this->build     = $build;
-        $this->phpci     = $phpci;
+        parent::__construct($builder, $build, $options);
+
+        $path            = $this->builder->buildPath;
         $this->directory = isset($options['directory']) ? $options['directory'] : $path;
         $this->filename  = isset($options['filename']) ? $options['filename'] : 'build';
         $this->format    = isset($options['format']) ?  $options['format'] : 'zip';
-
-        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**
@@ -49,7 +43,7 @@ class PackageBuild implements Plugin
     */
     public function execute()
     {
-        $path  = $this->phpci->buildPath;
+        $path  = $this->builder->buildPath;
         $build = $this->build;
 
         if ($this->directory == $path) {
@@ -65,7 +59,7 @@ class PackageBuild implements Plugin
         $filename = preg_replace('/([^a-zA-Z0-9_-]+)/', '', $filename);
 
         $curdir = getcwd();
-        chdir($this->phpci->buildPath);
+        chdir($this->builder->buildPath);
 
         if (!is_array($this->format)) {
             $this->format = [$this->format];
@@ -82,7 +76,7 @@ class PackageBuild implements Plugin
                     break;
             }
 
-            $success = $this->phpci->executeCommand($cmd, $this->directory, $filename);
+            $success = $this->builder->executeCommand($cmd, $this->directory, $filename);
         }
 
         chdir($curdir);

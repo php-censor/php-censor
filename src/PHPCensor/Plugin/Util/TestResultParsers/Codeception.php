@@ -12,23 +12,21 @@ use PHPCensor\Builder;
  */
 class Codeception implements ParserInterface
 {
-    protected $phpci;
+    protected $builder;
     protected $resultsXml;
-
     protected $results;
-
     protected $totalTests;
     protected $totalTimeTaken;
     protected $totalFailures;
     protected $totalErrors;
 
     /**
-     * @param Builder $phpci
+     * @param Builder $builder
      * @param $resultsXml
      */
-    public function __construct(Builder $phpci, $resultsXml)
+    public function __construct(Builder $builder, $resultsXml)
     {
-        $this->phpci      = $phpci;
+        $this->builder    = $builder;
         $this->resultsXml = $resultsXml;
         $this->totalTests = 0;
     }
@@ -51,7 +49,7 @@ class Codeception implements ParserInterface
             foreach ($test_suite->testcase as $test_case) {
                 $test_result = [
                     'suite'      => (string)$test_suite['name'],
-                    'file'       => str_replace($this->phpci->buildPath, '/', (string) $test_case['file']),
+                    'file'       => str_replace($this->builder->buildPath, '/', (string) $test_case['file']),
                     'name'       => (string)$test_case['name'],
                     'feature'    => (string)$test_case['feature'],
                     'assertions' => (int)$test_case['assertions'],

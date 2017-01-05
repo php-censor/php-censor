@@ -20,23 +20,8 @@ use PHPCensor\Plugin;
 * @package      PHPCI
 * @subpackage   Plugins
 */
-class Pgsql implements Plugin
+class Pgsql extends Plugin
 {
-    /**
-     * @var \PHPCensor\Builder
-     */
-    protected $phpci;
-
-    /**
-     * @var \PHPCensor\Model\Build
-     */
-    protected $build;
-
-    /**
-     * @var array
-     */
-    protected $queries = [];
-
     /**
      * @var string
      */
@@ -53,17 +38,13 @@ class Pgsql implements Plugin
     protected $pass;
 
     /**
-     * @param Builder $phpci
-     * @param Build   $build
-     * @param array   $options
+     * {@inheritdoc}
      */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        $this->phpci   = $phpci;
-        $this->build   = $build;
-        $this->queries = $options;
+        parent::__construct($builder, $build, $options);
 
-        $buildSettings = $phpci->getConfig('build_settings');
+        $buildSettings = $this->builder->getConfig('build_settings');
 
         if (isset($buildSettings['pgsql'])) {
             $sql = $buildSettings['pgsql'];
@@ -71,8 +52,6 @@ class Pgsql implements Plugin
             $this->user = $sql['user'];
             $this->pass = $sql['pass'];
         }
-
-        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**
@@ -85,11 +64,11 @@ class Pgsql implements Plugin
             $opts = [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION];
             $pdo  = new PDO('pgsql:host=' . $this->host, $this->user, $this->pass, $opts);
 
-            foreach ($this->queries as $query) {
-                $pdo->query($this->phpci->interpolate($query));
+            foreach ($this->options as $query) {
+                $pdo->query($this->builder->interpolate($query));
             }
         } catch (\Exception $ex) {
-            $this->phpci->logFailure($ex->getMessage());
+            $this->builder->logFailure($ex->getMessage());
             return false;
         }
         return true;

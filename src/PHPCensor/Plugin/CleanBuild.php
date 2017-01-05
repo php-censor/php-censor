@@ -20,31 +20,18 @@ use PHPCensor\Plugin;
 * @package      PHPCI
 * @subpackage   Plugins
 */
-class CleanBuild implements Plugin
+class CleanBuild extends Plugin
 {
     protected $remove;
-    protected $phpci;
-    protected $build;
 
     /**
-     * Standard Constructor
-     *
-     * $options['directory'] Output Directory. Default: %BUILDPATH%
-     * $options['filename']  Phar Filename. Default: build.phar
-     * $options['regexp']    Regular Expression Filename Capture. Default: /\.php$/
-     * $options['stub']      Stub Content. No Default Value
-     *
-     * @param Builder $phpci
-     * @param Build   $build
-     * @param array   $options
+     * {@inheritdoc}
      */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        $this->phpci  = $phpci;
-        $this->build  = $build;
-        $this->remove = isset($options['remove']) && is_array($options['remove']) ? $options['remove'] : [];
+        parent::__construct($builder, $build, $options);
 
-        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
+        $this->remove = isset($options['remove']) && is_array($options['remove']) ? $options['remove'] : [];
     }
 
     /**
@@ -56,13 +43,13 @@ class CleanBuild implements Plugin
         if (IS_WIN) {
             $cmd = 'rmdir /S /Q "%s"';
         }
-        $this->phpci->executeCommand($cmd, $this->phpci->buildPath . 'composer.phar');
-        $this->phpci->executeCommand($cmd, $this->phpci->buildPath . 'composer.lock');
+        $this->builder->executeCommand($cmd, $this->builder->buildPath . 'composer.phar');
+        $this->builder->executeCommand($cmd, $this->builder->buildPath . 'composer.lock');
 
         $success = true;
 
         foreach ($this->remove as $file) {
-            $ok = $this->phpci->executeCommand($cmd, $this->phpci->buildPath . $file);
+            $ok = $this->builder->executeCommand($cmd, $this->builder->buildPath . $file);
 
             if (!$ok) {
                 $success = false;

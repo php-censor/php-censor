@@ -20,26 +20,9 @@ use PHPCensor\Plugin;
 * @package      PHPCI
 * @subpackage   Plugins
 */
-class Env implements Plugin
+class Env extends Plugin
 {
-    protected $phpci;
-    protected $build;
     protected $env_vars;
-
-    /**
-     * Set up the plugin, configure options, etc.
-     * @param Builder $phpci
-     * @param Build $build
-     * @param array $options
-     */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
-    {
-        $this->phpci    = $phpci;
-        $this->build    = $build;
-        $this->env_vars = $options;
-
-        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
-    }
 
     /**
     * Adds the specified environment variables to the builder environment
@@ -47,7 +30,7 @@ class Env implements Plugin
     public function execute()
     {
         $success = true;
-        foreach ($this->env_vars as $key => $value) {
+        foreach ($this->options as $key => $value) {
             if (is_numeric($key)) {
                 // This allows the developer to specify env vars like " - FOO=bar" or " - FOO: bar"
                 $env_var = is_array($value)? key($value).'='.current($value): $value;
@@ -56,9 +39,9 @@ class Env implements Plugin
                 $env_var = "$key=$value";
             }
 
-            if (!putenv($this->phpci->interpolate($env_var))) {
+            if (!putenv($this->builder->interpolate($env_var))) {
                 $success = false;
-                $this->phpci->logFailure(Lang::get('unable_to_set_env'));
+                $this->builder->logFailure(Lang::get('unable_to_set_env'));
             }
         }
         return $success;

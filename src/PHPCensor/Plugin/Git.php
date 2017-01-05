@@ -20,26 +20,9 @@ use PHPCensor\Plugin;
  * @package      PHPCI
  * @subpackage   Plugins
  */
-class Git implements Plugin
+class Git extends Plugin
 {
-    protected $phpci;
-    protected $build;
     protected $actions = [];
-
-    /**
-     * Set up the plugin, configure options, etc.
-     * @param Builder $phpci
-     * @param Build $build
-     * @param array $options
-     */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
-    {
-        $this->phpci   = $phpci;
-        $this->build   = $build;
-        $this->actions = $options;
-
-        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
-    }
 
     /**
      * Run the Git plugin.
@@ -47,7 +30,7 @@ class Git implements Plugin
      */
     public function execute()
     {
-        $buildPath = $this->phpci->buildPath;
+        $buildPath = $this->builder->buildPath;
 
         // Check if there are any actions to be run for the branch we're running on:
         if (!array_key_exists($this->build->getBranch(), $this->actions)) {
@@ -106,8 +89,8 @@ class Git implements Plugin
     {
         if (array_key_exists('branch', $options)) {
             $cmd = 'cd "%s" && git checkout %s && git merge "%s"';
-            $path = $this->phpci->buildPath;
-            return $this->phpci->executeCommand($cmd, $path, $options['branch'], $this->build->getBranch());
+            $path = $this->builder->buildPath;
+            return $this->builder->executeCommand($cmd, $path, $options['branch'], $this->build->getBranch());
         }
     }
 
@@ -122,15 +105,15 @@ class Git implements Plugin
         $message = Lang::get('tag_created', date('Y-m-d H:i:s'));
 
         if (array_key_exists('name', $options)) {
-            $tagName = $this->phpci->interpolate($options['name']);
+            $tagName = $this->builder->interpolate($options['name']);
         }
 
         if (array_key_exists('message', $options)) {
-            $message = $this->phpci->interpolate($options['message']);
+            $message = $this->builder->interpolate($options['message']);
         }
 
         $cmd = 'git tag %s -m "%s"';
-        return $this->phpci->executeCommand($cmd, $tagName, $message);
+        return $this->builder->executeCommand($cmd, $tagName, $message);
     }
 
     /**
@@ -144,14 +127,14 @@ class Git implements Plugin
         $remote = 'origin';
 
         if (array_key_exists('branch', $options)) {
-            $branch = $this->phpci->interpolate($options['branch']);
+            $branch = $this->builder->interpolate($options['branch']);
         }
 
         if (array_key_exists('remote', $options)) {
-            $remote = $this->phpci->interpolate($options['remote']);
+            $remote = $this->builder->interpolate($options['remote']);
         }
 
-        return $this->phpci->executeCommand('git pull %s %s', $remote, $branch);
+        return $this->builder->executeCommand('git pull %s %s', $remote, $branch);
     }
 
     /**
@@ -165,13 +148,13 @@ class Git implements Plugin
         $remote = 'origin';
 
         if (array_key_exists('branch', $options)) {
-            $branch = $this->phpci->interpolate($options['branch']);
+            $branch = $this->builder->interpolate($options['branch']);
         }
 
         if (array_key_exists('remote', $options)) {
-            $remote = $this->phpci->interpolate($options['remote']);
+            $remote = $this->builder->interpolate($options['remote']);
         }
 
-        return $this->phpci->executeCommand('git push %s %s', $remote, $branch);
+        return $this->builder->executeCommand('git push %s %s', $remote, $branch);
     }
 }

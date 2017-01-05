@@ -8,22 +8,29 @@ use PHPCensor\Helper\Lang;
 use PHPCensor\Logging\BuildLogger;
 use PHPCensor\Model\Build;
 use PHPCensor\Store\BuildStore;
+use PHPCensor\Builder;
 
 /**
  * Plugin Executor - Runs the configured plugins for a given build stage.
+ * 
  * @package PHPCensor\Plugin\Util
  */
 class Executor
 {
     /**
+     * @var \PHPCensor\Builder
+     */
+    protected $builder;
+
+    /**
+     * @var \PHPCensor\Model\Build
+     */
+    protected $build;
+
+    /**
      * @var BuildLogger
      */
     protected $logger;
-
-    /**
-     * @var Factory
-     */
-    protected $pluginFactory;
 
     /**
      * @var BuildStore
@@ -31,14 +38,16 @@ class Executor
     protected $store;
 
     /**
-     * @param Factory $pluginFactory
+     * @param Builder     $builder
+     * @param Build       $build
      * @param BuildLogger $logger
      */
-    public function __construct(Factory $pluginFactory, BuildLogger $logger, BuildStore $store = null)
+    public function __construct(Builder $builder, Build $build, BuildLogger $logger)
     {
-        $this->pluginFactory = $pluginFactory;
-        $this->logger = $logger;
-        $this->store = $store ?: StoreFactory::getStore('Build');
+        $this->builder = $builder;
+        $this->build   = $build;
+        $this->logger  = $logger;
+        $this->store   = StoreFactory::getStore('Build');
     }
 
     /**
@@ -78,7 +87,7 @@ class Executor
     protected function getBranchSpecificPlugins(&$config, $stage, $pluginsToExecute)
     {
         /** @var \PHPCensor\Model\Build $build */
-        $build  = $this->pluginFactory->getResourceFor('PHPCensor\Model\Build');
+        $build  = $this->build;
         $branch = $build->getBranch();
 
         // If we don't have any branch-specific plugins:
@@ -190,10 +199,7 @@ class Executor
         }
 
         try {
-            // Build and run it
-            $obj = $this->pluginFactory->buildPlugin($class, $options);
-
-            return $obj->execute();
+            return (new $class($this->builder, $this->build, $options))->execute();
         } catch (\Exception $ex) {
             $this->logger->logFailure(Lang::get('exception') . $ex->getMessage(), $ex);
 
@@ -235,7 +241,7 @@ class Executor
     private function getBuildSummary()
     {
         /** @var Build $build */
-        $build = $this->pluginFactory->getResourceFor('PHPCensor\Model\Build');
+        $build = $this->build;
         $metas = $this->store->getMeta('plugin-summary', $build->getProjectId(), $build->getId());
         return isset($metas[0]['meta_value']) ? $metas[0]['meta_value'] : [];
     }
@@ -248,7 +254,7 @@ class Executor
     private function setBuildSummary($summary)
     {
         /** @var Build $build */
-        $build = $this->pluginFactory->getResourceFor('PHPCensor\Model\Build');
+        $build = $this->build;
         $this->store->setMeta($build->getProjectId(), $build->getId(), 'plugin-summary', json_encode($summary));
     }
 }

@@ -19,29 +19,30 @@ use PHPCensor\Plugin;
  * @package      PHPCI
  * @subpackage   Plugins
  */
-class Pdepend implements Plugin
+class Pdepend extends Plugin
 {
     protected $args;
-    /**
-     * @var \PHPCensor\Builder
-     */
-    protected $phpci;
+
     /**
      * @var string Directory which needs to be scanned
      */
     protected $directory;
+
     /**
      * @var string File where the summary.xml is stored
      */
     protected $summary;
+
     /**
      * @var string File where the chart.svg is stored
      */
     protected $chart;
+
     /**
      * @var string File where the pyramid.svg is stored
      */
     protected $pyramid;
+
     /**
      * @var string Location on the server where the files are stored. Preferably in the webroot for inclusion
      *             in the readme.md of the repository
@@ -49,25 +50,19 @@ class Pdepend implements Plugin
     protected $location;
 
     /**
-     * Set up the plugin, configure options, etc.
-     * @param Builder $phpci
-     * @param Build $build
-     * @param array $options
+     * {@inheritdoc}
      */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        $this->phpci = $phpci;
-        $this->build = $build;
+        parent::__construct($builder, $build, $options);
 
-        $this->directory = isset($options['directory']) ? $options['directory'] : $phpci->buildPath;
+        $this->directory = isset($options['directory']) ? $options['directory'] : $this->builder->buildPath;
 
-        $title = $phpci->getBuildProjectTitle();
+        $title          = $this->builder->getBuildProjectTitle();
         $this->summary  = $title . '-summary.xml';
         $this->pyramid  = $title . '-pyramid.svg';
         $this->chart    = $title . '-chart.svg';
-        $this->location = $this->phpci->buildPath . '..' . DIRECTORY_SEPARATOR . 'pdepend';
-
-        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
+        $this->location = $this->builder->buildPath . '..' . DIRECTORY_SEPARATOR . 'pdepend';
     }
 
     /**
@@ -82,20 +77,20 @@ class Pdepend implements Plugin
             throw new \Exception(sprintf('The location %s is not writable or does not exist.', $this->location));
         }
 
-        $pdepend = $this->phpci->findBinary('pdepend');
+        $pdepend = $this->builder->findBinary('pdepend');
 
         $cmd = $pdepend . ' --summary-xml="%s" --jdepend-chart="%s" --overview-pyramid="%s" %s "%s"';
 
         $this->removeBuildArtifacts();
 
         // If we need to ignore directories
-        if (count($this->phpci->ignore)) {
-            $ignore = ' --ignore=' . implode(',', $this->phpci->ignore);
+        if (count($this->builder->ignore)) {
+            $ignore = ' --ignore=' . implode(',', $this->builder->ignore);
         } else {
             $ignore = '';
         }
 
-        $success = $this->phpci->executeCommand(
+        $success = $this->builder->executeCommand(
             $cmd,
             $this->location . DIRECTORY_SEPARATOR . $this->summary,
             $this->location . DIRECTORY_SEPARATOR . $this->chart,
@@ -104,10 +99,10 @@ class Pdepend implements Plugin
             $this->directory
         );
 
-        $config = $this->phpci->getSystemConfig('php-censor');
+        $config = $this->builder->getSystemConfig('php-censor');
 
         if ($success) {
-            $this->phpci->logSuccess(
+            $this->builder->logSuccess(
                 sprintf(
                     "Pdepend successful. You can use %s\n, ![Chart](%s \"Pdepend Chart\")\n
                     and ![Pyramid](%s \"Pdepend Pyramid\")\n

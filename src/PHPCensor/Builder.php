@@ -110,9 +110,7 @@ class Builder implements LoggerAwareInterface
 
         $this->buildLogger = new BuildLogger($logger, $build);
 
-        $pluginFactory = $this->buildPluginFactory($build);
-        $pluginFactory->addConfigFromFile(APP_DIR . "pluginconfig.php");
-        $this->pluginExecutor = new Plugin\Util\Executor($pluginFactory, $this->buildLogger);
+        $this->pluginExecutor = new Plugin\Util\Executor($this, $build, $this->buildLogger);
 
         $executorClass = 'PHPCensor\Helper\UnixCommandExecutor';
         if (IS_WIN) {
@@ -390,53 +388,5 @@ class Builder implements LoggerAwareInterface
     public function logDebug($message)
     {
         $this->buildLogger->logDebug($message);
-    }
-
-    /**
-     * Returns a configured instance of the plugin factory.
-     *
-     * @param Build $build
-     * @return PluginFactory
-     */
-    private function buildPluginFactory(Build $build)
-    {
-        $pluginFactory = new PluginFactory();
-
-        $self = $this;
-        $pluginFactory->registerResource(
-            function () use ($self) {
-                return $self;
-            },
-            null,
-            'PHPCensor\Builder'
-        );
-
-        $pluginFactory->registerResource(
-            function () use ($build) {
-                return $build;
-            },
-            null,
-            'PHPCensor\Model\Build'
-        );
-
-        $logger = $this->logger;
-        $pluginFactory->registerResource(
-            function () use ($logger) {
-                return $logger;
-            },
-            null,
-            'Psr\Log\LoggerInterface'
-        );
-
-        $pluginFactory->registerResource(
-            function () use ($self) {
-                $factory = new MailerFactory($self->getSystemConfig('php-censor'));
-                return $factory->getSwiftMailerFromConfig();
-            },
-            null,
-            'Swift_Mailer'
-        );
-
-        return $pluginFactory;
     }
 }

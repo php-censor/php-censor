@@ -19,18 +19,8 @@ use PHPCensor\Plugin;
  * @package      PHPCI
  * @subpackage   Plugins
  */
-class Shell implements Plugin
+class Shell extends Plugin
 {
-    /**
-     * @var \PHPCensor\Builder
-     */
-    protected $phpci;
-
-    /**
-     * @var \PHPCensor\Model\Build
-     */
-    protected $build;
-
     protected $args;
 
     /**
@@ -39,25 +29,15 @@ class Shell implements Plugin
     protected $commands = [];
 
     /**
-     * Standard Constructor
-     *
-     * $options['directory'] Output Directory. Default: %BUILDPATH%
-     * $options['filename']  Phar Filename. Default: build.phar
-     * $options['regexp']    Regular Expression Filename Capture. Default: /\.php$/
-     * $options['stub']      Stub Content. No Default Value
-     *
-     * @param Builder $phpci
-     * @param Build   $build
-     * @param array   $options
+     * {@inheritdoc}
      */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        $this->phpci = $phpci;
-        $this->build = $build;
+        parent::__construct($builder, $build, $options);
 
         if (isset($options['command'])) {
             // Keeping this for backwards compatibility, new projects should use interpolation vars.
-            $options['command'] = str_replace("%buildpath%", $this->phpci->buildPath, $options['command']);
+            $options['command'] = str_replace("%buildpath%", $this->builder->buildPath, $options['command']);
             $this->commands = [$options['command']];
             return;
         }
@@ -72,8 +52,6 @@ class Shell implements Plugin
         if (is_array($options)) {
             $this->commands = $options;
         }
-
-        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**
@@ -84,9 +62,9 @@ class Shell implements Plugin
         $success = true;
 
         foreach ($this->commands as $command) {
-            $command = $this->phpci->interpolate($command);
+            $command = $this->builder->interpolate($command);
 
-            if (!$this->phpci->executeCommand($command)) {
+            if (!$this->builder->executeCommand($command)) {
                 $success = false;
             }
         }

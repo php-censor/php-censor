@@ -19,11 +19,9 @@ use PHPCensor\Plugin;
 * @package      PHPCI
 * @subpackage   Plugins
 */
-class XMPP implements Plugin
+class XMPP extends Plugin
 {
     protected $directory;
-    protected $phpci;
-    protected $build;
 
     /**
      * @var string, username of sender account xmpp
@@ -61,15 +59,11 @@ class XMPP implements Plugin
     protected $date_format;
 
     /**
-     *
-     * @param Builder $phpci
-     * @param Build $build
-     * @param array $options
+     * {@inheritdoc}
      */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        $this->phpci = $phpci;
-        $this->build = $build;
+        parent::__construct($builder, $build, $options);
 
         $this->username    = '';
         $this->password    = '';
@@ -87,24 +81,6 @@ class XMPP implements Plugin
                 $this->recipients = [$options['recipients']];
             } elseif (is_array($options['recipients'])) {
                 $this->recipients = $options['recipients'];
-            }
-        }
-
-        $this->setOptions($options);
-
-        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
-    }
-
-    /**
-     * Set options configuration for plugin
-     *
-     * @param array $options
-     */
-    protected function setOptions($options)
-    {
-        foreach (['username', 'password', 'alias', 'tls', 'server', 'date_format'] as $key) {
-            if (array_key_exists($key, $options)) {
-                $this->{$key} = $options[$key];
             }
         }
     }
@@ -135,8 +111,8 @@ class XMPP implements Plugin
      */
     public function findConfigFile()
     {
-        if (file_exists($this->phpci->buildPath . DIRECTORY_SEPARATOR . '.sendxmpprc')) {
-            if (md5(file_get_contents($this->phpci->buildPath . DIRECTORY_SEPARATOR . '.sendxmpprc'))
+        if (file_exists($this->builder->buildPath . DIRECTORY_SEPARATOR . '.sendxmpprc')) {
+            if (md5(file_get_contents($this->builder->buildPath . DIRECTORY_SEPARATOR . '.sendxmpprc'))
                 !== md5($this->getConfigFormat())) {
                 return null;
             }
@@ -152,7 +128,7 @@ class XMPP implements Plugin
     */
     public function execute()
     {
-        $sendxmpp = $this->phpci->findBinary('sendxmpp');
+        $sendxmpp = $this->builder->findBinary('sendxmpp');
 
         /*
          * Without recipients we can't send notification
@@ -164,7 +140,7 @@ class XMPP implements Plugin
         /*
          * Try to build conf file
          */
-        $config_file = $this->phpci->buildPath . DIRECTORY_SEPARATOR . '.sendxmpprc';
+        $config_file = $this->builder->buildPath . DIRECTORY_SEPARATOR . '.sendxmpprc';
         if (is_null($this->findConfigFile())) {
             file_put_contents($config_file, $this->getConfigFormat());
             chmod($config_file, 0600);
@@ -178,7 +154,7 @@ class XMPP implements Plugin
             $tls = ' -t';
         }
 
-        $message_file = $this->phpci->buildPath . DIRECTORY_SEPARATOR . uniqid('xmppmessage');
+        $message_file = $this->builder->buildPath . DIRECTORY_SEPARATOR . uniqid('xmppmessage');
         if ($this->buildMessage($message_file) === false) {
             return false;
         }
@@ -189,14 +165,14 @@ class XMPP implements Plugin
         $cmd = $sendxmpp . "%s -f %s -m %s %s";
         $recipients = implode(' ', $this->recipients);
 
-        $success = $this->phpci->executeCommand($cmd, $tls, $config_file, $message_file, $recipients);
+        $success = $this->builder->executeCommand($cmd, $tls, $config_file, $message_file, $recipients);
 
-        print $this->phpci->getLastOutput();
+        print $this->builder->getLastOutput();
 
         /*
          * Remove temp message file
          */
-        $this->phpci->executeCommand("rm -rf ".$message_file);
+        $this->builder->executeCommand("rm -rf ".$message_file);
 
         return $success;
     }

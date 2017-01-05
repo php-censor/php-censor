@@ -20,30 +20,28 @@ use PHPCensor\Plugin;
  * @package      PHPCI
  * @subpackage   Plugins
  */
-class FlowdockNotify implements Plugin
+class FlowdockNotify extends Plugin
 {
-    private $api_key;
-    private $email;
+    protected $api_key;
+    protected $email;
+    protected $message;
+
     const MESSAGE_DEFAULT = 'Build %BUILD% has finished for commit <a href="%COMMIT_URI%">%SHORT_COMMIT%</a>
                             (%COMMIT_EMAIL%)> on branch <a href="%BRANCH_URI%">%BRANCH%</a>';
 
     /**
-     * Set up the plugin, configure options, etc.
-     * @param Builder $phpci
-     * @param Build   $build
-     * @param array   $options
-     * @throws \Exception
+     * {@inheritdoc}
      */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        $this->phpci = $phpci;
-        $this->build = $build;
+        parent::__construct($builder, $build, $options);
+
         if (!is_array($options) || !isset($options['api_key'])) {
             throw new \Exception('Please define the api_key for Flowdock Notify plugin!');
         }
         $this->api_key = trim($options['api_key']);
         $this->message = isset($options['message']) ? $options['message'] : self::MESSAGE_DEFAULT;
-        $this->email = isset($options['email']) ? $options['email'] : 'PHP Censor';
+        $this->email   = isset($options['email']) ? $options['email'] : 'PHP Censor';
     }
 
     /**
@@ -54,7 +52,7 @@ class FlowdockNotify implements Plugin
     public function execute()
     {
 
-        $message = $this->phpci->interpolate($this->message);
+        $message = $this->builder->interpolate($this->message);
         $successfulBuild = $this->build->isSuccessful() ? 'Success' : 'Failed';
         $push = new Push($this->api_key);
         $flowMessage = TeamInboxMessage::create()

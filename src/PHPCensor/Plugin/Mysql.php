@@ -23,23 +23,8 @@ use b8\Database;
 * @package      PHPCI
 * @subpackage   Plugins
 */
-class Mysql implements Plugin
+class Mysql extends Plugin
 {
-    /**
-     * @var \PHPCensor\Builder
-     */
-    protected $phpci;
-
-    /**
-     * @var \PHPCensor\Model\Build
-     */
-    protected $build;
-
-    /**
-     * @var array
-     */
-    protected $queries = [];
-
     /**
      * @var string
      */
@@ -56,16 +41,11 @@ class Mysql implements Plugin
     protected $pass;
 
     /**
-     * @param Builder $phpci
-     * @param Build   $build
-     * @param array   $options
+     * {@inheritdoc}
      */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        $this->phpci = $phpci;
-        $this->build = $build;
-
-        $this->queries = $options;
+        parent::__construct($builder, $build, $options);
 
         $config = Database::getConnection('write')->getDetails();
 
@@ -73,25 +53,23 @@ class Mysql implements Plugin
         $this->user = $config['user'];
         $this->pass = $config['pass'];
 
-        $buildSettings = $phpci->getConfig('build_settings');
+        $buildSettings = $this->builder->getConfig('build_settings');
 
         if (!isset($buildSettings['mysql'])) {
             return;
         }
 
         if (!empty($buildSettings['mysql']['host'])) {
-            $this->host = $this->phpci->interpolate($buildSettings['mysql']['host']);
+            $this->host = $this->builder->interpolate($buildSettings['mysql']['host']);
         }
 
         if (!empty($buildSettings['mysql']['user'])) {
-            $this->user = $this->phpci->interpolate($buildSettings['mysql']['user']);
+            $this->user = $this->builder->interpolate($buildSettings['mysql']['user']);
         }
 
         if (array_key_exists('pass', $buildSettings['mysql'])) {
             $this->pass = $buildSettings['mysql']['pass'];
         }
-
-        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**
@@ -104,10 +82,10 @@ class Mysql implements Plugin
             $opts = [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION];
             $pdo  = new PDO('mysql:host=' . $this->host, $this->user, $this->pass, $opts);
 
-            foreach ($this->queries as $query) {
+            foreach ($this->options as $query) {
                 if (!is_array($query)) {
                     // Simple query
-                    $pdo->query($this->phpci->interpolate($query));
+                    $pdo->query($this->builder->interpolate($query));
                 } elseif (isset($query['import'])) {
                     // SQL file execution
                     $this->executeFile($query['import']);
@@ -116,7 +94,7 @@ class Mysql implements Plugin
                 }
             }
         } catch (\Exception $ex) {
-            $this->phpci->logFailure($ex->getMessage());
+            $this->builder->logFailure($ex->getMessage());
             return false;
         }
         return true;
@@ -133,15 +111,15 @@ class Mysql implements Plugin
             throw new \Exception(Lang::get('import_file_key'));
         }
 
-        $import_file = $this->phpci->buildPath . $this->phpci->interpolate($query['file']);
+        $import_file = $this->builder->buildPath . $this->builder->interpolate($query['file']);
         if (!is_readable($import_file)) {
             throw new \Exception(Lang::get('cannot_open_import', $import_file));
         }
 
-        $database = isset($query['database']) ? $this->phpci->interpolate($query['database']) : null;
+        $database = isset($query['database']) ? $this->builder->interpolate($query['database']) : null;
 
         $import_command = $this->getImportCommand($import_file, $database);
-        if (!$this->phpci->executeCommand($import_command)) {
+        if (!$this->builder->executeCommand($import_command)) {
             throw new \Exception(Lang::get('unable_to_execute'));
         }
 

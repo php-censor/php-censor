@@ -12,29 +12,21 @@ namespace PHPCensor\Plugin;
 use PHPCensor;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
+use PHPCensor\Plugin;
 
 /**
  * PHPTAL Lint Plugin - Provides access to PHPTAL lint functionality.
+ * 
  * @author       Stephen Ball <phpci@stephen.rebelinblue.com>
  * @package      PHPCI
  * @subpackage   Plugins
  */
-class PhpTalLint implements PHPCensor\Plugin
+class PhpTalLint extends Plugin
 {
     protected $directories;
     protected $recursive = true;
     protected $suffixes;
     protected $ignore;
-
-    /**
-     * @var \PHPCensor\Builder
-     */
-    protected $phpci;
-
-    /**
-     * @var \PHPCensor\Model\Build
-     */
-    protected $build;
 
     /**
      * @var string The path to a file contain custom phptal_tales_ functions
@@ -57,19 +49,15 @@ class PhpTalLint implements PHPCensor\Plugin
     protected $failedPaths = [];
 
     /**
-     * Standard Constructor
-     *
-     * @param Builder $phpci
-     * @param Build   $build
-     * @param array   $options
+     * {@inheritdoc}
      */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        $this->phpci = $phpci;
-        $this->build = $build;
+        parent::__construct($builder, $build, $options);
+
         $this->directories = [''];
         $this->suffixes = ['zpt'];
-        $this->ignore = $phpci->ignore;
+        $this->ignore = $this->builder->ignore;
 
         $this->allowed_warnings = 0;
         $this->allowed_errors = 0;
@@ -81,23 +69,6 @@ class PhpTalLint implements PHPCensor\Plugin
         if (isset($options['suffixes'])) {
             $this->suffixes = (array)$options['suffixes'];
         }
-
-        $this->setOptions($options);
-
-        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
-    }
-
-    /**
-     * Handle this plugin's options.
-     * @param $options
-     */
-    protected function setOptions($options)
-    {
-        foreach (['directories', 'tales', 'allowed_warnings', 'allowed_errors'] as $key) {
-            if (array_key_exists($key, $options)) {
-                $this->{$key} = $options[$key];
-            }
-        }
     }
 
     /**
@@ -105,15 +76,15 @@ class PhpTalLint implements PHPCensor\Plugin
      */
     public function execute()
     {
-        $this->phpci->quiet = true;
-        $this->phpci->logExecOutput(false);
+        $this->builder->quiet = true;
+        $this->builder->logExecOutput(false);
 
         foreach ($this->directories as $dir) {
             $this->lintDirectory($dir);
         }
 
-        $this->phpci->quiet = false;
-        $this->phpci->logExecOutput(true);
+        $this->builder->quiet = false;
+        $this->builder->logExecOutput(true);
 
         $errors = 0;
         $warnings = 0;
@@ -172,7 +143,7 @@ class PhpTalLint implements PHPCensor\Plugin
     protected function lintDirectory($path)
     {
         $success = true;
-        $directory = new \DirectoryIterator($this->phpci->buildPath . $path);
+        $directory = new \DirectoryIterator($this->builder->buildPath . $path);
 
         foreach ($directory as $item) {
             if ($item->isDot()) {
@@ -209,9 +180,9 @@ class PhpTalLint implements PHPCensor\Plugin
         $lint .= 'tools' . DIRECTORY_SEPARATOR . 'phptal_lint.php';
         $cmd  = '/usr/bin/env php ' . $lint . ' %s %s "%s"';
 
-        $this->phpci->executeCommand($cmd, $suffixes, $tales, $this->phpci->buildPath . $path);
+        $this->builder->executeCommand($cmd, $suffixes, $tales, $this->builder->buildPath . $path);
 
-        $output = $this->phpci->getLastOutput();
+        $output = $this->builder->getLastOutput();
 
         if (preg_match('/Found (.+?) (error|warning)/i', $output, $matches)) {
             $rows = explode(PHP_EOL, $output);
@@ -254,7 +225,7 @@ class PhpTalLint implements PHPCensor\Plugin
     {
         $tales = '';
         if (!empty($this->tales)) {
-            $tales = ' -i ' . $this->phpci->buildPath . $this->tales;
+            $tales = ' -i ' . $this->builder->buildPath . $this->tales;
         }
 
         $suffixes = '';

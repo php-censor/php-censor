@@ -12,6 +12,8 @@ namespace PHPCensor\Plugin;
 use PHPCensor;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
+use PHPCensor\Plugin;
+use PHPCensor\ZeroConfigPlugin;
 
 /**
 * Composer Plugin - Provides access to Composer functionality.
@@ -19,46 +21,23 @@ use PHPCensor\Model\Build;
 * @package      PHPCI
 * @subpackage   Plugins
 */
-class Composer implements PHPCensor\Plugin, PHPCensor\ZeroConfigPlugin
+class Composer extends Plugin implements ZeroConfigPlugin
 {
     protected $directory;
     protected $action;
     protected $preferDist;
-    protected $phpci;
-    protected $build;
     protected $nodev;
     protected $ignorePlatformReqs;
     protected $preferSource;
 
     /**
-     * Check if this plugin can be executed.
-     * @param $stage
-     * @param Builder $builder
-     * @param Build $build
-     * @return bool
+     * {@inheritdoc}
      */
-    public static function canExecute($stage, Builder $builder, Build $build)
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        $path = $builder->buildPath . DIRECTORY_SEPARATOR . 'composer.json';
+        parent::__construct($builder, $build, $options);
 
-        if (file_exists($path) && $stage == 'setup') {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Set up the plugin, configure options, etc.
-     * @param Builder $phpci
-     * @param Build $build
-     * @param array $options
-     */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
-    {
-        $path                     = $phpci->buildPath;
-        $this->phpci              = $phpci;
-        $this->build              = $build;
+        $path                     = $this->builder->buildPath;
         $this->directory          = $path;
         $this->action             = 'install';
         $this->preferDist         = false;
@@ -90,8 +69,24 @@ class Composer implements PHPCensor\Plugin, PHPCensor\ZeroConfigPlugin
         if (array_key_exists('ignore_platform_reqs', $options)) {
             $this->ignorePlatformReqs = (bool)$options['ignore_platform_reqs'];
         }
+    }
 
-        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
+    /**
+     * Check if this plugin can be executed.
+     * @param $stage
+     * @param Builder $builder
+     * @param Build $build
+     * @return bool
+     */
+    public static function canExecute($stage, Builder $builder, Build $build)
+    {
+        $path = $builder->buildPath . DIRECTORY_SEPARATOR . 'composer.json';
+
+        if (file_exists($path) && $stage == 'setup') {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -99,7 +94,7 @@ class Composer implements PHPCensor\Plugin, PHPCensor\ZeroConfigPlugin
     */
     public function execute()
     {
-        $composerLocation = $this->phpci->findBinary(['composer', 'composer.phar']);
+        $composerLocation = $this->builder->findBinary(['composer', 'composer.phar']);
 
         $cmd = '';
 
@@ -110,27 +105,27 @@ class Composer implements PHPCensor\Plugin, PHPCensor\ZeroConfigPlugin
         $cmd .= $composerLocation . ' --no-ansi --no-interaction ';
 
         if ($this->preferDist) {
-            $this->phpci->log('Using --prefer-dist flag');
+            $this->builder->log('Using --prefer-dist flag');
             $cmd .= ' --prefer-dist';
         }
 
         if ($this->preferSource) {
-            $this->phpci->log('Using --prefer-source flag');
+            $this->builder->log('Using --prefer-source flag');
             $cmd .= ' --prefer-source';
         }
 
         if ($this->nodev) {
-            $this->phpci->log('Using --no-dev flag');
+            $this->builder->log('Using --no-dev flag');
             $cmd .= ' --no-dev';
         }
 
         if ($this->ignorePlatformReqs) {
-            $this->phpci->log('Using --ignore-platform-reqs flag');
+            $this->builder->log('Using --ignore-platform-reqs flag');
             $cmd .= ' --ignore-platform-reqs';
         }
 
         $cmd .= ' --working-dir="%s" %s';
 
-        return $this->phpci->executeCommand($cmd, $this->directory, $this->action);
+        return $this->builder->executeCommand($cmd, $this->directory, $this->action);
     }
 }

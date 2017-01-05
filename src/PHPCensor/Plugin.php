@@ -9,11 +9,46 @@
 
 namespace PHPCensor;
 
+use PHPCensor\Model\Build;
+
 /**
-* PHPCI Plugin Interface - Used by all build plugins.
-* @author   Dan Cryer <dan@block8.co.uk>
+* PHPCI Plugin class - Used by all build plugins.
+ * 
+* @author Dan Cryer <dan@block8.co.uk>
 */
-interface Plugin
+abstract class Plugin
 {
-    public function execute();
+    /**
+     * @var \PHPCensor\Builder
+     */
+    protected $builder;
+
+    /**
+     * @var \PHPCensor\Model\Build
+     */
+    protected $build;
+
+    /**
+     * @var array
+     */
+    protected $options;
+
+    /**
+     * @param Builder $builder
+     * @param Build   $build
+     * @param array   $options
+     */
+    public function __construct(Builder $builder, Build $build, array $options = [])
+    {
+        $this->builder = $builder;
+        $this->build   = $build;
+        $this->options = $options;
+
+        $this->builder->logDebug('Plugin options: ' . json_encode($options));
+    }
+
+    /**
+     * @return boolean
+     */
+    abstract public function execute();
 }

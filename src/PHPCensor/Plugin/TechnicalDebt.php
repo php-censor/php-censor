@@ -12,6 +12,8 @@ namespace PHPCensor\Plugin;
 use PHPCensor;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
+use PHPCensor\Plugin;
+use PHPCensor\ZeroConfigPlugin;
 
 /**
 * Technical Debt Plugin - Checks for existence of "TODO", "FIXME", etc.
@@ -20,13 +22,8 @@ use PHPCensor\Model\Build;
 * @package      PHPCI
 * @subpackage   Plugins
 */
-class TechnicalDebt implements PHPCensor\Plugin, PHPCensor\ZeroConfigPlugin
+class TechnicalDebt extends Plugin implements ZeroConfigPlugin
 {
-    /**
-     * @var \PHPCensor\Builder
-     */
-    protected $phpci;
-
     /**
      * @var array
      */
@@ -58,6 +55,28 @@ class TechnicalDebt implements PHPCensor\Plugin, PHPCensor\ZeroConfigPlugin
      */
     protected $searches;
 
+    /**
+     * {@inheritdoc}
+     */
+    public function __construct(Builder $builder, Build $build, array $options = [])
+    {
+        parent::__construct($builder, $build, $options);
+
+        $this->suffixes       = ['php'];
+        $this->directory      = $this->builder->buildPath;
+        $this->path           = '';
+        $this->ignore         = $this->builder->ignore;
+        $this->allowed_errors = 0;
+        $this->searches       = ['TODO', 'FIXME', 'TO DO', 'FIX ME'];
+
+        if (isset($options['searches']) && is_array($options['searches'])) {
+            $this->searches = $options['searches'];
+        }
+
+        if (isset($options['zero_config']) && $options['zero_config']) {
+            $this->allowed_errors = -1;
+        }
+    }
 
     /**
      * Check if this plugin can be executed.
@@ -77,58 +96,16 @@ class TechnicalDebt implements PHPCensor\Plugin, PHPCensor\ZeroConfigPlugin
     }
 
     /**
-     * @param \PHPCensor\Builder     $phpci
-     * @param \PHPCensor\Model\Build $build
-     * @param array              $options
-     */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
-    {
-        $this->phpci = $phpci;
-        $this->build = $build;
-        $this->suffixes = ['php'];
-        $this->directory = $phpci->buildPath;
-        $this->path = '';
-        $this->ignore = $this->phpci->ignore;
-        $this->allowed_errors = 0;
-        $this->searches = ['TODO', 'FIXME', 'TO DO', 'FIX ME'];
-
-        if (isset($options['searches']) && is_array($options['searches'])) {
-            $this->searches = $options['searches'];
-        }
-
-        if (isset($options['zero_config']) && $options['zero_config']) {
-            $this->allowed_errors = -1;
-        }
-
-        $this->setOptions($options);
-
-        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
-    }
-
-    /**
-     * Handle this plugin's options.
-     * @param $options
-     */
-    protected function setOptions($options)
-    {
-        foreach (['directory', 'path', 'ignore', 'allowed_errors'] as $key) {
-            if (array_key_exists($key, $options)) {
-                $this->{$key} = $options[$key];
-            }
-        }
-    }
-
-    /**
     * Runs the plugin
     */
     public function execute()
     {
         $success = true;
-        $this->phpci->logExecOutput(false);
+        $this->builder->logExecOutput(false);
 
         $errorCount = $this->getErrorList();
 
-        $this->phpci->log("Found $errorCount instances of " . implode(', ', $this->searches));
+        $this->builder->log("Found $errorCount instances of " . implode(', ', $this->searches));
 
         $this->build->storeMeta('technical_debt-warnings', $errorCount);
 
@@ -194,7 +171,7 @@ class TechnicalDebt implements PHPCensor\Plugin, PHPCensor\ZeroConfigPlugin
                     $fileName = str_replace($this->directory, '', $file);
 
                     $this->build->reportError(
-                        $this->phpci,
+                        $this->builder,
                         'technical_debt',
                         $content,
                         PHPCensor\Model\BuildError::SEVERITY_LOW,

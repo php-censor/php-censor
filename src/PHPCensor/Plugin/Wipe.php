@@ -19,34 +19,19 @@ use PHPCensor\Plugin;
 * @package      PHPCI
 * @subpackage   Plugins
 */
-class Wipe implements Plugin
+class Wipe extends Plugin
 {
-    /**
-     * @var \PHPCensor\Builder
-     */
-    protected $phpci;
-
-    /**
-     * @var \PHPCensor\Model\Build
-     */
-    protected $build;
-
     protected $directory;
 
     /**
-     * Set up the plugin, configure options, etc.
-     * @param Builder $phpci
-     * @param Build $build
-     * @param array $options
+     * {@inheritdoc}
      */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        $path               = $phpci->buildPath;
-        $this->phpci        = $phpci;
-        $this->build = $build;
-        $this->directory    = isset($options['directory']) ? $this->phpci->interpolate($options['directory']) : $path;
-
-        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
+        parent::__construct($builder, $build, $options);
+        
+        $path            = $this->builder->buildPath;
+        $this->directory = isset($options['directory']) ? $this->builder->interpolate($options['directory']) : $path;
     }
 
     /**
@@ -54,7 +39,7 @@ class Wipe implements Plugin
     */
     public function execute()
     {
-        $build = $this->phpci->buildPath;
+        $build = $this->builder->buildPath;
 
         if ($this->directory == $build || empty($this->directory)) {
             return true;
@@ -64,7 +49,7 @@ class Wipe implements Plugin
             if (IS_WIN) {
                 $cmd = 'rmdir /S /Q "%s"';
             }
-            return $this->phpci->executeCommand($cmd, $this->directory);
+            return $this->builder->executeCommand($cmd, $this->directory);
         }
         return true;
     }

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * PHPCI - Continuous Integration for PHP
  *
@@ -17,6 +16,8 @@ use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
 use PHPCensor\Plugin\Option\PhpUnitOptions;
 use PHPCensor\Plugin\Util\PhpUnitResult;
+use PHPCensor\Plugin;
+use PHPCensor\ZeroConfigPlugin;
 
 /**
  * PHP Unit Plugin - A rewrite of the original PHP Unit plugin
@@ -26,11 +27,8 @@ use PHPCensor\Plugin\Util\PhpUnitResult;
  * @package      PHPCI
  * @subpackage   Plugins
  */
-class PhpUnit implements PHPCensor\Plugin, PHPCensor\ZeroConfigPlugin
+class PhpUnit extends Plugin implements ZeroConfigPlugin
 {
-    protected $phpci;
-    protected $build;
-
     /** @var string[] Raw options from the PHPCI config file */
     protected $options = array();
 
@@ -42,14 +40,14 @@ class PhpUnit implements PHPCensor\Plugin, PHPCensor\ZeroConfigPlugin
      * $options['directory'] Optional directory or list of directories to run PHPUnit on.
      * $options['args']      Command line args (in string format) to pass to PHP Unit
      *
-     * @param Builder  $phpci
+     * @param Builder  $builder
      * @param Build    $build
      * @param string[] $options
      */
-    public function __construct(Builder $phpci, Build $build, array $options = array())
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        $this->phpci   = $phpci;
-        $this->build   = $build;
+        parent::__construct($builder, $build, $options);
+
         $this->options = new PhpUnitOptions($options);
     }
 
@@ -79,11 +77,11 @@ class PhpUnit implements PHPCensor\Plugin, PHPCensor\ZeroConfigPlugin
         $xmlConfigFiles = $this->options->getConfigFiles($this->build->getBuildPath());
         $directories    = $this->options->getDirectories();
         if (empty($xmlConfigFiles) && empty($directories)) {
-            $this->phpci->logFailure(Lang::get('phpunit_fail_init'));
+            $this->builder->logFailure(Lang::get('phpunit_fail_init'));
             return false;
         }
 
-        $success = array();
+        $success = [];
 
         // Run any directories
         if (!empty($directories)) {
@@ -120,9 +118,9 @@ class PhpUnit implements PHPCensor\Plugin, PHPCensor\ZeroConfigPlugin
         // Removes any current configurations files
         $options->removeArgument('configuration');
 
-        $arguments = $this->phpci->interpolate($options->buildArgumentString());
-        $cmd       = $this->phpci->findBinary('phpunit') . ' %s "%s"';
-        $success   = $this->phpci->executeCommand($cmd, $arguments, $directory);
+        $arguments = $this->builder->interpolate($options->buildArgumentString());
+        $cmd       = $this->builder->findBinary('phpunit') . ' %s "%s"';
+        $success   = $this->builder->executeCommand($cmd, $arguments, $directory);
 
         $this->processResults($jsonFile);
 
@@ -150,9 +148,9 @@ class PhpUnit implements PHPCensor\Plugin, PHPCensor\ZeroConfigPlugin
         // Only the add the configuration file been passed
         $options->addArgument('configuration', $buildPath . $configFile);
 
-        $arguments = $this->phpci->interpolate($options->buildArgumentString());
-        $cmd       = $this->phpci->findBinary('phpunit') . ' %s %s';
-        $success   = $this->phpci->executeCommand($cmd, $arguments, $options->getTestsPath());
+        $arguments = $this->builder->interpolate($options->buildArgumentString());
+        $cmd       = $this->builder->findBinary('phpunit') . ' %s %s';
+        $success   = $this->builder->executeCommand($cmd, $arguments, $options->getTestsPath());
 
         $this->processResults($jsonFile);
 
@@ -168,7 +166,6 @@ class PhpUnit implements PHPCensor\Plugin, PHPCensor\ZeroConfigPlugin
      */
     protected function processResults($jsonFile)
     {
-        var_dump('fuck!');
         if (file_exists($jsonFile)) {
             $parser = new PhpUnitResult($jsonFile, $this->build->getBuildPath());
 
@@ -178,7 +175,7 @@ class PhpUnit implements PHPCensor\Plugin, PHPCensor\ZeroConfigPlugin
             foreach ($parser->getErrors() as $error) {
                 $severity = $error['severity'] == $parser::SEVERITY_ERROR ? BuildError::SEVERITY_CRITICAL : BuildError::SEVERITY_HIGH;
                 $this->build->reportError(
-                    $this->phpci, 'php_unit', $error['message'], $severity, $error['file'], $error['line']
+                    $this->builder, 'php_unit', $error['message'], $severity, $error['file'], $error['line']
                 );
             }
             @unlink($jsonFile);

@@ -20,18 +20,8 @@ use PHPCensor\Plugin;
 * @package      PHPCI
 * @subpackage   Plugins
 */
-class Sqlite implements Plugin
+class Sqlite extends Plugin
 {
-    /**
-     * @var \PHPCensor\Builder
-     */
-    protected $phpci;
-
-    /**
-     * @var \PHPCensor\Model\Build
-     */
-    protected $build;
-
     /**
      * @var array
      */
@@ -43,23 +33,18 @@ class Sqlite implements Plugin
     protected $path;
 
     /**
-     * @param Builder $phpci
-     * @param Build   $build
-     * @param array   $options
+     * {@inheritdoc}
      */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        $this->phpci   = $phpci;
-        $this->build   = $build;
-        $this->queries = $options;
-        $buildSettings = $phpci->getConfig('build_settings');
+        parent::__construct($builder, $build, $options);
+
+        $buildSettings = $this->builder->getConfig('build_settings');
 
         if (isset($buildSettings['sqlite'])) {
-            $sql = $buildSettings['sqlite'];
+            $sql        = $buildSettings['sqlite'];
             $this->path = $sql['path'];
         }
-
-        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**
@@ -73,10 +58,10 @@ class Sqlite implements Plugin
             $pdo  = new PDO('sqlite:' . $this->path, $opts);
 
             foreach ($this->queries as $query) {
-                $pdo->query($this->phpci->interpolate($query));
+                $pdo->query($this->builder->interpolate($query));
             }
         } catch (\Exception $ex) {
-            $this->phpci->logFailure($ex->getMessage());
+            $this->builder->logFailure($ex->getMessage());
             return false;
         }
         return true;

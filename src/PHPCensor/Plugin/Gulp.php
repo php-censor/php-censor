@@ -19,37 +19,26 @@ use PHPCensor\Plugin;
 * @package      PHPCI
 * @subpackage   Plugins
 */
-class Gulp implements Plugin
+class Gulp extends Plugin
 {
     protected $directory;
     protected $task;
     protected $preferDist;
-    protected $phpci;
-    protected $build;
     protected $gulp;
     protected $gulpfile;
 
     /**
-     * Standard Constructor
-     *
-     * $options['directory'] Output Directory. Default: %BUILDPATH%
-     * $options['filename']  Phar Filename. Default: build.phar
-     * $options['regexp']    Regular Expression Filename Capture. Default: /\.php$/
-     * $options['stub']      Stub Content. No Default Value
-     *
-     * @param Builder $phpci
-     * @param Build   $build
-     * @param array   $options
+     * {@inheritdoc}
      */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        $path = $phpci->buildPath;
-        $this->build = $build;
-        $this->phpci = $phpci;
+        parent::__construct($builder, $build, $options);
+        
+        $path            = $this->builder->buildPath;
         $this->directory = $path;
-        $this->task = null;
-        $this->gulp = $this->phpci->findBinary('gulp');
-        $this->gulpfile = 'gulpfile.js';
+        $this->task      = null;
+        $this->gulp      = $this->builder->findBinary('gulp');
+        $this->gulpfile  = 'gulpfile.js';
 
         // Handle options:
         if (isset($options['directory'])) {
@@ -67,8 +56,6 @@ class Gulp implements Plugin
         if (isset($options['gulpfile'])) {
             $this->gulpfile = $options['gulpfile'];
         }
-
-        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**
@@ -81,7 +68,7 @@ class Gulp implements Plugin
         if (IS_WIN) {
             $cmd = 'cd /d %s && npm install';
         }
-        if (!$this->phpci->executeCommand($cmd, $this->directory)) {
+        if (!$this->builder->executeCommand($cmd, $this->directory)) {
             return false;
         }
 
@@ -95,6 +82,6 @@ class Gulp implements Plugin
         $cmd .= ' %s'; // the task that will be executed
 
         // and execute it
-        return $this->phpci->executeCommand($cmd, $this->directory, $this->gulpfile, $this->task);
+        return $this->builder->executeCommand($cmd, $this->directory, $this->gulpfile, $this->task);
     }
 }

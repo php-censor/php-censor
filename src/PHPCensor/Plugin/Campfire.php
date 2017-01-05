@@ -21,31 +21,28 @@ use PHPCensor\Plugin;
  * @package      PHPCI
  * @subpackage   Plugins
  */
-class Campfire implements Plugin
+class Campfire extends Plugin
 {
-    private $url;
-    private $authToken;
-    private $userAgent;
-    private $cookie;
-    private $verbose;
-    private $roomId;
+    protected $url;
+    protected $authToken;
+    protected $userAgent;
+    protected $cookie;
+    protected $verbose;
+    protected $roomId;
+    protected $message;
 
     /**
-     * Set up the plugin, configure options, etc.
-     * @param Builder $phpci
-     * @param Build $build
-     * @param array $options
-     * @throws \Exception
+     * {@inheritdoc}
      */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        $this->phpci     = $phpci;
-        $this->build     = $build;
+        parent::__construct($builder, $build, $options);
+
         $this->message   = $options['message'];
         $this->userAgent = "PHP Censor/1.0";
         $this->cookie    = "php-censor-cookie";
 
-        $buildSettings = $phpci->getConfig('build_settings');
+        $buildSettings = $this->builder->getConfig('build_settings');
 
         if (isset($buildSettings['campfire'])) {
             $campfire        = $buildSettings['campfire'];

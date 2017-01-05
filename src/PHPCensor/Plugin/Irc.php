@@ -20,10 +20,8 @@ use PHPCensor\Plugin;
  * @package      PHPCI
  * @subpackage   Plugins
  */
-class Irc implements Plugin
+class Irc extends Plugin
 {
-    protected $phpci;
-    protected $build;
     protected $message;
     protected $server;
     protected $port;
@@ -31,36 +29,23 @@ class Irc implements Plugin
     protected $nick;
 
     /**
-     * Standard Constructor
-     *
-     * $options['directory'] Output Directory. Default: %BUILDPATH%
-     * $options['filename']  Phar Filename. Default: build.phar
-     * $options['regexp']    Regular Expression Filename Capture. Default: /\.php$/
-     * $options['stub']      Stub Content. No Default Value
-     *
-     * @param Builder $phpci
-     * @param Build   $build
-     * @param array   $options
+     * {@inheritdoc}
      */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        $this->phpci = $phpci;
-        $this->build = $build;
+        parent::__construct($builder, $build, $options);
+
         $this->message = $options['message'];
-
-        $buildSettings = $phpci->getConfig('build_settings');
-
+        $buildSettings = $this->builder->getConfig('build_settings');
 
         if (isset($buildSettings['irc'])) {
             $irc = $buildSettings['irc'];
 
             $this->server = $irc['server'];
-            $this->port = $irc['port'];
-            $this->room = $irc['room'];
-            $this->nick = $irc['nick'];
+            $this->port   = $irc['port'];
+            $this->room   = $irc['room'];
+            $this->nick   = $irc['nick'];
         }
-
-        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**
@@ -69,10 +54,10 @@ class Irc implements Plugin
      */
     public function execute()
     {
-        $msg = $this->phpci->interpolate($this->message);
+        $msg = $this->builder->interpolate($this->message);
 
         if (empty($this->server) || empty($this->room) || empty($this->nick)) {
-            $this->phpci->logFailure(Lang::get('irc_settings'));
+            $this->builder->logFailure(Lang::get('irc_settings'));
         }
 
         if (empty($this->port)) {

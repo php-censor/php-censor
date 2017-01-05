@@ -17,45 +17,34 @@ use PHPCensor\Plugin;
 
 /**
  * Behat BDD Plugin
+ * 
  * @author       Dan Cryer <dan@block8.co.uk>
  * @package      PHPCI
  * @subpackage   Plugins
  */
-class Behat implements Plugin
+class Behat extends Plugin
 {
-    protected $phpci;
-    protected $build;
     protected $features;
+    protected $executable;
 
     /**
-     * Standard Constructor
-     *
-     * $options['directory'] Output Directory. Default: %BUILDPATH%
-     * $options['filename']  Phar Filename. Default: build.phar
-     * $options['regexp']    Regular Expression Filename Capture. Default: /\.php$/
-     * $options['stub']      Stub Content. No Default Value
-     *
-     * @param Builder $phpci
-     * @param Build   $build
-     * @param array   $options
+     * {@inheritdoc}
      */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        $this->phpci    = $phpci;
-        $this->build    = $build;
+        parent::__construct($builder, $build, $options);
+
         $this->features = '';
 
         if (isset($options['executable'])) {
             $this->executable = $options['executable'];
         } else {
-            $this->executable = $this->phpci->findBinary('behat');
+            $this->executable = $this->builder->findBinary('behat');
         }
 
         if (!empty($options['features'])) {
             $this->features = $options['features'];
         }
-
-        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**
@@ -63,19 +52,19 @@ class Behat implements Plugin
      */
     public function execute()
     {
-        $curdir = getcwd();
-        chdir($this->phpci->buildPath);
+        $current_dir = getcwd();
+        chdir($this->builder->buildPath);
 
         $behat = $this->executable;
 
         if (!$behat) {
-            $this->phpci->logFailure(Lang::get('could_not_find', 'behat'));
+            $this->builder->logFailure(Lang::get('could_not_find', 'behat'));
 
             return false;
         }
 
-        $success = $this->phpci->executeCommand($behat . ' %s', $this->features);
-        chdir($curdir);
+        $success = $this->builder->executeCommand($behat . ' %s', $this->features);
+        chdir($current_dir);
 
         list($errorCount, $data) = $this->parseBehatOutput();
 
@@ -92,7 +81,7 @@ class Behat implements Plugin
      */
     public function parseBehatOutput()
     {
-        $output = $this->phpci->getLastOutput();
+        $output = $this->builder->getLastOutput();
 
         $parts = explode('---', $output);
 
@@ -124,7 +113,7 @@ class Behat implements Plugin
                 ];
 
                 $this->build->reportError(
-                    $this->phpci,
+                    $this->builder,
                     'behat',
                     'Behat scenario failed.',
                     BuildError::SEVERITY_HIGH,

@@ -16,29 +16,27 @@ use PHPCensor\Plugin;
 
 /**
  * Atoum plugin, runs Atoum tests within a project.
+ * 
  * @package PHPCensor\Plugin
  */
-class Atoum implements Plugin
+class Atoum extends Plugin
 {
-    private $args;
-    private $config;
-    private $directory;
+    protected $executable;
+    protected $args;
+    protected $config;
+    protected $directory;
 
     /**
-     * Set up the plugin, configure options, etc.
-     * @param Builder $phpci
-     * @param Build $build
-     * @param array $options
+     * {@inheritdoc}
      */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        $this->phpci = $phpci;
-        $this->build = $build;
+        parent::__construct($builder, $build, $options);
 
         if (isset($options['executable'])) {
-            $this->executable = $this->phpci->buildPath . DIRECTORY_SEPARATOR.$options['executable'];
+            $this->executable = $this->builder->buildPath . DIRECTORY_SEPARATOR.$options['executable'];
         } else {
-            $this->executable = $this->phpci->findBinary('atoum');
+            $this->executable = $this->builder->findBinary('atoum');
         }
 
         if (isset($options['args'])) {
@@ -69,21 +67,21 @@ class Atoum implements Plugin
             $cmd .= " -c '{$this->config}'";
         }
         if ($this->directory !== null) {
-            $dirPath = $this->phpci->buildPath . DIRECTORY_SEPARATOR . $this->directory;
+            $dirPath = $this->builder->buildPath . DIRECTORY_SEPARATOR . $this->directory;
             $cmd .= " -d '{$dirPath}'";
         }
-        chdir($this->phpci->buildPath);
+        chdir($this->builder->buildPath);
         $output = '';
         $status = true;
         exec($cmd, $output);
 
         if (count(preg_grep("/Success \(/", $output)) == 0) {
             $status = false;
-            $this->phpci->log($output);
+            $this->builder->log($output);
         }
         if (count($output) == 0) {
             $status = false;
-            $this->phpci->log(Lang::get('no_tests_performed'));
+            $this->builder->log(Lang::get('no_tests_performed'));
         }
         
         return $status;

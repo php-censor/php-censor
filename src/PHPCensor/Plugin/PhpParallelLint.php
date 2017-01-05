@@ -19,18 +19,8 @@ use PHPCensor\Plugin;
 * @package      PHPCI
 * @subpackage   Plugins
 */
-class PhpParallelLint implements Plugin
+class PhpParallelLint extends Plugin
 {
-    /**
-     * @var \PHPCensor\Builder
-     */
-    protected $phpci;
-
-    /**
-     * @var \PHPCensor\Model\Build
-     */
-    protected $build;
-
     /**
      * @var string
      */
@@ -42,33 +32,22 @@ class PhpParallelLint implements Plugin
     protected $ignore;
 
     /**
-     * Standard Constructor
-     *
-     * $options['directory'] Output Directory. Default: %BUILDPATH%
-     * $options['filename']  Phar Filename. Default: build.phar
-     * $options['regexp']    Regular Expression Filename Capture. Default: /\.php$/
-     * $options['stub']      Stub Content. No Default Value
-     *
-     * @param Builder $phpci
-     * @param Build   $build
-     * @param array   $options
+     * {@inheritdoc}
      */
-    public function __construct(Builder $phpci, Build $build, array $options = [])
+    public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        $this->phpci = $phpci;
-        $this->build = $build;
-        $this->directory = $phpci->buildPath;
-        $this->ignore = $this->phpci->ignore;
+        parent::__construct($builder, $build, $options);
+
+        $this->directory = $this->builder->buildPath;
+        $this->ignore = $this->builder->ignore;
 
         if (isset($options['directory'])) {
-            $this->directory = $phpci->buildPath.$options['directory'];
+            $this->directory = $this->builder->buildPath.$options['directory'];
         }
 
         if (isset($options['ignore'])) {
             $this->ignore = $options['ignore'];
         }
-
-        $this->phpci->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**
@@ -78,16 +57,16 @@ class PhpParallelLint implements Plugin
     {
         list($ignore) = $this->getFlags();
 
-        $phplint = $this->phpci->findBinary('parallel-lint');
+        $phplint = $this->builder->findBinary('parallel-lint');
 
         $cmd = $phplint . ' %s "%s"';
-        $success = $this->phpci->executeCommand(
+        $success = $this->builder->executeCommand(
             $cmd,
             $ignore,
             $this->directory
         );
 
-        $output = $this->phpci->getLastOutput();
+        $output = $this->builder->getLastOutput();
 
         $matches = [];
         if (preg_match_all('/Parse error\:/', $output, $matches)) {
@@ -105,7 +84,7 @@ class PhpParallelLint implements Plugin
     {
         $ignoreFlags = [];
         foreach ($this->ignore as $ignoreDir) {
-            $ignoreFlags[] = '--exclude "' . $this->phpci->buildPath . $ignoreDir . '"';
+            $ignoreFlags[] = '--exclude "' . $this->builder->buildPath . $ignoreDir . '"';
         }
         $ignore = implode(' ', $ignoreFlags);
 
