@@ -12,7 +12,7 @@ namespace Tests\PHPCensor\Plugin\Util\Fake;
 
 use PHPCensor\Plugin;
 
-class ExamplePluginWithSingleOptionalArg implements Plugin
+class ExamplePluginWithSingleOptionalArg extends Plugin
 {
     function __construct($optional = null)
     {

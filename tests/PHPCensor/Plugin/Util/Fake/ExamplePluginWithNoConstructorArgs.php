@@ -12,7 +12,7 @@ namespace Tests\PHPCensor\Plugin\Util\Fake;
 
 use PHPCensor\Plugin;
 
-class ExamplePluginWithNoConstructorArgs implements Plugin
+class ExamplePluginWithNoConstructorArgs extends Plugin
 {
     public function execute()
     {

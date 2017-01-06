@@ -48,6 +48,22 @@ abstract class Plugin
     }
 
     /**
+     * @return Build
+     */
+    public function getBuild()
+    {
+        return $this->build;
+    }
+
+    /**
+     * @return Builder
+     */
+    public function getBuilder()
+    {
+        return $this->builder;
+    }
+
+    /**
      * @return boolean
      */
     abstract public function execute();

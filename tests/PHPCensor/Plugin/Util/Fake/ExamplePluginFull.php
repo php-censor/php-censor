@@ -14,17 +14,14 @@ use PHPCensor\Builder;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 
-class ExamplePluginFull implements Plugin {
+class ExamplePluginFull extends Plugin {
     /**
      * @var array
      */
     public $Options;
 
-    public function __construct(
-        Builder $builder,
-        Build $build,
-        array $options = []
-    ) {
+    public function __construct(Builder $builder, Build $build, array $options = [])
+    {
         $this->Options = $options;
     }
 

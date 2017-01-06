@@ -12,7 +12,7 @@ namespace Tests\PHPCensor\Plugin\Util\Fake;
 
 use PHPCensor\Plugin;
 
-class ExamplePluginWithSingleTypedRequiredArg implements Plugin
+class ExamplePluginWithSingleTypedRequiredArg extends Plugin
 {
 
     public $RequiredArgument;

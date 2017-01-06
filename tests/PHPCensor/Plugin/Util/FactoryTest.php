@@ -40,7 +40,6 @@ class FactoryTest extends \PHPUnit_Framework_TestCase {
         // Nothing to do.
     }
 
-
     public function testRegisterResourceThrowsExceptionWithoutTypeAndName()
     {
         $this->setExpectedException('InvalidArgumentException', 'Type or Name must be specified');
@@ -51,19 +50,6 @@ class FactoryTest extends \PHPUnit_Framework_TestCase {
     {
         $this->setExpectedException('InvalidArgumentException', '$loader is expected to be a function');
         $this->testedFactory->registerResource(["dummy"], "TestName", "TestClass");
-    }
-
-    public function testBuildPluginWorksWithConstructorlessPlugins()
-    {
-        $pluginClass = $this->getFakePluginClassName('ExamplePluginWithNoConstructorArgs');
-        $plugin = $this->testedFactory->buildPlugin($pluginClass);
-        $this->assertInstanceOf($pluginClass, $plugin);
-    }
-
-    public function testBuildPluginFailsForNonPluginClasses()
-    {
-        $this->setExpectedException('InvalidArgumentException', 'Requested class must implement \PHPCensor\Plugin');
-        $plugin = $this->testedFactory->buildPlugin("stdClass");
     }
 
     public function testBuildPluginWorksWithSingleOptionalArgConstructor()
