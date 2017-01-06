@@ -84,7 +84,6 @@ PHP Censor',
     'pending' => 'Σε εκκρεμότητα',
     'running' => 'Τρέχοντα',
     'success' => 'Επιτυχία',
-    'successful' => 'Επιτυχής',
     'failed' => 'Αποτυχία',
     'manual_build' => 'Χειροκίνητη κατασκευή',
 

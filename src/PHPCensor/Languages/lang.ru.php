@@ -84,9 +84,9 @@ PHP Censor',
     'latest_builds' => 'Последние сборки',
     'pending' => 'Ожидает',
     'running' => 'Запущена',
-    'success' => 'Успех',
-    'successful' => 'Успешно',
+    'success' => 'Успешно',
     'failed' => 'Провал',
+    'error'  => 'Ошибка',
     'manual_build' => 'Запущена вручную',
 
     // Add/Edit Project:

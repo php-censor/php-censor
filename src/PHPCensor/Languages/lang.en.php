@@ -87,8 +87,8 @@ PHP Censor',
     'pending' => 'Pending',
     'running' => 'Running',
     'success' => 'Success',
-    'successful' => 'Successful',
     'failed' => 'Failed',
+    'error'  => 'Error',
     'manual_build' => 'Manual Build',
 
     // Add/Edit Project:

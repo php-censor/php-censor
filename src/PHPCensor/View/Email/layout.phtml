@@ -13,7 +13,7 @@
                 <div>
                     <p>
                         Your commit <strong><?php print $build->getCommitId(); ?></strong> generated a
-                        <?php print $build->isSuccessful() ? 'successful' : 'failed'; ?> build in project
+                        <?php print $build->isSuccessful() ? 'success' : 'failed'; ?> build in project
                         <strong><?php print $project->getTitle(); ?></strong>.
                     </p>
                     <?php print $content; ?>

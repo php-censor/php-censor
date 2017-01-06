@@ -84,7 +84,6 @@ PHP Censor',
     'pending' => 'Oczekujące',
     'running' => 'W toku',
     'success' => 'Sukces',
-    'successful' => 'Zakończone sukcesem',
     'failed' => 'Nieudane',
     'manual_build' => 'Budowanie Manualne',
 

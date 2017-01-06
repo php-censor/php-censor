@@ -8,7 +8,7 @@ var phpunitPlugin = ActiveBuild.UiPlugin.extend({
     rendered: false,
     statusMap: {
         success : 'ok',
-        fail: 'remove',
+        failed: 'remove',
         error: 'warning-sign',
         todo: 'info-sign',
         skipped: 'exclamation-sign'
@@ -62,15 +62,19 @@ var phpunitPlugin = ActiveBuild.UiPlugin.extend({
             return;
         }
 
-        var counts = { success: 0, fail: 0, error: 0, skipped: 0, todo: 0 }, total = 0;
+        var counts = { success: 0, failed: 0, error: 0, skipped: 0, todo: 0 }, total = 0;
 
         for (var i in tests) {
-            var severity = tests[i].severity || (tests[i].pass ? 'success' : 'fail'),
+            var severity = tests[i].severity || (tests[i].pass ? 'success' : 'failed'),
                 label    = ('success' == severity) ? 'success' : (
                     ('error' == severity) ? 'danger' : 'warning'
                 );
+            
+            if ('fail' === severity) {
+                severity = 'failed';
+            }
 
-            var status        = $('<td><span class="label label-' + label + '">' + severity + '</span></td>'),
+            var status        = $('<td><span class="label label-' + label + '">'+Lang.get(severity)+'</span></td>'),
                 content       = $('<td></td>'),
                 trace         = $('<td></td>'),
                 message       = $('<div class="visible-line-breaks"></div>').appendTo(content),

@@ -83,7 +83,6 @@ PHP Censor',
     'pending' => 'Pediente',
     'running' => 'Ejecutando',
     'success' => 'Éxito',
-    'successful' => 'Exitoso',
     'failed' => 'Falló',
     'manual_build' => 'Build Manual',
 

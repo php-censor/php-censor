@@ -84,7 +84,6 @@ PHP Censor',
     'pending' => 'Venter',
     'running' => 'Kører',
     'success' => 'Succes',
-    'successful' => 'Lykkedes',
     'failed' => 'Fejlede',
     'manual_build' => 'Manuelt Build',
 
