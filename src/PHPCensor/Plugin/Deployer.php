@@ -62,7 +62,8 @@ class Deployer extends Plugin
             'source'      => 'PHP Censor',
             'url'         => $this->builder->interpolate('%BUILD_URI%'),
             'branch'      => $this->builder->interpolate('%BRANCH%'),
-            'update_only' => $this->updateOnly
+            'commit'      => $this->builder->interpolate('%COMMIT%'),
+            'update_only' => $this->updateOnly,
         ]);
 
         return $response['success'];
