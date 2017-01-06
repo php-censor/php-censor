@@ -11,7 +11,7 @@
 
 .sidebar-menu > li.header {
     color: #4b646f;
-    background: #1a2226;
+    background: black;
 }
 
 .sidebar-menu > li > a {
@@ -21,7 +21,7 @@
 .sidebar-menu > li:hover > a,
 .sidebar-menu > li.active > a {
     color: #fff;
-    background: #1e282c;
+    background: #1a2226;
     border-left-color: #fff;
 }
 
@@ -412,7 +412,7 @@
 }
 
 .skin-black .main-header .navbar .sidebar-toggle:hover {
-    background-color: #1e282c;
+    background-color: #1a2226;
 }
 
 @media (max-width: 767px) {
@@ -425,7 +425,7 @@
     }
 
     .skin-black .main-header .navbar .dropdown-menu li a:hover {
-        background: #1e282c;
+        background: #1a2226;
     }
 }
 
@@ -440,7 +440,7 @@
 }
 
 .skin-black .main-header li.user-header {
-    background-color: #1e282c;
+    background-color: #1a2226;
 }
 
 .skin-black .content-header {
@@ -516,6 +516,45 @@
 
 .navbar-nav > .user-menu > .dropdown-menu {
     width: 290px;
+}
+
+.nav-tabs-custom > .nav-tabs > li.active {
+    border-top-color: #8aa4af;
+}
+
+.box {
+    border-top: 3px solid #8aa4af;
+}
+
+pre {
+    display: block;
+    padding: 9.5px;
+    margin: 0 0 10px;
+    font-size: 13px;
+    line-height: 1.42857143;
+    color: #333;
+    word-break: break-all;
+    word-wrap: break-word;
+    background-color: #fff;
+    border: none;
+    border-radius: 0;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+.main-header .logo {
+    font-family: sans-serif;
 }
 
 #phpunit-data th div { margin: 0 0.5em; }

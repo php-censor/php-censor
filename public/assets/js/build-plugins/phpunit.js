@@ -1,6 +1,6 @@
 var phpunitPlugin = ActiveBuild.UiPlugin.extend({
     id: 'build-phpunit-errors',
-    css: 'col-lg-6 col-md-12 col-sm-12 col-xs-12',
+    css: 'col-xs-12',
     title: Lang.get('phpunit'),
     lastData: null,
     displayOnUpdate: false,
@@ -28,16 +28,6 @@ var phpunitPlugin = ActiveBuild.UiPlugin.extend({
                 query();
             }
         });
-
-        $(document).on('click', '#phpunit-data .test-toggle', function(ev) {
-            var input = $(ev.target);
-            $('#phpunit-data tbody ' + input.data('target')).toggle(input.prop('checked'));
-        });
-
-        $(document).on('click', '#phpunit-data button.trace', function() {
-            var $btn = $(this);
-            $($btn).replaceWith(self.buildTrace($btn.data('trace')));
-        });
     },
 
     render: function() {
@@ -45,7 +35,9 @@ var phpunitPlugin = ActiveBuild.UiPlugin.extend({
         return $('<div class="table-responsive"><table class="table" id="phpunit-data">' +
             '<thead>' +
             '<tr>' +
-            '   <th>'+Lang.get('test_message')+'</th>' +
+                '<th>'+Lang.get('status')+'</th>' +
+                '<th>'+Lang.get('test_message')+'</th>' +
+                '<th>'+Lang.get('trace')+'</th>' +
             '</tr>' +
             '</thead><tbody></tbody></table></div>');
     },
@@ -62,7 +54,7 @@ var phpunitPlugin = ActiveBuild.UiPlugin.extend({
         var tests = this.lastData[0].meta_value;
         var thead = $('#phpunit-data thead tr');
         var tbody = $('#phpunit-data tbody');
-        thead.empty().append('<th>'+Lang.get('test_message')+'</th>');
+        thead.empty().append('<th>'+Lang.get('status')+'</th><th>'+Lang.get('test_message')+'</th><th>'+Lang.get('trace')+'</th>');
         tbody.empty();
 
         if (tests.length == 0) {
@@ -73,9 +65,16 @@ var phpunitPlugin = ActiveBuild.UiPlugin.extend({
         var counts = { success: 0, fail: 0, error: 0, skipped: 0, todo: 0 }, total = 0;
 
         for (var i in tests) {
-            var content = $('<td colspan="3"></td>'),
-                message = $('<div class="visible-line-breaks"></div>').appendTo(content),
-                severity = tests[i].severity || (tests[i].pass ? 'success' : 'failed');
+            var severity = tests[i].severity || (tests[i].pass ? 'success' : 'fail'),
+                label    = ('success' == severity) ? 'success' : (
+                    ('error' == severity) ? 'danger' : 'warning'
+                );
+
+            var status        = $('<td><span class="label label-' + label + '">' + severity + '</span></td>'),
+                content       = $('<td></td>'),
+                trace         = $('<td></td>'),
+                message       = $('<div class="visible-line-breaks"></div>').appendTo(content),
+                trace_message = $('<div class="visible-line-breaks"></div>').appendTo(trace);
 
             if (tests[i].message) {
                 message.text(tests[i].message);
@@ -90,33 +89,14 @@ var phpunitPlugin = ActiveBuild.UiPlugin.extend({
             }
 
             if (tests[i].trace && tests[i].trace.length) {
-                var $traceBtn = $('<button class="btn btn-default btn-xs trace" type="button" title="Expand Trace">...</button>');
-                $traceBtn.data('trace', tests[i].trace);
-                content.append('Trace: ');
-                content.append($traceBtn);
+                trace_message.append(tests[i].trace);
             }
 
-            $('<tr class="'+  severity + '"></tr>').append(content).appendTo(tbody);
+            $('<tr></tr>').append(status).append(content).append(trace).appendTo(tbody);
 
             counts[severity]++;
             total++;
         }
-
-        var checkboxes = $('<th/>');
-        thead.append(checkboxes).append('<th>' + Lang.get('test_total', total) + '</th>');
-
-        for (var key in counts) {
-            var count = counts[key];
-            if(count > 0) {
-                checkboxes.append(
-                    '<div style="float:left" class="' + key + '"><input type="checkbox" class="test-toggle" data-target=".' + key + '" ' +
-                    (key !== 'success' ? ' checked' : '') + '/>&nbsp;' +
-                    Lang.get('test_'+key, count)+ '</div> '
-                );
-            }
-        }
-
-        tbody.find('.success').hide();
 
         $('#build-phpunit-errors').show();
     },

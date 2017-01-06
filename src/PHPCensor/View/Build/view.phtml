@@ -134,11 +134,11 @@
 
     <div class="tab-content">
         <div class="tab-pane active" id="log">
-            <pre style="height: 400px; overflow-y: auto;"><?php print $data['log']; ?></pre>
+            <pre style="overflow-y: visible;"><?php print $data['log']; ?></pre>
         </div>
 
         <div class="tab-pane" id="errors">
-            <table class="errors-table table table-hover dataTable">
+            <table class="errors-table table">
                 <thead>
                     <tr>
                         <th><?php Lang::out('severity'); ?></th>
@@ -149,7 +149,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                <?php print $data['error_html']; ?>
+                    <?php print $data['error_html']; ?>
                 </tbody>
             </table>
         </div>

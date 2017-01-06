@@ -166,7 +166,7 @@ var Build = Class.extend({
 
         var container = $('<div></div>').addClass('ui-plugin ' + plugin.css).attr('id', plugin.id);
         var content = $('<div></div>').append(output);
-        content.addClass('box box-default');
+        content.addClass('box');
 
         if (plugin.title) {
             content.prepend('<div class="box-header"><h3 class="box-title">'+plugin.title+'</h3></div>');

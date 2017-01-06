@@ -3,9 +3,8 @@ var SummaryPlugin = ActiveBuild.UiPlugin.extend({
     css: 'col-xs-12',
     title: Lang.get('build-summary'),
     box: true,
-    statusIcons: [ 'fa-clock-o', 'fa-cogs', 'fa-check', 'fa-remove' ],
-    statusLabels: [ Lang.get('pending'), Lang.get('running'), Lang.get('successful'), Lang.get('failed') ],
-    statusClasses: ['text-blue', 'text-yellow', 'text-green', 'text-red'],
+    statusLabels: [ Lang.get('pending'), Lang.get('running'), Lang.get('success'), Lang.get('failed') ],
+    statusClasses: ['info', 'warning', 'success', 'danger'],
 
     register: function() {
         var self = this;
@@ -50,8 +49,7 @@ var SummaryPlugin = ActiveBuild.UiPlugin.extend({
                     '<tr>' +
                         '<td>' + Lang.get('stage_' + stage) + '</td>' +
                         '<td>' + Lang.get(plugin) + '</td>' +
-                        '<td><span  class="' + this.statusClasses[data.status] + '">' +
-                            '<i class="fa ' + this.statusIcons[data.status] + '"></i>&nbsp;' +
+                        '<td><span  class="label label-' + this.statusClasses[data.status] + '">' +
                             this.statusLabels[data.status] +
                         '</span></td>' +
                         '<td class="text-right">' + duration + '</td>' +
