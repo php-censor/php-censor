@@ -54,10 +54,6 @@ class BuildStatusController extends Controller
             $project = $this->projectStore->getById($projectId);
             $status = 'passing';
 
-            if (!$project->getAllowPublicStatus()) {
-                return null;
-            }
-
             if (isset($project) && $project instanceof Project) {
                 $build = $project->getLatestBuild($branch, [2,3]);
 
