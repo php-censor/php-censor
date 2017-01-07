@@ -151,6 +151,7 @@ class Application extends b8\Application
 
     /**
      * Check whether we should skip auth (because it is disabled)
+     * 
      * @return bool
      */
     protected function shouldSkipAuth()
