@@ -42,34 +42,34 @@
 
 
 <div class="row">
-	<div class="col-lg-9 col-md-8 col-sm-8">
-        <div class="box box-primary">
+    <div class="col-lg-9 col-md-8 col-sm-8">
+        <div class="box">
             <div class="box-header">
                 <h3 class="box-title"><?php Lang::out('builds'); ?> (<?php print $total; ?>)</h3>
             </div>
-		<table class="table">
-			<thead>
-			<tr>
-				<th><?php Lang::out('id'); ?></th>
+        <table class="table">
+            <thead>
+            <tr>
+                <th><?php Lang::out('id'); ?></th>
                 <th><?php Lang::out('date'); ?></th>
-				<th><?php Lang::out('project'); ?></th>
-				<th class="hidden-md hidden-sm hidden-xs"><?php Lang::out('commit'); ?></th>
-				<th><?php Lang::out('branch'); ?></th>
-				<th><?php Lang::out('status'); ?></th>
-				<th style="width: 100px"></th>
-			</tr>
-			</thead>
-			<tbody id="latest-builds">
-				<?php print $builds; ?>
-			</tbody>
-		</table>
+                <th><?php Lang::out('project'); ?></th>
+                <th class="hidden-md hidden-sm hidden-xs"><?php Lang::out('commit'); ?></th>
+                <th><?php Lang::out('branch'); ?></th>
+                <th><?php Lang::out('status'); ?></th>
+                <th style="width: 100px"></th>
+            </tr>
+            </thead>
+            <tbody id="latest-builds">
+                <?php print $builds; ?>
+            </tbody>
+        </table>
         </div>
-	</div>
+    </div>
 
     <div class="col-lg-3 col-md-4 col-sm-4">
 
         <?php if (in_array($project->getType(), ['github', 'gitlab', 'bitbucket'])): ?>
-            <div class="box box-info">
+            <div class="box">
                 <div class="box-header">
                     <h4 class="box-title"><?php Lang::out('webhooks'); ?></h4>
                 </div>
@@ -100,7 +100,7 @@
         <?php endif; ?>
 
         <?php if ($project->getSshPublicKey()): ?>
-            <div class="box box-info">
+            <div class="box">
                 <div class="box-header"><h3 class="box-title"><a data-toggle="collapse" data-parent="#accordion" href="#publicCollapse"><?php Lang::out('public_key'); ?></a></h3></div>
                 <div class="box-body" style="word-break: break-all;"><?php print $project->getSshPublicKey(); ?></div>
             </div>

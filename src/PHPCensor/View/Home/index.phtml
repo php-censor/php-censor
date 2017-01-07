@@ -3,7 +3,7 @@
 
     <div class="col-sm-5">
         <?php foreach ($groups as $group): ?>
-        <div class="box box-primary">
+        <div class="box">
             <div class="box-header">
                 <h3 class="box-title"><?php print $group['title']; ?></h3>
             </div>
@@ -16,7 +16,7 @@
     </div>
 
     <div class="col-sm-7 pull-left">
-        <div class="box box-primary">
+        <div class="box">
             <div class="box-header">
                 <h3 class="box-title"><?php Lang::out('latest_builds'); ?></h3>
             </div>
@@ -42,7 +42,7 @@
 
                             case \PHPCensor\Model\Build::STATUS_SUCCESS:
                                 $updated = $build->getFinished();
-                                $label = Lang::get('successful');
+                                $label = Lang::get('success');
                                 $color = 'green';
                                 break;
 

@@ -23,7 +23,7 @@ More [screenshots](docs/en/screenshots.md).
 Configuring
 -----------
 
-Similar to Travis CI, to support **PHP Censor** in your project, you simply need to add a `.php-censor.yml`
+Similar to [TravisCI](https://travis-ci.org), to support PHP Censor in your project, you simply need to add a `.php-censor.yml`
 (`phpci.yml`/`.phpci.yml` for backward compatibility with PHPCI) file to the root of your repository. The file should
 look something like this:
 
@@ -124,4 +124,4 @@ Documentation
 License
 -------
 
-*PHP Censor* is open source software licensed under the [BSD-2-Clause license](LICENSE.md).
+PHP Censor is open source software licensed under the [BSD-2-Clause license](LICENSE.md).

@@ -1,7 +1,7 @@
-PHP Censor Copyright (c) 2016, Corpsee
+Copyright (c) 2016, PHP Censor  
 All rights reserved.
 
-PHPCI Copyright (c) 2013, Block 8 Limited
+Copyright (c) 2013, PHPCI, Block 8 Limited  
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:

@@ -1,14 +1,14 @@
 {
   "name":              "corpsee/php-censor",
-  "description":       "Simple continuous integration for PHP projects. PHPCI fork.",
+  "description":       "PHP Censor is a fork of PHPCI and is a open source continuous integration tool specifically designed for PHP",
   "minimum-stability": "stable",
-  "type":              "library",
+  "type":              "application",
   "keywords":          ["php", "php-censor", "ci", "continuous integration"],
   "homepage":          "https://github.com/corpsee/php-censor",
   "license":           "BSD-2-Clause",
   "authors":           [
     {
-      "name":     "Corpsee",
+      "name":     "Dmitry Khomutov",
       "email":    "poisoncorpsee@gmail.com",
       "homepage": "http://corpsee.com",
       "role":     "PHP Censor developer"
@@ -37,7 +37,7 @@
     }
   },
   "require": {
-    "php":           ">=5.4.0",
+    "php":           ">=5.6.0",
     "ext-pdo":       "*",
     "ext-pdo_mysql": "*",
 

@@ -305,7 +305,7 @@ class EmailTest extends \PHPUnit_Framework_TestCase
         $this->testedEmailPlugin->execute();
 
         $this->assertContains('Passing', $this->message['subject']);
-        $this->assertContains('successful', $this->message['body']);
+        $this->assertContains('success', $this->message['body']);
     }
 
     public function testMailFailingBuildHaveStatus()

@@ -51,7 +51,7 @@ class SessionController extends Controller
             } else {
                 unset($_SESSION['login_token']);
 
-                $user = $this->userStore->getByEmail($this->getParam('email'));
+                $user = $this->userStore->getByEmailOrName($this->getParam('email'));
 
                 if ($user && password_verify($this->getParam('password', ''), $user->getHash())) {
                     session_regenerate_id(true);
@@ -69,8 +69,8 @@ class SessionController extends Controller
         $form->setMethod('POST');
         $form->setAction(APP_URL.'session/login');
 
-        $email = new b8\Form\Element\Email('email');
-        $email->setLabel(Lang::get('email_address'));
+        $email = new b8\Form\Element\Text('email');
+        $email->setLabel(Lang::get('login'));
         $email->setRequired(true);
         $email->setContainerClass('form-group');
         $email->setClass('form-control');

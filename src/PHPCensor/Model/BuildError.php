@@ -10,7 +10,6 @@ use PHPCensor\Model\Base\BuildErrorBase;
 
 /**
  * BuildError Model
- * @uses PHPCensor\Model\Base\BuildErrorBase
  */
 class BuildError extends BuildErrorBase
 {
