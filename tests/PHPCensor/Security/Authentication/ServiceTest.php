@@ -27,7 +27,7 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testBuildBuiltinProvider()
     {
-        $provider = Service::buildProvider('test', ['internal' => ['type' => 'internal']]);
+        $provider = Service::buildProvider('test', ['type' => 'internal']);
 
         $this->assertInstanceOf('\PHPCensor\Security\Authentication\UserProvider\Internal', $provider);
     }
@@ -37,10 +37,10 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testBuildAnyProvider()
     {
-        $config = array('type' => '\PHPCensor\Security\Authentication\Tests\DummyProvider');
+        $config = array('type' => '\Tests\PHPCensor\Security\Authentication\DummyProvider');
         $provider = Service::buildProvider("test", $config);
 
-        $this->assertInstanceOf('\PHPCensor\Security\Authentication\Tests\DummyProvider', $provider);
+        $this->assertInstanceOf('\Tests\PHPCensor\Security\Authentication\DummyProvider', $provider);
         $this->assertEquals('test', $provider->key);
         $this->assertEquals($config, $provider->config);
     }
