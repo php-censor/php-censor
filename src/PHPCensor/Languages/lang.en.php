@@ -89,6 +89,8 @@ PHP Censor',
     'success' => 'Success',
     'failed' => 'Failed',
     'error'  => 'Error',
+    'skipped' => 'Skipped',
+    'trace'   => 'Stack trace',
     'manual_build' => 'Manual Build',
 
     // Add/Edit Project:
@@ -419,8 +421,6 @@ PHP Censor',
     'plugin_success' => 'PLUGIN: SUCCESS',
     'plugin_failed' => 'PLUGIN: FAILED',
     'plugin_missing' => 'Plugin does not exist: %s',
-    'tap_version' => 'TapParser only supports TAP version 13',
-    'tap_error' => 'Invalid TAP string, number of tests does not match specified test count.',
     'failed_allowed' => 'Allowed',
 
     // Build Plugins:

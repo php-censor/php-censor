@@ -389,8 +389,6 @@ generiert. Um es zu verwenden, fügen Sie einfach den folgenden Public Key im Ab
     'plugin_success' => 'PLUGIN: ERFOLGREICH',
     'plugin_failed' => 'PLUGIN: FEHLGECHLAGEN',
     'plugin_missing' => 'Plugin existiert nicht: %s',
-    'tap_version' => 'TapParser unterstützt nur TAP version 13',
-    'tap_error' => 'Ungültiger TAP String, Anzahl Tests entspricht nicht angegebener Testzahl.',
 
     // Build Plugins:
     'no_tests_performed' => 'Keine Tests wurden ausgeführt.',

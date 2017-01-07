@@ -35,7 +35,7 @@ test:
 
 failure:
   email:
-    committer: true
+    committer: false
 
 complete:
   email:

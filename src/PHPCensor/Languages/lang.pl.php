@@ -369,8 +369,6 @@ Przejrzyj powyższą listę błędów przed kontynuowaniem.',
     'plugin_success' => 'Plugin: Sukces',
     'plugin_failed' => 'Plugin: Niepowodzenie',
     'plugin_missing' => 'Plugin nie istnieje: %s',
-    'tap_version' => 'TapParser obsługuje tylko TAP w wersji 13',
-    'tap_error' => 'Nieprawidłowy łańcuch TAP, liczba testów nie zgadza się z policzoną ilością testów.',
 
     // Build Plugins:
     'no_tests_performed' => 'Nie przeprowadzono żadnych testów.',

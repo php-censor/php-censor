@@ -357,8 +357,6 @@ PHP Censor',
     'plugin_success' => 'PLUGIN: EXITO',
     'plugin_failed' => 'PLUGIN: FALLÓ',
     'plugin_missing' => 'No existe el plugin: %s',
-    'tap_version' => 'TapParser únicamente soporta la verisón 13 de TAP',
-    'tap_error' => 'Cadena de caracteres TAP inválida, el número de tests no coincide con la cuenta de tests declarada.',
 
     // Build Plugins:
     'no_tests_performed' => 'No se ejecutaron tests.',

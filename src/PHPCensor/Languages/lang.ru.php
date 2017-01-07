@@ -46,8 +46,8 @@ PHP Censor',
 
     // Top Nav
     'toggle_navigation' => 'Скрыть/показать панель навигации',
-    'n_builds_pending' => '%d сборок ожидает',
-    'n_builds_running' => '%d сборок запущено',
+    'n_builds_pending' => 'Сборок ожидает: %d',
+    'n_builds_running' => 'Сборок запущено: %d',
     'edit_profile' => 'Редактировать профиль',
     'sign_out' => 'Выйти',
     'branch_x' => 'Ветка: %s',
@@ -87,6 +87,8 @@ PHP Censor',
     'success' => 'Успешно',
     'failed' => 'Провал',
     'error'  => 'Ошибка',
+    'skipped' => 'Пропущено',
+    'trace'   => 'Стек вызова',
     'manual_build' => 'Запущена вручную',
 
     // Add/Edit Project:
@@ -404,8 +406,6 @@ PHP Censor',
     'plugin_success' => 'ПЛАГИН: УСПЕШНО',
     'plugin_failed' => 'ПЛАГИН: ПРОВАЛ',
     'plugin_missing' => 'Плагина не существует: %s',
-    'tap_version' => 'TapParser поддерживает только TAP версии 13',
-    'tap_error' => 'Некорректная TAP-строка, количество тестов не совпадает с заявленным.',
     'failed_allowed' => 'Разрешен',
 
     // Build Plugins:

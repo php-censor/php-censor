@@ -366,8 +366,6 @@ Kontrollér venligst nedenstående fejl før du fortsætter.',
     'plugin_success' => 'PLUGIN: SUCCES',
     'plugin_failed' => 'PLUGIN: FEJL',
     'plugin_missing' => 'Plugin findes ikke: %s',
-    'tap_version' => 'TapParser understøtter kun TAP version 13.',
-    'tap_error' => 'Ugyldig TAP-streng, antallet af tests passer ikke med det angivne antal tests.',
 
     // Build Plugins:
     'no_tests_performed' => 'Ingen tests udført.',
