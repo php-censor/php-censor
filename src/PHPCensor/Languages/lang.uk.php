@@ -368,8 +368,6 @@ PHP Censor',
     'plugin_success' => 'ПЛАГІН: УСПІШНО',
     'plugin_failed' => 'ПЛАГІН: НЕВДАЛО',
     'plugin_missing' => 'Плагін не існує: %s',
-    'tap_version' => 'TapParser підтримує тільки TAP версії 13',
-    'tap_error' => 'Некоректний TAP-рядок, кількість тестів не співпадає із вказаними.',
 
     // Build Plugins:
     'no_tests_performed' => 'Жодних тестів не було запущено.',

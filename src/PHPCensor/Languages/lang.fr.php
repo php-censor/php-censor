@@ -383,8 +383,6 @@ PHP Censor',
     'plugin_success' => 'PLUGIN: RÉUSSI',
     'plugin_failed' => 'PLUGIN: ÉCHOUÉ',
     'plugin_missing' => 'Le plugins n\'existe pas: %s',
-    'tap_version' => 'TapParser supporte seulement les TAP version 13',
-    'tap_error' => 'Chaîne de TAP invalide, le nombre de tests ne correspond pas à celui spécifié.',
 
     // Build Plugins:
     'no_tests_performed' => 'Aucun test n\'a été exécuté.',

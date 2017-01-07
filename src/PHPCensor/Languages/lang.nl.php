@@ -368,8 +368,6 @@ Gelieve de fouten na te kijken vooraleer verder te gaan.',
     'plugin_success' => 'PLUGIN: SUCCES',
     'plugin_failed' => 'PLUGIN: GEFAALD',
     'plugin_missing' => 'Plugin bestaat niet: %s',
-    'tap_version' => 'TapParser ondersteunt enkel TAP versie 13',
-    'tap_error' => 'Ongeldige TAP string, aantal tests niet in overeenstemming met opgegeven aantal.',
 
     // Build Plugins:
     'no_tests_performed' => 'Er werden geen tests uitgevoerd.',
