@@ -37,7 +37,7 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testBuildAnyProvider()
     {
-        $config = array('type' => '\Tests\PHPCensor\Security\Authentication\DummyProvider');
+        $config   = ['type' => '\Tests\PHPCensor\Security\Authentication\DummyProvider'];
         $provider = Service::buildProvider("test", $config);
 
         $this->assertInstanceOf('\Tests\PHPCensor\Security\Authentication\DummyProvider', $provider);
@@ -50,9 +50,9 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetProviders()
     {
-        $a = $this->prophesize('\PHPCensor\Security\Authentication\UserProvider')->reveal();
-        $b = $this->prophesize('\PHPCensor\Security\Authentication\UserProvider')->reveal();
-        $providers = array('a' => $a, 'b' => $b);
+        $a         = $this->prophesize('\PHPCensor\Security\Authentication\UserProvider')->reveal();
+        $b         = $this->prophesize('\PHPCensor\Security\Authentication\UserProvider')->reveal();
+        $providers = ['a' => $a, 'b' => $b];
 
         $service = new Service($providers);
 
@@ -64,13 +64,13 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetLoginPasswordProviders()
     {
-        $a = $this->prophesize('\PHPCensor\Security\Authentication\UserProvider')->reveal();
-        $b = $this->prophesize('\PHPCensor\Security\Authentication\LoginPasswordProvider')->reveal();
-        $providers = array('a' => $a, 'b' => $b);
+        $a         = $this->prophesize('\PHPCensor\Security\Authentication\UserProvider')->reveal();
+        $b         = $this->prophesize('\PHPCensor\Security\Authentication\LoginPasswordProvider')->reveal();
+        $providers = ['a' => $a, 'b' => $b];
 
         $service = new Service($providers);
 
-        $this->assertEquals(array('b' => $b), $service->getLoginPasswordProviders());
+        $this->assertEquals(['b' => $b], $service->getLoginPasswordProviders());
     }
 }
 

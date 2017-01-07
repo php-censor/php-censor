@@ -14,15 +14,15 @@ class AddUserProviders extends AbstractMigration
         $this
             ->table('user')
             // The provider name
-            ->addColumn('provider_key', 'string', array(
+            ->addColumn('provider_key', 'string', [
                 'default' => 'internal',
-                'limit' => MysqlAdapter::TEXT_SMALL
-            ))
+                'limit'   => MysqlAdapter::TEXT_SMALL
+            ])
             // A data used by the provider
-            ->addColumn('provider_data', 'string', array(
-                'null' => true,
+            ->addColumn('provider_data', 'string', [
+                'null'  => true,
                 'limit' => MysqlAdapter::TEXT_SMALL
-            ))
+            ])
             ->save();
     }
 

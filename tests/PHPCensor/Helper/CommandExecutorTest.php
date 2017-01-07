@@ -75,7 +75,7 @@ class CommandExecutorTest extends \PHPUnit_Framework_TestCase
 /bin/sh -c 'data="$(printf %%${length}s | tr " " "-")"; >&2 echo "\$data"; >&1 echo "\$data"'
 EOD;
         $data = str_repeat("-", $length);
-        $returnValue = $this->testedExecutor->executeCommand(array($script));
+        $returnValue = $this->testedExecutor->executeCommand([$script]);
         $this->assertTrue($returnValue);
         $this->assertEquals($data, trim($this->testedExecutor->getLastOutput()));
         $this->assertEquals($data, trim($this->testedExecutor->getLastError()));
