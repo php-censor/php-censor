@@ -25,3 +25,5 @@ php-censor:
   authentication_settings:
     state:   false
     user_id: 1
+  build:
+    remove_builds: true

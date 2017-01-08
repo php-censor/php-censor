@@ -109,10 +109,8 @@ class Builder implements LoggerAwareInterface
         $this->build = $build;
         $this->store = Factory::getStore('Build', 'PHPCensor');
 
-        $this->buildLogger = new BuildLogger($logger, $build);
-
-        $pluginFactory = $this->buildPluginFactory($build);
-        $pluginFactory->addConfigFromFile(APP_DIR . "pluginconfig.php");
+        $this->buildLogger    = new BuildLogger($logger, $build);
+        $pluginFactory        = $this->buildPluginFactory($build);
         $this->pluginExecutor = new Plugin\Util\Executor($pluginFactory, $this->buildLogger);
 
         $executorClass = 'PHPCensor\Helper\UnixCommandExecutor';
@@ -251,9 +249,12 @@ class Builder implements LoggerAwareInterface
         $this->build->sendStatusPostback();
         $this->build->setFinished(new \DateTime());
 
-        // Clean up:
-        $this->buildLogger->log("\n" . Lang::get('removing_build'));
-        $this->build->removeBuildDirectory();
+        $removeBuilds = (bool)Config::getInstance()->get('php-censor.build.remove_builds', true);
+        if ($removeBuilds) {
+            // Clean up:
+            $this->buildLogger->log("\n" . Lang::get('removing_build'));
+            $this->build->removeBuildDirectory();
+        }
 
         $this->store->save($this->build);
     }
