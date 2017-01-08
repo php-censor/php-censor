@@ -14,6 +14,7 @@ use PHPCensor\Helper\Lang;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin\Util\TestResultParsers\Codeception as Parser;
 use PHPCensor\Plugin;
+use Symfony\Component\Yaml\Parser as YamlParser;
 use PHPCensor\ZeroConfigPluginInterface;
 use Psr\Log\LogLevel;
 
@@ -65,9 +66,6 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
         }
         if (isset($options['args'])) {
             $this->args = (string) $options['args'];
-        }
-        if (isset($options['path'])) {
-            $this->path = $options['path'];
         }
     }
 
@@ -121,8 +119,6 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
      */
     protected function runConfigFile($configPath)
     {
-        $this->builder->logExecOutput(false);
-
         $codeception = $this->builder->findBinary('codecept');
 
         if (!$codeception) {
@@ -140,12 +136,15 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
         $configPath = $this->builder->buildPath . $configPath;
         $success = $this->builder->executeCommand($cmd, $this->builder->buildPath, $configPath);
 
-        $this->builder->log(
-            'Codeception XML path: '. $this->builder->buildPath . $this->path . 'report.xml',
-            LogLevel::DEBUG
-        );
+        $parser = new YamlParser();
+        $yaml   = file_get_contents($configPath);
+        $config = (array)$parser->parse($yaml);
 
-        $xml = file_get_contents($this->builder->buildPath . $this->path . 'report.xml', false);
+        if ($config && isset($config['paths']['log'])) {
+            $this->path = $config['paths']['log'] . DIRECTORY_SEPARATOR;
+        }
+
+        $xml    = file_get_contents($this->builder->buildPath . $this->path . 'report.xml', false);
         $parser = new Parser($this->builder, $xml);
         $output = $parser->parse();
 
@@ -158,7 +157,6 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
         $this->build->storeMeta('codeception-meta', $meta);
         $this->build->storeMeta('codeception-data', $output);
         $this->build->storeMeta('codeception-errors', $parser->getTotalFailures());
-        $this->builder->logExecOutput(true);
 
         return $success;
     }

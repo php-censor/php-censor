@@ -12,8 +12,6 @@ Configuration
 
 * **args** - Optional - The string of arguments to be passed to the run command.**Important**, due to the assumption made on line 132 regarding the value of `--xml` being the next argument which will not be correct if the user provides arguments using this config param, you must specify `report.xml` before any user input arguments to satisfy the report processing on line 146.
 
-* **path** - Optional - The path from the root of your project to the root of the codeception _output directory
-
 #### Default values
 
 - config
@@ -24,27 +22,10 @@ Configuration
 - args
  - Empty string
 
-- path
- - `tests/_output/`
-
 ### Examples
-
-#### Example on running codeception with default settings (when tests are in tests/ directory):
 
 ```
   codeception:
     config: "codeception.yml"
-    path: "tests/"
+    args:   "--no-ansi --coverage-html"
 ```
-
-#### Example usage against the Yii2 framework
-
-```
-codeception:
-        allow_failures: false
-        config: "tests/codeception.yml"
-        path: "tests/codeception/_output/"
-        args: "report.xml --no-ansi --coverage-html"
-```
-
-The path value will need to be changed if you have your tests directory somewhere other than in the root of the project.
