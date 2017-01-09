@@ -2,7 +2,7 @@
 
 namespace b8\Type;
 
-interface Cache
+interface CacheInterface
 {
     public function get($key, $default = null);
 

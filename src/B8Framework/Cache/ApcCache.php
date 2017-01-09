@@ -4,7 +4,7 @@ namespace b8\Cache;
 
 use b8\Type;
 
-class ApcCache implements Type\Cache
+class ApcCache implements Type\CacheInterface
 {
     /**
      * Check if caching is enabled.

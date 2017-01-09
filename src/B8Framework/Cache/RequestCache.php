@@ -4,7 +4,7 @@ namespace b8\Cache;
 
 use b8\Type;
 
-class RequestCache implements Type\Cache
+class RequestCache implements Type\CacheInterface
 {
     protected $data = [];
 

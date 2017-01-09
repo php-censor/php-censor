@@ -145,7 +145,7 @@ class HttpClient
         return $body;
     }
 
-    function _readChunk(&$string, $len = 4096)
+    protected function _readChunk(&$string, $len = 4096)
     {
         $rtn = '';
         for ($i = 0; $i <= $len; $i++) {
