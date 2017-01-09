@@ -1,0 +1,24 @@
+language: php
+
+php:
+  - 5.6
+  - 7.0
+  - hhvm
+
+matrix:
+  fast_finish: true
+
+install:
+  - composer selfupdate
+  - composer install
+
+script:
+  - phpunit --configuration phpunit.xml
+
+notifications:
+  email:
+    recipients:
+      - poisoncorpsee@gmail.com
+
+    on_success: always
+    on_failure: always
