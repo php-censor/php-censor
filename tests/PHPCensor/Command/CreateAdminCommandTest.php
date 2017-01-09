@@ -36,7 +36,7 @@ class CreateAdminCommandTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $userStoreMock = $this->getMock('PHPCensor\\Store\\UserStore');
+        $userStoreMock = $this->getMockBuilder('PHPCensor\\Store\\UserStore')->getMock();
         
         $this->command = new CreateAdminCommand($userStoreMock);
 

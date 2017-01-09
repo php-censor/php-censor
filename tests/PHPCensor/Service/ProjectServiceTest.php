@@ -33,7 +33,7 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->mockProjectStore = $this->getMock('PHPCensor\Store\ProjectStore');
+        $this->mockProjectStore = $this->getMockBuilder('PHPCensor\Store\ProjectStore')->getMock();
         $this->mockProjectStore->expects($this->any())
                                ->method('save')
                                ->will($this->returnArgument(0));
@@ -115,7 +115,7 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testExecute_DeleteProject()
     {
-        $store = $this->getMock('PHPCensor\Store\ProjectStore');
+        $store = $this->getMockBuilder('PHPCensor\Store\ProjectStore')->getMock();
         $store->expects($this->once())
             ->method('delete')
             ->will($this->returnValue(true));

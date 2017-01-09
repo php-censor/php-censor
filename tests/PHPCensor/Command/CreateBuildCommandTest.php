@@ -29,7 +29,7 @@ class CreateBuildCommandTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $projectMock = $this->getMock('PHPCensor\\Model\\Project');
+        $projectMock = $this->getMockBuilder('PHPCensor\\Model\\Project')->getMock();
 
         $projectStoreMock = $this->getMockBuilder('PHPCensor\\Store\\ProjectStore')
             ->getMock();

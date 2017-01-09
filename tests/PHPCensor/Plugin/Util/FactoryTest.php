@@ -168,13 +168,10 @@ class FactoryTest extends \PHPUnit_Framework_TestCase {
 
         $this->testedFactory->registerResource(
             function () use ($self) {
-                return $self->getMock(
-                    'PHPCensor\Builder',
-                    [],
-                    [],
-                    '',
-                    false
-                );
+                return $self
+                    ->getMockBuilder('PHPCensor\Builder')
+                    ->disableOriginalConstructor()
+                    ->getMock();
             },
             null,
             'PHPCensor\\Builder'
@@ -182,13 +179,10 @@ class FactoryTest extends \PHPUnit_Framework_TestCase {
 
         $this->testedFactory->registerResource(
             function () use ($self) {
-                return $self->getMock(
-                    'PHPCensor\Model\Build',
-                    [],
-                    [],
-                    '',
-                    false
-                );
+                return $self
+                    ->getMockBuilder('PHPCensor\Model\Build')
+                    ->disableOriginalConstructor()
+                    ->getMock();
             },
             null,
             'PHPCensor\\Model\\Build'
