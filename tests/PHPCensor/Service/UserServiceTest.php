@@ -32,7 +32,7 @@ class UserServiceTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->mockUserStore = $this->getMock('PHPCensor\Store\UserStore');
+        $this->mockUserStore = $this->getMockBuilder('PHPCensor\Store\UserStore')->getMock();
         $this->mockUserStore->expects($this->any())
                                ->method('save')
                                ->will($this->returnArgument(0));

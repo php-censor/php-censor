@@ -112,7 +112,10 @@ class BuildStatusServiceTest extends \PHPUnit_Framework_TestCase
      */
     protected function getProjectMock($prevBuildId = null, $setProject = true) {
 
-        $project = $this->getMock('PHPCensor\Model\Project', ['getLatestBuild']);
+        $project = $this
+            ->getMockBuilder('PHPCensor\Model\Project')
+            ->setMethods(['getLatestBuild'])
+            ->getMock();
 
         $prevBuild = ($prevBuildId) ? $this->getBuild($prevBuildId, false) : null;
 

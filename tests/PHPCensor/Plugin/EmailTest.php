@@ -27,9 +27,9 @@ class EmailTest extends \PHPUnit_Framework_TestCase
     protected $testedEmailPlugin;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject $mockCiBuilder
+     * @var \PHPUnit_Framework_MockObject_MockObject $mockBuilder
      */
-    protected $mockCiBuilder;
+    protected $mockBuilder;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject $mockBuild
@@ -70,25 +70,23 @@ class EmailTest extends \PHPUnit_Framework_TestCase
             ]
         ]);
 
-        $this->mockProject = $this->getMock(
-            '\PHPCensor\Model\Project',
-            ['getTitle'],
-            [],
-            "mockProject",
-            false
-        );
+        $this->mockProject = $this
+            ->getMockBuilder('\PHPCensor\Model\Project')
+            ->setMethods(['getTitle'])
+            ->setMockClassName('mockProject')
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $this->mockProject->expects($this->any())
             ->method('getTitle')
             ->will($this->returnValue("Test-Project"));
 
-        $this->mockBuild = $this->getMock(
-            '\PHPCensor\Model\Build',
-            ['getLog', 'getStatus', 'getProject', 'getCommitterEmail'],
-            [],
-            "mockBuild",
-            false
-        );
+        $this->mockBuild = $this
+            ->getMockBuilder('\PHPCensor\Model\Build')
+            ->setMethods(['getLog', 'getStatus', 'getProject', 'getCommitterEmail'])
+            ->setMockClassName('mockBuild')
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $this->mockBuild->expects($this->any())
             ->method('getLog')
@@ -108,22 +106,16 @@ class EmailTest extends \PHPUnit_Framework_TestCase
             ->method('getCommitterEmail')
             ->will($this->returnValue('committer-email@example.com'));
 
-        $this->mockCiBuilder = $this->getMock(
-            '\PHPCensor\Builder',
-            [
-                'getSystemConfig',
-                'getBuild',
-                'log',
-                'logDebug'
-            ],
-            [],
-            "mockBuilder_email",
-            false
-        );
+        $this->mockBuilder = $this
+            ->getMockBuilder('\PHPCensor\Builder')
+            ->setMethods(['getSystemConfig', 'getBuild', 'log', 'logDebug'])
+            ->setMockClassName('mockBuilder_email')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-        $this->mockCiBuilder->buildPath = "/";
+        $this->mockBuilder->buildPath = "/";
 
-        $this->mockCiBuilder->expects($this->any())
+        $this->mockBuilder->expects($this->any())
             ->method('getSystemConfig')
             ->with('php-censor')
             ->will($this->returnValue(['email_settings' => ['from_address' => "test-from-address@example.com"]]));
@@ -144,15 +136,11 @@ class EmailTest extends \PHPUnit_Framework_TestCase
 
         $self = $this;
 
-        $this->testedEmailPlugin = $this->getMock(
-            '\PHPCensor\Plugin\Email',
-            ['sendEmail'],
-            [
-                $this->mockCiBuilder,
-                $this->mockBuild,
-                $arrOptions
-            ]
-        );
+        $this->testedEmailPlugin = $this
+            ->getMockBuilder('\PHPCensor\Plugin\Email')
+            ->setMethods(['sendEmail'])
+            ->setConstructorArgs([$this->mockBuilder, $this->mockBuild, $arrOptions])
+            ->getMock();
 
         $this->testedEmailPlugin->expects($this->any())
             ->method('sendEmail')

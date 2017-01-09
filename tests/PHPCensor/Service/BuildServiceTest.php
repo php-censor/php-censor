@@ -33,7 +33,7 @@ class BuildServiceTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->mockBuildStore = $this->getMock('PHPCensor\Store\BuildStore');
+        $this->mockBuildStore = $this->getMockBuilder('PHPCensor\Store\BuildStore')->getMock();
         $this->mockBuildStore->expects($this->any())
                                ->method('save')
                                ->will($this->returnArgument(0));
@@ -121,7 +121,7 @@ class BuildServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testExecute_DeleteBuild()
     {
-        $store = $this->getMock('PHPCensor\Store\BuildStore');
+        $store = $this->getMockBuilder('PHPCensor\Store\BuildStore')->getMock();
         $store->expects($this->once())
             ->method('delete')
             ->will($this->returnValue(true));
