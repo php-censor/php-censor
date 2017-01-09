@@ -6,9 +6,9 @@ Getting Started
 
 * [Installing PHP Censor](installing.md)
     * [Adding a Virtual Host](virtual_host.md)
-    * [Run Builds Using a Worker](workers/worker.md)
-    * [Run Builds Using a Daemon](workers/daemon.md)
-    * [Run Builds Using Cron](workers/cron.md)
+    * [Run builds using a worker](workers/worker.md)
+    * [Run builds using a daemon](workers/daemon.md)
+    * [Run builds using cronjob](workers/cron.md)
 * [Adding PHP Censor Support to Your Projects](config.md)
 * [Setting up Logging](logging.md)
 * [Updating PHP Censor](updating.md)

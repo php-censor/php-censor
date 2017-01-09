@@ -1,4 +1,4 @@
-Run Builds Using a Worker
+Run builds using a worker
 =========================
 
 The PHP Censor Worker runs in the background on your server and waits for new builds to be added to a Beanstalkd queue. Unless already running a build, the worker will pick up and start running new builds almost immediately after their creation.
