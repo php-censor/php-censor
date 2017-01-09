@@ -41,7 +41,6 @@
     "ext-pdo":       "*",
     "ext-pdo_mysql": "*",
 
-    "ircmaxell/password-compat": "1.0.*",
     "swiftmailer/swiftmailer":   "5.4.*",
     "symfony/yaml":              "2.8.*",
     "symfony/console":           "2.8.*",
