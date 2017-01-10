@@ -17,12 +17,13 @@ use PHPCensor\Plugin;
 use b8\Database;
 
 /**
-* MySQL Plugin - Provides access to a MySQL database.
-* @author       Dan Cryer <dan@block8.co.uk>
-* @author       Steve Kamerman <stevekamerman@gmail.com>
-* @package      PHPCI
-* @subpackage   Plugins
-*/
+ * MySQL Plugin - Provides access to a MySQL database.
+ * 
+ * @author       Dan Cryer <dan@block8.co.uk>
+ * @author       Steve Kamerman <stevekamerman@gmail.com>
+ * @package      PHPCI
+ * @subpackage   Plugins
+ */
 class Mysql extends Plugin
 {
     /**

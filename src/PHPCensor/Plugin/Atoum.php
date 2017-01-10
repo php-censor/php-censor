@@ -17,7 +17,7 @@ use PHPCensor\Plugin;
 /**
  * Atoum plugin, runs Atoum tests within a project.
  * 
- * @package PHPCensor\Plugin
+ * @package PHPCI\Plugin
  */
 class Atoum extends Plugin
 {

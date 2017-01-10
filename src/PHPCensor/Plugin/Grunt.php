@@ -14,11 +14,12 @@ use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 
 /**
-* Grunt Plugin - Provides access to grunt functionality.
-* @author       Tobias Tom <t.tom@succont.de>
-* @package      PHPCI
-* @subpackage   Plugins
-*/
+ * Grunt Plugin - Provides access to grunt functionality.
+ * 
+ * @author       Tobias Tom <t.tom@succont.de>
+ * @package      PHPCI
+ * @subpackage   Plugins
+ */
 class Grunt extends Plugin
 {
     protected $directory;

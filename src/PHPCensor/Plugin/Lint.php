@@ -16,6 +16,7 @@ use PHPCensor\Plugin;
 
 /**
  * PHP Lint Plugin - Provides access to PHP lint functionality.
+ * 
  * @author       Dan Cryer <dan@block8.co.uk>
  * @package      PHPCI
  * @subpackage   Plugins

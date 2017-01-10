@@ -14,11 +14,12 @@ use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 
 /**
-* Wipe Plugin - Wipes a folder
-* @author       Claus Due <claus@namelesscoder.net>
-* @package      PHPCI
-* @subpackage   Plugins
-*/
+ * Wipe Plugin - Wipes a folder
+ * 
+ * @author       Claus Due <claus@namelesscoder.net>
+ * @package      PHPCI
+ * @subpackage   Plugins
+ */
 class Wipe extends Plugin
 {
     protected $directory;

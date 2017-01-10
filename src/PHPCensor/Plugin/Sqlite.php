@@ -15,11 +15,12 @@ use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 
 /**
-* SQLite Plugin — Provides access to a SQLite database.
-* @author       Corpsee <poisoncorpsee@gmail.com>
-* @package      PHPCI
-* @subpackage   Plugins
-*/
+ * SQLite Plugin — Provides access to a SQLite database.
+ * 
+ * @author       Dmitry Khomutov <poisoncorpsee@gmail.com>
+ * @package      PHPCI
+ * @subpackage   Plugins
+ */
 class Sqlite extends Plugin
 {
     /**

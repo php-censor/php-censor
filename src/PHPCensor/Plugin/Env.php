@@ -15,11 +15,12 @@ use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 
 /**
-* Environment variable plugin
-* @author       Steve Kamerman <stevekamerman@gmail.com>
-* @package      PHPCI
-* @subpackage   Plugins
-*/
+ * Environment variable plugin
+ * 
+ * @author       Steve Kamerman <stevekamerman@gmail.com>
+ * @package      PHPCI
+ * @subpackage   Plugins
+ */
 class Env extends Plugin
 {
     protected $env_vars;

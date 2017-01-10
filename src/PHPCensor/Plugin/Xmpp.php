@@ -14,11 +14,12 @@ use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 
 /**
-* XMPP Notification - Send notification for successful or failure build
-* @author       Alexandre Russo <dev.github@ange7.com>
-* @package      PHPCI
-* @subpackage   Plugins
-*/
+ * XMPP Notification - Send notification for successful or failure build
+ * 
+ * @author       Alexandre Russo <dev.github@ange7.com>
+ * @package      PHPCI
+ * @subpackage   Plugins
+ */
 class XMPP extends Plugin
 {
     protected $directory;

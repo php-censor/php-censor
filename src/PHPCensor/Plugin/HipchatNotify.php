@@ -17,6 +17,7 @@ use HipChat\HipChat;
 
 /**
  * Hipchat Plugin
+ * 
  * @author       James Inman <james@jamesinman.co.uk>
  * @package      PHPCI
  * @subpackage   Plugins

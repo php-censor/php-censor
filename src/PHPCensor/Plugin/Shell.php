@@ -15,6 +15,7 @@ use PHPCensor\Plugin;
 
 /**
  * Shell Plugin - Allows execute shell commands.
+ * 
  * @author       Kinn Coelho Julião <kinncj@gmail.com>
  * @package      PHPCI
  * @subpackage   Plugins

@@ -14,11 +14,12 @@ use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 
 /**
-* PHP CS Fixer - Works with the PHP Coding Standards Fixer for testing coding standards.
-* @author       Gabriel Baker <gabriel@autonomicpilot.co.uk>
-* @package      PHPCI
-* @subpackage   Plugins
-*/
+ * PHP CS Fixer - Works with the PHP Coding Standards Fixer for testing coding standards.
+ * 
+ * @author       Gabriel Baker <gabriel@autonomicpilot.co.uk>
+ * @package      PHPCI
+ * @subpackage   Plugins
+ */
 class PhpCsFixer extends Plugin
 {
     protected $workingDir = '';

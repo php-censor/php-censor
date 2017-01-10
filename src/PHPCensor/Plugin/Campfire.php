@@ -17,6 +17,7 @@ use PHPCensor\Plugin;
 /**
  * Campfire Plugin - Allows Campfire API actions.
  * strongly based on icecube (http://labs.mimmin.com/icecube)
+ * 
  * @author       André Cianfarani <acianfa@gmail.com>
  * @package      PHPCI
  * @subpackage   Plugins

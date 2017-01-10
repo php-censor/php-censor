@@ -14,14 +14,16 @@ use PHPCensor\Helper\Lang;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
 use PHPCensor\Plugin;
+use PHPCensor\ZeroConfigPlugin;
 
 /**
-* PHP Copy / Paste Detector - Allows PHP Copy / Paste Detector testing.
-* @author       Dan Cryer <dan@block8.co.uk>
-* @package      PHPCI
-* @subpackage   Plugins
-*/
-class PhpCpd extends Plugin
+ * PHP Copy / Paste Detector - Allows PHP Copy / Paste Detector testing.
+ *
+ * @author       Dan Cryer <dan@block8.co.uk>
+ * @package      PHPCI
+ * @subpackage   Plugins
+ */
+class PhpCpd extends Plugin implements ZeroConfigPlugin
 {
     protected $directory;
     protected $args;
@@ -54,6 +56,24 @@ class PhpCpd extends Plugin
         if (!empty($options['ignore'])) {
             $this->ignore = $options['ignore'];
         }
+    }
+
+    /**
+     * Check if this plugin can be executed.
+     * 
+     * @param $stage
+     * @param Builder $builder
+     * @param Build   $build
+     * 
+     * @return bool
+     */
+    public static function canExecute($stage, Builder $builder, Build $build)
+    {
+        if ($stage == 'test') {
+            return true;
+        }
+
+        return false;
     }
 
     /**

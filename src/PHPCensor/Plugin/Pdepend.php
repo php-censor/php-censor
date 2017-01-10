@@ -15,6 +15,7 @@ use PHPCensor\Plugin;
 
 /**
  * Pdepend Plugin - Allows Pdepend report
+ * 
  * @author       Johan van der Heide <info@japaveh.nl>
  * @package      PHPCI
  * @subpackage   Plugins

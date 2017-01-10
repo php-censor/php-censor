@@ -16,6 +16,7 @@ use PHPCensor\Plugin;
 
 /**
  * Flowdock Plugin
+ * 
  * @author       Petr Cervenka <petr@nanosolutions.io>
  * @package      PHPCI
  * @subpackage   Plugins

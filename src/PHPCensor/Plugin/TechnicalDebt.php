@@ -16,12 +16,12 @@ use PHPCensor\Plugin;
 use PHPCensor\ZeroConfigPlugin;
 
 /**
-* Technical Debt Plugin - Checks for existence of "TODO", "FIXME", etc.
-*
-* @author       James Inman <james@jamesinman.co.uk>
-* @package      PHPCI
-* @subpackage   Plugins
-*/
+ * Technical Debt Plugin - Checks for existence of "TODO", "FIXME", etc.
+ *
+ * @author       James Inman <james@jamesinman.co.uk>
+ * @package      PHPCI
+ * @subpackage   Plugins
+ */
 class TechnicalDebt extends Plugin implements ZeroConfigPlugin
 {
     /**

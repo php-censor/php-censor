@@ -19,6 +19,7 @@ use PHPCensor\ZeroConfigPlugin;
 
 /**
  * Codeception Plugin - Enables full acceptance, unit, and functional testing.
+ * 
  * @author       Don Gilbert <don@dongilbert.net>
  * @author       Igor Timoshenko <contact@igortimoshenko.com>
  * @author       Adam Cooper <adam@networkpie.co.uk>

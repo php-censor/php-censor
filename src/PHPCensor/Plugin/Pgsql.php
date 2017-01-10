@@ -15,11 +15,12 @@ use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 
 /**
-* PgSQL Plugin - Provides access to a PgSQL database.
-* @author       Dan Cryer <dan@block8.co.uk>
-* @package      PHPCI
-* @subpackage   Plugins
-*/
+ * PgSQL Plugin - Provides access to a PgSQL database.
+ * 
+ * @author       Dan Cryer <dan@block8.co.uk>
+ * @package      PHPCI
+ * @subpackage   Plugins
+ */
 class Pgsql extends Plugin
 {
     /**

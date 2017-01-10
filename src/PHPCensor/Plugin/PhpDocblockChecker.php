@@ -16,11 +16,12 @@ use PHPCensor\Plugin;
 use PHPCensor\ZeroConfigPlugin;
 
 /**
-* PHP Docblock Checker Plugin - Checks your PHP files for appropriate uses of Docblocks
-* @author       Dan Cryer <dan@block8.co.uk>
-* @package      PHPCI
-* @subpackage   Plugins
-*/
+ * PHP Docblock Checker Plugin - Checks your PHP files for appropriate uses of Docblocks
+ * 
+ * @author       Dan Cryer <dan@block8.co.uk>
+ * @package      PHPCI
+ * @subpackage   Plugins
+ */
 class PhpDocblockChecker extends Plugin implements ZeroConfigPlugin
 {
     /**

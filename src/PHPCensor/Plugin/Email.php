@@ -21,11 +21,12 @@ use Psr\Log\LogLevel;
 use PHPCensor\Plugin;
 
 /**
-* Email Plugin - Provides simple email capability to PHPCI.
-* @author       Steve Brazier <meadsteve@gmail.com>
-* @package      PHPCI
-* @subpackage   Plugins
-*/
+ * Email Plugin - Provides simple email capability to PHPCI.
+ * 
+ * @author       Steve Brazier <meadsteve@gmail.com>
+ * @package      PHPCI
+ * @subpackage   Plugins
+ */
 class Email extends Plugin
 {
     /**

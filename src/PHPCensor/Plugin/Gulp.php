@@ -14,11 +14,12 @@ use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 
 /**
-* Gulp Plugin - Provides access to gulp functionality.
-* @author       Dirk Heilig <dirk@heilig-online.com>
-* @package      PHPCI
-* @subpackage   Plugins
-*/
+ * Gulp Plugin - Provides access to gulp functionality.
+ * 
+ * @author       Dirk Heilig <dirk@heilig-online.com>
+ * @package      PHPCI
+ * @subpackage   Plugins
+ */
 class Gulp extends Plugin
 {
     protected $directory;

@@ -16,6 +16,7 @@ use PHPCensor\Plugin;
 
 /**
  * Git plugin.
+ * 
  * @author       Dan Cryer <dan@block8.co.uk>
  * @package      PHPCI
  * @subpackage   Plugins

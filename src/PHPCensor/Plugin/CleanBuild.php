@@ -14,12 +14,13 @@ use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 
 /**
-* Clean build removes Composer related files and allows PHPCI users to clean up their build directory.
-* Useful as a precursor to copy_build.
-* @author       Dan Cryer <dan@block8.co.uk>
-* @package      PHPCI
-* @subpackage   Plugins
-*/
+ * Clean build removes Composer related files and allows PHPCI users to clean up their build directory.
+ * Useful as a precursor to copy_build.
+ * 
+ * @author       Dan Cryer <dan@block8.co.uk>
+ * @package      PHPCI
+ * @subpackage   Plugins
+ */
 class CleanBuild extends Plugin
 {
     protected $remove;

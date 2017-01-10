@@ -12,14 +12,16 @@ namespace PHPCensor\Plugin;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
+use PHPCensor\ZeroConfigPlugin;
 
 /**
-* Php Parallel Lint Plugin - Provides access to PHP lint functionality.
-* @author       Vaclav Makes <vaclav@makes.cz>
-* @package      PHPCI
-* @subpackage   Plugins
-*/
-class PhpParallelLint extends Plugin
+ * Php Parallel Lint Plugin - Provides access to PHP lint functionality.
+ * 
+ * @author       Vaclav Makes <vaclav@makes.cz>
+ * @package      PHPCI
+ * @subpackage   Plugins
+ */
+class PhpParallelLint extends Plugin implements ZeroConfigPlugin
 {
     /**
      * @var string
@@ -66,6 +68,24 @@ class PhpParallelLint extends Plugin
                 $this->extensions = str_replace(' ', '', $options['extensions']);
             }
         }
+    }
+
+    /**
+     * Check if this plugin can be executed.
+     *
+     * @param $stage
+     * @param Builder $builder
+     * @param Build   $build
+     *
+     * @return bool
+     */
+    public static function canExecute($stage, Builder $builder, Build $build)
+    {
+        if ($stage == 'test') {
+            return true;
+        }
+
+        return false;
     }
 
     /**

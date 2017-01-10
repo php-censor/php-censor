@@ -16,11 +16,12 @@ use PHPCensor\Plugin;
 use PHPCensor\ZeroConfigPlugin;
 
 /**
-* PHP Mess Detector Plugin - Allows PHP Mess Detector testing.
-* @author       Dan Cryer <dan@block8.co.uk>
-* @package      PHPCI
-* @subpackage   Plugins
-*/
+ * PHP Mess Detector Plugin - Allows PHP Mess Detector testing.
+ * 
+ * @author       Dan Cryer <dan@block8.co.uk>
+ * @package      PHPCI
+ * @subpackage   Plugins
+ */
 class PhpMessDetector extends Plugin implements ZeroConfigPlugin
 {
     /**

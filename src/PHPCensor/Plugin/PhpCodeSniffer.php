@@ -17,11 +17,12 @@ use PHPCensor\Plugin;
 use PHPCensor\ZeroConfigPlugin;
 
 /**
-* PHP Code Sniffer Plugin - Allows PHP Code Sniffer testing.
-* @author       Dan Cryer <dan@block8.co.uk>
-* @package      PHPCI
-* @subpackage   Plugins
-*/
+ * PHP Code Sniffer Plugin - Allows PHP Code Sniffer testing.
+ * 
+ * @author       Dan Cryer <dan@block8.co.uk>
+ * @package      PHPCI
+ * @subpackage   Plugins
+ */
 class PhpCodeSniffer extends Plugin implements ZeroConfigPlugin
 {
     /**
@@ -107,9 +108,11 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPlugin
 
     /**
      * Check if this plugin can be executed.
+     *
      * @param $stage
      * @param Builder $builder
-     * @param Build $build
+     * @param Build   $build
+     *
      * @return bool
      */
     public static function canExecute($stage, Builder $builder, Build $build)

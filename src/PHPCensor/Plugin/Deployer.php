@@ -15,11 +15,12 @@ use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 
 /**
-* Integrates PHPCI with Deployer: https://github.com/rebelinblue/deployer
-* @author       Dan Cryer <dan@block8.co.uk>
-* @package      PHPCI
-* @subpackage   Plugins
-*/
+ * Integrates PHPCI with Deployer: https://github.com/rebelinblue/deployer
+ * 
+ * @author       Dan Cryer <dan@block8.co.uk>
+ * @package      PHPCI
+ * @subpackage   Plugins
+ */
 class Deployer extends Plugin
 {
     protected $webhookUrl;

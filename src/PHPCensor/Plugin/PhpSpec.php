@@ -15,11 +15,12 @@ use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 
 /**
-* PHP Spec Plugin - Allows PHP Spec testing.
-* @author       Dan Cryer <dan@block8.co.uk>
-* @package      PHPCI
-* @subpackage   Plugins
-*/
+ * PHP Spec Plugin - Allows PHP Spec testing.
+ * 
+ * @author       Dan Cryer <dan@block8.co.uk>
+ * @package      PHPCI
+ * @subpackage   Plugins
+ */
 class PhpSpec extends Plugin
 {
     /**

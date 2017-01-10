@@ -15,11 +15,12 @@ use PHPCensor\Helper\Lang;
 use PHPCensor\Plugin;
 
 /**
-* Copy Build Plugin - Copies the entire build to another directory.
-* @author       Dan Cryer <dan@block8.co.uk>
-* @package      PHPCI
-* @subpackage   Plugins
-*/
+ * Copy Build Plugin - Copies the entire build to another directory.
+ * 
+ * @author       Dan Cryer <dan@block8.co.uk>
+ * @package      PHPCI
+ * @subpackage   Plugins
+ */
 class CopyBuild extends Plugin
 {
     protected $directory;
