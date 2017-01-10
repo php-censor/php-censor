@@ -32,14 +32,23 @@ class PhpParallelLint extends Plugin
     protected $ignore;
 
     /**
-     * {@inheritdoc}
+     * @var string - comma separated list of file extensions
+     */
+    protected $extensions;
+
+    /**
+     * $options['directory']  Output Directory. Default: %BUILDPATH%
+     * $options['filename']   Phar Filename. Default: build.phar
+     * $options['extensions'] Filename extensions. Default: php
+     * $options['stub']       Stub Content. No Default Value
      */
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
         parent::__construct($builder, $build, $options);
 
-        $this->directory = $this->builder->buildPath;
-        $this->ignore = $this->builder->ignore;
+        $this->directory  = $this->builder->buildPath;
+        $this->ignore     = $this->builder->ignore;
+        $this->extensions = 'php';
 
         if (isset($options['directory'])) {
             $this->directory = $this->builder->buildPath.$options['directory'];
@@ -47,6 +56,10 @@ class PhpParallelLint extends Plugin
 
         if (isset($options['ignore'])) {
             $this->ignore = $options['ignore'];
+        }
+
+        if (isset($options['extensions'])) {
+            $this->extensions = $options['extensions'];
         }
     }
 
@@ -59,9 +72,10 @@ class PhpParallelLint extends Plugin
 
         $phplint = $this->builder->findBinary('parallel-lint');
 
-        $cmd = $phplint . ' %s "%s"';
+        $cmd     = $phplint . ' -e %s' . ' %s "%s"';
         $success = $this->builder->executeCommand(
             $cmd,
+            $this->extensions,
             $ignore,
             $this->directory
         );
