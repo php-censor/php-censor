@@ -12,8 +12,9 @@ namespace Tests\PHPCensor\Helper;
 
 use DateTime;
 use PHPCensor\Helper\Lang;
+use Tests\PHPCensor\LocalizationTestCase;
 
-class LangTest extends \PHPUnit_Framework_TestCase
+class LangTest extends LocalizationTestCase
 {
     public function testLang_UsePassedParameters()
     {
@@ -32,4 +33,34 @@ class LangTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('<time datetime="ISODATE" data-format="lll">RFCDATE</time>', Lang::formatDateTime($dateTime->reveal()));
     }
+
+    /**
+     * @return array
+     */
+    public function localizationsProvider()
+    {
+        $directory = SRC_DIR . 'Languages' . DIRECTORY_SEPARATOR;
+        $languages = [];
+        foreach(glob($directory . '*') as $file) {
+            $language    = include($file);
+            $languages[$file] = [
+                $language
+            ];
+        }
+
+        return $languages;
+    }
+
+    /**
+     * @dataProvider localizationsProvider
+     */
+    /*public function testLocalizations(array $strings)
+    {
+        $directory = SRC_DIR . 'Languages' . DIRECTORY_SEPARATOR;
+        $en        = include($directory . 'lang.en.php');
+
+        foreach ($en as $enIndex => $enString) {
+            $this->assertArrayHasKey($enIndex, $strings);
+        }
+    }*/
 }
