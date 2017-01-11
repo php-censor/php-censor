@@ -33,6 +33,14 @@ class HipchatNotify extends Plugin
     protected $room;
 
     /**
+     * @return string
+     */
+    public static function pluginName()
+    {
+        return 'hipchat_notify';
+    }
+    
+    /**
      * {@inheritdoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])

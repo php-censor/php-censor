@@ -42,6 +42,14 @@ class Codeception extends Plugin implements ZeroConfigPlugin
     protected $path;
 
     /**
+     * @return string
+     */
+    public static function pluginName()
+    {
+        return 'codeception';
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])

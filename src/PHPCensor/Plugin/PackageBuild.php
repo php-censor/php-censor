@@ -27,6 +27,14 @@ class PackageBuild extends Plugin
     protected $format;
 
     /**
+     * @return string
+     */
+    public static function pluginName()
+    {
+        return 'package_build';
+    }
+    
+    /**
      * {@inheritdoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])

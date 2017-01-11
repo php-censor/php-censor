@@ -30,6 +30,14 @@ use PHPCensor\Plugin;
 class Email extends Plugin
 {
     /**
+     * @return string
+     */
+    public static function pluginName()
+    {
+        return 'email';
+    }
+
+    /**
      * Send a notification mail.
      * 
      * @return boolean

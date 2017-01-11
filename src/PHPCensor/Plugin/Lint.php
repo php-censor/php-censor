@@ -28,6 +28,14 @@ class Lint extends Plugin
     protected $ignore;
 
     /**
+     * @return string
+     */
+    public static function pluginName()
+    {
+        return 'lint';
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])

@@ -23,13 +23,20 @@ use PHPCensor\Plugin;
  */
 class Phing extends Plugin
 {
-
     protected $directory;
     protected $buildFile  = 'build.xml';
     protected $targets    = ['build'];
     protected $properties = [];
     protected $propertyFile;
 
+    /**
+     * @return string
+     */
+    public static function pluginName()
+    {
+        return 'phing';
+    }
+    
     /**
      * {@inheritdoc}
      */

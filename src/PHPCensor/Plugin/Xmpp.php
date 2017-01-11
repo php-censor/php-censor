@@ -60,6 +60,14 @@ class XMPP extends Plugin
     protected $date_format;
 
     /**
+     * @return string
+     */
+    public static function pluginName()
+    {
+        return 'xmpp';
+    }
+    
+    /**
      * {@inheritdoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])

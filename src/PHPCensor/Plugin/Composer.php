@@ -32,6 +32,14 @@ class Composer extends Plugin implements ZeroConfigPlugin
     protected $preferSource;
 
     /**
+     * @return string
+     */
+    public static function pluginName()
+    {
+        return 'composer';
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])

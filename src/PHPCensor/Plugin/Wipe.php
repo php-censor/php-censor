@@ -25,6 +25,14 @@ class Wipe extends Plugin
     protected $directory;
 
     /**
+     * @return string
+     */
+    public static function pluginName()
+    {
+        return 'wipe';
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])

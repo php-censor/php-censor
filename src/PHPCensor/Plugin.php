@@ -67,4 +67,12 @@ abstract class Plugin
      * @return boolean
      */
     abstract public function execute();
+
+    /**
+     * @return string
+     */
+    public static function pluginName()
+    {
+        return '';
+    }
 }

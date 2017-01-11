@@ -28,6 +28,14 @@ class CopyBuild extends Plugin
     protected $wipe;
 
     /**
+     * @return string
+     */
+    public static function pluginName()
+    {
+        return 'copy_build';
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])

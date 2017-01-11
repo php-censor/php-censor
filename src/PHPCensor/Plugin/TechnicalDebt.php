@@ -56,6 +56,14 @@ class TechnicalDebt extends Plugin implements ZeroConfigPlugin
     protected $searches;
 
     /**
+     * @return string
+     */
+    public static function pluginName()
+    {
+        return 'technical_debt';
+    }
+    
+    /**
      * {@inheritdoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])

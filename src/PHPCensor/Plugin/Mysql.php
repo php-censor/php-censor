@@ -42,6 +42,14 @@ class Mysql extends Plugin
     protected $pass;
 
     /**
+     * @return string
+     */
+    public static function pluginName()
+    {
+        return 'mysql';
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])

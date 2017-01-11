@@ -9,7 +9,6 @@
 
 namespace PHPCensor\Logging;
 
-use Monolog\ErrorHandler;
 use Monolog\Logger;
 
 /**
@@ -68,7 +67,7 @@ class LoggerConfig
         }
 
         $logger = new Logger($name, $handlers);
-        ErrorHandler::register($logger);
+        Handler::register($logger);
         $this->cache[$name] = $logger;
 
         return $logger;

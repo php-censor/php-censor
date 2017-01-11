@@ -32,6 +32,14 @@ class SlackNotify extends Plugin
     private $show_status;
 
     /**
+     * @return string
+     */
+    public static function pluginName()
+    {
+        return 'slack_notify';
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])

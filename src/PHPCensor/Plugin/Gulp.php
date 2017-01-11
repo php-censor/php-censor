@@ -29,6 +29,14 @@ class Gulp extends Plugin
     protected $gulpfile;
 
     /**
+     * @return string
+     */
+    public static function pluginName()
+    {
+        return 'gulp';
+    }
+    
+    /**
      * {@inheritdoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])

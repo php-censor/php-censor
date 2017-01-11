@@ -24,6 +24,14 @@ use PHPCensor\Plugin;
 class PhpSpec extends Plugin
 {
     /**
+     * @return string
+     */
+    public static function pluginName()
+    {
+        return 'php_spec';
+    }
+
+    /**
     * Runs PHP Spec tests.
     */
     public function execute()

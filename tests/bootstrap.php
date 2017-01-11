@@ -39,8 +39,6 @@ if (!defined('IS_WIN')) {
 
 require_once(ROOT_DIR . 'vendor/autoload.php');
 
-\PHPCensor\ErrorHandler::register();
-
 if (defined('IS_CONSOLE') && IS_CONSOLE) {
     $loggerConfig = LoggerConfig::newFromFile(APP_DIR . "loggerconfig.php");
 }

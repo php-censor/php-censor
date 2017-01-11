@@ -30,6 +30,14 @@ class Irc extends Plugin
     protected $nick;
 
     /**
+     * @return string
+     */
+    public static function pluginName()
+    {
+        return 'irc';
+    }
+    
+    /**
      * {@inheritdoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])

@@ -26,6 +26,14 @@ class CleanBuild extends Plugin
     protected $remove;
 
     /**
+     * @return string
+     */
+    public static function pluginName()
+    {
+        return 'clean_build';
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])

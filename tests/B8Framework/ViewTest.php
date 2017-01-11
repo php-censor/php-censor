@@ -90,7 +90,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             $view->tmp  = $tmp;
             $this->assertTrue($view->render() == 'Hello ');
         } catch (\Exception $e) {
-            self::assertInstanceOf('\ErrorException', $e);
+            self::assertInstanceOf('\PHPUnit_Framework_Error_Notice', $e);
         }
 
         $view      = new Template('Hello {@who.toUpperCase}');

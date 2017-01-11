@@ -39,6 +39,14 @@ class Phar extends Plugin
     protected $stub;
 
     /**
+     * @return string
+     */
+    public static function pluginName()
+    {
+        return 'phar';
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])

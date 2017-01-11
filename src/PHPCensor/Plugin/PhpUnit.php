@@ -33,6 +33,14 @@ class PhpUnit extends Plugin implements ZeroConfigPlugin
     protected $options = array();
 
     /**
+     * @return string
+     */
+    public static function pluginName()
+    {
+        return 'php_unit';
+    }
+    
+    /**
      * Standard Constructor
      * $options['config']    Path to a PHPUnit XML configuration file.
      * $options['run_from']  The directory where the phpunit command will run from when using 'config'.

@@ -29,6 +29,14 @@ class Grunt extends Plugin
     protected $gruntfile;
 
     /**
+     * @return string
+     */
+    public static function pluginName()
+    {
+        return 'grunt';
+    }
+    
+    /**
      * {@inheritdoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])

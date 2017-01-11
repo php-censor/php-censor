@@ -231,7 +231,7 @@ class Builder implements LoggerAwareInterface
             }
         } catch (\Exception $ex) {
             $this->build->setStatus(Build::STATUS_FAILED);
-            $this->buildLogger->logFailure(Lang::get('exception') . $ex->getMessage());
+            $this->buildLogger->logFailure(Lang::get('exception') . $ex->getMessage(), $ex);
         }
 
         if (Build::STATUS_FAILED === $this->build->getStatus()) {

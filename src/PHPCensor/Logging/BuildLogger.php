@@ -89,6 +89,7 @@ class BuildLogger implements LoggerAwareInterface
         // as the exception key in the context array.
         if ($exception) {
             $context['exception'] = $exception;
+            $context['trace']     = $exception->getTrace();
         }
     
         $this->log("\033[0;31m" . $message . "\033[0m", LogLevel::ERROR, $context);

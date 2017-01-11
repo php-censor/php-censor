@@ -72,6 +72,14 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPlugin
     protected $ignore;
 
     /**
+     * @return string
+     */
+    public static function pluginName()
+    {
+        return 'php_code_sniffer';
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])

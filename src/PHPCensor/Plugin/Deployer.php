@@ -28,6 +28,14 @@ class Deployer extends Plugin
     protected $updateOnly;
 
     /**
+     * @return string
+     */
+    public static function pluginName()
+    {
+        return 'deployer';
+    }
+    
+    /**
      * {@inheritdoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])

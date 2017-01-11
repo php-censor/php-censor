@@ -29,6 +29,14 @@ class PhpCsFixer extends Plugin
     protected $levels     = ['psr0', 'psr1', 'psr2', 'symfony'];
 
     /**
+     * @return string
+     */
+    public static function pluginName()
+    {
+        return 'php_cs_fixer';
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])

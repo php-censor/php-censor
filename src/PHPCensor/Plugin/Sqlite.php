@@ -34,6 +34,14 @@ class Sqlite extends Plugin
     protected $path;
 
     /**
+     * @return string
+     */
+    public static function pluginName()
+    {
+        return 'sqlite';
+    }
+    
+    /**
      * {@inheritdoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])

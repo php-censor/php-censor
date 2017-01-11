@@ -26,6 +26,14 @@ class Env extends Plugin
     protected $env_vars;
 
     /**
+     * @return string
+     */
+    public static function pluginName()
+    {
+        return 'env';
+    }
+    
+    /**
     * Adds the specified environment variables to the builder environment
     */
     public function execute()

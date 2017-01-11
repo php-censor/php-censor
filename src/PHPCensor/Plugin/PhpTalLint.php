@@ -29,6 +29,14 @@ class PhpTalLint extends Plugin
     protected $ignore;
 
     /**
+     * @return string
+     */
+    public static function pluginName()
+    {
+        return 'php_tal_lint';
+    }
+
+    /**
      * @var string The path to a file contain custom phptal_tales_ functions
      */
     protected $tales;

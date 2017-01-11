@@ -51,6 +51,14 @@ class Pdepend extends Plugin
     protected $location;
 
     /**
+     * @return string
+     */
+    public static function pluginName()
+    {
+        return 'pdepend';
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])

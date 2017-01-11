@@ -33,6 +33,14 @@ class Campfire extends Plugin
     protected $message;
 
     /**
+     * @return string
+     */
+    public static function pluginName()
+    {
+        return 'campfire';
+    }
+    
+    /**
      * {@inheritdoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])

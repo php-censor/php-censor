@@ -27,6 +27,14 @@ class Atoum extends Plugin
     protected $directory;
 
     /**
+     * @return string
+     */
+    public static function pluginName()
+    {
+        return 'atoum';
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])

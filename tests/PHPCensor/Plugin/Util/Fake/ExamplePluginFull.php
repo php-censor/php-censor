@@ -18,11 +18,19 @@ class ExamplePluginFull extends Plugin {
     /**
      * @var array
      */
-    public $Options;
+    public $options;
+
+    /**
+     * @return string
+     */
+    public static function pluginName()
+    {
+        return 'example_plugin_full';
+    }
 
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
-        $this->Options = $options;
+        $this->options = $options;
     }
 
     public function execute()

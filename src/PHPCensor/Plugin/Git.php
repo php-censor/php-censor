@@ -26,6 +26,14 @@ class Git extends Plugin
     protected $actions = [];
 
     /**
+     * @return string
+     */
+    public static function pluginName()
+    {
+        return 'git';
+    }
+    
+    /**
      * Run the Git plugin.
      * @return bool
      */

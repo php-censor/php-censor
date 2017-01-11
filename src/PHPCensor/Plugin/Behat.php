@@ -28,6 +28,14 @@ class Behat extends Plugin
     protected $executable;
 
     /**
+     * @return string
+     */
+    public static function pluginName()
+    {
+        return 'behat';
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])

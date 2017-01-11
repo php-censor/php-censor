@@ -39,6 +39,14 @@ class Pgsql extends Plugin
     protected $pass;
 
     /**
+     * @return string
+     */
+    public static function pluginName()
+    {
+        return 'pgsql';
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])

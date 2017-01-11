@@ -39,6 +39,14 @@ class PhpParallelLint extends Plugin implements ZeroConfigPlugin
     protected $extensions;
 
     /**
+     * @return string
+     */
+    public static function pluginName()
+    {
+        return 'php_parallel_lint';
+    }
+
+    /**
      * $options['directory']  Output Directory. Default: %BUILDPATH%
      * $options['filename']   Phar Filename. Default: build.phar
      * $options['extensions'] Filename extensions. Default: php

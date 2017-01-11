@@ -31,6 +31,14 @@ class FlowdockNotify extends Plugin
                             (%COMMIT_EMAIL%)> on branch <a href="%BRANCH_URI%">%BRANCH%</a>';
 
     /**
+     * @return string
+     */
+    public static function pluginName()
+    {
+        return 'flowdock_notify';
+    }
+    
+    /**
      * {@inheritdoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])

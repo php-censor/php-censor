@@ -110,8 +110,11 @@ class Build extends BuildBase
             }
         }
 
-        $yamlParser = new YamlParser();
-        $build_config = $yamlParser->parse($build_config);
+        // for YAML configs from files/DB
+        if (is_string($build_config)) {
+            $yamlParser   = new YamlParser();
+            $build_config = $yamlParser->parse($build_config);
+        }
 
         $builder->setConfigArray($build_config);
 
@@ -159,7 +162,7 @@ class Build extends BuildBase
 
             foreach (['setup', 'test', 'complete', 'success', 'failure'] as $stage) {
                 if ($className::canExecute($stage, $builder, $this)) {
-                    $config[$stage][$className] = [
+                    $config[$stage][$className::pluginName()] = [
                         'zero_config' => true
                     ];
                 }

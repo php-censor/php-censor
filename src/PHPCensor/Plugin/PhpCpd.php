@@ -40,6 +40,14 @@ class PhpCpd extends Plugin implements ZeroConfigPlugin
     protected $ignore;
 
     /**
+     * @return string
+     */
+    public static function pluginName()
+    {
+        return 'php_cpd';
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])

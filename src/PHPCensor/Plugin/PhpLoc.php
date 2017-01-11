@@ -30,6 +30,14 @@ class PhpLoc extends Plugin implements ZeroConfigPlugin
     protected $directory;
 
     /**
+     * @return string
+     */
+    public static function pluginName()
+    {
+        return 'php_loc';
+    }
+    
+    /**
      * Check if this plugin can be executed.
      * @param $stage
      * @param Builder $builder

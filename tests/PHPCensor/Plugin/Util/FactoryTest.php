@@ -129,8 +129,8 @@ class FactoryTest extends \PHPUnit_Framework_TestCase {
             $expectedArgs
         );
 
-        $this->assertInternalType('array', $plugin->Options);
-        $this->assertArrayHasKey('thing', $plugin->Options);
+        $this->assertInternalType('array', $plugin->options);
+        $this->assertArrayHasKey('thing', $plugin->options);
     }
 
     public function testAddConfigFromFile_ReturnsTrueForValidFile()

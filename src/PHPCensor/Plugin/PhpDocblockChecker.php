@@ -40,6 +40,14 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPlugin
     protected $allowed_warnings;
 
     /**
+     * @return string
+     */
+    public static function pluginName()
+    {
+        return 'php_docblock_checker';
+    }
+    
+    /**
      * {@inheritdoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])

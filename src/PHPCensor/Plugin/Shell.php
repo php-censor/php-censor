@@ -30,6 +30,14 @@ class Shell extends Plugin
     protected $commands = [];
 
     /**
+     * @return string
+     */
+    public static function pluginName()
+    {
+        return 'shell';
+    }
+    
+    /**
      * {@inheritdoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])
