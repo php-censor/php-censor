@@ -567,3 +567,7 @@ h6,
 .visible-line-breaks {
     white-space: pre-wrap;
 }
+
+.btn-group-right {
+    float: right;
+}

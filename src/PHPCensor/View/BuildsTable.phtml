@@ -71,17 +71,26 @@ switch($build->getStatus())
         <span class='label label-<?php echo $subcls ?>'><?php echo $status ?></span>
     </td>
     <td>
-        <div class="btn-group">
+        <div class="btn-group btn-group-right">
             <a class="btn btn-default btn-sm" href="<?php echo APP_URL ?>build/view/<?php print $build->getId(); ?>"><?php Lang::out('view'); ?></a>
             <?php if($this->User()->getIsAdmin()): ?>
             <button class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu">
-                <li><a href="<?php echo APP_URL ?>build/delete/<?php print $build->getId(); ?>" class="app-delete-build"><?php Lang::out('delete_build'); ?></a></li>
+                <li><a href="<?php echo APP_URL ?>build/delete/<?php print $build->getId(); ?>" class="delete-build"><?php Lang::out('delete_build'); ?></a></li>
             </ul>
             <?php endif; ?>
         </div>
     </td>
 </tr>
 <?php endforeach; ?>
+
+<script>
+    $(document).ready(function() {
+        $('.delete-build').on('click', function (e) {
+            e.preventDefault();
+            confirmDelete(e.target.href, "Build").onCloseConfirmed = function () {window.location = window.location.href};
+        });
+    });
+</script>

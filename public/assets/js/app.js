@@ -188,7 +188,7 @@ function confirmDelete(url, subject, reloadAfter) {
                         };
                     }
 
-                    dialog.showStatusMessage('Successfully deleted!', 1000);
+                    dialog.showStatusMessage('Successfully deleted!', 500);
                 },
                 error: function (data) {
                     dialog.showStatusMessage('Deletion failed! Server says "' + data.statusText + '"');
