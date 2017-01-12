@@ -58,7 +58,8 @@ class GroupController extends Controller
             $groups[] = $thisGroup;
         }
 
-        $this->view->groups = $groups;
+        $this->layout->title = Lang::get('group_projects');
+        $this->view->groups  = $groups;
     }
 
     /**

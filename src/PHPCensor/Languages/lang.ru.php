@@ -153,7 +153,8 @@ PHP Censor',
                                   Services</a> вашего Bitbucket репозитория.',
 
     // Project Groups
-    'group_projects' => 'Проекты',
+    'group_projects' => 'Группы проектов',
+    'group_count'    => 'Количество проектов',
     'group_edit'     => 'Редактировать',
     'group_delete'   => 'Удалить',
     'group_add'      => 'Добавить группу',

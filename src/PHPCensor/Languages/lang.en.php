@@ -159,7 +159,8 @@ PHP Censor',
                                 Services</a> section of your Bitbucket repository.',
 
     // Project Groups
-    'group_projects' => 'Projects',
+    'group_projects' => 'Project Groups',
+    'group_count'    => 'Projects Count',
     'group_edit'     => 'Edit',
     'group_delete'   => 'Delete',
     'group_add'      => 'Add Group',
