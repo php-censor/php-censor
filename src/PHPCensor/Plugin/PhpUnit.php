@@ -17,7 +17,7 @@ use PHPCensor\Model\BuildError;
 use PHPCensor\Plugin\Option\PhpUnitOptions;
 use PHPCensor\Plugin\Util\PhpUnitResult;
 use PHPCensor\Plugin;
-use PHPCensor\ZeroConfigPlugin;
+use PHPCensor\ZeroConfigPluginInterface;
 
 /**
  * PHP Unit Plugin - A rewrite of the original PHP Unit plugin
@@ -27,7 +27,7 @@ use PHPCensor\ZeroConfigPlugin;
  * @package      PHPCI
  * @subpackage   Plugins
  */
-class PhpUnit extends Plugin implements ZeroConfigPlugin
+class PhpUnit extends Plugin implements ZeroConfigPluginInterface
 {
     /** @var string[] Raw options from the PHPCI config file */
     protected $options = array();

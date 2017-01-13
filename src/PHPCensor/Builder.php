@@ -89,7 +89,7 @@ class Builder implements LoggerAwareInterface
     protected $pluginExecutor;
 
     /**
-     * @var Helper\CommandExecutor
+     * @var Helper\CommandExecutorInterface
      */
     protected $commandExecutor;
 

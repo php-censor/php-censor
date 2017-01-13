@@ -13,9 +13,9 @@ class Submit extends Button
         return parent::render(($viewFile ? $viewFile : 'Button'));
     }
 
-    protected function _onPreRender(View &$view)
+    protected function onPreRender(View &$view)
     {
-        parent::_onPreRender($view);
+        parent::onPreRender($view);
         $view->type = 'submit';
     }
 }

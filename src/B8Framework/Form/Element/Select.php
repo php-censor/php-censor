@@ -13,9 +13,9 @@ class Select extends Input
         $this->_options = $options;
     }
 
-    protected function _onPreRender(View &$view)
+    protected function onPreRender(View &$view)
     {
-        parent::_onPreRender($view);
+        parent::onPreRender($view);
         $view->options = $this->_options;
     }
 }

@@ -35,7 +35,6 @@ class WindowsProcessControl implements ProcessControlInterface
      */
     public function kill($pid, $forcefully = false)
     {
-        $output = [];
         $result = 1;
 
         exec(sprintf("taskkill /t /pid %d %s 2>nul:", $pid, $forcefully ? '/f' : ''));

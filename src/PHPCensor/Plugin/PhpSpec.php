@@ -10,8 +10,6 @@
 namespace PHPCensor\Plugin;
 
 use PHPCensor;
-use PHPCensor\Builder;
-use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 
 /**

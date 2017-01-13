@@ -353,8 +353,8 @@ class ProjectBase extends Model
     */
     public function setId($value)
     {
-        $this->_validateNotNull('Id', $value);
-        $this->_validateInt('Id', $value);
+        $this->validateNotNull('Id', $value);
+        $this->validateInt('Id', $value);
 
         if ($this->data['id'] === $value) {
             return;
@@ -362,7 +362,7 @@ class ProjectBase extends Model
 
         $this->data['id'] = $value;
 
-        $this->_setModified('id');
+        $this->setModified('id');
     }
 
     /**
@@ -373,8 +373,8 @@ class ProjectBase extends Model
     */
     public function setTitle($value)
     {
-        $this->_validateNotNull('Title', $value);
-        $this->_validateString('Title', $value);
+        $this->validateNotNull('Title', $value);
+        $this->validateString('Title', $value);
 
         if ($this->data['title'] === $value) {
             return;
@@ -382,7 +382,7 @@ class ProjectBase extends Model
 
         $this->data['title'] = $value;
 
-        $this->_setModified('title');
+        $this->setModified('title');
     }
 
     /**
@@ -393,8 +393,8 @@ class ProjectBase extends Model
     */
     public function setReference($value)
     {
-        $this->_validateNotNull('Reference', $value);
-        $this->_validateString('Reference', $value);
+        $this->validateNotNull('Reference', $value);
+        $this->validateString('Reference', $value);
 
         if ($this->data['reference'] === $value) {
             return;
@@ -402,7 +402,7 @@ class ProjectBase extends Model
 
         $this->data['reference'] = $value;
 
-        $this->_setModified('reference');
+        $this->setModified('reference');
     }
 
     /**
@@ -413,8 +413,8 @@ class ProjectBase extends Model
     */
     public function setBranch($value)
     {
-        $this->_validateNotNull('Branch', $value);
-        $this->_validateString('Branch', $value);
+        $this->validateNotNull('Branch', $value);
+        $this->validateString('Branch', $value);
 
         if ($this->data['branch'] === $value) {
             return;
@@ -422,7 +422,7 @@ class ProjectBase extends Model
 
         $this->data['branch'] = $value;
 
-        $this->_setModified('branch');
+        $this->setModified('branch');
     }
 
     /**
@@ -432,7 +432,7 @@ class ProjectBase extends Model
     */
     public function setSshPrivateKey($value)
     {
-        $this->_validateString('SshPrivateKey', $value);
+        $this->validateString('SshPrivateKey', $value);
 
         if ($this->data['ssh_private_key'] === $value) {
             return;
@@ -440,7 +440,7 @@ class ProjectBase extends Model
 
         $this->data['ssh_private_key'] = $value;
 
-        $this->_setModified('ssh_private_key');
+        $this->setModified('ssh_private_key');
     }
 
     /**
@@ -451,8 +451,8 @@ class ProjectBase extends Model
     */
     public function setType($value)
     {
-        $this->_validateNotNull('Type', $value);
-        $this->_validateString('Type', $value);
+        $this->validateNotNull('Type', $value);
+        $this->validateString('Type', $value);
 
         if ($this->data['type'] === $value) {
             return;
@@ -460,7 +460,7 @@ class ProjectBase extends Model
 
         $this->data['type'] = $value;
 
-        $this->_setModified('type');
+        $this->setModified('type');
     }
 
     /**
@@ -470,7 +470,7 @@ class ProjectBase extends Model
     */
     public function setAccessInformation($value)
     {
-        $this->_validateString('AccessInformation', $value);
+        $this->validateString('AccessInformation', $value);
 
         if ($this->data['access_information'] === $value) {
             return;
@@ -478,7 +478,7 @@ class ProjectBase extends Model
 
         $this->data['access_information'] = $value;
 
-        $this->_setModified('access_information');
+        $this->setModified('access_information');
     }
 
     /**
@@ -488,7 +488,7 @@ class ProjectBase extends Model
     */
     public function setLastCommit($value)
     {
-        $this->_validateString('LastCommit', $value);
+        $this->validateString('LastCommit', $value);
 
         if ($this->data['last_commit'] === $value) {
             return;
@@ -496,7 +496,7 @@ class ProjectBase extends Model
 
         $this->data['last_commit'] = $value;
 
-        $this->_setModified('last_commit');
+        $this->setModified('last_commit');
     }
 
     /**
@@ -506,7 +506,7 @@ class ProjectBase extends Model
     */
     public function setBuildConfig($value)
     {
-        $this->_validateString('BuildConfig', $value);
+        $this->validateString('BuildConfig', $value);
 
         if ($this->data['build_config'] === $value) {
             return;
@@ -514,7 +514,7 @@ class ProjectBase extends Model
 
         $this->data['build_config'] = $value;
 
-        $this->_setModified('build_config');
+        $this->setModified('build_config');
     }
 
     /**
@@ -524,7 +524,7 @@ class ProjectBase extends Model
     */
     public function setSshPublicKey($value)
     {
-        $this->_validateString('SshPublicKey', $value);
+        $this->validateString('SshPublicKey', $value);
 
         if ($this->data['ssh_public_key'] === $value) {
             return;
@@ -532,7 +532,7 @@ class ProjectBase extends Model
 
         $this->data['ssh_public_key'] = $value;
 
-        $this->_setModified('ssh_public_key');
+        $this->setModified('ssh_public_key');
     }
 
     /**
@@ -543,8 +543,8 @@ class ProjectBase extends Model
     */
     public function setAllowPublicStatus($value)
     {
-        $this->_validateNotNull('AllowPublicStatus', $value);
-        $this->_validateInt('AllowPublicStatus', $value);
+        $this->validateNotNull('AllowPublicStatus', $value);
+        $this->validateInt('AllowPublicStatus', $value);
 
         if ($this->data['allow_public_status'] === $value) {
             return;
@@ -552,7 +552,7 @@ class ProjectBase extends Model
 
         $this->data['allow_public_status'] = $value;
 
-        $this->_setModified('allow_public_status');
+        $this->setModified('allow_public_status');
     }
 
     /**
@@ -563,8 +563,8 @@ class ProjectBase extends Model
     */
     public function setArchived($value)
     {
-        $this->_validateNotNull('Archived', $value);
-        $this->_validateInt('Archived', $value);
+        $this->validateNotNull('Archived', $value);
+        $this->validateInt('Archived', $value);
 
         if ($this->data['archived'] === $value) {
             return;
@@ -572,7 +572,7 @@ class ProjectBase extends Model
 
         $this->data['archived'] = $value;
 
-        $this->_setModified('archived');
+        $this->setModified('archived');
     }
 
     /**
@@ -583,8 +583,8 @@ class ProjectBase extends Model
     */
     public function setGroupId($value)
     {
-        $this->_validateNotNull('GroupId', $value);
-        $this->_validateInt('GroupId', $value);
+        $this->validateNotNull('GroupId', $value);
+        $this->validateInt('GroupId', $value);
 
         if ($this->data['group_id'] === $value) {
             return;
@@ -592,7 +592,7 @@ class ProjectBase extends Model
 
         $this->data['group_id'] = $value;
 
-        $this->_setModified('group_id');
+        $this->setModified('group_id');
     }
 
     /**

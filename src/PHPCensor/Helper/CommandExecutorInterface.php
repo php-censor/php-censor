@@ -9,7 +9,7 @@
 
 namespace PHPCensor\Helper;
 
-interface CommandExecutor
+interface CommandExecutorInterface
 {
     /**
      * Executes shell commands. Accepts multiple arguments the first

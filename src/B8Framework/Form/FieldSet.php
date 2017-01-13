@@ -70,7 +70,7 @@ class FieldSet extends Element
         return $rtn;
     }
 
-    protected function _onPreRender(View &$view)
+    protected function onPreRender(View &$view)
     {
         $rendered = [];
         foreach ($this->_children as $child) {

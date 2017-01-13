@@ -13,7 +13,7 @@ use PHPCensor;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
-use PHPCensor\ZeroConfigPlugin;
+use PHPCensor\ZeroConfigPluginInterface;
 
 /**
  * PHP Loc - Allows PHP Copy / Lines of Code testing.
@@ -22,7 +22,7 @@ use PHPCensor\ZeroConfigPlugin;
  * @package      PHPCI
  * @subpackage   Plugins
  */
-class PhpLoc extends Plugin implements ZeroConfigPlugin
+class PhpLoc extends Plugin implements ZeroConfigPluginInterface
 {
     /**
      * @var string

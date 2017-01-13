@@ -13,7 +13,7 @@ use PHPCensor;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
-use PHPCensor\ZeroConfigPlugin;
+use PHPCensor\ZeroConfigPluginInterface;
 
 /**
  * Composer Plugin - Provides access to Composer functionality.
@@ -22,7 +22,7 @@ use PHPCensor\ZeroConfigPlugin;
  * @package      PHPCI
  * @subpackage   Plugins
  */
-class Composer extends Plugin implements ZeroConfigPlugin
+class Composer extends Plugin implements ZeroConfigPluginInterface
 {
     protected $directory;
     protected $action;

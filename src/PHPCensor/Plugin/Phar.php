@@ -2,7 +2,6 @@
 
 namespace PHPCensor\Plugin;
 
-use Exception;
 use PHPCensor\Builder;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Model\Build;
@@ -204,7 +203,7 @@ class Phar extends Plugin
             }
 
             $success = true;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->builder->log(Lang::get('phar_internal_error'));
             $this->builder->log($e->getMessage());
         }

@@ -64,7 +64,7 @@ class HttpClient
         $res['headers'] = $http_response_header;
         $res['code']    = (int)preg_replace('/HTTP\/1\.[0-1] ([0-9]+)/', '$1', $res['headers'][0]);
         $res['success'] = false;
-        $res['body']    = $this->_decodeResponse($result);
+        $res['body']    = $this->decodeResponse($result);
 
         if ($res['code'] >= 200 && $res['code'] < 300) {
             $res['success'] = true;
@@ -103,13 +103,13 @@ class HttpClient
         return $this->request('DELETE', $uri, $params);
     }
 
-    protected function _decodeResponse($originalResponse)
+    protected function decodeResponse($originalResponse)
     {
         $response = $originalResponse;
         $body = '';
 
         do {
-            $line = $this->_readChunk($response);
+            $line = $this->readChunk($response);
 
             if ($line == PHP_EOL) {
                 continue;
@@ -122,7 +122,7 @@ class HttpClient
             }
 
             do {
-                $data = $this->_readChunk($response, $length);
+                $data = $this->readChunk($response, $length);
 
                 // remove the amount received from the total length on the next loop
                 // it'll attempt to read that much less data
@@ -145,7 +145,7 @@ class HttpClient
         return $body;
     }
 
-    protected function _readChunk(&$string, $len = 4096)
+    protected function readChunk(&$string, $len = 4096)
     {
         $rtn = '';
         for ($i = 0; $i <= $len; $i++) {

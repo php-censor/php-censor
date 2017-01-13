@@ -39,13 +39,13 @@ class Model
 
         $rtn = [];
         foreach ($sleepable as $property) {
-            $rtn[$property] = $this->_propertyToArray($property, $currentDepth, $depth);
+            $rtn[$property] = $this->propertyToArray($property, $currentDepth, $depth);
         }
 
         return $rtn;
     }
 
-    protected function _propertyToArray($property, $currentDepth, $depth)
+    protected function propertyToArray($property, $currentDepth, $depth)
     {
         $rtn = null;
 
@@ -54,14 +54,14 @@ class Model
             $rtn = $this->{$method}();
 
             if (is_object($rtn) || is_array($rtn)) {
-                $rtn = ($depth > $currentDepth) ? $this->_valueToArray($rtn, $currentDepth, $depth) : null;
+                $rtn = ($depth > $currentDepth) ? $this->valueToArray($rtn, $currentDepth, $depth) : null;
             }
         }
 
         return $rtn;
     }
 
-    protected function _valueToArray($value, $currentDepth, $depth)
+    protected function valueToArray($value, $currentDepth, $depth)
     {
         $rtn = null;
         if (!is_null($value)) {
@@ -71,7 +71,7 @@ class Model
                 $childArray = [];
 
                 foreach ($value as $k => $v) {
-                    $childArray[$k] = $this->_valueToArray($v, $currentDepth + 1, $depth);
+                    $childArray[$k] = $this->valueToArray($v, $currentDepth + 1, $depth);
                 }
 
                 $rtn = $childArray;
@@ -113,19 +113,19 @@ class Model
         }
     }
 
-    protected function _setModified($column)
+    protected function setModified($column)
     {
         $this->modified[$column] = $column;
     }
 
-    protected function _validateString($name, $value)
+    protected function validateString($name, $value)
     {
         if (!is_string($value) && !is_null($value)) {
             throw new HttpException\ValidationException($name . ' must be a string.');
         }
     }
 
-    protected function _validateInt($name, &$value)
+    protected function validateInt($name, &$value)
     {
         if (is_bool($value)) {
             $value = $value ? 1 : 0;
@@ -140,7 +140,7 @@ class Model
         }
     }
 
-    protected function _validateFloat($name, &$value)
+    protected function validateFloat($name, &$value)
     {
         if (!is_numeric($value) && !is_null($value)) {
             throw new HttpException\ValidationException($name . ' must be a float.');
@@ -151,7 +151,7 @@ class Model
         }
     }
 
-    protected function _validateDate($name, &$value)
+    protected function validateDate($name, &$value)
     {
         if (is_string($value)) {
             $value = empty($value) ? null : new \DateTime($value);
@@ -165,7 +165,7 @@ class Model
         $value = empty($value) ? null : $value->format('Y-m-d H:i:s');
     }
 
-    protected function _validateNotNull($name, &$value)
+    protected function validateNotNull($name, &$value)
     {
         if (is_null($value)) {
             throw new HttpException\ValidationException($name . ' must not be null.');

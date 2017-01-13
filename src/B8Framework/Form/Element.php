@@ -104,10 +104,10 @@ abstract class Element
         $view->ccss   = $this->getContainerClass();
         $view->parent = $this->_parent;
 
-        $this->_onPreRender($view);
+        $this->onPreRender($view);
 
         return $view->render();
     }
 
-    abstract protected function _onPreRender(View &$view);
+    abstract protected function onPreRender(View &$view);
 }

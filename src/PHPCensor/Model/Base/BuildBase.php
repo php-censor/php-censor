@@ -346,8 +346,8 @@ class BuildBase extends Model
      */
     public function setId($value)
     {
-        $this->_validateNotNull('Id', $value);
-        $this->_validateInt('Id', $value);
+        $this->validateNotNull('Id', $value);
+        $this->validateInt('Id', $value);
 
         if ($this->data['id'] === $value) {
             return;
@@ -355,7 +355,7 @@ class BuildBase extends Model
 
         $this->data['id'] = $value;
 
-        $this->_setModified('id');
+        $this->setModified('id');
     }
 
     /**
@@ -365,8 +365,8 @@ class BuildBase extends Model
      */
     public function setProjectId($value)
     {
-        $this->_validateNotNull('ProjectId', $value);
-        $this->_validateInt('ProjectId', $value);
+        $this->validateNotNull('ProjectId', $value);
+        $this->validateInt('ProjectId', $value);
 
         if ($this->data['project_id'] === $value) {
             return;
@@ -374,7 +374,7 @@ class BuildBase extends Model
 
         $this->data['project_id'] = $value;
 
-        $this->_setModified('project_id');
+        $this->setModified('project_id');
     }
 
     /**
@@ -384,8 +384,8 @@ class BuildBase extends Model
      */
     public function setCommitId($value)
     {
-        $this->_validateNotNull('CommitId', $value);
-        $this->_validateString('CommitId', $value);
+        $this->validateNotNull('CommitId', $value);
+        $this->validateString('CommitId', $value);
 
         if ($this->data['commit_id'] === $value) {
             return;
@@ -393,7 +393,7 @@ class BuildBase extends Model
 
         $this->data['commit_id'] = $value;
 
-        $this->_setModified('commit_id');
+        $this->setModified('commit_id');
     }
 
     /**
@@ -403,8 +403,8 @@ class BuildBase extends Model
      */
     public function setStatus($value)
     {
-        $this->_validateNotNull('Status', $value);
-        $this->_validateInt('Status', $value);
+        $this->validateNotNull('Status', $value);
+        $this->validateInt('Status', $value);
 
         if ($this->data['status'] === $value) {
             return;
@@ -412,7 +412,7 @@ class BuildBase extends Model
 
         $this->data['status'] = $value;
 
-        $this->_setModified('status');
+        $this->setModified('status');
     }
 
     /**
@@ -422,7 +422,7 @@ class BuildBase extends Model
      */
     public function setLog($value)
     {
-        $this->_validateString('Log', $value);
+        $this->validateString('Log', $value);
 
         if ($this->data['log'] === $value) {
             return;
@@ -430,7 +430,7 @@ class BuildBase extends Model
 
         $this->data['log'] = $value;
 
-        $this->_setModified('log');
+        $this->setModified('log');
     }
 
     /**
@@ -440,8 +440,8 @@ class BuildBase extends Model
      */
     public function setBranch($value)
     {
-        $this->_validateNotNull('Branch', $value);
-        $this->_validateString('Branch', $value);
+        $this->validateNotNull('Branch', $value);
+        $this->validateString('Branch', $value);
 
         if ($this->data['branch'] === $value) {
             return;
@@ -449,7 +449,7 @@ class BuildBase extends Model
 
         $this->data['branch'] = $value;
 
-        $this->_setModified('branch');
+        $this->setModified('branch');
     }
 
     /**
@@ -459,7 +459,7 @@ class BuildBase extends Model
      */
     public function setCreated($value)
     {
-        $this->_validateDate('Created', $value);
+        $this->validateDate('Created', $value);
 
         if ($this->data['created'] === $value) {
             return;
@@ -467,7 +467,7 @@ class BuildBase extends Model
 
         $this->data['created'] = $value;
 
-        $this->_setModified('created');
+        $this->setModified('created');
     }
 
     /**
@@ -477,7 +477,7 @@ class BuildBase extends Model
      */
     public function setStarted($value)
     {
-        $this->_validateDate('Started', $value);
+        $this->validateDate('Started', $value);
 
         if ($this->data['started'] === $value) {
             return;
@@ -485,7 +485,7 @@ class BuildBase extends Model
 
         $this->data['started'] = $value;
 
-        $this->_setModified('started');
+        $this->setModified('started');
     }
 
     /**
@@ -495,7 +495,7 @@ class BuildBase extends Model
      */
     public function setFinished($value)
     {
-        $this->_validateDate('Finished', $value);
+        $this->validateDate('Finished', $value);
 
         if ($this->data['finished'] === $value) {
             return;
@@ -503,7 +503,7 @@ class BuildBase extends Model
 
         $this->data['finished'] = $value;
 
-        $this->_setModified('finished');
+        $this->setModified('finished');
     }
 
     /**
@@ -513,7 +513,7 @@ class BuildBase extends Model
      */
     public function setCommitterEmail($value)
     {
-        $this->_validateString('CommitterEmail', $value);
+        $this->validateString('CommitterEmail', $value);
 
         if ($this->data['committer_email'] === $value) {
             return;
@@ -521,7 +521,7 @@ class BuildBase extends Model
 
         $this->data['committer_email'] = $value;
 
-        $this->_setModified('committer_email');
+        $this->setModified('committer_email');
     }
 
     /**
@@ -531,7 +531,7 @@ class BuildBase extends Model
      */
     public function setCommitMessage($value)
     {
-        $this->_validateString('CommitMessage', $value);
+        $this->validateString('CommitMessage', $value);
 
         if ($this->data['commit_message'] === $value) {
             return;
@@ -539,7 +539,7 @@ class BuildBase extends Model
 
         $this->data['commit_message'] = $value;
 
-        $this->_setModified('commit_message');
+        $this->setModified('commit_message');
     }
 
     /**
@@ -549,7 +549,7 @@ class BuildBase extends Model
      */
     public function setExtra($value)
     {
-        $this->_validateString('Extra', $value);
+        $this->validateString('Extra', $value);
 
         if ($this->data['extra'] === $value) {
             return;
@@ -557,7 +557,7 @@ class BuildBase extends Model
 
         $this->data['extra'] = $value;
 
-        $this->_setModified('extra');
+        $this->setModified('extra');
     }
 
     /**

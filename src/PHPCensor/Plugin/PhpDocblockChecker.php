@@ -13,7 +13,7 @@ use PHPCensor;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
-use PHPCensor\ZeroConfigPlugin;
+use PHPCensor\ZeroConfigPluginInterface;
 
 /**
  * PHP Docblock Checker Plugin - Checks your PHP files for appropriate uses of Docblocks
@@ -22,7 +22,7 @@ use PHPCensor\ZeroConfigPlugin;
  * @package      PHPCI
  * @subpackage   Plugins
  */
-class PhpDocblockChecker extends Plugin implements ZeroConfigPlugin
+class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
 {
     /**
      * @var string Based on the assumption the root may not hold the code to be

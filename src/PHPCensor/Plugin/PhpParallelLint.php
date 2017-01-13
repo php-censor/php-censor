@@ -12,7 +12,7 @@ namespace PHPCensor\Plugin;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
-use PHPCensor\ZeroConfigPlugin;
+use PHPCensor\ZeroConfigPluginInterface;
 
 /**
  * Php Parallel Lint Plugin - Provides access to PHP lint functionality.
@@ -21,7 +21,7 @@ use PHPCensor\ZeroConfigPlugin;
  * @package      PHPCI
  * @subpackage   Plugins
  */
-class PhpParallelLint extends Plugin implements ZeroConfigPlugin
+class PhpParallelLint extends Plugin implements ZeroConfigPluginInterface
 {
     /**
      * @var string

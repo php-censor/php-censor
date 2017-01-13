@@ -13,7 +13,7 @@ use PHPCensor;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
-use PHPCensor\ZeroConfigPlugin;
+use PHPCensor\ZeroConfigPluginInterface;
 
 /**
  * Technical Debt Plugin - Checks for existence of "TODO", "FIXME", etc.
@@ -22,7 +22,7 @@ use PHPCensor\ZeroConfigPlugin;
  * @package      PHPCI
  * @subpackage   Plugins
  */
-class TechnicalDebt extends Plugin implements ZeroConfigPlugin
+class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
 {
     /**
      * @var array
@@ -155,7 +155,7 @@ class TechnicalDebt extends Plugin implements ZeroConfigPlugin
                 $skipFile = true;
             }
 
-            if ($skipFile == false) {
+            if ($skipFile === false) {
                 $files[] = $file->getRealPath();
             }
         }

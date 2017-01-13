@@ -13,7 +13,7 @@ use PHPCensor;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
-use PHPCensor\ZeroConfigPlugin;
+use PHPCensor\ZeroConfigPluginInterface;
 
 /**
  * PHP Mess Detector Plugin - Allows PHP Mess Detector testing.
@@ -22,7 +22,7 @@ use PHPCensor\ZeroConfigPlugin;
  * @package      PHPCI
  * @subpackage   Plugins
  */
-class PhpMessDetector extends Plugin implements ZeroConfigPlugin
+class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
 {
     /**
      * @var array

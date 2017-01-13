@@ -14,7 +14,7 @@ use PHPCensor\Builder;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
 use PHPCensor\Plugin;
-use PHPCensor\ZeroConfigPlugin;
+use PHPCensor\ZeroConfigPluginInterface;
 
 /**
  * PHP Code Sniffer Plugin - Allows PHP Code Sniffer testing.
@@ -23,7 +23,7 @@ use PHPCensor\ZeroConfigPlugin;
  * @package      PHPCI
  * @subpackage   Plugins
  */
-class PhpCodeSniffer extends Plugin implements ZeroConfigPlugin
+class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
 {
     /**
      * @var array

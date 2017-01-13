@@ -279,8 +279,8 @@ class BuildErrorBase extends Model
     */
     public function setId($value)
     {
-        $this->_validateNotNull('Id', $value);
-        $this->_validateInt('Id', $value);
+        $this->validateNotNull('Id', $value);
+        $this->validateInt('Id', $value);
 
         if ($this->data['id'] === $value) {
             return;
@@ -288,7 +288,7 @@ class BuildErrorBase extends Model
 
         $this->data['id'] = $value;
 
-        $this->_setModified('id');
+        $this->setModified('id');
     }
 
     /**
@@ -299,8 +299,8 @@ class BuildErrorBase extends Model
     */
     public function setBuildId($value)
     {
-        $this->_validateNotNull('BuildId', $value);
-        $this->_validateInt('BuildId', $value);
+        $this->validateNotNull('BuildId', $value);
+        $this->validateInt('BuildId', $value);
 
         if ($this->data['build_id'] === $value) {
             return;
@@ -308,7 +308,7 @@ class BuildErrorBase extends Model
 
         $this->data['build_id'] = $value;
 
-        $this->_setModified('build_id');
+        $this->setModified('build_id');
     }
 
     /**
@@ -319,8 +319,8 @@ class BuildErrorBase extends Model
     */
     public function setPlugin($value)
     {
-        $this->_validateNotNull('Plugin', $value);
-        $this->_validateString('Plugin', $value);
+        $this->validateNotNull('Plugin', $value);
+        $this->validateString('Plugin', $value);
 
         if ($this->data['plugin'] === $value) {
             return;
@@ -328,7 +328,7 @@ class BuildErrorBase extends Model
 
         $this->data['plugin'] = $value;
 
-        $this->_setModified('plugin');
+        $this->setModified('plugin');
     }
 
     /**
@@ -338,7 +338,7 @@ class BuildErrorBase extends Model
     */
     public function setFile($value)
     {
-        $this->_validateString('File', $value);
+        $this->validateString('File', $value);
 
         if ($this->data['file'] === $value) {
             return;
@@ -346,7 +346,7 @@ class BuildErrorBase extends Model
 
         $this->data['file'] = $value;
 
-        $this->_setModified('file');
+        $this->setModified('file');
     }
 
     /**
@@ -356,7 +356,7 @@ class BuildErrorBase extends Model
     */
     public function setLineStart($value)
     {
-        $this->_validateInt('LineStart', $value);
+        $this->validateInt('LineStart', $value);
 
         if ($this->data['line_start'] === $value) {
             return;
@@ -364,7 +364,7 @@ class BuildErrorBase extends Model
 
         $this->data['line_start'] = $value;
 
-        $this->_setModified('line_start');
+        $this->setModified('line_start');
     }
 
     /**
@@ -374,7 +374,7 @@ class BuildErrorBase extends Model
     */
     public function setLineEnd($value)
     {
-        $this->_validateInt('LineEnd', $value);
+        $this->validateInt('LineEnd', $value);
 
         if ($this->data['line_end'] === $value) {
             return;
@@ -382,7 +382,7 @@ class BuildErrorBase extends Model
 
         $this->data['line_end'] = $value;
 
-        $this->_setModified('line_end');
+        $this->setModified('line_end');
     }
 
     /**
@@ -393,8 +393,8 @@ class BuildErrorBase extends Model
     */
     public function setSeverity($value)
     {
-        $this->_validateNotNull('Severity', $value);
-        $this->_validateInt('Severity', $value);
+        $this->validateNotNull('Severity', $value);
+        $this->validateInt('Severity', $value);
 
         if ($this->data['severity'] === $value) {
             return;
@@ -402,7 +402,7 @@ class BuildErrorBase extends Model
 
         $this->data['severity'] = $value;
 
-        $this->_setModified('severity');
+        $this->setModified('severity');
     }
 
     /**
@@ -413,8 +413,8 @@ class BuildErrorBase extends Model
     */
     public function setMessage($value)
     {
-        $this->_validateNotNull('Message', $value);
-        $this->_validateString('Message', $value);
+        $this->validateNotNull('Message', $value);
+        $this->validateString('Message', $value);
 
         if ($this->data['message'] === $value) {
             return;
@@ -422,7 +422,7 @@ class BuildErrorBase extends Model
 
         $this->data['message'] = $value;
 
-        $this->_setModified('message');
+        $this->setModified('message');
     }
 
     /**
@@ -433,8 +433,8 @@ class BuildErrorBase extends Model
     */
     public function setCreatedDate($value)
     {
-        $this->_validateNotNull('CreatedDate', $value);
-        $this->_validateDate('CreatedDate', $value);
+        $this->validateNotNull('CreatedDate', $value);
+        $this->validateDate('CreatedDate', $value);
 
         if ($this->data['created_date'] === $value) {
             return;
@@ -442,7 +442,7 @@ class BuildErrorBase extends Model
 
         $this->data['created_date'] = $value;
 
-        $this->_setModified('created_date');
+        $this->setModified('created_date');
     }
 
     /**

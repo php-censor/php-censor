@@ -107,7 +107,7 @@ class Input extends Element
         return $this;
     }
 
-    protected function _onPreRender(View &$view)
+    protected function onPreRender(View &$view)
     {
         $view->value = $this->getValue();
         $view->error = $this->_error;

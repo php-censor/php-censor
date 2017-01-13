@@ -13,9 +13,9 @@ use PHPCensor\Builder;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin\Util\TestResultParsers\Codeception as Parser;
-use Psr\Log\LogLevel;
 use PHPCensor\Plugin;
-use PHPCensor\ZeroConfigPlugin;
+use PHPCensor\ZeroConfigPluginInterface;
+use Psr\Log\LogLevel;
 
 /**
  * Codeception Plugin - Enables full acceptance, unit, and functional testing.
@@ -26,7 +26,7 @@ use PHPCensor\ZeroConfigPlugin;
  * @package      PHPCI
  * @subpackage   Plugins
  */
-class Codeception extends Plugin implements ZeroConfigPlugin
+class Codeception extends Plugin implements ZeroConfigPluginInterface
 {
     /** @var string */
     protected $args = '';
@@ -142,7 +142,7 @@ class Codeception extends Plugin implements ZeroConfigPlugin
 
         $this->builder->log(
             'Codeception XML path: '. $this->builder->buildPath . $this->path . 'report.xml',
-            Loglevel::DEBUG
+            LogLevel::DEBUG
         );
 
         $xml = file_get_contents($this->builder->buildPath . $this->path . 'report.xml', false);

@@ -29,12 +29,12 @@ class Form extends FieldSet
         $this->_method = $method;
     }
 
-    protected function _onPreRender(View &$view)
+    protected function onPreRender(View &$view)
     {
         $view->action = $this->getAction();
         $view->method = $this->getMethod();
 
-        parent::_onPreRender($view);
+        parent::onPreRender($view);
     }
 
     public function __toString()

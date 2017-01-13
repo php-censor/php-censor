@@ -2,8 +2,6 @@
 
 namespace b8;
 
-class ViewRuntimeException extends \RuntimeException {}
-
 class View
 {
     protected $_vars            = [];
@@ -13,7 +11,7 @@ class View
     public function __construct($file, $path = null)
     {
         if (!self::exists($file, $path)) {
-            throw new ViewRuntimeException('View file does not exist: ' . $file);
+            throw new \RuntimeException('View file does not exist: ' . $file);
         }
 
         $this->viewFile = self::getViewFile($file, $path);

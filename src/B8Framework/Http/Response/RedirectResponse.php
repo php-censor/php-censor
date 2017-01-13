@@ -22,6 +22,6 @@ class RedirectResponse extends Response
     public function flush()
     {
         parent::flush();
-        die;
+        exit(1);
     }
 }

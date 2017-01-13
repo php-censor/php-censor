@@ -14,7 +14,7 @@ use PHPCensor\Helper\Lang;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
 use PHPCensor\Plugin;
-use PHPCensor\ZeroConfigPlugin;
+use PHPCensor\ZeroConfigPluginInterface;
 
 /**
  * PHP Copy / Paste Detector - Allows PHP Copy / Paste Detector testing.
@@ -23,7 +23,7 @@ use PHPCensor\ZeroConfigPlugin;
  * @package      PHPCI
  * @subpackage   Plugins
  */
-class PhpCpd extends Plugin implements ZeroConfigPlugin
+class PhpCpd extends Plugin implements ZeroConfigPluginInterface
 {
     protected $directory;
     protected $args;

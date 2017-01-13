@@ -31,19 +31,6 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($view->render() == 'Hello World');
     }
 
-    public function testFormatViewHelper()
-    {
-        $view = new View('format', __DIR__ . '/data/view/');
-        $view->number = 1000000.25;
-        $view->symbol = true;
-
-        $this->assertTrue($view->render() == '£1,000,000.25');
-
-        $view->number = 1024;
-        $view->symbol = false;
-        $this->assertTrue($view->render() == '1,024.00');
-    }
-
     /**
      * @expectedException \Exception
      */
@@ -115,12 +102,6 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $view = new Template('Hello{ifnot who} World{/ifnot}');
         $view->who = true;
         $this->assertTrue($view->render() == 'Hello');
-
-        $view = new Template('Hello {if Format:not_present}World{/if}');
-        $this->assertTrue($view->render() == 'Hello ');
-
-        $view = new Template('Hello {ifnot Format:not_present}World{/ifnot}');
-        $this->assertTrue($view->render() == 'Hello World');
     }
 
     public function testUserViewLoop()

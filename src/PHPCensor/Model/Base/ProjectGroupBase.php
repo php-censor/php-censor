@@ -119,8 +119,8 @@ class ProjectGroupBase extends Model
     */
     public function setId($value)
     {
-        $this->_validateNotNull('Id', $value);
-        $this->_validateInt('Id', $value);
+        $this->validateNotNull('Id', $value);
+        $this->validateInt('Id', $value);
 
         if ($this->data['id'] === $value) {
             return;
@@ -128,7 +128,7 @@ class ProjectGroupBase extends Model
 
         $this->data['id'] = $value;
 
-        $this->_setModified('id');
+        $this->setModified('id');
     }
 
     /**
@@ -139,8 +139,8 @@ class ProjectGroupBase extends Model
     */
     public function setTitle($value)
     {
-        $this->_validateNotNull('Title', $value);
-        $this->_validateString('Title', $value);
+        $this->validateNotNull('Title', $value);
+        $this->validateString('Title', $value);
 
         if ($this->data['title'] === $value) {
             return;
@@ -148,7 +148,7 @@ class ProjectGroupBase extends Model
 
         $this->data['title'] = $value;
 
-        $this->_setModified('title');
+        $this->setModified('title');
     }
 
     /**

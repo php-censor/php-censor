@@ -9,7 +9,6 @@
 
 namespace PHPCensor\Service;
 
-use PHPCensor\Helper\Lang;
 use PHPCensor\Model\User;
 use PHPCensor\Store\UserStore;
 

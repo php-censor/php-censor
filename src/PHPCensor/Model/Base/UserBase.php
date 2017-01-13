@@ -221,8 +221,8 @@ class UserBase extends Model
     */
     public function setId($value)
     {
-        $this->_validateNotNull('Id', $value);
-        $this->_validateInt('Id', $value);
+        $this->validateNotNull('Id', $value);
+        $this->validateInt('Id', $value);
 
         if ($this->data['id'] === $value) {
             return;
@@ -230,7 +230,7 @@ class UserBase extends Model
 
         $this->data['id'] = $value;
 
-        $this->_setModified('id');
+        $this->setModified('id');
     }
 
     /**
@@ -241,8 +241,8 @@ class UserBase extends Model
     */
     public function setEmail($value)
     {
-        $this->_validateNotNull('Email', $value);
-        $this->_validateString('Email', $value);
+        $this->validateNotNull('Email', $value);
+        $this->validateString('Email', $value);
 
         if ($this->data['email'] === $value) {
             return;
@@ -250,7 +250,7 @@ class UserBase extends Model
 
         $this->data['email'] = $value;
 
-        $this->_setModified('email');
+        $this->setModified('email');
     }
 
     /**
@@ -261,8 +261,8 @@ class UserBase extends Model
     */
     public function setHash($value)
     {
-        $this->_validateNotNull('Hash', $value);
-        $this->_validateString('Hash', $value);
+        $this->validateNotNull('Hash', $value);
+        $this->validateString('Hash', $value);
 
         if ($this->data['hash'] === $value) {
             return;
@@ -270,7 +270,7 @@ class UserBase extends Model
 
         $this->data['hash'] = $value;
 
-        $this->_setModified('hash');
+        $this->setModified('hash');
     }
 
     /**
@@ -281,8 +281,8 @@ class UserBase extends Model
     */
     public function setIsAdmin($value)
     {
-        $this->_validateNotNull('IsAdmin', $value);
-        $this->_validateInt('IsAdmin', $value);
+        $this->validateNotNull('IsAdmin', $value);
+        $this->validateInt('IsAdmin', $value);
 
         if ($this->data['is_admin'] === $value) {
             return;
@@ -290,7 +290,7 @@ class UserBase extends Model
 
         $this->data['is_admin'] = $value;
 
-        $this->_setModified('is_admin');
+        $this->setModified('is_admin');
     }
 
     /**
@@ -301,8 +301,8 @@ class UserBase extends Model
     */
     public function setName($value)
     {
-        $this->_validateNotNull('Name', $value);
-        $this->_validateString('Name', $value);
+        $this->validateNotNull('Name', $value);
+        $this->validateString('Name', $value);
 
         if ($this->data['name'] === $value) {
             return;
@@ -310,7 +310,7 @@ class UserBase extends Model
 
         $this->data['name'] = $value;
 
-        $this->_setModified('name');
+        $this->setModified('name');
     }
 
     /**
@@ -327,7 +327,7 @@ class UserBase extends Model
 
         $this->data['language'] = $value;
 
-        $this->_setModified('language');
+        $this->setModified('language');
     }
 
     /**
@@ -344,7 +344,7 @@ class UserBase extends Model
 
         $this->data['per_page'] = $value;
 
-        $this->_setModified('per_page');
+        $this->setModified('per_page');
     }
 
     /**

@@ -201,8 +201,8 @@ class BuildMetaBase extends Model
     */
     public function setId($value)
     {
-        $this->_validateNotNull('Id', $value);
-        $this->_validateInt('Id', $value);
+        $this->validateNotNull('Id', $value);
+        $this->validateInt('Id', $value);
 
         if ($this->data['id'] === $value) {
             return;
@@ -210,7 +210,7 @@ class BuildMetaBase extends Model
 
         $this->data['id'] = $value;
 
-        $this->_setModified('id');
+        $this->setModified('id');
     }
 
     /**
@@ -221,8 +221,8 @@ class BuildMetaBase extends Model
     */
     public function setProjectId($value)
     {
-        $this->_validateNotNull('ProjectId', $value);
-        $this->_validateInt('ProjectId', $value);
+        $this->validateNotNull('ProjectId', $value);
+        $this->validateInt('ProjectId', $value);
 
         if ($this->data['project_id'] === $value) {
             return;
@@ -230,7 +230,7 @@ class BuildMetaBase extends Model
 
         $this->data['project_id'] = $value;
 
-        $this->_setModified('project_id');
+        $this->setModified('project_id');
     }
 
     /**
@@ -241,8 +241,8 @@ class BuildMetaBase extends Model
     */
     public function setBuildId($value)
     {
-        $this->_validateNotNull('BuildId', $value);
-        $this->_validateInt('BuildId', $value);
+        $this->validateNotNull('BuildId', $value);
+        $this->validateInt('BuildId', $value);
 
         if ($this->data['build_id'] === $value) {
             return;
@@ -250,7 +250,7 @@ class BuildMetaBase extends Model
 
         $this->data['build_id'] = $value;
 
-        $this->_setModified('build_id');
+        $this->setModified('build_id');
     }
 
     /**
@@ -261,8 +261,8 @@ class BuildMetaBase extends Model
     */
     public function setMetaKey($value)
     {
-        $this->_validateNotNull('MetaKey', $value);
-        $this->_validateString('MetaKey', $value);
+        $this->validateNotNull('MetaKey', $value);
+        $this->validateString('MetaKey', $value);
 
         if ($this->data['meta_key'] === $value) {
             return;
@@ -270,7 +270,7 @@ class BuildMetaBase extends Model
 
         $this->data['meta_key'] = $value;
 
-        $this->_setModified('meta_key');
+        $this->setModified('meta_key');
     }
 
     /**
@@ -281,8 +281,8 @@ class BuildMetaBase extends Model
     */
     public function setMetaValue($value)
     {
-        $this->_validateNotNull('MetaValue', $value);
-        $this->_validateString('MetaValue', $value);
+        $this->validateNotNull('MetaValue', $value);
+        $this->validateString('MetaValue', $value);
 
         if ($this->data['meta_value'] === $value) {
             return;
@@ -290,7 +290,7 @@ class BuildMetaBase extends Model
 
         $this->data['meta_value'] = $value;
 
-        $this->_setModified('meta_value');
+        $this->setModified('meta_value');
     }
 
     /**
