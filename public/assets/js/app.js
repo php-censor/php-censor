@@ -239,22 +239,22 @@ var PHPCensorConfirmDialog = Class.extend({
              */
             $('body').append(
                 '<div class="modal fade" id="confirm-dialog">'
-                    + '<div class="modal-dialog">'
-                    + '<div class="modal-content">'
-                    + '<div class="modal-header">'
-                    + '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'
-                    + '<h4 class="modal-title"></h4>'
-                    + '</div>'
-                    + '<div class="modal-body">'
-                    + '<p></p>'
-                    + '</div>'
-                    + '<div class="modal-footer">'
-                    + '<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>'
-                    + '<button type="button" class="btn btn-primary"></button>'
-                    + '</div>'
-                    + '</div>'
-                    + '</div>'
-                    + '</div>'
+                + '<div class="modal-dialog">'
+                + '<div class="modal-content">'
+                + '<div class="modal-header">'
+                + '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>'
+                + '<h4 class="modal-title"></h4>'
+                + '</div>'
+                + '<div class="modal-body">'
+                + '<p></p>'
+                + '</div>'
+                + '<div class="modal-footer">'
+                + '<button id="confirm-cancel" type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>'
+                + '<button id="confirm-ok" type="button" class="btn btn-danger"></button>'
+                + '</div>'
+                + '</div>'
+                + '</div>'
+                + '</div>'
             );
         }
 
@@ -262,8 +262,8 @@ var PHPCensorConfirmDialog = Class.extend({
          Define dialog controls
          */
         this.$dialog = $('#confirm-dialog');
-        this.$cancelBtn = this.$dialog.find('div.modal-footer button.btn-default');
-        this.$confirmBtn = this.$dialog.find('div.modal-footer button.btn-primary');
+        this.$cancelBtn = this.$dialog.find('#confirm-cancel');
+        this.$confirmBtn = this.$dialog.find('#confirm-ok');
         this.$title = this.$dialog.find('h4.modal-title');
         this.$body = this.$dialog.find('div.modal-body');
 
