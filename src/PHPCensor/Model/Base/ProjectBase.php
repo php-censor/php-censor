@@ -316,7 +316,7 @@ class ProjectBase extends Model
     */
     public function getAllowPublicStatus()
     {
-        $rtn    = $this->data['allow_public_status'];
+        $rtn = $this->data['allow_public_status'];
 
         return $rtn;
     }

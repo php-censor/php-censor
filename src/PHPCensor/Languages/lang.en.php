@@ -497,4 +497,8 @@ PHP Censor',
     'confirm_cancel'  => 'Cancel',
     'confirm_success' => 'Item successfully deleted.',
     'confirm_failed'  => 'Deletion failed! Server says: ',
+    
+    'public_status_title' => 'Public status',
+    'public_status_image' => 'Status image',
+    'public_status_page'  => 'Public status page',
 ];
