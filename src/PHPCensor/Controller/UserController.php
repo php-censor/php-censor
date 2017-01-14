@@ -166,7 +166,7 @@ class UserController extends Controller
         $form   = $this->userForm($values);
 
         if ($method != 'POST' || ($method == 'POST' && !$form->validate())) {
-            $view       = new b8\View('UserForm');
+            $view       = new b8\View('User/edit');
             $view->type = 'add';
             $view->user = null;
             $view->form = $form;
@@ -208,7 +208,7 @@ class UserController extends Controller
         $form = $this->userForm($values, 'edit/' . $userId);
 
         if ($method != 'POST' || ($method == 'POST' && !$form->validate())) {
-            $view = new b8\View('UserForm');
+            $view = new b8\View('User/edit');
             $view->type = 'edit';
             $view->user = $user;
             $view->form = $form;

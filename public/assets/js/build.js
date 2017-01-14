@@ -72,14 +72,14 @@ var Build = Class.extend({
 
     registerQuery: function(name, seconds, query) {
         var self = this;
-        var uri = 'build/meta/' + self.buildId;
+        var uri = 'build/ajax-meta/' + self.buildId;
         var query = query || {};
 
         var cb = function() {
             var fullUri = window.APP_URL + uri;
 
             if (name == 'build-updated') {
-                fullUri = window.APP_URL + 'build/data/' + self.buildId;
+                fullUri = window.APP_URL + 'build/ajax-data/' + self.buildId;
             }
 
             $.ajax({

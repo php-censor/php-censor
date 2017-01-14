@@ -143,24 +143,6 @@ class ProjectController extends PHPCensor\Controller
     }
 
     /**
-     * AJAX get latest builds.
-     * 
-     * @param int $projectId
-     * 
-     * @return b8\Http\Response
-     */
-    public function builds($projectId)
-    {
-        $branch  = $this->getParam('branch', '');
-        $perPage = (integer)$this->getParam('per_page', 10);
-        $builds  = $this->getLatestBuildsHtml($projectId, urldecode($branch), 0, $perPage);
-
-        $this->response->disableLayout();
-        $this->response->setContent($builds[0]);
-        return $this->response;
-    }
-
-    /**
      * Render latest builds for project as HTML table.
      *
      * @param int    $projectId
@@ -179,7 +161,7 @@ class ProjectController extends PHPCensor\Controller
 
         $order  = ['id' => 'DESC'];
         $builds = $this->buildStore->getWhere($criteria, $perPage, $start, [], $order);
-        $view   = new b8\View('BuildsTable');
+        $view   = new b8\View('Project/ajax-builds');
 
         foreach ($builds['items'] as &$build) {
             $build = BuildFactory::getBuild($build);
@@ -188,6 +170,35 @@ class ProjectController extends PHPCensor\Controller
         $view->builds   = $builds['items'];
 
         return [$view->render(), $builds['count']];
+    }
+
+    /**
+     * Render latest builds for project as HTML table.
+     *
+     * @param int $projectId
+     *
+     * @return array
+     */
+    protected function getDashboardProjectHtml($projectId)
+    {
+        $count = $this->buildStore->getWhere(
+            ['project_id' => $projectId],
+            1,
+            0,
+            [],
+            ['id' => 'DESC']
+        );
+        $counts = $count['count'];
+
+        $view = new b8\View('Home/ajax-dashboard-project');
+
+        $view->project    = $this->projectStore->getById($projectId);
+        $view->builds     = $this->buildStore->getLatestBuilds($projectId);
+        $view->successful = $this->buildStore->getLastBuildByStatus($projectId, PHPCensor\Model\Build::STATUS_SUCCESS);
+        $view->failed     = $this->buildStore->getLastBuildByStatus($projectId, PHPCensor\Model\Build::STATUS_FAILED);
+        $view->counts     = $counts;
+
+        return $view->render();
     }
 
     /**
@@ -215,7 +226,7 @@ class ProjectController extends PHPCensor\Controller
         $form = $this->projectForm($values);
 
         if ($method != 'POST' || ($method == 'POST' && !$form->validate())) {
-            $view           = new b8\View('ProjectForm');
+            $view           = new b8\View('Project/edit');
             $view->type     = 'add';
             $view->project  = null;
             $view->form     = $form;
@@ -278,7 +289,7 @@ class ProjectController extends PHPCensor\Controller
         $form = $this->projectForm($values, 'edit/' . $projectId);
 
         if ($method != 'POST' || ($method == 'POST' && !$form->validate())) {
-            $view           = new b8\View('ProjectForm');
+            $view           = new b8\View('Project/edit');
             $view->type     = 'edit';
             $view->project  = $project;
             $view->form     = $form;
@@ -404,18 +415,6 @@ class ProjectController extends PHPCensor\Controller
     }
 
     /**
-    * Get an array of repositories from Github's API.
-    */
-    protected function githubRepositories()
-    {
-        $github = new Github();
-
-        $response = new b8\Http\Response\JsonResponse();
-        $response->setContent($github->getRepositories());
-        return $response;
-    }
-
-    /**
      * Get the validator to use to check project references.
      * @param $values
      * @return callable
@@ -456,5 +455,49 @@ class ProjectController extends PHPCensor\Controller
 
             return true;
         };
+    }
+
+    /**
+     * @param int $projectId
+     *
+     * @return b8\Http\Response
+     */
+    public function ajaxBuilds($projectId)
+    {
+        $branch  = $this->getParam('branch', '');
+        $perPage = (integer)$this->getParam('per_page', 10);
+        $builds  = $this->getLatestBuildsHtml($projectId, urldecode($branch), 0, $perPage);
+
+        $this->response->disableLayout();
+        $this->response->setContent($builds[0]);
+        return $this->response;
+    }
+
+    /**
+     * @param int $projectId
+     *
+     * @return b8\Http\Response
+     */
+    public function ajaxDashboardProject($projectId)
+    {
+        $builds = $this->getDashboardProjectHtml($projectId);
+
+        $this->response->disableLayout();
+        $this->response->setContent($builds);
+
+        return $this->response;
+    }
+
+    /**
+     * Get an array of repositories from Github's API.
+     */
+    public function ajaxGithubRepositories()
+    {
+        $github = new Github();
+
+        $response = new b8\Http\Response\JsonResponse();
+        $response->setContent($github->getRepositories());
+
+        return $response;
     }
 }

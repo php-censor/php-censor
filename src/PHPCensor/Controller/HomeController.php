@@ -44,8 +44,8 @@ class HomeController extends Controller
      */
     public function init()
     {
-        $this->buildStore      = b8\Store\Factory::getStore('Build');
-        $this->projectStore    = b8\Store\Factory::getStore('Project');
+        $this->buildStore    = b8\Store\Factory::getStore('Build');
+        $this->projectStore  = b8\Store\Factory::getStore('Project');
         $this->groupStore    = b8\Store\Factory::getStore('ProjectGroup');
     }
 
@@ -61,31 +61,10 @@ class HomeController extends Controller
             $build = BuildFactory::getBuild($build);
         }
 
-        $this->view->builds   = $builds;
+        $this->view->builds = $builds;
         $this->view->groups = $this->getGroupInfo();
 
         return $this->view->render();
-    }
-
-    /**
-    * AJAX get latest builds table (HTML)
-    */
-    public function latest()
-    {
-        $this->response->disableLayout();
-        $this->response->setContent($this->getLatestBuildsHtml());
-        return $this->response;
-    }
-
-    /**
-     * Ajax request for the project overview section of the dashboard.
-     */
-    public function summary()
-    {
-        $this->response->disableLayout();
-        $projects = $this->projectStore->getWhere([], 50, 0, [], ['title' => 'ASC']);
-        $this->response->setContent($this->getSummaryHtml($projects));
-        return $this->response;
     }
 
     /**
@@ -119,29 +98,12 @@ class HomeController extends Controller
             $failures[$project->getId()] = $failure;
         }
 
-        $summaryView = new b8\View('SummaryTable');
-        $summaryView->projects   = $projects;
-        $summaryView->builds     = $summaryBuilds;
-        $summaryView->successful = $successes;
-        $summaryView->failed     = $failures;
-        $summaryView->counts     = $counts;
-
-        return $summaryView->render();
-    }
-
-    /**
-    * Get latest builds and render as a table.
-    */
-    protected function getLatestBuildsHtml()
-    {
-        $builds         = $this->buildStore->getWhere([], 5, 0, [], ['id' => 'DESC']);
-        $view           = new b8\View('BuildsTable');
-
-        foreach ($builds['items'] as &$build) {
-            $build = BuildFactory::getBuild($build);
-        }
-
-        $view->builds   = $builds['items'];
+        $view = new b8\View('Home/dashboard-projects');
+        $view->projects   = $projects;
+        $view->builds     = $summaryBuilds;
+        $view->successful = $successes;
+        $view->failed     = $failures;
+        $view->counts     = $counts;
 
         return $view->render();
     }
@@ -152,15 +114,15 @@ class HomeController extends Controller
      */
     protected function getGroupInfo()
     {
-        $rtn = [];
+        $rtn    = [];
         $groups = $this->groupStore->getWhere([], 100, 0, [], ['title' => 'ASC']);
 
         foreach ($groups['items'] as $group) {
-            $thisGroup = ['title' => $group->getTitle()];
-            $projects = $this->projectStore->getByGroupId($group->getId());
+            $thisGroup             = ['title' => $group->getTitle()];
+            $projects              = $this->projectStore->getByGroupId($group->getId());
             $thisGroup['projects'] = $projects['items'];
-            $thisGroup['summary'] = $this->getSummaryHtml($thisGroup['projects']);
-            $rtn[] = $thisGroup;
+            $thisGroup['summary']  = $this->getSummaryHtml($thisGroup['projects']);
+            $rtn[]                 = $thisGroup;
         }
 
         return $rtn;

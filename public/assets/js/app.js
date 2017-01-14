@@ -23,6 +23,9 @@ var PHPCensor = {
                 PHPCensor.intervals.getProjectBuilds = setInterval(PHPCensor.getProjectBuilds, 10000);
             }
 
+            PHPCensor.intervals.getDashboard = setInterval(PHPCensor.getDashboard, 10000);
+            PHPCensor.intervals.getTimeline  = setInterval(PHPCensor.getTimeline, 10000);
+
             PHPCensor.uiUpdated();
         });
 
@@ -33,7 +36,7 @@ var PHPCensor = {
 
     getBuilds: function () {
         $.ajax({
-            url: APP_URL + 'build/latest',
+            url: APP_URL + 'build/ajax-queue',
 
             success: function (data) {
                 $(window).trigger('builds-updated', [data]);
@@ -45,10 +48,38 @@ var PHPCensor = {
 
     getProjectBuilds: function () {
         $.ajax({
-            url: APP_URL + 'project/builds/' + PROJECT_ID + '?branch=' + PROJECT_BRANCH + '&per_page=' + PER_PAGE,
+            url: APP_URL + 'project/ajax-builds/' + PROJECT_ID + '?branch=' + PROJECT_BRANCH + '&per_page=' + PER_PAGE,
 
             success: function (data) {
                 $('#latest-builds').html(data);
+            },
+
+            error: PHPCensor.handleFailedAjax
+        });
+    },
+
+    getDashboard: function () {
+        $('.project-box').each(function(index) {
+            var projectId = this.id.substring(12);
+
+            $.ajax({
+                url: APP_URL + 'project/ajax-dashboard-project/' + projectId,
+
+                success: function (data) {
+                    $(('#project-box-' + projectId)).html(data);
+                },
+
+                error: PHPCensor.handleFailedAjax
+            });
+        });
+    },
+
+    getTimeline: function () {
+        $.ajax({
+            url: APP_URL + 'build/ajax-timeline',
+
+            success: function (data) {
+                $('#timeline-box').html(data);
             },
 
             error: PHPCensor.handleFailedAjax
@@ -411,7 +442,7 @@ function setupProjectForm()
 
             $.ajax({
                 dataType: "json",
-                url: window.APP_URL + 'project/github-repositories',
+                url: window.APP_URL + 'project/ajax-github-repositories',
                 success: function (data) {
                     $('#loading').hide();
 

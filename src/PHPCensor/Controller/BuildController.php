@@ -125,43 +125,6 @@ class BuildController extends Controller
     }
 
     /**
-    * AJAX call to get build data:
-    */
-    public function data($buildId)
-    {
-        $response = new JsonResponse();
-        $build = BuildFactory::getBuildById($buildId);
-
-        if (!$build) {
-            $response->setResponseCode(404);
-            $response->setContent([]);
-            return $response;
-        }
-
-        $response->setContent($this->getBuildData($build));
-        return $response;
-    }
-
-    /**
-     * AJAX call to get build meta:
-     */
-    public function meta($buildId)
-    {
-        $build  = BuildFactory::getBuildById($buildId);
-        $key = $this->getParam('key', null);
-        $numBuilds = $this->getParam('num_builds', 1);
-        $data = null;
-
-        if ($key && $build) {
-            $data = $this->buildStore->getMeta($key, $build->getProjectId(), $buildId, $build->getBranch(), $numBuilds);
-        }
-
-        $response = new JsonResponse();
-        $response->setContent($data);
-        return $response;
-    }
-
-    /**
     * Get build data from database and json encode it:
     */
     protected function getBuildData(Build $build)
@@ -208,6 +171,7 @@ class BuildController extends Controller
 
         $response = new b8\Http\Response\RedirectResponse();
         $response->setHeader('Location', APP_URL.'build/view/' . $build->getId());
+
         return $response;
     }
 
@@ -228,6 +192,7 @@ class BuildController extends Controller
 
         $response = new b8\Http\Response\RedirectResponse();
         $response->setHeader('Location', APP_URL.'project/view/' . $build->getProjectId());
+
         return $response;
     }
 
@@ -237,21 +202,6 @@ class BuildController extends Controller
     protected function cleanLog($log)
     {
         return AnsiConverter::convert($log);
-    }
-
-    /**
-     * Allows the UI to poll for the latest running and pending builds.
-     */
-    public function latest()
-    {
-        $rtn = [
-            'pending' => $this->formatBuilds($this->buildStore->getByStatus(Build::STATUS_NEW)),
-            'running' => $this->formatBuilds($this->buildStore->getByStatus(Build::STATUS_RUNNING)),
-        ];
-
-        $response = new JsonResponse();
-        $response->setContent($rtn);
-        return $response;
     }
 
     /**
@@ -277,5 +227,65 @@ class BuildController extends Controller
 
         ksort($rtn['items']);
         return $rtn;
+    }
+
+    public function ajaxData($buildId)
+    {
+        $response = new JsonResponse();
+        $build = BuildFactory::getBuildById($buildId);
+
+        if (!$build) {
+            $response->setResponseCode(404);
+            $response->setContent([]);
+            return $response;
+        }
+
+        $response->setContent($this->getBuildData($build));
+        return $response;
+    }
+
+    public function ajaxMeta($buildId)
+    {
+        $build  = BuildFactory::getBuildById($buildId);
+        $key = $this->getParam('key', null);
+        $numBuilds = $this->getParam('num_builds', 1);
+        $data = null;
+
+        if ($key && $build) {
+            $data = $this->buildStore->getMeta($key, $build->getProjectId(), $buildId, $build->getBranch(), $numBuilds);
+        }
+
+        $response = new JsonResponse();
+        $response->setContent($data);
+        return $response;
+    }
+
+    public function ajaxQueue()
+    {
+        $rtn = [
+            'pending' => $this->formatBuilds($this->buildStore->getByStatus(Build::STATUS_NEW)),
+            'running' => $this->formatBuilds($this->buildStore->getByStatus(Build::STATUS_RUNNING)),
+        ];
+
+        $response = new JsonResponse();
+        $response->setContent($rtn);
+
+        return $response;
+    }
+
+    public function ajaxTimeline()
+    {
+        $builds = $this->buildStore->getLatestBuilds(null, 10);
+        foreach ($builds as &$build) {
+            $build = BuildFactory::getBuild($build);
+        }
+
+        $view = new b8\View('Home/ajax-timeline');
+        $view->builds = $builds;
+
+        $this->response->disableLayout();
+        $this->response->setContent($view->render());
+
+        return $this->response;
     }
 }
