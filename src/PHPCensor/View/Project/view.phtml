@@ -68,6 +68,28 @@
 
     <div class="col-lg-3 col-md-4 col-sm-4">
 
+        <?php if ($project->getAllowPublicStatus()): ?>
+            <div class="box">
+                <div class="box-header">
+                    <h4 class="box-title"><?= Lang::get('public_status_title'); ?></h4>
+                </div>
+
+                <div class="box-body">
+                    <span style="word-wrap: break-word;">
+                        <a href="<?= APP_URL . 'build-status/view/' . $project->getId() . '?branch=master'; ?>">
+                            <img src="<?= APP_URL . 'build-status/image/' . $project->getId() . '?branch=master&label=PHPCensor&style=flat-square'; ?>" />
+                        </a>
+
+                        <br /><br />
+                        <?= Lang::get('public_status_image'); ?>:<br /><strong><?= APP_URL . 'build-status/image/' . $project->getId() . '?branch=master&label=PHPCensor&style=flat-square'; ?></strong>
+
+                        <br /><br />
+                        <?= Lang::get('public_status_page'); ?>:<br /><strong><?= APP_URL . 'build-status/view/' . $project->getId() . '?branch=master'; ?></strong>
+                    </span>
+                </div>
+            </div>
+        <?php endif; ?>
+
         <?php if (in_array($project->getType(), ['github', 'gitlab', 'bitbucket'])): ?>
             <div class="box">
                 <div class="box-header">
@@ -79,17 +101,17 @@
                     switch($project->getType())
                     {
                         case 'github':
-                            $url	= APP_URL . 'webhook/github/' . $project->getId();
+                            $url = APP_URL . 'webhook/github/' . $project->getId();
                             Lang::out('webhooks_help_github', $project->getReference());
                             break;
 
                         case 'gitlab':
-                            $url	= APP_URL. 'webhook/gitlab/' . $project->getId();
+                            $url = APP_URL. 'webhook/gitlab/' . $project->getId();
                             Lang::out('webhooks_help_gitlab');
                             break;
 
                         case 'bitbucket':
-                            $url	= APP_URL . 'webhook/bitbucket/' . $project->getId();
+                            $url = APP_URL . 'webhook/bitbucket/' . $project->getId();
                             Lang::out('webhooks_help_bitbucket', $project->getReference());
                             break;
                     }
@@ -101,7 +123,7 @@
 
         <?php if ($project->getSshPublicKey()): ?>
             <div class="box">
-                <div class="box-header"><h3 class="box-title"><a data-toggle="collapse" data-parent="#accordion" href="#publicCollapse"><?php Lang::out('public_key'); ?></a></h3></div>
+                <div class="box-header"><h3 class="box-title"><?php Lang::out('public_key'); ?></h3></div>
                 <div class="box-body" style="word-break: break-all;"><?php print $project->getSshPublicKey(); ?></div>
             </div>
         <?php endif; ?>

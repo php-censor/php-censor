@@ -481,4 +481,8 @@ PHP Censor',
     'confirm_cancel'  => 'Отмена',
     'confirm_success' => 'Элемент успешно удален.',
     'confirm_failed'  => 'Удаление провалилось! Ответ сервера: ',
+
+    'public_status_title' => 'Публичный статус',
+    'public_status_image' => 'Иконка статуса',
+    'public_status_page'  => 'Страница публичного статуса',
 ];
