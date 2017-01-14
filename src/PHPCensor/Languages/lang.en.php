@@ -159,7 +159,8 @@ PHP Censor',
                                 Services</a> section of your Bitbucket repository.',
 
     // Project Groups
-    'group_projects' => 'Projects',
+    'group_projects' => 'Project Groups',
+    'group_count'    => 'Projects Count',
     'group_edit'     => 'Edit',
     'group_delete'   => 'Delete',
     'group_add'      => 'Add Group',
@@ -489,4 +490,11 @@ PHP Censor',
     'slack_notify'         => 'Slack',
     'technical_debt'       => 'Technical Debt',
     'xmpp'                 => 'XMPP',
+
+    'confirm_message' => 'Item will be permanently deleted. Are you sure?',
+    'confirm_title'   => 'Item delete confirmation',
+    'confirm_ok'      => 'Delete',
+    'confirm_cancel'  => 'Cancel',
+    'confirm_success' => 'Item successfully deleted.',
+    'confirm_failed'  => 'Deletion failed! Server says: ',
 ];

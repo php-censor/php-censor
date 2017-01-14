@@ -58,7 +58,8 @@ class GroupController extends Controller
             $groups[] = $thisGroup;
         }
 
-        $this->view->groups = $groups;
+        $this->layout->title = Lang::get('group_projects');
+        $this->view->groups  = $groups;
     }
 
     /**
@@ -96,6 +97,7 @@ class GroupController extends Controller
         $title->setValue($group->getTitle());
 
         $submit = new Form\Element\Submit();
+        $submit->setClass('btn btn-success');
         $submit->setValue(Lang::get('group_save'));
 
         $form->addField($title);

@@ -10,7 +10,7 @@
         <?php Lang::out('edit_project'); ?>
     </a>
 
-    <a  class="btn btn-danger" href="javascript:confirmDelete('<?php print APP_URL . 'project/delete/' . $project->getId(); ?>', '<?php print Lang::out('project'); ?>', true)">
+    <a class="btn btn-danger" id="delete-project">
         <?php Lang::out('delete_project'); ?>
     </a>
 
@@ -56,7 +56,7 @@
                 <th class="hidden-md hidden-sm hidden-xs"><?php Lang::out('commit'); ?></th>
                 <th><?php Lang::out('branch'); ?></th>
                 <th><?php Lang::out('status'); ?></th>
-                <th style="width: 100px"></th>
+                <th></th>
             </tr>
             </thead>
             <tbody id="latest-builds">
@@ -152,14 +152,20 @@ if ($pages > 1) {
     }
 }
 
-
-
 if ($page < $pages - 1) {
     print '<li><a href="' . $project_url . '?p='.($page == $pages ? $pages : $page + 1).'">'.Lang::get('next_link').'</a></li>';
 }
 
-
-
 print '</ul></div>';
 
 ?>
+
+<script>
+    $(function() {
+        $('#delete-project').on('click', function (e) {
+            e.preventDefault();
+            confirmDelete("<?= APP_URL; ?>project/delete/<?= $project->getId(); ?>")
+                .onCloseConfirmed = function () {window.location = '/'};
+        });
+    })
+</script>

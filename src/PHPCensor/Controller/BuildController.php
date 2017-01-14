@@ -97,7 +97,7 @@ class BuildController extends Controller
         $actions = "<a class=\"btn btn-default\" href=\"{$rebuildLink}\">{$rebuild}</a> ";
 
         if ($this->currentUserIsAdmin()) {
-            $actions .= " <a class=\"btn btn-danger\" href=\"{$deleteLink}\">{$delete}</a>";
+            $actions .= " <a class=\"btn btn-danger\" id=\"delete-build\" href=\"{$deleteLink}\">{$delete}</a>";
         }
 
         $this->layout->actions = $actions;

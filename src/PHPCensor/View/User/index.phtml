@@ -1,7 +1,7 @@
 <?php use PHPCensor\Helper\Lang; ?>
 <div class="clearfix"  style="margin-bottom: 20px;">
     <div class="pull-right btn-group">
-        <a class="btn btn-primary" href="<?php print APP_URL; ?>user/add"><?php Lang::out('add_user'); ?></a>
+        <a class="btn btn-success" href="<?php print APP_URL; ?>user/add"><?php Lang::out('add_user'); ?></a>
     </div>
 </div>
 
@@ -15,7 +15,7 @@
                         <th><?php Lang::out('email_address'); ?></th>
                         <th><?php Lang::out('name'); ?></th>
                         <th><?php Lang::out('is_admin'); ?></th>
-                        <th style="width: 100px"></th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody id="users">
@@ -40,13 +40,13 @@
                             <td><?php print $status; ?></td>
                             <td>
                                 <?php if($this->User()->getIsAdmin()): ?>
-                                    <div class="btn-group pull-right">
-                                        <a class="btn btn-default btn-small" href="<?php echo APP_URL ?>user/edit/<?php print $user->getId(); ?>"><?php Lang::out('edit'); ?></a>
-                                        <button class="btn btn-default btn-small dropdown-toggle" data-toggle="dropdown">
+                                    <div class="btn-group btn-group-right">
+                                        <a class="btn btn-default btn-sm" href="<?php echo APP_URL ?>user/edit/<?php print $user->getId(); ?>"><?php Lang::out('edit'); ?></a>
+                                        <button class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
                                             <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu">
-                                            <li><a href="<?php echo APP_URL ?>user/delete/<?php print $user->getId(); ?>" class="app-delete-user"><?php Lang::out('delete_user'); ?></a></li>
+                                            <li><a href="<?php echo APP_URL ?>user/delete/<?php print $user->getId(); ?>" class="delete-user"><?php Lang::out('delete_user'); ?></a></li>
                                         </ul>
                                     </div>
                                 <?php endif; ?>
@@ -58,3 +58,13 @@
          </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function() {
+        $('.delete-user').on('click', function (e) {
+            e.preventDefault();
+            confirmDelete(e.target.href)
+                .onCloseConfirmed = function () {window.location = window.location.href};
+        });
+    });
+</script>

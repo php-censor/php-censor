@@ -6,16 +6,12 @@
 </div>
 
 <div class="box">
-    <div class="box-header">
-        <h3 class="box-title"><?php Lang::out('project_groups'); ?></h3>
-    </div>
-
     <table class="table">
         <thead>
         <tr>
             <th><?php Lang::out('group_title'); ?></th>
-            <th style="width: 100px;"><?php Lang::out('group_projects'); ?></th>
-            <th style="width: 150px"></th>
+            <th><?php Lang::out('group_count'); ?></th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -24,18 +20,29 @@
                 <td><?php print $group['title']; ?></td>
                 <td><?php print count($group['projects']); ?></td>
                 <td>
-                    <a class="btn btn-sm btn-default" href="<?php print APP_URL . 'group/edit/' . $group['id']; ?>">
-                        <?php Lang::out('group_edit'); ?>
-                    </a>
-
-                    <?php if (!count($group['projects'])): ?>
-                    <a class="btn btn-sm btn-danger delete-group" href="<?php print APP_URL . 'group/delete/' . $group['id']; ?>">
-                        <?php Lang::out('group_delete'); ?>
-                    </a>
-                    <?php endif; ?>
+                    <div class="btn-group btn-group-right">
+                        <a class="btn btn-default btn-sm" href="<?php echo APP_URL ?>group/edit/<?php print $group['id']; ?>"><?php Lang::out('group_edit'); ?></a>
+                        <?php if($this->User()->getIsAdmin() && (!count($group['projects']))): ?>
+                            <button class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="<?php echo APP_URL ?>group/delete/<?php print $group['id']; ?>" class="delete-group"><?php Lang::out('group_delete'); ?></a></li>
+                            </ul>
+                        <?php endif; ?>
+                    </div>
                 </td>
             </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
 </div>
+
+<script>
+    $(document).ready(function() {
+        $('.delete-group').on('click', function (e) {
+            e.preventDefault();
+            confirmDelete(e.target.href).onCloseConfirmed = function () {window.location = window.location.href};
+        });
+    });
+</script>
