@@ -90,7 +90,8 @@ switch($build->getStatus())
     $(document).ready(function() {
         $('.delete-build').on('click', function (e) {
             e.preventDefault();
-            confirmDelete(e.target.href, "Build").onCloseConfirmed = function () {window.location = window.location.href};
+            confirmDelete(e.target.href)
+                .onCloseConfirmed = function () {window.location = window.location.href};
         });
     });
 </script>

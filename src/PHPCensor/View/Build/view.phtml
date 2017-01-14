@@ -180,9 +180,8 @@ foreach ($plugins as $plugin) {
 
         $('#delete-build').on('click', function (e) {
             e.preventDefault();
-            confirmDelete(
-                "<?= APP_URL; ?>build/delete/<?= $build->getId(); ?>", "Build"
-            ).onCloseConfirmed = function () {window.location = '<?= APP_URL; ?>project/view/<?= $build->getProjectId(); ?>'};
+            confirmDelete("<?= APP_URL; ?>build/delete/<?= $build->getId(); ?>")
+                .onCloseConfirmed = function () {window.location = '<?= APP_URL; ?>project/view/<?= $build->getProjectId(); ?>'};
         });
     });
 </script>

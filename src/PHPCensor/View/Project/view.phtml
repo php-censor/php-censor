@@ -164,9 +164,8 @@ print '</ul></div>';
     $(function() {
         $('#delete-project').on('click', function (e) {
             e.preventDefault();
-            confirmDelete(
-                "<?= APP_URL; ?>project/delete/<?= $project->getId(); ?>", "Project"
-            ).onCloseConfirmed = function () {window.location = '/'};
+            confirmDelete("<?= APP_URL; ?>project/delete/<?= $project->getId(); ?>")
+                .onCloseConfirmed = function () {window.location = '/'};
         });
     })
 </script>

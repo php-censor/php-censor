@@ -42,7 +42,7 @@
     $(document).ready(function() {
         $('.delete-group').on('click', function (e) {
             e.preventDefault();
-            confirmDelete(e.target.href, "Group").onCloseConfirmed = function () {window.location = window.location.href};
+            confirmDelete(e.target.href).onCloseConfirmed = function () {window.location = window.location.href};
         });
     });
 </script>

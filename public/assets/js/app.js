@@ -164,11 +164,13 @@ if (!Function.prototype.bind) {
 /**
  * Used for delete buttons in the system, just to prevent accidental clicks.
  */
-function confirmDelete(url, subject, reloadAfter) {
+function confirmDelete(url, reloadAfter) {
 
     var dialog = new PHPCensorConfirmDialog({
-        message: subject + ' will be permanently deleted. Are you sure?',
-        confirmBtnCaption: 'Delete',
+        title:             Lang.get('confirm_title'),
+        message:           Lang.get('confirm_message'),
+        confirmBtnCaption: Lang.get('confirm_ok'),
+        cancelBtnCaption:  Lang.get('confirm_cancel'),
         /*
          confirm-btn click handler
          */
@@ -188,10 +190,10 @@ function confirmDelete(url, subject, reloadAfter) {
                         };
                     }
 
-                    dialog.showStatusMessage('Successfully deleted!', 500);
+                    dialog.showStatusMessage(Lang.get('confirm_success'), 500);
                 },
                 error: function (data) {
-                    dialog.showStatusMessage('Deletion failed! Server says "' + data.statusText + '"');
+                    dialog.showStatusMessage(Lang.get('confirm_failed') + data.statusText);
 
                     if (data.status == 401) {
                         handleFailedAjax(data);
@@ -210,8 +212,8 @@ function confirmDelete(url, subject, reloadAfter) {
  * @type {{message: string, title: string, confirmBtnCaption: string, cancelBtnCaption: string, confirmed: Function}}
  */
 var PHPCensorConfirmDialogOptions = {
-    message: 'The action will be performed and cannot be undone. Are you sure?',
-    title: 'Confirmation Dialog',
+    message: 'Are you sure?',
+    title: 'Confirmation',
     confirmBtnCaption: 'Ok',
     cancelBtnCaption: 'Cancel',
     confirmed: function (e) {
@@ -350,7 +352,7 @@ var PHPCensorConfirmDialog = Class.extend({
 
     showStatusMessage: function (message, closeTimeout) {
         this.$confirmBtn.hide();
-        this.$cancelBtn.html('Close');
+        this.$cancelBtn.hide();
 
         /*
          Status message
@@ -468,7 +470,7 @@ var Lang = {
             return sprintf.apply(sprintf[0], args);
         }
 
-        return 'MISSING: ' + string;
+        return string;
     }
 };
 

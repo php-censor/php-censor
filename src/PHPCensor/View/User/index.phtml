@@ -63,7 +63,8 @@
     $(document).ready(function() {
         $('.delete-user').on('click', function (e) {
             e.preventDefault();
-            confirmDelete(e.target.href, "User").onCloseConfirmed = function () {window.location = window.location.href};
+            confirmDelete(e.target.href)
+                .onCloseConfirmed = function () {window.location = window.location.href};
         });
     });
 </script>

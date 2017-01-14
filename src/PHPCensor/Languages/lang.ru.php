@@ -474,4 +474,11 @@ PHP Censor',
     'slack_notify'         => 'Slack',
     'technical_debt'       => 'Technical Debt',
     'xmpp'                 => 'XMPP',
+
+    'confirm_message' => 'Элемент будет удален навсегда. Вы уверены?',
+    'confirm_title'   => 'Подтвержение удаления',
+    'confirm_ok'      => 'Удалить',
+    'confirm_cancel'  => 'Отмена',
+    'confirm_success' => 'Элемент успешно удален.',
+    'confirm_failed'  => 'Удаление провалилось! Ответ сервера: ',
 ];

@@ -490,4 +490,11 @@ PHP Censor',
     'slack_notify'         => 'Slack',
     'technical_debt'       => 'Technical Debt',
     'xmpp'                 => 'XMPP',
+
+    'confirm_message' => 'Item will be permanently deleted. Are you sure?',
+    'confirm_title'   => 'Item delete confirmation',
+    'confirm_ok'      => 'Delete',
+    'confirm_cancel'  => 'Cancel',
+    'confirm_success' => 'Item successfully deleted.',
+    'confirm_failed'  => 'Deletion failed! Server says: ',
 ];
