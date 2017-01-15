@@ -29,8 +29,8 @@ class Router
     public function __construct(Application $application, Request $request, Config $config)
     {
         $this->application = $application;
-        $this->request = $request;
-        $this->config = $config;
+        $this->request     = $request;
+        $this->config      = $config;
     }
 
     public function clearRoutes()

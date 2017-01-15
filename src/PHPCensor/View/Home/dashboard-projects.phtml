@@ -80,7 +80,7 @@ foreach($projects as $project):
     }
 
 ?>
-
+    <div class="project-box" id="project-box-<?php print $project->getId(); ?>">
     <div class="small-box small-box-full bg-<?php print $subcls; ?>">
         
         <div class="inner">
@@ -130,6 +130,7 @@ foreach($projects as $project):
             }
         } ?>
         <div style="clear: both;"></div>
+    </div>
     </div>
 
 <?php endforeach; ?>

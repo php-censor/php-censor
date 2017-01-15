@@ -1,4 +1,7 @@
 <?php use PHPCensor\Helper\Lang; ?>
+<script>
+    var DASHBOARD = true;
+</script>
 <div class="row">
 
     <div class="col-sm-5">
@@ -21,7 +24,7 @@
                 <h3 class="box-title"><?php Lang::out('latest_builds'); ?></h3>
             </div>
 
-            <div class="box-body">
+            <div class="box-body" id="timeline-box">
                 <ul class="timeline">
                     <?php $last = new \DateTime('-1 Year'); ?>
 
