@@ -13,6 +13,7 @@ namespace PHPCensor\Controller;
 use b8;
 use b8\Store;
 use Exception;
+use PHPCensor\Helper\Lang;
 use PHPCensor\Model\Project;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Store\BuildStore;
@@ -20,6 +21,7 @@ use PHPCensor\Store\ProjectStore;
 use b8\Controller;
 use b8\Config;
 use b8\HttpClient;
+use b8\Exception\HttpException\NotFoundException;
 
 /**
  * Webhook Controller - Processes webhook pings from BitBucket, Github, Gitlab, etc.
@@ -444,6 +446,10 @@ class WebhookController extends Controller
         $commitMessage,
         array $extra = null
     ) {
+        if ($project->getArchived()) {
+            throw new NotFoundException(Lang::get('project_x_not_found', $project->getId()));
+        }
+
         // Check if a build already exists for this commit ID:
         $builds = $this->buildStore->getByProjectAndCommit($project->getId(), $commitId);
 

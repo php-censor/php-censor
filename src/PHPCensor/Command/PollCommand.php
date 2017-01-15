@@ -72,13 +72,13 @@ class PollCommand extends Command
             $http = new HttpClient('https://api.github.com');
             $commits = $http->get('/repos/' . $project->getReference() . '/commits', ['access_token' => $token]);
 
-            $last_commit = $commits['body'][0]['sha'];
+            $last_commit    = $commits['body'][0]['sha'];
             $last_committer = $commits['body'][0]['commit']['committer']['email'];
-            $message = $commits['body'][0]['commit']['message'];
+            $message        = $commits['body'][0]['commit']['message'];
 
             $this->logger->info(Lang::get('last_commit_is', $project->getTitle(), $last_commit));
 
-            if ($project->getLastCommit() != $last_commit && $last_commit != "") {
+            if (!$project->getArchived() && ($project->getLastCommit() != $last_commit && $last_commit != "")) {
                 $this->logger->info(
                     Lang::get('adding_new_build')
                 );
@@ -89,7 +89,8 @@ class PollCommand extends Command
                 $build->setStatus(Build::STATUS_NEW);
                 $build->setBranch($project->getBranch());
                 $build->setCreated(new \DateTime());
-		$build->setCommitMessage($message);
+                $build->setCommitMessage($message);
+
                 if (!empty($last_committer)) {
                     $build->setCommitterEmail($last_committer);
                 }

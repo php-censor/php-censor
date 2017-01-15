@@ -48,12 +48,19 @@ class ProjectStore extends ProjectStoreBase
 
     /**
      * Get a list of all projects, ordered by their title.
+     * 
+     * @param boolean $archived
+     * 
      * @return array
      */
-    public function getAll()
+    public function getAll($archived = false)
     {
-        $query = 'SELECT * FROM `project` ORDER BY `title` ASC';
-        $stmt = Database::getConnection('read')->prepare($query);
+        $archived = (integer)$archived;
+
+        $query = 'SELECT * FROM `project` WHERE `archived` = :archived ORDER BY `title` ASC';
+        $stmt  = Database::getConnection('read')->prepare($query);
+
+        $stmt->bindValue(':archived', $archived);
 
         if ($stmt->execute()) {
             $res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
@@ -74,21 +81,28 @@ class ProjectStore extends ProjectStoreBase
 
     /**
      * Get multiple Project by GroupId.
-     * @param int $value
-     * @param int $limit
-     * @param string $useConnection
+     * 
+     * @param integer $value
+     * @param boolean $archived
+     * @param integer $limit
+     * @param string  $useConnection
+     * 
      * @return array
+     * 
      * @throws \Exception
      */
-    public function getByGroupId($value, $limit = 1000, $useConnection = 'read')
+    public function getByGroupId($value, $archived = false, $limit = 1000, $useConnection = 'read')
     {
         if (is_null($value)) {
             throw new \Exception('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
+        $archived = (integer)$archived;
 
-        $query = 'SELECT * FROM `project` WHERE `group_id` = :group_id ORDER BY title LIMIT :limit';
-        $stmt = Database::getConnection($useConnection)->prepare($query);
+        $query = 'SELECT * FROM `project` WHERE `group_id` = :group_id AND `archived` = :archived ORDER BY title LIMIT :limit';
+        $stmt  = Database::getConnection($useConnection)->prepare($query);
+
         $stmt->bindValue(':group_id', $value);
+        $stmt->bindValue(':archived', $archived);
         $stmt->bindValue(':limit', (int)$limit, \PDO::PARAM_INT);
 
         if ($stmt->execute()) {

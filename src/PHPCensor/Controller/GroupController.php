@@ -53,9 +53,11 @@ class GroupController extends Controller
                 'title' => $group->getTitle(),
                 'id'    => $group->getId(),
             ];
-            $projects = b8\Store\Factory::getStore('Project')->getByGroupId($group->getId());
-            $thisGroup['projects'] = $projects['items'];
-            $groups[] = $thisGroup;
+            $projects_active   = b8\Store\Factory::getStore('Project')->getByGroupId($group->getId(), false);
+            $projects_archived = b8\Store\Factory::getStore('Project')->getByGroupId($group->getId(), true);
+            
+            $thisGroup['projects'] = array_merge($projects_active['items'], $projects_archived['items']);
+            $groups[]              = $thisGroup;
         }
 
         $this->layout->title = Lang::get('group_projects');

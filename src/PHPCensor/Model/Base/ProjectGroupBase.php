@@ -160,6 +160,6 @@ class ProjectGroupBase extends Model
      */
     public function getGroupProjects()
     {
-        return Factory::getStore('Project', 'PHPCensor')->getByGroupId($this->getId());
+        return Factory::getStore('Project', 'PHPCensor')->getByGroupId($this->getId(), false);
     }
 }

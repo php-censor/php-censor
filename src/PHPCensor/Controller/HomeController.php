@@ -110,6 +110,7 @@ class HomeController extends Controller
 
     /**
      * Get a summary of the project groups we have, and what projects they have in them.
+     * 
      * @return array
      */
     protected function getGroupInfo()
@@ -119,7 +120,7 @@ class HomeController extends Controller
 
         foreach ($groups['items'] as $group) {
             $thisGroup             = ['title' => $group->getTitle()];
-            $projects              = $this->projectStore->getByGroupId($group->getId());
+            $projects              = $this->projectStore->getByGroupId($group->getId(), false);
             $thisGroup['projects'] = $projects['items'];
             $thisGroup['summary']  = $this->getSummaryHtml($thisGroup['projects']);
             $rtn[]                 = $thisGroup;

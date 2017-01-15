@@ -111,7 +111,7 @@ class ProjectController extends PHPCensor\Controller
             $branch = $project->getBranch();
         }
 
-        if (empty($project)) {
+        if (empty($project) || $project->getArchived()) {
             throw new NotFoundException(Lang::get('project_x_not_found', $projectId));
         }
 
