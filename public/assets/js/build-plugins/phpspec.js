@@ -1,6 +1,6 @@
 var phpspecPlugin = ActiveBuild.UiPlugin.extend({
     id: 'build-phpspec-errors',
-    css: 'col-lg-12 col-md-12 col-sm-12 col-xs-12',
+    css: 'col-xs-12',
     title: Lang.get('phpspec'),
     lastData: null,
     displayOnUpdate: false,

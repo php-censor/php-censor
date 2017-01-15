@@ -1,6 +1,6 @@
 var codeceptionPlugin = ActiveBuild.UiPlugin.extend({
     id: 'build-codeception-errors',
-    css: 'col-lg-12 col-md-12 col-sm-12 col-xs-12',
+    css: 'col-xs-12',
     title: Lang.get('codeception'),
     lastData: null,
     lastMeta: null,

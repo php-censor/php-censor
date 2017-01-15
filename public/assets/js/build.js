@@ -65,8 +65,6 @@ var Build = Class.extend({
 
                 }
             }
-
-            PHPCensor.uiUpdated();
         });
     },
 
@@ -179,7 +177,7 @@ var Build = Class.extend({
 
     UiPlugin: Class.extend({
         id: null,
-        css: 'col-lg-4 col-md-6 col-sm-12 col-xs-12',
+        css: 'col-xs-12',
         box: false,
 
         init: function(){

@@ -1,6 +1,6 @@
 var phptalPlugin = ActiveBuild.UiPlugin.extend({
     id: 'build-phptal',
-    css: 'col-lg-6 col-md-12 col-sm-12 col-xs-12',
+    css: 'col-xs-12',
     title: 'PHPTAL Lint',
     lastData: null,
     box: true,
@@ -25,9 +25,9 @@ var phptalPlugin = ActiveBuild.UiPlugin.extend({
         return $('<div class="table-responsive"><table class="table" id="phptal-data">' +
             '<thead>' +
             '<tr>' +
-            '   <th>File</th>' +
-            '   <th>Line</th>' +
-            '   <th>Message</th>' +
+            '   <th>' + Lang.get('file') + '</th>' +
+            '   <th>' + Lang.get('line') + '</th>' +
+            '   <th>' + Lang.get('message') + '</th>' +
             '</tr>' +
             '</thead><tbody></tbody></table></div>');
     },

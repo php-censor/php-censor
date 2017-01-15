@@ -237,10 +237,12 @@ class BuildController extends Controller
         if (!$build) {
             $response->setResponseCode(404);
             $response->setContent([]);
+    
             return $response;
         }
 
         $response->setContent($this->getBuildData($build));
+
         return $response;
     }
 
@@ -257,6 +259,7 @@ class BuildController extends Controller
 
         $response = new JsonResponse();
         $response->setContent($data);
+
         return $response;
     }
 

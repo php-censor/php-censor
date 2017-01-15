@@ -32,8 +32,8 @@
 
                     <tr>
                         <th><?php Lang::out('duration'); ?></th>
-                        <td style="text-align: right" class="build-duration duration" data-duration="<?php print $build->getDuration(); ?>">
-
+                        <td style="text-align: right" class="build-duration duration">
+                            <?php print $build->getDuration(); ?> <?= Lang::get('seconds'); ?>
                         </td>
                     </tr>
                 </table>
@@ -89,20 +89,22 @@
                 <table class="table">
                     <tr>
                         <th><?php Lang::out('created'); ?></th>
-                        <td style="text-align: right" class="build-created datetime" data-date="<?php print $build->getCreated() ? $build->getCreated()->format('Y-m-d H:i:s') : ''; ?>">
+                        <td style="text-align: right" class="build-created datetime">
+                            <?php print $build->getCreated() ? $build->getCreated()->format('Y-m-d H:i:s') : ''; ?>
                         </td>
                     </tr>
 
                     <tr>
                         <th><?php Lang::out('started'); ?></th>
-                        <td style="text-align: right" class="build-started datetime" data-date="<?php print $build->getStarted() ? $build->getStarted()->format('Y-m-d H:i:s') : ''; ?>">
+                        <td style="text-align: right" class="build-started datetime">
+                            <?php print $build->getStarted() ? $build->getStarted()->format('Y-m-d H:i:s') : ''; ?>
                         </td>
                     </tr>
 
                     <tr>
                         <th><?php Lang::out('finished'); ?></th>
-                        <td style="text-align: right" class="build-finished datetime" data-date="<?php print $build->getFinished() ? $build->getFinished()->format('Y-m-d H:i:s') : ''; ?>">
-
+                        <td style="text-align: right" class="build-finished datetime">
+                            <?php print $build->getFinished() ? $build->getFinished()->format('Y-m-d H:i:s') : ''; ?>
                         </td>
                     </tr>
                 </table>
@@ -170,7 +172,7 @@
 
 <?php
 foreach ($plugins as $plugin) {
-    print '<script src="'.APP_URL.'assets/js/build-plugins/' . $plugin . '"></script>' . PHP_EOL;
+    print '<script src="' . APP_URL . 'assets/js/build-plugins/' . $plugin . '"></script>' . PHP_EOL;
 }
 ?>
 

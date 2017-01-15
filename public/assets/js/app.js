@@ -3,17 +3,7 @@ var PHPCensor = {
     intervals: {},
 
     init: function () {
-        // Setup the date locale
-        moment.locale(LANGUAGE);
-
         $(document).ready(function () {
-            // Format datetimes
-            $('time[datetime]').each(function() {
-                var thisDate = $(this).attr('datetime');
-                var formattedDate = moment(thisDate).format($(this).data('format') || 'lll');
-                $(this).text(formattedDate);
-            });
-
             // Update latest builds every 5 seconds:
             PHPCensor.getBuilds();
             PHPCensor.intervals.getBuilds = setInterval(PHPCensor.getBuilds, 5000);
@@ -27,8 +17,6 @@ var PHPCensor = {
                 PHPCensor.intervals.getDashboard = setInterval(PHPCensor.getDashboard, 10000);
                 PHPCensor.intervals.getTimeline  = setInterval(PHPCensor.getTimeline, 10000);
             }
-
-            PHPCensor.uiUpdated();
         });
 
         $(window).on('builds-updated', function (e, data) {
@@ -123,7 +111,6 @@ var PHPCensor = {
 
             success: function (data) {
                 success();
-                PHPCensor.uiUpdated();
             },
 
             error: PHPCensor.handleFailedAjax
@@ -134,28 +121,6 @@ var PHPCensor = {
         if (xhr.status == 401) {
             window.location.href = window.APP_URL + 'session/login';
         }
-    },
-
-    uiUpdated: function () {
-        $('.duration').each(function () {
-            var seconds = $(this).data('duration');
-
-            if (seconds == 0) {
-                return;
-            }
-
-            $(this).text(moment.duration(seconds, 'seconds').humanize());
-        });
-
-        $('.datetime').each(function () {
-            var dateString = $(this).data('date');
-
-            if (!dateString) {
-                return;
-            }
-
-            $(this).text(moment(dateString).format('lll'));
-        });
     }
 };
 
@@ -506,5 +471,3 @@ var Lang = {
         return string;
     }
 };
-
-moment.locale(LANGUAGE);

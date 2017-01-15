@@ -204,6 +204,8 @@ PHP Censor',
     'codeception_time' => 'Время',
     'codeception_synopsis' => 'Тестов выполнено: <strong>%1$d</strong> (за <strong>%2$f</strong> сек.). Провалов: <strong>%3$d</strong>.',
 
+    'suite' => 'Набор',
+    'test'  => 'Тест',
     'file' => 'Файл',
     'line' => 'Строка',
     'class' => 'Класс',

@@ -213,7 +213,8 @@ PHP Censor',
     'codeception_time' => 'Time',
     'codeception_synopsis' => '<strong>%1$d</strong> tests carried out in <strong>%2$f</strong> seconds.
                                <strong>%3$d</strong> failures.',
-
+    'suite' => 'Suite',
+    'test'  => 'Test',
     'file' => 'File',
     'line' => 'Line',
     'class' => 'Class',
