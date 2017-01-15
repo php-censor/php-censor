@@ -16,7 +16,7 @@ var Build = Class.extend({
         self.buildData = buildData;
         self.fileLinkTemplate = linkTemplate;
 
-        self.registerQuery('build-updated', 10);
+        self.registerQuery('build-updated', 5);
 
         $(window).on('build-updated', function(data) {
 
@@ -29,9 +29,9 @@ var Build = Class.extend({
             }
 
             if (self.buildData) {
-                $('.build-duration').data('duration', self.buildData.duration ? self.buildData.duration : '');
-                $('.build-started').data('date', self.buildData.started ? self.buildData.started : '');
-                $('.build-finished').data('date', self.buildData.finished ? self.buildData.finished : '');
+                $('.build-duration').html(self.buildData.duration ? (self.buildData.duration + ' ' + Lang.get('seconds')) : ('0 ' + Lang.get('seconds')));
+                $('.build-started').html(self.buildData.started ? self.buildData.started : '');
+                $('.build-finished').html(self.buildData.finished ? self.buildData.finished : '');
                 $('#log pre').html(self.buildData.log);
                 $('.errors-table tbody').html(self.buildData.error_html);
 

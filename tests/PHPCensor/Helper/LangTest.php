@@ -10,12 +10,15 @@
 
 namespace Tests\PHPCensor\Helper;
 
-use DateTime;
-use PHPCensor\Helper\Lang;
 use Tests\PHPCensor\LocalizationTestCase;
 
 class LangTest extends LocalizationTestCase
 {
+    public function testSuccess()
+    {
+        $this->assertTrue(true);
+    }
+    
     /**
      * @return array
      */
