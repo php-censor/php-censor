@@ -22,9 +22,11 @@ var PHPCensor = {
             if (typeof PROJECT_ID != 'undefined') {
                 PHPCensor.intervals.getProjectBuilds = setInterval(PHPCensor.getProjectBuilds, 10000);
             }
-
-            PHPCensor.intervals.getDashboard = setInterval(PHPCensor.getDashboard, 10000);
-            PHPCensor.intervals.getTimeline  = setInterval(PHPCensor.getTimeline, 10000);
+            
+            if (typeof DASHBOARD != 'undefined') {
+                PHPCensor.intervals.getDashboard = setInterval(PHPCensor.getDashboard, 10000);
+                PHPCensor.intervals.getTimeline  = setInterval(PHPCensor.getTimeline, 10000);
+            }
 
             PHPCensor.uiUpdated();
         });
