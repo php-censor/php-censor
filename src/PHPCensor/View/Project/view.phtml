@@ -15,9 +15,11 @@
     </a>
 
     <div class="pull-right btn-group">
-        <a class="btn btn-success" href="<?php print APP_URL . 'project/build/' . $project->getId(); ?><?php echo !empty($branch) ? '/' . urlencode($branch) : '' ?>">
-            <?php Lang::out('build_now'); ?>
-        </a>
+        <?php if (!$project->getArchived()): ?>
+            <a class="btn btn-success" href="<?php print APP_URL . 'project/build/' . $project->getId(); ?><?php echo !empty($branch) ? '/' . urlencode($branch) : '' ?>">
+                <?php Lang::out('build_now'); ?>
+            </a>
+        <?php endif; ?>
 
         <div class="btn-group branch-btn pull-right">
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -68,7 +70,7 @@
 
     <div class="col-lg-3 col-md-4 col-sm-4">
 
-        <?php if ($project->getAllowPublicStatus()): ?>
+        <?php if ($project->getAllowPublicStatus() && !$project->getArchived()): ?>
             <div class="box">
                 <div class="box-header">
                     <h4 class="box-title"><?= Lang::get('public_status_title'); ?></h4>

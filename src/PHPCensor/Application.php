@@ -140,13 +140,14 @@ class Application extends b8\Application
         $groupList = $groupStore->getWhere([], 100, 0, [], ['title' => 'ASC']);
 
         foreach ($groupList['items'] as $group) {
-            $thisGroup = ['title' => $group->getTitle()];
-            $projects = b8\Store\Factory::getStore('Project')->getByGroupId($group->getId());
+            $thisGroup             = ['title' => $group->getTitle()];
+            $projects              = b8\Store\Factory::getStore('Project')->getByGroupId($group->getId(), false);
             $thisGroup['projects'] = $projects['items'];
-            $groups[] = $thisGroup;
+            $groups[]              = $thisGroup;
         }
 
-        $layout->groups = $groups;
+        $layout->archived_projects = (b8\Store\Factory::getStore('Project')->getAll(true))['items'];
+        $layout->groups            = $groups;
     }
 
     /**

@@ -93,8 +93,13 @@ class BuildController extends Controller
 
         $delete = Lang::get('delete_build');
         $deleteLink = APP_URL . 'build/delete/' . $build->getId();
+        
+        $project = b8\Store\Factory::getStore('Project')->getByPrimaryKey($build->getProjectId());
 
-        $actions = "<a class=\"btn btn-default\" href=\"{$rebuildLink}\">{$rebuild}</a> ";
+        $actions = '';
+        if (!$project->getArchived()) {
+            $actions .= "<a class=\"btn btn-default\" href=\"{$rebuildLink}\">{$rebuild}</a> ";
+        }
 
         if ($this->currentUserIsAdmin()) {
             $actions .= " <a class=\"btn btn-danger\" id=\"delete-build\" href=\"{$deleteLink}\">{$delete}</a>";
@@ -157,9 +162,10 @@ class BuildController extends Controller
     */
     public function rebuild($buildId)
     {
-        $copy   = BuildFactory::getBuildById($buildId);
+        $copy    = BuildFactory::getBuildById($buildId);
+        $project = b8\Store\Factory::getStore('Project')->getByPrimaryKey($copy->getProjectId());
 
-        if (empty($copy)) {
+        if (empty($copy) || $project->getArchived()) {
             throw new NotFoundException(Lang::get('build_x_not_found', $buildId));
         }
 

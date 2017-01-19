@@ -70,7 +70,7 @@ class CreateBuildCommand extends Command
         $branch = $input->getOption('branch');
 
         $project = $this->projectStore->getById($projectId);
-        if (empty($project)) {
+        if (empty($project) || $project->getArchived()) {
             throw new \InvalidArgumentException('Project does not exist: ' . $projectId);
         }
 
