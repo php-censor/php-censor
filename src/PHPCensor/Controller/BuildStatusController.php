@@ -170,19 +170,18 @@ class BuildStatusController extends Controller
 
     /**
      * View the public status page of a given project, if enabled.
-     * @param $projectId
+     * 
+     * @param integer $projectId
+     * 
      * @return string
+     * 
      * @throws \b8\Exception\HttpException\NotFoundException
      */
     public function view($projectId)
     {
         $project = $this->projectStore->getById($projectId);
 
-        if (empty($project)) {
-            throw new NotFoundException('Project with id: ' . $projectId . ' not found');
-        }
-
-        if (!$project->getAllowPublicStatus()) {
+        if (empty($project) || !$project->getAllowPublicStatus() || $project->getArchived()) {
             throw new NotFoundException('Project with id: ' . $projectId . ' not found');
         }
 

@@ -2,9 +2,9 @@
 /**
  * PHPCI - Continuous Integration for PHP
  *
- * @copyright    Copyright 2014, Block 8 Limited.
- * @license      https://github.com/Block8/PHPCI/blob/master/LICENSE.md
- * @link         https://www.phptesting.org/
+ * @copyright Copyright 2014, Block 8 Limited.
+ * @license   https://github.com/Block8/PHPCI/blob/master/LICENSE.md
+ * @link      https://www.phptesting.org/
  */
 
 namespace PHPCensor\Command;
@@ -21,9 +21,10 @@ use PHPCensor\Model\Build;
 
 /**
  * Run console command - Poll github for latest commit id
- * @author       Jimmy Cleuren <jimmy.cleuren@gmail.com>
- * @package      PHPCI
- * @subpackage   Console
+ * 
+ * @author     Jimmy Cleuren <jimmy.cleuren@gmail.com>
+ * @package    PHPCI
+ * @subpackage Console
  */
 class PollCommand extends Command
 {
