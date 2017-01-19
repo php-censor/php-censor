@@ -146,7 +146,8 @@ class Application extends b8\Application
             $groups[]              = $thisGroup;
         }
 
-        $layout->archived_projects = (b8\Store\Factory::getStore('Project')->getAll(true))['items'];
+        $archived_projects         = b8\Store\Factory::getStore('Project')->getAll(true);
+        $layout->archived_projects = $archived_projects['items'];
         $layout->groups            = $groups;
     }
 
