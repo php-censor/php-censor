@@ -18,11 +18,12 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
-* Re-runs the last run build.
-* @author       Dan Cryer <dan@block8.co.uk>
-* @package      PHPCI
-* @subpackage   Console
-*/
+ * Re-runs the last run build.
+ * 
+ * @author     Dan Cryer <dan@block8.co.uk>
+ * @package    PHPCI
+ * @subpackage Console
+ */
 class RebuildCommand extends Command
 {
     /**

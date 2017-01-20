@@ -21,10 +21,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 
 /**
-* @author       Dan Cryer <dan@block8.co.uk>
-* @package      PHPCI
-* @subpackage   Console
-*/
+ * @author     Dan Cryer <dan@block8.co.uk>
+ * @package    PHPCI
+ * @subpackage Console
+ */
 class RebuildQueueCommand extends Command
 {
     /**
