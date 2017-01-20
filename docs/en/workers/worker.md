@@ -1,16 +1,21 @@
 Run builds using a worker
 =========================
 
-The PHP Censor Worker runs in the background on your server and waits for new builds to be added to a Beanstalkd queue. Unless already running a build, the worker will pick up and start running new builds almost immediately after their creation.
+The PHP Censor Worker runs in the background on your server and waits for new builds to be added to a Beanstalkd queue.
+Unless already running a build, the worker will pick up and start running new builds almost immediately after their
+creation.
 
-The worker is the recommended way to run PHP Censor builds. You can run several workers all watching one queue, allowing jobs to be run simultaneously without the overhead of polling your MySQL database. 
+The worker is the recommended way to run PHP Censor builds. You can run several workers all watching one queue,
+allowing jobs to be run simultaneously without the overhead of polling your MySQL database. 
 
-If you can't run Beanstalkd on your server, or would prefer to run builds on a regular schedule, you should consider using the [build daemon](workers/daemon.md) or [running builds via Cron](workers/cron.md).
+If you can't run Beanstalkd on your server, or would prefer to run builds on a regular schedule, you should consider
+using the [running builds via Cron](workers/cron.md).
 
 Pre-Requisites
 --------------
 
-* You need to install [Beanstalkd](http://kr.github.io/beanstalkd/) - On Ubuntu, this is as simple as running `apt-get install beanstalkd`.
+* You need to install [Beanstalkd](http://kr.github.io/beanstalkd/) - On Ubuntu, this is as simple as running
+`apt-get install beanstalkd`.
 * [Supervisord](http://supervisord.org/) needs to be installed and running on your server.
 
 Setting up the PHP Censor worker
@@ -20,13 +25,9 @@ Setting up the PHP Censor worker
 
 Setting up the worker on a new installation of PHP Censor is as simple as entering the appropriate values for your Beanstalkd server hostname and queue name when running the PHP Censor installer. By default, the installer assumes that you'll be using beanstalkd on `localhost` and will use the queue name `php-censor-queue`.
 
-![PHP Censor Worker Installer](https://www.phptesting.org/media/render/f48f63699a04444630352643af18b643)
-
 ### On an existing installation
 
 On an existing installation, to set up the worker, you simply need to add the beanstalkd host and queue names directly into your `config.yml` file. You should add a `worker` key beneath the `php-censor` section, with the properties `host` and `queue` as outlined in the screenshot below:
-
-![PHP Censor Worker Config](https://www.phptesting.org/media/render/9a88e9298670f2913f5798e68b94c9ed)
 
 Running the PHP Censor worker
 -----------------------------

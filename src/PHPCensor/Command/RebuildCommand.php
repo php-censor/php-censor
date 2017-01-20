@@ -18,11 +18,12 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
-* Re-runs the last run build.
-* @author       Dan Cryer <dan@block8.co.uk>
-* @package      PHPCI
-* @subpackage   Console
-*/
+ * Re-runs the last run build.
+ * 
+ * @author     Dan Cryer <dan@block8.co.uk>
+ * @package    PHPCI
+ * @subpackage Console
+ */
 class RebuildCommand extends Command
 {
     /**
@@ -69,7 +70,6 @@ class RebuildCommand extends Command
     {
         $runner = new RunCommand($this->logger);
         $runner->setMaxBuilds(1);
-        $runner->setDaemon(false);
 
         /** @var \PHPCensor\Store\BuildStore $store */
         $store = Factory::getStore('Build');

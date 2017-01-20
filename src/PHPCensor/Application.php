@@ -159,8 +159,8 @@ class Application extends b8\Application
     protected function shouldSkipAuth()
     {
         $config = b8\Config::getInstance();
-        $state = (bool)$config->get('php-censor.authentication_settings.state', false);
-        $userId    = $config->get('php-censor.authentication_settings.user_id', 0);
+        $state  = (bool)$config->get('php-censor.authentication_settings.state', false);
+        $userId = $config->get('php-censor.authentication_settings.user_id', 0);
 
         if (false !== $state && 0 != (int)$userId) {
             $user = b8\Store\Factory::getStore('User')

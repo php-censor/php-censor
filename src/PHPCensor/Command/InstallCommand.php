@@ -27,9 +27,10 @@ use Symfony\Component\Yaml\Dumper;
 
 /**
  * Install console command - Installs PHPCI.
- * @author       Dan Cryer <dan@block8.co.uk>
- * @package      PHPCI
- * @subpackage   Console
+ * 
+ * @author     Dan Cryer <dan@block8.co.uk>
+ * @package    PHPCI
+ * @subpackage Console
  */
 class InstallCommand extends Command
 {

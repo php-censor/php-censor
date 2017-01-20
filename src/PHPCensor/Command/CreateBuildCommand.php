@@ -20,9 +20,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Create build command - creates a build for a project
- * @author       Jérémy DECOOL (@jdecool)
- * @package      PHPCI
- * @subpackage   Console
+ *
+ * @author     Jérémy DECOOL (@jdecool)
+ * @package    PHPCI
+ * @subpackage Console
  */
 class CreateBuildCommand extends Command
 {

@@ -19,11 +19,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 
 /**
-* Worker Command - Starts the BuildWorker, which pulls jobs from beanstalkd
-* @author       Dan Cryer <dan@block8.co.uk>
-* @package      PHPCI
-* @subpackage   Console
-*/
+ * Worker Command - Starts the BuildWorker, which pulls jobs from beanstalkd
+ *
+ * @author     Dan Cryer <dan@block8.co.uk>
+ * @package    PHPCI
+ * @subpackage Console
+ */
 class WorkerCommand extends Command
 {
     /**

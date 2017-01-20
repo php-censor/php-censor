@@ -13,6 +13,15 @@ php-censor:
   url:      'http://php-censor.local'
   email_settings:
     from_address: 'no-reply@php-censor.local'
+    smtp_address:
   worker:
     host:  localhost
     queue: php-censor-queue
+  github:
+    token: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+    comments:
+      commit:       false
+      pull_request: false
+  authentication_settings:
+    state:   false
+    user_id: 1

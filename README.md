@@ -77,8 +77,8 @@ with web-server (Nginx or Apache2), MySQL (or MariaDB) database and Composer.
 * [Add a virtual host to your web server](docs/en/virtual_host.md), pointing to the `public` directory within your new
 PHP Censor directory. You'll need to set up rewrite rules to point all non-existent requests to PHP Censor;
 
-* [Set up the PHP Censor Worker](docs/en/workers/worker.md), or you can run builds using the
-[daemon](docs/en/workers/daemon.md) or [a cron-job](docs/en/workers/cron.md) to run PHP Censor builds;
+* [Set up the PHP Censor Worker](docs/en/workers/worker.md), or [a cron-job](docs/en/workers/cron.md) to run PHP
+Censor builds;
 
 More details about [installation](docs/en/installing.md).
 

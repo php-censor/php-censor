@@ -24,11 +24,12 @@ use PHPCensor\BuildFactory;
 use PHPCensor\Model\Build;
 
 /**
-* Run console command - Runs any pending builds.
-* @author       Dan Cryer <dan@block8.co.uk>
-* @package      PHPCI
-* @subpackage   Console
-*/
+ * Run console command - Runs any pending builds.
+ * 
+ * @author     Dan Cryer <dan@block8.co.uk>
+ * @package    PHPCI
+ * @subpackage Console
+ */
 class RunCommand extends Command
 {
     /**
@@ -45,11 +46,6 @@ class RunCommand extends Command
      * @var int
      */
     protected $maxBuilds = 100;
-
-    /**
-     * @var bool
-     */
-    protected $isFromDaemon = false;
 
     /**
      * @param \Monolog\Logger $logger
@@ -105,7 +101,7 @@ class RunCommand extends Command
             $build = BuildFactory::getBuild($build);
 
             // Skip build (for now) if there's already a build running in that project:
-            if (!$this->isFromDaemon && in_array($build->getProjectId(), $running)) {
+            if (in_array($build->getProjectId(), $running)) {
                 $this->logger->addInfo(Lang::get('skipping_build', $build->getId()));
                 $result['items'][] = $build;
 
@@ -145,11 +141,6 @@ class RunCommand extends Command
     public function setMaxBuilds($numBuilds)
     {
         $this->maxBuilds = (int)$numBuilds;
-    }
-
-    public function setDaemon($fromDaemon)
-    {
-        $this->isFromDaemon = (bool)$fromDaemon;
     }
 
     protected function validateRunningBuilds()
