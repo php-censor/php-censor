@@ -207,13 +207,13 @@ class GithubBuild extends RemoteGitBuild
         if (!is_null($diffLineNumber)) {
             $helper = new Github();
 
-            $repo = $this->getProject()->getReference();
+            $repo     = $this->getProject()->getReference();
             $prNumber = $this->getExtra('pull_request_number');
-            $commit = $this->getCommitId();
+            $commit   = $this->getCommitId();
 
-            $allowCommentCommit      = Config::getInstance()->get('php-censor.github.comments.commit');
-            $allowCommentPullRequest = Config::getInstance()->get('php-censor.github.comments.pull_request');
-            
+            $allowCommentCommit      = (boolean)Config::getInstance()->get('php-censor.github.comments.commit', false);
+            $allowCommentPullRequest = (boolean)Config::getInstance()->get('php-censor.github.comments.pull_request', false);
+
             if (!empty($prNumber)) {
                 if ($allowCommentPullRequest) {
                     $helper->createPullRequestComment($repo, $prNumber, $commit, $file, $diffLineNumber, $message);
