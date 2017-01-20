@@ -202,25 +202,30 @@ class GithubBuild extends RemoteGitBuild
         $lineStart = null,
         $lineEnd = null
     ) {
-        $diffLineNumber = $this->getDiffLineNumber($builder, $file, $lineStart);
+        $allowCommentCommit      = (boolean)Config::getInstance()->get('php-censor.github.comments.commit', false);
+        $allowCommentPullRequest = (boolean)Config::getInstance()->get('php-censor.github.comments.pull_request', false);
 
-        if (!is_null($diffLineNumber)) {
-            $helper = new Github();
+        if ($allowCommentCommit || $allowCommentPullRequest) {
+            $diffLineNumber = $this->getDiffLineNumber($builder, $file, $lineStart);
 
-            $repo     = $this->getProject()->getReference();
-            $prNumber = $this->getExtra('pull_request_number');
-            $commit   = $this->getCommitId();
+            if (!is_null($diffLineNumber)) {
+                $helper = new Github();
 
-            $allowCommentCommit      = (boolean)Config::getInstance()->get('php-censor.github.comments.commit', false);
-            $allowCommentPullRequest = (boolean)Config::getInstance()->get('php-censor.github.comments.pull_request', false);
+                $repo     = $this->getProject()->getReference();
+                $prNumber = $this->getExtra('pull_request_number');
+                $commit   = $this->getCommitId();
 
-            if (!empty($prNumber)) {
-                if ($allowCommentPullRequest) {
-                    $helper->createPullRequestComment($repo, $prNumber, $commit, $file, $diffLineNumber, $message);
-                }
-            } else {
-                if ($allowCommentCommit) {
-                    $helper->createCommitComment($repo, $commit, $file, $diffLineNumber, $message);
+                $allowCommentCommit      = (boolean)Config::getInstance()->get('php-censor.github.comments.commit', false);
+                $allowCommentPullRequest = (boolean)Config::getInstance()->get('php-censor.github.comments.pull_request', false);
+
+                if (!empty($prNumber)) {
+                    if ($allowCommentPullRequest) {
+                        $helper->createPullRequestComment($repo, $prNumber, $commit, $file, $diffLineNumber, $message);
+                    }
+                } else {
+                    if ($allowCommentCommit) {
+                        $helper->createCommitComment($repo, $commit, $file, $diffLineNumber, $message);
+                    }
                 }
             }
         }

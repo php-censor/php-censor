@@ -145,7 +145,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
     protected function runConfigFile($configFile)
     {
         $options   = clone $this->options;
-        $buildPath = $this->build->getBuildPath() . DIRECTORY_SEPARATOR;
+        $buildPath = $this->build->getBuildPath();
 
         // Save the results into a json file
         $jsonFile = tempnam(RUNTIME_DIR, 'jLog_');
