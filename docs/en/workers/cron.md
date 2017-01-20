@@ -1,9 +1,8 @@
 Run builds using cronjob
 ========================
 
-Running builds using cron is a quick and simple method of getting up and running with PHP Censor. It also removes the need for PHP Censor to be running all the time.
-
-If you want a little more control over how PHP Censor runs, you may want to [set up the daemon](workers/daemon.md) instead.
+Running builds using cron is a quick and simple method of getting up and running with PHP Censor. It also removes the
+need for PHP Censor to be running all the time.
 
 Setting up the Cron Job
 -----------------------

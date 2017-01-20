@@ -69,7 +69,6 @@ class RebuildCommand extends Command
     {
         $runner = new RunCommand($this->logger);
         $runner->setMaxBuilds(1);
-        $runner->setDaemon(false);
 
         /** @var \PHPCensor\Store\BuildStore $store */
         $store = Factory::getStore('Build');

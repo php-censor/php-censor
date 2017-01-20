@@ -12,7 +12,6 @@
 use PHPCensor\Command\RunCommand;
 use PHPCensor\Command\RebuildCommand;
 use PHPCensor\Command\InstallCommand;
-use PHPCensor\Command\DaemonCommand;
 use PHPCensor\Command\PollCommand;
 use PHPCensor\Command\CreateAdminCommand;
 use PHPCensor\Command\CreateBuildCommand;
@@ -34,7 +33,6 @@ $application = new Application();
 $application->add(new RunCommand($loggerConfig->getFor('RunCommand')));
 $application->add(new RebuildCommand($loggerConfig->getFor('RunCommand')));
 $application->add(new InstallCommand);
-$application->add(new DaemonCommand($loggerConfig->getFor('DaemonCommand')));
 $application->add(new PollCommand($loggerConfig->getFor('PollCommand')));
 $application->add(new CreateAdminCommand(Factory::getStore('User')));
 $application->add(new CreateBuildCommand(Factory::getStore('Project'), new BuildService(Factory::getStore('Build'))));
