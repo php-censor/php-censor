@@ -43,8 +43,10 @@ class Executor
 
     /**
      * Execute a the appropriate set of plugins for a given build stage.
-     * @param array $config PHPCI configuration
+     * 
+     * @param array  $config PHPCI configuration
      * @param string $stage
+     * 
      * @return bool
      */
     public function executePlugins(&$config, $stage)

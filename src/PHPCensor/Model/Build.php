@@ -156,7 +156,7 @@ class Build extends BuildBase
 
             $reflectedPlugin = new \ReflectionClass($className);
 
-            if (!$reflectedPlugin->implementsInterface('\PHPCensor\ZeroConfigPlugin')) {
+            if (!$reflectedPlugin->implementsInterface('\PHPCensor\ZeroConfigPluginInterface')) {
                 continue;
             }
 

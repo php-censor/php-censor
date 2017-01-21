@@ -38,9 +38,12 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
     protected $ymlConfigFile;
 
     /**
-     * @var string $path The path to the codeception tests folder.
+     * @var array $path The path to the codeception tests folder.
      */
-    protected $path;
+    protected $path = [
+        'tests/_output',
+        'tests/_log',
+    ];
 
     /**
      * @return string
@@ -56,8 +59,6 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
         parent::__construct($builder, $build, $options);
-
-        $this->path = 'tests' . DIRECTORY_SEPARATOR . '_output' . DIRECTORY_SEPARATOR;
 
         if (empty($options['config'])) {
             $this->ymlConfigFile = self::findConfigFile($this->builder->buildPath);
@@ -140,11 +141,21 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
         $yaml   = file_get_contents($configPath);
         $config = (array)$parser->parse($yaml);
 
+        $outputPath = null;
         if ($config && isset($config['paths']['log'])) {
-            $this->path = $config['paths']['log'] . DIRECTORY_SEPARATOR;
+            $outputPath = $this->builder->buildPath . $config['paths']['log'] . '/';
+        }
+        
+        if (!file_exists($outputPath . 'report.xml')) {
+            foreach ($this->path as $path) {
+                $outputPath = $this->builder->buildPath . $path . '/';
+                if (file_exists($outputPath . 'report.xml')) {
+                    break;
+                }
+            }
         }
 
-        $xml    = file_get_contents($this->builder->buildPath . $this->path . 'report.xml', false);
+        $xml    = file_get_contents($outputPath . 'report.xml', false);
         $parser = new Parser($this->builder, $xml);
         $output = $parser->parse();
 
