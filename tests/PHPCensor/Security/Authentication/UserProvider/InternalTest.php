@@ -22,7 +22,9 @@ class InternalTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->provider = new Internal("internal");
+        $this->provider = new Internal('internal', [
+            'type' => 'internal',
+        ]);
     }
 
     /**
