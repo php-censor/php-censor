@@ -11,14 +11,14 @@
 namespace PHPCensor\Security\Authentication\UserProvider;
 
 use PHPCensor\Model\User;
-use PHPCensor\Security\Authentication\LoginPasswordProvider;
+use PHPCensor\Security\Authentication\LoginPasswordProviderInterface;
 
 /**
  * Internal user provider
  * 
  * @author Adirelle <adirelle@gmail.com>
  */
-class Internal extends AbstractProvider implements LoginPasswordProvider
+class Internal extends AbstractProvider implements LoginPasswordProviderInterface
 {
 
     public function verifyPassword(User $user, $password)

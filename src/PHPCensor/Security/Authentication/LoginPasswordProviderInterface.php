@@ -17,7 +17,7 @@ use PHPCensor\Model\User;
  *
  * @author Adirelle <adirelle@gmail.com>
  */
-interface LoginPasswordProvider extends UserProvider
+interface LoginPasswordProviderInterface extends UserProviderInterface
 {
     /** Verify if the supplied password matches the user's one.
      *

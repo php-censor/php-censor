@@ -22,8 +22,18 @@ php-censor:
     comments:
       commit:       false
       pull_request: false
-  authentication_settings:
-    state:   false
-    user_id: 1
   build:
     remove_builds: true
+  security:
+    disable_auth:    false
+    default_user_id: 1
+    auth_providers:
+      internal:
+        type: internal
+      ldap:
+        type: ldap
+        data:
+          host:           'ldap.php-censor.local'
+          port:           389
+          base_dn:        'dc=php-censor,dc=local'
+          mail_attribute: mail

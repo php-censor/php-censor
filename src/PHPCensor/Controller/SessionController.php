@@ -42,8 +42,9 @@ class SessionController extends Controller
     public function init()
     {
         $this->response->disableLayout();
-        $this->userStore       = b8\Store\Factory::getStore('User');
-        $this->authentication  = Service::getInstance();
+
+        $this->userStore      = b8\Store\Factory::getStore('User');
+        $this->authentication = Service::getInstance();
     }
 
     /**
@@ -60,8 +61,8 @@ class SessionController extends Controller
             } else {
                 unset($_SESSION['login_token']);
 
-                $email = $this->getParam('email');
-                $password = $this->getParam('password', '');
+                $email          = $this->getParam('email');
+                $password       = $this->getParam('password', '');
                 $isLoginFailure = true;
 
                 $user = $this->userStore->getByEmailOrName($email);

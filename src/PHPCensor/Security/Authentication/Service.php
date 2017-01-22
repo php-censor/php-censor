@@ -33,8 +33,12 @@ class Service
     {
         if (self::$instance === null) {
             $config = Config::getInstance()->get(
-                'php-censor.security.authentication',
-                ['internal' => ['type' => 'internal']]
+                'php-censor.security.auth_providers',
+                [
+                    'internal' => [
+                        'type' => 'internal'
+                    ]
+                ]
             );
 
             $providers = [];
@@ -49,9 +53,10 @@ class Service
 
     /** Create a provider from a given configuration.
      *
-     * @param string $key
+     * @param string       $key
      * @param string|array $config
-     * @return UserProvider
+     * 
+     * @return UserProviderInterface
      */
     public static function buildProvider($key, $config)
     {
@@ -80,7 +85,7 @@ class Service
 
     /** Return all providers.
      *
-     * @return UserProvider[]
+     * @return UserProviderInterface[]
      */
     public function getProviders()
     {
@@ -89,13 +94,13 @@ class Service
 
     /** Return the user providers that allows password authentication.
      *
-     * @return LoginPasswordProvider[]
+     * @return LoginPasswordProviderInterface[]
      */
     public function getLoginPasswordProviders()
     {
         $providers = [];
         foreach ($this->providers as $key => $provider) {
-            if ($provider instanceof LoginPasswordProvider) {
+            if ($provider instanceof LoginPasswordProviderInterface) {
                 $providers[$key] = $provider;
             }
         }

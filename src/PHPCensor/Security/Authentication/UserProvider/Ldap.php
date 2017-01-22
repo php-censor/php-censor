@@ -11,36 +11,44 @@
 namespace PHPCensor\Security\Authentication\UserProvider;
 
 use b8\Config;
+use b8\Store\Factory;
 use PHPCensor\Model\User;
-use PHPCensor\Security\Authentication\LoginPasswordProvider;
+use PHPCensor\Security\Authentication\LoginPasswordProviderInterface;
+use PHPCensor\Service\UserService;
 
 /**
  * Ldap user provider.
  *
  * @author Dmitrii Zolotov (@itherz)
  */
-class Ldap extends AbstractProvider implements LoginPasswordProvider
+class Ldap extends AbstractProvider implements LoginPasswordProviderInterface
 {
-
     public function verifyPassword(User $user, $password)
     {
-        $config        = Config::getInstance()->get('php-censor.security.ldap', []);
-        $server        = $config["server"];
-        $mailAttribute = $config["mailAttribute"];
-        $ldap          = ldap_connect($server);
+        $providers = Config::getInstance()->get('php-censor.security.auth_providers', []);
+        if ($providers) {
+            foreach ($providers as $provider) {
+                if (isset($provider['type']) && 'ldap' === $provider['type']) {
+                    $ldapData = $provider['data'];
 
-        ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
+                    $ldap = ldap_connect($ldapData['host'], $ldapData['port']);
 
-        $ls = ldap_search($ldap, $config["base"], $mailAttribute . "=" . $user->getEmail());
-        $le = ldap_get_entries($ldap, $ls);
+                    ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
 
-        if ($le["count"] == 0) {
-            return false;
+                    $ls = ldap_search($ldap, $ldapData['base_dn'], $ldapData['mail_attribute'] . '=' . $user->getEmail());
+                    $le = ldap_get_entries($ldap, $ls);
+                    if (!$le['count']) {
+                        continue;
+                    }
+
+                    $dn = $le[0]['dn'];
+
+                    return @ldap_bind($ldap, $dn, $password);
+                }
+            }
         }
 
-        $dn = $le[0]["dn"];
-
-        return ldap_bind($ldap, $dn, $password);
+        return false;
     }
 
     public function checkRequirements()
@@ -50,6 +58,11 @@ class Ldap extends AbstractProvider implements LoginPasswordProvider
 
     public function provisionUser($identifier)
     {
-        return null;
+        $userService = new UserService(Factory::getStore('User'));
+
+        $parts    = explode("@", $identifier);
+        $username = $parts[0];
+        
+        return $userService->createUserWithProvider($username, $identifier, 'ldap', null);
     }
 }

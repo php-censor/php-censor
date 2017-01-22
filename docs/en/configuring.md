@@ -9,10 +9,12 @@ username/password pair and have forgotten the password, and if the server is on 
 the `forgot password` email, then editing the config file manually would be handy. To do so, just edit the `php-censor`
 section in the config file (which is in [yaml format](https://en.wikipedia.org/wiki/YAML)), and add
 
-    php-censor:
-        authentication_settings:
-          state: 1
-          user_id: 1
+```yml
+php-censor:
+  security:
+    disable_auth:    true
+    default_user_id: 1
+```
 
-where you can get the user_id by logging into the mysql database and selecting your user ID from the `users` table in
+where you can get the `default_user_id by` logging into the mysql database and selecting your user ID from the `users` table in
 the PHP Censor database.

@@ -50,8 +50,8 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetProviders()
     {
-        $a         = $this->prophesize('\PHPCensor\Security\Authentication\UserProvider')->reveal();
-        $b         = $this->prophesize('\PHPCensor\Security\Authentication\UserProvider')->reveal();
+        $a         = $this->prophesize('\PHPCensor\Security\Authentication\UserProviderInterface')->reveal();
+        $b         = $this->prophesize('\PHPCensor\Security\Authentication\UserProviderInterface')->reveal();
         $providers = ['a' => $a, 'b' => $b];
 
         $service = new Service($providers);
@@ -64,8 +64,8 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetLoginPasswordProviders()
     {
-        $a         = $this->prophesize('\PHPCensor\Security\Authentication\UserProvider')->reveal();
-        $b         = $this->prophesize('\PHPCensor\Security\Authentication\LoginPasswordProvider')->reveal();
+        $a         = $this->prophesize('\PHPCensor\Security\Authentication\UserProviderInterface')->reveal();
+        $b         = $this->prophesize('\PHPCensor\Security\Authentication\LoginPasswordProviderInterface')->reveal();
         $providers = ['a' => $a, 'b' => $b];
 
         $service = new Service($providers);

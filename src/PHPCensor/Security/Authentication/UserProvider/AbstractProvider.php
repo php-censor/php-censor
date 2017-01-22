@@ -10,14 +10,14 @@
 
 namespace PHPCensor\Security\Authentication\UserProvider;
 
-use PHPCensor\Security\Authentication\UserProvider;
+use PHPCensor\Security\Authentication\UserProviderInterface;
 
 /**
  * Abstract user provider.
  *
  * @author Adirelle <adirelle@gmail.com>
  */
-abstract class AbstractProvider implements UserProvider
+abstract class AbstractProvider implements UserProviderInterface
 {
     /**
      * @var string

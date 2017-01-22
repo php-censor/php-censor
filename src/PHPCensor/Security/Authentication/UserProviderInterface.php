@@ -17,7 +17,7 @@ use PHPCensor\Model\User;
  *
  * @author Adirelle <adirelle@gmail.com>
  */
-interface UserProvider
+interface UserProviderInterface
 {
 
     /** Check if all software requirements are met (libraries, extensions, ...)
