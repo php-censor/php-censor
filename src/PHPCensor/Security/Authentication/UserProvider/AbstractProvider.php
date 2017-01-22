@@ -22,19 +22,22 @@ abstract class AbstractProvider implements UserProviderInterface
     /**
      * @var string
      */
-    private $key;
-
-    public function __construct($key)
-    {
-        $this->key = $key;
-    }
+    protected $key;
 
     /**
-     *
-     * @return string
+     * @var array
      */
-    public function getKey()
+    protected $config;
+
+    /**
+     * AbstractProvider constructor
+     * 
+     * @param string $key
+     * @param array  $config
+     */
+    public function __construct($key, array $config)
     {
-        return $this->key;
+        $this->key    = $key;
+        $this->config = $config;
     }
 }

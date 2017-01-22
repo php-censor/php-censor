@@ -20,7 +20,6 @@ use PHPCensor\Security\Authentication\LoginPasswordProviderInterface;
  */
 class Internal extends AbstractProvider implements LoginPasswordProviderInterface
 {
-
     public function verifyPassword(User $user, $password)
     {
         return password_verify($password, $user->getHash());
