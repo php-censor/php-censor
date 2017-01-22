@@ -3,7 +3,7 @@
 /**
  * PHPCI - Continuous Integration for PHP
  *
- * @copyright    Copyright 2014, Block 8 Limited.
+ * @copyright    Copyright 2015, Block 8 Limited.
  * @license      https://github.com/Block8/PHPCI/blob/master/LICENSE.md
  * @link         https://www.phptesting.org/
  */
@@ -14,9 +14,12 @@ use b8;
 use PHPCensor\Helper\Email;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Controller;
+use PHPCensor\Security\Authentication\Service;
+use PHPCensor\Store\UserStore;
 
 /**
 * Session Controller - Handles user login / logout.
+ * 
 * @author       Dan Cryer <dan@block8.co.uk>
 * @package      PHPCI
 * @subpackage   Web
@@ -24,9 +27,14 @@ use PHPCensor\Controller;
 class SessionController extends Controller
 {
     /**
-     * @var \PHPCensor\Store\UserStore
+     * @var UserStore
      */
     protected $userStore;
+
+    /**
+     * @var Service
+     */
+    protected $authentication;
 
     /**
      * Initialise the controller, set up stores and services.
@@ -34,12 +42,14 @@ class SessionController extends Controller
     public function init()
     {
         $this->response->disableLayout();
-        $this->userStore       = b8\Store\Factory::getStore('User');
+
+        $this->userStore      = b8\Store\Factory::getStore('User');
+        $this->authentication = Service::getInstance();
     }
 
     /**
-    * Handles user login (form and processing)
-    */
+     * Handles user login (form and processing)
+     */
     public function login()
     {
         $isLoginFailure = false;
@@ -51,23 +61,42 @@ class SessionController extends Controller
             } else {
                 unset($_SESSION['login_token']);
 
-                $user = $this->userStore->getByEmailOrName($this->getParam('email'));
+                $email          = $this->getParam('email');
+                $password       = $this->getParam('password', '');
+                $isLoginFailure = true;
 
-                if ($user && password_verify($this->getParam('password', ''), $user->getHash())) {
-                    session_regenerate_id(true);
-                    $_SESSION['php-censor-user-id']    = $user->getId();
+                $user = $this->userStore->getByEmailOrName($email);
+
+                $providers = $this->authentication->getLoginPasswordProviders();
+
+                if (null !== $user) {
+                    // Delegate password verification to the user provider, if found
+                    $key = $user->getProviderKey();
+                    $isLoginFailure = !isset($providers[$key]) || !$providers[$key]->verifyPassword($user, $password);
+                } else {
+                    // Ask each providers to provision the user
+                    foreach ($providers as $provider) {
+                        $user = $provider->provisionUser($email);
+                        if ($user !== null && $provider->verifyPassword($user, $password)) {
+                            $this->userStore->save($user);
+                            $isLoginFailure = false;
+                            break;
+                        }
+                    }
+                }
+
+                if (!$isLoginFailure) {
+                    $_SESSION['php-censor-user-id'] = $user->getId();
                     $response = new b8\Http\Response\RedirectResponse();
                     $response->setHeader('Location', $this->getLoginRedirect());
                     return $response;
-                } else {
-                    $isLoginFailure = true;
                 }
             }
         }
 
         $form = new b8\Form();
         $form->setMethod('POST');
-        $form->setAction(APP_URL.'session/login');
+        $form->setAction(APP_URL . 'session/login');
 
         $email = new b8\Form\Element\Text('email');
         $email->setLabel(Lang::get('login'));

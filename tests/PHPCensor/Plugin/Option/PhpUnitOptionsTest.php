@@ -21,80 +21,80 @@ class PhpUnitOptionsTest extends \PHPUnit_Framework_TestCase
 {
     public function validOptionsProvider()
     {
-        return array(
-            array(
-                array(
+        return [
+            [
+                [
                     'config' => 'tests/phpunit.xml',
                     'args'   => '--stop-on-error --log-junit /path/to/log/',
-                ),
-                array(
+                ],
+                [
                     'stop-on-error' => '',
                     'log-junit'     => '/path/to/log/',
                     'configuration' => 'tests/phpunit.xml',
-                ),
-            ),
-            array(
-                array(
+                ],
+            ],
+            [
+                [
                     'coverage' => '/path/to/coverage2/',
-                    'args'     => array(
+                    'args'     => [
                         'coverage-html' => '/path/to/coverage1/',
-                    ),
-                ),
-                array(
-                    'coverage-html' => array(
+                    ],
+                ],
+                [
+                    'coverage-html' => [
                         '/path/to/coverage1/',
                         '/path/to/coverage2/',
-                    ),
-                ),
-            ),
-            array(
-                array(
-                    'directory' => array(
+                    ],
+                ],
+            ],
+            [
+                [
+                    'directory' => [
                         '/path/to/test1/',
                         '/path/to/test2/',
-                    ),
-                    'args'      => array(
+                    ],
+                    'args'      => [
                         'coverage-html' => '/path/to/coverage1/',
-                    ),
-                ),
-                array(
+                    ],
+                ],
+                [
                     'coverage-html' => '/path/to/coverage1/',
-                ),
-            ),
-            array(
-                array(
-                    'config' => array('tests/phpunit.xml'),
+                ],
+            ],
+            [
+                [
+                    'config' => ['tests/phpunit.xml'],
                     'args'   => "--testsuite=unit --bootstrap=vendor/autoload.php",
-                ),
-                array(
+                ],
+                [
                     'testsuite'     => 'unit',
                     'bootstrap'     => 'vendor/autoload.php',
-                    'configuration' => array('tests/phpunit.xml'),
-                ),
-            ),
-            array(
-                array(
-                    'config' => array('tests/phpunit.xml'),
+                    'configuration' => ['tests/phpunit.xml'],
+                ],
+            ],
+            [
+                [
+                    'config' => ['tests/phpunit.xml'],
                     'args'   => "--testsuite='unit' --bootstrap 'vendor/autoload.php'",
-                ),
-                array(
+                ],
+                [
                     'testsuite'     => 'unit',
                     'bootstrap'     => 'vendor/autoload.php',
-                    'configuration' => array('tests/phpunit.xml'),
-                ),
-            ),
-            array(
-                array(
-                    'config' => array('tests/phpunit.xml'),
+                    'configuration' => ['tests/phpunit.xml'],
+                ],
+            ],
+            [
+                [
+                    'config' => ['tests/phpunit.xml'],
                     'args'   => '--testsuite="unit" --bootstrap "vendor/autoload.php"',
-                ),
-                array(
+                ],
+                [
                     'testsuite'     => 'unit',
                     'bootstrap'     => 'vendor/autoload.php',
-                    'configuration' => array('tests/phpunit.xml'),
-                ),
-            ),
-        );
+                    'configuration' => ['tests/phpunit.xml'],
+                ],
+            ],
+        ];
     }
 
     /**
@@ -112,10 +112,10 @@ class PhpUnitOptionsTest extends \PHPUnit_Framework_TestCase
     public function testGetters()
     {
         $options = new PhpUnitOptions(
-            array(
+            [
                 'run_from' => '/path/to/run/from',
                 'path'     => 'subTest',
-            )
+            ]
         );
 
         $this->assertEquals('/path/to/run/from', $options->getRunFrom());

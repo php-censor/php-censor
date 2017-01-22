@@ -40,6 +40,9 @@
         <testsuite name="PHP Censor ProcessControl Test Suite">
             <directory suffix="Test.php">./tests/PHPCensor/ProcessControl</directory>
         </testsuite>
+        <testsuite name="PHP Censor Security Test Suite">
+            <directory suffix="Test.php">./tests/PHPCensor/Security</directory>
+        </testsuite>
     </testsuites>
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">

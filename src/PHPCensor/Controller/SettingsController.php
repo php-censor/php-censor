@@ -47,6 +47,7 @@ class SettingsController extends Controller
 
     /**
      * Display settings forms.
+     * 
      * @return string
      */
     public function index()
@@ -72,18 +73,18 @@ class SettingsController extends Controller
             $emailSettings = $this->settings['php-censor']['email_settings'];
         }
 
-        $authSettings = [];
-        if (isset($this->settings['php-censor']['authentication_settings'])) {
-            $authSettings = $this->settings['php-censor']['authentication_settings'];
+        $securitySettings = [];
+        if (isset($this->settings['php-censor']['security'])) {
+            $securitySettings = $this->settings['php-censor']['security'];
         }
 
-        $this->view->configFile             = APP_DIR . 'config.yml';
-        $this->view->basicSettings          = $this->getBasicForm($basicSettings);
-        $this->view->buildSettings          = $this->getBuildForm($buildSettings);
-        $this->view->github                 = $this->getGithubForm();
-        $this->view->emailSettings          = $this->getEmailForm($emailSettings);
-        $this->view->authenticationSettings = $this->getAuthenticationForm($authSettings);
-        $this->view->isWriteable            = $this->canWriteConfig();
+        $this->view->configFile       = APP_DIR . 'config.yml';
+        $this->view->basicSettings    = $this->getBasicForm($basicSettings);
+        $this->view->buildSettings    = $this->getBuildForm($buildSettings);
+        $this->view->github           = $this->getGithubForm();
+        $this->view->emailSettings    = $this->getEmailForm($emailSettings);
+        $this->view->securitySettings = $this->getAuthenticationForm($securitySettings);
+        $this->view->isWriteable      = $this->canWriteConfig();
 
         if (!empty($this->settings['php-censor']['github']['token'])) {
             $this->view->githubUser = $this->getGithubUser($this->settings['php-censor']['github']['token']);
@@ -187,8 +188,8 @@ class SettingsController extends Controller
     {
         $this->requireAdmin();
 
-        $this->settings['php-censor']['authentication_settings']['state']   = $this->getParam('disable_authentication', 0);
-        $this->settings['php-censor']['authentication_settings']['user_id'] = $_SESSION['php-censor-user-id'];
+        $this->settings['php-censor']['security']['disable_auth']    = (boolean)$this->getParam('disable_authentication', false);
+        $this->settings['php-censor']['security']['default_user_id'] = (integer)$_SESSION['php-censor-user-id'];
 
         $error = $this->storeSettings();
 
@@ -479,8 +480,8 @@ class SettingsController extends Controller
         $field->setContainerClass('form-group');
         $field->setValue(0);
 
-        if (isset($values['state'])) {
-            $field->setValue((int)$values['state']);
+        if (isset($values['disable_auth'])) {
+            $field->setValue((integer)$values['disable_auth']);
         }
 
         $form->addField($field);

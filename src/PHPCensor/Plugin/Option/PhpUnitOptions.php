@@ -20,7 +20,7 @@ namespace PHPCensor\Plugin\Option;
 class PhpUnitOptions
 {
     protected $options;
-    protected $arguments = array();
+    protected $arguments = [];
 
     public function __construct($options)
     {
@@ -52,7 +52,7 @@ class PhpUnitOptions
             $prefix = $argumentName[0] == '-' ? '' : '--';
 
             if (!is_array($argumentValues)) {
-                $argumentValues = array($argumentValues);
+                $argumentValues = [$argumentValues];
             }
 
             foreach ($argumentValues as $argValue) {
@@ -139,7 +139,7 @@ class PhpUnitOptions
         if (isset($this->arguments[$argumentName])) {
             if (!is_array($this->arguments[$argumentName])) {
                 // Convert existing argument values into an array
-                $this->arguments[$argumentName] = array($this->arguments[$argumentName]);
+                $this->arguments[$argumentName] = [$this->arguments[$argumentName]];
             }
 
             // Appends the new argument to the list
@@ -160,14 +160,14 @@ class PhpUnitOptions
         $directories = $this->getOption('directory');
 
         if (is_string($directories)) {
-            $directories = array($directories);
+            $directories = [$directories];
         } else {
             if (is_null($directories)) {
-                $directories = array();
+                $directories = [];
             }
         }
 
-        return is_array($directories) ? $directories : array($directories);
+        return is_array($directories) ? $directories : [$directories];
     }
 
     /**
@@ -240,10 +240,10 @@ class PhpUnitOptions
         if (isset($this->arguments[$argumentName])) {
             return is_array(
                 $this->arguments[$argumentName]
-            ) ? $this->arguments[$argumentName] : array($this->arguments[$argumentName]);
+            ) ? $this->arguments[$argumentName] : [$this->arguments[$argumentName]];
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -255,12 +255,12 @@ class PhpUnitOptions
      */
     public static function findConfigFile($buildPath)
     {
-        $files = array(
+        $files = [
             'phpunit.xml',
             'phpunit.xml.dist',
             'tests/phpunit.xml',
             'tests/phpunit.xml.dist',
-        );
+        ];
 
         foreach ($files as $file) {
             if (file_exists($buildPath . $file)) {

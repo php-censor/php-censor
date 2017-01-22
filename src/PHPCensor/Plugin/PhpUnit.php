@@ -30,7 +30,7 @@ use PHPCensor\ZeroConfigPluginInterface;
 class PhpUnit extends Plugin implements ZeroConfigPluginInterface
 {
     /** @var string[] Raw options from the PHPCI config file */
-    protected $options = array();
+    protected $options = [];
 
     /**
      * @return string

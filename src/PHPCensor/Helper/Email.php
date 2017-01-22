@@ -119,10 +119,12 @@ class Email
      *
      * @return integer
      */
-    public function send(Builder $builder)
+    public function send(Builder $builder = null)
     {
         $smtpServer = $this->config->get('php-censor.email_settings.smtp_address');
-        $builder->logDebug(sprintf("SMTP: '%s'", !empty($smtpServer) ? 'true' : 'false'));
+        if (null !== $builder) {
+            $builder->logDebug(sprintf("SMTP: '%s'", !empty($smtpServer) ? 'true' : 'false'));
+        }
 
         $factory = new MailerFactory($this->config->get('php-censor'));
         $mailer = $factory->getSwiftMailerFromConfig();

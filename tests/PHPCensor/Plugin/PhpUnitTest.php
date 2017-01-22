@@ -19,11 +19,11 @@ class PhpUnitTest extends \PHPUnit_Framework_TestCase
 {
     public function testSingleConfigFile()
     {
-        $options = array(
+        $options = [
             'config' => ROOT_DIR . 'phpunit.xml'
-        );
+        ];
 
-        $mockPlugin = $this->getPluginBuilder($options)->setMethods(array('runConfigFile'))->getMock();
+        $mockPlugin = $this->getPluginBuilder($options)->setMethods(['runConfigFile'])->getMock();
         $mockPlugin->expects($this->once())->method('runConfigFile')->with(ROOT_DIR . 'phpunit.xml');
 
         $mockPlugin->execute();
@@ -31,16 +31,16 @@ class PhpUnitTest extends \PHPUnit_Framework_TestCase
 
     public function testMultiConfigFile()
     {
-        $options = array(
-            'config' => array(
+        $options = [
+            'config' => [
                 ROOT_DIR . 'phpunit1.xml',
                 ROOT_DIR . 'phpunit2.xml',
-            )
-        );
+            ]
+        ];
 
-        $mockPlugin = $this->getPluginBuilder($options)->setMethods(array('runConfigFile'))->getMock();
+        $mockPlugin = $this->getPluginBuilder($options)->setMethods(['runConfigFile'])->getMock();
         $mockPlugin->expects($this->exactly(2))->method('runConfigFile')->withConsecutive(
-            array(ROOT_DIR . 'phpunit1.xml'), array(ROOT_DIR . 'phpunit2.xml')
+            [ROOT_DIR . 'phpunit1.xml'], [ROOT_DIR . 'phpunit2.xml']
         );
 
         $mockPlugin->execute();
@@ -53,30 +53,30 @@ class PhpUnitTest extends \PHPUnit_Framework_TestCase
      *
      * @return \PHPUnit_Framework_MockObject_MockBuilder
      */
-    protected function getPluginBuilder($options = array())
+    protected function getPluginBuilder($options = [])
     {
         $loggerMock = $this->getMockBuilder('\Monolog\Logger')
-            ->setConstructorArgs(array('Test'))
-            ->setMethods(array('addRecord'))
+            ->setConstructorArgs(['Test'])
+            ->setMethods(['addRecord'])
             ->getMock();
 
         $mockBuild   = $this->getMockBuilder('\PHPCensor\Model\Build')->getMock();
         $mockBuilder = $this->getMockBuilder('\PHPCensor\Builder')
-            ->setConstructorArgs(array($mockBuild, $loggerMock))
-            ->setMethods(array('executeCommand'))->getMock();
+            ->setConstructorArgs([$mockBuild, $loggerMock])
+            ->setMethods(['executeCommand'])->getMock();
 
         return $this->getMockBuilder('PHPCensor\Plugin\PhpUnit')->setConstructorArgs(
-            array($mockBuilder, $mockBuild, $options)
+            [$mockBuilder, $mockBuild, $options]
         );
     }
 
     public function testSingleDir()
     {
-        $options = array(
+        $options = [
             'directory' => '/test/directory/one'
-        );
+        ];
 
-        $mockPlugin = $this->getPluginBuilder($options)->setMethods(array('runDir'))->getMock();
+        $mockPlugin = $this->getPluginBuilder($options)->setMethods(['runDir'])->getMock();
         $mockPlugin->expects($this->once())->method('runDir')->with('/test/directory/one');
 
         $mockPlugin->execute();
@@ -84,16 +84,16 @@ class PhpUnitTest extends \PHPUnit_Framework_TestCase
 
     public function testMultiDir()
     {
-        $options = array(
-            'directory' => array(
+        $options = [
+            'directory' => [
                 '/test/directory/one',
                 '/test/directory/two',
-            )
-        );
+            ]
+        ];
 
-        $mockPlugin = $this->getPluginBuilder($options)->setMethods(array('runDir'))->getMock();
+        $mockPlugin = $this->getPluginBuilder($options)->setMethods(['runDir'])->getMock();
         $mockPlugin->expects($this->exactly(2))->method('runDir')->withConsecutive(
-            array('/test/directory/one'), array('/test/directory/two')
+            ['/test/directory/one'], ['/test/directory/two']
         );
 
         $mockPlugin->execute();
@@ -101,11 +101,11 @@ class PhpUnitTest extends \PHPUnit_Framework_TestCase
 
     public function testProcessResultsFromConfig()
     {
-        $options = array(
+        $options = [
             'config' => ROOT_DIR . 'phpunit.xml'
-        );
+        ];
 
-        $mockPlugin = $this->getPluginBuilder($options)->setMethods(array('processResults'))->getMock();
+        $mockPlugin = $this->getPluginBuilder($options)->setMethods(['processResults'])->getMock();
         $mockPlugin->expects($this->once())->method('processResults')->with($this->isType('string'));
 
         $mockPlugin->execute();
@@ -113,11 +113,11 @@ class PhpUnitTest extends \PHPUnit_Framework_TestCase
 
     public function testProcessResultsFromDir()
     {
-        $options = array(
+        $options = [
             'directory' => ROOT_DIR . 'Tests'
-        );
+        ];
 
-        $mockPlugin = $this->getPluginBuilder($options)->setMethods(array('processResults'))->getMock();
+        $mockPlugin = $this->getPluginBuilder($options)->setMethods(['processResults'])->getMock();
         $mockPlugin->expects($this->once())->method('processResults')->with($this->isType('string'));
 
         $mockPlugin->execute();

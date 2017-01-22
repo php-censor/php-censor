@@ -29,10 +29,10 @@ class PhpUnitResult
     const SEVERITY_SKIPPED = 'skipped';
 
     protected $options;
-    protected $arguments = array();
+    protected $arguments = [];
     protected $results;
     protected $failures = 0;
-    protected $errors = array();
+    protected $errors = [];
 
     public function __construct($outputFile, $buildPath = '')
     {
@@ -60,8 +60,8 @@ class PhpUnitResult
         }
 
         // Reset the parsing variables
-        $this->results  = array();
-        $this->errors   = array();
+        $this->results  = [];
+        $this->errors   = [];
         $this->failures = 0;
 
         if (is_array($events)) {
@@ -88,13 +88,13 @@ class PhpUnitResult
     {
         list($pass, $severity) = $this->getStatus($event);
 
-        $data = array(
+        $data = [
             'pass'     => $pass,
             'severity' => $severity,
             'message'  => $this->buildMessage($event),
-            'trace'    => $pass ? array() : $this->buildTrace($event),
+            'trace'    => $pass ? [] : $this->buildTrace($event),
             'output'   => $event['output'],
-        );
+        ];
 
         if (!$pass) {
             $this->failures++;
@@ -142,7 +142,7 @@ class PhpUnitResult
                 break;
         }
 
-        return array($pass, $severity);
+        return [$pass, $severity];
     }
 
     /**
@@ -172,7 +172,7 @@ class PhpUnitResult
      */
     protected function buildTrace($event)
     {
-        $formattedTrace = array();
+        $formattedTrace = [];
 
         if (!empty($event['trace'])) {
             foreach ($event['trace'] as $step){
@@ -195,12 +195,12 @@ class PhpUnitResult
         $firstTrace = end($event['trace']);
         reset($event['trace']);
 
-        $this->errors[] = array(
+        $this->errors[] = [
             'message'  => $data['message'],
             'severity' => $data['severity'],
             'file'     => str_replace($this->buildPath, '', $firstTrace['file']),
             'line'     => $firstTrace['line'],
-        );
+        ];
     }
 
     /**

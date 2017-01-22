@@ -21,17 +21,19 @@ class LoginIsDisabled
 {
     /**
      * Checks if
+     * 
      * @param $method
      * @param array $params
+     * 
      * @return mixed|null
      */
     public function __call($method, $params = [])
     {
         unset($method, $params);
         
-        $config = Config::getInstance();
-        $state = (bool) $config->get('php-censor.authentication_settings.state', false);
+        $config      = Config::getInstance();
+        $disableAuth = (boolean)$config->get('php-censor.security.disable_auth', false);
 
-        return (false !== $state);
+        return $disableAuth;
     }
 }

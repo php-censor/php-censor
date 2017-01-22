@@ -33,13 +33,15 @@ class UserBase extends Model
     * @var array
     */
     protected $data = [
-        'id'       => null,
-        'email'    => null,
-        'hash'     => null,
-        'is_admin' => null,
-        'name'     => null,
-        'language' => null,
-        'per_page' => null,
+        'id'            => null,
+        'email'         => null,
+        'hash'          => null,
+        'is_admin'      => null,
+        'name'          => null,
+        'language'      => null,
+        'per_page'      => null,
+        'provider_key'  => null,
+        'provider_data' => null,
     ];
 
     /**
@@ -47,13 +49,15 @@ class UserBase extends Model
     */
     protected $getters = [
         // Direct property getters:
-        'id'       => 'getId',
-        'email'    => 'getEmail',
-        'hash'     => 'getHash',
-        'is_admin' => 'getIsAdmin',
-        'name'     => 'getName',
-        'language' => 'getLanguage',
-        'per_page' => 'getPerPage',
+        'id'            => 'getId',
+        'email'         => 'getEmail',
+        'hash'          => 'getHash',
+        'is_admin'      => 'getIsAdmin',
+        'name'          => 'getName',
+        'language'      => 'getLanguage',
+        'per_page'      => 'getPerPage',
+        'provider_key'  => 'getProviderKey',
+        'provider_data' => 'getProviderData',
         // Foreign key getters:
     ];
 
@@ -62,13 +66,15 @@ class UserBase extends Model
     */
     protected $setters = [
         // Direct property setters:
-        'id'       => 'setId',
-        'email'    => 'setEmail',
-        'hash'     => 'setHash',
-        'is_admin' => 'setIsAdmin',
-        'name'     => 'setName',
-        'language' => 'setLanguage',
-        'per_page' => 'setPerPage',
+        'id'            => 'setId',
+        'email'         => 'setEmail',
+        'hash'          => 'setHash',
+        'is_admin'      => 'setIsAdmin',
+        'name'          => 'setName',
+        'language'      => 'setLanguage',
+        'per_page'      => 'setPerPage',
+        'provider_key'  => 'setProviderKey',
+        'provider_data' => 'setProviderData',
         // Foreign key setters:
     ];
 
@@ -111,6 +117,17 @@ class UserBase extends Model
             'type'    => 'int',
             'length'  => 11,
             'default' => null,
+        ],
+        'provider_key' => [
+            'type'    => 'varchar',
+            'length'  => 255,
+            'default' => 'internal',
+        ],
+        'provider_data' => [
+            'type'     => 'varchar',
+            'length'   => 255,
+            'nullable' => true,
+            'default'  => null,
         ],
     ];
 
@@ -166,6 +183,18 @@ class UserBase extends Model
     }
 
     /**
+    * Get the value of Name / name.
+    *
+    * @return string
+    */
+    public function getName()
+    {
+        $rtn = $this->data['name'];
+
+        return $rtn;
+    }
+
+    /**
     * Get the value of IsAdmin / is_admin.
     *
     * @return int
@@ -178,13 +207,25 @@ class UserBase extends Model
     }
 
     /**
-    * Get the value of Name / name.
+    * Get the value of ProviderKey / provider_key.
     *
     * @return string
     */
-    public function getName()
+    public function getProviderKey()
     {
-        $rtn = $this->data['name'];
+        $rtn = $this->data['provider_key'];
+
+        return $rtn;
+    }
+
+    /**
+    * Get the value of ProviderData / provider_data.
+    *
+    * @return string
+    */
+    public function getProviderData()
+    {
+        $rtn = $this->data['provider_data'];
 
         return $rtn;
     }
@@ -274,6 +315,26 @@ class UserBase extends Model
     }
 
     /**
+    * Set the value of Name / name.
+    *
+    * Must not be null.
+    * @param $value string
+    */
+    public function setName($value)
+    {
+        $this->validateNotNull('Name', $value);
+        $this->validateString('Name', $value);
+
+        if ($this->data['name'] === $value) {
+            return;
+        }
+
+        $this->data['name'] = $value;
+
+        $this->setModified('name');
+    }
+
+    /**
     * Set the value of IsAdmin / is_admin.
     *
     * Must not be null.
@@ -294,23 +355,41 @@ class UserBase extends Model
     }
 
     /**
-    * Set the value of Name / name.
+    * Set the value of ProviderKey / provider_key.
     *
     * Must not be null.
     * @param $value string
     */
-    public function setName($value)
+    public function setProviderKey($value)
     {
-        $this->validateNotNull('Name', $value);
-        $this->validateString('Name', $value);
+        $this->validateNotNull('ProviderKey', $value);
+        $this->validateString('ProviderKey', $value);
 
-        if ($this->data['name'] === $value) {
+        if ($this->data['provider_key'] === $value) {
             return;
         }
 
-        $this->data['name'] = $value;
+        $this->data['provider_key'] = $value;
 
-        $this->setModified('name');
+        $this->setModified('provider_key');
+    }
+
+    /**
+    * Set the value of ProviderData / provider_data.
+    *
+    * @param $value string
+    */
+    public function setProviderData($value)
+    {
+        $this->validateString('ProviderData', $value);
+
+        if ($this->data['provider_data'] === $value) {
+            return;
+        }
+
+        $this->data['provider_data'] = $value;
+
+        $this->setModified('provider_data');
     }
 
     /**
