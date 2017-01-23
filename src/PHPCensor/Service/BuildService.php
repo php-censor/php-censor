@@ -160,9 +160,9 @@ class BuildService
         }
 
         $config   = Config::getInstance();
-        $settings = $config->get('php-censor.worker', []);
+        $settings = $config->get('php-censor.queue', []);
 
-        if (!empty($settings['host']) && !empty($settings['queue'])) {
+        if (!empty($settings['host']) && !empty($settings['name'])) {
             try {
                 $jobData = [
                     'type'     => 'php-censor.build',
@@ -174,12 +174,12 @@ class BuildService
                 }
 
                 $pheanstalk = new Pheanstalk($settings['host']);
-                $pheanstalk->useTube($settings['queue']);
+                $pheanstalk->useTube($settings['name']);
                 $pheanstalk->put(
                     json_encode($jobData),
                     PheanstalkInterface::DEFAULT_PRIORITY,
                     PheanstalkInterface::DEFAULT_DELAY,
-                    $config->get('php-censor.worker.job_timeout', 600)
+                    $config->get('php-censor.queue.lifetime', 600)
                 );
             } catch (\Exception $ex) {
                 $this->queueError = true;

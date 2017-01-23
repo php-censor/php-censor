@@ -244,8 +244,8 @@ class InstallCommand extends Command
         $config['language'] = 'en';
         $config['per_page'] = 10;
 
-        $config['url'] = $url;
-        $config['worker'] = $this->getQueueInformation($input, $output, $helper);
+        $config['url']   = $url;
+        $config['queue'] = $this->getQueueInformation($input, $output, $helper);
 
         return $config;
     }
@@ -278,9 +278,9 @@ class InstallCommand extends Command
             $rtn['host']   = $helper->ask($input, $output, $questionQueue);
         }
 
-        if (!$rtn['queue'] = $input->getOption('queue-name')) {
+        if (!$rtn['name'] = $input->getOption('queue-name')) {
             $questionName = new Question('Enter the queue (tube) name to use [php-censor-queue]: ', 'php-censor-queue');
-            $rtn['queue'] = $helper->ask($input, $output, $questionName);
+            $rtn['name'] = $helper->ask($input, $output, $questionName);
         }
 
         return $rtn;
