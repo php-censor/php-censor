@@ -8,31 +8,46 @@
 PHP Censor
 ==========
 
-**PHP Censor** is a fork of [PHPCI](https://www.phptesting.org)
-(And [B8Framework](https://github.com/Block8/b8framework)) and is a open source
-([BSD-2-Clause license](LICENSE.md)) continuous integration tool specifically designed for PHP.
-
-What it does
-------------
-
-* Clones your project from Github, Bitbucket, Gitlab or Git;
-
-* Allows you to set up and tear down test databases;
-
-* Installs your project's Composer dependencies;
-
-* Runs through any combination of the [supported plugins](docs/en/README.md));
+**PHP Censor** is a open source self-hosted continuous integration server for PHP projects (Fork of 
+[PHPCI](https://www.phptesting.org)).
 
 [![Dashboard](docs/screenshots/dashboard.png)](docs/screenshots/dashboard.png)
 
 More [screenshots](docs/en/screenshots.md).
 
+Features
+--------
+
+* Clone project from Github, Bitbucket, Gitlab, Git, Mercurial, SVN or from local directory;
+
+* Set up and tear down database tests for PostgreSQL, MySQL or SQLite;
+
+* Install Composer dependencies;
+
+* Run tests for PHPUnit, Atoum, Behat, Codeception and PHPSpec;
+
+* Check code via Lint, PHPParallelLint, Pdepend, PHPCodeSniffer, PHPCpd, PHPCsFixer, PHPDocblockChecker, PHPLoc, 
+PHPMessDetect, PHPTalLint and TechnicalDept;
+
+* Run through any combination of the other [supported plugins](docs/en/README.md), including Campfire, CleanBuild, 
+CopyBuild, Deployer, Env, Git, Grunt, Gulp, PackageBuild, Phar, Phing, Shell and Wipe;
+
+* Send notifications on Email, XMPP, Slack, IRC, Flowdock and HipChat;
+
 Configuring
 -----------
 
-Similar to [TravisCI](https://travis-ci.org), to support PHP Censor in your project, you simply need to add a `.php-censor.yml`
-(`phpci.yml`/`.phpci.yml` for backward compatibility with PHPCI) file to the root of your repository. The file should
-look something like this:
+There are several ways to set up the project:
+
+* Add project without any project config (Runs "zero-config" plugins, including: Composer, TechnicalDept, PHPLoc, 
+PHPCpd, PHPCodeSniffer, PHPMessDetect, PHPDocblockChecker, PHPParallelLint, PHPUnit and Codeception);
+
+* Similar to [Travis CI](https://travis-ci.org), to support PHP Censor in your project, you simply need to add a 
+`.php-censor.yml` (`phpci.yml`/`.phpci.yml` for backward compatibility with PHPCI) file to the root of your repository;
+
+* Add project config in PHP Censor project page (And it will cancel file config from project repository);
+
+The project config should look something like this:
 
 ```yml
 setup:
@@ -91,20 +106,7 @@ Updating
 
 * Update the PHP Censor database: `./bin/console php-censor-migrations:migrate`;
 
-* Update the Composer dependencies: `composer update`
-
-Tests
------
-
-```bash
-cd /path/to/php-censor
-./vendor/bin/phpunit
-```
-
-For Phar plugin tests set 'phar.readonly' setting to Off (0) in `php.ini` config. Otherwise tests will be skipped.
-
-For database B8Framework tests create empty 'b8_test' MySQL database on 'localhost' with user/password: `root/root`.
-Otherwise database tests will be skipped.
+* Update the Composer dependencies: `composer install`
 
 Migrations
 ----------
@@ -122,6 +124,19 @@ Run to create new migration:
 cd /path/to/php-censor
 ./bin/console php-censor-migrations:create NewMigrationName
 ```
+
+Tests
+-----
+
+```bash
+cd /path/to/php-censor
+./vendor/bin/phpunit
+```
+
+For Phar plugin tests set 'phar.readonly' setting to Off (0) in `php.ini` config. Otherwise tests will be skipped.
+
+For database B8Framework tests create empty 'b8_test' MySQL database on 'localhost' with user/password: `root/root`.
+Otherwise database tests will be skipped.
 
 Documentation
 -------------
