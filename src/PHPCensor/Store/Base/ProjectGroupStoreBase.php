@@ -38,8 +38,8 @@ class ProjectGroupStoreBase extends Store
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
-        $query = 'SELECT * FROM `project_group` WHERE `id` = :id LIMIT 1';
-        $stmt = Database::getConnection($useConnection)->prepare($query);
+        $query = 'SELECT * FROM {{project_group}} WHERE {{id}} = :id LIMIT 1';
+        $stmt = Database::getConnection($useConnection)->prepareCommon($query);
         $stmt->bindValue(':id', $value);
 
         if ($stmt->execute()) {

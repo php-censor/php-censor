@@ -1,9 +1,13 @@
 b8:
   database:
     servers:
-      read:  localhost
-      write: localhost
-    port:     3306
+      read:
+        - host: localhost
+          port: 3306
+      write:
+        - host: localhost
+          port: 3306
+    type:     mysql
     name:     php-censor-db
     username: php-censor-user
     password: php-censor-password

@@ -144,8 +144,8 @@ class InstallCommandTest extends \PHPUnit_Framework_TestCase
         $this->executeWithoutParam('--db-host', $dialog);
 
         // Check that specified arguments are correctly loaded.
-        $this->assertEquals('testedvalue', $this->config['b8']['database']['servers']['read']);
-        $this->assertEquals('testedvalue', $this->config['b8']['database']['servers']['write']);
+        $this->assertEquals('testedvalue', $this->config['b8']['database']['servers']['read'][0]['host']);
+        $this->assertEquals('testedvalue', $this->config['b8']['database']['servers']['write'][0]['host']);
     }
 
     public function testDatabaseNameConfig()

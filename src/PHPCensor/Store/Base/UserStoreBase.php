@@ -38,8 +38,8 @@ class UserStoreBase extends Store
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
-        $query = 'SELECT * FROM `user` WHERE `id` = :id LIMIT 1';
-        $stmt = Database::getConnection($useConnection)->prepare($query);
+        $query = 'SELECT * FROM {{user}} WHERE {{id}} = :id LIMIT 1';
+        $stmt = Database::getConnection($useConnection)->prepareCommon($query);
         $stmt->bindValue(':id', $value);
 
         if ($stmt->execute()) {
@@ -67,8 +67,8 @@ class UserStoreBase extends Store
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
-        $query = 'SELECT * FROM `user` WHERE `email` = :email LIMIT 1';
-        $stmt = Database::getConnection()->prepare($query);
+        $query = 'SELECT * FROM {{user}} WHERE {{email}} = :email LIMIT 1';
+        $stmt = Database::getConnection()->prepareCommon($query);
         $stmt->bindValue(':email', $value);
 
         if ($stmt->execute()) {
@@ -96,8 +96,8 @@ class UserStoreBase extends Store
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
-        $query = 'SELECT * FROM `user` WHERE `email` = :value OR `name` = :value LIMIT 1';
-        $stmt = Database::getConnection()->prepare($query);
+        $query = 'SELECT * FROM {{user}} WHERE {{email}} = :value OR {{name}} = :value LIMIT 1';
+        $stmt = Database::getConnection()->prepareCommon($query);
         $stmt->bindValue(':value', $value);
 
         if ($stmt->execute()) {
@@ -119,9 +119,8 @@ class UserStoreBase extends Store
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
-
-        $query = 'SELECT * FROM `user` WHERE `name` = :name LIMIT :limit';
-        $stmt = Database::getConnection($useConnection)->prepare($query);
+        $query = 'SELECT * FROM {{user}} WHERE {{name}} = :name LIMIT :limit';
+        $stmt = Database::getConnection($useConnection)->prepareCommon($query);
         $stmt->bindValue(':name', $value);
         $stmt->bindValue(':limit', (int)$limit, \PDO::PARAM_INT);
 

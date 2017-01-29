@@ -28,8 +28,8 @@ class ProjectStore extends ProjectStoreBase
      */
     public function getKnownBranches($projectId)
     {
-        $query = 'SELECT DISTINCT branch from build WHERE project_id = :pid';
-        $stmt = Database::getConnection('read')->prepare($query);
+        $query = 'SELECT DISTINCT {{branch}} from {{build}} WHERE {{project_id}} = :pid';
+        $stmt = Database::getConnection('read')->prepareCommon($query);
         $stmt->bindValue(':pid', $projectId);
 
         if ($stmt->execute()) {
@@ -57,8 +57,8 @@ class ProjectStore extends ProjectStoreBase
     {
         $archived = (integer)$archived;
 
-        $query = 'SELECT * FROM `project` WHERE `archived` = :archived ORDER BY `title` ASC';
-        $stmt  = Database::getConnection('read')->prepare($query);
+        $query = 'SELECT * FROM {{project}} WHERE {{archived}} = :archived ORDER BY {{title}} ASC';
+        $stmt  = Database::getConnection('read')->prepareCommon($query);
 
         $stmt->bindValue(':archived', $archived);
 
@@ -98,8 +98,8 @@ class ProjectStore extends ProjectStoreBase
         }
         $archived = (integer)$archived;
 
-        $query = 'SELECT * FROM `project` WHERE `group_id` = :group_id AND `archived` = :archived ORDER BY title LIMIT :limit';
-        $stmt  = Database::getConnection($useConnection)->prepare($query);
+        $query = 'SELECT * FROM {{project}} WHERE {{group_id}} = :group_id AND {{archived}} = :archived ORDER BY {{title}} LIMIT :limit';
+        $stmt  = Database::getConnection($useConnection)->prepareCommon($query);
 
         $stmt->bindValue(':group_id', $value);
         $stmt->bindValue(':archived', $archived);

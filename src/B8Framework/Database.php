@@ -17,9 +17,11 @@ class Database extends \PDO
 
         self::$servers['read']  = $settings['servers']['read'];
         self::$servers['write'] = $settings['servers']['write'];
+        self::$details['type']  = $settings['type'];
         self::$details['db']    = $settings['name'];
         self::$details['user']  = $settings['username'];
         self::$details['pass']  = $settings['password'];
+
         self::$initialised = true;
     }
 
@@ -42,14 +44,9 @@ class Database extends \PDO
         }
 
         if (is_null(self::$connections[$type])) {
-            if (is_array(self::$servers[$type])) {
-                // Shuffle, so we pick a random server:
-                $servers = self::$servers[$type];
-                shuffle($servers);
-            } else {
-                // Only one server was specified
-                $servers = [self::$servers[$type]];
-            }
+            // Shuffle, so we pick a random server:
+            $servers = self::$servers[$type];
+            shuffle($servers);
 
             $connection = null;
 
@@ -58,14 +55,16 @@ class Database extends \PDO
                 // Pull the next server:
                 $server = array_shift($servers);
 
-                if (stristr($server, ':')) {
-                    list($host, $port) = explode(':', $server);
-                    $server = $host . ';port=' . $port;
+                $dns = self::$details['type'] . ':host=' . $server['host'];
+                if (isset($server['port'])) {
+                    $dns .= ';port=' . $server['port'];
                 }
+                $dns .= ';dbname=' . self::$details['db'];
 
                 // Try to connect:
                 try {
-                    $connection = new self('mysql:host=' . $server . ';dbname=' . self::$details['db'],
+                    $connection = new self(
+                        $dns,
                         self::$details['user'],
                         self::$details['pass'],
                         [
@@ -73,7 +72,8 @@ class Database extends \PDO
                             \PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
                             \PDO::ATTR_TIMEOUT            => 2,
                             \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
-                        ]);
+                        ]
+                    );
                 } catch (\PDOException $ex) {
                     $connection = false;
                 }
@@ -106,5 +106,19 @@ class Database extends \PDO
         self::$connections = ['read' => null, 'write' => null];
         self::$lastUsed    = ['read' => null, 'write' => null];
         self::$initialised = false;
+    }
+
+    public function prepareCommon($statement, array $driver_options = [])
+    {
+        $quote = '';
+        if ('mysql' === self::$details['type']) {
+            $quote = '`';
+        } elseif ('pgsql' === self::$details['type']) {
+            $quote = '"';
+        }
+        
+        $statement = preg_replace('/{{(.*?)}}/', ($quote . '\1' . $quote), $statement);
+
+        return parent::prepare($statement, $driver_options);
     }
 }

@@ -33,8 +33,9 @@ class Application extends BaseApplication
                 'default_migration_table' => 'migration',
                 'default_database'        => 'php-censor',
                 'php-censor'              => [
-                    'adapter' => 'mysql',
-                    'host'    => $databaseSettings['servers']['write'],
+                    'adapter' => $databaseSettings['type'],
+                    'host'    => $databaseSettings['servers']['write'][0]['host'],
+                    'port'    => $databaseSettings['servers']['write'][0]['port'],
                     'name'    => $databaseSettings['name'],
                     'user'    => $databaseSettings['username'],
                     'pass'    => $databaseSettings['password'],

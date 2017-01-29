@@ -38,8 +38,8 @@ class ProjectStoreBase extends Store
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
-        $query = 'SELECT * FROM `project` WHERE `id` = :id LIMIT 1';
-        $stmt = Database::getConnection($useConnection)->prepare($query);
+        $query = 'SELECT * FROM {{project}} WHERE {{id}} = :id LIMIT 1';
+        $stmt = Database::getConnection($useConnection)->prepareCommon($query);
         $stmt->bindValue(':id', $value);
 
         if ($stmt->execute()) {
@@ -62,8 +62,8 @@ class ProjectStoreBase extends Store
         }
 
 
-        $query = 'SELECT * FROM `project` WHERE `title` = :title LIMIT :limit';
-        $stmt = Database::getConnection($useConnection)->prepare($query);
+        $query = 'SELECT * FROM {{project}} WHERE {{title}} = :title LIMIT :limit';
+        $stmt = Database::getConnection($useConnection)->prepareCommon($query);
         $stmt->bindValue(':title', $value);
         $stmt->bindValue(':limit', (int)$limit, \PDO::PARAM_INT);
 
@@ -94,8 +94,8 @@ class ProjectStoreBase extends Store
         }
 
 
-        $query = 'SELECT * FROM `project` WHERE `group_id` = :group_id LIMIT :limit';
-        $stmt = Database::getConnection($useConnection)->prepare($query);
+        $query = 'SELECT * FROM {{project}} WHERE {{group_id}} = :group_id LIMIT :limit';
+        $stmt = Database::getConnection($useConnection)->prepareCommon($query);
         $stmt->bindValue(':group_id', $value);
         $stmt->bindValue(':limit', (int)$limit, \PDO::PARAM_INT);
 

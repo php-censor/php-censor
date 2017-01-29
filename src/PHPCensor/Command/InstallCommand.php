@@ -15,6 +15,7 @@ use PDO;
 use b8\Config;
 use b8\Store\Factory;
 use PHPCensor\Helper\Lang;
+use PHPCensor\Model\ProjectGroup;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
@@ -43,6 +44,7 @@ class InstallCommand extends Command
         $this
             ->setName('php-censor:install')
             ->addOption('url', null, InputOption::VALUE_OPTIONAL, Lang::get('installation_url'))
+            ->addOption('db-type', null, InputOption::VALUE_OPTIONAL, Lang::get('db_host'))
             ->addOption('db-host', null, InputOption::VALUE_OPTIONAL, Lang::get('db_host'))
             ->addOption('db-port', null, InputOption::VALUE_OPTIONAL, Lang::get('db_port'))
             ->addOption('db-name', null, InputOption::VALUE_OPTIONAL, Lang::get('db_name'))
@@ -104,8 +106,11 @@ class InstallCommand extends Command
 
         $this->writeConfigFile($conf);
         $this->setupDatabase($output);
+
         $admin = $this->getAdminInformation($input, $output);
         $this->createAdminUser($admin, $output);
+
+        $this->createDefaultGroup($output);
     }
 
     /**
@@ -127,7 +132,7 @@ class InstallCommand extends Command
         }
 
         // Check required extensions are present:
-        $requiredExtensions = ['PDO', 'pdo_mysql'];
+        $requiredExtensions = ['PDO'];
 
         foreach ($requiredExtensions as $extension) {
             if (!extension_loaded($extension)) {
@@ -300,6 +305,11 @@ class InstallCommand extends Command
         /** @var $helper QuestionHelper */
         $helper = $this->getHelperSet()->get('question');
 
+        if (!$dbType = $input->getOption('db-type')) {
+            $questionType = new Question(Lang::get('enter_db_type'), 'mysql');
+            $dbType       = $helper->ask($input, $output, $questionType);
+        }
+
         if (!$dbHost = $input->getOption('db-host')) {
             $questionHost = new Question(Lang::get('enter_db_host'), 'localhost');
             $dbHost       = $helper->ask($input, $output, $questionHost);
@@ -327,12 +337,18 @@ class InstallCommand extends Command
             $dbPass = $helper->ask($input, $output, $questionPass);
         }
 
-        $db['servers']['read']  = $dbHost;
-        $db['servers']['write'] = $dbHost;
-        $db['port']             = $dbPort;
-        $db['name']             = $dbName;
-        $db['username']         = $dbUser;
-        $db['password']         = $dbPass;
+        $db['servers']['read']  = [[
+            'host' => $dbHost,
+            'port' => $dbPort,
+        ]];
+        $db['servers']['write'] = [[
+            'host' => $dbHost,
+            'port' => $dbPort,
+        ]];
+        $db['type']     = $dbType;
+        $db['name']     = $dbName;
+        $db['username'] = $dbUser;
+        $db['password'] = $dbPass;
 
         return $db;
     }
@@ -347,7 +363,7 @@ class InstallCommand extends Command
     {
         try {
             $pdo = new PDO(
-                'mysql:host='.$db['servers']['write'].';port='.$db['port'].'dbname='.$db['name'],
+                $db['type'] . ':host=' . $db['servers']['write'][0]['host'] . ';port=' . $db['servers']['write'][0]['host'] . 'dbname=' . $db['name'],
                 $db['username'],
                 $db['password'],
                 [
@@ -409,6 +425,24 @@ class InstallCommand extends Command
             $output->writeln('<info>'.Lang::get('user_created').'</info>');
         } catch (\Exception $ex) {
             $output->writeln('<error>'.Lang::get('failed_to_create').'</error>');
+            $output->writeln('<error>' . $ex->getMessage() . '</error>');
+        }
+    }
+
+    /**
+     * @param OutputInterface $output
+     */
+    protected function createDefaultGroup($output)
+    {
+        try {
+            $group = new ProjectGroup();
+            $group->setTitle('Projects');
+
+            Factory::getStore('ProjectGroup')->save($group);
+
+            $output->writeln('<info>'.Lang::get('default_group_created').'</info>');
+        } catch (\Exception $ex) {
+            $output->writeln('<error>'.Lang::get('default_group_failed_to_create').'</error>');
             $output->writeln('<error>' . $ex->getMessage() . '</error>');
         }
     }
