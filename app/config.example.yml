@@ -14,9 +14,10 @@ php-censor:
   email_settings:
     from_address: 'no-reply@php-censor.local'
     smtp_address:
-  worker:
-    host:  localhost
-    queue: php-censor-queue
+  queue:
+    host:     localhost
+    name:     php-censor-queue
+    lifetime: 600
   github:
     token: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
     comments:

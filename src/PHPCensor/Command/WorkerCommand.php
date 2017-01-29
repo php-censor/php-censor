@@ -73,16 +73,15 @@ class WorkerCommand extends Command
             define('DEBUG_MODE', true);
         }
 
-        $config = Config::getInstance()->get('php-censor.worker', []);
+        $config = Config::getInstance()->get('php-censor.queue', []);
 
-        if (empty($config['host']) || empty($config['queue'])) {
+        if (empty($config['host']) || empty($config['name'])) {
             $error = 'The worker is not configured. You must set a host and queue in your config.yml file.';
             throw new \Exception($error);
         }
 
-        $worker = new BuildWorker($config['host'], $config['queue']);
+        $worker = new BuildWorker($config['host'], $config['name']);
         $worker->setLogger($this->logger);
-        $worker->setMaxJobs(Config::getInstance()->get('php-censor.worker.max_jobs', -1));
         $worker->startWorker();
     }
 }

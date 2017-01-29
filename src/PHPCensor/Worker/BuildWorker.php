@@ -26,13 +26,6 @@ class BuildWorker
     protected $run = true;
 
     /**
-     * The maximum number of jobs this worker should run before exiting.
-     * Use -1 for no limit.
-     * @var int
-     */
-    protected $maxJobs = -1;
-
-    /**
      * The logger for builds to use.
      * @var \Monolog\Logger
      */
@@ -72,14 +65,6 @@ class BuildWorker
     }
 
     /**
-     * @param int $maxJobs
-     */
-    public function setMaxJobs($maxJobs = -1)
-    {
-        $this->maxJobs = $maxJobs;
-    }
-
-    /**
      * @param Logger $logger
      */
     public function setLogger(Logger $logger)
@@ -99,8 +84,6 @@ class BuildWorker
         while ($this->run) {
             // Get a job from the queue:
             $job = $this->pheanstalk->reserve();
-
-            $this->checkJobLimit();
 
             // Get the job data and run the job:
             $jobData = json_decode($job->getData(), true);
@@ -167,20 +150,6 @@ class BuildWorker
     public function stopWorker()
     {
         $this->run = false;
-    }
-
-    /**
-     * Checks if this worker has done the amount of jobs it is allowed to do, and if so tells it to stop
-     * after this job completes.
-     */
-    protected function checkJobLimit()
-    {
-        // Make sure we don't run more than maxJobs jobs on this worker:
-        $this->totalJobs++;
-
-        if ($this->maxJobs != -1 && $this->maxJobs <= $this->totalJobs) {
-            $this->stopWorker();
-        }
     }
 
     /**
