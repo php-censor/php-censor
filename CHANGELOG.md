@@ -1,6 +1,69 @@
 Change Log
 ==========
 
+## [PHP Censor v0.7.0](https://github.com/corpsee/php-censor/tree/0.7.0) (2017-01-29)
+
+[Full Changelog](https://github.com/corpsee/php-censor/compare/0.6.0...0.7.0)
+
+* Application closed for search robots
+* Improved README.md and added CHANGELOG.md file
+* **Renamed application configuration (`app/config.yml`) section for work with queue**
+
+The old way to configure queue:
+
+```yml
+php-censor:
+  worker:
+    host:        localhost
+    queue:       php-censor-queue
+    job_timeout: 600
+```
+
+And a new way:
+
+```yml
+php-censor:
+  queue:
+    host:     localhost
+    name:     php-censor-queue
+    lifetime: 600
+```
+
+* **Added PostgreSQL support as application DB. Changed DB configuration**
+
+The old way to configure DB:
+
+```yml
+b8:
+  database:
+    servers:
+      read: 'localhost:3306'
+      write: 'localhost:3306'
+    name:     php-censor-db
+    username: php-censor-user
+    password: php-censor-password
+```
+
+And a new way:
+
+```yml
+b8:
+  database:
+    servers:
+      read:
+        - host: localhost
+          port: 3306
+      write:
+        - host: localhost
+          port: 3306
+    type:     mysql
+    name:     php-censor-db
+    username: php-censor-user
+    password: php-censor-password
+```
+
+Type of DB (`type`) should be `mysql` or `pgsql`
+
 ## [PHP Censor v0.6.0](https://github.com/corpsee/php-censor/tree/0.6.0) (2017-01-22)
 
 [Full Changelog](https://github.com/corpsee/php-censor/compare/0.5.0...0.6.0)
