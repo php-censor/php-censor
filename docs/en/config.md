@@ -53,7 +53,7 @@ As mentioned earlier, PHP Censor is powered by plugins, there are several phases
 
 * `setup` - This phase is designed to initialise the build procedure.
 * `test` - The tests that should be run during the build. Plugins run during this phase will contribute to the success or failure of the build.
-* `complete` - Always called when the `test` phase completes, regardless of success or failure. **Note** that is you do any mysql stuff here, you will need to add the mysql credentials to this section as well, as it runs in a separate instance.
+* `complete` - Always called when the `test` phase completes, regardless of success or failure. **Note** that is you do any DB stuff here, you will need to add the DB credentials to this section as well, as it runs in a separate instance.
 * `success` - Called upon success of the `test` phase.
 * `failure` - Called upon failure of the `test` phase.
 * `fixed` - Called upon success of the `test` phase if the previous build of the branch was a success.

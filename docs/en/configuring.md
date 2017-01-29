@@ -16,5 +16,5 @@ php-censor:
     default_user_id: 1
 ```
 
-where you can get the `default_user_id by` logging into the mysql database and selecting your user ID from the `users` table in
+where you can get the `default_user_id` by logging into the database and selecting your user ID from the `users` table in
 the PHP Censor database.

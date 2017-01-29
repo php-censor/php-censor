@@ -84,7 +84,7 @@ class InstallCommand extends Command
         $output->writeln('');
 
         // ----
-        // Get MySQL connection information and verify that it works:
+        // Get DB connection information and verify that it works:
         // ----
         $connectionVerified = false;
 
@@ -354,7 +354,7 @@ class InstallCommand extends Command
     }
 
     /**
-     * Try and connect to MySQL using the details provided.
+     * Try and connect to DB using the details provided.
      * @param  array           $db
      * @param  OutputInterface $output
      * @return bool

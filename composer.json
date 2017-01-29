@@ -39,7 +39,6 @@
   "require": {
     "php":           ">=5.6.0",
     "ext-pdo":       "*",
-    "ext-pdo_mysql": "*",
 
     "swiftmailer/swiftmailer":   "5.4.*",
     "symfony/yaml":              "2.8.*",

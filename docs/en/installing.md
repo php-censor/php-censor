@@ -8,7 +8,7 @@ What you'll need
 * A web server (Nginx or Apache)
 * [Composer](https://getcomposer.org/download/)
 * [Git](http://git-scm.com/downloads)
-* A MySQL server to connect to.
+* A DB server to connect to (MySQL/MariaDB or PostgreSQL).
 * The following functions need to be enabled: `exec()`, `shell_exec()` and `proc_open()` in php.ini.
 * PHP must have OpenSSL support enabled.
 

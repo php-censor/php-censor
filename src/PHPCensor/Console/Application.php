@@ -35,13 +35,16 @@ class Application extends BaseApplication
                 'php-censor'              => [
                     'adapter' => $databaseSettings['type'],
                     'host'    => $databaseSettings['servers']['write'][0]['host'],
-                    'port'    => $databaseSettings['port'],
                     'name'    => $databaseSettings['name'],
                     'user'    => $databaseSettings['username'],
                     'pass'    => $databaseSettings['password'],
                 ],
             ],
         ];
+        
+        if (!empty($databaseSettings['port'])) {
+            $phinxSettings['environments']['php-censor']['port'] = (integer)$databaseSettings['port'];
+        }
 
         $phinxConfig = new PhinxConfig($phinxSettings);
 
