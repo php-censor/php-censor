@@ -6,13 +6,6 @@ class FixDatabaseColumns extends AbstractMigration
 {
     public function up()
     {
-        $dbAdapter = $this->getAdapter();
-
-        if ($dbAdapter instanceof \Phinx\Db\Adapter\PdoAdapter) {
-            $pdo = $dbAdapter->getConnection();
-            $pdo->exec('SET foreign_key_checks = 0');
-        }
-
         $build = $this->table('build');
 
         $build->changeColumn('project_id', 'integer', ['null' => false]);
@@ -53,11 +46,6 @@ class FixDatabaseColumns extends AbstractMigration
         $user->changeColumn('hash', 'string', ['limit' => 250, 'null' => false]);
         $user->changeColumn('is_admin', 'integer', ['null' => false, 'default' => 0]);
         $user->changeColumn('name', 'string', ['limit' => 250, 'null' => false]);
-
-        if ($dbAdapter instanceof \Phinx\Db\Adapter\PdoAdapter) {
-            $pdo = $dbAdapter->getConnection();
-            $pdo->exec('SET foreign_key_checks = 1');
-        }
     }
 
     public function down()

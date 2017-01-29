@@ -16,7 +16,6 @@ use PHPCensor\Plugin\Util\TestResultParsers\Codeception as Parser;
 use PHPCensor\Plugin;
 use Symfony\Component\Yaml\Parser as YamlParser;
 use PHPCensor\ZeroConfigPluginInterface;
-use Psr\Log\LogLevel;
 
 /**
  * Codeception Plugin - Enables full acceptance, unit, and functional testing.

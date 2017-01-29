@@ -27,8 +27,8 @@ abstract class Store
         $manualWheres = [],
         $whereType = 'AND'
     ) {
-        $query = 'SELECT ' . $this->tableName . '.* FROM ' . $this->tableName;
-        $countQuery = 'SELECT COUNT(*) AS cnt FROM ' . $this->tableName;
+        $query = 'SELECT * FROM {{' . $this->tableName . '}}';
+        $countQuery = 'SELECT COUNT(*) AS {{count}} FROM {{' . $this->tableName . '}}';
 
         $wheres = [];
         $params = [];
@@ -70,7 +70,7 @@ abstract class Store
                                     }
                                 } else {
                                     $params[] = $item;
-                                    $ors[] = $this->fieldCheck($key) . ' ' . $value['operator'] . ' ?';
+                                    $ors[] = $key . ' ' . $value['operator'] . ' ?';
                                 }
                             }
                             $wheres[] = '(' . implode(' OR ', $ors) . ')';
@@ -98,16 +98,15 @@ abstract class Store
                         }
                     }
                 } else {
-                    $wheres[] = $key . ' IN (' . implode(', ',
-                            array_map([Database::getConnection('read'), 'quote'], $value)) . ')';
+                    $wheres[] = $key . ' IN (' . implode(', ', array_map([Database::getConnection('read'), 'quote'], $value)) . ')';
                 }
             }
         }
 
         if (count($joins)) {
             foreach ($joins as $table => $join) {
-                $query .= ' LEFT JOIN ' . $table . ' ' . $join['alias'] . ' ON ' . $join['on'] . ' ';
-                $countQuery .= ' LEFT JOIN ' . $table . ' ' . $join['alias'] . ' ON ' . $join['on'] . ' ';
+                $query .= ' LEFT JOIN {{' . $table . '}} AS ' . $join['alias'] . ' ON ' . $join['on'] . ' ';
+                $countQuery .= ' LEFT JOIN {{' . $table . '}} AS ' . $join['alias'] . ' ON ' . $join['on'] . ' ';
             }
         }
 
@@ -173,16 +172,16 @@ abstract class Store
         }
 
         try {
-            $stmt = Database::getConnection('read')->prepare($countQuery);
+            $stmt = Database::getConnection('read')->prepareCommon($countQuery);
             $stmt->execute($params);
             $res = $stmt->fetch(\PDO::FETCH_ASSOC);
-            $count = (int)$res['cnt'];
+            $count = (int)$res['count'];
         } catch (\PDOException $ex) {
             $count = 0;
         }
 
         try {
-            $stmt = Database::getConnection('read')->prepare($query);
+            $stmt = Database::getConnection('read')->prepareCommon($query);
             $stmt->execute($params);
             $res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
             $rtn = [];
@@ -232,8 +231,8 @@ abstract class Store
         }
 
         if (count($updates)) {
-            $qs = 'UPDATE ' . $this->tableName . ' SET ' . implode(', ', $updates) . ' WHERE ' . $this->primaryKey . ' = :primaryKey';
-            $q  = Database::getConnection('write')->prepare($qs);
+            $qs = 'UPDATE {{' . $this->tableName . '}} SET ' . implode(', ', $updates) . ' WHERE {{' . $this->primaryKey . '}} = :primaryKey';
+            $q  = Database::getConnection('write')->prepareCommon($qs);
 
             foreach ($update_params as $update_param) {
                 $q->bindValue(':' . $update_param[0], $update_param[1]);
@@ -266,9 +265,9 @@ abstract class Store
         }
 
         if (count($cols)) {
-            $qs = 'INSERT INTO ' . $this->tableName . ' (' . implode(', ', $cols) . ') VALUES (' . implode(', ',
+            $qs = 'INSERT INTO {{' . $this->tableName . '}} (' . implode(', ', $cols) . ') VALUES (' . implode(', ',
                     $values) . ')';
-            $q = Database::getConnection('write')->prepare($qs);
+            $q = Database::getConnection('write')->prepareCommon($qs);
 
             if ($q->execute($qParams)) {
                 $id = !empty($data[$this->primaryKey]) ? $data[$this->primaryKey] : Database::getConnection('write')->lastInsertId();
@@ -291,16 +290,13 @@ abstract class Store
 
         $data = $obj->getDataArray();
 
-        $q = Database::getConnection('write')->prepare('DELETE FROM ' . $this->tableName . ' WHERE ' . $this->primaryKey . ' = :primaryKey');
+        $q = Database::getConnection('write')->prepareCommon('DELETE FROM {{' . $this->tableName . '}} WHERE {{' . $this->primaryKey . '}} = :primaryKey');
         $q->bindValue(':primaryKey', $data[$this->primaryKey]);
         $q->execute();
 
         return true;
     }
 
-    /**
-     *
-     */
     protected function fieldCheck($field)
     {
         if (empty($field)) {

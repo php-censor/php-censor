@@ -13,9 +13,14 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
             'b8' => [
                 'database' => [
                     'servers' => [
-                        'read'  => 'localhost',
-                        'write' => 'localhost',
+                        'read'  => [
+                            ['host' => 'localhost'],
+                        ],
+                        'write' => [
+                            ['host' => 'localhost'],
+                        ],
                     ],
+                    'type'     => 'mysql',
                     'name'     => 'b8_test',
                     'username' => 'root',
                     'password' => 'root',
@@ -69,9 +74,14 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
             'b8' => [
                 'database' => [
                     'servers' => [
-                        'read'  => 'localhost',
-                        'write' => 'localhost',
+                        'read'  => [
+                            ['host' => 'localhost'],
+                        ],
+                        'write' => [
+                            ['host' => 'localhost'],
+                        ],
                     ],
+                    'type'     => 'mysql',
                     'name'     => 'b8_test_2',
                     'username' => '',
                     'password' => '',

@@ -24,8 +24,7 @@ class BuildErrorStore extends BuildErrorStoreBase
      */
     public function getErrorsForBuild($buildId, $since = null)
     {
-        $query = 'SELECT * FROM build_error
-                    WHERE build_id = :build';
+        $query = 'SELECT * FROM {{build_error}} WHERE {{build_id}} = :build';
 
         if (!is_null($since)) {
             $query .= ' AND created_date > :since';
@@ -33,7 +32,7 @@ class BuildErrorStore extends BuildErrorStoreBase
 
         $query .= ' LIMIT 15000';
 
-        $stmt = Database::getConnection('read')->prepare($query);
+        $stmt = Database::getConnection('read')->prepareCommon($query);
 
         $stmt->bindValue(':build', $buildId, \PDO::PARAM_INT);
 
@@ -63,10 +62,10 @@ class BuildErrorStore extends BuildErrorStoreBase
      */
     public function getErrorTotalForBuild($buildId)
     {
-        $query = 'SELECT COUNT(*) AS total FROM build_error
-                    WHERE build_id = :build';
+        $query = 'SELECT COUNT(*) AS {{total}} FROM {{build_error}}
+                    WHERE {{build_id}} = :build';
 
-        $stmt = Database::getConnection('read')->prepare($query);
+        $stmt = Database::getConnection('read')->prepareCommon($query);
 
         $stmt->bindValue(':build', $buildId, \PDO::PARAM_INT);
 

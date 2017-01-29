@@ -30,12 +30,12 @@ class BuildStore extends BuildStoreBase
     public function getLatestBuilds($projectId = null, $limit = 5)
     {
         if (!is_null($projectId)) {
-            $query = 'SELECT * FROM build WHERE `project_id` = :pid ORDER BY id DESC LIMIT :limit';
+            $query = 'SELECT * FROM {{build}} WHERE {{project_id}} = :pid ORDER BY {{id}} DESC LIMIT :limit';
         } else {
-            $query = 'SELECT * FROM build ORDER BY id DESC LIMIT :limit';
+            $query = 'SELECT * FROM {{build}} ORDER BY {{id}} DESC LIMIT :limit';
         }
 
-        $stmt = Database::getConnection('read')->prepare($query);
+        $stmt = Database::getConnection('read')->prepareCommon($query);
 
         if (!is_null($projectId)) {
             $stmt->bindValue(':pid', $projectId);
@@ -65,8 +65,8 @@ class BuildStore extends BuildStoreBase
      */
     public function getLastBuildByStatus($projectId = null, $status = Build::STATUS_SUCCESS)
     {
-        $query = 'SELECT * FROM build WHERE project_id = :pid AND status = :status ORDER BY id DESC LIMIT 1';
-        $stmt = Database::getConnection('read')->prepare($query);
+        $query = 'SELECT * FROM {{build}} WHERE {{project_id}} = :pid AND {{status}} = :status ORDER BY {{id}} DESC LIMIT 1';
+        $stmt = Database::getConnection('read')->prepareCommon($query);
         $stmt->bindValue(':pid', $projectId);
         $stmt->bindValue(':status', $status);
 
@@ -87,8 +87,8 @@ class BuildStore extends BuildStoreBase
      */
     public function getByProjectAndCommit($projectId, $commitId)
     {
-        $query = 'SELECT * FROM `build` WHERE `project_id` = :project_id AND `commit_id` = :commit_id';
-        $stmt = Database::getConnection('read')->prepare($query);
+        $query = 'SELECT * FROM {{build}} WHERE {{project_id}} = :project_id AND {{commit_id}} = :commit_id';
+        $stmt = Database::getConnection('read')->prepareCommon($query);
         $stmt->bindValue(':project_id', $projectId);
         $stmt->bindValue(':commit_id', $commitId);
 
@@ -116,8 +116,8 @@ class BuildStore extends BuildStoreBase
      */
     public function getBuildBranches($projectId)
     {
-        $query = 'SELECT DISTINCT `branch` FROM `build` WHERE `project_id` = :project_id';
-        $stmt = Database::getConnection('read')->prepare($query);
+        $query = 'SELECT DISTINCT {{branch}} FROM {{build}} WHERE {{project_id}} = :project_id';
+        $stmt = Database::getConnection('read')->prepareCommon($query);
         $stmt->bindValue(':project_id', $projectId);
 
         if ($stmt->execute()) {
@@ -140,8 +140,8 @@ class BuildStore extends BuildStoreBase
     public function getMeta($key, $projectId, $buildId = null, $branch = null, $numResults = 1)
     {
         $query = 'SELECT bm.build_id, bm.meta_key, bm.meta_value
-                    FROM build_meta AS bm
-                    LEFT JOIN build b ON b.id = bm.build_id
+                    FROM {{build_meta}} AS {{bm}}
+                    LEFT JOIN {{build}} AS {{b}} ON b.id = bm.build_id
                     WHERE   bm.meta_key = :key
                       AND   bm.project_id = :projectId';
 
@@ -160,7 +160,7 @@ class BuildStore extends BuildStoreBase
 
         $query .= ' ORDER BY bm.id DESC LIMIT :numResults';
 
-        $stmt = Database::getConnection('read')->prepare($query);
+        $stmt = Database::getConnection('read')->prepareCommon($query);
         $stmt->bindValue(':key', $key, \PDO::PARAM_STR);
         $stmt->bindValue(':projectId', (int)$projectId, \PDO::PARAM_INT);
         $stmt->bindValue(':buildId', (int)$buildId, \PDO::PARAM_INT);
@@ -199,10 +199,10 @@ class BuildStore extends BuildStoreBase
      */
     public function setMeta($projectId, $buildId, $key, $value)
     {
-        $cols = '`project_id`, `build_id`, `meta_key`, `meta_value`';
-        $query = 'REPLACE INTO build_meta ('.$cols.') VALUES (:projectId, :buildId, :key, :value)';
+        $cols = '{{project_id}}, {{build_id}}, {{meta_key}}, {{meta_value}}';
+        $query = 'INSERT INTO {{build_meta}} ('.$cols.') VALUES (:projectId, :buildId, :key, :value)';
 
-        $stmt = Database::getConnection('read')->prepare($query);
+        $stmt = Database::getConnection('read')->prepareCommon($query);
         $stmt->bindValue(':key', $key, \PDO::PARAM_STR);
         $stmt->bindValue(':projectId', (int)$projectId, \PDO::PARAM_INT);
         $stmt->bindValue(':buildId', (int)$buildId, \PDO::PARAM_INT);

@@ -33,14 +33,18 @@ class Application extends BaseApplication
                 'default_migration_table' => 'migration',
                 'default_database'        => 'php-censor',
                 'php-censor'              => [
-                    'adapter' => 'mysql',
-                    'host'    => $databaseSettings['servers']['write'],
+                    'adapter' => $databaseSettings['type'],
+                    'host'    => $databaseSettings['servers']['write'][0]['host'],
                     'name'    => $databaseSettings['name'],
                     'user'    => $databaseSettings['username'],
                     'pass'    => $databaseSettings['password'],
                 ],
             ],
         ];
+        
+        if (!empty($databaseSettings['port'])) {
+            $phinxSettings['environments']['php-censor']['port'] = (integer)$databaseSettings['port'];
+        }
 
         $phinxConfig = new PhinxConfig($phinxSettings);
 

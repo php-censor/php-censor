@@ -1,7 +1,6 @@
 <?php
 
 use Phinx\Migration\AbstractMigration;
-use Phinx\Db\Adapter\MysqlAdapter;
 
 class ErrorsTable extends AbstractMigration
 {
@@ -34,7 +33,7 @@ class ErrorsTable extends AbstractMigration
         }
 
         if (!$table->hasColumn('severity')) {
-            $table->addColumn('severity', 'integer', ['signed' => false, 'limit' => MysqlAdapter::INT_TINY])->save();
+            $table->addColumn('severity', 'integer', ['signed' => false, 'limit' => 255])->save();
         }
 
         if (!$table->hasColumn('message')) {

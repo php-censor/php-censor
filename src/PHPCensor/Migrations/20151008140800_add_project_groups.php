@@ -13,12 +13,14 @@ class AddProjectGroups extends AbstractMigration
         }
 
         if (!$table->hasColumn('title')) {
-            $table->addColumn('title', 'string', ['limit' => 100, 'null' => false])->save();
+            $table
+                ->addColumn('title', 'string', ['limit' => 100, 'null' => false])
+                ->save();
 
-            $group = new \PHPCensor\Model\ProjectGroup();
+/*            $group = new \PHPCensor\Model\ProjectGroup();
             $group->setTitle('Projects');
 
-            \b8\Store\Factory::getStore('ProjectGroup')->save($group);
+            \b8\Store\Factory::getStore('ProjectGroup')->save($group);*/
         }
 
         $table = $this->table('project');

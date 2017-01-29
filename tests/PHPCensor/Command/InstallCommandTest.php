@@ -58,6 +58,7 @@ class InstallCommandTest extends \PHPUnit_Framework_TestCase
                 'verifyDatabaseDetails',
                 'setupDatabase',
                 'createAdminUser',
+                'createDefaultGroup',
                 'writeConfigFile',
                 'checkRequirements',
             ])->getMock();
@@ -78,6 +79,7 @@ class InstallCommandTest extends \PHPUnit_Framework_TestCase
             })
         );
         $command->expects($this->once())->method('checkRequirements');
+        $command->expects($this->once())->method('createDefaultGroup');
 
         return $command;
     }
@@ -100,6 +102,7 @@ class InstallCommandTest extends \PHPUnit_Framework_TestCase
             '--db-name'        => 'php-censor-db',
             '--db-user'        => 'php-censor-user',
             '--db-pass'        => 'php-censor-password',
+            '--db-type'        => 'mysql',
             '--admin-mail'     => 'admin@php-censor.local',
             '--admin-name'     => 'admin',
             '--admin-pass'     => 'admin-password',
@@ -144,8 +147,8 @@ class InstallCommandTest extends \PHPUnit_Framework_TestCase
         $this->executeWithoutParam('--db-host', $dialog);
 
         // Check that specified arguments are correctly loaded.
-        $this->assertEquals('testedvalue', $this->config['b8']['database']['servers']['read']);
-        $this->assertEquals('testedvalue', $this->config['b8']['database']['servers']['write']);
+        $this->assertEquals('testedvalue', $this->config['b8']['database']['servers']['read'][0]['host']);
+        $this->assertEquals('testedvalue', $this->config['b8']['database']['servers']['write'][0]['host']);
     }
 
     public function testDatabaseNameConfig()

@@ -73,7 +73,7 @@ Installing
 ----------
 
 You will need PHP 5.6+ (with OpenSSL support and enabled functions: `exec()`, `shell_exec()` and `proc_open()`)
-with web-server (Nginx or Apache2), MySQL (or MariaDB) database and Composer.
+with web-server (Nginx or Apache2), DB (MySQL/MariaDB or PostgreSQL) database and Composer.
 
 * Go to the directory in which you want to install PHP Censor, for example: `/var/www`;
 
@@ -83,7 +83,7 @@ with web-server (Nginx or Apache2), MySQL (or MariaDB) database and Composer.
 
 * Install dependencies using Composer: `composer install`;
 
-* Create empty MySQL database for application;
+* Create empty database for application;
 
 * Install Beanstalkd queue (`aptitude install beanstalkd`);
 
@@ -135,7 +135,7 @@ cd /path/to/php-censor
 
 For Phar plugin tests set 'phar.readonly' setting to Off (0) in `php.ini` config. Otherwise tests will be skipped.
 
-For database B8Framework tests create empty 'b8_test' MySQL database on 'localhost' with user/password: `root/root`.
+For database B8Framework tests create empty 'b8_test' database on 'localhost' with user/password: `root/root`.
 Otherwise database tests will be skipped.
 
 Documentation

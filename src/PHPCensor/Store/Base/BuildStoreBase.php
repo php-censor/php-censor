@@ -38,8 +38,8 @@ class BuildStoreBase extends Store
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
-        $query = 'SELECT * FROM `build` WHERE `id` = :id LIMIT 1';
-        $stmt = Database::getConnection($useConnection)->prepare($query);
+        $query = 'SELECT * FROM {{build}} WHERE {{id}} = :id LIMIT 1';
+        $stmt = Database::getConnection($useConnection)->prepareCommon($query);
         $stmt->bindValue(':id', $value);
 
         if ($stmt->execute()) {
@@ -62,8 +62,8 @@ class BuildStoreBase extends Store
         }
 
 
-        $query = 'SELECT * FROM `build` WHERE `project_id` = :project_id LIMIT :limit';
-        $stmt = Database::getConnection($useConnection)->prepare($query);
+        $query = 'SELECT * FROM {{build}} WHERE {{project_id}} = :project_id LIMIT :limit';
+        $stmt = Database::getConnection($useConnection)->prepareCommon($query);
         $stmt->bindValue(':project_id', $value);
         $stmt->bindValue(':limit', (int)$limit, \PDO::PARAM_INT);
 
@@ -94,8 +94,8 @@ class BuildStoreBase extends Store
         }
 
 
-        $query = 'SELECT * FROM `build` WHERE `status` = :status LIMIT :limit';
-        $stmt = Database::getConnection($useConnection)->prepare($query);
+        $query = 'SELECT * FROM {{build}} WHERE {{status}} = :status LIMIT :limit';
+        $stmt = Database::getConnection($useConnection)->prepareCommon($query);
         $stmt->bindValue(':status', $value);
         $stmt->bindValue(':limit', (int)$limit, \PDO::PARAM_INT);
 

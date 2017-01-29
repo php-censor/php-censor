@@ -1,6 +1,5 @@
 <?php
 
-use Phinx\Db\Adapter\MysqlAdapter;
 use Phinx\Migration\AbstractMigration;
 
 class AddUserProviders extends AbstractMigration
@@ -16,12 +15,12 @@ class AddUserProviders extends AbstractMigration
             // The provider name
             ->addColumn('provider_key', 'string', [
                 'default' => 'internal',
-                'limit'   => MysqlAdapter::TEXT_SMALL
+                'limit'   => 255
             ])
             // A data used by the provider
             ->addColumn('provider_data', 'string', [
                 'null'  => true,
-                'limit' => MysqlAdapter::TEXT_SMALL
+                'limit' => 255
             ])
             ->save();
     }

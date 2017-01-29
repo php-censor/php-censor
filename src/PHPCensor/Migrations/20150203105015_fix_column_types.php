@@ -1,7 +1,6 @@
 <?php
 
 use Phinx\Migration\AbstractMigration;
-use Phinx\Db\Adapter\MysqlAdapter;
 
 class FixColumnTypes extends AbstractMigration
 {
@@ -9,11 +8,11 @@ class FixColumnTypes extends AbstractMigration
     {
         $build = $this->table('build');
 
-        $build->changeColumn('log', 'text', ['null'  => true, 'limit' => MysqlAdapter::TEXT_MEDIUM]);
+        $build->changeColumn('log', 'text', ['null'  => true]);
 
         $buildMeta = $this->table('build_meta');
 
-        $buildMeta->changeColumn('meta_value', 'text', ['null'  => false, 'limit' => MysqlAdapter::TEXT_MEDIUM]);
+        $buildMeta->changeColumn('meta_value', 'text', ['null'  => false]);
     }
 
     public function down()
