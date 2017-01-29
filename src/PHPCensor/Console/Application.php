@@ -35,7 +35,7 @@ class Application extends BaseApplication
                 'php-censor'              => [
                     'adapter' => $databaseSettings['type'],
                     'host'    => $databaseSettings['servers']['write'][0]['host'],
-                    'port'    => $databaseSettings['servers']['write'][0]['port'],
+                    'port'    => $databaseSettings['port'],
                     'name'    => $databaseSettings['name'],
                     'user'    => $databaseSettings['username'],
                     'pass'    => $databaseSettings['password'],
