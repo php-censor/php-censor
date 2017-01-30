@@ -16,11 +16,6 @@ class AddProjectGroups extends AbstractMigration
             $table
                 ->addColumn('title', 'string', ['limit' => 100, 'null' => false])
                 ->save();
-
-/*            $group = new \PHPCensor\Model\ProjectGroup();
-            $group->setTitle('Projects');
-
-            \b8\Store\Factory::getStore('ProjectGroup')->save($group);*/
         }
 
         $table = $this->table('project');
