@@ -13,7 +13,7 @@ install:
   - composer install
 
 script:
-  - phpunit --configuration phpunit.xml
+  - ./vendor/bin/phpunit
 
 notifications:
   email:
