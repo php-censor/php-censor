@@ -39,10 +39,6 @@ if (!defined('IS_WIN')) {
 
 require_once(ROOT_DIR . 'vendor/autoload.php');
 
-if (defined('IS_CONSOLE') && IS_CONSOLE) {
-    $loggerConfig = LoggerConfig::newFromFile(APP_DIR . "loggerconfig.php");
-}
-
 // Load configuration if present:
 $conf = [];
 $conf['b8']['app']['namespace']          = 'PHPCensor';
@@ -58,10 +54,6 @@ if (file_exists($configFile)) {
 
 if (!defined('APP_URL') && !empty($config)) {
     define('APP_URL', $config->get('php-censor.url', '') . '/');
-}
-
-if (!defined('IS_CONSOLE')) {
-    define('IS_CONSOLE', false);
 }
 
 \PHPCensor\Helper\Lang::init($config, 'en');
