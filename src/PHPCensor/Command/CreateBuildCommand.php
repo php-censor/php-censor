@@ -39,6 +39,7 @@ class CreateBuildCommand extends Command
 
     /**
      * @param ProjectStore $projectStore
+     * @param BuildService $buildService
      */
     public function __construct(ProjectStore $projectStore, BuildService $buildService)
     {

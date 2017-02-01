@@ -9,16 +9,6 @@
 * @link         http://www.phptesting.org/
 */
 
-use PHPCensor\Command\RunCommand;
-use PHPCensor\Command\RebuildCommand;
-use PHPCensor\Command\InstallCommand;
-use PHPCensor\Command\PollCommand;
-use PHPCensor\Command\CreateAdminCommand;
-use PHPCensor\Command\CreateBuildCommand;
-use PHPCensor\Command\WorkerCommand;
-use PHPCensor\Command\RebuildQueueCommand;
-use PHPCensor\Service\BuildService;
-use b8\Store\Factory;
 use PHPCensor\Console\Application;
 
 define('IS_CONSOLE', true);
@@ -28,15 +18,4 @@ ini_set('display_errors', 1);
 
 require_once(dirname(__DIR__) . '/bootstrap.php');
 
-$application = new Application();
-
-$application->add(new RunCommand($loggerConfig->getFor('RunCommand')));
-$application->add(new RebuildCommand($loggerConfig->getFor('RunCommand')));
-$application->add(new InstallCommand);
-$application->add(new PollCommand($loggerConfig->getFor('PollCommand')));
-$application->add(new CreateAdminCommand(Factory::getStore('User')));
-$application->add(new CreateBuildCommand(Factory::getStore('Project'), new BuildService(Factory::getStore('Build'))));
-$application->add(new WorkerCommand($loggerConfig->getFor('WorkerCommand')));
-$application->add(new RebuildQueueCommand($loggerConfig->getFor('RebuildQueueCommand')));
-
-$application->run();
+(new Application())->run();
