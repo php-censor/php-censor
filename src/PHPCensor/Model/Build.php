@@ -272,9 +272,9 @@ class Build extends BuildBase
 
         if (is_link($buildPath)) {
             // Remove the symlink without using recursive.
-            exec(sprintf(IS_WIN ? 'rmdir /S /Q "%s"' : 'rm "%s"', $buildPath));
+            exec(sprintf('rm "%s"', $buildPath));
         } else {
-            exec(sprintf(IS_WIN ? 'rmdir /S /Q "%s"' : 'rm -Rf "%s"', $buildPath));
+            exec(sprintf('rm -Rf "%s"', $buildPath));
         }
     }
 

@@ -21,17 +21,11 @@ class CommandExecutorTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        if (IS_WIN) {
-            $this->markTestSkipped("Cannot test UnixCommandExecutor on ".PHP_OS);
-            return;
-        }
         parent::setUp();
 
         $mockBuildLogger = $this->prophesize('PHPCensor\Logging\BuildLogger');
 
-        $class = IS_WIN 
-            ? 'PHPCensor\Helper\WindowsCommandExecutor'
-            : 'PHPCensor\Helper\UnixCommandExecutor';
+        $class = 'PHPCensor\Helper\UnixCommandExecutor';
         $this->testedExecutor = new $class($mockBuildLogger->reveal(), __DIR__);
     }
 

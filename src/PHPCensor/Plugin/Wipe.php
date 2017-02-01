@@ -55,11 +55,10 @@ class Wipe extends Plugin
         }
         if (is_dir($this->directory)) {
             $cmd = 'rm -Rf "%s"';
-            if (IS_WIN) {
-                $cmd = 'rmdir /S /Q "%s"';
-            }
+
             return $this->builder->executeCommand($cmd, $this->directory);
         }
+
         return true;
     }
 }

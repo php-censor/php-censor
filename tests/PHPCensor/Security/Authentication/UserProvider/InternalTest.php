@@ -27,9 +27,6 @@ class InternalTest extends \PHPUnit_Framework_TestCase
         ]);
     }
 
-    /**
-     * @covers Internal::verifyPassword
-     */
     public function testVerifyPassword()
     {
         $user = new User();
@@ -39,9 +36,6 @@ class InternalTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->provider->verifyPassword($user, $password));
     }
 
-    /**
-     * @covers Internal::verifyPassword
-     */
     public function testVerifyInvaldPassword()
     {
         $user = new User();
@@ -51,17 +45,11 @@ class InternalTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->provider->verifyPassword($user, 'bar'));
     }
 
-    /**
-     * @covers Internal::checkRequirements
-     */
     public function testCheckRequirements()
     {
         $this->provider->checkRequirements();
     }
 
-    /**
-     * @covers Internal::provisionUser
-     */
     public function testProvisionUser()
     {
         $this->assertNull($this->provider->provisionUser('john@doe.com'));

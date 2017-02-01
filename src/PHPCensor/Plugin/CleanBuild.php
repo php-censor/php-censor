@@ -49,9 +49,7 @@ class CleanBuild extends Plugin
     public function execute()
     {
         $cmd = 'rm -Rf "%s"';
-        if (IS_WIN) {
-            $cmd = 'rmdir /S /Q "%s"';
-        }
+
         $this->builder->executeCommand($cmd, $this->builder->buildPath . 'composer.phar');
         $this->builder->executeCommand($cmd, $this->builder->buildPath . 'composer.lock');
 

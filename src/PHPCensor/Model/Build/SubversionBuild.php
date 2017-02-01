@@ -119,19 +119,15 @@ class SubversionBuild extends Build
     {
         $cmd = $this->svnCommand . ' %s "%s"';
 
-        if (!IS_WIN) {
-            $keyFile    = $this->writeSshKey($cloneTo);
-            $sshWrapper = $this->writeSshWrapper($cloneTo, $keyFile);
-            $cmd        = 'export SVN_SSH="' . $sshWrapper . '" && ' . $cmd;
-        }
+        $keyFile    = $this->writeSshKey($cloneTo);
+        $sshWrapper = $this->writeSshWrapper($cloneTo, $keyFile);
+        $cmd        = 'export SVN_SSH="' . $sshWrapper . '" && ' . $cmd;
 
         $success = $builder->executeCommand($cmd, $this->getCloneUrl(), $cloneTo);
 
-        if (!IS_WIN) {
-            // Remove the key file and svn wrapper:
-            unlink($keyFile);
-            unlink($sshWrapper);
-        }
+        // Remove the key file and svn wrapper:
+        unlink($keyFile);
+        unlink($sshWrapper);
 
         return $success;
     }

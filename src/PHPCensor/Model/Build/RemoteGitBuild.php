@@ -77,11 +77,8 @@ class RemoteGitBuild extends Build
     */
     protected function cloneBySsh(Builder $builder, $cloneTo)
     {
-        $keyFile = $this->writeSshKey($cloneTo);
-
-        if (!IS_WIN) {
-            $gitSshWrapper = $this->writeSshWrapper($cloneTo, $keyFile);
-        }
+        $keyFile       = $this->writeSshKey($cloneTo);
+        $gitSshWrapper = $this->writeSshWrapper($cloneTo, $keyFile);
 
         // Do the git clone:
         $cmd = 'git clone --recursive ';
@@ -93,10 +90,7 @@ class RemoteGitBuild extends Build
         }
 
         $cmd .= ' -b %s %s "%s"';
-
-        if (!IS_WIN) {
-            $cmd = 'export GIT_SSH="'.$gitSshWrapper.'" && ' . $cmd;
-        }
+        $cmd = 'export GIT_SSH="'.$gitSshWrapper.'" && ' . $cmd;
 
         $success = $builder->executeCommand($cmd, $this->getBranch(), $this->getCloneUrl(), $cloneTo);
 
@@ -106,9 +100,7 @@ class RemoteGitBuild extends Build
 
         // Remove the key file and git wrapper:
         unlink($keyFile);
-        if (!IS_WIN) {
-            unlink($gitSshWrapper);
-        }
+        unlink($gitSshWrapper);
 
         return $success;
     }
@@ -122,9 +114,8 @@ class RemoteGitBuild extends Build
     protected function postCloneSetup(Builder $builder, $cloneTo)
     {
         $success = true;
-        $commit = $this->getCommitId();
-
-        $chdir = IS_WIN ? 'cd /d "%s"' : 'cd "%s"';
+        $commit  = $this->getCommitId();
+        $chdir   = 'cd "%s"';
 
         if (!empty($commit) && $commit != 'Manual') {
             $cmd = $chdir . ' && git checkout %s --quiet';

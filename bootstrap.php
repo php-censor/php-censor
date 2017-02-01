@@ -31,10 +31,6 @@ if (!defined('RUNTIME_DIR')) {
     define('RUNTIME_DIR', ROOT_DIR . 'runtime' . DIRECTORY_SEPARATOR);
 }
 
-if (!defined('IS_WIN')) {
-    define('IS_WIN', ((strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? true : false));
-}
-
 require_once(ROOT_DIR . 'vendor/autoload.php');
 
 // Load configuration if present:

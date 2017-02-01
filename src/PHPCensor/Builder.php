@@ -113,11 +113,7 @@ class Builder implements LoggerAwareInterface
         $pluginFactory        = $this->buildPluginFactory($build);
         $this->pluginExecutor = new Plugin\Util\Executor($pluginFactory, $this->buildLogger);
 
-        $executorClass = 'PHPCensor\Helper\UnixCommandExecutor';
-        if (IS_WIN) {
-            $executorClass = 'PHPCensor\Helper\WindowsCommandExecutor';
-        }
-
+        $executorClass         = 'PHPCensor\Helper\UnixCommandExecutor';
         $this->commandExecutor = new $executorClass(
             $this->buildLogger,
             ROOT_DIR,

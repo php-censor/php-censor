@@ -15,6 +15,19 @@ PHP Censor
 
 More [screenshots](docs/en/screenshots.md).
 
+System requirements
+-------------------
+
+* Unix-like OS (**Windows isn't supported**)
+
+* PHP 5.6+ (with OpenSSL support and enabled functions: `exec()`, `shell_exec()` and `proc_open()`)
+
+* Web-server (Nginx or Apache2)
+
+* Database (MySQL/MariaDB or PostgreSQL)
+
+* Beanstalkd queue (Optional)
+
 Features
 --------
 
@@ -71,9 +84,6 @@ More details about [configuring project](docs/en/config.md).
 
 Installing
 ----------
-
-You will need PHP 5.6+ (with OpenSSL support and enabled functions: `exec()`, `shell_exec()` and `proc_open()`)
-with web-server (Nginx or Apache2), DB (MySQL/MariaDB or PostgreSQL) database and Composer.
 
 * Go to the directory in which you want to install PHP Censor, for example: `/var/www`;
 
