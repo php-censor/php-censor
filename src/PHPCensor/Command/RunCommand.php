@@ -15,6 +15,7 @@ use PHPCensor\Helper\Lang;
 use PHPCensor\Logging\BuildDBLogHandler;
 use PHPCensor\Logging\LoggedBuildContextTidier;
 use PHPCensor\Logging\OutputLogHandler;
+use PHPCensor\Store\BuildStore;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -66,7 +67,7 @@ class RunCommand extends Command
     }
 
     /**
-     * Pulls all pending builds from the database and runs them.
+     * Pulls all pending builds from the database or queue and runs them.
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -80,7 +81,7 @@ class RunCommand extends Command
             );
         }
 
-        // Allow PHPCI to run in "debug mode"
+        // Allow PHP Censor to run in "debug mode"
         if ($input->hasOption('debug') && $input->getOption('debug')) {
             $output->writeln('<comment>Debug mode enabled.</comment>');
             define('DEBUG_MODE', true);
@@ -90,8 +91,11 @@ class RunCommand extends Command
 
         $this->logger->pushProcessor(new LoggedBuildContextTidier());
         $this->logger->addInfo(Lang::get('finding_builds'));
-        $store = Factory::getStore('Build');
-        $result = $store->getByStatus(0, $this->maxBuilds);
+        
+        /** @var BuildStore $store */
+        $store  = Factory::getStore('Build');
+        $result = $store->getByStatus(Build::STATUS_PENDING, $this->maxBuilds);
+
         $this->logger->addInfo(Lang::get('found_n_builds', count($result['items'])));
 
         $builds = 0;
@@ -147,7 +151,7 @@ class RunCommand extends Command
     {
         /** @var \PHPCensor\Store\BuildStore $store */
         $store   = Factory::getStore('Build');
-        $running = $store->getByStatus(1);
+        $running = $store->getByStatus(Build::STATUS_RUNNING);
         $rtn     = [];
 
         $timeout = Config::getInstance()->get('php-censor.build.failed_after', 1800);

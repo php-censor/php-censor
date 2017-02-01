@@ -80,7 +80,7 @@ class BuildStatusServiceTest extends \PHPUnit_Framework_TestCase
                 'previousBuild'  => null,
             ],
             '5' => [
-                'status'         => Build::STATUS_NEW,
+                'status'         => Build::STATUS_PENDING,
                 'id'             => 1000,
                 'finishDateTime' => '2014-12-25 21:12:21',
                 'previousBuild'  => 3,

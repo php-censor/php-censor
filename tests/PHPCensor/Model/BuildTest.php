@@ -43,7 +43,7 @@ class BuildTest extends \PHPUnit_Framework_TestCase
     public function testExecute_TestIsSuccessful()
     {
         $build = new Build();
-        $build->setStatus(Build::STATUS_NEW);
+        $build->setStatus(Build::STATUS_PENDING);
         $this->assertFalse($build->isSuccessful());
 
         $build->setStatus(Build::STATUS_RUNNING);

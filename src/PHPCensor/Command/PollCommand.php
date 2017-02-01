@@ -87,7 +87,7 @@ class PollCommand extends Command
                 $build = new Build();
                 $build->setProjectId($project->getId());
                 $build->setCommitId($last_commit);
-                $build->setStatus(Build::STATUS_NEW);
+                $build->setStatus(Build::STATUS_PENDING);
                 $build->setBranch($project->getBranch());
                 $build->setCreated(new \DateTime());
                 $build->setCommitMessage($message);

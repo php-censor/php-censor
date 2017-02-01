@@ -43,6 +43,7 @@ class InstallCommand extends Command
 
         $this
             ->setName('php-censor:install')
+
             ->addOption('url', null, InputOption::VALUE_OPTIONAL, Lang::get('installation_url'))
             ->addOption('db-type', null, InputOption::VALUE_OPTIONAL, Lang::get('db_host'))
             ->addOption('db-host', null, InputOption::VALUE_OPTIONAL, Lang::get('db_host'))
@@ -54,9 +55,10 @@ class InstallCommand extends Command
             ->addOption('admin-pass', null, InputOption::VALUE_OPTIONAL, Lang::get('admin_pass'))
             ->addOption('admin-mail', null, InputOption::VALUE_OPTIONAL, Lang::get('admin_email'))
             ->addOption('config-path', null, InputOption::VALUE_OPTIONAL, Lang::get('config_path'), $defaultPath)
-            ->addOption('queue-disabled', null, InputOption::VALUE_NONE, 'Don\'t ask for queue details')
-            ->addOption('queue-server', null, InputOption::VALUE_OPTIONAL, 'Beanstalkd queue server hostname')
+            ->addOption('queue-use', null, InputOption::VALUE_OPTIONAL, 'Don\'t ask for queue details')
+            ->addOption('queue-host', null, InputOption::VALUE_OPTIONAL, 'Beanstalkd queue server hostname')
             ->addOption('queue-name', null, InputOption::VALUE_OPTIONAL, 'Beanstalkd queue name')
+
             ->setDescription(Lang::get('install_app'));
     }
 
@@ -250,45 +252,53 @@ class InstallCommand extends Command
         $config['per_page'] = 10;
 
         $config['url']   = $url;
-        $config['queue'] = $this->getQueueInformation($input, $output, $helper);
+        $config['queue'] = $this->getQueueInformation($input, $output);
 
         return $config;
     }
 
     /**
      * If the user wants to use a queue, get the necessary details.
+     * 
      * @param InputInterface  $input
      * @param OutputInterface $output
-     * @param QuestionHelper  $helper
      * @return array
      */
-    protected function getQueueInformation(InputInterface $input, OutputInterface $output, QuestionHelper $helper)
+    protected function getQueueInformation(InputInterface $input, OutputInterface $output)
     {
-        if ($input->getOption('queue-disabled')) {
-            return null;
+        $skipQueueConfig = [
+            'queue-use' => false,
+        ];
+        
+        if (!$input->getOption('queue-use')) {
+            return $skipQueueConfig;
         }
 
-        $rtn = [];
+        $queueConfig = [
+            'queue-use' => true,
+        ];
 
-        $helper = $this->getHelper('question');
-        $question = new ConfirmationQuestion('Use beanstalkd to manage build queue? ', true);
+        /** @var $helper QuestionHelper */
+        $helper   = $this->getHelper('question');
+        $question = new ConfirmationQuestion('Use beanstalkd to manage build queue? ', false);
 
         if (!$helper->ask($input, $output, $question)) {
             $output->writeln('<error>Skipping beanstalkd configuration.</error>');
-            return null;
+
+            return $skipQueueConfig;
         }
 
-        if (!$rtn['host'] = $input->getOption('queue-server')) {
-            $questionQueue = new Question('Enter your beanstalkd hostname [localhost]: ', 'localhost');
-            $rtn['host']   = $helper->ask($input, $output, $questionQueue);
+        if (!$queueConfig['host'] = $input->getOption('queue-host')) {
+            $questionQueue       = new Question('Enter your beanstalkd hostname [localhost]: ', 'localhost');
+            $queueConfig['host'] = $helper->ask($input, $output, $questionQueue);
         }
 
-        if (!$rtn['name'] = $input->getOption('queue-name')) {
-            $questionName = new Question('Enter the queue (tube) name to use [php-censor-queue]: ', 'php-censor-queue');
-            $rtn['name'] = $helper->ask($input, $output, $questionName);
+        if (!$queueConfig['name'] = $input->getOption('queue-name')) {
+            $questionName        = new Question('Enter the queue (tube) name to use [php-censor-queue]: ', 'php-censor-queue');
+            $queueConfig['name'] = $helper->ask($input, $output, $questionName);
         }
 
-        return $rtn;
+        return $queueConfig;
     }
 
     /**

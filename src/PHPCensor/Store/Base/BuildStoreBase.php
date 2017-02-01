@@ -85,14 +85,20 @@ class BuildStoreBase extends Store
 
     /**
      * Get multiple Build by Status.
+     * 
+     * @param $value
+     * @param int $limit
+     * @param string $useConnection
+     * 
      * @return array
+     * 
+     * @throws HttpException
      */
     public function getByStatus($value, $limit = 1000, $useConnection = 'read')
     {
         if (is_null($value)) {
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
-
 
         $query = 'SELECT * FROM {{build}} WHERE {{status}} = :status LIMIT :limit';
         $stmt = Database::getConnection($useConnection)->prepareCommon($query);

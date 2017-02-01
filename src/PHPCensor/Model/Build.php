@@ -21,7 +21,7 @@ use Symfony\Component\Yaml\Parser as YamlParser;
  */
 class Build extends BuildBase
 {
-    const STATUS_NEW     = 0;
+    const STATUS_PENDING = 0;
     const STATUS_RUNNING = 1;
     const STATUS_SUCCESS = 2;
     const STATUS_FAILED  = 3;
