@@ -21,13 +21,13 @@ var SummaryPlugin = ActiveBuild.UiPlugin.extend({
 
     render: function() {
         return $(
-            '<div class="table-responsive"><table class="table" id="plugin-summary">' +
+            '<table class="table table-hover" id="plugin-summary">' +
             '<thead><tr>' +
                     '<th>'+Lang.get('stage')+'</th>' +
                     '<th>'+Lang.get('plugin')+'</th>' +
                     '<th>'+Lang.get('status')+'</th>' +
                     '<th class="text-right">' + Lang.get('duration') + ' (' + Lang.get('seconds') + ')</th>' +
-            '</tr></thead><tbody></tbody></table></div>'
+            '</tr></thead><tbody></tbody></table>'
         );
     },
 
