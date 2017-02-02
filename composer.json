@@ -1,9 +1,9 @@
 {
   "name":              "corpsee/php-censor",
-  "description":       "PHP Censor is a fork of PHPCI and is a open source continuous integration tool specifically designed for PHP",
+  "description":       "PHP Censor is a open source self-hosted continuous integration server for PHP projects (Fork of PHPCI)",
   "minimum-stability": "stable",
   "type":              "application",
-  "keywords":          ["php", "php-censor", "ci", "continuous integration"],
+  "keywords":          ["php", "php-censor", "phpci", "ci-server", "testing", "self-hosted", "open-source", "ci", "continuous integration"],
   "homepage":          "https://github.com/corpsee/php-censor",
   "license":           "BSD-2-Clause",
   "authors":           [

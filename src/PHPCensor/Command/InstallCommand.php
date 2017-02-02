@@ -268,6 +268,9 @@ class InstallCommand extends Command
     {
         $skipQueueConfig = [
             'queue-use' => false,
+            'host'      => null,
+            'name'      => null,
+            'lifetime'  => 600
         ];
         
         if (!$input->getOption('queue-use')) {

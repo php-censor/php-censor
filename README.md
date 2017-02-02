@@ -80,7 +80,7 @@ complete:
     default_mailto_address: admin@php-censor.local
 ```
 
-More details about [configuring project](docs/en/config.md).
+More details about [configuring project](docs/en/configuring_project.md).
 
 Installing
 ----------

@@ -4,17 +4,52 @@ Configuring PHP Censor
 The PHP Censor configuration on the server is automatically generated into the `config.yml` file during installation.
 One might need to also edit the file manually.
 
-For example, one could log into PHP Censor and go into the settings to disable it. But if you have already set up a
-username/password pair and have forgotten the password, and if the server is on a local network, and it's not sending
-the `forgot password` email, then editing the config file manually would be handy. To do so, just edit the `php-censor`
-section in the config file (which is in [yaml format](https://en.wikipedia.org/wiki/YAML)), and add
+There is `config.yml` example:
 
 ```yml
+b8:
+  database:
+    servers:
+      read:
+        - host: localhost
+          port: 3306
+      write:
+        - host: localhost
+          port: 3306
+    type:     mysql # Database type: "mysql" or "pgsql"
+    name:     php-censor-db
+    username: php-censor-user
+    password: php-censor-password
 php-censor:
+  language: en
+  per_page: 10
+  url:      'http://php-censor.local'
+  email_settings:
+    from_address: 'no-reply@php-censor.local'
+    smtp_address:
+  queue:
+    use_queue: true
+    host:      localhost
+    name:      php-censor-queue
+    lifetime:  600
+  github:
+    token: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+    comments:
+      commit:       false # This option allow/deny to post comments to Github commit
+      pull_request: false # This option allow/deny to post comments to Github Pull Request
+  build:
+    remove_builds: true # This option allow/deny build cleaning
   security:
-    disable_auth:    true
-    default_user_id: 1
+    disable_auth:    false # This option allows/deny you to disable authentication for PHP Censor
+    default_user_id: 1     # Default user when authentication disabled
+    auth_providers:        # Authentication providers
+      internal:
+        type: internal # Default provider (PHP Censor internal authentication)
+      ldap:
+        type: ldap # Your LDAP provider
+        data:
+          host:           'ldap.php-censor.local'
+          port:           389
+          base_dn:        'dc=php-censor,dc=local'
+          mail_attribute: mail
 ```
-
-where you can get the `default_user_id` by logging into the database and selecting your user ID from the `users` table in
-the PHP Censor database.

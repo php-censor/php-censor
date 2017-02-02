@@ -93,7 +93,6 @@ class Executor
         $plugins = $branchConfig[$stage];
 
         $runOption = 'after';
-
         if (!empty($branchConfig['run-option'])) {
             $runOption = $branchConfig['run-option'];
         }
