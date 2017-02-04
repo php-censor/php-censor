@@ -25,8 +25,12 @@ php-censor:
   per_page: 10
   url:      'http://php-censor.local'
   email_settings:
-    from_address: 'no-reply@php-censor.local'
-    smtp_address:
+    from_address:    'no-reply@php-censor.local'
+    smtp_address:    null
+    smtp_port:       null
+    smtp_username:   null
+    smtp_password:   null
+    smtp_encryption: false
   queue:
     use_queue: true
     host:      localhost
