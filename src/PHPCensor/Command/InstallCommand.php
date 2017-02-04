@@ -466,7 +466,7 @@ class InstallCommand extends Command
             /** @var UserStore $userStore */
             $userStore   = Factory::getStore('User');
             $userService = new UserService($userStore);
-            $userService->createUser($admin['name'], $admin['email'], $admin['password'], 1);
+            $userService->createUser($admin['name'], $admin['email'], 'default', json_encode(['type' => 'internal']), $admin['password'], true);
 
             $output->writeln('<info>User account created!</info>');
         } catch (\Exception $ex) {
