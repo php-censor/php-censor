@@ -46,10 +46,10 @@ class InstallCommand extends Command
             ->addOption('admin-name',       null, InputOption::VALUE_OPTIONAL, 'Admin name')
             ->addOption('admin-password',   null, InputOption::VALUE_OPTIONAL, 'Admin password')
             ->addOption('admin-email',      null, InputOption::VALUE_OPTIONAL, 'Admin email')
-            ->addOption('queue-use',        null, InputOption::VALUE_OPTIONAL, 'Don\'t ask for queue details')
+            ->addOption('queue-use',        null, InputOption::VALUE_OPTIONAL, 'Don\'t ask for queue details', true)
             ->addOption('queue-host',       null, InputOption::VALUE_OPTIONAL, 'Beanstalkd queue server hostname')
             ->addOption('queue-name',       null, InputOption::VALUE_OPTIONAL, 'Beanstalkd queue name')
-            ->addOption('config-from-file', null, InputOption::VALUE_OPTIONAL, 'Take config from file and ignore options')
+            ->addOption('config-from-file', null, InputOption::VALUE_OPTIONAL, 'Take config from file and ignore options', false)
 
             ->setDescription('Install PHP Censor');
     }
@@ -245,11 +245,13 @@ class InstallCommand extends Command
             $url = $helper->ask($input, $output, $question);
         }
 
+        $queueConfig = $this->getQueueInformation($input, $output);
+
         return [
             'language' => 'en',
             'per_page' => 10,
             'url'      => $url,
-            'queue'    => $this->getQueueInformation($input, $output),
+            'queue'    => $queueConfig,
             'email_settings' => [
                 'from_address'           => 'no-reply@php-censor.local',
                 'smtp_address'           => null,
@@ -305,22 +307,23 @@ class InstallCommand extends Command
             'use_queue' => true,
         ];
 
-        /** @var $helper QuestionHelper */
-        $helper   = $this->getHelper('question');
-        $question = new ConfirmationQuestion('Use beanstalkd to manage build queue? ', false);
+        $queueConfig['host'] = $input->getOption('queue-host');
+        $queueConfig['name'] = $input->getOption('queue-name');
 
-        if (!$helper->ask($input, $output, $question)) {
-            $output->writeln('<error>Skipping beanstalkd configuration.</error>');
+        if (!$queueConfig['host'] && !$queueConfig['name']) {
+            /** @var $helper QuestionHelper */
+            $helper   = $this->getHelper('question');
+            $question = new ConfirmationQuestion('Use beanstalkd to manage build queue? ', false);
 
-            return $skipQueueConfig;
-        }
+            if (!$helper->ask($input, $output, $question)) {
+                $output->writeln('<error>Skipping beanstalkd configuration.</error>');
 
-        if (!$queueConfig['host'] = $input->getOption('queue-host')) {
+                return $skipQueueConfig;
+            }
+
             $questionQueue       = new Question('Enter your beanstalkd hostname [localhost]: ', 'localhost');
             $queueConfig['host'] = $helper->ask($input, $output, $questionQueue);
-        }
-
-        if (!$queueConfig['name'] = $input->getOption('queue-name')) {
+        
             $questionName        = new Question('Enter the queue (tube) name to use [php-censor-queue]: ', 'php-censor-queue');
             $queueConfig['name'] = $helper->ask($input, $output, $questionName);
         }
