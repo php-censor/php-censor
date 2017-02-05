@@ -64,4 +64,4 @@ if (!defined('IS_CONSOLE')) {
     define('IS_CONSOLE', false);
 }
 
-\PHPCensor\Helper\Lang::init($config, 'ru');
+\PHPCensor\Helper\Lang::init($config);
