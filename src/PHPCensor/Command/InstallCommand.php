@@ -202,16 +202,16 @@ class InstallCommand extends Command
             $adminName    = $helper->ask($input, $output, $questionName);
         }
 
-        if (!$adminPass = $input->getOption('admin-password')) {
-            $questionPass = new Question('Admin password: ');
-            $questionPass->setHidden(true);
-            $questionPass->setHiddenFallback(false);
-            $adminPass    = $helper->ask($input, $output, $questionPass);
+        if (!$adminPassword = $input->getOption('admin-password')) {
+            $questionPassword = new Question('Admin password: ');
+            $questionPassword->setHidden(true);
+            $questionPassword->setHiddenFallback(false);
+            $adminPassword = $helper->ask($input, $output, $questionPassword);
         }
 
         $admin['email']    = $adminEmail;
         $admin['name']     = $adminName;
-        $admin['password'] = $adminPass;
+        $admin['password'] = $adminPassword;
 
         return $admin;
     }

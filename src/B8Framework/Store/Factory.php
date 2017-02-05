@@ -53,7 +53,7 @@ class Factory
     {
         if (!isset($this->loadedStores[$store])) {
             $namespace = is_null($namespace) ? Config::getInstance()->get('b8.app.namespace') : $namespace;
-            $class = $namespace . '\\Store\\' . $store . 'Store';
+            $class     = $namespace . '\\Store\\' . $store . 'Store';
             $obj = new $class();
 
             $this->loadedStores[$store] = $obj;
