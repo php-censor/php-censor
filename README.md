@@ -85,13 +85,13 @@ More details about [configuring project](docs/en/configuring_project.md).
 Installing
 ----------
 
-1. Go to the directory in which you want to install PHP Censor, for example: `/var/www`:
+* Go to the directory in which you want to install PHP Censor, for example: `/var/www`:
 
 ```bash
 cd /var/www
 ```
 
-2. Create project by Composer:
+* Create project by Composer:
 
 ```bash
 composer create-project corpsee/php-censor php-censor.local --keep-vcs
@@ -100,15 +100,15 @@ composer create-project corpsee/php-censor php-censor.local --keep-vcs
 Or download [latest archive](https://github.com/corpsee/php-censor/releases/latest) from Github, unzip it and run 
 `composer install`.
 
-3. Create empty database for application (Mysql/MariaDB or Postgres);
+* Create empty database for application (Mysql/MariaDB or Postgres);
 
-4. Install Beanstalkd Queue (Optional, if you are going to use queue with Worker):
+* Install Beanstalkd Queue (Optional, if you are going to use queue with Worker):
 
 ```bash
 aptitude install beanstalkd # For deb-based
 ```
 
-5. Install PHP Censor itself:
+* Install PHP Censor itself:
 
 ```bash
 cd ./php-censor.local
@@ -123,30 +123,30 @@ cd ./php-censor.local
 ./bin/console php-censor:install --config-from-file=yes --admin-name=admin --admin-password=admin --admin-email='admin@php-censor.local'
 ```
 
-6. [Add a virtual host to your web server](docs/en/virtual_host.md), pointing to the `public` directory within your new
+* [Add a virtual host to your web server](docs/en/virtual_host.md), pointing to the `public` directory within your new
 PHP Censor directory. You'll need to set up rewrite rules to point all non-existent requests to PHP Censor;
 
-7. [Set up the PHP Censor Worker](docs/en/workers/worker.md) (Need configured Queue) or 
+* [Set up the PHP Censor Worker](docs/en/workers/worker.md) (Need configured Queue) or 
 [a cron-job](docs/en/workers/cron.md) to run PHP Censor builds;
 
 Updating
 --------
 
-1. Go to your PHP Censor directory (to `/var/www/php-censor.local` for example):
+* Go to your PHP Censor directory (to `/var/www/php-censor.local` for example):
 
 ```bash
 cd /var/www/php-censor.local
 ```
 
-2. Pull the latest code by Git:
+* Pull the latest code by Git:
 
 ```bash
 git pull -r
 ```
 
-3. Update the Composer dependencies: `composer install`
+* Update the Composer dependencies: `composer install`
 
-4. Update the PHP Censor database scheme:
+* Update the PHP Censor database scheme:
 
 ```bash
 ./bin/console php-censor-migrations:migrate
