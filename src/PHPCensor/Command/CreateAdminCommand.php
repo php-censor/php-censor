@@ -71,7 +71,7 @@ class CreateAdminCommand extends Command
         $adminPass = $helper->ask($input, $output, $question);
 
         try {
-            $userService->createUser($adminName, $adminEmail, 'default', json_encode(['type' => 'internal']), $adminPass, true);
+            $userService->createUser($adminName, $adminEmail, 'internal', json_encode(['type' => 'internal']), $adminPass, true);
             $output->writeln('<info>User account created!</info>');
         } catch (\Exception $e) {
             $output->writeln(sprintf('<error>%s</error>', 'PHP Censor failed to create your admin account.'));

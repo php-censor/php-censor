@@ -274,7 +274,7 @@ class InstallCommand extends Command
                 'disable_auth'    => false,
                 'default_user_id' => 1,
                 'auth_providers'  => [
-                    'default' => [
+                    'internal' => [
                         'type' => 'internal',
                     ],
                 ],
@@ -476,7 +476,7 @@ class InstallCommand extends Command
             /** @var UserStore $userStore */
             $userStore   = Factory::getStore('User');
             $userService = new UserService($userStore);
-            $userService->createUser($admin['name'], $admin['email'], 'default', json_encode(['type' => 'internal']), $admin['password'], true);
+            $userService->createUser($admin['name'], $admin['email'], 'internal', json_encode(['type' => 'internal']), $admin['password'], true);
 
             $output->writeln('<info>User account created!</info>');
         } catch (\Exception $ex) {

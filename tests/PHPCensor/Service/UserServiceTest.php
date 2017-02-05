@@ -45,7 +45,7 @@ class UserServiceTest extends \PHPUnit_Framework_TestCase
         $user = $this->testedService->createUser(
             'Test',
             'test@example.com',
-            'default',
+            'internal',
             json_encode(['type' => 'internal']),
             'testing',
             false
@@ -62,7 +62,7 @@ class UserServiceTest extends \PHPUnit_Framework_TestCase
         $user = $this->testedService->createUser(
             'Test',
             'test@example.com',
-            'default',
+            'internal',
             json_encode(['type' => 'internal']),
             'testing',
             true
