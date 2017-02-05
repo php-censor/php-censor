@@ -85,38 +85,72 @@ More details about [configuring project](docs/en/configuring_project.md).
 Installing
 ----------
 
-* Go to the directory in which you want to install PHP Censor, for example: `/var/www`;
+1. Go to the directory in which you want to install PHP Censor, for example: `/var/www`:
 
-* Download PHP Censor from this repository and unzip it (to `/var/www/php-censor.local` for example);
+```bash
+cd /var/www
+```
 
-* Go to the PHP Censor directory: `cd /var/www/php-censor.local`;
+2. Create project by Composer:
 
-* Install dependencies using Composer: `composer install`;
+```bash
+composer create-project corpsee/php-censor php-censor.local --keep-vcs
+```
 
-* Create empty database for application;
+Or download [latest archive](https://github.com/corpsee/php-censor/releases/latest) from Github, unzip it and run 
+`composer install`.
 
-* Install Beanstalkd queue (`aptitude install beanstalkd`);
+3. Create empty database for application (Mysql/MariaDB or Postgres);
 
-* Install PHP Censor itself: `./bin/console php-censor:install`;
+4. Install Beanstalkd Queue (Optional, if you are going to use queue with Worker):
 
-* [Add a virtual host to your web server](docs/en/virtual_host.md), pointing to the `public` directory within your new
+```bash
+aptitude install beanstalkd # For deb-based
+```
+
+5. Install PHP Censor itself:
+
+```bash
+cd ./php-censor.local
+
+# Interactive installation
+./bin/console php-censor:install
+
+# Non-interactive installation
+./bin/console php-censor:install --url='http://php-censor.local' --db-type=pgsql --db-host=localhost --db-name=php-censor --db-user=php-censor --db-password=php-censor --db-port=null --admin-name=admin --admin-password=admin --admin-email='admin@php-censor.local' --queue-use=1 --queue-host=localhost --queue-name=php-censor
+
+# Non-interactive installation with prepared config.yml file
+./bin/console php-censor:install --config-from-file=yes --admin-name=admin --admin-password=admin --admin-email='admin@php-censor.local'
+```
+
+6. [Add a virtual host to your web server](docs/en/virtual_host.md), pointing to the `public` directory within your new
 PHP Censor directory. You'll need to set up rewrite rules to point all non-existent requests to PHP Censor;
 
-* [Set up the PHP Censor Worker](docs/en/workers/worker.md), or [a cron-job](docs/en/workers/cron.md) to run PHP
-Censor builds;
-
-More details about [installation](docs/en/installing.md).
+7. [Set up the PHP Censor Worker](docs/en/workers/worker.md) (Need configured Queue) or 
+[a cron-job](docs/en/workers/cron.md) to run PHP Censor builds;
 
 Updating
 --------
 
-* Go to your PHP Censor directory (to `/var/www/php-censor.local` for example);
+1. Go to your PHP Censor directory (to `/var/www/php-censor.local` for example):
 
-* Pull the latest code. This would look like this: `git pull`;
+```bash
+cd /var/www/php-censor.local
+```
 
-* Update the PHP Censor database: `./bin/console php-censor-migrations:migrate`;
+2. Pull the latest code by Git:
 
-* Update the Composer dependencies: `composer install`
+```bash
+git pull -r
+```
+
+3. Update the Composer dependencies: `composer install`
+
+4. Update the PHP Censor database scheme:
+
+```bash
+./bin/console php-censor-migrations:migrate
+```
 
 Migrations
 ----------
