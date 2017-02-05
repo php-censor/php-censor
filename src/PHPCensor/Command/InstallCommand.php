@@ -36,19 +36,20 @@ class InstallCommand extends Command
         $this
             ->setName('php-censor:install')
 
-            ->addOption('url',            null, InputOption::VALUE_OPTIONAL, 'PHP Censor installation URL')
-            ->addOption('db-type',        null, InputOption::VALUE_OPTIONAL, 'Database type')
-            ->addOption('db-host',        null, InputOption::VALUE_OPTIONAL, 'Database host')
-            ->addOption('db-port',        null, InputOption::VALUE_OPTIONAL, 'Database port')
-            ->addOption('db-name',        null, InputOption::VALUE_OPTIONAL, 'Database name')
-            ->addOption('db-user',        null, InputOption::VALUE_OPTIONAL, 'Database user')
-            ->addOption('db-password',    null, InputOption::VALUE_OPTIONAL, 'Database password')
-            ->addOption('admin-name',     null, InputOption::VALUE_OPTIONAL, 'Admin name')
-            ->addOption('admin-password', null, InputOption::VALUE_OPTIONAL, 'Admin password')
-            ->addOption('admin-email',    null, InputOption::VALUE_OPTIONAL, 'Admin email')
-            ->addOption('queue-use',      null, InputOption::VALUE_OPTIONAL, 'Don\'t ask for queue details')
-            ->addOption('queue-host',     null, InputOption::VALUE_OPTIONAL, 'Beanstalkd queue server hostname')
-            ->addOption('queue-name',     null, InputOption::VALUE_OPTIONAL, 'Beanstalkd queue name')
+            ->addOption('url',              null, InputOption::VALUE_OPTIONAL, 'PHP Censor installation URL')
+            ->addOption('db-type',          null, InputOption::VALUE_OPTIONAL, 'Database type')
+            ->addOption('db-host',          null, InputOption::VALUE_OPTIONAL, 'Database host')
+            ->addOption('db-port',          null, InputOption::VALUE_OPTIONAL, 'Database port')
+            ->addOption('db-name',          null, InputOption::VALUE_OPTIONAL, 'Database name')
+            ->addOption('db-user',          null, InputOption::VALUE_OPTIONAL, 'Database user')
+            ->addOption('db-password',      null, InputOption::VALUE_OPTIONAL, 'Database password')
+            ->addOption('admin-name',       null, InputOption::VALUE_OPTIONAL, 'Admin name')
+            ->addOption('admin-password',   null, InputOption::VALUE_OPTIONAL, 'Admin password')
+            ->addOption('admin-email',      null, InputOption::VALUE_OPTIONAL, 'Admin email')
+            ->addOption('queue-use',        null, InputOption::VALUE_OPTIONAL, 'Don\'t ask for queue details')
+            ->addOption('queue-host',       null, InputOption::VALUE_OPTIONAL, 'Beanstalkd queue server hostname')
+            ->addOption('queue-name',       null, InputOption::VALUE_OPTIONAL, 'Beanstalkd queue name')
+            ->addOption('config-from-file', null, InputOption::VALUE_OPTIONAL, 'Take config from file and ignore options')
 
             ->setDescription('Install PHP Censor');
     }
@@ -58,7 +59,9 @@ class InstallCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if (!$this->verifyNotInstalled($output)) {
+        $configFromFile = (boolean)$input->getOption('config-from-file');
+        
+        if (!$configFromFile && !$this->verifyNotInstalled($output)) {
             return;
         }
 
@@ -70,23 +73,27 @@ class InstallCommand extends Command
 
         $this->checkRequirements($output);
 
-        $output->writeln('');
-        $output->writeln('Please answer the following questions:');
-        $output->writeln('--------------------------------------');
-        $output->writeln('');
+        if (!$configFromFile) {
+            $output->writeln('');
+            $output->writeln('Please answer the following questions:');
+            $output->writeln('--------------------------------------');
+            $output->writeln('');
 
-        $connectionVerified = false;
-        while (!$connectionVerified) {
-            $db                 = $this->getDatabaseInformation($input, $output);
-            $connectionVerified = $this->verifyDatabaseDetails($db, $output);
+            $connectionVerified = false;
+            while (!$connectionVerified) {
+                $db                 = $this->getDatabaseInformation($input, $output);
+                $connectionVerified = $this->verifyDatabaseDetails($db, $output);
+            }
+            $output->writeln('');
+
+            $conf                   = [];
+            $conf['b8']['database'] = $db;
+            $conf['php-censor']     = $this->getConfigInformation($input, $output);
+
+            $this->writeConfigFile($conf);
         }
-        $output->writeln('');
 
-        $conf                   = [];
-        $conf['b8']['database'] = $db;
-        $conf['php-censor']     = $this->getConfigInformation($input, $output);
-
-        $this->writeConfigFile($conf);
+        $this->reloadConfig();
         $this->setupDatabase($output);
 
         $admin = $this->getAdminInformation($input, $output);
@@ -447,8 +454,10 @@ class InstallCommand extends Command
     {
         $output->write('Setting up your database...');
 
-        shell_exec(ROOT_DIR . 'bin/console php-censor-migrations:migrate');
+        $outputMigration = shell_exec(ROOT_DIR . 'bin/console php-censor-migrations:migrate');
 
+        $output->writeln('');
+        $output->writeln($outputMigration);
         $output->writeln('<info>OK</info>');
     }
 
@@ -461,8 +470,6 @@ class InstallCommand extends Command
     protected function createAdminUser($admin, $output)
     {
         try {
-            $this->reloadConfig();
-
             /** @var UserStore $userStore */
             $userStore   = Factory::getStore('User');
             $userService = new UserService($userStore);

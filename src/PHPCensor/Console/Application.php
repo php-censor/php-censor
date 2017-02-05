@@ -50,7 +50,7 @@ class Application extends BaseApplication
         if ($databaseSettings) {
             $phinxSettings = [
                 'paths' => [
-                    'migrations' => 'src/PHPCensor/Migrations',
+                    'migrations' => ROOT_DIR . 'src/PHPCensor/Migrations',
                 ],
                 'environments' => [
                     'default_migration_table' => 'migration',

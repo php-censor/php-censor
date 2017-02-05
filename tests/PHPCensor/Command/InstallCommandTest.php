@@ -167,8 +167,8 @@ class InstallCommandTest extends \PHPUnit_Framework_TestCase
         $this->executeWithoutParam('--db-port', $dialog);
 
         // Check that specified arguments are correctly loaded.
-        $this->assertEquals(0, $this->config['b8']['database']['servers']['read'][0]['port']);
-        $this->assertEquals(0, $this->config['b8']['database']['servers']['write'][0]['port']);
+        $this->assertArrayNotHasKey('port', $this->config['b8']['database']['servers']['read'][0]);
+        $this->assertArrayNotHasKey('port', $this->config['b8']['database']['servers']['write'][0]);
     }
 
     public function testDatabasePortConfig()
