@@ -100,7 +100,7 @@ class InstallCommandTest extends \PHPUnit_Framework_TestCase
             '--admin-name'     => 'admin',
             '--admin-password' => 'admin-password',
             '--url'            => 'http://php-censor.local',
-            '--queue-use'      => null,
+            '--queue-use'      => false,
         ];
 
         if (!is_null($exclude)) {
