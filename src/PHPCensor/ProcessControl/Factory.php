@@ -42,18 +42,14 @@ class Factory
      * Check PosixProcessControl, WindowsProcessControl and UnixProcessControl, in that order.
      *
      * @return ProcessControlInterface
-     *
-     * @internal
+     * 
+     * @throws \Exception
      */
     public static function createProcessControl()
     {
         switch (true) {
             case PosixProcessControl::isAvailable():
                 return new PosixProcessControl();
-
-            case WindowsProcessControl::isAvailable():
-                return new WindowsProcessControl();
-
             case UnixProcessControl::isAvailable():
                 return new UnixProcessControl();
         }

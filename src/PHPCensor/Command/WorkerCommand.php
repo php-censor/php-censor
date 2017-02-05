@@ -1,11 +1,4 @@
 <?php
-/**
- * PHPCI - Continuous Integration for PHP
- *
- * @copyright    Copyright 2015, Block 8 Limited.
- * @license      https://github.com/Block8/PHPCI/blob/master/LICENSE.md
- * @link         https://www.phptesting.org/
- */
 
 namespace PHPCensor\Command;
 
@@ -17,13 +10,10 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-
 /**
  * Worker Command - Starts the BuildWorker, which pulls jobs from beanstalkd
  *
- * @author     Dan Cryer <dan@block8.co.uk>
- * @package    PHPCI
- * @subpackage Console
+ * @author Dan Cryer <dan@block8.co.uk>
  */
 class WorkerCommand extends Command
 {

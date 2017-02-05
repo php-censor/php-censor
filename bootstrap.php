@@ -7,8 +7,6 @@
 * @link         http://www.phptesting.org/
 */
 
-use PHPCensor\Logging\LoggerConfig;
-
 if (!defined('ROOT_DIR')) {
     define('ROOT_DIR', __DIR__ . DIRECTORY_SEPARATOR);
 }
@@ -33,15 +31,7 @@ if (!defined('RUNTIME_DIR')) {
     define('RUNTIME_DIR', ROOT_DIR . 'runtime' . DIRECTORY_SEPARATOR);
 }
 
-if (!defined('IS_WIN')) {
-    define('IS_WIN', ((strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? true : false));
-}
-
 require_once(ROOT_DIR . 'vendor/autoload.php');
-
-if (defined('IS_CONSOLE') && IS_CONSOLE) {
-    $loggerConfig = LoggerConfig::newFromFile(APP_DIR . "loggerconfig.php");
-}
 
 // Load configuration if present:
 $conf = [];
@@ -58,10 +48,6 @@ if (file_exists($configFile)) {
 
 if (!defined('APP_URL') && !empty($config)) {
     define('APP_URL', $config->get('php-censor.url', '') . '/');
-}
-
-if (!defined('IS_CONSOLE')) {
-    define('IS_CONSOLE', false);
 }
 
 \PHPCensor\Helper\Lang::init($config);

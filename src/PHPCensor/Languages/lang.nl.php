@@ -199,7 +199,6 @@ Services</a> sectie van je Bitbucket repository toegevoegd worden.',
     'result' => 'Resultaat',
     'ok' => 'OK',
     'took_n_seconds' => 'Duurde %d seconden',
-    'build_created' => 'Build aangemaakt',
     'build_started' => 'Build gestart',
     'build_finished' => 'Build beëindigd',
     'test_message' => 'Message',
@@ -286,73 +285,11 @@ keer je composer update uitvoert.',
     'search_packagist_for_more' => 'Doorzoek Packagist naar meer packages',
     'search' => 'Zoek &raquo;',
 
-    // Installer
-    'installation_url' => 'PHP Censor installatie URL',
-    'db_host' => 'Database host',
-    'db_name' => 'Database naam',
-    'db_user' => 'Database gebruikersnaam',
-    'db_pass' => 'Database wachtwoord',
-    'admin_name' => 'Administrator naam',
-    'admin_pass' => 'Administrator wachtwoord',
-    'admin_email' => 'Administrator e-mailadres',
-    'config_path' => 'Pad naar configuratiebestand',
-    'install_app' => 'Installeer PHP Censor',
-    'welcome_to_app' => 'Welkom bij PHP Censor',
-    'please_answer' => 'Gelieve onderstaande vragen te beantwoorden:',
-    'app_php_req' => 'PHP Censor heeft ten minste PHP 5.4.0 nodig om te werken.',
-    'extension_required' => 'Extensie benodigd: %s',
-    'function_required' => 'PHP Censor moet functie %s() kunnen aanroepen. Is deze uitgeschakeld in php.ini?',
-    'requirements_not_met' => 'PHP Censor kan niet worden geïnstalleerd omdat niet aan alle vereisten is voldaan.
-Gelieve de fouten na te kijken vooraleer verder te gaan.',
-    'must_be_valid_email' => 'Moet een geldig e-mailadres zijn.',
-    'must_be_valid_url' => 'Moet een geldige URL zijn.',
-    'enter_name' => 'Administrator naam: ',
-    'enter_email' => 'Administrator e-mailadres: ',
-    'enter_password' => 'Administrator wachtwoord: ',
-    'enter_app_url' => 'Je PHP Censor URL (bijvoorbeeld "http://php-censor.local"): ',
-
-    'enter_db_host' => 'Vul je DB host in [localhost]: ',
-    'enter_db_name' => 'Vul je DB databasenaam in [php-censor-db]: ',
-    'enter_db_user' => 'Vul je DB gebruikersnaam in [php-censor-user]: ',
-    'enter_db_pass' => 'Vul je DB watchtwoord in: ',
-    'could_not_connect' => 'PHP Censor kon met deze gegevens geen verbinding maken met DB. Gelieve opnieuw te proberen.',
-    'setting_up_db' => 'Database wordt aangemaakt...',
-    'user_created' => 'Gebruikersprofiel aangemaakt!',
-    'failed_to_create' => 'PHP Censor kon je administratorprofiel niet aanmaken.',
-    'config_exists' => 'Het PHP Censor configuratiebestand bestaat en is niet leeg.',
-    'update_instead' => 'Liever php-censor:update te gebruiken indien je PHP Censor probeerde te updaten, ',
-
     // Update
     'update_app' => 'Update de database naar het beeld van gewijzigde modellen.',
     'updating_app' => 'PHP Censor database wordt geüpdatet:',
     'not_installed' => 'PHP Censor lijkt niet geïnstalleerd te zijn.',
     'install_instead' => 'Gelieve PHP Censor via php-censor:install te installeren.',
-
-    // Poll Command
-    'poll_github' => 'Poll GitHub om te controleren of we een build moeten starten.',
-    'no_token' => 'Geen GitHub token gevonden',
-    'finding_projects' => 'Vind projecten om te pollen',
-    'found_n_projects' => '%d projecten gevonden',
-    'last_commit_is' => 'Laatste commit naar GitHub voor %s is %s',
-    'adding_new_build' => 'Laatste commit verschilt van database, nieuwe build wordt toegevoegd',
-    'finished_processing_builds' => 'Verwerking builds voltooid.',
-
-    // Create Admin
-    'create_admin_user' => 'Administrator-gebruiker aanmaken',
-    'incorrect_format' => 'Incorrect formaat',
-
-    // Create Build Command
-    'create_build_project' => 'Create a build for a project',
-    'project_id_argument' => 'A project ID',
-    'commit_id_option' => 'Commit ID to build',
-    'branch_name_option' => 'Branch to build',
-
-    // Run Command
-    'run_all_pending' => 'Voer alle wachtende PHP Censor builds uit.',
-    'finding_builds' => 'Zoekt builds om te verwerken',
-    'found_n_builds' => '%d builds gevonden',
-    'skipping_build' => 'Build %d overslaan - Project build reeds aan de gang.',
-    'marked_as_failed' => 'Build %d gemarkeerd als falende door timeout.',
 
     // Builder
     'missing_app_yml' => 'Dit project bevat geen .php-censor.yml (.phpci.yml|phpci.yml) bestand, of het is leeg.',

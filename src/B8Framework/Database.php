@@ -57,7 +57,7 @@ class Database extends \PDO
 
                 $dns = self::$details['type'] . ':host=' . $server['host'];
                 if (isset($server['port'])) {
-                    $dns .= ';port=' . $server['port'];
+                    $dns .= ';port=' . (integer)$server['port'];
                 }
                 $dns .= ';dbname=' . self::$details['db'];
 

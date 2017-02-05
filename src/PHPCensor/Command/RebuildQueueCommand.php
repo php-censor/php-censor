@@ -1,29 +1,18 @@
 <?php
-/**
- * PHPCI - Continuous Integration for PHP
- *
- * @copyright    Copyright 2015, Block 8 Limited.
- * @license      https://github.com/Block8/PHPCI/blob/master/LICENSE.md
- * @link         https://www.phptesting.org/
- */
 
 namespace PHPCensor\Command;
 
 use b8\Store\Factory;
 use Monolog\Logger;
 use PHPCensor\BuildFactory;
-use PHPCensor\Helper\Lang;
 use PHPCensor\Logging\OutputLogHandler;
 use PHPCensor\Service\BuildService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-
 /**
- * @author     Dan Cryer <dan@block8.co.uk>
- * @package    PHPCI
- * @subpackage Console
+ * @author Dan Cryer <dan@block8.co.uk>
  */
 class RebuildQueueCommand extends Command
 {
@@ -69,7 +58,7 @@ class RebuildQueueCommand extends Command
         $store = Factory::getStore('Build');
         $result = $store->getByStatus(0);
 
-        $this->logger->addInfo(Lang::get('found_n_builds', count($result['items'])));
+        $this->logger->addInfo(sprintf('Found %d builds', count($result['items'])));
 
         $buildService = new BuildService($store);
 

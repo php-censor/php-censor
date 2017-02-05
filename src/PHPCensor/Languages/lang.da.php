@@ -198,7 +198,6 @@ Services</a> sektionen under dit Bitbucket-repository.',
     'result' => 'Resultat',
     'ok' => 'OK',
     'took_n_seconds' => 'Tog %d sekunder',
-    'build_created' => 'Build Oprettet',
     'build_started' => 'Build Startet',
     'build_finished' => 'Build Afsluttet',
     'test_message' => 'Message',
@@ -284,73 +283,11 @@ du kører composer update.',
     'search_packagist_for_more' => 'Søg på Packagist efter flere pakker',
     'search' => 'Søg &raquo;',
 
-    // Installer
-    'installation_url' => 'PHP Censor Installations-URL',
-    'db_host' => 'Database-hostnavn',
-    'db_name' => 'Database-navn',
-    'db_user' => 'Database-brugernavn',
-    'db_pass' => 'Database-adgangskode',
-    'admin_name' => 'Administrator-navn',
-    'admin_pass' => 'Administrator-adgangskode',
-    'admin_email' => 'Administrators email-adresse',
-    'config_path' => 'Konfigurations-fil',
-    'install_app' => 'Installér PHP Censor',
-    'welcome_to_app' => 'Velkommen til PHP Censor',
-    'please_answer' => 'Besvar venligst følgende spørgsmål:',
-    'app_php_req' => 'PHP Censor kræver minimum PHP version 5.4.0 for at fungere.',
-    'extension_required' => 'Extension påkrævet: %s',
-    'function_required' => 'PHP Censor behøver adgang til funktion %s() i PHP. Er den deaktiveret i php.ini?',
-    'requirements_not_met' => 'PHP Censor kan ikke installeres da nogle krav ikke opfyldtes.
-Kontrollér venligst nedenstående fejl før du fortsætter.',
-    'must_be_valid_email' => 'Skal være en gyldig email-adresse.',
-    'must_be_valid_url' => 'Skal være en gyldig URL.',
-    'enter_name' => 'Administrator-navn: ',
-    'enter_email' => 'Administrators email-adresse: ',
-    'enter_password' => 'Administrator-adgangskode: ',
-    'enter_app_url' => 'Din PHP Censor URL (eksempelvis "http://php-censor.local"): ',
-
-    'enter_db_host' => 'Indtast dit DB-hostnavn [localhost]: ',
-    'enter_db_name' => 'Indtast dit DB database-navn [php-censor-db]: ',
-    'enter_db_user' => 'Indtast dit DB-brugernavn [php-censor-user]: ',
-    'enter_db_pass' => 'Indtast dit DB-password: ',
-    'could_not_connect' => 'PHP Censor kunne ikke forbinde til DB med de angivning oplysninger. Forsøg igen.',
-    'setting_up_db' => 'Indlæser database...',
-    'user_created' => 'Brugerkonto oprettet!',
-    'failed_to_create' => 'PHP Censor kunne ikke oprette din administrator-konto.',
-    'config_exists' => 'PHP Censor konfigurationsfilen findes og er ikke tom.',
-    'update_instead' => 'Hvis du forsøgte at opdatere PHP Censor, forsøg da venligst med php-censor:update istedet.',
-
     // Update
     'update_app' => 'Opdatér databasen med ændrede modeller',
     'updating_app' => 'Opdaterer PHP Censor-database:',
     'not_installed' => 'PHP Censor lader til ikke at være installeret.',
     'install_instead' => 'Installér venligst PHP Censor via php-censor:install istedet.',
-
-    // Poll Command
-    'poll_github' => 'Check via GitHub om et build skal startes.',
-    'no_token' => 'GitHub-token findes ikke',
-    'finding_projects' => 'Finder projekter der kan forespørges',
-    'found_n_projects' => '%d projekter fundet',
-    'last_commit_is' => 'Sidste commit til GitHub for %s er %s',
-    'adding_new_build' => 'Sidste commit er forskellig fra databasen, tilføjer nyt build.',
-    'finished_processing_builds' => 'Kørsel af builds afsluttet.',
-
-    // Create Admin
-    'create_admin_user' => 'Tilføj en administrator',
-    'incorrect_format' => 'Forkert format',
-
-    // Create Build Command
-    'create_build_project' => 'Create a build for a project',
-    'project_id_argument' => 'A project ID',
-    'commit_id_option' => 'Commit ID to build',
-    'branch_name_option' => 'Branch to build',
-
-    // Run Command
-    'run_all_pending' => 'Kør alle PHP Censor builds i køen.',
-    'finding_builds' => 'Finder builds der skal køres',
-    'found_n_builds' => '%d builds fundet',
-    'skipping_build' => 'Springer over Build %d - projektet kører et build lige nu.',
-    'marked_as_failed' => 'Build %d blev markeret som fejlet pga. timeout.',
 
     // Builder
     'missing_app_yml' => 'Dette projekt har ingen .php-censor.yml (.phpci.yml|phpci.yml) fil, eller filen er tom.',

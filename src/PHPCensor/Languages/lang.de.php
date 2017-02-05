@@ -208,7 +208,6 @@ generiert. Um es zu verwenden, fügen Sie einfach den folgenden Public Key im Ab
     'result' => 'Resultat',
     'ok' => 'OK',
     'took_n_seconds' => 'Benötigte %d Sekunden',
-    'build_created' => 'Build erstellt',
     'build_started' => 'Build gestartet',
     'build_finished' => 'Build abgeschlossen',
     'test_message' => 'Nachricht',
@@ -307,73 +306,11 @@ generiert. Um es zu verwenden, fügen Sie einfach den folgenden Public Key im Ab
     'stage_broken'  => 'Defekt',
     'stage_fixed' => 'Behoben',
 
-    // Installer
-    'installation_url' => 'PHP Censor Installations-URL',
-    'db_host' => 'Datenbankserver',
-    'db_name' => 'Datenbankname',
-    'db_user' => 'Datenbankbenutzer',
-    'db_pass' => 'Datenbankpasswort',
-    'admin_name' => 'Administratorname',
-    'admin_pass' => 'Administratorpasswort',
-    'admin_email' => 'Emailadresse des Administrators',
-    'config_path' => 'Dateipfad für Konfiguration',
-    'install_app' => 'PHP Censor installieren',
-    'welcome_to_app' => 'Willkommen bei PHP Censor',
-    'please_answer' => 'Bitte beantworten Sie die folgenden Fragen:',
-    'app_php_req' => 'PHP Censor benötigt mindestens PHP 5.4.0 um zu funktionieren.',
-    'extension_required' => 'Benötigte Extensions: %s',
-    'function_required' => 'PHP Censor muss die Funktion %s() aufrufen können. Ist sie in php.ini deaktiviert?',
-    'requirements_not_met' => 'PHP Censor konnte nicht installiert werden, weil nicht alle Bedingungen erfüllt sind.
-                                Bitte überprüfen Sie die Fehler, bevor Sie fortfahren,',
-    'must_be_valid_email' => 'Muss eine gültige Emailadresse sein.',
-    'must_be_valid_url' => 'Muss eine valide URL sein.',
-    'enter_name' => 'Name des Administrators: ',
-    'enter_email' => 'Emailadresse des Administrators: ',
-    'enter_password' => 'Passwort des Administrators: ',
-    'enter_app_url' => 'Ihre PHP Censor-URL (z.B. "http://php-censor.local"): ',
-
-    'enter_db_host' => 'Bitte geben Sie Ihren DB-Host ein [localhost]: ',
-    'enter_db_name' => 'Bitte geben Sie Ihren DB-Namen ein [php-censor-db]: ',
-    'enter_db_user' => 'Bitte geben Sie Ihren DB-Benutzernamen ein [php-censor-user]: ',
-    'enter_db_pass' => 'Bitte geben Sie Ihr DB-Passwort ein: ',
-    'could_not_connect' => 'PHP Censor konnte wegen folgender Details nicht mit DB verbinden. Bitte versuchen Sie es erneut.',
-    'setting_up_db' => 'Ihre Datenbank wird aufgesetzt... ',
-    'user_created' => 'Benutzerkonto wurde erstellt!',
-    'failed_to_create' => 'PHP Censor konnte Ihr Administratorenkonto nicht erstellen.',
-    'config_exists' => 'Die PHP Censor-Konfigurationsdatei existiert und ist nicht leer..',
-    'update_instead' => 'Falls Sie versucht haben PHP Censor zu aktualisieren, benutzen Sie bitte stattdessen php-censor:update.',
-
     // Update
     'update_app' => 'Datenbank wird aktualisiert, um den Änderungen der Models zu entsprechen.',
     'updating_app' => 'Aktualisiere PHP Censor-Datenbank:',
     'not_installed' => 'PHP Censor scheint nicht installiert zu sein.',
     'install_instead' => 'Bitte installieren Sie PHP Censor stattdessen via php-censor:install.',
-
-    // Poll Command
-    'poll_github' => 'GitHub abfragen, um herauszufinden, ob ein Build gestartet werden muss.',
-    'no_token' => 'Kein GitHub-Token gefunden',
-    'finding_projects' => 'Suche Projekte, um diese abzufragen',
-    'found_n_projects' => '%d Projekte gefunden',
-    'last_commit_is' => 'Der letzte Commit zu GitHub für %s ist %s',
-    'adding_new_build' => 'Letzter Commit unterscheidet sich von der Datenbank, füge neuen Build hinzu.',
-    'finished_processing_builds' => 'Bearbeiten der Builds abgeschlossen.',
-
-    // Create Admin
-    'create_admin_user' => 'Administratorenbenutzer erstellen',
-    'incorrect_format' => 'Falsches Format',
-
-    // Create Build Command
-    'create_build_project' => 'Create a build for a project',
-    'project_id_argument' => 'A project ID',
-    'commit_id_option' => 'Commit ID to build',
-    'branch_name_option' => 'Branch to build',
-
-    // Run Command
-    'run_all_pending' => 'Führe alle ausstehenden PHP Censor Builds aus.',
-    'finding_builds' => 'Suche verarbeitbare Builds',
-    'found_n_builds' => '%d Builds gefunden',
-    'skipping_build' => 'Überspringe Build %d - Es wird bereits ein Build auf diesem Projekt ausgeführt.',
-    'marked_as_failed' => 'Build %d wegen Zeitüberschreitung als fehlgeschlagen markiert.',
 
     // Builder
     'missing_app_yml' => 'Dieses Projekt beinhaltet keine .php-censor.yml (.phpci.yml|phpci.yml)-Datei, oder sie ist leer.',

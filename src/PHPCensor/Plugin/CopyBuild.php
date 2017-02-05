@@ -62,9 +62,6 @@ class CopyBuild extends Plugin
         $this->wipeExistingDirectory();
 
         $cmd = 'mkdir -p "%s" && cp -R "%s" "%s"';
-        if (IS_WIN) {
-            $cmd = 'mkdir -p "%s" && xcopy /E "%s" "%s"';
-        }
 
         $success = $this->builder->executeCommand($cmd, $this->directory, $build, $this->directory);
 
@@ -97,9 +94,6 @@ class CopyBuild extends Plugin
         if ($this->ignore) {
             foreach ($this->builder->ignore as $file) {
                 $cmd = 'rm -Rf "%s/%s"';
-                if (IS_WIN) {
-                    $cmd = 'rmdir /S /Q "%s\%s"';
-                }
                 $this->builder->executeCommand($cmd, $this->directory, $file);
             }
         }

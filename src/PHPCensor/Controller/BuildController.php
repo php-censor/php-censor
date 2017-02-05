@@ -272,7 +272,7 @@ class BuildController extends Controller
     public function ajaxQueue()
     {
         $rtn = [
-            'pending' => $this->formatBuilds($this->buildStore->getByStatus(Build::STATUS_NEW)),
+            'pending' => $this->formatBuilds($this->buildStore->getByStatus(Build::STATUS_PENDING)),
             'running' => $this->formatBuilds($this->buildStore->getByStatus(Build::STATUS_RUNNING)),
         ];
 

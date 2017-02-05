@@ -1,16 +1,8 @@
 <?php
-/**
- * PHPCI - Continuous Integration for PHP
- *
- * @copyright    Copyright 2014, Block 8 Limited.
- * @license      https://github.com/Block8/PHPCI/blob/master/LICENSE.md
- * @link         https://www.phptesting.org/
- */
 
 namespace PHPCensor\Command;
 
 use PHPCensor\Service\UserService;
-use PHPCensor\Helper\Lang;
 use PHPCensor\Store\UserStore;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -21,9 +13,7 @@ use Symfony\Component\Console\Question\Question;
 /**
  * Create admin command - creates an admin user
  * 
- * @author     Wogan May (@woganmay)
- * @package    PHPCI
- * @subpackage Console
+ * @author Wogan May (@woganmay)
  */
 class CreateAdminCommand extends Command
 {
@@ -46,7 +36,7 @@ class CreateAdminCommand extends Command
     {
         $this
             ->setName('php-censor:create-admin')
-            ->setDescription(Lang::get('create_admin_user'));
+            ->setDescription('Create an admin user');
     }
 
     /**
@@ -61,30 +51,30 @@ class CreateAdminCommand extends Command
         /** @var $helper QuestionHelper */
         $helper = $this->getHelperSet()->get('question');
 
-        $question = new Question(Lang::get('enter_email'));
+        $question = new Question('Admin email: ');
         $question->setValidator(function ($answer) {
             if (!filter_var($answer, FILTER_VALIDATE_EMAIL)) {
-                throw new \InvalidArgumentException(Lang::get('must_be_valid_email'));
+                throw new \InvalidArgumentException('Must be a valid email address.');
             }
 
             return $answer;
         });
         $adminEmail = $helper->ask($input, $output, $question);
 
-        $question  = new Question(Lang::get('enter_name'));
+        $question  = new Question('Admin name: ');
         $adminName = $helper->ask($input, $output, $question);
 
-        $question  = new Question(Lang::get('enter_password'));
+        $question  = new Question('Admin password: ');
         $question->setHidden(true);
         $question->setHiddenFallback(false);
 
         $adminPass = $helper->ask($input, $output, $question);
 
         try {
-            $userService->createUser($adminName, $adminEmail, $adminPass, true);
-            $output->writeln(Lang::get('user_created'));
+            $userService->createUser($adminName, $adminEmail, 'default', json_encode(['type' => 'internal']), $adminPass, true);
+            $output->writeln('<info>User account created!</info>');
         } catch (\Exception $e) {
-            $output->writeln(sprintf('<error>%s</error>', Lang::get('failed_to_create')));
+            $output->writeln(sprintf('<error>%s</error>', 'PHP Censor failed to create your admin account.'));
             $output->writeln(sprintf('<error>%s</error>', $e->getMessage()));
         }
     }

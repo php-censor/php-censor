@@ -74,18 +74,12 @@ class Gulp extends Plugin
     {
         // if npm does not work, we cannot use gulp, so we return false
         $cmd = 'cd %s && npm install';
-        if (IS_WIN) {
-            $cmd = 'cd /d %s && npm install';
-        }
         if (!$this->builder->executeCommand($cmd, $this->directory)) {
             return false;
         }
 
         // build the gulp command
         $cmd = 'cd %s && ' . $this->gulp;
-        if (IS_WIN) {
-            $cmd = 'cd /d %s && ' . $this->gulp;
-        }
         $cmd .= ' --no-color';
         $cmd .= ' --gulpfile %s';
         $cmd .= ' %s'; // the task that will be executed

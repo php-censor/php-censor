@@ -199,7 +199,6 @@ Services</a> του Bitbucket αποθετηρίου σας.',
     'result' => 'Αποτέλεσμα',
     'ok' => 'ΟΚ',
     'took_n_seconds' => 'Χρειάστηκαν %d δευτερόλεπτα',
-    'build_created' => 'Η κατασκευή δημιουργήθηκε',
     'build_started' => 'Η κατασκευή άρχισε',
     'build_finished' => 'Η κατασκευή ολοκληρώθηκε',
     'test_message' => 'Message',
@@ -286,73 +285,11 @@ Services</a> του Bitbucket αποθετηρίου σας.',
     'search_packagist_for_more' => 'Αναζήτηση στο Packagist για περισσότερα πακέτα',
     'search' => 'Αναζήτηση &raquo;',
 
-    // Installer
-    'installation_url' => 'Σύνδεσμος URL εγκατάστασης του PHP Censor',
-    'db_host' => 'Φιλοξενία βάσης δεδομένων',
-    'db_name' => 'Όνομα βάσης δεδομένων',
-    'db_user' => 'Όνομα χρήστη βάσης δεδομένων',
-    'db_pass' => 'Κωδικός πρόσβασης βάσης δεδομένων',
-    'admin_name' => 'Όνομα διαχειριστή',
-    'admin_pass' => 'Κωδικός πρόσβασης διαχειριστή',
-    'admin_email' => 'Διεύθυνση email διαχειριστή',
-    'config_path' => 'Διαδρομή αρχείου ρυθμίσεων',
-    'install_app' => 'Εγκατάσταση PHP Censor',
-    'welcome_to_app' => 'Καλώς ήρθατε στο PHP Censor',
-    'please_answer' => 'Παρακαλώ απαντήστε στις ακόλουθες ερωτήσεις:',
-    'app_php_req' => 'Το PHP Censor απαιτεί τουλάχιστον την έκδοση PHP 5.4.0 για να λειτουργήσει',
-    'extension_required' => 'Απαιτούμενη επέκταση: %s ',
-    'function_required' => 'Το PHP Censor πρέπει να είναι σε θέση να καλέσει την %s() συνάρτηση. Είναι απενεργοποιημένη στο php.ini;',
-    'requirements_not_met' => 'Το PHP Censor δεν μπορεί να εγκατασταθεί, καθώς όλες οι απαιτήσεις δεν ικανοποιούνται.
-Παρακαλούμε διαβάστε τα παραπάνω λάθη πριν συνεχίσετε.',
-    'must_be_valid_email' => 'Πρέπει να είναι μια έγκυρη διεύθυνση ηλεκτρονικού ταχυδρομείου.',
-    'must_be_valid_url' => 'Πρέπει να είναι μια έγκυρη διεύθυνση URL.',
-    'enter_name' => 'Όνομα διαχειριστή: ',
-    'enter_email' => 'Ηλ. Διεύθυνση διαχειριστή: ',
-    'enter_password' => 'Κωδικός πρόσβασης διαχειριστή: ',
-    'enter_app_url' => 'Ο URL σύνδεσμος σας για το PHP Censor ("http://php-censor.local" για παράδειγμα): ',
-
-    'enter_db_host' => 'Παρακαλώ εισάγετε τον DB οικοδεσπότη σας [localhost]: ',
-    'enter_db_name' => 'Παρακαλώ εισάγετε το όνομα της DB βάσης δεδομένων σας [php-censor-db]: ',
-    'enter_db_user' => 'Παρακαλώ εισάγετε το όνομα χρήστη της DB σας  [php-censor-user]: ',
-    'enter_db_pass' => 'Παρακαλώ εισάγετε τον κωδικό χρήστη της DB σας: ',
-    'could_not_connect' => 'Το PHP Censor δεν μπόρεσε να συνδεθεί με την DB με τα στοχεία που δώσατε. Παρακαλώ δοκιμάστε ξανά.',
-    'setting_up_db' => 'Γίνεται ρύθμιση της βάσης δεδομένων σας ...',
-    'user_created' => 'Λογαριασμός χρήστη δημιουργήθηκε!',
-    'failed_to_create' => 'Το PHP Censor απέτυχε να δημιουργήσει το λογαριασμό διαχειριστή σας.',
-    'config_exists' => 'Το αρχείο ρυθμίσεων PHP Censor υπάρχει και δεν είναι άδειο.',
-    'update_instead' => 'Εάν προσπαθούσατε να ενημερώσετε PHP Censor, παρακαλούμε χρησιμοποιήστε καλύτερα το php-censor:update αντ \'αυτού.',
-
     // Update
     'update_app' => 'Ενημέρωστε την βάση δεδομένων ώστε να αντικατοπτρίζει τροποποιημένα μοντέλα.',
     'updating_app' => 'Γίνεται ενημέρωση της βάσης δεδομένων PHP Censor:',
     'not_installed' => 'Το PHP Censor δεν φένεται να είναι εγκατεστημένο',
     'install_instead' => 'Παρακαλούμε εγκαταστήστε το PHP Censor καλύτερα με το php-censor:install αντ \'αυτού.',
-
-    // Poll Command
-    'poll_github' => 'Δημοσκόπηση στο GitHub για να ελέγξετε αν θα πρέπει να ξεκινήσει μια κατασκευή.',
-    'no_token' => 'Δεν βρέθηκε GitHub token',
-    'finding_projects' => 'Αναζήτηση έργων για δημοσκόπηση',
-    'found_n_projects' => 'Βρέθηκαν %d έργα',
-    'last_commit_is' => 'H τελευταία συνεισφορά στο GitHub για %s είναι %s',
-    'adding_new_build' => 'Τελευταία συνεισφορά είναι διαφορετική από τη βάση δεδομένων, γίνεται προσθήκη νέας κατασκευής.',
-    'finished_processing_builds' => 'Ολοκληρώθηκε η επεξεργασία κατασκευής.',
-
-    // Create Admin
-    'create_admin_user' => 'Δημιουργήστε ένα χρήστη διαχειριστή',
-    'incorrect_format' => 'Λανθασμένη μορφοποίηση',
-
-    // Create Build Command
-    'create_build_project' => 'Create a build for a project',
-    'project_id_argument' => 'A project ID',
-    'commit_id_option' => 'Commit ID to build',
-    'branch_name_option' => 'Branch to build',
-
-    // Run Command
-    'run_all_pending' => 'Εκτελέστε όλες τις εκκρεμείς PHP Censor κατασκευές.',
-    'finding_builds' => 'Αναζήτηση κατασκευών για επεξεργασία',
-    'found_n_builds' => 'Βρέθηκαν %d κατασκευές',
-    'skipping_build' => 'Παράκαμψη κατασκευής %d -  Η διαδικασία κατασκευής του έργου βρίσκεται ήδη σε εξέλιξη.',
-    'marked_as_failed' => 'Η κατασκεύη %d επισημάνθηκε ως αποτυχημένη λόγω χρονικού ορίου',
 
     // Builder
     'missing_app_yml' => 'Το έργο δεν περιέχει το αρχείο .php-censor.yml (.phpci.yml|phpci.yml) ή είναι άδειο.',

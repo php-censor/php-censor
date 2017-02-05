@@ -1,13 +1,5 @@
 <?php
 
-/**
- * PHPCI - Continuous Integration for PHP
- *
- * @copyright    Copyright 2015, Block 8 Limited.
- * @license      https://github.com/Block8/PHPCI/blob/master/LICENSE.md
- * @link         https://www.phptesting.org/
- */
-
 namespace Tests\PHPCensor\Plugin\Command;
 
 use Symfony\Component\Console\Application;
@@ -17,6 +9,7 @@ use Symfony\Component\Console\Helper\HelperSet;
 class InstallCommandTest extends \PHPUnit_Framework_TestCase
 {
     public $config;
+
     public $admin;
 
     /**
@@ -101,13 +94,13 @@ class InstallCommandTest extends \PHPUnit_Framework_TestCase
             '--db-port'        => '3306',
             '--db-name'        => 'php-censor-db',
             '--db-user'        => 'php-censor-user',
-            '--db-pass'        => 'php-censor-password',
+            '--db-password'    => 'php-censor-password',
             '--db-type'        => 'mysql',
-            '--admin-mail'     => 'admin@php-censor.local',
+            '--admin-email'    => 'admin@php-censor.local',
             '--admin-name'     => 'admin',
-            '--admin-pass'     => 'admin-password',
+            '--admin-password' => 'admin-password',
             '--url'            => 'http://php-censor.local',
-            '--queue-disabled' => null,
+            '--queue-use'      => false,
         ];
 
         if (!is_null($exclude)) {
@@ -125,7 +118,7 @@ class InstallCommandTest extends \PHPUnit_Framework_TestCase
 
         // Get tester and execute with extracted parameters.
         $commandTester = $this->getCommandTester($dialog);
-        $parameters = $this->getConfig($param);
+        $parameters    = $this->getConfig($param);
         $commandTester->execute($parameters);
     }
 
@@ -137,7 +130,20 @@ class InstallCommandTest extends \PHPUnit_Framework_TestCase
         $this->executeWithoutParam(null, $dialog);
     }
 
-    public function testDatabaseHostnameConfig()
+    public function testDatabaseTypeConfig()
+    {
+        $dialog = $this->getHelperMock();
+
+        // We specified an input value for hostname.
+        $dialog->expects($this->once())->method('ask')->willReturn('testedvalue');
+
+        $this->executeWithoutParam('--db-type', $dialog);
+
+        // Check that specified arguments are correctly loaded.
+        $this->assertEquals('testedvalue', $this->config['b8']['database']['type']);
+    }
+
+    public function testDatabaseHostConfig()
     {
         $dialog = $this->getHelperMock();
 
@@ -149,6 +155,34 @@ class InstallCommandTest extends \PHPUnit_Framework_TestCase
         // Check that specified arguments are correctly loaded.
         $this->assertEquals('testedvalue', $this->config['b8']['database']['servers']['read'][0]['host']);
         $this->assertEquals('testedvalue', $this->config['b8']['database']['servers']['write'][0]['host']);
+    }
+
+    public function testDatabaseStringPortConfig()
+    {
+        $dialog = $this->getHelperMock();
+
+        // We specified an input value for hostname.
+        $dialog->expects($this->once())->method('ask')->willReturn('testedvalue');
+
+        $this->executeWithoutParam('--db-port', $dialog);
+
+        // Check that specified arguments are correctly loaded.
+        $this->assertArrayNotHasKey('port', $this->config['b8']['database']['servers']['read'][0]);
+        $this->assertArrayNotHasKey('port', $this->config['b8']['database']['servers']['write'][0]);
+    }
+
+    public function testDatabasePortConfig()
+    {
+        $dialog = $this->getHelperMock();
+
+        // We specified an input value for hostname.
+        $dialog->expects($this->once())->method('ask')->willReturn('333');
+
+        $this->executeWithoutParam('--db-port', $dialog);
+
+        // Check that specified arguments are correctly loaded.
+        $this->assertEquals(333, $this->config['b8']['database']['servers']['read'][0]['port']);
+        $this->assertEquals(333, $this->config['b8']['database']['servers']['write'][0]['port']);
     }
 
     public function testDatabaseNameConfig()
@@ -183,7 +217,7 @@ class InstallCommandTest extends \PHPUnit_Framework_TestCase
         
         $dialog->expects($this->once())->method('ask')->willReturn('testedvalue');
 
-        $this->executeWithoutParam('--db-pass', $dialog);
+        $this->executeWithoutParam('--db-password', $dialog);
 
         // Check that specified arguments are correctly loaded.
         $this->assertEquals('testedvalue', $this->config['b8']['database']['password']);
@@ -209,10 +243,10 @@ class InstallCommandTest extends \PHPUnit_Framework_TestCase
         // We specified an input value for hostname.
         $dialog->expects($this->once())->method('ask')->willReturn('admin@php-censor.local');
 
-        $this->executeWithoutParam('--admin-mail', $dialog);
+        $this->executeWithoutParam('--admin-email', $dialog);
 
         // Check that specified arguments are correctly loaded.
-        $this->assertEquals('admin@php-censor.local', $this->admin['mail']);
+        $this->assertEquals('admin@php-censor.local', $this->admin['email']);
     }
 
     public function testAdminNameConfig()
@@ -235,9 +269,9 @@ class InstallCommandTest extends \PHPUnit_Framework_TestCase
         // We specified an input value for hostname.
         $dialog->expects($this->once())->method('ask')->willReturn('testedvalue');
 
-        $this->executeWithoutParam('--admin-pass', $dialog);
+        $this->executeWithoutParam('--admin-password', $dialog);
 
         // Check that specified arguments are correctly loaded.
-        $this->assertEquals('testedvalue', $this->admin['pass']);
+        $this->assertEquals('testedvalue', $this->admin['password']);
     }
 }

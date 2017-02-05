@@ -14,12 +14,11 @@ Configuration
 * **cc** - A list of addresses that will receive a copy of every emails sent.
 * **template** - The template to use, options are short and long. Default is short on success and long otherwise.
 
-
 **Note:** _This plugin will only work if you configured email settings during installation or configured them later in Admin Options > Settings > Email Settings_
 
 ### Examples
 
-See [Adding PHP Censor Support to Your Projects](../config.md) for more information about how to configure plugins.
+See [Adding PHP Censor Support to Your Projects](../configuring_project.md) for more information about how to configure plugins.
 
 Send an email to the committer as well as one@exameple.com if a build fails:
 ```yml

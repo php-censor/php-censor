@@ -74,18 +74,12 @@ class Grunt extends Plugin
     {
         // if npm does not work, we cannot use grunt, so we return false
         $cmd = 'cd %s && npm install';
-        if (IS_WIN) {
-            $cmd = 'cd /d %s && npm install';
-        }
         if (!$this->builder->executeCommand($cmd, $this->directory)) {
             return false;
         }
 
         // build the grunt command
         $cmd = 'cd %s && ' . $this->grunt;
-        if (IS_WIN) {
-            $cmd = 'cd /d %s && ' . $this->grunt;
-        }
         $cmd .= ' --no-color';
         $cmd .= ' --gruntfile %s';
         $cmd .= ' %s'; // the task that will be executed

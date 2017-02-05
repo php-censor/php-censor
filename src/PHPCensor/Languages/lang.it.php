@@ -200,7 +200,6 @@ PHP Censor',
     'result' => 'Risultati',
     'ok' => 'OK',
     'took_n_seconds' => 'Sono stati impiegati %d seconds',
-    'build_created' => 'Build Creata',
     'build_started' => 'Build Avviata',
     'build_finished' => 'Build Terminata',
     'test_message' => 'Message',
@@ -286,74 +285,11 @@ PHP Censor',
     'search_packagist_for_more' => 'Cerca altri pacchetti su Packagist',
     'search' => 'Cerca &raquo;',
 
-    // Installer
-    'installation_url' => 'URL di installazione di PHP Censor',
-    'db_host' => 'Host del Database',
-    'db_name' => 'Nome del Database',
-    'db_user' => 'Username del Database',
-    'db_pass' => 'Password del Database',
-    'admin_name' => 'Nome dell\'amministratore',
-    'admin_pass' => 'Password dell\'amministratore',
-    'admin_email' => 'Email dell\'amministratore',
-    'config_path' => 'Percorso del file di configurazione',
-    'install_app' => 'Installa PHP Censor',
-    'welcome_to_app' => 'Benvenuto in PHP Censor',
-    'please_answer' => 'Per favore rispondi alle seguenti domande:',
-    'app_php_req' => 'PHP Censor richiede come minimo PHP 5.4.0 per funzionare.',
-    'extension_required' => 'Le estensioni richieste sono: %s',
-    'function_required' => 'PHP Censor richiede di poter chiamare la funzione %s(). Questa funzionalità è disabibiltata nel
-                              php.ini?',
-    'requirements_not_met' => 'PHP Censor non può essere installato, non tutti i requisiti sono soddisfatti.
-                                Per favore controlla gli errori riportati prima di proseguire.',
-    'must_be_valid_email' => 'Deve essere un indirizzo email valido.',
-    'must_be_valid_url' => 'Deve essere un URL valido.',
-    'enter_name' => 'Nome dell\'amministratore: ',
-    'enter_email' => 'Email dell\'amministratore: ',
-    'enter_password' => 'Password dell\'amministratore: ',
-    'enter_app_url' => 'L\'URL di PHP Censor ("http://php-censor.locale" ad esempio): ',
-
-    'enter_db_host' => 'Per favore inserisci l\'host DB [localhost]: ',
-    'enter_db_name' => 'Per favore inserisci il nome DB [php-censor-db]: ',
-    'enter_db_user' => 'Per favore inserisci l\'username DB [php-censor-user]: ',
-    'enter_db_pass' => 'Per favore inserisci la password DB: ',
-    'could_not_connect' => 'PHP Censor non può connettersi a DB con le informazioni fornite. Per favore prova ancora.',
-    'setting_up_db' => 'Configurzione del tuo database... ',
-    'user_created' => 'Account utente creato!',
-    'failed_to_create' => 'PHP Censor non è riuscito a creare il tuo account amministrativo.',
-    'config_exists' => 'Il file di configurazione di PHP Censor esiste e non è vuoto.',
-    'update_instead' => 'Se stai cercando di aggiornare PHP Censor, per favore usa php-censor:update.',
-
     // Update
     'update_app' => 'Aggiorna il database per riflettere le modifiche ai model.',
     'updating_app' => 'Aggiornamenti del database di PHP Censor: ',
     'not_installed' => 'PHP Censor sembra non essere installato.',
     'install_instead' => 'Per favore installa PHP Censor tramite php-censor:install.',
-
-    // Poll Command
-    'poll_github' => 'Richiesta a GitHub per verificare se è necessario avviare una build.',
-    'no_token' => 'Nessuno token per GitHub trovato',
-    'finding_projects' => 'Ricerca dei progetti da aggiornare',
-    'found_n_projects' => 'Trovati %d progetti',
-    'last_commit_is' => 'Ultimo commit su GitHub per %s è %s',
-    'adding_new_build' => 'L\'ultimo commit è diverso da quello registrato, new build aggiunta.',
-    'finished_processing_builds' => 'Terminato di processare le build.',
-
-    // Create Admin
-    'create_admin_user' => 'Crea un nuovo utente amministrarore',
-    'incorrect_format' => 'Formato errato',
-
-    // Create Build Command
-    'create_build_project' => 'Create a build for a project',
-    'project_id_argument' => 'A project ID',
-    'commit_id_option' => 'Commit ID to build',
-    'branch_name_option' => 'Branch to build',
-
-    // Run Command
-    'run_all_pending' => 'Esegui tutte le build in attesa su PHP Censor.',
-    'finding_builds' => 'Ricerca delel build da processare',
-    'found_n_builds' => 'Trovate %d build',
-    'skipping_build' => 'Saltata la build %d - La build del progetto è già in corso.',
-    'marked_as_failed' => 'Build %d è stata contrassegnata come fallita per un timeout.',
 
     // Builder
     'missing_app_yml' => 'Questo progetto non contiene il file .php-censor.yml (.phpci.yml|phpci.yml), o il file è vuoto.',

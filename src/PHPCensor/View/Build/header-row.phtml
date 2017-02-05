@@ -10,7 +10,7 @@
         <h4>
             <?php print $build->getProject()->getTitle(); ?>
 
-            <?php if ($build->getStatus() == \PHPCensor\Model\Build::STATUS_NEW): ?>
+            <?php if ($build->getStatus() == \PHPCensor\Model\Build::STATUS_PENDING): ?>
             <small class="pull-right"><?php Lang::out('created_x', $build->getCreated()->format('H:i')); ?></small>
             <?php elseif ($build->getStatus() == \PHPCensor\Model\Build::STATUS_RUNNING): ?>
             <small class="pull-right"><?php Lang::out('started_x', $build->getStarted()->format('H:i')); ?></small>

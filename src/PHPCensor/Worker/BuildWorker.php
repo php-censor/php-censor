@@ -59,8 +59,8 @@ class BuildWorker
      */
     public function __construct($host, $queue)
     {
-        $this->host = $host;
-        $this->queue = $queue;
+        $this->host       = $host;
+        $this->queue      = $queue;
         $this->pheanstalk = new Pheanstalk($this->host);
     }
 

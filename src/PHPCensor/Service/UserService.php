@@ -35,46 +35,21 @@ class UserService
     /**
      * Create a new user within PHPCI.
      * 
-     * @param string  $name
-     * @param string  $emailAddress
-     * @param string  $password
-     * @param bool    $isAdmin
-     * @param string  $language
-     * @param integer $perPage
+     * @param string $name
+     * @param string $email
+     * @param string $providerKey
+     * @param string $providerData
+     * @param string $password
+     * @param bool   $isAdmin
      * 
      * @return User
      */
-    public function createUser($name, $emailAddress, $password, $isAdmin = false, $language = null, $perPage = null)
+    public function createUser($name, $email, $providerKey, $providerData, $password, $isAdmin = false)
     {
         $user = new User();
         $user->setName($name);
-        $user->setEmail($emailAddress);
+        $user->setEmail($email);
         $user->setHash(password_hash($password, PASSWORD_DEFAULT));
-        $user->setIsAdmin(($isAdmin ? 1 : 0));
-        $user->setLanguage($language);
-        $user->setPerPage($perPage);
-
-        return $this->store->save($user);
-    }
-
-    /**
-     * Create a new user within PHPCI (with provider).
-     * 
-     * @param $name
-     * @param $emailAddress
-     * @param $providerKey
-     * @param $providerData
-     * @param bool $isAdmin
-     * 
-     * @return \PHPCI\Model\User
-     */
-
-    public function createUserWithProvider($name, $emailAddress, $providerKey, $providerData, $isAdmin = false)
-    {
-        $user = new User();
-        $user->setName($name);
-        $user->setEmail($emailAddress);
-        $user->setHash("");
         $user->setProviderKey($providerKey);
         $user->setProviderData($providerData);
         $user->setIsAdmin(($isAdmin ? 1 : 0));

@@ -14,17 +14,11 @@ use PHPCensor\Security\Authentication\Service;
 
 class ServiceTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @covers Service::getInstance
-     */
     public function testGetInstance()
     {
         $this->assertInstanceOf('\PHPCensor\Security\Authentication\Service', Service::getInstance());
     }
 
-    /**
-     * @covers Service::buildProvider
-     */
     public function testBuildBuiltinProvider()
     {
         $provider = Service::buildProvider('test', ['type' => 'internal']);
@@ -32,9 +26,6 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\PHPCensor\Security\Authentication\UserProvider\Internal', $provider);
     }
 
-    /**
-     * @covers Service::buildProvider
-     */
     public function testBuildAnyProvider()
     {
         $config   = ['type' => '\Tests\PHPCensor\Security\Authentication\DummyProvider'];
@@ -45,9 +36,6 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($config, $provider->config);
     }
 
-    /**
-     * @covers Service::getProviders
-     */
     public function testGetProviders()
     {
         $a         = $this->prophesize('\PHPCensor\Security\Authentication\UserProviderInterface')->reveal();
@@ -59,9 +47,6 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($providers, $service->getProviders());
     }
 
-    /**
-     * @covers Service::getLoginPasswordProviders
-     */
     public function testGetLoginPasswordProviders()
     {
         $a         = $this->prophesize('\PHPCensor\Security\Authentication\UserProviderInterface')->reveal();

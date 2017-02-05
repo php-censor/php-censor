@@ -113,11 +113,7 @@ class Builder implements LoggerAwareInterface
         $pluginFactory        = $this->buildPluginFactory($build);
         $this->pluginExecutor = new Plugin\Util\Executor($pluginFactory, $this->buildLogger);
 
-        $executorClass = 'PHPCensor\Helper\UnixCommandExecutor';
-        if (IS_WIN) {
-            $executorClass = 'PHPCensor\Helper\WindowsCommandExecutor';
-        }
-
+        $executorClass         = 'PHPCensor\Helper\UnixCommandExecutor';
         $this->commandExecutor = new $executorClass(
             $this->buildLogger,
             ROOT_DIR,
@@ -190,7 +186,7 @@ class Builder implements LoggerAwareInterface
 
         $previous_build = $this->build->getProject()->getPreviousBuild($this->build->getBranch());
 
-        $previous_state = Build::STATUS_NEW;
+        $previous_state = Build::STATUS_PENDING;
 
         if ($previous_build) {
             $previous_state = $previous_build->getStatus();
@@ -223,7 +219,7 @@ class Builder implements LoggerAwareInterface
             } else {
                 $this->pluginExecutor->executePlugins($this->config, 'failure');
 
-                if ($previous_state == Build::STATUS_SUCCESS || $previous_state == Build::STATUS_NEW) {
+                if ($previous_state == Build::STATUS_SUCCESS || $previous_state == Build::STATUS_PENDING) {
                     $this->pluginExecutor->executePlugins($this->config, 'broken');
                 }
             }

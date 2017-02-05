@@ -32,14 +32,14 @@ var phpunitPlugin = ActiveBuild.UiPlugin.extend({
 
     render: function() {
 
-        return $('<div class="table-responsive"><table class="table" id="phpunit-data">' +
+        return $('<table class="table table-hover" id="phpunit-data">' +
             '<thead>' +
             '<tr>' +
                 '<th>'+Lang.get('status')+'</th>' +
                 '<th>'+Lang.get('test_message')+'</th>' +
                 '<th>'+Lang.get('trace')+'</th>' +
             '</tr>' +
-            '</thead><tbody></tbody></table></div>');
+            '</thead><tbody></tbody></table>');
     },
 
     onUpdate: function(e) {

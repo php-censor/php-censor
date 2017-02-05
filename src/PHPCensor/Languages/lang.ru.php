@@ -218,7 +218,6 @@ PHP Censor',
     'result' => 'Результат',
     'ok' => 'OK',
     'took_n_seconds' => 'Заняло секунд: %d',
-    'build_created' => 'Сборка создана',
     'build_started' => 'Сборка запущена',
     'build_finished' => 'Сборка окончена',
     'test_message' => 'Сообщение',
@@ -326,74 +325,11 @@ PHP Censor',
     'started'        => 'Началась',
     'finished'       => 'Закончилась',
 
-    // Installer
-    'installation_url' => 'URL-адрес PHP Censor для установки',
-    'db_host' => 'Хост базы данных',
-    'db_name' => 'Имя базы данных',
-    'db_user' => 'Пользователь базы данных',
-    'db_pass' => 'Пароль базы данных',
-    'admin_name' => 'Имя администратора',
-    'admin_pass' => 'Пароль администратора',
-    'admin_email' => 'Email администратора',
-    'config_path' => 'Путь до файла конфигурации',
-    'install_app' => 'Установить PHP Censor',
-    'welcome_to_app' => 'Добро пожаловать в PHP Censor',
-    'please_answer' => 'Пожалуйста, ответьте на несколько вопросов:',
-    'app_php_req' => 'PHP Censor необходима для работы версия PHP не ниже 5.4.0.',
-    'extension_required' => 'Требуется расширение PHP: %s',
-    'function_required' => 'PHP Censor необходима возможность вызывать %s() функцию. Она выключена в php.ini?',
-    'requirements_not_met' => 'PHP Censor не может быть установлен, пока не все требования выполнены.
-                                Пожалуйста, просмотрите возникшие ошибки перед тем, как продолжить.',
-    'must_be_valid_email' => 'Должен быть корректным email-адресом.',
-    'must_be_valid_url' => 'Должен быть корректным URL-адресом.',
-    'enter_name' => 'Имя администратора: ',
-    'enter_email' => 'Email администратора: ',
-    'enter_password' => 'Пароль администратора: ',
-    'enter_app_url' => 'URL-адрес вашего PHP Censor (например: "http://php-censor.local"): ',
-
-    'enter_db_host' => 'Пожалуйста, введите хост DB [localhost]: ',
-    'enter_db_port' => 'Пожалуйста, введите порт DB [3306]: ',
-    'enter_db_name' => 'Пожалуйста, введите имя базы данных DB [php-censor-db]: ',
-    'enter_db_user' => 'Пожалуйста, введите пользователя DB [php-censor-user]: ',
-    'enter_db_pass' => 'Пожалуйста, введите пароль DB: ',
-    'could_not_connect' => 'PHP Censor не может подключится к DB с переданными параметрами. Пожалуйста, попробуйте еще раз.',
-    'setting_up_db' => 'Установка базы данных... ',
-    'user_created' => 'Аккаунт пользователя создан!',
-    'failed_to_create' => 'PHP Censor не удалось создать аккаунт администратора.',
-    'config_exists' => 'Файл конфигурации PHP Censor уже существует, и он не пустой.',
-    'update_instead' => 'Если вы собираетесь обновить PHP Censor, пожалуйста, используйте команду php-censor:update.',
-
     // Update
     'update_app' => 'Обновите базу данных с учетом обновленных моделей.',
     'updating_app' => 'Обновление базы данных PHP Censor: ',
     'not_installed' => 'PHP Censor не может быть установлен.',
     'install_instead' => 'Пожалуйста, установите PHP Censor с помощью команды php-censor:install.',
-
-    // Poll Command
-    'poll_github' => 'Опрос GitHub для проверки запуска сборки.',
-    'no_token' => 'GitHub токен не найден',
-    'finding_projects' => 'Поиск проектов для опроса',
-    'found_n_projects' => 'Найдено проектов: %d',
-    'last_commit_is' => 'Последний коммит на GitHub для %s - %s',
-    'adding_new_build' => 'Последний коммит имеет различия с базой данных, создана сборка.',
-    'finished_processing_builds' => 'Процесс сборки завершен.',
-
-    // Create Admin
-    'create_admin_user' => 'Добавить аккаунт администратора',
-    'incorrect_format' => 'Неверный формат',
-
-    // Create Build Command
-    'create_build_project' => 'Создать сборку проекта',
-    'project_id_argument' => 'ID проекта',
-    'commit_id_option' => 'ID коммита для сборки',
-    'branch_name_option' => 'Ветка для сборки',
-
-    // Run Command
-    'run_all_pending' => 'Запустить все ожидающие PHP Censor сборки.',
-    'finding_builds' => 'Поиск сборок для запуска',
-    'found_n_builds' => 'Найдено сборок: %d',
-    'skipping_build' => 'Сборка %d пропущена - Сборка проекта уже идет.',
-    'marked_as_failed' => 'Сборка %d отмечена как неудавшаяся из-за превышения лимита времени.',
 
     // Builder
     'missing_app_yml' => 'Этот проект не содержит файла .php-censor.yml (.phpci.yml|phpci.yml), или файл пустой.',

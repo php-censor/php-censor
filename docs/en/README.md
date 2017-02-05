@@ -4,13 +4,13 @@ PHP Censor documentation
 Getting Started
 ---------------
 
-* [Installing PHP Censor](installing.md)
+* Installing PHP Censor (See [README](../../README.md))
     * [Adding a Virtual Host](virtual_host.md)
     * [Run builds using a worker](workers/worker.md)
     * [Run builds using cronjob](workers/cron.md)
-* [Adding PHP Censor Support to Your Projects](config.md)
+* [Adding PHP Censor Support to Your Projects](configuring_project.md)
 * [Setting up Logging](logging.md)
-* [Updating PHP Censor](updating.md)
+* Updating PHP Censor (See [README](../../README.md))
 * [Configuring PHP Censor](configuring.md)
 
 Using PHP Censor

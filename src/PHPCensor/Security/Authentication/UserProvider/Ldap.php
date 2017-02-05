@@ -14,6 +14,7 @@ use b8\Store\Factory;
 use PHPCensor\Model\User;
 use PHPCensor\Security\Authentication\LoginPasswordProviderInterface;
 use PHPCensor\Service\UserService;
+use PHPCensor\Store\UserStore;
 
 /**
  * Ldap user provider.
@@ -68,11 +69,13 @@ class Ldap extends AbstractProvider implements LoginPasswordProviderInterface
 
     public function provisionUser($identifier)
     {
-        $userService = new UserService(Factory::getStore('User'));
+        /** @var UserStore $user */
+        $user        = Factory::getStore('User');
+        $userService = new UserService($user);
 
         $parts    = explode("@", $identifier);
         $username = $parts[0];
 
-        return $userService->createUserWithProvider($username, $identifier, $this->key, null);
+        return $userService->createUser($username, $identifier, $this->key, json_encode($this->config), '', false);
     }
 }

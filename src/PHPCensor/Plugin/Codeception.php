@@ -129,10 +129,6 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
 
         $cmd = 'cd "%s" && ' . $codeception . ' run -c "%s" --xml ' . $this->args;
 
-        if (IS_WIN) {
-            $cmd = 'cd /d "%s" && ' . $codeception . ' run -c "%s" --xml ' . $this->args;
-        }
-
         $configPath = $this->builder->buildPath . $configPath;
         $success = $this->builder->executeCommand($cmd, $this->builder->buildPath, $configPath);
 

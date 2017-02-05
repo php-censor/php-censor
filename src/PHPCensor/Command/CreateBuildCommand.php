@@ -1,15 +1,7 @@
 <?php
-/**
- * PHPCI - Continuous Integration for PHP
- *
- * @copyright    Copyright 2014, Block 8 Limited.
- * @license      https://github.com/Block8/PHPCI/blob/master/LICENSE.md
- * @link         https://www.phptesting.org/
- */
 
 namespace PHPCensor\Command;
 
-use PHPCensor\Helper\Lang;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Store\ProjectStore;
 use Symfony\Component\Console\Command\Command;
@@ -21,9 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Create build command - creates a build for a project
  *
- * @author     Jérémy DECOOL (@jdecool)
- * @package    PHPCI
- * @subpackage Console
+ * @author Jérémy DECOOL (@jdecool)
  */
 class CreateBuildCommand extends Command
 {
@@ -39,6 +29,7 @@ class CreateBuildCommand extends Command
 
     /**
      * @param ProjectStore $projectStore
+     * @param BuildService $buildService
      */
     public function __construct(ProjectStore $projectStore, BuildService $buildService)
     {
@@ -55,10 +46,10 @@ class CreateBuildCommand extends Command
     {
         $this
             ->setName('php-censor:create-build')
-            ->setDescription(Lang::get('create_build_project'))
-            ->addArgument('projectId', InputArgument::REQUIRED, Lang::get('project_id_argument'))
-            ->addOption('commit', null, InputOption::VALUE_OPTIONAL, Lang::get('commit_id_option'))
-            ->addOption('branch', null, InputOption::VALUE_OPTIONAL, Lang::get('branch_name_option'));
+            ->setDescription('Create a build for a project')
+            ->addArgument('projectId', InputArgument::REQUIRED, 'A project ID')
+            ->addOption('commit', null, InputOption::VALUE_OPTIONAL, 'Commit ID to build')
+            ->addOption('branch', null, InputOption::VALUE_OPTIONAL, 'Branch to build');
     }
 
     /**
@@ -77,9 +68,9 @@ class CreateBuildCommand extends Command
 
         try {
             $this->buildService->createBuild($project, $commitId, $branch);
-            $output->writeln(Lang::get('build_created'));
+            $output->writeln('Build Created');
         } catch (\Exception $e) {
-            $output->writeln(sprintf('<error>%s</error>', Lang::get('failed')));
+            $output->writeln('<error>Failed</error>');
             $output->writeln(sprintf('<error>%s</error>', $e->getMessage()));
         }
     }

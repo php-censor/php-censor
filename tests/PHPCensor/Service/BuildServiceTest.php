@@ -50,7 +50,7 @@ class BuildServiceTest extends \PHPUnit_Framework_TestCase
         $returnValue = $this->testedService->createBuild($project);
 
         $this->assertEquals(101, $returnValue->getProjectId());
-        $this->assertEquals(Build::STATUS_NEW, $returnValue->getStatus());
+        $this->assertEquals(Build::STATUS_PENDING, $returnValue->getStatus());
         $this->assertNull($returnValue->getStarted());
         $this->assertNull($returnValue->getFinished());
         $this->assertNull($returnValue->getLog());
@@ -108,7 +108,7 @@ class BuildServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($build->getProjectId(), $returnValue->getProjectId());
         $this->assertEquals($build->getCommitId(), $returnValue->getCommitId());
         $this->assertNotEquals($build->getStatus(), $returnValue->getStatus());
-        $this->assertEquals(Build::STATUS_NEW, $returnValue->getStatus());
+        $this->assertEquals(Build::STATUS_PENDING, $returnValue->getStatus());
         $this->assertNull($returnValue->getLog());
         $this->assertEquals($build->getBranch(), $returnValue->getBranch());
         $this->assertNotEquals($build->getCreated(), $returnValue->getCreated());

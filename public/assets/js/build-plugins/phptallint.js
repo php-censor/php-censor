@@ -22,14 +22,14 @@ var phptalPlugin = ActiveBuild.UiPlugin.extend({
     },
 
     render: function() {
-        return $('<div class="table-responsive"><table class="table" id="phptal-data">' +
+        return $('<table class="table table-hover" id="phptal-data">' +
             '<thead>' +
             '<tr>' +
             '   <th>' + Lang.get('file') + '</th>' +
             '   <th>' + Lang.get('line') + '</th>' +
             '   <th>' + Lang.get('message') + '</th>' +
             '</tr>' +
-            '</thead><tbody></tbody></table></div>');
+            '</thead><tbody></tbody></table>');
     },
 
     onUpdate: function(e) {

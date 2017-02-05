@@ -227,7 +227,6 @@ PHP Censor',
     'result' => 'Result',
     'ok' => 'OK',
     'took_n_seconds' => 'Took %d seconds',
-    'build_created' => 'Build Created',
     'build_started' => 'Build Started',
     'build_finished' => 'Build Finished',
     'test_message' => 'Message',
@@ -337,77 +336,16 @@ PHP Censor',
     'started'        => 'Started',
     'finished'       => 'Finished',
 
-    // Installer
-    'installation_url' => 'PHP Censor Installation URL',
-    'db_host' => 'Database Host',
-    'db_name' => 'Database Name',
-    'db_user' => 'Database Username',
-    'db_pass' => 'Database Password',
-    'admin_name' => 'Admin Name',
-    'admin_pass' => 'Admin Password',
-    'admin_email' => 'Admin Email Address',
-    'config_path' => 'Config File Path',
-    'install_app' => 'Install PHP Censor',
-    'welcome_to_app' => 'Welcome to PHP Censor',
-    'please_answer' => 'Please answer the following questions:',
-    'app_php_req' => 'PHP Censor requires at least PHP 5.4.0 to function.',
-    'extension_required' => 'Extension required: %s',
-    'function_required' => 'PHP Censor needs to be able to call the %s() function. Is it disabled in php.ini?',
-    'requirements_not_met' => 'PHP Censor cannot be installed, as not all requirements are met.
-                                Please review the errors above before continuing.',
-    'must_be_valid_email' => 'Must be a valid email address.',
-    'must_be_valid_url' => 'Must be a valid URL.',
-    'enter_name' => 'Admin Name: ',
-    'enter_email' => 'Admin Email: ',
-    'enter_password' => 'Admin Password: ',
-    'enter_app_url' => 'Your PHP Censor URL ("http://php-censor.local" for example): ',
-
-    'enter_db_host' => 'Please enter your DB host [localhost]: ',
-    'enter_db_port' => 'Please enter your DB port [3306]: ',
-    'enter_db_name' => 'Please enter your DB database name [php-censor-db]: ',
-    'enter_db_user' => 'Please enter your DB username [php-censor-user]: ',
-    'enter_db_pass' => 'Please enter your DB password: ',
-    'could_not_connect' => 'PHP Censor could not connect to DB with the details provided. Please try again.',
-    'setting_up_db' => 'Setting up your database... ',
-    'user_created' => 'User account created!',
-    'failed_to_create' => 'PHP Censor failed to create your admin account.',
-    'config_exists' => 'The PHP Censor config file exists and is not empty.',
-    'update_instead' => 'If you were trying to update PHP Censor, please use php-censor:update instead.',
-
     // Update
     'update_app' => 'Update the database to reflect modified models.',
     'updating_app' => 'Updating PHP Censor database: ',
     'not_installed' => 'PHP Censor does not appear to be installed.',
     'install_instead' => 'Please install PHP Censor via php-censor:install instead.',
 
-    // Poll Command
-    'poll_github' => 'Poll GitHub to check if we need to start a build.',
-    'no_token' => 'No GitHub token found',
-    'finding_projects' => 'Finding projects to poll',
-    'found_n_projects' => 'Found %d projects',
-    'last_commit_is' => 'Last commit to GitHub for %s is %s',
-    'adding_new_build' => 'Last commit is different to database, adding new build.',
-    'finished_processing_builds' => 'Finished processing builds.',
-
-    // Create Admin
-    'create_admin_user' => 'Create an admin user',
-    'incorrect_format' => 'Incorrect format',
-
     // Create Build Command
-    'create_build_project' => 'Create a build for a project',
-    'project_id_argument' => 'A project ID',
-    'commit_id_option' => 'Commit ID to build',
-    'branch_name_option' => 'Branch to build',
     'add_to_queue_failed' => 'Build created successfully, but failed to add to build queue. This usually happens
                                 when PHP Censor is set to use a beanstalkd server that does not exist, 
                                 or your beanstalkd server has stopped.',
-
-    // Run Command
-    'run_all_pending' => 'Run all pending PHP Censor builds.',
-    'finding_builds' => 'Finding builds to process',
-    'found_n_builds' => 'Found %d builds',
-    'skipping_build' => 'Skipping Build %d - Project build already in progress.',
-    'marked_as_failed' => 'Build %d marked as failed due to timeout.',
 
     // Builder
     'missing_app_yml' => 'This project does not contain a .php-censor.yml (.phpci.yml|phpci.yml) file, or it is empty.',

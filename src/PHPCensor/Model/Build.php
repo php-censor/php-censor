@@ -21,7 +21,7 @@ use Symfony\Component\Yaml\Parser as YamlParser;
  */
 class Build extends BuildBase
 {
-    const STATUS_NEW     = 0;
+    const STATUS_PENDING = 0;
     const STATUS_RUNNING = 1;
     const STATUS_SUCCESS = 2;
     const STATUS_FAILED  = 3;
@@ -272,9 +272,9 @@ class Build extends BuildBase
 
         if (is_link($buildPath)) {
             // Remove the symlink without using recursive.
-            exec(sprintf(IS_WIN ? 'rmdir /S /Q "%s"' : 'rm "%s"', $buildPath));
+            exec(sprintf('rm "%s"', $buildPath));
         } else {
-            exec(sprintf(IS_WIN ? 'rmdir /S /Q "%s"' : 'rm -Rf "%s"', $buildPath));
+            exec(sprintf('rm -Rf "%s"', $buildPath));
         }
     }
 

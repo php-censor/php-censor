@@ -1,20 +1,13 @@
 <?php
-/**
- * PHPCI - Continuous Integration for PHP
- *
- * @copyright    Copyright 2014, Block 8 Limited.
- * @license      https://github.com/Block8/PHPCI/blob/master/LICENSE.md
- * @link         https://www.phptesting.org/
- */
 
 namespace PHPCensor\Command;
 
 use b8\Config;
 use Monolog\Logger;
-use PHPCensor\Helper\Lang;
 use PHPCensor\Logging\BuildDBLogHandler;
 use PHPCensor\Logging\LoggedBuildContextTidier;
 use PHPCensor\Logging\OutputLogHandler;
+use PHPCensor\Store\BuildStore;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -26,9 +19,7 @@ use PHPCensor\Model\Build;
 /**
  * Run console command - Runs any pending builds.
  * 
- * @author     Dan Cryer <dan@block8.co.uk>
- * @package    PHPCI
- * @subpackage Console
+ * @author Dan Cryer <dan@block8.co.uk>
  */
 class RunCommand extends Command
 {
@@ -61,12 +52,12 @@ class RunCommand extends Command
     {
         $this
             ->setName('php-censor:run-builds')
-            ->setDescription(Lang::get('run_all_pending'))
-            ->addOption('debug', null, null, 'Run PHP Censor in Debug Mode');
+            ->setDescription('Run all pending PHP Censor builds')
+            ->addOption('debug', null, null, 'Run PHP Censor in debug mode');
     }
 
     /**
-     * Pulls all pending builds from the database and runs them.
+     * Pulls all pending builds from the database or queue and runs them.
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -80,7 +71,7 @@ class RunCommand extends Command
             );
         }
 
-        // Allow PHPCI to run in "debug mode"
+        // Allow PHP Censor to run in "debug mode"
         if ($input->hasOption('debug') && $input->getOption('debug')) {
             $output->writeln('<comment>Debug mode enabled.</comment>');
             define('DEBUG_MODE', true);
@@ -89,10 +80,13 @@ class RunCommand extends Command
         $running = $this->validateRunningBuilds();
 
         $this->logger->pushProcessor(new LoggedBuildContextTidier());
-        $this->logger->addInfo(Lang::get('finding_builds'));
-        $store = Factory::getStore('Build');
-        $result = $store->getByStatus(0, $this->maxBuilds);
-        $this->logger->addInfo(Lang::get('found_n_builds', count($result['items'])));
+        $this->logger->addInfo('Finding builds to process');
+        
+        /** @var BuildStore $store */
+        $store  = Factory::getStore('Build');
+        $result = $store->getByStatus(Build::STATUS_PENDING, $this->maxBuilds);
+
+        $this->logger->addInfo(sprintf('Found %d builds', count($result['items'])));
 
         $builds = 0;
 
@@ -102,7 +96,7 @@ class RunCommand extends Command
 
             // Skip build (for now) if there's already a build running in that project:
             if (in_array($build->getProjectId(), $running)) {
-                $this->logger->addInfo(Lang::get('skipping_build', $build->getId()));
+                $this->logger->addInfo(sprintf('Skipping Build %d - Project build already in progress.', $build->getId()));
                 $result['items'][] = $build;
 
                 // Re-run build validator:
@@ -133,7 +127,7 @@ class RunCommand extends Command
 
         }
 
-        $this->logger->addInfo(Lang::get('finished_processing_builds'));
+        $this->logger->addInfo('Finished processing builds.');
 
         return $builds;
     }
@@ -147,7 +141,7 @@ class RunCommand extends Command
     {
         /** @var \PHPCensor\Store\BuildStore $store */
         $store   = Factory::getStore('Build');
-        $running = $store->getByStatus(1);
+        $running = $store->getByStatus(Build::STATUS_RUNNING);
         $rtn     = [];
 
         $timeout = Config::getInstance()->get('php-censor.build.failed_after', 1800);
@@ -160,7 +154,7 @@ class RunCommand extends Command
             $start = $build->getStarted()->getTimestamp();
 
             if (($now - $start) > $timeout) {
-                $this->logger->addInfo(Lang::get('marked_as_failed', $build->getId()));
+                $this->logger->addInfo(sprintf('Build %d marked as failed due to timeout.', $build->getId()));
                 $build->setStatus(Build::STATUS_FAILED);
                 $build->setFinished(new \DateTime());
                 $store->save($build);

@@ -42,7 +42,14 @@ class UserServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testExecute_CreateNonAdminUser()
     {
-        $user = $this->testedService->createUser('Test', 'test@example.com', 'testing', 0);
+        $user = $this->testedService->createUser(
+            'Test',
+            'test@example.com',
+            'default',
+            json_encode(['type' => 'internal']),
+            'testing',
+            false
+        );
 
         $this->assertEquals('Test', $user->getName());
         $this->assertEquals('test@example.com', $user->getEmail());
@@ -52,7 +59,15 @@ class UserServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testExecute_CreateAdminUser()
     {
-        $user = $this->testedService->createUser('Test', 'test@example.com', 'testing', 1);
+        $user = $this->testedService->createUser(
+            'Test',
+            'test@example.com',
+            'default',
+            json_encode(['type' => 'internal']),
+            'testing',
+            true
+        );
+
         $this->assertEquals(1, $user->getIsAdmin());
     }
 

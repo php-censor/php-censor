@@ -31,7 +31,7 @@
                     <?php
                     foreach ($builds as $build):
                         switch ($build->getStatus()) {
-                            case \PHPCensor\Model\Build::STATUS_NEW:
+                            case \PHPCensor\Model\Build::STATUS_PENDING:
                                 $updated = $build->getCreated();
                                 $label = Lang::get('pending');
                                 $color = 'blue';
