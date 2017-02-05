@@ -199,7 +199,6 @@ Services</a> sectie van je Bitbucket repository toegevoegd worden.',
     'result' => 'Resultaat',
     'ok' => 'OK',
     'took_n_seconds' => 'Duurde %d seconden',
-    'build_created' => 'Build aangemaakt',
     'build_started' => 'Build gestart',
     'build_finished' => 'Build beëindigd',
     'test_message' => 'Message',
@@ -291,32 +290,6 @@ keer je composer update uitvoert.',
     'updating_app' => 'PHP Censor database wordt geüpdatet:',
     'not_installed' => 'PHP Censor lijkt niet geïnstalleerd te zijn.',
     'install_instead' => 'Gelieve PHP Censor via php-censor:install te installeren.',
-
-    // Poll Command
-    'poll_github' => 'Poll GitHub om te controleren of we een build moeten starten.',
-    'no_token' => 'Geen GitHub token gevonden',
-    'finding_projects' => 'Vind projecten om te pollen',
-    'found_n_projects' => '%d projecten gevonden',
-    'last_commit_is' => 'Laatste commit naar GitHub voor %s is %s',
-    'adding_new_build' => 'Laatste commit verschilt van database, nieuwe build wordt toegevoegd',
-    'finished_processing_builds' => 'Verwerking builds voltooid.',
-
-    // Create Admin
-    'create_admin_user' => 'Administrator-gebruiker aanmaken',
-    'incorrect_format' => 'Incorrect formaat',
-
-    // Create Build Command
-    'create_build_project' => 'Create a build for a project',
-    'project_id_argument' => 'A project ID',
-    'commit_id_option' => 'Commit ID to build',
-    'branch_name_option' => 'Branch to build',
-
-    // Run Command
-    'run_all_pending' => 'Voer alle wachtende PHP Censor builds uit.',
-    'finding_builds' => 'Zoekt builds om te verwerken',
-    'found_n_builds' => '%d builds gevonden',
-    'skipping_build' => 'Build %d overslaan - Project build reeds aan de gang.',
-    'marked_as_failed' => 'Build %d gemarkeerd als falende door timeout.',
 
     // Builder
     'missing_app_yml' => 'Dit project bevat geen .php-censor.yml (.phpci.yml|phpci.yml) bestand, of het is leeg.',

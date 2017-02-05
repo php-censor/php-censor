@@ -198,7 +198,6 @@ Services</a> sektionen under dit Bitbucket-repository.',
     'result' => 'Resultat',
     'ok' => 'OK',
     'took_n_seconds' => 'Tog %d sekunder',
-    'build_created' => 'Build Oprettet',
     'build_started' => 'Build Startet',
     'build_finished' => 'Build Afsluttet',
     'test_message' => 'Message',
@@ -289,32 +288,6 @@ du kører composer update.',
     'updating_app' => 'Opdaterer PHP Censor-database:',
     'not_installed' => 'PHP Censor lader til ikke at være installeret.',
     'install_instead' => 'Installér venligst PHP Censor via php-censor:install istedet.',
-
-    // Poll Command
-    'poll_github' => 'Check via GitHub om et build skal startes.',
-    'no_token' => 'GitHub-token findes ikke',
-    'finding_projects' => 'Finder projekter der kan forespørges',
-    'found_n_projects' => '%d projekter fundet',
-    'last_commit_is' => 'Sidste commit til GitHub for %s er %s',
-    'adding_new_build' => 'Sidste commit er forskellig fra databasen, tilføjer nyt build.',
-    'finished_processing_builds' => 'Kørsel af builds afsluttet.',
-
-    // Create Admin
-    'create_admin_user' => 'Tilføj en administrator',
-    'incorrect_format' => 'Forkert format',
-
-    // Create Build Command
-    'create_build_project' => 'Create a build for a project',
-    'project_id_argument' => 'A project ID',
-    'commit_id_option' => 'Commit ID to build',
-    'branch_name_option' => 'Branch to build',
-
-    // Run Command
-    'run_all_pending' => 'Kør alle PHP Censor builds i køen.',
-    'finding_builds' => 'Finder builds der skal køres',
-    'found_n_builds' => '%d builds fundet',
-    'skipping_build' => 'Springer over Build %d - projektet kører et build lige nu.',
-    'marked_as_failed' => 'Build %d blev markeret som fejlet pga. timeout.',
 
     // Builder
     'missing_app_yml' => 'Dette projekt har ingen .php-censor.yml (.phpci.yml|phpci.yml) fil, eller filen er tom.',

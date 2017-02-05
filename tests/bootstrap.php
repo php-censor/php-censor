@@ -7,8 +7,6 @@
  * @link         http://www.phptesting.org/
  */
 
-use PHPCensor\Logging\LoggerConfig;
-
 if (!defined('ROOT_DIR')) {
     define('ROOT_DIR', dirname(__DIR__) . DIRECTORY_SEPARATOR);
 }

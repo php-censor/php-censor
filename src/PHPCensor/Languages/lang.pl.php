@@ -202,7 +202,6 @@ Services</a> repozytoria Bitbucket.',
     'result' => 'Wynik',
     'ok' => 'OK',
     'took_n_seconds' => 'Zajęło %d sekund',
-    'build_created' => 'Budowanie Stworzone',
     'build_started' => 'Budowanie Rozpoczęte',
     'build_finished' => 'Budowanie Zakończone',
     'test_message' => 'Wiadomość',
@@ -292,32 +291,6 @@ wywołaniu polecenia composer update.',
     'updating_app' => 'Aktualizacja bazy danych PHP Censor:',
     'not_installed' => 'Wygląda na to, że PHP Censor nie jest zainstalowane.',
     'install_instead' => 'Proszę zainstalować PHP Censor poprzez php-censor:install',
-
-    // Poll Command
-    'poll_github' => 'Odpytuj GitHub, aby sprawdzić czy należy uruchomić budowę.',
-    'no_token' => 'Nie znaleziono tokena GitHub',
-    'finding_projects' => 'Szukanie projektów do odpytywania',
-    'found_n_projects' => 'Znaleziono %d projektów',
-    'last_commit_is' => 'Ostatni commit do GitHuba dla %s to %s',
-    'adding_new_build' => 'Ostatni commit jest inny w bazie danych, dodaję nową budowę.',
-    'finished_processing_builds' => 'Ukończono przetwarzanie budów.',
-
-    // Create Admin
-    'create_admin_user' => 'Utwórz admina',
-    'incorrect_format' => 'Niepoprawny format',
-
-    // Create Build Command
-    'create_build_project' => 'Utwórz budowanie dla projektu',
-    'project_id_argument' => 'ID projektu',
-    'commit_id_option' => 'ID Commita do budowania',
-    'branch_name_option' => 'Gałąź do budowania',
-
-    // Run Command
-    'run_all_pending' => 'Uruchom wszystkie oczekujące budowy w PHP Censor',
-    'finding_builds' => 'Szukam budów do przetwarzania.',
-    'found_n_builds' => 'Znaleziono %d budowań',
-    'skipping_build' => 'Budowanie %d jest pomijane - Budowanie projektu jest już w toku',
-    'marked_as_failed' => 'Budowanie %d nie powiodło się z powodu przekroczenia limitu czasu.',
 
     // Builder
     'missing_app_yml' => 'Projekt nie zawiera pliku .php-censor.yml (.phpci.yml|phpci.yml) lub projekt jest pusty.',

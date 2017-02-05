@@ -1,18 +1,10 @@
 <?php
-/**
- * PHPCI - Continuous Integration for PHP
- *
- * @copyright Copyright 2014, Block 8 Limited.
- * @license   https://github.com/Block8/PHPCI/blob/master/LICENSE.md
- * @link      https://www.phptesting.org/
- */
 
 namespace PHPCensor\Command;
 
 use b8\Store\Factory;
 use b8\HttpClient;
 use Monolog\Logger;
-use PHPCensor\Helper\Lang;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -22,9 +14,7 @@ use PHPCensor\Model\Build;
 /**
  * Run console command - Poll github for latest commit id
  * 
- * @author     Jimmy Cleuren <jimmy.cleuren@gmail.com>
- * @package    PHPCI
- * @subpackage Console
+ * @author Jimmy Cleuren <jimmy.cleuren@gmail.com>
  */
 class PollCommand extends Command
 {
@@ -43,7 +33,7 @@ class PollCommand extends Command
     {
         $this
             ->setName('php-censor:poll-github')
-            ->setDescription(Lang::get('poll_github'));
+            ->setDescription('Poll GitHub to check if we need to start a build.');
     }
 
     /**
@@ -58,16 +48,16 @@ class PollCommand extends Command
         $token = $this->settings['php-censor']['github']['token'];
 
         if (!$token) {
-            $this->logger->error(Lang::get('no_token'));
+            $this->logger->error('No GitHub token found');
             return;
         }
 
         $buildStore = Factory::getStore('Build');
 
-        $this->logger->addInfo(Lang::get('finding_projects'));
+        $this->logger->addInfo('Finding projects to poll');
         $projectStore = Factory::getStore('Project');
         $result = $projectStore->getWhere();
-        $this->logger->addInfo(Lang::get('found_n_projects', count($result['items'])));
+        $this->logger->addInfo(sprintf('Found %d projects', count($result['items'])));
 
         foreach ($result['items'] as $project) {
             $http = new HttpClient('https://api.github.com');
@@ -77,12 +67,10 @@ class PollCommand extends Command
             $last_committer = $commits['body'][0]['commit']['committer']['email'];
             $message        = $commits['body'][0]['commit']['message'];
 
-            $this->logger->info(Lang::get('last_commit_is', $project->getTitle(), $last_commit));
+            $this->logger->info(sprintf('Last commit to GitHub for %s is %s', $project->getTitle(), $last_commit));
 
             if (!$project->getArchived() && ($project->getLastCommit() != $last_commit && $last_commit != "")) {
-                $this->logger->info(
-                    Lang::get('adding_new_build')
-                );
+                $this->logger->info('Last commit is different to database, adding new build.');
 
                 $build = new Build();
                 $build->setProjectId($project->getId());
@@ -102,6 +90,6 @@ class PollCommand extends Command
             }
         }
 
-        $this->logger->addInfo(Lang::get('finished_processing_builds'));
+        $this->logger->addInfo('Finished processing builds.');
     }
 }

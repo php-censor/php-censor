@@ -199,7 +199,6 @@ Services</a> του Bitbucket αποθετηρίου σας.',
     'result' => 'Αποτέλεσμα',
     'ok' => 'ΟΚ',
     'took_n_seconds' => 'Χρειάστηκαν %d δευτερόλεπτα',
-    'build_created' => 'Η κατασκευή δημιουργήθηκε',
     'build_started' => 'Η κατασκευή άρχισε',
     'build_finished' => 'Η κατασκευή ολοκληρώθηκε',
     'test_message' => 'Message',
@@ -291,32 +290,6 @@ Services</a> του Bitbucket αποθετηρίου σας.',
     'updating_app' => 'Γίνεται ενημέρωση της βάσης δεδομένων PHP Censor:',
     'not_installed' => 'Το PHP Censor δεν φένεται να είναι εγκατεστημένο',
     'install_instead' => 'Παρακαλούμε εγκαταστήστε το PHP Censor καλύτερα με το php-censor:install αντ \'αυτού.',
-
-    // Poll Command
-    'poll_github' => 'Δημοσκόπηση στο GitHub για να ελέγξετε αν θα πρέπει να ξεκινήσει μια κατασκευή.',
-    'no_token' => 'Δεν βρέθηκε GitHub token',
-    'finding_projects' => 'Αναζήτηση έργων για δημοσκόπηση',
-    'found_n_projects' => 'Βρέθηκαν %d έργα',
-    'last_commit_is' => 'H τελευταία συνεισφορά στο GitHub για %s είναι %s',
-    'adding_new_build' => 'Τελευταία συνεισφορά είναι διαφορετική από τη βάση δεδομένων, γίνεται προσθήκη νέας κατασκευής.',
-    'finished_processing_builds' => 'Ολοκληρώθηκε η επεξεργασία κατασκευής.',
-
-    // Create Admin
-    'create_admin_user' => 'Δημιουργήστε ένα χρήστη διαχειριστή',
-    'incorrect_format' => 'Λανθασμένη μορφοποίηση',
-
-    // Create Build Command
-    'create_build_project' => 'Create a build for a project',
-    'project_id_argument' => 'A project ID',
-    'commit_id_option' => 'Commit ID to build',
-    'branch_name_option' => 'Branch to build',
-
-    // Run Command
-    'run_all_pending' => 'Εκτελέστε όλες τις εκκρεμείς PHP Censor κατασκευές.',
-    'finding_builds' => 'Αναζήτηση κατασκευών για επεξεργασία',
-    'found_n_builds' => 'Βρέθηκαν %d κατασκευές',
-    'skipping_build' => 'Παράκαμψη κατασκευής %d -  Η διαδικασία κατασκευής του έργου βρίσκεται ήδη σε εξέλιξη.',
-    'marked_as_failed' => 'Η κατασκεύη %d επισημάνθηκε ως αποτυχημένη λόγω χρονικού ορίου',
 
     // Builder
     'missing_app_yml' => 'Το έργο δεν περιέχει το αρχείο .php-censor.yml (.phpci.yml|phpci.yml) ή είναι άδειο.',

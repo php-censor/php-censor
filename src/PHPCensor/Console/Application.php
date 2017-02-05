@@ -34,33 +34,37 @@ class Application extends BaseApplication
     /**
      * Constructor.
      *
-     * @param string       $name         The name of the application
-     * @param string       $version      The version of the application
-     * @param LoggerConfig $loggerConfig Logger config
+     * @param string $name    The name of the application
+     * @param string $version The version of the application
      */
-    public function __construct($name = 'PHP Censor - Continuous Integration for PHP', $version = '', LoggerConfig $loggerConfig = null)
+    public function __construct($name = 'PHP Censor - Continuous Integration for PHP', $version = '')
     {
         parent::__construct($name, $version);
+
+        $loggerConfig = LoggerConfig::newFromFile(APP_DIR . 'loggerconfig.php');
 
         $applicationConfig = Config::getInstance();
         $databaseSettings  = $applicationConfig->get('b8.database', []);
 
-        $phinxSettings = [
-            'paths' => [
-                'migrations' => 'src/PHPCensor/Migrations',
-            ],
-            'environments'                => [
-                'default_migration_table' => 'migration',
-                'default_database'        => 'php-censor',
-                'php-censor'              => [
-                    'adapter' => $databaseSettings['type'],
-                    'host'    => $databaseSettings['servers']['write'][0]['host'],
-                    'name'    => $databaseSettings['name'],
-                    'user'    => $databaseSettings['username'],
-                    'pass'    => $databaseSettings['password'],
+        $phinxSettings = [];
+        if ($databaseSettings) {
+            $phinxSettings = [
+                'paths' => [
+                    'migrations' => 'src/PHPCensor/Migrations',
                 ],
-            ],
-        ];
+                'environments' => [
+                    'default_migration_table' => 'migration',
+                    'default_database' => 'php-censor',
+                    'php-censor' => [
+                        'adapter' => $databaseSettings['type'],
+                        'host' => $databaseSettings['servers']['write'][0]['host'],
+                        'name' => $databaseSettings['name'],
+                        'user' => $databaseSettings['username'],
+                        'pass' => $databaseSettings['password'],
+                    ],
+                ],
+            ];
+        }
         
         if (!empty($databaseSettings['port'])) {
             $phinxSettings['environments']['php-censor']['port'] = (integer)$databaseSettings['port'];

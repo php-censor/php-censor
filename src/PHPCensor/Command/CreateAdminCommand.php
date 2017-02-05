@@ -1,16 +1,8 @@
 <?php
-/**
- * PHPCI - Continuous Integration for PHP
- *
- * @copyright    Copyright 2014, Block 8 Limited.
- * @license      https://github.com/Block8/PHPCI/blob/master/LICENSE.md
- * @link         https://www.phptesting.org/
- */
 
 namespace PHPCensor\Command;
 
 use PHPCensor\Service\UserService;
-use PHPCensor\Helper\Lang;
 use PHPCensor\Store\UserStore;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -21,9 +13,7 @@ use Symfony\Component\Console\Question\Question;
 /**
  * Create admin command - creates an admin user
  * 
- * @author     Wogan May (@woganmay)
- * @package    PHPCI
- * @subpackage Console
+ * @author Wogan May (@woganmay)
  */
 class CreateAdminCommand extends Command
 {
@@ -46,7 +36,7 @@ class CreateAdminCommand extends Command
     {
         $this
             ->setName('php-censor:create-admin')
-            ->setDescription(Lang::get('create_admin_user'));
+            ->setDescription('Create an admin user');
     }
 
     /**

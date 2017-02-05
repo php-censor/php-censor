@@ -130,7 +130,20 @@ class InstallCommandTest extends \PHPUnit_Framework_TestCase
         $this->executeWithoutParam(null, $dialog);
     }
 
-    public function testDatabaseHostnameConfig()
+    public function testDatabaseTypeConfig()
+    {
+        $dialog = $this->getHelperMock();
+
+        // We specified an input value for hostname.
+        $dialog->expects($this->once())->method('ask')->willReturn('testedvalue');
+
+        $this->executeWithoutParam('--db-type', $dialog);
+
+        // Check that specified arguments are correctly loaded.
+        $this->assertEquals('testedvalue', $this->config['b8']['database']['type']);
+    }
+
+    public function testDatabaseHostConfig()
     {
         $dialog = $this->getHelperMock();
 
@@ -142,6 +155,34 @@ class InstallCommandTest extends \PHPUnit_Framework_TestCase
         // Check that specified arguments are correctly loaded.
         $this->assertEquals('testedvalue', $this->config['b8']['database']['servers']['read'][0]['host']);
         $this->assertEquals('testedvalue', $this->config['b8']['database']['servers']['write'][0]['host']);
+    }
+
+    public function testDatabaseStringPortConfig()
+    {
+        $dialog = $this->getHelperMock();
+
+        // We specified an input value for hostname.
+        $dialog->expects($this->once())->method('ask')->willReturn('testedvalue');
+
+        $this->executeWithoutParam('--db-port', $dialog);
+
+        // Check that specified arguments are correctly loaded.
+        $this->assertEquals(0, $this->config['b8']['database']['servers']['read'][0]['port']);
+        $this->assertEquals(0, $this->config['b8']['database']['servers']['write'][0]['port']);
+    }
+
+    public function testDatabasePortConfig()
+    {
+        $dialog = $this->getHelperMock();
+
+        // We specified an input value for hostname.
+        $dialog->expects($this->once())->method('ask')->willReturn('333');
+
+        $this->executeWithoutParam('--db-port', $dialog);
+
+        // Check that specified arguments are correctly loaded.
+        $this->assertEquals(333, $this->config['b8']['database']['servers']['read'][0]['port']);
+        $this->assertEquals(333, $this->config['b8']['database']['servers']['write'][0]['port']);
     }
 
     public function testDatabaseNameConfig()

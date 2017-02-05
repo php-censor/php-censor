@@ -200,7 +200,6 @@ PHP Censor',
     'result' => 'Risultati',
     'ok' => 'OK',
     'took_n_seconds' => 'Sono stati impiegati %d seconds',
-    'build_created' => 'Build Creata',
     'build_started' => 'Build Avviata',
     'build_finished' => 'Build Terminata',
     'test_message' => 'Message',
@@ -291,32 +290,6 @@ PHP Censor',
     'updating_app' => 'Aggiornamenti del database di PHP Censor: ',
     'not_installed' => 'PHP Censor sembra non essere installato.',
     'install_instead' => 'Per favore installa PHP Censor tramite php-censor:install.',
-
-    // Poll Command
-    'poll_github' => 'Richiesta a GitHub per verificare se è necessario avviare una build.',
-    'no_token' => 'Nessuno token per GitHub trovato',
-    'finding_projects' => 'Ricerca dei progetti da aggiornare',
-    'found_n_projects' => 'Trovati %d progetti',
-    'last_commit_is' => 'Ultimo commit su GitHub per %s è %s',
-    'adding_new_build' => 'L\'ultimo commit è diverso da quello registrato, new build aggiunta.',
-    'finished_processing_builds' => 'Terminato di processare le build.',
-
-    // Create Admin
-    'create_admin_user' => 'Crea un nuovo utente amministrarore',
-    'incorrect_format' => 'Formato errato',
-
-    // Create Build Command
-    'create_build_project' => 'Create a build for a project',
-    'project_id_argument' => 'A project ID',
-    'commit_id_option' => 'Commit ID to build',
-    'branch_name_option' => 'Branch to build',
-
-    // Run Command
-    'run_all_pending' => 'Esegui tutte le build in attesa su PHP Censor.',
-    'finding_builds' => 'Ricerca delel build da processare',
-    'found_n_builds' => 'Trovate %d build',
-    'skipping_build' => 'Saltata la build %d - La build del progetto è già in corso.',
-    'marked_as_failed' => 'Build %d è stata contrassegnata come fallita per un timeout.',
 
     // Builder
     'missing_app_yml' => 'Questo progetto non contiene il file .php-censor.yml (.phpci.yml|phpci.yml), o il file è vuoto.',

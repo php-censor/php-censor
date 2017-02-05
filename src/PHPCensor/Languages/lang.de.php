@@ -208,7 +208,6 @@ generiert. Um es zu verwenden, fügen Sie einfach den folgenden Public Key im Ab
     'result' => 'Resultat',
     'ok' => 'OK',
     'took_n_seconds' => 'Benötigte %d Sekunden',
-    'build_created' => 'Build erstellt',
     'build_started' => 'Build gestartet',
     'build_finished' => 'Build abgeschlossen',
     'test_message' => 'Nachricht',
@@ -312,32 +311,6 @@ generiert. Um es zu verwenden, fügen Sie einfach den folgenden Public Key im Ab
     'updating_app' => 'Aktualisiere PHP Censor-Datenbank:',
     'not_installed' => 'PHP Censor scheint nicht installiert zu sein.',
     'install_instead' => 'Bitte installieren Sie PHP Censor stattdessen via php-censor:install.',
-
-    // Poll Command
-    'poll_github' => 'GitHub abfragen, um herauszufinden, ob ein Build gestartet werden muss.',
-    'no_token' => 'Kein GitHub-Token gefunden',
-    'finding_projects' => 'Suche Projekte, um diese abzufragen',
-    'found_n_projects' => '%d Projekte gefunden',
-    'last_commit_is' => 'Der letzte Commit zu GitHub für %s ist %s',
-    'adding_new_build' => 'Letzter Commit unterscheidet sich von der Datenbank, füge neuen Build hinzu.',
-    'finished_processing_builds' => 'Bearbeiten der Builds abgeschlossen.',
-
-    // Create Admin
-    'create_admin_user' => 'Administratorenbenutzer erstellen',
-    'incorrect_format' => 'Falsches Format',
-
-    // Create Build Command
-    'create_build_project' => 'Create a build for a project',
-    'project_id_argument' => 'A project ID',
-    'commit_id_option' => 'Commit ID to build',
-    'branch_name_option' => 'Branch to build',
-
-    // Run Command
-    'run_all_pending' => 'Führe alle ausstehenden PHP Censor Builds aus.',
-    'finding_builds' => 'Suche verarbeitbare Builds',
-    'found_n_builds' => '%d Builds gefunden',
-    'skipping_build' => 'Überspringe Build %d - Es wird bereits ein Build auf diesem Projekt ausgeführt.',
-    'marked_as_failed' => 'Build %d wegen Zeitüberschreitung als fehlgeschlagen markiert.',
 
     // Builder
     'missing_app_yml' => 'Dieses Projekt beinhaltet keine .php-censor.yml (.phpci.yml|phpci.yml)-Datei, oder sie ist leer.',

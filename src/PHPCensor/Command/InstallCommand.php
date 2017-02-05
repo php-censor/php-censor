@@ -82,10 +82,9 @@ class InstallCommand extends Command
         }
         $output->writeln('');
 
-        $conf = [];
+        $conf                   = [];
         $conf['b8']['database'] = $db;
-
-        $conf['php-censor'] = $this->getConfigInformation($input, $output);
+        $conf['php-censor']     = $this->getConfigInformation($input, $output);
 
         $this->writeConfigFile($conf);
         $this->setupDatabase($output);
@@ -375,8 +374,9 @@ class InstallCommand extends Command
             ]
         ];
 
+        $dbPort = (integer)$dbPort;
         if ($dbPort) {
-            $dbServers[0]['port'] = (integer)$dbPort;
+            $dbServers[0]['port'] = $dbPort;
         }
 
         $db['servers']['read']  = $dbServers;
@@ -402,8 +402,8 @@ class InstallCommand extends Command
     {
         try {
             $dns = $db['type'] . ':host=' . $db['servers']['write'][0]['host'];
-            if (isset($db['servers']['write'][0]['host'])) {
-                $dns .= ';port=' . (integer)$db['servers']['write'][0]['host'];
+            if (isset($db['servers']['write'][0]['port'])) {
+                $dns .= ';port=' . (integer)$db['servers']['write'][0]['port'];
             }
             $dns .= ';dbname=' . $db['name'];
 

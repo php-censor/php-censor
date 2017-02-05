@@ -218,7 +218,6 @@ PHP Censor',
     'result' => 'Результат',
     'ok' => 'OK',
     'took_n_seconds' => 'Заняло секунд: %d',
-    'build_created' => 'Сборка создана',
     'build_started' => 'Сборка запущена',
     'build_finished' => 'Сборка окончена',
     'test_message' => 'Сообщение',
@@ -331,32 +330,6 @@ PHP Censor',
     'updating_app' => 'Обновление базы данных PHP Censor: ',
     'not_installed' => 'PHP Censor не может быть установлен.',
     'install_instead' => 'Пожалуйста, установите PHP Censor с помощью команды php-censor:install.',
-
-    // Poll Command
-    'poll_github' => 'Опрос GitHub для проверки запуска сборки.',
-    'no_token' => 'GitHub токен не найден',
-    'finding_projects' => 'Поиск проектов для опроса',
-    'found_n_projects' => 'Найдено проектов: %d',
-    'last_commit_is' => 'Последний коммит на GitHub для %s - %s',
-    'adding_new_build' => 'Последний коммит имеет различия с базой данных, создана сборка.',
-    'finished_processing_builds' => 'Процесс сборки завершен.',
-
-    // Create Admin
-    'create_admin_user' => 'Добавить аккаунт администратора',
-    'incorrect_format' => 'Неверный формат',
-
-    // Create Build Command
-    'create_build_project' => 'Создать сборку проекта',
-    'project_id_argument' => 'ID проекта',
-    'commit_id_option' => 'ID коммита для сборки',
-    'branch_name_option' => 'Ветка для сборки',
-
-    // Run Command
-    'run_all_pending' => 'Запустить все ожидающие PHP Censor сборки.',
-    'finding_builds' => 'Поиск сборок для запуска',
-    'found_n_builds' => 'Найдено сборок: %d',
-    'skipping_build' => 'Сборка %d пропущена - Сборка проекта уже идет.',
-    'marked_as_failed' => 'Сборка %d отмечена как неудавшаяся из-за превышения лимита времени.',
 
     // Builder
     'missing_app_yml' => 'Этот проект не содержит файла .php-censor.yml (.phpci.yml|phpci.yml), или файл пустой.',

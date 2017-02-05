@@ -208,7 +208,6 @@ PHP Censor',
     'result' => 'Result',
     'ok' => 'OK',
     'took_n_seconds' => 'Took %d seconds',
-    'build_created' => 'Build Created',
     'build_started' => 'Build Started',
     'build_finished' => 'Build Finished',
     'test_message' => 'Message',
@@ -313,35 +312,6 @@ PHP Censor',
     'updating_app' => 'Updating PHP Censor database: ',
     'not_installed' => 'PHP Censor does not appear to be installed.',
     'install_instead' => 'Please install PHP Censor via php-censor:install instead.',
-
-    // Poll Command
-    'poll_github' => 'Poll GitHub to check if we need to start a build.',
-    'no_token' => 'No GitHub token found',
-    'finding_projects' => 'Finding projects to poll',
-    'found_n_projects' => 'Found %d projects',
-    'last_commit_is' => 'Last commit to GitHub for %s is %s',
-    'adding_new_build' => 'Last commit is different to database, adding new build.',
-    'finished_processing_builds' => 'Finished processing builds.',
-
-    // Create Admin
-    'create_admin_user' => 'Create an admin user',
-    'incorrect_format' => 'Incorrect format',
-
-    // Create Build Command
-    'create_build_project' => 'Create a build for a project',
-    'project_id_argument' => 'A project ID',
-    'commit_id_option' => 'Commit ID to build',
-    'branch_name_option' => 'Branch to build',
-    'add_to_queue_failed' => 'Build created successfully, but failed to add to build queue. This usually happens
-                                when PHP Censor is set to use a beanstalkd server that does not exist, 
-                                or your beanstalkd server has stopped.',
-
-    // Run Command
-    'run_all_pending' => 'Run all pending PHP Censor builds.',
-    'finding_builds' => 'Finding builds to process',
-    'found_n_builds' => 'Found %d builds',
-    'skipping_build' => 'Skipping Build %d - Project build already in progress.',
-    'marked_as_failed' => 'Build %d marked as failed due to timeout.',
 
     // Builder
     'missing_app_yml' => 'This project does not contain a .php-censor.yml (.phpci.yml|phpci.yml) file, or it is empty.',
