@@ -1,13 +1,5 @@
 <?php
 
-/**
- * PHPCI - Continuous Integration for PHP
- *
- * @copyright    Copyright 2014-2015, Block 8 Limited.
- * @license      https://github.com/Block8/PHPCI/blob/master/LICENSE.md
- * @link         https://www.phptesting.org/
- */
-
 namespace PHPCensor\Controller;
 
 use b8;
@@ -26,14 +18,11 @@ use b8\Exception\HttpException\NotFoundException;
 /**
  * Webhook Controller - Processes webhook pings from BitBucket, Github, Gitlab, Gogs, etc.
  *
- * @author       Dan Cryer <dan@block8.co.uk>
- * @author       Sami Tikka <stikka@iki.fi>
- * @author       Alex Russell <alex@clevercherry.com>
- * @author       Guillaume Perréal <adirelle@gmail.com>
- * @package      PHPCI
- * @subpackage   Web
+ * @author Dan Cryer <dan@block8.co.uk>
+ * @author Sami Tikka <stikka@iki.fi>
+ * @author Alex Russell <alex@clevercherry.com>
+ * @author Guillaume Perréal <adirelle@gmail.com>
  *
- * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 class WebhookController extends Controller
 {
@@ -225,9 +214,8 @@ class WebhookController extends Controller
      *
      * @param Project $project
      * @param array $payload
-     * @param b8\Http\Response\JsonResponse $response
      *
-     * @return b8\Http\Response\JsonResponse
+     * @return array
      */
     protected function githubCommitRequest(Project $project, array $payload)
     {
@@ -426,6 +414,10 @@ class WebhookController extends Controller
 
     /**
      * Called by Gogs Webhooks:
+     * 
+     * @param string $projectId
+     * 
+     * @return array
      */
     public function gogs($projectId)
     {
@@ -438,30 +430,31 @@ class WebhookController extends Controller
                 $payload = json_decode($this->getParam('payload'), true);
                 break;
             default:
-                return array('status' => 'failed', 'error' => 'Content type not supported.', 'responseCode' => 401);
+                return ['status' => 'failed', 'error' => 'Content type not supported.', 'responseCode' => 401];
         }
+
         // Handle Push web hooks:
         if (array_key_exists('commits', $payload)) {
             return $this->gogsCommitRequest($project, $payload);
         }
-        return array('status' => 'ignored', 'message' => 'Unusable payload.');
+
+        return ['status' => 'ignored', 'message' => 'Unusable payload.'];
     }
 
     /**
      * Handle the payload when Gogs sends a commit webhook.
      *
      * @param Project $project
-     * @param array $payload
-     * @param b8\Http\Response\JsonResponse $response
+     * @param array   $payload
      *
-     * @return b8\Http\Response\JsonResponse
+     * @return array
      */
     protected function gogsCommitRequest(Project $project, array $payload)
     {
         if (isset($payload['commits']) && is_array($payload['commits'])) {
             // If we have a list of commits, then add them all as builds to be tested:
-            $results = array();
-            $status = 'failed';
+            $results = [];
+            $status  = 'failed';
             foreach ($payload['commits'] as $commit) {
                 try {
                     $branch = str_replace('refs/heads/', '', $payload['ref']);
@@ -475,12 +468,14 @@ class WebhookController extends Controller
                     );
                     $status = 'ok';
                 } catch (Exception $ex) {
-                    $results[$commit['id']] = array('status' => 'failed', 'error' => $ex->getMessage());
+                    $results[$commit['id']] = ['status' => 'failed', 'error' => $ex->getMessage()];
                 }
             }
-            return array('status' => $status, 'commits' => $results);
+
+            return ['status' => $status, 'commits' => $results];
         }
-        return array('status' => 'ignored', 'message' => 'Unusable payload.');
+
+        return ['status' => 'ignored', 'message' => 'Unusable payload.'];
     }
 
     /**
