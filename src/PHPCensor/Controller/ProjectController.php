@@ -276,9 +276,9 @@ class ProjectController extends PHPCensor\Controller
         $values['key'] = $values['ssh_private_key'];
         $values['pubkey'] = $values['ssh_public_key'];
 
-        if ($values['type'] == "gitlab") {
-            $accessInfo = $project->getAccessInformation();
-            $reference  = $accessInfo["user"].'@'.$accessInfo["domain"].':' . $accessInfo["port"] . '/' . ltrim($project->getReference(), '/') . ".git";
+        if ($values['type'] == 'gitlab') {
+            $accessInfo          = $project->getAccessInformation();
+            $reference           = $accessInfo["user"] . '@' . $accessInfo["domain"] . ':' . $accessInfo["port"] . '/' . ltrim($project->getReference(), '/') . ".git";
             $values['reference'] = $reference;
         }
 
@@ -332,17 +332,18 @@ class ProjectController extends PHPCensor\Controller
 
         $options = [
             'choose'    => Lang::get('select_repository_type'),
-            'github'    => Lang::get('github'),
-            'bitbucket' => Lang::get('bitbucket'),
-            'gitlab'    => Lang::get('gitlab'),
-            'remote'    => Lang::get('remote'),
+            'github'    => 'GitHub',
+            'bitbucket' => 'Bitbucket',
+            'gitlab'    => 'GitLab',
+            'gogs'      => 'Gogs',
+            'remote'    => 'Git',
             'local'     => Lang::get('local'),
-            'hg'        => Lang::get('hg'),
-            'svn'       => Lang::get('svn'),
+            'hg'        => 'Mercurial (Hg)',
+            'svn'       => 'SVN',
         ];
 
         $field = Form\Element\Select::create('type', Lang::get('where_hosted'), true);
-        $field->setPattern('^(github|bitbucket|gitlab|remote|local|hg|svn)');
+        $field->setPattern('^(github|bitbucket|gitlab|gogs|remote|local|hg|svn)');
         $field->setOptions($options);
         $field->setClass('form-control')->setContainerClass('form-group');
         $form->addField($field);

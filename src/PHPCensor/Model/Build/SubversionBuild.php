@@ -1,11 +1,4 @@
 <?php
-/**
- * PHPCI - Continuous Integration for PHP
- *
- * @copyright    Copyright 2014, Block 8 Limited.
- * @license      https://github.com/Block8/PHPCI/blob/master/LICENSE.md
- * @link         https://www.phptesting.org/
- */
 
 namespace PHPCensor\Model\Build;
 
@@ -14,9 +7,8 @@ use PHPCensor\Builder;
 
 /**
  * Remote Subversion Build Model
- * @author       Nadir Dzhilkibaev <imam.sharif@gmail.com>
- * @package      PHPCI
- * @subpackage   Core
+ * 
+ * @author Nadir Dzhilkibaev <imam.sharif@gmail.com>
  */
 class SubversionBuild extends Build
 {

@@ -1,11 +1,4 @@
 <?php
-/**
- * PHPCI - Continuous Integration for PHP
- *
- * @copyright    Copyright 2014, Block 8 Limited.
- * @license      https://github.com/Block8/PHPCI/blob/master/LICENSE.md
- * @link         https://www.phptesting.org/
- */
 
 namespace PHPCensor\Model\Build;
 
@@ -17,11 +10,10 @@ use b8\HttpClient;
 use PHPCensor\Model\BuildError;
 
 /**
-* Github Build Model
-* @author       Dan Cryer <dan@block8.co.uk>
-* @package      PHPCI
-* @subpackage   Core
-*/
+ * Github Build Model
+ * 
+ * @author Dan Cryer <dan@block8.co.uk>
+ */
 class GithubBuild extends RemoteGitBuild
 {
     /**

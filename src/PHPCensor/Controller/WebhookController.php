@@ -1,13 +1,5 @@
 <?php
 
-/**
- * PHPCI - Continuous Integration for PHP
- *
- * @copyright    Copyright 2014-2015, Block 8 Limited.
- * @license      https://github.com/Block8/PHPCI/blob/master/LICENSE.md
- * @link         https://www.phptesting.org/
- */
-
 namespace PHPCensor\Controller;
 
 use b8;
@@ -24,16 +16,13 @@ use b8\HttpClient;
 use b8\Exception\HttpException\NotFoundException;
 
 /**
- * Webhook Controller - Processes webhook pings from BitBucket, Github, Gitlab, etc.
+ * Webhook Controller - Processes webhook pings from BitBucket, Github, Gitlab, Gogs, etc.
  *
- * @author       Dan Cryer <dan@block8.co.uk>
- * @author       Sami Tikka <stikka@iki.fi>
- * @author       Alex Russell <alex@clevercherry.com>
- * @author       Guillaume Perréal <adirelle@gmail.com>
- * @package      PHPCI
- * @subpackage   Web
+ * @author Dan Cryer <dan@block8.co.uk>
+ * @author Sami Tikka <stikka@iki.fi>
+ * @author Alex Russell <alex@clevercherry.com>
+ * @author Guillaume Perréal <adirelle@gmail.com>
  *
- * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 class WebhookController extends Controller
 {
@@ -91,8 +80,8 @@ class WebhookController extends Controller
      */
     public function bitbucket($projectId)
     {
-        $project = $this->fetchProject($projectId, 'bitbucket');
-    
+        $project = $this->fetchProject($projectId, ['bitbucket', 'remote']);
+
         // Support both old services and new webhooks
         if ($payload = $this->getParam('payload')) {
             return $this->bitbucketService(json_decode($payload, true), $project);
@@ -194,7 +183,7 @@ class WebhookController extends Controller
      */
     public function github($projectId)
     {
-        $project = $this->fetchProject($projectId, 'github');
+        $project = $this->fetchProject($projectId, ['github', 'remote']);
 
         switch ($_SERVER['CONTENT_TYPE']) {
             case 'application/json':
@@ -225,9 +214,8 @@ class WebhookController extends Controller
      *
      * @param Project $project
      * @param array $payload
-     * @param b8\Http\Response\JsonResponse $response
      *
-     * @return b8\Http\Response\JsonResponse
+     * @return array
      */
     protected function githubCommitRequest(Project $project, array $payload)
     {
@@ -358,7 +346,7 @@ class WebhookController extends Controller
      */
     public function gitlab($projectId)
     {
-        $project = $this->fetchProject($projectId, 'gitlab');
+        $project = $this->fetchProject($projectId, ['gitlab', 'remote']);
 
         $payloadString = file_get_contents("php://input");
         $payload = json_decode($payloadString, true);
@@ -422,6 +410,72 @@ class WebhookController extends Controller
         $committer = $this->getParam('committer');
 
         return $this->createBuild($project, $commit, $branch, $committer, $commitMessage);
+    }
+
+    /**
+     * Called by Gogs Webhooks:
+     * 
+     * @param string $projectId
+     * 
+     * @return array
+     */
+    public function gogs($projectId)
+    {
+        $project = $this->fetchProject($projectId, ['gogs', 'remote']);
+        switch ($_SERVER['CONTENT_TYPE']) {
+            case 'application/json':
+                $payload = json_decode(file_get_contents('php://input'), true);
+                break;
+            case 'application/x-www-form-urlencoded':
+                $payload = json_decode($this->getParam('payload'), true);
+                break;
+            default:
+                return ['status' => 'failed', 'error' => 'Content type not supported.', 'responseCode' => 401];
+        }
+
+        // Handle Push web hooks:
+        if (array_key_exists('commits', $payload)) {
+            return $this->gogsCommitRequest($project, $payload);
+        }
+
+        return ['status' => 'ignored', 'message' => 'Unusable payload.'];
+    }
+
+    /**
+     * Handle the payload when Gogs sends a commit webhook.
+     *
+     * @param Project $project
+     * @param array   $payload
+     *
+     * @return array
+     */
+    protected function gogsCommitRequest(Project $project, array $payload)
+    {
+        if (isset($payload['commits']) && is_array($payload['commits'])) {
+            // If we have a list of commits, then add them all as builds to be tested:
+            $results = [];
+            $status  = 'failed';
+            foreach ($payload['commits'] as $commit) {
+                try {
+                    $branch = str_replace('refs/heads/', '', $payload['ref']);
+                    $committer = $commit['author']['email'];
+                    $results[$commit['id']] = $this->createBuild(
+                        $project,
+                        $commit['id'],
+                        $branch,
+                        $committer,
+                        $commit['message']
+                    );
+                    $status = 'ok';
+                } catch (Exception $ex) {
+                    $results[$commit['id']] = ['status' => 'failed', 'error' => $ex->getMessage()];
+                }
+            }
+
+            return ['status' => $status, 'commits' => $results];
+        }
+
+        return ['status' => 'ignored', 'message' => 'Unusable payload.'];
     }
 
     /**
