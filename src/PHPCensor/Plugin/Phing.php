@@ -163,7 +163,7 @@ class Phing extends Plugin
     public function setBuildFile($buildFile)
     {
         if (!file_exists($this->getDirectory() . $buildFile)) {
-            throw new \Exception(Lang::get('build_file_missing'));
+            throw new \Exception('Specified build file does not exist.');
         }
 
         $this->buildFile = $buildFile;
@@ -239,7 +239,7 @@ class Phing extends Plugin
     public function setPropertyFile($propertyFile)
     {
         if (!file_exists($this->getDirectory() . DIRECTORY_SEPARATOR . $propertyFile)) {
-            throw new \Exception(Lang::get('property_file_missing'));
+            throw new \Exception('Specified property file does not exist.');
         }
 
         $this->propertyFile = $propertyFile;

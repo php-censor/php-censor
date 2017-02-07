@@ -57,7 +57,7 @@ class HipchatNotify extends Plugin
             if (isset($options['message'])) {
                 $this->message = $options['message'];
             } else {
-                $this->message = Lang::get('x_built_at_x');
+                $this->message = '%PROJECT_TITLE% built at %BUILD_URI%';
             }
 
             if (isset($options['color'])) {
@@ -72,7 +72,7 @@ class HipchatNotify extends Plugin
                 $this->notify = false;
             }
         } else {
-            throw new \Exception(Lang::get('hipchat_settings'));
+            throw new \Exception('Please define room and authToken for hipchat_notify plugin.');
         }
     }
 

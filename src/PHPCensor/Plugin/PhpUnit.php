@@ -85,7 +85,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
         $xmlConfigFiles = $this->options->getConfigFiles($this->build->getBuildPath());
         $directories    = $this->options->getDirectories();
         if (empty($xmlConfigFiles) && empty($directories)) {
-            $this->builder->logFailure(Lang::get('phpunit_fail_init'));
+            $this->builder->logFailure('Neither a configuration file nor a test directory found.');
             return false;
         }
 

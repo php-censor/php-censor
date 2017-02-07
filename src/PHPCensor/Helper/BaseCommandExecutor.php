@@ -192,29 +192,29 @@ abstract class BaseCommandExecutor implements CommandExecutorInterface
         }
 
         foreach ($binary as $bin) {
-            $this->logger->log(Lang::get('looking_for_binary', $bin), LogLevel::DEBUG);
+            $this->logger->logDebug(sprintf('Looking for binary: %s', $bin));
 
             if (is_dir($composerBin) && is_file($composerBin . DIRECTORY_SEPARATOR . $bin)) {
-                $this->logger->log(Lang::get('found_in_path', $composerBin, $bin), LogLevel::DEBUG);
+                $this->logger->logDebug(sprintf('Found in %s: %s', $composerBin, $bin));
 
                 return $composerBin . DIRECTORY_SEPARATOR . $bin;
             }
 
             if (is_file($this->rootDir . DIRECTORY_SEPARATOR . $bin)) {
-                $this->logger->log(Lang::get('found_in_path', 'root', $bin), LogLevel::DEBUG);
+                $this->logger->logDebug(sprintf('Found in %s: %s', 'root', $bin));
 
                 return $this->rootDir . DIRECTORY_SEPARATOR . $bin;
             }
 
             if (is_file($this->rootDir . 'vendor' . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . $bin)) {
-                $this->logger->log(Lang::get('found_in_path', 'vendor/bin', $bin), LogLevel::DEBUG);
+                $this->logger->logDebug(sprintf('Found in %s: %s', 'vendor/bin', $bin));
 
                 return $this->rootDir . 'vendor' . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . $bin;
             }
 
             $findCmdResult = $this->findGlobalBinary($bin);
             if (is_file($findCmdResult)) {
-                $this->logger->log(Lang::get('found_in_path', '', $bin), LogLevel::DEBUG);
+                $this->logger->logDebug(sprintf('Found in %s: %s', '', $bin));
 
                 return $findCmdResult;
             }
@@ -224,7 +224,7 @@ abstract class BaseCommandExecutor implements CommandExecutorInterface
             return null;
         }
 
-        throw new Exception(Lang::get('could_not_find', implode('/', $binary)));
+        throw new Exception(sprintf('Could not find %s', implode('/', $binary)));
     }
 
     /**

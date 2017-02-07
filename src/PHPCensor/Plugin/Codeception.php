@@ -127,7 +127,7 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
         $codeception = $this->builder->findBinary('codecept');
 
         if (!$codeception) {
-            $this->builder->logFailure(Lang::get('could_not_find', 'codecept'));
+            $this->builder->logFailure(sprintf('Could not find %s', 'codecept'));
 
             return false;
         }

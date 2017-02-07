@@ -99,7 +99,7 @@ class Mysql extends Plugin
                     // SQL file execution
                     $this->executeFile($query['import']);
                 } else {
-                    throw new \Exception(Lang::get('invalid_command'));
+                    throw new \Exception('Invalid command.');
                 }
             }
         } catch (\Exception $ex) {
@@ -117,19 +117,19 @@ class Mysql extends Plugin
     protected function executeFile($query)
     {
         if (!isset($query['file'])) {
-            throw new \Exception(Lang::get('import_file_key'));
+            throw new \Exception('Import statement must contain a \'file\' key');
         }
 
         $import_file = $this->builder->buildPath . $this->builder->interpolate($query['file']);
         if (!is_readable($import_file)) {
-            throw new \Exception(Lang::get('cannot_open_import', $import_file));
+            throw new \Exception(sprintf('Cannot open SQL import file: %s', $import_file));
         }
 
         $database = isset($query['database']) ? $this->builder->interpolate($query['database']) : null;
 
         $import_command = $this->getImportCommand($import_file, $database);
         if (!$this->builder->executeCommand($import_command)) {
-            throw new \Exception(Lang::get('unable_to_execute'));
+            throw new \Exception('Unable to execute SQL file');
         }
 
         return true;

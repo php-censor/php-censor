@@ -134,21 +134,25 @@ class Executor
         $success = true;
 
         foreach ($plugins as $plugin => $options) {
-            $this->logger->log("\n" . Lang::get('running_plugin', Lang::get($plugin)) . ' (' . Lang::get('stage') . ': ' . Lang::get('stage_' . $stage) . ')');
+            $this->logger->log("\n" . 
+                sprintf('RUNNING PLUGIN: %s', Lang::get($plugin)) . ' (' .
+                'Stage' . ': ' . 
+                Lang::get('stage_' . $stage) . ')'
+            );
 
             $this->setPluginStatus($stage, $plugin, Build::STATUS_RUNNING);
 
             // Try and execute it
             if ($this->executePlugin($plugin, $options)) {
                 // Execution was successful
-                $this->logger->logSuccess(Lang::get('plugin_success'));
+                $this->logger->logSuccess('PLUGIN: SUCCESS');
                 $this->setPluginStatus($stage, $plugin, Build::STATUS_SUCCESS);
             } else {
                 // Execution failed
                 $this->setPluginStatus($stage, $plugin, Build::STATUS_FAILED);
 
                 if ($stage === 'setup') {
-                    $this->logger->logFailure(Lang::get('plugin_failed'));
+                    $this->logger->logFailure('PLUGIN: FAILED');
                     // If we're in the "setup" stage, execution should not continue after
                     // a plugin has failed:
                     throw new Exception('Plugin failed: ' . $plugin);
@@ -156,10 +160,10 @@ class Executor
                     // If we're in the "test" stage and the plugin is not allowed to fail,
                     // then mark the build as failed:
                     if (empty($options['allow_failures']) && $stage === 'test') {
-                        $this->logger->logFailure(Lang::get('plugin_failed'));
+                        $this->logger->logFailure('PLUGIN: FAILED');
                         $success = false;
                     } else {
-                        $this->logger->logFailure(Lang::get('plugin_failed') . ' (' . Lang::get('failed_allowed') . ')');
+                        $this->logger->logFailure('PLUGIN: FAILED (ALLOWED)');
                     }
                 }
             }
@@ -185,7 +189,7 @@ class Executor
         }
 
         if (!class_exists($class)) {
-            $this->logger->logFailure(Lang::get('plugin_missing', $plugin));
+            $this->logger->logFailure(sprintf('Plugin does not exist: %s', $plugin));
 
             return false;
         }
@@ -196,7 +200,7 @@ class Executor
 
             return $obj->execute();
         } catch (\Exception $ex) {
-            $this->logger->logFailure(Lang::get('exception') . $ex->getMessage(), $ex);
+            $this->logger->logFailure('Exception: ' . $ex->getMessage(), $ex);
 
             return false;
         }
