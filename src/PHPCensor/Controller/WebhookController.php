@@ -80,7 +80,7 @@ class WebhookController extends Controller
      */
     public function bitbucket($projectId)
     {
-        $project = $this->fetchProject($projectId, 'bitbucket');
+        $project = $this->fetchProject($projectId, ['bitbucket', 'remote']);
 
         // Support both old services and new webhooks
         if ($payload = $this->getParam('payload')) {
@@ -183,7 +183,7 @@ class WebhookController extends Controller
      */
     public function github($projectId)
     {
-        $project = $this->fetchProject($projectId, 'github');
+        $project = $this->fetchProject($projectId, ['github', 'remote']);
 
         switch ($_SERVER['CONTENT_TYPE']) {
             case 'application/json':
@@ -346,7 +346,7 @@ class WebhookController extends Controller
      */
     public function gitlab($projectId)
     {
-        $project = $this->fetchProject($projectId, 'gitlab');
+        $project = $this->fetchProject($projectId, ['gitlab', 'remote']);
 
         $payloadString = file_get_contents("php://input");
         $payload = json_decode($payloadString, true);
@@ -421,7 +421,7 @@ class WebhookController extends Controller
      */
     public function gogs($projectId)
     {
-        $project = $this->fetchProject($projectId, 'gogs');
+        $project = $this->fetchProject($projectId, ['gogs', 'remote']);
         switch ($_SERVER['CONTENT_TYPE']) {
             case 'application/json':
                 $payload = json_decode(file_get_contents('php://input'), true);

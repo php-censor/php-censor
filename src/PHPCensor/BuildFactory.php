@@ -66,6 +66,9 @@ class BuildFactory
                 case 'svn':
                     $type = 'SubversionBuild';
                     break;
+                case 'gogs':
+                    $type = 'GogsBuild';
+                    break;
                 default:
                     return $build;
             }
