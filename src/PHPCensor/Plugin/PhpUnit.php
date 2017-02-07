@@ -119,8 +119,10 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
     {
         $options = clone $this->options;
 
+        $buildPath = $this->build->getBuildPath() . DIRECTORY_SEPARATOR;
+
         // Save the results into a json file
-        $jsonFile = tempnam(RUNTIME_DIR, 'jLog_');
+        $jsonFile = @tempnam($buildPath, 'jLog_');
         $options->addArgument('log-json', $jsonFile);
 
         // Removes any current configurations files
@@ -145,10 +147,10 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
     protected function runConfigFile($configFile)
     {
         $options   = clone $this->options;
-        $buildPath = $this->build->getBuildPath();
+        $buildPath = $this->build->getBuildPath() . DIRECTORY_SEPARATOR;
 
         // Save the results into a json file
-        $jsonFile = tempnam(RUNTIME_DIR, 'jLog_');
+        $jsonFile = @tempnam($buildPath, 'jLog_');
         $options->addArgument('log-json', $jsonFile);
 
         // Removes any current configurations files
