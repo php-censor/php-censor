@@ -125,12 +125,16 @@ class BuildStatusController extends Controller
 
     /**
      * Returns the appropriate build status image in SVG format for a given project.
+     *
+     * @param $projectId
+     * 
+     * @return b8\Http\Response|b8\Http\Response\RedirectResponse
      */
     public function image($projectId)
     {
         // plastic|flat|flat-squared|social
-        $style     = $this->getParam('style', 'flat');
-        $label     = $this->getParam('label', 'build');
+        $style = $this->getParam('style', 'flat');
+        $label = $this->getParam('label', 'build');
 
         $optionalParams = [
             'logo'      => $this->getParam('logo'),
@@ -147,20 +151,29 @@ class BuildStatusController extends Controller
             return $response;
         }
 
-        $color = ($status == 'passing') ? 'green' : 'red';
-        $image = file_get_contents(sprintf(
+        $color    = ($status == 'passing') ? 'green' : 'red';
+        $imageUrl = sprintf(
             'http://img.shields.io/badge/%s-%s-%s.svg?style=%s',
             $label,
             $status,
             $color,
             $style
-        ));
+        );
         
         foreach ($optionalParams as $paramName => $param) {
             if ($param) {
-                $image .= '&' . $paramName . '=' . $param;
+                $imageUrl .= '&' . $paramName . '=' . $param;
             }
         }
+
+        $cacheDir  = RUNTIME_DIR . '/status_cache/';
+        $cacheFile = $cacheDir . md5($imageUrl) . '.svg';
+        if (!is_file($cacheFile)) {
+            $image = file_get_contents($imageUrl);
+            file_put_contents($cacheFile, $image);
+        }
+
+        $image = file_get_contents($cacheFile);
 
         $this->response->disableLayout();
         $this->response->setHeader('Content-Type', 'image/svg+xml');
