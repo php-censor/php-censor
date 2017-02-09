@@ -12,6 +12,8 @@ Configuration
 
 * **args** - Optional - The string of arguments to be passed to the run command.**Important**, due to the assumption made on line 132 regarding the value of `--xml` being the next argument which will not be correct if the user provides arguments using this config param, you must specify `report.xml` before any user input arguments to satisfy the report processing on line 146.
 
+* **path** - Optional - The path from the root of your project to the root of the codeception `_output` directory
+
 #### Default values
 
 - config
@@ -21,11 +23,25 @@ Configuration
 
 - args
  - Empty string
+ 
+- path
+ - `tests/_output/`
+ - `test/_log`
 
 ### Examples
 
+```yml
+codeception:
+  config: "codeception.yml"
+  args:   "--no-ansi --coverage-html"
 ```
-  codeception:
-    config: "codeception.yml"
-    args:   "--no-ansi --coverage-html"
+
+Or
+
+```yml
+codeception:
+  config: "subdir1/subdir2"
+  args:   "report.xml -vv "
+  path:
+    - "subdir1/subdir2/tests/_output/"
 ```

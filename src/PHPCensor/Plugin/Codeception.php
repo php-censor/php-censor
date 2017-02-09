@@ -64,11 +64,13 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
         } else {
             $this->ymlConfigFile = $options['config'];
         }
+
         if (isset($options['args'])) {
             $this->args = (string) $options['args'];
         }
+
         if (isset($options['path'])) {
-            $this->path = $options['path'];
+            array_unshift($this->path, $options['path']);
         }
     }
 
@@ -146,7 +148,7 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
         
         if (!file_exists($outputPath . 'report.xml')) {
             foreach ($this->path as $path) {
-                $outputPath = $this->builder->buildPath . $path . '/';
+                $outputPath = $this->builder->buildPath . rtrim($path, '/\\') . '/';
                 if (file_exists($outputPath . 'report.xml')) {
                     break;
                 }
