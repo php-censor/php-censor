@@ -52,7 +52,7 @@
                 <h3 class="timeline-header">
                     <a href="<?php print APP_URL; ?>project/view/<?php print $build->getProjectId(); ?>">
                         <?php print $build->getProject()->getTitle(); ?>
-                    </a>
+                    </a> (<?= $build->getProject()->getBranch(); ?>) 
                     -
                     <a href="<?php print APP_URL; ?>build/view/<?php print $build->getId(); ?>">
                         Build #<?php print $build->getId(); ?>
