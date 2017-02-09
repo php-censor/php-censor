@@ -136,8 +136,7 @@ class Executor
         foreach ($plugins as $plugin => $options) {
             $this->logger->log("\n" . 
                 sprintf('RUNNING PLUGIN: %s', Lang::get($plugin)) . ' (' .
-                'Stage' . ': ' . 
-                Lang::get('stage_' . $stage) . ')'
+                'Stage' . ': ' . ucfirst($stage) . ')'
             );
 
             $this->setPluginStatus($stage, $plugin, Build::STATUS_RUNNING);

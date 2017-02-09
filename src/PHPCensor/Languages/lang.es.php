@@ -289,5 +289,4 @@ PHP Censor',
     'passing_build' => 'Build Exitoso',
     'failing_build' => 'Build Fallido',
     'log_output' => 'Log de Salida: ',
-    'shell_not_enabled' => 'El plugin shell no está habilitado. Por favor, habilitalo desde config.yml.'
 ];

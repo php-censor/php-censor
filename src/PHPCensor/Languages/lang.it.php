@@ -295,5 +295,4 @@ PHP Censor',
     'passing_build' => 'Build passata',
     'failing_build' => 'Build fallita',
     'log_output' => 'Log: ',
-    'shell_not_enabled' => 'Il plugin shell non è attivato. Per favore attivalo tramite config.yml.'
 ];

@@ -365,8 +365,9 @@ PHP Censor',
     'failed_allowed' => 'Autorisé',
     
     // Build Plugins:
-    'log_output' => 'Sortie de log : ',
-    'shell_not_enabled' => 'Le plugn shell n\'est pas activé. Merci de l\'activer via le fichier config.yml.',
+    'passing_build' => 'Build réussi',
+    'failing_build' => 'Build en echec',
+    'log_output'    => 'Sortie de log : ',
     
     // Error Levels:
     'critical' => 'Critique',

@@ -335,7 +335,6 @@ PHP Censor',
     'passing_build' => 'Успех сборки',
     'failing_build' => 'Провал сборки',
     'log_output' => 'Вывод лога: ',
-    'shell_not_enabled' => 'Плагин shell не включен. Пожалуйста, включите его в файле config.yml.',
     
     // Error Levels:
     'critical' => 'Критичный',

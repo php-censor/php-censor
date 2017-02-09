@@ -10,7 +10,6 @@
 namespace PHPCensor\Plugin;
 
 use PHPCensor\Builder;
-use PHPCensor\Helper\Lang;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin\Util\TestResultParsers\Codeception as Parser;
 use PHPCensor\Plugin;

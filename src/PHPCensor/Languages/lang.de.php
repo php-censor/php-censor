@@ -316,7 +316,6 @@ generiert. Um es zu verwenden, fügen Sie einfach den folgenden Public Key im Ab
     'passing_build' => 'Durchlaufender Build',
     'failing_build' => 'Fehlschlagender Build',
     'log_output' => 'Protokollausgabe: ',
-    'shell_not_enabled' => 'Das Shell-Plugin ist nicht aktiviert. Bitte aktivieren Sie es via config.yml.',
 
     // Error Levels:
     'critical' => 'Kritisch',

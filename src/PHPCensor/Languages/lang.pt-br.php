@@ -317,7 +317,6 @@ PHP Censor',
     'passing_build' => 'Passing Build',
     'failing_build' => 'Failing Build',
     'log_output' => 'Log Output: ',
-    'shell_not_enabled' => 'The shell plugin is not enabled. Please enable it via config.yml.',
 
     // Error Levels:
     'critical' => 'Critical',

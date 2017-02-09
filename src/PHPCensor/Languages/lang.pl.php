@@ -296,5 +296,4 @@ wywołaniu polecenia composer update.',
     'passing_build' => 'Pomijanie Budowania',
     'failing_build' => 'Niepowodzenie Budowania',
     'log_output' => 'Log Wyjściowy:',
-    'shell_not_enabled' => 'Plugin powłoki jest nieaktywny. Aktywuj go poprzez config.yml.'
 ];

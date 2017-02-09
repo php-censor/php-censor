@@ -293,5 +293,4 @@ du kører composer update.',
     'passing_build' => 'Succesfuldt Build',
     'failing_build' => 'Fejlet Build',
     'log_output' => 'Log-output:',
-    'shell_not_enabled' => 'Shell-plugin er ikke aktiveret. Aktivér det via config.yml.'
 ];

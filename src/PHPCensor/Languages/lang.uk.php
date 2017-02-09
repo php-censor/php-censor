@@ -295,5 +295,4 @@ PHP Censor',
     'passing_build' => 'Успішно збірка',
     'failing_build' => 'Невдала збірка',
     'log_output' => 'Вивід лога:',
-    'shell_not_enabled' => 'Плагін shell не увімкнений. Будь ласка, увімкніть його через config.yml.'
 ];

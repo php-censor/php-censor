@@ -295,5 +295,4 @@ keer je composer update uitvoert.',
     'passing_build' => 'Slagende build',
     'failing_build' => 'Falende build',
     'log_output' => 'Log output:',
-    'shell_not_enabled' => 'De shell plugin is niet ingeschakeld, schakel deze a.u.b. in via het config.yml bestand.'
 ];
