@@ -67,6 +67,9 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
         if (isset($options['args'])) {
             $this->args = (string) $options['args'];
         }
+        if (isset($options['path'])) {
+            $this->path = $options['path'];
+        }
     }
 
     /**
