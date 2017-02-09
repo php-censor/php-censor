@@ -66,7 +66,7 @@ class Irc extends Plugin
         $msg = $this->builder->interpolate($this->message);
 
         if (empty($this->server) || empty($this->room) || empty($this->nick)) {
-            $this->builder->logFailure(Lang::get('irc_settings'));
+            $this->builder->logFailure('You must configure a server, room and nick.');
         }
 
         if (empty($this->port)) {

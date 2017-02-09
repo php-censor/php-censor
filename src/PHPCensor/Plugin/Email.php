@@ -76,8 +76,8 @@ class Email extends Plugin
         );
 
         // This is a success if we've not failed to send anything.
-        $this->builder->log(Lang::get('n_emails_sent', (count($addresses) - $sendFailures)));
-        $this->builder->log(Lang::get('n_emails_failed', $sendFailures));
+        $this->builder->log(sprintf('%d emails sent.', (count($addresses) - $sendFailures)));
+        $this->builder->log(sprintf('%d emails failed to send.', $sendFailures));
 
         return ($sendFailures === 0);
     }

@@ -48,7 +48,7 @@ class Env extends Plugin
 
             if (!putenv($this->builder->interpolate($env_var))) {
                 $success = false;
-                $this->builder->logFailure(Lang::get('unable_to_set_env'));
+                $this->builder->logFailure('Unable to set environment variable');
             }
         }
         return $success;

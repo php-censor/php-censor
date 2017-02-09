@@ -132,7 +132,7 @@ class Builder implements LoggerAwareInterface
     public function setConfigArray($config)
     {
         if (is_null($config) || !is_array($config)) {
-            throw new \Exception(Lang::get('missing_app_yml'));
+            throw new \Exception('This project does not contain a .php-censor.yml (.phpci.yml|phpci.yml) file, or it is empty.');
         }
 
         $this->config = $config;
@@ -225,20 +225,20 @@ class Builder implements LoggerAwareInterface
             }
         } catch (\Exception $ex) {
             $this->build->setStatus(Build::STATUS_FAILED);
-            $this->buildLogger->logFailure(Lang::get('exception') . $ex->getMessage(), $ex);
+            $this->buildLogger->logFailure('Exception: ' . $ex->getMessage(), $ex);
         }
 
         if (Build::STATUS_FAILED === $this->build->getStatus()) {
-            $this->buildLogger->logFailure("\n" . Lang::get('build_failed'));
+            $this->buildLogger->logFailure("\nBUILD FAILED");
         } else {
-            $this->buildLogger->logSuccess("\n" . Lang::get('build_success'));
+            $this->buildLogger->logSuccess("\nBUILD SUCCESS");
         }
 
         try {
             // Complete stage plugins are always run
             $this->pluginExecutor->executePlugins($this->config, 'complete');
         } catch (\Exception $ex) {
-            $this->buildLogger->logFailure(Lang::get('exception') . $ex->getMessage());
+            $this->buildLogger->logFailure('Exception: ' . $ex->getMessage());
         }
 
         // Update the build in the database, ping any external services, etc.
@@ -248,7 +248,7 @@ class Builder implements LoggerAwareInterface
         $removeBuilds = (bool)Config::getInstance()->get('php-censor.build.remove_builds', true);
         if ($removeBuilds) {
             // Clean up:
-            $this->buildLogger->log("\n" . Lang::get('removing_build'));
+            $this->buildLogger->log("\nRemoving Build.");
             $this->build->removeBuildDirectory();
         }
 
@@ -320,7 +320,7 @@ class Builder implements LoggerAwareInterface
 
         // Create a working copy of the project:
         if (!$this->build->createWorkingCopy($this, $this->buildPath)) {
-            throw new \Exception(Lang::get('could_not_create_working'));
+            throw new \Exception('Could not create a working copy.');
         }
 
         // Does the project's .php-censor.yml request verbose mode?
@@ -333,7 +333,8 @@ class Builder implements LoggerAwareInterface
             $this->ignore = $this->config['build_settings']['ignore'];
         }
 
-        $this->buildLogger->logSuccess(Lang::get('working_copy_created', $this->buildPath));
+        $this->buildLogger->logSuccess(sprintf('Working copy created: %s', $this->buildPath));
+
         return true;
     }
 

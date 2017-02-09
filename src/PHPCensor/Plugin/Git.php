@@ -109,7 +109,7 @@ class Git extends Plugin
     protected function runTagAction($options)
     {
         $tagName = date('Ymd-His');
-        $message = Lang::get('tag_created', date('Y-m-d H:i:s'));
+        $message = sprintf('Tag created by PHP Censor: %s', date('Y-m-d H:i:s'));
 
         if (array_key_exists('name', $options)) {
             $tagName = $this->builder->interpolate($options['name']);

@@ -89,7 +89,7 @@ class Atoum extends Plugin
         }
         if (count($output) == 0) {
             $status = false;
-            $this->builder->log(Lang::get('no_tests_performed'));
+            $this->builder->log('No tests have been performed.');
         }
         
         return $status;

@@ -204,7 +204,7 @@ class Phar extends Plugin
 
             $success = true;
         } catch (\Exception $e) {
-            $this->builder->log(Lang::get('phar_internal_error'));
+            $this->builder->log('Phar Plugin Internal Error');
             $this->builder->log($e->getMessage());
         }
 

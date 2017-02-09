@@ -66,7 +66,7 @@ class Behat extends Plugin
         $behat = $this->executable;
 
         if (!$behat) {
-            $this->builder->logFailure(Lang::get('could_not_find', 'behat'));
+            $this->builder->logFailure(sprintf('Could not find %s', 'behat'));
 
             return false;
         }

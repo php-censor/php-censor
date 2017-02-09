@@ -59,7 +59,7 @@ class Campfire extends Plugin
             $this->authToken = $campfire['authToken'];
             $this->roomId    = $campfire['roomId'];
         } else {
-            throw new \Exception(Lang::get('no_campfire_settings'));
+            throw new \Exception('No connection parameters given for Campfire plugin');
         }
     }
 

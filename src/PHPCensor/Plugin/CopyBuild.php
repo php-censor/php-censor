@@ -81,7 +81,7 @@ class CopyBuild extends Plugin
             $success = $this->builder->executeCommand($cmd, $this->directory);
 
             if (!$success) {
-                throw new \Exception(Lang::get('failed_to_wipe', $this->directory));
+                throw new \Exception(sprintf('Failed to wipe existing directory %s before copy', $this->directory));
             }
         }
     }
