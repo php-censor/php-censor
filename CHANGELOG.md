@@ -1,6 +1,37 @@
 Change Log
 ==========
 
+## [PHP Censor v0.8.0](https://github.com/corpsee/php-censor/tree/0.8.0) (2017-02-09)
+
+[Full Changelog](https://github.com/corpsee/php-censor/compare/0.7.0...0.8.0)
+
+* **Refactored console/commands. Removed localization from logs.**
+* **Removed hacks for Windows (IS_WIN constant). Because it doesn't work on Windows normally anyway.**
+* Improved README and Documentation.
+* Added param `config-from-file` for installing application with prepared config:
+
+```bash
+cd ./php-censor.local
+
+# Non-interactive installation with prepared config.yml file
+./bin/console php-censor:install --config-from-file=yes --admin-name=admin --admin-password=admin --admin-email='admin@php-censor.local'
+```
+
+* Added params for non-interactive admin creating:
+
+```bash
+cd ./php-censor.local
+
+# Non-interactive admin creating
+./bin/console php-censor:create-admin --admin-name=admin --admin-password=admin --admin-email='admin@php-censor.local'
+```
+
+* Added caching for public build status badge. Issue #15.
+* Added build from Gogs (build type and webhook). The feature is based on @denji`s code. Issue #13.
+* Improved Codeception plugin. Thanks to @vinpel. PullRequest #16.
+* Updated french translation. Thanks to @vinpel. PullRequest #16.
+* Fixed init language. Issue #9.
+
 ## [PHP Censor v0.7.0](https://github.com/corpsee/php-censor/tree/0.7.0) (2017-01-29)
 
 [Full Changelog](https://github.com/corpsee/php-censor/compare/0.6.0...0.7.0)
