@@ -56,8 +56,9 @@
 
     "mnsami/composer-custom-directory-installer": "1.1.*",
 
-    "bower-asset/admin-lte":    "2.3.*",
     "npm-asset/sprintf-js":     "1.0.*",
+    "npm-asset/codemirror":     "5.*",
+    "bower-asset/admin-lte":    "2.3.*",
     "bower-asset/font-awesome": "4.7.*",
     "bower-asset/ionicons":     "2.0.*",
     "bower-asset/raphael":      "2.2.*",
@@ -74,8 +75,9 @@
   },
   "extra": {
     "installer-paths": {
-      "public/assets/vendor/admin-lte":    ["bower-asset/admin-lte"],
       "public/assets/vendor/sprintf-js":   ["npm-asset/sprintf-js"],
+      "public/assets/vendor/codemirror":   ["npm-asset/codemirror"],
+      "public/assets/vendor/admin-lte":    ["bower-asset/admin-lte"],
       "public/assets/vendor/font-awesome": ["bower-asset/font-awesome"],
       "public/assets/vendor/ion-icons":    ["bower-asset/ionicons"],
       "public/assets/vendor/raphael":      ["bower-asset/raphael"],
