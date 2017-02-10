@@ -571,3 +571,15 @@ h6,
 .btn-group-right {
     float: right;
 }
+
+.CodeMirror {
+    border: 1px solid #ccc;
+}
+
+.CodeMirror pre {
+    font-size: 12px !important; 
+}
+
+.CodeMirror-linenumber {
+    font-size: 12px;
+}
