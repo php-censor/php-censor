@@ -583,3 +583,8 @@ h6,
 .CodeMirror-linenumber {
     font-size: 12px;
 }
+
+.bg-grey {
+    background-color: #8aa4af !important;
+    color: #fff !important;
+}

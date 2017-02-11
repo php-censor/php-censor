@@ -4,7 +4,7 @@ use PHPCensor\Helper\Lang;
 foreach($projects as $project):
     $statuses = [];
     $failures = 0;
-    $subcls   = 'yellow';
+    $subcls   = 'grey';
     $cls      = '';
     $success  = null;
     $failure  = null;
@@ -104,18 +104,18 @@ foreach($projects as $project):
 
             <?php for ($idx=0; $idx < 5; $idx++) {
             if (empty($builds[$project->getId()][$idx])) {
-                echo '<span class="small-box-footer-build small-box-footer bg-blue"><i class="fa fa-minus"></i></span>';
+                echo '<span class="small-box-footer-build small-box-footer bg-grey"><i class="fa fa-minus"></i></span>';
             } else {
                 $build = $builds[$project->getId()][$idx];
                 $link = APP_URL . 'build/view/' . $build->id;
                 switch ($build->getStatus()) {
                     case 0:
                         $class = 'bg-blue';
-                        $icon = 'fa-minus';
+                        $icon = 'fa-clock-o';
                         break;
                     case 1:
                         $class = 'bg-yellow';
-                        $icon = 'fa-clock-o';
+                        $icon = 'fa-cogs';
                         break;
                     case 2:
                         $class = 'bg-green';

@@ -141,13 +141,10 @@ class Project extends ProjectBase
                 $icon = 'bitbucket';
                 break;
 
-            case 'git':
+            case 'remote':
             case 'gitlab':
-                $icon = 'git';
-                break;
-
             default:
-                $icon = 'cog';
+                $icon = 'code-fork';
                 break;
         }
 
