@@ -1,6 +1,15 @@
 Change Log
 ==========
 
+## [PHP Censor v0.9.0](https://github.com/corpsee/php-censor/tree/0.9.0) (2017-02-11)
+
+[Full Changelog](https://github.com/corpsee/php-censor/compare/0.8.0...0.9.0)
+
+* **Fixed multiple install command execution (Now admin and project group don't duplicate).**
+* Added yaml highlight for build config in project page.
+* Improved Gogs support. Thanks to @vinpel. PullRequest #18.
+* Improved dashboard UI.
+
 ## [PHP Censor v0.8.0](https://github.com/corpsee/php-censor/tree/0.8.0) (2017-02-09)
 
 [Full Changelog](https://github.com/corpsee/php-censor/compare/0.7.0...0.8.0)
