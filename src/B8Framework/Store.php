@@ -304,7 +304,7 @@ abstract class Store
         }
 
         if (strpos($field, '.') === false) {
-            return $this->tableName . '.' . $field;
+            return '{{' . $this->tableName . '}}.{{' . $field . '}}';
         }
 
         return $field;
