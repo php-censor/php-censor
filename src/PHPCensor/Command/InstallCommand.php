@@ -9,6 +9,7 @@ use b8\Config;
 use b8\Store\Factory;
 use PHPCensor\Model\ProjectGroup;
 use PHPCensor\Store\UserStore;
+use PHPCensor\Store\ProjectGroupStore;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
@@ -474,7 +475,12 @@ class InstallCommand extends Command
     {
         try {
             /** @var UserStore $userStore */
-            $userStore   = Factory::getStore('User');
+            $userStore = Factory::getStore('User');
+            $adminUser = $userStore->getByEmail($admin['email']);
+            if ($adminUser) {
+                throw new \RuntimeException('Admin account already exists!');
+            }
+
             $userService = new UserService($userStore);
             $userService->createUser($admin['name'], $admin['email'], 'internal', json_encode(['type' => 'internal']), $admin['password'], true);
 
@@ -491,6 +497,13 @@ class InstallCommand extends Command
     protected function createDefaultGroup($output)
     {
         try {
+            /** @var ProjectGroupStore $projectGroupStore */
+            $projectGroupStore = Factory::getStore('ProjectGroup');
+            $projectGroup      = $projectGroupStore->getByTitle('Projects');
+            if ($projectGroup) {
+                throw new \RuntimeException('Default project group already exists!');
+            }
+
             $group = new ProjectGroup();
             $group->setTitle('Projects');
 

@@ -68,7 +68,8 @@ class UserStoreBase extends Store
         }
 
         $query = 'SELECT * FROM {{user}} WHERE {{email}} = :email LIMIT 1';
-        $stmt = Database::getConnection()->prepareCommon($query);
+        $stmt  = Database::getConnection()->prepareCommon($query);
+
         $stmt->bindValue(':email', $value);
 
         if ($stmt->execute()) {

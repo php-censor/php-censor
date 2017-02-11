@@ -30,7 +30,13 @@ class ProjectGroupStoreBase extends Store
 
     /**
      * Get a single ProjectGroup by Id.
-     * @return null|ProjectGroup
+     * 
+     * @param integer $value
+     * @param string  $useConnection
+     * 
+     * @return ProjectGroup|null
+     * 
+     * @throws HttpException
      */
     public function getById($value, $useConnection = 'read')
     {
@@ -39,8 +45,39 @@ class ProjectGroupStoreBase extends Store
         }
 
         $query = 'SELECT * FROM {{project_group}} WHERE {{id}} = :id LIMIT 1';
-        $stmt = Database::getConnection($useConnection)->prepareCommon($query);
+        $stmt  = Database::getConnection($useConnection)->prepareCommon($query);
+
         $stmt->bindValue(':id', $value);
+
+        if ($stmt->execute()) {
+            if ($data = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+                return new ProjectGroup($data);
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Get a single ProjectGroup by title.
+     *
+     * @param integer $value
+     * @param string  $useConnection
+     *
+     * @return ProjectGroup|null
+     *
+     * @throws HttpException
+     */
+    public function getByTitle($value, $useConnection = 'read')
+    {
+        if (is_null($value)) {
+            throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
+        }
+
+        $query = 'SELECT * FROM {{project_group}} WHERE {{title}} = :title LIMIT 1';
+        $stmt  = Database::getConnection($useConnection)->prepareCommon($query);
+
+        $stmt->bindValue(':title', $value);
 
         if ($stmt->execute()) {
             if ($data = $stmt->fetch(\PDO::FETCH_ASSOC)) {
