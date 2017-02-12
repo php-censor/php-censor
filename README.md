@@ -15,6 +15,17 @@ PHP Censor
 
 More [screenshots](docs/en/screenshots.md).
 
+* [System requirements](#system-requirements)
+* [Features](#features)
+* [Installing](#installing)
+* [Installing via Docker](#installing-via-docker)
+* [Updating](#updating)
+* [Configuring project](#configuring-project)
+* [Migrations](#migrations)
+* [Tests](#tests)
+* [Documentation](#documentation)
+* [License](#license)
+
 System requirements
 -------------------
 
@@ -46,41 +57,6 @@ PHPMessDetect, PHPTalLint and TechnicalDept;
 CopyBuild, Deployer, Env, Git, Grunt, Gulp, PackageBuild, Phar, Phing, Shell and Wipe;
 
 * Send notifications on Email, XMPP, Slack, IRC, Flowdock and HipChat;
-
-Configuring
------------
-
-There are several ways to set up the project:
-
-* Add project without any project config (Runs "zero-config" plugins, including: Composer, TechnicalDept, PHPLoc, 
-PHPCpd, PHPCodeSniffer, PHPMessDetect, PHPDocblockChecker, PHPParallelLint, PHPUnit and Codeception);
-
-* Similar to [Travis CI](https://travis-ci.org), to support PHP Censor in your project, you simply need to add a 
-`.php-censor.yml` (`phpci.yml`/`.phpci.yml` for backward compatibility with PHPCI) file to the root of your repository;
-
-* Add project config in PHP Censor project page (And it will cancel file config from project repository);
-
-The project config should look something like this:
-
-```yml
-setup:
-  composer:
-    action: "install"
-test:
-  php_unit:
-    config: "phpunit.xml"
-  php_mess_detector:
-    allow_failures: true
-  php_code_sniffer:
-    standard: "PSR2"
-  php_cpd:
-    allow_failures: true
-complete:
-  email:
-    default_mailto_address: admin@php-censor.local
-```
-
-More details about [configuring project](docs/en/configuring_project.md).
 
 Installing
 ----------
@@ -129,6 +105,12 @@ PHP Censor directory. You'll need to set up rewrite rules to point all non-exist
 * [Set up the PHP Censor Worker](docs/en/workers/worker.md) (Need configured Queue) or 
 [a cron-job](docs/en/workers/cron.md) to run PHP Censor builds;
 
+Installing via Docker
+--------------------
+
+If you want to install PHP Censor as Docker container, you can use 
+[ket4yii/docker-php-censor](https://github.com/ket4yii/docker-php-censor) project.
+
 Updating
 --------
 
@@ -151,6 +133,41 @@ git pull -r
 ```bash
 ./bin/console php-censor-migrations:migrate
 ```
+
+Configuring project
+-------------------
+
+There are several ways to set up the project:
+
+* Add project without any project config (Runs "zero-config" plugins, including: Composer, TechnicalDept, PHPLoc, 
+PHPCpd, PHPCodeSniffer, PHPMessDetect, PHPDocblockChecker, PHPParallelLint, PHPUnit and Codeception);
+
+* Similar to [Travis CI](https://travis-ci.org), to support PHP Censor in your project, you simply need to add a 
+`.php-censor.yml` (`phpci.yml`/`.phpci.yml` for backward compatibility with PHPCI) file to the root of your repository;
+
+* Add project config in PHP Censor project page (And it will cancel file config from project repository);
+
+The project config should look something like this:
+
+```yml
+setup:
+  composer:
+    action: "install"
+test:
+  php_unit:
+    config: "phpunit.xml"
+  php_mess_detector:
+    allow_failures: true
+  php_code_sniffer:
+    standard: "PSR2"
+  php_cpd:
+    allow_failures: true
+complete:
+  email:
+    default_mailto_address: admin@php-censor.local
+```
+
+More details about [configuring project](docs/en/configuring_project.md).
 
 Migrations
 ----------
