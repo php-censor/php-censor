@@ -573,15 +573,7 @@ class BuildBase extends Model
             return null;
         }
 
-        $cacheKey = 'Cache.Project.' . $key;
-        $rtn      = $this->cache->get($cacheKey, null);
-
-        if (empty($rtn)) {
-            $rtn = Factory::getStore('Project', 'PHPCensor')->getById($key);
-            $this->cache->set($cacheKey, $rtn);
-        }
-
-        return $rtn;
+        return Factory::getStore('Project', 'PHPCensor')->getById($key);
     }
 
     /**
