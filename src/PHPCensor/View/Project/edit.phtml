@@ -2,14 +2,14 @@
 <script src="<?= APP_URL; ?>assets/vendor/codemirror/mode/yaml/yaml.js"></script>
 <link href="<?= APP_URL; ?>assets/vendor/codemirror/lib/codemirror.css" rel="stylesheet" type="text/css" />
 <script>
-    setupProjectForm();
-
     $(document).ready(function () {
         CodeMirror.fromTextArea(document.getElementById('element-build_config'), {
             mode: "yaml",
             lineWrapping: true,
             lineNumbers: true
         });
+
+        setupProjectForm();
     });
 </script>
 
@@ -40,19 +40,3 @@
     <?php endif; ?>
 
 </div>
-
-<script>
-window.return_url = <?php print json_encode((empty($_SERVER['HTTPS']) ? 'http' : 'https') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']); ?>;
-
-<?php
-$gh = \b8\Config::getInstance()->get('php-censor.github', null);
-
-if($gh) {
-    print 'window.github_app_id = ' . json_encode($gh['id']) . ';' . PHP_EOL;
-}
-
-if(!empty($token)) {
-    print 'window.github_token = ' . json_encode($token) . ';' . PHP_EOL;
-}
-?>
-</script>

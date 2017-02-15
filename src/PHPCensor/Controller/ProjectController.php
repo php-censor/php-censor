@@ -251,6 +251,7 @@ class ProjectController extends PHPCensor\Controller
 
             $response = new b8\Http\Response\RedirectResponse();
             $response->setHeader('Location', APP_URL.'project/view/' . $project->getId());
+
             return $response;
         }
     }
@@ -316,6 +317,7 @@ class ProjectController extends PHPCensor\Controller
 
         $response = new b8\Http\Response\RedirectResponse();
         $response->setHeader('Location', APP_URL.'project/view/' . $project->getId());
+
         return $response;
     }
 
