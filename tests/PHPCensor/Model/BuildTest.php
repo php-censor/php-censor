@@ -29,7 +29,6 @@ class BuildTest extends \PHPUnit_Framework_TestCase
         $build = new Build();
         $this->assertTrue($build instanceof \b8\Model);
         $this->assertTrue($build instanceof Model);
-        $this->assertTrue($build instanceof Model\Base\BuildBase);
     }
 
     public function testExecute_TestBaseBuildDefaults()

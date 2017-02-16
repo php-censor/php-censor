@@ -20,16 +20,11 @@ use PHPCensor\Model;
  */
 class ProjectTest extends \PHPUnit_Framework_TestCase
 {
-    public function setUp()
-    {
-    }
-
     public function testExecute_TestIsAValidModel()
     {
         $project = new Project();
         $this->assertTrue($project instanceof \b8\Model);
         $this->assertTrue($project instanceof Model);
-        $this->assertTrue($project instanceof Model\Base\ProjectBase);
     }
 
     public function testExecute_TestGitDefaultBranch()
