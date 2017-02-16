@@ -26,4 +26,15 @@ class GogsBuild extends RemoteGitBuild
     {
         return $this->getProject()->getReference() . '/src/' . $this->getBranch();
     }
+    /**
+     * Get link to specific file (and line) in a the repo's branch
+     */
+    public function getFileLinkTemplate()
+    {
+        return sprintf(
+            '%s/src/%s/{FILE}#L{LINE}',
+            $this->getProject()->getReference(),
+            $this->getCommitId()
+        );
+    }
 }
