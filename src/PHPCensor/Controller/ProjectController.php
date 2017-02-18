@@ -115,8 +115,16 @@ class ProjectController extends PHPCensor\Controller
             throw new NotFoundException(Lang::get('project_x_not_found', $projectId));
         }
 
+        $debug = (boolean)$this->getParam('debug', false);
+        $extra = null;
+        if ($debug && $this->currentUserIsAdmin()) {
+            $extra = [
+                'debug' => true,
+            ];
+        }
+
         $email = $_SESSION['php-censor-user']->getEmail();
-        $build = $this->buildService->createBuild($project, null, urldecode($branch), $email);
+        $build = $this->buildService->createBuild($project, null, urldecode($branch), $email, null, $extra);
 
         if ($this->buildService->queueError) {
             $_SESSION['global_error'] = Lang::get('add_to_queue_failed');

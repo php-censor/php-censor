@@ -38,7 +38,7 @@ class BuildLogger implements LoggerAwareInterface
     public function __construct(LoggerInterface $logger, Build $build)
     {
         $this->logger = $logger;
-        $this->build = $build;
+        $this->build  = $build;
     }
 
     /**
@@ -101,7 +101,10 @@ class BuildLogger implements LoggerAwareInterface
      */
     public function logDebug($message)
     {
-        if (defined('DEBUG_MODE') && DEBUG_MODE) {
+        if (
+            (defined('DEBUG_MODE') && DEBUG_MODE) ||
+            ((boolean)$this->build->getExtra('debug'))
+        ) {
             $this->log("\033[0;36m" . $message . "\033[0m");
         }
     }
