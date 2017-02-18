@@ -63,7 +63,7 @@ class BuildTest extends \PHPUnit_Framework_TestCase
         ];
 
         $build = new Build();
-        $build->setExtra(json_encode($info));
+        $build->setExtra($info);
 
         $this->assertEquals('Item One', $build->getExtra('item1'));
         $this->assertEquals(2, $build->getExtra('item2'));

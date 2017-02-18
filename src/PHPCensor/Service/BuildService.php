@@ -87,7 +87,7 @@ class BuildService
         }
 
         if (!is_null($extra)) {
-            $build->setExtra(json_encode($extra));
+            $build->setExtra($extra);
         }
 
         $build = $this->buildStore->save($build);

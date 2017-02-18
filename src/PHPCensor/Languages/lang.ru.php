@@ -65,6 +65,7 @@ PHP Censor',
     'plugins' => 'Плагины',
     'view' => 'Отчет',
     'build_now' => 'Собрать',
+    'build_now_debug' => 'Собрать в режиме отладки',
     'edit_project' => 'Редактировать проект',
     'delete_project' => 'Удалить проект',
 

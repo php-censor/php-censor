@@ -16,7 +16,13 @@
 
     <div class="pull-right btn-group">
         <?php if (!$project->getArchived()): ?>
-            <a class="btn btn-success" href="<?php print APP_URL . 'project/build/' . $project->getId(); ?><?php echo !empty($branch) ? '/' . urlencode($branch) : '' ?>">
+            <?php if($this->User()->getIsAdmin()): ?>
+                <a class="btn btn-danger" href="<?= APP_URL . 'project/build/' . $project->getId(); ?><?= !empty($branch) ? '/' . urlencode($branch) : '' ?>?debug=1">
+                    <?php Lang::out('build_now_debug'); ?>
+                </a>
+            <?php endif; ?>
+
+            <a class="btn btn-success" href="<?= APP_URL . 'project/build/' . $project->getId(); ?><?= !empty($branch) ? '/' . urlencode($branch) : '' ?>">
                 <?php Lang::out('build_now'); ?>
             </a>
         <?php endif; ?>

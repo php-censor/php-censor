@@ -522,6 +522,8 @@ class Build extends Model
      */
     public function setExtra($value)
     {
+        $value = json_encode($value);
+        
         $this->validateString('Extra', $value);
 
         if ($this->data['extra'] === $value) {
