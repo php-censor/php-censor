@@ -10,7 +10,7 @@ setup:
 test:
   php_unit:
     config:
-      - phpunit.xml
+      - phpunit.mysql.xml
     coverage: coverage
 
   php_mess_detector:

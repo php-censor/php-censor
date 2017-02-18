@@ -20,10 +20,10 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
                             ['host' => 'localhost'],
                         ],
                     ],
-                    'type'     => 'mysql',
-                    'name'     => 'b8_test',
-                    'username' => 'root',
-                    'password' => 'root',
+                    'type'     => DB_TYPE,
+                    'name'     => DB_NAME,
+                    'username' => DB_USER,
+                    'password' => DB_PASS,
                 ],
             ],
         ]);
@@ -56,9 +56,9 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
 
         $details = Database::getConnection('read')->getDetails();
         $this->assertTrue(is_array($details));
-        $this->assertTrue(($details['db'] == 'b8_test'));
-        $this->assertTrue(($details['user'] == 'root'));
-        $this->assertTrue(($details['pass'] == 'root'));
+        $this->assertTrue(($details['db'] == DB_NAME));
+        $this->assertTrue(($details['user'] == DB_USER));
+        $this->assertTrue(($details['pass'] == DB_PASS));
     }
 
     /**
