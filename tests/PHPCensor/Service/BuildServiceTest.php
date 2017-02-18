@@ -100,7 +100,7 @@ class BuildServiceTest extends \PHPUnit_Framework_TestCase
         $build->setFinished(new \DateTime());
         $build->setCommitMessage('test');
         $build->setCommitterEmail('test@example.com');
-        $build->setExtra(['item1' => 1001]);
+        $build->setExtra(json_encode(['item1' => 1001]));
 
         $returnValue = $this->testedService->createDuplicateBuild($build);
 
