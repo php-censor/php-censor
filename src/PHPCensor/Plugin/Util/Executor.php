@@ -176,21 +176,17 @@ class Executor
      */
     public function executePlugin($plugin, $options)
     {
-        // Any plugin name without a namespace separator is a PHPCI built in plugin
-        // if not we assume it's a fully name-spaced class name that implements the plugin interface.
-        // If not the factory will throw an exception.
-        if (strpos($plugin, '\\') === false) {
+        $class = $plugin;
+        if (!class_exists($class)) {
             $class = str_replace('_', ' ', $plugin);
             $class = ucwords($class);
             $class = 'PHPCensor\\Plugin\\' . str_replace(' ', '', $class);
-        } else {
-            $class = $plugin;
-        }
 
-        if (!class_exists($class)) {
-            $this->logger->logFailure(sprintf('Plugin does not exist: %s', $plugin));
+            if (!class_exists($class)) {
+                $this->logger->logFailure(sprintf('Plugin does not exist: %s', $plugin));
 
-            return false;
+                return false;
+            }
         }
 
         try {

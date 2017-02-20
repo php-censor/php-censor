@@ -100,8 +100,8 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
     {
         $options    = [];
         $pluginName = 'DOESNTEXIST';
-
-        $this->mockBuildLogger->logFailure('Plugin does not exist: ' . $pluginName)->shouldBeCalledTimes(1);
+        
+        $this->mockBuildLogger->logFailure(sprintf('Plugin does not exist: %s', $pluginName))->shouldBeCalledTimes(1);
 
         $this->testedExecutor->executePlugin($pluginName, $options);
     }
