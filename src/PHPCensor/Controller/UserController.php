@@ -69,8 +69,16 @@ class UserController extends Controller
             $name     = $this->getParam('name', null);
             $email    = $this->getParam('email', null);
             $password = $this->getParam('password', null);
+            
             $language = $this->getParam('language', null);
+            if (!$language) {
+                $language = null;
+            }
+
             $perPage  = $this->getParam('per_page', null);
+            if (!$perPage) {
+                $perPage = null;
+            }
 
             $_SESSION['php-censor-user'] = $this->userService->updateUser($user, $name, $email, $password, null, $language, $perPage);
             $user                        = $_SESSION['php-censor-user'];
@@ -115,7 +123,7 @@ class UserController extends Controller
         $language->setLabel(Lang::get('language'));
         $language->setRequired(true);
         $language->setOptions(array_merge(
-            ['' => Lang::get('default') . ' (' . b8\Config::getInstance()->get('php-censor.language') .  ')'],
+            [null => Lang::get('default') . ' (' . b8\Config::getInstance()->get('php-censor.language') .  ')'],
             Lang::getLanguageOptions())
         );
         $language->setValue($user->getLanguage());
@@ -216,10 +224,10 @@ class UserController extends Controller
             return $view->render();
         }
 
-        $name = $this->getParam('name', null);
-        $email = $this->getParam('email', null);
+        $name     = $this->getParam('name', null);
+        $email    = $this->getParam('email', null);
         $password = $this->getParam('password', null);
-        $isAdmin = (int)$this->getParam('is_admin', 0);
+        $isAdmin  = (int)$this->getParam('is_admin', 0);
 
         $this->userService->updateUser($user, $name, $email, $password, $isAdmin);
 

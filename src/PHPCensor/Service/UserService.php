@@ -82,7 +82,7 @@ class UserService
         if (!is_null($isAdmin)) {
             $user->setIsAdmin(($isAdmin ? 1 : 0));
         }
-
+        
         $user->setLanguage($language);
         $user->setPerPage($perPage);
 
