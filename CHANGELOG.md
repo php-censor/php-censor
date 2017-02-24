@@ -1,6 +1,25 @@
 Change Log
 ==========
 
+## [PHP Censor v0.10.0](https://github.com/corpsee/php-censor/tree/0.10.0) (2017-02-24)
+
+[Full Changelog](https://github.com/corpsee/php-censor/compare/0.9.0...0.10.0)
+
+* Added 'Build with debug' button to the project page (For admin user). Issue #22.
+* Fixed quoting for database entities.
+* Fixed project config reload for worker between builds. Issue #17.
+* Fixed problem with runtime/status_cache directory. Issue #19.
+* Fixed add/edit project page. Issue #21.
+* Fixed form name pattern. Thanks to @ket4yii. PullRequest #24.
+* Fixed build.log column size for MySQL (text -> longtext). Issue #26.
+* Fixed build_error.message column size (varchar(255) -> text).
+* Fixed profile language saving. Issue #11.
+* Fixed builds for branches which start with a hash character. Used @soulflyman code.
+* Improved Gogs support. Thanks to @vinpel. PullRequest #25.
+* Improved TravisCI build settings (Added DB tests for PostgreSQL and MySQL).
+* Improved README.
+
+
 ## [PHP Censor v0.9.0](https://github.com/corpsee/php-censor/tree/0.9.0) (2017-02-11)
 
 [Full Changelog](https://github.com/corpsee/php-censor/compare/0.8.0...0.9.0)
@@ -9,6 +28,7 @@ Change Log
 * Added yaml highlight for build config in project page.
 * Improved Gogs support. Thanks to @vinpel. PullRequest #18.
 * Improved dashboard UI.
+
 
 ## [PHP Censor v0.8.0](https://github.com/corpsee/php-censor/tree/0.8.0) (2017-02-09)
 
@@ -40,6 +60,7 @@ cd ./php-censor.local
 * Improved Codeception plugin. Thanks to @vinpel. PullRequest #16.
 * Updated french translation. Thanks to @vinpel. PullRequest #16.
 * Fixed init language. Issue #9.
+
 
 ## [PHP Censor v0.7.0](https://github.com/corpsee/php-censor/tree/0.7.0) (2017-01-29)
 
@@ -104,6 +125,7 @@ b8:
 
 Type of DB (`type`) should be `mysql` or `pgsql`
 
+
 ## [PHP Censor v0.6.0](https://github.com/corpsee/php-censor/tree/0.6.0) (2017-01-22)
 
 [Full Changelog](https://github.com/corpsee/php-censor/compare/0.5.0...0.6.0)
@@ -147,6 +169,7 @@ php-censor:
     default_user_id: 1
 ```
 
+
 ## [PHP Censor v0.5.0](https://github.com/corpsee/php-censor/tree/0.5.0) (2017-01-21)
 
 [Full Changelog](https://github.com/corpsee/php-censor/compare/0.4.0...0.5.0)
@@ -181,6 +204,7 @@ test:
     allow_failures: true
 ```
 
+
 ## [PHP Censor v0.4.0](https://github.com/corpsee/php-censor/tree/0.4.0) (2017-01-15)
 
 [Full Changelog](https://github.com/corpsee/php-censor/compare/0.3.0...0.4.0)
@@ -189,6 +213,7 @@ test:
 * Added ajax update for the main page (dashboard)
 * Added public status information to the project page
 * UI and localization fixes
+
 
 ## [PHP Censor v0.3.0](https://github.com/corpsee/php-censor/tree/0.3.0) (2017-01-11)
 
@@ -199,6 +224,7 @@ test:
 * Updated PHPUnit from 4.8 to 5.7
 * Improved build without config
 
+
 ## [PHP Censor v0.2.0](https://github.com/corpsee/php-censor/tree/0.2.0) (2017-01-07)
 
 [Full Changelog](https://github.com/corpsee/php-censor/compare/0.1.0...0.2.0)
@@ -207,6 +233,7 @@ test:
 * Improved UI
 * Added login by name (name or email)
 * Fixed public build status page
+
 
 ## [PHP Censor v0.1.0](https://github.com/corpsee/php-censor/tree/0.1.0) (2017-01-04)
 
