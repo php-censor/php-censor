@@ -26,7 +26,7 @@ Change Log
 
 * **Fixed multiple install command execution (Now admin and project group don't duplicate).**
 * Added yaml highlight for build config in project page.
-* Improved Gogs support. Thanks to @vinpel. PullRequest #18.
+* Improved Gogs support. Thanks to [@vinpel](https://github.com/vinpel). PullRequest #18.
 * Improved dashboard UI.
 
 
@@ -56,9 +56,9 @@ cd ./php-censor.local
 ```
 
 * Added caching for public build status badge. Issue #15.
-* Added build from Gogs (build type and webhook). The feature is based on @denji`s code. Issue #13.
-* Improved Codeception plugin. Thanks to @vinpel. PullRequest #16.
-* Updated french translation. Thanks to @vinpel. PullRequest #16.
+* Added build from Gogs (build type and webhook). The feature is based on [@denji](https://github.com/denji)'s code. Issue #13.
+* Improved Codeception plugin. Thanks to [@vinpel](https://github.com/vinpel). PullRequest #16.
+* Updated french translation. Thanks to [@vinpel](https://github.com/vinpel). PullRequest #16.
 * Fixed init language. Issue #9.
 
 
@@ -147,7 +147,8 @@ php-censor:
           mail_attribute: mail
 ```
 
-If you enter by new LDAP-user, the record in the DB will be created automatically. The basement of the feature is @Adirelle and @dzolotov code.
+If you enter by new LDAP-user, the record in the DB will be created automatically. The basement of the feature is 
+[@Adirelle](https://github.com/Adirelle) and [@dzolotov](https://github.com/dzolotov) code.
 
 * **Unified application configuration (app/config.yml) authentication options**
 

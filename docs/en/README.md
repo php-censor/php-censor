@@ -27,6 +27,8 @@ Using PHP Censor
 Plugins
 -------
 
+### Internal plugins
+
 * [Atoum](plugins/atoum.md) - `atoum`
 * [Behat](plugins/behat.md) - `behat`
 * [Campfire](plugins/campfire.md) - `campfire`
@@ -61,3 +63,7 @@ Plugins
 * [Slack](plugins/slack_notify.md) - `slack_notify`
 * [Technical Debt](plugins/technical_dept.md) - `technical_debt`
 * [XMPP](plugins/xmpp.md) - `xmpp`
+
+### Third-party plugins
+
+* [Telegram](https://github.com/LEXASOFT/PHP-Censor-Telegram-Plugin) - Telegram plugin by [@LEXASOFT](https://github.com/LEXASOFT)

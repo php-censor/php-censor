@@ -29,24 +29,25 @@ More [screenshots](docs/en/screenshots.md).
 System requirements
 -------------------
 
-* Unix-like OS (**Windows isn't supported**)
+* Unix-like OS (**Windows isn't supported**);
 
-* PHP 5.6+ (with OpenSSL support and enabled functions: `exec()`, `shell_exec()` and `proc_open()`)
+* PHP 5.6+ (with OpenSSL support and enabled functions: `exec()`, `shell_exec()` and `proc_open()`);
 
-* Web-server (Nginx or Apache2)
+* Web-server (Nginx or Apache2);
 
-* Database (MySQL/MariaDB or PostgreSQL)
+* Database (MySQL/MariaDB or PostgreSQL);
 
-* Beanstalkd queue (Optional)
+* Beanstalkd queue (Optional);
 
 Features
 --------
 
 * Clone project from Github, Bitbucket, Gitlab, Git, Mercurial, SVN or from local directory;
 
-* Set up and tear down database tests for PostgreSQL, MySQL or SQLite;
+* Set up and tear down database tests for [PostgreSQL](docs/plugins/pgsql.md), [MySQL](docs/plugins/mysql.md) or 
+[SQLite](docs/plugins/sqlite.md);
 
-* Install Composer dependencies;
+* Install [Composer](docs/plugins/composer.md) dependencies;
 
 * Run tests for PHPUnit, Atoum, Behat, Codeception and PHPSpec;
 
@@ -56,7 +57,9 @@ PHPMessDetect, PHPTalLint and TechnicalDept;
 * Run through any combination of the other [supported plugins](docs/en/README.md), including Campfire, CleanBuild, 
 CopyBuild, Deployer, Env, Git, Grunt, Gulp, PackageBuild, Phar, Phing, Shell and Wipe;
 
-* Send notifications on Email, XMPP, Slack, IRC, Flowdock and HipChat;
+* Send notifications on Email, XMPP, Slack, IRC, Flowdock, HipChat and [Telegram](https://github.com/LEXASOFT/PHP-Censor-Telegram-Plugin);
+
+* Use your LDAP-server for authentication;
 
 Installing
 ----------

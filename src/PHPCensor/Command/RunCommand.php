@@ -36,7 +36,7 @@ class RunCommand extends Command
     /**
      * @var int
      */
-    protected $maxBuilds = 100;
+    protected $maxBuilds = 10;
 
     /**
      * @param \Monolog\Logger $logger

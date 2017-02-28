@@ -52,7 +52,7 @@
                 <h3 class="timeline-header">
                     <a href="<?php print APP_URL; ?>project/view/<?php print $build->getProjectId(); ?>">
                         <?php print $build->getProject()->getTitle(); ?>
-                    </a> (<?= $build->getProject()->getBranch(); ?>) 
+                    </a>
                     -
                     <a href="<?php print APP_URL; ?>build/view/<?php print $build->getId(); ?>">
                         Build #<?php print $build->getId(); ?>
@@ -62,6 +62,7 @@
                 </h3>
 
                 <div class="timeline-body">
+                    <a href="<?php echo $build->getBranchLink();?>"><?php echo $build->getProject()->getBranch(); ?></a> - 
                     <?php
                     if ($build->getCommitId() !== 'Manual') {
                         print sprintf(
