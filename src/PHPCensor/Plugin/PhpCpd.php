@@ -85,26 +85,27 @@ class PhpCpd extends Plugin implements ZeroConfigPluginInterface
     }
 
     /**
-    * Runs PHP Copy/Paste Detector in a specified directory.
-    */
+     * Runs PHP Copy/Paste Detector in a specified directory.
+     */
     public function execute()
     {
         $ignore = '';
-        if (count($this->ignore)) {
-            $map = function ($item) {
-                // remove the trailing slash
-                $item = rtrim($item, DIRECTORY_SEPARATOR);
+        $namesExclude = ' --names-exclude ';
+        foreach ($this->ignore as $item) {
+            // remove the trailing slash
+            $item = rtrim($item, DIRECTORY_SEPARATOR);
 
-                if (is_file(rtrim($this->path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $item)) {
-                    return ' --names-exclude ' . $item;
-                } else {
-                    return ' --exclude ' . $item;
-                }
+            if (is_file(rtrim($this->path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $item)) {
+                $ignoredFile = explode('/', $item);
+                $filesToIgnore[] = array_pop($ignoredFile);
+            } else {
+                $ignore .= ' --exclude ' . $item;
+            }
+        }
 
-            };
-            $ignore = array_map($map, $this->ignore);
-
-            $ignore = implode('', $ignore);
+        if (isset($filesToIgnore)) {
+            $filesToIgnore = $namesExclude . implode(',', $filesToIgnore);
+            $ignore = $ignore . $filesToIgnore;
         }
 
         $phpcpd = $this->builder->findBinary('phpcpd');
