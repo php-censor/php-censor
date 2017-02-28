@@ -1,16 +1,8 @@
 <?php
-/**
- * PHPCI - Continuous Integration for PHP
- *
- * @copyright    Copyright 2014, Block 8 Limited.
- * @license      https://github.com/Block8/PHPCI/blob/master/LICENSE.md
- * @link         https://www.phptesting.org/
- */
 
 namespace PHPCensor\Plugin;
 
 use PHPCensor\Builder;
-use PHPCensor\Helper\Lang;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
 use PHPCensor\Plugin;
@@ -19,9 +11,7 @@ use PHPCensor\ZeroConfigPluginInterface;
 /**
  * PHP Copy / Paste Detector - Allows PHP Copy / Paste Detector testing.
  *
- * @author       Dan Cryer <dan@block8.co.uk>
- * @package      PHPCI
- * @subpackage   Plugins
+ * @author Dan Cryer <dan@block8.co.uk>
  */
 class PhpCpd extends Plugin implements ZeroConfigPluginInterface
 {
@@ -89,14 +79,13 @@ class PhpCpd extends Plugin implements ZeroConfigPluginInterface
      */
     public function execute()
     {
-        $ignore = '';
+        $ignore       = '';
         $namesExclude = ' --names-exclude ';
-        foreach ($this->ignore as $item) {
-            // remove the trailing slash
-            $item = rtrim($item, DIRECTORY_SEPARATOR);
 
+        foreach ($this->ignore as $item) {
+            $item = rtrim($item, DIRECTORY_SEPARATOR);
             if (is_file(rtrim($this->path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $item)) {
-                $ignoredFile = explode('/', $item);
+                $ignoredFile     = explode('/', $item);
                 $filesToIgnore[] = array_pop($ignoredFile);
             } else {
                 $ignore .= ' --exclude ' . $item;
@@ -110,25 +99,27 @@ class PhpCpd extends Plugin implements ZeroConfigPluginInterface
 
         $phpcpd = $this->builder->findBinary('phpcpd');
 
-        $tmpfilename = tempnam('/tmp', 'phpcpd');
+        $tmpFileName = tempnam('/tmp', 'phpcpd');
 
-        $cmd = $phpcpd . ' --log-pmd "%s" %s "%s"';
-        $success = $this->builder->executeCommand($cmd, $tmpfilename, $ignore, $this->path);
+        $cmd     = $phpcpd . ' --log-pmd "%s" %s "%s"';
+        $success = $this->builder->executeCommand($cmd, $tmpFileName, $ignore, $this->path);
 
-        print $this->builder->getLastOutput();
+        $errorCount = $this->processReport(file_get_contents($tmpFileName));
 
-        $errorCount = $this->processReport(file_get_contents($tmpfilename));
         $this->build->storeMeta('phpcpd-warnings', $errorCount);
 
-        unlink($tmpfilename);
+        unlink($tmpFileName);
 
         return $success;
     }
 
     /**
      * Process the PHPCPD XML report.
+     * 
      * @param $xmlString
-     * @return array
+     * 
+     * @return integer
+     * 
      * @throws \Exception
      */
     protected function processReport($xmlString)
