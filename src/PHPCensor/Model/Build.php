@@ -625,7 +625,7 @@ class Build extends Model
 
     /**
      * Return a template to use to generate a link to a specific file.
-     * 
+     *
      * @return null
      */
     public function getFileLinkTemplate()
@@ -830,7 +830,12 @@ class Build extends Model
 
         if (empty($this->currentBuildPath)) {
             $buildDirectory         = $this->getId() . '_' . substr(md5(microtime(true)), 0, 5);
-            $this->currentBuildPath = RUNTIME_DIR . 'builds' . DIRECTORY_SEPARATOR . $buildDirectory . DIRECTORY_SEPARATOR;
+            $this->currentBuildPath = 
+                RUNTIME_DIR .
+                'builds' .
+                DIRECTORY_SEPARATOR .
+                $buildDirectory .
+                DIRECTORY_SEPARATOR;
         }
 
         return $this->currentBuildPath;
@@ -880,10 +885,10 @@ class Build extends Model
 
     /**
      * Create a working copy by cloning, copying, or similar.
-     * 
+     *
      * @param Builder $builder
      * @param string  $buildPath
-     * 
+     *
      * @return boolean
      */
     public function createWorkingCopy(Builder $builder, $buildPath)

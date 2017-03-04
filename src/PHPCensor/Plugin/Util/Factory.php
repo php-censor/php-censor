@@ -6,7 +6,6 @@ use Pimple\Container;
 
 /**
  * Plugin Factory - Loads Plugins and passes required dependencies.
- * @package PHPCensor\Plugin\Util
  */
 class Factory
 {

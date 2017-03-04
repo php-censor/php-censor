@@ -1,11 +1,4 @@
 <?php
-/**
- * PHPCI - Continuous Integration for PHP
- *
- * @copyright    Copyright 2014, Block 8 Limited.
- * @license      https://github.com/Block8/PHPCI/blob/master/LICENSE.md
- * @link         https://www.phptesting.org/
- */
 
 namespace PHPCensor\Plugin;
 
@@ -19,11 +12,9 @@ use PHPCensor\ZeroConfigPluginInterface;
 /**
  * Codeception Plugin - Enables full acceptance, unit, and functional testing.
  * 
- * @author       Don Gilbert <don@dongilbert.net>
- * @author       Igor Timoshenko <contact@igortimoshenko.com>
- * @author       Adam Cooper <adam@networkpie.co.uk>
- * @package      PHPCI
- * @subpackage   Plugins
+ * @author Don Gilbert <don@dongilbert.net>
+ * @author Igor Timoshenko <contact@igortimoshenko.com>
+ * @author Adam Cooper <adam@networkpie.co.uk>
  */
 class Codeception extends Plugin implements ZeroConfigPluginInterface
 {

@@ -1,29 +1,34 @@
 <?php
-/**
- * PHPCI - Continuous Integration for PHP
- *
- * @copyright    Copyright 2014, Block 8 Limited.
- * @license      https://github.com/Block8/PHPCI/blob/master/LICENSE.md
- * @link         https://www.phptesting.org/
- */
 
 namespace PHPCensor\Plugin;
 
 use PHPCensor\Builder;
-use PHPCensor\Helper\Lang;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 
 /**
  * Atoum plugin, runs Atoum tests within a project.
- * 
- * @package PHPCI\Plugin
  */
 class Atoum extends Plugin
 {
+    /**
+     * @var string
+     */
     protected $executable;
+
+    /**
+     * @var array
+     */
     protected $args;
+
+    /**
+     * @var array
+     */
     protected $config;
+
+    /**
+     * @var string
+     */
     protected $directory;
 
     /**
@@ -62,6 +67,7 @@ class Atoum extends Plugin
 
     /**
      * Run the Atoum plugin.
+     * 
      * @return bool
      */
     public function execute()
@@ -71,27 +77,33 @@ class Atoum extends Plugin
         if ($this->args !== null) {
             $cmd .= " {$this->args}";
         }
+
         if ($this->config !== null) {
             $cmd .= " -c '{$this->config}'";
         }
+
         if ($this->directory !== null) {
             $dirPath = $this->builder->buildPath . DIRECTORY_SEPARATOR . $this->directory;
             $cmd .= " -d '{$dirPath}'";
         }
+
         chdir($this->builder->buildPath);
+
         $output = '';
         $status = true;
+
         exec($cmd, $output);
 
         if (count(preg_grep("/Success \(/", $output)) == 0) {
             $status = false;
             $this->builder->log($output);
         }
+
         if (count($output) == 0) {
             $status = false;
             $this->builder->log('No tests have been performed.');
         }
-        
+
         return $status;
     }
 }

@@ -1,25 +1,15 @@
 <?php
-/**
- * PHPCI - Continuous Integration for PHP
- *
- * @copyright    Copyright 2014, Block 8 Limited.
- * @license      https://github.com/Block8/PHPCI/blob/master/LICENSE.md
- * @link         https://www.phptesting.org/
- */
 
 namespace PHPCensor\Plugin;
 
 use PHPCensor\Builder;
-use PHPCensor\Helper\Lang;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 
 /**
  * Phing Plugin - Provides access to Phing functionality.
  *
- * @author       Pavel Pavlov <ppavlov@alera.ru>
- * @package      PHPCI
- * @subpackage   Plugins
+ * @author Pavel Pavlov <ppavlov@alera.ru>
  */
 class Phing extends Plugin
 {

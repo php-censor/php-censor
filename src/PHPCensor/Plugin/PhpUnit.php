@@ -1,17 +1,9 @@
 <?php
-/**
- * PHPCI - Continuous Integration for PHP
- *
- * @copyright    Copyright 2014, Block 8 Limited.
- * @license      https://github.com/Block8/PHPCI/blob/master/LICENSE.md
- * @link         https://www.phptesting.org/
- */
 
 namespace PHPCensor\Plugin;
 
 use PHPCensor;
 use PHPCensor\Builder;
-use PHPCensor\Helper\Lang;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
 use PHPCensor\Plugin\Option\PhpUnitOptions;
@@ -22,10 +14,8 @@ use PHPCensor\ZeroConfigPluginInterface;
 /**
  * PHP Unit Plugin - A rewrite of the original PHP Unit plugin
  *
- * @author       Dan Cryer <dan@block8.co.uk>
- * @author       Pablo Tejada <pablo@ptejada.com>
- * @package      PHPCI
- * @subpackage   Plugins
+ * @author Dan Cryer <dan@block8.co.uk>
+ * @author Pablo Tejada <pablo@ptejada.com>
  */
 class PhpUnit extends Plugin implements ZeroConfigPluginInterface
 {

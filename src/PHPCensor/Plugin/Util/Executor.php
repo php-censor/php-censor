@@ -11,7 +11,6 @@ use PHPCensor\Store\BuildStore;
 
 /**
  * Plugin Executor - Runs the configured plugins for a given build stage.
- * @package PHPCensor\Plugin\Util
  */
 class Executor
 {

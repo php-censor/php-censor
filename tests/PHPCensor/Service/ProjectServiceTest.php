@@ -1,14 +1,5 @@
 <?php
 
-/**
- * PHPCI - Continuous Integration for PHP
- *
- * @copyright    Copyright 2014, Block 8 Limited.
- * @license      https://github.com/Block8/PHPCI/blob/master/LICENSE.md
- * @link         https://www.phptesting.org/
- */
-
-
 namespace Tests\PHPCensor\Service;
 
 use PHPCensor\Model\Project;
@@ -16,6 +7,7 @@ use PHPCensor\Service\ProjectService;
 
 /**
  * Unit tests for the ProjectService class.
+ * 
  * @author Dan Cryer <dan@block8.co.uk>
  */
 class ProjectServiceTest extends \PHPUnit_Framework_TestCase

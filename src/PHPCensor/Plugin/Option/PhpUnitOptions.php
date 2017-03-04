@@ -1,21 +1,11 @@
 <?php
 
-/**
- * PHPCI - Continuous Integration for PHP
- *
- * @copyright    Copyright 2014, Block 8 Limited.
- * @license      https://github.com/Block8/PHPCI/blob/master/LICENSE.md
- * @link         https://www.phptesting.org/
- */
-
 namespace PHPCensor\Plugin\Option;
 
 /**
  * Class PhpUnitOptions validates and parse the option for the PhpUnitV2 plugin
  *
- * @author       Pablo Tejada <pablo@ptejada.com>
- * @package      PHPCI
- * @subpackage   Plugin
+ * @author Pablo Tejada <pablo@ptejada.com>
  */
 class PhpUnitOptions
 {

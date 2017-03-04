@@ -1,11 +1,4 @@
 <?php
-/**
- * PHPCI - Continuous Integration for PHP
- *
- * @copyright    Copyright 2014, Block 8 Limited.
- * @license      https://github.com/Block8/PHPCI/blob/master/LICENSE.md
- * @link         https://www.phptesting.org/
- */
 
 namespace PHPCensor\Plugin;
 
@@ -16,9 +9,7 @@ use PHPCensor\Plugin;
 /**
  * Grunt Plugin - Provides access to grunt functionality.
  * 
- * @author       Tobias Tom <t.tom@succont.de>
- * @package      PHPCI
- * @subpackage   Plugins
+ * @author Tobias Tom <t.tom@succont.de>
  */
 class Grunt extends Plugin
 {

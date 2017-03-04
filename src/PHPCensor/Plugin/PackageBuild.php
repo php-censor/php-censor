@@ -1,11 +1,4 @@
 <?php
-/**
- * PHPCI - Continuous Integration for PHP
- *
- * @copyright    Copyright 2014, Block 8 Limited.
- * @license      https://github.com/Block8/PHPCI/blob/master/LICENSE.md
- * @link         https://www.phptesting.org/
- */
 
 namespace PHPCensor\Plugin;
 
@@ -16,9 +9,7 @@ use PHPCensor\Plugin;
 /**
  * Create a ZIP or TAR.GZ archive of the entire build.
  * 
- * @author       Dan Cryer <dan@block8.co.uk>
- * @package      PHPCI
- * @subpackage   Plugins
+ * @author Dan Cryer <dan@block8.co.uk>
  */
 class PackageBuild extends Plugin
 {

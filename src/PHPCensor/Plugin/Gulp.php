@@ -1,11 +1,4 @@
 <?php
-/**
- * PHPCI - Continuous Integration for PHP
- *
- * @copyright    Copyright 2014, Block 8 Limited.
- * @license      https://github.com/Block8/PHPCI/blob/master/LICENSE.md
- * @link         https://www.phptesting.org/
- */
 
 namespace PHPCensor\Plugin;
 
@@ -16,9 +9,7 @@ use PHPCensor\Plugin;
 /**
  * Gulp Plugin - Provides access to gulp functionality.
  * 
- * @author       Dirk Heilig <dirk@heilig-online.com>
- * @package      PHPCI
- * @subpackage   Plugins
+ * @author Dirk Heilig <dirk@heilig-online.com>
  */
 class Gulp extends Plugin
 {

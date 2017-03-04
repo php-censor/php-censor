@@ -1,11 +1,4 @@
 <?php
-/**
- * PHPCI - Continuous Integration for PHP
- *
- * @copyright    Copyright 2014, Block 8 Limited.
- * @license      https://github.com/Block8/PHPCI/blob/master/LICENSE.md
- * @link         https://www.phptesting.org/
- */
 
 namespace PHPCensor\Plugin;
 
@@ -16,9 +9,7 @@ use PHPCensor\Plugin;
 /**
  * PHP CS Fixer - Works with the PHP Coding Standards Fixer for testing coding standards.
  * 
- * @author       Gabriel Baker <gabriel@autonomicpilot.co.uk>
- * @package      PHPCI
- * @subpackage   Plugins
+ * @author Gabriel Baker <gabriel@autonomicpilot.co.uk>
  */
 class PhpCsFixer extends Plugin
 {

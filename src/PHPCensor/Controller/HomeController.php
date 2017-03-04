@@ -1,13 +1,5 @@
 <?php
 
-/**
- * PHPCI - Continuous Integration for PHP
- *
- * @copyright    Copyright 2014, Block 8 Limited.
- * @license      https://github.com/Block8/PHPCI/blob/master/LICENSE.md
- * @link         https://www.phptesting.org/
- */
-
 namespace PHPCensor\Controller;
 
 use b8;
@@ -17,11 +9,10 @@ use PHPCensor\Model\Build;
 use PHPCensor\Controller;
 
 /**
-* Home Controller - Displays the PHPCI Dashboard.
-* @author       Dan Cryer <dan@block8.co.uk>
-* @package      PHPCI
-* @subpackage   Web
-*/
+ * Home Controller - Displays the PHPCI Dashboard.
+ * 
+ * @author Dan Cryer <dan@block8.co.uk>
+ */
 class HomeController extends Controller
 {
     /**

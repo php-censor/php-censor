@@ -1,11 +1,4 @@
 <?php
-/**
-* PHPCI - Continuous Integration for PHP
-*
-* @copyright    Copyright 2014, Block 8 Limited.
-* @license      https://github.com/Block8/PHPCI/blob/master/LICENSE.md
-* @link         https://www.phptesting.org/
-*/
 
 namespace PHPCensor;
 
@@ -16,9 +9,10 @@ use b8\Http\Response\RedirectResponse;
 use b8\View;
 
 /**
-* PHPCI Front Controller
-* @author   Dan Cryer <dan@block8.co.uk>
-*/
+ * PHPCI Front Controller
+ * 
+ * @author Dan Cryer <dan@block8.co.uk>
+ */
 class Application extends b8\Application
 {
     /**

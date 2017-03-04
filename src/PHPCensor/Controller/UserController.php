@@ -1,11 +1,4 @@
 <?php
-/**
- * PHPCI - Continuous Integration for PHP
- *
- * @copyright    Copyright 2014, Block 8 Limited.
- * @license      https://github.com/Block8/PHPCI/blob/master/LICENSE.md
- * @link         https://www.phptesting.org/
- */
 
 namespace PHPCensor\Controller;
 
@@ -18,11 +11,10 @@ use PHPCensor\Model\User;
 use PHPCensor\Service\UserService;
 
 /**
-* User Controller - Allows an administrator to view, add, edit and delete users.
-* @author       Dan Cryer <dan@block8.co.uk>
-* @package      PHPCI
-* @subpackage   Web
-*/
+ * User Controller - Allows an administrator to view, add, edit and delete users.
+ * 
+ * @author Dan Cryer <dan@block8.co.uk>
+ */
 class UserController extends Controller
 {
     /**

@@ -1,13 +1,5 @@
 <?php
 
-/**
- * PHPCI - Continuous Integration for PHP
- *
- * @copyright    Copyright 2015, Block 8 Limited.
- * @license      https://github.com/Block8/PHPCI/blob/master/LICENSE.md
- * @link         https://www.phptesting.org/
- */
-
 namespace Tests\PHPCensor\Plugin\Util;
 
 use PHPCensor\Plugin\Util\Factory;
@@ -131,31 +123,6 @@ class FactoryTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertInternalType('array', $plugin->options);
         $this->assertArrayHasKey('thing', $plugin->options);
-    }
-
-    public function testAddConfigFromFile_ReturnsTrueForValidFile()
-    {
-        $result = $this->testedFactory->addConfigFromFile(
-            realpath(__DIR__ . "/ExamplePluginConfig.php")
-        );
-
-        $this->assertTrue($result);
-    }
-
-    public function testAddConfigFromFile_RegistersResources()
-    {
-        $this->testedFactory->addConfigFromFile(
-            realpath(__DIR__ . "/ExamplePluginConfig.php")
-        );
-
-        $pluginClass = $this->getFakePluginClassName('ExamplePluginWithSingleRequiredArg');
-        $plugin = $this->testedFactory->buildPlugin($pluginClass);
-
-        // The Example config file defines an array as the resource.
-        $this->assertEquals(
-            ["bar" => "Hello"],
-            $plugin->RequiredArgument
-        );
     }
 
     /**

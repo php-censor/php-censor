@@ -1,11 +1,4 @@
 <?php
-/**
- * PHPCI - Continuous Integration for PHP
- *
- * @copyright    Copyright 2013, Block 8 Limited.
- * @license      https://github.com/Block8/PHPCI/blob/master/LICENSE.md
- * @link         http://www.phptesting.org/
- */
 
 if (!defined('ROOT_DIR')) {
     define('ROOT_DIR', dirname(__DIR__) . DIRECTORY_SEPARATOR);

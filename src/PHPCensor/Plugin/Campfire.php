@@ -1,26 +1,15 @@
 <?php
-/**
- * PHPCI - Continuous Integration for PHP
- *
- * @copyright    Copyright 2014, Block 8 Limited.
- * @license      https://github.com/Block8/PHPCI/blob/master/LICENSE.md
- * @link         https://www.phptesting.org/
- */
 
 namespace PHPCensor\Plugin;
 
 use PHPCensor\Builder;
-use PHPCensor\Helper\Lang;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 
 /**
- * Campfire Plugin - Allows Campfire API actions.
- * strongly based on icecube (http://labs.mimmin.com/icecube)
+ * Campfire Plugin - Allows Campfire API actions. Strongly based on icecube (http://labs.mimmin.com/icecube)
  * 
- * @author       André Cianfarani <acianfa@gmail.com>
- * @package      PHPCI
- * @subpackage   Plugins
+ * @author André Cianfarani <acianfa@gmail.com>
  */
 class Campfire extends Plugin
 {

@@ -1,10 +1,4 @@
 <?php
-/**
- * PHPCI - Continuous Integration for PHP
- * @copyright    Copyright 2014, Block 8 Limited.
- * @license      https://github.com/Block8/PHPCI/blob/master/LICENSE.md
- * @link         https://www.phptesting.org/
- */
 
 namespace PHPCensor\Plugin;
 
@@ -18,9 +12,7 @@ use Maknz\Slack\AttachmentField;
 /**
  * Slack Plugin
  * 
- * @author       Stephen Ball <phpci@stephen.rebelinblue.com>
- * @package      PHPCI
- * @subpackage   Plugins
+ * @author Stephen Ball <phpci@stephen.rebelinblue.com>
  */
 class SlackNotify extends Plugin
 {

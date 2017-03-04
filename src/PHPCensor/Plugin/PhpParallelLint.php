@@ -1,11 +1,4 @@
 <?php
-/**
- * PHPCI - Continuous Integration for PHP
- *
- * @copyright    Copyright 2014, Block 8 Limited.
- * @license      https://github.com/Block8/PHPCI/blob/master/LICENSE.md
- * @link         https://www.phptesting.org/
- */
 
 namespace PHPCensor\Plugin;
 
@@ -17,9 +10,7 @@ use PHPCensor\ZeroConfigPluginInterface;
 /**
  * Php Parallel Lint Plugin - Provides access to PHP lint functionality.
  * 
- * @author       Vaclav Makes <vaclav@makes.cz>
- * @package      PHPCI
- * @subpackage   Plugins
+ * @author Vaclav Makes <vaclav@makes.cz>
  */
 class PhpParallelLint extends Plugin implements ZeroConfigPluginInterface
 {

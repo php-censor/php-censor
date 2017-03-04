@@ -1,13 +1,5 @@
 <?php
 
-/**
- * PHPCI - Continuous Integration for PHP
- *
- * @copyright    Copyright 2014, Block 8 Limited.
- * @license      https://github.com/Block8/PHPCI/blob/master/LICENSE.md
- * @link         https://www.phptesting.org/
- */
-
 namespace PHPCensor\Controller;
 
 use b8;
@@ -20,15 +12,15 @@ use PHPCensor\Service\BuildStatusService;
 use PHPCensor\Controller;
 
 /**
-* Build Status Controller - Allows external access to build status information / images.
-* @author       Dan Cryer <dan@block8.co.uk>
-* @package      PHPCI
-* @subpackage   Web
-*/
+ * Build Status Controller - Allows external access to build status information / images.
+ * 
+ * @author Dan Cryer <dan@block8.co.uk>
+ */
 class BuildStatusController extends Controller
 {
     /* @var \PHPCensor\Store\ProjectStore */
     protected $projectStore;
+
     /* @var \PHPCensor\Store\BuildStore */
     protected $buildStore;
 

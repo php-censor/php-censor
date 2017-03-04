@@ -1,20 +1,12 @@
 <?php
-/**
- * PHPCI - Continuous Integration for PHP
- *
- * @copyright    Copyright 2014, Block 8 Limited.
- * @license      https://github.com/Block8/PHPCI/blob/master/LICENSE.md
- * @link         https://www.phptesting.org/
- */
 
 namespace PHPCensor\Helper;
 
 /**
-* User Helper - Provides access to logged in user information in views.
-* @author       Dan Cryer <dan@block8.co.uk>
-* @package      PHPCI
-* @subpackage   Web
-*/
+ * User Helper - Provides access to logged in user information in views.
+ * 
+ * @author Dan Cryer <dan@block8.co.uk>
+ */
 class User
 {
     /**
