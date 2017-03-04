@@ -77,9 +77,11 @@ abstract class BaseCommandExecutor implements CommandExecutorInterface
     {
         $this->lastOutput = [];
 
-        $command = call_user_func_array('sprintf', $args);
-        $this->logger->logDebug('Command: ' . $command);
         $this->logger->logDebug('Args: ' . json_encode($args));
+
+        $command = call_user_func_array('sprintf', $args);
+
+        $this->logger->logDebug('Command: ' . $command);
 
         if ($this->quiet) {
             $this->logger->log('Executing: ' . $command);
@@ -119,10 +121,11 @@ abstract class BaseCommandExecutor implements CommandExecutorInterface
         }
 
         $rtn = false;
-
         if ($status == 0) {
             $rtn = true;
         }
+
+        $this->logger->logDebug('Execution status: ' . $status);
 
         return $rtn;
     }

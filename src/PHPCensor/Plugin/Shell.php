@@ -1,11 +1,4 @@
 <?php
-/**
- * PHPCI - Continuous Integration for PHP
- *
- * @copyright    Copyright 2014, Block 8 Limited.
- * @license      https://github.com/Block8/PHPCI/blob/master/LICENSE.md
- * @link         https://www.phptesting.org/
- */
 
 namespace PHPCensor\Plugin;
 
@@ -16,12 +9,13 @@ use PHPCensor\Plugin;
 /**
  * Shell Plugin - Allows execute shell commands.
  * 
- * @author       Kinn Coelho Julião <kinncj@gmail.com>
- * @package      PHPCI
- * @subpackage   Plugins
+ * @author Kinn Coelho Julião <kinncj@gmail.com>
  */
 class Shell extends Plugin
 {
+    /**
+     * @var array
+     */
     protected $args;
 
     /**
@@ -65,19 +59,19 @@ class Shell extends Plugin
 
     /**
      * Runs the shell command.
+     * 
+     * @return bool
      */
     public function execute()
     {
-        $success = true;
-
         foreach ($this->commands as $command) {
             $command = $this->builder->interpolate($command);
 
             if (!$this->builder->executeCommand($command)) {
-                $success = false;
+                return false;
             }
         }
 
-        return $success;
+        return true;
     }
 }
