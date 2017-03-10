@@ -5,17 +5,20 @@ Change Log
 
 [Full Changelog](https://github.com/corpsee/php-censor/compare/0.9.0...0.10.0)
 
-* Added 'Build with debug' button to the project page (For admin user). Issue #22.
+* Added 'Build with debug' button to the project page (For admin user). Issue 
+[#22](https://github.com/corpsee/php-censor/issues/22).
 * Fixed quoting for database entities.
-* Fixed project config reload for worker between builds. Issue #17.
-* Fixed problem with runtime/status_cache directory. Issue #19.
-* Fixed add/edit project page. Issue #21.
-* Fixed form name pattern. Thanks to @ket4yii. PullRequest #24.
-* Fixed build.log column size for MySQL (text -> longtext). Issue #26.
+* Fixed project config reload for worker between builds. Issue [#17](https://github.com/corpsee/php-censor/issues/17).
+* Fixed problem with runtime/status_cache directory. Issue [#19](https://github.com/corpsee/php-censor/issues/19).
+* Fixed add/edit project page. Issue [#21](https://github.com/corpsee/php-censor/issues/21).
+* Fixed form name pattern. Thanks to [@ket4yii](https://github.com/ket4yii). PullRequest 
+[#24](https://github.com/corpsee/php-censor/pull/24).
+* Fixed build.log column size for MySQL (text -> longtext). Issue [#26](https://github.com/corpsee/php-censor/issues/26).
 * Fixed build_error.message column size (varchar(255) -> text).
-* Fixed profile language saving. Issue #11.
-* Fixed builds for branches which start with a hash character. Used @soulflyman code.
-* Improved Gogs support. Thanks to @vinpel. PullRequest #25.
+* Fixed profile language saving. Issue [#11](https://github.com/corpsee/php-censor/issues/11).
+* Fixed builds for branches which start with a hash character. Used [@soulflyman](https://github.com/soulflyman) code.
+* Improved Gogs support. Thanks to [@vinpel](https://github.com/vinpel). PullRequest 
+[#25](https://github.com/corpsee/php-censor/pull/25).
 * Improved TravisCI build settings (Added DB tests for PostgreSQL and MySQL).
 * Improved README.
 
@@ -26,7 +29,8 @@ Change Log
 
 * **Fixed multiple install command execution (Now admin and project group don't duplicate).**
 * Added yaml highlight for build config in project page.
-* Improved Gogs support. Thanks to [@vinpel](https://github.com/vinpel). PullRequest #18.
+* Improved Gogs support. Thanks to [@vinpel](https://github.com/vinpel). PullRequest 
+[#18](https://github.com/corpsee/php-censor/pull/18).
 * Improved dashboard UI.
 
 
@@ -55,11 +59,14 @@ cd ./php-censor.local
 ./bin/console php-censor:create-admin --admin-name=admin --admin-password=admin --admin-email='admin@php-censor.local'
 ```
 
-* Added caching for public build status badge. Issue #15.
-* Added build from Gogs (build type and webhook). The feature is based on [@denji](https://github.com/denji)'s code. Issue #13.
-* Improved Codeception plugin. Thanks to [@vinpel](https://github.com/vinpel). PullRequest #16.
-* Updated french translation. Thanks to [@vinpel](https://github.com/vinpel). PullRequest #16.
-* Fixed init language. Issue #9.
+* Added caching for public build status badge. Issue [#15](https://github.com/corpsee/php-censor/issues/15).
+* Added build from Gogs (build type and webhook). The feature is based on [@denji](https://github.com/denji)'s code. 
+Issue [#13](https://github.com/corpsee/php-censor/issues/13).
+* Improved Codeception plugin. Thanks to [@vinpel](https://github.com/vinpel). PullRequest 
+[#16](https://github.com/corpsee/php-censor/pull/16).
+* Updated french translation. Thanks to [@vinpel](https://github.com/vinpel). PullRequest 
+[#16](https://github.com/corpsee/php-censor/pull/16).
+* Fixed init language. Issue [#9](https://github.com/corpsee/php-censor/issues/9).
 
 
 ## [PHP Censor v0.7.0](https://github.com/corpsee/php-censor/tree/0.7.0) (2017-01-29)
