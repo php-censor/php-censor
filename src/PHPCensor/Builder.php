@@ -135,6 +135,7 @@ class Builder implements LoggerAwareInterface
             throw new \Exception('This project does not contain a .php-censor.yml (.phpci.yml|phpci.yml) file, or it is empty.');
         }
 
+        $this->logDebug('Config: ' . json_encode($config));
         $this->config = $config;
     }
 

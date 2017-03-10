@@ -51,9 +51,9 @@ complete:
 
 branch-dev:           # Branch-specific config (for "dev" branch)
   run-option: replace # "run-option" parameter can be set to 'replace', 'after' or 'before'
-    test:
-      grunt:
-        task: "build-dev"
+  test:
+    grunt:
+      task: "build-dev"
 ```
 
 As mentioned earlier, PHP Censor is powered by plugins, there are several phases in which plugins can be run:
