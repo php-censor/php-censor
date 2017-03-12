@@ -1,6 +1,20 @@
 Change Log
 ==========
 
+## [PHP Censor v0.11.0](https://github.com/corpsee/php-censor/tree/0.11.0) (2017-03-12)
+
+[Full Changelog](https://github.com/corpsee/php-censor/compare/0.10.0...0.11.0)
+
+* Added duration column to the project page
+* Fixed Build.log column size for MySQL (removed "NOT NULL")
+* Fixed PhpCpd ignore option. Used [@ZinitSolutionsGmbH](https://github.com/ZinitSolutionsGmbH) code.
+* Fixed shell plugin execution. Issue [#30](https://github.com/corpsee/php-censor/issues/30).
+* Fixed pagination position in the project view (UI)
+* Fixed branch link in the timeline (UI)
+* Code style fixes
+* Improved README, Docs and CHANGELOG
+
+
 ## [PHP Censor v0.10.0](https://github.com/corpsee/php-censor/tree/0.10.0) (2017-02-24)
 
 [Full Changelog](https://github.com/corpsee/php-censor/compare/0.9.0...0.10.0)
