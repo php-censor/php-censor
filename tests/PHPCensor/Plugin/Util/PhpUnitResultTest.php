@@ -36,13 +36,4 @@ class PhpUnitResultTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(PhpUnitResult::SEVERITY_SKIPPED, $output[11]['severity']);
         $this->assertContains('Skipped Test:', $output[11]['message']);
     }
-
-    public function testParseFailure()
-    {
-        $this->setExpectedException('\Exception', 'Failed to parse the JSON output');
-
-        $buildPath = '/path/to/build';
-        $parser = new PhpUnitResult(ROOT_DIR . 'tests/PHPCensor/Plugin/SampleFiles/invalid_format.txt', $buildPath);
-        $parser->parse();
-    }
 }

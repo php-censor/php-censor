@@ -39,13 +39,12 @@ class PhpUnitResult
     public function parse()
     {
         $rawResults = file_get_contents($this->outputFile);
-        if (empty($rawResults)) {
-            throw new \Exception('No test executed.');
-        }
-        if ($rawResults[0] == '{') {
+
+        $events = [];
+        if ($rawResults && $rawResults[0] == '{') {
             $fixedJson = '[' . str_replace('}{', '},{', $rawResults) . ']';
             $events    = json_decode($fixedJson, true);
-        } else {
+        } elseif ($rawResults) {
             $events = json_decode($rawResults, true);
         }
 
@@ -54,14 +53,12 @@ class PhpUnitResult
         $this->errors   = [];
         $this->failures = 0;
 
-        if (is_array($events)) {
+        if ($events) {
             foreach ($events as $event) {
-                if ($event['event'] == self::EVENT_TEST) {
+                if (isset($event['event']) && $event['event'] == self::EVENT_TEST) {
                     $this->results[] = $this->parseEvent($event);
                 }
             }
-        } else {
-            throw new \Exception('Failed to parse the JSON output.');
         }
 
         return $this;
