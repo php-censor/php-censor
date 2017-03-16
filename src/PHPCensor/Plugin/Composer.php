@@ -82,7 +82,7 @@ class Composer extends Plugin implements ZeroConfigPluginInterface
     {
         $path = $builder->buildPath . DIRECTORY_SEPARATOR . 'composer.json';
 
-        if (file_exists($path) && $stage == 'setup') {
+        if (file_exists($path) && $stage == Build::STAGE_SETUP) {
             return true;
         }
 

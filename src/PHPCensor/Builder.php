@@ -190,7 +190,7 @@ class Builder implements LoggerAwareInterface
             $this->setupBuild();
 
             // Run the core plugin stages:
-            foreach (['setup', 'test', 'deploy'] as $stage) {
+            foreach ([Build::STAGE_SETUP, Build::STAGE_TEST, Build::STAGE_DEPLOY] as $stage) {
                 $success &= $this->pluginExecutor->executePlugins($this->config, $stage);
             }
 
@@ -204,16 +204,16 @@ class Builder implements LoggerAwareInterface
 
 
             if ($success) {
-                $this->pluginExecutor->executePlugins($this->config, 'success');
+                $this->pluginExecutor->executePlugins($this->config, Build::STAGE_SUCCESS);
 
                 if ($previous_state == Build::STATUS_FAILED) {
-                    $this->pluginExecutor->executePlugins($this->config, 'fixed');
+                    $this->pluginExecutor->executePlugins($this->config, Build::STAGE_FIXED);
                 }
             } else {
-                $this->pluginExecutor->executePlugins($this->config, 'failure');
+                $this->pluginExecutor->executePlugins($this->config, Build::STAGE_FAILURE);
 
                 if ($previous_state == Build::STATUS_SUCCESS || $previous_state == Build::STATUS_PENDING) {
-                    $this->pluginExecutor->executePlugins($this->config, 'broken');
+                    $this->pluginExecutor->executePlugins($this->config, Build::STAGE_BROKEN);
                 }
             }
         } catch (\Exception $ex) {
@@ -229,7 +229,7 @@ class Builder implements LoggerAwareInterface
 
         try {
             // Complete stage plugins are always run
-            $this->pluginExecutor->executePlugins($this->config, 'complete');
+            $this->pluginExecutor->executePlugins($this->config, Build::STAGE_COMPLETE);
         } catch (\Exception $ex) {
             $this->buildLogger->logFailure('Exception: ' . $ex->getMessage());
         }
