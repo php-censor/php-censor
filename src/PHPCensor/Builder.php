@@ -190,7 +190,7 @@ class Builder implements LoggerAwareInterface
             $this->setupBuild();
 
             // Run the core plugin stages:
-            foreach (['setup', 'test'] as $stage) {
+            foreach (['setup', 'test', 'deploy'] as $stage) {
                 $success &= $this->pluginExecutor->executePlugins($this->config, $stage);
             }
 

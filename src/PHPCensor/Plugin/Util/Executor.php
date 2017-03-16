@@ -154,6 +154,9 @@ class Executor
                     // If we're in the "setup" stage, execution should not continue after
                     // a plugin has failed:
                     throw new Exception('Plugin failed: ' . $plugin);
+                } elseif ($stage === 'deploy') {
+                    $this->logger->logFailure('PLUGIN: FAILED');
+                    $success = false;
                 } else {
                     // If we're in the "test" stage and the plugin is not allowed to fail,
                     // then mark the build as failed:
