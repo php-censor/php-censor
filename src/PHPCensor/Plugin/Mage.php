@@ -35,7 +35,7 @@ class Mage extends \PHPCensor\Plugin
         parent::__construct($builder, $build, $options);
 
         $config = $builder->getSystemConfig('mage');
-        if (isset($config['bin'])) {
+        if (!empty($config['bin'])) {
             $this->mage_bin = $config['bin'];
         }
 
