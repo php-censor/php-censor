@@ -116,7 +116,7 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
        }
 
         if (!empty($options['standard'])) {
-            $this->standard = (array)$options['standard'];
+            $this->standard = $options['standard'];
         }
     }
 
