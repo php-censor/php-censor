@@ -9,25 +9,25 @@ class HttpClientTest extends \PHPUnit_Framework_TestCase
     public function testSimpleRequest()
     {
         $http = new HttpClient();
-        $html = $http->request('GET', 'https://www.cloudflare.com/');
+        $html = $http->request('GET', 'https://www.google.com');
 
-        $this->assertContains('Cloudflare', $html['body']);
+        $this->assertContains('Google', $html['body']);
     }
 
     public function testBaseUrl()
     {
-        $http = new HttpClient('https://www.cloudflare.com');
+        $http = new HttpClient('https://www.google.com');
         $html = $http->request('GET', '/');
 
-        $this->assertContains('Cloudflare', $html['body']);
+        $this->assertContains('Google', $html['body']);
     }
 
     public function testGet()
     {
-        $http = new HttpClient('https://www.cloudflare.com');
+        $http = new HttpClient('https://www.google.com');
         $html = $http->get('overview', ['x' => 1]);
 
-        $this->assertContains('Cloudflare', $html['body']);
+        $this->assertContains('Google', $html['body']);
     }
 
     public function testGetJson()
