@@ -43,6 +43,7 @@ Plugins
 * [Hipchat](plugins/hipchat_notify.md) - `hipchat_notify`
 * [IRC](plugins/irc.md) - `irc`
 * [Lint](plugins/lint.md) - `lint`
+* [Mage](plugins/mage.md) - `mage`
 * [MySQL](plugins/mysql.md) - `mysql`
 * [Package Build](plugins/package_build.md) - `package_build`
 * [PDepend](plugins/pdepend.md) - `pdepend`
