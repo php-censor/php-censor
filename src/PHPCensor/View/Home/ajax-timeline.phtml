@@ -48,7 +48,14 @@
         <li>
             <i class="fa fa-<?php print $build->getProject()->getIcon(); ?> bg-<?php print $color; ?>"></i>
             <div class="timeline-item">
-                <span class="time"><i class="fa fa-clock-o"></i> <?= $updated->format('H:i:s'); ?></span>
+                <span class="time"><i class="fa fa-clock-o"></i>
+                <?php
+                echo $updated->format('H:i:s');
+                if ($build->getStatus() != \PHPCensor\Model\Build::STATUS_PENDING) {
+                    echo ' (' . $build->getPrettyDuration() . ')';
+                }
+                ?>
+                </span>
                 <h3 class="timeline-header">
                     <a href="<?php print APP_URL; ?>project/view/<?php print $build->getProjectId(); ?>">
                         <?php print $build->getProject()->getTitle(); ?>
@@ -62,7 +69,7 @@
                 </h3>
 
                 <div class="timeline-body">
-                    <a href="<?php echo $build->getBranchLink();?>"><?php echo $build->getProject()->getBranch(); ?></a> - 
+                    <a href="<?php echo $build->getBranchLink();?>"><?php echo $build->getProject()->getBranch(); ?></a> -
                     <?php
                     if ($build->getCommitId() !== 'Manual') {
                         print sprintf(

@@ -830,7 +830,7 @@ class Build extends Model
 
         if (empty($this->currentBuildPath)) {
             $buildDirectory         = $this->getId() . '_' . substr(md5(microtime(true)), 0, 5);
-            $this->currentBuildPath = 
+            $this->currentBuildPath =
                 RUNTIME_DIR .
                 'builds' .
                 DIRECTORY_SEPARATOR .
@@ -881,6 +881,32 @@ class Build extends Model
         }
 
         return $end->getTimestamp() - $start->getTimestamp();
+    }
+
+    /**
+     * get time a build has been running for in hour/minute/seconds format (e.g. 1h 21m 45s)
+     * @return string
+     */
+    public function getPrettyDuration()
+    {
+        $start = $this->getStarted();
+        if (!$start) {
+            $start = new \DateTime();
+        }
+        $end = $this->getFinished();
+        if (!$end) {
+            $end = new \DateTime();
+        }
+
+        $diff = date_diff($start, $end);
+        $parts = [];
+        foreach (['y', 'm', 'd', 'h', 'i', 's'] as $time_part) {
+            if ($diff->{$time_part} != 0) {
+                $parts[] = $diff->{$time_part} . ($time_part == 'i' ? 'm' : $time_part);
+            }
+        }
+
+        return implode(" ", $parts);
     }
 
     /**
