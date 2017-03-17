@@ -5,7 +5,7 @@ return [
     'language' => 'Langue',
     'per_page'      => 'Item par page',
     'default'       => 'Défaut',
-    
+
     // Log in:
     'log_in_to_app' => 'Connectez-vous à PHP Censor',
     'login_error' => 'Adresse email ou mot de passe invalide',
@@ -54,7 +54,7 @@ PHP Censor',
     'dashboard' => 'Tableau de bord',
     'admin_options' => 'Options d\'administration',
     'add_project' => 'Ajouter un projet',
-    'project_groups' => 'Project Groups',
+    'project_groups' => 'Groupes de projets',
     'settings' => 'Paramètres',
     'manage_users' => 'Gérer les utilisateurs',
     'plugins' => 'Plugins',
@@ -105,7 +105,7 @@ PHP Censor',
     'where_hosted' => 'Où est hébergé votre projet&nbsp;?',
     'choose_github' => 'Choisissez un dépôt GitHub&nbsp;:',
 
-    'repo_name' => 'Nom du dépôt / URL (distance) ou chemin (local)',
+    'repo_name' => 'Nom du dépôt / URL (distant) ou chemin (local)',
     'project_title' => 'Titre du projet',
     'project_private_key' => 'Clé privée à utiliser pour accéder au dépôt
                                 (laissez le champ vide pour les dépôts locaux ou les URLs distantes anonymes)',
@@ -152,7 +152,8 @@ PHP Censor',
                                 Services</a> de votre dépôt Bitbucket.',
 
     // Project Groups
-    'group_projects' => 'Groupe de projet',
+    'project_group'  => 'Groupe du projet',
+    'group_projects' => 'Groupes de projets',
     'group_count'    => 'Nombre de projets',
     'group_edit'     => 'Editer',
     'group_delete'   => 'Supprimer',
@@ -164,7 +165,7 @@ PHP Censor',
 
     // View Build
     'errors' => 'Erreurs',
-    'information' => 'Informations',    
+    'information' => 'Informations',
 
     'build_x_not_found' => 'Le Build avec l\'ID %d n\'existe pas.',
     'build_n' => 'Build %d',
@@ -205,8 +206,8 @@ PHP Censor',
     'codeception_feature' => 'Feature',
     'codeception_suite' => 'Suite',
     'codeception_time' => 'Time',
-    'codeception_synopsis' => '<strong>%1$d</strong> tests carried out in <strong>%2$f</strong> seconds.
-                               <strong>%3$d</strong> failures.',
+    'codeception_synopsis' => '<strong>%1$d</strong> tests exécutés en <strong>%2$f</strong> secondes.
+                               <strong>%3$d</strong> échecs.',
     'suite' => 'Suite',
     'test'  => 'Test',
     'file' => 'Fichier',
@@ -246,7 +247,7 @@ PHP Censor',
     'edit_user' => 'Éditer l\'utilisateur',
     'delete_user' => 'Supprimer l\'utilisateur',
     'user_n_not_found' => 'L\'utilisateur avec l\'ID %d n\'existe pas.',
-    'is_user_admin' => 'Est-ce que cet utilisateur est administrateur?',
+    'is_user_admin' => 'Est-ce que cet utilisateur est administrateur&nbsp;?',
     'save_user' => 'Sauvegarder l\'utilisateur',
 
     // Settings:
@@ -311,7 +312,7 @@ PHP Censor',
     'build-summary' => 'Résumé',
     'stage' => 'Étape',
     'duration' => 'Durée',
-    'seconds'        => 'sec.', 
+    'seconds'        => 'sec.',
     'plugin' => 'Plugin',
     'stage_setup' => 'Préparation',
     'stage_test' => 'Test',
@@ -321,10 +322,10 @@ PHP Censor',
     'stage_broken'   => 'Cassé',
     'stage_fixed'    => 'Réparé',
     'severity'       => 'Gravité',
-    
+
     'build_details'  => 'Détails du Build',
     'commit_details' => 'Détails du Commit',
-    'committer'      => 'Committer', 
+    'committer'      => 'Committer',
     'timing'         => 'Timing',
     'created'        => 'Crée',
     'started'        => 'Demarré',
@@ -337,36 +338,35 @@ PHP Censor',
     'install_instead' => 'Merci d\'installer PHP Censor grâce à la commande php-censor:install.',
 
     // Create Build Command
-    'add_to_queue_failed' => 'Build crée avec succès, mais échec de l\'ajouter à la file d\'attente des Builds. Cela arrive généralement
-                                quand PHP Censor est configuré pour utiliser un serveur beanstalkd qui n\'existe pas, 
-                                or your beanstalkd server has stopped.',
+    'add_to_queue_failed' => 'Build créé avec succès mais échec de l\'ajouter à la file d\'attente des Builds. Cela arrive généralement
+                                quand PHP Censor est configuré pour utiliser un serveur beanstalkd qui n\'existe pas ou qui n\'est pas démarré.',
 
     // Builder
-    'missing_app_yml' => 'Ce projet ne contient pas de fichier .php-censor.yml (.phpci.yml|phpci.yml), ou il est vide.',
+    'missing_app_yml' => 'Ce projet ne contient pas de fichier .php-censor.yml (.phpci.yml|phpci.yml) ou il est vide.',
     'build_success' => 'BUILD RÉUSSI',
     'build_failed' => 'BUILD ÉCHOUÉ',
     'removing_build' => 'Suppression du build.',
     'exception' => 'Exception: ',
-    'could_not_create_working' => 'Impossible de créer un copie de travail.',
+    'could_not_create_working' => 'Impossible de créer une copie de travail.',
     'working_copy_created' => 'Copie de travail créée: %s',
     'looking_for_binary' => 'Recherche du binaire: %s',
     'found_in_path' => 'Trouver dans %s: %s',
     'running_plugin' => 'EXÉCUTION DU PLUGIN: %s',
     'plugin_success' => 'PLUGIN: RÉUSSI',
     'plugin_failed' => 'PLUGIN: ÉCHOUÉ',
-    'plugin_missing' => 'Le plugins n\'existe pas: %s',
+    'plugin_missing' => 'Le plugin n\'existe pas: %s',
     'failed_allowed' => 'Autorisé',
-    
+
     // Build Plugins:
     'passing_build' => 'Build réussi',
     'failing_build' => 'Build en echec',
     'log_output'    => 'Sortie de log : ',
-    
+
     // Error Levels:
     'critical' => 'Critique',
     'high' => 'Haut',
     'normal' => 'Normal',
-    'low' => 'Base',
+    'low' => 'Bas',
 
     // Plugins that generate errors:
     'php_mess_detector'    => 'PHP Mess Detector',
@@ -403,14 +403,14 @@ PHP Censor',
     'technical_debt'       => 'Technical Debt',
     'xmpp'                 => 'XMPP',
 
-    'confirm_message' => 'L\'article sera définitivement supprimé. Êtes-vous sûr?',
-    'confirm_title'   => 'Confirmation de suppression d\'un articles',
+    'confirm_message' => 'L\'article sera définitivement supprimé. Êtes-vous sûr&nbsp;?',
+    'confirm_title'   => 'Confirmation de suppression d\'un article',
     'confirm_ok'      => 'Supprimer',
     'confirm_cancel'  => 'Annuler',
     'confirm_success' => 'L\'article a été supprimé avec succès.',
-    'confirm_failed'  => 'Echec de la suppresion! le serveur a répondu: ',
-    
-    'public_status_title' => 'Status public',
-    'public_status_image' => 'Image de status',
-    'public_status_page'  => 'Page publique de status',
+    'confirm_failed'  => 'Echec de la suppresion! Le serveur a répondu: ',
+
+    'public_status_title' => 'Statut public',
+    'public_status_image' => 'Image de statut',
+    'public_status_page'  => 'Page publique de statut',
 ];
