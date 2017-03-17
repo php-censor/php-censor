@@ -57,12 +57,11 @@
     "mnsami/composer-custom-directory-installer": "1.1.*",
 
     "npm-asset/sprintf-js":     "1.0.*",
-    "npm-asset/codemirror":     "5.*",
+    "npm-asset/codemirror":     "5.23.*",
     "bower-asset/admin-lte":    "2.3.*",
     "bower-asset/font-awesome": "4.7.*",
     "bower-asset/ionicons":     "2.0.*",
-    "bower-asset/raphael":      "2.2.*",
-    "bower-asset/moment":       "2.17.*"
+    "bower-asset/raphael":      "2.2.*"
   },
   "require-dev": {
     "phpunit/phpunit":                 "5.7.*",
@@ -81,8 +80,7 @@
       "public/assets/vendor/font-awesome": ["bower-asset/font-awesome"],
       "public/assets/vendor/ion-icons":    ["bower-asset/ionicons"],
       "public/assets/vendor/raphael":      ["bower-asset/raphael"],
-      "public/assets/vendor/eve-raphael":  ["bower-asset/eve-raphael"],
-      "public/assets/vendor/moment":       ["bower-asset/moment"]
+      "public/assets/vendor/eve-raphael":  ["bower-asset/eve-raphael"]
     }
   },
   "repositories": [
