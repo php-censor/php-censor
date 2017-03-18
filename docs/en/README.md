@@ -67,4 +67,7 @@ Plugins
 
 ### Third-party plugins
 
-* [Telegram](https://github.com/LEXASOFT/PHP-Censor-Telegram-Plugin) - Telegram plugin by [@LEXASOFT](https://github.com/LEXASOFT)
+* [Telegram](https://github.com/LEXASOFT/PHP-Censor-Telegram-Plugin) - Telegram plugin by 
+[@LEXASOFT](https://github.com/LEXASOFT)
+* [Deployer](https://github.com/ket4yii/phpcensor-deployer-plugin) - Plugin for [Deployer](http://deployer.org) by 
+[@ket4yii](https://github.com/ket4yii)
