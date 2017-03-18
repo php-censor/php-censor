@@ -380,7 +380,7 @@ class ProjectController extends PHPCensor\Controller
         $field->setClass('form-control')->setContainerClass('form-group')->setValue('master');
         $form->addField($field);
 
-        $field = Form\Element\Select::create('group_id', Lang::get('group_project'), true);
+        $field = Form\Element\Select::create('group_id', Lang::get('project_group'), true);
         $field->setClass('form-control')->setContainerClass('form-group')->setValue(1);
 
         $groups = [];
