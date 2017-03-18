@@ -98,8 +98,10 @@ class Lang
     {
         $languages = [];
         foreach (self::$languages as $language) {
-            $strings = include_once(SRC_DIR . 'Languages' . DIRECTORY_SEPARATOR . 'lang.' . $language . '.php');
-            $languages[$language] = !empty($strings['language_name']) ? $strings['language_name'] : $language;
+            $strings = include(SRC_DIR . 'Languages' . DIRECTORY_SEPARATOR . 'lang.' . $language . '.php');
+            $languages[$language] = !empty($strings['language_name']) 
+                ? $strings['language_name'] . ' (' . $language . ')'
+                : $language;
         }
 
         return $languages;
