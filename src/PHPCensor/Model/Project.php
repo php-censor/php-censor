@@ -754,6 +754,7 @@ class Project extends Model
                 break;
 
             case 'bitbucket':
+            case 'bitbuckethg':
                 $icon = 'bitbucket';
                 break;
 

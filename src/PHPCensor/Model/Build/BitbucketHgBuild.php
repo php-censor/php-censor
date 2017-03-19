@@ -5,9 +5,9 @@ namespace PHPCensor\Model\Build;
 /**
  * BitBucket Build Model
  * 
- * @author Dan Cryer <dan@block8.co.uk>
+ * @author Artem Bochkov <artem.v.bochkov@gmail.com>
  */
-class BitbucketBuild extends RemoteGitBuild
+class BitbucketHgBuild extends MercurialBuild
 {
     /**
      * Get link to commit from another source (i.e. BitBucket)
@@ -33,9 +33,9 @@ class BitbucketBuild extends RemoteGitBuild
         $key = trim($this->getProject()->getSshPrivateKey());
 
         if (!empty($key)) {
-            return 'git@bitbucket.org:' . $this->getProject()->getReference() . '.git';
+            return 'ssh://hg@bitbucket.org/' . $this->getProject()->getReference();
         } else {
-            return 'https://bitbucket.org/' . $this->getProject()->getReference() . '.git';
+            return 'https://bitbucket.org/' . $this->getProject()->getReference();
         }
     }
 

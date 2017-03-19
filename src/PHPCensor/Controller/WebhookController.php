@@ -80,7 +80,7 @@ class WebhookController extends Controller
      */
     public function bitbucket($projectId)
     {
-        $project = $this->fetchProject($projectId, ['bitbucket', 'remote']);
+        $project = $this->fetchProject($projectId, ['bitbucket', 'bitbuckethg', 'remote']);
 
         // Support both old services and new webhooks
         if ($payload = $this->getParam('payload')) {

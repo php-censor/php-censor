@@ -25,9 +25,9 @@ class MercurialBuild extends Build
      */
     public function createWorkingCopy(Builder $builder, $buildPath)
     {
-        $key = trim($this->getProject()->getSshPublicKey());
+        $key = trim($this->getProject()->getSshPrivateKey());
 
-        if (!empty($key) && strpos($this->getProject()->getReference(), 'ssh') > -1) {
+        if (!empty($key)) {
             $success = $this->cloneBySsh($builder, $buildPath);
         } else {
             $success = $this->cloneByHttp($builder, $buildPath);
