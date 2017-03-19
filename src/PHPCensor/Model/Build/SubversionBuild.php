@@ -109,8 +109,7 @@ class SubversionBuild extends Build
      */
     protected function cloneBySsh(Builder $builder, $cloneTo)
     {
-        $cmd = $this->svnCommand . ' %s "%s"';
-
+        $cmd        = $this->svnCommand . ' %s "%s"';
         $keyFile    = $this->writeSshKey($cloneTo);
         $sshWrapper = $this->writeSshWrapper($cloneTo, $keyFile);
         $cmd        = 'export SVN_SSH="' . $sshWrapper . '" && ' . $cmd;
@@ -122,49 +121,5 @@ class SubversionBuild extends Build
         unlink($sshWrapper);
 
         return $success;
-    }
-
-    /**
-     * Create an SSH key file on disk for this build.
-     * @param $cloneTo
-     * @return string
-     */
-    protected function writeSshKey($cloneTo)
-    {
-        $keyPath = dirname($cloneTo . '/temp');
-        $keyFile = $keyPath . '.key';
-
-        // Write the contents of this project's svn key to the file:
-        file_put_contents($keyFile, $this->getProject()->getSshPrivateKey());
-        chmod($keyFile, 0600);
-
-        // Return the filename:
-        return $keyFile;
-    }
-
-    /**
-     * Create an SSH wrapper script for Svn to use, to disable host key checking, etc.
-     * @param $cloneTo
-     * @param $keyFile
-     * @return string
-     */
-    protected function writeSshWrapper($cloneTo, $keyFile)
-    {
-        $path        = dirname($cloneTo . '/temp');
-        $wrapperFile = $path . '.sh';
-
-        $sshFlags = '-o CheckHostIP=no -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o PasswordAuthentication=no';
-
-        // Write out the wrapper script for this build:
-        $script = <<<OUT
-#!/bin/sh
-ssh {$sshFlags} -o IdentityFile={$keyFile} $*
-
-OUT;
-
-        file_put_contents($wrapperFile, $script);
-        shell_exec('chmod +x "' . $wrapperFile . '"');
-
-        return $wrapperFile;
     }
 }

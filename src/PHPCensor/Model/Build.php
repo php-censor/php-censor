@@ -930,4 +930,50 @@ class Build extends Model
     {
         return false;
     }
+
+    /**
+     * Create an SSH key file on disk for this build.
+     *
+     * @param  string $cloneTo
+     *
+     * @return string
+     */
+    protected function writeSshKey($cloneTo)
+    {
+        $keyPath = dirname($cloneTo . '/temp');
+        $keyFile = $keyPath . '.key';
+
+        file_put_contents($keyFile, $this->getProject()->getSshPrivateKey());
+        chmod($keyFile, 0600);
+
+        return $keyFile;
+    }
+
+    /**
+     * Create an SSH wrapper script for Svn to use, to disable host key checking, etc.
+     *
+     * @param string $cloneTo
+     * @param string $keyFile
+     *
+     * @return string
+     */
+    protected function writeSshWrapper($cloneTo, $keyFile)
+    {
+        $path        = dirname($cloneTo . '/temp');
+        $wrapperFile = $path . '.sh';
+
+        $sshFlags = '-o CheckHostIP=no -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o PasswordAuthentication=no';
+
+        // Write out the wrapper script for this build:
+        $script = <<<OUT
+#!/bin/sh
+ssh {$sshFlags} -o IdentityFile={$keyFile} $*
+
+OUT;
+
+        file_put_contents($wrapperFile, $script);
+        shell_exec('chmod +x "' . $wrapperFile . '"');
+
+        return $wrapperFile;
+    }
 }
