@@ -1,6 +1,7 @@
 <?php use PHPCensor\Helper\Lang; ?>
 <script>
     var PROJECT_ID     = <?php print $project->getId(); ?>;
+    var PROJECT_ENVIRONMENT = '<?php print $environment; ?>';
     var PROJECT_BRANCH = '<?php print $branch; ?>';
     var PER_PAGE       = <?php print $perPage; ?>;
 </script>
@@ -17,32 +18,97 @@
     <div class="pull-right btn-group">
         <?php if (!$project->getArchived()): ?>
             <?php if($this->User()->getIsAdmin()): ?>
-                <a class="btn btn-danger" href="<?= APP_URL . 'project/build/' . $project->getId(); ?><?= !empty($branch) ? '/' . urlencode($branch) : '' ?>?debug=1">
-                    <?php Lang::out('build_now_debug'); ?>
-                </a>
+                <div class="btn-group build-btn">
+                    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+                        <?php Lang::out('build_now_debug'); ?>&nbsp;&nbsp;<span class="caret"></span>
+                    </button>
+
+                    <ul class="dropdown-menu" role="menu">
+                        <?php if(!empty($environments)): ?>
+                            <?php foreach ($environments as $curenvironment) : ?>
+                                <li <?php echo ($curenvironment == $environment) ? 'class="active"' : ''?>>
+                                    <a href="<?php echo APP_URL ?>project/build/<?php print $project->getId(); ?>/environment/<?php echo urlencode($curenvironment) ?>?debug=1">
+                                        <i class="fa fa-cog"></i><?php echo $curenvironment ?>
+                                    </a>
+                                </li>
+                            <?php endforeach; ?>
+                            <li class="divider"></li>
+                        <?php endif; ?>
+
+                        <?php foreach ($branches as $curbranch) : ?>
+                            <li <?php echo ($curbranch == $branch) ? 'class="active"' : ''?>>
+                                <a href="<?php echo APP_URL ?>project/build/<?php print $project->getId(); ?>/branch/<?php echo urlencode($curbranch) ?>">
+                                    <i class="fa fa-code-fork"></i><?php echo $curbranch ?>
+                                </a>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
             <?php endif; ?>
 
-            <a class="btn btn-success" href="<?= APP_URL . 'project/build/' . $project->getId(); ?><?= !empty($branch) ? '/' . urlencode($branch) : '' ?>">
-                <?php Lang::out('build_now'); ?>
-            </a>
+            <div class="btn-group build-btn">
+                <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+                    <?php Lang::out('build_now'); ?>&nbsp;&nbsp;<span class="caret"></span>
+                </button>
+
+                <ul class="dropdown-menu" role="menu">
+                    <?php if(!empty($environments)): ?>
+                        <?php foreach ($environments as $curenvironment) : ?>
+                            <li <?php echo ($curenvironment == $environment) ? 'class="active"' : ''?>>
+                                <a href="<?php echo APP_URL ?>project/build/<?php print $project->getId(); ?>/environment/<?php echo urlencode($curenvironment) ?>">
+                                    <i class="fa fa-cog"></i><?php echo $curenvironment ?>
+                                </a>
+                            </li>
+                        <?php endforeach; ?>
+                        <li class="divider"></li>
+                    <?php endif; ?>
+
+                    <?php foreach ($branches as $curbranch) : ?>
+                        <li <?php echo ($curbranch == $branch) ? 'class="active"' : ''?>>
+                            <a href="<?php echo APP_URL ?>project/build/<?php print $project->getId(); ?>/branch/<?php echo urlencode($curbranch) ?>">
+                                <i class="fa fa-code-fork"></i><?php echo $curbranch ?>
+                            </a>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
         <?php endif; ?>
 
-        <div class="btn-group branch-btn pull-right">
+        <div class="btn-group environment-btn pull-right">
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                <?php print !empty($branch) ? Lang::get('branch_x', $branch) : Lang::get('branch'); ?>&nbsp;&nbsp;<span class="caret"></span>
+                <?php
+                if (!empty($environment)) {
+                    print Lang::get('environment_x', $environment);
+                } elseif (!empty($branch)) {
+                    print Lang::get('branch_x', $branch);
+                } else {
+                    print Lang::get('All');
+                }
+                ?>&nbsp;&nbsp;<span class="caret"></span>
             </button>
 
             <ul class="dropdown-menu" role="menu">
+                <li><a href="<?php echo APP_URL ?>project/view/<?php print $project->getId(); ?>"><?php Lang::out('all'); ?></a></li>
+                <li class="divider"></li>
+
+                <?php if(!empty($environments)): ?>
+                    <?php foreach ($environments as $curenvironment) : ?>
+                        <li <?php echo ($curenvironment == $environment) ? 'class="active"' : ''?>>
+                            <a href="<?php echo APP_URL ?>project/view/<?php print $project->getId(); ?>?environment=<?php echo urlencode($curenvironment) ?>">
+                                <i class="fa fa-cog"></i><?php echo $curenvironment ?>
+                            </a>
+                        </li>
+                    <?php endforeach; ?>
+                    <li class="divider"></li>
+                <?php endif; ?>
+
                 <?php foreach ($branches as $curbranch) : ?>
                     <li <?php echo ($curbranch == $branch) ? 'class="active"' : ''?>>
                         <a href="<?php echo APP_URL ?>project/view/<?php print $project->getId(); ?>?branch=<?php echo urlencode($curbranch) ?>">
-                            <?php echo $curbranch ?>
+                            <i class="fa fa-code-fork"></i><?php echo $curbranch ?>
                         </a>
                     </li>
                 <?php endforeach; ?>
-
-                <li class="divider"></li>
-                <li><a href="<?php echo APP_URL ?>project/view/<?php print $project->getId(); ?>"><?php Lang::out('all_branches'); ?></a></li>
             </ul>
         </div>
     </div>
@@ -61,6 +127,7 @@
                     <th><?php Lang::out('id'); ?></th>
                     <th><?php Lang::out('date'); ?></th>
                     <th class="hidden-md hidden-sm hidden-xs"><?php Lang::out('commit'); ?></th>
+                    <th><?php Lang::out('environment'); ?></th>
                     <th><?php Lang::out('branch'); ?></th>
                     <th><?php Lang::out('status'); ?></th>
                     <th><?php Lang::out('duration'); ?></th>

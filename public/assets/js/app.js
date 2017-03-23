@@ -38,7 +38,7 @@ var PHPCensor = {
 
     getProjectBuilds: function () {
         $.ajax({
-            url: APP_URL + 'project/ajax-builds/' + PROJECT_ID + '?branch=' + PROJECT_BRANCH + '&per_page=' + PER_PAGE,
+            url: APP_URL + 'project/ajax-builds/' + PROJECT_ID + '?branch=' + PROJECT_BRANCH + '&environment=' + PROJECT_ENVIRONMENT + '&per_page=' + PER_PAGE,
 
             success: function (data) {
                 $('#latest-builds').html(data);

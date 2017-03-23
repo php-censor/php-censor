@@ -40,7 +40,7 @@ class BuildServiceTest extends \PHPUnit_Framework_TestCase
         $project->setType('github');
         $project->setId(101);
 
-        $returnValue = $this->testedService->createBuild($project);
+        $returnValue = $this->testedService->createBuild($project, null);
 
         $this->assertEquals(101, $returnValue->getProjectId());
         $this->assertEquals(Build::STATUS_PENDING, $returnValue->getStatus());
@@ -61,7 +61,7 @@ class BuildServiceTest extends \PHPUnit_Framework_TestCase
         $project->setType('hg');
         $project->setId(101);
 
-        $returnValue = $this->testedService->createBuild($project, '123', 'testbranch', 'test@example.com', 'test');
+        $returnValue = $this->testedService->createBuild($project, null, '123', 'testbranch', 'test@example.com', 'test');
 
         $this->assertEquals('testbranch', $returnValue->getBranch());
         $this->assertEquals('123', $returnValue->getCommitId());
@@ -75,7 +75,7 @@ class BuildServiceTest extends \PHPUnit_Framework_TestCase
         $project->setType('bitbucket');
         $project->setId(101);
 
-        $returnValue = $this->testedService->createBuild($project, null, null, null, null, ['item1' => 1001]);
+        $returnValue = $this->testedService->createBuild($project, null, null, null, null, null, ['item1' => 1001]);
 
         $this->assertEquals(1001, $returnValue->getExtra('item1'));
     }

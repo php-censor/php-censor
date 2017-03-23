@@ -4,6 +4,7 @@ namespace PHPCensor\Model\Build;
 
 use PHPCensor\Model\Build;
 use PHPCensor\Builder;
+use Psr\Log\LogLevel;
 
 /**
  * Remote Git Build Model
@@ -33,12 +34,38 @@ class RemoteGitBuild extends Build
             $success = $this->cloneByHttp($builder, $buildPath);
         }
 
+        if ($success) {
+            $success = $this->mergeBranches($builder, $buildPath);
+        }
+
         if (!$success) {
             $builder->logFailure('Failed to clone remote git repository.');
             return false;
         }
 
         return $this->handleConfig($builder, $buildPath);
+    }
+
+    /**
+     * @param Builder $builder
+     * @param string $buildPath
+     * @return bool
+     */
+    protected function mergeBranches(Builder $builder, $buildPath)
+    {
+        $branches = $this->getExtra('branches');
+        if (!empty($branches)) {
+            $cmd = 'cd "%s" && git merge --quiet origin/%s';
+            foreach ($branches as $branch) {
+                $success = $builder->executeCommand($cmd, $buildPath, $branch);
+                if (!$success) {
+                    $builder->log('Fail merge branch origin/'.$branch, LogLevel::ERROR);
+                    return false;
+                }
+                $builder->log('Merged branch origin/'.$branch, LogLevel::INFO);
+            }
+        }
+        return true;
     }
 
     /**
