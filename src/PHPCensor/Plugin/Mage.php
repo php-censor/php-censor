@@ -40,7 +40,7 @@ class Mage extends \PHPCensor\Plugin
         }
 
         if (isset($options['env'])) {
-            $this->mage_env = $options['env'];
+            $this->mage_env = $builder->interpolate($options['env']);
         }
     }
 
