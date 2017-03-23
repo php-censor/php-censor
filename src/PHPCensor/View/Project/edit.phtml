@@ -8,6 +8,11 @@
             lineWrapping: true,
             lineNumbers: true
         });
+        CodeMirror.fromTextArea(document.getElementById('element-environments'), {
+            mode: "yaml",
+            lineWrapping: true,
+            lineNumbers: true
+        });
 
         setupProjectForm();
     });

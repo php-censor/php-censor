@@ -84,6 +84,10 @@ class ProjectService
             $project->setGroup($options['group']);
         }
 
+        if (array_key_exists('environments', $options)) {
+            $project->setEnvironments($options['environments']);
+        }
+
         // Allow certain project types to set access information:
         $this->processAccessInformation($project);
 

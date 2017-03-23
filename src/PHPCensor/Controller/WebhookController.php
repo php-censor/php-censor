@@ -6,6 +6,7 @@ use b8;
 use b8\Store;
 use Exception;
 use PHPCensor\Helper\Lang;
+use PHPCensor\Model\Build;
 use PHPCensor\Model\Project;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Store\BuildStore;
@@ -510,17 +511,57 @@ class WebhookController extends Controller
         // Check if a build already exists for this commit ID:
         $builds = $this->buildStore->getByProjectAndCommit($project->getId(), $commitId);
 
+        $ignore_environments = [];
         if ($builds['count']) {
-            return [
-                'status'  => 'ignored',
-                'message' => sprintf('Duplicate of build #%d', $builds['items'][0]->getId())
-            ];
+            foreach($builds['items'] as $build) {
+                /** @var Build $build */
+                $ignore_environments[$build->getId()] = $build->getEnvironment();
+            }
         }
 
-        // If not, create a new build job for it:
-        $build = $this->buildService->createBuild($project, $commitId, $branch, $committer, $commitMessage, $extra);
-
-        return ['status' => 'ok', 'buildID' => $build->getID()];
+        $environments = $project->getEnvironmentsObjects();
+        if ($environments['count']) {
+            $created_builds = [];
+            $environment_names = $project->getEnvironmentsNamesByBranch($branch);
+            // use base branch from project
+            if (!empty($environment_names)) {
+                $duplicates = [];
+                foreach ($environment_names as $environment_name) {
+                    if (!in_array($environment_name, $ignore_environments)) {
+                        // If not, create a new build job for it:
+                        $build = $this->buildService->createBuild($project, $environment_name, $commitId, $project->getBranch(), $committer, $commitMessage, $extra);
+                        $created_builds[] = array(
+                            'id' => $build->getID(),
+                            'environment' => $environment_name,
+                        );
+                    } else {
+                        $duplicates[] = array_search($environment_name, $ignore_environments);
+                    }
+                }
+                if (!empty($created_builds)) {
+                    if (empty($duplicates)) {
+                        return ['status' => 'ok', 'builds' => $created_builds];
+                    } else {
+                        return ['status' => 'ok', 'builds' => $created_builds, 'message' => sprintf('For this commit some builds already exists (%s)', implode(', ', $duplicates))];
+                    }
+                } else {
+                    return ['status' => 'ignored', 'message' => sprintf('For this commit already created builds (%s)', implode(', ', $duplicates))];
+                }
+            } else {
+                return ['status' => 'ignored', 'message' => 'Branch not assigned to any environment'];
+            }
+        } else {
+            $environment_name = null;
+            if (!in_array($environment_name, $ignore_environments)) {
+                $build = $this->buildService->createBuild($project, null, $commitId, $branch, $committer, $commitMessage, $extra);
+                return ['status' => 'ok', 'buildID' => $build->getID()];
+            } else {
+                return [
+                    'status'  => 'ignored',
+                    'message' => sprintf('Duplicate of build #%d', array_search($environment_name, $ignore_environments)),
+                ];
+            }
+        }
     }
 
     /**
