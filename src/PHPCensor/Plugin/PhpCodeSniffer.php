@@ -62,6 +62,20 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
     protected $ignore;
 
     /**
+     * @var int
+     */
+    protected $severity = null;
+    /**
+     * @var null|int
+     */
+    protected $error_severity = null;
+
+    /**
+     * @var null|int
+     */
+    protected $warning_severity = null;
+
+    /**
      * @return string
      */
     public static function pluginName()
@@ -118,6 +132,18 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
         if (!empty($options['standard'])) {
             $this->standard = $options['standard'];
         }
+
+        if (isset($options['severity']) && is_int($options['severity'])) {
+            $this->severity = $options['severity'];
+        }
+
+        if (isset($options['error_severity']) && is_int($options['error_severity'])) {
+            $this->error_severity = $options['error_severity'];
+        }
+
+        if (isset($options['warning_severity']) && is_int($options['warning_severity'])) {
+            $this->warning_severity = $options['warning_severity'];
+        }
     }
 
     /**
@@ -143,13 +169,13 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
     */
     public function execute()
     {
-        list($ignore, $standard, $suffixes) = $this->getFlags();
+        list($ignore, $standard, $suffixes, $severity, $errorSeverity, $warningSeverity) = $this->getFlags();
 
         $phpcs = $this->builder->findBinary('phpcs');
 
         $this->builder->logExecOutput(false);
 
-        $cmd = $phpcs . ' --report=json %s %s %s %s %s "%s"';
+        $cmd = $phpcs . ' --report=json %s %s %s %s %s "%s" %s %s %s';
         $this->builder->executeCommand(
             $cmd,
             $standard,
@@ -157,7 +183,10 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
             $ignore,
             $this->tab_width,
             $this->encoding,
-            $this->builder->buildPath . $this->path
+            $this->builder->buildPath . $this->path,
+            $severity,
+            $errorSeverity,
+            $warningSeverity
         );
 
         $output = $this->builder->getLastOutput();
@@ -202,7 +231,22 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
             $suffixes = ' --extensions=' . implode(',', $this->suffixes);
         }
 
-        return [$ignore, $standard, $suffixes];
+        $severity = '';
+        if ($this->severity !== null) {
+            $severity = ' --severity=' . $this->severity;
+        }
+
+        $errorSeverity = '';
+        if ($this->error_severity !== null) {
+            $errorSeverity = ' --error-severity=' . $this->error_severity;
+        }
+
+        $warningSeverity = '';
+        if ($this->warning_severity !== null) {
+            $warningSeverity = ' --warning-severity=' . $this->warning_severity;
+        }
+
+        return [$ignore, $standard, $suffixes, $severity, $errorSeverity, $warningSeverity];
     }
 
     /**
