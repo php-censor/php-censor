@@ -16,7 +16,7 @@ use PHPCensor\Service\ProjectService;
 
 /**
  * Project Controller - Allows users to create, edit and view projects.
- * 
+ *
  * @author Dan Cryer <dan@block8.co.uk>
  */
 class ProjectController extends PHPCensor\Controller
@@ -148,7 +148,7 @@ class ProjectController extends PHPCensor\Controller
      * @param string $branch    A urldecoded branch name.
      * @param int    $start
      * @param int    $perPage
-     * 
+     *
      * @return array
      */
     protected function getLatestBuildsHtml($projectId, $branch = '', $start = 0, $perPage = 10)
@@ -380,7 +380,7 @@ class ProjectController extends PHPCensor\Controller
         $field->setClass('form-control')->setContainerClass('form-group')->setValue('master');
         $form->addField($field);
 
-        $field = Form\Element\Select::create('group_id', 'Project Group', true);
+        $field = Form\Element\Select::create('group_id', Lang::get('project_group'), true);
         $field->setClass('form-control')->setContainerClass('form-group')->setValue(1);
 
         $groups = [];

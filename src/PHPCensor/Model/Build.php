@@ -12,6 +12,15 @@ use b8\Store\Factory;
  */
 class Build extends Model
 {
+    const STAGE_SETUP    = 'setup';
+    const STAGE_TEST     = 'test';
+    const STAGE_DEPLOY   = 'deploy';
+    const STAGE_COMPLETE = 'complete';
+    const STAGE_SUCCESS  = 'success';
+    const STAGE_FAILURE  = 'failure';
+    const STAGE_FIXED    = 'fixed';
+    const STAGE_BROKEN   = 'broken';
+
     /**
      * @var array
      */
@@ -739,7 +748,7 @@ class Build extends Model
                 continue;
             }
 
-            foreach (['setup', 'test', 'complete', 'success', 'failure'] as $stage) {
+            foreach ([Build::STAGE_SETUP, Build::STAGE_TEST] as $stage) {
                 if ($className::canExecute($stage, $builder, $this)) {
                     $config[$stage][$className::pluginName()] = [
                         'zero_config' => true

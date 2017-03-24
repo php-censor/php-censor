@@ -72,7 +72,7 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
      */
     public static function canExecute($stage, Builder $builder, Build $build)
     {
-        return $stage == 'test' && !is_null(self::findConfigFile($builder->buildPath));
+        return $stage == Build::STAGE_TEST && !is_null(self::findConfigFile($builder->buildPath));
     }
 
     /**

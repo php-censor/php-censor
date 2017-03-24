@@ -42,6 +42,12 @@ test:
   grunt:
     task: "build"
 
+deploy:
+  deployer:
+    webhook_url: "http://deployer.local/deploy/QZaF1bMIUqbMFTmKDmgytUuykRN0cjCgW9SooTnwkIGETAYhDTTYoR8C431t"
+    reason:      "PHP Censor Build #%BUILD% - %COMMIT_MESSAGE%"
+    update_only: true
+
 complete:
   mysql:
     host: "localhost"
@@ -61,6 +67,8 @@ As mentioned earlier, PHP Censor is powered by plugins, there are several phases
 * `setup` - This phase is designed to initialise the build procedure.
 
 * `test` - The tests that should be run during the build. Plugins run during this phase will contribute to the success or failure of the build.
+
+* `deploy` - The deploy that should be run after the build. Plugins run during this phase will contribute to the success or failure of the build.
 
 * `complete` - Always called when the `test` phase completes, regardless of success or failure. **Note** that is you do any DB stuff here, you will need to add the DB credentials to this section as well, as it runs in a separate instance.
 

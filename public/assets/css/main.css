@@ -584,7 +584,11 @@ h6,
     font-size: 12px;
 }
 
-.bg-grey {
+.bg-gray {
     background-color: #8aa4af !important;
     color: #fff !important;
+}
+
+.timeline > .time-label > span {
+    padding: 4px 8px;
 }

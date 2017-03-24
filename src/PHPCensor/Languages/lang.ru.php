@@ -148,6 +148,7 @@ PHP Censor',
 
     // Project Groups
     'group_projects' => 'Группы проектов',
+    'project_group'  => 'Группа проекта',
     'group_count'    => 'Количество проектов',
     'group_edit'     => 'Редактировать',
     'group_delete'   => 'Удалить',

@@ -149,18 +149,18 @@ class Executor
                 // Execution failed
                 $this->setPluginStatus($stage, $plugin, Build::STATUS_FAILED);
 
-                if ($stage === 'setup') {
+                if ($stage === Build::STAGE_SETUP) {
                     $this->logger->logFailure('PLUGIN: FAILED');
                     // If we're in the "setup" stage, execution should not continue after
                     // a plugin has failed:
                     throw new Exception('Plugin failed: ' . $plugin);
-                } elseif ($stage === 'deploy') {
+                } elseif ($stage === Build::STAGE_DEPLOY) {
                     $this->logger->logFailure('PLUGIN: FAILED');
                     $success = false;
                 } else {
                     // If we're in the "test" stage and the plugin is not allowed to fail,
                     // then mark the build as failed:
-                    if (empty($options['allow_failures']) && $stage === 'test') {
+                    if (empty($options['allow_failures']) && $stage === Build::STAGE_TEST) {
                         $this->logger->logFailure('PLUGIN: FAILED');
                         $success = false;
                     } else {

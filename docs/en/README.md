@@ -43,6 +43,7 @@ Plugins
 * [Hipchat](plugins/hipchat_notify.md) - `hipchat_notify`
 * [IRC](plugins/irc.md) - `irc`
 * [Lint](plugins/lint.md) - `lint`
+* [Mage](plugins/mage.md) - `mage`
 * [MySQL](plugins/mysql.md) - `mysql`
 * [Package Build](plugins/package_build.md) - `package_build`
 * [PDepend](plugins/pdepend.md) - `pdepend`
@@ -66,4 +67,7 @@ Plugins
 
 ### Third-party plugins
 
-* [Telegram](https://github.com/LEXASOFT/PHP-Censor-Telegram-Plugin) - Telegram plugin by [@LEXASOFT](https://github.com/LEXASOFT)
+* [Telegram](https://github.com/LEXASOFT/PHP-Censor-Telegram-Plugin) - Telegram plugin by 
+[@LEXASOFT](https://github.com/LEXASOFT)
+* [Deployer](https://github.com/ket4yii/phpcensor-deployer-plugin) - Plugin for [Deployer](http://deployer.org) by 
+[@ket4yii](https://github.com/ket4yii)
