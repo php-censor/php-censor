@@ -60,7 +60,7 @@ class CreateBuildCommand extends Command
         $projectId = $input->getArgument('projectId');
         $commitId = $input->getOption('commit');
         $branch = $input->getOption('branch');
-        $environment = $input->getOption('environment');
+        $environment = $input->hasOption('environment') ? $input->getOption('environment') : null;
 
         $project = $this->projectStore->getById($projectId);
         if (empty($project) || $project->getArchived()) {
