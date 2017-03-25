@@ -1,6 +1,51 @@
 Change Log
 ==========
 
+## [PHP Censor v0.12.0](https://github.com/corpsee/php-censor/tree/0.12.0) (2017-03-25)
+
+[Full Changelog](https://github.com/corpsee/php-censor/compare/0.11.0...0.12.0)
+
+* Added 'deploy' stage for build. Thanks to [@ss-gxp](https://github.com/ss-gxp). PullRequest 
+[#34](https://github.com/corpsee/php-censor/pull/34). Build config example:
+
+```yml
+test:
+  ...
+deploy:
+  deployer:
+    webhook_url: "http://deployer.local/deploy/xxxxx"
+    reason:      "PHP Censor Build #%BUILD% - %COMMIT_MESSAGE%"
+    update_only: true
+```
+* Added Magallanes (Mage) deployment plugin. Thanks to [@ss-gxp](https://github.com/ss-gxp). PullRequest 
+[#36](https://github.com/corpsee/php-censor/pull/36), [#40](https://github.com/corpsee/php-censor/pull/40). 
+Build config example:
+
+```yml
+deploy:
+    mage:
+        env: production
+        bin: /usr/local/bin/mage
+```
+* Added build duration on Dashboard Timeline. Thanks to [@JoolsMcFly](https://github.com/JoolsMcFly). PullRequest 
+[#33](https://github.com/corpsee/php-censor/pull/33)
+* Added support for Mercurial (Hg) based repos in Bitbucket (BitbucketHgBuild). Used 
+[@bochkovprivate](https://github.com/bochkovprivate) code.
+* Fixed 'CommitterEmail' parameter in bitbucket webhook. Used [@bochkovprivate](https://github.com/bochkovprivate) code.
+* Fixed 'branch' parameter in Mercurial (Hg) build. Used [@bochkovprivate](https://github.com/bochkovprivate) code.
+* Fixed language select on user/edit page
+* Fixed localization for 'project_group' string. Thanks to [@JoolsMcFly](https://github.com/JoolsMcFly). PullRequest 
+[#39](https://github.com/corpsee/php-censor/pull/39)
+* Fixed PHPUnit plugin behavior for case without tests
+* Code style fixes, fixes for tests, improvements for documentation
+* Removed useless daterangepicker and datepicker. Issue [#37](https://github.com/corpsee/php-censor/issues/37)
+* Improved PhpCodeSniffer plugin. Thanks to [@ValerioOnGithub](https://github.com/ValerioOnGithub). PullRequest 
+[#31](https://github.com/corpsee/php-censor/pull/31), [#35](https://github.com/corpsee/php-censor/pull/35), 
+[#42](https://github.com/corpsee/php-censor/pull/42)
+* Improved French localization. Thanks to [@JoolsMcFly](https://github.com/JoolsMcFly). PullRequest 
+[#39](https://github.com/corpsee/php-censor/pull/39)
+
+
 ## [PHP Censor v0.11.0](https://github.com/corpsee/php-censor/tree/0.11.0) (2017-03-12)
 
 [Full Changelog](https://github.com/corpsee/php-censor/compare/0.10.0...0.11.0)
