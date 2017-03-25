@@ -16,6 +16,9 @@ Configuration
 * **encoding** [string, optional] - The file encoding you wish to check for.
 * **path** [string, optional] - Path in which to run PHP Code Sniffer.
 * **ignore** [array, optional] - A list of files / paths to ignore, defaults to the build_settings ignore list.
+* **severity** [int, optional] - Allows to set the minimum severity level
+* **error_severity** [int, optional] - Allows to set the minimum errors severity level
+* **warning_severity** [int, optional] - Allows to set the minimum warnings severity level
 
 ### Examples
 
