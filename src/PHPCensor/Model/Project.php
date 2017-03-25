@@ -772,6 +772,16 @@ class Project extends Model
     }
 
     /**
+     * @return EnvironmentStore
+     */
+    protected function getEnvironmentStore()
+    {
+        /** @var EnvironmentStore $store */
+        $store = Factory::getStore('Environment', 'PHPCensor');
+        return $store;
+    }
+
+    /**
      * Get Environments
      *
      * @return array contain items with \PHPCensor\Model\Environment
@@ -788,8 +798,7 @@ class Project extends Model
         $rtn = $this->cache->get($cacheKey, null);
 
         if (empty($rtn)) {
-            /** @var EnvironmentStore $store */
-            $store = Factory::getStore('Environment', 'PHPCensor');
+            $store = $this->getEnvironmentStore();
             $rtn = $store->getByProjectId($key);
             $this->cache->set($cacheKey, $rtn);
         }
@@ -843,7 +852,7 @@ class Project extends Model
         $environments_names = !empty($environments_config) ? array_keys($environments_config) : [];
 
         $current_environments = $this->getEnvironmentsObjects();
-        $store = Factory::getStore('Environment', 'PHPCensor');
+        $store = $this->getEnvironmentStore();
         foreach ($current_environments['items'] as $environment) {
             /** @var Environment $environment */
             $key = array_search($environment->getName(), $environments_names);
