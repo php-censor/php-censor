@@ -266,6 +266,7 @@ class ProjectController extends PHPCensor\Controller
                 'allow_public_status' => $this->getParam('allow_public_status', 0),
                 'branch'              => $this->getParam('branch', null),
                 'group'               => $this->getParam('group_id', null),
+                'environments'        => $this->getParam('environments', null),
             ];
 
             $project = $this->projectService->createProject($title, $type, $reference, $options);
@@ -406,12 +407,10 @@ class ProjectController extends PHPCensor\Controller
         $field->setClass('form-control')->setContainerClass('form-group')->setValue('master');
         $form->addField($field);
 
-        if ($type != 'add') {
-            $field = Form\Element\TextArea::create('environments', Lang::get('environments_label'), false);
-            $field->setClass('form-control')->setContainerClass('form-group');
-            $field->setRows(6);
-            $form->addField($field);
-        }
+        $field = Form\Element\TextArea::create('environments', Lang::get('environments_label'), false);
+        $field->setClass('form-control')->setContainerClass('form-group');
+        $field->setRows(6);
+        $form->addField($field);
 
         $field = Form\Element\Select::create('group_id', Lang::get('project_group'), true);
         $field->setClass('form-control')->setContainerClass('form-group')->setValue(1);
