@@ -52,6 +52,7 @@ class Build extends Model
         'committer_email' => null,
         'commit_message'  => null,
         'extra'           => null,
+        'environment'     => null,
     ];
 
     /**
@@ -71,6 +72,7 @@ class Build extends Model
         'committer_email' => 'getCommitterEmail',
         'commit_message'  => 'getCommitMessage',
         'extra'           => 'getExtra',
+        'environment'     => 'getEnvironment',
 
         // Foreign key getters:
         'Project' => 'getProject',
@@ -93,6 +95,7 @@ class Build extends Model
         'committer_email' => 'setCommitterEmail',
         'commit_message'  => 'setCommitMessage',
         'extra'           => 'setExtra',
+        'environment'     => 'setEnvironment',
 
         // Foreign key setters:
         'Project' => 'setProject',
@@ -163,6 +166,11 @@ class Build extends Model
         'extra' => [
             'type'     => 'text',
             'nullable' => true,
+            'default'  => null,
+        ],
+        'environment' => [
+            'type'    => 'varchar',
+            'length'  => 20,
             'default'  => null,
         ],
     ];
@@ -540,6 +548,38 @@ class Build extends Model
         $this->data['extra'] = $value;
 
         $this->setModified('extra');
+    }
+
+    /**
+     * Set the value of Extra / extra.
+     *
+     * @param $name string
+     * @param $value mixed
+     */
+    public function setExtraValue($name, $value)
+    {
+        $extra = json_decode($this->data['extra'], true);
+        if ($extra === false) {
+            $extra = [];
+        }
+        $extra[$name] = $value;
+        $this->setExtra(json_encode($extra));
+    }
+
+    /**
+     * Set the values of Extra / extra.
+     *
+     * @param $name string
+     * @param $values mixed
+     */
+    public function setExtraValues($values)
+    {
+        $extra = json_decode($this->data['extra'], true);
+        if ($extra === false) {
+            $extra = [];
+        }
+        $extra = array_replace($extra, $values);
+        $this->setExtra(json_encode($extra));
     }
 
     /**
@@ -929,5 +969,35 @@ class Build extends Model
     public function createWorkingCopy(Builder $builder, $buildPath)
     {
         return false;
+    }
+
+    /**
+     * Get the value of Environment / environment.
+     *
+     * @return string
+     */
+    public function getEnvironment()
+    {
+        $rtn = $this->data['environment'];
+
+        return $rtn;
+    }
+
+    /**
+     * Set the value of Environment / environment.
+     *
+     * @param $value string
+     */
+    public function setEnvironment($value)
+    {
+        $this->validateString('Environment', $value);
+
+        if ($this->data['environment'] === $value) {
+            return;
+        }
+
+        $this->data['environment'] = $value;
+
+        $this->setModified('environment');
     }
 }

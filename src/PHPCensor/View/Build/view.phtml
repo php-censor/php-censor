@@ -22,18 +22,26 @@
                     </tr>
 
                     <tr>
-                        <th><?php Lang::out('branch'); ?></th>
+                        <th><?php Lang::out('environment'); ?></th>
                         <td style="text-align: right">
-                            <a target="_blank" href="<?php print $build->getBranchLink(); ?>">
-                                <span class="label label-default"><?php print $build->getBranch(); ?></span>
-                            </a>
+                            <span class="label label-default"><?php print $build->getEnvironment(); ?></span>
                         </td>
                     </tr>
 
                     <tr>
-                        <th><?php Lang::out('duration'); ?></th>
-                        <td style="text-align: right" class="build-duration duration">
-                            <?php print $build->getDuration(); ?> <?= Lang::get('seconds'); ?>
+                        <th><?php Lang::out('merged_branches'); ?></th>
+                        <td style="text-align: right">
+                            <span class="label label-default"><?php print $build->getBranch() ?></span>
+                            + <?php
+                            $branches = $build->getExtra('branches');
+                            if (!empty($branches)) {
+                                foreach($branches as $branch) {
+                                    ?><span class="label label-default"><?php print $branch ?></span><?php
+                                }
+                            } else {
+                                ?>&mdash;<?php
+                            }
+                            ?>
                         </td>
                     </tr>
                 </table>
@@ -51,6 +59,15 @@
 
             <div class="box-body no-padding">
                 <table class="table">
+                    <tr>
+                        <th><?php Lang::out('branch'); ?></th>
+                        <td style="text-align: right">
+                            <a target="_blank" href="<?php print $build->getBranchLink(); ?>">
+                                <span class="label label-default"><?php print $build->getBranch(); ?></span>
+                            </a>
+                        </td>
+                    </tr>
+
                     <tr>
                         <th><?php Lang::out('commit'); ?></th>
                         <td style="text-align: right">
@@ -105,6 +122,13 @@
                         <th><?php Lang::out('finished'); ?></th>
                         <td style="text-align: right" class="build-finished datetime">
                             <?php print $build->getFinished() ? $build->getFinished()->format('Y-m-d H:i:s') : ''; ?>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th><?php Lang::out('duration'); ?></th>
+                        <td style="text-align: right" class="build-duration duration">
+                            <?php print $build->getDuration(); ?> <?= Lang::get('seconds'); ?>
                         </td>
                     </tr>
                 </table>

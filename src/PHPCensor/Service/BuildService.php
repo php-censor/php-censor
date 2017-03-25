@@ -35,6 +35,7 @@ class BuildService
 
     /**
      * @param Project $project
+     * @param string $environment
      * @param string|null $commitId
      * @param string|null $branch
      * @param string|null $committerEmail
@@ -44,6 +45,7 @@ class BuildService
      */
     public function createBuild(
         Project $project,
+        $environment,
         $commitId = null,
         $branch = null,
         $committerEmail = null,
@@ -54,6 +56,10 @@ class BuildService
         $build->setCreated(new \DateTime());
         $build->setProject($project);
         $build->setStatus(0);
+        $build->setEnvironment($environment);
+
+        $branches = $project->getBranchesByEnvironment($environment);
+        $build->setExtraValue('branches', $branches);
 
         if (!is_null($commitId)) {
             $build->setCommitId($commitId);
@@ -77,7 +83,7 @@ class BuildService
         }
 
         if (!is_null($extra)) {
-            $build->setExtra(json_encode($extra));
+            $build->setExtraValues($extra);
         }
 
         $build = $this->buildStore->save($build);
