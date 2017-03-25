@@ -23,6 +23,7 @@ Using PHP Censor
     * [Git](sources/git.md)
 * [Injecting variables into messages](interpolation.md)
 * [Project Status Images and Status Page](status.md)
+* [Build environments](environments.md)
 
 Plugins
 -------
