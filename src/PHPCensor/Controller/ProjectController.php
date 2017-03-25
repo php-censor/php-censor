@@ -332,19 +332,20 @@ class ProjectController extends PHPCensor\Controller
         $form->addField(new Form\Element\Hidden('pubkey'));
 
         $options = [
-            'choose'    => Lang::get('select_repository_type'),
-            'github'    => 'GitHub',
-            'bitbucket' => 'Bitbucket',
-            'gitlab'    => 'GitLab',
-            'gogs'      => 'Gogs',
-            'remote'    => 'Git',
-            'local'     => Lang::get('local'),
-            'hg'        => 'Mercurial (Hg)',
-            'svn'       => 'SVN',
+            'choose'      => Lang::get('select_repository_type'),
+            'github'      => 'GitHub',
+            'bitbucket'   => 'Bitbucket (Git)',
+            'bitbuckethg' => 'Bitbucket (Hg)',
+            'gitlab'      => 'GitLab',
+            'gogs'        => 'Gogs',
+            'remote'      => 'Git',
+            'local'       => Lang::get('local'),
+            'hg'          => 'Mercurial (Hg)',
+            'svn'         => 'SVN',
         ];
 
         $field = Form\Element\Select::create('type', Lang::get('where_hosted'), true);
-        $field->setPattern('^(github|bitbucket|gitlab|gogs|remote|local|hg|svn)');
+        $field->setPattern('^(github|bitbucket|bitbuckethg|gitlab|gogs|remote|local|hg|svn)');
         $field->setOptions($options);
         $field->setClass('form-control')->setContainerClass('form-group');
         $form->addField($field);
@@ -428,7 +429,7 @@ class ProjectController extends PHPCensor\Controller
 
             $validators = [
                 'hg' => [
-                    'regex'   => '/^(https?):\/\//',
+                    'regex'   => '/^(ssh|https?):\/\//',
                     'message' => Lang::get('error_mercurial')
                 ],
                 'remote' => [
@@ -444,6 +445,10 @@ class ProjectController extends PHPCensor\Controller
                     'message' => Lang::get('error_github')
                 ],
                 'bitbucket' => [
+                    'regex'   => '/^[a-zA-Z0-9_\-]+\/[a-zA-Z0-9_\-\.]+$/',
+                    'message' => Lang::get('error_bitbucket')
+                ],
+                'bitbuckethg' => [
                     'regex'   => '/^[a-zA-Z0-9_\-]+\/[a-zA-Z0-9_\-\.]+$/',
                     'message' => Lang::get('error_bitbucket')
                 ],

@@ -80,7 +80,7 @@ class WebhookController extends Controller
      */
     public function bitbucket($projectId)
     {
-        $project = $this->fetchProject($projectId, ['bitbucket', 'remote']);
+        $project = $this->fetchProject($projectId, ['bitbucket', 'bitbuckethg', 'remote']);
 
         // Support both old services and new webhooks
         if ($payload = $this->getParam('payload')) {
@@ -110,8 +110,11 @@ class WebhookController extends Controller
         foreach ($payload['push']['changes'] as $commit) {
             try {
                 $email = $commit['new']['target']['author']['raw'];
-                $email = substr($email, 0, strpos($email, '>'));
-                $email = substr($email, strpos($email, '<') + 1);
+                if (strpos($email, '>') !== false) {
+                    // In order not to loose email if it is RAW, w/o "<>" symbols
+                    $email = substr($email, 0, strpos($email, '>'));
+                    $email = substr($email, strpos($email, '<') + 1);
+                }
 
                 $results[$commit['new']['target']['hash']] = $this->createBuild(
                     $project,

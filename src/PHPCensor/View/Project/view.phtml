@@ -170,6 +170,7 @@
                             break;
 
                         case 'bitbucket':
+                        case 'bitbuckethg':
                             $url = APP_URL . 'webhook/bitbucket/' . $project->getId();
                             Lang::out('webhooks_help_bitbucket', $project->getReference());
                             break;

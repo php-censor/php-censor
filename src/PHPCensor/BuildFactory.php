@@ -51,6 +51,9 @@ class BuildFactory
                 case 'bitbucket':
                     $type = 'BitbucketBuild';
                     break;
+                case 'bitbuckethg':
+                    $type = 'BitbucketHgBuild';
+                    break;
                 case 'gitlab':
                     $type = 'GitlabBuild';
                     break;

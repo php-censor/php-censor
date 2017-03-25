@@ -6,7 +6,8 @@ $linkTemplate = $build->getFileLinkTemplate();
 /** @var \PHPCensor\Model\BuildError[] $errors */
 foreach ($errors as $error):
 
-    $link = str_replace('{FILE}', $error->getFile(), $linkTemplate);
+    $link = str_replace('{BASEFILE}', basename($error->getFile()), $linkTemplate);
+    $link = str_replace('{FILE}', $error->getFile(), $link);
     $link = str_replace('{LINE}', $error->getLineStart(), $link);
     $link = str_replace('{LINE_END}', $error->getLineEnd(), $link);
 ?>
