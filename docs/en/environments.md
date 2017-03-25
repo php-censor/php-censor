@@ -27,7 +27,7 @@ test:
 ```
 
 When you push commits to `master` branch, three builds will be created - one for each of the environments.
- 
+
 If push commit to branch `feature-A` - build for `rc` environment will be created.
 
 If push commit to branch `feature-C` - no build will be created.
