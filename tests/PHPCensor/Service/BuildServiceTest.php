@@ -67,7 +67,7 @@ class BuildServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($returnValue->getLog());
         $this->assertEquals('Manual', $returnValue->getCommitMessage());
         $this->assertNull($returnValue->getCommitterEmail());
-        $this->assertNull($returnValue->getExtra());
+        $this->assertEquals(['branches' => []], $returnValue->getExtra());
         $this->assertEquals('master', $returnValue->getBranch());
         $this->assertInstanceOf('DateTime', $returnValue->getCreated());
         $this->assertEquals('Manual', $returnValue->getCommitId());
