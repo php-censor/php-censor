@@ -88,7 +88,14 @@ class ProjectService
         $this->processAccessInformation($project);
 
         // Save and return the project:
-        return $this->projectStore->save($project);
+        /** @var Project $project */
+        $project = $this->projectStore->save($project);
+
+        if (array_key_exists('environments', $options)) {
+            $project->setEnvironments($options['environments']);
+        }
+
+        return $project;
     }
 
     /**

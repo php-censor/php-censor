@@ -37,6 +37,7 @@ class BuildInterpolator
         $this->interpolation_vars['%COMMIT_URI%'] = $build->getCommitLink();
         $this->interpolation_vars['%BRANCH%'] = $build->getBranch();
         $this->interpolation_vars['%BRANCH_URI%'] = $build->getBranchLink();
+        $this->interpolation_vars['%ENVIRONMENT%'] = $build->getEnvironment();
         $this->interpolation_vars['%PROJECT%'] = $build->getProjectId();
         $this->interpolation_vars['%BUILD%'] = $build->getId();
         $this->interpolation_vars['%PROJECT_TITLE%'] = $build->getProjectTitle();
@@ -66,6 +67,7 @@ class BuildInterpolator
         putenv('PHPCI_PROJECT_TITLE=' . $this->interpolation_vars['%PROJECT_TITLE%']);
         putenv('PHPCI_BUILD_PATH=' . $this->interpolation_vars['%BUILD_PATH%']);
         putenv('PHPCI_BUILD_URI=' . $this->interpolation_vars['%BUILD_URI%']);
+        putenv('PHPCI_ENVIRONMENT=' . $this->interpolation_vars['%ENVIRONMENT%']);
     }
 
     /**

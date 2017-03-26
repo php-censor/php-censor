@@ -36,6 +36,8 @@ switch($build->getStatus())
         $status = Lang::get('failed');
     break;
 }
+
+$branches = $build->getExtra('branches');
 ?>
 <tr>
     <td><a href="<?php echo APP_URL ?>build/view/<?php print $build->getId(); ?>">#<?php print str_pad($build->getId(), 6, '0', STR_PAD_LEFT); ?></a></td>
@@ -55,7 +57,11 @@ switch($build->getStatus())
         ?>
     </td>
 
-    <td><a href="<?php print $build->getBranchLink(); ?>" target="_blank"><?php print $build->getBranch(); ?></a></td>
+    <td><?php print $build->getEnvironment(); ?></td>
+    <td>
+        <a href="<?php print $build->getBranchLink(); ?>" target="_blank"><?php print $build->getBranch(); ?></a>
+        <?php print $branches ? ' + '.implode(', ', $branches) : ''; ?>
+    </td>
     <td>
         <span class='label label-<?php echo $subcls ?>'><?php echo $status ?></span>
     </td>

@@ -60,6 +60,7 @@ class CreateBuildCommand extends Command
         $projectId = $input->getArgument('projectId');
         $commitId = $input->getOption('commit');
         $branch = $input->getOption('branch');
+        $environment = $input->hasOption('environment') ? $input->getOption('environment') : null;
 
         $project = $this->projectStore->getById($projectId);
         if (empty($project) || $project->getArchived()) {
@@ -67,7 +68,7 @@ class CreateBuildCommand extends Command
         }
 
         try {
-            $this->buildService->createBuild($project, $commitId, $branch);
+            $this->buildService->createBuild($project, $environment, $commitId, $branch);
             $output->writeln('Build Created');
         } catch (\Exception $e) {
             $output->writeln('<error>Failed</error>');

@@ -30,6 +30,9 @@
 
                     <?php
                     foreach ($builds as $build):
+                        $environment = $build->getEnvironment();
+                        $branches = $build->getExtra('branches');
+
                         switch ($build->getStatus()) {
                             case \PHPCensor\Model\Build::STATUS_PENDING:
                                 $updated = $build->getCreated();
@@ -86,6 +89,7 @@
                                     <a href="<?php print APP_URL; ?>project/view/<?php print $build->getProjectId(); ?>">
                                         <?php print $build->getProject()->getTitle(); ?>
                                     </a>
+                                    <span><?php print $environment; ?></span>
                                     -
                                     <a href="<?php print APP_URL; ?>build/view/<?php print $build->getId(); ?>">
                                         Build #<?php print $build->getId(); ?>
@@ -95,7 +99,8 @@
                                 </h3>
 
                                 <div class="timeline-body">
-                                    <a href="<?php echo $build->getBranchLink();?>"><?php echo $build->getProject()->getBranch(); ?></a> -
+                                    <a href="<?php echo $build->getBranchLink();?>"><?php echo $build->getProject()->getBranch(); ?></a>
+                                    <?php print $branches ? ' + '.implode(', ', $branches) : ''; ?> -
                                     <?php
                                     if ($build->getCommitId() !== 'Manual') {
                                         print sprintf(

@@ -5,6 +5,9 @@ namespace PHPCensor\Model;
 use PHPCensor\Model;
 use b8\Store;
 use b8\Store\Factory;
+use PHPCensor\Store\EnvironmentStore;
+use Symfony\Component\Yaml\Parser as YamlParser;
+use Symfony\Component\Yaml\Dumper as YamlDumper;
 
 /**
  * @author Dan Cryer <dan@block8.co.uk>
@@ -766,5 +769,145 @@ class Project extends Model
         }
 
         return $icon;
+    }
+
+    /**
+     * @return EnvironmentStore
+     */
+    protected function getEnvironmentStore()
+    {
+        /** @var EnvironmentStore $store */
+        $store = Factory::getStore('Environment', 'PHPCensor');
+        return $store;
+    }
+
+    /**
+     * Get Environments
+     *
+     * @return array contain items with \PHPCensor\Model\Environment
+     */
+    public function getEnvironmentsObjects()
+    {
+        $key = $this->getId();
+
+        if (empty($key)) {
+            return null;
+        }
+
+        $cacheKey = 'Cache.ProjectEnvironments.' . $key;
+        $rtn = $this->cache->get($cacheKey, null);
+
+        if (empty($rtn)) {
+            $store = $this->getEnvironmentStore();
+            $rtn = $store->getByProjectId($key);
+            $this->cache->set($cacheKey, $rtn);
+        }
+
+        return $rtn;
+    }
+
+    /**
+     * Get Environments
+     *
+     * @return string[]
+     */
+    public function getEnvironmentsNames()
+    {
+        $environments = $this->getEnvironmentsObjects();
+        $environments_names = [];
+        foreach($environments['items'] as $environment) {
+            /** @var Environment $environment */
+            $environments_names[] = $environment->getName();
+        }
+        return $environments_names;
+    }
+
+    /**
+     * Get Environments
+     *
+     * @return string yaml
+     */
+    public function getEnvironments()
+    {
+        $environments = $this->getEnvironmentsObjects();
+        $environments_config = [];
+        foreach($environments['items'] as $environment) {
+            /** @var Environment $environment */
+            $environments_config[$environment->getName()] = $environment->getBranches();
+        }
+        $yaml_dumper = new YamlDumper();
+        $value = $yaml_dumper->dump($environments_config, 10, 0, true, false);
+        return $value;
+    }
+
+    /**
+     * Set Environments
+     *
+     * @param string $value yaml
+     */
+    public function setEnvironments($value)
+    {
+        $yaml_parser = new YamlParser();
+        $environments_config = $yaml_parser->parse($value);
+        $environments_names = !empty($environments_config) ? array_keys($environments_config) : [];
+
+        $current_environments = $this->getEnvironmentsObjects();
+        $store = $this->getEnvironmentStore();
+        foreach ($current_environments['items'] as $environment) {
+            /** @var Environment $environment */
+            $key = array_search($environment->getName(), $environments_names);
+            if ($key !== false) {
+                // already exist
+                unset($environments_names[$key]);
+                $environment->setBranches(!empty($environments_config[$environment->getName()]) ? $environments_config[$environment->getName()] : []);
+            } else {
+                // remove
+                $store->delete($environment);
+            }
+        }
+        if (!empty($environments_names)) {
+            // add
+            foreach ($environments_names as $environment_name) {
+                $environment = new Environment();
+                $environment->setProjectId($this->getId());
+                $environment->setName($environment_name);
+                $environment->setBranches(!empty($environments_config[$environment->getName()]) ? $environments_config[$environment->getName()] : []);
+                $store->save($environment);
+            }
+        }
+    }
+
+    /**
+     * @param string $branch
+     * @return string[]
+     */
+    public function getEnvironmentsNamesByBranch($branch)
+    {
+        $environments_names = [];
+        $environments = $this->getEnvironmentsObjects();
+        foreach($environments['items'] as $environment) {
+            /** @var Environment $environment */
+            if (in_array($branch, $environment->getBranches())) {
+                $environments_names[] = $environment->getName();
+            }
+        }
+        return $environments_names;
+    }
+
+    /**
+     * @param string $environment_name
+     * @return string[]
+     */
+    public function getBranchesByEnvironment($environment_name)
+    {
+        $branches = [];
+        $environments = $this->getEnvironmentsObjects();
+        foreach($environments['items'] as $environment) {
+            /** @var Environment $environment */
+            if ($environment_name == $environment->getName()) {
+                return $environment->getBranches();
+            }
+        }
+        return $branches;
     }
 }

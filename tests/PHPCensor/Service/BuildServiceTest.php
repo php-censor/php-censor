@@ -24,6 +24,11 @@ class BuildServiceTest extends \PHPUnit_Framework_TestCase
      */
     protected $mockBuildStore;
 
+    /**
+     * @var \ $mockEnvironmentStore
+     */
+    protected $mockEnvironmentStore;
+
     public function setUp()
     {
         $this->mockBuildStore = $this->getMockBuilder('PHPCensor\Store\BuildStore')->getMock();
@@ -31,16 +36,29 @@ class BuildServiceTest extends \PHPUnit_Framework_TestCase
                                ->method('save')
                                ->will($this->returnArgument(0));
 
+        $this->mockEnvironmentStore = $this->getMockBuilder('PHPCensor\Store\EnvironmentStore')->getMock();
+        $this->mockEnvironmentStore->expects($this->any())
+            ->method('getByProjectId')
+            ->will($this->returnValue(['items' => [], 'count' => 0]));
+
         $this->testedService = new BuildService($this->mockBuildStore);
     }
 
     public function testExecute_CreateBasicBuild()
     {
-        $project = new Project();
+        $project = $this
+            ->getMockBuilder('PHPCensor\Model\Project')
+            ->setMethods(['getEnvironmentStore'])
+            ->getMock();
+
+        $project->expects($this->any())
+            ->method('getEnvironmentStore')
+            ->will($this->returnValue($this->mockEnvironmentStore));
+
         $project->setType('github');
         $project->setId(101);
 
-        $returnValue = $this->testedService->createBuild($project);
+        $returnValue = $this->testedService->createBuild($project, null);
 
         $this->assertEquals(101, $returnValue->getProjectId());
         $this->assertEquals(Build::STATUS_PENDING, $returnValue->getStatus());
@@ -57,11 +75,19 @@ class BuildServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testExecute_CreateBuildWithOptions()
     {
-        $project = new Project();
+        $project = $this
+            ->getMockBuilder('PHPCensor\Model\Project')
+            ->setMethods(['getEnvironmentStore'])
+            ->getMock();
+
+        $project->expects($this->any())
+            ->method('getEnvironmentStore')
+            ->will($this->returnValue($this->mockEnvironmentStore));
+
         $project->setType('hg');
         $project->setId(101);
 
-        $returnValue = $this->testedService->createBuild($project, '123', 'testbranch', 'test@example.com', 'test');
+        $returnValue = $this->testedService->createBuild($project, null, '123', 'testbranch', 'test@example.com', 'test');
 
         $this->assertEquals('testbranch', $returnValue->getBranch());
         $this->assertEquals('123', $returnValue->getCommitId());
@@ -71,11 +97,19 @@ class BuildServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testExecute_CreateBuildWithExtra()
     {
-        $project = new Project();
+        $project = $this
+            ->getMockBuilder('PHPCensor\Model\Project')
+            ->setMethods(['getEnvironmentStore'])
+            ->getMock();
+
+        $project->expects($this->any())
+            ->method('getEnvironmentStore')
+            ->will($this->returnValue($this->mockEnvironmentStore));
+
         $project->setType('bitbucket');
         $project->setId(101);
 
-        $returnValue = $this->testedService->createBuild($project, null, null, null, null, ['item1' => 1001]);
+        $returnValue = $this->testedService->createBuild($project, null, null, null, null, null, ['item1' => 1001]);
 
         $this->assertEquals(1001, $returnValue->getExtra('item1'));
     }
