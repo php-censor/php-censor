@@ -7,7 +7,7 @@ When you commit to a branch, builds all environments in which branch included (b
 
 When you build a environment, additional branches merged into base branch.
 
-For example, it can be useful when yoy dealy merging into master or test some branches at once. Or deploy. 
+For example, it can be useful when you delay merging into master or test some branches at once. Or deploy.
 
 Config example and explanation
 ------------------------------
