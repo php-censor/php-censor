@@ -74,7 +74,7 @@ class Environment extends Model
         ],
         'name' => [
             'type'    => 'varchar',
-            'length'  => 20,
+            'length'  => 250,
             'default' => null,
         ],
         'branches' => [
