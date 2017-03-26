@@ -67,6 +67,7 @@ class BuildInterpolator
         putenv('PHPCI_PROJECT_TITLE=' . $this->interpolation_vars['%PROJECT_TITLE%']);
         putenv('PHPCI_BUILD_PATH=' . $this->interpolation_vars['%BUILD_PATH%']);
         putenv('PHPCI_BUILD_URI=' . $this->interpolation_vars['%BUILD_URI%']);
+        putenv('PHPCI_ENVIRONMENT=' . $this->interpolation_vars['%ENVIRONMENT%']);
     }
 
     /**
