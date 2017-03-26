@@ -17,7 +17,7 @@ class AddEnvironment extends AbstractMigration
         }
 
         if (!$table->hasColumn('name')) {
-            $table->addColumn('name', 'string', ['limit' => 20])->save();
+            $table->addColumn('name', 'string', ['limit' => 250])->save();
         }
 
         if (!$table->hasColumn('branches')) {
@@ -31,7 +31,7 @@ class AddEnvironment extends AbstractMigration
         $table = $this->table('build');
 
         if (!$table->hasColumn('environment')) {
-            $table->addColumn('environment', 'string', ['limit' => 20])->save();
+            $table->addColumn('environment', 'string', ['limit' => 250])->save();
         }
     }
 

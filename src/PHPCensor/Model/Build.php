@@ -170,7 +170,7 @@ class Build extends Model
         ],
         'environment' => [
             'type'    => 'varchar',
-            'length'  => 20,
+            'length'  => 250,
             'default'  => null,
         ],
     ];
