@@ -118,6 +118,8 @@ class RunCommand extends Command
                 // After execution we no longer want to record the information
                 // back to this specific build so the handler should be removed.
                 $this->logger->popHandler();
+                // destructor implicitly call flush
+                unset($buildDbLog);
             } catch (\Exception $ex) {
                 $build->setStatus(Build::STATUS_FAILED);
                 $build->setFinished(new \DateTime());
