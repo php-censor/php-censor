@@ -121,6 +121,8 @@ class BuildWorker
                 // After execution we no longer want to record the information
                 // back to this specific build so the handler should be removed.
                 $this->logger->popHandler();
+                // destructor implicitly call flush
+                unset($buildDbLog);
             } catch (\PDOException $ex) {
                 // If we've caught a PDO Exception, it is probably not the fault of the build, but of a failed
                 // connection or similar. Release the job and kill the worker.
