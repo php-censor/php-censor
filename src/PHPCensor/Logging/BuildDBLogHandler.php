@@ -20,6 +20,16 @@ class BuildDBLogHandler extends AbstractProcessingHandler
     protected $logValue;
 
     /**
+     * @var int last flush timestamp
+     */
+    protected $flush_timestamp = 0;
+
+    /**
+     * @var int flush delay, seconds
+     */
+    protected $flush_delay = 1;
+
+    /**
      * @param Build $build
      * @param bool $level
      * @param bool $bubble
@@ -36,6 +46,24 @@ class BuildDBLogHandler extends AbstractProcessingHandler
     }
 
     /**
+     * Destructor
+     */
+    public function __destruct()
+    {
+        $this->flushData();
+    }
+
+    /**
+     * Flush buffered data
+     */
+    protected function flushData()
+    {
+        $this->build->setLog($this->logValue);
+        Factory::getStore('Build')->save($this->build);
+        $this->flush_timestamp = time();
+    }
+
+    /**
      * Write a log entry to the build log.
      * @param array $record
      */
@@ -45,8 +73,9 @@ class BuildDBLogHandler extends AbstractProcessingHandler
         $message = str_replace($this->build->currentBuildPath, '/', $message);
 
         $this->logValue .= $message . PHP_EOL;
-        $this->build->setLog($this->logValue);
 
-        Factory::getStore('Build')->save($this->build);
+        if ($this->flush_timestamp < (time() - $this->flush_delay)) {
+            $this->flushData();
+        }
     }
 }
