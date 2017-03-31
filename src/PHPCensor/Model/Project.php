@@ -885,9 +885,10 @@ class Project extends Model
     {
         $environments_names = [];
         $environments = $this->getEnvironmentsObjects();
+        $default_branch = ($branch == $this->getBranch());
         foreach($environments['items'] as $environment) {
             /** @var Environment $environment */
-            if (in_array($branch, $environment->getBranches())) {
+            if ($default_branch or in_array($branch, $environment->getBranches())) {
                 $environments_names[] = $environment->getName();
             }
         }
