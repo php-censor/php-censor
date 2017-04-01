@@ -142,7 +142,7 @@ class Environment extends Model
     /**
      * Get the value of Title / title.
      *
-     * @return string
+     * @return array
      */
     public function getBranches()
     {

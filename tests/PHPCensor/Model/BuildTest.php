@@ -61,5 +61,26 @@ class BuildTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(2, $build->getExtra('item2'));
         $this->assertNull($build->getExtra('item3'));
         $this->assertEquals($info, $build->getExtra());
+        
+        $build->setExtraValue('item3', 'Item Three');
+
+        $this->assertEquals('Item One', $build->getExtra('item1'));
+        $this->assertEquals('Item Three', $build->getExtra('item3'));
+
+        $build->setExtraValues([
+            'item3' => 'Item Three New',
+            'item4' => 4,
+        ]);
+
+        $this->assertEquals('Item One', $build->getExtra('item1'));
+        $this->assertEquals('Item Three New', $build->getExtra('item3'));
+        $this->assertEquals(4, $build->getExtra('item4'));
+
+        $this->assertEquals([
+            'item1' => 'Item One',
+            'item2' => 2,
+            'item3' => 'Item Three New',
+            'item4' => 4,
+        ], $build->getExtra());
     }
 }

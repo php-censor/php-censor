@@ -570,7 +570,6 @@ class Build extends Model
     /**
      * Set the values of Extra / extra.
      *
-     * @param $name string
      * @param $values mixed
      */
     public function setExtraValues($values)
@@ -581,6 +580,26 @@ class Build extends Model
         }
         $extra = array_replace($extra, $values);
         $this->setExtra(json_encode($extra));
+    }
+
+    /**
+     * Return a value from the build's "extra" JSON array.
+     * @param null $key
+     * @return mixed|null|string
+     */
+    public function getExtra($key = null)
+    {
+        $data = json_decode($this->data['extra'], true);
+
+        if (is_null($key)) {
+            $rtn = $data;
+        } elseif (isset($data[$key])) {
+            $rtn = $data[$key];
+        } else {
+            $rtn = null;
+        }
+
+        return $rtn;
     }
 
     /**
@@ -799,26 +818,6 @@ class Build extends Model
         }
 
         return $config;
-    }
-
-    /**
-     * Return a value from the build's "extra" JSON array.
-     * @param null $key
-     * @return mixed|null|string
-     */
-    public function getExtra($key = null)
-    {
-        $data = json_decode($this->data['extra'], true);
-
-        if (is_null($key)) {
-            $rtn = $data;
-        } elseif (isset($data[$key])) {
-            $rtn = $data[$key];
-        } else {
-            $rtn = null;
-        }
-
-        return $rtn;
     }
 
     /**
