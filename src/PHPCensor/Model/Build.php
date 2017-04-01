@@ -3,6 +3,7 @@
 namespace PHPCensor\Model;
 
 use PHPCensor\Builder;
+use PHPCensor\Store\BuildErrorWriter;
 use Symfony\Component\Yaml\Parser as YamlParser;
 use PHPCensor\Model;
 use b8\Store\Factory;
@@ -840,7 +841,6 @@ class Build extends Model
      * @param null $file
      * @param null $lineStart
      * @param null $lineEnd
-     * @return BuildError
      */
     public function reportError(
         Builder $builder,
@@ -851,19 +851,15 @@ class Build extends Model
         $lineStart = null,
         $lineEnd = null
     ) {
-        unset($builder);
-
-        $error = new BuildError();
-        $error->setBuild($this);
-        $error->setCreatedDate(new \DateTime());
-        $error->setPlugin($plugin);
-        $error->setMessage($message);
-        $error->setSeverity($severity);
-        $error->setFile($file);
-        $error->setLineStart($lineStart);
-        $error->setLineEnd($lineEnd);
-
-        return Factory::getStore('BuildError')->save($error);
+        $writer = $builder->getBuildErrorWriter();
+        $writer->write(
+            $plugin,
+            $message,
+            $severity,
+            $file,
+            $lineStart,
+            $lineEnd
+        );
     }
 
     /**

@@ -222,7 +222,7 @@ class GithubBuild extends RemoteGitBuild
             }
         }
 
-        return parent::reportError($builder, $plugin, $message, $severity, $file, $lineStart, $lineEnd);
+        parent::reportError($builder, $plugin, $message, $severity, $file, $lineStart, $lineEnd);
     }
 
     /**
