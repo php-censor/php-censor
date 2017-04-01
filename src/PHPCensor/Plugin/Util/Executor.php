@@ -193,7 +193,7 @@ class Executor
 
         try {
             // Build and run it
-            $obj = $this->pluginFactory->buildPlugin($class, $options);
+            $obj = $this->pluginFactory->buildPlugin($class, (is_null($options) ? [] : $options));
 
             return $obj->execute();
         } catch (\Exception $ex) {
