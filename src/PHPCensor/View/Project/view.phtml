@@ -25,20 +25,20 @@
 
                     <ul class="dropdown-menu" role="menu">
                         <?php if(!empty($environments)): ?>
-                            <?php foreach ($environments as $curenvironment) : ?>
-                                <li <?php echo ($curenvironment == $environment) ? 'class="active"' : ''?>>
-                                    <a href="<?php echo APP_URL ?>project/build/<?php print $project->getId(); ?>/environment/<?php echo urlencode($curenvironment) ?>?debug=1">
-                                        <i class="fa fa-cog"></i><?php echo $curenvironment ?>
+                            <?php foreach ($environments as $currentEnvironment) : ?>
+                                <li <?php echo ($currentEnvironment == $environment) ? 'class="active"' : ''?>>
+                                    <a href="<?php echo APP_URL ?>project/build/<?php print $project->getId(); ?>/environment/<?php echo urlencode($currentEnvironment) ?>?debug=1">
+                                        <i class="fa fa-cog"></i><?php echo $currentEnvironment ?>
                                     </a>
                                 </li>
                             <?php endforeach; ?>
                             <li class="divider"></li>
                         <?php endif; ?>
 
-                        <?php foreach ($branches as $curbranch) : ?>
-                            <li <?php echo ($curbranch == $branch) ? 'class="active"' : ''?>>
-                                <a href="<?php echo APP_URL ?>project/build/<?php print $project->getId(); ?>/branch/<?php echo urlencode($curbranch) ?>">
-                                    <i class="fa fa-code-fork"></i><?php echo $curbranch ?>
+                        <?php foreach ($branches as $currentBranch) : ?>
+                            <li <?php echo ($currentBranch == $branch) ? 'class="active"' : ''?>>
+                                <a href="<?php echo APP_URL ?>project/build/<?php print $project->getId(); ?>/branch/<?php echo urlencode($currentBranch) ?>?debug=1">
+                                    <i class="fa fa-code-fork"></i><?php echo $currentBranch ?>
                                 </a>
                             </li>
                         <?php endforeach; ?>
@@ -53,20 +53,20 @@
 
                 <ul class="dropdown-menu" role="menu">
                     <?php if(!empty($environments)): ?>
-                        <?php foreach ($environments as $curenvironment) : ?>
-                            <li <?php echo ($curenvironment == $environment) ? 'class="active"' : ''?>>
-                                <a href="<?php echo APP_URL ?>project/build/<?php print $project->getId(); ?>/environment/<?php echo urlencode($curenvironment) ?>">
-                                    <i class="fa fa-cog"></i><?php echo $curenvironment ?>
+                        <?php foreach ($environments as $currentEnvironment) : ?>
+                            <li <?php echo ($currentEnvironment == $environment) ? 'class="active"' : ''?>>
+                                <a href="<?php echo APP_URL ?>project/build/<?php print $project->getId(); ?>/environment/<?php echo urlencode($currentEnvironment) ?>">
+                                    <i class="fa fa-cog"></i><?php echo $currentEnvironment ?>
                                 </a>
                             </li>
                         <?php endforeach; ?>
                         <li class="divider"></li>
                     <?php endif; ?>
 
-                    <?php foreach ($branches as $curbranch) : ?>
-                        <li <?php echo ($curbranch == $branch) ? 'class="active"' : ''?>>
-                            <a href="<?php echo APP_URL ?>project/build/<?php print $project->getId(); ?>/branch/<?php echo urlencode($curbranch) ?>">
-                                <i class="fa fa-code-fork"></i><?php echo $curbranch ?>
+                    <?php foreach ($branches as $currentBranch) : ?>
+                        <li <?php echo ($currentBranch == $branch) ? 'class="active"' : ''?>>
+                            <a href="<?php echo APP_URL ?>project/build/<?php print $project->getId(); ?>/branch/<?php echo urlencode($currentBranch) ?>">
+                                <i class="fa fa-code-fork"></i><?php echo $currentBranch ?>
                             </a>
                         </li>
                     <?php endforeach; ?>
@@ -92,20 +92,20 @@
                 <li class="divider"></li>
 
                 <?php if(!empty($environments)): ?>
-                    <?php foreach ($environments as $curenvironment) : ?>
-                        <li <?php echo ($curenvironment == $environment) ? 'class="active"' : ''?>>
-                            <a href="<?php echo APP_URL ?>project/view/<?php print $project->getId(); ?>?environment=<?php echo urlencode($curenvironment) ?>">
-                                <i class="fa fa-cog"></i><?php echo $curenvironment ?>
+                    <?php foreach ($environments as $currentEnvironment) : ?>
+                        <li <?php echo ($currentEnvironment == $environment) ? 'class="active"' : ''?>>
+                            <a href="<?php echo APP_URL ?>project/view/<?php print $project->getId(); ?>?environment=<?php echo urlencode($currentEnvironment) ?>">
+                                <i class="fa fa-cog"></i><?php echo $currentEnvironment ?>
                             </a>
                         </li>
                     <?php endforeach; ?>
                     <li class="divider"></li>
                 <?php endif; ?>
 
-                <?php foreach ($branches as $curbranch) : ?>
-                    <li <?php echo ($curbranch == $branch) ? 'class="active"' : ''?>>
-                        <a href="<?php echo APP_URL ?>project/view/<?php print $project->getId(); ?>?branch=<?php echo urlencode($curbranch) ?>">
-                            <i class="fa fa-code-fork"></i><?php echo $curbranch ?>
+                <?php foreach ($branches as $currentBranch) : ?>
+                    <li <?php echo ($currentBranch == $branch) ? 'class="active"' : ''?>>
+                        <a href="<?php echo APP_URL ?>project/view/<?php print $project->getId(); ?>?branch=<?php echo urlencode($currentBranch) ?>">
+                            <i class="fa fa-code-fork"></i><?php echo $currentBranch ?>
                         </a>
                     </li>
                 <?php endforeach; ?>

@@ -2,6 +2,7 @@
 
 namespace PHPCensor\Plugin\Util;
 
+use PHPCensor\Plugin;
 use Pimple\Container;
 
 /**
@@ -69,7 +70,9 @@ class Factory
      *
      * @param $className
      * @param array|null $options
+     *
      * @throws \InvalidArgumentException if $className doesn't represent a valid plugin
+     *
      * @return \PHPCensor\Plugin
      */
     public function buildPlugin($className, $options = [])
@@ -89,8 +92,10 @@ class Factory
                     $argsToUse = $this->addArgFromParam($argsToUse, $param);
                 }
             }
+            /** @var Plugin $plugin */
             $plugin = $reflectedPlugin->newInstanceArgs($argsToUse);
         } else {
+            /** @var Plugin $plugin */
             $plugin = $reflectedPlugin->newInstance();
         }
 
