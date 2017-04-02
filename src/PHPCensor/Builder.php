@@ -8,6 +8,7 @@ use PHPCensor\Logging\BuildLogger;
 use PHPCensor\Model\Build;
 use b8\Config;
 use b8\Store\Factory;
+use PHPCensor\Store\BuildErrorWriter;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
@@ -91,6 +92,11 @@ class Builder implements LoggerAwareInterface
     protected $buildLogger;
 
     /**
+     * @var BuildErrorWriter
+     */
+    private $buildErrorWriter;
+
+    /**
      * Set up the builder.
      *
      * @param \PHPCensor\Model\Build $build
@@ -114,6 +120,7 @@ class Builder implements LoggerAwareInterface
         );
 
         $this->interpolator = new BuildInterpolator();
+        $this->buildErrorWriter = new BuildErrorWriter($this->build->getId());
     }
 
     /**
@@ -245,6 +252,7 @@ class Builder implements LoggerAwareInterface
             $this->build->removeBuildDirectory();
         }
 
+        $this->buildErrorWriter->flush();
         $this->store->save($this->build);
     }
 
@@ -430,5 +438,13 @@ class Builder implements LoggerAwareInterface
         );
 
         return $pluginFactory;
+    }
+
+    /**
+     * @return BuildErrorWriter
+     */
+    public function getBuildErrorWriter()
+    {
+        return $this->buildErrorWriter;
     }
 }
