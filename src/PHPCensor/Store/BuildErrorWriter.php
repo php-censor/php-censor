@@ -20,6 +20,7 @@ class BuildErrorWriter
 
     /**
      * BuildErrorWriter constructor.
+     *
      * @param int $build_id
      * @param int $buffer_size
      */
@@ -39,12 +40,13 @@ class BuildErrorWriter
 
     /**
      * Write error
-     * @param string $plugin
-     * @param string $message
-     * @param int $severity
-     * @param string $file
-     * @param int $line_start
-     * @param int $line_end
+     *
+     * @param string    $plugin
+     * @param string    $message
+     * @param int       $severity
+     * @param string    $file
+     * @param int       $line_start
+     * @param int       $line_end
      * @param \DateTime $created_date
      */
     public function write($plugin, $message, $severity, $file = null, $line_start = null, $line_end = null, $created_date = null)

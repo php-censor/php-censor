@@ -15,8 +15,6 @@ use Psr\Log\LogLevel;
 use PHPCensor\Plugin\Util\Factory as PluginFactory;
 
 /**
- * PHPCI Build Runner
- * 
  * @author Dan Cryer <dan@block8.co.uk>
  */
 class Builder implements LoggerAwareInterface
@@ -119,7 +117,7 @@ class Builder implements LoggerAwareInterface
             $this->verbose
         );
 
-        $this->interpolator = new BuildInterpolator();
+        $this->interpolator     = new BuildInterpolator();
         $this->buildErrorWriter = new BuildErrorWriter($this->build->getId());
     }
 
