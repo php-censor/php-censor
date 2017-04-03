@@ -56,7 +56,7 @@ class BuildService
         $build = new Build();
         $build->setCreated(new \DateTime());
         $build->setProject($project);
-        $build->setStatus(0);
+        $build->setStatus(Build::STATUS_PENDING);
         $build->setEnvironment($environment);
 
         $branches = $project->getBranchesByEnvironment($environment);
@@ -118,8 +118,9 @@ class BuildService
         $build = new Build();
         $build->setValues($data);
         $build->setCreated(new \DateTime());
-        $build->setStatus(0);
+        $build->setStatus(Build::STATUS_PENDING);
 
+        /** @var Build $build */
         $build = $this->buildStore->save($build);
 
         $buildId = $build->getId();

@@ -3,7 +3,6 @@
 namespace PHPCensor\Model;
 
 use PHPCensor\Builder;
-use PHPCensor\Store\BuildErrorWriter;
 use Symfony\Component\Yaml\Parser as YamlParser;
 use PHPCensor\Model;
 use b8\Store\Factory;
@@ -21,6 +20,11 @@ class Build extends Model
     const STAGE_FAILURE  = 'failure';
     const STAGE_FIXED    = 'fixed';
     const STAGE_BROKEN   = 'broken';
+    
+    const STATUS_PENDING        = 0;
+    const STATUS_RUNNING        = 1;
+    const STATUS_SUCCESS        = 2;
+    const STATUS_FAILED         = 3;
 
     /**
      * @var array
@@ -668,11 +672,6 @@ class Build extends Model
     {
         return Factory::getStore('BuildMeta', 'PHPCensor')->getByBuildId($this->getId());
     }
-
-    const STATUS_PENDING = 0;
-    const STATUS_RUNNING = 1;
-    const STATUS_SUCCESS = 2;
-    const STATUS_FAILED  = 3;
 
     public $currentBuildPath;
 
