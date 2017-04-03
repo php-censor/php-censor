@@ -25,7 +25,6 @@ class Build extends Model
     const STATUS_RUNNING        = 1;
     const STATUS_SUCCESS        = 2;
     const STATUS_FAILED         = 3;
-    const STATUS_FAILED_ALLOWED = 4;
 
     /**
      * @var array

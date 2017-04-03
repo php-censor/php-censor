@@ -1,4 +1,9 @@
-<?php use PHPCensor\Helper\Lang; ?>
+<?php 
+
+use PHPCensor\Helper\Lang;
+use PHPCensor\Model\Build;
+
+?>
 <script>
     var DASHBOARD = true;
 </script>
@@ -34,25 +39,25 @@
                         $branches = $build->getExtra('branches');
 
                         switch ($build->getStatus()) {
-                            case \PHPCensor\Model\Build::STATUS_PENDING:
+                            case Build::STATUS_PENDING:
                                 $updated = $build->getCreated();
                                 $label = Lang::get('pending');
                                 $color = 'blue';
                                 break;
 
-                            case \PHPCensor\Model\Build::STATUS_RUNNING:
+                            case Build::STATUS_RUNNING:
                                 $updated = $build->getStarted();
                                 $label = Lang::get('running');
                                 $color = 'yellow';
                                 break;
 
-                            case \PHPCensor\Model\Build::STATUS_SUCCESS:
+                            case Build::STATUS_SUCCESS:
                                 $updated = $build->getFinished();
                                 $label = Lang::get('success');
                                 $color = 'green';
                                 break;
 
-                            case \PHPCensor\Model\Build::STATUS_FAILED:
+                            case Build::STATUS_FAILED:
                                 $updated = $build->getFinished();
                                 $label = Lang::get('failed');
                                 $color = 'red';
@@ -80,7 +85,7 @@
                                 <span class="time"><i class="fa fa-clock-o"></i>
                                 <?php
                                 echo $updated->format('H:i:s');
-                                if ($build->getStatus() != \PHPCensor\Model\Build::STATUS_PENDING) {
+                                if ($build->getStatus() != Build::STATUS_PENDING) {
                                     echo ' (' . $build->getPrettyDuration() . ')';
                                 }
                                 ?>

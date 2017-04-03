@@ -7,6 +7,7 @@ use Exception;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Logging\BuildLogger;
 use PHPCensor\Model\Build;
+use PHPCensor\Plugin;
 use PHPCensor\Store\BuildStore;
 
 /**
@@ -138,15 +139,15 @@ class Executor
                 'Stage' . ': ' . ucfirst($stage) . ')'
             );
 
-            $this->setPluginStatus($stage, $plugin, Build::STATUS_RUNNING);
+            $this->setPluginStatus($stage, $plugin, Plugin::STATUS_RUNNING);
 
             // Try and execute it
             if ($this->executePlugin($plugin, $options)) {
                 // Execution was successful
                 $this->logger->logSuccess('PLUGIN: SUCCESS');
-                $this->setPluginStatus($stage, $plugin, Build::STATUS_SUCCESS);
+                $this->setPluginStatus($stage, $plugin, Plugin::STATUS_SUCCESS);
             } else {
-                $status = Build::STATUS_FAILED;
+                $status = Plugin::STATUS_FAILED;
 
                 if ($stage === Build::STAGE_SETUP) {
                     $this->logger->logFailure('PLUGIN: FAILED');
@@ -163,7 +164,7 @@ class Executor
                         $this->logger->logFailure('PLUGIN: FAILED');
                         $success = false;
                     } else {
-                        $status = Build::STATUS_FAILED_ALLOWED;
+                        $status = Plugin::STATUS_FAILED_ALLOWED;
 
                         $this->logger->logFailure('PLUGIN: FAILED (ALLOWED)');
                     }
@@ -223,9 +224,9 @@ class Executor
 
         $summary[$stage][$plugin]['status'] = $status;
 
-        if ($status === Build::STATUS_RUNNING) {
+        if ($status === Plugin::STATUS_RUNNING) {
             $summary[$stage][$plugin]['started'] = time();
-        } elseif ($status >= Build::STATUS_SUCCESS) {
+        } elseif ($status >= Plugin::STATUS_SUCCESS) {
             $summary[$stage][$plugin]['ended'] = time();
         }
 
