@@ -146,8 +146,7 @@ class Executor
                 $this->logger->logSuccess('PLUGIN: SUCCESS');
                 $this->setPluginStatus($stage, $plugin, Build::STATUS_SUCCESS);
             } else {
-                // Execution failed
-                $this->setPluginStatus($stage, $plugin, Build::STATUS_FAILED);
+                $status = Build::STATUS_FAILED;
 
                 if ($stage === Build::STAGE_SETUP) {
                     $this->logger->logFailure('PLUGIN: FAILED');
@@ -164,9 +163,13 @@ class Executor
                         $this->logger->logFailure('PLUGIN: FAILED');
                         $success = false;
                     } else {
+                        $status = Build::STATUS_FAILED_ALLOWED;
+
                         $this->logger->logFailure('PLUGIN: FAILED (ALLOWED)');
                     }
                 }
+
+                $this->setPluginStatus($stage, $plugin, $status);
             }
         }
 
