@@ -54,6 +54,16 @@
     "sensiolabs/ansi-to-html":   "1.1.*",
     "pda/pheanstalk":            "3.1.*",
 
+    "phpunit/phpunit":                 "5.7.*",
+    "codeception/codeception":         "2.2.*",
+    "phpmd/phpmd":                     "2.5.*",
+    "sebastian/phpcpd":                "2.0.*",
+    "squizlabs/php_codesniffer":       "2.7.*",
+    "block8/php-docblock-checker":     "1.0.*",
+    "phploc/phploc":                   "3.0.*",
+    "jakub-onderka/php-parallel-lint": "0.9.*",
+    "sensiolabs/security-checker":     "4.0.*",
+
     "mnsami/composer-custom-directory-installer": "1.1.*",
 
     "npm-asset/sprintf-js":     "1.0.*",
@@ -62,15 +72,6 @@
     "bower-asset/font-awesome": "4.7.*",
     "bower-asset/ionicons":     "2.0.*",
     "bower-asset/raphael":      "2.2.*"
-  },
-  "require-dev": {
-    "phpunit/phpunit":                 "5.7.*",
-    "phpmd/phpmd":                     "2.5.*",
-    "sebastian/phpcpd":                "2.0.*",
-    "squizlabs/php_codesniffer":       "2.7.*",
-    "block8/php-docblock-checker":     "1.0.*",
-    "phploc/phploc":                   "3.0.*",
-    "jakub-onderka/php-parallel-lint": "0.9.*"
   },
   "extra": {
     "installer-paths": {
