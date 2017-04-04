@@ -8,13 +8,14 @@ namespace PHPCensor\Plugin;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
 use Psr\Log\LogLevel;
+use \PHPCensor\Plugin;
 
 /**
  * Integrates PHPCensor with Mage: https://github.com/andres-montanez/Magallanes
  * @package      PHPCensor
  * @subpackage   Plugins
  */
-class Mage extends \PHPCensor\Plugin
+class Mage extends Plugin
 {
     protected $mage_bin = 'mage';
     protected $mage_env;

@@ -394,6 +394,7 @@ PHP Censor',
     'slack_notify'         => 'Slack',
     'technical_debt'       => 'Technical Debt',
     'xmpp'                 => 'XMPP',
+    'security_checker'     => 'SensioLabs Security Checker',
 
     'confirm_message' => 'Item will be permanently deleted. Are you sure?',
     'confirm_title'   => 'Item delete confirmation',

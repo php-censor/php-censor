@@ -49,27 +49,27 @@ var phpspecPlugin = ActiveBuild.UiPlugin.extend({
         tbody.empty();
 
         for (var i in tests.suites) {
-			var test_suite = tests.suites[i];
+            var test_suite = tests.suites[i];
 
-			for(var k in test_suite.cases){
-				var test_case = test_suite.cases[k];
+            for (var k in test_suite.cases) {
+                var test_case = test_suite.cases[k];
 
-				var row = $(
-					'<tr>'+
-						'<td>'+test_suite.name+'</td>'+
-						'<td title="'+Lang.get('took_n_seconds', test_case['time'])+'">'+test_case.name+'</td>'+
-						'<td>'+(test_case.message ? test_case.message : Lang.get('ok'))+'</td>'+
-					'</tr>'
-				);
+                var row = $(
+                    '<tr>' +
+                    '<td>' + test_suite.name + '</td>' +
+                    '<td title="' + Lang.get('took_n_seconds', test_case['time']) + '">' + test_case.name + '</td>' +
+                    '<td>' + (test_case.message ? test_case.message : Lang.get('ok')) + '</td>' +
+                    '</tr>'
+                );
 
-				if (test_case.status!='passed') {
-					row.addClass('danger');
-				} else {
-					row.addClass('success');
-				}
+                if (test_case.status != 'passed') {
+                    row.addClass('danger');
+                } else {
+                    row.addClass('success');
+                }
 
-				tbody.append(row);
-			}
+                tbody.append(row);
+            }
         }
         
         // show plugin once preparation of grid is done

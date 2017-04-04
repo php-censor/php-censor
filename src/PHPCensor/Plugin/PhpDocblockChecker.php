@@ -5,6 +5,7 @@ namespace PHPCensor\Plugin;
 use PHPCensor;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
+use PHPCensor\Model\BuildError;
 use PHPCensor\Plugin;
 use PHPCensor\ZeroConfigPluginInterface;
 
@@ -28,6 +29,10 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
 
     protected $skipClasses = false;
     protected $skipMethods = false;
+
+    /**
+     * @var integer
+     */
     protected $allowed_warnings;
 
     /**
@@ -128,8 +133,8 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
         // Re-enable exec output logging:
         $this->builder->logExecOutput(true);
 
-        $output = json_decode($this->builder->getLastOutput(), true);
-        $errors = count($output);
+        $output  = json_decode($this->builder->getLastOutput(), true);
+        $errors  = count($output);
         $success = true;
 
         $this->build->storeMeta('phpdoccheck-warnings', $errors);
@@ -150,11 +155,11 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
     {
         foreach ($output as $error) {
             $message = 'Class ' . $error['class'] . ' is missing a docblock.';
-            $severity = PHPCensor\Model\BuildError::SEVERITY_LOW;
+            $severity = BuildError::SEVERITY_LOW;
 
             if ($error['type'] == 'method') {
                 $message = $error['class'] . '::' . $error['method'] . ' is missing a docblock.';
-                $severity = PHPCensor\Model\BuildError::SEVERITY_NORMAL;
+                $severity = BuildError::SEVERITY_NORMAL;
             }
 
             $this->build->reportError(
