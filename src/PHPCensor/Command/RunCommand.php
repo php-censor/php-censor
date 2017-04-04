@@ -13,6 +13,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use b8\Store\Factory;
 use PHPCensor\Builder;
+use PHPCensor\BuilderException;
 use PHPCensor\BuildFactory;
 use PHPCensor\Model\Build;
 
@@ -95,31 +96,36 @@ class RunCommand extends Command
             $build = BuildFactory::getBuild($build);
 
             // Skip build (for now) if there's already a build running in that project:
-            if (in_array($build->getProjectId(), $running)) {
+            if (!empty($running[$build->getProjectId()])) {
                 $this->logger->addInfo(sprintf('Skipping Build %d - Project build already in progress.', $build->getId()));
-                $result['items'][] = $build;
-
-                // Re-run build validator:
-                $running = $this->validateRunningBuilds();
                 continue;
             }
 
             $builds++;
 
-            try {
-                // Logging relevant to this build should be stored
-                // against the build itself.
-                $buildDbLog = new BuildDBLogHandler($build, Logger::INFO);
-                $this->logger->pushHandler($buildDbLog);
+            // Logging relevant to this build should be stored
+            // against the build itself.
+            $buildDbLog = new BuildDBLogHandler($build, Logger::INFO);
+            $this->logger->pushHandler($buildDbLog);
 
+            try {
                 $builder = new Builder($build, $this->logger);
                 $builder->execute();
 
-                // After execution we no longer want to record the information
-                // back to this specific build so the handler should be removed.
-                $this->logger->popHandler();
-                // destructor implicitly call flush
-                unset($buildDbLog);
+            } catch (BuilderException $ex) {
+                $this->logger->addError($ex->getMessage());
+                switch($ex->getCode()) {
+                    case BuilderException::FAIL_START:
+                        // non fatal
+                        break;
+                    default:
+                        $build->setStatus(Build::STATUS_FAILED);
+                        $build->setFinished(new \DateTime());
+                        $build->setLog($build->getLog() . PHP_EOL . PHP_EOL . $ex->getMessage());
+                        $store->save($build);
+                        break;
+                }
+
             } catch (\Exception $ex) {
                 $build->setStatus(Build::STATUS_FAILED);
                 $build->setFinished(new \DateTime());
@@ -127,6 +133,14 @@ class RunCommand extends Command
                 $store->save($build);
             }
 
+            // After execution we no longer want to record the information
+            // back to this specific build so the handler should be removed.
+            $this->logger->popHandler();
+            // destructor implicitly call flush
+            unset($buildDbLog);
+
+            // Re-run build validator:
+            $running = $this->validateRunningBuilds();
         }
 
         $this->logger->addInfo('Finished processing builds.');
