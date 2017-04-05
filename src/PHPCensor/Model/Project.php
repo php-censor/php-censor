@@ -860,6 +860,7 @@ class Project extends Model
                 // already exist
                 unset($environments_names[$key]);
                 $environment->setBranches(!empty($environments_config[$environment->getName()]) ? $environments_config[$environment->getName()] : []);
+                $store->save($environment);
             } else {
                 // remove
                 $store->delete($environment);
