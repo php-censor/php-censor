@@ -108,6 +108,7 @@ class BuildWorker
             } catch (\Exception $ex) {
                 $this->logger->addWarning('Build #' . $jobData['build_id'] . ' does not exist in the database.');
                 $this->pheanstalk->delete($job);
+                continue;
             }
 
             // Logging relevant to this build should be stored
@@ -130,7 +131,7 @@ class BuildWorker
                         $build->setStatus(Build::STATUS_FAILED);
                         $build->setFinished(new \DateTime());
                         $build->setLog($build->getLog() . PHP_EOL . PHP_EOL . $ex->getMessage());
-                        $store->save($build);
+                        $buildStore->save($build);
                         $build->sendStatusPostback();
                         break;
                 }
