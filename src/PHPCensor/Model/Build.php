@@ -411,6 +411,27 @@ class Build extends Model
     }
 
     /**
+     * Set the value of Status / status only if it synced with db. Must not be null.
+     *
+     * @param $value int
+     * @return bool
+     */
+    public function setStatusSync($value)
+    {
+        $this->validateNotNull('Status', $value);
+        $this->validateInt('Status', $value);
+
+        if ($this->data['status'] !== $value) {
+            $store = Factory::getStore('Build');
+            if ($store->updateStatusSync($this, $value)) {
+                $this->data['status'] = $value;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Set the value of Log / log.
      *
      * @param $value string

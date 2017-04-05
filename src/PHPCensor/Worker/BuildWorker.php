@@ -9,6 +9,7 @@ use Monolog\Logger;
 use Pheanstalk\Job;
 use Pheanstalk\Pheanstalk;
 use PHPCensor\Builder;
+use PHPCensor\BuilderException;
 use PHPCensor\BuildFactory;
 use PHPCensor\Logging\BuildDBLogHandler;
 use PHPCensor\Model\Build;
@@ -107,27 +108,40 @@ class BuildWorker
             } catch (\Exception $ex) {
                 $this->logger->addWarning('Build #' . $jobData['build_id'] . ' does not exist in the database.');
                 $this->pheanstalk->delete($job);
+                continue;
             }
 
-            try {
-                // Logging relevant to this build should be stored
-                // against the build itself.
-                $buildDbLog = new BuildDBLogHandler($build, Logger::INFO);
-                $this->logger->pushHandler($buildDbLog);
+            // Logging relevant to this build should be stored
+            // against the build itself.
+            $buildDbLog = new BuildDBLogHandler($build, Logger::INFO);
+            $this->logger->pushHandler($buildDbLog);
 
+            try {
                 $builder = new Builder($build, $this->logger);
                 $builder->execute();
 
-                // After execution we no longer want to record the information
-                // back to this specific build so the handler should be removed.
-                $this->logger->popHandler();
-                // destructor implicitly call flush
-                unset($buildDbLog);
+            } catch (BuilderException $ex) {
+                $this->logger->addError($ex->getMessage());
+                switch($ex->getCode()) {
+                    case BuilderException::FAIL_START:
+                        // non fatal
+                        $this->pheanstalk->release($job);
+                        unset($job);
+                        break;
+                    default:
+                        $build->setStatus(Build::STATUS_FAILED);
+                        $build->setFinished(new \DateTime());
+                        $build->setLog($build->getLog() . PHP_EOL . PHP_EOL . $ex->getMessage());
+                        $buildStore->save($build);
+                        $build->sendStatusPostback();
+                        break;
+                }
             } catch (\PDOException $ex) {
                 // If we've caught a PDO Exception, it is probably not the fault of the build, but of a failed
                 // connection or similar. Release the job and kill the worker.
                 $this->run = false;
                 $this->pheanstalk->release($job);
+                unset($job);
             } catch (\Exception $ex) {
                 $build->setStatus(Build::STATUS_FAILED);
                 $build->setFinished(new \DateTime());
@@ -136,13 +150,21 @@ class BuildWorker
                 $build->sendStatusPostback();
             }
 
+            // After execution we no longer want to record the information
+            // back to this specific build so the handler should be removed.
+            $this->logger->popHandler();
+            // destructor implicitly call flush
+            unset($buildDbLog);
+
             // Reset the config back to how it was prior to running this job:
             if (!empty($currentConfig)) {
                 Database::reset();
             }
 
             // Delete the job when we're done:
-            $this->pheanstalk->delete($job);
+            if (!empty($job)) {
+                $this->pheanstalk->delete($job);
+            }
         }
     }
 
