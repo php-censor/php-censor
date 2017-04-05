@@ -126,6 +126,7 @@ class BuildWorker
                     case BuilderException::FAIL_START:
                         // non fatal
                         $this->pheanstalk->release($job);
+                        unset($job);
                         break;
                     default:
                         $build->setStatus(Build::STATUS_FAILED);
@@ -140,6 +141,7 @@ class BuildWorker
                 // connection or similar. Release the job and kill the worker.
                 $this->run = false;
                 $this->pheanstalk->release($job);
+                unset($job);
             } catch (\Exception $ex) {
                 $build->setStatus(Build::STATUS_FAILED);
                 $build->setFinished(new \DateTime());
@@ -160,7 +162,9 @@ class BuildWorker
             }
 
             // Delete the job when we're done:
-            $this->pheanstalk->delete($job);
+            if (!empty($job)) {
+                $this->pheanstalk->delete($job);
+            }
         }
     }
 
