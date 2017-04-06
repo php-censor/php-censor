@@ -75,6 +75,21 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
         if (isset($options['zero_config']) && $options['zero_config']) {
             $this->allowed_errors = -1;
         }
+
+        $this->setOptions($options);
+    }
+
+    /**
+     * Handle this plugin's options.
+     * @param $options
+     */
+    protected function setOptions($options)
+    {
+        foreach (array('directory', 'path', 'ignore', 'allowed_errors') as $key) {
+            if (array_key_exists($key, $options)) {
+                $this->{$key} = $options[$key];
+            }
+        }
     }
 
     /**
