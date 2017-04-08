@@ -73,6 +73,11 @@
     "bower-asset/ionicons":     "2.0.*",
     "bower-asset/raphael":      "2.2.*"
   },
+  "suggest": {
+    "maknz/slack":         "For SlackNotify plugin",
+    "hipchat/hipchat-php": "For HipchatNotify plugin",
+    "mremi/flowdock":      "For FlowdockNotify plugin"
+  },
   "extra": {
     "installer-paths": {
       "public/assets/vendor/sprintf-js":   ["npm-asset/sprintf-js"],
