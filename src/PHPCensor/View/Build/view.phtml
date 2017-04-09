@@ -22,9 +22,21 @@
                     </tr>
 
                     <tr>
+                        <th><?php Lang::out('branch'); ?></th>
+                        <td style="text-align: right">
+                            <a target="_blank" href="<?php print $build->getBranchLink(); ?>">
+                                <span class="label label-default"><?php print $build->getBranch(); ?></span>
+                            </a>
+                        </td>
+                    </tr>
+
+                    <tr>
                         <th><?php Lang::out('environment'); ?></th>
                         <td style="text-align: right">
-                            <span class="label label-default"><?php print $build->getEnvironment(); ?></span>
+                            <?php
+                                $environment = $build->getEnvironment();
+                                echo !empty($environment) ? ('<span class="label label-default">' . $environment . '</span>') : '—' ;
+                            ?>
                         </td>
                     </tr>
 
@@ -60,15 +72,6 @@
             <div class="box-body no-padding">
                 <table class="table">
                     <tr>
-                        <th><?php Lang::out('branch'); ?></th>
-                        <td style="text-align: right">
-                            <a target="_blank" href="<?php print $build->getBranchLink(); ?>">
-                                <span class="label label-default"><?php print $build->getBranch(); ?></span>
-                            </a>
-                        </td>
-                    </tr>
-
-                    <tr>
                         <th><?php Lang::out('commit'); ?></th>
                         <td style="text-align: right">
                             <a target="_blank" href="<?php print $build->getCommitLink(); ?>">
@@ -85,7 +88,8 @@
                     </tr>
 
                     <tr>
-                        <td colspan="2">
+                        <th><?php Lang::out('commit_message'); ?></th>
+                        <td style="text-align: right">
                             <?php print $build->getCommitMessage(); ?>
                         </td>
                     </tr>
