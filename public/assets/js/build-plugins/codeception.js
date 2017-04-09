@@ -5,7 +5,6 @@ var codeceptionPlugin = ActiveBuild.UiPlugin.extend({
     lastData: null,
     lastMeta: null,
     displayOnUpdate: false,
-    box: true,
     rendered: false,
 
     register: function() {

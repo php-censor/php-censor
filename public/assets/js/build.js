@@ -146,28 +146,25 @@ var Build = Class.extend({
             }
         }
 
-        $('#plugins').sortable({
-            handle: '.box-title',
-            connectWith: '#plugins',
-            update: self.storePluginOrder
-        });
-
         $(window).trigger({type: 'build-updated', queryData: self.buildData});
     },
 
     renderPlugin: function(plugin) {
         var output = plugin.render();
 
-        if (!plugin.box) {
-            output = $('<div class="box-body"></div>').append(output);
-        }
+        output = $('<div class="box-body"></div>').append(output);
 
         var container = $('<div></div>').addClass('ui-plugin ' + plugin.css).attr('id', plugin.id);
         var content = $('<div></div>').append(output);
         content.addClass('box');
 
         if (plugin.title) {
-            content.prepend('<div class="box-header"><h3 class="box-title">'+plugin.title+'</h3></div>');
+            content.prepend(
+                '<div class="box-header"><h3 class="box-title">'+plugin.title+'</h3>'+
+                '<div class="box-tools pull-right">'+
+                '<button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">'+
+                '<i class="fa fa-minus"></i></button></div></div>'
+            );
         }
 
         container.append(content);

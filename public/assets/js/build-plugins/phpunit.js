@@ -4,7 +4,6 @@ var phpunitPlugin = ActiveBuild.UiPlugin.extend({
     title: Lang.get('phpunit'),
     lastData: null,
     displayOnUpdate: false,
-    box: true,
     rendered: false,
     statusMap: {
         success : 'ok',
