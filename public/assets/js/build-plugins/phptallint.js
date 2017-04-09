@@ -3,7 +3,6 @@ var phptalPlugin = ActiveBuild.UiPlugin.extend({
     css: 'col-xs-12',
     title: 'PHPTAL Lint',
     lastData: null,
-    box: true,
     rendered: false,
 
     register: function() {

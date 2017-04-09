@@ -4,7 +4,6 @@ var phpspecPlugin = ActiveBuild.UiPlugin.extend({
     title: Lang.get('phpspec'),
     lastData: null,
     displayOnUpdate: false,
-    box: true,
     rendered: false,
 
     register: function() {
