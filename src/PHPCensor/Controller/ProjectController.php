@@ -53,13 +53,19 @@ class ProjectController extends PHPCensor\Controller
     }
 
     /**
-    * View a specific project.
-    */
+     * View a specific project.
+     * 
+     * @param integer $projectId
+     *
+     * @throws NotFoundException
+     *
+     * @return string
+     */
     public function view($projectId)
     {
-        $branch = $this->getParam('branch', '');
+        $branch      = $this->getParam('branch', '');
         $environment = $this->getParam('environment', '');
-        $project = $this->projectStore->getById($projectId);
+        $project     = $this->projectStore->getById($projectId);
 
         if (empty($project)) {
             throw new NotFoundException(Lang::get('project_x_not_found', $projectId));
@@ -76,18 +82,18 @@ class ProjectController extends PHPCensor\Controller
             return $response;
         }
 
-        $this->view->builds   = $builds[0];
-        $this->view->total    = $builds[1];
-        $this->view->project  = $project;
-        $this->view->branch   = urldecode($branch);
-        $this->view->branches = $this->projectStore->getKnownBranches($projectId);
-        $this->view->environment = urldecode($environment);
+        $this->view->builds       = $builds[0];
+        $this->view->total        = $builds[1];
+        $this->view->project      = $project;
+        $this->view->branch       = urldecode($branch);
+        $this->view->branches     = $this->projectStore->getKnownBranches($projectId);
+        $this->view->environment  = urldecode($environment);
         $this->view->environments = $project->getEnvironmentsNames();
-        $this->view->page     = $page;
-        $this->view->pages    = $pages;
-        $this->view->perPage  = $perPage;
+        $this->view->page         = $page;
+        $this->view->pages        = $pages;
+        $this->view->perPage      = $perPage;
 
-        $this->layout->title    = $project->getTitle();
+        $this->layout->title = $project->getTitle();
         if (!empty($this->view->environment)) {
             $this->layout->subtitle = $this->view->environment;
         } else {
@@ -98,8 +104,17 @@ class ProjectController extends PHPCensor\Controller
     }
 
     /**
-    * Create a new pending build for a project.
-    */
+     * Create a new pending build for a project.
+     * 
+     * @param integer $projectId
+     * @param string  $type      Build type: 'environment'|'branch'
+     * @param string  $id        Build type id: environment name or branch name
+     *
+     * @throws NotFoundException
+     *
+     * @return b8\Http\Response\RedirectResponse
+     *
+     */
     public function build($projectId, $type = null, $id = null)
     {
         /* @var \PHPCensor\Model\Project $project */
