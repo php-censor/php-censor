@@ -1,6 +1,44 @@
 Change Log
 ==========
 
+## [PHP Censor v0.13.0](https://github.com/corpsee/php-censor/tree/0.13.0) (2017-04-10)
+
+[Full Changelog](https://github.com/corpsee/php-censor/compare/0.12.0...0.13.0)
+
+* **Added Environments**. Thanks to [@ss-gxp](https://github.com/ss-gxp). PullRequest 
+[#41](https://github.com/corpsee/php-censor/pull/41), [#47](https://github.com/corpsee/php-censor/pull/47), 
+[#52](https://github.com/corpsee/php-censor/pull/52). For details see 
+[documentation](/docs/en/environments.md).
+* **Added write cache for build log (It's increase build speed)**. Thanks to [@ss-gxp](https://github.com/ss-gxp). 
+PullRequest [#45](https://github.com/corpsee/php-censor/pull/45), [#48](https://github.com/corpsee/php-censor/pull/48).
+* **Added write cache for build errors (It's increase build speed)**. Thanks to [@ss-gxp](https://github.com/ss-gxp). 
+Issue [#49](https://github.com/corpsee/php-censor/issues/49). PullRequest 
+[#50](https://github.com/corpsee/php-censor/pull/50).
+* **Added SensioLabs Security Checker Plugin** (This plugin is "zero-config" and used in builds without config). 
+Issue [#27](https://github.com/corpsee/php-censor/issues/27). Config example:
+
+```yml
+test:
+  security_checker:
+    allowed_warnings: -1
+```
+
+* Added allowed fail status for plugins (See build summary in the build page).
+* Added `suggest` section to `composer.json`. Issue [#53](https://github.com/corpsee/php-censor/issues/53).
+* Fixed build execution with many workers. Thanks to [@ss-gxp](https://github.com/ss-gxp). PullRequest 
+[#51](https://github.com/corpsee/php-censor/pull/51).
+* Fixed build view (Added html encoding for build errors output). Thanks to [@ss-gxp](https://github.com/ss-gxp). 
+PullRequest [#54](https://github.com/corpsee/php-censor/pull/54).
+* Fixed exception when plugin runs without options (Like "php_parallel_lint: "). Issue 
+[#44](https://github.com/corpsee/php-censor/issues/44).
+* Fixed TechnicalDebt Plugin configuration parameters. Thanks to [@bochkovprivate](https://github.com/bochkovprivate). 
+PullRequest [#55](https://github.com/corpsee/php-censor/pull/55).
+* Fixed PHPCpd plugin documentation. Thanks to [@bochkovprivate](https://github.com/bochkovprivate). PullRequest 
+[#56](https://github.com/corpsee/php-censor/pull/56).
+* Improved plugins code.
+* Improved UI.
+
+
 ## [PHP Censor v0.12.0](https://github.com/corpsee/php-censor/tree/0.12.0) (2017-03-25)
 
 [Full Changelog](https://github.com/corpsee/php-censor/compare/0.11.0...0.12.0)
