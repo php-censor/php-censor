@@ -665,6 +665,7 @@ class WebhookController extends Controller
                             $tag,
                             $committer,
                             $commitMessage,
+                            Build::SOURCE_WEBHOOK,
                             $extra
                         );
 
@@ -702,6 +703,7 @@ class WebhookController extends Controller
                     $tag,
                     $committer,
                     $commitMessage,
+                    Build::SOURCE_WEBHOOK,
                     $extra
                 );
 

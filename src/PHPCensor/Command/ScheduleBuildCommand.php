@@ -90,7 +90,7 @@ class ScheduleBuildCommand extends Command
             }
 
             try {
-                $this->buildService->createBuild($project, null);
+                $this->buildService->createBuild($project, null, '', null, null, null, null, Build::SOURCE_PERIODICAL);
                 $output->writeln("Build Created for {$project->getTitle()}");
             } catch (\Exception $e) {
                 $output->writeln('<error>Failed</error>');

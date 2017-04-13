@@ -12,11 +12,7 @@ class GogsBuild extends RemoteGitBuild
     */
     public function getCommitLink()
     {
-        if ($this->getCommitId() !== 'manual'){
-            return $this->getProject()->getReference() . '/commit/' . $this->getCommitId();
-        }
-
-        return parent::getCommitLink();
+        return $this->getProject()->getReference() . '/commit/' . $this->getCommitId();
     }
 
     /**

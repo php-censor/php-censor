@@ -65,12 +65,13 @@ class BuildServiceTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($returnValue->getStarted());
         $this->assertNull($returnValue->getFinished());
         $this->assertNull($returnValue->getLog());
-        $this->assertEquals('Manual', $returnValue->getCommitMessage());
+        $this->assertEquals(null, $returnValue->getCommitMessage());
         $this->assertNull($returnValue->getCommitterEmail());
         $this->assertEquals(['branches' => []], $returnValue->getExtra());
         $this->assertEquals('master', $returnValue->getBranch());
         $this->assertInstanceOf('DateTime', $returnValue->getCreated());
-        $this->assertEquals('Manual', $returnValue->getCommitId());
+        $this->assertEquals('', $returnValue->getCommitId());
+        $this->assertEquals(Build::SOURCE_UNKNOWN, $returnValue->getSource());
     }
 
     public function testExecute_CreateBuildWithOptions()
@@ -120,11 +121,12 @@ class BuildServiceTest extends \PHPUnit\Framework\TestCase
         $returnValue = $this->testedService->createBuild(
             $project,
             null,
+            '',
             null,
             null,
             null,
             null,
-            null,
+            Build::SOURCE_UNKNOWN,
             ['item1' => 1001]
         );
 

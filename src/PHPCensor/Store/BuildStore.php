@@ -118,6 +118,34 @@ class BuildStore extends Store
     }
 
     /**
+     * @param integer $limit
+     * @param integer $offset
+     *
+     * @return array
+     */
+    public function getBuilds($limit = 5, $offset = 0)
+    {
+        $query = 'SELECT * FROM {{build}} ORDER BY {{id}} DESC LIMIT :limit OFFSET :offset';
+        $stmt  = Database::getConnection('read')->prepareCommon($query);
+
+        $stmt->bindValue(':limit', $limit, \PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, \PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            $res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+            $map = function ($item) {
+                return new Build($item);
+            };
+            $rtn = array_map($map, $res);
+
+            return $rtn;
+        } else {
+            return [];
+        }
+    }
+
+    /**
      * Return an array of the latest builds for a given project.
      * @param null $projectId
      * @param int $limit

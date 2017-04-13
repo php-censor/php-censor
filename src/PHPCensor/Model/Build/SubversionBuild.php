@@ -95,7 +95,7 @@ class SubversionBuild extends Build
     {
         $cmd = $this->svnCommand;
 
-        if ($this->getCommitId() != 'Manual') {
+        if (!empty($this->getCommitId())) {
             $cmd .= ' -r %s %s "%s"';
             $success = $builder->executeCommand($cmd, $this->getCommitId(), $this->getCloneUrl(), $cloneTo);
         } else {

@@ -142,6 +142,13 @@ PHP Censor',
     'next_link' => 'След. &raquo;',
     'public_key' => 'Публичный ключ',
     'delete_build' => 'Удалить сборку',
+    'build_source' => 'Источник сборки',
+
+    'source_unknown' => 'Неизвестный',
+    'source_manual_web' => 'Вручную (Через Web)',
+    'source_manual_console' => 'Вручную (Через CLI)',
+    'source_periodical' => 'Переодический',
+    'source_webhook' => 'Webhook',
 
     'webhooks' => 'Webhooks',
     'webhooks_help_github' => 'Чтобы Автоматически собирать этот проект при публикации новых коммитов, добавьте URL ниже в качестве нового хука в разделе настроек <a href="https://github.com/%s/settings/hooks">Webhooks

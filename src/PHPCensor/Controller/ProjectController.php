@@ -3,8 +3,8 @@
 namespace PHPCensor\Controller;
 
 use b8;
-use b8\Form;
 use b8\Exception\HttpException\NotFoundException;
+use b8\Form;
 use b8\Store;
 use PHPCensor;
 use PHPCensor\BuildFactory;
@@ -13,6 +13,8 @@ use PHPCensor\Helper\Lang;
 use PHPCensor\Helper\SshKey;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Service\ProjectService;
+use PHPCensor\Model\Build;
+use b8\Http\Response\RedirectResponse;
 
 /**
  * Project Controller - Allows users to create, edit and view projects.
@@ -96,7 +98,7 @@ class ProjectController extends PHPCensor\Controller
         $pages    = $builds[1] == 0 ? 1 : ceil($builds[1] / $perPage);
 
         if ($page > $pages) {
-            $response = new b8\Http\Response\RedirectResponse();
+            $response = new RedirectResponse();
             $response->setHeader('Location', APP_URL . 'project/view/' . $projectId);
 
             return $response;
@@ -132,7 +134,7 @@ class ProjectController extends PHPCensor\Controller
      *
      * @throws NotFoundException
      *
-     * @return b8\Http\Response\RedirectResponse
+     * @return RedirectResponse
      *
      */
     public function build($projectId)
@@ -175,11 +177,12 @@ class ProjectController extends PHPCensor\Controller
         $build = $this->buildService->createBuild(
             $project,
             $environment,
-            null,
+            '',
             $branch,
             null,
             $email,
             null,
+            Build::SOURCE_MANUAL_WEB,
             $extra
         );
 
@@ -187,7 +190,7 @@ class ProjectController extends PHPCensor\Controller
             $_SESSION['global_error'] = Lang::get('add_to_queue_failed');
         }
 
-        $response = new b8\Http\Response\RedirectResponse();
+        $response = new RedirectResponse();
         $response->setHeader('Location', APP_URL.'build/view/' . $build->getId());
 
         return $response;
@@ -203,7 +206,7 @@ class ProjectController extends PHPCensor\Controller
         $project = $this->projectStore->getById($projectId);
         $this->projectService->deleteProject($project);
 
-        $response = new b8\Http\Response\RedirectResponse();
+        $response = new RedirectResponse();
         $response->setHeader('Location', APP_URL);
 
         return $response;
@@ -324,7 +327,7 @@ class ProjectController extends PHPCensor\Controller
 
             $project = $this->projectService->createProject($title, $type, $reference, $options);
 
-            $response = new b8\Http\Response\RedirectResponse();
+            $response = new RedirectResponse();
             $response->setHeader('Location', APP_URL.'project/view/' . $project->getId());
 
             return $response;
@@ -393,7 +396,7 @@ class ProjectController extends PHPCensor\Controller
 
         $project = $this->projectService->updateProject($project, $title, $type, $reference, $options);
 
-        $response = new b8\Http\Response\RedirectResponse();
+        $response = new RedirectResponse();
         $response->setHeader('Location', APP_URL.'project/view/' . $project->getId());
 
         return $response;

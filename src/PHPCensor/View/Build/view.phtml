@@ -79,9 +79,15 @@
             <div class="box-body no-padding">
                 <table class="table">
                     <tr>
+                        <th><?php Lang::out('build_source'); ?></th>
+                        <td style="text-align: right">
+                            <?php Lang::out($build->getSourceHumanize()); ?>
+                        </td>
+                    </tr>
+                    <tr>
                         <th><?php Lang::out('commit'); ?></th>
                         <td style="text-align: right">
-                            <a target="_blank" href="<?php print $build->getCommitLink(); ?>">
+                            <a target="_blank" href="<?= $build->getCommitLink(); ?>">
                                 <?php print substr($build->getCommitId(), 0, 7); ?>
                             </a>
                         </td>

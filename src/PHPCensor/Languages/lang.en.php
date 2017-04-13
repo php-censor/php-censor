@@ -145,6 +145,13 @@ PHP Censor',
     'next_link' => 'Next &raquo;',
     'public_key' => 'Public Key',
     'delete_build' => 'Delete Build',
+    'build_source' => 'Build source',
+
+    'source_unknown' => 'Unknown',
+    'source_manual_web' => 'Manual (from Web)',
+    'source_manual_console' => 'Manual (from CLI)',
+    'source_periodical' => 'Periodical',
+    'source_webhook' => 'Webhook',
 
     'webhooks' => 'Webhooks',
     'webhooks_help_github' => 'To automatically build this project when new commits are pushed, add the URL below

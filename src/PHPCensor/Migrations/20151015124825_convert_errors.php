@@ -3,6 +3,7 @@
 use Phinx\Migration\AbstractMigration;
 use PHPCensor\Model\BuildMeta;
 use PHPCensor\Model\BuildError;
+use b8\Store\Factory;
 
 class ConvertErrors extends AbstractMigration
 {
@@ -20,10 +21,10 @@ class ConvertErrors extends AbstractMigration
     {
         $count = 100;
 
-        $this->metaStore  = \b8\Store\Factory::getStore('BuildMeta');
-        $this->errorStore = \b8\Store\Factory::getStore('BuildError');
+        $this->metaStore  = Factory::getStore('BuildMeta');
+        $this->errorStore = Factory::getStore('BuildError');
 
-        while ($count == 100) {
+        while ($count === 100) {
             $data = $this->metaStore->getErrorsForUpgrade(100);
             $count = count($data);
 

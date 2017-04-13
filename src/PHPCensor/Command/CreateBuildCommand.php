@@ -2,6 +2,7 @@
 
 namespace PHPCensor\Command;
 
+use PHPCensor\Model\Build;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Store\ProjectStore;
 use Symfony\Component\Console\Command\Command;
@@ -72,7 +73,7 @@ class CreateBuildCommand extends Command
         }
 
         try {
-            $this->buildService->createBuild($project, $environment, $commitId, $branch, null, $ciEmail, $ciMessage);
+            $this->buildService->createBuild($project, $environment, $commitId, $branch, null, $ciEmail, $ciMessage, Build::SOURCE_MANUAL_CONSOLE);
             $output->writeln('Build Created');
         } catch (\Exception $e) {
             $output->writeln('<error>Failed</error>');

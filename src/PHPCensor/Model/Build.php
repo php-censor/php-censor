@@ -25,6 +25,12 @@ class Build extends Model
     const STATUS_RUNNING        = 1;
     const STATUS_SUCCESS        = 2;
     const STATUS_FAILED         = 3;
+    
+    const SOURCE_UNKNOWN        = 0;
+    const SOURCE_MANUAL_WEB     = 1;
+    const SOURCE_MANUAL_CONSOLE = 2;
+    const SOURCE_PERIODICAL     = 3;
+    const SOURCE_WEBHOOK        = 4;
 
     /**
      * @var array
@@ -59,6 +65,7 @@ class Build extends Model
         'commit_message'  => null,
         'extra'           => null,
         'environment'     => null,
+        'source'          => Build::SOURCE_UNKNOWN,
     ];
 
     /**
@@ -80,6 +87,7 @@ class Build extends Model
         'commit_message'  => 'getCommitMessage',
         'extra'           => 'getExtra',
         'environment'     => 'getEnvironment',
+        'source'          => 'getSource',
 
         // Foreign key getters:
         'Project' => 'getProject',
@@ -104,6 +112,7 @@ class Build extends Model
         'commit_message'  => 'setCommitMessage',
         'extra'           => 'setExtra',
         'environment'     => 'setEnvironment',
+        'source'          => 'setSource',
 
         // Foreign key setters:
         'Project' => 'setProject',
@@ -182,9 +191,14 @@ class Build extends Model
             'default'  => null,
         ],
         'environment' => [
-            'type'    => 'varchar',
-            'length'  => 250,
+            'type'     => 'varchar',
+            'length'   => 250,
             'default'  => null,
+        ],
+        'source' => [
+            'type'    => 'int',
+            'length'  => 11,
+            'default' => Build::SOURCE_UNKNOWN,
         ],
     ];
 
@@ -213,25 +227,25 @@ class Build extends Model
     /**
      * Get the value of Id / id.
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
         $rtn = $this->data['id'];
 
-        return $rtn;
+        return (integer)$rtn;
     }
 
     /**
      * Get the value of ProjectId / project_id.
      *
-     * @return int
+     * @return integer
      */
     public function getProjectId()
     {
         $rtn = $this->data['project_id'];
 
-        return $rtn;
+        return (integer)$rtn;
     }
 
     /**
@@ -249,13 +263,13 @@ class Build extends Model
     /**
      * Get the value of Status / status.
      *
-     * @return int
+     * @return integer
      */
     public function getStatus()
     {
         $rtn = $this->data['status'];
 
-        return $rtn;
+        return (integer)$rtn;
     }
 
     /**
@@ -1033,6 +1047,36 @@ class Build extends Model
     }
 
     /**
+     * Get the value of source.
+     *
+     * @return string
+     */
+    public function getSource()
+    {
+        $rtn = $this->data['source'];
+
+        return (integer)$rtn;
+    }
+
+    /**
+     * Set the value of source.
+     *
+     * @param $value integer
+     */
+    public function setSource($value)
+    {
+        $this->validateInt('Source', $value);
+
+        if ($this->data['source'] === $value) {
+            return;
+        }
+
+        $this->data['source'] = $value;
+
+        $this->setModified('source');
+    }
+
+    /**
      * Get the value of Environment / environment.
      *
      * @return string
@@ -1106,5 +1150,25 @@ OUT;
         shell_exec('chmod +x "' . $wrapperFile . '"');
 
         return $wrapperFile;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSourceHumanize()
+    {
+        switch ($this->getSource()) {
+            case Build::SOURCE_WEBHOOK:
+                return 'source_webhook';
+            case Build::SOURCE_MANUAL_WEB:
+                return 'source_manual_web';
+            case Build::SOURCE_MANUAL_CONSOLE:
+                return 'source_manual_console';
+            case Build::SOURCE_PERIODICAL:
+                return 'source_periodical';
+            case Build::SOURCE_UNKNOWN:
+            default:
+                return 'source_unknown';
+        }
     }
 }

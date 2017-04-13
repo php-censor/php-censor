@@ -40,20 +40,21 @@ switch($build->getStatus())
 $branches = $build->getExtra('branches');
 ?>
 <tr>
-    <td><a href="<?php echo APP_URL ?>build/view/<?php print $build->getId(); ?>">#<?php print str_pad($build->getId(), 6, '0', STR_PAD_LEFT); ?></a></td>
-    <td><span class='label label-<?php echo $subcls ?>'><?php echo $status ?></span></td>
-    <td><?php print $build->getCreated()->format('Y-m-d H:i:s'); ?></td>
+    <td><a href="<?= APP_URL ?>build/view/<?= $build->getId(); ?>">#<?= str_pad($build->getId(), 6, '0', STR_PAD_LEFT); ?></a></td>
+    <td><span class='label label-<?= $subcls ?>'><?= $status ?></span></td>
+    <td><?= $build->getCreated()->format('Y-m-d H:i:s'); ?></td>
+    <td><?php Lang::out($build->getSourceHumanize()); ?></td>
     <td class="hidden-md hidden-sm hidden-xs">
         <?php
-            if ($build->getCommitId() !== 'Manual') {
+            if (!empty($build->getCommitId())) {
                 print sprintf(
-                    '<a href="%s" target="_blank">%s (%s)</a>',
+                    '<a href="%s" target="_blank">%s %s</a>',
                     $build->getCommitLink(),
                     substr($build->getCommitId(), 0, 7),
-                    $build->getCommitterEmail()
+                    $build->getCommitterEmail() ? ('(' . $build->getCommitterEmail() . ')') : ''
                 );
             } else {
-                print Lang::get('manual_build');
+                print '&mdash;';
             }
         ?>
     </td>

@@ -36,11 +36,12 @@ class BuildService
     /**
      * @param Project     $project
      * @param string      $environment
-     * @param string|null $commitId
+     * @param string      $commitId
      * @param string|null $branch
      * @param string|null $tag
      * @param string|null $committerEmail
      * @param string|null $commitMessage
+     * @param integer     $source
      * @param string|null $extra
      * 
      * @return \PHPCensor\Model\Build
@@ -48,11 +49,12 @@ class BuildService
     public function createBuild(
         Project $project,
         $environment,
-        $commitId = null,
+        $commitId = '',
         $branch = null,
         $tag = null,
         $committerEmail = null,
         $commitMessage = null,
+        $source = Build::SOURCE_UNKNOWN,
         $extra = null
     ) {
         $build = new Build();
@@ -64,12 +66,8 @@ class BuildService
         $branches = $project->getBranchesByEnvironment($environment);
         $build->setExtraValue('branches', $branches);
 
-        if (!empty($commitId)) {
-            $build->setCommitId($commitId);
-        } else {
-            $build->setCommitId('Manual');
-            $build->setCommitMessage('Manual');
-        }
+        $build->setSource($source);
+        $build->setCommitId((string)$commitId);
 
         if (!empty($branch)) {
             $build->setBranch($branch);
@@ -94,8 +92,7 @@ class BuildService
         }
 
         /** @var Build $build */
-        $build = $this->buildStore->save($build);
-
+        $build   = $this->buildStore->save($build);
         $buildId = $build->getId();
 
         if (!empty($buildId)) {
