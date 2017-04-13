@@ -73,7 +73,7 @@ class RemoteGitBuild extends Build
     */
     protected function cloneByHttp(Builder $builder, $cloneTo)
     {
-        $cmd = 'git clone --recursive ';
+        $cmd = 'cd .. && git clone --recursive ';
 
         $depth = $builder->getConfig('clone_depth');
 
@@ -100,7 +100,7 @@ class RemoteGitBuild extends Build
         $gitSshWrapper = $this->writeSshWrapper($cloneTo, $keyFile);
 
         // Do the git clone:
-        $cmd = 'git clone --recursive ';
+        $cmd = 'cd .. && git clone --recursive ';
 
         $depth = $builder->getConfig('clone_depth');
 
