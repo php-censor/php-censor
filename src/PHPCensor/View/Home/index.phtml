@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 use PHPCensor\Helper\Lang;
 use PHPCensor\Model\Build;
@@ -109,7 +109,7 @@ use PHPCensor\Model\Build;
                                 </h3>
 
                                 <div class="timeline-body">
-                                    <a href="<?php echo $build->getBranchLink();?>"><?php echo $build->getProject()->getBranch(); ?></a>
+                                    <a href="<?php echo $build->getBranchLink();?>"><?php echo $build->getBranch(); ?></a>
                                     <?php print $branches ? ' + '.implode(', ', $branches) : ''; ?> -
                                     <?php
                                     if ($build->getCommitId() !== 'Manual') {
