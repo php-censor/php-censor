@@ -3,7 +3,7 @@ use PHPCensor\Helper\Lang;
 
 $statuses = [];
 $failures = 0;
-$subcls   = 'grey';
+$subcls   = 'gray';
 $cls      = '';
 $success  = null;
 $failure  = null;
@@ -103,7 +103,7 @@ if ($buildCount > 0) {
 
         <?php for ($idx=0; $idx < 5; $idx++) {
         if (empty($builds[$idx])) {
-            echo '<span class="small-box-footer-build small-box-footer bg-grey"><i class="fa fa-minus"></i></span>';
+            echo '<span class="small-box-footer-build small-box-footer bg-gray"><i class="fa fa-minus"></i></span>';
         } else {
             $build = $builds[$idx];
             $link = APP_URL . 'build/view/' . $build->id;

@@ -10,6 +10,20 @@ class Database extends \PDO
     protected static $details     = [];
     protected static $lastUsed    = ['read' => null, 'write' => null];
 
+    /**
+     * @param string $table
+     *
+     * @return string
+     */
+    public function lastInsertIdExtended($table = null)
+    {
+        if ($table && $this->getAttribute(self::ATTR_DRIVER_NAME) == 'pgsql') {
+            return parent::lastInsertId($table . '_id_seq');
+        }
+
+        return parent::lastInsertId();
+    }
+
     protected static function init()
     {
         $config   = Config::getInstance();
