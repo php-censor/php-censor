@@ -585,7 +585,8 @@ h6,
 }
 
 .bg-gray {
-    color: #666;
+    background-color: #8aa4af;
+    color: #fff !important;
 }
 
 .timeline > .time-label > span {
