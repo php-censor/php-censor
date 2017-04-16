@@ -251,26 +251,28 @@ abstract class Store
 
     public function saveByInsert(Model $obj, $saveAllColumns = false)
     {
-        $rtn = null;
-        $data = $obj->getDataArray();
+        $rtn      = null;
+        $data     = $obj->getDataArray();
         $modified = ($saveAllColumns) ? array_keys($data) : $obj->getModified();
 
         $cols    = [];
         $values  = [];
         $qParams = [];
         foreach ($modified as $key) {
-            $cols[] = $key;
-            $values[] = ':' . $key;
+            $cols[]              = $key;
+            $values[]            = ':' . $key;
             $qParams[':' . $key] = $data[$key];
         }
 
         if (count($cols)) {
-            $qs = 'INSERT INTO {{' . $this->tableName . '}} (' . implode(', ', $cols) . ') VALUES (' . implode(', ',
-                    $values) . ')';
+            $qs = 'INSERT INTO {{' . $this->tableName . '}} (' . implode(', ', $cols) . ') VALUES (' . implode(', ', $values) . ')';
             $q = Database::getConnection('write')->prepareCommon($qs);
 
             if ($q->execute($qParams)) {
-                $id = !empty($data[$this->primaryKey]) ? $data[$this->primaryKey] : Database::getConnection('write')->lastInsertId();
+                $id = !empty($data[$this->primaryKey])
+                    ? $data[$this->primaryKey]
+                    : Database::getConnection('write')->lastInsertIdExtended($obj->getTableName());
+
                 $rtn = $this->getByPrimaryKey($id, 'write');
             }
         }
