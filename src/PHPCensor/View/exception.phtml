@@ -7,11 +7,10 @@
         /** @var $exception \Exception */
     ?>
     <div class="box-body">
-        <?= $exception->getMessage(); ?><br />
-        File: <?= $exception->getFile(); ?><br />
-        Line: <?= $exception->getLine(); ?>
-        <pre>
-            <?= $exception->getTraceAsString(); ?>
-        </pre>
+        <strong>Message</strong>: <?= $exception->getMessage(); ?><br />
+        <strong>File</strong>: <?= $exception->getFile(); ?><br />
+        <strong>Line</strong>: <?= $exception->getLine(); ?><br />
+        <strong>Trace</strong>:
+        <pre style="white-space: pre-wrap"><?= $exception->getTraceAsString(); ?></pre>
     </div>
 </div>
