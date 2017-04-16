@@ -39,7 +39,7 @@ abstract class Controller
 
     public function __construct(Config $config, Request $request, Response $response)
     {
-        $this->config  = $config;
+        $this->config   = $config;
         $this->request  = $request;
         $this->response = $response;
     }

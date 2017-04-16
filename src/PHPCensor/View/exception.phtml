@@ -3,7 +3,15 @@
         <h2 class="box-title">Sorry, there was a problem</h2>
     </div>
 
+    <?php 
+        /** @var $exception \Exception */
+    ?>
     <div class="box-body">
-        <?php print $exception->getMessage(); ?>
+        <?= $exception->getMessage(); ?><br />
+        File: <?= $exception->getFile(); ?><br />
+        Line: <?= $exception->getLine(); ?><br />
+        <pre>
+            <?= $exception->getTraceAsString(); ?>
+        </pre>
     </div>
 </div>
