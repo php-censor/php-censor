@@ -585,7 +585,7 @@ h6,
 }
 
 .bg-gray {
-    background-color: #8aa4af;
+    background-color: #8aa4af !important;
     color: #fff !important;
 }
 
