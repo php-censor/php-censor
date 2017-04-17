@@ -58,7 +58,7 @@
     "codeception/codeception":         "2.2.*",
     "phpmd/phpmd":                     "2.5.*",
     "sebastian/phpcpd":                "2.0.*",
-    "squizlabs/php_codesniffer":       "2.7.*",
+    "squizlabs/php_codesniffer":       "2.8.*",
     "block8/php-docblock-checker":     "1.0.*",
     "phploc/phploc":                   "3.0.*",
     "jakub-onderka/php-parallel-lint": "0.9.*",
