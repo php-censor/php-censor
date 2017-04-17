@@ -12,7 +12,6 @@ test:
   php_unit:
     config:
       - phpunit.mysql.xml
-    coverage: coverage
 
   php_mess_detector:
     allow_failures: true
