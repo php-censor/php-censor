@@ -10,21 +10,24 @@ Configuration
 
 * **verbose** [bool, optional] - Whether to run in verbose mode (default: false)
 * **diff** [bool, optional] - Whether to run with the `--diff` flag enabled (default: false)
-* **level** [string, optional] - `psr0`, `psr1`, `psr2`, or `symphony` (default: all)
-* **workingdir** [string, optional] - The directory in which PHP CS Fixer should work (default: build root)
+* **directory** [string, optional] - The directory in which PHP CS Fixer should work (default: `%BUILD_PATH%`)
+* **rules** [string, optional] - Fixer rules (default: `@PSR2`)
+* **args** [string, optional] - Command line args (in string format) to pass to PHP Coding Standards Fixer (default: ``)
 
 ### Examples
 
 ```yml
 test:
   php_cs_fixer:
-    verbose: true
-    diff: true
-    level: "psr2"
-    workingdir: "my/dir/path"
+    directory: "./my/dir/path" # == "%BUILD_PATH%/my/dir/path"
+    args:      "--rules=@PSR2 --diff --verbose"
 ```
 
-Warning
--------
-
-There is currently a bug with this plugin that will cause an error if you leave the level to default to `all`. That level does not exist and will cause the build to fail. Instead specify the level explicitly until this is fixed.
+```yml
+test:
+  php_cs_fixer:
+    directory: "%BUILD_PATH%/my/dir/path"
+    verbose:   true
+    diff:      true
+    rules:     "@PSR2"
+```
