@@ -13,8 +13,8 @@ use PHPCensor\Plugin;
  */
 class PhpCsFixer extends Plugin
 {
-    protected $directory  = null;
-    protected $args       = '';
+    protected $directory = null;
+    protected $args      = '';
 
     /**
      * @return string
@@ -33,6 +33,18 @@ class PhpCsFixer extends Plugin
 
         if (!empty($options['args'])) {
             $this->args = $options['args'];
+        }
+        
+        if (isset($options['verbose']) && $options['verbose']) {
+            $this->args .= ' --verbose';
+        }
+
+        if (isset($options['diff']) && $options['diff']) {
+            $this->args .= ' --diff';
+        }
+
+        if (isset($options['rules']) && $options['rules']) {
+            $this->args .= ' --rules=' . $options['rules'];
         }
 
         if (isset($options['directory']) && $options['directory']) {
