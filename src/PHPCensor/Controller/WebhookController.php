@@ -204,12 +204,12 @@ class WebhookController extends Controller
                 ];
         }
 
-        // Handle Pull Request web hooks:
+        // Handle Pull Request webhooks:
         if (array_key_exists('pull_request', $payload)) {
             return $this->githubPullRequest($project, $payload);
         }
 
-        // Handle Push web hooks:
+        // Handle Push (and Tag) webhooks:
         if (array_key_exists('head_commit', $payload)) {
             return $this->githubCommitRequest($project, $payload);
         }
@@ -227,52 +227,47 @@ class WebhookController extends Controller
      */
     protected function githubCommitRequest(Project $project, array $payload)
     {
-        // Github sends a payload when you close a pull request with a
-        // non-existent commit. We don't want this.
-        if (array_key_exists('after', $payload) && $payload['after'] === '0000000000000000000000000000000000000000') {
+        // Github sends a payload when you close a pull request with a non-existent commit. We don't want this.
+        if (
+            array_key_exists('after', $payload) &&
+            $payload['after'] === '0000000000000000000000000000000000000000'
+        ) {
             return ['status' => 'ignored'];
         }
 
         if (isset($payload['head_commit']) && $payload['head_commit']) {
+            $isTag   = (substr($payload['ref'], 0, 10) == 'refs/tags/') ? true : false;
+            $commit  = $payload['head_commit'];
             $results = [];
             $status  = 'failed';
             
-            if (!$payload['head_commit']['distinct']) {
-                $results[$payload['head_commit']['id']] = ['status' => 'ignored'];
-            }
+            if (!$commit['distinct']) {
+                $results[$commit['id']] = ['status' => 'ignored'];
+            } else {
+                try {
+                    if ($isTag) {
+                        $branch    = str_replace('refs/tags/', 'Tag: ', $payload['ref']);
+                        $committer = $payload['pusher']['email'];
+                    } else {
+                        $branch    = str_replace('refs/heads/', '', $payload['ref']);
+                        $committer = $commit['committer']['email'];
+                    }
 
-            try {
-                $branch    = str_replace('refs/heads/', '', $payload['ref']);
-                $committer = $payload['head_commit']['committer']['email'];
+                    $results[$commit['id']] = $this->createBuild(
+                        $project,
+                        $commit['id'],
+                        $branch,
+                        $committer,
+                        $commit['message']
+                    );
 
-                $results[$payload['head_commit']['id']] = $this->createBuild(
-                    $project,
-                    $payload['head_commit']['id'],
-                    $branch,
-                    $committer,
-                    $payload['head_commit']['message']
-                );
-                $status = 'ok';
-            } catch (Exception $ex) {
-                $results[$payload['head_commit']['id']] = ['status' => 'failed', 'error' => $ex->getMessage()];
+                    $status = 'ok';
+                } catch (Exception $ex) {
+                    $results[$commit['id']] = ['status' => 'failed', 'error' => $ex->getMessage()];
+                }
             }
 
             return ['status' => $status, 'commits' => $results];
-        }
-
-        if (substr($payload['ref'], 0, 10) == 'refs/tags/') {
-            // If we don't, but we're dealing with a tag, add that instead:
-            $branch    = str_replace('refs/tags/', 'Tag: ', $payload['ref']);
-            $committer = $payload['pusher']['email'];
-            $message   = $payload['head_commit']['message'];
-
-            return $this->createBuild(
-                $project,
-                $payload['after'],
-                $branch,
-                $committer,
-                $message
-            );
         }
 
         return ['status' => 'ignored', 'message' => 'Unusable payload.'];
