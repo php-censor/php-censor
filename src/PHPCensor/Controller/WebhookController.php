@@ -197,7 +197,11 @@ class WebhookController extends Controller
                 $payload = json_decode($this->getParam('payload'), true);
                 break;
             default:
-                return ['status' => 'failed', 'error' => 'Content type not supported.', 'responseCode' => 401];
+                return [
+                    'status'       => 'failed',
+                    'error'        => 'Content type not supported.',
+                    'responseCode' => 401
+                ];
         }
 
         // Handle Pull Request web hooks:
@@ -206,7 +210,7 @@ class WebhookController extends Controller
         }
 
         // Handle Push web hooks:
-        if (array_key_exists('commits', $payload)) {
+        if (array_key_exists('head_commit', $payload)) {
             return $this->githubCommitRequest($project, $payload);
         }
 
@@ -229,41 +233,46 @@ class WebhookController extends Controller
             return ['status' => 'ignored'];
         }
 
-        if (isset($payload['commits']) && is_array($payload['commits'])) {
-            // If we have a list of commits, then add them all as builds to be tested:
-
+        if (isset($payload['head_commit']) && $payload['head_commit']) {
             $results = [];
             $status  = 'failed';
-            foreach ($payload['commits'] as $commit) {
-                if (!$commit['distinct']) {
-                    $results[$commit['id']] = ['status' => 'ignored'];
-                    continue;
-                }
-
-                try {
-                    $branch = str_replace('refs/heads/', '', $payload['ref']);
-                    $committer = $commit['committer']['email'];
-                    $results[$commit['id']] = $this->createBuild(
-                        $project,
-                        $commit['id'],
-                        $branch,
-                        $committer,
-                        $commit['message']
-                    );
-                    $status = 'ok';
-                } catch (Exception $ex) {
-                    $results[$commit['id']] = ['status' => 'failed', 'error' => $ex->getMessage()];
-                }
+            
+            if (!$payload['head_commit']['distinct']) {
+                $results[$payload['head_commit']['id']] = ['status' => 'ignored'];
             }
+
+            try {
+                $branch    = str_replace('refs/heads/', '', $payload['ref']);
+                $committer = $payload['head_commit']['committer']['email'];
+
+                $results[$payload['head_commit']['id']] = $this->createBuild(
+                    $project,
+                    $payload['head_commit']['id'],
+                    $branch,
+                    $committer,
+                    $payload['head_commit']['message']
+                );
+                $status = 'ok';
+            } catch (Exception $ex) {
+                $results[$payload['head_commit']['id']] = ['status' => 'failed', 'error' => $ex->getMessage()];
+            }
+
             return ['status' => $status, 'commits' => $results];
         }
 
         if (substr($payload['ref'], 0, 10) == 'refs/tags/') {
             // If we don't, but we're dealing with a tag, add that instead:
-            $branch = str_replace('refs/tags/', 'Tag: ', $payload['ref']);
+            $branch    = str_replace('refs/tags/', 'Tag: ', $payload['ref']);
             $committer = $payload['pusher']['email'];
-            $message = $payload['head_commit']['message'];
-            return $this->createBuild($project, $payload['after'], $branch, $committer, $message);
+            $message   = $payload['head_commit']['message'];
+
+            return $this->createBuild(
+                $project,
+                $payload['after'],
+                $branch,
+                $committer,
+                $message
+            );
         }
 
         return ['status' => 'ignored', 'message' => 'Unusable payload.'];
