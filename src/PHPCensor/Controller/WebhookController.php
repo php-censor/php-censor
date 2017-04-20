@@ -246,7 +246,7 @@ class WebhookController extends Controller
             } else {
                 try {
                     if ($isTag) {
-                        $branch    = str_replace('refs/tags/', 'Tag: ', $payload['ref']);
+                        $branch    = str_replace('refs/heads/', '', $payload['base_ref']);
                         $committer = $payload['pusher']['email'];
                     } else {
                         $branch    = str_replace('refs/heads/', '', $payload['ref']);
@@ -513,7 +513,7 @@ class WebhookController extends Controller
         }
 
         // Check if a build already exists for this commit ID:
-        $builds = $this->buildStore->getByProjectAndCommit($project->getId(), $commitId, $branch);
+        $builds = $this->buildStore->getByProjectAndCommit($project->getId(), $commitId);
 
         $ignore_environments = [];
         if ($builds['count']) {
