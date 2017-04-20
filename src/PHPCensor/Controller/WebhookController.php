@@ -513,7 +513,7 @@ class WebhookController extends Controller
         }
 
         // Check if a build already exists for this commit ID:
-        $builds = $this->buildStore->getByProjectAndCommit($project->getId(), $commitId);
+        $builds = $this->buildStore->getByProjectAndCommit($project->getId(), $commitId, $branch);
 
         $ignore_environments = [];
         if ($builds['count']) {
