@@ -177,14 +177,17 @@ class BuildStore extends Store
 
     /**
      * Return an array of builds for a given project and commit ID.
-     * @param $projectId
-     * @param $commitId
+     * 
+     * @param integer $projectId
+     * @param string  $commitId
+     * 
      * @return array
      */
     public function getByProjectAndCommit($projectId, $commitId)
     {
         $query = 'SELECT * FROM {{build}} WHERE {{project_id}} = :project_id AND {{commit_id}} = :commit_id';
-        $stmt = Database::getConnection('read')->prepareCommon($query);
+        $stmt  = Database::getConnection('read')->prepareCommon($query);
+
         $stmt->bindValue(':project_id', $projectId);
         $stmt->bindValue(':commit_id', $commitId);
 

@@ -38,6 +38,7 @@ class BuildService
      * @param string      $environment
      * @param string|null $commitId
      * @param string|null $branch
+     * @param string|null $tag
      * @param string|null $committerEmail
      * @param string|null $commitMessage
      * @param string|null $extra
@@ -49,6 +50,7 @@ class BuildService
         $environment,
         $commitId = null,
         $branch = null,
+        $tag = null,
         $committerEmail = null,
         $commitMessage = null,
         $extra = null
@@ -73,6 +75,10 @@ class BuildService
             $build->setBranch($branch);
         } else {
             $build->setBranch($project->getBranch());
+        }
+
+        if (!is_null($tag)) {
+            $build->setTag($tag);
         }
 
         if (!is_null($committerEmail)) {

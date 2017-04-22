@@ -58,8 +58,15 @@ $branches = $build->getExtra('branches');
         ?>
     </td>
     <td>
-        <a href="<?php print $build->getBranchLink(); ?>" target="_blank"><?php print $build->getBranch(); ?></a>
-        <?php print $branches ? ' + '.implode(', ', $branches) : ''; ?>
+        <a href="<?= $build->getBranchLink(); ?>" target="_blank">
+            <i class="fa fa-code-fork"></i> <?= $build->getBranch(); ?>
+        </a>
+        <?= $branches ? ' + '.implode(', ', $branches) : ''; ?>
+        <?php if ($tag = $build->getTag()): ?> / 
+             <a href="<?= $build->getTagLink(); ?>" target="_blank">
+                <i class="fa fa-tag"></i> <?= $tag; ?>
+            </a>
+        <?php endif; ?>
     </td>
     <td>
         <?php
@@ -68,7 +75,7 @@ $branches = $build->getExtra('branches');
         ?>
     </td>
     <td>
-        <?php print $build->getDuration(); ?> <?= Lang::get('seconds'); ?>
+        <?= $build->getDuration(); ?> <?= Lang::get('seconds'); ?>
     </td>
     <td>
         <div class="btn-group btn-group-right">

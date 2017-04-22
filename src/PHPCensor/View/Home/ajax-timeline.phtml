@@ -57,11 +57,11 @@ use PHPCensor\Model\Build;
             <i class="fa fa-<?php print $build->getProject()->getIcon(); ?> bg-<?php print $color; ?>"></i>
             <div class="timeline-item">
                 <span class="time"><i class="fa fa-clock-o"></i>
-                <?php
-                echo $updated->format('H:i:s');
-                if ($build->getStatus() != Build::STATUS_PENDING) {
-                    echo ' (' . $build->getPrettyDuration() . ')';
-                }
+                <?php 
+                    echo $updated->format('H:i:s');
+                    if ($build->getStatus() != Build::STATUS_PENDING) {
+                        echo ' &mdash; ' . $build->getDuration(); ?> <?= Lang::get('seconds');
+                    }
                 ?>
                 </span>
                 <h3 class="timeline-header">
@@ -69,17 +69,23 @@ use PHPCensor\Model\Build;
                         <?php print $build->getProject()->getTitle(); ?>
                     </a>
                     <span><?php print $environment; ?></span>
-                    -
+                    &mdash; 
                     <a href="<?php print APP_URL; ?>build/view/<?php print $build->getId(); ?>">
                         Build #<?php print $build->getId(); ?>
                     </a>
-                    -
+                    &mdash; 
                     <?php print $label; ?>
                 </h3>
 
                 <div class="timeline-body">
-                    <a href="<?php echo $build->getBranchLink();?>"><?php echo $build->getBranch(); ?></a>
-                    <?php print $branches ? ' + '.implode(', ', $branches) : ''; ?> -
+                    <a href="<?= $build->getBranchLink();?>"><i class="fa fa-code-fork"></i> <?php echo $build->getBranch(); ?></a>
+                    <?= $branches ? ' + '.implode(', ', $branches) : ''; ?>
+                    <?php if ($tag = $build->getTag()): ?> / 
+                        <a href="<?= $build->getTagLink(); ?>" target="_blank">
+                            <i class="fa fa-tag"></i> <?= $tag; ?>
+                        </a>
+                    <?php endif; ?>
+                    &mdash; 
                     <?php
                     if ($build->getCommitId() !== 'Manual') {
                         print sprintf(
@@ -92,7 +98,8 @@ use PHPCensor\Model\Build;
                         print Lang::get('manual_build');
                     }
                     ?>
-                    - <?php print $build->getCommitMessage(); ?>
+                    &mdash; 
+                    <?php print $build->getCommitMessage(); ?>
                 </div>
             </div>
         </li>

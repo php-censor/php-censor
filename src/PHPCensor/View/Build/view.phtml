@@ -24,9 +24,14 @@
                     <tr>
                         <th><?php Lang::out('branch'); ?></th>
                         <td style="text-align: right">
-                            <a target="_blank" href="<?php print $build->getBranchLink(); ?>">
-                                <span class="label label-default"><?php print $build->getBranch(); ?></span>
+                            <a target="_blank" href="<?= $build->getBranchLink(); ?>">
+                                <i class="fa fa-code-fork"></i> <?= $build->getBranch(); ?>
                             </a>
+                            <?php if ($tag = $build->getTag()): ?> / 
+                                <a target="_blank" href="<?= $build->getTagLink(); ?>">
+                                    <i class="fa fa-tag"></i> <?= $tag; ?>
+                                </a>
+                            <?php endif; ?>
                         </td>
                     </tr>
 
@@ -35,7 +40,7 @@
                         <td style="text-align: right">
                             <?php
                                 $environment = $build->getEnvironment();
-                                echo !empty($environment) ? ('<span class="label label-default">' . $environment . '</span>') : '—' ;
+                                echo !empty($environment) ? ('<i class="fa fa-gear"> ' . $environment) : '—' ;
                             ?>
                         </td>
                     </tr>
@@ -43,12 +48,14 @@
                     <tr>
                         <th><?php Lang::out('merged_branches'); ?></th>
                         <td style="text-align: right">
-                            <span class="label label-default"><?php print $build->getBranch() ?></span>
+                            <a target="_blank" href="<?= $build->getBranchLink(); ?>">
+                                <i class="fa fa-code-fork"></i> <?= $build->getBranch(); ?>
+                            </a>
                             + <?php
                             $branches = $build->getExtra('branches');
                             if (!empty($branches)) {
                                 foreach($branches as $branch) {
-                                    ?><span class="label label-default"><?php print $branch ?></span><?php
+                                    ?><i class="fa fa-code-fork"></i> <?php print $branch ?><?php
                                 }
                             } else {
                                 ?>&mdash;<?php
