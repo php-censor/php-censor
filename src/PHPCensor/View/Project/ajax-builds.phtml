@@ -59,13 +59,13 @@ $branches = $build->getExtra('branches');
     </td>
     <td>
         <a href="<?= $build->getBranchLink(); ?>" target="_blank">
-            <span class='label label-default'><?= $build->getBranch(); ?></span>
+            <i class="fa fa-code-fork"></i> <?= $build->getBranch(); ?>
         </a>
         <?= $branches ? ' + '.implode(', ', $branches) : ''; ?>
-        <?php if ($tag = $build->getTag()): ?> /
-            <a href="<?= $build->getTagLink(); ?>" target="_blank">
-                <span class='label label-info'><?= $tag; ?></span>
-            </a>
+        <?php if ($tag = $build->getTag()): ?> 
+             (<a href="<?= $build->getTagLink(); ?>" target="_blank">
+                <i class="fa fa-tag"></i> <?= $tag; ?>
+            </a>)
         <?php endif; ?>
     </td>
     <td>
