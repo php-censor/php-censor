@@ -80,10 +80,10 @@ use PHPCensor\Model\Build;
                 <div class="timeline-body">
                     <a href="<?= $build->getBranchLink();?>"><i class="fa fa-code-fork"></i> <?php echo $build->getBranch(); ?></a>
                     <?= $branches ? ' + '.implode(', ', $branches) : ''; ?>
-                    <?php if ($tag = $build->getTag()): ?>
-                        (<a href="<?= $build->getTagLink(); ?>" target="_blank">
+                    <?php if ($tag = $build->getTag()): ?> / 
+                        <a href="<?= $build->getTagLink(); ?>" target="_blank">
                             <i class="fa fa-tag"></i> <?= $tag; ?>
-                        </a>)
+                        </a>
                     <?php endif; ?>
                     &mdash; 
                     <?php

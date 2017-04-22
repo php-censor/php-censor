@@ -62,10 +62,10 @@ $branches = $build->getExtra('branches');
             <i class="fa fa-code-fork"></i> <?= $build->getBranch(); ?>
         </a>
         <?= $branches ? ' + '.implode(', ', $branches) : ''; ?>
-        <?php if ($tag = $build->getTag()): ?> 
-             (<a href="<?= $build->getTagLink(); ?>" target="_blank">
+        <?php if ($tag = $build->getTag()): ?> / 
+             <a href="<?= $build->getTagLink(); ?>" target="_blank">
                 <i class="fa fa-tag"></i> <?= $tag; ?>
-            </a>)
+            </a>
         <?php endif; ?>
     </td>
     <td>

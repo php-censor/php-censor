@@ -27,10 +27,10 @@
                             <a target="_blank" href="<?= $build->getBranchLink(); ?>">
                                 <i class="fa fa-code-fork"></i> <?= $build->getBranch(); ?>
                             </a>
-                            <?php if ($tag = $build->getTag()): ?> 
-                                (<a target="_blank" href="<?= $build->getTagLink(); ?>">
+                            <?php if ($tag = $build->getTag()): ?> / 
+                                <a target="_blank" href="<?= $build->getTagLink(); ?>">
                                     <i class="fa fa-tag"></i> <?= $tag; ?>
-                                </a>)
+                                </a>
                             <?php endif; ?>
                         </td>
                     </tr>
