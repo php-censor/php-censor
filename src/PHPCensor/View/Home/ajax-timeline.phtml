@@ -57,11 +57,11 @@ use PHPCensor\Model\Build;
             <i class="fa fa-<?php print $build->getProject()->getIcon(); ?> bg-<?php print $color; ?>"></i>
             <div class="timeline-item">
                 <span class="time"><i class="fa fa-clock-o"></i>
-                <?php
-                echo $updated->format('H:i:s');
-                if ($build->getStatus() != Build::STATUS_PENDING) {
-                    echo ' (' . $build->getPrettyDuration() . ')';
-                }
+                <?php 
+                    echo $updated->format('H:i:s');
+                    if ($build->getStatus() != Build::STATUS_PENDING) {
+                        echo ' &mdash; ' . $build->getDuration(); ?> <?= Lang::get('seconds');
+                    }
                 ?>
                 </span>
                 <h3 class="timeline-header">
