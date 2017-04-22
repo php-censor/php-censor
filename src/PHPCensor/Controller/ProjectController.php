@@ -148,7 +148,16 @@ class ProjectController extends PHPCensor\Controller
         }
 
         $email = $_SESSION['php-censor-user']->getEmail();
-        $build = $this->buildService->createBuild($project, $environment, null, urldecode($branch), $email, null, $extra);
+        $build = $this->buildService->createBuild(
+            $project,
+            $environment,
+            null,
+            urldecode($branch),
+            null,
+            $email,
+            null,
+            $extra
+        );
 
         if ($this->buildService->queueError) {
             $_SESSION['global_error'] = Lang::get('add_to_queue_failed');

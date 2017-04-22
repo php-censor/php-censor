@@ -51,6 +51,7 @@ class Build extends Model
         'status'          => null,
         'log'             => null,
         'branch'          => null,
+        'tag'             => null,
         'created'         => null,
         'started'         => null,
         'finished'        => null,
@@ -71,6 +72,7 @@ class Build extends Model
         'status'          => 'getStatus',
         'log'             => 'getLog',
         'branch'          => 'getBranch',
+        'tag'             => 'getTag',
         'created'         => 'getCreated',
         'started'         => 'getStarted',
         'finished'        => 'getFinished',
@@ -94,6 +96,7 @@ class Build extends Model
         'status'          => 'setStatus',
         'log'             => 'setLog',
         'branch'          => 'setBranch',
+        'setTag'          => 'setTag',
         'created'         => 'setCreated',
         'started'         => 'setStarted',
         'finished'        => 'setFinished',
@@ -141,6 +144,11 @@ class Build extends Model
             'type'    => 'varchar',
             'length'  => 250,
             'default' => 'master',
+        ],
+        'tag' => [
+            'type'    => 'varchar',
+            'length'  => 250,
+            'default' => null,
         ],
         'created' => [
             'type'     => 'datetime',
@@ -984,6 +992,36 @@ class Build extends Model
     public function createWorkingCopy(Builder $builder, $buildPath)
     {
         return false;
+    }
+
+    /**
+     * Get the value of Tag / tag.
+     *
+     * @return string
+     */
+    public function getTag()
+    {
+        $rtn = $this->data['tag'];
+
+        return $rtn;
+    }
+
+    /**
+     * Set the value of Tag / tag.
+     *
+     * @param $value string
+     */
+    public function setTag($value)
+    {
+        $this->validateString('Tag', $value);
+
+        if ($this->data['tag'] === $value) {
+            return;
+        }
+
+        $this->data['tag'] = $value;
+
+        $this->setModified('tag');
     }
 
     /**

@@ -59,7 +59,10 @@ $branches = $build->getExtra('branches');
     </td>
     <td>
         <a href="<?php print $build->getBranchLink(); ?>" target="_blank"><?php print $build->getBranch(); ?></a>
-        <?php print $branches ? ' + '.implode(', ', $branches) : ''; ?>
+        <?= $branches ? ' + '.implode(', ', $branches) : ''; ?>
+        <?php if ($tag = $build->getTag()): ?> / 
+            <span class='label label-info'><?= $tag; ?></span>
+        <?php endif; ?>
     </td>
     <td>
         <?php

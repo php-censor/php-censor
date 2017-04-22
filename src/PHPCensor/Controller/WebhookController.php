@@ -121,6 +121,7 @@ class WebhookController extends Controller
                     $project,
                     $commit['new']['target']['hash'],
                     $commit['new']['name'],
+                    null,
                     $email,
                     $commit['new']['target']['message']
                 );
@@ -152,6 +153,7 @@ class WebhookController extends Controller
                     $project,
                     $commit['raw_node'],
                     $commit['branch'],
+                    null,
                     $email,
                     $commit['message']
                 );
@@ -179,7 +181,7 @@ class WebhookController extends Controller
         $commitMessage = $this->getParam('message');
         $committer = $this->getParam('committer');
 
-        return $this->createBuild($project, $commit, $branch, $committer, $commitMessage);
+        return $this->createBuild($project, $commit, $branch, null, $committer, $commitMessage);
     }
 
     /**
@@ -245,7 +247,9 @@ class WebhookController extends Controller
                 $results[$commit['id']] = ['status' => 'ignored'];
             } else {
                 try {
+                    $tag = null;
                     if ($isTag) {
+                        $tag       = str_replace('refs/tags/', '', $payload['ref']);
                         $branch    = str_replace('refs/heads/', '', $payload['base_ref']);
                         $committer = $payload['pusher']['email'];
                     } else {
@@ -257,6 +261,7 @@ class WebhookController extends Controller
                         $project,
                         $commit['id'],
                         $branch,
+                        $tag,
                         $committer,
                         $commit['message']
                     );
@@ -339,7 +344,7 @@ class WebhookController extends Controller
                     'remote_url'          => $payload['pull_request']['head']['repo'][$remoteUrlKey],
                 ];
 
-                $results[$id] = $this->createBuild($project, $id, $branch, $committer, $message, $extra);
+                $results[$id] = $this->createBuild($project, $id, $branch, null, $committer, $message, $extra);
                 $status = 'ok';
             } catch (Exception $ex) {
                 $results[$id] = ['status' => 'failed', 'error' => $ex->getMessage()];
@@ -367,7 +372,7 @@ class WebhookController extends Controller
                 $commit = $attributes['last_commit'];
                 $committer = $commit['author']['email'];
 
-                return $this->createBuild($project, $commit['id'], $branch, $committer, $commit['message']);
+                return $this->createBuild($project, $commit['id'], $branch, null, $committer, $commit['message']);
             }
         }
 
@@ -385,6 +390,7 @@ class WebhookController extends Controller
                         $project,
                         $commit['id'],
                         $branch,
+                        null,
                         $committer,
                         $commit['message']
                     );
@@ -417,7 +423,7 @@ class WebhookController extends Controller
         $commitMessage = $this->getParam('message');
         $committer = $this->getParam('committer');
 
-        return $this->createBuild($project, $commit, $branch, $committer, $commitMessage);
+        return $this->createBuild($project, $commit, $branch, null, $committer, $commitMessage);
     }
 
     /**
@@ -471,6 +477,7 @@ class WebhookController extends Controller
                         $project,
                         $commit['id'],
                         $branch,
+                        null,
                         $committer,
                         $commit['message']
                     );
@@ -490,11 +497,12 @@ class WebhookController extends Controller
      * Wrapper for creating a new build.
      *
      * @param Project $project
-     * @param string $commitId
-     * @param string $branch
-     * @param string $committer
-     * @param string $commitMessage
-     * @param array $extra
+     * @param string  $commitId
+     * @param string  $branch
+     * @param string  $tag
+     * @param string  $committer
+     * @param string  $commitMessage
+     * @param array   $extra
      *
      * @return array
      *
@@ -504,6 +512,7 @@ class WebhookController extends Controller
         Project $project,
         $commitId,
         $branch,
+        $tag,
         $committer,
         $commitMessage,
         array $extra = null
@@ -533,11 +542,21 @@ class WebhookController extends Controller
                 foreach ($environment_names as $environment_name) {
                     if (!in_array($environment_name, $ignore_environments)) {
                         // If not, create a new build job for it:
-                        $build = $this->buildService->createBuild($project, $environment_name, $commitId, $project->getBranch(), $committer, $commitMessage, $extra);
-                        $created_builds[] = array(
-                            'id' => $build->getID(),
-                            'environment' => $environment_name,
+                        $build = $this->buildService->createBuild(
+                            $project,
+                            $environment_name,
+                            $commitId,
+                            $project->getBranch(),
+                            $tag,
+                            $committer,
+                            $commitMessage,
+                            $extra
                         );
+
+                        $created_builds[] = [
+                            'id'          => $build->getID(),
+                            'environment' => $environment_name,
+                        ];
                     } else {
                         $duplicates[] = array_search($environment_name, $ignore_environments);
                     }
@@ -556,8 +575,18 @@ class WebhookController extends Controller
             }
         } else {
             $environment_name = null;
-            if (!in_array($environment_name, $ignore_environments)) {
-                $build = $this->buildService->createBuild($project, null, $commitId, $branch, $committer, $commitMessage, $extra);
+            if (!in_array($environment_name, $ignore_environments) ||$tag) {
+                $build = $this->buildService->createBuild(
+                    $project,
+                    null,
+                    $commitId,
+                    $branch,
+                    $tag,
+                    $committer,
+                    $commitMessage,
+                    $extra
+                );
+
                 return ['status' => 'ok', 'buildID' => $build->getID()];
             } else {
                 return [

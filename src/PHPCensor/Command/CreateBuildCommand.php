@@ -57,9 +57,9 @@ class CreateBuildCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $projectId = $input->getArgument('projectId');
-        $commitId = $input->getOption('commit');
-        $branch = $input->getOption('branch');
+        $projectId   = $input->getArgument('projectId');
+        $commitId    = $input->getOption('commit');
+        $branch      = $input->getOption('branch');
         $environment = $input->hasOption('environment') ? $input->getOption('environment') : null;
 
         $project = $this->projectStore->getById($projectId);
