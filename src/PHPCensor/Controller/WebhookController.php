@@ -525,22 +525,27 @@ class WebhookController extends Controller
         $builds = $this->buildStore->getByProjectAndCommit($project->getId(), $commitId);
 
         $ignore_environments = [];
+        $ignore_tags         = [];
         if ($builds['count']) {
             foreach($builds['items'] as $build) {
                 /** @var Build $build */
                 $ignore_environments[$build->getId()] = $build->getEnvironment();
+                $ignore_tags[$build->getId()]         = $build->getTag();
             }
         }
 
         $environments = $project->getEnvironmentsObjects();
         if ($environments['count']) {
-            $created_builds = [];
+            $created_builds    = [];
             $environment_names = $project->getEnvironmentsNamesByBranch($branch);
             // use base branch from project
             if (!empty($environment_names)) {
                 $duplicates = [];
                 foreach ($environment_names as $environment_name) {
-                    if (!in_array($environment_name, $ignore_environments)) {
+                    if (
+                        !in_array($environment_name, $ignore_environments) ||
+                        ($tag && !in_array($tag, $ignore_tags, true))
+                    ) {
                         // If not, create a new build job for it:
                         $build = $this->buildService->createBuild(
                             $project,
@@ -575,7 +580,10 @@ class WebhookController extends Controller
             }
         } else {
             $environment_name = null;
-            if (!in_array($environment_name, $ignore_environments) ||$tag) {
+            if (
+                !in_array($environment_name, $ignore_environments, true) ||
+                ($tag && !in_array($tag, $ignore_tags, true))
+            ) {
                 $build = $this->buildService->createBuild(
                     $project,
                     null,

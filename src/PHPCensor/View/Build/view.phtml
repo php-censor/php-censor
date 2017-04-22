@@ -24,11 +24,13 @@
                     <tr>
                         <th><?php Lang::out('branch'); ?></th>
                         <td style="text-align: right">
-                            <a target="_blank" href="<?php print $build->getBranchLink(); ?>">
-                                <span class="label label-default"><?php print $build->getBranch(); ?></span>
+                            <a target="_blank" href="<?= $build->getBranchLink(); ?>">
+                                <span class="label label-default"><?= $build->getBranch(); ?></span>
                             </a>
-                            <?php if ($tag = $build->getTag()): ?> / 
-                                <span class='label label-info'><?= $tag; ?></span>
+                            <?php if ($tag = $build->getTag()): ?> /
+                                <a target="_blank" href="<?= $build->getTagLink(); ?>">
+                                    <span class='label label-info'><?= $tag; ?></span>
+                                </a>
                             <?php endif; ?>
                         </td>
                     </tr>

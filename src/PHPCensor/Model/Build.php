@@ -721,6 +721,14 @@ class Build extends Model
     }
 
     /**
+     * Get link to tag from another source (i.e. Github)
+     */
+    public function getTagLink()
+    {
+        return '#';
+    }
+
+    /**
      * Return a template to use to generate a link to a specific file.
      *
      * @return null

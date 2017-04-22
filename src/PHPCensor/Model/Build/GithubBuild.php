@@ -33,6 +33,14 @@ class GithubBuild extends RemoteGitBuild
     }
 
     /**
+     * Get link to tag from another source (i.e. Github)
+     */
+    public function getTagLink()
+    {
+        return 'https://github.com/' . $this->getProject()->getReference() . '/tree/' . $this->getTag();
+    }
+
+    /**
     * Send status updates to any relevant third parties (i.e. Github)
     */
     public function sendStatusPostback()
