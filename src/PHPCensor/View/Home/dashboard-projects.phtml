@@ -99,6 +99,13 @@ foreach($projects as $project):
             <i class="fa fa-<?php print $project->getIcon(); ?>"></i>
         </div>
         <a href="<?php print APP_URL; ?>project/view/<?php print $project->getId(); ?>" class="small-box-footer small-box-footer-project">
+            <div class="pull-left" style="margin-left: 10px">
+                <?php if ($project->getAllowPublicStatus()): ?>
+                    <i class="fa fa-unlock"></i>
+                <?php else: ?>
+                    <i class="fa fa-lock"></i>
+                <?php endif; ?>
+            </div>
             <?php Lang::out('view_project'); ?> (<?php print $counts[$project->getId()]; ?>) <i class="fa fa-arrow-circle-right"></i>
         </a>
 

@@ -94,10 +94,12 @@ class ProjectController extends PHPCensor\Controller
         $this->view->perPage      = $perPage;
 
         $this->layout->title = $project->getTitle();
+
+        $this->layout->subtitle = '';
         if (!empty($this->view->environment)) {
-            $this->layout->subtitle = $this->view->environment;
-        } else {
-            $this->layout->subtitle = $this->view->branch;
+            $this->layout->subtitle = '<i class="fa fa-gear"></i> ' . $this->view->environment;
+        } elseif (!empty($this->view->branch)) {
+            $this->layout->subtitle = '<i class="fa fa-code-fork"></i> ' . $this->view->branch;
         }
 
         return $this->view->render();
