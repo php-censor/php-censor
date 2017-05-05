@@ -133,12 +133,12 @@ class ProjectController extends PHPCensor\Controller
                 break;
         }
 
-        if (empty($branch)) {
-            $branch = $project->getBranch();
-        }
-
         if (empty($project) || $project->getArchived()) {
             throw new NotFoundException(Lang::get('project_x_not_found', $projectId));
+        }
+
+        if (empty($branch)) {
+            $branch = $project->getBranch();
         }
 
         $debug = (boolean)$this->getParam('debug', false);
