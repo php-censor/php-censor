@@ -328,7 +328,7 @@ class BuildStore extends Store
             $stmt->bindValue(':id', $build->getId(), \PDO::PARAM_INT);
             $stmt->bindValue(':status_current', $build->getStatus(), \PDO::PARAM_INT);
             $stmt->bindValue(':status_new', $status, \PDO::PARAM_INT);
-            return ($stmt->execute() and ($stmt->rowCount() == 1));
+            return ($stmt->execute() && ($stmt->rowCount() == 1));
         } catch (\Exception $e) {
             return false;
         }

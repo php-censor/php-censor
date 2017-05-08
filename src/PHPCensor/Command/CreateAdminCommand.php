@@ -3,7 +3,6 @@
 namespace PHPCensor\Command;
 
 use PHPCensor\Service\UserService;
-use b8\Store\Factory;
 use PHPCensor\Store\UserStore;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;

@@ -3,7 +3,6 @@
 namespace PHPCensor\Plugin;
 
 use PHPCensor\Builder;
-use PHPCensor\Helper\Lang;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 use HipChat\HipChat;

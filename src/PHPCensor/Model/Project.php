@@ -889,7 +889,7 @@ class Project extends Model
         $default_branch = ($branch == $this->getBranch());
         foreach($environments['items'] as $environment) {
             /** @var Environment $environment */
-            if ($default_branch or in_array($branch, $environment->getBranches())) {
+            if ($default_branch || in_array($branch, $environment->getBranches())) {
                 $environments_names[] = $environment->getName();
             }
         }
