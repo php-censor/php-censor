@@ -53,6 +53,25 @@ class ProjectController extends PHPCensor\Controller
     }
 
     /**
+     * @param int $projectId
+     *
+     * @return b8\Http\Response
+     */
+    public function ajaxBuilds($projectId)
+    {
+        $branch       = $this->getParam('branch', '');
+        $environment  = $this->getParam('environment', '');
+        $page         = (integer)$this->getParam('page', 1);
+        $perPage      = (integer)$this->getParam('per_page', 10);
+        $builds       = $this->getLatestBuildsHtml($projectId, $environment, $branch, (($page - 1) * $perPage), $perPage);
+
+        $this->response->disableLayout();
+        $this->response->setContent($builds[0]);
+
+        return $this->response;
+    }
+
+    /**
      * View a specific project.
      * 
      * @param integer $projectId
@@ -65,20 +84,21 @@ class ProjectController extends PHPCensor\Controller
     {
         $branch      = $this->getParam('branch', '');
         $environment = $this->getParam('environment', '');
+        $page        = (integer)$this->getParam('page', 1);
         $project     = $this->projectStore->getById($projectId);
 
         if (empty($project)) {
             throw new NotFoundException(Lang::get('project_x_not_found', $projectId));
         }
 
-        $perPage = $_SESSION['php-censor-user']->getFinalPerPage();
-        $page     = $this->getParam('p', 1);
-        $builds   = $this->getLatestBuildsHtml($projectId, urldecode($environment), urlencode($branch), (($page - 1) * $perPage), $perPage);
+        $perPage  = $_SESSION['php-censor-user']->getFinalPerPage();
+        $builds   = $this->getLatestBuildsHtml($projectId, $environment, $branch, (($page - 1) * $perPage), $perPage);
         $pages    = $builds[1] == 0 ? 1 : ceil($builds[1] / $perPage);
 
         if ($page > $pages) {
             $response = new b8\Http\Response\RedirectResponse();
-            $response->setHeader('Location', APP_URL.'project/view/'.$projectId);
+            $response->setHeader('Location', APP_URL . 'project/view/' . $projectId);
+
             return $response;
         }
 
@@ -522,24 +542,6 @@ class ProjectController extends PHPCensor\Controller
 
             return true;
         };
-    }
-
-    /**
-     * @param int $projectId
-     *
-     * @return b8\Http\Response
-     */
-    public function ajaxBuilds($projectId)
-    {
-        $branch       = $this->getParam('branch', '');
-        $environment  = $this->getParam('environment', '');
-        $perPage      = (integer)$this->getParam('per_page', 10);
-        $builds       = $this->getLatestBuildsHtml($projectId, urldecode($environment), urldecode($branch), 0, $perPage);
-
-        $this->response->disableLayout();
-        $this->response->setContent($builds[0]);
-
-        return $this->response;
     }
 
     /**
