@@ -173,7 +173,7 @@
                         <ul class="treeview-menu">
                             <?php foreach($group['projects'] as $project): ?>
                             <li>
-                                <a href="<?php print APP_URL; ?>project/view/<?php print $project->getId(); ?>">
+                                <a href="<?php print APP_URL; ?>project/view/<?= $project->getId(); ?>">
                                     <i class="fa fa-<?php print $project->getIcon(); ?>"></i>
                                     <span><?php print $project->getTitle(); ?></span>
                                 </a>

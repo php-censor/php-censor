@@ -14,9 +14,9 @@
                     <tr>
                         <th><?php Lang::out('project'); ?></th>
                         <td style="text-align: right">
-                            <a href="<?php print APP_URL . 'project/view/' . $build->getProjectId(); ?>">
-                                <i class="fa fa-<?php print $build->getProject()->getIcon(); ?>"></i>
-                                <?php print $build->getProject()->getTitle(); ?>
+                            <a href="<?= APP_URL . 'project/view/' . $build->getProjectId(); ?>">
+                                <i class="fa fa-<?= $build->getProject()->getIcon(); ?>"></i>
+                                <?= $build->getProject()->getTitle(); ?>
                             </a>
                         </td>
                     </tr>

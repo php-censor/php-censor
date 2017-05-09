@@ -80,25 +80,25 @@ foreach($projects as $project):
     }
 
 ?>
-    <div class="project-box" id="project-box-<?php print $project->getId(); ?>">
-    <div class="small-box small-box-full bg-<?php print $subcls; ?>">
+    <div class="project-box" id="project-box-<?= $project->getId(); ?>">
+    <div class="small-box small-box-full bg-<?= $subcls; ?>">
         
         <div class="inner">
             <h3>
-                <a href="<?php print APP_URL; ?>project/view/<?php print $project->getId(); ?>">
-                    <?php print $project->getTitle(); ?>
+                <a href="<?= APP_URL; ?>project/view/<?= $project->getId(); ?>">
+                    <?= $project->getTitle(); ?>
                 </a>
             </h3>
 
             <p>
-                <?php print $message; ?>
+                <?= $message; ?>
             </p>
 
         </div>
         <div class="icon">
             <i class="fa fa-<?php print $project->getIcon(); ?>"></i>
         </div>
-        <a href="<?php print APP_URL; ?>project/view/<?php print $project->getId(); ?>" class="small-box-footer small-box-footer-project">
+        <a href="<?= APP_URL; ?>project/view/<?= $project->getId(); ?>" class="small-box-footer small-box-footer-project">
             <div class="pull-left" style="margin-left: 10px">
                 <?php if ($project->getAllowPublicStatus()): ?>
                     <i class="fa fa-unlock"></i>

@@ -4,6 +4,7 @@
     var PROJECT_ENVIRONMENT = '<?= $environment; ?>';
     var PROJECT_BRANCH = '<?= $branch; ?>';
     var PER_PAGE       = <?= $perPage; ?>;
+    var PAGE           = <?= $page; ?>;
 </script>
 
 <div class="clearfix"  style="margin-bottom: 20px;">
@@ -15,34 +16,37 @@
         <?php Lang::out('delete_project'); ?>
     </a>
 
+    <?php
+        $build_url = APP_URL . 'project/build/' . $project->getId();
+    ?>
     <div class="pull-right btn-group">
         <?php if (!$project->getArchived()): ?>
             <?php if ($this->User()->getIsAdmin()): ?>
                 <?php if (!empty($environment)): ?>
-                    <a class="btn btn-danger" href="<?= APP_URL . 'project/build/' . $project->getId(); ?>/environment/<?= urlencode($environment); ?>?debug=1">
+                    <a class="btn btn-danger" href="<?= $build_url . '?' . http_build_query(['type' => 'environment', 'id' => $environment, 'debug' => 1]); ?>">
                         <?php Lang::out('build_now_debug'); ?>
                     </a>
                 <?php elseif (!empty($branch)): ?>
-                    <a class="btn btn-danger" href="<?= APP_URL . 'project/build/' . $project->getId(); ?>/branch/<?= urlencode($branch); ?>?debug=1">
+                    <a class="btn btn-danger" href="<?= $build_url . '?' . http_build_query(['type' => 'branch', 'id' => $branch, 'debug' => 1]); ?>">
                         <?php Lang::out('build_now_debug'); ?>
                     </a>
                 <?php else: ?>
-                    <a class="btn btn-danger" href="<?= APP_URL . 'project/build/' . $project->getId(); ?>?debug=1">
+                    <a class="btn btn-danger" href="<?= $build_url . '?' . http_build_query(['debug' => 1]); ?>">
                         <?php Lang::out('build_now_debug'); ?>
                     </a>
                 <?php endif; ?>
             <?php endif; ?>
 
             <?php if (!empty($environment)): ?>
-                <a class="btn btn-success" href="<?= APP_URL . 'project/build/' . $project->getId(); ?>/environment/<?= urlencode($environment); ?>">
+                <a class="btn btn-success" href="<?= $build_url . '?' . http_build_query(['type' => 'environment', 'id' => $environment]); ?>">
                     <?php Lang::out('build_now'); ?>
                 </a>
             <?php elseif (!empty($branch)): ?>
-                <a class="btn btn-success" href="<?= APP_URL . 'project/build/' . $project->getId(); ?>/branch/<?= urlencode($branch); ?>">
+                <a class="btn btn-success" href="<?= $build_url . '?' . http_build_query(['type' => 'branch', 'id' => $branch]); ?>">
                     <?php Lang::out('build_now'); ?>
                 </a>
             <?php else: ?>
-                <a class="btn btn-success" href="<?= APP_URL . 'project/build/' . $project->getId(); ?>">
+                <a class="btn btn-success" href="<?= $build_url . '?' . http_build_query(['debug' => 1]); ?>">
                     <?php Lang::out('build_now'); ?>
                 </a>
             <?php endif; ?>
@@ -115,10 +119,19 @@
 
         print '<div><ul class="pagination">';
 
-        $project_url = APP_URL . 'project/view/' . $project->getId() . ((!empty($branch)) ? '/' . urlencode($branch) : '');
+        $project_url = APP_URL . 'project/view/' . $project->getId();
+        $params      = [];
+
+        if (!empty($branch)) {
+            $params['branch'] = $branch;
+        }
+
+        if (!empty($environment)) {
+            $params['environment'] = $environment;
+        }
 
         if ($page > 1) {
-            print '<li><a href="' . $project_url . '?p='.($page == 1 ? '1' : $page - 1).'">'.Lang::get('prev_link').'</a></li>';
+            print '<li><a href="' . $project_url . '?' . http_build_query(array_merge($params, ['page' => ($page - 1)])) . '">' . Lang::get('prev_link') . '</a></li>';
         }
 
         if ($pages > 1) {
@@ -136,27 +149,29 @@
             }
 
             if ($start > 1) {
-                print '<li><a href="' . $project_url . '">1...</a></li>';
+                print '<li><a href="' . $project_url . '?' . http_build_query($params) . '">1...</a></li>';
             }
 
             for($i = $start; $i <= $end; $i++)
             {
-                if ($pages > $end && $i == $pages) continue;
+                if ($pages > $end && $i == $pages) {
+                    continue;
+                }
 
                 if ($i == $page) {
                     print '<li class="bg-blue"><span>' . $i . '</span></li>';
                 } else {
-                    print '<li><a href="' . $project_url . '?p=' . $i . '">' . $i . '</a></li>';
+                    print '<li><a href="' . $project_url . '?' . http_build_query(array_merge($params, ['page' => $i])) . '">' . $i . '</a></li>';
                 }
             }
 
             if ($pages > $end) {
-                print '<li><a href="' . $project_url . '?p='.$pages.'">...'.$pages.'</a></li>';
+                print '<li><a href="' . $project_url . '?' . http_build_query(array_merge($params, ['page' => $pages])) . '">...' . $pages . '</a></li>';
             }
         }
 
-        if ($page < $pages - 1) {
-            print '<li><a href="' . $project_url . '?p='.($page == $pages ? $pages : $page + 1).'">'.Lang::get('next_link').'</a></li>';
+        if ($page < ($pages - 1)) {
+            print '<li><a href="' . $project_url . '?' . http_build_query(array_merge($params, ['page' => ($page == $pages) ? $pages : ($page + 1)])) . '">' . Lang::get('next_link') . '</a></li>';
         }
 
         print '</ul></div>';
