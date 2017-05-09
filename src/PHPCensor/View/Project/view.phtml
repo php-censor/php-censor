@@ -16,34 +16,37 @@
         <?php Lang::out('delete_project'); ?>
     </a>
 
+    <?php
+        $build_url = APP_URL . 'project/build/' . $project->getId();
+    ?>
     <div class="pull-right btn-group">
         <?php if (!$project->getArchived()): ?>
             <?php if ($this->User()->getIsAdmin()): ?>
                 <?php if (!empty($environment)): ?>
-                    <a class="btn btn-danger" href="<?= APP_URL . 'project/build/' . $project->getId(); ?>/environment/<?= urlencode($environment); ?>?debug=1">
+                    <a class="btn btn-danger" href="<?= $build_url . '?' . http_build_query(['type' => 'environment', 'id' => $environment, 'debug' => 1]); ?>">
                         <?php Lang::out('build_now_debug'); ?>
                     </a>
                 <?php elseif (!empty($branch)): ?>
-                    <a class="btn btn-danger" href="<?= APP_URL . 'project/build/' . $project->getId(); ?>/branch/<?= urlencode($branch); ?>?debug=1">
+                    <a class="btn btn-danger" href="<?= $build_url . '?' . http_build_query(['type' => 'branch', 'id' => $branch, 'debug' => 1]); ?>">
                         <?php Lang::out('build_now_debug'); ?>
                     </a>
                 <?php else: ?>
-                    <a class="btn btn-danger" href="<?= APP_URL . 'project/build/' . $project->getId(); ?>?debug=1">
+                    <a class="btn btn-danger" href="<?= $build_url . '?' . http_build_query(['debug' => 1]); ?>">
                         <?php Lang::out('build_now_debug'); ?>
                     </a>
                 <?php endif; ?>
             <?php endif; ?>
 
             <?php if (!empty($environment)): ?>
-                <a class="btn btn-success" href="<?= APP_URL . 'project/build/' . $project->getId(); ?>/environment/<?= urlencode($environment); ?>">
+                <a class="btn btn-success" href="<?= $build_url . '?' . http_build_query(['type' => 'environment', 'id' => $environment]); ?>">
                     <?php Lang::out('build_now'); ?>
                 </a>
             <?php elseif (!empty($branch)): ?>
-                <a class="btn btn-success" href="<?= APP_URL . 'project/build/' . $project->getId(); ?>/branch/<?= urlencode($branch); ?>">
+                <a class="btn btn-success" href="<?= $build_url . '?' . http_build_query(['type' => 'branch', 'id' => $branch]); ?>">
                     <?php Lang::out('build_now'); ?>
                 </a>
             <?php else: ?>
-                <a class="btn btn-success" href="<?= APP_URL . 'project/build/' . $project->getId(); ?>">
+                <a class="btn btn-success" href="<?= $build_url . '?' . http_build_query(['debug' => 1]); ?>">
                     <?php Lang::out('build_now'); ?>
                 </a>
             <?php endif; ?>

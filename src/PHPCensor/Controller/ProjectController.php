@@ -129,16 +129,18 @@ class ProjectController extends PHPCensor\Controller
      * Create a new pending build for a project.
      * 
      * @param integer $projectId
-     * @param string  $type      Build type: 'environment'|'branch'
-     * @param string  $id        Build type id: environment name or branch name
      *
      * @throws NotFoundException
      *
      * @return b8\Http\Response\RedirectResponse
      *
      */
-    public function build($projectId, $type = null, $id = null)
+    public function build($projectId)
     {
+        $type  = $this->getParam('type', 'branch');
+        $id    = $this->getParam('id', 'master');
+        $debug = (boolean)$this->getParam('debug', false);
+        
         /* @var \PHPCensor\Model\Project $project */
         $project     = $this->projectStore->getById($projectId);
         $environment = null;
@@ -161,7 +163,6 @@ class ProjectController extends PHPCensor\Controller
             $branch = $project->getBranch();
         }
 
-        $debug = (boolean)$this->getParam('debug', false);
         $extra = null;
 
         if ($debug && $this->currentUserIsAdmin()) {
@@ -175,7 +176,7 @@ class ProjectController extends PHPCensor\Controller
             $project,
             $environment,
             null,
-            urldecode($branch),
+            $branch,
             null,
             $email,
             null,
