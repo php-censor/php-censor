@@ -1,6 +1,28 @@
 Change Log
 ==========
 
+## [PHP Censor v0.14.0](https://github.com/corpsee/php-censor/tree/0.14.0) (2017-05-15)
+
+[Full Changelog](https://github.com/corpsee/php-censor/compare/0.13.0...0.14.0)
+
+* Added text wrap for build log.
+* Fixed build branch in dashboard timeline. Thanks to [@JoolsMcFly](https://github.com/JoolsMcFly). PullRequest 
+[#62](https://github.com/corpsee/php-censor/pull/62).
+* Fixed project clone to working directory in Alpine Linux 3.5. Issue 
+[#61](https://github.com/corpsee/php-censor/issues/61).
+* Fixed environment field in build table.
+* Fixed Database::lastInsertId call for PostgreSQL.
+* Fixed SensioLabs Security Checker warning: squizlabs/php_codesniffer (2.7.1) - Arbitrary shell execution (Updated 
+squizlabs/php_codesniffer).
+* Fixed pagination for environments in project/view page and ajax builds update.
+* Fixed builds for branches with special chars (like '#, /' etc.).
+* **Fixed and refactored plugin PhpCsFixer. Issue [#63](https://github.com/corpsee/php-censor/issues/63).**
+* **Improved webhook for GitHub: builds only one head commit per push**.
+* **Improved webhook for GitHub: added tag build and UI information about tag**.
+* Improved error page.
+* Improved UI and code style.
+
+
 ## [PHP Censor v0.13.0](https://github.com/corpsee/php-censor/tree/0.13.0) (2017-04-10)
 
 [Full Changelog](https://github.com/corpsee/php-censor/compare/0.12.0...0.13.0)
