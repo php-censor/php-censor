@@ -64,28 +64,28 @@ class BuildService
         $branches = $project->getBranchesByEnvironment($environment);
         $build->setExtraValue('branches', $branches);
 
-        if (!is_null($commitId)) {
+        if (!empty($commitId)) {
             $build->setCommitId($commitId);
         } else {
             $build->setCommitId('Manual');
             $build->setCommitMessage('Manual');
         }
 
-        if (!is_null($branch)) {
+        if (!empty($branch)) {
             $build->setBranch($branch);
         } else {
             $build->setBranch($project->getBranch());
         }
 
-        if (!is_null($tag)) {
+        if (!empty($tag)) {
             $build->setTag($tag);
         }
 
-        if (!is_null($committerEmail)) {
+        if (!empty($committerEmail)) {
             $build->setCommitterEmail($committerEmail);
         }
 
-        if (!is_null($commitMessage)) {
+        if (!empty($commitMessage)) {
             $build->setCommitMessage($commitMessage);
         }
 
