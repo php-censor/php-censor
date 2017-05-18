@@ -137,12 +137,16 @@ class ProjectController extends PHPCensor\Controller
      */
     public function build($projectId)
     {
-        $type  = $this->getParam('type', 'branch');
-        $id    = $this->getParam('id', 'master');
-        $debug = (boolean)$this->getParam('debug', false);
-        
         /* @var \PHPCensor\Model\Project $project */
-        $project     = $this->projectStore->getById($projectId);
+        $project = $this->projectStore->getById($projectId);
+        if (empty($project) || $project->getArchived()) {
+            throw new NotFoundException(Lang::get('project_x_not_found', $projectId));
+        }
+        
+        $type  = $this->getParam('type', 'branch');
+        $id    = $this->getParam('id');
+        $debug = (boolean)$this->getParam('debug', false);
+
         $environment = null;
         $branch      = null;
 
@@ -153,10 +157,6 @@ class ProjectController extends PHPCensor\Controller
             case 'branch':
                 $branch = $id;
                 break;
-        }
-
-        if (empty($project) || $project->getArchived()) {
-            throw new NotFoundException(Lang::get('project_x_not_found', $projectId));
         }
 
         if (empty($branch)) {
@@ -443,6 +443,10 @@ class ProjectController extends PHPCensor\Controller
         $field->setClass('form-control')->setContainerClass('form-group');
         $form->addField($field);
 
+        $field = Form\Element\Text::create('branch', Lang::get('default_branch'), false);
+        $field->setClass('form-control')->setContainerClass('form-group')->setValue('');
+        $form->addField($field);
+
         $field = Form\Element\TextArea::create('key', Lang::get('project_private_key'), false);
         $field->setClass('form-control')->setContainerClass('form-group');
         $field->setRows(6);
@@ -451,10 +455,6 @@ class ProjectController extends PHPCensor\Controller
         $field = Form\Element\TextArea::create('build_config', Lang::get('build_config'), false);
         $field->setClass('form-control')->setContainerClass('form-group');
         $field->setRows(6);
-        $form->addField($field);
-
-        $field = Form\Element\Text::create('branch', Lang::get('default_branch'), true);
-        $field->setClass('form-control')->setContainerClass('form-group')->setValue('master');
         $form->addField($field);
 
         $field = Form\Element\TextArea::create('environments', Lang::get('environments_label'), false);
