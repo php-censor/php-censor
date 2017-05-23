@@ -9,7 +9,6 @@ Getting Started
     * [Run builds using a worker](workers/worker.md)
     * [Run builds using cronjob](workers/cron.md)
 * [Adding PHP Censor Support to Your Projects](configuring_project.md)
-* [Setting up Logging](logging.md)
 * Updating PHP Censor (See [README](../../README.md))
 * [Configuring PHP Censor](configuring.md)
 

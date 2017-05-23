@@ -4,6 +4,8 @@ namespace PHPCensor\Console;
 
 use b8\Config;
 use b8\Store\Factory;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 use PHPCensor\Command\CreateAdminCommand;
 use PHPCensor\Command\CreateBuildCommand;
 use PHPCensor\Command\InstallCommand;
@@ -40,7 +42,13 @@ class Application extends BaseApplication
     {
         parent::__construct($name, $version);
 
-        $loggerConfig = LoggerConfig::newFromFile(APP_DIR . 'loggerconfig.php');
+        $loggerConfig = new LoggerConfig([
+            "_" => function() {
+                return [
+                    new StreamHandler(RUNTIME_DIR . 'console.log', Logger::DEBUG),
+                ];
+            }
+        ]);
 
         $applicationConfig = Config::getInstance();
         $databaseSettings  = $applicationConfig->get('b8.database', []);
