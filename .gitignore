@@ -1,6 +1,5 @@
 /vendor
 /composer.phar
 /runtime
-/app/loggerconfig.php
 /app/config.yml
 /public/assets/vendor

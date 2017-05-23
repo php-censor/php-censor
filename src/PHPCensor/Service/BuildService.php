@@ -173,10 +173,6 @@ class BuildService
                     'build_id' => $build->getId(),
                 ];
 
-                if ($config->get('using_custom_file')) {
-                    $jobData['config'] = $config->getArray();
-                }
-
                 $pheanstalk = new Pheanstalk($settings['host']);
                 $pheanstalk->useTube($settings['name']);
                 $pheanstalk->put(

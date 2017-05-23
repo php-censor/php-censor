@@ -2,8 +2,6 @@
 
 namespace PHPCensor\Worker;
 
-use b8\Config;
-use b8\Database;
 use b8\Store\Factory;
 use Monolog\Logger;
 use Pheanstalk\Job;
@@ -95,14 +93,6 @@ class BuildWorker
 
             $this->logger->addInfo('Received build #'.$jobData['build_id'].' from Beanstalkd');
 
-            // If the job comes with config data, reset our config and database connections
-            // and then make sure we kill the worker afterwards:
-            if (!empty($jobData['config'])) {
-                $this->logger->addDebug('Using job-specific config.');
-                $currentConfig = Config::getInstance()->getArray();
-                Database::reset();
-            }
-
             try {
                 $build = BuildFactory::getBuildById($jobData['build_id']);
             } catch (\Exception $ex) {
@@ -155,11 +145,6 @@ class BuildWorker
             $this->logger->popHandler();
             // destructor implicitly call flush
             unset($buildDbLog);
-
-            // Reset the config back to how it was prior to running this job:
-            if (!empty($currentConfig)) {
-                Database::reset();
-            }
 
             // Delete the job when we're done:
             if (!empty($job)) {

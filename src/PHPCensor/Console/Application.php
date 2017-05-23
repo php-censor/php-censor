@@ -4,10 +4,11 @@ namespace PHPCensor\Console;
 
 use b8\Config;
 use b8\Store\Factory;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 use PHPCensor\Command\CreateAdminCommand;
 use PHPCensor\Command\CreateBuildCommand;
 use PHPCensor\Command\InstallCommand;
-use PHPCensor\Command\PollCommand;
 use PHPCensor\Command\RebuildCommand;
 use PHPCensor\Command\RebuildQueueCommand;
 use PHPCensor\Command\RunCommand;
@@ -41,7 +42,13 @@ class Application extends BaseApplication
     {
         parent::__construct($name, $version);
 
-        $loggerConfig = LoggerConfig::newFromFile(APP_DIR . 'loggerconfig.php');
+        $loggerConfig = new LoggerConfig([
+            "_" => function() {
+                return [
+                    new StreamHandler(RUNTIME_DIR . 'console.log', Logger::DEBUG),
+                ];
+            }
+        ]);
 
         $applicationConfig = Config::getInstance();
         $databaseSettings  = $applicationConfig->get('b8.database', []);
@@ -105,7 +112,6 @@ class Application extends BaseApplication
         $this->add(new RunCommand($loggerConfig->getFor('RunCommand')));
         $this->add(new RebuildCommand($loggerConfig->getFor('RunCommand')));
         $this->add(new InstallCommand());
-        $this->add(new PollCommand($loggerConfig->getFor('PollCommand')));
         $this->add(new CreateAdminCommand($userStore));
         $this->add(new CreateBuildCommand($projectStore, new BuildService($buildStore)));
         $this->add(new WorkerCommand($loggerConfig->getFor('WorkerCommand')));

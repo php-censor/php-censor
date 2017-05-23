@@ -14,23 +14,6 @@ class LoggerConfig
     private $cache = [];
 
     /**
-     * The filepath is expected to return an array which will be
-     * passed to the normal constructor.
-     *
-     * @param string $filePath
-     * @return LoggerConfig
-     */
-    public static function newFromFile($filePath)
-    {
-        if (file_exists($filePath)) {
-            $configArray = require($filePath);
-        } else {
-            $configArray = [];
-        }
-        return new self($configArray);
-    }
-
-    /**
      * Each key of the array is the name of a logger. The value of
      * each key should be an array or a function that returns an
      * array of LogHandlers.
