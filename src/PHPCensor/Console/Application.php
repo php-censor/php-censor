@@ -7,7 +7,6 @@ use b8\Store\Factory;
 use PHPCensor\Command\CreateAdminCommand;
 use PHPCensor\Command\CreateBuildCommand;
 use PHPCensor\Command\InstallCommand;
-use PHPCensor\Command\PollCommand;
 use PHPCensor\Command\RebuildCommand;
 use PHPCensor\Command\RebuildQueueCommand;
 use PHPCensor\Command\RunCommand;
@@ -105,7 +104,6 @@ class Application extends BaseApplication
         $this->add(new RunCommand($loggerConfig->getFor('RunCommand')));
         $this->add(new RebuildCommand($loggerConfig->getFor('RunCommand')));
         $this->add(new InstallCommand());
-        $this->add(new PollCommand($loggerConfig->getFor('PollCommand')));
         $this->add(new CreateAdminCommand($userStore));
         $this->add(new CreateBuildCommand($projectStore, new BuildService($buildStore)));
         $this->add(new WorkerCommand($loggerConfig->getFor('WorkerCommand')));
