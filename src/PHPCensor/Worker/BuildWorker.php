@@ -109,23 +109,6 @@ class BuildWorker
             try {
                 $builder = new Builder($build, $this->logger);
                 $builder->execute();
-
-            } catch (BuilderException $ex) {
-                $this->logger->addError($ex->getMessage());
-                switch($ex->getCode()) {
-                    case BuilderException::FAIL_START:
-                        // non fatal
-                        $this->pheanstalk->release($job);
-                        unset($job);
-                        break;
-                    default:
-                        $build->setStatus(Build::STATUS_FAILED);
-                        $build->setFinished(new \DateTime());
-                        $build->setLog($build->getLog() . PHP_EOL . PHP_EOL . $ex->getMessage());
-                        $buildStore->save($build);
-                        $build->sendStatusPostback();
-                        break;
-                }
             } catch (\PDOException $ex) {
                 // If we've caught a PDO Exception, it is probably not the fault of the build, but of a failed
                 // connection or similar. Release the job and kill the worker.
@@ -133,6 +116,8 @@ class BuildWorker
                 $this->pheanstalk->release($job);
                 unset($job);
             } catch (\Exception $ex) {
+                $this->logger->addError($ex->getMessage());
+
                 $build->setStatus(Build::STATUS_FAILED);
                 $build->setFinished(new \DateTime());
                 $build->setLog($build->getLog() . PHP_EOL . PHP_EOL . $ex->getMessage());
