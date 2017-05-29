@@ -75,18 +75,22 @@ class Database extends \PDO
                 }
                 $dns .= ';dbname=' . self::$details['db'];
 
+                $pdoOptions = [
+                    \PDO::ATTR_PERSISTENT         => false,
+                    \PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
+                    \PDO::ATTR_TIMEOUT            => 2,
+                ];
+                if ('mysql' === self::$details['type']) {
+                    $pdoOptions[\PDO::MYSQL_ATTR_INIT_COMMAND] = "SET NAMES 'UTF8'";
+                }
+
                 // Try to connect:
                 try {
                     $connection = new self(
                         $dns,
                         self::$details['user'],
                         self::$details['pass'],
-                        [
-                            \PDO::ATTR_PERSISTENT         => false,
-                            \PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
-                            \PDO::ATTR_TIMEOUT            => 2,
-                            \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
-                        ]
+                        $pdoOptions
                     );
                 } catch (\PDOException $ex) {
                     $connection = false;

@@ -411,23 +411,27 @@ class InstallCommand extends Command
      */
     protected function verifyDatabaseDetails(array $db, OutputInterface $output)
     {
-        try {
-            $dns = $db['type'] . ':host=' . $db['servers']['write'][0]['host'];
-            if (isset($db['servers']['write'][0]['port'])) {
-                $dns .= ';port=' . (integer)$db['servers']['write'][0]['port'];
-            }
-            $dns .= ';dbname=' . $db['name'];
+        $dns = $db['type'] . ':host=' . $db['servers']['write'][0]['host'];
+        if (isset($db['servers']['write'][0]['port'])) {
+            $dns .= ';port=' . (integer)$db['servers']['write'][0]['port'];
+        }
+        $dns .= ';dbname=' . $db['name'];
 
+        $pdoOptions = [
+            \PDO::ATTR_PERSISTENT         => false,
+            \PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
+            \PDO::ATTR_TIMEOUT            => 2,
+        ];
+        if ('mysql' === $db['type']) {
+            $pdoOptions[\PDO::MYSQL_ATTR_INIT_COMMAND] = "SET NAMES 'UTF8'";
+        }
+
+        try {
             $pdo = new PDO(
                 $dns,
                 $db['username'],
                 $db['password'],
-                [
-                    \PDO::ATTR_PERSISTENT         => false,
-                    \PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
-                    \PDO::ATTR_TIMEOUT            => 2,
-                    \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
-                ]
+                $pdoOptions
             );
 
             unset($pdo);
