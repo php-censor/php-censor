@@ -15,6 +15,12 @@ class PhpCsFixer extends Plugin
 {
     protected $directory = null;
     protected $args      = '';
+    
+    protected $config    = false;
+    protected $configs   = [
+        '.php_cs',
+        '.php_cs.dist',
+    ];
 
     /**
      * @return string
@@ -34,7 +40,7 @@ class PhpCsFixer extends Plugin
         if (!empty($options['args'])) {
             $this->args = $options['args'];
         }
-        
+
         if (isset($options['verbose']) && $options['verbose']) {
             $this->args .= ' --verbose';
         }
@@ -47,6 +53,11 @@ class PhpCsFixer extends Plugin
             $this->args .= ' --rules=' . $options['rules'];
         }
 
+        if (isset($options['config']) && $options['config']) {
+            $this->config = true;
+            $this->args   .= ' --config=' . $builder->interpolate($options['config']);
+        }
+
         if (isset($options['directory']) && $options['directory']) {
             $this->directory = $builder->interpolate($options['directory']);
         }
@@ -55,17 +66,31 @@ class PhpCsFixer extends Plugin
     /**
      * Run PHP CS Fixer.
      *
-     * @return bool
+     * @return boolean
      */
     public function execute()
     {
-        $cmd = '';
+        $directory = '';
         if (!empty($this->directory)) {
-            $cmd = 'cd ' . $this->directory . ' && ';
+            $directory = $this->directory;
+        }
+
+        if (!$this->config) {
+            foreach ($this->configs as $config) {
+                if (file_exists($this->builder->buildPath . '/' . $config)) {
+                    $this->config = true;
+                    $this->args   .= ' --config=./' . $config;
+                    break;
+                }
+            }
+        }
+
+        if (!$this->config && !$directory) {
+            $directory = '.';
         }
 
         $phpCsFixer = $this->builder->findBinary('php-cs-fixer');
-        $cmd        .= $phpCsFixer . ' fix . %s';
+        $cmd        = $phpCsFixer . ' fix ' . $directory . ' %s';
         $success    = $this->builder->executeCommand($cmd, $this->args);
 
         return $success;
