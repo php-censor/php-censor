@@ -7,7 +7,6 @@ use Monolog\Logger;
 use Pheanstalk\Job;
 use Pheanstalk\Pheanstalk;
 use PHPCensor\Builder;
-use PHPCensor\BuilderException;
 use PHPCensor\BuildFactory;
 use PHPCensor\Logging\BuildDBLogHandler;
 use PHPCensor\Model\Build;
