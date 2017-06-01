@@ -13,6 +13,7 @@ Configuration
 * **directory** [string, optional] - The directory in which PHP CS Fixer should work (default: `%BUILD_PATH%`)
 * **rules** [string, optional] - Fixer rules (default: `@PSR2`)
 * **args** [string, optional] - Command line args (in string format) to pass to PHP Coding Standards Fixer (default: ``)
+* **config** [string, optional] - Special config file (default: `%BUILD_PATH%./.php_cs` or `%BUILD_PATH%./.php_cs.dist`)
 
 ### Examples
 
@@ -30,4 +31,10 @@ test:
     verbose:   true
     diff:      true
     rules:     "@PSR2"
+```
+
+```yml
+test:
+  php_cs_fixer:
+    config: "./my/dir/.php_cs.special"
 ```
