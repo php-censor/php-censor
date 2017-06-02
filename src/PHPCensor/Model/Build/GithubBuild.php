@@ -80,11 +80,11 @@ class GithubBuild extends RemoteGitBuild
                 break;
         }
 
-        $url = Config::getInstance()->get('php-censor.url');
+        $phpCensorUrl = Config::getInstance()->get('php-censor.url');
 
         $params = [
             'state'       => $status,
-            'target_url'  => $url . '/build/view/' . $this->getId(),
+            'target_url'  => $phpCensorUrl . '/build/view/' . $this->getId(),
             'description' => $description,
             'context'     => 'PHP Censor',
         ];
@@ -163,9 +163,10 @@ class GithubBuild extends RemoteGitBuild
      * Handle any post-clone tasks, like applying a pull request patch on top of the branch.
      * @param Builder $builder
      * @param $cloneTo
+     * @param array $extra
      * @return bool
      */
-    protected function postCloneSetup(Builder $builder, $cloneTo)
+    protected function postCloneSetup(Builder $builder, $cloneTo, array $extra = null)
     {
         $buildType = $this->getExtra('build_type');
 
@@ -177,6 +178,9 @@ class GithubBuild extends RemoteGitBuild
                 $remoteBranch = $this->getExtra('remote_branch');
 
                 $cmd = 'cd "%s" && git checkout -b php-censor/' . $this->getId() . ' %s && git pull -q --no-edit %s %s';
+                if (!empty($extra['git_ssh_wrapper'])) {
+                    $cmd = 'export GIT_SSH="'.$extra['git_ssh_wrapper'].'" && ' . $cmd;
+                }
                 $success = $builder->executeCommand($cmd, $cloneTo, $this->getBranch(), $remoteUrl, $remoteBranch);
             }
         } catch (\Exception $ex) {
@@ -184,7 +188,7 @@ class GithubBuild extends RemoteGitBuild
         }
 
         if ($success) {
-            $success = parent::postCloneSetup($builder, $cloneTo);
+            $success = parent::postCloneSetup($builder, $cloneTo, $extra);
         }
 
         return $success;

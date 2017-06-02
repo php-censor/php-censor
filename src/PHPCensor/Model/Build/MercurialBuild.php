@@ -79,9 +79,10 @@ class MercurialBuild extends Build
      * Handle post-clone tasks (switching branch, etc.)
      * @param Builder $builder
      * @param $cloneTo
+     * @param array $extra
      * @return bool
      */
-    protected function postCloneSetup(Builder $builder, $cloneTo)
+    protected function postCloneSetup(Builder $builder, $cloneTo, array $extra = null)
     {
         $success = true;
         $commit = $this->getCommitId();
