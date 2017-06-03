@@ -91,9 +91,10 @@
                             <thead>
                             <tr>
                                 <th>ID</th>
+                                <th>Status</th>
+                                <th>Date</th>
                                 <th>Commit</th>
                                 <th>Branch</th>
-                                <th>Status</th>
                             </tr>
                             </thead>
                             <tbody id="latest-builds">
@@ -133,23 +134,36 @@
                                 }
                                 ?>
                                 <tr>
-                                    <td>#<?php print str_pad($build->getId(), 6, '0', STR_PAD_LEFT); ?></td>
-
+                                    <td><a href="<?php echo APP_URL ?>build/view/<?php print $build->getId(); ?>">#<?php print str_pad($build->getId(), 6, '0', STR_PAD_LEFT); ?></a></td>
+                                    <td>
+                                        <span class='label label-<?php echo $class ?>'><?php echo $status ?></span>
+                                    </td>
+                                    <td><?= $build->getCreated()->format('Y-m-d H:i:s'); ?></td>
                                     <td>
                                         <?php
                                         if ($build->getCommitId() !== 'Manual') {
-                                            print '<a href="' . $build->getCommitLink() . '">';
-                                        }
-                                        print $build->getCommitId();
-                                        if ($build->getCommitId() !== 'Manual') {
-                                            print '</a>';
+                                            echo sprintf(
+                                                '<a href="%s" target="_blank">%s (%s)</a>  &mdash; %s',
+                                                $build->getCommitLink(),
+                                                substr($build->getCommitId(), 0, 7),
+                                                $build->getCommitterEmail(),
+                                                $build->getCommitMessage()
+                                            );
+                                        } else {
+                                            echo $build->getCommitId();
                                         }
                                         ?>
                                     </td>
 
-                                    <td><a href="<?php print $build->getBranchLink(); ?>"><?php print $build->getBranch(); ?></a></td>
                                     <td>
-                                        <span class='label label-<?php echo $class ?>'><?php echo $status ?></span>
+                                        <?php $branches = $build->getExtra('branches'); ?>
+                                        <a href="<?= $build->getBranchLink();?>"><i class="fa fa-code-fork"></i> <?php echo $build->getBranch(); ?></a>
+                                        <?= $branches ? ' + '.implode(', ', $branches) : ''; ?>
+                                        <?php if ($tag = $build->getTag()): ?> /
+                                            <a href="<?= $build->getTagLink(); ?>" target="_blank">
+                                                <i class="fa fa-tag"></i> <?= $tag; ?>
+                                            </a>
+                                        <?php endif; ?>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
