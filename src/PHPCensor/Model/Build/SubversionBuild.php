@@ -19,18 +19,20 @@ class SubversionBuild extends Build
      */
     protected function getCloneUrl()
     {
-        $url = $this->getProject()->getReference();
-
-        if (substr($url, -1) != '/') {
-            $url .= '/';
-        }
-
-        $branch = $this->getBranch();
-
+        $url    = rtrim($this->getProject()->getReference(), '/') . '/';
+        $branch = ltrim($this->getBranch(), '/');
+        
+        // For empty default branch or default branch name like "/trunk" or "trunk" (-> "trunk")
         if (empty($branch) || $branch == 'trunk') {
             $url .= 'trunk';
-        } else {
+        // For default branch with standard default branch directory ("branches") like "/branch-1" or "branch-1"
+        // (-> "branches/branch-1")
+        } elseif (false === strpos($branch, '/')) {
             $url .= 'branches/' . $branch;
+        // For default branch with non-standard branch directory like "/branch/branch-1" or "branch/branch-1"
+        // (-> "branch/branch-1")
+        } else {
+            $url .= $branch;
         }
 
         return $url;
