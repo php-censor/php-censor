@@ -174,14 +174,14 @@ class GithubBuild extends RemoteGitBuild
 
         try {
             if (!empty($buildType) && $buildType == 'pull_request') {
-                $remoteUrl = $this->getExtra('remote_url');
-                $remoteBranch = $this->getExtra('remote_branch');
+                $pullRequestId = $this->getExtra('pull_request_number');
 
-                $cmd = 'cd "%s" && git checkout -b php-censor/' . $this->getId() . ' %s && git pull -q --no-edit %s %s';
+                $cmd = 'cd "%s" && git checkout -b php-censor/' . $this->getId()
+                    . ' %s && git pull -q --no-edit origin pull/%s/head';
                 if (!empty($extra['git_ssh_wrapper'])) {
                     $cmd = 'export GIT_SSH="'.$extra['git_ssh_wrapper'].'" && ' . $cmd;
                 }
-                $success = $builder->executeCommand($cmd, $cloneTo, $this->getBranch(), $remoteUrl, $remoteBranch);
+                $success = $builder->executeCommand($cmd, $cloneTo, $this->getBranch(), $pullRequestId);
             }
         } catch (\Exception $ex) {
             $success = false;
