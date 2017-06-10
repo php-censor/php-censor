@@ -1,6 +1,31 @@
 Change Log
 ==========
 
+## [PHP Censor v0.15.0](https://github.com/corpsee/php-censor/tree/0.15.0) (2017-06-10)
+
+[Full Changelog](https://github.com/corpsee/php-censor/compare/0.14.0...0.15.0)
+
+* **Removed PollCommand**.
+* **Fixed worker fail with eternal log writing**. Issue [#68](https://github.com/corpsee/php-censor/issues/68).
+* **Fixed bulk error writing error** (`SQLSTATE[HY000]: General error: 7 number of parameters must be between 0 and 
+65535`). Issue [#66](https://github.com/corpsee/php-censor/issues/66).
+* **Fixed PDO PostgreSQL connection without installed `pdo_mysql` extension**. Issue 
+[#73](https://github.com/corpsee/php-censor/issues/73).
+* Fixed `/app` directory in Git repository. Issue [#73](https://github.com/corpsee/php-censor/issues/73).
+* Fixed branches for SVN build. Issue [#65](https://github.com/corpsee/php-censor/issues/65).
+* Fixed PhpCsFixer directory option. Issue [#75](https://github.com/corpsee/php-censor/issues/75).
+* Fixed webhook for GitHub pull requests from private repositories. Thanks to 
+[@StudioMaX](https://github.com/StudioMaX). PullRequest [#76](https://github.com/corpsee/php-censor/pull/76), 
+[#78](https://github.com/corpsee/php-censor/pull/78).
+* Improved logging configuration (Now logging autostart without special config `loggerconfig.php`). Issue 
+[#59](https://github.com/corpsee/php-censor/issues/59).
+* Removed `using_custom_file` application config (`app/config.yml`) option.
+* Improved build-status/view page (Added build links, icons, date etc.). Issue 
+[#23](https://github.com/corpsee/php-censor/issues/23).
+* Improved default branch for SVN (Added ability to set branch full name like `branches/branch-1` or 
+`/branch/branch-2`). Issue [#67](https://github.com/corpsee/php-censor/issues/67).
+
+
 ## [PHP Censor v0.14.0](https://github.com/corpsee/php-censor/tree/0.14.0) (2017-05-15)
 
 [Full Changelog](https://github.com/corpsee/php-censor/compare/0.13.0...0.14.0)
