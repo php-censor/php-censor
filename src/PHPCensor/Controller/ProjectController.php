@@ -282,9 +282,10 @@ class ProjectController extends PHPCensor\Controller
         $this->layout->title = Lang::get('add_project');
         $this->requireAdmin();
 
-        $method = $this->request->getMethod();
-        $pub    = null;
-        $values = $this->getParams();
+        $method           = $this->request->getMethod();
+        $pub              = null;
+        $values           = $this->getParams();
+        $values['branch'] = '';
 
         if ($method != 'POST') {
             $sshKey = new SshKey();
@@ -402,8 +403,10 @@ class ProjectController extends PHPCensor\Controller
     protected function projectForm($values, $type = 'add')
     {
         $form = new Form();
+
         $form->setMethod('POST');
         $form->setAction(APP_URL.'project/' . $type);
+
         $form->addField(new Form\Element\Csrf('csrf'));
         $form->addField(new Form\Element\Hidden('pubkey'));
 
@@ -495,6 +498,7 @@ class ProjectController extends PHPCensor\Controller
         $form->addField($field);
 
         $form->setValues($values);
+
         return $form;
     }
 
