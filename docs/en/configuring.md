@@ -25,7 +25,7 @@ php-censor:
   per_page: 10
   url:      'http://php-censor.local'
   email_settings:
-    from_address:    'no-reply@php-censor.local'
+    from_address:    'PHP Censor <no-reply@php-censor.local>'
     smtp_address:    null
     smtp_port:       null
     smtp_username:   null

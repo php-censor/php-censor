@@ -254,7 +254,7 @@ class InstallCommand extends Command
             'url'      => $url,
             'queue'    => $queueConfig,
             'email_settings' => [
-                'from_address'           => 'no-reply@php-censor.local',
+                'from_address'           => 'PHP Censor <no-reply@php-censor.local>',
                 'smtp_address'           => null,
                 'smtp_port'              => null,
                 'smtp_username'          => null,
