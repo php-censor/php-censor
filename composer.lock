@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "cc097eb87d629ed226ac663ef5d8d842",
+    "content-hash": "42e176c39d818de34429d349a616831e",
     "packages": [
         {
             "name": "behat/gherkin",
@@ -171,12 +171,12 @@
             "version": "2.0.1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/driftyco/ionicons.git",
+                "url": "https://github.com/ionic-team/ionicons.git",
                 "reference": "ecb4b806831005c25b97ed9089fbb1d7dcc0879c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/driftyco/ionicons/zipball/ecb4b806831005c25b97ed9089fbb1d7dcc0879c",
+                "url": "https://api.github.com/repos/ionic-team/ionicons/zipball/ecb4b806831005c25b97ed9089fbb1d7dcc0879c",
                 "reference": "ecb4b806831005c25b97ed9089fbb1d7dcc0879c",
                 "shasum": null
             },
@@ -187,7 +187,7 @@
             "version": "2.2.7.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/DmitryBaranovskiy/raphael.git",
+                "url": "git@github.com:DmitryBaranovskiy/raphael.git",
                 "reference": "c02b9c125d036e42b9bb95d0e401bbf6a5153da5"
             },
             "dist": {
@@ -1931,12 +1931,12 @@
             "version": "v0.8.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/robmorgan/phinx.git",
+                "url": "https://github.com/cakephp/phinx.git",
                 "reference": "7a19de5bebc59321edd9613bc2a667e7f96224ec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/robmorgan/phinx/zipball/7a19de5bebc59321edd9613bc2a667e7f96224ec",
+                "url": "https://api.github.com/repos/cakephp/phinx/zipball/7a19de5bebc59321edd9613bc2a667e7f96224ec",
                 "reference": "7a19de5bebc59321edd9613bc2a667e7f96224ec",
                 "shasum": ""
             },

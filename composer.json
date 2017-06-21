@@ -53,6 +53,7 @@
     "robmorgan/phinx":           "0.8.*",
     "sensiolabs/ansi-to-html":   "1.1.*",
     "pda/pheanstalk":            "3.1.*",
+    "guzzlehttp/guzzle":         "6.2.*",
 
     "phpunit/phpunit":                 "5.7.*",
     "codeception/codeception":         "2.3.*",

@@ -5,6 +5,7 @@ namespace PHPCensor\Controller;
 use b8;
 use b8\Store;
 use Exception;
+use GuzzleHttp\Client;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\Project;
@@ -13,7 +14,6 @@ use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\ProjectStore;
 use b8\Controller;
 use b8\Config;
-use b8\HttpClient;
 use b8\Exception\HttpException\NotFoundException;
 
 /**
@@ -299,29 +299,34 @@ class WebhookController extends Controller
         $token   = Config::getInstance()->get('php-censor.github.token');
 
         if (!empty($token)) {
-            $headers[] = 'Authorization: token ' . $token;
+            $headers['Authorization'] = 'token ' . $token;
         }
 
-        $url    = $payload['pull_request']['commits_url'];
-        $http   = new HttpClient();
-        $http->setHeaders($headers);
+        $url = $payload['pull_request']['commits_url'];
 
         //for large pull requests, allow grabbing more then the default number of commits
         $custom_per_page = Config::getInstance()->get('php-censor.github.per_page');
         $params          = [];
         if ($custom_per_page) {
-            $params["per_page"] = $custom_per_page;
+            $params['per_page'] = $custom_per_page;
         }
-        $response = $http->get($url, $params);
+
+        $client   = new Client();
+        $response = $client->get($url, [
+            'headers' => $headers,
+            'query'   => $params,
+        ]);
+        $status = (integer)$response->getStatusCode();
 
         // Check we got a success response:
-        if (!$response['success']) {
+        if ($status < 200 || $status >= 300) {
             throw new Exception('Could not get commits, failed API request.');
         }
 
         $results = [];
         $status  = 'failed';
-        foreach ($response['body'] as $commit) {
+        $commits = json_decode($response->getBody(), true);
+        foreach ($commits as $commit) {
             // Skip all but the current HEAD commit ID:
             $id = $commit['sha'];
             if ($id != $payload['pull_request']['head']['sha']) {
