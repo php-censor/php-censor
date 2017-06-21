@@ -95,13 +95,18 @@ class Email
      */
     protected function getFrom()
     {
-        $email = $this->config->get('php-censor.email_settings.from_address', self::DEFAULT_FROM);
-
-        if (empty($email)) {
-            $email = self::DEFAULT_FROM;
+        $from = $this->config->get(
+            'php-censor.email_settings.from_address',
+            self::DEFAULT_FROM
+        );
+        
+        if (strpos($from, '<') === false) {
+            return (string)$from;
         }
-
-        return $email;
+        
+        preg_match('#^(.*?)<(.*)>$#ui', $from, $fromParts);
+        
+        return [$fromParts[2] => $fromParts[1]];
     }
 
     /**
