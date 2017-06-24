@@ -46,7 +46,7 @@
                     <?php Lang::out('build_now'); ?>
                 </a>
             <?php else: ?>
-                <a class="btn btn-success" href="<?= $build_url . '?' . http_build_query(['debug' => 1]); ?>">
+                <a class="btn btn-success" href="<?= $build_url; ?>">
                     <?php Lang::out('build_now'); ?>
                 </a>
             <?php endif; ?>
