@@ -44,10 +44,10 @@ Features
 
 * Clone project from Github, Bitbucket, Gitlab, Git, Mercurial, SVN or from local directory;
 
-* Set up and tear down database tests for [PostgreSQL](docs/plugins/pgsql.md), [MySQL](docs/plugins/mysql.md) or 
-[SQLite](docs/plugins/sqlite.md);
+* Set up and tear down database tests for [PostgreSQL](docs/en/plugins/pgsql.md), [MySQL](docs/en/plugins/mysql.md) or 
+[SQLite](docs/en/plugins/sqlite.md);
 
-* Install [Composer](docs/plugins/composer.md) dependencies;
+* Install [Composer](docs/en/plugins/composer.md) dependencies;
 
 * Run tests for PHPUnit, Atoum, Behat, Codeception and PHPSpec;
 
