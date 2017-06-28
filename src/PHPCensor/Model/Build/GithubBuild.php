@@ -2,11 +2,11 @@
 
 namespace PHPCensor\Model\Build;
 
+use GuzzleHttp\Client;
 use PHPCensor\Builder;
 use PHPCensor\Helper\Diff;
 use PHPCensor\Helper\Github;
 use b8\Config;
-use b8\HttpClient;
 use PHPCensor\Model\BuildError;
 
 /**
@@ -57,9 +57,6 @@ class GithubBuild extends RemoteGitBuild
             return;
         }
 
-        $url    = 'https://api.github.com/repos/'.$project->getReference().'/statuses/'.$this->getCommitId();
-        $http   = new HttpClient();
-
         switch ($this->getStatus()) {
             case 0:
             case 1:
@@ -82,20 +79,20 @@ class GithubBuild extends RemoteGitBuild
 
         $phpCensorUrl = Config::getInstance()->get('php-censor.url');
 
-        $params = [
-            'state'       => $status,
-            'target_url'  => $phpCensorUrl . '/build/view/' . $this->getId(),
-            'description' => $description,
-            'context'     => 'PHP Censor',
-        ];
-
-        $headers = [
-            'Authorization: token ' . $token,
-            'Content-Type: application/x-www-form-urlencoded'
-        ];
-
-        $http->setHeaders($headers);
-        $http->request('POST', $url, json_encode($params));
+        $url    = 'https://api.github.com/repos/' . $project->getReference() . '/statuses/' . $this->getCommitId();
+        $client = new Client();
+        $client->post($url, [
+            'headers' => [
+                'Authorization' => 'token ' . $token,
+                'Content-Type'  => 'application/x-www-form-urlencoded'
+            ],
+            'json' => [
+                'state'       => $status,
+                'target_url'  => $phpCensorUrl . '/build/view/' . $this->getId(),
+                'description' => $description,
+                'context'     => 'PHP Censor',
+            ]
+        ]);
     }
 
     /**

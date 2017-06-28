@@ -2,7 +2,7 @@
 
 namespace PHPCensor\Plugin;
 
-use b8\HttpClient;
+use GuzzleHttp\Client;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
@@ -55,17 +55,27 @@ class Deployer extends Plugin
             return false;
         }
 
-        $http = new HttpClient();
-
-        $response = $http->post($this->webhookUrl, [
-            'reason'      => $this->builder->interpolate($this->reason),
-            'source'      => 'PHP Censor',
-            'url'         => $this->builder->interpolate('%BUILD_URI%'),
-            'branch'      => $this->builder->interpolate('%BRANCH%'),
-            'commit'      => $this->builder->interpolate('%COMMIT%'),
-            'update_only' => $this->updateOnly,
-        ]);
-
-        return $response['success'];
+        $client   = new Client();
+        $response = $client->post(
+            $this->webhookUrl,
+            [
+                'form_params' => [
+                    'reason'      => $this->builder->interpolate($this->reason),
+                    'source'      => 'PHP Censor',
+                    'url'         => $this->builder->interpolate('%BUILD_URI%'),
+                    'branch'      => $this->builder->interpolate('%BRANCH%'),
+                    'commit'      => $this->builder->interpolate('%COMMIT%'),
+                    'update_only' => $this->updateOnly,
+                ]
+            ]
+        );
+        
+        $status = (integer)$response->getStatusCode();
+        
+        return (
+            ($status >= 200 && $status < 300)
+                ? true
+                : false
+        );
     }
 }

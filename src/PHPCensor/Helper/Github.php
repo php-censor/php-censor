@@ -4,27 +4,13 @@ namespace PHPCensor\Helper;
 
 use b8\Cache;
 use b8\Config;
-use b8\HttpClient;
+use GuzzleHttp\Client;
 
 /**
  * The Github Helper class provides some Github API call functionality.
  */
 class Github
 {
-    /**
-     * Make a request to the Github API.
-     * @param $url
-     * @param $params
-     * @return mixed
-     */
-    public function makeRequest($url, $params)
-    {
-        $http = new HttpClient('https://api.github.com');
-        $res = $http->get($url, $params);
-
-        return $res['body'];
-    }
-
     /**
      * Make all GitHub requests following the Link HTTP headers.
      *
@@ -36,15 +22,23 @@ class Github
      */
     public function makeRecursiveRequest($url, $params, $results = [])
     {
-        $http = new HttpClient('https://api.github.com');
-        $res = $http->get($url, $params);
-
-        foreach ($res['body'] as $item) {
+        $client   = new Client();
+        $response = $client->get(('https://api.github.com' . $url), [
+            'query' => $params,
+        ]);
+        
+        $body    = json_decode($response->getBody(), true);
+        $headers = $response->getHeaders();
+        
+        foreach ($body as $item) {
             $results[] = $item;
         }
 
-        foreach ($res['headers'] as $header) {
-            if (preg_match('/^Link: <([^>]+)>; rel="next"/', $header, $r)) {
+        foreach ($headers as $header_name => $header) {
+            if (
+                'Link' === $header_name &&
+                preg_match('/^<([^>]+)>; rel="next"/', implode(', ', $header), $r)
+            ) {
                 $host = parse_url($r[1]);
 
                 parse_str($host['query'], $params);
@@ -65,21 +59,28 @@ class Github
         $token = Config::getInstance()->get('php-censor.github.token');
 
         if (!$token) {
-            return null;
+            return [];
         }
 
         $cache = Cache::getCache(Cache::TYPE_APC);
-        $rtn = $cache->get('php-censor-github-repos');
+        $rtn   = $cache->get('php-censor-github-repos');
 
         if (!$rtn) {
-            $orgs = $this->makeRequest('/user/orgs', ['access_token' => $token]);
+            $client   = new Client();
+            $response = $client->get('https://api.github.com/user/orgs', [
+                'query' => [
+                    'access_token' => $token
+                ],
+            ]);
+
+            $orgs = json_decode($response->getBody(), true);
 
             $params = ['type' => 'all', 'access_token' => $token];
             $repos  = ['user' => []];
             $repos['user'] = $this->makeRecursiveRequest('/user/repos', $params);
 
             foreach ($orgs as $org) {
-                $repos[$org['login']] = $this->makeRecursiveRequest('/orgs/'.$org['login'].'/repos', $params);
+                $repos[$org['login']] = $this->makeRecursiveRequest('/orgs/' . $org['login'] . '/repos', $params);
             }
 
             $rtn = [];
@@ -122,13 +123,14 @@ class Github
             'position'  => $line,
         ];
 
-        $http = new HttpClient('https://api.github.com');
-        $http->setHeaders([
-            'Content-Type: application/x-www-form-urlencoded',
-            'Authorization: Basic ' . base64_encode($token . ':x-oauth-basic'),
+        $client = new Client();
+        $client->post(('https://api.github.com' . $url), [
+            'headers' => [
+                'Authorization' => 'Basic ' . base64_encode($token . ':x-oauth-basic'),
+                'Content-Type'  => 'application/x-www-form-urlencoded'
+            ],
+            'json' => $params,
         ]);
-
-        $http->post($url, json_encode($params));
     }
 
     /**
@@ -156,12 +158,13 @@ class Github
             'position' => $line,
         ];
 
-        $http = new HttpClient('https://api.github.com');
-        $http->setHeaders([
-            'Content-Type: application/x-www-form-urlencoded',
-            'Authorization: Basic ' . base64_encode($token . ':x-oauth-basic'),
+        $client = new Client();
+        $client->post(('https://api.github.com' . $url), [
+            'headers' => [
+                'Authorization' => 'Basic ' . base64_encode($token . ':x-oauth-basic'),
+                'Content-Type'  => 'application/x-www-form-urlencoded'
+            ],
+            'json' => $params,
         ]);
-
-        $http->post($url, json_encode($params));
     }
 }
