@@ -47,18 +47,16 @@ class BitbucketHgBuild extends MercurialBuild
     public function getFileLinkTemplate()
     {
         $reference = $this->getProject()->getReference();
-        $branch    = $this->getBranch();
 
         if ($this->getExtra('build_type') == 'pull_request') {
             $matches = [];
             preg_match('/[\/:]([a-zA-Z0-9_\-]+\/[a-zA-Z0-9_\-]+)/', $this->getExtra('remote_url'), $matches);
 
             $reference = $matches[1];
-            $branch    = $this->getExtra('remote_branch');
         }
 
         $link = 'https://bitbucket.org/' . $reference . '/';
-        $link .= 'src/' . $branch . '/';
+        $link .= 'src/' . $this->getCommitId() . '/';
         $link .= '{FILE}';
         $link .= '#{BASEFILE}-{LINE}';
 
