@@ -138,18 +138,16 @@ class GithubBuild extends RemoteGitBuild
     public function getFileLinkTemplate()
     {
         $reference = $this->getProject()->getReference();
-        $branch = $this->getBranch();
 
         if ($this->getExtra('build_type') == 'pull_request') {
             $matches = [];
             preg_match('/[\/:]([a-zA-Z0-9_\-]+\/[a-zA-Z0-9_\-]+)/', $this->getExtra('remote_url'), $matches);
 
             $reference = $matches[1];
-            $branch = $this->getExtra('remote_branch');
         }
 
         $link = 'https://github.com/' . $reference . '/';
-        $link .= 'blob/' . $branch . '/';
+        $link .= 'blob/' . $this->getCommitId() . '/';
         $link .= '{FILE}';
         $link .= '#L{LINE}-L{LINE_END}';
 
