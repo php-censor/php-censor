@@ -93,6 +93,7 @@ class BuildService
             $build->setExtraValues($extra);
         }
 
+        /** @var Build $build */
         $build = $this->buildStore->save($build);
 
         $buildId = $build->getId();

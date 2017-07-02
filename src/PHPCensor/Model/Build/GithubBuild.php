@@ -45,16 +45,19 @@ class GithubBuild extends RemoteGitBuild
     */
     public function sendStatusPostback()
     {
+        if ('Manual' === $this->getCommitId()) {
+            return false;
+        }
+
+        $project = $this->getProject();
+        if (empty($project)) {
+            return false;
+        }
+        
         $token = Config::getInstance()->get('php-censor.github.token');
 
         if (empty($token) || empty($this->data['id'])) {
-            return;
-        }
-
-        $project    = $this->getProject();
-
-        if (empty($project)) {
-            return;
+            return false;
         }
 
         switch ($this->getStatus()) {
@@ -93,6 +96,8 @@ class GithubBuild extends RemoteGitBuild
                 'context'     => 'PHP Censor',
             ]
         ]);
+        
+        return true;
     }
 
     /**

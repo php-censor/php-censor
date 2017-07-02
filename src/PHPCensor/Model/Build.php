@@ -743,7 +743,7 @@ class Build extends Model
     */
     public function sendStatusPostback()
     {
-        return;
+        return false;
     }
 
     /**
