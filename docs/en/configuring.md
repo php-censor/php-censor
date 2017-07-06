@@ -42,7 +42,8 @@ php-censor:
       commit:       false # This option allow/deny to post comments to Github commit
       pull_request: false # This option allow/deny to post comments to Github Pull Request
   build:
-    remove_builds: true # This option allow/deny build cleaning
+    remove_builds:      true # This option allow/deny build cleaning
+    writer_buffer_size: 500  # BuildErrorWriter buffer size (count of inserts in one SQL query)
   security:
     disable_auth:    false # This option allows/deny you to disable authentication for PHP Censor
     default_user_id: 1     # Default user when authentication disabled
