@@ -269,7 +269,8 @@ class InstallCommand extends Command
                 ],
             ],
             'build' => [
-                'remove_builds' => true,
+                'remove_builds'      => true,
+                'writer_buffer_size' => 500,
             ],
             'security' => [
                 'disable_auth'    => false,

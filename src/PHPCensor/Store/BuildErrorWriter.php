@@ -2,6 +2,7 @@
 
 namespace PHPCensor\Store;
 
+use b8\Config;
 use b8\Database;
 
 /**
@@ -19,7 +20,7 @@ class BuildErrorWriter
      * @var int
      * @see https://stackoverflow.com/questions/40361164/pdoexception-sqlstatehy000-general-error-7-number-of-parameters-must-be-bet
      */
-    protected $buffer_size = 5000;
+    protected $buffer_size;
 
     /**
      * BuildErrorWriter constructor.
@@ -28,7 +29,8 @@ class BuildErrorWriter
      */
     public function __construct($build_id)
     {
-        $this->build_id = $build_id;
+        $this->buffer_size = (integer)Config::getInstance()->get('php-censor.build.writer_buffer_size', 500);
+        $this->build_id    = $build_id;
     }
 
     /**
