@@ -49,7 +49,9 @@ class CreateBuildCommand extends Command
             ->setDescription('Create a build for a project')
             ->addArgument('projectId', InputArgument::REQUIRED, 'A project ID')
             ->addOption('commit', null, InputOption::VALUE_OPTIONAL, 'Commit ID to build')
-            ->addOption('branch', null, InputOption::VALUE_OPTIONAL, 'Branch to build');
+            ->addOption('branch', null, InputOption::VALUE_OPTIONAL, 'Branch to build')
+            ->addOption('email', null, InputOption::VALUE_OPTIONAL, 'Committer email')
+            ->addOption('message', null, InputOption::VALUE_OPTIONAL, 'Commit message');
     }
 
     /**
@@ -61,6 +63,8 @@ class CreateBuildCommand extends Command
         $commitId    = $input->getOption('commit');
         $branch      = $input->getOption('branch');
         $environment = $input->hasOption('environment') ? $input->getOption('environment') : null;
+        $ciEmail     = $input->getOption('email');
+        $ciMessage   = $input->getOption('message');
 
         $project = $this->projectStore->getById($projectId);
         if (empty($project) || $project->getArchived()) {
@@ -68,7 +72,7 @@ class CreateBuildCommand extends Command
         }
 
         try {
-            $this->buildService->createBuild($project, $environment, $commitId, $branch);
+            $this->buildService->createBuild($project, $environment, $commitId, $branch, null, $ciEmail, $ciMessage);
             $output->writeln('Build Created');
         } catch (\Exception $e) {
             $output->writeln('<error>Failed</error>');
