@@ -3,18 +3,18 @@
 use Phinx\Migration\AbstractMigration;
 use Phinx\Db\Adapter\MysqlAdapter;
 
-class FixedBuildLogColumnForMysql extends AbstractMigration
+class FixedBuildMetaForMysql extends AbstractMigration
 {
     public function up()
     {
         $adapter = $this->getAdapter();
         if ($adapter instanceof MysqlAdapter) {
             $this
-                ->table('build')
+                ->table('build_meta')
                 ->changeColumn(
-                    'log',
+                    'meta_value',
                     MysqlAdapter::PHINX_TYPE_TEXT,
-                    ['limit' => MysqlAdapter::TEXT_LONG]
+                    ['limit' => MysqlAdapter::TEXT_LONG, 'null' => false]
                 )
                 ->save();
         }
