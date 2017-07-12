@@ -76,8 +76,8 @@ As mentioned earlier, PHP Censor is powered by plugins, there are several phases
 
 * `failure` - Called upon failure of the `test` phase.
 
-* `fixed` - Called upon success of the `test` phase if the previous build of the branch was a success.
+* `fixed` - Called upon success of the `test` phase if the previous build of the branch was a failure.
 
-* `broken` - Called upon failure of the `test` phase if the previous build of the branch was a failure.
+* `broken` - Called upon failure of the `test` phase if the previous build of the branch was a success.
 
 The `ignore` section is merely an array of paths that should be ignored in all tests (where possible).
