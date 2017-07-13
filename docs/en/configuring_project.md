@@ -62,15 +62,23 @@ branch-dev:           # Branch-specific config (for "dev" branch)
       task: "build-dev"
 ```
 
+
+Stages
+------
+
 As mentioned earlier, PHP Censor is powered by plugins, there are several phases in which plugins can be run:
 
 * `setup` - This phase is designed to initialise the build procedure.
 
-* `test` - The tests that should be run during the build. Plugins run during this phase will contribute to the success or failure of the build.
+* `test` - The tests that should be run during the build. Plugins run during this phase will contribute to the success 
+or failure of the build.
 
-* `deploy` - The deploy that should be run after the build. Plugins run during this phase will contribute to the success or failure of the build.
+* `deploy` - The deploy that should be run after the build. Plugins run during this phase will contribute to the 
+success or failure of the build.
 
-* `complete` - Always called when the `test` phase completes, regardless of success or failure. **Note** that is you do any DB stuff here, you will need to add the DB credentials to this section as well, as it runs in a separate instance.
+* `complete` - Always called when the `test` phase completes, regardless of success or failure. **Note** that is you 
+do any DB stuff here, you will need to add the DB credentials to this section as well, as it runs in a separate 
+instance.
 
 * `success` - Called upon success of the `test` phase.
 
@@ -81,3 +89,44 @@ As mentioned earlier, PHP Censor is powered by plugins, there are several phases
 * `broken` - Called upon failure of the `test` phase if the previous build of the branch was a success.
 
 The `ignore` section is merely an array of paths that should be ignored in all tests (where possible).
+
+
+Branch specific stages
+----------------------
+
+PHP Censor allows you configure plugins depending on the branch you configure in the project settings in the UI. 
+You can replace a complete stage for a branch, or add extra plugins to a stage that run before or after the default 
+plugins.  
+
+### Example config
+
+```yml
+test: # Test stage config for all branches
+  php_unit:
+    allow_failures: 10
+success: # Success stage config for all branches
+  shell: ./notify
+
+branch-release: # Test config for release branch
+  run-option: replace # This can be set to either before, after or replace
+  test:
+    php_unit:
+      allow_failures: 0
+branch-master: # Test config for release branch
+  run-option: after # This can be set to either before, after or replace
+  success:
+    shell:
+      - "rsync ..."
+```
+
+### How it works
+
+When you have configured a branch eg "stable" in the project settings in the UI. Add a new config named 
+"branch-<branch>", in this case "branch-stable" to the `.php-censor.yml`. In this config, specify all stages and 
+plugins you wish to run.
+
+Also add a new config value `run-option`, that can heve 3 values:
+
+* `before` - will cause the branch specific plugins to run before the default ones.
+* `after` - will cause the branch specific plugins to run after the default ones.
+* `replace` - will cause the branch specific plugins to run and the default ones not.
