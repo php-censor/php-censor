@@ -3,6 +3,7 @@
 namespace Tests\PHPCensor\Plugin\Util;
 
 use PHPCensor\Plugin\Util\PhpUnitResult;
+use PHPCensor\Plugin\Util\PhpUnitResultJson;
 
 /**
  * Class PhpUnitResultTest parses the results for the PhpUnitV2 plugin
@@ -16,7 +17,7 @@ class PhpUnitResultTest extends \PHPUnit_Framework_TestCase
     public function testInitParse()
     {
         $buildPath = '/path/to/build';
-        $parser = new PhpUnitResult(ROOT_DIR . 'tests/PHPCensor/Plugin/SampleFiles/phpunit_money.txt', $buildPath);
+        $parser = new PhpUnitResultJson(ROOT_DIR . 'tests/PHPCensor/Plugin/SampleFiles/phpunit_money.txt', $buildPath);
         $output = $parser->parse()->getResults();
         $errors = $parser->getErrors();
 
