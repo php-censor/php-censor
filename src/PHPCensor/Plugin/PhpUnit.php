@@ -7,7 +7,7 @@ use PHPCensor\Builder;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
 use PHPCensor\Plugin\Option\PhpUnitOptions;
-use PHPCensor\Plugin\Util\PhpUnitResult;
+use PHPCensor\Plugin\Util\PhpUnitResultJson;
 use PHPCensor\Plugin;
 use PHPCensor\ZeroConfigPluginInterface;
 
@@ -112,8 +112,8 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
         $buildPath = $this->build->getBuildPath() . DIRECTORY_SEPARATOR;
 
         // Save the results into a json file
-        $jsonFile = @tempnam($buildPath, 'jLog_');
-        $options->addArgument('log-json', $jsonFile);
+        $logFile = @tempnam($buildPath, 'jLog_');
+        $options->addArgument('log-json', $logFile);
 
         // Removes any current configurations files
         $options->removeArgument('configuration');
@@ -126,7 +126,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
         $cmd       = $this->findBinary('phpunit') . ' %s %s';
         $success   = $this->builder->executeCommand($cmd, $arguments, $directory);
 
-        $this->processResults($jsonFile);
+        $this->processResults($logFile);
 
         return $success;
     }
@@ -141,7 +141,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
     protected function processResults($jsonFile)
     {
         if (file_exists($jsonFile)) {
-            $parser = new PhpUnitResult($jsonFile, $this->build->getBuildPath());
+            $parser = new PhpUnitResultJson($logFile, $this->build->getBuildPath());
 
             $this->build->storeMeta('phpunit-data', $parser->parse()->getResults());
             $this->build->storeMeta('phpunit-errors', $parser->getFailures());
@@ -152,9 +152,9 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
                     $this->builder, 'php_unit', $error['message'], $severity, $error['file'], $error['line']
                 );
             }
-            @unlink($jsonFile);
+            @unlink($logFile);
         } else {
-            throw new \Exception('JSON output file does not exist: ' . $jsonFile);
+            throw new \Exception('log output file does not exist: ' . $logFile);
         }
     }
 }
