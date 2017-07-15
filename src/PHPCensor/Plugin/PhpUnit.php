@@ -84,13 +84,13 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
         // Run any directories
         if (!empty($directories)) {
             foreach ($directories as $directory) {
-                $success[] = $this->runDir($directory);
+                $success[] = $this->runConfig($directory, null);
             }
         } else {
             // Run any config files
             if (!empty($xmlConfigFiles)) {
                 foreach ($xmlConfigFiles as $configFile) {
-                    $success[] = $this->runConfigFile($configFile);
+                    $success[] = $this->runConfig($this->options->getTestsPath(), $configFile);
                 }
             }
         }
@@ -99,42 +99,14 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
     }
 
     /**
-     * Run the PHPUnit tests in a specific directory or array of directories.
+     * Run the tests defined in a PHPUnit config file or in a specific directory.
      *
      * @param $directory
-     *
-     * @return bool|mixed
-     */
-    protected function runDir($directory)
-    {
-        $options = clone $this->options;
-
-        $buildPath = $this->build->getBuildPath() . DIRECTORY_SEPARATOR;
-
-        // Save the results into a json file
-        $jsonFile = @tempnam($buildPath, 'jLog_');
-        $options->addArgument('log-json', $jsonFile);
-
-        // Removes any current configurations files
-        $options->removeArgument('configuration');
-
-        $arguments = $this->builder->interpolate($options->buildArgumentString());
-        $cmd       = $this->findBinary('phpunit') . ' %s "%s"';
-        $success   = $this->builder->executeCommand($cmd, $arguments, $directory);
-
-        $this->processResults($jsonFile);
-
-        return $success;
-    }
-
-    /**
-     * Run the tests defined in a PHPUnit config file.
-     *
      * @param $configFile
      *
      * @return bool|mixed
      */
-    protected function runConfigFile($configFile)
+    protected function runConfig($directory, $configFile)
     {
         $options   = clone $this->options;
         $buildPath = $this->build->getBuildPath() . DIRECTORY_SEPARATOR;
@@ -145,12 +117,14 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
 
         // Removes any current configurations files
         $options->removeArgument('configuration');
-        // Only the add the configuration file been passed
-        $options->addArgument('configuration', $buildPath . $configFile);
+        if (null !== $configFile) {
+            // Only the add the configuration file been passed
+            $options->addArgument('configuration', $buildPath . $configFile);
+        }
 
         $arguments = $this->builder->interpolate($options->buildArgumentString());
         $cmd       = $this->findBinary('phpunit') . ' %s %s';
-        $success   = $this->builder->executeCommand($cmd, $arguments, $options->getTestsPath());
+        $success   = $this->builder->executeCommand($cmd, $arguments, $directory);
 
         $this->processResults($jsonFile);
 
