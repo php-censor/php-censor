@@ -1,6 +1,33 @@
 Change Log
 ==========
 
+## [PHP Censor v0.16.0](https://github.com/corpsee/php-censor/tree/0.16.0) (2017-07-16)
+
+[Full Changelog](https://github.com/corpsee/php-censor/compare/0.15.0...0.16.0)
+
+* **Removed HttpClient class and changed it to Guzzle library.**
+* **Added config option `php-censor.build.writer_buffer_size` for configuring `BuildErrorWriter->buffer_size` 
+property (Count of inserts in the one SQL query).** Default value: 500. Thanks to 
+[@LEXASOFT](https://github.com/LEXASOFT) for the idea.
+* Added params 'email' and 'message' for `php-censor:create-build` console command. Thanks to 
+[@SimonHeimberg](https://github.com/SimonHeimberg). 
+PullRequest [#92](https://github.com/corpsee/php-censor/pull/92).
+* Fixed project create/edit form fields order.
+* Fixed debug mode for 'Build now' button.
+* Fixed `FileLink` for builds (Link to branch -> link to commit). Thanks to 
+[@SimonHeimberg](https://github.com/SimonHeimberg). PullRequest [#90](https://github.com/corpsee/php-censor/pull/90).
+* Fixed error in `sendStatusPostback` in the build.
+* Fixed build_meta.meta_value column type (`TEXT` -> `LONGTEXT`) for MySQL. Issue 
+[#94](https://github.com/corpsee/php-censor/issues/94).
+* Improved build log build directory appearence ('/' -> './'). Thanks to 
+[@SimonHeimberg](https://github.com/SimonHeimberg). PullRequest [#93](https://github.com/corpsee/php-censor/pull/93).
+* Improved documentation. Thanks to [@SimonHeimberg](https://github.com/SimonHeimberg). PullRequest 
+[#83](https://github.com/corpsee/php-censor/pull/83), [#84](https://github.com/corpsee/php-censor/pull/84), 
+[#96](https://github.com/corpsee/php-censor/pull/96). Issue [#2](https://github.com/corpsee/php-censor/issues/2).
+* Improved email address format for notifications (Field 'from').
+* Updated dependencies. Issue [#79](https://github.com/corpsee/php-censor/issues/79).
+
+
 ## [PHP Censor v0.15.0](https://github.com/corpsee/php-censor/tree/0.15.0) (2017-06-10)
 
 [Full Changelog](https://github.com/corpsee/php-censor/compare/0.14.0...0.15.0)
