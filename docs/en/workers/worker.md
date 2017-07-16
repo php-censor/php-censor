@@ -78,4 +78,12 @@ Group=php-censor #Could be changed
 
 And check that it works properly by `systemctl status php-censor.service`
 
+Also you can simple daemonise worker by `nohup`:
+
+```
+nohup /path/to/php-censor/bin/console php-censor:worker &> /var/log/php-censor-worker.log </dev/null & # and you can save pid in pidfile with echo "$!" > /var/run/php-censor-worker.pid, but it's not really necessary
+```
+
+But keep in mind: it won't restart you worker if it fails and can make some inconvenience. So, it's good for debug purposes or as temporary solution.
+
 That's it! Now, whenever you create a new build in PHP Censor, it should start building immediately.
