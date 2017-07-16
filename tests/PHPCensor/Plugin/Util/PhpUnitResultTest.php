@@ -21,7 +21,7 @@ class PhpUnitResultTest extends \PHPUnit_Framework_TestCase
         $output = $parser->parse()->getResults();
         $errors = $parser->getErrors();
 
-        $this->assertEquals(8, $parser->getFailures());
+        $this->assertEquals(7, $parser->getFailures());
         $this->assertInternalType('array', $output);
         $this->assertInternalType('array', $errors);
         $this->assertNotEmpty($output);

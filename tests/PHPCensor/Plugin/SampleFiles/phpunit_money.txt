@@ -289,39 +289,31 @@
     "message": "Skipped Test: This test is currently failing",
     "output": ""
 }{
-    "event": "testStart",
-    "suite": "",
-    "test": "Tests\\Money\\MoneyTest::testDepends1"
-}{
-    "event": "test",
-    "suite": "",
-    "test": "Tests\\Money\\MoneyTest::testDepends1",
-    "status": "fail",
-    "time": 0.00078010559082031,
-    "trace": [
-        {
-            "file": "\/path\/to\/build\/tests\/MoneyTest.php",
-            "line": 105,
-            "function": "assertTrue",
-            "class": "PHPUnit_Framework_Assert",
-            "type": "::"
-        }
-    ],
-    "message": "Failed asserting that false is true.",
-    "output": ""
-}{
     "event": "test",
     "suite": "",
     "test": "Tests\\Money\\MoneyTest::testDepends1",
     "status": "error",
     "time": 0,
     "trace": [],
-    "message": "Skipped Test: This test depends on \"Tests\\Money\\MoneyTest::testDepends1\" to pass.",
+    "message": "Skipped Test: This test depends on \"Tests\\Money\\MoneyTest::testFail\" to pass.",
     "output": ""
 }{
     "event": "suiteStart",
     "suite": "Tests\\Money\\Parser\\IntlMoneyParserTest",
     "tests": 23
+}{
+   "event": "testStart",
+    "suite": "Tests\\Money\\MoneyTest",
+    "test": "Tests\\Money\\MoneyTest::testFactoryMethods"
+}{
+    "event": "test",
+    "suite": "Tests\\Money\\MoneyTest",
+    "test": "Tests\\Money\\MoneyTest::testFactoryMethods",
+    "status": "warning",
+    "time": 0.06482195854187,
+    "trace": [],
+    "message": "Trying to @cover or @use not existing method \"Monies::test\".",
+    "output": ""
 }{
     "event": "suiteStart",
     "suite": "Tests\\Money\\Parser\\IntlMoneyParserTest::testIntlParser",
@@ -338,19 +330,6 @@
     "time": 0.0069050788879395,
     "trace": [],
     "message": "",
-    "output": ""
-}{
-   "event": "testStart",
-    "suite": "Tests\\Money\\MoneyTest",
-    "test": "Tests\\Money\\MoneyTest::testFactoryMethods"
-}{
-    "event": "test",
-    "suite": "Tests\\Money\\MoneyTest",
-    "test": "Tests\\Money\\MoneyTest::testFactoryMethods",
-    "status": "warning",
-    "time": 0.06482195854187,
-    "trace": [],
-    "message": "Trying to @cover or @use not existing method \"Monies::test\".",
     "output": ""
 }{
     "event": "testStart",
