@@ -59,4 +59,12 @@ php-censor    19057  0.0  0.9 200244 18720 ?        S    03:00   0:01 php /php-c
 php-censor    19058  0.0  0.9 200244 18860 ?        S    03:00   0:01 php /php-censor/console php-censor:worker
 ```
 
+Also you can simple daemonise worker by `nohup`:
+
+```
+nohup /path/to/php-censor/bin/console php-censor:worker &> /var/log/php-censor-worker.log </dev/null & # and you can save pid in pidfile with echo "$!" > /var/run/php-censor-worker.pid, but it's not really necessary
+```
+
+But keep in mind: it won't restart your worker if it fails and can be inconvenient to manage worker process in contrast with other solutions. So, it's good for debug purposes or as temporary solution.
+
 That's it! Now, whenever you create a new build in PHP Censor, it should start building immediately.
