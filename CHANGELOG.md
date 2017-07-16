@@ -354,7 +354,8 @@ php-censor:
 [Full Changelog](https://github.com/corpsee/php-censor/compare/0.4.0...0.5.0)
 
 * Fixed projects archive (Archived projects can not be built and projects moved to the archive section)
-* Added option to the application configuration (`app/config.yml`) to allow/deny removing the build directory after build (`php-censor.build.remove_builds`)
+* Added option to the application configuration (`app/config.yml`) to allow/deny removing the build directory after 
+build (`php-censor.build.remove_builds`)
 
 ```yml
 php-censor:
@@ -362,7 +363,8 @@ php-censor:
     remove_builds: true
 ```
 
-* Added options to the application configuration (`app/config.yml`) to allow/deny sending errors in the commits/pull requests as comments on Github (`php-censor.github.comments.commit` and `php-censor.github.comments.pull_request`)
+* Added options to the application configuration (`app/config.yml`) to allow/deny sending errors in the commits/pull 
+requests as comments on Github (`php-censor.github.comments.commit` and `php-censor.github.comments.pull_request`)
 
 ```yml
 php-censor:
