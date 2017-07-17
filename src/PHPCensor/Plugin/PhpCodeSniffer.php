@@ -106,7 +106,7 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
         }
 
         if (!empty($options['allowed_errors']) && is_int($options['allowed_errors'])) {
-            $this->allowed_warnings = $options['allowed_errors'];
+            $this->allowed_errors = $options['allowed_errors'];
         }
 
         if (!empty($options['allowed_warnings']) && is_int($options['allowed_warnings'])) {
