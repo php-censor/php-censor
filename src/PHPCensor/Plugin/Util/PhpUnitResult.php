@@ -13,6 +13,8 @@ abstract class PhpUnitResult
     const SEVERITY_FAIL    = 'fail';
     const SEVERITY_ERROR   = 'error';
     const SEVERITY_SKIPPED = 'skipped';
+    const SEVERITY_WARN    = self::SEVERITY_PASS;
+    const SEVERITY_RISKY   = self::SEVERITY_PASS;
 
     protected $outputFile;
     protected $buildPath;
