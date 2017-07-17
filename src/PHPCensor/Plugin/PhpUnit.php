@@ -8,6 +8,7 @@ use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
 use PHPCensor\Plugin\Option\PhpUnitOptions;
 use PHPCensor\Plugin\Util\PhpUnitResultJson;
+use PHPCensor\Plugin\Util\PhpUnitResultJunit;
 use PHPCensor\Plugin;
 use PHPCensor\ZeroConfigPluginInterface;
 
@@ -79,18 +80,28 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
             return false;
         }
 
+        $cmd = $this->builder->findBinary('phpunit');
+        // run without logging
+        $ret = null;
+        $lastLine = exec($cmd.' --log-json . --version');
+        if (false !== strpos($lastLine, '--log-json')) {
+            $logFormat = 'junit'; // --log-json is not supported
+        } else {
+            $logFormat = 'json';
+        }
+
         $success = [];
 
         // Run any directories
         if (!empty($directories)) {
             foreach ($directories as $directory) {
-                $success[] = $this->runConfig($directory, null);
+                $success[] = $this->runConfig($directory, null, $logFormat);
             }
         } else {
             // Run any config files
             if (!empty($xmlConfigFiles)) {
                 foreach ($xmlConfigFiles as $configFile) {
-                    $success[] = $this->runConfig($this->options->getTestsPath(), $configFile);
+                    $success[] = $this->runConfig($this->options->getTestsPath(), $configFile, $logFormat);
                 }
             }
         }
@@ -103,17 +114,18 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
      *
      * @param $directory
      * @param $configFile
+     * @param string $logFormat
      *
      * @return bool|mixed
      */
-    protected function runConfig($directory, $configFile)
+    protected function runConfig($directory, $configFile, $logFormat)
     {
         $options   = clone $this->options;
         $buildPath = $this->build->getBuildPath() . DIRECTORY_SEPARATOR;
 
-        // Save the results into a json file
+        // Save the results into a log file
         $logFile = @tempnam($buildPath, 'jLog_');
-        $options->addArgument('log-json', $logFile);
+        $options->addArgument('log-'.$logFormat, $logFile);
 
         // Removes any current configurations files
         $options->removeArgument('configuration');
@@ -126,7 +138,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
         $cmd       = $this->findBinary('phpunit') . ' %s %s';
         $success   = $this->builder->executeCommand($cmd, $arguments, $directory);
 
-        $this->processResults($logFile);
+        $this->processResults($logFile, $logFormat);
 
         return $success;
     }
@@ -134,14 +146,19 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
     /**
      * Saves the test results
      *
-     * @param string $jsonFile
+     * @param string $logFile
+     * @param string $logFormat
      *
-     * @throws \Exception If the failed to parse the JSON file
+     * @throws \Exception If failed to parse the log file
      */
-    protected function processResults($jsonFile)
+    protected function processResults($logFile, $logFormat)
     {
-        if (file_exists($jsonFile)) {
-            $parser = new PhpUnitResultJson($logFile, $this->build->getBuildPath());
+        if (file_exists($logFile)) {
+            if ('json' === $logFormat) {
+                $parser = new PhpUnitResultJson($logFile, $this->build->getBuildPath());
+            } else {
+                $parser = new PhpUnitResultJunit($logFile, $this->build->getBuildPath());
+            }
 
             $this->build->storeMeta('phpunit-data', $parser->parse()->getResults());
             $this->build->storeMeta('phpunit-errors', $parser->getFailures());
