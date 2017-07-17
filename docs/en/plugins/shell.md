@@ -1,3 +1,4 @@
+
 Plugin Shell
 ============
 
@@ -22,7 +23,7 @@ setup:
 ```yml
 setup:
    shell:
-       - "cd /www"
+       - "[ -d /www ]"
        - "chmod u+x %BUILD_PATH%/bin/console"
        - "%BUILD_PATH%/bin/console build"
 ```
