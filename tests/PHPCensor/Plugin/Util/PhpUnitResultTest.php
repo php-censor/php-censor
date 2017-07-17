@@ -31,6 +31,9 @@ class PhpUnitResultTest extends \PHPUnit_Framework_TestCase
         $this->assertStringStartsNotWith($buildPath, $output[3]['trace'][0]);
         $this->assertStringStartsNotWith($buildPath, $output[3]['trace'][1]);
 
+        $this->assertEquals("some output\nfrom f4", $output[7]['output']);
+        $this->assertEquals("has output\non lines", $output[15]['output']);
+
         $this->assertEquals(PhpUnitResult::SEVERITY_SKIPPED, $output[5]['severity']);
         $this->assertContains('Incomplete Test:', $output[5]['message']);
 

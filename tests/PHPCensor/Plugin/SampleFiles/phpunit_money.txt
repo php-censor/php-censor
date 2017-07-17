@@ -157,7 +157,7 @@
         }
     ],
     "message": "Failed asserting that false is true.",
-    "output": ""
+    "output": "some output\nfrom f4"
 }{
     "event": "suiteStart",
     "suite": "ExampleResults\\ExampleFailuresTest::testFailure5",
@@ -301,6 +301,19 @@
     "trace": [],
     "message": "Skipped Test: This test depends on \"ExampleResults\\ExampleFailuresTest::testFailure\" to pass.",
     "output": ""
+}{
+    "event": "testStart",
+    "suite": "",
+    "test": "ExampleResults\\ExampleFailuresTest::testOutput"
+}{
+    "event": "test",
+    "suite": "",
+    "test": "ExampleResults\\ExampleFailuresTest::testOutput",
+    "status": "pass",
+    "time": 0.0065488815307617,
+    "trace": [],
+    "message": "",
+    "output": "has output\non lines"
 }{
     "event": "testStart",
     "suite": "Tests\\Money\\MoneyTest",
