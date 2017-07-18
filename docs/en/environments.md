@@ -1,9 +1,11 @@
 Environments
 ============
 
-A environment can include several branches - base branch (default project branch) and optional additional branches (which merge into base).
+A environment can include several branches - base branch (default project branch) and optional additional branches 
+(which merge into base).
 
-When you commit to a branch, builds all environments in which branch included (base branch implicitly included to all environments).
+When you commit to a branch, builds all environments in which branch included (base branch implicitly included to all 
+environments).
 
 When you build a environment, additional branches merged into base branch.
 

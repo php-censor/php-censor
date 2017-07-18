@@ -1,7 +1,8 @@
 Plugin Campfire
 ===============
 
-This plugin joins a [Campfire](https://campfirenow.com/) room and sends a user-defined message, for example a "Build Succeeded" message.
+This plugin joins a [Campfire](https://campfirenow.com/) room and sends a user-defined message, for example a 
+"Build Succeeded" message.
 
 Configuration
 -------------

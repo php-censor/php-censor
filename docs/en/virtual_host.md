@@ -31,7 +31,8 @@ server {
 Apache Example
 --------------
 
-For Apache, you can use a standard virtual host, as long as your server supports PHP. All you need to do is add the following to a `.htaccess` file in your PHP Censor `/public` directory.
+For Apache, you can use a standard virtual host, as long as your server supports PHP. All you need to do is add the 
+following to a `.htaccess` file in your PHP Censor `/public` directory.
 
 ```
 <IfModule mod_rewrite.c>
