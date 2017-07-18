@@ -49,7 +49,7 @@ class Executor
      * 
      * @return bool
      */
-    public function executePlugins(&$config, $stage)
+    public function executePlugins($config, $stage)
     {
         $success          = true;
         $pluginsToExecute = [];
@@ -71,26 +71,54 @@ class Executor
     }
 
     /**
+     * @param array  $config
+     * @param string $branch
+     *
+     * @return bool|array
+     */
+    public function getBranchSpecificConfig($config, $branch)
+    {
+        $configSections = array_keys($config);
+
+        foreach ($configSections as $configSection) {
+            if (0 === strpos($configSection, 'branch-')) {
+                if ($configSection === ('branch-' . $branch)) {
+                    return $config[$configSection];
+                }
+
+                if (0 === strpos($configSection, 'branch-regex:')) {
+                    $pattern = '#' . substr($configSection, 13) . '#u';
+                    preg_match($pattern, $branch, $matches);
+                    if (!empty($matches[0])) {
+                        return $config[$configSection];
+                    }
+                }
+            }
+        }
+
+        return [];
+    }
+
+    /**
      * Check the config for any plugins specific to the branch we're currently building.
-     * @param $config
-     * @param $stage
-     * @param $pluginsToExecute
+     *
+     * @param array  $config
+     * @param string $stage
+     * @param array  $pluginsToExecute
+     *
      * @return array
      */
-    protected function getBranchSpecificPlugins(&$config, $stage, $pluginsToExecute)
+    protected function getBranchSpecificPlugins($config, $stage, $pluginsToExecute)
     {
         /** @var \PHPCensor\Model\Build $build */
-        $build  = $this->pluginFactory->getResourceFor('PHPCensor\Model\Build');
-        $branch = $build->getBranch();
-
-        // If we don't have any branch-specific plugins:
-        if (!isset($config['branch-' . $branch][$stage]) || !is_array($config['branch-' . $branch][$stage])) {
+        $build        = $this->pluginFactory->getResourceFor('PHPCensor\Model\Build');
+        $branch       = $build->getBranch();
+        $branchConfig = $this->getBranchSpecificConfig($config, $branch);
+        if (!$branchConfig) {
             return $pluginsToExecute;
         }
 
-        // If we have branch-specific plugins to execute, add them to the list to be executed:
-        $branchConfig = $config['branch-' . $branch];
-        $plugins = $branchConfig[$stage];
+        $plugins = !empty($branchConfig[$stage]) ? $branchConfig[$stage] : [];
 
         $runOption = 'after';
         if (!empty($branchConfig['run-option'])) {
