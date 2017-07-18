@@ -1,7 +1,8 @@
 Plugin Copy Build
 =================
 
-Copies all files from your build, with the exception of those in the "ignore" build settings property, to a directory of your choosing.
+Copies all files from your build, with the exception of those in the "ignore" build settings property, to a directory 
+of your choosing.
 
 Configuration
 -------------

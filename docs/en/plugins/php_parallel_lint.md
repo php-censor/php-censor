@@ -1,7 +1,8 @@
 Plugin PHP Parallel Lint
 ========================
 
-Similar to the [standard PHP Lint plugin](lint.md), except that it uses the [PHP Parallel Lint](https://github.com/JakubOnderka/PHP-Parallel-Lint) project to run.
+Similar to the [standard PHP Lint plugin](lint.md), except that it uses the 
+[PHP Parallel Lint](https://github.com/JakubOnderka/PHP-Parallel-Lint) project to run.
 
 Configuration
 -------------

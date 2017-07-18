@@ -22,7 +22,8 @@ Configuration
 
 ### Examples
 
-Simple example where PHPCS will run on app directory, but ignore the views folder, and use PSR-1 and PSR-2 rules for validation:
+Simple example where PHPCS will run on app directory, but ignore the views folder, and use PSR-1 and PSR-2 rules for 
+validation:
 ```yml
 test:
     php_code_sniffer:

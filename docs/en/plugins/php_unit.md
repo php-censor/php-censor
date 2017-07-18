@@ -16,7 +16,8 @@ Its activated if you have phpunit.xml file in your build path, `tests/` subfolde
 * **config** - Optional - Path to a PHP Unit XML configuration file.
 * **run_from** - Optional - When running PHPUnit with an XML config, the command is run from this directory
 * **coverage** - Optional - Value for the `--coverage-html` command line flag.
-* **path** - Optional - In cases where tests files are in a sub path of the /tests path, allows this path to be set in the config.
+* **path** - Optional - In cases where tests files are in a sub path of the /tests path, allows this path to be set in 
+the config.
 
 #### Running Tests By Specifying Directory
 
@@ -39,8 +40,10 @@ test:
 Troubleshooting
 ---------------
 
-If standard logging of PHP Censor is not enough, to get standard output from any command, including PHPUnit, edit `BaseCommandExecutor::executeCommand()` to see what exactly is wrong
+If standard logging of PHP Censor is not enough, to get standard output from any command, including PHPUnit, edit 
+`BaseCommandExecutor::executeCommand()` to see what exactly is wrong
 * Run `composer update` in phpunit plugin directory of PHP Censor to get all of its dependencies
 * If phpunit is inside of the project's composer.json, it might interfere with PHP Censor's phpunit installation
 * Make sure you have XDebug installed.`The Xdebug extension is not loaded. No code coverage will be generated.`
-Otherwise test report parsing in `TapParser` will fail, wanting coverage report as well `Invalid TAP string, number of tests does not match specified test count.`
+Otherwise test report parsing in `TapParser` will fail, wanting coverage report as well `Invalid TAP string, number of 
+tests does not match specified test count.`

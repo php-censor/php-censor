@@ -10,7 +10,8 @@ Requirements
 Installation
 ------------
 
-1. Create a new file `post-receive` inside the [git `hooks` directory](http://www.git-scm.com/book/en/Customizing-Git-Git-Hooks) with the following content:
+1. Create a new file `post-receive` inside the 
+[git `hooks` directory](http://www.git-scm.com/book/en/Customizing-Git-Git-Hooks) with the following content:
 
 ```shell
 #!/bin/sh
