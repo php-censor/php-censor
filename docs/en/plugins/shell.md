@@ -1,3 +1,4 @@
+
 Plugin Shell
 ============
 
@@ -22,11 +23,12 @@ setup:
 ```yml
 setup:
    shell:
-       - "cd /www"
+       - "[ -d /www ]"
        - "chmod u+x %BUILD_PATH%/bin/console"
        - "%BUILD_PATH%/bin/console build"
 ```
 
+When a command fails, the remaining ones are not run.
 #### Each new command forgets about what was before
 
 So if you want cd to directory and then run script there, combine those two commands into one like:
