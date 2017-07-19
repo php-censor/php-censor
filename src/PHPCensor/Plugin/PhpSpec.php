@@ -28,7 +28,7 @@ class PhpSpec extends Plugin
         $curdir = getcwd();
         chdir($this->builder->buildPath);
 
-        $phpspec = $this->builder->findBinary(['phpspec', 'phpspec.php']);
+        $phpspec = $this->findBinary(['phpspec', 'phpspec.php']);
 
         $success = $this->builder->executeCommand($phpspec . ' --format=junit --no-code-generation run');
         $output = $this->builder->getLastOutput();

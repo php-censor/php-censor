@@ -89,7 +89,7 @@ class PhpCsFixer extends Plugin
             $directory = '.';
         }
 
-        $phpCsFixer = $this->builder->findBinary('php-cs-fixer');
+        $phpCsFixer = $this->findBinary('php-cs-fixer');
         $cmd        = $phpCsFixer . ' fix ' . $directory . ' %s';
         $success    = $this->builder->executeCommand($cmd, $this->args);
 

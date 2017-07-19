@@ -97,7 +97,7 @@ class PhpCpd extends Plugin implements ZeroConfigPluginInterface
             $ignore = $ignore . $filesToIgnore;
         }
 
-        $phpcpd = $this->builder->findBinary('phpcpd');
+        $phpcpd = $this->findBinary('phpcpd');
 
         $tmpFileName = tempnam('/tmp', 'phpcpd');
 

@@ -32,6 +32,11 @@ abstract class Plugin
     protected $options;
 
     /**
+     * @var string
+     */
+    protected $priorityPath = 'local';
+
+    /**
      * @param Builder $builder
      * @param Build   $build
      * @param array   $options
@@ -42,7 +47,26 @@ abstract class Plugin
         $this->build   = $build;
         $this->options = $options;
 
+        if (!empty($options['priority_path']) && in_array($options['priority_path'], ['global', 'system'])) {
+            $this->priorityPath = $options['priority_path'];
+        }
+
         $this->builder->logDebug('Plugin options: ' . json_encode($options));
+    }
+
+    /**
+     * Find a binary required by a plugin.
+     *
+     * @param string $binary
+     * @param bool   $quiet Returns null instead of throwing an exception.
+     *
+     * @return null|string
+     *
+     * @throws \Exception when no binary has been found and $quiet is false.
+     */
+    public function findBinary($binary, $quiet = false)
+    {
+        return $this->builder->findBinary($binary, $quiet, $this->priorityPath);
     }
 
     /**

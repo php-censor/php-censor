@@ -103,7 +103,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
             return false;
         }
 
-        $phpmdBinaryPath = $this->builder->findBinary('phpmd');
+        $phpmdBinaryPath = $this->findBinary('phpmd');
 
         $this->executePhpMd($phpmdBinaryPath);
 

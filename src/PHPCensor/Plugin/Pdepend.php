@@ -77,7 +77,7 @@ class Pdepend extends Plugin
             throw new \Exception(sprintf('The location %s is not writable or does not exist.', $this->location));
         }
 
-        $pdepend = $this->builder->findBinary('pdepend');
+        $pdepend = $this->findBinary('pdepend');
 
         $cmd = $pdepend . ' --summary-xml="%s" --jdepend-chart="%s" --overview-pyramid="%s" %s "%s"';
 

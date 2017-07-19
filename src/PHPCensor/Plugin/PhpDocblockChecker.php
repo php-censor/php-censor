@@ -97,7 +97,7 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
     public function execute()
     {
         // Check that the binary exists:
-        $checker = $this->builder->findBinary('phpdoccheck');
+        $checker = $this->findBinary('phpdoccheck');
 
         // Build ignore string:
         $ignore = '';

@@ -128,7 +128,7 @@ class XMPP extends Plugin
     */
     public function execute()
     {
-        $sendxmpp = $this->builder->findBinary('sendxmpp');
+        $sendxmpp = $this->findBinary('sendxmpp');
 
         /*
          * Without recipients we can't send notification

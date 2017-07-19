@@ -49,7 +49,7 @@ class Atoum extends Plugin
         if (isset($options['executable'])) {
             $this->executable = $this->builder->buildPath . DIRECTORY_SEPARATOR.$options['executable'];
         } else {
-            $this->executable = $this->builder->findBinary('atoum');
+            $this->executable = $this->findBinary('atoum');
         }
 
         if (isset($options['args'])) {

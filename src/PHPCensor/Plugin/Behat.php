@@ -37,7 +37,7 @@ class Behat extends Plugin
         if (isset($options['executable'])) {
             $this->executable = $options['executable'];
         } else {
-            $this->executable = $this->builder->findBinary('behat');
+            $this->executable = $this->findBinary('behat');
         }
 
         if (!empty($options['features'])) {

@@ -9,7 +9,7 @@ use Psr\Log\LogLevel;
 /**
  * Handles running system commands with variables.
  */
-abstract class BaseCommandExecutor implements CommandExecutorInterface
+class CommandExecutor implements CommandExecutorInterface
 {
     /**
      * @var BuildLogger
@@ -33,12 +33,14 @@ abstract class BaseCommandExecutor implements CommandExecutorInterface
 
     /**
      * The path which findBinary will look in.
+     *
      * @var string
      */
     protected $rootDir;
 
     /**
      * Current build path
+     *
      * @var string
      */
     protected $buildPath;
@@ -124,7 +126,9 @@ abstract class BaseCommandExecutor implements CommandExecutorInterface
 
     /**
      * Reads from array of streams as data becomes available.
+     *
      * @param array     $descriptors
+     *
      * @return string[] data read from each descriptor
      */
     private function readAlternating(array $descriptors)
@@ -169,16 +173,69 @@ abstract class BaseCommandExecutor implements CommandExecutorInterface
     }
 
     /**
-     * Find a binary required by a plugin
-     * 
+     * @param string $composerBin
      * @param string $binary
-     * @param bool   $quiet
-     * 
-     * @throws Exception
-     * 
-     * @return null|string
+     *
+     * @return false|string
      */
-    public function findBinary($binary, $quiet = false)
+    protected function findBinaryLocal($composerBin, $binary)
+    {
+        if (is_dir($composerBin) && is_file($composerBin . '/' . $binary)) {
+            $this->logger->logDebug(sprintf('Found in %s (local): %s', $composerBin, $binary));
+
+            return $composerBin . '/' . $binary;
+        }
+        
+        return false;
+    }
+
+    /**
+     * @param string $binary
+     *
+     * @return false|string
+     */
+    protected function findBinaryGlobal($binary)
+    {
+        if (is_file($this->rootDir . 'vendor/bin/' . $binary)) {
+            $this->logger->logDebug(sprintf('Found in %s (global): %s', 'vendor/bin', $binary));
+
+            return $this->rootDir . 'vendor/bin/' . $binary;
+        }
+
+        return false;
+    }
+
+    /**
+     * Uses 'which' to find a system binary by name
+     *
+     * @param string $binary
+     *
+     * @return false|string
+     */
+    protected function findBinarySystem($binary)
+    {
+        $tempBinary = trim(shell_exec('which ' . $binary));
+        if (is_file($tempBinary)) {
+            $this->logger->logDebug(sprintf('Found in %s (system): %s', '', $binary));
+
+            return $tempBinary;
+        }
+
+        return false;
+    }
+
+    /**
+     * Find a binary required by a plugin.
+     *
+     * @param string $binary
+     * @param bool   $quiet Returns null instead of throwing an exception.
+     * @param string $priorityPath
+     *
+     * @return null|string
+     *
+     * @throws \Exception when no binary has been found and $quiet is false.
+     */
+    public function findBinary($binary, $quiet = false, $priorityPath = 'local')
     {
         $composerBin = $this->getComposerBinDir(realpath($this->buildPath));
 
@@ -189,29 +246,42 @@ abstract class BaseCommandExecutor implements CommandExecutorInterface
         foreach ($binary as $bin) {
             $this->logger->logDebug(sprintf('Looking for binary: %s', $bin));
 
-            if (is_dir($composerBin) && is_file($composerBin . DIRECTORY_SEPARATOR . $bin)) {
-                $this->logger->logDebug(sprintf('Found in %s: %s', $composerBin, $bin));
+            if ('system' === $priorityPath) {
+                if ($binarySystem = $this->findBinarySystem($bin)) {
+                    return $binarySystem;
+                }
 
-                return $composerBin . DIRECTORY_SEPARATOR . $bin;
-            }
+                if ($binaryLocal = $this->findBinaryLocal($composerBin, $bin)) {
+                    return $binaryLocal;
+                }
 
-            if (is_file($this->rootDir . DIRECTORY_SEPARATOR . $bin)) {
-                $this->logger->logDebug(sprintf('Found in %s: %s', 'root', $bin));
+                if ($binaryGlobal = $this->findBinaryGlobal($bin)) {
+                    return $binaryGlobal;
+                }
+            } elseif ('global' === $priorityPath) {
+                if ($binaryGlobal = $this->findBinaryGlobal($bin)) {
+                    return $binaryGlobal;
+                }
 
-                return $this->rootDir . DIRECTORY_SEPARATOR . $bin;
-            }
+                if ($binaryLocal = $this->findBinaryLocal($composerBin, $bin)) {
+                    return $binaryLocal;
+                }
 
-            if (is_file($this->rootDir . 'vendor' . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . $bin)) {
-                $this->logger->logDebug(sprintf('Found in %s: %s', 'vendor/bin', $bin));
+                if ($binarySystem = $this->findBinarySystem($bin)) {
+                    return $binarySystem;
+                }
+            } else {
+                if ($binaryLocal = $this->findBinaryLocal($composerBin, $bin)) {
+                    return $binaryLocal;
+                }
 
-                return $this->rootDir . 'vendor' . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . $bin;
-            }
+                if ($binaryGlobal = $this->findBinaryGlobal($bin)) {
+                    return $binaryGlobal;
+                }
 
-            $findCmdResult = $this->findGlobalBinary($bin);
-            if (is_file($findCmdResult)) {
-                $this->logger->logDebug(sprintf('Found in %s: %s', '', $bin));
-
-                return $findCmdResult;
+                if ($binarySystem = $this->findBinarySystem($bin)) {
+                    return $binarySystem;
+                }
             }
         }
 
@@ -223,16 +293,11 @@ abstract class BaseCommandExecutor implements CommandExecutorInterface
     }
 
     /**
-     * Find a binary which is installed globally on the system
-     * @param string $binary
-     * @return null|string
-     */
-    abstract protected function findGlobalBinary($binary);
-
-    /**
      * Try to load the composer.json file in the building project
      * If the bin-dir is configured, return the full path to it
+     *
      * @param string $path Current build path
+     *
      * @return string|null
      */
     public function getComposerBinDir($path)
@@ -254,6 +319,7 @@ abstract class BaseCommandExecutor implements CommandExecutorInterface
 
     /**
      * Set the buildPath property.
+     *
      * @param string $path
      */
     public function setBuildPath($path)

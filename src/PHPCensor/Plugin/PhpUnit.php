@@ -119,7 +119,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
         $options->removeArgument('configuration');
 
         $arguments = $this->builder->interpolate($options->buildArgumentString());
-        $cmd       = $this->builder->findBinary('phpunit') . ' %s "%s"';
+        $cmd       = $this->findBinary('phpunit') . ' %s "%s"';
         $success   = $this->builder->executeCommand($cmd, $arguments, $directory);
 
         $this->processResults($jsonFile);
@@ -149,7 +149,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
         $options->addArgument('configuration', $buildPath . $configFile);
 
         $arguments = $this->builder->interpolate($options->buildArgumentString());
-        $cmd       = $this->builder->findBinary('phpunit') . ' %s %s';
+        $cmd       = $this->findBinary('phpunit') . ' %s %s';
         $success   = $this->builder->executeCommand($cmd, $arguments, $options->getTestsPath());
 
         $this->processResults($jsonFile);

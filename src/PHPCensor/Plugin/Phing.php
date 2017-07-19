@@ -70,7 +70,7 @@ class Phing extends Plugin
      */
     public function execute()
     {
-        $phingExecutable = $this->builder->findBinary('phing');
+        $phingExecutable = $this->findBinary('phing');
 
         $cmd[] = $phingExecutable . ' -f ' . $this->getBuildFilePath();
 

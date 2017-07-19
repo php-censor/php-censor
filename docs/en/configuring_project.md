@@ -102,16 +102,16 @@ plugins.
 
 ```yml
 test: # Test stage config for all branches
-  php_unit:
-    allow_failures: 10
+  php_cs_fixer:
+    allowed_warnings: -1
 success: # Success stage config for all branches
   shell: ./notify
 
 branch-release: # Test config for release branch
   run-option: replace # This can be set to either before, after or replace
   test:
-    php_unit:
-      allow_failures: 0
+    php_cs_fixer:
+      allowed_warnings: 0
 branch-master: # Test config for release branch
   run-option: after # This can be set to either before, after or replace
   success:
@@ -125,7 +125,7 @@ When you have configured a branch eg "stable" in the project settings in the UI.
 "branch-<branch>", in this case "branch-stable" to the `.php-censor.yml`. In this config, specify all stages and 
 plugins you wish to run.
 
-Also add a new config value `run-option`, that can heve 3 values:
+Also add a new config value `run-option`, that can have 3 values:
 
 * `before` - will cause the branch specific plugins to run before the default ones.
 * `after` - will cause the branch specific plugins to run after the default ones.

@@ -94,7 +94,7 @@ class PhpParallelLint extends Plugin implements ZeroConfigPluginInterface
     {
         list($ignore) = $this->getFlags();
 
-        $phplint = $this->builder->findBinary('parallel-lint');
+        $phplint = $this->findBinary('parallel-lint');
 
         $cmd     = $phplint . ' -e %s' . ' %s "%s"';
         $success = $this->builder->executeCommand(

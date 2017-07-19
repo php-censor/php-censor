@@ -74,7 +74,7 @@ class PhpLoc extends Plugin implements ZeroConfigPluginInterface
             $ignore = implode('', $ignore);
         }
 
-        $phploc = $this->builder->findBinary('phploc');
+        $phploc = $this->findBinary('phploc');
 
         $success = $this->builder->executeCommand($phploc . ' %s "%s"', $ignore, $this->directory);
         $output  = $this->builder->getLastOutput();
