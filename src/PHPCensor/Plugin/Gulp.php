@@ -37,7 +37,7 @@ class Gulp extends Plugin
         $path            = $this->builder->buildPath;
         $this->directory = $path;
         $this->task      = null;
-        $this->gulp      = $this->builder->findBinary('gulp');
+        $this->gulp      = $this->findBinary('gulp');
         $this->gulpfile  = 'gulpfile.js';
 
         // Handle options:

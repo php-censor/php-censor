@@ -41,7 +41,7 @@ Troubleshooting
 ---------------
 
 If standard logging of PHP Censor is not enough, to get standard output from any command, including PHPUnit, edit 
-`BaseCommandExecutor::executeCommand()` to see what exactly is wrong
+`CommandExecutor::executeCommand()` to see what exactly is wrong
 * Run `composer update` in phpunit plugin directory of PHP Censor to get all of its dependencies
 * If phpunit is inside of the project's composer.json, it might interfere with PHP Censor's phpunit installation
 * Make sure you have XDebug installed.`The Xdebug extension is not loaded. No code coverage will be generated.`

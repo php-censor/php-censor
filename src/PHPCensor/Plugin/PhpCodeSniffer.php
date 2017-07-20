@@ -171,7 +171,7 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
     {
         list($ignore, $standard, $suffixes, $severity, $errorSeverity, $warningSeverity) = $this->getFlags();
 
-        $phpcs = $this->builder->findBinary('phpcs');
+        $phpcs = $this->findBinary('phpcs');
 
         $this->builder->logExecOutput(false);
 

@@ -37,7 +37,7 @@ class Grunt extends Plugin
         $path            = $this->builder->buildPath;
         $this->directory = $path;
         $this->task      = null;
-        $this->grunt     = $this->builder->findBinary('grunt');
+        $this->grunt     = $this->findBinary('grunt');
         $this->gruntfile = 'Gruntfile.js';
 
         // Handle options:

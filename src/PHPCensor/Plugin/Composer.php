@@ -94,7 +94,7 @@ class Composer extends Plugin implements ZeroConfigPluginInterface
     */
     public function execute()
     {
-        $composerLocation = $this->builder->findBinary(['composer', 'composer.phar']);
+        $composerLocation = $this->findBinary(['composer', 'composer.phar']);
         $cmd              = $composerLocation . ' --no-ansi --no-interaction ';
 
         if ($this->preferDist) {

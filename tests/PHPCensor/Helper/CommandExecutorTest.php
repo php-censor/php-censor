@@ -2,12 +2,12 @@
 
 namespace Tests\PHPCensor\Helper;
 
-use PHPCensor\Helper\UnixCommandExecutor;
+use PHPCensor\Helper\CommandExecutor;
 
 class CommandExecutorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var UnixCommandExecutor
+     * @var CommandExecutor
      */
     protected $testedExecutor;
 
@@ -17,7 +17,7 @@ class CommandExecutorTest extends \PHPUnit_Framework_TestCase
 
         $mockBuildLogger = $this->prophesize('PHPCensor\Logging\BuildLogger');
 
-        $class = 'PHPCensor\Helper\UnixCommandExecutor';
+        $class = 'PHPCensor\Helper\CommandExecutor';
         $this->testedExecutor = new $class($mockBuildLogger->reveal(), __DIR__);
     }
 
@@ -65,13 +65,6 @@ EOD;
         $this->assertTrue($returnValue);
         $this->assertEquals($data, trim($this->testedExecutor->getLastOutput()));
         $this->assertEquals($data, trim($this->testedExecutor->getLastError()));
-    }
-
-    public function testFindBinary_ReturnsPathInSpecifiedRoot()
-    {
-        $thisFileName = "CommandExecutorTest.php";
-        $returnValue  = $this->testedExecutor->findBinary($thisFileName, true);
-        $this->assertEquals(__DIR__ . DIRECTORY_SEPARATOR . $thisFileName, $returnValue);
     }
 
     /**

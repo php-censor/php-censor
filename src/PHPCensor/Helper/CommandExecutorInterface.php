@@ -21,18 +21,20 @@ interface CommandExecutorInterface
 
     /**
      * Find a binary required by a plugin.
-     * 
+     *
      * @param string $binary
-     * @param bool $quiet Returns null instead of throwing an execption.
+     * @param bool   $quiet Returns null instead of throwing an exception.
+     * @param string $priorityPath
      *
      * @return null|string
      *
      * @throws \Exception when no binary has been found and $quiet is false.
      */
-    public function findBinary($binary, $quiet = false);
+    public function findBinary($binary, $quiet = false, $priorityPath = 'local');
 
     /**
      * Set the buildPath property.
+     *
      * @param string $path
      */
     public function setBuildPath($path);
