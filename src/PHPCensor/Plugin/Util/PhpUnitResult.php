@@ -7,19 +7,17 @@ namespace PHPCensor\Plugin\Util;
  *
  * @author Pablo Tejada <pablo@ptejada.com>
  */
-class PhpUnitResult
+abstract class PhpUnitResult
 {
-    const EVENT_TEST        = 'test';
-    const EVENT_TEST_START  = 'testStart';
-    const EVENT_SUITE_START = 'suiteStart';
-
     const SEVERITY_PASS    = 'success';
     const SEVERITY_FAIL    = 'fail';
     const SEVERITY_ERROR   = 'error';
     const SEVERITY_SKIPPED = 'skipped';
+    const SEVERITY_WARN    = self::SEVERITY_PASS;
+    const SEVERITY_RISKY   = self::SEVERITY_PASS;
 
-    protected $options;
-    protected $arguments = [];
+    protected $outputFile;
+    protected $buildPath;
     protected $results;
     protected $failures = 0;
     protected $errors = [];
@@ -36,158 +34,48 @@ class PhpUnitResult
      * @return $this
      * @throws \Exception If fails to parse the output
      */
-    public function parse()
+    abstract public function parse();
+
+    abstract protected function getSeverity($testcase);
+
+    abstract protected function buildMessage($testcase);
+
+    abstract protected function buildTrace($testcase);
+
+    protected function getFileAndLine($testcase)
     {
-        $rawResults = file_get_contents($this->outputFile);
-
-        $events = [];
-        if ($rawResults && $rawResults[0] == '{') {
-            $fixedJson = '[' . str_replace('}{', '},{', $rawResults) . ']';
-            $events    = json_decode($fixedJson, true);
-        } elseif ($rawResults) {
-            $events = json_decode($rawResults, true);
-        }
-
-        // Reset the parsing variables
-        $this->results  = [];
-        $this->errors   = [];
-        $this->failures = 0;
-
-        if ($events) {
-            foreach ($events as $event) {
-                if (isset($event['event']) && $event['event'] == self::EVENT_TEST) {
-                    $this->results[] = $this->parseEvent($event);
-                }
-            }
-        }
-
-        return $this;
+        return $testcase;
     }
 
-    /**
-     * Parse a test event
-     *
-     * @param array $event
-     *
-     * @return string[]
-     */
-    protected function parseEvent($event)
+    protected function getOutput($testcase)
     {
-        list($pass, $severity) = $this->getStatus($event);
+        return $testcase['output'];
+    }
 
+    protected function parseTestcase($testcase)
+    {
+        $severity = $this->getSeverity($testcase);
+        $pass = isset(array_fill_keys([self::SEVERITY_PASS, self::SEVERITY_SKIPPED], true)[$severity]);
         $data = [
             'pass'     => $pass,
             'severity' => $severity,
-            'message'  => $this->buildMessage($event),
-            'trace'    => $pass ? [] : $this->buildTrace($event),
-            'output'   => $event['output'],
+            'message'  => $this->buildMessage($testcase),
+            'trace'    => $pass ? [] : $this->buildTrace($testcase),
+            'output'   => $this->getOutput($testcase),
         ];
 
         if (!$pass) {
             $this->failures++;
-            $this->addError($data, $event);
+            $info = $this->getFileAndLine($testcase);
+            $this->errors[] = [
+                'message'  => $data['message'],
+                'severity' => $severity,
+                'file'     => $info['file'],
+                'line'     => $info['line'],
+            ];
         }
 
-        return $data;
-    }
-
-    /**
-     * Build the status of the event
-     *
-     * @param $event
-     *
-     * @return mixed[bool,string] - The pass and severity flags
-     * @throws \Exception
-     */
-    protected function getStatus($event)
-    {
-        $status = $event['status'];
-        switch ($status) {
-            case 'fail':
-                $pass     = false;
-                $severity = self::SEVERITY_FAIL;
-                break;
-            case 'error':
-                if (strpos($event['message'], 'Skipped') === 0 || strpos($event['message'], 'Incomplete') === 0) {
-                    $pass     = true;
-                    $severity = self::SEVERITY_SKIPPED;
-                } else {
-                    $pass     = false;
-                    $severity = self::SEVERITY_ERROR;
-                }
-                break;
-            case 'pass':
-                $pass     = true;
-                $severity = self::SEVERITY_PASS;
-                break;
-            case 'warning':
-                $pass     = true;
-                $severity = self::SEVERITY_PASS;
-                break;
-            default:
-                throw new \Exception("Unexpected PHPUnit test status: {$status}");
-                break;
-        }
-
-        return [$pass, $severity];
-    }
-
-    /**
-     * Build the message string for an event
-     *
-     * @param array $event
-     *
-     * @return string
-     */
-    protected function buildMessage($event)
-    {
-        $message = $event['test'];
-
-        if ($event['message']) {
-            $message .= PHP_EOL . $event ['message'];
-        }
-
-        return $message;
-    }
-
-    /**
-     * Build a string base trace of the failure
-     *
-     * @param array $event
-     *
-     * @return string[]
-     */
-    protected function buildTrace($event)
-    {
-        $formattedTrace = [];
-
-        if (!empty($event['trace'])) {
-            foreach ($event['trace'] as $step){
-                $line             = str_replace($this->buildPath, '', $step['file']) . ':' . $step['line'];
-                $formattedTrace[] = $line;
-            }
-        }
-
-        return $formattedTrace;
-    }
-
-    /**
-     * Saves additional info for a failing test
-     *
-     * @param array $data
-     * @param array $event
-     */
-    protected function addError($data, $event)
-    {
-        $firstTrace = end($event['trace']);
-        reset($event['trace']);
-
-        $this->errors[] = [
-            'message'  => $data['message'],
-            'severity' => $data['severity'],
-            'file'     => str_replace($this->buildPath, '', $firstTrace['file']),
-            'line'     => $firstTrace['line'],
-        ];
+        $this->results[] = $data;
     }
 
     /**

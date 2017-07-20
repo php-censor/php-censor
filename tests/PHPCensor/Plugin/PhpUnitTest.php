@@ -15,8 +15,8 @@ class PhpUnitTest extends \PHPUnit_Framework_TestCase
             'config' => ROOT_DIR . 'phpunit.xml'
         ];
 
-        $mockPlugin = $this->getPluginBuilder($options)->setMethods(['runConfigFile'])->getMock();
-        $mockPlugin->expects($this->once())->method('runConfigFile')->with(ROOT_DIR . 'phpunit.xml');
+        $mockPlugin = $this->getPluginBuilder($options)->setMethods(['runConfig'])->getMock();
+        $mockPlugin->expects($this->once())->method('runConfig')->with(null, ROOT_DIR . 'phpunit.xml');
 
         $mockPlugin->execute();
     }
@@ -30,9 +30,10 @@ class PhpUnitTest extends \PHPUnit_Framework_TestCase
             ]
         ];
 
-        $mockPlugin = $this->getPluginBuilder($options)->setMethods(['runConfigFile'])->getMock();
-        $mockPlugin->expects($this->exactly(2))->method('runConfigFile')->withConsecutive(
-            [ROOT_DIR . 'phpunit1.xml'], [ROOT_DIR . 'phpunit2.xml']
+        $mockPlugin = $this->getPluginBuilder($options)->setMethods(['runConfig'])->getMock();
+        $mockPlugin->expects($this->exactly(2))->method('runConfig')->withConsecutive(
+            [null, ROOT_DIR . 'phpunit1.xml'],
+            [null, ROOT_DIR . 'phpunit2.xml']
         );
 
         $mockPlugin->execute();
@@ -68,8 +69,8 @@ class PhpUnitTest extends \PHPUnit_Framework_TestCase
             'directory' => '/test/directory/one'
         ];
 
-        $mockPlugin = $this->getPluginBuilder($options)->setMethods(['runDir'])->getMock();
-        $mockPlugin->expects($this->once())->method('runDir')->with('/test/directory/one');
+        $mockPlugin = $this->getPluginBuilder($options)->setMethods(['runConfig'])->getMock();
+        $mockPlugin->expects($this->once())->method('runConfig')->with('/test/directory/one', null);
 
         $mockPlugin->execute();
     }
@@ -83,8 +84,8 @@ class PhpUnitTest extends \PHPUnit_Framework_TestCase
             ]
         ];
 
-        $mockPlugin = $this->getPluginBuilder($options)->setMethods(['runDir'])->getMock();
-        $mockPlugin->expects($this->exactly(2))->method('runDir')->withConsecutive(
+        $mockPlugin = $this->getPluginBuilder($options)->setMethods(['runConfig'])->getMock();
+        $mockPlugin->expects($this->exactly(2))->method('runConfig')->withConsecutive(
             ['/test/directory/one'], ['/test/directory/two']
         );
 
