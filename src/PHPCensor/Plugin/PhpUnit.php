@@ -80,7 +80,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
             return false;
         }
 
-        $cmd = $this->builder->findBinary('phpunit');
+        $cmd = $this->findBinary('phpunit');
         // run without logging
         $ret = null;
         $lastLine = exec($cmd.' --log-json . --version');
@@ -121,7 +121,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
     protected function runConfig($directory, $configFile, $logFormat)
     {
         $options   = clone $this->options;
-        $buildPath = $this->build->getBuildPath() . DIRECTORY_SEPARATOR;
+        $buildPath = $this->build->getBuildPath();
 
         // Save the results into a log file
         $logFile = @tempnam($buildPath, 'jLog_');
