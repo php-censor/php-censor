@@ -31,6 +31,13 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    protected function getFakePluginClassName($pluginName)
+    {
+        $pluginNamespace = '\\Tests\\PHPCensor\\Plugin\\Util\\Fake\\';
+
+        return $pluginNamespace . $pluginName;
+    }
+
     public function testExecutePlugin_AssumesNamespaceIfNoneGiven()
     {
         $options = [];
@@ -147,11 +154,76 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
         $this->testedExecutor->executePlugins($config, 'stageOne');
     }
 
-    protected function getFakePluginClassName($pluginName)
+    public function testGetBranchSpecificConfig()
     {
-        $pluginNamespace = '\\Tests\\PHPCensor\\Plugin\\Util\\Fake\\';
+        $config = [
+            'setup' => [
+                'composer' => 'install',
+            ]
+        ];
 
-        return $pluginNamespace . $pluginName;
+        $this->assertEquals([], $this->testedExecutor->getBranchSpecificConfig($config, 'branch-1'));
+
+        $config = [
+            'setup' => [
+                'composer' => 'install',
+            ],
+            'branch-branch-1' => [
+                'phpunit' => [],
+            ],
+        ];
+
+        $this->assertEquals(['phpunit' => []], $this->testedExecutor->getBranchSpecificConfig($config, 'branch-1'));
+
+        $config = [
+            'setup' => [
+                'composer' => 'install',
+            ],
+            'branch-branch-2' => [
+                'phpunit' => [],
+            ],
+        ];
+
+        $this->assertEquals([], $this->testedExecutor->getBranchSpecificConfig($config, 'branch-1'));
+
+        $config = [
+            'setup' => [
+                'composer' => [
+                    'install',
+                ],
+            ],
+            'branch-regex:.+' => [
+                'phpunit' => [],
+            ],
+        ];
+
+        $this->assertEquals(['phpunit' => []], $this->testedExecutor->getBranchSpecificConfig($config, 'branch-1'));
+
+        $config = [
+            'setup' => [
+                'composer' => [
+                    'install',
+                ],
+            ],
+            'branch-regex:^branch\-\d$' => [
+                'phpunit' => [],
+            ],
+        ];
+
+        $this->assertEquals(['phpunit' => []], $this->testedExecutor->getBranchSpecificConfig($config, 'branch-1'));
+
+        $config = [
+            'setup' => [
+                'composer' => [
+                    'install',
+                ],
+            ],
+            'branch-regex:^branch\-\w{2,}$' => [
+                'phpunit' => [],
+            ],
+        ];
+
+        $this->assertEquals([], $this->testedExecutor->getBranchSpecificConfig($config, 'branch-1'));
     }
 }
 
