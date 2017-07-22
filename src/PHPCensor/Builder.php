@@ -52,7 +52,7 @@ class Builder implements LoggerAwareInterface
     /**
      * @var array
      */
-    protected $config;
+    protected $config = [];
 
     /**
      * @var string
