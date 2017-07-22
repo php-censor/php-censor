@@ -217,7 +217,13 @@ class Builder implements LoggerAwareInterface
             } else {
                 $this->build->setStatus(Build::STATUS_FAILED);
             }
+        } catch (\Exception $ex) {
+            $success = false;
+            $this->build->setStatus(Build::STATUS_FAILED);
+            $this->buildLogger->logFailure('Exception: ' . $ex->getMessage(), $ex);
+        }
 
+        try {
             if ($success) {
                 $this->pluginExecutor->executePlugins($this->config, Build::STAGE_SUCCESS);
 
@@ -232,7 +238,6 @@ class Builder implements LoggerAwareInterface
                 }
             }
         } catch (\Exception $ex) {
-            $this->build->setStatus(Build::STATUS_FAILED);
             $this->buildLogger->logFailure('Exception: ' . $ex->getMessage(), $ex);
         }
 
