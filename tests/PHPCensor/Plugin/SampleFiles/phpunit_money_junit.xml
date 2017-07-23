@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="Money Test Suite" tests="18" assertions="10" errors="3" failures="7" skipped="5" time="0.047697">
+    <testsuite name="Tests\Money\MoneyTest" file="/path/to/build/tests/money/tests/MoneyTest.php" tests="3" assertions="4" errors="0" failures="0" skipped="0" time="0.033813">
+      <testcase name="testFactoryMethods" class="Tests\Money\MoneyTest" classname="Tests.Money.MoneyTest" file="/path/to/build/tests/money/tests/MoneyTest.php" line="10" assertions="2" time="0.032037"/>
+      <testcase name="testJsonEncoding" class="Tests\Money\MoneyTest" classname="Tests.Money.MoneyTest" file="/path/to/build/tests/money/tests/MoneyTest.php" line="23" assertions="1" time="0.000073"/>
+      <testcase name="testMaxInit" class="Tests\Money\MoneyTest" classname="Tests.Money.MoneyTest" file="/path/to/build/tests/money/tests/MoneyTest.php" line="31" assertions="1" time="0.001703"/>
+    </testsuite>
+    <testsuite name="ExampleResults\ExampleFailuresTest" file="/path/to/build/tests/ExampleFailuresTest.php" tests="12" assertions="6" errors="1" failures="6" skipped="5" time="0.009710">
+      <testcase name="testFailure" class="ExampleResults\ExampleFailuresTest" classname="ExampleResults.ExampleFailuresTest" file="/path/to/build/tests/ExampleFailuresTest.php" line="12" assertions="0" time="0.000107">
+        <error type="InvalidArgumentException">ExampleResults\ExampleFailuresTest::testFailure
+InvalidArgumentException: Division by zero
+
+/path/to/build/src/Money.php:320
+/path/to/build/tests/ExampleFailuresTest.php:15
+</error>
+      </testcase>
+      <testcase name="testFailure2" class="ExampleResults\ExampleFailuresTest" classname="ExampleResults.ExampleFailuresTest" file="/path/to/build/tests/ExampleFailuresTest.php" line="18" assertions="1" time="0.002911">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">ExampleResults\ExampleFailuresTest::testFailure2
+Failed asserting that two objects are equal.
+--- Expected
++++ Actual
+@@ @@
+ Money\Money Object (
+-    'amount' =&gt; '2'
++    'amount' =&gt; '3'
+     'currency' =&gt; Money\Currency Object (...)
+ )
+
+/path/to/build/tests/ExampleFailuresTest.php:20
+</failure>
+      </testcase>
+      <testcase name="testIncomplete" class="ExampleResults\ExampleFailuresTest" classname="ExampleResults.ExampleFailuresTest" file="/path/to/build/tests/ExampleFailuresTest.php" line="23" assertions="0" time="0.001158">
+        <skipped/>
+      </testcase>
+      <testcase name="testFailure3" class="ExampleResults\ExampleFailuresTest" classname="ExampleResults.ExampleFailuresTest" file="/path/to/build/tests/ExampleFailuresTest.php" line="28" assertions="1" time="0.000169">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">ExampleResults\ExampleFailuresTest::testFailure3
+Failed asserting that two arrays are equal.
+--- Expected
++++ Actual
+@@ @@
+ Array (
++    0 =&gt; 3
++    1 =&gt; 33
+ )
+
+/path/to/build/tests/ExampleFailuresTest.php:30
+</failure>
+      </testcase>
+      <testcase name="testFailure4" class="ExampleResults\ExampleFailuresTest" classname="ExampleResults.ExampleFailuresTest" file="/path/to/build/tests/ExampleFailuresTest.php" line="33" assertions="1" time="0.000648">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">ExampleResults\ExampleFailuresTest::testFailure4
+Failed asserting that false is true.
+
+/path/to/build/tests/ExampleFailuresTest.php:35
+</failure>
+<system-out>some output
+from f4</system-out>
+      </testcase>
+      <testsuite name="ExampleResults\ExampleFailuresTest::testFailure5" tests="3" assertions="3" errors="0" failures="3" skipped="0" time="0.001377">
+        <testcase name="testFailure5 with data set #0" class="ExampleResults\ExampleFailuresTest" classname="ExampleResults.ExampleFailuresTest" file="/path/to/build/tests/ExampleFailuresTest.php" line="41" assertions="1" time="0.001043">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">ExampleResults\ExampleFailuresTest::testFailure5 with data set #0 (1, 2, 3, 4, 5, 6)
+Failed asserting that 3 is identical to 1.
+
+/path/to/build/tests/ExampleFailuresTest.php:43
+</failure>
+        </testcase>
+        <testcase name="testFailure5 with data set #1" class="ExampleResults\ExampleFailuresTest" classname="ExampleResults.ExampleFailuresTest" file="/path/to/build/tests/ExampleFailuresTest.php" line="41" assertions="1" time="0.000188">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">ExampleResults\ExampleFailuresTest::testFailure5 with data set #1 ('one', 'two', 'three', 'four', 'five', 'six')
+Failed asserting that two strings are identical.
+--- Expected
++++ Actual
+@@ @@
+-'one'
++'three'
+
+/path/to/build/tests/ExampleFailuresTest.php:43
+</failure>
+        </testcase>
+        <testcase name="testFailure5 with data set #2" class="ExampleResults\ExampleFailuresTest" classname="ExampleResults.ExampleFailuresTest" file="/path/to/build/tests/ExampleFailuresTest.php" line="41" assertions="1" time="0.000146">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">ExampleResults\ExampleFailuresTest::testFailure5 with data set #2 (array(1, 'one'), array(2, 'two'), array(3, 'three'), array(4, 'four'), array(5, 'five'), array(6, 'six'))
+Failed asserting that Array &amp;0 (
+    0 =&gt; 3
+    1 =&gt; 'three'
+) is identical to Array &amp;0 (
+    0 =&gt; 1
+    1 =&gt; 'one'
+).
+
+/path/to/build/tests/ExampleFailuresTest.php:43
+</failure>
+        </testcase>
+      </testsuite>
+      <testsuite name="ExampleResults\ExampleFailuresTest::testSkipped" tests="3" assertions="0" errors="0" failures="0" skipped="3" time="0.003340">
+        <testcase name="testSkipped with data set #0" class="ExampleResults\ExampleFailuresTest" classname="ExampleResults.ExampleFailuresTest" file="/path/to/build/tests/ExampleFailuresTest.php" line="49" assertions="0" time="0.003184">
+          <skipped/>
+        </testcase>
+        <testcase name="testSkipped with data set #1" class="ExampleResults\ExampleFailuresTest" classname="ExampleResults.ExampleFailuresTest" file="/path/to/build/tests/ExampleFailuresTest.php" line="49" assertions="0" time="0.000100">
+          <skipped/>
+        </testcase>
+        <testcase name="testSkipped with data set #2" class="ExampleResults\ExampleFailuresTest" classname="ExampleResults.ExampleFailuresTest" file="/path/to/build/tests/ExampleFailuresTest.php" line="49" assertions="0" time="0.000056">
+          <skipped/>
+        </testcase>
+      </testsuite>
+      <testcase name="testDepends1" class="ExampleResults\ExampleFailuresTest" classname="ExampleResults.ExampleFailuresTest" file="/path/to/build/tests/ExampleFailuresTest.php" line="57" assertions="0" time="0.000000">
+        <skipped/>
+      </testcase>
+      <testcase name="testOutput" class="ExampleResults\ExampleFailuresTest" classname="ExampleResults.ExampleFailuresTest" file="/home/simon/var_src/php-censor.local/TMP/testResultGeneration-php-censor/ExampleResults/ExampleFailuresTest.php" line="60" assertions="1" time="0.000048">
+        <system-out>has output
+on lines</system-out>
+      </testcase>
+    </testsuite>
+    <testsuite name="ExampleResults\EmptyWillWarnTest" file="/path/to/build/tests/EmptyWillWarnTest.php" tests="1" assertions="0" errors="0" failures="1" skipped="0" time="0.003860">
+      <testcase name="Warning" assertions="0" time="0.003860">
+        <warning type="PHPUnit\Framework\Warning">Warning
+No tests found in class "ExampleResults\EmptyWillWarnTest".
+
+</warning>
+      </testcase>
+    </testsuite>
+    <testsuite name="Tests\IntlMoneyParserTest" file="/path/to/build/tests/IntlMoneyParserTest.php" tests="2" assertions="0" errors="2" failures="0" skipped="0" time="0.000314">
+      <testsuite name="Tests\IntlMoneyParserTest::testIntlParser" tests="2" assertions="0" errors="2" failures="0" skipped="0" time="0.000314">
+        <testcase name="testIntlParser with data set #0" class="Tests\IntlMoneyParserTest" classname="Tests.IntlMoneyParserTest" file="/path/to/build/tests/IntlMoneyParserTest.php" line="14" assertions="0" time="0.000066">
+          <error type="PHPUnit\Framework\RiskyTestError">Risky Test
+</error>
+        </testcase>
+        <testcase name="testIntlParser with data set #1" class="Tests\IntlMoneyParserTest" classname="Tests.IntlMoneyParserTest" file="/path/to/build/tests/IntlMoneyParserTest.php" line="14" assertions="0" time="0.000248">
+          <error type="PHPUnit\Framework\RiskyTestError">Risky Test
+</error>
+        </testcase>
+      </testsuite>
+    </testsuite>
+  </testsuite>
+</testsuites>
