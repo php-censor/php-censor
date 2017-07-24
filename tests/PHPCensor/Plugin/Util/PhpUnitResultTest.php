@@ -12,7 +12,7 @@ use PHPCensor\Plugin\Util\PhpUnitResultJunit;
  * @package      PHPCI
  * @subpackage   Plugin
  */
-class PhpUnitResultTest extends \PHPUnit_Framework_TestCase
+class PhpUnitResultTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Skipped test results

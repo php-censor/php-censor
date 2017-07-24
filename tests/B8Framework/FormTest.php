@@ -4,7 +4,7 @@ namespace Tests\b8;
 
 use b8\Form, b8\Config;
 
-class FormTest extends \PHPUnit_Framework_TestCase
+class FormTest extends \PHPUnit\Framework\TestCase
 {
     public function testFormBasics()
     {

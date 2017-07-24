@@ -5,7 +5,7 @@ namespace Tests\PHPCensor\Plugin;
 use PHPCensor\Plugin\Phar as PharPlugin;
 use Phar as PHPPhar;
 
-class PharTest extends \PHPUnit_Framework_TestCase
+class PharTest extends \PHPUnit\Framework\TestCase
 {
     protected $directory;
 

@@ -3,9 +3,9 @@
 namespace Tests\PHPCensor\Helper;
 
 use PHPCensor\Helper\AnsiConverter;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class AnsiConverterTest extends PHPUnit_Framework_TestCase
+class AnsiConverterTest extends TestCase
 {
     public function testConvert_convertToHtml()
     {

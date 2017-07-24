@@ -6,7 +6,7 @@ use PHPCensor\Command\CreateAdminCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
-class CreateAdminCommandTest extends \PHPUnit_Framework_TestCase
+class CreateAdminCommandTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var \PHPCensor\Command\CreateAdminCommand|\PHPUnit_Framework_MockObject_MockObject

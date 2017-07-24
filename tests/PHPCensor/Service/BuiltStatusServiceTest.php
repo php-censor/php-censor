@@ -11,7 +11,7 @@ use PHPCensor\Service\BuildStatusService;
  * 
  * @author Dan Cryer <dan@block8.co.uk>
  */
-class BuildStatusServiceTest extends \PHPUnit_Framework_TestCase
+class BuildStatusServiceTest extends \PHPUnit\Framework\TestCase
 {
     const BRANCH = 'master';
 

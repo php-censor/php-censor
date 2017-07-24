@@ -4,7 +4,7 @@ namespace Tests\PHPCensor\ProcessControl;
 /**
  * Some helpers to
  */
-abstract class ProcessControlTest extends \PHPUnit_Framework_TestCase
+abstract class ProcessControlTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var resource

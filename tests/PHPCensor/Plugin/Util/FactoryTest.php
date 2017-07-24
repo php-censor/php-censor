@@ -4,7 +4,7 @@ namespace Tests\PHPCensor\Plugin\Util;
 
 use PHPCensor\Plugin\Util\Factory;
 
-class FactoryTest extends \PHPUnit_Framework_TestCase {
+class FactoryTest extends \PHPUnit\Framework\TestCase {
 
     /**
      * @var \PHPCensor\Plugin\Util\Factory

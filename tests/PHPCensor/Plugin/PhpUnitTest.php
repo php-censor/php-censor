@@ -7,7 +7,7 @@ namespace Tests\PHPCensor\Plugin;
  *
  * @author Pablo Tejada <pablo@ptejada.com>
  */
-class PhpUnitTest extends \PHPUnit_Framework_TestCase
+class PhpUnitTest extends \PHPUnit\Framework\TestCase
 {
     public function testSingleConfigFile()
     {

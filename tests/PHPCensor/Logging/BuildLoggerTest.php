@@ -6,7 +6,7 @@ use PHPCensor\Logging\BuildLogger;
 use Prophecy\Argument;
 use Psr\Log\LogLevel;
 
-class BuildLoggerTest extends \PHPUnit_Framework_TestCase
+class BuildLoggerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var BuildLogger

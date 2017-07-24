@@ -10,7 +10,7 @@ use PHPCensor\Service\UserService;
  * 
  * @author Dan Cryer <dan@block8.co.uk>
  */
-class UserServiceTest extends \PHPUnit_Framework_TestCase
+class UserServiceTest extends \PHPUnit\Framework\TestCase
 {
 
     /**

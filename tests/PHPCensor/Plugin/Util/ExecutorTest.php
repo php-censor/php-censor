@@ -5,7 +5,7 @@ namespace Tests\PHPCensor\Plugin\Util;
 use PHPCensor\Plugin\Util\Executor;
 use Prophecy\Argument;
 
-class ExecutorTest extends \PHPUnit_Framework_TestCase
+class ExecutorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Executor

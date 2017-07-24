@@ -11,7 +11,7 @@ use PHPCensor\Service\BuildService;
  * 
  * @author Dan Cryer <dan@block8.co.uk>
  */
-class BuildServiceTest extends \PHPUnit_Framework_TestCase
+class BuildServiceTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
