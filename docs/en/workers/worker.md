@@ -61,19 +61,24 @@ php-censor    19058  0.0  0.9 200244 18860 ?        S    03:00   0:01 php /php-c
 
 Also you can use systemd to run the worker. 
 Configuration for the unit is almost the same as supervisord's configuration.
-Just copy this config to `/etc/systemd/system/php-censor.service` with right permissions and run it by `systemctl start php-censor.service`.
+Just copy this config to `/etc/systemd/system/php-censor.service` with right permissions, enable `systemctl enable php-censor.service` and run it by `systemctl start php-censor.service`. If you want to start more than one worker, just create more unit files with different name and repeat previous steps.
 
 ```
 [Unit]
 Description=PHPCensor Worker
-After=multi-user.target
+After=network.target
 
 [Service]
-ExecStart=/path/to/php-censor/bin/console php-censor:worker
+Type=simple
+ExecStart=/your/path/bin/console php-censor:worker
 Restart=always
+
 
 User=php-censor #Could be changed
 Group=php-censor #Could be changed
+
+[Install]
+WantedBy=multi-user.target
 ```
 
 And check that it works properly by `systemctl status php-censor.service`
