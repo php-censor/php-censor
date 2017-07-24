@@ -11,7 +11,7 @@ use PHPCensor\Model\Build;
  * 
  * @author meadsteve
  */
-class EmailTest extends \PHPUnit_Framework_TestCase
+class EmailTest extends \PHPUnit\Framework\TestCase
 {
 
     /**

@@ -4,7 +4,7 @@ namespace Tests\PHPCensor\Plugin\Helper;
 
 use \PHPCensor\Logging\LoggerConfig;
 
-class LoggerConfigTest extends \PHPUnit_Framework_TestCase
+class LoggerConfigTest extends \PHPUnit\Framework\TestCase
 {
     public function testGetFor_ReturnsPSRLogger()
     {

@@ -8,7 +8,7 @@ use PHPCensor\Helper\MailerFactory;
  * Unit tests for the ProjectService class.
  * @author Dan Cryer <dan@block8.co.uk>
  */
-class MailerFactoryTest extends \PHPUnit_Framework_TestCase
+class MailerFactoryTest extends \PHPUnit\Framework\TestCase
 {
    public function setUp()
     {

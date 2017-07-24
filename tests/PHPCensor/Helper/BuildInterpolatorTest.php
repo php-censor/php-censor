@@ -4,7 +4,7 @@ namespace Tests\PHPCensor\Plugin\Helper;
 
 use PHPCensor\Helper\BuildInterpolator;
 
-class BuildInterpolatorTest extends \PHPUnit_Framework_TestCase
+class BuildInterpolatorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var BuildInterpolator

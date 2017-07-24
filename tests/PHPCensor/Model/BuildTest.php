@@ -10,7 +10,7 @@ use PHPCensor\Model;
  * 
  * @author Dan Cryer <dan@block8.co.uk>
  */
-class BuildTest extends \PHPUnit_Framework_TestCase
+class BuildTest extends \PHPUnit\Framework\TestCase
 {
     public function setUp()
     {

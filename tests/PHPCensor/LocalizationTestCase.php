@@ -2,7 +2,7 @@
 
 namespace Tests\PHPCensor;
 
-class LocalizationTestCase extends \PHPUnit_Framework_TestCase
+class LocalizationTestCase extends \PHPUnit\Framework\TestCase
 {
     /**
      * Returns a string representation of the test case.

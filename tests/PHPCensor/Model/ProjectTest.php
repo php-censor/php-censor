@@ -10,7 +10,7 @@ use PHPCensor\Model;
  * 
  * @author Dan Cryer <dan@block8.co.uk>
  */
-class ProjectTest extends \PHPUnit_Framework_TestCase
+class ProjectTest extends \PHPUnit\Framework\TestCase
 {
     public function testExecute_TestIsAValidModel()
     {

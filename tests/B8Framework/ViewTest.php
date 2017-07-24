@@ -5,7 +5,7 @@ namespace Tests\b8;
 use b8\View;
 use b8\View\Template;
 
-class ViewTest extends \PHPUnit_Framework_TestCase
+class ViewTest extends \PHPUnit\Framework\TestCase
 {
     public function testSimpleView()
     {

@@ -6,7 +6,7 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Console\Helper\HelperSet;
 
-class InstallCommandTest extends \PHPUnit_Framework_TestCase
+class InstallCommandTest extends \PHPUnit\Framework\TestCase
 {
     public $config;
 

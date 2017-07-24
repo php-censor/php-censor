@@ -4,7 +4,7 @@ namespace Tests\b8;
 
 use b8\Exception\HttpException;
 
-class HttpExceptionTest extends \PHPUnit_Framework_TestCase
+class HttpExceptionTest extends \PHPUnit\Framework\TestCase
 {
     public function testHttpExceptionIsException()
     {

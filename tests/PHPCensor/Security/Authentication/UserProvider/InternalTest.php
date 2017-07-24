@@ -5,7 +5,7 @@ namespace Tests\PHPCensor\Security\Authentication\UserProvider;
 use PHPCensor\Model\User;
 use PHPCensor\Security\Authentication\UserProvider\Internal;
 
-class InternalTest extends \PHPUnit_Framework_TestCase
+class InternalTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Internal

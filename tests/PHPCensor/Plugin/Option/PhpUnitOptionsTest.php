@@ -9,7 +9,7 @@ use PHPCensor\Plugin\Option\PhpUnitOptions;
  *
  * @author Pablo Tejada <pablo@ptejada.com>
  */
-class PhpUnitOptionsTest extends \PHPUnit_Framework_TestCase
+class PhpUnitOptionsTest extends \PHPUnit\Framework\TestCase
 {
     public function validOptionsProvider()
     {

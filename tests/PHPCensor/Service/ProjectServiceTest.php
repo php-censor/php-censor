@@ -10,7 +10,7 @@ use PHPCensor\Service\ProjectService;
  * 
  * @author Dan Cryer <dan@block8.co.uk>
  */
-class ProjectServiceTest extends \PHPUnit_Framework_TestCase
+class ProjectServiceTest extends \PHPUnit\Framework\TestCase
 {
 
     /**

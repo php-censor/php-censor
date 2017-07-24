@@ -5,7 +5,7 @@ namespace Tests\b8;
 use b8\Config;
 use b8\Database;
 
-class DatabaseTest extends \PHPUnit_Framework_TestCase
+class DatabaseTest extends \PHPUnit\Framework\TestCase
 {
     protected function setUp()
     {

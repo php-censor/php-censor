@@ -4,7 +4,7 @@ namespace Tests\PHPCensor\Helper;
 
 use PHPCensor\Helper\CommandExecutor;
 
-class CommandExecutorTest extends \PHPUnit_Framework_TestCase
+class CommandExecutorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var CommandExecutor
