@@ -78,4 +78,29 @@ nohup /path/to/php-censor/bin/console php-censor:worker &> /var/log/php-censor-w
 But keep in mind: it won't restart your worker if it fails and can be inconvenient to manage worker process in contrast 
 with other solutions. So, it's good for debug purposes or as temporary solution.
 
+Also you can use systemd to run the worker. 
+Configuration for the unit is almost the same as supervisord's configuration.
+Just copy this config to `/etc/systemd/system/php-censor.service` with right permissions, enable 
+`systemctl enable php-censor.service` and run it by `systemctl start php-censor.service`. If you want to start more 
+than one worker, just create more unit files with different name and repeat previous steps.
+
+```
+[Unit]
+Description=PHPCensor Worker
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/your/path/bin/console php-censor:worker
+Restart=always
+
+User=php-censor #Could be changed
+Group=php-censor #Could be changed
+
+[Install]
+WantedBy=multi-user.target
+```
+
+And check that it works properly by `systemctl status php-censor.service`
+
 That's it! Now, whenever you create a new build in PHP Censor, it should start building immediately.
