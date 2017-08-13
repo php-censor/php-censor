@@ -26,6 +26,10 @@ setup:
 
 test:
   php_unit:
+    priority_path: global # Priority path for the search plugin binary (Variants: "local" (Local current build path) | 
+                          # "global" (Global PHP Censor 'vendor/bin' path) |
+                          # "system" (OS System binaries path, /bin:/usr/bin etc.). 
+                          # Default order: local -> global -> system)
     config:
       - "PHPUnit-all.xml"
       - "PHPUnit-ubuntu-fix.xml"
@@ -107,6 +111,12 @@ test: # Test stage config for all branches
 success: # Success stage config for all branches
   shell: ./notify
 
+branch-regex:^feature\-\d$:
+  run-option: replace
+  test:
+    php_cs_fixer:
+      allowed_warnings: 5
+
 branch-release: # Test config for release branch
   run-option: replace # This can be set to either before, after or replace
   test:
@@ -122,8 +132,8 @@ branch-master: # Test config for release branch
 ### How it works
 
 When you have configured a branch eg "stable" in the project settings in the UI. Add a new config named 
-"branch-<branch>", in this case "branch-stable" to the `.php-censor.yml`. In this config, specify all stages and 
-plugins you wish to run.
+`branch-<branch>` (or use regular expression like: `branch-regex:^stable*`), in this case "branch-stable" to the 
+`.php-censor.yml`. In this config, specify all stages and plugins you wish to run.
 
 Also add a new config value `run-option`, that can have 3 values:
 
