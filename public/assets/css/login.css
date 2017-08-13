@@ -1,0 +1,31 @@
+html {
+    min-height: 100%;
+}
+
+body
+{
+    background:  #222d32;
+    min-height:  100%;
+    font-style:  normal;
+    font-weight: 300;
+    padding-top: 0;
+}
+
+#logo {
+    margin:     0 auto;
+    padding:    100px 30px 50px 30px;
+    width:      350px;
+    text-align: center;
+    display:    block;
+}
+
+#login-box
+{
+    background:    #fcfcfc;
+    border-radius: 5px;
+    box-shadow:    0 0 30px rgba(0,0,0, 0.3);
+    margin:        0 auto;
+    padding:       15px 30px;
+    text-align:    left;
+    width:         350px;
+}

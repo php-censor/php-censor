@@ -36,78 +36,80 @@
 
 <!-- header logo: style can be found in header.less -->
 <header class="main-header">
-<a href="<?php print APP_URL; ?>" class="logo">PHP Censor</a>
-<!-- Header Navbar: style can be found in header.less -->
-<nav class="navbar navbar-static-top" role="navigation">
-<!-- Sidebar toggle button-->
-<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-    <span class="sr-only"><?php Lang::out('toggle_navigation'); ?></span>
-    <span class="icon-bar"></span>
-    <span class="icon-bar"></span>
-    <span class="icon-bar"></span>
-</a>
-<div class="navbar-custom-menu">
-<ul class="nav navbar-nav">
-
-<li class="dropdown messages-menu app-pending">
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-        <i class="fa fa-clock-o"></i>
-        <span class="label label-info app-pending-count"></span>
+    <a href="<?php print APP_URL; ?>" class="logo" title="PHP Censor">
+        <img src="<?php print APP_URL; ?>assets/img/php-censor-white.svg" width="170" height="auto" alt="PHP Censor" />
     </a>
-    <ul class="dropdown-menu">
-        <li class="header"><?php Lang::out('n_builds_pending', 0); ?></li>
-        <li>
-            <ul class="menu app-pending-list">
-            </ul>
-        </li>
-    </ul>
-</li>
-
-<li class="dropdown messages-menu app-running">
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-        <i class="fa fa-cogs"></i>
-        <span class="label label-warning app-running-count"></span>
+    <!-- Header Navbar: style can be found in header.less -->
+    <nav class="navbar navbar-static-top" role="navigation">
+    <!-- Sidebar toggle button-->
+    <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+        <span class="sr-only"><?php Lang::out('toggle_navigation'); ?></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
     </a>
-    <ul class="dropdown-menu">
-        <li class="header"><?php Lang::out('n_builds_running', 0); ?></li>
-        <li>
-            <ul class="menu app-running-list">
-            </ul>
-        </li>
+    <div class="navbar-custom-menu">
+    <ul class="nav navbar-nav">
+    
+    <li class="dropdown messages-menu app-pending">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <i class="fa fa-clock-o"></i>
+            <span class="label label-info app-pending-count"></span>
+        </a>
+        <ul class="dropdown-menu">
+            <li class="header"><?php Lang::out('n_builds_pending', 0); ?></li>
+            <li>
+                <ul class="menu app-pending-list">
+                </ul>
+            </li>
+        </ul>
+    </li>
+    
+    <li class="dropdown messages-menu app-running">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <i class="fa fa-cogs"></i>
+            <span class="label label-warning app-running-count"></span>
+        </a>
+        <ul class="dropdown-menu">
+            <li class="header"><?php Lang::out('n_builds_running', 0); ?></li>
+            <li>
+                <ul class="menu app-running-list">
+                </ul>
+            </li>
+        </ul>
+    </li>
+    
+    <?php if (!$this->LoginIsDisabled()->check()): ?>
+    <!-- User Account: style can be found in dropdown.less -->
+    <li class="dropdown user user-menu">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <i class="glyphicon glyphicon-user"></i>
+            <span><?php print $this->User()->getName(); ?> <i class="caret"></i></span>
+        </a>
+        <ul class="dropdown-menu">
+            <!-- User image -->
+            <li class="user-header">
+                <img src="https://www.gravatar.com/avatar/<?php print md5($this->User()->getEmail()); ?>?d=mm" class="img-circle" alt="<?php print $this->User()->getName(); ?>" />
+                <p>
+                    <?php print $this->User()->getName(); ?>
+                </p>
+            </li>
+    
+            <!-- Menu Footer-->
+            <li class="user-footer">
+                <div class="pull-left">
+                    <a href="<?php print APP_URL ?>user/profile" class="btn btn-default btn-flat"><?php Lang::out('edit_profile'); ?></a>
+                </div>
+                <div class="pull-right">
+                    <a href="<?php print APP_URL ?>session/logout" class="btn btn-default btn-flat"><?php Lang::out('sign_out'); ?></a>
+                </div>
+            </li>
+        </ul>
+    </li>
+    <?php endif; ?>
     </ul>
-</li>
-
-<?php if (!$this->LoginIsDisabled()->check()): ?>
-<!-- User Account: style can be found in dropdown.less -->
-<li class="dropdown user user-menu">
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-        <i class="glyphicon glyphicon-user"></i>
-        <span><?php print $this->User()->getName(); ?> <i class="caret"></i></span>
-    </a>
-    <ul class="dropdown-menu">
-        <!-- User image -->
-        <li class="user-header">
-            <img src="https://www.gravatar.com/avatar/<?php print md5($this->User()->getEmail()); ?>?d=mm" class="img-circle" alt="<?php print $this->User()->getName(); ?>" />
-            <p>
-                <?php print $this->User()->getName(); ?>
-            </p>
-        </li>
-
-        <!-- Menu Footer-->
-        <li class="user-footer">
-            <div class="pull-left">
-                <a href="<?php print APP_URL ?>user/profile" class="btn btn-default btn-flat"><?php Lang::out('edit_profile'); ?></a>
-            </div>
-            <div class="pull-right">
-                <a href="<?php print APP_URL ?>session/logout" class="btn btn-default btn-flat"><?php Lang::out('sign_out'); ?></a>
-            </div>
-        </li>
-    </ul>
-</li>
-<?php endif; ?>
-</ul>
-</div>
-</nav>
+    </div>
+    </nav>
 </header>
     <!-- Left side column. contains the logo and sidebar -->
     <aside class="main-sidebar sidebar-offcanvas">

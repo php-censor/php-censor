@@ -1,3 +1,7 @@
+<p align="center">
+    <img width="500" height="auto" src="docs/images/php-censor-black.png"></a>
+</p>
+
 [![PHP Censor](http://ci.php-censor.info/build-status/image/2?branch=master&label=PHPCensor&style=flat-square)](http://ci.php-censor.info/build-status/view/2?branch=master)
 [![Travis CI](https://img.shields.io/travis/corpsee/php-censor/master.svg?label=TravisCI&style=flat-square)](https://travis-ci.org/corpsee/php-censor?branch=master)
 [![Latest Version](https://img.shields.io/packagist/v/corpsee/php-censor.svg?label=Version&style=flat-square)](https://packagist.org/packages/corpsee/php-censor)

@@ -24,14 +24,16 @@
             <nav class="navbar navbar-static-top">
                 <div class="container">
                     <div class="navbar-header">
-                        <a href="<?php print APP_URL; ?>" class="logo" style="background-color: #222d32; text-align: left;">PHP Censor</a>
+                        <a href="<?php print APP_URL; ?>" class="logo" title="PHP Censor" style="background-color: #222D32; width: 170px; padding: 0;">
+                            <img src="<?php print APP_URL; ?>assets/img/php-censor-white.svg" width="170" height="auto" alt="PHP Censor" />
+                        </a>
                     </div>
                 </div>
             </nav>
         </header>
         <div class="content-wrapper">
             <div class="container">
-                <section class="content">
+                <section class="content" style="padding: 15px 0 15px;">
                     <?php if (!empty($latest)): ?>
 
                         <?php
@@ -87,7 +89,7 @@
 
                     <div class="box">
                         <div class="box-header"><h3 class="box-title">Builds</h3></div>
-                        <table class="table table-striped table-bordered">
+                        <table class="table table-hover">
                             <thead>
                             <tr>
                                 <th>ID</th>
