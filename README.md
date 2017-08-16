@@ -54,7 +54,7 @@ Features
 * Check code via Lint, PHPParallelLint, Pdepend, PHPCodeSniffer, PHPCpd, PHPCsFixer, PHPDocblockChecker, PHPLoc, 
 PHPMessDetect, PHPTalLint and TechnicalDept;
 
-* Run through any combination of the other [supported plugins](docs/en/README.md), including Campfire, CleanBuild, 
+* Run through any combination of the other [supported plugins](docs/en/README.md#plugins), including Campfire, CleanBuild, 
 CopyBuild, Deployer, Env, Git, Grunt, Gulp, PackageBuild, Phar, Phing, Shell and Wipe;
 
 * Send notifications on Email, XMPP, Slack, IRC, Flowdock, HipChat and [Telegram](https://github.com/LEXASOFT/PHP-Censor-Telegram-Plugin);
