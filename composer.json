@@ -64,6 +64,9 @@
     "phploc/phploc":                   "4.0.*",
     "jakub-onderka/php-parallel-lint": "0.9.*",
     "sensiolabs/security-checker":     "4.0.*",
+    
+    "doctrine/instantiator":    "1.0.*",
+    "phpunit/php-token-stream": "1.4.*",
 
     "mnsami/composer-custom-directory-installer": "1.1.*",
 
