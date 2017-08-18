@@ -120,7 +120,8 @@ branch-regex:^feature\-\d$:
 branch-release: # Test config for release branch
   run-option: replace # This can be set to either before, after or replace
   test:
-    php_cs_fixer:
+
+php_cs_fixer:
       allowed_warnings: 0
 branch-master: # Test config for release branch
   run-option: after # This can be set to either before, after or replace
@@ -140,3 +141,50 @@ Also add a new config value `run-option`, that can have 3 values:
 * `before` - will cause the branch specific plugins to run before the default ones.
 * `after` - will cause the branch specific plugins to run after the default ones.
 * `replace` - will cause the branch specific plugins to run and the default ones not.
+
+Useful YAML features
+--------------------
+
+Some features of YAML could be very handy. Here is a demonstration of multi line strings, and of anchors and aliases.
+See more details on [symfonys yaml document](https://symfony.com/doc/current/components/yaml/yaml_format.html) on in the [specification](http://yaml.org/spec/1.0/#id2563922).
+
+```yml
+setup:
+    # yaml comment
+    shell:
+        - |
+            echo a long shell command, multiple lines
+            scriptPath=%PROJECT_BUILD_PATH%/../../hook-path/prepare-test5.sh
+            if [ -f $scriptPath ]
+            then
+                "$scriptPath" '%PROJECT%' '%PROJECT_TITLE%' # script can read its path from $scriptPath
+                mkdir ../outputs_to_keep/%COMMIT%
+            fi
+        - >
+            echo this is a very long message I must write here, and it is much too long to allow good editing
+            on only one line, therefore we break it up onto multiple lines, but the result will be on a single
+            line.
+        - echo a short command ...
+
+branch-master:
+    complete: &xmpp
+        xmpp:
+            username: &userName "login@gmail.com"
+            password: &password "AZERTY123"
+            recipients:
+                - "builds-infos@jabber.org"
+            server: &xmppServer "gtalk.google.com"
+            alias: "build infos for project"
+            date_format: "%d/%m/%Y"
+    broken:
+        xmpp:
+            username: *userName
+            password: *password
+            recipients:
+                - "build-alters-infos@jabber.org"
+            server: *xmppServer
+branch-bugfix1.9:
+    complete: *xmpp
+branch-bugfix2.0:
+    complete: *xmpp
+```
