@@ -11,6 +11,17 @@ body
     padding-top: 0;
 }
 
+a {
+    color: #3c8dbc;
+}
+a:hover,
+a:active,
+a:focus {
+    outline: none;
+    text-decoration: none;
+    color: #72afd2;
+}
+
 #logo {
     margin:     0 auto;
     padding:    100px 30px 50px 30px;
