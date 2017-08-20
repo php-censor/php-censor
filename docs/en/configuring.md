@@ -36,6 +36,12 @@ php-censor:
     host:      localhost
     name:      php-censor-queue
     lifetime:  600
+  bitbucket:
+    username: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    app_password: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+    comments:
+      commit:       false # This option allow/deny to post comments to Bitbucket commit
+      pull_request: false # This option allow/deny to post comments to Bitbucket Pull Request
   github:
     token: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
     comments:

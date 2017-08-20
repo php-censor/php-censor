@@ -90,21 +90,32 @@ class WebhookController extends Controller
 
         $payload = json_decode(file_get_contents("php://input"), true);
 
-        if (empty($payload['push']['changes'])) {
-            // Invalid event from bitbucket
-            return [
-                'status' => 'failed',
-                'commits' => []
-            ];
+        // Handle Pull Request webhooks:
+        if (!empty($payload['pullrequest'])) {
+            return $this->bitbucketPullRequest($project, $payload);
         }
 
-        return $this->bitbucketWebhook($payload, $project);
+        // Handle Push (and Tag) webhooks:
+        if (!empty($payload['push']['changes'])) {
+            return $this->bitbucketCommitRequest($project, $payload);
+        }
+
+        // Invalid event from bitbucket
+        return [
+            'status' => 'failed',
+            'commits' => []
+        ];
     }
 
     /**
-     * Bitbucket webhooks.
+     * Handle the payload when Bitbucket sends a commit webhook.
+     *
+     * @param Project $project
+     * @param array $payload
+     *
+     * @return array
      */
-    protected function bitbucketWebhook($payload, $project)
+    protected function bitbucketCommitRequest(Project $project, array $payload)
     {
         $results = [];
         $status  = 'failed';
@@ -132,6 +143,92 @@ class WebhookController extends Controller
         }
 
         return ['status' => $status, 'commits' => $results];
+    }
+
+    /**
+     * Handle the payload when Bitbucket sends a Pull Request webhook.
+     *
+     * @param Project $project
+     * @param array   $payload
+     *
+     * @return array
+     *
+     * @throws Exception
+     */
+    protected function bitbucketPullRequest(Project $project, array $payload)
+    {
+        // We only want to know about open pull requests:
+        if (!in_array($_SERVER['HTTP_X_EVENT_KEY'], ['pullrequest:created', 'pullrequest:updated'])) {
+            return ['status' => 'ok'];
+        }
+
+        $headers = [];
+        $username = Config::getInstance()->get('php-censor.bitbucket.username');
+        $appPassword = Config::getInstance()->get('php-censor.bitbucket.app_password');
+
+        if (empty($username) || empty($appPassword)) {
+            throw new Exception('Please provide Username and App Password of your Bitbucket account.');
+        }
+
+        $commitsUrl = $payload['pullrequest']['links']['commits']['href'];
+
+        $client   = new Client();
+        $commitsResponse = $client->get($commitsUrl, [
+            'auth' => [$username, $appPassword],
+        ]);
+        $httpStatus = (integer)$commitsResponse->getStatusCode();
+
+        // Check we got a success response:
+        if ($httpStatus < 200 || $httpStatus >= 300) {
+            throw new Exception('Could not get commits, failed API request.');
+        }
+
+        $results = [];
+        $status  = 'failed';
+        $commits = json_decode($commitsResponse->getBody(), true)['values'];
+        foreach ($commits as $commit) {
+            // Skip all but the current HEAD commit ID:
+            $id = $commit['hash'];
+            if (strpos($id, $payload['pullrequest']['source']['commit']['hash']) !== 0) {
+                $results[$id] = ['status' => 'ignored', 'message' => 'not branch head'];
+                continue;
+            }
+
+            try {
+                $branch    = $payload['pullrequest']['destination']['branch']['name'];
+                $committer = $commit['author']['raw'];
+                if (strpos($committer, '>') !== false) {
+                    // In order not to loose email if it is RAW, w/o "<>" symbols
+                    $committer = substr($committer, 0, strpos($committer, '>'));
+                    $committer = substr($committer, strpos($committer, '<') + 1);
+                }
+                $message   = $commit['message'];
+
+                $extra = [
+                    'build_type'          => 'pull_request',
+                    'pull_request_number' => $payload['pullrequest']['id'],
+                    'remote_branch'       => $payload['pullrequest']['source']['branch']['name'],
+                    'remote_reference'    => $payload['pullrequest']['source']['repository']['full_name'],
+                ];
+
+                $results[$id] = $this->createBuild($project, $id, $branch, null, $committer, $message, $extra);
+                $status = 'ok';
+            } catch (Exception $ex) {
+                $results[$id] = ['status' => 'failed', 'error' => $ex->getMessage()];
+            }
+        }
+
+        return ['status' => $status, 'commits' => $results];
+    }
+
+    /**
+     * Bitbucket webhooks.
+     *
+     * @deprecated, for BC purpose
+     */
+    protected function bitbucketWebhook($payload, $project)
+    {
+        return $this->bitbucketCommitRequest($project, $payload);
     }
 
     /**

@@ -261,6 +261,14 @@ class InstallCommand extends Command
                 'smtp_password'          => null,
                 'smtp_encryption'        => false,
             ],
+            'bitbucket'   => [
+                'username'     => null,
+                'app_password' => null,
+                'comments' => [
+                    'commit'       => false,
+                    'pull_request' => false,
+                ],
+            ],
             'github'   => [
                 'token'    => null,
                 'comments' => [
