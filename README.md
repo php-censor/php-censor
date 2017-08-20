@@ -5,11 +5,12 @@
 [![License](https://img.shields.io/packagist/l/corpsee/php-censor.svg?label=License&style=flat-square)](https://packagist.org/packages/corpsee/php-censor)
 [![SensioLabs Insight](https://img.shields.io/sensiolabs/i/26f28bee-a861-45b2-bc18-ed2ac7defd22.svg?label=Insight&style=flat-square)](https://insight.sensiolabs.com/projects/26f28bee-a861-45b2-bc18-ed2ac7defd22)
 
-PHP Censor
-==========
+<p align="center">
+    <img width="500" height="auto" src="docs/images/php-censor-black.png" alt="PHP Censor" />
+</p>
 
-**PHP Censor** is a open source self-hosted continuous integration server for PHP projects (Fork of 
-[PHPCI](https://www.phptesting.org)).
+**PHP Censor** is a open source self-hosted continuous integration server for PHP projects 
+([PHPCI](https://www.phptesting.org) fork).
 
 [![Dashboard](docs/screenshots/dashboard.png)](docs/screenshots/dashboard.png)
 

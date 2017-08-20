@@ -1,3 +1,7 @@
+.main-header .logo {
+    padding: 0 30px;
+}
+
 .wrapper,
 .main-sidebar,
 .left-side {
@@ -552,8 +556,7 @@ h6,
 .h3,
 .h4,
 .h5,
-.h6,
-.main-header .logo {
+.h6 {
     font-family: sans-serif;
 }
 
