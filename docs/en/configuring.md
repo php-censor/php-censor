@@ -36,6 +36,9 @@ php-censor:
     host:      localhost
     name:      php-censor-queue
     lifetime:  600
+  log:
+    rotate:    true
+    max_files: 10
   bitbucket:
     username: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
     app_password: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
