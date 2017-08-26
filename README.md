@@ -1,8 +1,8 @@
 [![PHP Censor](http://ci.php-censor.info/build-status/image/2?branch=master&label=PHPCensor&style=flat-square)](http://ci.php-censor.info/build-status/view/2?branch=master)
-[![Travis CI](https://img.shields.io/travis/corpsee/php-censor/master.svg?label=TravisCI&style=flat-square)](https://travis-ci.org/corpsee/php-censor?branch=master)
-[![Latest Version](https://img.shields.io/packagist/v/corpsee/php-censor.svg?label=Version&style=flat-square)](https://packagist.org/packages/corpsee/php-censor)
-[![Total downloads](https://img.shields.io/packagist/dt/corpsee/php-censor.svg?label=Downloads&style=flat-square)](https://packagist.org/packages/corpsee/php-censor)
-[![License](https://img.shields.io/packagist/l/corpsee/php-censor.svg?label=License&style=flat-square)](https://packagist.org/packages/corpsee/php-censor)
+[![Travis CI](https://img.shields.io/travis/php-censor/php-censor/master.svg?label=TravisCI&style=flat-square)](https://travis-ci.org/php-censor/php-censor?branch=master)
+[![Latest Version](https://img.shields.io/packagist/v/php-censor/php-censor.svg?label=Version&style=flat-square)](https://packagist.org/packages/php-censor/php-censor)
+[![Total downloads](https://img.shields.io/packagist/dt/php-censor/php-censor.svg?label=Downloads&style=flat-square)](https://packagist.org/packages/php-censor/php-censor)
+[![License](https://img.shields.io/packagist/l/php-censor/php-censor.svg?label=License&style=flat-square)](https://packagist.org/packages/php-censor/php-censor)
 [![SensioLabs Insight](https://img.shields.io/sensiolabs/i/26f28bee-a861-45b2-bc18-ed2ac7defd22.svg?label=Insight&style=flat-square)](https://insight.sensiolabs.com/projects/26f28bee-a861-45b2-bc18-ed2ac7defd22)
 
 <p align="center">
@@ -74,10 +74,10 @@ cd /var/www
 * Create project by Composer:
 
 ```bash
-composer create-project corpsee/php-censor php-censor.local --keep-vcs
+composer create-project php-censor/php-censor php-censor.local --keep-vcs
 ```
 
-Or download [latest archive](https://github.com/corpsee/php-censor/releases/latest) from Github, unzip it and run 
+Or download [latest archive](https://github.com/php-censor/php-censor/releases/latest) from Github, unzip it and run 
 `composer install`.
 
 * Create empty database for application (Mysql/MariaDB or Postgres);
@@ -113,7 +113,7 @@ Installing via Docker
 --------------------
 
 If you want to install PHP Censor as Docker container, you can use 
-[ket4yii/docker-php-censor](https://github.com/ket4yii/docker-php-censor) project.
+[php-censor/docker-php-censor](https://github.com/php-censor/docker-php-censor) project.
 
 Updating
 --------
