@@ -94,7 +94,36 @@ class UserStore extends Store
         }
 
         $query = 'SELECT * FROM {{user}} WHERE {{email}} = :value OR {{name}} = :value LIMIT 1';
-        $stmt = Database::getConnection()->prepareCommon($query);
+        $stmt  = Database::getConnection()->prepareCommon($query);
+        $stmt->bindValue(':value', $value);
+
+        if ($stmt->execute()) {
+            if ($data = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+                return new User($data);
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     *
+     * Get a single User by RememberKey.
+     *
+     * @param string $value
+     *
+     * @throws HttpException
+     *
+     * @return User
+     */
+    public function getByRememberKey($value)
+    {
+        if (is_null($value)) {
+            throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
+        }
+
+        $query = 'SELECT * FROM {{user}} WHERE {{remember_key}} = :value LIMIT 1';
+        $stmt  = Database::getConnection()->prepareCommon($query);
         $stmt->bindValue(':value', $value);
 
         if ($stmt->execute()) {
@@ -108,6 +137,9 @@ class UserStore extends Store
 
     /**
      * Get multiple User by Name.
+     * 
+     * @throws HttpException
+     * 
      * @return array
      */
     public function getByName($value, $limit = 1000, $useConnection = 'read')

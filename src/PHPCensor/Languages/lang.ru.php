@@ -31,11 +31,12 @@ return [
 PHP Censor',
 
     'reset_email_title' => 'Сброс пароля PHP Censor для %s',
-    'reset_invalid' => 'Некорректный запрос на сброс пароля.',
-    'email_address' => 'Email',
-    'login' => 'Логин / Email',
-    'password' => 'Пароль',
-    'log_in' => 'Войти',
+    'reset_invalid'     => 'Некорректный запрос на сброс пароля.',
+    'email_address'     => 'Email',
+    'login'             => 'Логин / Email',
+    'password'          => 'Пароль',
+    'remember_me'       => 'Запомнить меня',
+    'log_in'            => 'Войти',
 
     // Top Nav
     'toggle_navigation' => 'Скрыть/показать панель навигации',

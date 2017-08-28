@@ -32,11 +32,12 @@ Thank you,
 PHP Censor',
 
     'reset_email_title' => 'PHP Censor Password Reset for %s',
-    'reset_invalid' => 'Invalid password reset request.',
-    'email_address' => 'Email Address',
-    'login' => 'Login / Email Address',
-    'password' => 'Password',
-    'log_in' => 'Log in',
+    'reset_invalid'     => 'Invalid password reset request.',
+    'email_address'     => 'Email Address',
+    'login'             => 'Login / Email Address',
+    'password'          => 'Password',
+    'remember_me'       => 'Remember me',
+    'log_in'            => 'Log in',
 
 
     // Top Nav

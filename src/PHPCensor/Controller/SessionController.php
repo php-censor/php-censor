@@ -42,6 +42,18 @@ class SessionController extends Controller
      */
     public function login()
     {
+        if (!empty($_COOKIE['remember_key'])) {
+            $user = $this->userStore->getByRememberKey($_COOKIE['remember_key']);
+            if ($user) {
+                $_SESSION['php-censor-user-id'] = $user->getId();
+
+                $response = new b8\Http\Response\RedirectResponse();
+                $response->setHeader('Location', $this->getLoginRedirect());
+
+                return $response;
+            }
+        }
+        
         $isLoginFailure = false;
 
         if ($this->request->getMethod() == 'POST') {
@@ -53,10 +65,10 @@ class SessionController extends Controller
 
                 $email          = $this->getParam('email');
                 $password       = $this->getParam('password', '');
+                $rememberMe     = (bool)$this->getParam('remember_me', 0);
                 $isLoginFailure = true;
 
-                $user = $this->userStore->getByEmailOrName($email);
-
+                $user      = $this->userStore->getByEmailOrName($email);
                 $providers = $this->authentication->getLoginPasswordProviders();
 
                 if (null !== $user) {
@@ -67,7 +79,7 @@ class SessionController extends Controller
                     // Ask each providers to provision the user
                     foreach ($providers as $provider) {
                         $user = $provider->provisionUser($email);
-                        if ($user !== null && $provider->verifyPassword($user, $password)) {
+                        if ($user && $provider->verifyPassword($user, $password)) {
                             $this->userStore->save($user);
                             $isLoginFailure = false;
                             break;
@@ -77,8 +89,27 @@ class SessionController extends Controller
 
                 if (!$isLoginFailure) {
                     $_SESSION['php-censor-user-id'] = $user->getId();
+
+                    if ($rememberMe) {
+                        $rememberKey = md5(microtime(true));
+                        
+                        $user->setRememberKey($rememberKey);
+                        $this->userStore->save($user);
+
+                        setcookie(
+                            'remember_key',
+                            $rememberKey,
+                            (time() + 60 * 60 * 24 * 30),
+                            null,
+                            null,
+                            null,
+                            true
+                        );
+                    }
+
                     $response = new b8\Http\Response\RedirectResponse();
                     $response->setHeader('Location', $this->getLoginRedirect());
+
                     return $response;
                 }
             }
@@ -101,6 +132,12 @@ class SessionController extends Controller
         $pwd->setContainerClass('form-group');
         $pwd->setClass('form-control');
         $form->addField($pwd);
+
+        $remember = b8\Form\Element\Checkbox::create('remember_me', Lang::get('remember_me'), false);
+        $remember->setContainerClass('form-group');
+        $remember->setCheckedValue(1);
+        $remember->setValue(0);
+        $form->addField($remember);
 
         $pwd = new b8\Form\Element\Submit();
         $pwd->setValue(Lang::get('log_in'));
@@ -128,6 +165,16 @@ class SessionController extends Controller
         unset($_SESSION['php-censor-user-id']);
 
         session_destroy();
+
+        setcookie(
+            'remember_key',
+            null,
+            (time() - 1),
+            null,
+            null,
+            null,
+            true
+        );
 
         $response = new b8\Http\Response\RedirectResponse();
         $response->setHeader('Location', APP_URL);
