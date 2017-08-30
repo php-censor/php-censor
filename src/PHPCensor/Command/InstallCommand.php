@@ -253,6 +253,10 @@ class InstallCommand extends Command
             'per_page' => 10,
             'url'      => $url,
             'queue'    => $queueConfig,
+            'log'      => [
+                'rotate'    => false,
+                'max_files' => 0,
+            ],
             'email_settings' => [
                 'from_address'           => 'PHP Censor <no-reply@php-censor.local>',
                 'smtp_address'           => null,
