@@ -494,6 +494,10 @@
     text-overflow: ellipsis;
 }
 
+.table-hover td {
+    height: 50px;
+}
+
 .small-box > .inner {
     border-bottom: 1px solid rgba(0, 0, 0, 0.15);
 }
