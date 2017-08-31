@@ -97,6 +97,8 @@
                                 <th>Date</th>
                                 <th>Commit</th>
                                 <th>Branch</th>
+                                <th>Environment</th>
+                                <th>Duration</th>
                             </tr>
                             </thead>
                             <tbody id="latest-builds">
@@ -143,17 +145,16 @@
                                     <td><?= $build->getCreated()->format('Y-m-d H:i:s'); ?></td>
                                     <td>
                                         <?php
-                                        if ($build->getCommitId() !== 'Manual') {
-                                            echo sprintf(
-                                                '<a href="%s" target="_blank">%s (%s)</a>  &mdash; %s',
-                                                $build->getCommitLink(),
-                                                substr($build->getCommitId(), 0, 7),
-                                                $build->getCommitterEmail(),
-                                                $build->getCommitMessage()
-                                            );
-                                        } else {
-                                            echo $build->getCommitId();
-                                        }
+                                            if ($build->getCommitId() !== 'Manual') {
+                                                print sprintf(
+                                                    '<a href="%s" target="_blank">%s (%s)</a>',
+                                                    $build->getCommitLink(),
+                                                    substr($build->getCommitId(), 0, 7),
+                                                    $build->getCommitterEmail()
+                                                );
+                                            } else {
+                                                print 'Manual';
+                                            }
                                         ?>
                                     </td>
 
@@ -166,6 +167,15 @@
                                                 <i class="fa fa-tag"></i> <?= $tag; ?>
                                             </a>
                                         <?php endif; ?>
+                                    </td>
+                                    <td>
+                                        <?php
+                                        $environment = $build->getEnvironment();
+                                        echo !empty($environment) ? $environment : '—' ;
+                                        ?>
+                                    </td>
+                                    <td>
+                                        <?= $build->getDuration(); ?> sec.
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
