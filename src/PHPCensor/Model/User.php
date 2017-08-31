@@ -38,6 +38,7 @@ class User extends Model
         'per_page'      => null,
         'provider_key'  => null,
         'provider_data' => null,
+        'remember_key'  => null,
     ];
 
     /**
@@ -54,6 +55,7 @@ class User extends Model
         'per_page'      => 'getPerPage',
         'provider_key'  => 'getProviderKey',
         'provider_data' => 'getProviderData',
+        'remember_key'  => 'getRememberKey',
         // Foreign key getters:
     ];
 
@@ -71,6 +73,7 @@ class User extends Model
         'per_page'      => 'setPerPage',
         'provider_key'  => 'setProviderKey',
         'provider_data' => 'setProviderData',
+        'remember_key'  => 'setRememberKey',
         // Foreign key setters:
     ];
 
@@ -122,6 +125,12 @@ class User extends Model
         'provider_data' => [
             'type'     => 'varchar',
             'length'   => 255,
+            'nullable' => true,
+            'default'  => null,
+        ],
+        'remember_key' => [
+            'type'     => 'varchar',
+            'length'   => 32,
             'nullable' => true,
             'default'  => null,
         ],
@@ -222,6 +231,18 @@ class User extends Model
     public function getProviderData()
     {
         $rtn = $this->data['provider_data'];
+
+        return $rtn;
+    }
+
+    /**
+     * Get the value of RememberKey / remember_key.
+     *
+     * @return string
+     */
+    public function getRememberKey()
+    {
+        $rtn = $this->data['remember_key'];
 
         return $rtn;
     }
@@ -386,6 +407,24 @@ class User extends Model
         $this->data['provider_data'] = $value;
 
         $this->setModified('provider_data');
+    }
+
+    /**
+     * Set the value of RememberKey / remember_key.
+     *
+     * @param $value string
+     */
+    public function setRememberKey($value)
+    {
+        $this->validateString('RememberKey', $value);
+
+        if ($this->data['remember_key'] === $value) {
+            return;
+        }
+
+        $this->data['remember_key'] = $value;
+
+        $this->setModified('remember_key');
     }
 
     /**
