@@ -1,6 +1,39 @@
 Change Log
 ==========
 
+## [PHP Censor v0.17.0](https://github.com/corpsee/php-censor/tree/0.17.0) (2017-09-03)
+
+[Full Changelog](https://github.com/corpsee/php-censor/compare/0.16.0...0.17.0)
+
+* Fixed build stages workflow. If `setup`, `test` or `deploy` stage failed then next stages (`setup`, `test` or 
+`deploy`) skip.
+* Fixed failures for notification plugins (Now notification failures doesn't fail all build). Thanks to 
+[@SimonHeimberg](https://github.com/SimonHeimberg). PullRequest [#113](https://github.com/corpsee/php-censor/pull/113).
+* Fixed error with `allowed_errors` / `allowed_warnings` in PhpCodeSniffer plugin. Thanks to 
+[@SimonHeimberg](https://github.com/SimonHeimberg). PullRequest [#101](https://github.com/corpsee/php-censor/pull/101).
+* Added ability to create comments on Bitbucket for commits and pull requests (Like on Github). Thanks to 
+[@StudioMaX](https://github.com/StudioMaX). PullRequest [#112](https://github.com/corpsee/php-censor/pull/112).
+* Added "Remember me functionality on login page. Issue [#81](https://github.com/corpsee/php-censor/issues/81).
+* Added daily rotate logger for console commands. Issue [#108](https://github.com/corpsee/php-censor/issues/108).
+* Added param `priority_path` (For all plugins) for control paths priority when we search plugin binary. 
+Issue [#104](https://github.com/corpsee/php-censor/issues/104).
+* Added regex pattern for branch specific config. Issue [#97](https://github.com/corpsee/php-censor/issues/97).
+* Added JUnit result parser for PHPUnit plugin (for PHPUnit >= 6.0). Thanks to 
+[@SimonHeimberg](https://github.com/SimonHeimberg). PullRequest [#102](https://github.com/corpsee/php-censor/pull/102),
+[#105](https://github.com/corpsee/php-censor/pull/105).
+* Improved public status page UI (Added environment and duration, fixed table cell height).
+* Improved Shell plugin documentation. Thanks to [@SimonHeimberg](https://github.com/SimonHeimberg). PullRequest 
+[#103](https://github.com/corpsee/php-censor/pull/103).
+* Improved documentation. Thanks to [@SimonHeimberg](https://github.com/SimonHeimberg). PullRequest 
+[#110](https://github.com/corpsee/php-censor/pull/110), [#111](https://github.com/corpsee/php-censor/pull/111).
+* Improved Worker (Daemon) documentation about `nohug` and `systemd`. Thanks to 
+[@ketchoop](https://github.com/ketchoop). PullRequest [#98](https://github.com/corpsee/php-censor/pull/98), 
+[#100](https://github.com/corpsee/php-censor/pull/100).
+* Improved documentation about PHP Censor update.
+* Added new PHP Censor logo.
+* Updated dependencies.
+
+
 ## [PHP Censor v0.16.0](https://github.com/corpsee/php-censor/tree/0.16.0) (2017-07-16)
 
 [Full Changelog](https://github.com/corpsee/php-censor/compare/0.15.0...0.16.0)
