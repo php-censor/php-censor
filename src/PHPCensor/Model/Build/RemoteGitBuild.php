@@ -141,7 +141,7 @@ class RemoteGitBuild extends Build
         $commit  = $this->getCommitId();
         $chdir   = 'cd "%s"';
 
-        if (!empty($commit) && $commit != 'Manual') {
+        if (empty($this->getEnvironment()) && !empty($commit) && $commit != 'Manual') {
             $cmd = $chdir . ' && git checkout %s --quiet';
             $success = $builder->executeCommand($cmd, $cloneTo, $commit);
         }
