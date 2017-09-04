@@ -44,6 +44,7 @@ Plugins
 * [IRC](plugins/irc.md) - `irc`
 * [Lint](plugins/lint.md) - `lint`
 * [Mage](plugins/mage.md) - `mage`
+* [Mage v3](plugins/mage3.md) - `mage3`
 * [MySQL](plugins/mysql.md) - `mysql`
 * [Package Build](plugins/package_build.md) - `package_build`
 * [PDepend](plugins/pdepend.md) - `pdepend`
