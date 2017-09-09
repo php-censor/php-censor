@@ -30,6 +30,11 @@ class PhpParallelLint extends Plugin implements ZeroConfigPluginInterface
     protected $extensions;
 
     /**
+     * @var bool - enable short tags
+     */
+    protected $shortTag;
+
+    /**
      * @return string
      */
     public static function pluginName()
@@ -41,6 +46,7 @@ class PhpParallelLint extends Plugin implements ZeroConfigPluginInterface
      * $options['directory']  Output Directory. Default: %BUILDPATH%
      * $options['filename']   Phar Filename. Default: build.phar
      * $options['extensions'] Filename extensions. Default: php
+     * $options['shorttags']  Enable short tags. Default: false
      * $options['stub']       Stub Content. No Default Value
      */
     public function __construct(Builder $builder, Build $build, array $options = [])
@@ -50,6 +56,7 @@ class PhpParallelLint extends Plugin implements ZeroConfigPluginInterface
         $this->directory  = $this->builder->buildPath;
         $this->ignore     = $this->builder->ignore;
         $this->extensions = 'php';
+        $this->shortTag   = false;
 
         if (isset($options['directory'])) {
             $this->directory = $this->builder->buildPath.$options['directory'];
@@ -57,6 +64,10 @@ class PhpParallelLint extends Plugin implements ZeroConfigPluginInterface
 
         if (isset($options['ignore'])) {
             $this->ignore = $options['ignore'];
+        }
+
+        if (isset($options['shorttags'])) {
+            $this->shortTag = (strtolower($options['shorttags']) == 'true');
         }
 
         if (isset($options['extensions'])) {
@@ -96,10 +107,11 @@ class PhpParallelLint extends Plugin implements ZeroConfigPluginInterface
 
         $phplint = $this->findBinary('parallel-lint');
 
-        $cmd     = $phplint . ' -e %s' . ' %s "%s"';
+        $cmd     = $phplint . ' -e %s' . '%s %s "%s"';
         $success = $this->builder->executeCommand(
             $cmd,
             $this->extensions,
+            ($this->shortTag ? ' -s' : ''),
             $ignore,
             $this->directory
         );
