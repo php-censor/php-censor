@@ -102,7 +102,7 @@ class CommandExecutor implements CommandExecutorInterface
             $status = proc_close($process);
         }
 
-        mb_substitute_character(ord('?'));
+        mb_substitute_character(65533);
 
         $this->lastOutput = mb_convert_encoding($this->lastOutput, 'utf8', 'utf8');
         $this->lastOutput = array_filter(explode(PHP_EOL, $this->lastOutput));
