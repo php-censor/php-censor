@@ -37,6 +37,7 @@ class Project extends Model
         'title'               => null,
         'reference'           => null,
         'branch'              => null,
+        'default_branch_only' => null,
         'ssh_private_key'     => null,
         'type'                => null,
         'access_information'  => null,
@@ -57,6 +58,7 @@ class Project extends Model
         'title'               => 'getTitle',
         'reference'           => 'getReference',
         'branch'              => 'getBranch',
+        'default_branch_only' => 'getDefaultBranchOnly',
         'ssh_private_key'     => 'getSshPrivateKey',
         'type'                => 'getType',
         'access_information'  => 'getAccessInformation',
@@ -79,6 +81,7 @@ class Project extends Model
         'title'               => 'setTitle',
         'reference'           => 'setReference',
         'branch'              => 'setBranch',
+        'default_branch_only' => 'setDefaultBranchOnly',
         'ssh_private_key'     => 'setSshPrivateKey',
         'type'                => 'setType',
         'access_information'  => 'setAccessInformation',
@@ -117,6 +120,10 @@ class Project extends Model
             'type'    => 'varchar',
             'length'  => 250,
             'default' => 'master',
+        ],
+        'default_branch_only' => [
+            'type'   => 'int',
+            'length' => 11,
         ],
         'ssh_private_key' => [
             'type'     => 'text',
@@ -303,7 +310,7 @@ class Project extends Model
      */
     public function getArchived()
     {
-        $rtn    = $this->data['archived'];
+        $rtn = $this->data['archived'];
 
         return $rtn;
     }
@@ -315,7 +322,19 @@ class Project extends Model
      */
     public function getGroupId()
     {
-        $rtn    = $this->data['group_id'];
+        $rtn = $this->data['group_id'];
+
+        return $rtn;
+    }
+
+    /**
+     * Get the value of DefaultBranchOnly / default_branch_only.
+     *
+     * @return int
+     */
+    public function getDefaultBranchOnly()
+    {
+        $rtn = $this->data['default_branch_only'];
 
         return $rtn;
     }
@@ -398,6 +417,26 @@ class Project extends Model
         $this->data['branch'] = $value;
 
         $this->setModified('branch');
+    }
+
+    /**
+     * Set the value of DefaultBranchOnly / default_branch_only.
+     *
+     * Must not be null.
+     * @param $value int
+     */
+    public function setDefaultBranchOnly($value)
+    {
+        $this->validateNotNull('DefaultBranchOnly', $value);
+        $this->validateInt('DefaultBranchOnly', $value);
+
+        if ($this->data['default_branch_only'] === $value) {
+            return;
+        }
+
+        $this->data['default_branch_only'] = $value;
+
+        $this->setModified('default_branch_only');
     }
 
     /**

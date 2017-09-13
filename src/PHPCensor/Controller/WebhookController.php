@@ -636,6 +636,14 @@ class WebhookController extends Controller
             }
         }
 
+        // Check if this branch is to be built.
+        if ($project->getDefaultBranchOnly() && ($branch !== $project->getBranch())) {
+            return [
+                'status'  => 'ignored',
+                'message' => 'The branch is not a branch by default. Build is allowed only for the branch by default.'
+            ];
+        }
+
         $environments = $project->getEnvironmentsObjects();
         if ($environments['count']) {
             $created_builds    = [];
