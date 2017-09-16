@@ -32,9 +32,12 @@ var codeceptionPlugin = ActiveBuild.UiPlugin.extend({
     render: function() {
         return $('<table class="table table-hover" id="codeception-data">' +
             '<thead>' +
-            '<tr><th>'+Lang.get('codeception_suite')+'</th>' +
-            '<th>'+Lang.get('codeception_feature')+'</th>' +
-            '<th>'+Lang.get('codeception_time')+'</th></tr>' +
+            '<tr><th>' + Lang.get('status') + '</th>' +
+            '<th>' + Lang.get('codeception_suite') + '</th>' +
+            '<th>' + Lang.get('codeception_feature') + '</th>' +
+            '<th>' + Lang.get('file') + '</th>' +
+            '<th>' + Lang.get('message') + '</th>' +
+            '<th>' + Lang.get('codeception_time') + '</th></tr>' +
             '</thead><tbody></tbody><tfoot></tfoot></table>');
     },
 
@@ -57,27 +60,14 @@ var codeceptionPlugin = ActiveBuild.UiPlugin.extend({
         }
 
         for (var i in tests) {
-
-            var rows = $('<tr data-toggle="collapse" data-target="#collapse'+i+'">' +
-                '<td><strong>'+tests[i].suite+'</strong</td>' +
-                '<td>'+tests[i].feature+'</td>' +
-                '<td>'+tests[i].time+'</td>'+
-                '</tr>' +
-                '<tr id="collapse'+i+'" class="collapse" >' +
-                '<td></td><td colspan="2">' +
-                    '<small><strong>'+Lang.get('name')+':</strong> '+tests[i].name+'</small><br />' +
-                    '<small><strong>'+Lang.get('file')+':</strong> '+tests[i].file+'</small><br />' +
-                    (tests[i].message
-                        ? '<small><strong>'+Lang.get('message')+':</strong> '+tests[i].message+'</small>'
-                        : '') +
-                '</td>' +
+            var rows = $('<tr>' +
+                '<td>' + (tests[i].pass ? '<span class="label label-success">' + Lang.get('success') + '</span>' : '<span class="label label-danger">' + Lang.get('failed') + '</span>') + '</td>' +
+                '<td>' + tests[i].suite + '</td>' +
+                '<td>' + tests[i].feature + '</td>' +
+                '<td>' + tests[i].file + '</td>'+
+                '<td>' + ((tests[i].message) ? tests[i].message : '') + '</td>'+
+                '<td>' + tests[i].time + '</td>'+
                 '</tr>');
-
-            if (!tests[i].pass) {
-                rows.first().addClass('danger');
-            } else {
-                rows.first().addClass('success');
-            }
 
             tbody.append(rows);
         }
