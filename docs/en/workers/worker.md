@@ -94,8 +94,11 @@ Type=simple
 ExecStart=/your/path/bin/console php-censor:worker
 Restart=always
 
-User=php-censor #Could be changed
-Group=php-censor #Could be changed
+#Could be changed
+User=php-censor
+
+#Could be changed
+Group=php-censor
 
 [Install]
 WantedBy=multi-user.target
