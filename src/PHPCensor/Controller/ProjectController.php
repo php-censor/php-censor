@@ -317,6 +317,7 @@ class ProjectController extends PHPCensor\Controller
                 'build_config'        => $this->getParam('build_config', null),
                 'allow_public_status' => $this->getParam('allow_public_status', 0),
                 'branch'              => $this->getParam('branch', null),
+                'default_branch_only' => $this->getParam('default_branch_only', 0),
                 'group'               => $this->getParam('group_id', null),
                 'environments'        => $this->getParam('environments', null),
             ];
@@ -385,6 +386,7 @@ class ProjectController extends PHPCensor\Controller
             'allow_public_status' => $this->getParam('allow_public_status', 0),
             'archived'            => $this->getParam('archived', 0),
             'branch'              => $this->getParam('branch', null),
+            'default_branch_only' => $this->getParam('default_branch_only', 0),
             'group'               => $this->getParam('group_id', null),
             'environments'        => $this->getParam('environments', null),
         ];
@@ -448,6 +450,16 @@ class ProjectController extends PHPCensor\Controller
 
         $field = Form\Element\Text::create('branch', Lang::get('default_branch'), false);
         $field->setClass('form-control')->setContainerClass('form-group')->setValue('');
+        $form->addField($field);
+
+        $field = Form\Element\Checkbox::create(
+            'default_branch_only',
+            Lang::get('default_branch_only'),
+            false
+        );
+        $field->setContainerClass('form-group');
+        $field->setCheckedValue(1);
+        $field->setValue(0);
         $form->addField($field);
 
         $field = Form\Element\TextArea::create('key', Lang::get('project_private_key'), false);
