@@ -9,7 +9,7 @@ class AddedDefaultBranchOnly extends AbstractMigration
         $project = $this->table('project');
 
         if (!$project->hasColumn('default_branch_only')) {
-            $project->addColumn('default_branch_only', 'integer');
+            $project->addColumn('default_branch_only', 'integer', ['default' => 0])->save();
         }
     }
 
