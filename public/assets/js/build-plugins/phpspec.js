@@ -24,12 +24,14 @@ var phpspecPlugin = ActiveBuild.UiPlugin.extend({
 
     render: function() {
 
-        return $('<table class="table table-striped" id="phpspec-data">' +
+        return $('<table class="table table-hover" id="phpspec-data">' +
             '<thead>' +
             '<tr>' +
-            '   <th>'+Lang.get('suite')+'</th>' +
-            '   <th>'+Lang.get('test')+'</th>' +
-            '   <th>'+Lang.get('result')+'</th>' +
+            '   <th>' + Lang.get('status') + '</th>' +
+            '   <th>' + Lang.get('suite') + '</th>' +
+            '   <th>' + Lang.get('test') + '</th>' +
+            '   <th>' + Lang.get('test_message') + '</th>' +
+            '   <th>' + Lang.get('codeception_time') + '</th>' +
             '</tr>' +
             '</thead><tbody></tbody></table>');
     },
@@ -55,17 +57,13 @@ var phpspecPlugin = ActiveBuild.UiPlugin.extend({
 
                 var row = $(
                     '<tr>' +
+                    '<td>' + ((test_case.status == 'passed') ? '<span class="label label-success">' + Lang.get('success') + '</span>' : '<span class="label label-danger">' + Lang.get('failed') + '</span>') + '</td>' +
                     '<td>' + test_suite.name + '</td>' +
-                    '<td title="' + Lang.get('took_n_seconds', test_case['time']) + '">' + test_case.name + '</td>' +
-                    '<td>' + (test_case.message ? test_case.message : Lang.get('ok')) + '</td>' +
+                    '<td>' + test_case.name + '</td>' +
+                    '<td>' + (test_case.message ? test_case.message : '') + '</td>' +
+                    '<td>' + test_case['time'] + '</td>' +
                     '</tr>'
                 );
-
-                if (test_case.status != 'passed') {
-                    row.addClass('danger');
-                } else {
-                    row.addClass('success');
-                }
 
                 tbody.append(row);
             }

@@ -34,9 +34,9 @@ var phpunitPlugin = ActiveBuild.UiPlugin.extend({
         return $('<table class="table table-hover" id="phpunit-data">' +
             '<thead>' +
             '<tr>' +
-                '<th>'+Lang.get('status')+'</th>' +
-                '<th>'+Lang.get('test_message')+'</th>' +
-                '<th>'+Lang.get('trace')+'</th>' +
+                '<th>' + Lang.get('status') + '</th>' +
+                '<th>' + Lang.get('test_message') + '</th>' +
+                '<th>' + Lang.get('trace') + '</th>' +
             '</tr>' +
             '</thead><tbody></tbody></table>');
     },
