@@ -83,7 +83,18 @@ var warningsPlugin = ActiveBuild.UiPlugin.extend({
         var self = this;
         self.rendered = true;
 
-        var colors = ['#4D4D4D', '#5DA5DA', '#FAA43A', '#60BD68', '#F17CB0', '#B2912F', '#B276B2', '#DECF3F', '#F15854', '#4D4D4D'];
+        var colors = [
+            '#FF0084',
+            '#D33724',
+            '#FF851B',
+            '#F7BE64',
+            '#B5BBC8',
+            '#555299',
+            '#7EDEDE',
+            '#00A7D0',
+            '#B5BBC8',
+            '#001F3F'
+        ];
 
         self.chartData = {
             labels: [],

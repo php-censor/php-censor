@@ -50,26 +50,26 @@ var locPlugin = ActiveBuild.UiPlugin.extend({
             datasets: [
                 {
                     label: Lang.get('lines'),
-                    strokeColor: "rgba(60,141,188,1)",
-                    pointColor: "rgba(60,141,188,1)",
+                    strokeColor: "#555299",
+                    pointColor: "#555299",
                     data: []
                 },
                 {
                     label: Lang.get('logical_lines'),
-                    strokeColor: "rgba(245,105,84,1)",
-                    pointColor: "rgba(245,105,84,1)",
+                    strokeColor: "#00A65A",
+                    pointColor: "#00A65A",
                     data: []
                 },
                 {
                     label: Lang.get('comment_lines'),
-                    strokeColor: "rgba(0,166,90,1)",
-                    pointColor: "rgba(0,166,90,1)",
+                    strokeColor: "#8AA4AF",
+                    pointColor: "#8AA4AF",
                     data: []
                 },
                 {
                     label: Lang.get('noncomment_lines'),
-                    strokeColor: "rgba(0,192,239,1)",
-                    pointColor: "rgba(0,192,239,1)",
+                    strokeColor: "#00A7D0",
+                    pointColor: "#00A7D0",
                     data: []
                 }
             ]
