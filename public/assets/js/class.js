@@ -3,14 +3,15 @@
  * MIT Licensed.
  */
 // Inspired by base2 and Prototype
-(function(){
-    var initializing = false, fnTest = /xyz/.test(function(){xyz;}) ? /\b_super\b/ : /.*/;
+(function () {
+    var initializing = false, fnTest = /xyz/.test(function () {xyz;}) ? /\b_super\b/ : /.*/;
 
     // The base Class implementation (does nothing)
-    this.Class = function(){};
+    this.Class = function () {
+    };
 
     // Create a new Class that inherits from this class
-    Class.extend = function(prop) {
+    Class.extend = function (prop) {
         var _super = this.prototype;
 
         // Instantiate a base class (but only create the instance,
@@ -23,9 +24,9 @@
         for (var name in prop) {
             // Check if we're overwriting an existing function
             prototype[name] = typeof prop[name] == "function" &&
-                typeof _super[name] == "function" && fnTest.test(prop[name]) ?
-                (function(name, fn){
-                    return function() {
+            typeof _super[name] == "function" && fnTest.test(prop[name]) ?
+                (function (name, fn) {
+                    return function () {
                         var tmp = this._super;
 
                         // Add a new ._super() method that is the same method
@@ -46,7 +47,7 @@
         // The dummy class constructor
         function Class() {
             // All construction is actually done in the init method
-            if ( !initializing && this.init )
+            if (!initializing && this.init)
                 this.init.apply(this, arguments);
         }
 

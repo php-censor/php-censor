@@ -1,49 +1,50 @@
 var warningsPlugin = ActiveBuild.UiPlugin.extend({
-    id: 'build-warnings-chart',
-    css: 'col-xs-12',
+    id:    'build-warnings-chart',
+    css:   'col-xs-12',
     title: Lang.get('quality_trend'),
-    keys: {
-        'codeception-errors': Lang.get('codeception_errors'),
-        'phplint-errors': Lang.get('phplint_errors'),
-        'phpunit-errors': Lang.get('phpunit_errors'),
-        'phptallint-errors': Lang.get('phptal_errors'),
-        'phptallint-warnings': Lang.get('phptal_warnings'),
-        'phpmd-warnings': Lang.get('phpmd_warnings'),
+    keys:  {
+        'codeception-errors':   Lang.get('codeception_errors'),
+        'phplint-errors':       Lang.get('phplint_errors'),
+        'phpunit-errors':       Lang.get('phpunit_errors'),
+        'phptallint-errors':    Lang.get('phptal_errors'),
+        'phptallint-warnings':  Lang.get('phptal_warnings'),
+        'phpmd-warnings':       Lang.get('phpmd_warnings'),
         'phpdoccheck-warnings': Lang.get('phpdoccheck_warnings'),
-        'phpcpd-warnings': Lang.get('phpcpd_warnings'),
-        'phpcs-warnings': Lang.get('phpcs_warnings'),
-        'phpcs-errors': Lang.get('phpcs_errors')
+        'phpcpd-warnings':      Lang.get('phpcpd_warnings'),
+        'phpcs-warnings':       Lang.get('phpcs_warnings'),
+        'phpcs-errors':         Lang.get('phpcs_errors')
     },
-    data: {},
+    data:            {},
     displayOnUpdate: false,
-    rendered: false,
-    chartData: null,
+    rendered:        false,
+    chartData:       null,
 
-    register: function() {
+    register: function () {
         var self = this;
 
         var queries = [];
         for (var key in self.keys) {
-          queries.push(ActiveBuild.registerQuery(key, -1, {num_builds: 10, key: key}));
+            queries.push(ActiveBuild.registerQuery(key, -1, {num_builds: 10, key: key}));
         }
 
-        $(window).on('codeception-errors phptallint-warnings phptallint-errors phplint-errors phpunit-errors phpmd-warnings phpdoccheck-warnings phpcpd-warnings phpcs-warnings phpcs-errors', function(data) {
+        $(window).on('codeception-errors phptallint-warnings phptallint-errors phplint-errors phpunit-errors phpmd-warnings phpdoccheck-warnings phpcpd-warnings phpcs-warnings phpcs-errors', function (data) {
             self.onUpdate(data);
         });
 
-        $(window).on('build-updated', function(data) {
+        $(window).on('build-updated', function (data) {
             if (!self.rendered && data.queryData && data.queryData.status > 1) {
                 self.displayOnUpdate = true;
                 for (var query in queries) {
-                  queries[query]();
+                    queries[query]();
                 }
             }
         });
     },
 
-    render: function() {
-        var self = this;
+    render: function () {
+        var self      = this;
         var container = $('<div id="build-warnings" style="width: 100%; height: 300px"></div>');
+
         container.append('<canvas id="build-warnings-linechart" style="width: 100%; height: 300px"></canvas>');
 
         $(document).on('shown.bs.tab', function () {
@@ -54,8 +55,8 @@ var warningsPlugin = ActiveBuild.UiPlugin.extend({
         return container;
     },
 
-    onUpdate: function(e) {
-        var self = this;
+    onUpdate: function (e) {
+        var self   = this;
         var builds = e.queryData;
 
         if (!builds || !builds.length) {
@@ -79,8 +80,8 @@ var warningsPlugin = ActiveBuild.UiPlugin.extend({
         }
     },
 
-    displayChart: function() {
-        var self = this;
+    displayChart: function () {
+        var self      = this;
         self.rendered = true;
 
         var colors = [
@@ -97,7 +98,7 @@ var warningsPlugin = ActiveBuild.UiPlugin.extend({
         ];
 
         self.chartData = {
-            labels: [],
+            labels:   [],
             datasets: []
         };
 
@@ -105,10 +106,10 @@ var warningsPlugin = ActiveBuild.UiPlugin.extend({
             var color = colors.shift();
 
             self.chartData.datasets.push({
-                label: self.keys[key],
+                label:       self.keys[key],
                 strokeColor: color,
-                pointColor: color,
-                data: []
+                pointColor:  color,
+                data:        []
             });
         }
 
@@ -132,7 +133,7 @@ var warningsPlugin = ActiveBuild.UiPlugin.extend({
         if ($('#information').hasClass('active') && self.chartData) {
             $('#build-warnings-chart').show();
 
-            var ctx = $("#build-warnings-linechart").get(0).getContext("2d");
+            var ctx                = $("#build-warnings-linechart").get(0).getContext("2d");
             var buildWarningsChart = new Chart(ctx);
 
             Chart.defaults.global.responsive = true;

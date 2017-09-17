@@ -1,26 +1,26 @@
 var phptalPlugin = ActiveBuild.UiPlugin.extend({
-    id: 'build-phptal',
-    css: 'col-xs-12',
-    title: 'PHPTAL Lint',
+    id:       'build-phptal',
+    css:      'col-xs-12',
+    title:    'PHPTAL Lint',
     lastData: null,
     rendered: false,
 
-    register: function() {
-        var self = this;
+    register: function () {
+        var self  = this;
         var query = ActiveBuild.registerQuery('phptallint-data', -1, {key: 'phptallint-data'})
 
-        $(window).on('phptallint-data', function(data) {
+        $(window).on('phptallint-data', function (data) {
             self.onUpdate(data);
         });
 
-        $(window).on('build-updated', function() {
+        $(window).on('build-updated', function () {
             if (!self.rendered) {
                 query();
             }
         });
     },
 
-    render: function() {
+    render: function () {
         return $('<table class="table table-hover" id="phptal-data">' +
             '<thead>' +
             '<tr>' +
@@ -31,7 +31,7 @@ var phptalPlugin = ActiveBuild.UiPlugin.extend({
             '</thead><tbody></tbody></table>');
     },
 
-    onUpdate: function(e) {
+    onUpdate: function (e) {
         if (!e.queryData) {
             $('#build-phptal').hide();
             return;
@@ -41,7 +41,8 @@ var phptalPlugin = ActiveBuild.UiPlugin.extend({
         this.lastData = e.queryData;
 
         var errors = this.lastData[0].meta_value;
-        var tbody = $('#phptal-data tbody');
+        var tbody  = $('#phptal-data tbody');
+
         tbody.empty();
 
         if (errors.length == 0) {
@@ -54,15 +55,15 @@ var phptalPlugin = ActiveBuild.UiPlugin.extend({
 
             if (ActiveBuild.fileLinkTemplate) {
                 var fileLink = ActiveBuild.fileLinkTemplate.replace('{FILE}', file);
-                fileLink = fileLink.replace('{LINE}', errors[i].line);
+                fileLink     = fileLink.replace('{LINE}', errors[i].line);
 
-                file = '<a target="_blank" href="'+fileLink+'">' + file + '</a>';
+                file = '<a target="_blank" href="' + fileLink + '">' + file + '</a>';
             }
 
             var row = $('<tr>' +
-                '<td>'+file+'</td>' +
-                '<td>'+errors[i].line+'</td>' +
-                '<td>'+errors[i].message+'</td></tr>');
+                '<td>' + file + '</td>' +
+                '<td>' + errors[i].line + '</td>' +
+                '<td>' + errors[i].message + '</td></tr>');
 
             if (errors[i].type == 'error') {
                 row.addClass('danger');

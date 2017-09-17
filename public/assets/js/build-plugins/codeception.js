@@ -1,35 +1,36 @@
 var codeceptionPlugin = ActiveBuild.UiPlugin.extend({
-    id: 'build-codeception-errors',
-    css: 'col-xs-12',
-    title: Lang.get('codeception'),
-    lastData: null,
-    lastMeta: null,
+    id:              'build-codeception-errors',
+    css:             'col-xs-12',
+    title:           Lang.get('codeception'),
+    lastData:        null,
+    lastMeta:        null,
     displayOnUpdate: false,
-    rendered: false,
+    rendered:        false,
 
-    register: function() {
-        var self = this;
-        var query_data = ActiveBuild.registerQuery('codeception-data', -1, {key: 'codeception-data'});
+    register: function () {
+        var self            = this;
+        var query_data      = ActiveBuild.registerQuery('codeception-data', -1, {key: 'codeception-data'});
         var query_meta_data = ActiveBuild.registerQuery('codeception-meta', -1, {key: 'codeception-meta'});
 
-        $(window).on('codeception-data', function(data) {
+        $(window).on('codeception-data', function (data) {
             self.onUpdateData(data);
         });
 
-        $(window).on('codeception-meta', function(data) {
+        $(window).on('codeception-meta', function (data) {
             self.onUpdateMeta(data);
         });
 
-        $(window).on('build-updated', function() {
+        $(window).on('build-updated', function () {
             if (!self.rendered) {
                 self.displayOnUpdate = true;
+
                 query_data();
                 query_meta_data();
             }
         });
     },
 
-    render: function() {
+    render: function () {
         return $('<table class="table table-hover" id="codeception-data">' +
             '<thead>' +
             '<tr><th>' + Lang.get('status') + '</th>' +
@@ -41,7 +42,7 @@ var codeceptionPlugin = ActiveBuild.UiPlugin.extend({
             '</thead><tbody></tbody><tfoot></tfoot></table>');
     },
 
-    onUpdateData: function(e) {
+    onUpdateData: function (e) {
         if (!e.queryData) {
             $('#build-codeception-errors').hide();
             return;
@@ -52,6 +53,7 @@ var codeceptionPlugin = ActiveBuild.UiPlugin.extend({
 
         var tests = this.lastData[0].meta_value;
         var tbody = $('#codeception-data tbody');
+
         tbody.empty();
 
         if (tests.length == 0) {
@@ -64,9 +66,9 @@ var codeceptionPlugin = ActiveBuild.UiPlugin.extend({
                 '<td>' + (tests[i].pass ? '<span class="label label-success">' + Lang.get('success') + '</span>' : '<span class="label label-danger">' + Lang.get('failed') + '</span>') + '</td>' +
                 '<td>' + tests[i].suite + '</td>' +
                 '<td>' + tests[i].feature + '</td>' +
-                '<td>' + tests[i].file + '</td>'+
-                '<td>' + ((tests[i].message) ? tests[i].message : '') + '</td>'+
-                '<td>' + tests[i].time + '</td>'+
+                '<td>' + tests[i].file + '</td>' +
+                '<td>' + ((tests[i].message) ? tests[i].message : '') + '</td>' +
+                '<td>' + tests[i].time + '</td>' +
                 '</tr>');
 
             tbody.append(rows);
@@ -75,7 +77,7 @@ var codeceptionPlugin = ActiveBuild.UiPlugin.extend({
         $('#build-codeception-errors').show();
     },
 
-    onUpdateMeta: function(e) {
+    onUpdateMeta: function (e) {
         if (!e.queryData) {
             return;
         }
@@ -85,8 +87,9 @@ var codeceptionPlugin = ActiveBuild.UiPlugin.extend({
 
         this.lastMeta = e.queryData;
 
-        var data = this.lastMeta[0].meta_value;
+        var data  = this.lastMeta[0].meta_value;
         var tfoot = $('#codeception-data tfoot');
+
         tfoot.empty();
 
         var row = $('<tr>' +

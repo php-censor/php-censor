@@ -1,4 +1,3 @@
-
 var PHPCensor = {
     intervals: {},
 
@@ -12,10 +11,10 @@ var PHPCensor = {
             if (typeof PROJECT_ID != 'undefined') {
                 PHPCensor.intervals.getProjectBuilds = setInterval(PHPCensor.getProjectBuilds, 10000);
             }
-            
+
             if (typeof DASHBOARD != 'undefined') {
                 PHPCensor.intervals.getDashboard = setInterval(PHPCensor.getDashboard, 10000);
-                PHPCensor.intervals.getTimeline  = setInterval(PHPCensor.getTimeline, 10000);
+                PHPCensor.intervals.getTimeline = setInterval(PHPCensor.getTimeline, 10000);
             }
         });
 
@@ -49,7 +48,7 @@ var PHPCensor = {
     },
 
     getDashboard: function () {
-        $('.project-box').each(function(index) {
+        $('.project-box').each(function (index) {
             var projectId = this.id.substring(12);
 
             $.ajax({
@@ -165,10 +164,10 @@ if (!Function.prototype.bind) {
 function confirmDelete(url, reloadAfter) {
 
     var dialog = new PHPCensorConfirmDialog({
-        title:             Lang.get('confirm_title'),
-        message:           Lang.get('confirm_message'),
+        title: Lang.get('confirm_title'),
+        message: Lang.get('confirm_message'),
         confirmBtnCaption: Lang.get('confirm_ok'),
-        cancelBtnCaption:  Lang.get('confirm_cancel'),
+        cancelBtnCaption: Lang.get('confirm_cancel'),
         /*
          confirm-btn click handler
          */
@@ -296,7 +295,9 @@ var PHPCensorConfirmDialog = Class.extend({
         /*
          Bind the close event of the dialog to the set of onClose* methods
          */
-        this.$dialog.on('hidden.bs.modal', function () {this.onClose()}.bind(this));
+        this.$dialog.on('hidden.bs.modal', function () {
+            this.onClose()
+        }.bind(this));
         this.$dialog.on('hidden.bs.modal', function () {
             if (this.confirmed) {
                 this.onCloseConfirmed();
@@ -336,17 +337,20 @@ var PHPCensorConfirmDialog = Class.extend({
     /**
      * Called only when confirmed dialog was closed
      */
-    onCloseConfirmed: function () {},
+    onCloseConfirmed: function () {
+    },
 
     /**
      * Called only when canceled dialog was closed
      */
-    onCloseCanceled: function () {},
+    onCloseCanceled: function () {
+    },
 
     /**
      * Called always when the dialog was closed
      */
-    onClose: function () {},
+    onClose: function () {
+    },
 
     showStatusMessage: function (message, closeTimeout) {
         this.$confirmBtn.hide();
@@ -371,13 +375,11 @@ var PHPCensorConfirmDialog = Class.extend({
 /**
  * Used to initialise the project form:
  */
-function setupProjectForm()
-{
+function setupProjectForm() {
     $('.github-container').hide();
 
-    $('#element-reference').change(function()
-    {
-        var el  = $(this);
+    $('#element-reference').change(function () {
+        var el = $(this);
         var val = el.val();
         var type = $('#element-type').val();
         var acceptable = {
@@ -394,16 +396,16 @@ function setupProjectForm()
 
         };
 
-        if( acceptable[type] !== undefined ) {
-            for(var i in acceptable[type]) {
-                if(val.match(acceptable[type][i])) {
+        if (acceptable[type] !== undefined) {
+            for (var i in acceptable[type]) {
+                if (val.match(acceptable[type][i])) {
                     el.val(val.replace(acceptable[type][i], '$1'));
                 }
             }
         }
     });
 
-    $('#element-type').change(function() {
+    $('#element-type').change(function () {
         if ($(this).val() == 'github') {
             $('#loading').show();
 
@@ -432,10 +434,10 @@ function setupProjectForm()
         $('#element-reference').trigger('change');
     });
 
-    $('#element-github').change(function() {
+    $('#element-github').change(function () {
         var val = $('#element-github').val();
 
-        if(val != 'choose') {
+        if (val != 'choose') {
             $('#element-type').val('github');
             $('#element-reference').val(val);
 
@@ -457,7 +459,8 @@ function setupProjectForm()
 
 var Lang = {
     get: function () {
-        var args = Array.prototype.slice.call(arguments);;
+        var args = Array.prototype.slice.call(arguments);
+        ;
         var string = args.shift();
 
         if (STRINGS[string]) {
