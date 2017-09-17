@@ -1,30 +1,31 @@
 var locPlugin = ActiveBuild.UiPlugin.extend({
-    id: 'build-lines-chart',
-    css: 'col-xs-12',
-    title: Lang.get('lines_of_code'),
-    lastData: null,
+    id:              'build-lines-chart',
+    css:             'col-xs-12',
+    title:           Lang.get('lines_of_code'),
+    lastData:        null,
     displayOnUpdate: false,
-    rendered: false,
-    chartData: null,
+    rendered:        false,
+    chartData:       null,
 
-    register: function() {
-        var self = this;
+    register: function () {
+        var self  = this;
         var query = ActiveBuild.registerQuery('phploc-lines', -1, {num_builds: 10, key: 'phploc'})
 
-        $(window).on('phploc-lines', function(data) {
+        $(window).on('phploc-lines', function (data) {
             self.onUpdate(data);
         });
 
-        $(window).on('build-updated', function(data) {
+        $(window).on('build-updated', function (data) {
             if (data.queryData && data.queryData.status > 1 && !self.rendered) {
                 query();
             }
         });
     },
 
-    render: function() {
-        var self = this;
+    render: function () {
+        var self      = this;
         var container = $('<div id="phploc-lines" style="width: 100%; height: 300px"></div>');
+
         container.append('<canvas id="phploc-lines-chart" style="width: 100%; height: 300px"></canvas>');
 
         $(document).on('shown.bs.tab', function () {
@@ -35,42 +36,42 @@ var locPlugin = ActiveBuild.UiPlugin.extend({
         return container;
     },
 
-    onUpdate: function(e) {
+    onUpdate: function (e) {
         this.lastData = e.queryData;
         this.displayChart();
     },
 
-    displayChart: function() {
-        var self = this;
-        var builds = this.lastData;
+    displayChart: function () {
+        var self      = this;
+        var builds    = this.lastData;
         self.rendered = true;
 
         self.chartData = {
-            labels: [],
+            labels:   [],
             datasets: [
                 {
-                    label: Lang.get('lines'),
-                    strokeColor: "rgba(60,141,188,1)",
-                    pointColor: "rgba(60,141,188,1)",
-                    data: []
+                    label:       Lang.get('lines'),
+                    strokeColor: "#555299",
+                    pointColor:  "#555299",
+                    data:        []
                 },
                 {
-                    label: Lang.get('logical_lines'),
-                    strokeColor: "rgba(245,105,84,1)",
-                    pointColor: "rgba(245,105,84,1)",
-                    data: []
+                    label:       Lang.get('logical_lines'),
+                    strokeColor: "#00A65A",
+                    pointColor:  "#00A65A",
+                    data:        []
                 },
                 {
-                    label: Lang.get('comment_lines'),
-                    strokeColor: "rgba(0,166,90,1)",
-                    pointColor: "rgba(0,166,90,1)",
-                    data: []
+                    label:       Lang.get('comment_lines'),
+                    strokeColor: "#8AA4AF",
+                    pointColor:  "#8AA4AF",
+                    data:        []
                 },
                 {
-                    label: Lang.get('noncomment_lines'),
-                    strokeColor: "rgba(0,192,239,1)",
-                    pointColor: "rgba(0,192,239,1)",
-                    data: []
+                    label:       Lang.get('noncomment_lines'),
+                    strokeColor: "#00A7D0",
+                    pointColor:  "#00A7D0",
+                    data:        []
                 }
             ]
         };
@@ -98,7 +99,7 @@ var locPlugin = ActiveBuild.UiPlugin.extend({
             Chart.defaults.global.responsive = true;
 
             phpLocChart.Line(self.chartData, {
-                datasetFill: false,
+                datasetFill:          false,
                 multiTooltipTemplate: "<%=datasetLabel%>: <%= value %>"
             });
         }

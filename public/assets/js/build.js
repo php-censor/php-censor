@@ -6,7 +6,7 @@ var Build = Class.extend({
     queries: {},
     updateInterval: null,
 
-    init: function(build) {
+    init: function (build) {
         var self = this;
         self.buildId = build;
     },
@@ -18,7 +18,7 @@ var Build = Class.extend({
 
         self.registerQuery('build-updated', 5);
 
-        $(window).on('build-updated', function(data) {
+        $(window).on('build-updated', function (data) {
 
             self.buildData = data.queryData;
 
@@ -68,12 +68,12 @@ var Build = Class.extend({
         });
     },
 
-    registerQuery: function(name, seconds, query) {
+    registerQuery: function (name, seconds, query) {
         var self = this;
         var uri = 'build/ajax-meta/' + self.buildId;
         var query = query || {};
 
-        var cb = function() {
+        var cb = function () {
             var fullUri = window.APP_URL + uri;
 
             if (name == 'build-updated') {
@@ -84,7 +84,7 @@ var Build = Class.extend({
                 dataType: "json",
                 url: fullUri,
                 data: query,
-                success: function(data) {
+                success: function (data) {
                     $(window).trigger({type: name, queryData: data});
                 },
                 error: handleFailedAjax
@@ -102,7 +102,7 @@ var Build = Class.extend({
         clearInterval(this.queries[name]);
     },
 
-    registerPlugin: function(plugin) {
+    registerPlugin: function (plugin) {
         this.plugins[plugin.id] = plugin;
         plugin.register();
     },
@@ -110,14 +110,14 @@ var Build = Class.extend({
     storePluginOrder: function () {
         var renderOrder = [];
 
-        $('.ui-plugin > div').each(function() {
+        $('.ui-plugin > div').each(function () {
             renderOrder.push($(this).attr('id'));
         });
 
         localStorage.setItem('app-plugin-order', JSON.stringify(renderOrder));
     },
 
-    renderPlugins: function() {
+    renderPlugins: function () {
         var self = this;
         var rendered = [];
         var renderOrder = localStorage.getItem('app-plugin-order');
@@ -149,7 +149,7 @@ var Build = Class.extend({
         $(window).trigger({type: 'build-updated', queryData: self.buildData});
     },
 
-    renderPlugin: function(plugin) {
+    renderPlugin: function (plugin) {
         var output = plugin.render();
 
         output = $('<div class="box-body"></div>').append(output);
@@ -160,9 +160,9 @@ var Build = Class.extend({
 
         if (plugin.title) {
             content.prepend(
-                '<div class="box-header"><h3 class="box-title">'+plugin.title+'</h3>'+
-                '<div class="box-tools pull-right">'+
-                '<button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">'+
+                '<div class="box-header"><h3 class="box-title">' + plugin.title + '</h3>' +
+                '<div class="box-tools pull-right">' +
+                '<button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">' +
                 '<i class="fa fa-minus"></i></button></div></div>'
             );
         }
@@ -177,13 +177,13 @@ var Build = Class.extend({
         css: 'col-xs-12',
         box: false,
 
-        init: function(){
+        init: function () {
         },
 
-        register: function() {
+        register: function () {
             var self = this;
 
-            $(window).on('build-updated', function(data) {
+            $(window).on('build-updated', function (data) {
                 self.onUpdate(data);
             });
         },

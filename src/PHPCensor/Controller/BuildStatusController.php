@@ -158,7 +158,7 @@ class BuildStatusController extends Controller
             }
         }
 
-        $cacheDir  = RUNTIME_DIR . '/status_cache/';
+        $cacheDir  = RUNTIME_DIR . 'status_cache/';
         $cacheFile = $cacheDir . md5($imageUrl) . '.svg';
         if (!is_file($cacheFile)) {
             $image = file_get_contents($imageUrl);

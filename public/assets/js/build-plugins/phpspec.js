@@ -1,40 +1,43 @@
 var phpspecPlugin = ActiveBuild.UiPlugin.extend({
-    id: 'build-phpspec-errors',
-    css: 'col-xs-12',
-    title: Lang.get('phpspec'),
-    lastData: null,
+    id:              'build-phpspec-errors',
+    css:             'col-xs-12',
+    title:           Lang.get('phpspec'),
+    lastData:        null,
     displayOnUpdate: false,
-    rendered: false,
+    rendered:        false,
 
-    register: function() {
-        var self = this;
+    register: function () {
+        var self  = this;
         var query = ActiveBuild.registerQuery('phpspec', -1, {key: 'phpspec'})
 
-        $(window).on('phpspec', function(data) {
+        $(window).on('phpspec', function (data) {
             self.onUpdate(data);
         });
 
-        $(window).on('build-updated', function() {
+        $(window).on('build-updated', function () {
             if (!self.rendered) {
                 self.displayOnUpdate = true;
+
                 query();
             }
         });
     },
 
-    render: function() {
+    render: function () {
 
-        return $('<table class="table table-striped" id="phpspec-data">' +
+        return $('<table class="table table-hover" id="phpspec-data">' +
             '<thead>' +
             '<tr>' +
-            '   <th>'+Lang.get('suite')+'</th>' +
-            '   <th>'+Lang.get('test')+'</th>' +
-            '   <th>'+Lang.get('result')+'</th>' +
+            '   <th>' + Lang.get('status') + '</th>' +
+            '   <th>' + Lang.get('suite') + '</th>' +
+            '   <th>' + Lang.get('test') + '</th>' +
+            '   <th>' + Lang.get('test_message') + '</th>' +
+            '   <th>' + Lang.get('codeception_time') + '</th>' +
             '</tr>' +
             '</thead><tbody></tbody></table>');
     },
 
-    onUpdate: function(e) {
+    onUpdate: function (e) {
         if (!e.queryData) {
             $('#build-phpspec-errors').hide();
             return;
@@ -45,6 +48,7 @@ var phpspecPlugin = ActiveBuild.UiPlugin.extend({
 
         var tests = this.lastData[0].meta_value;
         var tbody = $('#phpspec-data tbody');
+
         tbody.empty();
 
         for (var i in tests.suites) {
@@ -55,22 +59,18 @@ var phpspecPlugin = ActiveBuild.UiPlugin.extend({
 
                 var row = $(
                     '<tr>' +
+                    '<td>' + ((test_case.status == 'passed') ? '<span class="label label-success">' + Lang.get('success') + '</span>' : '<span class="label label-danger">' + Lang.get('failed') + '</span>') + '</td>' +
                     '<td>' + test_suite.name + '</td>' +
-                    '<td title="' + Lang.get('took_n_seconds', test_case['time']) + '">' + test_case.name + '</td>' +
-                    '<td>' + (test_case.message ? test_case.message : Lang.get('ok')) + '</td>' +
+                    '<td>' + test_case.name + '</td>' +
+                    '<td>' + (test_case.message ? test_case.message : '') + '</td>' +
+                    '<td>' + test_case['time'] + '</td>' +
                     '</tr>'
                 );
-
-                if (test_case.status != 'passed') {
-                    row.addClass('danger');
-                } else {
-                    row.addClass('success');
-                }
 
                 tbody.append(row);
             }
         }
-        
+
         // show plugin once preparation of grid is done
         $('#build-phpspec-errors').show();
     }
