@@ -310,7 +310,7 @@ class InstallCommand extends Command
             'use_queue' => false,
             'host'      => null,
             'name'      => null,
-            'lifetime'  => 600
+            'lifetime'  => 600,
         ];
         
         if (!$input->getOption('queue-use')) {
@@ -319,6 +319,9 @@ class InstallCommand extends Command
 
         $queueConfig = [
             'use_queue' => true,
+            'host'      => null,
+            'name'      => null,
+            'lifetime'  => 600,
         ];
 
         $queueConfig['host'] = $input->getOption('queue-host');
