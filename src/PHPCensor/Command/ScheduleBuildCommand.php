@@ -73,7 +73,8 @@ class ScheduleBuildCommand extends Command
         /** @var Project $project */
         foreach ($projects as $project) {
 
-            $latestBuild = $this->buildStore->getByProjectId($project->getId(), 1);
+            $latestBuild = $this->buildStore->getLatestBuilds($project->getId(), 1);
+
             if ($latestBuild['count'] > 0) {
                 /** @var Build $build */
                 $build = $latestBuild['items'][0];
