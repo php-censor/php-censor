@@ -13,6 +13,7 @@ use PHPCensor\Command\InstallCommand;
 use PHPCensor\Command\RebuildCommand;
 use PHPCensor\Command\RebuildQueueCommand;
 use PHPCensor\Command\RunCommand;
+use PHPCensor\Command\ScheduleBuildCommand;
 use PHPCensor\Command\WorkerCommand;
 use PHPCensor\Logging\Handler;
 use PHPCensor\Service\BuildService;
@@ -134,5 +135,6 @@ class Application extends BaseApplication
         $this->add(new CreateBuildCommand($projectStore, new BuildService($buildStore)));
         $this->add(new WorkerCommand($logger));
         $this->add(new RebuildQueueCommand($logger));
+        $this->add(new ScheduleBuildCommand($projectStore, $buildStore, new BuildService($buildStore)));
     }
 }
