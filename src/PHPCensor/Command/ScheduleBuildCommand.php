@@ -45,7 +45,7 @@ class ScheduleBuildCommand extends Command
 
         $this->projectStore = $projectStore;
         $this->buildService = $buildService;
-        $this->buildStore = $buildStore;
+        $this->buildStore   = $buildStore;
     }
 
     /**
@@ -64,21 +64,21 @@ class ScheduleBuildCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $sinceDays = $input->getArgument('days');
-        $date = new \DateTime('now');
+        $sinceDays  = $input->getArgument('days');
+        $date       = new \DateTime('now');
         $difference = new \DateInterval("P{$sinceDays}D");
         $date->sub($difference);
 
         $projects = $this->projectStore->getAll()['items'];
         /** @var Project $project */
         foreach ($projects as $project) {
-
             $latestBuild = $this->buildStore->getLatestBuilds($project->getId(), 1);
 
-            if ($latestBuild['count'] > 0) {
+            if ($latestBuild) {
                 /** @var Build $build */
-                $build = $latestBuild['items'][0];
-                if ((int)$build->getStatus() === 1 || (int)$build->getStatus() === 0) {
+                $build  = $latestBuild[0];
+                $status = (integer)$build->getStatus();
+                if ($status === Build::STATUS_RUNNING || $status === Build::STATUS_PENDING) {
                     // If it's running or just created, we don't want to reschedule already.
                     continue;
                 }
@@ -87,6 +87,7 @@ class ScheduleBuildCommand extends Command
                     continue;
                 }
             }
+
             try {
                 $this->buildService->createBuild($project, null);
                 $output->writeln("Build Created for {$project->getTitle()}");
