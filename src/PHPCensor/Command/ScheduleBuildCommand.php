@@ -69,7 +69,8 @@ class ScheduleBuildCommand extends Command
         $difference = new \DateInterval("P{$sinceDays}D");
         $date->sub($difference);
 
-        $projects = $this->projectStore->getAll()['items'];
+        $projects = $this->projectStore->getAll();
+        $projects = $projects['items'];
         /** @var Project $project */
         foreach ($projects as $project) {
             $latestBuild = $this->buildStore->getLatestBuilds($project->getId(), 1);
