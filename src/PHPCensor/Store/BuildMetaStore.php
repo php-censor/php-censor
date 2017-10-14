@@ -45,38 +45,6 @@ class BuildMetaStore extends Store
     }
 
     /**
-     * Get multiple BuildMeta by ProjectId.
-     * @return array
-     */
-    public function getByProjectId($value, $limit = 1000, $useConnection = 'read')
-    {
-        if (is_null($value)) {
-            throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
-        }
-
-
-        $query = 'SELECT * FROM {{build_meta}} WHERE {{project_id}} = :project_id LIMIT :limit';
-        $stmt = Database::getConnection($useConnection)->prepareCommon($query);
-        $stmt->bindValue(':project_id', $value);
-        $stmt->bindValue(':limit', (int)$limit, \PDO::PARAM_INT);
-
-        if ($stmt->execute()) {
-            $res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-
-            $map = function ($item) {
-                return new BuildMeta($item);
-            };
-            $rtn = array_map($map, $res);
-
-            $count = count($rtn);
-
-            return ['items' => $rtn, 'count' => $count];
-        } else {
-            return ['items' => [], 'count' => 0];
-        }
-    }
-
-    /**
      * Get multiple BuildMeta by BuildId.
      * @return array
      */

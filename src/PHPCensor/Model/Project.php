@@ -661,18 +661,6 @@ class Project extends Model
     }
 
     /**
-     * Get BuildMeta models by ProjectId for this Project.
-     *
-     * @uses \PHPCensor\Store\BuildMetaStore::getByProjectId()
-     * @uses \PHPCensor\Model\BuildMeta
-     * @return \PHPCensor\Model\BuildMeta[]
-     */
-    public function getProjectBuildMetas()
-    {
-        return Factory::getStore('BuildMeta', 'PHPCensor')->getByProjectId($this->getId());
-    }
-
-    /**
      * Return the latest build from a specific branch, of a specific status, for this project.
      * @param string $branch
      * @param null $status

@@ -269,8 +269,7 @@ class BuildStore extends Store
         $query = 'SELECT bm.build_id, bm.meta_key, bm.meta_value
                     FROM {{build_meta}} AS {{bm}}
                     LEFT JOIN {{build}} AS {{b}} ON b.id = bm.build_id
-                    WHERE   bm.meta_key = :key
-                      AND   bm.project_id = :projectId';
+                    WHERE   bm.meta_key = :key AND b.project_id = :projectId';
 
         // If we're getting comparative meta data, include previous builds
         // otherwise just include the specified build ID:
@@ -318,20 +317,20 @@ class BuildStore extends Store
 
     /**
      * Set a metadata value for a given project and build ID.
-     * @param $projectId
+     *
      * @param $buildId
      * @param $key
      * @param $value
+     *
      * @return bool
      */
-    public function setMeta($projectId, $buildId, $key, $value)
+    public function setMeta($buildId, $key, $value)
     {
-        $cols = '{{project_id}}, {{build_id}}, {{meta_key}}, {{meta_value}}';
-        $query = 'INSERT INTO {{build_meta}} ('.$cols.') VALUES (:projectId, :buildId, :key, :value)';
+        $cols = '{{build_id}}, {{meta_key}}, {{meta_value}}';
+        $query = 'INSERT INTO {{build_meta}} ('.$cols.') VALUES (:buildId, :key, :value)';
 
         $stmt = Database::getConnection('read')->prepareCommon($query);
         $stmt->bindValue(':key', $key, \PDO::PARAM_STR);
-        $stmt->bindValue(':projectId', (int)$projectId, \PDO::PARAM_INT);
         $stmt->bindValue(':buildId', (int)$buildId, \PDO::PARAM_INT);
         $stmt->bindValue(':value', $value, \PDO::PARAM_STR);
 

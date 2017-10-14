@@ -775,7 +775,7 @@ class Build extends Model
     public function storeMeta($key, $value)
     {
         $value = json_encode($value);
-        Factory::getStore('Build')->setMeta($this->getProjectId(), $this->getId(), $key, $value);
+        Factory::getStore('Build')->setMeta($this->getId(), $key, $value);
     }
 
     /**

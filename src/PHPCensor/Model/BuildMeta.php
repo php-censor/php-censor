@@ -27,7 +27,6 @@ class BuildMeta extends Model
      */
     protected $data = [
         'id'         => null,
-        'project_id' => null,
         'build_id'   => null,
         'meta_key'   => null,
         'meta_value' => null,
@@ -39,12 +38,10 @@ class BuildMeta extends Model
     protected $getters = [
         // Direct property getters:
         'id'         => 'getId',
-        'project_id' => 'getProjectId',
         'build_id'   => 'getBuildId',
         'meta_key'   => 'getMetaKey',
         'meta_value' => 'getMetaValue',
         // Foreign key getters:
-        'Project'    => 'getProject',
         'Build'      => 'getBuild',
     ];
 
@@ -54,12 +51,10 @@ class BuildMeta extends Model
     protected $setters = [
         // Direct property setters:
         'id'         => 'setId',
-        'project_id' => 'setProjectId',
         'build_id'   => 'setBuildId',
         'meta_key'   => 'setMetaKey',
         'meta_value' => 'setMetaValue',
         // Foreign key setters:
-        'Project'    => 'setProject',
         'Build'      => 'setBuild',
     ];
 
@@ -73,11 +68,6 @@ class BuildMeta extends Model
             'primary_key'    => true,
             'auto_increment' => true,
             'default'        => null,
-        ],
-        'project_id' => [
-            'type'    => 'int',
-            'length'  => 11,
-            'default' => null,
         ],
         'build_id' => [
             'type'    => 'int',
@@ -101,20 +91,12 @@ class BuildMeta extends Model
     public $indexes = [
         'PRIMARY'     => ['unique' => true, 'columns' => 'id'],
         'idx_meta_id' => ['unique' => true, 'columns' => 'build_id, meta_key'],
-        'project_id'  => ['columns' => 'project_id'],
     ];
 
     /**
      * @var array
      */
     public $foreignKeys = [
-        'build_meta_ibfk_1' => [
-            'local_col' => 'project_id',
-            'update'    => 'CASCADE',
-            'delete'    => 'CASCADE',
-            'table'     => 'project',
-            'col'       => 'id'
-        ],
         'fk_meta_build_id' => [
             'local_col' => 'build_id',
             'update'    => 'CASCADE',
@@ -132,18 +114,6 @@ class BuildMeta extends Model
     public function getId()
     {
         $rtn    = $this->data['id'];
-
-        return $rtn;
-    }
-
-    /**
-     * Get the value of ProjectId / project_id.
-     *
-     * @return int
-     */
-    public function getProjectId()
-    {
-        $rtn    = $this->data['project_id'];
 
         return $rtn;
     }
@@ -205,26 +175,6 @@ class BuildMeta extends Model
     }
 
     /**
-     * Set the value of ProjectId / project_id.
-     *
-     * Must not be null.
-     * @param $value int
-     */
-    public function setProjectId($value)
-    {
-        $this->validateNotNull('ProjectId', $value);
-        $this->validateInt('ProjectId', $value);
-
-        if ($this->data['project_id'] === $value) {
-            return;
-        }
-
-        $this->data['project_id'] = $value;
-
-        $this->setModified('project_id');
-    }
-
-    /**
      * Set the value of BuildId / build_id.
      *
      * Must not be null.
@@ -282,63 +232,6 @@ class BuildMeta extends Model
         $this->data['meta_value'] = $value;
 
         $this->setModified('meta_value');
-    }
-
-    /**
-     * Get the Project model for this BuildMeta by Id.
-     *
-     * @uses \PHPCensor\Store\ProjectStore::getById()
-     * @uses \PHPCensor\Model\Project
-     * @return \PHPCensor\Model\Project
-     */
-    public function getProject()
-    {
-        $key = $this->getProjectId();
-
-        if (empty($key)) {
-            return null;
-        }
-
-        $cacheKey   = 'Cache.Project.' . $key;
-        $rtn        = $this->cache->get($cacheKey, null);
-
-        if (empty($rtn)) {
-            $rtn    = Factory::getStore('Project', 'PHPCensor')->getById($key);
-            $this->cache->set($cacheKey, $rtn);
-        }
-
-        return $rtn;
-    }
-
-    /**
-     * Set Project - Accepts an ID, an array representing a Project or a Project model.
-     *
-     * @param $value mixed
-     */
-    public function setProject($value)
-    {
-        // Is this an instance of Project?
-        if ($value instanceof Project) {
-            return $this->setProjectObject($value);
-        }
-
-        // Is this an array representing a Project item?
-        if (is_array($value) && !empty($value['id'])) {
-            return $this->setProjectId($value['id']);
-        }
-
-        // Is this a scalar value representing the ID of this foreign key?
-        return $this->setProjectId($value);
-    }
-
-    /**
-     * Set Project - Accepts a Project model.
-     *
-     * @param $value Project
-     */
-    public function setProjectObject(Project $value)
-    {
-        return $this->setProjectId($value->getId());
     }
 
     /**
