@@ -9,38 +9,43 @@ use PHPCensor\Model\ProjectGroup;
 
 class ProjectGroupStore extends Store
 {
-    protected $tableName   = 'project_group';
-    protected $modelName   = '\PHPCensor\Model\ProjectGroup';
-    protected $primaryKey  = 'id';
+    protected $tableName  = 'project_group';
+    protected $modelName  = '\PHPCensor\Model\ProjectGroup';
+    protected $primaryKey = 'id';
 
     /**
      * Get a ProjectGroup by primary key (Id)
+     *
+     * @param integer $key
+     * @param string  $useConnection
+     *
+     * @return null|ProjectGroup
      */
-    public function getByPrimaryKey($value, $useConnection = 'read')
+    public function getByPrimaryKey($key, $useConnection = 'read')
     {
-        return $this->getById($value, $useConnection);
+        return $this->getById($key, $useConnection);
     }
 
     /**
      * Get a single ProjectGroup by Id.
      *
-     * @param integer $value
+     * @param integer $id
      * @param string  $useConnection
      *
      * @return ProjectGroup|null
      *
      * @throws HttpException
      */
-    public function getById($value, $useConnection = 'read')
+    public function getById($id, $useConnection = 'read')
     {
-        if (is_null($value)) {
+        if (is_null($id)) {
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
         $query = 'SELECT * FROM {{project_group}} WHERE {{id}} = :id LIMIT 1';
         $stmt  = Database::getConnection($useConnection)->prepareCommon($query);
 
-        $stmt->bindValue(':id', $value);
+        $stmt->bindValue(':id', $id);
 
         if ($stmt->execute()) {
             if ($data = $stmt->fetch(\PDO::FETCH_ASSOC)) {
@@ -54,23 +59,23 @@ class ProjectGroupStore extends Store
     /**
      * Get a single ProjectGroup by title.
      *
-     * @param integer $value
+     * @param integer $title
      * @param string  $useConnection
      *
      * @return ProjectGroup|null
      *
      * @throws HttpException
      */
-    public function getByTitle($value, $useConnection = 'read')
+    public function getByTitle($title, $useConnection = 'read')
     {
-        if (is_null($value)) {
+        if (is_null($title)) {
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
         $query = 'SELECT * FROM {{project_group}} WHERE {{title}} = :title LIMIT 1';
         $stmt  = Database::getConnection($useConnection)->prepareCommon($query);
 
-        $stmt->bindValue(':title', $value);
+        $stmt->bindValue(':title', $title);
 
         if ($stmt->execute()) {
             if ($data = $stmt->fetch(\PDO::FETCH_ASSOC)) {

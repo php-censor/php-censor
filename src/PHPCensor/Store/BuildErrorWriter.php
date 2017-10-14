@@ -11,7 +11,7 @@ use b8\Database;
 class BuildErrorWriter
 {
     /** @var int */
-    protected $build_id;
+    protected $buildId;
 
     /** @var array */
     protected $errors = [];
@@ -20,17 +20,17 @@ class BuildErrorWriter
      * @var int
      * @see https://stackoverflow.com/questions/40361164/pdoexception-sqlstatehy000-general-error-7-number-of-parameters-must-be-bet
      */
-    protected $buffer_size;
+    protected $bufferSize;
 
     /**
      * BuildErrorWriter constructor.
      *
-     * @param int $build_id
+     * @param int $buildId
      */
-    public function __construct($build_id)
+    public function __construct($buildId)
     {
-        $this->buffer_size = (integer)Config::getInstance()->get('php-censor.build.writer_buffer_size', 500);
-        $this->build_id    = $build_id;
+        $this->bufferSize = (integer)Config::getInstance()->get('php-censor.build.writer_buffer_size', 500);
+        $this->buildId    = $buildId;
     }
 
     /**
@@ -48,33 +48,33 @@ class BuildErrorWriter
      * @param string    $message
      * @param int       $severity
      * @param string    $file
-     * @param int       $line_start
-     * @param int       $line_end
-     * @param \DateTime $created_date
+     * @param int       $lineStart
+     * @param int       $lineEnd
+     * @param \DateTime $createdDate
      */
     public function write(
         $plugin,
         $message,
         $severity,
         $file = null,
-        $line_start = null,
-        $line_end = null,
-        $created_date = null
+        $lineStart = null,
+        $lineEnd = null,
+        $createdDate = null
     ) {
-        if (is_null($created_date)) {
-            $created_date = new \DateTime();
+        if (is_null($createdDate)) {
+            $createdDate = new \DateTime();
         }
         $this->errors[] = [
             'plugin'       => (string)$plugin,
             'message'      => (string)$message,
             'severity'     => (int)$severity,
             'file'         => !is_null($file) ? (string)$file : null,
-            'line_start'   => !is_null($line_start) ? (int)$line_start : null,
-            'line_end'     => !is_null($line_end) ? (int)$line_end : null,
-            'created_date' => $created_date->format('Y-m-d H:i:s'),
+            'line_start'   => !is_null($lineStart) ? (int)$lineStart : null,
+            'line_end'     => !is_null($lineEnd) ? (int)$lineEnd : null,
+            'created_date' => $createdDate->format('Y-m-d H:i:s'),
         ];
 
-        if (count($this->errors) >= $this->buffer_size) {
+        if (count($this->errors) >= $this->bufferSize) {
             $this->flush();
         }
     }
@@ -88,10 +88,10 @@ class BuildErrorWriter
             return;
         }
 
-        $insert_values_placeholders = [];
-        $insert_values_data = [];
+        $insertValuesPlaceholders = [];
+        $insertValuesData         = [];
         foreach ($this->errors as $i => $error) {
-            $insert_values_placeholders[] = '(
+            $insertValuesPlaceholders[] = '(
                 :build_id' . $i . ',
                 :plugin' . $i . ',
                 :file' . $i . ',
@@ -101,14 +101,14 @@ class BuildErrorWriter
                 :message' . $i . ',
                 :created_date' . $i . '
             )';
-            $insert_values_data['build_id' . $i]     = $this->build_id;
-            $insert_values_data['plugin' . $i]       = $error['plugin'];
-            $insert_values_data['file' . $i]         = $error['file'];
-            $insert_values_data['line_start' . $i]   = $error['line_start'];
-            $insert_values_data['line_end' . $i]     = $error['line_end'];
-            $insert_values_data['severity' . $i]     = $error['severity'];
-            $insert_values_data['message' . $i]      = $error['message'];
-            $insert_values_data['created_date' . $i] = $error['created_date'];
+            $insertValuesData['build_id' . $i]     = $this->buildId;
+            $insertValuesData['plugin' . $i]       = $error['plugin'];
+            $insertValuesData['file' . $i]         = $error['file'];
+            $insertValuesData['line_start' . $i]   = $error['line_start'];
+            $insertValuesData['line_end' . $i]     = $error['line_end'];
+            $insertValuesData['severity' . $i]     = $error['severity'];
+            $insertValuesData['message' . $i]      = $error['message'];
+            $insertValuesData['created_date' . $i] = $error['created_date'];
         }
         $query = '
             INSERT INTO {{build_error}} (
@@ -121,10 +121,10 @@ class BuildErrorWriter
                 {{message}},
                 {{created_date}}
             )
-            VALUES ' . join(', ', $insert_values_placeholders) . '
+            VALUES ' . join(', ', $insertValuesPlaceholders) . '
         ';
         $stmt = Database::getConnection('write')->prepareCommon($query);
-        $stmt->execute($insert_values_data);
+        $stmt->execute($insertValuesData);
         $this->errors = [];
     }
 }
