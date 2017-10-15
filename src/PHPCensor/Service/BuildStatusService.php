@@ -155,7 +155,7 @@ class BuildStatusService
     {
         $dateFormat = 'Y-m-d\\TH:i:sO';
         if ($buildInfo = $this->getFinishedBuildInfo()) {
-            return ($buildInfo->getFinished()) ? $buildInfo->getFinished()->format($dateFormat) : '';
+            return ($buildInfo->getFinishDate()) ? $buildInfo->getFinishDate()->format($dateFormat) : '';
         }
         return '';
     }

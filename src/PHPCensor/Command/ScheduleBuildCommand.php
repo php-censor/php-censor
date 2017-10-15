@@ -83,7 +83,7 @@ class ScheduleBuildCommand extends Command
                     // If it's running or just created, we don't want to reschedule already.
                     continue;
                 }
-                if ($date < $build->getFinished()) {
+                if ($date < $build->getFinishDate()) {
                     // If finished date is newer then the specified since days, we don't want to reschedule
                     continue;
                 }

@@ -173,16 +173,18 @@ class ProjectController extends PHPCensor\Controller
             ];
         }
 
-        $email = $_SESSION['php-censor-user']->getEmail();
+        /** @var PHPCensor\Model\User $user */
+        $user  = $_SESSION['php-censor-user'];
         $build = $this->buildService->createBuild(
             $project,
             $environment,
             '',
             $branch,
             null,
-            $email,
+            $user->getEmail(),
             null,
             Build::SOURCE_MANUAL_WEB,
+            $user->getId(),
             $extra
         );
 

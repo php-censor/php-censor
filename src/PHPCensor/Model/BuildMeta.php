@@ -61,8 +61,6 @@ class BuildMeta extends Model
     ];
 
     /**
-     * Get the value of Id / id.
-     *
      * @return int
      */
     public function getId()
@@ -73,8 +71,6 @@ class BuildMeta extends Model
     }
 
     /**
-     * Get the value of BuildId / build_id.
-     *
      * @return int
      */
     public function getBuildId()
@@ -85,8 +81,6 @@ class BuildMeta extends Model
     }
 
     /**
-     * Get the value of MetaKey / meta_key.
-     *
      * @return string
      */
     public function getMetaKey()
@@ -97,8 +91,6 @@ class BuildMeta extends Model
     }
 
     /**
-     * Get the value of MetaValue / meta_value.
-     *
      * @return string
      */
     public function getMetaValue()
@@ -109,15 +101,12 @@ class BuildMeta extends Model
     }
 
     /**
-     * Set the value of Id / id.
-     *
-     * Must not be null.
-     * @param $value int
+     * @param int $value
      */
     public function setId($value)
     {
-        $this->validateNotNull('Id', $value);
-        $this->validateInt('Id', $value);
+        $this->validateNotNull('id', $value);
+        $this->validateInt('id', $value);
 
         if ($this->data['id'] === $value) {
             return;
@@ -129,15 +118,12 @@ class BuildMeta extends Model
     }
 
     /**
-     * Set the value of BuildId / build_id.
-     *
-     * Must not be null.
-     * @param $value int
+     * @param int $value
      */
     public function setBuildId($value)
     {
-        $this->validateNotNull('BuildId', $value);
-        $this->validateInt('BuildId', $value);
+        $this->validateNotNull('build_id', $value);
+        $this->validateInt('build_id', $value);
 
         if ($this->data['build_id'] === $value) {
             return;
@@ -149,15 +135,12 @@ class BuildMeta extends Model
     }
 
     /**
-     * Set the value of MetaKey / meta_key.
-     *
-     * Must not be null.
      * @param $value string
      */
     public function setMetaKey($value)
     {
-        $this->validateNotNull('MetaKey', $value);
-        $this->validateString('MetaKey', $value);
+        $this->validateNotNull('meta_key', $value);
+        $this->validateString('meta_key', $value);
 
         if ($this->data['meta_key'] === $value) {
             return;
@@ -169,15 +152,12 @@ class BuildMeta extends Model
     }
 
     /**
-     * Set the value of MetaValue / meta_value.
-     *
-     * Must not be null.
      * @param $value string
      */
     public function setMetaValue($value)
     {
-        $this->validateNotNull('MetaValue', $value);
-        $this->validateString('MetaValue', $value);
+        $this->validateNotNull('meta_value', $value);
+        $this->validateString('meta_value', $value);
 
         if ($this->data['meta_value'] === $value) {
             return;
@@ -191,8 +171,6 @@ class BuildMeta extends Model
     /**
      * Get the Build model for this BuildMeta by Id.
      *
-     * @uses \PHPCensor\Store\BuildStore::getById()
-     * @uses \PHPCensor\Model\Build
      * @return \PHPCensor\Model\Build
      */
     public function getBuild()
@@ -203,8 +181,8 @@ class BuildMeta extends Model
             return null;
         }
 
-        $cacheKey   = 'Cache.Build.' . $key;
-        $rtn        = $this->cache->get($cacheKey, null);
+        $cacheKey = 'Cache.Build.' . $key;
+        $rtn      = $this->cache->get($cacheKey, null);
 
         if (empty($rtn)) {
             $rtn    = Factory::getStore('Build', 'PHPCensor')->getById($key);

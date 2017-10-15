@@ -1,4 +1,13 @@
-<?php use PHPCensor\Helper\Lang; ?>
+<?php
+
+use PHPCensor\Helper\Lang;
+use PHPCensor\Model\Build;
+
+/**
+ * @var Build $build
+ */
+
+?>
 
 <div class="row">
     <div class="col-sm-4">
@@ -124,28 +133,28 @@
                     <tr>
                         <th><?php Lang::out('created'); ?></th>
                         <td style="text-align: right" class="build-created datetime">
-                            <?php print $build->getCreated() ? $build->getCreated()->format('Y-m-d H:i:s') : ''; ?>
+                            <?= ($build->getCreateDate() ? $build->getCreateDate()->format('Y-m-d H:i:s') : ''); ?>
                         </td>
                     </tr>
 
                     <tr>
                         <th><?php Lang::out('started'); ?></th>
                         <td style="text-align: right" class="build-started datetime">
-                            <?php print $build->getStarted() ? $build->getStarted()->format('Y-m-d H:i:s') : ''; ?>
+                            <?= ($build->getStartDate() ? $build->getStartDate()->format('Y-m-d H:i:s') : ''); ?>
                         </td>
                     </tr>
 
                     <tr>
                         <th><?php Lang::out('finished'); ?></th>
                         <td style="text-align: right" class="build-finished datetime">
-                            <?php print $build->getFinished() ? $build->getFinished()->format('Y-m-d H:i:s') : ''; ?>
+                            <?= ($build->getFinishDate() ? $build->getFinishDate()->format('Y-m-d H:i:s') : ''); ?>
                         </td>
                     </tr>
 
                     <tr>
                         <th><?php Lang::out('duration'); ?></th>
                         <td style="text-align: right" class="build-duration duration">
-                            <?php print $build->getDuration(); ?> <?= Lang::get('seconds'); ?>
+                            <?= $build->getDuration(); ?> <?= Lang::get('seconds'); ?>
                         </td>
                     </tr>
                 </table>

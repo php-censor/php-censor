@@ -47,8 +47,6 @@ class ProjectGroup extends Model
     ];
 
     /**
-     * Get the value of Id / id.
-     *
      * @return int
      */
     public function getId()
@@ -59,8 +57,6 @@ class ProjectGroup extends Model
     }
 
     /**
-     * Get the value of Title / title.
-     *
      * @return string
      */
     public function getTitle()
@@ -71,15 +67,12 @@ class ProjectGroup extends Model
     }
 
     /**
-     * Set the value of Id / id.
-     *
-     * Must not be null.
      * @param $value int
      */
     public function setId($value)
     {
-        $this->validateNotNull('Id', $value);
-        $this->validateInt('Id', $value);
+        $this->validateNotNull('id', $value);
+        $this->validateInt('id', $value);
 
         if ($this->data['id'] === $value) {
             return;
@@ -91,15 +84,12 @@ class ProjectGroup extends Model
     }
 
     /**
-     * Set the value of Title / title.
-     *
-     * Must not be null.
      * @param $value string
      */
     public function setTitle($value)
     {
-        $this->validateNotNull('Title', $value);
-        $this->validateString('Title', $value);
+        $this->validateNotNull('title', $value);
+        $this->validateString('title', $value);
 
         if ($this->data['title'] === $value) {
             return;
@@ -113,8 +103,6 @@ class ProjectGroup extends Model
     /**
      * Get Project models by GroupId for this ProjectGroup.
      *
-     * @uses \PHPCensor\Store\ProjectStore::getByGroupId()
-     * @uses \PHPCensor\Model\Project
      * @return \PHPCensor\Model\Project[]
      */
     public function getGroupProjects()

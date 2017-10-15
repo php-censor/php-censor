@@ -76,8 +76,9 @@ class Model
 
                 $rtn = $childArray;
             } else {
-                $rtn = (is_string($value) && !mb_check_encoding($value, 'UTF-8')) ? mb_convert_encoding($value,
-                    'UTF-8') : $value;
+                $rtn = (is_string($value) && !mb_check_encoding($value, 'UTF-8'))
+                    ? mb_convert_encoding($value, 'UTF-8')
+                    : $value;
             }
         }
 
@@ -121,7 +122,7 @@ class Model
     protected function validateString($name, $value)
     {
         if (!is_string($value) && !is_null($value)) {
-            throw new HttpException\ValidationException($name . ' must be a string.');
+            throw new HttpException\ValidationException('Column "', $name . '" must be a string.');
         }
     }
 
@@ -132,7 +133,7 @@ class Model
         }
 
         if (!is_numeric($value) && !is_null($value)) {
-            throw new HttpException\ValidationException($name . ' must be an integer.');
+            throw new HttpException\ValidationException('Column "', $name . '" must be an integer.');
         }
 
         if (!is_int($value) && !is_null($value)) {
@@ -143,7 +144,7 @@ class Model
     protected function validateFloat($name, &$value)
     {
         if (!is_numeric($value) && !is_null($value)) {
-            throw new HttpException\ValidationException($name . ' must be a float.');
+            throw new HttpException\ValidationException('Column "', $name . '" must be a float.');
         }
 
         if (!is_float($value) && !is_null($value)) {
@@ -158,17 +159,16 @@ class Model
         }
 
         if ((!is_object($value) || !($value instanceof \DateTime)) && !is_null($value)) {
-            throw new HttpException\ValidationException($name . ' must be a date object.');
+            throw new HttpException\ValidationException('Column "', $name . '" must be a date object.');
         }
-
 
         $value = empty($value) ? null : $value->format('Y-m-d H:i:s');
     }
 
-    protected function validateNotNull($name, &$value)
+    protected function validateNotNull($name, $value)
     {
         if (is_null($value)) {
-            throw new HttpException\ValidationException($name . ' must not be null.');
+            throw new HttpException\ValidationException('Column "', $name . '" must not be null.');
         }
     }
 

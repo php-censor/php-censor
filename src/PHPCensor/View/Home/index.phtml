@@ -3,6 +3,10 @@
 use PHPCensor\Helper\Lang;
 use PHPCensor\Model\Build;
 
+/**
+ * @var Build[] $builds
+ */
+
 ?>
 <script>
     var DASHBOARD = true;
@@ -45,32 +49,32 @@ use PHPCensor\Model\Build;
 
                         switch ($build->getStatus()) {
                             case Build::STATUS_PENDING:
-                                $updated = $build->getCreated();
+                                $updated = $build->getCreateDate();
                                 $label = Lang::get('pending');
                                 $color = 'blue';
                                 break;
 
                             case Build::STATUS_RUNNING:
-                                $updated = $build->getStarted();
+                                $updated = $build->getStartDate();
                                 $label = Lang::get('running');
                                 $color = 'yellow';
                                 break;
 
                             case Build::STATUS_SUCCESS:
-                                $updated = $build->getFinished();
+                                $updated = $build->getFinishDate();
                                 $label = Lang::get('success');
                                 $color = 'green';
                                 break;
 
                             case Build::STATUS_FAILED:
-                                $updated = $build->getFinished();
+                                $updated = $build->getFinishDate();
                                 $label = Lang::get('failed');
                                 $color = 'red';
                                 break;
                         }
 
                         if (!$updated) {
-                            $updated = $build->getCreated();
+                            $updated = $build->getCreateDate();
                         }
 
                         if ($updated->format('Y-m-d') != $last->format('Y-m-d')): $last = $updated;

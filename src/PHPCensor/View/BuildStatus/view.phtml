@@ -142,7 +142,7 @@
                                     <td>
                                         <span class='label label-<?php echo $class ?>'><?php echo $status ?></span>
                                     </td>
-                                    <td><?= $build->getCreated()->format('Y-m-d H:i:s'); ?></td>
+                                    <td><?= $build->getCreateDate()->format('Y-m-d H:i:s'); ?></td>
                                     <td>
                                         <?php
                                             if (!empty($build->getCommitId())) {

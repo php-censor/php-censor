@@ -185,7 +185,7 @@ class Builder implements LoggerAwareInterface
         }
 
         // Update the build in the database, ping any external services.
-        $this->build->setStarted(new \DateTime());
+        $this->build->setStartDate(new \DateTime());
         $this->store->save($this->build);
         $this->build->sendStatusPostback();
         $success = true;
@@ -256,7 +256,7 @@ class Builder implements LoggerAwareInterface
 
         // Update the build in the database, ping any external services, etc.
         $this->build->sendStatusPostback();
-        $this->build->setFinished(new \DateTime());
+        $this->build->setFinishDate(new \DateTime());
 
         $removeBuilds = (bool)Config::getInstance()->get('php-censor.build.remove_builds', true);
         if ($removeBuilds) {

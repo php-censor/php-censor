@@ -86,10 +86,10 @@ class BuildStatusServiceTest extends \PHPUnit\Framework\TestCase
         $build->setBranch(self::BRANCH);
         $build->setStatus($config[$configId]['status']);
         if ($config[$configId]['finishDateTime']) {
-            $build->setFinished(new \DateTime($config[$configId]['finishDateTime']));
+            $build->setFinishDate(new \DateTime($config[$configId]['finishDateTime']));
         }
         if (!empty($config[$configId]['startedDate'])) {
-            $build->setStarted(new \DateTime('2014-10-25 21:20:02'));
+            $build->setStartDate(new \DateTime('2014-10-25 21:20:02'));
         }
 
         $project = $this->getProjectMock($config[$configId]['previousBuild'], $setProject);

@@ -74,8 +74,6 @@ class User extends Model
     ];
 
     /**
-     * Get the value of Id / id.
-     *
      * @return int
      */
     public function getId()
@@ -86,8 +84,6 @@ class User extends Model
     }
 
     /**
-     * Get the value of Email / email.
-     *
      * @return string
      */
     public function getEmail()
@@ -98,8 +94,6 @@ class User extends Model
     }
 
     /**
-     * Get the value of Hash / hash.
-     *
      * @return string
      */
     public function getHash()
@@ -110,8 +104,6 @@ class User extends Model
     }
 
     /**
-     * Get the value of Name / name.
-     *
      * @return string
      */
     public function getName()
@@ -122,8 +114,6 @@ class User extends Model
     }
 
     /**
-     * Get the value of IsAdmin / is_admin.
-     *
      * @return int
      */
     public function getIsAdmin()
@@ -134,8 +124,6 @@ class User extends Model
     }
 
     /**
-     * Get the value of ProviderKey / provider_key.
-     *
      * @return string
      */
     public function getProviderKey()
@@ -146,8 +134,6 @@ class User extends Model
     }
 
     /**
-     * Get the value of ProviderData / provider_data.
-     *
      * @return string
      */
     public function getProviderData()
@@ -158,8 +144,6 @@ class User extends Model
     }
 
     /**
-     * Get the value of RememberKey / remember_key.
-     *
      * @return string
      */
     public function getRememberKey()
@@ -170,8 +154,6 @@ class User extends Model
     }
 
     /**
-     * Get the value of Language / language.
-     *
      * @return string
      */
     public function getLanguage()
@@ -182,8 +164,6 @@ class User extends Model
     }
 
     /**
-     * Get the value of PerPage / per_page.
-     *
      * @return string
      */
     public function getPerPage()
@@ -194,15 +174,12 @@ class User extends Model
     }
 
     /**
-     * Set the value of Id / id.
-     *
-     * Must not be null.
      * @param $value int
      */
     public function setId($value)
     {
-        $this->validateNotNull('Id', $value);
-        $this->validateInt('Id', $value);
+        $this->validateNotNull('id', $value);
+        $this->validateInt('id', $value);
 
         if ($this->data['id'] === $value) {
             return;
@@ -214,15 +191,12 @@ class User extends Model
     }
 
     /**
-     * Set the value of Email / email.
-     *
-     * Must not be null.
      * @param $value string
      */
     public function setEmail($value)
     {
-        $this->validateNotNull('Email', $value);
-        $this->validateString('Email', $value);
+        $this->validateNotNull('email', $value);
+        $this->validateString('email', $value);
 
         if ($this->data['email'] === $value) {
             return;
@@ -234,15 +208,12 @@ class User extends Model
     }
 
     /**
-     * Set the value of Hash / hash.
-     *
-     * Must not be null.
      * @param $value string
      */
     public function setHash($value)
     {
-        $this->validateNotNull('Hash', $value);
-        $this->validateString('Hash', $value);
+        $this->validateNotNull('hash', $value);
+        $this->validateString('hash', $value);
 
         if ($this->data['hash'] === $value) {
             return;
@@ -254,15 +225,12 @@ class User extends Model
     }
 
     /**
-     * Set the value of Name / name.
-     *
-     * Must not be null.
      * @param $value string
      */
     public function setName($value)
     {
-        $this->validateNotNull('Name', $value);
-        $this->validateString('Name', $value);
+        $this->validateNotNull('name', $value);
+        $this->validateString('name', $value);
 
         if ($this->data['name'] === $value) {
             return;
@@ -274,15 +242,12 @@ class User extends Model
     }
 
     /**
-     * Set the value of IsAdmin / is_admin.
-     *
-     * Must not be null.
      * @param $value int
      */
     public function setIsAdmin($value)
     {
-        $this->validateNotNull('IsAdmin', $value);
-        $this->validateInt('IsAdmin', $value);
+        $this->validateNotNull('is_admin', $value);
+        $this->validateInt('is_admin', $value);
 
         if ($this->data['is_admin'] === $value) {
             return;
@@ -294,15 +259,12 @@ class User extends Model
     }
 
     /**
-     * Set the value of ProviderKey / provider_key.
-     *
-     * Must not be null.
      * @param $value string
      */
     public function setProviderKey($value)
     {
-        $this->validateNotNull('ProviderKey', $value);
-        $this->validateString('ProviderKey', $value);
+        $this->validateNotNull('provider_key', $value);
+        $this->validateString('provider_key', $value);
 
         if ($this->data['provider_key'] === $value) {
             return;
@@ -314,13 +276,11 @@ class User extends Model
     }
 
     /**
-     * Set the value of ProviderData / provider_data.
-     *
      * @param $value string
      */
     public function setProviderData($value)
     {
-        $this->validateString('ProviderData', $value);
+        $this->validateString('provider_data', $value);
 
         if ($this->data['provider_data'] === $value) {
             return;
@@ -332,13 +292,11 @@ class User extends Model
     }
 
     /**
-     * Set the value of RememberKey / remember_key.
-     *
      * @param $value string
      */
     public function setRememberKey($value)
     {
-        $this->validateString('RememberKey', $value);
+        $this->validateString('remember_key', $value);
 
         if ($this->data['remember_key'] === $value) {
             return;
@@ -350,9 +308,6 @@ class User extends Model
     }
 
     /**
-     * Set the value of Language / language.
-     *
-     * Must not be null.
      * @param $value string
      */
     public function setLanguage($value)
@@ -367,9 +322,6 @@ class User extends Model
     }
 
     /**
-     * Set the value of PerPage / per_page.
-     *
-     * Must not be null.
      * @param $value string
      */
     public function setPerPage($value)

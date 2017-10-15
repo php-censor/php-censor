@@ -42,6 +42,7 @@ class BuildService
      * @param string|null $committerEmail
      * @param string|null $commitMessage
      * @param integer     $source
+     * @param integer     $userId
      * @param string|null $extra
      * 
      * @return \PHPCensor\Model\Build
@@ -55,10 +56,11 @@ class BuildService
         $committerEmail = null,
         $commitMessage = null,
         $source = Build::SOURCE_UNKNOWN,
+        $userId = 0,
         $extra = null
     ) {
         $build = new Build();
-        $build->setCreated(new \DateTime());
+        $build->setCreateDate(new \DateTime());
         $build->setProject($project);
         $build->setStatus(Build::STATUS_PENDING);
         $build->setEnvironment($environment);
@@ -67,6 +69,7 @@ class BuildService
         $build->setExtraValue('branches', $branches);
 
         $build->setSource($source);
+        $build->setUserId($userId);
         $build->setCommitId((string)$commitId);
 
         if (!empty($branch)) {
@@ -121,7 +124,7 @@ class BuildService
 
         $build = new Build();
         $build->setValues($data);
-        $build->setCreated(new \DateTime());
+        $build->setCreateDate(new \DateTime());
         $build->setStatus(Build::STATUS_PENDING);
 
         /** @var Build $build */

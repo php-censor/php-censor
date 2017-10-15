@@ -52,8 +52,6 @@ class Environment extends Model
     ];
 
     /**
-     * Get the value of Id / id.
-     *
      * @return int
      */
     public function getId()
@@ -64,8 +62,6 @@ class Environment extends Model
     }
 
     /**
-     * Get the value of Id / id.
-     *
      * @return int
      */
     public function getProjectId()
@@ -76,8 +72,6 @@ class Environment extends Model
     }
 
     /**
-     * Get the value of Title / title.
-     *
      * @return string
      */
     public function getName()
@@ -88,8 +82,6 @@ class Environment extends Model
     }
 
     /**
-     * Get the value of Title / title.
-     *
      * @return array
      */
     public function getBranches()
@@ -100,15 +92,12 @@ class Environment extends Model
     }
 
     /**
-     * Set the value of Id / id.
-     *
-     * Must not be null.
      * @param $value int
      */
     public function setId($value)
     {
-        $this->validateNotNull('Id', $value);
-        $this->validateInt('Id', $value);
+        $this->validateNotNull('id', $value);
+        $this->validateInt('id', $value);
 
         if ($this->data['id'] === $value) {
             return;
@@ -120,15 +109,12 @@ class Environment extends Model
     }
 
     /**
-     * Set the value of Id / id.
-     *
-     * Must not be null.
      * @param $value int
      */
     public function setProjectId($value)
     {
-        $this->validateNotNull('ProjectId', $value);
-        $this->validateInt('ProjectId', $value);
+        $this->validateNotNull('project_id', $value);
+        $this->validateInt('project_id', $value);
 
         if ($this->data['project_id'] === $value) {
             return;
@@ -140,15 +126,12 @@ class Environment extends Model
     }
 
     /**
-     * Set the value of Name / name
-     *
-     * Must not be null.
      * @param $value string
      */
     public function setName($value)
     {
-        $this->validateNotNull('Name', $value);
-        $this->validateString('Name', $value);
+        $this->validateNotNull('name', $value);
+        $this->validateString('name', $value);
 
         if ($this->data['name'] === $value) {
             return;
@@ -160,14 +143,11 @@ class Environment extends Model
     }
 
     /**
-     * Set the value of Branches / branches
-     *
-     * Must not be null.
      * @param $value array
      */
     public function setBranches($value)
     {
-        $this->validateNotNull('Branches', $value);
+        $this->validateNotNull('branches', $value);
         $value = implode("\n", $value);
 
         if ($this->data['branches'] === $value) {
