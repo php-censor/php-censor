@@ -25,82 +25,30 @@ class Environment extends Model
      * @var array
      */
     protected $data = [
-        'id'    => null,
+        'id'         => null,
         'project_id' => null,
-        'name' => null,
-        'branches' => null,
+        'name'       => null,
+        'branches'   => null,
     ];
 
     /**
      * @var array
      */
     protected $getters = [
-        // Direct property getters:
-        'id'    => 'getId',
+        'id'         => 'getId',
         'project_id' => 'getProjectId',
-        'name' => 'getName',
-        'branches' => 'getBranches',
-        // Foreign key getters:
+        'name'       => 'getName',
+        'branches'   => 'getBranches',
     ];
 
     /**
      * @var array
      */
     protected $setters = [
-        // Direct property setters:
-        'id'    => 'setId',
-        'project_id'    => 'setProjectId',
-        'name' => 'setName',
-        'branches' => 'setBranches',
-        // Foreign key setters:
-    ];
-
-    /**
-     * @var array
-     */
-    public $columns = [
-        'id' => [
-            'type'           => 'int',
-            'length'         => 11,
-            'primary_key'    => true,
-            'auto_increment' => true,
-            'default'        => null,
-        ],
-        'project_id' => [
-            'type'           => 'int',
-            'length'         => 11,
-            'primary_key'    => true,
-            'default'        => null,
-        ],
-        'name' => [
-            'type'    => 'varchar',
-            'length'  => 250,
-            'default' => null,
-        ],
-        'branches' => [
-            'type'    => 'text',
-            'default' => '',
-        ],
-    ];
-
-    /**
-     * @var array
-     */
-    public $indexes = [
-        'PRIMARY' => ['unique' => true, 'columns' => 'project_id, name'],
-    ];
-
-    /**
-     * @var array
-     */
-    public $foreignKeys = [
-        'environment_ibfk_1' => [
-            'local_col' => 'project_id',
-            'update'    => 'CASCADE',
-            'delete'    => '',
-            'table'     => 'project',
-            'col'       => 'id'
-        ],
+        'id'         => 'setId',
+        'project_id' => 'setProjectId',
+        'name'       => 'setName',
+        'branches'   => 'setBranches',
     ];
 
     /**
@@ -110,7 +58,7 @@ class Environment extends Model
      */
     public function getId()
     {
-        $rtn    = $this->data['id'];
+        $rtn = $this->data['id'];
 
         return $rtn;
     }
@@ -134,7 +82,7 @@ class Environment extends Model
      */
     public function getName()
     {
-        $rtn    = $this->data['name'];
+        $rtn = $this->data['name'];
 
         return $rtn;
     }

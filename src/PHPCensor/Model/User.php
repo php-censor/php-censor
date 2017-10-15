@@ -45,7 +45,6 @@ class User extends Model
      * @var array
      */
     protected $getters = [
-        // Direct property getters:
         'id'            => 'getId',
         'email'         => 'getEmail',
         'hash'          => 'getHash',
@@ -56,14 +55,12 @@ class User extends Model
         'provider_key'  => 'getProviderKey',
         'provider_data' => 'getProviderData',
         'remember_key'  => 'getRememberKey',
-        // Foreign key getters:
     ];
 
     /**
      * @var array
      */
     protected $setters = [
-        // Direct property setters:
         'id'            => 'setId',
         'email'         => 'setEmail',
         'hash'          => 'setHash',
@@ -74,82 +71,7 @@ class User extends Model
         'provider_key'  => 'setProviderKey',
         'provider_data' => 'setProviderData',
         'remember_key'  => 'setRememberKey',
-        // Foreign key setters:
     ];
-
-    /**
-     * @var array
-     */
-    public $columns = [
-        'id' => [
-            'type'           => 'int',
-            'length'         => 11,
-            'primary_key'    => true,
-            'auto_increment' => true,
-            'default'        => null,
-        ],
-        'email' => [
-            'type'    => 'varchar',
-            'length'  => 250,
-            'default' => null,
-        ],
-        'hash' => [
-            'type'    => 'varchar',
-            'length'  => 250,
-            'default' => null,
-        ],
-        'is_admin' => [
-            'type'   => 'int',
-            'length' => 11,
-        ],
-        'name' => [
-            'type'    => 'varchar',
-            'length'  => 250,
-            'default' => null,
-        ],
-        'language' => [
-            'type'    => 'varchar',
-            'length'  => 5,
-            'default' => null,
-        ],
-        'per_page' => [
-            'type'    => 'int',
-            'length'  => 11,
-            'default' => null,
-        ],
-        'provider_key' => [
-            'type'    => 'varchar',
-            'length'  => 255,
-            'default' => 'internal',
-        ],
-        'provider_data' => [
-            'type'     => 'varchar',
-            'length'   => 255,
-            'nullable' => true,
-            'default'  => null,
-        ],
-        'remember_key' => [
-            'type'     => 'varchar',
-            'length'   => 32,
-            'nullable' => true,
-            'default'  => null,
-        ],
-    ];
-
-    /**
-     * @var array
-     */
-    public $indexes = [
-        'PRIMARY'   => ['unique' => true, 'columns' => 'id'],
-        'idx_email' => ['unique' => true, 'columns' => 'email'],
-        'email'     => ['unique' => true, 'columns' => 'email'],
-        'name'      => ['columns' => 'name'],
-    ];
-
-    /**
-     * @var array
-     */
-    public $foreignKeys = [];
 
     /**
      * Get the value of Id / id.

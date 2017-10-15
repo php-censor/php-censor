@@ -34,51 +34,17 @@ class ProjectGroup extends Model
      * @var array
      */
     protected $getters = [
-        // Direct property getters:
         'id'    => 'getId',
         'title' => 'getTitle',
-        // Foreign key getters:
     ];
 
     /**
      * @var array
      */
     protected $setters = [
-        // Direct property setters:
         'id'    => 'setId',
         'title' => 'setTitle',
-        // Foreign key setters:
     ];
-
-    /**
-     * @var array
-     */
-    public $columns = [
-        'id' => [
-            'type'           => 'int',
-            'length'         => 11,
-            'primary_key'    => true,
-            'auto_increment' => true,
-            'default'        => null,
-        ],
-        'title' => [
-            'type'    => 'varchar',
-            'length'  => 100,
-            'default' => null,
-        ],
-    ];
-
-    /**
-     * @var array
-     */
-    public $indexes = [
-        'PRIMARY' => ['unique' => true, 'columns' => 'id'],
-    ];
-
-    /**
-     * @var array
-     */
-    public $foreignKeys = [];
 
     /**
      * Get the value of Id / id.
@@ -87,7 +53,7 @@ class ProjectGroup extends Model
      */
     public function getId()
     {
-        $rtn    = $this->data['id'];
+        $rtn = $this->data['id'];
 
         return $rtn;
     }
@@ -99,7 +65,7 @@ class ProjectGroup extends Model
      */
     public function getTitle()
     {
-        $rtn    = $this->data['title'];
+        $rtn = $this->data['title'];
 
         return $rtn;
     }

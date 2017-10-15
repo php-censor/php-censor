@@ -9,7 +9,9 @@ class AddedTagColumnToBuildTable extends AbstractMigration
         $table = $this->table('build');
 
         if (!$table->hasColumn('tag')) {
-            $table->addColumn('tag', 'string', ['limit' => 250, 'null' => true])->save();
+            $table
+                ->addColumn('tag', 'string', ['limit' => 250, 'null' => true])
+                ->save();
         }
     }
 
@@ -18,7 +20,9 @@ class AddedTagColumnToBuildTable extends AbstractMigration
         $table = $this->table('build');
 
         if ($table->hasColumn('tag')) {
-            $table->removeColumn('tag')->save();
+            $table
+                ->removeColumn('tag')
+                ->save();
         }
     }
 }

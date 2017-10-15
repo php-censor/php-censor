@@ -68,8 +68,9 @@ class Project extends Model
         'allow_public_status' => 'getAllowPublicStatus',
         'archived'            => 'getArchived',
         'group_id'            => 'getGroupId',
+
         // Foreign key getters:
-        'Group'               => 'getGroup',
+        'Group' => 'getGroup',
     ];
 
     /**
@@ -91,108 +92,9 @@ class Project extends Model
         'allow_public_status' => 'setAllowPublicStatus',
         'archived'            => 'setArchived',
         'group_id'            => 'setGroupId',
+
         // Foreign key setters:
-        'Group'               => 'setGroup',
-    ];
-
-    /**
-     * @var array
-     */
-    public $columns = [
-        'id' => [
-            'type'           => 'int',
-            'length'         => 11,
-            'primary_key'    => true,
-            'auto_increment' => true,
-            'default'        => null,
-        ],
-        'title' => [
-            'type'    => 'varchar',
-            'length'  => 250,
-            'default' => null,
-        ],
-        'reference' => [
-            'type'    => 'varchar',
-            'length'  => 250,
-            'default' => null,
-        ],
-        'branch' => [
-            'type'    => 'varchar',
-            'length'  => 250,
-            'default' => 'master',
-        ],
-        'default_branch_only' => [
-            'type'   => 'int',
-            'length' => 11,
-        ],
-        'ssh_private_key' => [
-            'type'     => 'text',
-            'nullable' => true,
-            'default'  => null,
-        ],
-        'type' => [
-            'type'    => 'varchar',
-            'length'  => 50,
-            'default' => null,
-        ],
-        'access_information' => [
-            'type'     => 'varchar',
-            'length'   => 250,
-            'nullable' => true,
-            'default'  => null,
-        ],
-        'last_commit' => [
-            'type'     => 'varchar',
-            'length'   => 250,
-            'nullable' => true,
-            'default'  => null,
-        ],
-        'build_config' => [
-            'type'     => 'text',
-            'nullable' => true,
-            'default'  => null,
-        ],
-        'ssh_public_key' => [
-            'type'     => 'text',
-            'nullable' => true,
-            'default'  => null,
-        ],
-        'allow_public_status' => [
-            'type'   => 'int',
-            'length' => 11,
-        ],
-        'archived' => [
-            'type'    => 'tinyint',
-            'length'  => 1,
-            'default' => null,
-        ],
-        'group_id' => [
-            'type'    => 'int',
-            'length'  => 11,
-            'default' => 1,
-        ],
-    ];
-
-    /**
-     * @var array
-     */
-    public $indexes = [
-        'PRIMARY'           => ['unique' => true, 'columns' => 'id'],
-        'idx_project_title' => ['columns' => 'title'],
-        'group_id'          => ['columns' => 'group_id'],
-    ];
-
-    /**
-     * @var array
-     */
-    public $foreignKeys = [
-        'project_ibfk_1' => [
-            'local_col' => 'group_id',
-            'update'    => 'CASCADE',
-            'delete'    => '',
-            'table'     => 'project_group',
-            'col'       => 'id'
-        ],
+        'Group' => 'setGroup',
     ];
 
     /**
@@ -202,7 +104,7 @@ class Project extends Model
      */
     public function getId()
     {
-        $rtn    = $this->data['id'];
+        $rtn = $this->data['id'];
 
         return $rtn;
     }
@@ -214,7 +116,7 @@ class Project extends Model
      */
     public function getTitle()
     {
-        $rtn    = $this->data['title'];
+        $rtn = $this->data['title'];
 
         return $rtn;
     }
@@ -226,7 +128,7 @@ class Project extends Model
      */
     public function getReference()
     {
-        $rtn    = $this->data['reference'];
+        $rtn = $this->data['reference'];
 
         return $rtn;
     }
@@ -238,7 +140,7 @@ class Project extends Model
      */
     public function getSshPrivateKey()
     {
-        $rtn    = $this->data['ssh_private_key'];
+        $rtn = $this->data['ssh_private_key'];
 
         return $rtn;
     }
@@ -250,7 +152,7 @@ class Project extends Model
      */
     public function getType()
     {
-        $rtn    = $this->data['type'];
+        $rtn = $this->data['type'];
 
         return $rtn;
     }
@@ -262,7 +164,7 @@ class Project extends Model
      */
     public function getLastCommit()
     {
-        $rtn    = $this->data['last_commit'];
+        $rtn = $this->data['last_commit'];
 
         return $rtn;
     }
@@ -286,7 +188,7 @@ class Project extends Model
      */
     public function getSshPublicKey()
     {
-        $rtn    = $this->data['ssh_public_key'];
+        $rtn = $this->data['ssh_public_key'];
 
         return $rtn;
     }

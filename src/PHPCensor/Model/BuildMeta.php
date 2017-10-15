@@ -41,8 +41,9 @@ class BuildMeta extends Model
         'build_id'   => 'getBuildId',
         'meta_key'   => 'getMetaKey',
         'meta_value' => 'getMetaValue',
+
         // Foreign key getters:
-        'Build'      => 'getBuild',
+        'Build' => 'getBuild',
     ];
 
     /**
@@ -54,56 +55,9 @@ class BuildMeta extends Model
         'build_id'   => 'setBuildId',
         'meta_key'   => 'setMetaKey',
         'meta_value' => 'setMetaValue',
+
         // Foreign key setters:
-        'Build'      => 'setBuild',
-    ];
-
-    /**
-     * @var array
-     */
-    public $columns = [
-        'id' => [
-            'type'           => 'int',
-            'length'         => 10,
-            'primary_key'    => true,
-            'auto_increment' => true,
-            'default'        => null,
-        ],
-        'build_id' => [
-            'type'    => 'int',
-            'length'  => 11,
-            'default' => null,
-        ],
-        'meta_key' => [
-            'type'    => 'varchar',
-            'length'  => 250,
-            'default' => null,
-        ],
-        'meta_value' => [
-            'type'    => 'mediumtext',
-            'default' => null,
-        ],
-    ];
-
-    /**
-     * @var array
-     */
-    public $indexes = [
-        'PRIMARY'     => ['unique' => true, 'columns' => 'id'],
-        'idx_meta_id' => ['unique' => true, 'columns' => 'build_id, meta_key'],
-    ];
-
-    /**
-     * @var array
-     */
-    public $foreignKeys = [
-        'fk_meta_build_id' => [
-            'local_col' => 'build_id',
-            'update'    => 'CASCADE',
-            'delete'    => 'CASCADE',
-            'table'     => 'build',
-            'col'       => 'id'
-        ],
+        'Build' => 'setBuild',
     ];
 
     /**
@@ -113,7 +67,7 @@ class BuildMeta extends Model
      */
     public function getId()
     {
-        $rtn    = $this->data['id'];
+        $rtn = $this->data['id'];
 
         return $rtn;
     }
@@ -125,7 +79,7 @@ class BuildMeta extends Model
      */
     public function getBuildId()
     {
-        $rtn    = $this->data['build_id'];
+        $rtn = $this->data['build_id'];
 
         return $rtn;
     }
@@ -137,7 +91,7 @@ class BuildMeta extends Model
      */
     public function getMetaKey()
     {
-        $rtn    = $this->data['meta_key'];
+        $rtn = $this->data['meta_key'];
 
         return $rtn;
     }
@@ -149,7 +103,7 @@ class BuildMeta extends Model
      */
     public function getMetaValue()
     {
-        $rtn    = $this->data['meta_value'];
+        $rtn = $this->data['meta_value'];
 
         return $rtn;
     }

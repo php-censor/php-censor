@@ -9,11 +9,15 @@ class AddedLanguageAndPerPageForUser extends AbstractMigration
         $table = $this->table('user');
 
         if (!$table->hasColumn('language')) {
-            $table->addColumn('language', 'string', ['limit' => 5, 'null' => true])->save();
+            $table
+                ->addColumn('language', 'string', ['limit' => 5, 'null' => true])
+                ->save();
         }
 
         if (!$table->hasColumn('per_page')) {
-            $table->addColumn('per_page', 'integer', ['null' => true])->save();
+            $table
+                ->addColumn('per_page', 'integer', ['null' => true])
+                ->save();
         }
     }
 
@@ -22,11 +26,15 @@ class AddedLanguageAndPerPageForUser extends AbstractMigration
         $table = $this->table('user');
 
         if ($table->hasColumn('language')) {
-            $table->removeColumn('language')->save();
+            $table
+                ->removeColumn('language')
+                ->save();
         }
 
         if ($table->hasColumn('per_page')) {
-            $table->removeColumn('per_page')->save();
+            $table
+                ->removeColumn('per_page')
+                ->save();
         }
     }
 }
