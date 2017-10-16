@@ -14,8 +14,6 @@ class AddedAdditionalColumns extends AbstractMigration
                 ->save();
         }
 
-        $table = $this->table('build');
-
         if ($table->hasColumn('created')) {
             $table
                 ->renameColumn('created', 'create_date')
@@ -44,8 +42,6 @@ class AddedAdditionalColumns extends AbstractMigration
                 ->removeColumn('user_id')
                 ->save();
         }
-
-        $table = $this->table('build');
 
         if ($table->hasColumn('create_date')) {
             $table
