@@ -35,7 +35,7 @@ class ProjectServiceTest extends \PHPUnit\Framework\TestCase
 
     public function testExecute_CreateBasicProject()
     {
-        $returnValue = $this->testedService->createProject('Test Project', 'github', 'block8/phpci');
+        $returnValue = $this->testedService->createProject('Test Project', 'github', 'block8/phpci', 0);
 
         $this->assertEquals('Test Project', $returnValue->getTitle());
         $this->assertEquals('github', $returnValue->getType());
@@ -53,7 +53,7 @@ class ProjectServiceTest extends \PHPUnit\Framework\TestCase
             'branch'              => 'testbranch',
         ];
 
-        $returnValue = $this->testedService->createProject('Test Project', 'github', 'block8/phpci', $options);
+        $returnValue = $this->testedService->createProject('Test Project', 'github', 'block8/phpci', 0, $options);
 
         $this->assertEquals('private', $returnValue->getSshPrivateKey());
         $this->assertEquals('public', $returnValue->getSshPublicKey());
@@ -68,7 +68,7 @@ class ProjectServiceTest extends \PHPUnit\Framework\TestCase
     public function testExecute_CreateGitlabProjectWithoutPort()
     {
         $reference = 'git@gitlab.block8.net:block8/phpci.git';
-        $returnValue = $this->testedService->createProject('Gitlab', 'gitlab', $reference);
+        $returnValue = $this->testedService->createProject('Gitlab', 'gitlab', $reference, 0);
 
         $this->assertEquals('git', $returnValue->getAccessInformation('user'));
         $this->assertEquals('gitlab.block8.net', $returnValue->getAccessInformation('domain'));

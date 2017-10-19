@@ -47,6 +47,8 @@ class Project extends Model
         'allow_public_status' => null,
         'archived'            => null,
         'group_id'            => null,
+        'create_date'         => null,
+        'user_id'             => 0,
     ];
 
     /**
@@ -68,6 +70,8 @@ class Project extends Model
         'allow_public_status' => 'getAllowPublicStatus',
         'archived'            => 'getArchived',
         'group_id'            => 'getGroupId',
+        'create_date'         => 'getCreateDate',
+        'user_id'             => 'getUserId',
 
         // Foreign key getters:
         'Group' => 'getGroup',
@@ -92,6 +96,8 @@ class Project extends Model
         'allow_public_status' => 'setAllowPublicStatus',
         'archived'            => 'setArchived',
         'group_id'            => 'setGroupId',
+        'create_date'         => 'setCreateDate',
+        'user_id'             => 'setUserId',
 
         // Foreign key setters:
         'Group' => 'setGroup',
@@ -600,6 +606,63 @@ class Project extends Model
         }
 
         return $rtn;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreateDate()
+    {
+        $rtn = $this->data['create_date'];
+
+        if (!empty($rtn)) {
+            $rtn = new \DateTime($rtn);
+        }
+
+        return $rtn;
+    }
+
+    /**
+     * @param $value \DateTime
+     */
+    public function setCreateDate($value)
+    {
+        $this->validateDate('create_date', $value);
+
+        if ($this->data['create_date'] === $value) {
+            return;
+        }
+
+        $this->data['create_date'] = $value;
+
+        $this->setModified('create_date');
+    }
+
+    /**
+     * @return string
+     */
+    public function getUserId()
+    {
+        $rtn = $this->data['user_id'];
+
+        return (integer)$rtn;
+    }
+
+    /**
+     * @param $value integer
+     */
+    public function setUserId($value)
+    {
+        $this->validateNotNull('user_id', $value);
+        $this->validateInt('user_id', $value);
+
+        if ($this->data['user_id'] === $value) {
+            return;
+        }
+
+        $this->data['user_id'] = $value;
+
+        $this->setModified('user_id');
     }
 
     /**

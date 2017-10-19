@@ -327,7 +327,9 @@ class ProjectController extends PHPCensor\Controller
                 'environments'        => $this->getParam('environments', null),
             ];
 
-            $project = $this->projectService->createProject($title, $type, $reference, $options);
+            /** @var PHPCensor\Model\User $user */
+            $user    = $_SESSION['php-censor-user'];
+            $project = $this->projectService->createProject($title, $type, $reference, $user->getId(), $options);
 
             $response = new RedirectResponse();
             $response->setHeader('Location', APP_URL.'project/view/' . $project->getId());

@@ -8,9 +8,9 @@ use b8\Store\Factory;
 class BuildError extends Model
 {
     const SEVERITY_CRITICAL = 0;
-    const SEVERITY_HIGH = 1;
-    const SEVERITY_NORMAL = 2;
-    const SEVERITY_LOW = 3;
+    const SEVERITY_HIGH     = 1;
+    const SEVERITY_NORMAL   = 2;
+    const SEVERITY_LOW      = 3;
 
     /**
      * @var array
@@ -39,7 +39,7 @@ class BuildError extends Model
         'line_end'     => null,
         'severity'     => null,
         'message'      => null,
-        'created_date' => null,
+        'create_date'  => null,
     ];
 
     /**
@@ -55,7 +55,7 @@ class BuildError extends Model
         'line_end'     => 'getLineEnd',
         'severity'     => 'getSeverity',
         'message'      => 'getMessage',
-        'created_date' => 'getCreatedDate',
+        'create_date'  => 'getCreateDate',
 
         // Foreign key getters:
         'Build' => 'getBuild',
@@ -74,7 +74,7 @@ class BuildError extends Model
         'line_end'     => 'setLineEnd',
         'severity'     => 'setSeverity',
         'message'      => 'setMessage',
-        'created_date' => 'setCreatedDate',
+        'create_date'  => 'setCreateDate',
 
         // Foreign key setters:
         'Build' => 'setBuild',
@@ -163,9 +163,9 @@ class BuildError extends Model
     /**
      * @return \DateTime
      */
-    public function getCreatedDate()
+    public function getCreateDate()
     {
-        $rtn = $this->data['created_date'];
+        $rtn = $this->data['create_date'];
 
         if (!empty($rtn)) {
             $rtn = new \DateTime($rtn);
@@ -310,18 +310,18 @@ class BuildError extends Model
     /**
      * @param $value \DateTime
      */
-    public function setCreatedDate($value)
+    public function setCreateDate($value)
     {
-        $this->validateNotNull('created_date', $value);
-        $this->validateDate('created_date', $value);
+        $this->validateNotNull('create_date', $value);
+        $this->validateDate('create_date', $value);
 
-        if ($this->data['created_date'] === $value) {
+        if ($this->data['create_date'] === $value) {
             return;
         }
 
-        $this->data['created_date'] = $value;
+        $this->data['create_date'] = $value;
 
-        $this->setModified('created_date');
+        $this->setModified('create_date');
     }
 
     /**
