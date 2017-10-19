@@ -119,8 +119,8 @@ class BuildService
         unset($data['id']);
         unset($data['status']);
         unset($data['log']);
-        unset($data['started']);
-        unset($data['finished']);
+        unset($data['start_date']);
+        unset($data['finish_date']);
 
         $build = new Build();
         $build->setValues($data);

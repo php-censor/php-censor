@@ -127,6 +127,7 @@ class BuildServiceTest extends \PHPUnit\Framework\TestCase
             null,
             null,
             Build::SOURCE_UNKNOWN,
+            0,
             ['item1' => 1001]
         );
 
