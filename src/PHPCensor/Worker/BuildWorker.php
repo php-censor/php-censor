@@ -118,7 +118,7 @@ class BuildWorker
                 $this->logger->addError($ex->getMessage());
 
                 $build->setStatus(Build::STATUS_FAILED);
-                $build->setFinished(new \DateTime());
+                $build->setFinishDate(new \DateTime());
                 $build->setLog($build->getLog() . PHP_EOL . PHP_EOL . $ex->getMessage());
                 $buildStore->save($build);
                 $build->sendStatusPostback();

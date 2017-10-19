@@ -9,7 +9,9 @@ class AddedRememberMeLogin extends AbstractMigration
         $table = $this->table('user');
 
         if (!$table->hasColumn('remember_key')) {
-            $table->addColumn('remember_key', 'string', ['limit' => 32, 'null' => true])->save();
+            $table
+                ->addColumn('remember_key', 'string', ['limit' => 32, 'null' => true])
+                ->save();
         }
     }
 
@@ -18,7 +20,9 @@ class AddedRememberMeLogin extends AbstractMigration
         $table = $this->table('user');
 
         if ($table->hasColumn('remember_key')) {
-            $table->removeColumn('remember_key')->save();
+            $table
+                ->removeColumn('remember_key')
+                ->save();
         }
     }
 }

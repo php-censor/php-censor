@@ -125,20 +125,20 @@ class BuildController extends Controller
     */
     protected function getBuildData(Build $build)
     {
-        $data               = [];
-        $data['status']     = (int)$build->getStatus();
-        $data['log']        = $this->cleanLog($build->getLog());
-        $data['created']    = !is_null($build->getCreated()) ? $build->getCreated()->format('Y-m-d H:i:s') : null;
-        $data['started']    = !is_null($build->getStarted()) ? $build->getStarted()->format('Y-m-d H:i:s') : null;
-        $data['finished']   = !is_null($build->getFinished()) ? $build->getFinished()->format('Y-m-d H:i:s') : null;
-        $data['duration']   = $build->getDuration();
+        $data                = [];
+        $data['status']      = (int)$build->getStatus();
+        $data['log']         = $this->cleanLog($build->getLog());
+        $data['create_date'] = !is_null($build->getCreateDate()) ? $build->getCreateDate()->format('Y-m-d H:i:s') : null;
+        $data['start_date']  = !is_null($build->getStartDate()) ? $build->getStartDate()->format('Y-m-d H:i:s') : null;
+        $data['finish_date'] = !is_null($build->getFinishDate()) ? $build->getFinishDate()->format('Y-m-d H:i:s') : null;
+        $data['duration']    = $build->getDuration();
 
         /** @var \PHPCensor\Store\BuildErrorStore $errorStore */
         $errorStore = b8\Store\Factory::getStore('BuildError');
         $errors = $errorStore->getErrorsForBuild($build->getId());
 
-        $errorView = new b8\View('Build/errors');
-        $errorView->build = $build;
+        $errorView         = new b8\View('Build/errors');
+        $errorView->build  = $build;
         $errorView->errors = $errors;
 
         $data['errors']     = $errorStore->getErrorTotalForBuild($build->getId());

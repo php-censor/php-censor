@@ -36,11 +36,13 @@ class BuildService
     /**
      * @param Project     $project
      * @param string      $environment
-     * @param string|null $commitId
+     * @param string      $commitId
      * @param string|null $branch
      * @param string|null $tag
      * @param string|null $committerEmail
      * @param string|null $commitMessage
+     * @param integer     $source
+     * @param integer     $userId
      * @param string|null $extra
      * 
      * @return \PHPCensor\Model\Build
@@ -48,15 +50,17 @@ class BuildService
     public function createBuild(
         Project $project,
         $environment,
-        $commitId = null,
+        $commitId = '',
         $branch = null,
         $tag = null,
         $committerEmail = null,
         $commitMessage = null,
+        $source = Build::SOURCE_UNKNOWN,
+        $userId = 0,
         $extra = null
     ) {
         $build = new Build();
-        $build->setCreated(new \DateTime());
+        $build->setCreateDate(new \DateTime());
         $build->setProject($project);
         $build->setStatus(Build::STATUS_PENDING);
         $build->setEnvironment($environment);
@@ -64,12 +68,9 @@ class BuildService
         $branches = $project->getBranchesByEnvironment($environment);
         $build->setExtraValue('branches', $branches);
 
-        if (!empty($commitId)) {
-            $build->setCommitId($commitId);
-        } else {
-            $build->setCommitId('Manual');
-            $build->setCommitMessage('Manual');
-        }
+        $build->setSource($source);
+        $build->setUserId($userId);
+        $build->setCommitId((string)$commitId);
 
         if (!empty($branch)) {
             $build->setBranch($branch);
@@ -94,8 +95,7 @@ class BuildService
         }
 
         /** @var Build $build */
-        $build = $this->buildStore->save($build);
-
+        $build   = $this->buildStore->save($build);
         $buildId = $build->getId();
 
         if (!empty($buildId)) {
@@ -119,12 +119,12 @@ class BuildService
         unset($data['id']);
         unset($data['status']);
         unset($data['log']);
-        unset($data['started']);
-        unset($data['finished']);
+        unset($data['start_date']);
+        unset($data['finish_date']);
 
         $build = new Build();
         $build->setValues($data);
-        $build->setCreated(new \DateTime());
+        $build->setCreateDate(new \DateTime());
         $build->setStatus(Build::STATUS_PENDING);
 
         /** @var Build $build */

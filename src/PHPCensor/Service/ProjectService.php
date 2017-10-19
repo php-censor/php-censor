@@ -25,16 +25,22 @@ class ProjectService
 
     /**
      * Create a new project model and use the project store to save it.
-     * @param string $title
-     * @param string $type
-     * @param string $reference
-     * @param array $options
+     *
+     * @param string  $title
+     * @param string  $type
+     * @param string  $reference
+     * @param integer $userId
+     * @param array   $options
+     *
      * @return \PHPCensor\Model\Project
      */
-    public function createProject($title, $type, $reference, $options = [])
+    public function createProject($title, $type, $reference, $userId, $options = [])
     {
         // Create base project and use updateProject() to set its properties:
         $project = new Project();
+        $project->setCreateDate(new \DateTime());
+        $project->setUserId((integer)$userId);
+
         return $this->updateProject($project, $title, $type, $reference, $options);
     }
 

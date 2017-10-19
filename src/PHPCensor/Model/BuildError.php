@@ -7,6 +7,11 @@ use b8\Store\Factory;
 
 class BuildError extends Model
 {
+    const SEVERITY_CRITICAL = 0;
+    const SEVERITY_HIGH     = 1;
+    const SEVERITY_NORMAL   = 2;
+    const SEVERITY_LOW      = 3;
+
     /**
      * @var array
      */
@@ -34,7 +39,7 @@ class BuildError extends Model
         'line_end'     => null,
         'severity'     => null,
         'message'      => null,
-        'created_date' => null,
+        'create_date'  => null,
     ];
 
     /**
@@ -50,7 +55,7 @@ class BuildError extends Model
         'line_end'     => 'getLineEnd',
         'severity'     => 'getSeverity',
         'message'      => 'getMessage',
-        'created_date' => 'getCreatedDate',
+        'create_date'  => 'getCreateDate',
 
         // Foreign key getters:
         'Build' => 'getBuild',
@@ -69,91 +74,13 @@ class BuildError extends Model
         'line_end'     => 'setLineEnd',
         'severity'     => 'setSeverity',
         'message'      => 'setMessage',
-        'created_date' => 'setCreatedDate',
+        'create_date'  => 'setCreateDate',
 
         // Foreign key setters:
         'Build' => 'setBuild',
     ];
 
     /**
-     * @var array
-     */
-    public $columns = [
-        'id' => [
-            'type'           => 'int',
-            'length'         => 11,
-            'primary_key'    => true,
-            'auto_increment' => true,
-            'default'        => null,
-        ],
-        'build_id' => [
-            'type'    => 'int',
-            'length'  => 11,
-            'default' => null,
-        ],
-        'plugin' => [
-            'type'    => 'varchar',
-            'length'  => 100,
-            'default' => null,
-        ],
-        'file' => [
-            'type'     => 'varchar',
-            'length'   => 250,
-            'nullable' => true,
-            'default'  => null,
-        ],
-        'line_start' => [
-            'type'     => 'int',
-            'length'   => 11,
-            'nullable' => true,
-            'default'  => null,
-        ],
-        'line_end' => [
-            'type'     => 'int',
-            'length'   => 11,
-            'nullable' => true,
-            'default'  => null,
-        ],
-        'severity' => [
-            'type'    => 'tinyint',
-            'length'  => 3,
-            'default' => null,
-        ],
-        'message' => [
-            'type'    => 'varchar',
-            'length'  => 250,
-            'default' => null,
-        ],
-        'created_date' => [
-            'type'    => 'datetime',
-            'default' => null,
-        ],
-    ];
-
-    /**
-     * @var array
-     */
-    public $indexes = [
-        'PRIMARY'  => ['unique' => true, 'columns' => 'id'],
-        'build_id' => ['columns' => 'build_id, created_date'],
-    ];
-
-    /**
-     * @var array
-     */
-    public $foreignKeys = [
-        'build_error_ibfk_1' => [
-            'local_col' => 'build_id',
-            'update'    => 'CASCADE',
-            'delete'    => 'CASCADE',
-            'table'     => 'build',
-            'col'       => 'id'
-        ],
-    ];
-
-    /**
-     * Get the value of Id / id.
-     *
      * @return int
      */
     public function getId()
@@ -164,8 +91,6 @@ class BuildError extends Model
     }
 
     /**
-     * Get the value of BuildId / build_id.
-     *
      * @return int
      */
     public function getBuildId()
@@ -176,8 +101,6 @@ class BuildError extends Model
     }
 
     /**
-     * Get the value of Plugin / plugin.
-     *
      * @return string
      */
     public function getPlugin()
@@ -188,8 +111,6 @@ class BuildError extends Model
     }
 
     /**
-     * Get the value of File / file.
-     *
      * @return string
      */
     public function getFile()
@@ -200,8 +121,6 @@ class BuildError extends Model
     }
 
     /**
-     * Get the value of LineStart / line_start.
-     *
      * @return int
      */
     public function getLineStart()
@@ -212,8 +131,6 @@ class BuildError extends Model
     }
 
     /**
-     * Get the value of LineEnd / line_end.
-     *
      * @return int
      */
     public function getLineEnd()
@@ -224,8 +141,6 @@ class BuildError extends Model
     }
 
     /**
-     * Get the value of Severity / severity.
-     *
      * @return int
      */
     public function getSeverity()
@@ -236,8 +151,6 @@ class BuildError extends Model
     }
 
     /**
-     * Get the value of Message / message.
-     *
      * @return string
      */
     public function getMessage()
@@ -248,13 +161,11 @@ class BuildError extends Model
     }
 
     /**
-     * Get the value of CreatedDate / created_date.
-     *
      * @return \DateTime
      */
-    public function getCreatedDate()
+    public function getCreateDate()
     {
-        $rtn = $this->data['created_date'];
+        $rtn = $this->data['create_date'];
 
         if (!empty($rtn)) {
             $rtn = new \DateTime($rtn);
@@ -264,15 +175,12 @@ class BuildError extends Model
     }
 
     /**
-     * Set the value of Id / id.
-     *
-     * Must not be null.
      * @param $value int
      */
     public function setId($value)
     {
-        $this->validateNotNull('Id', $value);
-        $this->validateInt('Id', $value);
+        $this->validateNotNull('id', $value);
+        $this->validateInt('id', $value);
 
         if ($this->data['id'] === $value) {
             return;
@@ -284,15 +192,12 @@ class BuildError extends Model
     }
 
     /**
-     * Set the value of BuildId / build_id.
-     *
-     * Must not be null.
      * @param $value int
      */
     public function setBuildId($value)
     {
-        $this->validateNotNull('BuildId', $value);
-        $this->validateInt('BuildId', $value);
+        $this->validateNotNull('build_id', $value);
+        $this->validateInt('build_id', $value);
 
         if ($this->data['build_id'] === $value) {
             return;
@@ -304,15 +209,12 @@ class BuildError extends Model
     }
 
     /**
-     * Set the value of Plugin / plugin.
-     *
-     * Must not be null.
      * @param $value string
      */
     public function setPlugin($value)
     {
-        $this->validateNotNull('Plugin', $value);
-        $this->validateString('Plugin', $value);
+        $this->validateNotNull('plugin', $value);
+        $this->validateString('plugin', $value);
 
         if ($this->data['plugin'] === $value) {
             return;
@@ -324,13 +226,11 @@ class BuildError extends Model
     }
 
     /**
-     * Set the value of File / file.
-     *
      * @param $value string
      */
     public function setFile($value)
     {
-        $this->validateString('File', $value);
+        $this->validateString('file', $value);
 
         if ($this->data['file'] === $value) {
             return;
@@ -342,13 +242,11 @@ class BuildError extends Model
     }
 
     /**
-     * Set the value of LineStart / line_start.
-     *
      * @param $value int
      */
     public function setLineStart($value)
     {
-        $this->validateInt('LineStart', $value);
+        $this->validateInt('line_start', $value);
 
         if ($this->data['line_start'] === $value) {
             return;
@@ -360,13 +258,11 @@ class BuildError extends Model
     }
 
     /**
-     * Set the value of LineEnd / line_end.
-     *
      * @param $value int
      */
     public function setLineEnd($value)
     {
-        $this->validateInt('LineEnd', $value);
+        $this->validateInt('line_end', $value);
 
         if ($this->data['line_end'] === $value) {
             return;
@@ -378,15 +274,12 @@ class BuildError extends Model
     }
 
     /**
-     * Set the value of Severity / severity.
-     *
-     * Must not be null.
      * @param $value int
      */
     public function setSeverity($value)
     {
-        $this->validateNotNull('Severity', $value);
-        $this->validateInt('Severity', $value);
+        $this->validateNotNull('severity', $value);
+        $this->validateInt('severity', $value);
 
         if ($this->data['severity'] === $value) {
             return;
@@ -398,15 +291,12 @@ class BuildError extends Model
     }
 
     /**
-     * Set the value of Message / message.
-     *
-     * Must not be null.
      * @param $value string
      */
     public function setMessage($value)
     {
-        $this->validateNotNull('Message', $value);
-        $this->validateString('Message', $value);
+        $this->validateNotNull('message', $value);
+        $this->validateString('message', $value);
 
         if ($this->data['message'] === $value) {
             return;
@@ -418,30 +308,25 @@ class BuildError extends Model
     }
 
     /**
-     * Set the value of CreatedDate / created_date.
-     *
-     * Must not be null.
      * @param $value \DateTime
      */
-    public function setCreatedDate($value)
+    public function setCreateDate($value)
     {
-        $this->validateNotNull('CreatedDate', $value);
-        $this->validateDate('CreatedDate', $value);
+        $this->validateNotNull('create_date', $value);
+        $this->validateDate('create_date', $value);
 
-        if ($this->data['created_date'] === $value) {
+        if ($this->data['create_date'] === $value) {
             return;
         }
 
-        $this->data['created_date'] = $value;
+        $this->data['create_date'] = $value;
 
-        $this->setModified('created_date');
+        $this->setModified('create_date');
     }
 
     /**
      * Get the Build model for this BuildError by Id.
      *
-     * @uses \PHPCensor\Store\BuildStore::getById()
-     * @uses \PHPCensor\Model\Build
      * @return \PHPCensor\Model\Build
      */
     public function getBuild()
@@ -494,13 +379,9 @@ class BuildError extends Model
         return $this->setBuildId($value->getId());
     }
 
-    const SEVERITY_CRITICAL = 0;
-    const SEVERITY_HIGH = 1;
-    const SEVERITY_NORMAL = 2;
-    const SEVERITY_LOW = 3;
-
     /**
      * Get the language string key for this error's severity level.
+     *
      * @return string
      */
     public function getSeverityString()
@@ -522,6 +403,7 @@ class BuildError extends Model
 
     /**
      * Get the class to apply to HTML elements representing this error.
+     *
      * @return string
      */
     public function getSeverityClass()

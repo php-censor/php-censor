@@ -21,10 +21,16 @@ class Build extends Model
     const STAGE_FIXED    = 'fixed';
     const STAGE_BROKEN   = 'broken';
     
-    const STATUS_PENDING        = 0;
-    const STATUS_RUNNING        = 1;
-    const STATUS_SUCCESS        = 2;
-    const STATUS_FAILED         = 3;
+    const STATUS_PENDING = 0;
+    const STATUS_RUNNING = 1;
+    const STATUS_SUCCESS = 2;
+    const STATUS_FAILED  = 3;
+    
+    const SOURCE_UNKNOWN        = 0;
+    const SOURCE_MANUAL_WEB     = 1;
+    const SOURCE_MANUAL_CONSOLE = 2;
+    const SOURCE_PERIODICAL     = 3;
+    const SOURCE_WEBHOOK        = 4;
 
     /**
      * @var array
@@ -52,13 +58,15 @@ class Build extends Model
         'log'             => null,
         'branch'          => null,
         'tag'             => null,
-        'created'         => null,
-        'started'         => null,
-        'finished'        => null,
+        'create_date'     => null,
+        'start_date'      => null,
+        'finish_date'     => null,
         'committer_email' => null,
         'commit_message'  => null,
         'extra'           => null,
         'environment'     => null,
+        'source'          => Build::SOURCE_UNKNOWN,
+        'user_id'         => 0,
     ];
 
     /**
@@ -73,13 +81,15 @@ class Build extends Model
         'log'             => 'getLog',
         'branch'          => 'getBranch',
         'tag'             => 'getTag',
-        'created'         => 'getCreated',
-        'started'         => 'getStarted',
-        'finished'        => 'getFinished',
+        'create_date'     => 'getCreateDate',
+        'start_date'      => 'getStartDate',
+        'finish_date'     => 'getFinishDate',
         'committer_email' => 'getCommitterEmail',
         'commit_message'  => 'getCommitMessage',
         'extra'           => 'getExtra',
         'environment'     => 'getEnvironment',
+        'source'          => 'getSource',
+        'user_id'         => 'getUserId',
 
         // Foreign key getters:
         'Project' => 'getProject',
@@ -97,260 +107,37 @@ class Build extends Model
         'log'             => 'setLog',
         'branch'          => 'setBranch',
         'setTag'          => 'setTag',
-        'created'         => 'setCreated',
-        'started'         => 'setStarted',
-        'finished'        => 'setFinished',
+        'create_date'     => 'setCreateDate',
+        'start_date'      => 'setStartDate',
+        'finish_date'     => 'setFinishDate',
         'committer_email' => 'setCommitterEmail',
         'commit_message'  => 'setCommitMessage',
         'extra'           => 'setExtra',
         'environment'     => 'setEnvironment',
+        'source'          => 'setSource',
+        'user_id'         => 'setUserId',
 
         // Foreign key setters:
         'Project' => 'setProject',
     ];
 
     /**
-     * @var array
-     */
-    public $columns = [
-        'id' => [
-            'type'           => 'int',
-            'length'         => 11,
-            'primary_key'    => true,
-            'auto_increment' => true,
-            'default'        => null,
-        ],
-        'project_id' => [
-            'type'    => 'int',
-            'length'  => 11,
-            'default' => null,
-        ],
-        'commit_id' => [
-            'type'    => 'varchar',
-            'length'  => 50,
-            'default' => null,
-        ],
-        'status' => [
-            'type'    => 'int',
-            'length'  => 11,
-            'default' => null,
-        ],
-        'log' => [
-            'type'     => 'mediumtext',
-            'nullable' => true,
-            'default'  => null,
-        ],
-        'branch' => [
-            'type'    => 'varchar',
-            'length'  => 250,
-            'default' => 'master',
-        ],
-        'tag' => [
-            'type'    => 'varchar',
-            'length'  => 250,
-            'default' => null,
-        ],
-        'created' => [
-            'type'     => 'datetime',
-            'nullable' => true,
-            'default'  => null,
-        ],
-        'started' => [
-            'type'     => 'datetime',
-            'nullable' => true,
-            'default'  => null,
-        ],
-        'finished' => [
-            'type'     => 'datetime',
-            'nullable' => true,
-            'default'  => null,
-        ],
-        'committer_email' => [
-            'type'     => 'varchar',
-            'length'   => 512,
-            'nullable' => true,
-            'default'  => null,
-        ],
-        'commit_message' => [
-            'type'     => 'text',
-            'nullable' => true,
-            'default'  => null,
-        ],
-        'extra' => [
-            'type'     => 'text',
-            'nullable' => true,
-            'default'  => null,
-        ],
-        'environment' => [
-            'type'    => 'varchar',
-            'length'  => 250,
-            'default'  => null,
-        ],
-    ];
-
-    /**
-     * @var array
-     */
-    public $indexes = [
-        'PRIMARY'    => ['unique' => true, 'columns' => 'id'],
-        'project_id' => ['columns' => 'project_id'],
-        'idx_status' => ['columns' => 'status'],
-    ];
-
-    /**
-     * @var array
-     */
-    public $foreignKeys = [
-        'build_ibfk_1' => [
-            'local_col' => 'project_id',
-            'update'    => 'CASCADE',
-            'delete'    => 'CASCADE',
-            'table'     => 'project',
-            'col'       => 'id'
-        ],
-    ];
-
-    /**
-     * Get the value of Id / id.
-     *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
         $rtn = $this->data['id'];
 
-        return $rtn;
+        return (integer)$rtn;
     }
 
     /**
-     * Get the value of ProjectId / project_id.
-     *
-     * @return int
-     */
-    public function getProjectId()
-    {
-        $rtn = $this->data['project_id'];
-
-        return $rtn;
-    }
-
-    /**
-     * Get the value of CommitId / commit_id.
-     *
-     * @return string
-     */
-    public function getCommitId()
-    {
-        $rtn = $this->data['commit_id'];
-
-        return $rtn;
-    }
-
-    /**
-     * Get the value of Status / status.
-     *
-     * @return int
-     */
-    public function getStatus()
-    {
-        $rtn = $this->data['status'];
-
-        return $rtn;
-    }
-
-    /**
-     * Get the value of Log / log.
-     *
-     * @return string
-     */
-    public function getLog()
-    {
-        $rtn = $this->data['log'];
-
-        return $rtn;
-    }
-
-    /**
-     * Get the value of Branch / branch.
-     *
-     * @return string
-     */
-    public function getBranch()
-    {
-        $rtn = $this->data['branch'];
-
-        return $rtn;
-    }
-
-    /**
-     * Get the value of Created / created.
-     *
-     * @return \DateTime
-     */
-    public function getCreated()
-    {
-        $rtn = $this->data['created'];
-
-        if (!empty($rtn)) {
-            $rtn = new \DateTime($rtn);
-        }
-
-        return $rtn;
-    }
-
-    /**
-     * Get the value of Started / started.
-     *
-     * @return \DateTime
-     */
-    public function getStarted()
-    {
-        $rtn = $this->data['started'];
-
-        if (!empty($rtn)) {
-            $rtn = new \DateTime($rtn);
-        }
-
-        return $rtn;
-    }
-
-    /**
-     * Get the value of Finished / finished.
-     *
-     * @return \DateTime
-     */
-    public function getFinished()
-    {
-        $rtn = $this->data['finished'];
-
-        if (!empty($rtn)) {
-            $rtn = new \DateTime($rtn);
-        }
-
-        return $rtn;
-    }
-
-    /**
-     * Get the value of CommitterEmail / committer_email.
-     *
-     * @return string
-     */
-    public function getCommitterEmail()
-    {
-        $rtn = $this->data['committer_email'];
-
-        return $rtn;
-    }
-
-    /**
-     * Set the value of Id / id. Must not be null.
-     *
      * @param $value int
      */
     public function setId($value)
     {
-        $this->validateNotNull('Id', $value);
-        $this->validateInt('Id', $value);
+        $this->validateNotNull('id', $value);
+        $this->validateInt('id', $value);
 
         if ($this->data['id'] === $value) {
             return;
@@ -362,14 +149,22 @@ class Build extends Model
     }
 
     /**
-     * Set the value of ProjectId / project_id. Must not be null.
-     *
+     * @return integer
+     */
+    public function getProjectId()
+    {
+        $rtn = $this->data['project_id'];
+
+        return (integer)$rtn;
+    }
+
+    /**
      * @param $value int
      */
     public function setProjectId($value)
     {
-        $this->validateNotNull('ProjectId', $value);
-        $this->validateInt('ProjectId', $value);
+        $this->validateNotNull('project_id', $value);
+        $this->validateInt('project_id', $value);
 
         if ($this->data['project_id'] === $value) {
             return;
@@ -381,14 +176,22 @@ class Build extends Model
     }
 
     /**
-     * Set the value of CommitId / commit_id. Must not be null.
-     *
+     * @return string
+     */
+    public function getCommitId()
+    {
+        $rtn = $this->data['commit_id'];
+
+        return $rtn;
+    }
+
+    /**
      * @param $value string
      */
     public function setCommitId($value)
     {
-        $this->validateNotNull('CommitId', $value);
-        $this->validateString('CommitId', $value);
+        $this->validateNotNull('commit_id', $value);
+        $this->validateString('commit_id', $value);
 
         if ($this->data['commit_id'] === $value) {
             return;
@@ -400,14 +203,22 @@ class Build extends Model
     }
 
     /**
-     * Set the value of Status / status. Must not be null.
-     *
+     * @return integer
+     */
+    public function getStatus()
+    {
+        $rtn = $this->data['status'];
+
+        return (integer)$rtn;
+    }
+
+    /**
      * @param $value int
      */
     public function setStatus($value)
     {
-        $this->validateNotNull('Status', $value);
-        $this->validateInt('Status', $value);
+        $this->validateNotNull('status', $value);
+        $this->validateInt('status', $value);
 
         if ($this->data['status'] === $value) {
             return;
@@ -419,15 +230,315 @@ class Build extends Model
     }
 
     /**
-     * Set the value of Status / status only if it synced with db. Must not be null.
+     * @return string
+     */
+    public function getLog()
+    {
+        $rtn = $this->data['log'];
+
+        return $rtn;
+    }
+
+    /**
+     * @param $value string
+     */
+    public function setLog($value)
+    {
+        $this->validateString('log', $value);
+
+        if ($this->data['log'] === $value) {
+            return;
+        }
+
+        $this->data['log'] = $value;
+
+        $this->setModified('log');
+    }
+
+    /**
+     * @return string
+     */
+    public function getBranch()
+    {
+        $rtn = $this->data['branch'];
+
+        return $rtn;
+    }
+
+    /**
+     * @param $value string
+     */
+    public function setBranch($value)
+    {
+        $this->validateNotNull('branch', $value);
+        $this->validateString('branch', $value);
+
+        if ($this->data['branch'] === $value) {
+            return;
+        }
+
+        $this->data['branch'] = $value;
+
+        $this->setModified('branch');
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreateDate()
+    {
+        $rtn = $this->data['create_date'];
+
+        if (!empty($rtn)) {
+            $rtn = new \DateTime($rtn);
+        }
+
+        return $rtn;
+    }
+
+    /**
+     * @param $value \DateTime
+     */
+    public function setCreateDate($value)
+    {
+        $this->validateDate('create_date', $value);
+
+        if ($this->data['create_date'] === $value) {
+            return;
+        }
+
+        $this->data['create_date'] = $value;
+
+        $this->setModified('create_date');
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getStartDate()
+    {
+        $rtn = $this->data['start_date'];
+
+        if (!empty($rtn)) {
+            $rtn = new \DateTime($rtn);
+        }
+
+        return $rtn;
+    }
+
+    /**
+     * @param $value \DateTime
+     */
+    public function setStartDate($value)
+    {
+        $this->validateDate('start_date', $value);
+
+        if ($this->data['start_date'] === $value) {
+            return;
+        }
+
+        $this->data['start_date'] = $value;
+
+        $this->setModified('start_date');
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getFinishDate()
+    {
+        $rtn = $this->data['finish_date'];
+
+        if (!empty($rtn)) {
+            $rtn = new \DateTime($rtn);
+        }
+
+        return $rtn;
+    }
+
+    /**
+     * @param $value \DateTime
+     */
+    public function setFinishDate($value)
+    {
+        $this->validateDate('finish_date', $value);
+
+        if ($this->data['finish_date'] === $value) {
+            return;
+        }
+
+        $this->data['finish_date'] = $value;
+
+        $this->setModified('finish_date');
+    }
+
+    /**
+     * @return string
+     */
+    public function getCommitterEmail()
+    {
+        $rtn = $this->data['committer_email'];
+
+        return $rtn;
+    }
+
+    /**
+     * @param $value string
+     */
+    public function setCommitterEmail($value)
+    {
+        $this->validateString('committer_email', $value);
+
+        if ($this->data['committer_email'] === $value) {
+            return;
+        }
+
+        $this->data['committer_email'] = $value;
+
+        $this->setModified('committer_email');
+    }
+
+    /**
+     * @return string
+     */
+    public function getCommitMessage()
+    {
+        $rtn = htmlspecialchars($this->data['commit_message']);
+
+        return $rtn;
+    }
+
+    /**
+     * @param $value string
+     */
+    public function setCommitMessage($value)
+    {
+        $this->validateString('commit_message', $value);
+
+        if ($this->data['commit_message'] === $value) {
+            return;
+        }
+
+        $this->data['commit_message'] = $value;
+
+        $this->setModified('commit_message');
+    }
+
+    /**
+     * @return string
+     */
+    public function getTag()
+    {
+        $rtn = $this->data['tag'];
+
+        return $rtn;
+    }
+
+    /**
+     * @param $value string
+     */
+    public function setTag($value)
+    {
+        $this->validateString('tag', $value);
+
+        if ($this->data['tag'] === $value) {
+            return;
+        }
+
+        $this->data['tag'] = $value;
+
+        $this->setModified('tag');
+    }
+
+    /**
+     * @return string
+     */
+    public function getSource()
+    {
+        $rtn = $this->data['source'];
+
+        return (integer)$rtn;
+    }
+
+    /**
+     * @param $value integer
+     */
+    public function setSource($value)
+    {
+        $this->validateInt('source', $value);
+
+        if ($this->data['source'] === $value) {
+            return;
+        }
+
+        $this->data['source'] = $value;
+
+        $this->setModified('source');
+    }
+
+    /**
+     * @return string
+     */
+    public function getUserId()
+    {
+        $rtn = $this->data['user_id'];
+
+        return (integer)$rtn;
+    }
+
+    /**
+     * @param $value integer
+     */
+    public function setUserId($value)
+    {
+        $this->validateNotNull('user_id', $value);
+        $this->validateInt('user_id', $value);
+
+        if ($this->data['user_id'] === $value) {
+            return;
+        }
+
+        $this->data['user_id'] = $value;
+
+        $this->setModified('user_id');
+    }
+
+    /**
+     * @return string
+     */
+    public function getEnvironment()
+    {
+        $rtn = $this->data['environment'];
+
+        return $rtn;
+    }
+
+    /**
+     * @param $value string
+     */
+    public function setEnvironment($value)
+    {
+        $this->validateString('environment', $value);
+
+        if ($this->data['environment'] === $value) {
+            return;
+        }
+
+        $this->data['environment'] = $value;
+
+        $this->setModified('environment');
+    }
+
+    /**
+     * Set the value of status only if it synced with db. Must not be null.
      *
      * @param $value int
      * @return bool
      */
     public function setStatusSync($value)
     {
-        $this->validateNotNull('Status', $value);
-        $this->validateInt('Status', $value);
+        $this->validateNotNull('status', $value);
+        $this->validateInt('status', $value);
 
         if ($this->data['status'] !== $value) {
             $store = Factory::getStore('Build');
@@ -440,184 +551,10 @@ class Build extends Model
     }
 
     /**
-     * Set the value of Log / log.
-     *
-     * @param $value string
-     */
-    public function setLog($value)
-    {
-        $this->validateString('Log', $value);
-
-        if ($this->data['log'] === $value) {
-            return;
-        }
-
-        $this->data['log'] = $value;
-
-        $this->setModified('log');
-    }
-
-    /**
-     * Set the value of Branch / branch. Must not be null.
-     *
-     * @param $value string
-     */
-    public function setBranch($value)
-    {
-        $this->validateNotNull('Branch', $value);
-        $this->validateString('Branch', $value);
-
-        if ($this->data['branch'] === $value) {
-            return;
-        }
-
-        $this->data['branch'] = $value;
-
-        $this->setModified('branch');
-    }
-
-    /**
-     * Set the value of Created / created.
-     *
-     * @param $value \DateTime
-     */
-    public function setCreated($value)
-    {
-        $this->validateDate('Created', $value);
-
-        if ($this->data['created'] === $value) {
-            return;
-        }
-
-        $this->data['created'] = $value;
-
-        $this->setModified('created');
-    }
-
-    /**
-     * Set the value of Started / started.
-     *
-     * @param $value \DateTime
-     */
-    public function setStarted($value)
-    {
-        $this->validateDate('Started', $value);
-
-        if ($this->data['started'] === $value) {
-            return;
-        }
-
-        $this->data['started'] = $value;
-
-        $this->setModified('started');
-    }
-
-    /**
-     * Set the value of Finished / finished.
-     *
-     * @param $value \DateTime
-     */
-    public function setFinished($value)
-    {
-        $this->validateDate('Finished', $value);
-
-        if ($this->data['finished'] === $value) {
-            return;
-        }
-
-        $this->data['finished'] = $value;
-
-        $this->setModified('finished');
-    }
-
-    /**
-     * Set the value of CommitterEmail / committer_email.
-     *
-     * @param $value string
-     */
-    public function setCommitterEmail($value)
-    {
-        $this->validateString('CommitterEmail', $value);
-
-        if ($this->data['committer_email'] === $value) {
-            return;
-        }
-
-        $this->data['committer_email'] = $value;
-
-        $this->setModified('committer_email');
-    }
-
-    /**
-     * Set the value of CommitMessage / commit_message.
-     *
-     * @param $value string
-     */
-    public function setCommitMessage($value)
-    {
-        $this->validateString('CommitMessage', $value);
-
-        if ($this->data['commit_message'] === $value) {
-            return;
-        }
-
-        $this->data['commit_message'] = $value;
-
-        $this->setModified('commit_message');
-    }
-
-    /**
-     * Set the value of Extra / extra.
-     *
-     * @param $value string
-     */
-    public function setExtra($value)
-    {
-        $this->validateString('Extra', $value);
-
-        if ($this->data['extra'] === $value) {
-            return;
-        }
-
-        $this->data['extra'] = $value;
-
-        $this->setModified('extra');
-    }
-
-    /**
-     * Set the value of Extra / extra.
-     *
-     * @param $name string
-     * @param $value mixed
-     */
-    public function setExtraValue($name, $value)
-    {
-        $extra = json_decode($this->data['extra'], true);
-        if ($extra === false) {
-            $extra = [];
-        }
-        $extra[$name] = $value;
-        $this->setExtra(json_encode($extra));
-    }
-
-    /**
-     * Set the values of Extra / extra.
-     *
-     * @param $values mixed
-     */
-    public function setExtraValues($values)
-    {
-        $extra = json_decode($this->data['extra'], true);
-        if ($extra === false) {
-            $extra = [];
-        }
-        $extra = array_replace($extra, $values);
-        $this->setExtra(json_encode($extra));
-    }
-
-    /**
      * Return a value from the build's "extra" JSON array.
+     *
      * @param null $key
+     *
      * @return mixed|null|string
      */
     public function getExtra($key = null)
@@ -633,6 +570,53 @@ class Build extends Model
         }
 
         return $rtn;
+    }
+
+    /**
+     * @param $value string
+     */
+    public function setExtra($value)
+    {
+        $this->validateString('extra', $value);
+
+        if ($this->data['extra'] === $value) {
+            return;
+        }
+
+        $this->data['extra'] = $value;
+
+        $this->setModified('extra');
+    }
+
+    /**
+     * Set the value of extra.
+     *
+     * @param $name string
+     * @param $value mixed
+     */
+    public function setExtraValue($name, $value)
+    {
+        $extra = json_decode($this->data['extra'], true);
+        if ($extra === false) {
+            $extra = [];
+        }
+        $extra[$name] = $value;
+        $this->setExtra(json_encode($extra));
+    }
+
+    /**
+     * Set the values of extra.
+     *
+     * @param $values mixed
+     */
+    public function setExtraValues($values)
+    {
+        $extra = json_decode($this->data['extra'], true);
+        if ($extra === false) {
+            $extra = [];
+        }
+        $extra = array_replace($extra, $values);
+        $this->setExtra(json_encode($extra));
     }
 
     /**
@@ -761,7 +745,7 @@ class Build extends Model
     public function storeMeta($key, $value)
     {
         $value = json_encode($value);
-        Factory::getStore('Build')->setMeta($this->getProjectId(), $this->getId(), $key, $value);
+        Factory::getStore('Build')->setMeta($this->getId(), $key, $value);
     }
 
     /**
@@ -857,17 +841,6 @@ class Build extends Model
     }
 
     /**
-     * Returns the commit message for this build.
-     * @return string
-     */
-    public function getCommitMessage()
-    {
-        $rtn = htmlspecialchars($this->data['commit_message']);
-
-        return $rtn;
-    }
-
-    /**
      * Allows specific build types (e.g. Github) to report violations back to their respective services.
      * @param Builder $builder
      * @param $plugin
@@ -944,17 +917,18 @@ class Build extends Model
 
     /**
      * Get the number of seconds a build has been running for.
+     *
      * @return int
      */
     public function getDuration()
     {
-        $start = $this->getStarted();
+        $start = $this->getStartDate();
 
         if (empty($start)) {
             return 0;
         }
 
-        $end = $this->getFinished();
+        $end = $this->getFinishDate();
 
         if (empty($end)) {
             $end = new \DateTime();
@@ -965,15 +939,16 @@ class Build extends Model
 
     /**
      * get time a build has been running for in hour/minute/seconds format (e.g. 1h 21m 45s)
+     *
      * @return string
      */
     public function getPrettyDuration()
     {
-        $start = $this->getStarted();
+        $start = $this->getStartDate();
         if (!$start) {
             $start = new \DateTime();
         }
-        $end = $this->getFinished();
+        $end = $this->getFinishDate();
         if (!$end) {
             $end = new \DateTime();
         }
@@ -1000,66 +975,6 @@ class Build extends Model
     public function createWorkingCopy(Builder $builder, $buildPath)
     {
         return false;
-    }
-
-    /**
-     * Get the value of Tag / tag.
-     *
-     * @return string
-     */
-    public function getTag()
-    {
-        $rtn = $this->data['tag'];
-
-        return $rtn;
-    }
-
-    /**
-     * Set the value of Tag / tag.
-     *
-     * @param $value string
-     */
-    public function setTag($value)
-    {
-        $this->validateString('Tag', $value);
-
-        if ($this->data['tag'] === $value) {
-            return;
-        }
-
-        $this->data['tag'] = $value;
-
-        $this->setModified('tag');
-    }
-
-    /**
-     * Get the value of Environment / environment.
-     *
-     * @return string
-     */
-    public function getEnvironment()
-    {
-        $rtn = $this->data['environment'];
-
-        return $rtn;
-    }
-
-    /**
-     * Set the value of Environment / environment.
-     *
-     * @param $value string
-     */
-    public function setEnvironment($value)
-    {
-        $this->validateString('Environment', $value);
-
-        if ($this->data['environment'] === $value) {
-            return;
-        }
-
-        $this->data['environment'] = $value;
-
-        $this->setModified('environment');
     }
 
     /**
@@ -1106,5 +1021,25 @@ OUT;
         shell_exec('chmod +x "' . $wrapperFile . '"');
 
         return $wrapperFile;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSourceHumanize()
+    {
+        switch ($this->getSource()) {
+            case Build::SOURCE_WEBHOOK:
+                return 'source_webhook';
+            case Build::SOURCE_MANUAL_WEB:
+                return 'source_manual_web';
+            case Build::SOURCE_MANUAL_CONSOLE:
+                return 'source_manual_console';
+            case Build::SOURCE_PERIODICAL:
+                return 'source_periodical';
+            case Build::SOURCE_UNKNOWN:
+            default:
+                return 'source_unknown';
+        }
     }
 }

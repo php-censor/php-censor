@@ -13,25 +13,35 @@ class AddEnvironment extends AbstractMigration
         }
 
         if (!$table->hasColumn('project_id')) {
-            $table->addColumn('project_id', 'integer')->save();
+            $table
+                ->addColumn('project_id', 'integer')
+                ->save();
         }
 
         if (!$table->hasColumn('name')) {
-            $table->addColumn('name', 'string', ['limit' => 250])->save();
+            $table
+                ->addColumn('name', 'string', ['limit' => 250])
+                ->save();
         }
 
         if (!$table->hasColumn('branches')) {
-            $table->addColumn('branches', 'text')->save();
+            $table
+                ->addColumn('branches', 'text')
+                ->save();
         }
 
         if (!$table->hasIndex(['project_id', 'name'])) {
-            $table->addIndex(['project_id', 'name'])->save();
+            $table
+                ->addIndex(['project_id', 'name'])
+                ->save();
         }
 
         $table = $this->table('build');
 
         if (!$table->hasColumn('environment')) {
-            $table->addColumn('environment', 'string', ['limit' => 250])->save();
+            $table
+                ->addColumn('environment', 'string', ['limit' => 250])
+                ->save();
         }
     }
 
@@ -46,7 +56,9 @@ class AddEnvironment extends AbstractMigration
         $table = $this->table('build');
 
         if ($table->hasColumn('environment')) {
-            $table->removeColumn('environment')->save();
+            $table
+                ->removeColumn('environment')
+                ->save();
         }
     }
 }

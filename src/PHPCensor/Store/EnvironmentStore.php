@@ -15,31 +15,36 @@ class EnvironmentStore extends Store
 
     /**
      * Get a Environment by primary key (Id)
-     * @param int $value
-     * @param string $useConnection
+     *
+     * @param integer $key
+     * @param string  $useConnection
+     *
      * @return null|Environment
      */
-    public function getByPrimaryKey($value, $useConnection = 'read')
+    public function getByPrimaryKey($key, $useConnection = 'read')
     {
-        return $this->getById($value, $useConnection);
+        return $this->getById($key, $useConnection);
     }
 
     /**
      * Get a single Environment by Id.
-     * @param $value
-     * @param string $useConnection
+     *
+     * @param integer $id
+     * @param string  $useConnection
+     *
      * @return null|Environment
+     *
      * @throws HttpException
      */
-    public function getById($value, $useConnection = 'read')
+    public function getById($id, $useConnection = 'read')
     {
-        if (is_null($value)) {
+        if (is_null($id)) {
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
         $query = 'SELECT * FROM {{environment}} WHERE {{id}} = :id LIMIT 1';
         $stmt = Database::getConnection($useConnection)->prepareCommon($query);
-        $stmt->bindValue(':id', $value);
+        $stmt->bindValue(':id', $id);
 
         if ($stmt->execute()) {
             if ($data = $stmt->fetch(\PDO::FETCH_ASSOC)) {
@@ -52,24 +57,24 @@ class EnvironmentStore extends Store
 
     /**
      * Get multiple Environment by Project id.
-     * 
-     * @param integer $value
+     *
+     * @param integer $projectId
      * @param string  $useConnection
-     * 
+     *
      * @return array
-     * 
+     *
      * @throws \Exception
      */
-    public function getByProjectId($value, $useConnection = 'read')
+    public function getByProjectId($projectId, $useConnection = 'read')
     {
-        if (is_null($value)) {
+        if (is_null($projectId)) {
             throw new \Exception('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
         $query = 'SELECT * FROM {{environment}} WHERE {{project_id}} = :project_id';
         $stmt  = Database::getConnection($useConnection)->prepareCommon($query);
 
-        $stmt->bindValue(':project_id', $value);
+        $stmt->bindValue(':project_id', $projectId);
 
         if ($stmt->execute()) {
             $res = $stmt->fetchAll(\PDO::FETCH_ASSOC);

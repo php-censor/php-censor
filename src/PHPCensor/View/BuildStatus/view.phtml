@@ -75,7 +75,7 @@
                                     <strong>Branch: </strong> <?php print $latest->getBranch(); ?><br />
                                     <strong>Committer: </strong> <?php print $latest->getCommitterEmail(); ?>
     
-                                    <?php if ($latest->getCommitId() != 'Manual'): ?>
+                                    <?php if (!empty($latest->getCommitId())): ?>
                                         <br /><strong>Commit: </strong> <?php print $latest->getCommitId(); ?><br>
                                     <?php endif; ?>
                                 </p>
@@ -142,18 +142,18 @@
                                     <td>
                                         <span class='label label-<?php echo $class ?>'><?php echo $status ?></span>
                                     </td>
-                                    <td><?= $build->getCreated()->format('Y-m-d H:i:s'); ?></td>
+                                    <td><?= $build->getCreateDate()->format('Y-m-d H:i:s'); ?></td>
                                     <td>
                                         <?php
-                                            if ($build->getCommitId() !== 'Manual') {
+                                            if (!empty($build->getCommitId())) {
                                                 print sprintf(
-                                                    '<a href="%s" target="_blank">%s (%s)</a>',
+                                                    '<a href="%s" target="_blank">%s %s</a>',
                                                     $build->getCommitLink(),
                                                     substr($build->getCommitId(), 0, 7),
-                                                    $build->getCommitterEmail()
+                                                    $build->getCommitterEmail() ? ('(' . $build->getCommitterEmail() . ')') : ''
                                                 );
                                             } else {
-                                                print 'Manual';
+                                                print '&mdash;';
                                             }
                                         ?>
                                     </td>

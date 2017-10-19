@@ -7,6 +7,7 @@ use PHPCensor\Builder;
 use PHPCensor\Helper\Diff;
 use PHPCensor\Helper\Github;
 use b8\Config;
+use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
 
 /**
@@ -45,7 +46,7 @@ class GithubBuild extends RemoteGitBuild
     */
     public function sendStatusPostback()
     {
-        if ('Manual' === $this->getCommitId()) {
+        if (Build::SOURCE_WEBHOOK !== $this->getSource()) {
             return false;
         }
 
@@ -246,18 +247,18 @@ class GithubBuild extends RemoteGitBuild
      */
     protected function getDiffLineNumber(Builder $builder, $file, $line)
     {
-        $line = (integer)$line;
-
         $builder->logExecOutput(false);
 
+        $line     = (integer)$line;
         $prNumber = $this->getExtra('pull_request_number');
-        $path = $builder->buildPath;
+        $path     = $builder->buildPath;
 
         if (!empty($prNumber)) {
             $builder->executeCommand('cd %s && git diff origin/%s "%s"', $path, $this->getBranch(), $file);
         } else {
             $commitId = $this->getCommitId();
-            $compare = $commitId == 'Manual' ? 'HEAD' : $commitId;
+            $compare  = empty($commitId) ? 'HEAD' : $commitId;
+
             $builder->executeCommand('cd %s && git diff %s^^ "%s"', $path, $compare, $file);
         }
 
@@ -266,7 +267,7 @@ class GithubBuild extends RemoteGitBuild
         $diff = $builder->getLastOutput();
 
         $helper = new Diff();
-        $lines = $helper->getLinePositions($diff);
+        $lines  = $helper->getLinePositions($diff);
 
         return isset($lines[$line]) ? $lines[$line] : null;
     }

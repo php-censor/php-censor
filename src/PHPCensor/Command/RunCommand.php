@@ -114,7 +114,7 @@ class RunCommand extends Command
                 $this->logger->addError($ex->getMessage());
 
                 $build->setStatus(Build::STATUS_FAILED);
-                $build->setFinished(new \DateTime());
+                $build->setFinishDate(new \DateTime());
                 $build->setLog($build->getLog() . PHP_EOL . PHP_EOL . $ex->getMessage());
                 $buildStore->save($build);
                 $build->sendStatusPostback();
@@ -154,12 +154,12 @@ class RunCommand extends Command
             $build = BuildFactory::getBuild($build);
 
             $now = time();
-            $start = $build->getStarted()->getTimestamp();
+            $start = $build->getStartDate()->getTimestamp();
 
             if (($now - $start) > $timeout) {
                 $this->logger->addInfo(sprintf('Build %d marked as failed due to timeout.', $build->getId()));
                 $build->setStatus(Build::STATUS_FAILED);
-                $build->setFinished(new \DateTime());
+                $build->setFinishDate(new \DateTime());
                 $store->save($build);
                 $build->removeBuildDirectory();
                 continue;

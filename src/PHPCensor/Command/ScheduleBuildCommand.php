@@ -83,14 +83,14 @@ class ScheduleBuildCommand extends Command
                     // If it's running or just created, we don't want to reschedule already.
                     continue;
                 }
-                if ($date < $build->getFinished()) {
+                if ($date < $build->getFinishDate()) {
                     // If finished date is newer then the specified since days, we don't want to reschedule
                     continue;
                 }
             }
 
             try {
-                $this->buildService->createBuild($project, null);
+                $this->buildService->createBuild($project, null, '', null, null, null, null, Build::SOURCE_PERIODICAL);
                 $output->writeln("Build Created for {$project->getTitle()}");
             } catch (\Exception $e) {
                 $output->writeln('<error>Failed</error>');

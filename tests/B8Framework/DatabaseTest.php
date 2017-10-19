@@ -81,7 +81,7 @@ class DatabaseTest extends \PHPUnit\Framework\TestCase
                             ['host' => 'localhost'],
                         ],
                     ],
-                    'type'     => 'mysql',
+                    'type'     => DB_TYPE,
                     'name'     => 'b8_test_2',
                     'username' => '',
                     'password' => '',

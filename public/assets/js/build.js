@@ -30,8 +30,8 @@ var Build = Class.extend({
 
             if (self.buildData) {
                 $('.build-duration').html(self.buildData.duration ? (self.buildData.duration + ' ' + Lang.get('seconds')) : ('0 ' + Lang.get('seconds')));
-                $('.build-started').html(self.buildData.started ? self.buildData.started : '');
-                $('.build-finished').html(self.buildData.finished ? self.buildData.finished : '');
+                $('.build-started').html(self.buildData.start_date ? self.buildData.start_date : '');
+                $('.build-finished').html(self.buildData.finish_date ? self.buildData.finish_date : '');
                 $('#log pre').html(self.buildData.log);
                 $('.errors-table tbody').html(self.buildData.error_html);
 

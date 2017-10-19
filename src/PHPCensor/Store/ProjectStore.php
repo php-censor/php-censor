@@ -12,31 +12,42 @@ use b8\Exception\HttpException;
  */
 class ProjectStore extends Store
 {
-    protected $tableName   = 'project';
-    protected $modelName   = '\PHPCensor\Model\Project';
-    protected $primaryKey  = 'id';
+    protected $tableName  = 'project';
+    protected $modelName  = '\PHPCensor\Model\Project';
+    protected $primaryKey = 'id';
 
     /**
      * Get a Project by primary key (Id)
+     *
+     * @param integer $key
+     * @param string  $useConnection
+     *
+     * @return null|Project
      */
-    public function getByPrimaryKey($value, $useConnection = 'read')
+    public function getByPrimaryKey($key, $useConnection = 'read')
     {
-        return $this->getById($value, $useConnection);
+        return $this->getById($key, $useConnection);
     }
 
     /**
      * Get a single Project by Id.
+     *
+     * @param integer $id
+     * @param string  $useConnection
+     *
      * @return null|Project
+     *
+     * @throws HttpException
      */
-    public function getById($value, $useConnection = 'read')
+    public function getById($id, $useConnection = 'read')
     {
-        if (is_null($value)) {
+        if (is_null($id)) {
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
         $query = 'SELECT * FROM {{project}} WHERE {{id}} = :id LIMIT 1';
         $stmt = Database::getConnection($useConnection)->prepareCommon($query);
-        $stmt->bindValue(':id', $value);
+        $stmt->bindValue(':id', $id);
 
         if ($stmt->execute()) {
             if ($data = $stmt->fetch(\PDO::FETCH_ASSOC)) {
@@ -49,18 +60,25 @@ class ProjectStore extends Store
 
     /**
      * Get multiple Project by Title.
+     *
+     * @param string  $title
+     * @param integer $limit
+     * @param string  $useConnection
+     *
      * @return array
+     *
+     * @throws HttpException
      */
-    public function getByTitle($value, $limit = 1000, $useConnection = 'read')
+    public function getByTitle($title, $limit = 1000, $useConnection = 'read')
     {
-        if (is_null($value)) {
+        if (is_null($title)) {
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
 
         $query = 'SELECT * FROM {{project}} WHERE {{title}} = :title LIMIT :limit';
         $stmt = Database::getConnection($useConnection)->prepareCommon($query);
-        $stmt->bindValue(':title', $value);
+        $stmt->bindValue(':title', $title);
         $stmt->bindValue(':limit', (int)$limit, \PDO::PARAM_INT);
 
         if ($stmt->execute()) {
@@ -81,7 +99,9 @@ class ProjectStore extends Store
 
     /**
      * Returns a list of all branch names PHPCI has run builds against.
+     *
      * @param $projectId
+     *
      * @return array
      */
     public function getKnownBranches($projectId)
@@ -106,9 +126,9 @@ class ProjectStore extends Store
 
     /**
      * Get a list of all projects, ordered by their title.
-     * 
+     *
      * @param boolean $archived
-     * 
+     *
      * @return array
      */
     public function getAll($archived = false)
@@ -139,19 +159,19 @@ class ProjectStore extends Store
 
     /**
      * Get multiple Project by GroupId.
-     * 
-     * @param integer $value
+     *
+     * @param integer $groupId
      * @param boolean $archived
      * @param integer $limit
      * @param string  $useConnection
-     * 
+     *
      * @return array
-     * 
+     *
      * @throws \Exception
      */
-    public function getByGroupId($value, $archived = false, $limit = 1000, $useConnection = 'read')
+    public function getByGroupId($groupId, $archived = false, $limit = 1000, $useConnection = 'read')
     {
-        if (is_null($value)) {
+        if (is_null($groupId)) {
             throw new \Exception('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
         $archived = (integer)$archived;
@@ -159,7 +179,7 @@ class ProjectStore extends Store
         $query = 'SELECT * FROM {{project}} WHERE {{group_id}} = :group_id AND {{archived}} = :archived ORDER BY {{title}} LIMIT :limit';
         $stmt  = Database::getConnection($useConnection)->prepareCommon($query);
 
-        $stmt->bindValue(':group_id', $value);
+        $stmt->bindValue(':group_id', $groupId);
         $stmt->bindValue(':archived', $archived);
         $stmt->bindValue(':limit', (int)$limit, \PDO::PARAM_INT);
 

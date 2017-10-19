@@ -9,31 +9,42 @@ use b8\Exception\HttpException;
 
 class BuildMetaStore extends Store
 {
-    protected $tableName   = 'build_meta';
-    protected $modelName   = '\PHPCensor\Model\BuildMeta';
-    protected $primaryKey  = 'id';
+    protected $tableName  = 'build_meta';
+    protected $modelName  = '\PHPCensor\Model\BuildMeta';
+    protected $primaryKey = 'id';
 
     /**
      * Get a BuildMeta by primary key (Id)
+     *
+     * @param integer $key
+     * @param string  $useConnection
+     *
+     * @return null|BuildMeta
      */
-    public function getByPrimaryKey($value, $useConnection = 'read')
+    public function getByPrimaryKey($key, $useConnection = 'read')
     {
-        return $this->getById($value, $useConnection);
+        return $this->getById($key, $useConnection);
     }
 
     /**
      * Get a single BuildMeta by Id.
+     *
+     * @param integer $id
+     * @param string  $useConnection
+     *
      * @return null|BuildMeta
+     *
+     * @throws HttpException
      */
-    public function getById($value, $useConnection = 'read')
+    public function getById($id, $useConnection = 'read')
     {
-        if (is_null($value)) {
+        if (is_null($id)) {
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
         $query = 'SELECT * FROM {{build_meta}} WHERE {{id}} = :id LIMIT 1';
         $stmt = Database::getConnection($useConnection)->prepareCommon($query);
-        $stmt->bindValue(':id', $value);
+        $stmt->bindValue(':id', $id);
 
         if ($stmt->execute()) {
             if ($data = $stmt->fetch(\PDO::FETCH_ASSOC)) {
@@ -45,51 +56,26 @@ class BuildMetaStore extends Store
     }
 
     /**
-     * Get multiple BuildMeta by ProjectId.
-     * @return array
-     */
-    public function getByProjectId($value, $limit = 1000, $useConnection = 'read')
-    {
-        if (is_null($value)) {
-            throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
-        }
-
-
-        $query = 'SELECT * FROM {{build_meta}} WHERE {{project_id}} = :project_id LIMIT :limit';
-        $stmt = Database::getConnection($useConnection)->prepareCommon($query);
-        $stmt->bindValue(':project_id', $value);
-        $stmt->bindValue(':limit', (int)$limit, \PDO::PARAM_INT);
-
-        if ($stmt->execute()) {
-            $res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-
-            $map = function ($item) {
-                return new BuildMeta($item);
-            };
-            $rtn = array_map($map, $res);
-
-            $count = count($rtn);
-
-            return ['items' => $rtn, 'count' => $count];
-        } else {
-            return ['items' => [], 'count' => 0];
-        }
-    }
-
-    /**
      * Get multiple BuildMeta by BuildId.
+     *
+     * @param integer $buildId
+     * @param integer $limit
+     * @param string  $useConnection
+     *
      * @return array
+     *
+     * @throws HttpException
      */
-    public function getByBuildId($value, $limit = 1000, $useConnection = 'read')
+    public function getByBuildId($buildId, $limit = 1000, $useConnection = 'read')
     {
-        if (is_null($value)) {
+        if (is_null($buildId)) {
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
 
         $query = 'SELECT * FROM {{build_meta}} WHERE {{build_id}} = :build_id LIMIT :limit';
         $stmt = Database::getConnection($useConnection)->prepareCommon($query);
-        $stmt->bindValue(':build_id', $value);
+        $stmt->bindValue(':build_id', $buildId);
         $stmt->bindValue(':limit', (int)$limit, \PDO::PARAM_INT);
 
         if ($stmt->execute()) {
@@ -118,7 +104,7 @@ class BuildMetaStore extends Store
     public function getErrorsForUpgrade($limit)
     {
         $query = 'SELECT * FROM {{build_meta}}
-                    WHERE {{meta_key}} IN (\'phpmd-data\', \'phpcs-data\', \'phpdoccheck-data\', \'technical_debt - data\')
+                    WHERE {{meta_key}} IN (\'phpmd-data\', \'phpcs-data\', \'phpdoccheck-data\', \'technical_debt-data\')
                     ORDER BY {{id}} ASC LIMIT :limit';
 
         $stmt = Database::getConnection('read')->prepareCommon($query);

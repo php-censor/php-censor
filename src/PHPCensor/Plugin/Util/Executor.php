@@ -283,6 +283,6 @@ class Executor
     {
         /** @var Build $build */
         $build = $this->pluginFactory->getResourceFor('PHPCensor\Model\Build');
-        $this->store->setMeta($build->getProjectId(), $build->getId(), 'plugin-summary', json_encode($summary));
+        $this->store->setMeta($build->getId(), 'plugin-summary', json_encode($summary));
     }
 }

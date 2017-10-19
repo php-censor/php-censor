@@ -1,4 +1,13 @@
-<?php use PHPCensor\Helper\Lang; ?>
+<?php
+
+use PHPCensor\Helper\Lang;
+use PHPCensor\Model\Build;
+
+/**
+ * @var Build $build
+ */
+
+?>
 
 <div class="row">
     <div class="col-sm-4">
@@ -79,9 +88,15 @@
             <div class="box-body no-padding">
                 <table class="table">
                     <tr>
+                        <th><?php Lang::out('build_source'); ?></th>
+                        <td style="text-align: right">
+                            <?php Lang::out($build->getSourceHumanize()); ?>
+                        </td>
+                    </tr>
+                    <tr>
                         <th><?php Lang::out('commit'); ?></th>
                         <td style="text-align: right">
-                            <a target="_blank" href="<?php print $build->getCommitLink(); ?>">
+                            <a target="_blank" href="<?= $build->getCommitLink(); ?>">
                                 <?php print substr($build->getCommitId(), 0, 7); ?>
                             </a>
                         </td>
@@ -118,28 +133,28 @@
                     <tr>
                         <th><?php Lang::out('created'); ?></th>
                         <td style="text-align: right" class="build-created datetime">
-                            <?php print $build->getCreated() ? $build->getCreated()->format('Y-m-d H:i:s') : ''; ?>
+                            <?= ($build->getCreateDate() ? $build->getCreateDate()->format('Y-m-d H:i:s') : ''); ?>
                         </td>
                     </tr>
 
                     <tr>
                         <th><?php Lang::out('started'); ?></th>
                         <td style="text-align: right" class="build-started datetime">
-                            <?php print $build->getStarted() ? $build->getStarted()->format('Y-m-d H:i:s') : ''; ?>
+                            <?= ($build->getStartDate() ? $build->getStartDate()->format('Y-m-d H:i:s') : ''); ?>
                         </td>
                     </tr>
 
                     <tr>
                         <th><?php Lang::out('finished'); ?></th>
                         <td style="text-align: right" class="build-finished datetime">
-                            <?php print $build->getFinished() ? $build->getFinished()->format('Y-m-d H:i:s') : ''; ?>
+                            <?= ($build->getFinishDate() ? $build->getFinishDate()->format('Y-m-d H:i:s') : ''); ?>
                         </td>
                     </tr>
 
                     <tr>
                         <th><?php Lang::out('duration'); ?></th>
                         <td style="text-align: right" class="build-duration duration">
-                            <?php print $build->getDuration(); ?> <?= Lang::get('seconds'); ?>
+                            <?= $build->getDuration(); ?> <?= Lang::get('seconds'); ?>
                         </td>
                     </tr>
                 </table>

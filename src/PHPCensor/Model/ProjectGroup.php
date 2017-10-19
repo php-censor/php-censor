@@ -26,94 +26,49 @@ class ProjectGroup extends Model
      * @var array
      */
     protected $data = [
-        'id'    => null,
-        'title' => null,
+        'id'          => null,
+        'title'       => null,
+        'create_date' => null,
+        'user_id'     => 0,
     ];
 
     /**
      * @var array
      */
     protected $getters = [
-        // Direct property getters:
-        'id'    => 'getId',
-        'title' => 'getTitle',
-        // Foreign key getters:
+        'id'          => 'getId',
+        'title'       => 'getTitle',
+        'create_date' => 'getCreateDate',
+        'user_id'     => 'getUserId',
     ];
 
     /**
      * @var array
      */
     protected $setters = [
-        // Direct property setters:
-        'id'    => 'setId',
-        'title' => 'setTitle',
-        // Foreign key setters:
+        'id'          => 'setId',
+        'title'       => 'setTitle',
+        'create_date' => 'setCreateDate',
+        'user_id'     => 'setUserId',
     ];
 
     /**
-     * @var array
-     */
-    public $columns = [
-        'id' => [
-            'type'           => 'int',
-            'length'         => 11,
-            'primary_key'    => true,
-            'auto_increment' => true,
-            'default'        => null,
-        ],
-        'title' => [
-            'type'    => 'varchar',
-            'length'  => 100,
-            'default' => null,
-        ],
-    ];
-
-    /**
-     * @var array
-     */
-    public $indexes = [
-        'PRIMARY' => ['unique' => true, 'columns' => 'id'],
-    ];
-
-    /**
-     * @var array
-     */
-    public $foreignKeys = [];
-
-    /**
-     * Get the value of Id / id.
-     *
      * @return int
      */
     public function getId()
     {
-        $rtn    = $this->data['id'];
+        $rtn = $this->data['id'];
 
         return $rtn;
     }
 
     /**
-     * Get the value of Title / title.
-     *
-     * @return string
-     */
-    public function getTitle()
-    {
-        $rtn    = $this->data['title'];
-
-        return $rtn;
-    }
-
-    /**
-     * Set the value of Id / id.
-     *
-     * Must not be null.
      * @param $value int
      */
     public function setId($value)
     {
-        $this->validateNotNull('Id', $value);
-        $this->validateInt('Id', $value);
+        $this->validateNotNull('id', $value);
+        $this->validateInt('id', $value);
 
         if ($this->data['id'] === $value) {
             return;
@@ -125,15 +80,22 @@ class ProjectGroup extends Model
     }
 
     /**
-     * Set the value of Title / title.
-     *
-     * Must not be null.
+     * @return string
+     */
+    public function getTitle()
+    {
+        $rtn = $this->data['title'];
+
+        return $rtn;
+    }
+
+    /**
      * @param $value string
      */
     public function setTitle($value)
     {
-        $this->validateNotNull('Title', $value);
-        $this->validateString('Title', $value);
+        $this->validateNotNull('title', $value);
+        $this->validateString('title', $value);
 
         if ($this->data['title'] === $value) {
             return;
@@ -145,10 +107,65 @@ class ProjectGroup extends Model
     }
 
     /**
+     * @return \DateTime
+     */
+    public function getCreateDate()
+    {
+        $rtn = $this->data['create_date'];
+
+        if (!empty($rtn)) {
+            $rtn = new \DateTime($rtn);
+        }
+
+        return $rtn;
+    }
+
+    /**
+     * @param $value \DateTime
+     */
+    public function setCreateDate($value)
+    {
+        $this->validateDate('create_date', $value);
+
+        if ($this->data['create_date'] === $value) {
+            return;
+        }
+
+        $this->data['create_date'] = $value;
+
+        $this->setModified('create_date');
+    }
+
+    /**
+     * @return string
+     */
+    public function getUserId()
+    {
+        $rtn = $this->data['user_id'];
+
+        return (integer)$rtn;
+    }
+
+    /**
+     * @param $value integer
+     */
+    public function setUserId($value)
+    {
+        $this->validateNotNull('user_id', $value);
+        $this->validateInt('user_id', $value);
+
+        if ($this->data['user_id'] === $value) {
+            return;
+        }
+
+        $this->data['user_id'] = $value;
+
+        $this->setModified('user_id');
+    }
+
+    /**
      * Get Project models by GroupId for this ProjectGroup.
      *
-     * @uses \PHPCensor\Store\ProjectStore::getByGroupId()
-     * @uses \PHPCensor\Model\Project
      * @return \PHPCensor\Model\Project[]
      */
     public function getGroupProjects()

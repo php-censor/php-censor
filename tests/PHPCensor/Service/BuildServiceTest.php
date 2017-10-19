@@ -62,15 +62,16 @@ class BuildServiceTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(101, $returnValue->getProjectId());
         $this->assertEquals(Build::STATUS_PENDING, $returnValue->getStatus());
-        $this->assertNull($returnValue->getStarted());
-        $this->assertNull($returnValue->getFinished());
+        $this->assertNull($returnValue->getStartDate());
+        $this->assertNull($returnValue->getFinishDate());
         $this->assertNull($returnValue->getLog());
-        $this->assertEquals('Manual', $returnValue->getCommitMessage());
+        $this->assertEquals(null, $returnValue->getCommitMessage());
         $this->assertNull($returnValue->getCommitterEmail());
         $this->assertEquals(['branches' => []], $returnValue->getExtra());
         $this->assertEquals('master', $returnValue->getBranch());
-        $this->assertInstanceOf('DateTime', $returnValue->getCreated());
-        $this->assertEquals('Manual', $returnValue->getCommitId());
+        $this->assertInstanceOf('DateTime', $returnValue->getCreateDate());
+        $this->assertEquals('', $returnValue->getCommitId());
+        $this->assertEquals(Build::SOURCE_UNKNOWN, $returnValue->getSource());
     }
 
     public function testExecute_CreateBuildWithOptions()
@@ -120,11 +121,13 @@ class BuildServiceTest extends \PHPUnit\Framework\TestCase
         $returnValue = $this->testedService->createBuild(
             $project,
             null,
+            '',
             null,
             null,
             null,
             null,
-            null,
+            Build::SOURCE_UNKNOWN,
+            0,
             ['item1' => 1001]
         );
 
@@ -140,8 +143,8 @@ class BuildServiceTest extends \PHPUnit\Framework\TestCase
         $build->setStatus(Build::STATUS_FAILED);
         $build->setLog('Test');
         $build->setBranch('example_branch');
-        $build->setStarted(new \DateTime());
-        $build->setFinished(new \DateTime());
+        $build->setStartDate(new \DateTime());
+        $build->setFinishDate(new \DateTime());
         $build->setCommitMessage('test');
         $build->setCommitterEmail('test@example.com');
         $build->setExtra(json_encode(['item1' => 1001]));
@@ -155,9 +158,9 @@ class BuildServiceTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(Build::STATUS_PENDING, $returnValue->getStatus());
         $this->assertNull($returnValue->getLog());
         $this->assertEquals($build->getBranch(), $returnValue->getBranch());
-        $this->assertNotEquals($build->getCreated(), $returnValue->getCreated());
-        $this->assertNull($returnValue->getStarted());
-        $this->assertNull($returnValue->getFinished());
+        $this->assertNotEquals($build->getCreateDate(), $returnValue->getCreateDate());
+        $this->assertNull($returnValue->getStartDate());
+        $this->assertNull($returnValue->getFinishDate());
         $this->assertEquals('test', $returnValue->getCommitMessage());
         $this->assertEquals('test@example.com', $returnValue->getCommitterEmail());
         $this->assertEquals($build->getExtra('item1'), $returnValue->getExtra('item1'));

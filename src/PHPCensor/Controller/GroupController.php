@@ -7,6 +7,7 @@ use b8\Form;
 use PHPCensor\Controller;
 use PHPCensor\Model\ProjectGroup;
 use PHPCensor\Helper\Lang;
+use PHPCensor\Model\User;
 
 /**
  * Project Controller - Allows users to create, edit and view projects.
@@ -71,10 +72,19 @@ class GroupController extends Controller
 
         if ($this->request->getMethod() == 'POST') {
             $group->setTitle($this->getParam('title'));
+            if (is_null($groupId)) {
+                /** @var User $user */
+                $user = $_SESSION['php-censor-user'];
+
+                $group->setCreateDate(new \DateTime());
+                $group->setUserId($user->getId());
+            }
+
             $this->groupStore->save($group);
 
             $response = new b8\Http\Response\RedirectResponse();
             $response->setHeader('Location', APP_URL.'group');
+
             return $response;
         }
 

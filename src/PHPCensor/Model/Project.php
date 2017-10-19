@@ -47,6 +47,8 @@ class Project extends Model
         'allow_public_status' => null,
         'archived'            => null,
         'group_id'            => null,
+        'create_date'         => null,
+        'user_id'             => 0,
     ];
 
     /**
@@ -68,8 +70,11 @@ class Project extends Model
         'allow_public_status' => 'getAllowPublicStatus',
         'archived'            => 'getArchived',
         'group_id'            => 'getGroupId',
+        'create_date'         => 'getCreateDate',
+        'user_id'             => 'getUserId',
+
         // Foreign key getters:
-        'Group'               => 'getGroup',
+        'Group' => 'getGroup',
     ];
 
     /**
@@ -91,185 +96,74 @@ class Project extends Model
         'allow_public_status' => 'setAllowPublicStatus',
         'archived'            => 'setArchived',
         'group_id'            => 'setGroupId',
+        'create_date'         => 'setCreateDate',
+        'user_id'             => 'setUserId',
+
         // Foreign key setters:
-        'Group'               => 'setGroup',
+        'Group' => 'setGroup',
     ];
 
     /**
-     * @var array
-     */
-    public $columns = [
-        'id' => [
-            'type'           => 'int',
-            'length'         => 11,
-            'primary_key'    => true,
-            'auto_increment' => true,
-            'default'        => null,
-        ],
-        'title' => [
-            'type'    => 'varchar',
-            'length'  => 250,
-            'default' => null,
-        ],
-        'reference' => [
-            'type'    => 'varchar',
-            'length'  => 250,
-            'default' => null,
-        ],
-        'branch' => [
-            'type'    => 'varchar',
-            'length'  => 250,
-            'default' => 'master',
-        ],
-        'default_branch_only' => [
-            'type'   => 'int',
-            'length' => 11,
-        ],
-        'ssh_private_key' => [
-            'type'     => 'text',
-            'nullable' => true,
-            'default'  => null,
-        ],
-        'type' => [
-            'type'    => 'varchar',
-            'length'  => 50,
-            'default' => null,
-        ],
-        'access_information' => [
-            'type'     => 'varchar',
-            'length'   => 250,
-            'nullable' => true,
-            'default'  => null,
-        ],
-        'last_commit' => [
-            'type'     => 'varchar',
-            'length'   => 250,
-            'nullable' => true,
-            'default'  => null,
-        ],
-        'build_config' => [
-            'type'     => 'text',
-            'nullable' => true,
-            'default'  => null,
-        ],
-        'ssh_public_key' => [
-            'type'     => 'text',
-            'nullable' => true,
-            'default'  => null,
-        ],
-        'allow_public_status' => [
-            'type'   => 'int',
-            'length' => 11,
-        ],
-        'archived' => [
-            'type'    => 'tinyint',
-            'length'  => 1,
-            'default' => null,
-        ],
-        'group_id' => [
-            'type'    => 'int',
-            'length'  => 11,
-            'default' => 1,
-        ],
-    ];
-
-    /**
-     * @var array
-     */
-    public $indexes = [
-        'PRIMARY'           => ['unique' => true, 'columns' => 'id'],
-        'idx_project_title' => ['columns' => 'title'],
-        'group_id'          => ['columns' => 'group_id'],
-    ];
-
-    /**
-     * @var array
-     */
-    public $foreignKeys = [
-        'project_ibfk_1' => [
-            'local_col' => 'group_id',
-            'update'    => 'CASCADE',
-            'delete'    => '',
-            'table'     => 'project_group',
-            'col'       => 'id'
-        ],
-    ];
-
-    /**
-     * Get the value of Id / id.
-     *
      * @return int
      */
     public function getId()
     {
-        $rtn    = $this->data['id'];
+        $rtn = $this->data['id'];
 
         return $rtn;
     }
 
     /**
-     * Get the value of Title / title.
-     *
      * @return string
      */
     public function getTitle()
     {
-        $rtn    = $this->data['title'];
+        $rtn = $this->data['title'];
 
         return $rtn;
     }
 
     /**
-     * Get the value of Reference / reference.
-     *
      * @return string
      */
     public function getReference()
     {
-        $rtn    = $this->data['reference'];
+        $rtn = $this->data['reference'];
 
         return $rtn;
     }
 
     /**
-     * Get the value of SshPrivateKey / ssh_private_key.
-     *
      * @return string
      */
     public function getSshPrivateKey()
     {
-        $rtn    = $this->data['ssh_private_key'];
+        $rtn = $this->data['ssh_private_key'];
 
         return $rtn;
     }
 
     /**
-     * Get the value of Type / type.
-     *
      * @return string
      */
     public function getType()
     {
-        $rtn    = $this->data['type'];
+        $rtn = $this->data['type'];
 
         return $rtn;
     }
 
     /**
-     * Get the value of LastCommit / last_commit.
-     *
      * @return string
      */
     public function getLastCommit()
     {
-        $rtn    = $this->data['last_commit'];
+        $rtn = $this->data['last_commit'];
 
         return $rtn;
     }
 
     /**
-     * Get the value of BuildConfig / build_config.
-     *
      * @return string
      */
     public function getBuildConfig()
@@ -280,20 +174,16 @@ class Project extends Model
     }
 
     /**
-     * Get the value of SshPublicKey / ssh_public_key.
-     *
      * @return string
      */
     public function getSshPublicKey()
     {
-        $rtn    = $this->data['ssh_public_key'];
+        $rtn = $this->data['ssh_public_key'];
 
         return $rtn;
     }
 
     /**
-     * Get the value of AllowPublicStatus / allow_public_status.
-     *
      * @return int
      */
     public function getAllowPublicStatus()
@@ -304,8 +194,6 @@ class Project extends Model
     }
 
     /**
-     * Get the value of Archived / archived.
-     *
      * @return int
      */
     public function getArchived()
@@ -316,8 +204,6 @@ class Project extends Model
     }
 
     /**
-     * Get the value of GroupId / group_id.
-     *
      * @return int
      */
     public function getGroupId()
@@ -328,8 +214,6 @@ class Project extends Model
     }
 
     /**
-     * Get the value of DefaultBranchOnly / default_branch_only.
-     *
      * @return int
      */
     public function getDefaultBranchOnly()
@@ -340,15 +224,12 @@ class Project extends Model
     }
 
     /**
-     * Set the value of Id / id.
-     *
-     * Must not be null.
      * @param $value int
      */
     public function setId($value)
     {
-        $this->validateNotNull('Id', $value);
-        $this->validateInt('Id', $value);
+        $this->validateNotNull('id', $value);
+        $this->validateInt('id', $value);
 
         if ($this->data['id'] === $value) {
             return;
@@ -360,15 +241,12 @@ class Project extends Model
     }
 
     /**
-     * Set the value of Title / title.
-     *
-     * Must not be null.
      * @param $value string
      */
     public function setTitle($value)
     {
-        $this->validateNotNull('Title', $value);
-        $this->validateString('Title', $value);
+        $this->validateNotNull('title', $value);
+        $this->validateString('title', $value);
 
         if ($this->data['title'] === $value) {
             return;
@@ -380,15 +258,12 @@ class Project extends Model
     }
 
     /**
-     * Set the value of Reference / reference.
-     *
-     * Must not be null.
      * @param $value string
      */
     public function setReference($value)
     {
-        $this->validateNotNull('Reference', $value);
-        $this->validateString('Reference', $value);
+        $this->validateNotNull('reference', $value);
+        $this->validateString('reference', $value);
 
         if ($this->data['reference'] === $value) {
             return;
@@ -400,15 +275,12 @@ class Project extends Model
     }
 
     /**
-     * Set the value of Branch / branch.
-     *
-     * Must not be null.
      * @param $value string
      */
     public function setBranch($value)
     {
-        $this->validateNotNull('Branch', $value);
-        $this->validateString('Branch', $value);
+        $this->validateNotNull('branch', $value);
+        $this->validateString('branch', $value);
 
         if ($this->data['branch'] === $value) {
             return;
@@ -420,15 +292,12 @@ class Project extends Model
     }
 
     /**
-     * Set the value of DefaultBranchOnly / default_branch_only.
-     *
-     * Must not be null.
      * @param $value int
      */
     public function setDefaultBranchOnly($value)
     {
-        $this->validateNotNull('DefaultBranchOnly', $value);
-        $this->validateInt('DefaultBranchOnly', $value);
+        $this->validateNotNull('default_branch_only', $value);
+        $this->validateInt('default_branch_only', $value);
 
         if ($this->data['default_branch_only'] === $value) {
             return;
@@ -440,13 +309,11 @@ class Project extends Model
     }
 
     /**
-     * Set the value of SshPrivateKey / ssh_private_key.
-     *
      * @param $value string
      */
     public function setSshPrivateKey($value)
     {
-        $this->validateString('SshPrivateKey', $value);
+        $this->validateString('ssh_private_key', $value);
 
         if ($this->data['ssh_private_key'] === $value) {
             return;
@@ -458,15 +325,12 @@ class Project extends Model
     }
 
     /**
-     * Set the value of Type / type.
-     *
-     * Must not be null.
      * @param $value string
      */
     public function setType($value)
     {
-        $this->validateNotNull('Type', $value);
-        $this->validateString('Type', $value);
+        $this->validateNotNull('type', $value);
+        $this->validateString('type', $value);
 
         if ($this->data['type'] === $value) {
             return;
@@ -478,13 +342,11 @@ class Project extends Model
     }
 
     /**
-     * Set the value of LastCommit / last_commit.
-     *
      * @param $value string
      */
     public function setLastCommit($value)
     {
-        $this->validateString('LastCommit', $value);
+        $this->validateString('last_commit', $value);
 
         if ($this->data['last_commit'] === $value) {
             return;
@@ -496,13 +358,11 @@ class Project extends Model
     }
 
     /**
-     * Set the value of BuildConfig / build_config.
-     *
      * @param $value string
      */
     public function setBuildConfig($value)
     {
-        $this->validateString('BuildConfig', $value);
+        $this->validateString('build_config', $value);
 
         if ($this->data['build_config'] === $value) {
             return;
@@ -514,13 +374,11 @@ class Project extends Model
     }
 
     /**
-     * Set the value of SshPublicKey / ssh_public_key.
-     *
      * @param $value string
      */
     public function setSshPublicKey($value)
     {
-        $this->validateString('SshPublicKey', $value);
+        $this->validateString('ssh_public_key', $value);
 
         if ($this->data['ssh_public_key'] === $value) {
             return;
@@ -532,15 +390,12 @@ class Project extends Model
     }
 
     /**
-     * Set the value of AllowPublicStatus / allow_public_status.
-     *
-     * Must not be null.
      * @param $value int
      */
     public function setAllowPublicStatus($value)
     {
-        $this->validateNotNull('AllowPublicStatus', $value);
-        $this->validateInt('AllowPublicStatus', $value);
+        $this->validateNotNull('allow_public_status', $value);
+        $this->validateInt('allow_public_status', $value);
 
         if ($this->data['allow_public_status'] === $value) {
             return;
@@ -552,15 +407,12 @@ class Project extends Model
     }
 
     /**
-     * Set the value of Archived / archived.
-     *
-     * Must not be null.
      * @param $value int
      */
     public function setArchived($value)
     {
-        $this->validateNotNull('Archived', $value);
-        $this->validateInt('Archived', $value);
+        $this->validateNotNull('archived', $value);
+        $this->validateInt('archived', $value);
 
         if ($this->data['archived'] === $value) {
             return;
@@ -572,15 +424,12 @@ class Project extends Model
     }
 
     /**
-     * Set the value of GroupId / group_id.
-     *
-     * Must not be null.
      * @param $value int
      */
     public function setGroupId($value)
     {
-        $this->validateNotNull('GroupId', $value);
-        $this->validateInt('GroupId', $value);
+        $this->validateNotNull('group_id', $value);
+        $this->validateInt('group_id', $value);
 
         if ($this->data['group_id'] === $value) {
             return;
@@ -594,8 +443,6 @@ class Project extends Model
     /**
      * Get the ProjectGroup model for this Project by Id.
      *
-     * @uses \PHPCensor\Store\ProjectGroupStore::getById()
-     * @uses \PHPCensor\Model\ProjectGroup
      * @return \PHPCensor\Model\ProjectGroup
      */
     public function getGroup()
@@ -606,11 +453,11 @@ class Project extends Model
             return null;
         }
 
-        $cacheKey   = 'Cache.ProjectGroup.' . $key;
-        $rtn        = $this->cache->get($cacheKey, null);
+        $cacheKey = 'Cache.ProjectGroup.' . $key;
+        $rtn      = $this->cache->get($cacheKey, null);
 
         if (empty($rtn)) {
-            $rtn    = Factory::getStore('ProjectGroup', 'PHPCensor')->getById($key);
+            $rtn = Factory::getStore('ProjectGroup', 'PHPCensor')->getById($key);
             $this->cache->set($cacheKey, $rtn);
         }
 
@@ -651,8 +498,6 @@ class Project extends Model
     /**
      * Get Build models by ProjectId for this Project.
      *
-     * @uses \PHPCensor\Store\BuildStore::getByProjectId()
-     * @uses \PHPCensor\Model\Build
      * @return \PHPCensor\Model\Build[]
      */
     public function getProjectBuilds()
@@ -661,21 +506,11 @@ class Project extends Model
     }
 
     /**
-     * Get BuildMeta models by ProjectId for this Project.
-     *
-     * @uses \PHPCensor\Store\BuildMetaStore::getByProjectId()
-     * @uses \PHPCensor\Model\BuildMeta
-     * @return \PHPCensor\Model\BuildMeta[]
-     */
-    public function getProjectBuildMetas()
-    {
-        return Factory::getStore('BuildMeta', 'PHPCensor')->getByProjectId($this->getId());
-    }
-
-    /**
      * Return the latest build from a specific branch, of a specific status, for this project.
+     *
      * @param string $branch
-     * @param null $status
+     * @param null   $status
+     *
      * @return mixed|null
      */
     public function getLatestBuild($branch = 'master', $status = null)
@@ -702,7 +537,9 @@ class Project extends Model
 
     /**
      * Return the previous build from a specific branch, for this project.
+     *
      * @param string $branch
+     *
      * @return mixed|null
      */
     public function getPreviousBuild($branch = 'master')
@@ -723,7 +560,6 @@ class Project extends Model
     }
 
     /**
-     * Store this project's access_information data
      * @param string|array $value
      */
     public function setAccessInformation($value)
@@ -732,7 +568,7 @@ class Project extends Model
             $value = json_encode($value);
         }
 
-        $this->validateString('AccessInformation', $value);
+        $this->validateString('access_information', $value);
 
         if ($this->data['access_information'] === $value) {
             return;
@@ -745,7 +581,9 @@ class Project extends Model
 
     /**
      * Get this project's access_information data. Pass a specific key or null for all data.
+     *
      * @param string|null $key
+     *
      * @return mixed|null|string
      */
     public function getAccessInformation($key = null)
@@ -771,7 +609,64 @@ class Project extends Model
     }
 
     /**
-     * Get the value of Branch / branch.
+     * @return \DateTime
+     */
+    public function getCreateDate()
+    {
+        $rtn = $this->data['create_date'];
+
+        if (!empty($rtn)) {
+            $rtn = new \DateTime($rtn);
+        }
+
+        return $rtn;
+    }
+
+    /**
+     * @param $value \DateTime
+     */
+    public function setCreateDate($value)
+    {
+        $this->validateDate('create_date', $value);
+
+        if ($this->data['create_date'] === $value) {
+            return;
+        }
+
+        $this->data['create_date'] = $value;
+
+        $this->setModified('create_date');
+    }
+
+    /**
+     * @return string
+     */
+    public function getUserId()
+    {
+        $rtn = $this->data['user_id'];
+
+        return (integer)$rtn;
+    }
+
+    /**
+     * @param $value integer
+     */
+    public function setUserId($value)
+    {
+        $this->validateNotNull('user_id', $value);
+        $this->validateInt('user_id', $value);
+
+        if ($this->data['user_id'] === $value) {
+            return;
+        }
+
+        $this->data['user_id'] = $value;
+
+        $this->setModified('user_id');
+    }
+
+    /**
+     * Get the value of branch.
      *
      * @return string
      */
@@ -798,6 +693,7 @@ class Project extends Model
 
     /**
      * Return the name of a FontAwesome icon to represent this project, depending on its type.
+     *
      * @return string
      */
     public function getIcon()
@@ -850,7 +746,7 @@ class Project extends Model
 
         if (empty($rtn)) {
             $store = $this->getEnvironmentStore();
-            $rtn = $store->getByProjectId($key);
+            $rtn   = $store->getByProjectId($key);
             $this->cache->set($cacheKey, $rtn);
         }
 

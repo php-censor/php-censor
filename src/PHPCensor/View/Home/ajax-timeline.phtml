@@ -3,6 +3,10 @@
 use PHPCensor\Helper\Lang;
 use PHPCensor\Model\Build;
 
+/**
+ * @var Build[] $builds
+ */
+
 ?>
 <ul class="timeline">
     <?php $last = new \DateTime('-1 Year'); ?>
@@ -14,32 +18,32 @@ use PHPCensor\Model\Build;
 
         switch ($build->getStatus()) {
             case Build::STATUS_PENDING:
-                $updated = $build->getCreated();
+                $updated = $build->getCreateDate();
                 $label = Lang::get('pending');
                 $color = 'blue';
                 break;
 
             case Build::STATUS_RUNNING:
-                $updated = $build->getStarted();
+                $updated = $build->getStartDate();
                 $label = Lang::get('running');
                 $color = 'yellow';
                 break;
 
             case Build::STATUS_SUCCESS:
-                $updated = $build->getFinished();
+                $updated = $build->getFinishDate();
                 $label = Lang::get('success');
                 $color = 'green';
                 break;
 
             case Build::STATUS_FAILED:
-                $updated = $build->getFinished();
+                $updated = $build->getFinishDate();
                 $label = Lang::get('failed');
                 $color = 'red';
                 break;
         }
 
         if (!$updated) {
-            $updated = $build->getCreated();
+            $updated = $build->getCreateDate();
         }
 
         if ($updated->format('Y-m-d') != $last->format('Y-m-d')): $last = $updated;
@@ -74,7 +78,7 @@ use PHPCensor\Model\Build;
                         Build #<?= $build->getId(); ?>
                     </a>
                     &mdash; 
-                    <?php print $label; ?>
+                    <?php Lang::out($build->getSourceHumanize()); ?>
                 </h3>
 
                 <div class="timeline-body">
@@ -85,21 +89,21 @@ use PHPCensor\Model\Build;
                             <i class="fa fa-tag"></i> <?= $tag; ?>
                         </a>
                     <?php endif; ?>
-                    &mdash; 
                     <?php
-                    if ($build->getCommitId() !== 'Manual') {
-                        print sprintf(
-                            '<a href="%s" target="_blank">%s (%s)</a>',
-                            $build->getCommitLink(),
-                            substr($build->getCommitId(), 0, 7),
-                            $build->getCommitterEmail()
-                        );
-                    } else {
-                        print Lang::get('manual_build');
-                    }
+                        if (!empty($build->getCommitId())) {
+                            echo ' &mdash; ';
+                            echo sprintf(
+                                '<a href="%s" target="_blank">%s %s</a>',
+                                $build->getCommitLink(),
+                                substr($build->getCommitId(), 0, 7),
+                                $build->getCommitterEmail() ? ('(' . $build->getCommitterEmail() . ')') : ''
+                            );
+                            if (!empty($build->getCommitMessage())) {
+                                echo ' &mdash; ';
+                                print $build->getCommitMessage();
+                            }
+                        }
                     ?>
-                    &mdash; 
-                    <?php print $build->getCommitMessage(); ?>
                 </div>
             </div>
         </li>

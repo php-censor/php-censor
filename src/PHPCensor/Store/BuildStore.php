@@ -18,25 +18,36 @@ class BuildStore extends Store
 
     /**
      * Get a Build by primary key (Id)
+     *
+     * @param integer $key
+     * @param string  $useConnection
+     *
+     * @return null|Build
      */
-    public function getByPrimaryKey($value, $useConnection = 'read')
+    public function getByPrimaryKey($key, $useConnection = 'read')
     {
-        return $this->getById($value, $useConnection);
+        return $this->getById($key, $useConnection);
     }
 
     /**
      * Get a single Build by Id.
-     * @return null|Build
+     *
+     * @param integer $id
+     * @param string  $useConnection
+     *
+     * @return Build|null
+     *
+     * @throws HttpException
      */
-    public function getById($value, $useConnection = 'read')
+    public function getById($id, $useConnection = 'read')
     {
-        if (is_null($value)) {
+        if (is_null($id)) {
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
         $query = 'SELECT * FROM {{build}} WHERE {{id}} = :id LIMIT 1';
         $stmt = Database::getConnection($useConnection)->prepareCommon($query);
-        $stmt->bindValue(':id', $value);
+        $stmt->bindValue(':id', $id);
 
         if ($stmt->execute()) {
             if ($data = $stmt->fetch(\PDO::FETCH_ASSOC)) {
@@ -49,18 +60,24 @@ class BuildStore extends Store
 
     /**
      * Get multiple Build by ProjectId.
+     *
+     * @param integer $projectId
+     * @param integer $limit
+     * @param string  $useConnection
+     *
      * @return array
+     *
+     * @throws HttpException
      */
-    public function getByProjectId($value, $limit = 1000, $useConnection = 'read')
+    public function getByProjectId($projectId, $limit = 1000, $useConnection = 'read')
     {
-        if (is_null($value)) {
+        if (is_null($projectId)) {
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
-
         $query = 'SELECT * FROM {{build}} WHERE {{project_id}} = :project_id LIMIT :limit';
         $stmt = Database::getConnection($useConnection)->prepareCommon($query);
-        $stmt->bindValue(':project_id', $value);
+        $stmt->bindValue(':project_id', $projectId);
         $stmt->bindValue(':limit', (int)$limit, \PDO::PARAM_INT);
 
         if ($stmt->execute()) {
@@ -82,23 +99,23 @@ class BuildStore extends Store
     /**
      * Get multiple Build by Status.
      *
-     * @param $value
-     * @param int $limit
-     * @param string $useConnection
+     * @param integer $status
+     * @param integer $limit
+     * @param string  $useConnection
      *
      * @return array
      *
      * @throws HttpException
      */
-    public function getByStatus($value, $limit = 1000, $useConnection = 'read')
+    public function getByStatus($status, $limit = 1000, $useConnection = 'read')
     {
-        if (is_null($value)) {
+        if (is_null($status)) {
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
         $query = 'SELECT * FROM {{build}} WHERE {{status}} = :status LIMIT :limit';
         $stmt = Database::getConnection($useConnection)->prepareCommon($query);
-        $stmt->bindValue(':status', $value);
+        $stmt->bindValue(':status', $status);
         $stmt->bindValue(':limit', (int)$limit, \PDO::PARAM_INT);
 
         if ($stmt->execute()) {
@@ -118,9 +135,39 @@ class BuildStore extends Store
     }
 
     /**
+     * @param integer $limit
+     * @param integer $offset
+     *
+     * @return array
+     */
+    public function getBuilds($limit = 5, $offset = 0)
+    {
+        $query = 'SELECT * FROM {{build}} ORDER BY {{id}} DESC LIMIT :limit OFFSET :offset';
+        $stmt  = Database::getConnection('read')->prepareCommon($query);
+
+        $stmt->bindValue(':limit', $limit, \PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, \PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            $res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+            $map = function ($item) {
+                return new Build($item);
+            };
+            $rtn = array_map($map, $res);
+
+            return $rtn;
+        } else {
+            return [];
+        }
+    }
+
+    /**
      * Return an array of the latest builds for a given project.
-     * @param null $projectId
-     * @param int $limit
+     *
+     * @param integer|null $projectId
+     * @param integer      $limit
+     *
      * @return array
      */
     public function getLatestBuilds($projectId = null, $limit = 5)
@@ -155,8 +202,10 @@ class BuildStore extends Store
 
     /**
      * Return the latest build for a specific project, of a specific build status.
-     * @param null $projectId
-     * @param int $status
+     *
+     * @param integer|null $projectId
+     * @param integer      $status
+     *
      * @return array|Build
      */
     public function getLastBuildByStatus($projectId = null, $status = Build::STATUS_SUCCESS)
@@ -209,8 +258,10 @@ class BuildStore extends Store
     /**
      * Returns all registered branches for project
      *
-     * @param $projectId
+     * @param integer $projectId
+     *
      * @return array
+     *
      * @throws \Exception
      */
     public function getBuildBranches($projectId)
@@ -229,11 +280,13 @@ class BuildStore extends Store
 
     /**
      * Return build metadata by key, project and optionally build id.
-     * @param $key
-     * @param $projectId
-     * @param null $buildId
-     * @param null $branch
-     * @param int $numResults
+     *
+     * @param string       $key
+     * @param integer      $projectId
+     * @param integer|null $buildId
+     * @param string|null  $branch
+     * @param integer      $numResults
+     *
      * @return array|null
      */
     public function getMeta($key, $projectId, $buildId = null, $branch = null, $numResults = 1)
@@ -241,8 +294,7 @@ class BuildStore extends Store
         $query = 'SELECT bm.build_id, bm.meta_key, bm.meta_value
                     FROM {{build_meta}} AS {{bm}}
                     LEFT JOIN {{build}} AS {{b}} ON b.id = bm.build_id
-                    WHERE   bm.meta_key = :key
-                      AND   bm.project_id = :projectId';
+                    WHERE   bm.meta_key = :key AND b.project_id = :projectId';
 
         // If we're getting comparative meta data, include previous builds
         // otherwise just include the specified build ID:
@@ -290,20 +342,20 @@ class BuildStore extends Store
 
     /**
      * Set a metadata value for a given project and build ID.
-     * @param $projectId
-     * @param $buildId
-     * @param $key
-     * @param $value
-     * @return bool
+     *
+     * @param integer $buildId
+     * @param string  $key
+     * @param string  $value
+     *
+     * @return boolean
      */
-    public function setMeta($projectId, $buildId, $key, $value)
+    public function setMeta($buildId, $key, $value)
     {
-        $cols = '{{project_id}}, {{build_id}}, {{meta_key}}, {{meta_value}}';
-        $query = 'INSERT INTO {{build_meta}} ('.$cols.') VALUES (:projectId, :buildId, :key, :value)';
+        $cols = '{{build_id}}, {{meta_key}}, {{meta_value}}';
+        $query = 'INSERT INTO {{build_meta}} ('.$cols.') VALUES (:buildId, :key, :value)';
 
         $stmt = Database::getConnection('read')->prepareCommon($query);
         $stmt->bindValue(':key', $key, \PDO::PARAM_STR);
-        $stmt->bindValue(':projectId', (int)$projectId, \PDO::PARAM_INT);
         $stmt->bindValue(':buildId', (int)$buildId, \PDO::PARAM_INT);
         $stmt->bindValue(':value', $value, \PDO::PARAM_STR);
 
@@ -316,9 +368,11 @@ class BuildStore extends Store
 
     /**
      * Update status only if it synced with db
-     * @param Build $build
-     * @param int $status
-     * @return bool
+     *
+     * @param Build   $build
+     * @param integer $status
+     *
+     * @return boolean
      */
     public function updateStatusSync($build, $status)
     {

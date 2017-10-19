@@ -25,99 +25,43 @@ class Environment extends Model
      * @var array
      */
     protected $data = [
-        'id'    => null,
+        'id'         => null,
         'project_id' => null,
-        'name' => null,
-        'branches' => null,
+        'name'       => null,
+        'branches'   => null,
     ];
 
     /**
      * @var array
      */
     protected $getters = [
-        // Direct property getters:
-        'id'    => 'getId',
+        'id'         => 'getId',
         'project_id' => 'getProjectId',
-        'name' => 'getName',
-        'branches' => 'getBranches',
-        // Foreign key getters:
+        'name'       => 'getName',
+        'branches'   => 'getBranches',
     ];
 
     /**
      * @var array
      */
     protected $setters = [
-        // Direct property setters:
-        'id'    => 'setId',
-        'project_id'    => 'setProjectId',
-        'name' => 'setName',
-        'branches' => 'setBranches',
-        // Foreign key setters:
+        'id'         => 'setId',
+        'project_id' => 'setProjectId',
+        'name'       => 'setName',
+        'branches'   => 'setBranches',
     ];
 
     /**
-     * @var array
-     */
-    public $columns = [
-        'id' => [
-            'type'           => 'int',
-            'length'         => 11,
-            'primary_key'    => true,
-            'auto_increment' => true,
-            'default'        => null,
-        ],
-        'project_id' => [
-            'type'           => 'int',
-            'length'         => 11,
-            'primary_key'    => true,
-            'default'        => null,
-        ],
-        'name' => [
-            'type'    => 'varchar',
-            'length'  => 250,
-            'default' => null,
-        ],
-        'branches' => [
-            'type'    => 'text',
-            'default' => '',
-        ],
-    ];
-
-    /**
-     * @var array
-     */
-    public $indexes = [
-        'PRIMARY' => ['unique' => true, 'columns' => 'project_id, name'],
-    ];
-
-    /**
-     * @var array
-     */
-    public $foreignKeys = [
-        'environment_ibfk_1' => [
-            'local_col' => 'project_id',
-            'update'    => 'CASCADE',
-            'delete'    => '',
-            'table'     => 'project',
-            'col'       => 'id'
-        ],
-    ];
-
-    /**
-     * Get the value of Id / id.
-     *
      * @return int
      */
     public function getId()
     {
-        $rtn    = $this->data['id'];
+        $rtn = $this->data['id'];
 
         return $rtn;
     }
 
     /**
-     * Get the value of Id / id.
-     *
      * @return int
      */
     public function getProjectId()
@@ -128,20 +72,16 @@ class Environment extends Model
     }
 
     /**
-     * Get the value of Title / title.
-     *
      * @return string
      */
     public function getName()
     {
-        $rtn    = $this->data['name'];
+        $rtn = $this->data['name'];
 
         return $rtn;
     }
 
     /**
-     * Get the value of Title / title.
-     *
      * @return array
      */
     public function getBranches()
@@ -152,15 +92,12 @@ class Environment extends Model
     }
 
     /**
-     * Set the value of Id / id.
-     *
-     * Must not be null.
      * @param $value int
      */
     public function setId($value)
     {
-        $this->validateNotNull('Id', $value);
-        $this->validateInt('Id', $value);
+        $this->validateNotNull('id', $value);
+        $this->validateInt('id', $value);
 
         if ($this->data['id'] === $value) {
             return;
@@ -172,15 +109,12 @@ class Environment extends Model
     }
 
     /**
-     * Set the value of Id / id.
-     *
-     * Must not be null.
      * @param $value int
      */
     public function setProjectId($value)
     {
-        $this->validateNotNull('ProjectId', $value);
-        $this->validateInt('ProjectId', $value);
+        $this->validateNotNull('project_id', $value);
+        $this->validateInt('project_id', $value);
 
         if ($this->data['project_id'] === $value) {
             return;
@@ -192,15 +126,12 @@ class Environment extends Model
     }
 
     /**
-     * Set the value of Name / name
-     *
-     * Must not be null.
      * @param $value string
      */
     public function setName($value)
     {
-        $this->validateNotNull('Name', $value);
-        $this->validateString('Name', $value);
+        $this->validateNotNull('name', $value);
+        $this->validateString('name', $value);
 
         if ($this->data['name'] === $value) {
             return;
@@ -212,14 +143,11 @@ class Environment extends Model
     }
 
     /**
-     * Set the value of Branches / branches
-     *
-     * Must not be null.
      * @param $value array
      */
     public function setBranches($value)
     {
-        $this->validateNotNull('Branches', $value);
+        $this->validateNotNull('branches', $value);
         $value = implode("\n", $value);
 
         if ($this->data['branches'] === $value) {

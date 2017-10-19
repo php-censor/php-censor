@@ -35,6 +35,7 @@ class MercurialBuild extends Build
 
         if (!$success) {
             $builder->logFailure('Failed to clone remote hg repository.');
+
             return false;
         }
 
@@ -84,12 +85,12 @@ class MercurialBuild extends Build
      */
     protected function postCloneSetup(Builder $builder, $cloneTo, array $extra = null)
     {
-        $success = true;
-        $commit = $this->getCommitId();
+        $success  = true;
+        $commitId = $this->getCommitId();
 
         // Allow switching to a specific branch:
-        if (!empty($commit) && $commit != 'Manual') {
-            $cmd = 'cd "%s" && hg checkout %s';
+        if (!empty($commitId)) {
+            $cmd     = 'cd "%s" && hg checkout %s';
             $success = $builder->executeCommand($cmd, $cloneTo, $this->getBranch());
         }
 
