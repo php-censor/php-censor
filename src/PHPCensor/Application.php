@@ -9,8 +9,6 @@ use b8\Http\Response\RedirectResponse;
 use b8\View;
 
 /**
- * PHPCI Front Controller
- * 
  * @author Dan Cryer <dan@block8.co.uk>
  */
 class Application extends b8\Application
@@ -21,7 +19,7 @@ class Application extends b8\Application
     protected $controller;
 
     /**
-     * Initialise PHPCI - Handles session verification, routing, etc.
+     * Initialise Application - Handles session verification, routing, etc.
      */
     public function init()
     {

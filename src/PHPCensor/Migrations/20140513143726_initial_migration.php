@@ -3,7 +3,7 @@
 use Phinx\Migration\AbstractMigration;
 
 /**
- * Initial migration to create a PHPCI v1.2 database.
+ * Initial migration to create database.
  */
 class InitialMigration extends AbstractMigration
 {

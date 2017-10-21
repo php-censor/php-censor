@@ -8,9 +8,8 @@ use PHPCensor\Plugin\Util\PhpUnitResultJunit;
 
 /**
  * Class PhpUnitResultTest parses the results for the PhpUnitV2 plugin
- * @author       Pablo Tejada <pablo@ptejada.com>
- * @package      PHPCI
- * @subpackage   Plugin
+ *
+ * @author Pablo Tejada <pablo@ptejada.com>
  */
 class PhpUnitResultTest extends \PHPUnit\Framework\TestCase
 {

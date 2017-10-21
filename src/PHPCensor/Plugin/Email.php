@@ -8,7 +8,7 @@ use Psr\Log\LogLevel;
 use PHPCensor\Plugin;
 
 /**
- * Email Plugin - Provides simple email capability to PHPCI.
+ * Email Plugin - Provides simple email capability.
  * 
  * @author Steve Brazier <meadsteve@gmail.com>
  */
