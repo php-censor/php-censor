@@ -1,6 +1,38 @@
 Change Log
 ==========
 
+## [PHP Censor v0.18.0](https://github.com/corpsee/php-censor/tree/0.18.0) (2017-10-22)
+
+[Full Changelog](https://github.com/corpsee/php-censor/compare/0.17.0...0.18.0)
+
+* Added Mage v3 plugin for deployment. See 
+[documentation](https://github.com/php-censor/php-censor/blob/master/docs/en/plugins/mage3.md). Thanks to 
+[@ss-gxp](https://github.com/ss-gxp). PullRequest [#118](https://github.com/corpsee/php-censor/pull/118).
+* Added the option to pass the short tags (-s) argument to PHP Parallel Lint so that files using PHP Short Tags can be 
+linted. Used [@Dave13h](https://github.com/Dave13h) [code](https://github.com/Block8/PHPCI/pull/1338/files).
+* Added a checkbox to build only the default branch specified in the project. Used 
+[@suwalski](https://github.com/suwalski) [code](https://github.com/Block8/PHPCI/pull/1055/files).
+* Added command to schedule tasks if not ran for a specified X days. Thanks to 
+[@Vincentv92](https://github.com/Vincentv92). PullRequest [#126](https://github.com/corpsee/php-censor/pull/126).
+* Added column for Build `source` instead of 'Manual' word in `commit_id` and `commit_message`.
+* Added `user_id` column to `build` table (created by) + Renamed columns `created` -> `create_date`, 
+`started` -> `start_date` and `finished` -> `finish_date`.
+* Added `user_id` (created by) and `create_date` columns to `project_group` table.
+* Added `user_id` (created by) and `create_date` columns to `project` table.
+* Improved documentation for SystemD worker, Nginx virtual host.
+* Improved GUI for Codeception plugin, PHPSpec plugin and charts.
+* Fixed env build - omit checkout exact commit. Thanks to [@ss-gxp](https://github.com/ss-gxp). PullRequest 
+[#119](https://github.com/corpsee/php-censor/pull/119).
+* Fixed non-unicode binary log output. Issue [#116](https://github.com/corpsee/php-censor/issues/116).
+* Fixed `lifetime` parameter for queue on installation.
+* Fixed installation. Thanks to [@lscortesc](https://github.com/lscortesc). PullRequest 
+[#128](https://github.com/corpsee/php-censor/pull/128).
+* Removed `console.bat` file.
+* Removed useless '/' from build status cache path.
+* Removed useless `project_id` column from `build_meta` table, removed useless code from models.
+* Updated dependencies.
+
+
 ## [PHP Censor v0.17.0](https://github.com/corpsee/php-censor/tree/0.17.0) (2017-09-03)
 
 [Full Changelog](https://github.com/corpsee/php-censor/compare/0.16.0...0.17.0)
