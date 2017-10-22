@@ -6,7 +6,7 @@ use b8\Config;
 use PHPCensor\Builder;
 
 /**
- * Helper class for sending emails using PHPCI's email configuration.
+ * Helper class for sending emails using email configuration.
  */
 class Email
 {

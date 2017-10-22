@@ -6,7 +6,7 @@ use b8\Store\Factory;
 use PHPCensor\Model\Build;
 
 /**
- * PHPCI Build Factory - Takes in a generic "Build" and returns a type-specific build model.
+ * BuildFactory - Takes in a generic "Build" and returns a type-specific build model.
  * 
  * @author Dan Cryer <dan@block8.co.uk>
  */

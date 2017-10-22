@@ -218,7 +218,7 @@ class InstallCommand extends Command
     }
 
     /**
-     * Load configuration for PHPCI form CLI options or ask info to user.
+     * Load configuration form CLI options or ask info to user.
      *
      * @param InputInterface  $input
      * @param OutputInterface $output
@@ -463,7 +463,7 @@ class InstallCommand extends Command
     }
 
     /**
-     * Write the PHPCI config.yml file.
+     * Write the config.yml file.
      * @param array $config
      */
     protected function writeConfigFile(array $config)

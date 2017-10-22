@@ -9,7 +9,7 @@ use PHPCensor\Model\Build;
 use PHPCensor\Controller;
 
 /**
- * Home Controller - Displays the PHPCI Dashboard.
+ * Home Controller - Displays the Dashboard.
  * 
  * @author Dan Cryer <dan@block8.co.uk>
  */
@@ -41,7 +41,7 @@ class HomeController extends Controller
     }
 
     /**
-    * Display PHPCI dashboard:
+    * Display dashboard:
     */
     public function index()
     {

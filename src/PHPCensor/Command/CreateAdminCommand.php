@@ -46,7 +46,7 @@ class CreateAdminCommand extends Command
     }
 
     /**
-     * Creates an admin user in the existing PHPCI database
+     * Creates an admin user in the existing database
      *
      * {@inheritDoc}
      */

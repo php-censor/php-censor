@@ -5,8 +5,6 @@ namespace PHPCensor;
 use PHPCensor\Model\Build;
 
 /**
- * PHPCI Plugin class - Used by all build plugins.
- * 
  * @author Dan Cryer <dan@block8.co.uk>
  */
 abstract class Plugin

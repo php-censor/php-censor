@@ -24,7 +24,7 @@ class UserService
     }
 
     /**
-     * Create a new user within PHPCI.
+     * Create a new user.
      * 
      * @param string $name
      * @param string $email

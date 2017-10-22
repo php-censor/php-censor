@@ -146,7 +146,7 @@ class BuildWorker
     }
 
     /**
-     * Checks that the job received is actually from PHPCI, and has a valid type.
+     * Checks that the job received is actually, and has a valid type.
      * @param Job $job
      * @param $jobData
      * @return bool
@@ -154,13 +154,11 @@ class BuildWorker
     protected function verifyJob(Job $job, $jobData)
     {
         if (empty($jobData) || !is_array($jobData)) {
-            // Probably not from PHPCI.
             $this->pheanstalk->delete($job);
             return false;
         }
 
         if (!array_key_exists('type', $jobData) || $jobData['type'] !== 'php-censor.build') {
-            // Probably not from PHPCI.
             $this->pheanstalk->delete($job);
             return false;
         }

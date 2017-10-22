@@ -8,7 +8,7 @@ use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 
 /**
- * Integrates PHPCI with Deployer: https://github.com/rebelinblue/deployer
+ * Integration with Deployer: https://github.com/rebelinblue/deployer
  * 
  * @author Dan Cryer <dan@block8.co.uk>
  */

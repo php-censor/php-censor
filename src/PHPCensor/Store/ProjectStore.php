@@ -98,7 +98,7 @@ class ProjectStore extends Store
     }
 
     /**
-     * Returns a list of all branch names PHPCI has run builds against.
+     * Returns a list of all branch names.
      *
      * @param $projectId
      *

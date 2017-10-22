@@ -202,8 +202,10 @@ class BuildController extends Controller
     }
 
     /**
-     * Formats a list of builds into rows suitable for the dropdowns in the PHPCI header bar.
+     * Formats a list of builds into rows suitable for the dropdowns in the header bar.
+     *
      * @param $builds
+     *
      * @return array
      */
     protected function formatBuilds($builds)

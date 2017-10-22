@@ -8,9 +8,6 @@ use b8\Http\Request;
 use b8\Http\Response;
 use b8\View;
 
-/**
- * PHPCI Base Controller
- */
 class Controller extends \b8\Controller
 {
     /**
