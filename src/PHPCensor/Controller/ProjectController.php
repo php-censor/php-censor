@@ -6,6 +6,7 @@ use b8;
 use b8\Exception\HttpException\NotFoundException;
 use b8\Form;
 use b8\Store;
+use JasonGrimes\Paginator;
 use PHPCensor;
 use PHPCensor\BuildFactory;
 use PHPCensor\Helper\Github;
@@ -95,7 +96,7 @@ class ProjectController extends PHPCensor\Controller
 
         $perPage  = $_SESSION['php-censor-user']->getFinalPerPage();
         $builds   = $this->getLatestBuildsHtml($projectId, $environment, $branch, (($page - 1) * $perPage), $perPage);
-        $pages    = $builds[1] == 0 ? 1 : ceil($builds[1] / $perPage);
+        $pages    = $builds[1] == 0 ? 1 : (integer)ceil($builds[1] / $perPage);
 
         if ($page > $pages) {
             $response = new RedirectResponse();
@@ -103,6 +104,19 @@ class ProjectController extends PHPCensor\Controller
 
             return $response;
         }
+
+        $urlPattern = APP_URL . 'project/view/' . $project->getId();
+        $params     = [];
+        if (!empty($branch)) {
+            $params['branch'] = $branch;
+        }
+
+        if (!empty($environment)) {
+            $params['environment'] = $environment;
+        }
+
+        $urlPattern = $urlPattern . '?' . str_replace('%28%3Anum%29', '(:num)', http_build_query(array_merge($params, ['page' => '(:num)'])));
+        $paginator  = new Paginator($builds[1], $perPage, $page, $urlPattern);
 
         $this->view->builds       = $builds[0];
         $this->view->total        = $builds[1];
@@ -112,8 +126,8 @@ class ProjectController extends PHPCensor\Controller
         $this->view->environment  = urldecode($environment);
         $this->view->environments = $project->getEnvironmentsNames();
         $this->view->page         = $page;
-        $this->view->pages        = $pages;
         $this->view->perPage      = $perPage;
+        $this->view->paginator    = $paginator;
 
         $this->layout->title    = $project->getTitle();
         $this->layout->subtitle = '';
