@@ -60,23 +60,33 @@ class BuildErrorStore extends Store
      *
      * @param integer $buildId
      * @param integer $limit
-     * @param string  $useConnection
+     * @param integer $offset
      *
      * @return array
      *
      * @throws HttpException
      */
-    public function getByBuildId($buildId, $limit = 1000, $useConnection = 'read')
+    public function getByBuildId($buildId, $limit = null, $offset = 0)
     {
         if (is_null($buildId)) {
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
-
-        $query = 'SELECT * FROM {{build_error}} WHERE {{build_id}} = :build_id LIMIT :limit';
-        $stmt = Database::getConnection($useConnection)->prepareCommon($query);
+        $query = 'SELECT * FROM {{build_error}} WHERE {{build_id}} = :build_id ORDER BY plugin, severity';
+        if (null !== $limit) {
+            $query .= ' LIMIT :limit';
+        }
+        if ($offset) {
+            $query .= ' OFFSET :offset';
+        }
+        $stmt = Database::getConnection()->prepareCommon($query);
         $stmt->bindValue(':build_id', $buildId);
-        $stmt->bindValue(':limit', (int)$limit, \PDO::PARAM_INT);
+        if (null !== $limit) {
+            $stmt->bindValue(':limit', (integer)$limit, \PDO::PARAM_INT);
+        }
+        if ($offset) {
+            $stmt->bindValue(':offset', (integer)$offset, \PDO::PARAM_INT);
+        }
 
         if ($stmt->execute()) {
             $res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
@@ -91,46 +101,6 @@ class BuildErrorStore extends Store
             return ['items' => $rtn, 'count' => $count];
         } else {
             return ['items' => [], 'count' => 0];
-        }
-    }
-
-    /**
-     * Get a list of errors for a given build, since a given time.
-     *
-     * @param integer $buildId
-     * @param string  $since date string
-     *
-     * @return array
-     */
-    public function getErrorsForBuild($buildId, $since = null)
-    {
-        $query = 'SELECT * FROM {{build_error}} WHERE {{build_id}} = :build';
-
-        if (!is_null($since)) {
-            $query .= ' AND created_date > :since';
-        }
-
-        $query .= ' LIMIT 15000';
-
-        $stmt = Database::getConnection('read')->prepareCommon($query);
-
-        $stmt->bindValue(':build', $buildId, \PDO::PARAM_INT);
-
-        if (!is_null($since)) {
-            $stmt->bindValue(':since', $since);
-        }
-
-        if ($stmt->execute()) {
-            $res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-
-            $map = function ($item) {
-                return new BuildError($item);
-            };
-            $rtn = array_map($map, $res);
-
-            return $rtn;
-        } else {
-            return [];
         }
     }
 

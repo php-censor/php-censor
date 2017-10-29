@@ -204,6 +204,9 @@ use PHPCensor\Model\Build;
                     <?php print $data['error_html']; ?>
                 </tbody>
             </table>
+            <div id="paginator">
+                <?= $paginator; ?>
+            </div>
         </div>
 
         <div class="tab-pane" id="information">
@@ -214,9 +217,20 @@ use PHPCensor\Model\Build;
 
 <script src="<?php print APP_URL; ?>assets/js/build.js"></script>
 <script>
+    var PER_PAGE = <?= $perPage; ?>;
+    var PAGE     = <?= $page; ?>;
 
     var ActiveBuild = new Build(<?php print $build->getId() ?>);
     ActiveBuild.setupBuild(<?php print json_encode($data); ?>, <?php print json_encode($build->getFileLinkTemplate()); ?>);
+
+    var url = document.location.toString();
+    if (url.match('#')) {
+        $('.nav-tabs a[href="#' + url.split('#')[1] + '"]').tab('show');
+    }
+
+    $('.nav-tabs a').on('shown.bs.tab', function (e) {
+        window.location.hash = e.target.hash;
+    })
 
 </script>
 

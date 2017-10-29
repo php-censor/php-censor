@@ -1,0 +1,28 @@
+<?php
+
+use PHPCensor\Helper\Lang;
+
+/**
+ * @var \JasonGrimes\Paginator $paginator
+ */
+
+?>
+<ul class="pagination">
+    <?php if ($paginator->getPrevUrl()): ?>
+        <li><a href="<?php echo $paginator->getPrevUrl(); ?>"><?= Lang::get('prev_link'); ?></a></li>
+    <?php endif; ?>
+
+    <?php foreach ($paginator->getPages() as $pageArray): ?>
+        <?php if ($pageArray['url']): ?>
+            <li <?php echo $pageArray['isCurrent'] ? 'class="active"' : ''; ?>>
+                <a href="<?php echo $pageArray['url']; ?>"><?php echo $pageArray['num']; ?></a>
+            </li>
+        <?php else: ?>
+            <li class="disabled"><span><?php echo $pageArray['num']; ?></span></li>
+        <?php endif; ?>
+    <?php endforeach; ?>
+
+    <?php if ($paginator->getNextUrl()): ?>
+        <li><a href="<?php echo $paginator->getNextUrl(); ?>"><?= Lang::get('prev_link'); ?></a></li>
+    <?php endif; ?>
+</ul>

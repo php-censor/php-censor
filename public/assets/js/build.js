@@ -22,7 +22,7 @@ var Build = Class.extend({
 
             self.buildData = data.queryData;
 
-            // If the build has finished, stop updating every 10 seconds:
+            // If the build has finished, stop updating every 5 seconds:
             if (self.buildData && self.buildData.status > 1) {
                 self.cancelQuery('build-updated');
                 $(window).trigger({type: 'build-complete'});
@@ -34,6 +34,7 @@ var Build = Class.extend({
                 $('.build-finished').html(self.buildData.finish_date ? self.buildData.finish_date : '');
                 $('#log pre').html(self.buildData.log);
                 $('.errors-table tbody').html(self.buildData.error_html);
+                $('#paginator').html(self.buildData.paginator);
 
                 if (self.buildData.errors == 0) {
                     $('.errors-label').hide();
@@ -77,7 +78,7 @@ var Build = Class.extend({
             var fullUri = window.APP_URL + uri;
 
             if (name == 'build-updated') {
-                fullUri = window.APP_URL + 'build/ajax-data/' + self.buildId;
+                fullUri = window.APP_URL + 'build/ajax-data/' + self.buildId + '?per_page=' + PER_PAGE + '&page=' + PAGE;
             }
 
             $.ajax({

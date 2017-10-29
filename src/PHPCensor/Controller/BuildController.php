@@ -5,11 +5,13 @@ namespace PHPCensor\Controller;
 use b8;
 use b8\Exception\HttpException\NotFoundException;
 use b8\Http\Response\JsonResponse;
+use JasonGrimes\Paginator;
 use PHPCensor\BuildFactory;
 use PHPCensor\Helper\AnsiConverter;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\Project;
+use PHPCensor\Model\User;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Controller;
 
@@ -40,10 +42,16 @@ class BuildController extends Controller
     }
 
     /**
-    * View a specific build.
-    */
+     * View a specific build.
+     *
+     * @param integer $buildId
+     *
+     * @throws NotFoundException
+     */
     public function view($buildId)
     {
+        $page = (integer)$this->getParam('page', 1);
+
         try {
             $build = BuildFactory::getBuildById($buildId);
         } catch (\Exception $ex) {
@@ -54,9 +62,24 @@ class BuildController extends Controller
             throw new NotFoundException(Lang::get('build_x_not_found', $buildId));
         }
 
-        $this->view->plugins  = $this->getUiPlugins();
-        $this->view->build    = $build;
-        $this->view->data     = $this->getBuildData($build);
+        /** @var User $user */
+        $user    = $_SESSION['php-censor-user'];
+        $perPage = $user->getFinalPerPage();
+        $data    = $this->getBuildData($build, (($page - 1) * $perPage), $perPage);
+        $pages   = ($data['errors'] === 0)
+            ? 1
+            : (integer)ceil($data['errors'] / $perPage);
+
+        if ($page > $pages) {
+            $page = $pages;
+        }
+
+        $this->view->plugins   = $this->getUiPlugins();
+        $this->view->build     = $build;
+        $this->view->data      = $data;
+        $this->view->page      = $page;
+        $this->view->perPage   = $perPage;
+        $this->view->paginator = $this->getPaginatorHtml($buildId, $data['errors'], $perPage, $page);
 
         $this->layout->title = Lang::get('build_n', $buildId);
         $this->layout->subtitle = $build->getProjectTitle();
@@ -121,9 +144,15 @@ class BuildController extends Controller
     }
 
     /**
-    * Get build data from database and json encode it:
-    */
-    protected function getBuildData(Build $build)
+     * Get build data from database and json encode it.
+     *
+     * @param Build   $build
+     * @param integer $start
+     * @param integer $perPage
+     *
+     * @return array
+     */
+    protected function getBuildData(Build $build, $start = 0, $perPage = 10)
     {
         $data                = [];
         $data['status']      = (int)$build->getStatus();
@@ -135,17 +164,38 @@ class BuildController extends Controller
 
         /** @var \PHPCensor\Store\BuildErrorStore $errorStore */
         $errorStore = b8\Store\Factory::getStore('BuildError');
-        $errors = $errorStore->getErrorsForBuild($build->getId());
+        $errors     = $errorStore->getByBuildId($build->getId(), $perPage, $start);
 
         $errorView         = new b8\View('Build/errors');
         $errorView->build  = $build;
-        $errorView->errors = $errors;
+        $errorView->errors = $errors['items'];
 
-        $data['errors']     = $errorStore->getErrorTotalForBuild($build->getId());
+        $data['errors']     = (integer)$errorStore->getErrorTotalForBuild($build->getId());
         $data['error_html'] = $errorView->render();
-        $data['since'] = (new \DateTime())->format('Y-m-d H:i:s');
 
         return $data;
+    }
+
+    /**
+     * @param integer $buildId
+     * @param integer $total
+     * @param integer $perPage
+     * @param integer $page
+     *
+     * @return string
+     */
+    protected function getPaginatorHtml($buildId, $total, $perPage, $page)
+    {
+        $view = new b8\View('pagination');
+
+        $urlPattern = APP_URL . 'build/view/' . $buildId;
+
+        $urlPattern = $urlPattern . '?' . str_replace('%28%3Anum%29', '(:num)', http_build_query(['page' => '(:num)'])) . '#errors';
+        $paginator  = new Paginator($total, $perPage, $page, $urlPattern);
+
+        $view->paginator = $paginator;
+
+        return $view->render();
     }
 
     /**
@@ -230,6 +280,9 @@ class BuildController extends Controller
 
     public function ajaxData($buildId)
     {
+        $page    = (integer)$this->getParam('page', 1);
+        $perPage = (integer)$this->getParam('per_page', 10);
+
         $response = new JsonResponse();
         $build = BuildFactory::getBuildById($buildId);
 
@@ -240,7 +293,10 @@ class BuildController extends Controller
             return $response;
         }
 
-        $response->setContent($this->getBuildData($build));
+        $data              = $this->getBuildData($build, (($page - 1) * $perPage), $perPage);
+        $data['paginator'] = $this->getPaginatorHtml($buildId, $data['errors'], $perPage, $page);
+
+        $response->setContent($data);
 
         return $response;
     }
