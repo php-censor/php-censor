@@ -36,12 +36,8 @@ var Build = Class.extend({
                 $('.errors-table tbody').html(self.buildData.error_html);
                 $('#paginator').html(self.buildData.paginator);
 
-                if (self.buildData.errors == 0) {
-                    $('.errors-label').hide();
-                } else {
-                    $('.errors-label').text(self.buildData.errors);
-                    $('.errors-label').show();
-                }
+                $('.errors-label').text(self.buildData.errors_total);
+                $('.errors-label').show();
 
                 switch (self.buildData.status) {
                     case 0:
@@ -78,7 +74,7 @@ var Build = Class.extend({
             var fullUri = window.APP_URL + uri;
 
             if (name == 'build-updated') {
-                fullUri = window.APP_URL + 'build/ajax-data/' + self.buildId + '?per_page=' + PER_PAGE + '&page=' + PAGE;
+                fullUri = window.APP_URL + 'build/ajax-data/' + self.buildId + '?per_page=' + PER_PAGE + '&page=' + PAGE  + '&plugin=' + BUILD_PLUGIN  + '&severity=' + BUI;
             }
 
             $.ajax({

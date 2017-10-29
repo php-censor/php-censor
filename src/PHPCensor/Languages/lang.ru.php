@@ -325,7 +325,12 @@ PHP Censor',
     'stage_failure'  => 'Провал',
     'stage_broken'   => 'Поломка',
     'stage_fixed'    => 'Исправление',
-    'severity'       => 'Важность',
+    'severity'       => 'Уровень',
+
+    'all_plugins'     => 'Все плагины',
+    'all_severities'  => 'Все уровни',
+    'filters'         => 'Фильтры',
+    'errors_selected' => 'Ошибок выбрано',
 
     'build_details'  => 'Информация о сборке',
     'commit_details' => 'Информация о коммитe',

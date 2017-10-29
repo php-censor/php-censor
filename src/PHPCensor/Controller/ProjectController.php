@@ -66,7 +66,7 @@ class ProjectController extends PHPCensor\Controller
         $environment  = $this->getParam('environment', '');
         $page         = (integer)$this->getParam('page', 1);
         $perPage      = (integer)$this->getParam('per_page', 10);
-        $builds       = $this->getLatestBuildsHtml($projectId, $environment, $branch, (($page - 1) * $perPage), $perPage);
+        $builds       = $this->getLatestBuildsHtml($projectId, $branch, $environment, (($page - 1) * $perPage), $perPage);
 
         $this->response->disableLayout();
         $this->response->setContent($builds[0]);
@@ -97,7 +97,7 @@ class ProjectController extends PHPCensor\Controller
         /** @var PHPCensor\Model\User $user */
         $user     = $_SESSION['php-censor-user'];
         $perPage  = $user->getFinalPerPage();
-        $builds   = $this->getLatestBuildsHtml($projectId, $environment, $branch, (($page - 1) * $perPage), $perPage);
+        $builds   = $this->getLatestBuildsHtml($projectId, $branch, $environment, (($page - 1) * $perPage), $perPage);
         $pages    = ($builds[1] === 0)
             ? 1
             : (integer)ceil($builds[1] / $perPage);
@@ -252,14 +252,14 @@ class ProjectController extends PHPCensor\Controller
      * Render latest builds for project as HTML table.
      *
      * @param int    $projectId
-     * @param string $environment    A urldecoded environment name.
-     * @param string $branch    A urldecoded branch name.
+     * @param string $branch      A urldecoded branch name.
+     * @param string $environment A urldecoded environment name.
      * @param int    $start
      * @param int    $perPage
      *
      * @return array
      */
-    protected function getLatestBuildsHtml($projectId, $environment = '', $branch = '', $start = 0, $perPage = 10)
+    protected function getLatestBuildsHtml($projectId, $branch = '', $environment = '', $start = 0, $perPage = 10)
     {
         $criteria = ['project_id' => $projectId];
 

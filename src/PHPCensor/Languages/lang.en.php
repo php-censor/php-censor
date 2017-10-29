@@ -337,6 +337,11 @@ PHP Censor',
     'stage_broken'   => 'Broken',
     'stage_fixed'    => 'Fixed',
     'severity'       => 'Severity',
+
+    'all_plugins'     => 'All plugins',
+    'all_severities'  => 'All severities',
+    'filters'         => 'Filters',
+    'errors_selected' => 'Errors selected',
     
     'build_details'  => 'Build Details',
     'commit_details' => 'Commit Details',
