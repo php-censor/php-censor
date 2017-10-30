@@ -55,12 +55,17 @@ var SummaryPlugin = ActiveBuild.UiPlugin.extend({
 
         for (var stage in summary) {
             for (var plugin in summary[stage]) {
-                var data = summary[stage][plugin],
+                var data     = summary[stage][plugin],
                     duration = data.started ? ((data.ended || Math.floor(Date.now() / 1000)) - data.started) : '-';
+
+                var pluginName = Lang.get(plugin);
+                if ('test' === stage && 2 < data.status) {
+                    pluginName = '<a href="' + window.APP_URL + 'build/view/' + ActiveBuild.buildId + '?plugin=' + plugin + '#errors">' + Lang.get(plugin) + '</a>';
+                }
                 tbody.append(
                     '<tr>' +
                     '<td>' + Lang.get('stage_' + stage) + '</td>' +
-                    '<td>' + Lang.get(plugin) + '</td>' +
+                    '<td>' + pluginName + '</td>' +
                     '<td><span  class="label label-' + this.statusClasses[data.status] + '">' +
                     this.statusLabels[data.status] +
                     '</span></td>' +
