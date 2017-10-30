@@ -66,7 +66,7 @@ class ProjectController extends PHPCensor\Controller
         $environment  = $this->getParam('environment', '');
         $page         = (integer)$this->getParam('page', 1);
         $perPage      = (integer)$this->getParam('per_page', 10);
-        $builds       = $this->getLatestBuildsHtml($projectId, $environment, $branch, (($page - 1) * $perPage), $perPage);
+        $builds       = $this->getLatestBuildsHtml($projectId, $branch, $environment, (($page - 1) * $perPage), $perPage);
 
         $this->response->disableLayout();
         $this->response->setContent($builds[0]);
@@ -94,29 +94,17 @@ class ProjectController extends PHPCensor\Controller
             throw new NotFoundException(Lang::get('project_x_not_found', $projectId));
         }
 
-        $perPage  = $_SESSION['php-censor-user']->getFinalPerPage();
-        $builds   = $this->getLatestBuildsHtml($projectId, $environment, $branch, (($page - 1) * $perPage), $perPage);
-        $pages    = $builds[1] == 0 ? 1 : (integer)ceil($builds[1] / $perPage);
+        /** @var PHPCensor\Model\User $user */
+        $user     = $_SESSION['php-censor-user'];
+        $perPage  = $user->getFinalPerPage();
+        $builds   = $this->getLatestBuildsHtml($projectId, $branch, $environment, (($page - 1) * $perPage), $perPage);
+        $pages    = ($builds[1] === 0)
+            ? 1
+            : (integer)ceil($builds[1] / $perPage);
 
         if ($page > $pages) {
-            $response = new RedirectResponse();
-            $response->setHeader('Location', APP_URL . 'project/view/' . $projectId);
-
-            return $response;
+            $page = $pages;
         }
-
-        $urlPattern = APP_URL . 'project/view/' . $project->getId();
-        $params     = [];
-        if (!empty($branch)) {
-            $params['branch'] = $branch;
-        }
-
-        if (!empty($environment)) {
-            $params['environment'] = $environment;
-        }
-
-        $urlPattern = $urlPattern . '?' . str_replace('%28%3Anum%29', '(:num)', http_build_query(array_merge($params, ['page' => '(:num)'])));
-        $paginator  = new Paginator($builds[1], $perPage, $page, $urlPattern);
 
         $this->view->builds       = $builds[0];
         $this->view->total        = $builds[1];
@@ -127,7 +115,7 @@ class ProjectController extends PHPCensor\Controller
         $this->view->environments = $project->getEnvironmentsNames();
         $this->view->page         = $page;
         $this->view->perPage      = $perPage;
-        $this->view->paginator    = $paginator;
+        $this->view->paginator    = $this->getPaginatorHtml($projectId, $branch, $environment, $builds[1], $perPage, $page);
 
         $this->layout->title    = $project->getTitle();
         $this->layout->subtitle = '';
@@ -139,6 +127,38 @@ class ProjectController extends PHPCensor\Controller
         }
 
         return $this->view->render();
+    }
+
+    /**
+     * @param integer $projectId
+     * @param string  $branch
+     * @param string  $environment
+     * @param integer $total
+     * @param integer $perPage
+     * @param integer $page
+     *
+     * @return string
+     */
+    protected function getPaginatorHtml($projectId, $branch, $environment, $total, $perPage, $page)
+    {
+        $view = new b8\View('pagination');
+
+        $urlPattern = APP_URL . 'project/view/' . $projectId;
+        $params     = [];
+        if (!empty($branch)) {
+            $params['branch'] = $branch;
+        }
+
+        if (!empty($environment)) {
+            $params['environment'] = $environment;
+        }
+
+        $urlPattern = $urlPattern . '?' . str_replace('%28%3Anum%29', '(:num)', http_build_query(array_merge($params, ['page' => '(:num)'])));
+        $paginator  = new Paginator($total, $perPage, $page, $urlPattern);
+
+        $view->paginator = $paginator;
+
+        return $view->render();
     }
 
     /**
@@ -232,14 +252,14 @@ class ProjectController extends PHPCensor\Controller
      * Render latest builds for project as HTML table.
      *
      * @param int    $projectId
-     * @param string $environment    A urldecoded environment name.
-     * @param string $branch    A urldecoded branch name.
+     * @param string $branch      A urldecoded branch name.
+     * @param string $environment A urldecoded environment name.
      * @param int    $start
      * @param int    $perPage
      *
      * @return array
      */
-    protected function getLatestBuildsHtml($projectId, $environment = '', $branch = '', $start = 0, $perPage = 10)
+    protected function getLatestBuildsHtml($projectId, $branch = '', $environment = '', $start = 0, $perPage = 10)
     {
         $criteria = ['project_id' => $projectId];
 
@@ -259,9 +279,12 @@ class ProjectController extends PHPCensor\Controller
             $build = BuildFactory::getBuild($build);
         }
 
-        $view->builds   = $builds['items'];
+        $view->builds = $builds['items'];
 
-        return [$view->render(), $builds['count']];
+        return [
+            $view->render(),
+            (integer)$builds['count']
+        ];
     }
 
     /**

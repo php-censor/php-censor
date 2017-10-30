@@ -402,6 +402,30 @@ class BuildError extends Model
     }
 
     /**
+     * Get the language string key for this error's severity level.
+     *
+     * @param integer $severity
+     *
+     * @return string
+     */
+    public static function getSeverityName($severity)
+    {
+        switch ($severity) {
+            case self::SEVERITY_CRITICAL:
+                return 'critical';
+
+            case self::SEVERITY_HIGH:
+                return 'high';
+
+            case self::SEVERITY_NORMAL:
+                return 'normal';
+
+            case self::SEVERITY_LOW:
+                return 'low';
+        }
+    }
+
+    /**
      * Get the class to apply to HTML elements representing this error.
      *
      * @return string

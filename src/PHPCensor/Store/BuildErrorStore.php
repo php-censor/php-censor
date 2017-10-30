@@ -60,23 +60,48 @@ class BuildErrorStore extends Store
      *
      * @param integer $buildId
      * @param integer $limit
-     * @param string  $useConnection
+     * @param integer $offset
+     * @param string  $plugin
+     * @param integer $severity
      *
      * @return array
      *
      * @throws HttpException
      */
-    public function getByBuildId($buildId, $limit = 1000, $useConnection = 'read')
+    public function getByBuildId($buildId, $limit = null, $offset = 0, $plugin = null, $severity = null)
     {
         if (is_null($buildId)) {
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
-
-        $query = 'SELECT * FROM {{build_error}} WHERE {{build_id}} = :build_id LIMIT :limit';
-        $stmt = Database::getConnection($useConnection)->prepareCommon($query);
+        $query = 'SELECT * FROM {{build_error}} WHERE {{build_id}} = :build_id';
+        if ($plugin) {
+            $query .= ' AND {{plugin}} = :plugin';
+        }
+        if (null !== $severity) {
+            $query .= ' AND {{severity}} = :severity';
+        }
+        $query .= ' ORDER BY plugin, severity';
+        if (null !== $limit) {
+            $query .= ' LIMIT :limit';
+        }
+        if ($offset) {
+            $query .= ' OFFSET :offset';
+        }
+        $stmt = Database::getConnection()->prepareCommon($query);
         $stmt->bindValue(':build_id', $buildId);
-        $stmt->bindValue(':limit', (int)$limit, \PDO::PARAM_INT);
+        if ($plugin) {
+            $stmt->bindValue(':plugin', $plugin, \PDO::PARAM_STR);
+        }
+        if (null !== $severity) {
+            $stmt->bindValue(':severity', (integer)$severity, \PDO::PARAM_INT);
+        }
+        if (null !== $limit) {
+            $stmt->bindValue(':limit', (integer)$limit, \PDO::PARAM_INT);
+        }
+        if ($offset) {
+            $stmt->bindValue(':offset', (integer)$offset, \PDO::PARAM_INT);
+        }
 
         if ($stmt->execute()) {
             $res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
@@ -95,36 +120,59 @@ class BuildErrorStore extends Store
     }
 
     /**
-     * Get a list of errors for a given build, since a given time.
+     * Gets the total number of errors for a given build.
      *
      * @param integer $buildId
-     * @param string  $since date string
+     * @param string  $plugin
+     * @param integer $severity
      *
      * @return array
      */
-    public function getErrorsForBuild($buildId, $since = null)
+    public function getErrorTotalForBuild($buildId, $plugin = null, $severity = null)
     {
-        $query = 'SELECT * FROM {{build_error}} WHERE {{build_id}} = :build';
-
-        if (!is_null($since)) {
-            $query .= ' AND created_date > :since';
+        $query = 'SELECT COUNT(*) AS {{total}} FROM {{build_error}}
+                    WHERE {{build_id}} = :build';
+        if ($plugin) {
+            $query .= ' AND {{plugin}} = :plugin';
         }
-
-        $query .= ' LIMIT 15000';
+        if (null !== $severity) {
+            $query .= ' AND {{severity}} = :severity';
+        }
 
         $stmt = Database::getConnection('read')->prepareCommon($query);
 
         $stmt->bindValue(':build', $buildId, \PDO::PARAM_INT);
-
-        if (!is_null($since)) {
-            $stmt->bindValue(':since', $since);
+        if ($plugin) {
+            $stmt->bindValue(':plugin', $plugin, \PDO::PARAM_STR);
         }
+        if (null !== $severity) {
+            $stmt->bindValue(':severity', (integer)$severity, \PDO::PARAM_INT);
+        }
+
+        if ($stmt->execute()) {
+            $res = $stmt->fetch(\PDO::FETCH_ASSOC);
+            return $res['total'];
+        } else {
+            return [];
+        }
+    }
+
+    /**
+     * @param integer $buildId
+     *
+     * @return array
+     */
+    public function getKnownPlugins($buildId)
+    {
+        $query = 'SELECT DISTINCT {{plugin}} from {{build_error}} WHERE {{build_id}} = :build';
+        $stmt = Database::getConnection('read')->prepareCommon($query);
+        $stmt->bindValue(':build', $buildId);
 
         if ($stmt->execute()) {
             $res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
             $map = function ($item) {
-                return new BuildError($item);
+                return $item['plugin'];
             };
             $rtn = array_map($map, $res);
 
@@ -135,24 +183,33 @@ class BuildErrorStore extends Store
     }
 
     /**
-     * Gets the total number of errors for a given build.
-     *
      * @param integer $buildId
+     * @param string  $plugin
      *
      * @return array
      */
-    public function getErrorTotalForBuild($buildId)
+    public function getKnownSeverities($buildId, $plugin = '')
     {
-        $query = 'SELECT COUNT(*) AS {{total}} FROM {{build_error}}
-                    WHERE {{build_id}} = :build';
+        $query = 'SELECT DISTINCT {{severity}} from {{build_error}} WHERE {{build_id}} = :build';
+        if ($plugin) {
+            $query .= ' AND {{plugin}} = :plugin';
+        }
 
         $stmt = Database::getConnection('read')->prepareCommon($query);
-
-        $stmt->bindValue(':build', $buildId, \PDO::PARAM_INT);
+        $stmt->bindValue(':build', $buildId);
+        if ($plugin) {
+            $stmt->bindValue(':plugin', $plugin);
+        }
 
         if ($stmt->execute()) {
-            $res = $stmt->fetch(\PDO::FETCH_ASSOC);
-            return $res['total'];
+            $res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+            $map = function ($item) {
+                return (integer)$item['severity'];
+            };
+            $rtn = array_map($map, $res);
+
+            return $rtn;
         } else {
             return [];
         }

@@ -14,6 +14,19 @@
     <link href="<?php print APP_URL; ?>assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
     <link href="<?php print APP_URL; ?>assets/vendor/ion-icons/css/ionicons.min.css" rel="stylesheet" type="text/css" />
 
+    <script src="<?php print APP_URL; ?>assets/js/class.js"></script>
+
+    <script src="<?php print APP_URL; ?>assets/vendor/admin-lte/plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="<?php print APP_URL; ?>assets/vendor/admin-lte/plugins/jQueryUI/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="<?php print APP_URL; ?>assets/vendor/admin-lte/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+
+    <link href="<?php print APP_URL; ?>assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <script src="<?php print APP_URL; ?>assets/vendor/admin-lte/plugins/chartjs/Chart.min.js" type="text/javascript"></script>
+    <script src="<?php print APP_URL; ?>assets/vendor/admin-lte/dist/js/app.min.js" type="text/javascript"></script>
+    <script src="<?php print APP_URL; ?>assets/vendor/sprintf-js/dist/sprintf.min.js"></script>
+
+    <script src="<?php print APP_URL; ?>assets/js/app.js" type="text/javascript"></script>
+
     <script>
         var APP_URL  = '<?= APP_URL; ?>';
         var LANGUAGE = '<?= Lang::getLanguage(); ?>';
@@ -24,11 +37,6 @@
         var STRINGS = <?= json_encode(Lang::getStrings()); ?>;
         <?php endif; ?>
     </script>
-
-    <script src="<?php print APP_URL; ?>assets/vendor/admin-lte/plugins/jQuery/jquery-2.2.3.min.js"></script>
-    <script src="<?php print APP_URL; ?>assets/js/class.js"></script>
-    <script src="<?php print APP_URL; ?>assets/vendor/sprintf-js/dist/sprintf.min.js"></script>
-    <script src="<?php print APP_URL; ?>assets/js/app.js" type="text/javascript"></script>
 
 </head>
 <body class="app-layout <?php print !empty($skin) ? 'skin-' . $skin : 'skin-black'; ?>">
@@ -245,14 +253,5 @@
         </section><!-- /.content -->
     </aside><!-- /.content-wrapper -->
 </div><!-- ./wrapper -->
-
-<script src="<?php print APP_URL; ?>assets/vendor/admin-lte/plugins/jQueryUI/jquery-ui.min.js" type="text/javascript"></script>
-<script src="<?php print APP_URL; ?>assets/vendor/admin-lte/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-
-<link href="<?php print APP_URL; ?>assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-
-<script src="<?php print APP_URL; ?>assets/vendor/admin-lte/plugins/chartjs/Chart.min.js" type="text/javascript"></script>
-<script src="<?php print APP_URL; ?>assets/vendor/admin-lte/dist/js/app.min.js" type="text/javascript"></script>
-
 </body>
 </html>
