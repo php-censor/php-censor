@@ -65,13 +65,13 @@ class BuildErrorWriter
             $createdDate = new \DateTime();
         }
         $this->errors[] = [
-            'plugin'       => (string)$plugin,
-            'message'      => (string)$message,
-            'severity'     => (int)$severity,
-            'file'         => !is_null($file) ? (string)$file : null,
-            'line_start'   => !is_null($lineStart) ? (int)$lineStart : null,
-            'line_end'     => !is_null($lineEnd) ? (int)$lineEnd : null,
-            'created_date' => $createdDate->format('Y-m-d H:i:s'),
+            'plugin'      => (string)$plugin,
+            'message'     => (string)$message,
+            'severity'    => (int)$severity,
+            'file'        => !is_null($file) ? (string)$file : null,
+            'line_start'  => !is_null($lineStart) ? (int)$lineStart : null,
+            'line_end'    => !is_null($lineEnd) ? (int)$lineEnd : null,
+            'create_date' => $createdDate->format('Y-m-d H:i:s'),
         ];
 
         if (count($this->errors) >= $this->bufferSize) {
@@ -99,16 +99,16 @@ class BuildErrorWriter
                 :line_end' . $i . ',
                 :severity' . $i . ',
                 :message' . $i . ',
-                :created_date' . $i . '
+                :create_date' . $i . '
             )';
-            $insertValuesData['build_id' . $i]     = $this->buildId;
-            $insertValuesData['plugin' . $i]       = $error['plugin'];
-            $insertValuesData['file' . $i]         = $error['file'];
-            $insertValuesData['line_start' . $i]   = $error['line_start'];
-            $insertValuesData['line_end' . $i]     = $error['line_end'];
-            $insertValuesData['severity' . $i]     = $error['severity'];
-            $insertValuesData['message' . $i]      = $error['message'];
-            $insertValuesData['created_date' . $i] = $error['created_date'];
+            $insertValuesData['build_id' . $i]    = $this->buildId;
+            $insertValuesData['plugin' . $i]      = $error['plugin'];
+            $insertValuesData['file' . $i]        = $error['file'];
+            $insertValuesData['line_start' . $i]  = $error['line_start'];
+            $insertValuesData['line_end' . $i]    = $error['line_end'];
+            $insertValuesData['severity' . $i]    = $error['severity'];
+            $insertValuesData['message' . $i]     = $error['message'];
+            $insertValuesData['create_date' . $i] = $error['create_date'];
         }
         $query = '
             INSERT INTO {{build_error}} (
@@ -119,7 +119,7 @@ class BuildErrorWriter
                 {{line_end}},
                 {{severity}},
                 {{message}},
-                {{created_date}}
+                {{create_date}}
             )
             VALUES ' . join(', ', $insertValuesPlaceholders) . '
         ';
