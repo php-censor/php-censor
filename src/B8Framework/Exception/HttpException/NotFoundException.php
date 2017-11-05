@@ -6,6 +6,13 @@ use b8\Exception\HttpException;
 
 class NotFoundException extends HttpException
 {
-    protected $errorCode     = 404;
+    /**
+     * @var integer
+     */
+    protected $errorCode = 404;
+
+    /**
+     * @var string
+     */
     protected $statusMessage = 'Not Found';
 }

@@ -9,5 +9,12 @@ use PHPCensor\Model\Build;
  */
 interface ZeroConfigPluginInterface
 {
+    /**
+     * @param string  $stage
+     * @param Builder $builder
+     * @param Build   $build
+     *
+     * @return mixed
+     */
     public static function canExecute($stage, Builder $builder, Build $build);
 }

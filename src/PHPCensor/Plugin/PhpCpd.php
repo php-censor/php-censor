@@ -58,11 +58,11 @@ class PhpCpd extends Plugin implements ZeroConfigPluginInterface
 
     /**
      * Check if this plugin can be executed.
-     * 
+     *
      * @param $stage
      * @param Builder $builder
      * @param Build   $build
-     * 
+     *
      * @return bool
      */
     public static function canExecute($stage, Builder $builder, Build $build)
@@ -115,11 +115,11 @@ class PhpCpd extends Plugin implements ZeroConfigPluginInterface
 
     /**
      * Process the PHPCPD XML report.
-     * 
+     *
      * @param $xmlString
-     * 
+     *
      * @return integer
-     * 
+     *
      * @throws \Exception
      */
     protected function processReport($xmlString)

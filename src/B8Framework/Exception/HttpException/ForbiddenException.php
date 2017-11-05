@@ -6,6 +6,13 @@ use b8\Exception\HttpException;
 
 class ForbiddenException extends HttpException
 {
-    protected $errorCode     = 403;
+    /**
+     * @var integer
+     */
+    protected $errorCode = 403;
+
+    /**
+     * @var string
+     */
     protected $statusMessage = 'Forbidden';
 }

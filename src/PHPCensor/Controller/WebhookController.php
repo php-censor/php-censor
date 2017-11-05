@@ -267,7 +267,7 @@ class WebhookController extends Controller
      * Called by POSTing to /webhook/git/<project_id>?branch=<branch>&commit=<commit>
      *
      * @param string $projectId
-     * 
+     *
      * @return array
      */
     public function git($projectId)
@@ -377,12 +377,12 @@ class WebhookController extends Controller
 
     /**
      * Handle the payload when Github sends a Pull Request webhook.
-     * 
+     *
      * @param Project $project
      * @param array   $payload
-     * 
+     *
      * @return array
-     * 
+     *
      * @throws Exception
      */
     protected function githubPullRequest(Project $project, array $payload)
@@ -512,9 +512,9 @@ class WebhookController extends Controller
      * Called by POSTing to /webhook/svn/<project_id>?branch=<branch>&commit=<commit>
      *
      * @author Sylvain Lévesque <slevesque@gezere.com>
-     * 
+     *
      * @param string $projectId
-     * 
+     *
      * @return array
      */
     public function svn($projectId)
@@ -530,9 +530,9 @@ class WebhookController extends Controller
 
     /**
      * Called by Gogs Webhooks:
-     * 
+     *
      * @param string $projectId
-     * 
+     *
      * @return array
      */
     public function gogs($projectId)

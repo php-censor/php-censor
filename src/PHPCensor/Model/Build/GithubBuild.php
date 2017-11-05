@@ -117,7 +117,7 @@ class GithubBuild extends RemoteGitBuild
 
     /**
      * Get a parsed version of the commit message, with links to issues and commits.
-     * 
+     *
      * @return string
      */
     public function getCommitMessage()
@@ -138,7 +138,7 @@ class GithubBuild extends RemoteGitBuild
 
     /**
      * Get a template to use for generating links to files.
-     * 
+     *
      * @return string
      */
     public function getFileLinkTemplate()

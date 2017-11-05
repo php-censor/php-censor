@@ -23,7 +23,7 @@ abstract class AbstractProvider implements UserProviderInterface
 
     /**
      * AbstractProvider constructor
-     * 
+     *
      * @param string $key
      * @param array  $config
      */

@@ -12,8 +12,19 @@ use b8\Exception\HttpException;
  */
 class ProjectStore extends Store
 {
+    /**
+     * @var string
+     */
     protected $tableName  = 'project';
+
+    /**
+     * @var string
+     */
     protected $modelName  = '\PHPCensor\Model\Project';
+
+    /**
+     * @var string
+     */
     protected $primaryKey = 'id';
 
     /**
@@ -60,7 +71,12 @@ class ProjectStore extends Store
 
     /**
      * Get a single Project by Ids.
-     * @param int[]
+     *
+     * @param integer[] $values
+     * @param string    $useConnection
+     *
+     * @throws HttpException
+     *
      * @return Project[]
      */
     public function getByIds($values, $useConnection = 'read')

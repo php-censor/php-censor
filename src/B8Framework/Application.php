@@ -20,20 +20,25 @@ class Application
     protected $controller;
 
     /**
-    * @var Request
-    */
+     * @var Request
+     */
     protected $request;
 
     /**
-    * @var Response
-    */
+     * @var Response
+     */
     protected $response;
 
     /**
-    * @var Config
-    */
+     * @var Config
+     */
     protected $config;
 
+    /**
+     * @param Config $config
+     *
+     * @param Request|null $request
+     */
     public function __construct(Config $config, Http\Request $request = null)
     {
         $this->config = $config;
@@ -52,6 +57,11 @@ class Application
         }
     }
 
+    /**
+     * @return Response
+     *
+     * @throws NotFoundException
+     */
     public function handleRequest()
     {
         $this->route = $this->router->dispatch();
@@ -90,7 +100,7 @@ class Application
 
     /**
      * @param string $class
-     * 
+     *
      * @return Controller
      */
     protected function loadController($class)
@@ -102,7 +112,7 @@ class Application
 
     /**
      * @param array $route
-     * 
+     *
      * @return bool
      */
     protected function controllerExists($route)
@@ -112,7 +122,7 @@ class Application
 
     /**
      * @param array $route
-     * 
+     *
      * @return string
      */
     protected function getControllerClass($route)
@@ -122,7 +132,12 @@ class Application
         return $this->config->get('b8.app.namespace') . '\\' . $namespace . '\\' . $controller . 'Controller';
     }
 
-    public function isValidRoute($route)
+    /**
+     * @param array $route
+     *
+     * @return boolean
+     */
+    public function isValidRoute(array $route)
     {
         if ($this->controllerExists($route)) {
             return true;
@@ -131,6 +146,11 @@ class Application
         return false;
     }
 
+    /**
+     * @param string $string
+     *
+     * @return string
+     */
     protected function toPhpName($string)
     {
         $string = str_replace('-', ' ', $string);

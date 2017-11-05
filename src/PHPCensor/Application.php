@@ -108,8 +108,10 @@ class Application extends b8\Application
 
     /**
      * Loads a particular controller, and injects our layout view into it.
-     * @param $class
-     * @return mixed
+     *
+     * @param string $class
+     *
+     * @return b8\Controller
      */
     protected function loadController($class)
     {
@@ -123,6 +125,7 @@ class Application extends b8\Application
 
     /**
      * Injects variables into the layout before rendering it.
+     *
      * @param View $layout
      */
     protected function setLayoutVariables(View &$layout)
@@ -145,8 +148,8 @@ class Application extends b8\Application
 
     /**
      * Check whether we should skip auth (because it is disabled)
-     * 
-     * @return bool
+     *
+     * @return boolean
      */
     protected function shouldSkipAuth()
     {

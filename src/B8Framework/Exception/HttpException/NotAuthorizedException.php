@@ -6,6 +6,13 @@ use b8\Exception\HttpException;
 
 class NotAuthorizedException extends HttpException
 {
-    protected $errorCode     = 401;
+    /**
+     * @var integer
+     */
+    protected $errorCode = 401;
+
+    /**
+     * @var string
+     */
     protected $statusMessage = 'Not Authorized';
 }

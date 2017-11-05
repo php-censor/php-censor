@@ -59,7 +59,7 @@ class Shell extends Plugin
 
     /**
      * Runs the shell command.
-     * 
+     *
      * @return bool
      */
     public function execute()

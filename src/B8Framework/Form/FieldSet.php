@@ -2,12 +2,18 @@
 
 namespace b8\Form;
 
-use b8\Form\Element, b8\View;
+use b8\View;
 
 class FieldSet extends Element
 {
+    /**
+     * @var Element[]
+     */
     protected $_children = [];
 
+    /**
+     * @return array
+     */
     public function getValues()
     {
         $rtn = [];
@@ -30,6 +36,9 @@ class FieldSet extends Element
         return $rtn;
     }
 
+    /**
+     * @param array $values
+     */
     public function setValues(array $values)
     {
         foreach ($this->_children as $field) {
@@ -51,12 +60,18 @@ class FieldSet extends Element
         }
     }
 
+    /**
+     * @param Element $field
+     */
     public function addField(Element $field)
     {
         $this->_children[$field->getName()] = $field;
         $field->setParent($this);
     }
 
+    /**
+     * @return boolean
+     */
     public function validate()
     {
         $rtn = true;
@@ -70,6 +85,9 @@ class FieldSet extends Element
         return $rtn;
     }
 
+    /**
+     * @param View $view
+     */
     protected function onPreRender(View &$view)
     {
         $rendered = [];
@@ -80,11 +98,19 @@ class FieldSet extends Element
         $view->children = $rendered;
     }
 
+    /**
+     * @return Element[]
+     */
     public function getChildren()
     {
         return $this->_children;
     }
 
+    /**
+     * @param string $fieldName
+     *
+     * @return Element
+     */
     public function getChild($fieldName)
     {
         return $this->_children[$fieldName];

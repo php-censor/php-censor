@@ -9,8 +9,19 @@ use b8\Exception\HttpException;
 
 class EnvironmentStore extends Store
 {
+    /**
+     * @var string
+     */
     protected $tableName   = 'environment';
+
+    /**
+     * @var string
+     */
     protected $modelName   = '\PHPCensor\Model\Environment';
+
+    /**
+     * @var string
+     */
     protected $primaryKey  = 'id';
 
     /**

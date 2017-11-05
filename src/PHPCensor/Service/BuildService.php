@@ -21,7 +21,7 @@ class BuildService
     protected $buildStore;
 
     /**
-     * @var bool
+     * @var boolean
      */
     public $queueError = false;
 
@@ -44,7 +44,7 @@ class BuildService
      * @param integer     $source
      * @param integer     $userId
      * @param string|null $extra
-     * 
+     *
      * @return \PHPCensor\Model\Build
      */
     public function createBuild(
@@ -109,6 +109,7 @@ class BuildService
 
     /**
      * @param Build $copyFrom
+     *
      * @return \PHPCensor\Model\Build
      */
     public function createDuplicateBuild(Build $copyFrom)
@@ -143,8 +144,10 @@ class BuildService
 
     /**
      * Delete a given build.
+     *
      * @param Build $build
-     * @return bool
+     *
+     * @return boolean
      */
     public function deleteBuild(Build $build)
     {

@@ -11,12 +11,13 @@ use PHPCensor\Model\User;
  */
 interface LoginPasswordProviderInterface extends UserProviderInterface
 {
-    /** Verify if the supplied password matches the user's one.
+    /**
+     * Verify if the supplied password matches the user's one.
      *
-     * @param User $user
+     * @param User   $user
      * @param string $password
      *
-     * @return bool
+     * @return boolean
      */
     public function verifyPassword(User $user, $password);
 }

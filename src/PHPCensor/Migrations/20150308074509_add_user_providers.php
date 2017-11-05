@@ -4,9 +4,6 @@ use Phinx\Migration\AbstractMigration;
 
 class AddUserProviders extends AbstractMigration
 {
-    /**
-     * Migrate Up.
-     */
     public function up()
     {
          // Add the provider columns
@@ -25,9 +22,6 @@ class AddUserProviders extends AbstractMigration
             ->save();
     }
 
-    /**
-     * Migrate Down.
-     */
     public function down()
     {
          // Remove the provider columns

@@ -13,10 +13,10 @@ class LoginIsDisabled
 {
     /**
      * Checks if
-     * 
+     *
      * @param $method
      * @param array $params
-     * 
+     *
      * @return mixed|null
      */
     public function __call($method, $params = [])

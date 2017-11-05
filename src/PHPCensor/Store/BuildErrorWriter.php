@@ -10,14 +10,19 @@ use b8\Database;
  */
 class BuildErrorWriter
 {
-    /** @var int */
+    /**
+     * @var integer
+     */
     protected $buildId;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $errors = [];
 
     /**
-     * @var int
+     * @var integer
+     *
      * @see https://stackoverflow.com/questions/40361164/pdoexception-sqlstatehy000-general-error-7-number-of-parameters-must-be-bet
      */
     protected $bufferSize;
@@ -46,10 +51,10 @@ class BuildErrorWriter
      *
      * @param string    $plugin
      * @param string    $message
-     * @param int       $severity
+     * @param integer   $severity
      * @param string    $file
-     * @param int       $lineStart
-     * @param int       $lineEnd
+     * @param integer   $lineStart
+     * @param integer   $lineEnd
      * @param \DateTime $createdDate
      */
     public function write(

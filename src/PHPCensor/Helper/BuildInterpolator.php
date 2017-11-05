@@ -21,7 +21,7 @@ class BuildInterpolator
 
     /**
      * Sets the variables that will be used for interpolation.
-     * 
+     *
      * @param BaseBuild $build
      * @param string $buildPath
      * @param string $url

@@ -12,8 +12,19 @@ use PHPCensor\Model\User;
  */
 class UserStore extends Store
 {
+    /**
+     * @var string
+     */
     protected $tableName  = 'user';
+
+    /**
+     * @var string
+     */
     protected $modelName  = '\PHPCensor\Model\User';
+
+    /**
+     * @var string
+     */
     protected $primaryKey = 'id';
 
     /**

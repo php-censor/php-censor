@@ -75,7 +75,7 @@ class RebuildCommand extends Command
 
     /**
      * Called when log entries are made in Builder / the plugins.
-     * 
+     *
      * @see \PHPCensor\Builder::log()
      */
     public function logCallback($log)

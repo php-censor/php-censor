@@ -24,7 +24,7 @@ class Email extends Plugin
 
     /**
      * Send a notification mail.
-     * 
+     *
      * @return boolean
      */
     public function execute()
@@ -77,7 +77,7 @@ class Email extends Plugin
      * @param string[] $ccList
      * @param string $subject Email subject
      * @param string $body Email body
-     * 
+     *
      * @return integer
      */
     protected function sendEmail($toAddress, $ccList, $subject, $body)
