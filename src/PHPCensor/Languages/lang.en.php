@@ -77,6 +77,7 @@ PHP Censor',
     'last_failed_build' => ' The last failed build was %s.',
     'never_failed_build' => ' This project has never failed a build.',
     'view_project' => 'View Project',
+    'projects_with_build_errors' => 'Build errors',
 
     // Timeline:
     'latest_builds' => 'Latest Builds',

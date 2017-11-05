@@ -1,0 +1,157 @@
+<?php
+
+use PHPCensor\Helper\Lang;
+use PHPCensor\Model\Build;
+
+/**
+ * @var Build[] $builds
+ */
+
+foreach($builds as $project_id => $project_envs):
+    if (!isset($projects[$project_id])) {
+        echo '<!-- project '.$project_id.' not set -->';
+        continue;
+    }
+    $project = $projects[$project_id];
+    foreach($project_envs as $environment => $project_env):
+        $statuses = [];
+        $failures = 0;
+        $subcls   = 'gray';
+        $cls      = '';
+        $success  = null;
+        $failure  = null;
+
+        // Get the most recent build status to determine the main block colour.
+        $last_build = $project_env['latest'][0];
+        $status = $last_build->getStatus();
+        switch($status) {
+            case 0:
+                $subcls = 'blue';
+                break;
+            case 1:
+                $subcls = 'yellow';
+                break;
+            case 2:
+                $subcls = 'green';
+                break;
+            case 3:
+                $subcls = 'red';
+                break;
+        }
+        // Use the last 5 builds to determine project health:
+        $failures = 0;
+
+        foreach ($project_env['latest'] as $build) {
+            switch ($build->getStatus()) {
+                case 0:
+                    $statuses[] = 'pending';
+                    break;
+                case 1:
+                    $statuses[] = 'running';
+                    break;
+                case 2:
+                    $statuses[] = 'ok';
+                    $success = is_null($success) && !is_null($build->getFinishDate()) ? $build->getFinishDate()->format('Y-m-d H:i:s') : $success;
+                    break;
+                case 3:
+                    $failures++;
+                    $statuses[] = 'failed';
+                    $failure = is_null($failure) && !is_null($build->getFinishDate()) ? $build->getFinishDate()->format('Y-m-d H:i:s') : $failure;
+                    break;
+            }
+        }
+
+        $buildCount = count($project_env['latest']);
+        $lastSuccess = $project_env['success'];
+        $lastFailure = $project_env['failed'];
+        $message = Lang::get('no_builds_yet');
+        $shortMessage = Lang::get('no_builds_yet');
+
+        if ($buildCount > 0) {
+            if ($failures > 0) {
+                $shortMessage = Lang::get('x_of_x_failed_short', $failures, $buildCount);
+                $message = Lang::get('x_of_x_failed', $failures, $buildCount);
+
+                if (!is_null($lastSuccess) && !is_null($lastSuccess->getFinishDate())) {
+                    $message .= Lang::get('last_successful_build', $lastSuccess->getFinishDate()->format('Y-m-d H:i:s'));
+                } else {
+                    $message .= Lang::get('never_built_successfully');
+                }
+            } else {
+                $message = Lang::get('all_builds_passed', $buildCount);
+                $shortMessage = Lang::get('all_builds_passed_short', $buildCount, $buildCount);
+
+                if (!is_null($lastFailure) && !is_null($lastFailure->getFinishDate())) {
+                    $message .= Lang::get('last_failed_build', $lastFailure->getFinishDate()->format('Y-m-d H:i:s'));
+                } else {
+                    $message .= Lang::get('never_failed_build');
+                }
+            }
+        }
+
+?>
+    <div class="project-box">
+    <div class="small-box small-box-full bg-<?= $subcls; ?>">
+        
+        <div class="inner">
+            <h3>
+                <a href="<?= APP_URL; ?>project/view/<?= $project->getId(); ?>">
+                    <?= $project->getTitle(); ?>
+                </a>
+                <?php if (!empty($environment)) { ?>
+                    <sup title="<?php Lang::out('environment'); ?>"><?= $environment ?></sup>
+                <?php } ?>
+            </h3>
+
+            <p>
+                <?= $message; ?>
+            </p>
+
+        </div>
+        <div class="icon">
+            <i class="fa fa-<?php print $project->getIcon(); ?>"></i>
+        </div>
+        <a href="<?= APP_URL; ?>project/view/<?= $project->getId(); ?>" class="small-box-footer small-box-footer-project">
+            <div class="pull-left" style="margin-left: 10px">
+                <?php if ($project->getAllowPublicStatus()): ?>
+                    <i class="fa fa-unlock"></i>
+                <?php else: ?>
+                    <i class="fa fa-lock"></i>
+                <?php endif; ?>
+            </div>
+            <?php Lang::out('view_project'); ?> <i class="fa fa-arrow-circle-right"></i>
+        </a>
+
+            <?php for ($idx=0; $idx < 5; $idx++) {
+            if (empty($project_env['latest'][$idx])) {
+                echo '<span class="small-box-footer-build small-box-footer bg-gray"><i class="fa fa-minus"></i></span>';
+            } else {
+                $build = $project_env['latest'][$idx];
+                $link = APP_URL . 'build/view/' . $build->id;
+                switch ($build->getStatus()) {
+                    case 0:
+                        $class = 'bg-blue';
+                        $icon = 'fa-clock-o';
+                        break;
+                    case 1:
+                        $class = 'bg-yellow';
+                        $icon = 'fa-cogs';
+                        break;
+                    case 2:
+                        $class = 'bg-green';
+                        $icon = 'fa-check';
+                        break;
+                    case 3:
+                        $class = 'bg-red';
+                        $icon = 'fa-times';
+                        break;
+                }
+                echo '<a href="' . $link .'" class="small-box-footer-build small-box-footer ' . $class . '"><i class="fa ' . $icon . '"></i></a>';
+            }
+        } ?>
+        <div style="clear: both;"></div>
+    </div>
+    </div>
+
+    <?php endforeach; ?>
+<?php endforeach; ?>

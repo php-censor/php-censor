@@ -288,35 +288,6 @@ class ProjectController extends PHPCensor\Controller
     }
 
     /**
-     * Render latest builds for project as HTML table.
-     *
-     * @param int $projectId
-     *
-     * @return array
-     */
-    protected function getDashboardProjectHtml($projectId)
-    {
-        $count = $this->buildStore->getWhere(
-            ['project_id' => $projectId],
-            1,
-            0,
-            [],
-            ['id' => 'DESC']
-        );
-        $counts = $count['count'];
-
-        $view = new b8\View('Home/ajax-dashboard-project');
-
-        $view->project    = $this->projectStore->getById($projectId);
-        $view->builds     = $this->buildStore->getLatestBuilds($projectId);
-        $view->successful = $this->buildStore->getLastBuildByStatus($projectId, PHPCensor\Model\Build::STATUS_SUCCESS);
-        $view->failed     = $this->buildStore->getLastBuildByStatus($projectId, PHPCensor\Model\Build::STATUS_FAILED);
-        $view->counts     = $counts;
-
-        return $view->render();
-    }
-
-    /**
     * Add a new project. Handles both the form, and processing.
     */
     public function add()
@@ -603,21 +574,6 @@ class ProjectController extends PHPCensor\Controller
 
             return true;
         };
-    }
-
-    /**
-     * @param int $projectId
-     *
-     * @return b8\Http\Response
-     */
-    public function ajaxDashboardProject($projectId)
-    {
-        $builds = $this->getDashboardProjectHtml($projectId);
-
-        $this->response->disableLayout();
-        $this->response->setContent($builds);
-
-        return $this->response;
     }
 
     /**

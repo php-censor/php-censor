@@ -66,4 +66,23 @@ php-censor:
           port:           389
           base_dn:        'dc=php-censor,dc=local'
           mail_attribute: mail
+  dashboard_widgets:
+    all_projects:
+      side: left
+    last_builds:
+      side: right
+```
+
+Dashboard widgets
+-----------------
+
+* `all_projects` - all projects build status
+* `last_builds` - last builds
+* `build_errors` - not successful builds
+
+Each widget can be located in the left or right column, use the `side` option for this:
+
+```yml
+    all_projects:
+      side: left
 ```

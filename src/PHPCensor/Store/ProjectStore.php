@@ -59,6 +59,30 @@ class ProjectStore extends Store
     }
 
     /**
+     * Get a single Project by Ids.
+     * @param int[]
+     * @return Project[]
+     */
+    public function getByIds($values, $useConnection = 'read')
+    {
+        if (empty($values)) {
+            throw new HttpException('Values passed to ' . __FUNCTION__ . ' cannot be empty.');
+        }
+
+        $query = 'SELECT * FROM {{project}} WHERE {{id}} IN ('.implode(', ', array_map('intval', $values)).')';
+        $stmt = Database::getConnection($useConnection)->prepareCommon($query);
+
+        $rtn = [];
+        if ($stmt->execute()) {
+            while ($data = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+                $rtn[$data['id']] = new Project($data);
+            }
+        }
+
+        return $rtn;
+    }
+
+    /**
      * Get multiple Project by Title.
      *
      * @param string  $title

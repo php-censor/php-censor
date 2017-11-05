@@ -1,5 +1,6 @@
 var PHPCensor = {
     intervals: {},
+    widgets: {},
 
     init: function () {
         $(document).ready(function () {
@@ -10,11 +11,6 @@ var PHPCensor = {
             // Update latest project builds every 10 seconds:
             if (typeof PROJECT_ID != 'undefined') {
                 PHPCensor.intervals.getProjectBuilds = setInterval(PHPCensor.getProjectBuilds, 10000);
-            }
-
-            if (typeof DASHBOARD != 'undefined') {
-                PHPCensor.intervals.getDashboard = setInterval(PHPCensor.getDashboard, 10000);
-                PHPCensor.intervals.getTimeline = setInterval(PHPCensor.getTimeline, 10000);
             }
         });
 
@@ -41,34 +37,6 @@ var PHPCensor = {
 
             success: function (data) {
                 $('#latest-builds').html(data);
-            },
-
-            error: PHPCensor.handleFailedAjax
-        });
-    },
-
-    getDashboard: function () {
-        $('.project-box').each(function (index) {
-            var projectId = this.id.substring(12);
-
-            $.ajax({
-                url: APP_URL + 'project/ajax-dashboard-project/' + projectId,
-
-                success: function (data) {
-                    $(('#project-box-' + projectId)).html(data);
-                },
-
-                error: PHPCensor.handleFailedAjax
-            });
-        });
-    },
-
-    getTimeline: function () {
-        $.ajax({
-            url: APP_URL + 'build/ajax-timeline',
-
-            success: function (data) {
-                $('#timeline-box').html(data);
             },
 
             error: PHPCensor.handleFailedAjax
