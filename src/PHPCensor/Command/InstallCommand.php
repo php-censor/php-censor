@@ -293,6 +293,14 @@ class InstallCommand extends Command
                     ],
                 ],
             ],
+            'dashboard_widgets' => [
+                'all_projects' => [
+                    'side' => 'left',
+                ],
+                'last_builds' => [
+                    'side' => 'right',
+                ],
+            ],
         ];
     }
 

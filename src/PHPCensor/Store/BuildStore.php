@@ -225,6 +225,92 @@ class BuildStore extends Store
     }
 
     /**
+     * Return an array of the latest builds for all projects.
+     * @param int $limit_by_project
+     * @param int $limit_all
+     * @return array
+     */
+    public function getAllProjectsLatestBuilds($limit_by_project = 5, $limit_all = 10)
+    {
+        // dont fetch log field - contain many data
+        $query = '
+            SELECT
+                {{id}},
+                {{project_id}},
+                {{commit_id}},
+                {{status}},
+                {{branch}},
+                {{create_date}},
+                {{start_date}},
+                {{finish_date}},
+                {{committer_email}},
+                {{commit_message}},
+                {{extra}},
+                {{environment}},
+                {{tag}}
+            FROM {{build}}
+            ORDER BY {{id}} DESC
+            LIMIT 10000
+        ';
+
+        $stmt = Database::getConnection('read')->prepareCommon($query);
+
+        if ($stmt->execute()) {
+            $res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+            $projects = [];
+            $latest = [];
+            foreach($res as $item) {
+                $project_id = $item['project_id'];
+                $environment = $item['environment'];
+                if (empty($projects[$project_id])) {
+                    $projects[$project_id] = [];
+                }
+                if (empty($projects[$project_id][$environment])) {
+                    $projects[$project_id][$environment] = [
+                        'latest' => [],
+                        'success' => null,
+                        'failed' => null,
+                    ];
+                }
+                $build = null;
+                if (count($projects[$project_id][$environment]['latest']) < $limit_by_project) {
+                    $build = new Build($item);
+                    $projects[$project_id][$environment]['latest'][] = $build;
+                }
+                if (count($latest) < $limit_all) {
+                    if (is_null($build)) {
+                        $build = new Build($item);
+                    }
+                    $latest[] = $build;
+                }
+                if (empty($projects[$project_id][$environment]['success']) and ($item['status'] == Build::STATUS_SUCCESS)) {
+                    if (is_null($build)) {
+                        $build = new Build($item);
+                    }
+                    $projects[$project_id][$environment]['success'] = $build;
+                }
+                if (empty($projects[$project_id][$environment]['failed']) and ($item['status'] == Build::STATUS_FAILED)) {
+                    if (is_null($build)) {
+                        $build = new Build($item);
+                    }
+                    $projects[$project_id][$environment]['failed'] = $build;
+                }
+            }
+            foreach($projects as $idx => $project) {
+                $projects[$idx] = array_filter($project, function($val) {
+                    return ($val['latest'][0]->getStatus() != Build::STATUS_SUCCESS);
+                });
+            }
+            $projects = array_filter($projects);
+
+            return ['projects' => $projects, 'latest' => $latest];
+        } else {
+            return [];
+        }
+    }
+
+    /**
      * Return an array of builds for a given project and commit ID.
      * 
      * @param integer $projectId

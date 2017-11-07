@@ -3,120 +3,40 @@
 namespace PHPCensor\Controller;
 
 use b8;
-use PHPCensor\BuildFactory;
 use PHPCensor\Helper\Lang;
-use PHPCensor\Model\Build;
 use PHPCensor\Controller;
 
 /**
  * Home Controller - Displays the Dashboard.
- * 
- * @author Dan Cryer <dan@block8.co.uk>
  */
 class HomeController extends Controller
 {
-    /**
-     * @var \PHPCensor\Store\BuildStore
-     */
-    protected $buildStore;
-
-    /**
-     * @var \PHPCensor\Store\ProjectStore
-     */
-    protected $projectStore;
-
-    /**
-     * @var \PHPCensor\Store\ProjectGroupStore
-     */
-    protected $groupStore;
-
-    /**
-     * Initialise the controller, set up stores and services.
-     */
-    public function init()
-    {
-        $this->buildStore    = b8\Store\Factory::getStore('Build');
-        $this->projectStore  = b8\Store\Factory::getStore('Project');
-        $this->groupStore    = b8\Store\Factory::getStore('ProjectGroup');
-    }
-
     /**
     * Display dashboard:
     */
     public function index()
     {
         $this->layout->title = Lang::get('dashboard');
-        $builds = $this->buildStore->getLatestBuilds(null, 10);
 
-        foreach ($builds as &$build) {
-            $build = BuildFactory::getBuild($build);
+        $widgets = [
+            'left' => [],
+            'right' => [],
+        ];
+        $widgets_config = b8\Config::getInstance()->get('php-censor.dashboard_widgets', [
+            'all_projects' => [
+                'side' => 'left',
+            ],
+            'last_builds' => [
+                'side' => 'right',
+            ],
+        ]);
+        foreach($widgets_config as $name => $params) {
+            $side = (isset($params['side']) and ($params['side'] == 'right')) ? 'right' : 'left';
+            $widgets[$side][$name] = $params;
         }
 
-        $this->view->builds = $builds;
-        $this->view->groups = $this->getGroupInfo();
+        $this->view->widgets = $widgets;
 
         return $this->view->render();
-    }
-
-    /**
-     * Generate the HTML for the project overview section of the dashboard.
-     * @param $projects
-     * @return string
-     */
-    protected function getSummaryHtml($projects)
-    {
-        $summaryBuilds = [];
-        $successes     = [];
-        $failures      = [];
-        $counts        = [];
-
-        foreach ($projects as $project) {
-            $summaryBuilds[$project->getId()] = $this->buildStore->getLatestBuilds($project->getId());
-
-            $count = $this->buildStore->getWhere(
-                ['project_id' => $project->getId()],
-                1,
-                0,
-                [],
-                ['id' => 'DESC']
-            );
-            $counts[$project->getId()] = $count['count'];
-
-            $success = $this->buildStore->getLastBuildByStatus($project->getId(), Build::STATUS_SUCCESS);
-            $failure = $this->buildStore->getLastBuildByStatus($project->getId(), Build::STATUS_FAILED);
-
-            $successes[$project->getId()] = $success;
-            $failures[$project->getId()] = $failure;
-        }
-
-        $view = new b8\View('Home/dashboard-projects');
-        $view->projects   = $projects;
-        $view->builds     = $summaryBuilds;
-        $view->successful = $successes;
-        $view->failed     = $failures;
-        $view->counts     = $counts;
-
-        return $view->render();
-    }
-
-    /**
-     * Get a summary of the project groups we have, and what projects they have in them.
-     * 
-     * @return array
-     */
-    protected function getGroupInfo()
-    {
-        $rtn    = [];
-        $groups = $this->groupStore->getWhere([], 100, 0, [], ['title' => 'ASC']);
-
-        foreach ($groups['items'] as $group) {
-            $thisGroup             = ['title' => $group->getTitle()];
-            $projects              = $this->projectStore->getByGroupId($group->getId(), false);
-            $thisGroup['projects'] = $projects['items'];
-            $thisGroup['summary']  = $this->getSummaryHtml($thisGroup['projects']);
-            $rtn[]                 = $thisGroup;
-        }
-
-        return $rtn;
     }
 }

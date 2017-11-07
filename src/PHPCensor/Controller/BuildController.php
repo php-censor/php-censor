@@ -368,20 +368,4 @@ class BuildController extends Controller
 
         return $response;
     }
-
-    public function ajaxTimeline()
-    {
-        $builds = $this->buildStore->getLatestBuilds(null, 10);
-        foreach ($builds as &$build) {
-            $build = BuildFactory::getBuild($build);
-        }
-
-        $view = new b8\View('Home/ajax-timeline');
-        $view->builds = $builds;
-
-        $this->response->disableLayout();
-        $this->response->setContent($view->render());
-
-        return $this->response;
-    }
 }
