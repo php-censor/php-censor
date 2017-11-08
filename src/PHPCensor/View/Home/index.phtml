@@ -10,7 +10,7 @@ foreach($all_widgets as $widget) {
 }
 ?>
 <div class="row">
-    <div class="col-sm-5">
+    <div class="col-sm-12 col-md-6 col-lg-5">
         <?php foreach ($widgets['left'] as $widget => $params) { ?>
             <div id="widget-<?= $widget ?>-container">
                 <div class="loader"></div>
@@ -18,7 +18,7 @@ foreach($all_widgets as $widget) {
         <?php } ?>
     </div>
 <?php if (!empty($widgets['right'])) { ?>
-    <div class="col-sm-7 pull-left">
+    <div class="col-md-6 col-lg-7 pull-left">
         <?php foreach ($widgets['right'] as $widget => $params) { ?>
             <div id="widget-<?= $widget ?>-container">
                 <div class="loader"></div>
