@@ -722,7 +722,7 @@ class WebhookController extends Controller
     /**
      * Fetch a project and check its type.
      *
-     * @param int $projectId
+     * @param int|string $projectId id or title
      * @param array|string $expectedType
      *
      * @return Project
@@ -731,10 +731,21 @@ class WebhookController extends Controller
      */
     protected function fetchProject($projectId, $expectedType)
     {
-        $project = $this->projectStore->getById($projectId);
-
         if (empty($projectId)) {
             throw new Exception('Project does not exist: ' . $projectId);
+        }
+
+        if (is_numeric($projectId)) {
+            $project = $this->projectStore->getById($projectId);
+        } else {
+            $projects = $this->projectStore->getByTitle($projectId, 2);
+            if ($projects['count'] < 1) {
+                throw new Exception('Project does not found: ' . $projectId);
+            }
+            if ($projects['count'] > 1) {
+                throw new Exception('Project id is ambiguous: ' . $projectId);
+            }
+            $project = reset($projects['items']);
         }
 
         if (is_array($expectedType)

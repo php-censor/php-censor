@@ -17,6 +17,13 @@ Installation
 #!/bin/sh
 
 PROJECT_ID=1
+
+# You can use the project title instead of the id:
+# PROJECT_ID=my_project_title
+
+# If the names of the repository and the project match:
+# PROJECT_ID=`basename \`pwd\` | sed 's#\.git$##'`
+
 APP_URL="http://my.server.com/php-censor/"
 
 trigger_hook() {
