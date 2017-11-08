@@ -10,32 +10,44 @@ use PHPCensor\Model\Build;
  */
 class BuildStatusService
 {
-    /* @var BuildStatusService */
+    /**
+     * @var BuildStatusService
+     */
     protected $prevService = null;
 
-    /* @var Project */
+    /**
+     * @var Project
+     */
     protected $project;
 
-    /** @var  string */
+    /**
+     * @var string
+     */
     protected $branch;
 
-    /* @var Build */
+    /**
+     * @var Build
+     */
     protected $build;
 
-    /** @var  string */
+    /**
+     * @var  string
+     */
     protected $url;
 
-    /** @var array  */
+    /**
+     * @var array
+     */
     protected $finishedStatusIds = [
         Build::STATUS_SUCCESS,
         Build::STATUS_FAILED,
     ];
 
     /**
-     * @param $branch
+     * @param string  $branch
      * @param Project $project
-     * @param Build $build
-     * @param bool $isParent
+     * @param Build   $build
+     * @param boolean $isParent
      */
     public function __construct(
         $branch,
@@ -55,7 +67,7 @@ class BuildStatusService
     }
 
     /**
-     * @param $url
+     * @param string $url
      */
     public function setUrl($url)
     {
@@ -71,7 +83,8 @@ class BuildStatusService
     }
 
     /**
-     * @param bool $isParent
+     * @param boolean $isParent
+     *
      * @throws \Exception
      */
     protected function loadParentBuild($isParent = true)
@@ -114,7 +127,7 @@ class BuildStatusService
     }
 
     /**
-     * @return bool
+     * @return boolean
      */
     public function isFinished()
     {
@@ -162,6 +175,7 @@ class BuildStatusService
 
     /**
      * @param Build $build
+     *
      * @return string
      */
     public function getBuildStatus(Build $build)

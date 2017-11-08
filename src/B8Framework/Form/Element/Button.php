@@ -2,18 +2,26 @@
 
 namespace b8\Form\Element;
 
-use b8\Form\Input, b8\View;
+use b8\Form\Input;
+use b8\View;
 
 class Button extends Input
 {
+    /**
+     * @return boolean
+     */
     public function validate()
     {
         return true;
     }
 
+    /**
+     * @param View $view
+     */
     protected function onPreRender(View &$view)
     {
         parent::onPreRender($view);
+
         $view->type = 'button';
     }
 }

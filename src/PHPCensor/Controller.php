@@ -34,8 +34,8 @@ class Controller extends \b8\Controller
     }
 
     /**
-     * @param Config $config
-     * @param Request $request
+     * @param Config   $config
+     * @param Request  $request
      * @param Response $response
      */
     public function __construct(Config $config, Request $request, Response $response)
@@ -61,7 +61,8 @@ class Controller extends \b8\Controller
 
     /**
      * Set the view that this controller action should use.
-     * @param $action
+     *
+     * @param string $action
      */
     protected function setView($action)
     {
@@ -72,9 +73,10 @@ class Controller extends \b8\Controller
 
     /**
      * Handle the incoming request.
-     * @param $action
-     * @param $actionParams
-     * 
+     *
+     * @param string $action
+     * @param array  $actionParams
+     *
      * @return Response
      */
     public function handleAction($action, $actionParams)
@@ -99,6 +101,7 @@ class Controller extends \b8\Controller
 
     /**
      * Require that the currently logged in user is an administrator.
+     *
      * @throws ForbiddenException
      */
     protected function requireAdmin()
@@ -110,7 +113,8 @@ class Controller extends \b8\Controller
 
     /**
      * Check if the currently logged in user is an administrator.
-     * @return bool
+     *
+     * @return boolean
      */
     protected function currentUserIsAdmin()
     {

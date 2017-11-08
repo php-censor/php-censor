@@ -1,19 +1,21 @@
-<div id="<?php print $id; ?>" class="control-group <?php print $ccss; ?>">
+<div id="<?= $id; ?>" class="control-group <?= $ccss; ?>">
     <?php if ($label): ?>
-        <label class="control-label"><?php print $label; ?></label>
+        <label class="control-label"><?= $label; ?></label>
     <?php endif; ?>
     <div class="controls">
         <?php foreach ($options as $val => $lbl): ?>
-            <label class="radio" for="radio-<?php print $id; ?>-<?php print $val; ?>">
-                <input type="radio" id="radio-<?php print $id; ?>-<?php print $val; ?>" class="<?php print $css; ?>"
-                       name="<?php print $name; ?>"
-                       value="<?php print $val; ?>" <?php print ($value == $val) ? ' checked="checked"' : ''; ?> <?php print $required ? 'required' : '' ?>>
-                <?php print $lbl; ?>
+            <label class="radio" for="radio-<?= $id; ?>-<?= $val; ?>">
+                <input type="radio" id="radio-<?= $id; ?>-<?= $val; ?>" class="<?= $css; ?>"
+                    name="<?= $name; ?>"
+                    value="<?= $val; ?>"
+                    <?= ($value == $val) ? ' checked="checked"' : ''; ?> <?= $required ? 'required' : '' ?>
+                >
+                <?= $lbl; ?>
             </label>
         <?php endforeach; ?>
 
         <?php if (isset($error)): ?>
-            <span class="help-block"><?php print $error; ?></span>
+            <span class="help-block"><?= $error; ?></span>
         <?php endif; ?>
     </div>
 </div>

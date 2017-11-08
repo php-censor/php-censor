@@ -105,7 +105,7 @@ class InstallCommand extends Command
 
     /**
      * @param OutputInterface $output
-     * 
+     *
      * @return bool
      */
     protected function verifyNotInstalled(OutputInterface $output)
@@ -126,7 +126,7 @@ class InstallCommand extends Command
      * Check PHP version, required modules and for disabled functions.
      *
      * @param  OutputInterface $output
-     * 
+     *
      * @throws \Exception
      */
     protected function checkRequirements(OutputInterface $output)
@@ -222,7 +222,7 @@ class InstallCommand extends Command
      *
      * @param InputInterface  $input
      * @param OutputInterface $output
-     * 
+     *
      * @return array
      */
     protected function getConfigInformation(InputInterface $input, OutputInterface $output)
@@ -306,10 +306,10 @@ class InstallCommand extends Command
 
     /**
      * If the user wants to use a queue, get the necessary details.
-     * 
+     *
      * @param InputInterface  $input
      * @param OutputInterface $output
-     * 
+     *
      * @return array
      */
     protected function getQueueInformation(InputInterface $input, OutputInterface $output)
@@ -361,7 +361,7 @@ class InstallCommand extends Command
      *
      * @param InputInterface  $input
      * @param OutputInterface $output
-     * 
+     *
      * @return array
      */
     protected function getDatabaseInformation(InputInterface $input, OutputInterface $output)
@@ -427,10 +427,10 @@ class InstallCommand extends Command
 
     /**
      * Try and connect to DB using the details provided
-     * 
+     *
      * @param  array           $db
      * @param  OutputInterface $output
-     * 
+     *
      * @return bool
      */
     protected function verifyDatabaseDetails(array $db, OutputInterface $output)

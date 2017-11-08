@@ -9,8 +9,19 @@ use b8\Exception\HttpException;
 
 class BuildMetaStore extends Store
 {
+    /**
+     * @var string
+     */
     protected $tableName  = 'build_meta';
+
+    /**
+     * @var string
+     */
     protected $modelName  = '\PHPCensor\Model\BuildMeta';
+
+    /**
+     * @var string
+     */
     protected $primaryKey = 'id';
 
     /**
@@ -96,9 +107,9 @@ class BuildMetaStore extends Store
 
     /**
      * Only used by an upgrade migration to move errors from build_meta to build_error
-     * 
-     * @param $limit
-     * 
+     *
+     * @param integer $limit
+     *
      * @return array
      */
     public function getErrorsForUpgrade($limit)

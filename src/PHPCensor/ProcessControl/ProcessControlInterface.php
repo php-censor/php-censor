@@ -23,7 +23,7 @@ interface ProcessControlInterface
      *
      * @param int $pid The process identifier.
      * @param bool $forcefully Whether to gently (false) or forcefully (true) terminate the process.
-     * 
+     *
      * @return boolean
      */
     public function kill($pid, $forcefully = false);

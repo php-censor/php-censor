@@ -6,6 +6,13 @@ use b8\Exception\HttpException;
 
 class BadRequestException extends HttpException
 {
-    protected $errorCode     = 400;
+    /**
+     * @var integer
+     */
+    protected $errorCode = 400;
+
+    /**
+     * @var string
+     */
     protected $statusMessage = 'Bad Request';
 }

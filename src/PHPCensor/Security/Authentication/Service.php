@@ -12,12 +12,12 @@ use b8\Config;
 class Service
 {
     /**
-     *
      * @var Service
      */
     static private $instance;
 
-    /** Return the service singletion.
+    /**
+     * Return the service singleton.
      *
      * @return Service
      */
@@ -43,11 +43,12 @@ class Service
         return self::$instance;
     }
 
-    /** Create a provider from a given configuration.
+    /**
+     * Create a provider from a given configuration.
      *
      * @param string       $key
      * @param string|array $config
-     * 
+     *
      * @return UserProviderInterface
      */
     public static function buildProvider($key, $config)
@@ -60,13 +61,15 @@ class Service
         return new $class($key, $config);
     }
 
-    /** The table of providers.
+    /**
+     * The table of providers.
      *
      * @var array
      */
     private $providers;
 
-    /** Initialize the service.
+    /**
+     * Initialize the service.
      *
      * @param array $providers
      */
@@ -75,7 +78,8 @@ class Service
         $this->providers = $providers;
     }
 
-    /** Return all providers.
+    /**
+     * Return all providers.
      *
      * @return UserProviderInterface[]
      */
@@ -84,7 +88,8 @@ class Service
         return $this->providers;
     }
 
-    /** Return the user providers that allows password authentication.
+    /**
+     * Return the user providers that allows password authentication.
      *
      * @return LoginPasswordProviderInterface[]
      */

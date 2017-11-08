@@ -67,7 +67,7 @@ class Atoum extends Plugin
 
     /**
      * Run the Atoum plugin.
-     * 
+     *
      * @return bool
      */
     public function execute()

@@ -55,8 +55,8 @@ abstract class Plugin
     /**
      * Find a binary required by a plugin.
      *
-     * @param string $binary
-     * @param bool   $quiet Returns null instead of throwing an exception.
+     * @param string  $binary
+     * @param boolean $quiet Returns null instead of throwing an exception.
      *
      * @return null|string
      *

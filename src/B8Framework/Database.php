@@ -43,7 +43,7 @@ class Database extends \PDO
      * @param string $type
      *
      * @return \b8\Database
-     * 
+     *
      * @throws \Exception
      */
     public static function getConnection($type = 'read')

@@ -26,7 +26,14 @@ class CommandExecutor implements CommandExecutorInterface
      */
     protected $verbose;
 
+    /**
+     * @var array
+     */
     protected $lastOutput;
+
+    /**
+     * @var string
+     */
     protected $lastError;
 
     public $logExecOutput = true;
@@ -62,9 +69,9 @@ class CommandExecutor implements CommandExecutorInterface
 
     /**
      * Executes shell commands.
-     * 
+     *
      * @param array $args
-     * 
+     *
      * @return bool Indicates success
      */
     public function executeCommand($args = [])
@@ -161,6 +168,8 @@ class CommandExecutor implements CommandExecutorInterface
 
     /**
      * Returns the output from the last command run.
+     *
+     * @return string
      */
     public function getLastOutput()
     {
@@ -169,6 +178,8 @@ class CommandExecutor implements CommandExecutorInterface
 
     /**
      * Returns the stderr output from the last command run.
+     *
+     * @return string
      */
     public function getLastError()
     {

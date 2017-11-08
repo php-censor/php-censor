@@ -12,8 +12,19 @@ use PHPCensor\Store;
  */
 class BuildStore extends Store
 {
+    /**
+     * @var string
+     */
     protected $tableName  = 'build';
+
+    /**
+     * @var string
+     */
     protected $modelName  = '\PHPCensor\Model\Build';
+
+    /**
+     * @var string
+     */
     protected $primaryKey = 'id';
 
     /**
@@ -226,8 +237,10 @@ class BuildStore extends Store
 
     /**
      * Return an array of the latest builds for all projects.
-     * @param int $limit_by_project
-     * @param int $limit_all
+     *
+     * @param integer $limit_by_project
+     * @param integer $limit_all
+     *
      * @return array
      */
     public function getAllProjectsLatestBuilds($limit_by_project = 5, $limit_all = 10)
@@ -312,10 +325,10 @@ class BuildStore extends Store
 
     /**
      * Return an array of builds for a given project and commit ID.
-     * 
+     *
      * @param integer $projectId
      * @param string  $commitId
-     * 
+     *
      * @return array
      */
     public function getByProjectAndCommit($projectId, $commitId)

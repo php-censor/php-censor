@@ -76,7 +76,7 @@ class ProjectController extends PHPCensor\Controller
 
     /**
      * View a specific project.
-     * 
+     *
      * @param integer $projectId
      *
      * @throws NotFoundException
@@ -163,7 +163,7 @@ class ProjectController extends PHPCensor\Controller
 
     /**
      * Create a new pending build for a project.
-     * 
+     *
      * @param integer $projectId
      *
      * @throws NotFoundException

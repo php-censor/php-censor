@@ -127,10 +127,10 @@ class Mysql extends Plugin
 
     /**
      * Builds the MySQL import command required to import/execute the specified file
-     * 
+     *
      * @param string $import_file Path to file, relative to the build root
      * @param string $database If specified, this database is selected before execution
-     * 
+     *
      * @return string
      */
     protected function getImportCommand($import_file, $database = null)

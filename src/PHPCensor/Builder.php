@@ -123,7 +123,9 @@ class Builder implements LoggerAwareInterface
 
     /**
      * Set the config array, as read from .php-censor.yml
-     * @param array|null $config
+     *
+     * @param array $config
+     *
      * @throws \Exception
      */
     public function setConfigArray($config)
@@ -138,7 +140,9 @@ class Builder implements LoggerAwareInterface
 
     /**
      * Access a variable from the .php-censor.yml file.
-     * @param string
+     *
+     * @param string $key
+     *
      * @return mixed
      */
     public function getConfig($key)
@@ -154,7 +158,9 @@ class Builder implements LoggerAwareInterface
 
     /**
      * Access a variable from the config.yml
-     * @param $key
+     *
+     * @param string $key
+     *
      * @return mixed
      */
     public function getSystemConfig($key)
@@ -163,7 +169,7 @@ class Builder implements LoggerAwareInterface
     }
 
     /**
-     * @return string   The title of the project being built.
+     * @return string The title of the project being built.
      */
     public function getBuildProjectTitle()
     {
@@ -271,6 +277,8 @@ class Builder implements LoggerAwareInterface
 
     /**
      * Used by this class, and plugins, to execute shell commands.
+     *
+     * @return boolean
      */
     public function executeCommand()
     {
@@ -279,6 +287,8 @@ class Builder implements LoggerAwareInterface
 
     /**
      * Returns the output from the last command run.
+     *
+     * @return string
      */
     public function getLastOutput()
     {
@@ -287,7 +297,8 @@ class Builder implements LoggerAwareInterface
 
     /**
      * Specify whether exec output should be logged.
-     * @param bool $enableLog
+     *
+     * @param boolean $enableLog
      */
     public function logExecOutput($enableLog = true)
     {
@@ -313,7 +324,9 @@ class Builder implements LoggerAwareInterface
     /**
      * Replace every occurrence of the interpolation vars in the given string
      * Example: "This is build %PHPCI_BUILD%" => "This is build 182"
+     *
      * @param string $input
+     *
      * @return string
      */
     public function interpolate($input)
@@ -323,6 +336,10 @@ class Builder implements LoggerAwareInterface
 
     /**
      * Set up a working copy of the project for building.
+     *
+     * @throws \Exception
+     *
+     * @return boolean
      */
     protected function setupBuild()
     {
@@ -360,7 +377,6 @@ class Builder implements LoggerAwareInterface
      * Sets a logger instance on the object
      *
      * @param LoggerInterface $logger
-     * @return null
      */
     public function setLogger(LoggerInterface $logger)
     {
@@ -369,9 +385,10 @@ class Builder implements LoggerAwareInterface
 
     /**
      * Write to the build log.
-     * @param $message
+     *
+     * @param string $message
      * @param string $level
-     * @param array $context
+     * @param array  $context
      */
     public function log($message, $level = LogLevel::INFO, $context = [])
     {
@@ -391,7 +408,7 @@ class Builder implements LoggerAwareInterface
     /**
      * Add a failure-coloured message to the log.
      *
-     * @param string $message
+     * @param string     $message
      * @param \Exception $exception The exception that caused the error.
      */
     public function logFailure($message, \Exception $exception = null)
@@ -413,6 +430,7 @@ class Builder implements LoggerAwareInterface
      * Returns a configured instance of the plugin factory.
      *
      * @param Build $build
+     *
      * @return PluginFactory
      */
     private function buildPluginFactory(Build $build)

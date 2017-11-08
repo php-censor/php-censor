@@ -2,16 +2,14 @@
 
 namespace b8;
 
-/**
- * @package    b8
- * @subpackage Cache
- */
-
 class Cache
 {
     const TYPE_APC     = 'ApcCache';
     const TYPE_REQUEST = 'RequestCache';
 
+    /**
+     * @var array
+     */
     protected static $instance = [];
 
     /**

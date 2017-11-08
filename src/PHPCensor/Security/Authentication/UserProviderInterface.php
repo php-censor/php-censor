@@ -12,13 +12,15 @@ use PHPCensor\Model\User;
 interface UserProviderInterface
 {
 
-    /** Check if all software requirements are met (libraries, extensions, ...)
+    /**
+     * Check if all software requirements are met (libraries, extensions, ...)
      *
      * @throws \Exception
      */
     public function checkRequirements();
 
-    /** Provision an new user for the given identifier.
+    /**
+     * Provision an new user for the given identifier.
      *
      * @param string $identifier The user identifier.
      *

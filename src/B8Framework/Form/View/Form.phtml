@@ -1,5 +1,5 @@
-<form id="<?php print $id; ?>" class="<?php print $css; ?>" action="<?php print $action; ?>" method="<?php print $method; ?>">
+<form id="<?= $id; ?>" class="<?= $css; ?>" action="<?= $action; ?>" method="<?= $method; ?>">
     <?php foreach ($children as $field): ?>
-        <?php print $field; ?>
+        <?= $field; ?>
     <?php endforeach; ?>
 </form>

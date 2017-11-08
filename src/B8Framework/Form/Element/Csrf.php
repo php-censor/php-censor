@@ -6,8 +6,14 @@ use b8\View;
 
 class Csrf extends Hidden
 {
+    /**
+     * @var integer
+     */
     protected $_rows = 4;
 
+    /**
+     * @return boolean
+     */
     public function validate()
     {
         if ($this->_value != $_COOKIE[$this->getName()]) {
@@ -17,11 +23,16 @@ class Csrf extends Hidden
         return true;
     }
 
+    /**
+     * @param View $view
+     */
     protected function onPreRender(View &$view)
     {
         parent::onPreRender($view);
-        $csrf = md5(microtime(true));
+
+        $csrf       = md5(microtime(true));
         $view->csrf = $csrf;
+
         setcookie($this->getName(), $csrf);
     }
 }

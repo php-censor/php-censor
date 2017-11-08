@@ -4,12 +4,7 @@ namespace b8;
 
 use b8\Http\Request;
 use b8\Http\Response;
-use b8\View;
 
-/**
- * b8 Abstract Controller class
- * @package b8
- */
 abstract class Controller
 {
     /**
@@ -37,6 +32,11 @@ abstract class Controller
      */
     protected $view;
 
+    /**
+     * @param Config   $config
+     * @param Request  $request
+     * @param Response $response
+     */
     public function __construct(Config $config, Request $request, Response $response)
     {
         $this->config   = $config;
@@ -44,6 +44,11 @@ abstract class Controller
         $this->response = $response;
     }
 
+    /**
+     * @param string $name
+     *
+     * @return boolean
+     */
     public function hasAction($name)
     {
         if (method_exists($this, $name)) {
@@ -59,6 +64,10 @@ abstract class Controller
 
     /**
      * Handles an action on this controller and returns a Response object.
+     *
+     * @param string $action
+     * @param array  $actionParams
+     *
      * @return Response
      */
     public function handleAction($action, $actionParams)
@@ -84,8 +93,8 @@ abstract class Controller
     /**
      * Get a specific incoming request parameter.
      *
-     * @param      $key
-     * @param mixed $default Default return value (if key does not exist)
+     * @param string $key
+     * @param mixed  $default Default return value (if key does not exist)
      *
      * @return mixed
      */
@@ -96,20 +105,22 @@ abstract class Controller
 
     /**
      * Change the value of an incoming request parameter.
-     * @param $key
-     * @param $value
+     *
+     * @param string $key
+     * @param mixed  $value
      */
     public function setParam($key, $value)
     {
-        return $this->request->setParam($key, $value);
+        $this->request->setParam($key, $value);
     }
 
     /**
      * Remove an incoming request parameter.
-     * @param $key
+     *
+     * @param string $key
      */
     public function unsetParam($key)
     {
-        return $this->request->unsetParam($key);
+        $this->request->unsetParam($key);
     }
 }

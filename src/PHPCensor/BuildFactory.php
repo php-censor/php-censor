@@ -14,8 +14,10 @@ class BuildFactory
 {
     /**
      * @param $buildId
-     * @return Build
+     *
      * @throws \Exception
+     *
+     * @return Build
      */
     public static function getBuildById($buildId)
     {
@@ -29,10 +31,12 @@ class BuildFactory
     }
 
     /**
-    * Takes a generic build and returns a type-specific build model.
-    * @param Build $build The build from which to get a more specific build type.
-    * @return Build
-    */
+     * Takes a generic build and returns a type-specific build model.
+     *
+     * @param Build $build The build from which to get a more specific build type.
+     *
+     * @return Build
+     */
     public static function getBuild(Build $build)
     {
         $project = $build->getProject();

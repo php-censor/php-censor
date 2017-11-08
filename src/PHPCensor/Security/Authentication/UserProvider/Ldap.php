@@ -15,6 +15,12 @@ use PHPCensor\Store\UserStore;
  */
 class Ldap extends AbstractProvider implements LoginPasswordProviderInterface
 {
+    /**
+     * @param User   $user
+     * @param string $password
+     *
+     * @return bool
+     */
     public function verifyPassword(User $user, $password)
     {
         if (isset($this->config['data'])) {
@@ -59,6 +65,11 @@ class Ldap extends AbstractProvider implements LoginPasswordProviderInterface
         // Always fine
     }
 
+    /**
+     * @param string $identifier
+     *
+     * @return User
+     */
     public function provisionUser($identifier)
     {
         /** @var UserStore $user */

@@ -1,15 +1,17 @@
 <?php if (!($parent instanceof \b8\Form\Element\CheckboxGroup)): ?>
-<div class="control-group <?php print $ccss ?> <?php print (isset($error) ? 'error' : ''); ?>">
+<div class="control-group <?= $ccss ?> <?= (isset($error) ? 'error' : ''); ?>">
     <div class="controls">
         <div class="checkbox">
             <?php endif; ?>
-            <label class="checkbox <?php print $css; ?>" for="<?php print $id ?>">
-                <input type="checkbox" id="<?php print $id; ?>" name="<?php print $name; ?>"
-                       value="<?php print $checkedValue; ?>" <?php print ($checked ? 'checked' : ''); ?> <?php print $required ? 'required' : '' ?>>
-                <?php print $label; ?>
+            <label class="checkbox <?= $css; ?>" for="<?= $id ?>">
+                <input type="checkbox" id="<?= $id; ?>" name="<?= $name; ?>"
+                    value="<?= $checkedValue; ?>"
+                    <?= ($checked ? 'checked' : ''); ?> <?= $required ? 'required' : '' ?>
+                >
+                <?= $label; ?>
             </label>
             <?php if (isset($error)): ?>
-                <span class="help-block"><?php print $error; ?></span>
+                <span class="help-block"><?= $error; ?></span>
             <?php endif; ?>
             <?php if (!($parent instanceof \b8\Form\Element\CheckboxGroup)): ?>
         </div>

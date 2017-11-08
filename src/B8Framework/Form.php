@@ -2,33 +2,55 @@
 
 namespace b8;
 
-use b8\Form\FieldSet, b8\View;
+use b8\Form\FieldSet;
 
 class Form extends FieldSet
 {
+    /**
+     * @var string
+     */
     protected $_action = '';
+
+    /**
+     * @var string
+     */
     protected $_method = 'POST';
 
+    /**
+     * @return string
+     */
     public function getAction()
     {
         return $this->_action;
     }
 
+    /**
+     * @param string $action
+     */
     public function setAction($action)
     {
         $this->_action = $action;
     }
 
+    /**
+     * @return string
+     */
     public function getMethod()
     {
         return $this->_method;
     }
 
+    /**
+     * @param string $method
+     */
     public function setMethod($method)
     {
         $this->_method = $method;
     }
 
+    /**
+     * @param View $view
+     */
     protected function onPreRender(View &$view)
     {
         $view->action = $this->getAction();
@@ -37,6 +59,9 @@ class Form extends FieldSet
         parent::onPreRender($view);
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return $this->render();

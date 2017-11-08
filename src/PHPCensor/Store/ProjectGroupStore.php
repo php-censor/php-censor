@@ -9,8 +9,19 @@ use PHPCensor\Model\ProjectGroup;
 
 class ProjectGroupStore extends Store
 {
+    /**
+     * @var string
+     */
     protected $tableName  = 'project_group';
+
+    /**
+     * @var string
+     */
     protected $modelName  = '\PHPCensor\Model\ProjectGroup';
+
+    /**
+     * @var string
+     */
     protected $primaryKey = 'id';
 
     /**

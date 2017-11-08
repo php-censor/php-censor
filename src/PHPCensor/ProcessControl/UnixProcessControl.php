@@ -13,6 +13,7 @@ class UnixProcessControl implements ProcessControlInterface
      * Check process using the "ps" command.
      *
      * @param int $pid
+     *
      * @return boolean
      */
     public function isRunning($pid)

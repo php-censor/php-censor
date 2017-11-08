@@ -9,8 +9,19 @@ use PHPCensor\Store;
 
 class BuildErrorStore extends Store
 {
-    protected $tableName  = 'build_error';
-    protected $modelName  = '\PHPCensor\Model\BuildError';
+    /**
+     * @var string
+     */
+    protected $tableName = 'build_error';
+
+    /**
+     * @var string
+     */
+    protected $modelName = '\PHPCensor\Model\BuildError';
+
+    /**
+     * @var string
+     */
     protected $primaryKey = 'id';
 
     /**

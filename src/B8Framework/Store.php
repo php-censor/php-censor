@@ -3,19 +3,45 @@
 namespace b8;
 
 use b8\Exception\HttpException;
-use b8\Database;
 
 abstract class Store
 {
-    protected $modelName  = null;
-    protected $tableName  = null;
+    /**
+     * @var string
+     */
+    protected $modelName = null;
+
+    /**
+     * @var string
+     */
+    protected $tableName = null;
+
+    /**
+     * @var string
+     */
     protected $primaryKey = null;
 
     /**
-     * @return \b8\Model
+     * @param string $key
+     * @param string $useConnection
+     *
+     * @return Model
      */
     abstract public function getByPrimaryKey($key, $useConnection = 'read');
 
+    /**
+     * @param array   $where
+     * @param integer $limit
+     * @param integer $offset
+     * @param array   $joins
+     * @param array   $order
+     * @param array   $manualJoins
+     * @param string  $group
+     * @param array   $manualWheres
+     * @param string  $whereType
+     *
+     * @return array
+     */
     public function getWhere(
         $where = [],
         $limit = 25,
@@ -196,6 +222,14 @@ abstract class Store
         }
     }
 
+    /**
+     * @param Model   $obj
+     * @param boolean $saveAllColumns
+     *
+     * @throws HttpException\BadRequestException
+     *
+     * @return Model|null
+     */
     public function save(Model $obj, $saveAllColumns = false)
     {
         if (!isset($this->primaryKey)) {
@@ -217,6 +251,12 @@ abstract class Store
         return $rtn;
     }
 
+    /**
+     * @param Model $obj
+     * @param bool  $saveAllColumns
+     *
+     * @return Model|null
+     */
     public function saveByUpdate(Model $obj, $saveAllColumns = false)
     {
         $rtn = null;
@@ -249,6 +289,12 @@ abstract class Store
         return $rtn;
     }
 
+    /**
+     * @param Model $obj
+     * @param bool  $saveAllColumns
+     *
+     * @return Model|null
+     */
     public function saveByInsert(Model $obj, $saveAllColumns = false)
     {
         $rtn      = null;
@@ -280,6 +326,13 @@ abstract class Store
         return $rtn;
     }
 
+    /**
+     * @param Model $obj
+     *
+     * @throws HttpException\BadRequestException
+     *
+     * @return boolean
+     */
     public function delete(Model $obj)
     {
         if (!isset($this->primaryKey)) {
@@ -299,6 +352,13 @@ abstract class Store
         return true;
     }
 
+    /**
+     * @param string $field
+     *
+     * @throws HttpException
+     *
+     * @return string
+     */
     protected function fieldCheck($field)
     {
         if (empty($field)) {

@@ -25,14 +25,14 @@ class UserService
 
     /**
      * Create a new user.
-     * 
-     * @param string $name
-     * @param string $email
-     * @param string $providerKey
-     * @param string $providerData
-     * @param string $password
-     * @param bool   $isAdmin
-     * 
+     *
+     * @param string  $name
+     * @param string  $email
+     * @param string  $providerKey
+     * @param string  $providerData
+     * @param string  $password
+     * @param boolean $isAdmin
+     *
      * @return User
      */
     public function createUser($name, $email, $providerKey, $providerData, $password, $isAdmin = false)
@@ -50,15 +50,15 @@ class UserService
 
     /**
      * Update a user.
-     * 
+     *
      * @param User    $user
      * @param string  $name
      * @param string  $emailAddress
      * @param string  $password
-     * @param bool    $isAdmin
+     * @param boolean $isAdmin
      * @param string  $language
      * @param integer $perPage
-     * 
+     *
      * @return User
      */
     public function updateUser(User $user, $name, $emailAddress, $password = null, $isAdmin = null, $language = null, $perPage = null)
@@ -82,7 +82,9 @@ class UserService
 
     /**
      * Delete a user.
+     *
      * @param User $user
+     *
      * @return bool
      */
     public function deleteUser(User $user)

@@ -19,24 +19,28 @@ class BuildWorker
 {
     /**
      * If this variable changes to false, the worker will stop after the current build.
+     *
      * @var bool
      */
     protected $run = true;
 
     /**
      * The logger for builds to use.
+     *
      * @var \Monolog\Logger
      */
     protected $logger;
 
     /**
      * beanstalkd host
+     *
      * @var string
      */
     protected $host;
 
     /**
      * beanstalkd queue to watch
+     *
      * @var string
      */
     protected $queue;
@@ -52,8 +56,8 @@ class BuildWorker
     protected $totalJobs = 0;
 
     /**
-     * @param $host
-     * @param $queue
+     * @param string $host
+     * @param string $queue
      */
     public function __construct($host, $queue)
     {
@@ -147,9 +151,11 @@ class BuildWorker
 
     /**
      * Checks that the job received is actually, and has a valid type.
-     * @param Job $job
-     * @param $jobData
-     * @return bool
+     *
+     * @param Job   $job
+     * @param array $jobData
+     *
+     * @return boolean
      */
     protected function verifyJob(Job $job, $jobData)
     {

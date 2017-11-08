@@ -10,12 +10,14 @@ interface CommandExecutorInterface
      *
      * @param array $args
      *
-     * @return bool Indicates success
+     * @return boolean Indicates success
      */
     public function executeCommand($args = []);
 
     /**
      * Returns the output from the last command run.
+     *
+     * @return string
      */
     public function getLastOutput();
 

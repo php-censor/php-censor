@@ -119,7 +119,7 @@ class BuildStatusController extends Controller
      * Returns the appropriate build status image in SVG format for a given project.
      *
      * @param $projectId
-     * 
+     *
      * @return b8\Http\Response|b8\Http\Response\RedirectResponse
      */
     public function image($projectId)
@@ -175,11 +175,11 @@ class BuildStatusController extends Controller
 
     /**
      * View the public status page of a given project, if enabled.
-     * 
+     *
      * @param integer $projectId
-     * 
+     *
      * @return string
-     * 
+     *
      * @throws \b8\Exception\HttpException\NotFoundException
      */
     public function view($projectId)

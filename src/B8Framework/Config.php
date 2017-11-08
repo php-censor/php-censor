@@ -10,8 +10,14 @@ if (!defined('B8_PATH')) {
 
 class Config
 {
+    /**
+     * @var Config
+     */
     protected static $instance;
 
+    /**
+     * @return Config
+     */
     public static function getInstance()
     {
         return self::$instance;
@@ -22,6 +28,9 @@ class Config
      */
     protected $config = [];
 
+    /**
+     * @param array $settings
+     */
     public function __construct($settings = null)
     {
         self::$instance = $this;
@@ -36,6 +45,9 @@ class Config
         }
     }
 
+    /**
+     * @param string $yamlFile
+     */
     public function loadYaml($yamlFile)
     {
         // Path to a YAML file.
@@ -52,8 +64,10 @@ class Config
 
     /**
      * Get a configuration value by key, returning a default value if not set.
-     * @param $key string
-     * @param $default mixed
+     *
+     * @param string $key
+     * @param mixed  $default
+     *
      * @return mixed
      */
     public function get($key, $default = null)
@@ -82,9 +96,10 @@ class Config
 
     /**
      * Set a value by key.
-     * @param $key string
-     * @param $value mixed
-     * 
+     *
+     * @param string $key
+     * @param mixed  $value
+     *
      * @return boolean
      */
     public function set($key, $value = null)
@@ -96,6 +111,8 @@ class Config
 
     /**
      * Set an array of values.
+     *
+     * @param $array
      */
     public function setArray($array)
     {
@@ -105,6 +122,10 @@ class Config
     /**
      * Short-hand syntax for get()
      * @see Config::get()
+     *
+     * @param string $key
+     *
+     * @return mixed
      */
     public function __get($key)
     {
@@ -114,6 +135,11 @@ class Config
     /**
      * Short-hand syntax for set()
      * @see Config::set()
+     *
+     * @param string $key
+     * @param mixed  $value
+     *
+     * @return bool
      */
     public function __set($key, $value = null)
     {
@@ -122,6 +148,10 @@ class Config
 
     /**
      * Is set
+     *
+     * @param string $key
+     *
+     * @return boolean
      */
     public function __isset($key)
     {
@@ -130,6 +160,8 @@ class Config
 
     /**
      * Unset
+     *
+     * @param string $key
      */
     public function __unset($key)
     {
@@ -137,8 +169,8 @@ class Config
     }
 
     /**
-     * Deeply merge the $target array onto the $source array.
-     * The $source array will be modified!
+     * Deeply merge the $target array onto the $source array. The $source array will be modified!
+     *
      * @param array $source
      * @param array $target
      */
@@ -153,7 +185,6 @@ class Config
                 if (!is_array($source[$target_key]) && !is_array($target_value)) {
                     // Neither value is an array, overwrite
                     $source[$target_key] = $target_value;
-
                 } elseif (is_array($source[$target_key]) && is_array($target_value)) {
                     // Both are arrays, deep merge them
                     self::deepMerge($source[$target_key], $target_value);
@@ -173,6 +204,9 @@ class Config
         }
     }
 
+    /**
+     * @return array
+     */
     public function getArray()
     {
         return $this->config;

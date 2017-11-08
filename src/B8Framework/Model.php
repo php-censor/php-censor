@@ -3,7 +3,6 @@
 namespace b8;
 
 use b8\Exception\HttpException;
-use b8\Cache;
 
 class Model
 {

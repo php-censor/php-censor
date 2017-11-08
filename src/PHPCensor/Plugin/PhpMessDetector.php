@@ -127,11 +127,11 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
 
     /**
      * Process PHPMD's XML output report.
-     * 
+     *
      * @param $xmlString
-     * 
+     *
      * @return integer
-     * 
+     *
      * @throws \Exception
      */
     protected function processReport($xmlString)

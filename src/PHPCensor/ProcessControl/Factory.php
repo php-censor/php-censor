@@ -35,7 +35,7 @@ class Factory
      * Check PosixProcessControl, WindowsProcessControl and UnixProcessControl, in that order.
      *
      * @return ProcessControlInterface
-     * 
+     *
      * @throws \Exception
      */
     public static function createProcessControl()
