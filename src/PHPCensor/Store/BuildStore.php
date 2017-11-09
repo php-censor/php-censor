@@ -3,8 +3,10 @@
 namespace PHPCensor\Store;
 
 use b8\Database;
+use b8\Store\Factory;
 use PHPCensor\Model\Build;
 use b8\Exception\HttpException;
+use PHPCensor\Model\BuildMeta;
 use PHPCensor\Store;
 
 /**
@@ -245,7 +247,7 @@ class BuildStore extends Store
      */
     public function getAllProjectsLatestBuilds($limit_by_project = 5, $limit_all = 10)
     {
-        // dont fetch log field - contain many data
+        // don't fetch log field - contain many data
         $query = '
             SELECT
                 {{id}},
@@ -393,7 +395,7 @@ class BuildStore extends Store
         $query = 'SELECT bm.build_id, bm.meta_key, bm.meta_value
                     FROM {{build_meta}} AS {{bm}}
                     LEFT JOIN {{build}} AS {{b}} ON b.id = bm.build_id
-                    WHERE   bm.meta_key = :key AND b.project_id = :projectId';
+                    WHERE bm.meta_key = :key AND b.project_id = :projectId';
 
         // If we're getting comparative meta data, include previous builds
         // otherwise just include the specified build ID:
@@ -445,24 +447,20 @@ class BuildStore extends Store
      * @param integer $buildId
      * @param string  $key
      * @param string  $value
-     *
-     * @return boolean
      */
     public function setMeta($buildId, $key, $value)
     {
-        $cols = '{{build_id}}, {{meta_key}}, {{meta_value}}';
-        $query = 'INSERT INTO {{build_meta}} ('.$cols.') VALUES (:buildId, :key, :value)';
-
-        $stmt = Database::getConnection('read')->prepareCommon($query);
-        $stmt->bindValue(':key', $key, \PDO::PARAM_STR);
-        $stmt->bindValue(':buildId', (int)$buildId, \PDO::PARAM_INT);
-        $stmt->bindValue(':value', $value, \PDO::PARAM_STR);
-
-        if ($stmt->execute()) {
-            return true;
-        } else {
-            return false;
+        /** @var BuildMetaStore $store */
+        $store = Factory::getStore('BuildMeta');
+        $meta  = $store->getByKey($buildId, $key);
+        if (is_null($meta)) {
+            $meta = new BuildMeta();
+            $meta->setBuildId($buildId);
+            $meta->setMetaKey($key);
         }
+        $meta->setMetaValue($value);
+
+        $store->save($meta);
     }
 
     /**
