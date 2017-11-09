@@ -425,9 +425,23 @@ class BuildStore extends Store
         if ($stmt->execute()) {
             $rtn = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
+            /** @var \PHPCensor\Store\BuildErrorStore $errorStore */
+            $errorStore = Factory::getStore('BuildError');
+
             $rtn = array_reverse($rtn);
-            $rtn = array_map(function ($item) {
+            $rtn = array_map(function ($item) use ($key, $errorStore, $buildId) {
                 $item['meta_value'] = json_decode($item['meta_value'], true);
+                if ('plugin-summary' === $key) {
+                    foreach ($item['meta_value'] as $stage => $stageData) {
+                        foreach ($stageData as $plugin => $pluginData) {
+                            $item['meta_value'][$stage][$plugin]['errors'] = $errorStore->getErrorTotalForBuild(
+                                $buildId,
+                                $plugin
+                            );
+                        }
+                    }
+                }
+
                 return $item;
             }, $rtn);
 

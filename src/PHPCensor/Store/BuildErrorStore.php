@@ -137,12 +137,11 @@ class BuildErrorStore extends Store
      * @param string  $plugin
      * @param integer $severity
      *
-     * @return array
+     * @return integer
      */
     public function getErrorTotalForBuild($buildId, $plugin = null, $severity = null)
     {
-        $query = 'SELECT COUNT(*) AS {{total}} FROM {{build_error}}
-                    WHERE {{build_id}} = :build';
+        $query = 'SELECT COUNT(*) AS {{total}} FROM {{build_error}} WHERE {{build_id}} = :build';
         if ($plugin) {
             $query .= ' AND {{plugin}} = :plugin';
         }
@@ -162,9 +161,10 @@ class BuildErrorStore extends Store
 
         if ($stmt->execute()) {
             $res = $stmt->fetch(\PDO::FETCH_ASSOC);
-            return $res['total'];
+
+            return (integer)$res['total'];
         } else {
-            return [];
+            return 0;
         }
     }
 

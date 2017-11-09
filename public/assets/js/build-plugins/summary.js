@@ -59,7 +59,7 @@ var SummaryPlugin = ActiveBuild.UiPlugin.extend({
                     duration = data.started ? ((data.ended || Math.floor(Date.now() / 1000)) - data.started) : '-';
 
                 var pluginName = Lang.get(plugin);
-                if ('test' === stage && 2 < data.status) {
+                if (0 < data.errors) {
                     pluginName = '<a href="' + window.APP_URL + 'build/view/' + ActiveBuild.buildId + '?plugin=' + plugin + '#errors">' + Lang.get(plugin) + '</a>';
                 }
                 tbody.append(
