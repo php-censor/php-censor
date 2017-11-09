@@ -2,11 +2,12 @@
 
 namespace PHPCensor\Controller;
 
-use b8;
+use b8\Store\Factory;
+use b8\View;
+use b8\Http\Response;
 use PHPCensor\BuildFactory;
-use PHPCensor\Helper\Lang;
-use PHPCensor\Model\Build;
 use PHPCensor\Controller;
+use PHPCensor\Store\BuildStore;
 
 /**
  * Widget Last Builds Controller
@@ -14,7 +15,7 @@ use PHPCensor\Controller;
 class WidgetLastBuildsController extends Controller
 {
     /**
-     * @var \PHPCensor\Store\BuildStore
+     * @var BuildStore
      */
     protected $buildStore;
 
@@ -23,11 +24,11 @@ class WidgetLastBuildsController extends Controller
      */
     public function init()
     {
-        $this->buildStore = b8\Store\Factory::getStore('Build');
+        $this->buildStore = Factory::getStore('Build');
     }
 
     /**
-    * Display dashboard:
+    * Display dashboard.
     */
     public function index()
     {
@@ -37,9 +38,9 @@ class WidgetLastBuildsController extends Controller
             $build = BuildFactory::getBuild($build);
         }
 
-        $view = new b8\View('WidgetLastBuilds/update');
-        $view->builds = $builds;
+        $view = new View('WidgetLastBuilds/update');
 
+        $view->builds         = $builds;
         $this->view->timeline = $view->render();
 
         $this->response->disableLayout();
@@ -48,6 +49,9 @@ class WidgetLastBuildsController extends Controller
         return $this->response;
     }
 
+    /**
+     * @return Response
+     */
     public function update()
     {
         $builds = $this->buildStore->getLatestBuilds(null, 10);

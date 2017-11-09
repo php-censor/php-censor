@@ -2,11 +2,12 @@
 
 namespace PHPCensor\Controller;
 
-use b8;
-use PHPCensor\BuildFactory;
-use PHPCensor\Helper\Lang;
-use PHPCensor\Model\Build;
+use b8\Store\Factory;
+use b8\View;
+use b8\Http\Response;
 use PHPCensor\Controller;
+use PHPCensor\Store\BuildStore;
+use PHPCensor\Store\ProjectStore;
 
 /**
  * Widget Build Errors Controller
@@ -14,12 +15,12 @@ use PHPCensor\Controller;
 class WidgetBuildErrorsController extends Controller
 {
     /**
-     * @var \PHPCensor\Store\BuildStore
+     * @var BuildStore
      */
     protected $buildStore;
 
     /**
-     * @var \PHPCensor\Store\ProjectStore
+     * @var ProjectStore
      */
     protected $projectStore;
 
@@ -28,16 +29,17 @@ class WidgetBuildErrorsController extends Controller
      */
     public function init()
     {
-        $this->buildStore = b8\Store\Factory::getStore('Build');
-        $this->projectStore = b8\Store\Factory::getStore('Project');
+        $this->buildStore   = Factory::getStore('Build');
+        $this->projectStore = Factory::getStore('Project');
     }
 
     /**
-    * Display dashboard:
+    * Display dashboard.
     */
     public function index()
     {
-        $view = new b8\View('WidgetBuildErrors/update');
+        $view = new View('WidgetBuildErrors/update');
+
         $this->view->projects = $this->renderAllProjectsLatestBuilds($view);
 
         $this->response->disableLayout();
@@ -47,7 +49,7 @@ class WidgetBuildErrorsController extends Controller
     }
 
     /**
-     * @return b8\Http\Response
+     * @return Response
      */
     public function update()
     {
@@ -58,7 +60,8 @@ class WidgetBuildErrorsController extends Controller
     }
 
     /**
-     * @param b8\View $view
+     * @param View $view
+     *
      * @return string
      */
     protected function renderAllProjectsLatestBuilds($view)
@@ -66,7 +69,7 @@ class WidgetBuildErrorsController extends Controller
         $builds = $this->buildStore->getAllProjectsLatestBuilds();
 
         $view->builds = $builds['projects'];
-        $projects = $this->projectStore->getByIds(array_keys($builds['projects']));
+        $projects     = $this->projectStore->getByIds(array_keys($builds['projects']));
 
         $view_projects = [];
         foreach($projects as $id => $project) {

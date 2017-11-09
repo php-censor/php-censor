@@ -722,7 +722,7 @@ class WebhookController extends Controller
     /**
      * Fetch a project and check its type.
      *
-     * @param int|string $projectId id or title
+     * @param int|string   $projectId    id or title of project
      * @param array|string $expectedType
      *
      * @return Project
@@ -736,7 +736,7 @@ class WebhookController extends Controller
         }
 
         if (is_numeric($projectId)) {
-            $project = $this->projectStore->getById($projectId);
+            $project = $this->projectStore->getById((integer)$projectId);
         } else {
             $projects = $this->projectStore->getByTitle($projectId, 2);
             if ($projects['count'] < 1) {

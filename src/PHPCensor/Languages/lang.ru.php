@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'language_name' => 'Pусский',
+    'language_name' => 'Русский',
     'language'      => 'Язык',
     'per_page'      => 'Количество элементов на странице',
     'default'       => 'По умолчанию',
@@ -75,6 +75,7 @@ PHP Censor',
     'last_failed_build' => ' Последней проваленной сборкой была %s.',
     'never_failed_build' => ' У этого проекта никогда не было проваленных сборок.',
     'view_project' => 'Обзор проекта',
+    'projects_with_build_errors' => 'Ошибки сборки',
 
     // Timeline:
     'latest_builds' => 'Последние сборки',

@@ -2,11 +2,15 @@
 
 namespace PHPCensor\Controller;
 
-use b8;
-use PHPCensor\BuildFactory;
-use PHPCensor\Helper\Lang;
 use PHPCensor\Model\Build;
 use PHPCensor\Controller;
+use b8\Store\Factory;
+use b8\View;
+use PHPCensor\Model\Project;
+use b8\Http\Response;
+use PHPCensor\Store\BuildStore;
+use PHPCensor\Store\ProjectStore;
+use PHPCensor\Store\ProjectGroupStore;
 
 /**
  * Widget All Projects Controller
@@ -14,17 +18,17 @@ use PHPCensor\Controller;
 class WidgetAllProjectsController extends Controller
 {
     /**
-     * @var \PHPCensor\Store\BuildStore
+     * @var BuildStore
      */
     protected $buildStore;
 
     /**
-     * @var \PHPCensor\Store\ProjectStore
+     * @var ProjectStore
      */
     protected $projectStore;
 
     /**
-     * @var \PHPCensor\Store\ProjectGroupStore
+     * @var ProjectGroupStore
      */
     protected $groupStore;
 
@@ -33,13 +37,13 @@ class WidgetAllProjectsController extends Controller
      */
     public function init()
     {
-        $this->buildStore = b8\Store\Factory::getStore('Build');
-        $this->projectStore = b8\Store\Factory::getStore('Project');
-        $this->groupStore = b8\Store\Factory::getStore('ProjectGroup');
+        $this->buildStore   = Factory::getStore('Build');
+        $this->projectStore = Factory::getStore('Project');
+        $this->groupStore   = Factory::getStore('ProjectGroup');
     }
 
     /**
-    * Display dashboard:
+    * Display dashboard.
     */
     public function index()
     {
@@ -53,15 +57,17 @@ class WidgetAllProjectsController extends Controller
 
     /**
      * Generate the HTML for the project overview section of the dashboard.
-     * @param $projects
+     *
+     * @param Project[] $projects
+     *
      * @return string
      */
     protected function getSummaryHtml($projects)
     {
         $summaryBuilds = [];
-        $successes = [];
-        $failures = [];
-        $counts = [];
+        $successes     = [];
+        $failures      = [];
+        $counts        = [];
 
         foreach ($projects as $project) {
             $summaryBuilds[$project->getId()] = $this->buildStore->getLatestBuilds($project->getId());
@@ -79,15 +85,16 @@ class WidgetAllProjectsController extends Controller
             $failure = $this->buildStore->getLastBuildByStatus($project->getId(), Build::STATUS_FAILED);
 
             $successes[$project->getId()] = $success;
-            $failures[$project->getId()] = $failure;
+            $failures[$project->getId()]  = $failure;
         }
 
-        $view = new b8\View('WidgetAllProjects/index-projects');
-        $view->projects = $projects;
-        $view->builds = $summaryBuilds;
+        $view = new View('WidgetAllProjects/index-projects');
+
+        $view->projects   = $projects;
+        $view->builds     = $summaryBuilds;
         $view->successful = $successes;
-        $view->failed = $failures;
-        $view->counts = $counts;
+        $view->failed     = $failures;
+        $view->counts     = $counts;
 
         return $view->render();
     }
@@ -104,9 +111,11 @@ class WidgetAllProjectsController extends Controller
 
         foreach ($groups['items'] as $group) {
             $thisGroup = ['title' => $group->getTitle()];
-            $projects = $this->projectStore->getByGroupId($group->getId(), false);
+            $projects  = $this->projectStore->getByGroupId($group->getId(), false);
+
             $thisGroup['projects'] = $projects['items'];
-            $thisGroup['summary'] = $this->getSummaryHtml($thisGroup['projects']);
+            $thisGroup['summary']  = $this->getSummaryHtml($thisGroup['projects']);
+
             $rtn[] = $thisGroup;
         }
 
@@ -114,9 +123,9 @@ class WidgetAllProjectsController extends Controller
     }
 
     /**
-     * @param int $projectId
+     * @param integer $projectId
      *
-     * @return b8\Http\Response
+     * @return Response
      */
     public function update($projectId)
     {
@@ -129,11 +138,11 @@ class WidgetAllProjectsController extends Controller
         );
         $counts = $count['count'];
 
-        $this->view->project = $this->projectStore->getById($projectId);
-        $this->view->builds = $this->buildStore->getLatestBuilds($projectId);
+        $this->view->project    = $this->projectStore->getById($projectId);
+        $this->view->builds     = $this->buildStore->getLatestBuilds($projectId);
         $this->view->successful = $this->buildStore->getLastBuildByStatus($projectId, Build::STATUS_SUCCESS);
-        $this->view->failed = $this->buildStore->getLastBuildByStatus($projectId, Build::STATUS_FAILED);
-        $this->view->counts = $counts;
+        $this->view->failed     = $this->buildStore->getLastBuildByStatus($projectId, Build::STATUS_FAILED);
+        $this->view->counts     = $counts;
 
         $this->response->disableLayout();
         $this->response->setContent($this->view->render());
