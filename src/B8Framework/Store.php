@@ -53,7 +53,7 @@ abstract class Store
         $manualWheres = [],
         $whereType = 'AND'
     ) {
-        $query = 'SELECT * FROM {{' . $this->tableName . '}}';
+        $query      = 'SELECT * FROM {{' . $this->tableName . '}}';
         $countQuery = 'SELECT COUNT(*) AS {{count}} FROM {{' . $this->tableName . '}}';
 
         $wheres = [];

@@ -189,8 +189,8 @@ class BuildController extends Controller
         $errorView->build  = $build;
         $errorView->errors = $errors['items'];
 
-        $data['errors']       = (integer)$errorStore->getErrorTotalForBuild($build->getId(), $plugin, $severity);
-        $data['errors_total'] = (integer)$errorStore->getErrorTotalForBuild($build->getId());
+        $data['errors']       = $errorStore->getErrorTotalForBuild($build->getId(), $plugin, $severity);
+        $data['errors_total'] = $errorStore->getErrorTotalForBuild($build->getId());
         $data['error_html']   = $errorView->render();
 
         return $data;
