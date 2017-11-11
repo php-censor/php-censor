@@ -1,19 +1,15 @@
-Expected behaviour
-------------------
+## Expected behavior
 
 *Please describe what you're expecting to see happen.*
 
-Actual behaviour
-----------------
+## Actual behavior
 
 *Please describe what you're actually seeing happen.*
 
-Steps to reproduce
-------------------
+## Steps to reproduce
 
 *If your issue requires any specific steps to reproduce, please outline them here.*
 
-Environment info
-----------------
+## Environment
 
 *OS, PHP version, MySQL/PostgreSQL version.*

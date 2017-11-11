@@ -27,8 +27,7 @@ More [screenshots](docs/en/screenshots.md).
 * [Documentation](#documentation)
 * [License](#license)
 
-System requirements
--------------------
+## System requirements
 
 * Unix-like OS (**Windows isn't supported**);
 
@@ -40,8 +39,7 @@ System requirements
 
 * Beanstalkd queue (Optional);
 
-Features
---------
+## Features
 
 * Clone project from Github, Bitbucket, Gitlab, Git, Mercurial, SVN or from local directory;
 
@@ -62,8 +60,7 @@ CopyBuild, Deployer, Env, Git, Grunt, Gulp, PackageBuild, Phar, Phing, Shell and
 
 * Use your LDAP-server for authentication;
 
-Installing
-----------
+## Installing
 
 * Go to the directory in which you want to install PHP Censor, for example: `/var/www`:
 
@@ -109,14 +106,12 @@ PHP Censor directory. You'll need to set up rewrite rules to point all non-exist
 * [Set up the PHP Censor Worker](docs/en/workers/worker.md) (Need configured Queue) or 
 [a cron-job](docs/en/workers/cron.md) to run PHP Censor builds;
 
-Installing via Docker
---------------------
+## Installing via Docker
 
 If you want to install PHP Censor as Docker container, you can use 
 [php-censor/docker-php-censor](https://github.com/php-censor/docker-php-censor) project.
 
-Updating
---------
+## Updating
 
 * Go to your PHP Censor directory (to `/var/www/php-censor.local` for example):
 
@@ -163,8 +158,7 @@ Updating
     sudo systemctl restart <worker@n.service>
     ```
 
-Configuring project
--------------------
+## Configuring project
 
 There are several ways to set up the project:
 
@@ -198,8 +192,7 @@ complete:
 
 More details about [configuring project](docs/en/configuring_project.md).
 
-Migrations
-----------
+## Migrations
 
 Run to apply latest migrations:
 
@@ -215,8 +208,7 @@ cd /path/to/php-censor
 ./bin/console php-censor-migrations:create NewMigrationName
 ```
 
-Tests
------
+## Tests
 
 ```bash
 cd /path/to/php-censor
@@ -234,12 +226,10 @@ For database B8Framework tests create empty 'b8_test' database on 'localhost' wi
 for MySQL and with user/password: `postgres/<empty>'` for PostgreSQL (You can change default test user, password and 
 database name in `phpunit.mysql|pgsql.xml` config). If connection failed tests will be skipped.
 
-Documentation
--------------
+## Documentation
 
 [Full PHP Censor documentation](docs/en/README.md).
 
-License
--------
+## License
 
 PHP Censor is open source software licensed under the [BSD-2-Clause license](LICENSE.md).

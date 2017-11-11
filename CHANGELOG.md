@@ -1,5 +1,4 @@
-Change Log
-==========
+# Change Log
 
 ## [PHP Censor v0.18.0](https://github.com/corpsee/php-censor/tree/0.18.0) (2017-10-22)
 
