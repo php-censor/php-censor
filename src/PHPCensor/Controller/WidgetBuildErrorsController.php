@@ -68,18 +68,22 @@ class WidgetBuildErrorsController extends Controller
     {
         $builds = $this->buildStore->getAllProjectsLatestBuilds();
 
-        $view->builds = $builds['projects'];
-        $projects     = $this->projectStore->getByIds(array_keys($builds['projects']));
+        if (!empty($builds['projects'])) {
+            $view->builds = $builds['projects'];
+            $projects     = $this->projectStore->getByIds(array_keys($builds['projects']));
 
-        $view_projects = [];
-        foreach($projects as $id => $project) {
-            if (!$project->getArchived()) {
-                $view_projects[$id] = $project;
-            } else {
-                unset($builds['projects'][$id]);
+            $view_projects = [];
+            foreach($projects as $id => $project) {
+                if (!$project->getArchived()) {
+                    $view_projects[$id] = $project;
+                } else {
+                    unset($builds['projects'][$id]);
+                }
             }
+            $view->projects = $view_projects;
+        } else {
+            $view = new View('WidgetBuildErrors/empty');
         }
-        $view->projects = $view_projects;
 
         return $view->render();
     }
