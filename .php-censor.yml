@@ -34,7 +34,7 @@ test:
     allow_failures: true
 
   security_checker:
-    allow_failures: true
+    allow_failures: false
 
 complete:
   email:
