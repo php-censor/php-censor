@@ -13,7 +13,7 @@ use PHPCensor\Controller;
 
 /**
  * Build Status Controller - Allows external access to build status information / images.
- * 
+ *
  * @author Dan Cryer <dan@block8.co.uk>
  */
 class BuildStatusController extends Controller
@@ -30,26 +30,34 @@ class BuildStatusController extends Controller
     public function init()
     {
         $this->response->disableLayout();
-        $this->buildStore      = Store\Factory::getStore('Build');
-        $this->projectStore    = Store\Factory::getStore('Project');
+
+        $this->buildStore   = Store\Factory::getStore('Build');
+        $this->projectStore = Store\Factory::getStore('Project');
     }
 
     /**
      * Returns status of the last build
+     *
      * @param $projectId
+     *
      * @return string
      */
     protected function getStatus($projectId)
     {
+        $status = null;
         $branch = $this->getParam('branch', 'master');
+
         try {
             $project = $this->projectStore->getById($projectId);
             $status = 'passing';
 
             if (isset($project) && $project instanceof Project) {
-                $build = $project->getLatestBuild($branch, [2,3]);
+                $build = $project->getLatestBuild($branch, [
+                    Build::STATUS_SUCCESS,
+                    Build::STATUS_FAILED,
+                ]);
 
-                if (isset($build) && $build instanceof Build && $build->getStatus() != 2) {
+                if (isset($build) && $build instanceof Build && $build->getStatus() !== Build::STATUS_SUCCESS) {
                     $status = 'failed';
                 }
             }
@@ -64,7 +72,9 @@ class BuildStatusController extends Controller
      * Displays projects information in ccmenu format
      *
      * @param $projectId
+     *
      * @return bool
+     *
      * @throws \Exception
      * @throws b8\Exception\HttpException
      */
@@ -103,7 +113,8 @@ class BuildStatusController extends Controller
 
     /**
      * @param \SimpleXMLElement $xml
-     * @return bool
+     *
+     * @return boolean
      */
     protected function renderXml(\SimpleXMLElement $xml = null)
     {
@@ -140,6 +151,7 @@ class BuildStatusController extends Controller
         if (is_null($status)) {
             $response = new b8\Http\Response\RedirectResponse();
             $response->setHeader('Location', '/');
+
             return $response;
         }
 
@@ -151,7 +163,7 @@ class BuildStatusController extends Controller
             $color,
             $style
         );
-        
+
         foreach ($optionalParams as $paramName => $param) {
             if ($param) {
                 $imageUrl .= '&' . $paramName . '=' . $param;
@@ -186,7 +198,7 @@ class BuildStatusController extends Controller
     {
         $project = $this->projectStore->getById($projectId);
 
-        if (empty($project) || !$project->getAllowPublicStatus() || $project->getArchived()) {
+        if (empty($project) || !$project->getAllowPublicStatus()) {
             throw new NotFoundException('Project with id: ' . $projectId . ' not found');
         }
 
@@ -196,7 +208,7 @@ class BuildStatusController extends Controller
             $this->view->latest = $builds[0];
         }
 
-        $this->view->builds = $builds;
+        $this->view->builds  = $builds;
         $this->view->project = $project;
 
         return $this->view->render();
@@ -204,12 +216,16 @@ class BuildStatusController extends Controller
 
     /**
      * Render latest builds for project as HTML table.
+     *
+     * @param integer $projectId
+     *
+     * @return array
      */
     protected function getLatestBuilds($projectId)
     {
-        $criteria       = ['project_id' => $projectId];
-        $order          = ['id' => 'DESC'];
-        $builds         = $this->buildStore->getWhere($criteria, 10, 0, [], $order);
+        $criteria = ['project_id' => $projectId];
+        $order    = ['id' => 'DESC'];
+        $builds   = $this->buildStore->getWhere($criteria, 10, 0, [], $order);
 
         foreach ($builds['items'] as &$build) {
             $build = BuildFactory::getBuild($build);
