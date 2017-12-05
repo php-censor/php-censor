@@ -7,6 +7,7 @@ use b8\View;
 class Template extends View
 {
     public static $templateFunctions = [];
+
     protected static $extension = 'html';
 
     public function __construct($viewCode)
@@ -222,10 +223,19 @@ class Template extends View
     {
         $matches = [];
 
-        if (preg_match('/([a-zA-Z0-9_\-\(\):\s.\"]+)\s+?([\!\=\<\>]+)?\s+?([a-zA-Z0-9\(\)_\-:\s.\"]+)?/', $condition,
-            $matches)) {
-            $left = is_numeric($matches[1]) ? intval($matches[1]) : $this->processVariableName($matches[1]);
-            $right = is_numeric($matches[3]) ? intval($matches[3]) : $this->processVariableName($matches[3]);
+        if (preg_match(
+            '/([a-zA-Z0-9_\-\(\):\s.\"]+)\s+?([\!\=\<\>]+)?\s+?([a-zA-Z0-9\(\)_\-:\s.\"]+)?/',
+            $condition,
+            $matches
+        )) {
+            $left = is_numeric($matches[1])
+                ? intval($matches[1])
+                : $this->processVariableName($matches[1]);
+
+            $right = is_numeric($matches[3])
+                ? intval($matches[3])
+                : $this->processVariableName($matches[3]);
+
             $operator = $matches[2];
 
             switch ($operator) {
@@ -374,7 +384,6 @@ class Template extends View
     {
         // Case one - Test for function calls:
         if (substr($varName, 0, 1) == '(' && substr($varName, -1) == ')') {
-
             $functionCall = substr($varName, 1, -1);
             $parts = explode(' ', $functionCall, 2);
             $functionName = $parts[0];
@@ -469,7 +478,8 @@ class Template extends View
     {
         if (array_key_exists($function, self::$templateFunctions)) {
             $handler = self::$templateFunctions[$function];
-            $args = $this->processFunctionArguments($args);
+            $args    = $this->processFunctionArguments($args);
+
             return $handler($args, $this);
         }
 
@@ -478,15 +488,13 @@ class Template extends View
 
     protected function processFunctionArguments($args)
     {
-        $rtn = [];
-
+        $rtn  = [];
         $args = explode(';', $args);
 
         foreach ($args as $arg) {
             $arg = explode(':', $arg);
 
             if (count($arg) == 2) {
-
                 $key = trim($arg[0]);
                 $val = trim($arg[1]);
 
@@ -516,7 +524,6 @@ class Template extends View
             }
 
             foreach ($args['variables'] as $variable) {
-
                 $variable = explode('=>', $variable);
                 $variable = array_map('trim', $variable);
 
@@ -533,7 +540,7 @@ class Template extends View
 
     protected function callHelperFunction($args)
     {
-        $helper = $args['helper'];
+        $helper   = $args['helper'];
         $function = $args['method'];
 
         return $this->{$helper}()->{$function}();

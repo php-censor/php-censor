@@ -188,7 +188,6 @@ class Config
                 } elseif (is_array($source[$target_key]) && is_array($target_value)) {
                     // Both are arrays, deep merge them
                     self::deepMerge($source[$target_key], $target_value);
-
                 } elseif (is_array($source[$target_key])) {
                     // Source is the array, push target value
                     $source[$target_key][] = $target_value;

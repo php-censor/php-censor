@@ -55,8 +55,10 @@ class ScheduleBuildCommand extends Command
     {
         $this
             ->setName('php-censor:schedule-build')
-            ->setDescription('Schedules a build for active projects which have not been ran by X days')
-            ->addArgument('days', InputArgument::REQUIRED, 'Since specified days');
+
+            ->addArgument('days', InputArgument::REQUIRED, 'Since specified days')
+
+            ->setDescription('Schedules a build for active projects which have not been ran by X days');
     }
 
     /**
