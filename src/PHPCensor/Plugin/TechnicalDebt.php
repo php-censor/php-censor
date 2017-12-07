@@ -53,7 +53,7 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
     {
         return 'technical_debt';
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -133,9 +133,9 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
     /**
      * Gets the number and list of errors returned from the search
      *
-     * @return array
+     * @return integer
      */
-    public function getErrorList()
+    protected function getErrorList()
     {
         $dirIterator = new \RecursiveDirectoryIterator($this->directory);
         $iterator    = new \RecursiveIteratorIterator($dirIterator, \RecursiveIteratorIterator::SELF_FIRST);
@@ -166,34 +166,38 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
             }
         }
 
-        $files = array_filter(array_unique($files));
+        $files      = array_filter(array_unique($files));
         $errorCount = 0;
 
         foreach ($files as $file) {
-            foreach ($this->searches as $search) {
-                $fileContent = file_get_contents($file);
-                $allLines = explode(PHP_EOL, $fileContent);
-                $beforeString = strstr($fileContent, $search, true);
+            $handle     = fopen($file, "r");
+            $lineNumber = 1;
+            while (false === feof($handle)) {
+                $line = fgets($handle);
 
-                if (false !== $beforeString) {
-                    $lines = explode(PHP_EOL, $beforeString);
-                    $lineNumber = count($lines);
-                    $content = trim($allLines[$lineNumber - 1]);
+                $technicalDeptLine = false;
+                foreach ($this->searches as $search) {
+                    if ($technicalDeptLine = trim(strstr($line, $search))) {
+                        break;
+                    }
+                }
 
-                    $errorCount++;
-
+                if ($technicalDeptLine) {
                     $fileName = str_replace($this->directory, '', $file);
 
                     $this->build->reportError(
                         $this->builder,
                         'technical_debt',
-                        $content,
+                        $technicalDeptLine,
                         PHPCensor\Model\BuildError::SEVERITY_LOW,
                         $fileName,
                         $lineNumber
                     );
                 }
+
+                $lineNumber++;
             }
+            fclose ($handle);
         }
 
         return $errorCount;
