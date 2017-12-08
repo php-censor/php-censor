@@ -175,24 +175,19 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
             while (false === feof($handle)) {
                 $line = fgets($handle);
 
-                $technicalDeptLine = false;
                 foreach ($this->searches as $search) {
                     if ($technicalDeptLine = trim(strstr($line, $search))) {
-                        break;
+                        $fileName = str_replace($this->directory, '', $file);
+
+                        $this->build->reportError(
+                            $this->builder,
+                            'technical_debt',
+                            $technicalDeptLine,
+                            PHPCensor\Model\BuildError::SEVERITY_LOW,
+                            $fileName,
+                            $lineNumber
+                        );
                     }
-                }
-
-                if ($technicalDeptLine) {
-                    $fileName = str_replace($this->directory, '', $file);
-
-                    $this->build->reportError(
-                        $this->builder,
-                        'technical_debt',
-                        $technicalDeptLine,
-                        PHPCensor\Model\BuildError::SEVERITY_LOW,
-                        $fileName,
-                        $lineNumber
-                    );
                 }
 
                 $lineNumber++;
