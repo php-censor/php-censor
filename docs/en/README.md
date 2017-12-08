@@ -63,7 +63,7 @@ Plugins
 * [PHP Unit](plugins/php_unit.md) - `php_unit`
 * [Shell](plugins/shell.md) - `shell`
 * [Slack](plugins/slack_notify.md) - `slack_notify`
-* [Technical Debt](plugins/technical_dept.md) - `technical_debt`
+* [Technical Debt](plugins/technical_debt.md) - `technical_debt`
 * [Security Checker](plugins/security_checker.md) - SensioLabs Security Checker Plugin (`security_checker`).
 * [XMPP](plugins/xmpp.md) - `xmpp`
 

@@ -1,4 +1,4 @@
-Plugin Technical Dept
+Plugin Technical Debt
 =====================
 
 Checks all files in your project for TODOs and other technical debt.
