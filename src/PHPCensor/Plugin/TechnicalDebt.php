@@ -187,6 +187,8 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
                             $fileName,
                             $lineNumber
                         );
+
+                        $errorCount++;
                     }
                 }
 
