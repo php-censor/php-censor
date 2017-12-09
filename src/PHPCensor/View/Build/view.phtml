@@ -37,7 +37,7 @@ use PHPCensor\Model\BuildError;
                             <a target="_blank" href="<?= $build->getBranchLink(); ?>">
                                 <i class="fa fa-code-fork"></i> <?= $build->getBranch(); ?>
                             </a>
-                            <?php if ($tag = $build->getTag()): ?> / 
+                            <?php if ($tag = $build->getTag()): ?> /
                                 <a target="_blank" href="<?= $build->getTagLink(); ?>">
                                     <i class="fa fa-tag"></i> <?= $tag; ?>
                                 </a>
@@ -253,6 +253,7 @@ use PHPCensor\Model\BuildError;
             <table class="errors-table table table-hover">
                 <thead>
                     <tr>
+                        <th><?php Lang::out('is_new'); ?></th>
                         <th><?php Lang::out('severity'); ?></th>
                         <th><?php Lang::out('plugin'); ?></th>
                         <th><?php Lang::out('file'); ?></th>

@@ -40,6 +40,8 @@ class BuildError extends Model
         'severity'     => null,
         'message'      => null,
         'create_date'  => null,
+        'hash'         => null,
+        'is_new'       => null,
     ];
 
     /**
@@ -56,6 +58,8 @@ class BuildError extends Model
         'severity'     => 'getSeverity',
         'message'      => 'getMessage',
         'create_date'  => 'getCreateDate',
+        'hash'         => 'getHash',
+        'is_new'       => 'getIsNew',
 
         // Foreign key getters:
         'Build' => 'getBuild',
@@ -75,6 +79,8 @@ class BuildError extends Model
         'severity'     => 'setSeverity',
         'message'      => 'setMessage',
         'create_date'  => 'setCreateDate',
+        'hash'         => 'setHash',
+        'is_new'       => 'setIsNew',
 
         // Foreign key setters:
         'Build' => 'setBuild',
@@ -170,6 +176,26 @@ class BuildError extends Model
         if (!empty($rtn)) {
             $rtn = new \DateTime($rtn);
         }
+
+        return $rtn;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHash()
+    {
+        $rtn = (string)$this->data['hash'];
+
+        return $rtn;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIsNew()
+    {
+        $rtn = $this->data['is_new'];
 
         return $rtn;
     }
@@ -325,6 +351,40 @@ class BuildError extends Model
     }
 
     /**
+     * @param $value string
+     */
+    public function setHash($value)
+    {
+        $this->validateNotNull('hash', $value);
+        $this->validateString('hash', $value);
+
+        if ($this->data['hash'] === $value) {
+            return;
+        }
+
+        $this->data['hash'] = $value;
+
+        $this->setModified('hash');
+    }
+
+    /**
+     * @param $value int
+     */
+    public function setIsNew($value)
+    {
+        $this->validateNotNull('is_new', $value);
+        $this->validateInt('is_new', $value);
+
+        if ($this->data['is_new'] === $value) {
+            return;
+        }
+
+        $this->data['is_new'] = $value;
+
+        $this->setModified('is_new');
+    }
+
+    /**
      * Get the Build model for this BuildError by Id.
      *
      * @return \PHPCensor\Model\Build
@@ -423,6 +483,21 @@ class BuildError extends Model
             case self::SEVERITY_LOW:
                 return 'low';
         }
+    }
+
+    /**
+     * @param string  $plugin
+     * @param string  $file
+     * @param integer $lineStart
+     * @param integer $lineEnd
+     * @param integer $severity
+     * @param string  $message
+     *
+     * @return string
+     */
+    public static function generateHash($plugin, $file, $lineStart, $lineEnd, $severity, $message)
+    {
+        return md5($plugin . $file . $lineStart . $lineEnd . $severity . $message);
     }
 
     /**

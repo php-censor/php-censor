@@ -201,7 +201,7 @@ class BuildErrorStore extends Store
      */
     public function getKnownSeverities($buildId, $plugin = '')
     {
-        $query = 'SELECT DISTINCT {{severity}} from {{build_error}} WHERE {{build_id}} = :build';
+        $query = 'SELECT DISTINCT {{severity}} FROM {{build_error}} WHERE {{build_id}} = :build';
         if ($plugin) {
             $query .= ' AND {{plugin}} = :plugin';
         }
@@ -224,5 +224,29 @@ class BuildErrorStore extends Store
         } else {
             return [];
         }
+    }
+
+    /**
+     * Check if a build error is new.
+     *
+     * @param string $hash
+     *
+     * @return boolean
+     */
+    public function getIsNewError($hash)
+    {
+        $query = 'SELECT COUNT(*) AS {{total}} FROM {{build_error}} WHERE {{hash}} = :hash';
+
+        $stmt = Database::getConnection('read')->prepareCommon($query);
+
+        $stmt->bindValue(':hash', $hash);
+
+        if ($stmt->execute()) {
+            $res = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+            return (0 === $res['total']);
+        }
+
+        return true;
     }
 }

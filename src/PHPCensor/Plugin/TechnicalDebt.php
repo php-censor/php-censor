@@ -53,7 +53,7 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
     {
         return 'technical_debt';
     }
-    
+
     /**
      * {@inheritdoc}
      */

@@ -14,19 +14,24 @@ foreach ($errors as $error):
 
    <tr>
        <td>
-           <span class="label label-<?php print $error->getSeverityClass(); ?>">
-               <?php print Lang::get($error->getSeverityString()); ?>
+           <?php if ($error->getIsNew()): ?>
+               <span class="label label-danger"><?= Lang::get('new'); ?></span>
+           <?php endif; ?>
+       </td>
+       <td>
+           <span class="label label-<?= $error->getSeverityClass(); ?>">
+               <?= Lang::get($error->getSeverityString()); ?>
            </span>
        </td>
-       <td><?php print Lang::get($error->getPlugin()); ?></td>
-       <td><a href="<?php print $link; ?>" target="_blank"><?php print $error->getFile(); ?></a></td>
+       <td><?= Lang::get($error->getPlugin()); ?></td>
+       <td><a href="<?php print $link; ?>" target="_blank"><?= $error->getFile(); ?></a></td>
        <td>
            <a href="<?php print $link; ?>" target="_blank">
            <?php
            if ($error->getLineStart() == $error->getLineEnd() || !$error->getLineEnd()) {
-               print $error->getLineStart();
+               echo $error->getLineStart();
            } else {
-               print $error->getLineStart() . ' - ' . $error->getLineEnd();
+               echo ($error->getLineStart() . ' - ' . $error->getLineEnd());
            }
            ?>
            </a>

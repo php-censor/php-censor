@@ -175,6 +175,8 @@ PHP Censor',
     // View Build
     'errors'            => 'Ошибки',
     'information'       => 'Информация',
+    'new'               => 'Новая',
+    'is_new'            => 'Новая?',
     'build_x_not_found' => 'Сборки с ID %d не существует.',
     'build_n'           => 'Сборка %d',
     'rebuild_now'       => 'Пересобрать сейчас',
@@ -352,7 +354,7 @@ PHP Censor',
     'passing_build' => 'Успех сборки',
     'failing_build' => 'Провал сборки',
     'log_output' => 'Вывод лога: ',
-    
+
     // Error Levels:
     'critical' => 'Критичный',
     'high'     => 'Высокий',
