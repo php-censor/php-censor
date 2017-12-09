@@ -79,7 +79,7 @@ class BuildErrorStore extends Store
      *
      * @throws HttpException
      */
-    public function getByBuildId($buildId, $limit = null, $offset = 0, $plugin = null, $severity = null)
+    public function getByBuildId($buildId, $limit = null, $offset = 0, $plugin = null, $severity = null, $isNew = null)
     {
         if (is_null($buildId)) {
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
@@ -92,7 +92,14 @@ class BuildErrorStore extends Store
         if (null !== $severity) {
             $query .= ' AND {{severity}} = :severity';
         }
-        $query .= ' ORDER BY plugin, severity';
+
+        if ('only_new' === $isNew) {
+            $query .= ' AND {{is_new}} = true';
+        } elseif ('only_old' === $isNew) {
+            $query .= ' AND {{is_new}} = false';
+        }
+
+        $query .= ' ORDER BY is_new, severity, plugin';
         if (null !== $limit) {
             $query .= ' LIMIT :limit';
         }
@@ -139,22 +146,32 @@ class BuildErrorStore extends Store
      *
      * @return integer
      */
-    public function getErrorTotalForBuild($buildId, $plugin = null, $severity = null)
+    public function getErrorTotalForBuild($buildId, $plugin = null, $severity = null, $isNew = null)
     {
         $query = 'SELECT COUNT(*) AS {{total}} FROM {{build_error}} WHERE {{build_id}} = :build';
+
         if ($plugin) {
             $query .= ' AND {{plugin}} = :plugin';
         }
+
         if (null !== $severity) {
             $query .= ' AND {{severity}} = :severity';
+        }
+
+        if ('only_new' === $isNew) {
+            $query .= ' AND {{is_new}} = true';
+        } elseif ('only_old' === $isNew) {
+            $query .= ' AND {{is_new}} = false';
         }
 
         $stmt = Database::getConnection('read')->prepareCommon($query);
 
         $stmt->bindValue(':build', $buildId, \PDO::PARAM_INT);
+
         if ($plugin) {
             $stmt->bindValue(':plugin', $plugin, \PDO::PARAM_STR);
         }
+
         if (null !== $severity) {
             $stmt->bindValue(':severity', (integer)$severity, \PDO::PARAM_INT);
         }
@@ -170,14 +187,30 @@ class BuildErrorStore extends Store
 
     /**
      * @param integer $buildId
+     * @param integer $severity
+     * @param string  $isNew
      *
      * @return array
      */
-    public function getKnownPlugins($buildId)
+    public function getKnownPlugins($buildId, $severity = null, $isNew = '')
     {
         $query = 'SELECT DISTINCT {{plugin}} from {{build_error}} WHERE {{build_id}} = :build';
+
+        if (null !== $severity) {
+            $query .= ' AND {{severity}} = :severity';
+        }
+
+        if ('only_new' === $isNew) {
+            $query .= ' AND {{is_new}} = true';
+        } elseif ('only_old' === $isNew) {
+            $query .= ' AND {{is_new}} = false';
+        }
+
         $stmt = Database::getConnection('read')->prepareCommon($query);
         $stmt->bindValue(':build', $buildId);
+        if (null !== $severity) {
+            $stmt->bindValue(':severity', (integer)$severity, \PDO::PARAM_INT);
+        }
 
         if ($stmt->execute()) {
             $res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
@@ -196,14 +229,22 @@ class BuildErrorStore extends Store
     /**
      * @param integer $buildId
      * @param string  $plugin
+     * @param string  $isNew
      *
      * @return array
      */
-    public function getKnownSeverities($buildId, $plugin = '')
+    public function getKnownSeverities($buildId, $plugin = '', $isNew = '')
     {
         $query = 'SELECT DISTINCT {{severity}} FROM {{build_error}} WHERE {{build_id}} = :build';
+
         if ($plugin) {
             $query .= ' AND {{plugin}} = :plugin';
+        }
+
+        if ('only_new' === $isNew) {
+            $query .= ' AND {{is_new}} = true';
+        } elseif ('only_old' === $isNew) {
+            $query .= ' AND {{is_new}} = false';
         }
 
         $stmt = Database::getConnection('read')->prepareCommon($query);

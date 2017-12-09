@@ -188,6 +188,9 @@ PHP Censor',
     'build_n'           => 'Build %d',
     'rebuild_now'       => 'Rebuild Now',
 
+    'all_errors' => 'All errors',
+    'only_new'   => 'Only new errors',
+    'only_old'   => 'Only old errors',
 
     'committed_by_x' => 'Committed by %s',
     'commit_id_x' => 'Commit: %s',

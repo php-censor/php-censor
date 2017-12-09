@@ -181,6 +181,10 @@ PHP Censor',
     'build_n'           => 'Сборка %d',
     'rebuild_now'       => 'Пересобрать сейчас',
 
+    'all_errors' => 'Все ошибки',
+    'only_new'   => 'Только новые',
+    'only_old'   => 'Только старые',
+
     'committed_by_x' => 'Отправил %s',
     'commit_id_x' => 'Коммит: %s',
 
