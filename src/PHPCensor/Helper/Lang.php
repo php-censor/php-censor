@@ -134,9 +134,11 @@ class Lang
 
         /** @var User $user */
         $user = !empty($_SESSION['php-censor-user']) ? $_SESSION['php-censor-user'] : null;
-        if (!is_object($user) && gettype($user) == 'object') {
+
+        if ((!is_object($user) || get_class($user) == '__PHP_Incomplete_Class') && gettype($user) == 'object') {
             $user = unserialize(serialize($_SESSION['php-censor-user']));
         }
+
         if ($user) {
             $language = $user->getLanguage();
             if ($user && self::setLanguage($language)) {
