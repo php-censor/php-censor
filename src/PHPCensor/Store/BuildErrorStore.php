@@ -270,22 +270,27 @@ class BuildErrorStore extends Store
     /**
      * Check if a build error is new.
      *
-     * @param string $hash
+     * @param integer $projectId
+     * @param string  $hash
      *
      * @return boolean
      */
-    public function getIsNewError($hash)
+    public function getIsNewError($projectId, $hash)
     {
-        $query = 'SELECT COUNT(*) AS {{total}} FROM {{build_error}} WHERE {{hash}} = :hash';
+        $query = '
+            SELECT COUNT(*) AS {{total}} FROM {{build_error}} AS be
+                LEFT JOIN {{build}} AS b ON be.build_id = b.id
+                WHERE be.hash = :hash AND b.project_id = :project';
 
         $stmt = Database::getConnection('read')->prepareCommon($query);
 
+        $stmt->bindValue(':project', $projectId);
         $stmt->bindValue(':hash', $hash);
 
         if ($stmt->execute()) {
             $res = $stmt->fetch(\PDO::FETCH_ASSOC);
 
-            return (0 === $res['total']);
+            return (0 === (integer)$res['total']);
         }
 
         return true;

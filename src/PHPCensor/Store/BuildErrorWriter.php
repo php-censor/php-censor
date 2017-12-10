@@ -18,6 +18,11 @@ class BuildErrorWriter
     protected $buildId;
 
     /**
+     * @var integer
+     */
+    protected $projectId;
+
+    /**
      * @var array
      */
     protected $errors = [];
@@ -30,14 +35,15 @@ class BuildErrorWriter
     protected $bufferSize;
 
     /**
-     * BuildErrorWriter constructor.
-     *
-     * @param int $buildId
+     * @param integer $projectId
+     * @param integer $buildId
      */
-    public function __construct($buildId)
+    public function __construct($projectId, $buildId)
     {
         $this->bufferSize = (integer)Config::getInstance()->get('php-censor.build.writer_buffer_size', 500);
-        $this->buildId    = $buildId;
+
+        $this->projectId = $projectId;
+        $this->buildId   = $buildId;
     }
 
     /**
@@ -85,7 +91,7 @@ class BuildErrorWriter
             'line_end'    => !is_null($lineEnd) ? (int)$lineEnd : null,
             'create_date' => $createdDate->format('Y-m-d H:i:s'),
             'hash'        => $hash,
-            'is_new'      => (integer)$errorStore->getIsNewError($hash),
+            'is_new'      => $errorStore->getIsNewError($this->projectId, $hash) ? 1 : 0,
         ];
 
         if (count($this->errors) >= $this->bufferSize) {
