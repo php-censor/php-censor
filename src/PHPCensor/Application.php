@@ -21,8 +21,7 @@ class Application extends b8\Application
     /**
      * Initialise Application - Handles session verification, routing, etc.
      */
-    public function init()
-    {
+    public function init () {
         $request =& $this->request;
         $route   = '/:controller/:action';
         $opts    = ['controller' => 'Home', 'action' => 'index'];
@@ -39,7 +38,6 @@ class Application extends b8\Application
 
                 unset($_SESSION['php-censor-user-id']);
             }
-
             return false;
         };
 
