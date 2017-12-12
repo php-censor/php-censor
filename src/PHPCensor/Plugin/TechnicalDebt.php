@@ -31,12 +31,6 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
     protected $allowed_errors;
 
     /**
-     * @var string, based on the assumption the root may not hold the code to be
-     * tested, extends the base path
-     */
-    protected $path;
-
-    /**
      * @var array - paths to ignore
      */
     protected $ignore;
@@ -63,12 +57,15 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
 
         $this->suffixes       = ['php'];
         $this->directory      = $this->builder->buildPath;
-        $this->path           = '';
         $this->ignore         = $this->builder->ignore;
         $this->allowed_errors = 0;
         $this->searches       = ['TODO', 'FIXME', 'TO DO', 'FIX ME'];
 
-        if (isset($options['searches']) && is_array($options['searches'])) {
+        if (!empty($options['suffixes']) && is_array($options['suffixes'])) {
+            $this->suffixes = $options['suffixes'];
+        }
+
+        if (!empty($options['searches']) && is_array($options['searches'])) {
             $this->searches = $options['searches'];
         }
 
@@ -81,11 +78,12 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
 
     /**
      * Handle this plugin's options.
+     *
      * @param $options
      */
     protected function setOptions($options)
     {
-        foreach (array('directory', 'path', 'ignore', 'allowed_errors') as $key) {
+        foreach (['directory', 'ignore', 'allowed_errors'] as $key) {
             if (array_key_exists($key, $options)) {
                 $this->{$key} = $options[$key];
             }
@@ -95,10 +93,11 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
     /**
      * Check if this plugin can be executed.
      *
-     * @param $stage
+     * @param string  $stage
      * @param Builder $builder
-     * @param Build $build
-     * @return bool
+     * @param Build   $build
+     *
+     * @return boolean
      */
     public static function canExecute($stage, Builder $builder, Build $build)
     {
@@ -114,16 +113,14 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
     */
     public function execute()
     {
-        $success = true;
-        $this->builder->logExecOutput(false);
-
+        $success    = true;
         $errorCount = $this->getErrorList();
 
         $this->builder->log("Found $errorCount instances of " . implode(', ', $this->searches));
 
         $this->build->storeMeta('technical_debt-warnings', $errorCount);
 
-        if ($this->allowed_errors != -1 && $errorCount > $this->allowed_errors) {
+        if ($this->allowed_errors !== -1 && $errorCount > $this->allowed_errors) {
             $success = false;
         }
 
@@ -137,64 +134,64 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
      */
     protected function getErrorList()
     {
-        $dirIterator = new \RecursiveDirectoryIterator($this->directory);
-        $iterator    = new \RecursiveIteratorIterator($dirIterator, \RecursiveIteratorIterator::SELF_FIRST);
-        $files       = [];
+        $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($this->directory));
 
-        $ignores   = $this->ignore;
-        $ignores[] = '.php-censor.yml';
-        $ignores[] = 'phpci.yml';
-        $ignores[] = '.phpci.yml';
+        $errorCount = 0;
 
+        /** @var \SplFileInfo $file */
         foreach ($iterator as $file) {
-            $filePath = $file->getRealPath();
-            $skipFile = false;
-            foreach ($ignores as $ignore) {
-                if (stripos($filePath, $ignore) !== false) {
-                    $skipFile = true;
+            $filePath  = $file->getRealPath();
+            $extension = $file->getExtension();
+
+            $ignored = false;
+            foreach ($this->suffixes as $suffix) {
+                if ($suffix !== $extension) {
+                    $ignored = true;
                     break;
                 }
             }
 
-            // Ignore hidden files, else .git, .sass_cache, etc. all get looped over
-            if (stripos($filePath, DIRECTORY_SEPARATOR . '.') !== false) {
-                $skipFile = true;
-            }
-
-            if ($skipFile === false) {
-                $files[] = $file->getRealPath();
-            }
-        }
-
-        $files      = array_filter(array_unique($files));
-        $errorCount = 0;
-
-        foreach ($files as $file) {
-            $handle     = fopen($file, "r");
-            $lineNumber = 1;
-            while (false === feof($handle)) {
-                $line = fgets($handle);
-
-                foreach ($this->searches as $search) {
-                    if ($technicalDeptLine = trim(strstr($line, $search))) {
-                        $fileName = str_replace($this->directory, '', $file);
-
-                        $this->build->reportError(
-                            $this->builder,
-                            'technical_debt',
-                            $technicalDeptLine,
-                            PHPCensor\Model\BuildError::SEVERITY_LOW,
-                            $fileName,
-                            $lineNumber
-                        );
-
-                        $errorCount++;
+            foreach ($this->ignore as $ignore) {
+                if ('/' === $ignore{0}) {
+                    if (0 === strpos($filePath, $ignore)) {
+                        $ignored = true;
+                        break;
+                    }
+                } else {
+                    if (false !== strpos($filePath, $ignore)) {
+                        $ignored = true;
+                        break;
                     }
                 }
-
-                $lineNumber++;
             }
-            fclose ($handle);
+
+            if (!$ignored) {
+                $handle     = fopen($filePath, "r");
+                $lineNumber = 1;
+                while (false === feof($handle)) {
+                    $line = fgets($handle);
+
+                    foreach ($this->searches as $search) {
+                        if ($technicalDeptLine = trim(strstr($line, $search))) {
+                            $fileName = str_replace($this->directory, '', $filePath);
+
+                            $this->build->reportError(
+                                $this->builder,
+                                'technical_debt',
+                                $technicalDeptLine,
+                                PHPCensor\Model\BuildError::SEVERITY_LOW,
+                                $fileName,
+                                $lineNumber
+                            );
+
+                            $errorCount++;
+                        }
+                    }
+
+                    $lineNumber++;
+                }
+                fclose ($handle);
+            }
         }
 
         return $errorCount;
