@@ -4,6 +4,8 @@ namespace PHPCensor\Store;
 
 use b8\Config;
 use b8\Database;
+use PHPCensor\Model\BuildError;
+use b8\Store\Factory;
 
 /**
  * Class BuildErrorWriter
@@ -14,6 +16,11 @@ class BuildErrorWriter
      * @var integer
      */
     protected $buildId;
+
+    /**
+     * @var integer
+     */
+    protected $projectId;
 
     /**
      * @var array
@@ -28,14 +35,15 @@ class BuildErrorWriter
     protected $bufferSize;
 
     /**
-     * BuildErrorWriter constructor.
-     *
-     * @param int $buildId
+     * @param integer $projectId
+     * @param integer $buildId
      */
-    public function __construct($buildId)
+    public function __construct($projectId, $buildId)
     {
         $this->bufferSize = (integer)Config::getInstance()->get('php-censor.build.writer_buffer_size', 500);
-        $this->buildId    = $buildId;
+
+        $this->projectId = $projectId;
+        $this->buildId   = $buildId;
     }
 
     /**
@@ -69,6 +77,11 @@ class BuildErrorWriter
         if (is_null($createdDate)) {
             $createdDate = new \DateTime();
         }
+
+        /** @var BuildErrorStore $errorStore */
+        $errorStore = Factory::getStore('BuildError');
+        $hash       = BuildError::generateHash($plugin, $file, $lineStart, $lineEnd, $severity, $message);
+
         $this->errors[] = [
             'plugin'      => (string)$plugin,
             'message'     => (string)$message,
@@ -77,6 +90,8 @@ class BuildErrorWriter
             'line_start'  => !is_null($lineStart) ? (int)$lineStart : null,
             'line_end'    => !is_null($lineEnd) ? (int)$lineEnd : null,
             'create_date' => $createdDate->format('Y-m-d H:i:s'),
+            'hash'        => $hash,
+            'is_new'      => $errorStore->getIsNewError($this->projectId, $hash) ? 1 : 0,
         ];
 
         if (count($this->errors) >= $this->bufferSize) {
@@ -104,7 +119,9 @@ class BuildErrorWriter
                 :line_end' . $i . ',
                 :severity' . $i . ',
                 :message' . $i . ',
-                :create_date' . $i . '
+                :create_date' . $i . ',
+                :hash' . $i . ',
+                :is_new' . $i . '
             )';
             $insertValuesData['build_id' . $i]    = $this->buildId;
             $insertValuesData['plugin' . $i]      = $error['plugin'];
@@ -114,6 +131,8 @@ class BuildErrorWriter
             $insertValuesData['severity' . $i]    = $error['severity'];
             $insertValuesData['message' . $i]     = $error['message'];
             $insertValuesData['create_date' . $i] = $error['create_date'];
+            $insertValuesData['hash' . $i]        = $error['hash'];
+            $insertValuesData['is_new' . $i]      = $error['is_new'];
         }
         $query = '
             INSERT INTO {{build_error}} (
@@ -124,12 +143,15 @@ class BuildErrorWriter
                 {{line_end}},
                 {{severity}},
                 {{message}},
-                {{create_date}}
+                {{create_date}},
+                {{hash}},
+                {{is_new}}
             )
             VALUES ' . join(', ', $insertValuesPlaceholders) . '
         ';
         $stmt = Database::getConnection('write')->prepareCommon($query);
         $stmt->execute($insertValuesData);
+
         $this->errors = [];
     }
 }

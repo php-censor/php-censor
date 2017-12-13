@@ -17,7 +17,7 @@ use PHPCensor\Controller;
 
 /**
  * Build Controller - Allows users to run and view builds.
- * 
+ *
  * @author Dan Cryer <dan@block8.co.uk>
  */
 class BuildController extends Controller
@@ -52,6 +52,7 @@ class BuildController extends Controller
     {
         $page   = (integer)$this->getParam('page', 1);
         $plugin = $this->getParam('plugin', '');
+        $isNew  = $this->getParam('is_new', '');
 
         $severity = $this->getParam('severity', null);
         if (null !== $severity && '' !== $severity) {
@@ -73,7 +74,7 @@ class BuildController extends Controller
         /** @var User $user */
         $user    = $_SESSION['php-censor-user'];
         $perPage = $user->getFinalPerPage();
-        $data    = $this->getBuildData($build, $plugin, $severity, (($page - 1) * $perPage), $perPage);
+        $data    = $this->getBuildData($build, $plugin, $severity, $isNew, (($page - 1) * $perPage), $perPage);
         $pages   = ($data['errors'] === 0)
             ? 1
             : (integer)ceil($data['errors'] / $perPage);
@@ -90,13 +91,15 @@ class BuildController extends Controller
         $this->view->data      = $data;
 
         $this->view->plugin     = urldecode($plugin);
-        $this->view->plugins    = $errorStore->getKnownPlugins($buildId);
+        $this->view->plugins    = $errorStore->getKnownPlugins($buildId, $severity, $isNew);
         $this->view->severity   = urldecode(null !== $severity ? $severity : '');
-        $this->view->severities = $errorStore->getKnownSeverities($buildId, $plugin);
+        $this->view->severities = $errorStore->getKnownSeverities($buildId, $plugin, $isNew);
+        $this->view->isNew      = urldecode($isNew);
+        $this->view->isNews     = ['only_new', 'only_old'];
 
         $this->view->page      = $page;
         $this->view->perPage   = $perPage;
-        $this->view->paginator = $this->getPaginatorHtml($buildId, $plugin, $severity, $data['errors'], $perPage, $page);
+        $this->view->paginator = $this->getPaginatorHtml($buildId, $plugin, $severity, $isNew, $data['errors'], $perPage, $page);
 
         $this->layout->title = Lang::get('build_n', $buildId);
         $this->layout->subtitle = $build->getProjectTitle();
@@ -124,7 +127,7 @@ class BuildController extends Controller
 
         $delete = Lang::get('delete_build');
         $deleteLink = APP_URL . 'build/delete/' . $build->getId();
-        
+
         $project = b8\Store\Factory::getStore('Project')->getByPrimaryKey($build->getProjectId());
 
         $actions = '';
@@ -166,12 +169,13 @@ class BuildController extends Controller
      * @param Build   $build
      * @param string  $plugin
      * @param integer $severity
+     * @param string  $isNew
      * @param integer $start
      * @param integer $perPage
      *
      * @return array
      */
-    protected function getBuildData(Build $build, $plugin, $severity, $start = 0, $perPage = 10)
+    protected function getBuildData(Build $build, $plugin, $severity, $isNew, $start = 0, $perPage = 10)
     {
         $data                = [];
         $data['status']      = (int)$build->getStatus();
@@ -183,13 +187,13 @@ class BuildController extends Controller
 
         /** @var \PHPCensor\Store\BuildErrorStore $errorStore */
         $errorStore = b8\Store\Factory::getStore('BuildError');
-        $errors     = $errorStore->getByBuildId($build->getId(), $perPage, $start, $plugin, $severity);
+        $errors     = $errorStore->getByBuildId($build->getId(), $perPage, $start, $plugin, $severity, $isNew);
 
         $errorView         = new b8\View('Build/errors');
         $errorView->build  = $build;
         $errorView->errors = $errors['items'];
 
-        $data['errors']       = $errorStore->getErrorTotalForBuild($build->getId(), $plugin, $severity);
+        $data['errors']       = $errorStore->getErrorTotalForBuild($build->getId(), $plugin, $severity, $isNew);
         $data['errors_total'] = $errorStore->getErrorTotalForBuild($build->getId());
         $data['error_html']   = $errorView->render();
 
@@ -200,13 +204,14 @@ class BuildController extends Controller
      * @param integer $buildId
      * @param string  $plugin
      * @param integer $severity
+     * @param string  $isNew
      * @param integer $total
      * @param integer $perPage
      * @param integer $page
      *
      * @return string
      */
-    protected function getPaginatorHtml($buildId, $plugin, $severity, $total, $perPage, $page)
+    protected function getPaginatorHtml($buildId, $plugin, $severity, $isNew, $total, $perPage, $page)
     {
         $view = new b8\View('pagination');
 
@@ -218,6 +223,10 @@ class BuildController extends Controller
 
         if (null !== $severity) {
             $params['severity'] = $severity;
+        }
+
+        if (!empty($isNew)) {
+            $params['is_new'] = $isNew;
         }
 
         $urlPattern = $urlPattern . '?' . str_replace('%28%3Anum%29', '(:num)', http_build_query(array_merge($params, ['page' => '(:num)']))) . '#errors';
@@ -313,6 +322,7 @@ class BuildController extends Controller
         $page    = (integer)$this->getParam('page', 1);
         $perPage = (integer)$this->getParam('per_page', 10);
         $plugin  = $this->getParam('plugin', '');
+        $isNew   = $this->getParam('is_new', '');
 
         $severity = $this->getParam('severity', null);
         if (null !== $severity && '' !== $severity) {
@@ -327,12 +337,12 @@ class BuildController extends Controller
         if (!$build) {
             $response->setResponseCode(404);
             $response->setContent([]);
-    
+
             return $response;
         }
 
-        $data              = $this->getBuildData($build, $plugin, $severity, (($page - 1) * $perPage), $perPage);
-        $data['paginator'] = $this->getPaginatorHtml($buildId, $plugin, $severity, $data['errors'], $perPage, $page);
+        $data              = $this->getBuildData($build, $plugin, $severity, $isNew, (($page - 1) * $perPage), $perPage);
+        $data['paginator'] = $this->getPaginatorHtml($buildId, $plugin, $severity, $isNew, $data['errors'], $perPage, $page);
 
         $response->setContent($data);
 

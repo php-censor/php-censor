@@ -37,7 +37,7 @@ use PHPCensor\Model\BuildError;
                             <a target="_blank" href="<?= $build->getBranchLink(); ?>">
                                 <i class="fa fa-code-fork"></i> <?= $build->getBranch(); ?>
                             </a>
-                            <?php if ($tag = $build->getTag()): ?> / 
+                            <?php if ($tag = $build->getTag()): ?> /
                                 <a target="_blank" href="<?= $build->getTagLink(); ?>">
                                     <i class="fa fa-tag"></i> <?= $tag; ?>
                                 </a>
@@ -203,6 +203,31 @@ use PHPCensor\Model\BuildError;
 
                         <div class="btn-group">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                <?php if (!empty($isNew)) {
+                                    echo Lang::get($isNew);
+                                } else {
+                                    echo Lang::get('all_errors');
+                                } ?>&nbsp;&nbsp;<span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a href="<?= APP_URL; ?>build/view/<?= $build->getId(); ?>?plugin=<?= urlencode($plugin); ?>&severity=<?= urlencode($severity); ?>#errors"><?= Lang::get('all_errors'); ?></a>
+                                </li>
+                                <li class="divider"></li>
+
+                                <?php if(!empty($isNews)): ?>
+                                    <?php foreach ($isNews as $currentIsNew) : ?>
+                                        <li <?= ($currentIsNew === $isNew) ? 'class="active"' : ''; ?>>
+                                            <a href="<?= APP_URL; ?>build/view/<?= $build->getId(); ?>?is_new=<?= urlencode($currentIsNew); ?>&plugin=<?= urlencode($plugin); ?>&severity=<?= urlencode($severity); ?>#errors">
+                                                <?= Lang::get($currentIsNew); ?>
+                                            </a>
+                                        </li>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </ul>
+                        </div>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                                 <?php if (!empty($plugin)) {
                                     echo Lang::get('plugin') . ': ' . Lang::get($plugin);
                                 } else {
@@ -210,13 +235,15 @@ use PHPCensor\Model\BuildError;
                                 } ?>&nbsp;&nbsp;<span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="<?= APP_URL; ?>build/view/<?= $build->getId(); ?>?severity=<?= urlencode($severity); ?>#errors"><?= Lang::get('all_plugins'); ?></a></li>
+                                <li>
+                                    <a href="<?= APP_URL; ?>build/view/<?= $build->getId(); ?>?is_new=<?= urlencode($isNew); ?>&severity=<?= urlencode($severity); ?>#errors"><?= Lang::get('all_plugins'); ?></a>
+                                </li>
                                 <li class="divider"></li>
 
                                 <?php if(!empty($plugins)): ?>
                                     <?php foreach ($plugins as $currentPlugin) : ?>
                                         <li <?= ($currentPlugin === $plugin) ? 'class="active"' : ''; ?>>
-                                            <a href="<?= APP_URL; ?>build/view/<?= $build->getId(); ?>?plugin=<?= urlencode($currentPlugin); ?>&severity=<?= urlencode($severity); ?>#errors">
+                                            <a href="<?= APP_URL; ?>build/view/<?= $build->getId(); ?>?is_new=<?= urlencode($isNew); ?>&plugin=<?= urlencode($currentPlugin); ?>&severity=<?= urlencode($severity); ?>#errors">
                                                 <?= Lang::get($currentPlugin); ?>
                                             </a>
                                         </li>
@@ -233,13 +260,15 @@ use PHPCensor\Model\BuildError;
                                 } ?>&nbsp;&nbsp;<span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="<?= APP_URL; ?>build/view/<?= $build->getId(); ?>?plugin=<?= urlencode($plugin); ?>#errors"><?= Lang::get('all_severities'); ?></a></li>
+                                <li>
+                                    <a href="<?= APP_URL; ?>build/view/<?= $build->getId(); ?>?is_new=<?= urlencode($isNew); ?>&plugin=<?= urlencode($plugin); ?>#errors"><?= Lang::get('all_severities'); ?></a>
+                                </li>
                                 <li class="divider"></li>
 
                                 <?php if(!empty($severities)): ?>
                                     <?php foreach ($severities as $currentSeverity) : ?>
                                         <li <?= ($currentSeverity === $severity) ? 'class="active"' : ''; ?>>
-                                            <a href="<?= APP_URL; ?>build/view/<?= $build->getId(); ?>?plugin=<?= urlencode($plugin); ?>&severity=<?= urlencode($currentSeverity); ?>#errors">
+                                            <a href="<?= APP_URL; ?>build/view/<?= $build->getId(); ?>?is_new=<?= urlencode($isNew); ?>&plugin=<?= urlencode($plugin); ?>&severity=<?= urlencode($currentSeverity); ?>#errors">
                                                 <?= Lang::get(BuildError::getSeverityName($currentSeverity)); ?>
                                             </a>
                                         </li>
@@ -253,6 +282,7 @@ use PHPCensor\Model\BuildError;
             <table class="errors-table table table-hover">
                 <thead>
                     <tr>
+                        <th><?php Lang::out('is_new'); ?></th>
                         <th><?php Lang::out('severity'); ?></th>
                         <th><?php Lang::out('plugin'); ?></th>
                         <th><?php Lang::out('file'); ?></th>
@@ -281,6 +311,7 @@ use PHPCensor\Model\BuildError;
     var PAGE           = <?= $page; ?>;
     var BUILD_PLUGIN   = '<?= $plugin; ?>';
     var BUILD_SEVERITY = '<?= $severity; ?>';
+    var BUILD_IS_NEW   = '<?= $isNew; ?>';
 
     var ActiveBuild = new Build(<?= $build->getId(); ?>);
     ActiveBuild.setupBuild(<?= json_encode($data); ?>, <?= json_encode($build->getFileLinkTemplate()); ?>);

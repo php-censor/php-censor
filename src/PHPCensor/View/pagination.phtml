@@ -23,6 +23,6 @@ use PHPCensor\Helper\Lang;
     <?php endforeach; ?>
 
     <?php if ($paginator->getNextUrl()): ?>
-        <li><a href="<?php echo $paginator->getNextUrl(); ?>"><?= Lang::get('prev_link'); ?></a></li>
+        <li><a href="<?php echo $paginator->getNextUrl(); ?>"><?= Lang::get('next_link'); ?></a></li>
     <?php endif; ?>
 </ul>

@@ -3,6 +3,7 @@
 namespace PHPCensor\Model;
 
 use PHPCensor\Builder;
+use PHPCensor\Store\BuildErrorStore;
 use Symfony\Component\Yaml\Parser as YamlParser;
 use PHPCensor\Model;
 use b8\Store\Factory;
@@ -20,12 +21,12 @@ class Build extends Model
     const STAGE_FAILURE  = 'failure';
     const STAGE_FIXED    = 'fixed';
     const STAGE_BROKEN   = 'broken';
-    
+
     const STATUS_PENDING = 0;
     const STATUS_RUNNING = 1;
     const STATUS_SUCCESS = 2;
     const STATUS_FAILED  = 3;
-    
+
     const SOURCE_UNKNOWN        = 0;
     const SOURCE_MANUAL_WEB     = 1;
     const SOURCE_MANUAL_CONSOLE = 2;
@@ -46,6 +47,11 @@ class Build extends Model
      * @var string
      */
     protected $modelName = 'Build';
+
+    /**
+     * @var integer
+     */
+    protected $newErrorsCount = null;
 
     /**
      * @var array
@@ -1041,5 +1047,20 @@ OUT;
             default:
                 return 'source_unknown';
         }
+    }
+
+    /**
+     * @return integer
+     */
+    public function getNewErrorsCount()
+    {
+        if (null === $this->newErrorsCount) {
+            /** @var BuildErrorStore $store */
+            $store = Factory::getStore('BuildError');
+
+            $this->newErrorsCount = $store->getNewErrorsCount($this->getId());
+        }
+
+        return $this->newErrorsCount;
     }
 }

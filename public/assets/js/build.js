@@ -74,7 +74,7 @@ var Build = Class.extend({
             var fullUri = window.APP_URL + uri;
 
             if (name == 'build-updated') {
-                fullUri = window.APP_URL + 'build/ajax-data/' + self.buildId + '?per_page=' + PER_PAGE + '&page=' + PAGE  + '&plugin=' + BUILD_PLUGIN  + '&severity=' + BUI;
+                fullUri = window.APP_URL + 'build/ajax-data/' + self.buildId + '?per_page=' + PER_PAGE + '&page=' + PAGE  + '&plugin=' + BUILD_PLUGIN  + '&severity=' + BUILD_SEVERITY + '&is_new=' + BUILD_IS_NEW;
             }
 
             $.ajax({

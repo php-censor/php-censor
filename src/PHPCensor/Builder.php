@@ -118,7 +118,7 @@ class Builder implements LoggerAwareInterface
         );
 
         $this->interpolator     = new BuildInterpolator();
-        $this->buildErrorWriter = new BuildErrorWriter($this->build->getId());
+        $this->buildErrorWriter = new BuildErrorWriter($this->build->getProjectId(), $this->build->getId());
     }
 
     /**

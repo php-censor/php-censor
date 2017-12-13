@@ -180,13 +180,18 @@ PHP Censor',
     'group_save'     => 'Save Group',
 
     // View Build
-    'errors' => 'Errors',
-    'information' => 'Information',
-
+    'errors'            => 'Errors',
+    'information'       => 'Information',
+    'is_new'            => 'Is new?',
+    'new'               => 'New',
     'build_x_not_found' => 'Build with ID %d does not exist.',
     'build_n'           => 'Build %d',
     'rebuild_now'       => 'Rebuild Now',
 
+    'all_errors' => 'All errors',
+    'only_new'   => 'Only new errors',
+    'only_old'   => 'Only old errors',
+    'new_errors' => 'New errors',
 
     'committed_by_x' => 'Committed by %s',
     'commit_id_x' => 'Commit: %s',
@@ -328,7 +333,7 @@ PHP Censor',
     'build-summary'  => 'Summary',
     'stage'          => 'Stage',
     'duration'       => 'Duration',
-    'seconds'        => 'sec.', 
+    'seconds'        => 'sec.',
     'plugin'         => 'Plugin',
     'stage_setup'    => 'Setup',
     'stage_test'     => 'Test',
@@ -344,7 +349,7 @@ PHP Censor',
     'all_severities'  => 'All severities',
     'filters'         => 'Filters',
     'errors_selected' => 'Errors selected',
-    
+
     'build_details'  => 'Build Details',
     'commit_details' => 'Commit Details',
     'committer'      => 'Committer',
@@ -419,7 +424,7 @@ PHP Censor',
     'confirm_cancel'  => 'Cancel',
     'confirm_success' => 'Item successfully deleted.',
     'confirm_failed'  => 'Deletion failed! Server says: ',
-    
+
     'public_status_title' => 'Public status',
     'public_status_image' => 'Status image',
     'public_status_page'  => 'Public status page',

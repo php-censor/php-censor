@@ -1,4 +1,12 @@
-<?php use PHPCensor\Helper\Lang; ?>
+<?php
+
+/**
+ * @var \PHPCensor\Model\Build[] $builds
+ */
+
+use PHPCensor\Helper\Lang;
+
+?>
 
 <?php if(empty($builds) || !count($builds)): ?>
     <tr class="">
@@ -15,21 +23,21 @@ switch($build->getStatus())
         $cls = 'active';
         $subcls = 'info';
         $status = Lang::get('pending');
-    
+
     break;
-    
+
     case 1:
         $cls = 'warning';
         $subcls = 'warning';
         $status = Lang::get('running');
     break;
-    
+
     case 2:
         $cls = 'success';
         $subcls = 'success';
         $status = Lang::get('success');
     break;
-    
+
     case 3:
         $cls = 'danger';
         $subcls = 'danger';
@@ -63,7 +71,7 @@ $branches = $build->getExtra('branches');
             <i class="fa fa-code-fork"></i> <?= $build->getBranch(); ?>
         </a>
         <?= $branches ? ' + '.implode(', ', $branches) : ''; ?>
-        <?php if ($tag = $build->getTag()): ?> / 
+        <?php if ($tag = $build->getTag()): ?> /
              <a href="<?= $build->getTagLink(); ?>" target="_blank">
                 <i class="fa fa-tag"></i> <?= $tag; ?>
             </a>
@@ -77,6 +85,9 @@ $branches = $build->getExtra('branches');
     </td>
     <td>
         <?= $build->getDuration(); ?> <?= Lang::get('seconds'); ?>
+    </td>
+    <td>
+        <?= $build->getNewErrorsCount(); ?>
     </td>
     <td>
         <div class="btn-group btn-group-right">
