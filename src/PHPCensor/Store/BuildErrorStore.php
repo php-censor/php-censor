@@ -143,6 +143,7 @@ class BuildErrorStore extends Store
      * @param integer $buildId
      * @param string  $plugin
      * @param integer $severity
+     * @param string  $isNew
      *
      * @return integer
      */
@@ -294,5 +295,27 @@ class BuildErrorStore extends Store
         }
 
         return true;
+    }
+
+    /**
+     * @param integer $buildId
+     *
+     * @return integer
+     */
+    public function getNewErrorsCount($buildId)
+    {
+        $query = 'SELECT COUNT(*) AS {{total}} FROM {{build_error}} WHERE {{build_id}} = :build AND {{is_new}} = true';
+
+        $stmt = Database::getConnection('read')->prepareCommon($query);
+
+        $stmt->bindValue(':build', $buildId);
+
+        if ($stmt->execute()) {
+            $res = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+            return (integer)$res['total'];
+        }
+
+        return 0;
     }
 }

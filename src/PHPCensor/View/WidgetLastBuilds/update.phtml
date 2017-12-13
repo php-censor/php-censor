@@ -61,7 +61,7 @@ use PHPCensor\Model\Build;
             <i class="fa fa-<?php print $build->getProject()->getIcon(); ?> bg-<?php print $color; ?>"></i>
             <div class="timeline-item">
                 <span class="time"><i class="fa fa-clock-o"></i>
-                <?php 
+                <?php
                     echo $updated->format('H:i:s');
                     if ($build->getStatus() != Build::STATUS_PENDING) {
                         echo ' &mdash; ' . $build->getDuration(); ?> <?= Lang::get('seconds');
@@ -73,18 +73,23 @@ use PHPCensor\Model\Build;
                         <?= $build->getProject()->getTitle(); ?>
                     </a>
                     <span><?= $environment; ?></span>
-                    &mdash; 
+                    &mdash;
                     <a href="<?= APP_URL; ?>build/view/<?= $build->getId(); ?>">
-                        Build #<?= $build->getId(); ?>
+                        <?php Lang::out('build'); ?> #<?= $build->getId(); ?>
                     </a>
-                    &mdash; 
+                    &mdash;
                     <?php Lang::out($build->getSourceHumanize()); ?>
+                    <?php if ($newErrorsCount = $build->getNewErrorsCount()): ?>
+                        &mdash;
+                        <?php Lang::out('new_errors'); ?>:
+                        <?= $newErrorsCount; ?>
+                    <?php endif; ?>
                 </h3>
 
                 <div class="timeline-body">
                     <a href="<?= $build->getBranchLink();?>"><i class="fa fa-code-fork"></i> <?php echo $build->getBranch(); ?></a>
                     <?= $branches ? ' + '.implode(', ', $branches) : ''; ?>
-                    <?php if ($tag = $build->getTag()): ?> / 
+                    <?php if ($tag = $build->getTag()): ?> /
                         <a href="<?= $build->getTagLink(); ?>" target="_blank">
                             <i class="fa fa-tag"></i> <?= $tag; ?>
                         </a>

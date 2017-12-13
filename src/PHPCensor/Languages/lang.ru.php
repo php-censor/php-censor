@@ -184,6 +184,7 @@ PHP Censor',
     'all_errors' => 'Все ошибки',
     'only_new'   => 'Только новые',
     'only_old'   => 'Только старые',
+    'new_errors' => 'Новых ошибок',
 
     'committed_by_x' => 'Отправил %s',
     'commit_id_x' => 'Коммит: %s',
