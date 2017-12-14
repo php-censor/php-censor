@@ -40,11 +40,10 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
   */
   protected $searches;
 
-  public $displayLog                  = [];
-  public $counterForDotPerLine        = 0;
+  public $errorPerFile                  = [];
+  public $currentLineSize        = 0;
   public $lineNumber                  = 0;
-  public $counterForFileAnalysed      = 0;
-  public $counterForTotalNumberOfFile = 0;
+  public $numberOfAnalysedFile      = 0;
 
   /**
   * @return string
@@ -59,31 +58,31 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
   * @return [type]         [description]
   */
   protected function buildLogString($char){
-    if (isset($this->displayLog[$this->lineNumber])){
-      $this->displayLog[$this->lineNumber].= $char;
+    if (isset($this->errorPerFile[$this->lineNumber])){
+      $this->errorPerFile[$this->lineNumber].= $char;
     }else{
-      $this->displayLog[$this->lineNumber] = $char;
+      $this->errorPerFile[$this->lineNumber] = $char;
     }
-    $this->counterForDotPerLine++;
-    $this->counterForFileAnalysed++;
-    if ($this->counterForDotPerLine>61){
-      $this->counterForDotPerLine=0;
+    $this->currentLineSize++;
+    $this->numberOfAnalysedFile++;
+    if ($this->currentLineSize>59){
+      $this->currentLineSize = 0;
       $this->lineNumber++;
     }
   }
   /**
-  * Build a
+  * Create a visual representation of file with Todo
   * @param  string $string
   * @return [type]         [description]
   */
   protected function returnResult(){
     $string='';
     $nb=0;
-    foreach ($this->displayLog as $id => $uneLigne){
+    foreach ($this->errorPerFile as $id => $uneLigne){
       $nb+=strlen($uneLigne);
-      $string.=str_pad($uneLigne,62, ' ', STR_PAD_RIGHT);;
-      $string.=str_pad($nb,7, ' ', STR_PAD_LEFT);
-      $string.="/".$this->counterForFileAnalysed." (".round($nb*100/$this->counterForFileAnalysed,2)."%)\n";
+      $string.=str_pad($uneLigne,60, ' ', STR_PAD_RIGHT);;
+      $string.=str_pad($nb,4, ' ', STR_PAD_LEFT);
+      $string.="/".$this->numberOfAnalysedFile." (".floor($nb*100/$this->numberOfAnalysedFile)." %)\n";
     }
     $string.= "Checked $nb files\n";
     return $string;
@@ -179,7 +178,7 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
 
     $this->builder->logDebug("Ignored path: ".json_encode($this->ignore,true));
     $errorCount = 0;
-    $this->counterForTotalNumberOfFile = count($iterator);
+
     /** @var \SplFileInfo $file */
     foreach ($iterator as $file) {
       $filePath     = $file->getRealPath();
@@ -196,64 +195,52 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
 
       foreach ($this->ignore as $ignore) {
         if ('/' === $ignore{0}) {
-          if (0 === strpos($relativePath, $ignore)) {
+          if (0 === strpos($filePath, $ignore)) {
             $ignored = true;
             break;
           }
         } else {
-
-          if (false !== strpos($relativePath, $ignore)) {
-            $this->builder->logDebug(
-              "\n=================================\n".
-              '$relativePath='.var_export($relativePath,true)."\n".
-              '$filePath    ='.var_export($filePath,true)."\n".
-              '$ignore      ='.var_export($ignore,true)."\n".
-              "strpos       :".var_export(strpos($relativePath,$ignore),true)."\n".
-              "strstr       :".var_export(strstr($relativePath, $ignore),true)."\n".
-              'ignored 2');
-              $ignored = true;
-              break;
-            }
+          $ignore = $this->directory.$ignore;
+          if (0 === strpos($filePath, $ignore)) {
+            $ignored = true;
+            break;
           }
-        }
-
-        if ($ignored) {
-          $this->buildLogString('I'); //Remove it when bug fixed
-        }
-        else{
-          $handle     = fopen($filePath, "r");
-          $lineNumber = 1;
-          while (false === feof($handle)) {
-            $line = fgets($handle);
-            $found=false;
-            foreach ($this->searches as $search) {
-              if ($technicalDeptLine = trim(strstr($line, $search))) {
-                $fileName = str_replace($this->directory, '', $filePath);
-
-                $this->build->reportError(
-                  $this->builder,
-                  'technical_debt',
-                  $technicalDeptLine,
-                  PHPCensor\Model\BuildError::SEVERITY_LOW,
-                  $fileName,
-                  $lineNumber
-                );
-                $found=true;
-                $errorCount++;
-              }
-            }
-            if ($found===true){
-              $this->buildLogString('X');
-            }else
-            {
-              $this->buildLogString('.');
-            }
-            $lineNumber++;
-          }
-          fclose ($handle);
         }
       }
 
-      return $errorCount;
+      if (!$ignored){
+        $handle     = fopen($filePath, "r");
+        $lineNumber = 1;
+        while (false === feof($handle)) {
+          $line = fgets($handle);
+          $found=false;
+          foreach ($this->searches as $search) {
+            if ($technicalDeptLine = trim(strstr($line, $search))) {
+              $fileName = str_replace($this->directory, '', $filePath);
+              $this->build->reportError(
+                $this->builder,
+                'technical_debt',
+                $technicalDeptLine,
+                PHPCensor\Model\BuildError::SEVERITY_LOW,
+                $fileName,
+                $lineNumber
+              );
+              $found=true;
+              $errorCount++;
+            }
+          }
+          $lineNumber++;
+        }
+        fclose ($handle);
+        if ($found === true){
+          $this->buildLogString('X');
+        }
+        else{
+          $this->buildLogString('.');
+        }
+      }
     }
+
+    return $errorCount;
   }
+}
