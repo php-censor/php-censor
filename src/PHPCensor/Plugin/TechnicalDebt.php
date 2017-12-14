@@ -9,40 +9,55 @@ use PHPCensor\Plugin;
 use PHPCensor\ZeroConfigPluginInterface;
 
 /**
-* Technical Debt Plugin - Checks for existence of "TODO", "FIXME", etc.
-*
-* @author James Inman <james@jamesinman.co.uk>
-*/
+ * Technical Debt Plugin - Checks for existence of "TODO", "FIXME", etc.
+ *
+ * @author James Inman <james@jamesinman.co.uk>
+ */
 class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
 {
-  /**
-  * @var array
-  */
+    /**
+     * @var array
+     */
     protected $suffixes;
 
-  /**
-  * @var string
-  */
+    /**
+     * @var string
+     */
     protected $directory;
 
-  /**
-  * @var int
-  */
+    /**
+     * @var int
+     */
     protected $allowed_errors;
 
-  /**
-  * @var array - paths to ignore
-  */
+    /**
+     * @var array - paths to ignore
+     */
     protected $ignore;
 
-  /**
-  * @var array - terms to search for
-  */
+    /**
+     * @var array - terms to search for
+     */
     protected $searches;
 
+    /**
+     * @var array - lines of . and X to visualize errors
+     */
     protected $errorPerFile  = [];
+
+    /**
+     * @var int
+     */
     protected $currentLineSize = 0;
+
+    /**
+     * @var int
+     */
     protected $lineNumber  = 0;
+
+    /**
+     * @var int
+     */
     protected $numberOfAnalysedFile = 0;
 
   /**
@@ -53,7 +68,7 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
         return 'technical_debt';
     }
   /**
-  * Store the statu of the file :
+  * Store the status of the file :
   *   . : checked no errors
   *   X : checked with one or more errr
   *
@@ -95,9 +110,9 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
         return $string;
     }
 
-  /**
-  * {@inheritdoc}
-  */
+    /**
+     * {@inheritdoc}
+     */
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
         parent::__construct($builder, $build, $options);
@@ -123,11 +138,11 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
         $this->setOptions($options);
     }
 
-  /**
-  * Handle this plugin's options.
-  *
-  * @param $options
-  */
+    /**
+     * Handle this plugin's options.
+     *
+     * @param $options
+     */
     protected function setOptions($options)
     {
         foreach (['directory', 'ignore', 'allowed_errors'] as $key) {
@@ -137,15 +152,15 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
         }
     }
 
-  /**
-  * Check if this plugin can be executed.
-  *
-  * @param string  $stage
-  * @param Builder $builder
-  * @param Build   $build
-  *
-  * @return boolean
-  */
+    /**
+     * Check if this plugin can be executed.
+     *
+     * @param string  $stage
+     * @param Builder $builder
+     * @param Build   $build
+     *
+     * @return boolean
+     */
     public static function canExecute($stage, Builder $builder, Build $build)
     {
         if ($stage == Build::STAGE_TEST) {
@@ -155,9 +170,9 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
         return false;
     }
 
-  /**
-  * Runs the plugin
-  */
+    /**
+    * Runs the plugin
+    */
     public function execute()
     {
         $success    = true;
@@ -174,11 +189,11 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
         return $success;
     }
 
-  /**
-  * Gets the number and list of errors returned from the search
-  *
-  * @return integer
-  */
+    /**
+     * Gets the number and list of errors returned from the search
+     *
+     * @return integer
+     */
     protected function getErrorList()
     {
         $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($this->directory));
@@ -186,10 +201,10 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
         $this->builder->logDebug("Ignored path: ".json_encode($this->ignore, true));
         $errorCount = 0;
 
-      /** @var \SplFileInfo $file */
+        /** @var \SplFileInfo $file */
         foreach ($iterator as $file) {
-            $filePath     = $file->getRealPath();
-            $extension    = $file->getExtension();
+            $filePath  = $file->getRealPath();
+            $extension = $file->getExtension();
 
             $ignored = false;
             foreach ($this->suffixes as $suffix) {
@@ -217,12 +232,14 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
             if (!$ignored) {
                 $handle     = fopen($filePath, "r");
                 $lineNumber = 1;
-                $found=false;
+                $errorInFile=false;
                 while (false === feof($handle)) {
                     $line = fgets($handle);
+
                     foreach ($this->searches as $search) {
                         if ($technicalDeptLine = trim(strstr($line, $search))) {
                             $fileName = str_replace($this->directory, '', $filePath);
+
                             $this->build->reportError(
                                 $this->builder,
                                 'technical_debt',
@@ -231,14 +248,16 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
                                 $fileName,
                                 $lineNumber
                             );
-                            $found=true;
+
+                            $errorInFile=true;
                             $errorCount++;
                         }
                     }
                     $lineNumber++;
                 }
-                fclose($handle);
-                if ($found === true) {
+                fclose ($handle);
+                
+                if ($errorInFile === true) {
                     $this->buildLogString('X');
                 } else {
                     $this->buildLogString('.');
