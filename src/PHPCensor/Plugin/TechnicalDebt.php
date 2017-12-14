@@ -43,7 +43,7 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
     /**
      * @var array - lines of . and X to visualize errors
      */
-    protected $errorPerFile  = [];
+    protected $errorPerFile = [];
 
     /**
      * @var int
@@ -53,60 +53,63 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
     /**
      * @var int
      */
-    protected $lineNumber  = 0;
+    protected $lineNumber = 0;
 
     /**
      * @var int
      */
     protected $numberOfAnalysedFile = 0;
 
-  /**
-  * @return string
-  */
+   /**
+    * @return string
+    */
     public static function pluginName()
     {
         return 'technical_debt';
     }
-  /**
-  * Store the status of the file :
-  *   . : checked no errors
-  *   X : checked with one or more errr
-  *
-  * @param  string $char
-  */
+
+    /**
+     * Store the status of the file :
+     *   . : checked no errors
+     *   X : checked with one or more errors
+     *
+     * @param string $char
+     */
     protected function buildLogString($char)
     {
         if (isset($this->errorPerFile[$this->lineNumber])) {
-            $this->errorPerFile[$this->lineNumber].= $char;
+            $this->errorPerFile[$this->lineNumber] .= $char;
         } else {
             $this->errorPerFile[$this->lineNumber] = $char;
         }
+
         $this->currentLineSize++;
         $this->numberOfAnalysedFile++;
-        if ($this->currentLineSize>59) {
+
+        if ($this->currentLineSize > 59) {
             $this->currentLineSize = 0;
             $this->lineNumber++;
         }
     }
 
-  /**
-  * Create a visual representation of file with Todo
-  *  ...XX... 10/300 (10 %)
-  *
-  * @return string         The visual representation
-  */
+    /**
+     * Create a visual representation of file with Todo
+     *  ...XX... 10/300 (10 %)
+     *
+     * @return string The visual representation
+     */
     protected function returnResult()
     {
-        $string='';
-        $fileNumber=0;
-        foreach ($this->errorPerFile as $uneLigne) {
-            $fileNumber+=strlen($uneLigne);
-            $string.=str_pad($uneLigne, 60, ' ', STR_PAD_RIGHT);
-            ;
-            $string.=str_pad($fileNumber, 4, ' ', STR_PAD_LEFT);
-            $string.="/".$this->numberOfAnalysedFile." (".floor($fileNumber*100/$this->numberOfAnalysedFile)." %)\n";
+        $string     = '';
+        $fileNumber = 0;
+        foreach ($this->errorPerFile as $oneLine) {
+            $fileNumber += strlen($oneLine);
+            $string     .= str_pad($oneLine, 60, ' ', STR_PAD_RIGHT);
+            $string     .= str_pad($fileNumber, 4, ' ', STR_PAD_LEFT);
+            $string     .= "/" . $this->numberOfAnalysedFile . " (" . floor($fileNumber * 100 / $this->numberOfAnalysedFile) . " %)\n";
         }
-        $string.= "Checked $fileNumber files\n";
+        $string .= "Checked {$fileNumber} files\n";
+
         return $string;
     }
 
@@ -178,7 +181,7 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
         $success    = true;
         $errorCount = $this->getErrorList();
 
-        $this->builder->log($this->returnResult()."Found $errorCount instances of " . implode(', ', $this->searches));
+        $this->builder->log($this->returnResult() . "Found $errorCount instances of " . implode(', ', $this->searches));
 
         $this->build->storeMeta('technical_debt-warnings', $errorCount);
 
@@ -221,8 +224,8 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
                         break;
                     }
                 } else {
-                    $ignore = $this->directory.$ignore;
-                    if (0 === strpos($filePath, $ignore)) {
+                    $ignoreReal = $this->directory . $ignore;
+                    if (0 === strpos($filePath, $ignoreReal)) {
                         $ignored = true;
                         break;
                     }
@@ -230,9 +233,9 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
             }
 
             if (!$ignored) {
-                $handle     = fopen($filePath, "r");
-                $lineNumber = 1;
-                $errorInFile=false;
+                $handle      = fopen($filePath, "r");
+                $lineNumber  = 1;
+                $errorInFile = false;
                 while (false === feof($handle)) {
                     $line = fgets($handle);
 
@@ -249,14 +252,14 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
                                 $lineNumber
                             );
 
-                            $errorInFile=true;
+                            $errorInFile = true;
                             $errorCount++;
                         }
                     }
                     $lineNumber++;
                 }
                 fclose ($handle);
-                
+
                 if ($errorInFile === true) {
                     $this->buildLogString('X');
                 } else {
