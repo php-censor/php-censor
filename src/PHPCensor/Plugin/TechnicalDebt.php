@@ -217,9 +217,9 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
       if (!$ignored){
         $handle     = fopen($filePath, "r");
         $lineNumber = 1;
+        $found=false;
         while (false === feof($handle)) {
           $line = fgets($handle);
-          $found=false;
           foreach ($this->searches as $search) {
             if ($technicalDeptLine = trim(strstr($line, $search))) {
               $fileName = str_replace($this->directory, '', $filePath);
