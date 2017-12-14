@@ -53,11 +53,14 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
     return 'technical_debt';
   }
   /**
-  * Build a
-  * @param  string $string
-  * @return [type]         [description]
+  * Store the statu of the file :
+  *   . : checked no errors
+  *   X : checked with one or more errr
+  *
+  * @param  string $char
   */
-  protected function buildLogString($char){
+  protected function buildLogString($char)
+  {
     if (isset($this->errorPerFile[$this->lineNumber])){
       $this->errorPerFile[$this->lineNumber].= $char;
     }else{
@@ -70,12 +73,15 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
       $this->lineNumber++;
     }
   }
+
   /**
   * Create a visual representation of file with Todo
-  * @param  string $string
-  * @return [type]         [description]
+  *  ...XX... 10/300 (10 %)
+  *
+  * @return string         The visual representation
   */
-  protected function returnResult(){
+  protected function returnResult()
+  {
     $string='';
     $nb=0;
     foreach ($this->errorPerFile as $id => $uneLigne){
