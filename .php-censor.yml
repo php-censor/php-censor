@@ -15,6 +15,8 @@ test:
 
   php_mess_detector:
     allow_failures: true
+    rules:
+      - phpmd.xml
 
   php_code_sniffer:
     standard:       PSR2
