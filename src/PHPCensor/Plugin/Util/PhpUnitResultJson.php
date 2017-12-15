@@ -134,6 +134,12 @@ class PhpUnitResultJson extends PhpUnitResult
      */
     protected function getFileAndLine($event)
     {
+        if (empty($event['trace'])) {
+            return [
+                'file' => '',
+                'line' => '',
+            ];
+        }
         $firstTrace = end($event['trace']);
         reset($event['trace']);
 
