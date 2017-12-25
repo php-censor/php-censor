@@ -129,8 +129,7 @@ class BuildService
         $build->setStatus(Build::STATUS_PENDING);
 
         /** @var Build $build */
-        $build = $this->buildStore->save($build);
-
+        $build   = $this->buildStore->save($build);
         $buildId = $build->getId();
 
         if (!empty($buildId)) {

@@ -64,6 +64,15 @@ class BitbucketBuild extends RemoteGitBuild
             return false;
         }
 
+        $allowStatusCommit = (boolean)Config::getInstance()->get(
+            'php-censor.bitbucket.status.commit',
+            false
+        );
+
+        if (!$allowStatusCommit) {
+            return false;
+        }
+
         switch ($this->getStatus()) {
             case 0:
             case 1:
@@ -224,8 +233,16 @@ class BitbucketBuild extends RemoteGitBuild
         $lineStart = null,
         $lineEnd = null
     ) {
-        $allowCommentCommit      = (boolean)Config::getInstance()->get('php-censor.bitbucket.comments.commit', false);
-        $allowCommentPullRequest = (boolean)Config::getInstance()->get('php-censor.bitbucket.comments.pull_request', false);
+        $allowCommentCommit = (boolean)Config::getInstance()->get(
+            'php-censor.bitbucket.comments.commit',
+            false
+        );
+
+        $allowCommentPullRequest = (boolean)Config::getInstance()->get(
+            'php-censor.bitbucket.comments.pull_request',
+            false
+        );
+
         //$file = $builder->buildPath.'test.php';
         if ($allowCommentCommit || $allowCommentPullRequest) {
             $diffLineNumber = $this->getDiffLineNumber($builder, $file, $lineStart);

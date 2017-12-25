@@ -56,8 +56,16 @@ class GithubBuild extends RemoteGitBuild
         }
 
         $token = Config::getInstance()->get('php-censor.github.token');
-
         if (empty($token) || empty($this->data['id'])) {
+            return false;
+        }
+
+        $allowStatusCommit = (boolean)Config::getInstance()->get(
+            'php-censor.github.status.commit',
+            false
+        );
+
+        if (!$allowStatusCommit) {
             return false;
         }
 
@@ -207,8 +215,15 @@ class GithubBuild extends RemoteGitBuild
         $lineStart = null,
         $lineEnd = null
     ) {
-        $allowCommentCommit      = (boolean)Config::getInstance()->get('php-censor.github.comments.commit', false);
-        $allowCommentPullRequest = (boolean)Config::getInstance()->get('php-censor.github.comments.pull_request', false);
+        $allowCommentCommit = (boolean)Config::getInstance()->get(
+            'php-censor.github.comments.commit',
+            false
+        );
+
+        $allowCommentPullRequest = (boolean)Config::getInstance()->get(
+            'php-censor.github.comments.pull_request',
+            false
+        );
 
         if ($allowCommentCommit || $allowCommentPullRequest) {
             $diffLineNumber = $this->getDiffLineNumber($builder, $file, $lineStart);
@@ -219,9 +234,6 @@ class GithubBuild extends RemoteGitBuild
                 $repo     = $this->getProject()->getReference();
                 $prNumber = $this->getExtra('pull_request_number');
                 $commit   = $this->getCommitId();
-
-                $allowCommentCommit      = (boolean)Config::getInstance()->get('php-censor.github.comments.commit', false);
-                $allowCommentPullRequest = (boolean)Config::getInstance()->get('php-censor.github.comments.pull_request', false);
 
                 if (!empty($prNumber)) {
                     if ($allowCommentPullRequest) {
