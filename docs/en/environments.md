@@ -47,3 +47,18 @@ deploy:
     mage:
         env: %ENVIRONMENT%
 ```
+
+
+Webhooks to include branches in the environment
+-----------------------------------------------
+
+### GOGS
+
+Prepare project in GOGS web-admin:
+
+* Create webhook
+* Set "Payload URL" to php-censor webhook URL `http://domain.tld/webhook/gogs/project`
+* Enable triggering "Pull request"
+* Create labels for your environments in the format: "env:environment-name", for example "env:test"
+
+After creating the pull request, to include the branch in the environment, add the appropriate labels.

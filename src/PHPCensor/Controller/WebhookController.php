@@ -15,6 +15,7 @@ use PHPCensor\Store\ProjectStore;
 use b8\Controller;
 use b8\Config;
 use b8\Exception\HttpException\NotFoundException;
+use b8\Store\Factory;
 
 /**
  * Webhook Controller - Processes webhook pings from BitBucket, Github, Gitlab, Gogs, etc.
@@ -590,6 +591,10 @@ class WebhookController extends Controller
             return $this->gogsCommitRequest($project, $payload);
         }
 
+        if (array_key_exists('pull_request', $payload)) {
+            return $this->gogsPullRequest($project, $payload);
+        }
+
         return ['status' => 'ignored', 'message' => 'Unusable payload.'];
     }
 
@@ -630,6 +635,100 @@ class WebhookController extends Controller
         }
 
         return ['status' => 'ignored', 'message' => 'Unusable payload.'];
+    }
+
+    /**
+     * Handle the payload when Gogs sends a pull request webhook.
+     *
+     * @param Project $project
+     * @param array   $payload
+     *
+     * @return array
+     */
+    protected function gogsPullRequest(Project $project, array $payload)
+    {
+        $pull_request = $payload['pull_request'];
+        $head_branch = $pull_request['head_branch'];
+
+        $action = $payload['action'];
+        $active_actions = ['opened', 'reopened', 'label_updated', 'label_cleared'];
+        $inactive_actions = ['closed'];
+
+        $state = $pull_request['state'];
+        $active_states = ['open'];
+        $inactive_states = ['closed'];
+
+        if (!in_array($action, $active_actions) and !in_array($action, $inactive_actions)) {
+            return ['status' => 'ignored', 'message' => 'Action ' . $action . ' ignored'];
+        }
+        if (!in_array($state, $active_states) and !in_array($state, $inactive_states)) {
+            return ['status' => 'ignored', 'message' => 'State ' . $state . ' ignored'];
+        }
+
+        $envs = [];
+
+        // Get environment form labels
+        if (in_array($action, $active_actions) and in_array($state, $active_states)) {
+            if (isset($pull_request['labels']) && is_array($pull_request['labels'])) {
+                foreach ($pull_request['labels'] as $label) {
+                    if (strpos($label['name'], 'env:') === 0) {
+                        $envs[] = substr($label['name'], 4);
+                    }
+                }
+            }
+        }
+
+        $envs_updated = [];
+        $env_objs = $project->getEnvironmentsObjects();
+        $store = Factory::getStore('Environment', 'PHPCensor');;
+        foreach ($env_objs['items'] as $environment) {
+            $branches = $environment->getBranches();
+            if (in_array($environment->getName(), $envs)) {
+                if (!in_array($head_branch, $branches)) {
+                    // Add branch to environment
+                    $branches[] = $head_branch;
+                    $environment->setBranches($branches);
+                    $store->save($environment);
+                    $envs_updated[] = $environment->getName();
+                }
+            } else {
+                if (in_array($head_branch, $branches)) {
+                    // Remove branch from environment
+                    $branches = array_diff($branches, [$head_branch]);
+                    $environment->setBranches($branches);
+                    $store->save($environment);
+                    $envs_updated[] = $environment->getName();
+                }
+            }
+        }
+
+        if (($state == 'closed') and $pull_request['merged']) {
+            // update base branch enviroments
+            $environment_names = $project->getEnvironmentsNamesByBranch($pull_request['base_branch']);
+            $envs_updated = array_merge($envs_updated, $environment_names);
+        }
+
+        $envs_updated = array_unique($envs_updated);
+        if (!empty($envs_updated)) {
+            foreach ($envs_updated as $environment_name) {
+                $this->buildService->createBuild(
+                    $project,
+                    $environment_name,
+                    '',
+                    $project->getBranch(),
+                    null,
+                    null,
+                    null,
+                    Build::SOURCE_WEBHOOK,
+                    0,
+                    null
+                );
+            }
+
+            return ['status' => 'ok', 'message' => 'Branch environments updated ' . join(', ', $envs_updated)];
+        }
+
+        return ['status' => 'ignored', 'message' => 'Branch environments not changed'];
     }
 
     /**
