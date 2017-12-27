@@ -7,7 +7,7 @@ use PHPCensor\Builder;
 
 /**
  * Mercurial Build Model
- * 
+ *
  * @author Pavel Gopanenko <pavelgopanenko@gmail.com>
  */
 class MercurialBuild extends Build
@@ -78,9 +78,11 @@ class MercurialBuild extends Build
 
     /**
      * Handle post-clone tasks (switching branch, etc.)
+     *
      * @param Builder $builder
-     * @param $cloneTo
-     * @param array $extra
+     * @param string  $cloneTo
+     * @param array   $extra
+     *
      * @return bool
      */
     protected function postCloneSetup(Builder $builder, $cloneTo, array $extra = null)

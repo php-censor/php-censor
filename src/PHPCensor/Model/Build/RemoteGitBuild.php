@@ -8,7 +8,7 @@ use Psr\Log\LogLevel;
 
 /**
  * Remote Git Build Model
- * 
+ *
  * @author Dan Cryer <dan@block8.co.uk>
  */
 class RemoteGitBuild extends Build
@@ -130,9 +130,11 @@ class RemoteGitBuild extends Build
 
     /**
      * Handle any post-clone tasks, like switching branches.
+     *
      * @param Builder $builder
-     * @param $cloneTo
-     * @param array $extra
+     * @param string  $cloneTo
+     * @param array   $extra
+     *
      * @return bool
      */
     protected function postCloneSetup(Builder $builder, $cloneTo, array $extra = null)
@@ -147,13 +149,17 @@ class RemoteGitBuild extends Build
         }
 
         // Always update the commit hash with the actual HEAD hash
-        if ($builder->executeCommand($chdir . ' && git rev-parse HEAD', $cloneTo)) {
+        if ($builder->executeCommand($chdir . ' && git rev-parse HEAD',  $cloneTo)) {
             $commitId = trim($builder->getLastOutput());
 
             $this->setCommitId($commitId);
 
             if ($builder->executeCommand($chdir . ' && git log -1 --pretty=format:%%s %s', $cloneTo, $commitId)) {
                 $this->setCommitMessage(trim($builder->getLastOutput()));
+            }
+
+            if ($builder->executeCommand($chdir . ' && git log -1 --pretty=format:%%ae %s', $cloneTo, $commitId)) {
+                $this->setCommitterEmail(trim($builder->getLastOutput()));
             }
         }
 
