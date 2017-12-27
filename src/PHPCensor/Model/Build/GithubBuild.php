@@ -12,7 +12,7 @@ use PHPCensor\Model\BuildError;
 
 /**
  * Github Build Model
- * 
+ *
  * @author Dan Cryer <dan@block8.co.uk>
  */
 class GithubBuild extends RemoteGitBuild
@@ -46,7 +46,7 @@ class GithubBuild extends RemoteGitBuild
     */
     public function sendStatusPostback()
     {
-        if (Build::SOURCE_WEBHOOK !== $this->getSource()) {
+        if (!in_array($this->getSource(), [Build::SOURCE_WEBHOOK, Build::SOURCE_WEBHOOK_PULL_REQUEST], true)) {
             return false;
         }
 
@@ -54,7 +54,7 @@ class GithubBuild extends RemoteGitBuild
         if (empty($project)) {
             return false;
         }
-        
+
         $token = Config::getInstance()->get('php-censor.github.token');
 
         if (empty($token) || empty($this->data['id'])) {
@@ -97,7 +97,7 @@ class GithubBuild extends RemoteGitBuild
                 'context'     => 'PHP Censor',
             ]
         ]);
-        
+
         return true;
     }
 

@@ -150,6 +150,7 @@ PHP Censor',
     'source_manual_console' => 'Вручную (Через CLI)',
     'source_periodical' => 'Переодический',
     'source_webhook' => 'Webhook',
+    'source_webhook_pull_request' => 'Webhook (Pull request)',
 
     'webhooks' => 'Webhooks',
     'webhooks_help_github' => 'Чтобы Автоматически собирать этот проект при публикации новых коммитов, добавьте URL ниже в качестве нового хука в разделе настроек <a href="https://github.com/%s/settings/hooks">Webhooks

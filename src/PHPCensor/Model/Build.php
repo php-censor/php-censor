@@ -27,11 +27,12 @@ class Build extends Model
     const STATUS_SUCCESS = 2;
     const STATUS_FAILED  = 3;
 
-    const SOURCE_UNKNOWN        = 0;
-    const SOURCE_MANUAL_WEB     = 1;
-    const SOURCE_MANUAL_CONSOLE = 2;
-    const SOURCE_PERIODICAL     = 3;
-    const SOURCE_WEBHOOK        = 4;
+    const SOURCE_UNKNOWN              = 0;
+    const SOURCE_MANUAL_WEB           = 1;
+    const SOURCE_MANUAL_CONSOLE       = 2;
+    const SOURCE_PERIODICAL           = 3;
+    const SOURCE_WEBHOOK              = 4;
+    const SOURCE_WEBHOOK_PULL_REQUEST = 5;
 
     /**
      * @var array
@@ -1037,6 +1038,8 @@ OUT;
         switch ($this->getSource()) {
             case Build::SOURCE_WEBHOOK:
                 return 'source_webhook';
+            case Build::SOURCE_WEBHOOK_PULL_REQUEST:
+                return 'source_webhook_pull_request';
             case Build::SOURCE_MANUAL_WEB:
                 return 'source_manual_web';
             case Build::SOURCE_MANUAL_CONSOLE:

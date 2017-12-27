@@ -12,7 +12,7 @@ use PHPCensor\Model\BuildError;
 
 /**
  * BitBucket Build Model
- * 
+ *
  * @author Dan Cryer <dan@block8.co.uk>
  */
 class BitbucketBuild extends RemoteGitBuild
@@ -48,7 +48,7 @@ class BitbucketBuild extends RemoteGitBuild
      */
     public function sendStatusPostback()
     {
-        if (Build::SOURCE_WEBHOOK !== $this->getSource()) {
+        if (!in_array($this->getSource(), [Build::SOURCE_WEBHOOK, Build::SOURCE_WEBHOOK_PULL_REQUEST], true)) {
             return false;
         }
 

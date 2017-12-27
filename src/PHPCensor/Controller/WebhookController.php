@@ -129,6 +129,7 @@ class WebhookController extends Controller
                 }
 
                 $results[$commit['new']['target']['hash']] = $this->createBuild(
+                    Build::SOURCE_WEBHOOK,
                     $project,
                     $commit['new']['target']['hash'],
                     $commit['new']['name'],
@@ -211,7 +212,16 @@ class WebhookController extends Controller
                     'remote_reference'    => $payload['pullrequest']['source']['repository']['full_name'],
                 ];
 
-                $results[$id] = $this->createBuild($project, $id, $branch, null, $committer, $message, $extra);
+                $results[$id] = $this->createBuild(
+                    Build::SOURCE_WEBHOOK_PULL_REQUEST,
+                    $project,
+                    $id,
+                    $branch,
+                    null,
+                    $committer,
+                    $message,
+                    $extra
+                );
                 $status = 'ok';
             } catch (Exception $ex) {
                 $results[$id] = ['status' => 'failed', 'error' => $ex->getMessage()];
@@ -219,16 +229,6 @@ class WebhookController extends Controller
         }
 
         return ['status' => $status, 'commits' => $results];
-    }
-
-    /**
-     * Bitbucket webhooks.
-     *
-     * @deprecated, for BC purpose
-     */
-    protected function bitbucketWebhook($payload, $project)
-    {
-        return $this->bitbucketCommitRequest($project, $payload);
     }
 
     /**
@@ -247,6 +247,7 @@ class WebhookController extends Controller
                 $email = substr($email, strpos($email, '<') + 1);
 
                 $results[$commit['raw_node']] = $this->createBuild(
+                    Build::SOURCE_WEBHOOK,
                     $project,
                     $commit['raw_node'],
                     $commit['branch'],
@@ -272,13 +273,21 @@ class WebhookController extends Controller
      */
     public function git($projectId)
     {
-        $project = $this->fetchProject($projectId, ['local', 'remote']);
-        $branch = $this->getParam('branch', $project->getBranch());
-        $commit = $this->getParam('commit');
+        $project       = $this->fetchProject($projectId, ['local', 'remote']);
+        $branch        = $this->getParam('branch', $project->getBranch());
+        $commit        = $this->getParam('commit');
         $commitMessage = $this->getParam('message');
-        $committer = $this->getParam('committer');
+        $committer     = $this->getParam('committer');
 
-        return $this->createBuild($project, $commit, $branch, null, $committer, $commitMessage);
+        return $this->createBuild(
+            Build::SOURCE_WEBHOOK,
+            $project,
+            $commit,
+            $branch,
+            null,
+            $committer,
+            $commitMessage
+        );
     }
 
     /**
@@ -339,7 +348,7 @@ class WebhookController extends Controller
             $commit  = $payload['head_commit'];
             $results = [];
             $status  = 'failed';
-            
+
             if (!$commit['distinct']) {
                 $results[$commit['id']] = ['status' => 'ignored'];
             } else {
@@ -355,6 +364,7 @@ class WebhookController extends Controller
                     }
 
                     $results[$commit['id']] = $this->createBuild(
+                        Build::SOURCE_WEBHOOK,
                         $project,
                         $commit['id'],
                         $branch,
@@ -446,7 +456,16 @@ class WebhookController extends Controller
                     'remote_url'          => $payload['pull_request']['head']['repo'][$remoteUrlKey],
                 ];
 
-                $results[$id] = $this->createBuild($project, $id, $branch, null, $committer, $message, $extra);
+                $results[$id] = $this->createBuild(
+                    Build::SOURCE_WEBHOOK_PULL_REQUEST,
+                    $project,
+                    $id,
+                    $branch,
+                    null,
+                    $committer,
+                    $message,
+                    $extra
+                );
                 $status = 'ok';
             } catch (Exception $ex) {
                 $results[$id] = ['status' => 'failed', 'error' => $ex->getMessage()];
@@ -470,11 +489,19 @@ class WebhookController extends Controller
         if (isset($payload['object_kind']) && $payload['object_kind'] == 'merge_request') {
             $attributes = $payload['object_attributes'];
             if ($attributes['state'] == 'opened' || $attributes['state'] == 'reopened') {
-                $branch = $attributes['source_branch'];
-                $commit = $attributes['last_commit'];
+                $branch    = $attributes['source_branch'];
+                $commit    = $attributes['last_commit'];
                 $committer = $commit['author']['email'];
 
-                return $this->createBuild($project, $commit['id'], $branch, null, $committer, $commit['message']);
+                return $this->createBuild(
+                    Build::SOURCE_WEBHOOK_PULL_REQUEST,
+                    $project,
+                    $commit['id'],
+                    $branch,
+                    null,
+                    $committer,
+                    $commit['message']
+                );
             }
         }
 
@@ -489,6 +516,7 @@ class WebhookController extends Controller
                     $branch = str_replace('refs/heads/', '', $payload['ref']);
                     $committer = $commit['author']['email'];
                     $results[$commit['id']] = $this->createBuild(
+                        Build::SOURCE_WEBHOOK,
                         $project,
                         $commit['id'],
                         $branch,
@@ -525,7 +553,15 @@ class WebhookController extends Controller
         $commitMessage = $this->getParam('message');
         $committer = $this->getParam('committer');
 
-        return $this->createBuild($project, $commit, $branch, null, $committer, $commitMessage);
+        return $this->createBuild(
+            Build::SOURCE_WEBHOOK,
+            $project,
+            $commit,
+            $branch,
+            null,
+            $committer,
+            $commitMessage
+        );
     }
 
     /**
@@ -576,6 +612,7 @@ class WebhookController extends Controller
                     $branch = str_replace('refs/heads/', '', $payload['ref']);
                     $committer = $commit['author']['email'];
                     $results[$commit['id']] = $this->createBuild(
+                        Build::SOURCE_WEBHOOK,
                         $project,
                         $commit['id'],
                         $branch,
@@ -598,6 +635,7 @@ class WebhookController extends Controller
     /**
      * Wrapper for creating a new build.
      *
+     * @param integer $source
      * @param Project $project
      * @param string  $commitId
      * @param string  $branch
@@ -611,6 +649,7 @@ class WebhookController extends Controller
      * @throws Exception
      */
     protected function createBuild(
+        $source,
         Project $project,
         $commitId,
         $branch,
@@ -665,7 +704,7 @@ class WebhookController extends Controller
                             $tag,
                             $committer,
                             $commitMessage,
-                            Build::SOURCE_WEBHOOK,
+                            (integer)$source,
                             0,
                             $extra
                         );
@@ -704,7 +743,7 @@ class WebhookController extends Controller
                     $tag,
                     $committer,
                     $commitMessage,
-                    Build::SOURCE_WEBHOOK,
+                    (integer)$source,
                     0,
                     $extra
                 );
