@@ -42,8 +42,10 @@ class GithubBuild extends RemoteGitBuild
     }
 
     /**
-    * Send status updates to any relevant third parties (i.e. Github)
-    */
+     * Send status updates to any relevant third parties (i.e. Github)
+     *
+     * @return boolean
+     */
     public function sendStatusPostback()
     {
         if (!in_array($this->getSource(), [Build::SOURCE_WEBHOOK, Build::SOURCE_WEBHOOK_PULL_REQUEST], true)) {
@@ -91,9 +93,12 @@ class GithubBuild extends RemoteGitBuild
 
         $phpCensorUrl = Config::getInstance()->get('php-censor.url');
 
-        $url    = 'https://api.github.com/repos/' . $project->getReference() . '/statuses/' . $this->getCommitId();
-        $client = new Client();
-        $client->post($url, [
+        $url    = '/repos/' . $project->getReference() . '/statuses/' . $this->getCommitId();
+        $client = new Client([
+            'base_uri'    => 'https://api.github.com',
+            'http_errors' => false,
+        ]);
+        $response = $client->post($url, [
             'headers' => [
                 'Authorization' => 'token ' . $token,
                 'Content-Type'  => 'application/x-www-form-urlencoded'
@@ -106,7 +111,9 @@ class GithubBuild extends RemoteGitBuild
             ]
         ]);
 
-        return true;
+        $status = (integer)$response->getStatusCode();
+
+        return ($status >= 200 && $status < 300);
     }
 
     /**

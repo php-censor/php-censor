@@ -44,7 +44,7 @@ class BitbucketBuild extends RemoteGitBuild
     /**
      * Send status updates to any relevant third parties (i.e. Bitbucket)
      *
-     * @return bool
+     * @return boolean
      */
     public function sendStatusPostback()
     {
@@ -95,7 +95,7 @@ class BitbucketBuild extends RemoteGitBuild
 
         $phpCensorUrl = Config::getInstance()->get('php-censor.url');
 
-        $url    = sprintf(
+        $url = sprintf(
             '/2.0/repositories/%s/commit/%s/statuses/build',
             $this->getExtra('build_type') == 'pull_request'
                 ? $this->getExtra('remote_reference')
@@ -104,15 +104,15 @@ class BitbucketBuild extends RemoteGitBuild
         );
 
         $client = new Client([
-            'base_uri' => 'https://api.bitbucket.org',
+            'base_uri'    => 'https://api.bitbucket.org',
             'http_errors' => false,
         ]);
         $response = $client->post($url, [
-            'auth'      => [$username, $appPassword],
-            'headers'   => [
+            'auth'    => [$username, $appPassword],
+            'headers' => [
                 'Content-Type' => 'application/json',
             ],
-            'json'      => [
+            'json' => [
                 'state'       => $status,
                 'key'         => 'PHP-CENSOR',
                 'url'         => $phpCensorUrl . '/build/view/' . $this->getId(),
