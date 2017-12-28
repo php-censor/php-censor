@@ -22,7 +22,7 @@ use Symfony\Component\Yaml\Dumper;
 
 /**
  * Install console command - Installs PHP Censor
- * 
+ *
  * @author Dan Cryer <dan@block8.co.uk>
  */
 class InstallCommand extends Command
@@ -61,7 +61,7 @@ class InstallCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $configFromFile = (boolean)$input->getOption('config-from-file');
-        
+
         if (!$configFromFile && !$this->verifyNotInstalled($output)) {
             return;
         }
@@ -272,12 +272,18 @@ class InstallCommand extends Command
                     'commit'       => false,
                     'pull_request' => false,
                 ],
+                'status' => [
+                    'commit' => false,
+                ],
             ],
             'github'   => [
                 'token'    => null,
                 'comments' => [
                     'commit'       => false,
                     'pull_request' => false,
+                ],
+                'status' => [
+                    'commit' => false,
                 ],
             ],
             'build' => [
@@ -320,7 +326,7 @@ class InstallCommand extends Command
             'name'      => null,
             'lifetime'  => 600,
         ];
-        
+
         if (!$input->getOption('queue-use')) {
             return $skipQueueConfig;
         }
@@ -348,7 +354,7 @@ class InstallCommand extends Command
 
             $questionQueue       = new Question('Enter your beanstalkd hostname [localhost]: ', 'localhost');
             $queueConfig['host'] = $helper->ask($input, $output, $questionQueue);
-        
+
             $questionName        = new Question('Enter the queue (tube) name to use [php-censor-queue]: ', 'php-censor-queue');
             $queueConfig['name'] = $helper->ask($input, $output, $questionName);
         }
