@@ -45,11 +45,15 @@ php-censor:
     comments:
       commit:       false # This option allow/deny to post comments to Bitbucket commit
       pull_request: false # This option allow/deny to post comments to Bitbucket Pull Request
+    status:
+      commit: false # This option allow/deny to post status to Bitbucket commit
   github:
     token: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
     comments:
       commit:       false # This option allow/deny to post comments to Github commit
       pull_request: false # This option allow/deny to post comments to Github Pull Request
+    status:
+      commit: false # This option allow/deny to post status to Github commit
   build:
     remove_builds:      true # This option allow/deny build cleaning
     writer_buffer_size: 500  # BuildErrorWriter buffer size (count of inserts in one SQL query)
