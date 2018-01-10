@@ -5,6 +5,39 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [0.20.0](https://github.com/php-censor/php-censor/tree/0.20.0) (2018-01-10)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/0.19.0...0.20.0)
+
+### Added
+
+- "New" label for build errors in "Errors" tab, filtration by "New" label and new errors count indicators on dashboard 
+and builds list. The feature partial based on [@dancryer](https://github.com/dancryer)'s 
+[code in PHPCI](https://github.com/Block8/PHPCI/commit/2a99f10a24340109042eb1d603171cea5e42aee5).
+- PHP 7.2 to TravisCI config.
+- Committer email updating after cloning for Git builds (Like commit massage and commit hash before).
+- New build source "Webhook (Pull request)" for builds.
+- Application config options `github.status.commit` and `bitbucket.status.commit` for allow/deny to post build status 
+to Github/Bitbucket.
+
+### Changed
+
+- Allowed public build status for archived projects.
+- Refactored and improved TechnicalDebt plugin. Issue [#82](https://github.com/php-censor/php-censor/issues/82). Thanks 
+to [@vinpel](https://github.com/vinpel). Pull request [#141](https://github.com/php-censor/php-censor/pull/141).
+- Improved CHANGELOG.md file (See: [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)).
+- Updated dependencies.
+
+### Removed
+
+- Useless Image class.
+
+### Fixed
+
+- PHP 7.2 unpack user from session. Issue [#136](https://github.com/php-censor/php-censor/issues/136). Thanks to 
+[@oln0ry](https://github.com/oln0ry). Pull request [#137](https://github.com/php-censor/php-censor/pull/137).
+
+
 ## [0.19.0](https://github.com/php-censor/php-censor/tree/0.19.0) (2017-11-18)
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/0.18.0...0.19.0)
