@@ -498,9 +498,21 @@
     height: 50px;
 }
 
+.small-box .icon {
+    color: rgba(0, 0, 0, 0.1);
+}
+
 .small-box:hover .icon {
     font-size: 90px;
-    color: rgba(0, 0, 0, 0.30);
+    color: rgba(0, 0, 0, 0.20);
+}
+
+.small-box > .small-box-footer {
+    background: rgba(0, 0, 0, 0.1);
+}
+.small-box > .small-box-footer:hover {
+    color: #fff;
+    background: rgba(0, 0, 0, 0.20);
 }
 
 .small-box > .inner {
