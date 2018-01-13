@@ -1,16 +1,22 @@
+<?php
+
+/**
+ * @var $exception \Exception
+ */
+
+?>
 <div class="panel panel-danger">
     <div class="box-header">
         <h2 class="box-title">Sorry, there was a problem</h2>
     </div>
 
-    <?php 
-        /** @var $exception \Exception */
-    ?>
-    <div class="box-body">
-        <strong>Message</strong>: <?= $exception->getMessage(); ?><br />
-        <strong>File</strong>: <?= $exception->getFile(); ?><br />
-        <strong>Line</strong>: <?= $exception->getLine(); ?><br />
-        <strong>Trace</strong>:
-        <pre style="white-space: pre-wrap"><?= $exception->getTraceAsString(); ?></pre>
-    </div>
+    <?php if ($this->User()->getIsAdmin()): ?>
+        <div class="box-body">
+            <strong>Message</strong>: <?= $exception->getMessage(); ?><br />
+            <strong>File</strong>: <?= $exception->getFile(); ?><br />
+            <strong>Line</strong>: <?= $exception->getLine(); ?><br />
+            <strong>Trace</strong>:
+            <pre style="white-space: pre-wrap"><?= $exception->getTraceAsString(); ?></pre>
+        </div>
+    <?php endif; ?>
 </div>

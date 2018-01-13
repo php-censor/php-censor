@@ -153,7 +153,7 @@ PHP Censor',
     'source_manual_web' => 'Manual (from Web)',
     'source_manual_console' => 'Manual (from CLI)',
     'source_periodical' => 'Periodical',
-    'source_webhook' => 'Webhook',
+    'source_webhook' => 'Webhook (Push)',
     'source_webhook_pull_request' => 'Webhook (Pull request)',
 
     'webhooks' => 'Webhooks',
