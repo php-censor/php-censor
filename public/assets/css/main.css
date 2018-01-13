@@ -498,6 +498,11 @@
     height: 50px;
 }
 
+.small-box:hover .icon {
+    font-size: 90px;
+    color: rgba(0, 0, 0, 0.30);
+}
+
 .small-box > .inner {
     border-bottom: 1px solid rgba(0, 0, 0, 0.15);
 }
@@ -584,7 +589,7 @@ h6,
 }
 
 .CodeMirror pre {
-    font-size: 12px !important; 
+    font-size: 12px !important;
 }
 
 .CodeMirror-linenumber {
