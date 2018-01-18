@@ -111,6 +111,7 @@ class Database extends \PDO
         }
 
         self::$lastUsed[$type] = time();
+
         return self::$connections[$type];
     }
 
@@ -134,7 +135,7 @@ class Database extends \PDO
         } elseif ('pgsql' === self::$details['type']) {
             $quote = '"';
         }
-        
+
         $statement = preg_replace('/{{(.*?)}}/', ($quote . '\1' . $quote), $statement);
 
         return parent::prepare($statement, $driver_options);

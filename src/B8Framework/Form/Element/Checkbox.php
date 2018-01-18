@@ -10,19 +10,19 @@ class Checkbox extends Input
     /**
      * @var boolean
      */
-    protected $_checked;
+    protected $checked;
 
     /**
      * @var mixed
      */
-    protected $_checkedValue;
+    protected $checkedValue;
 
     /**
      * @return mixed
      */
     public function getCheckedValue()
     {
-        return $this->_checkedValue;
+        return $this->checkedValue;
     }
 
     /**
@@ -30,7 +30,7 @@ class Checkbox extends Input
      */
     public function setCheckedValue($value)
     {
-        $this->_checkedValue = $value;
+        $this->checkedValue = $value;
     }
 
     /**
@@ -39,19 +39,19 @@ class Checkbox extends Input
     public function setValue($value)
     {
         if (is_bool($value) && $value === true) {
-            $this->_value   = $this->getCheckedValue();
-            $this->_checked = true;
+            $this->value   = $this->getCheckedValue();
+            $this->checked = true;
             return;
         }
 
         if ($value == $this->getCheckedValue()) {
-            $this->_value   = $this->getCheckedValue();
-            $this->_checked = true;
+            $this->value   = $this->getCheckedValue();
+            $this->checked = true;
             return;
         }
 
-        $this->_value   = $value;
-        $this->_checked = false;
+        $this->value   = $value;
+        $this->checked = false;
     }
 
     /**
@@ -62,6 +62,6 @@ class Checkbox extends Input
         parent::onPreRender($view);
 
         $view->checkedValue = $this->getCheckedValue();
-        $view->checked      = $this->_checked;
+        $view->checked      = $this->checked;
     }
 }

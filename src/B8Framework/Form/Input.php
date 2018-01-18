@@ -24,7 +24,7 @@ class Input extends Element
     /**
      * @var mixed
      */
-    protected $_value;
+    protected $value;
 
     /**
      * @var string
@@ -58,7 +58,7 @@ class Input extends Element
      */
     public function getValue()
     {
-        return $this->_value;
+        return $this->value;
     }
 
     /**
@@ -68,7 +68,7 @@ class Input extends Element
      */
     public function setValue($value)
     {
-        $this->_value = $value;
+        $this->value = $value;
 
         return $this;
     }
@@ -140,12 +140,12 @@ class Input extends Element
      */
     public function validate()
     {
-        if ($this->getRequired() && empty($this->_value)) {
+        if ($this->getRequired() && empty($this->value)) {
             $this->_error = $this->getLabel() . ' is required.';
             return false;
         }
 
-        if ($this->getPattern() && !preg_match('/' . $this->getPattern() . '/', $this->_value)) {
+        if ($this->getPattern() && !preg_match('/' . $this->getPattern() . '/', $this->value)) {
             $this->_error = 'Invalid value entered.';
 
             return false;
@@ -155,7 +155,7 @@ class Input extends Element
 
         if (is_callable($validator)) {
             try {
-                call_user_func_array($validator, [$this->_value]);
+                call_user_func_array($validator, [$this->value]);
             } catch (\Exception $ex) {
                 $this->_error = $ex->getMessage();
 

@@ -3,9 +3,9 @@
 namespace b8;
 
 use b8\Exception\HttpException\NotFoundException;
-use b8\Http;
 use b8\Http\Response;
 use b8\Http\Request;
+use b8\Http\Router;
 
 class Application
 {
@@ -35,22 +35,27 @@ class Application
     protected $config;
 
     /**
+     * @var Router
+     */
+    protected $router;
+
+    /**
      * @param Config $config
      *
      * @param Request|null $request
      */
-    public function __construct(Config $config, Http\Request $request = null)
+    public function __construct(Config $config, Request $request = null)
     {
         $this->config = $config;
-        $this->response = new Http\Response();
+        $this->response = new Response();
 
         if (!is_null($request)) {
             $this->request = $request;
         } else {
-            $this->request = new Http\Request();
+            $this->request = new Request();
         }
 
-        $this->router = new Http\Router($this, $this->request, $this->config);
+        $this->router = new Router($this, $this->request, $this->config);
 
         if (method_exists($this, 'init')) {
             $this->init();
@@ -92,9 +97,10 @@ class Application
     public function getController()
     {
         if (empty($this->controller)) {
-            $controllerClass = $this->getControllerClass($this->route);
+            $controllerClass  = $this->getControllerClass($this->route);
             $this->controller = $this->loadController($controllerClass);
         }
+
         return $this->controller;
     }
 
@@ -105,8 +111,10 @@ class Application
      */
     protected function loadController($class)
     {
+        /** @var Controller $controller */
         $controller = new $class($this->config, $this->request, $this->response);
         $controller->init();
+
         return $controller;
     }
 
@@ -127,8 +135,9 @@ class Application
      */
     protected function getControllerClass($route)
     {
-        $namespace = $this->toPhpName($route['namespace']);
+        $namespace  = $this->toPhpName($route['namespace']);
         $controller = $this->toPhpName($route['controller']);
+
         return $this->config->get('b8.app.namespace') . '\\' . $namespace . '\\' . $controller . 'Controller';
     }
 

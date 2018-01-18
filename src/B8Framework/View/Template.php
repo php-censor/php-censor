@@ -420,7 +420,7 @@ class Template extends View
         $thisPart = array_shift($varPart);
 
 
-        if (!array_key_exists($thisPart, $this->_vars)) {
+        if (!array_key_exists($thisPart, $this->vars)) {
             return null;
         }
 

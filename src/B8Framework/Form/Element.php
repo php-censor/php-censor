@@ -10,32 +10,32 @@ abstract class Element
     /**
      * @var string
      */
-    protected $_name;
+    protected $name;
 
     /**
      * @var string
      */
-    protected $_id;
+    protected $id;
 
     /**
      * @var string
      */
-    protected $_label;
+    protected $label;
 
     /**
      * @var string
      */
-    protected $_css;
+    protected $class;
 
     /**
      * @var string
      */
-    protected $_ccss;
+    protected $containerClass;
 
     /**
      * @var Element
      */
-    protected $_parent;
+    protected $parent;
 
     /**
      * @param string|null $name
@@ -52,7 +52,7 @@ abstract class Element
      */
     public function getName()
     {
-        return $this->_name;
+        return $this->name;
     }
 
     /**
@@ -62,7 +62,8 @@ abstract class Element
      */
     public function setName($name)
     {
-        $this->_name = strtolower(preg_replace('/([^a-zA-Z0-9_\-%])/', '', $name));
+        $this->name = strtolower(preg_replace('/([^a-zA-Z0-9_\-%])/', '', $name));
+
         return $this;
     }
 
@@ -71,7 +72,9 @@ abstract class Element
      */
     public function getId()
     {
-        return !$this->_id ? 'element-' . $this->_name : $this->_id;
+        return !$this->id
+            ? ('element-' . $this->name)
+            : $this->id;
     }
 
     /**
@@ -81,7 +84,8 @@ abstract class Element
      */
     public function setId($id)
     {
-        $this->_id = $id;
+        $this->id = $id;
+
         return $this;
     }
 
@@ -90,7 +94,7 @@ abstract class Element
      */
     public function getLabel()
     {
-        return $this->_label;
+        return $this->label;
     }
 
     /**
@@ -100,7 +104,8 @@ abstract class Element
      */
     public function setLabel($label)
     {
-        $this->_label = $label;
+        $this->label = $label;
+
         return $this;
     }
 
@@ -109,7 +114,7 @@ abstract class Element
      */
     public function getClass()
     {
-        return $this->_css;
+        return $this->class;
     }
 
     /**
@@ -119,7 +124,8 @@ abstract class Element
      */
     public function setClass($class)
     {
-        $this->_css = $class;
+        $this->class = $class;
+
         return $this;
     }
 
@@ -128,7 +134,7 @@ abstract class Element
      */
     public function getContainerClass()
     {
-        return $this->_ccss;
+        return $this->containerClass;
     }
 
     /**
@@ -138,7 +144,8 @@ abstract class Element
      */
     public function setContainerClass($class)
     {
-        $this->_ccss = $class;
+        $this->containerClass = $class;
+
         return $this;
     }
 
@@ -149,7 +156,8 @@ abstract class Element
      */
     public function setParent(Element $parent)
     {
-        $this->_parent = $parent;
+        $this->parent = $parent;
+
         return $this;
     }
 
@@ -173,12 +181,12 @@ abstract class Element
             $view = new View($viewFile, B8_PATH . 'Form/View/');
         }
 
-        $view->name   = $this->getName();
-        $view->id     = $this->getId();
-        $view->label  = $this->getLabel();
-        $view->css    = $this->getClass();
-        $view->ccss   = $this->getContainerClass();
-        $view->parent = $this->_parent;
+        $view->name           = $this->getName();
+        $view->id             = $this->getId();
+        $view->label          = $this->getLabel();
+        $view->class          = $this->getClass();
+        $view->containerClass = $this->getContainerClass();
+        $view->parent         = $this->parent;
 
         $this->onPreRender($view);
 

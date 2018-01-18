@@ -9,7 +9,7 @@ class FieldSet extends Element
     /**
      * @var Element[]
      */
-    protected $_children = [];
+    protected $children = [];
 
     /**
      * @return array
@@ -17,7 +17,7 @@ class FieldSet extends Element
     public function getValues()
     {
         $rtn = [];
-        foreach ($this->_children as $field) {
+        foreach ($this->children as $field) {
             if ($field instanceof FieldSet) {
                 $fieldName = $field->getName();
 
@@ -41,7 +41,7 @@ class FieldSet extends Element
      */
     public function setValues(array $values)
     {
-        foreach ($this->_children as $field) {
+        foreach ($this->children as $field) {
             if ($field instanceof FieldSet) {
                 $fieldName = $field->getName();
 
@@ -65,7 +65,7 @@ class FieldSet extends Element
      */
     public function addField(Element $field)
     {
-        $this->_children[$field->getName()] = $field;
+        $this->children[$field->getName()] = $field;
         $field->setParent($this);
     }
 
@@ -76,7 +76,7 @@ class FieldSet extends Element
     {
         $rtn = true;
 
-        foreach ($this->_children as $child) {
+        foreach ($this->children as $child) {
             if (!$child->validate()) {
                 $rtn = false;
             }
@@ -91,7 +91,7 @@ class FieldSet extends Element
     protected function onPreRender(View &$view)
     {
         $rendered = [];
-        foreach ($this->_children as $child) {
+        foreach ($this->children as $child) {
             $rendered[] = $child->render();
         }
 
@@ -103,7 +103,7 @@ class FieldSet extends Element
      */
     public function getChildren()
     {
-        return $this->_children;
+        return $this->children;
     }
 
     /**
@@ -113,6 +113,6 @@ class FieldSet extends Element
      */
     public function getChild($fieldName)
     {
-        return $this->_children[$fieldName];
+        return $this->children[$fieldName];
     }
 }
