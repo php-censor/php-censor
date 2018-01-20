@@ -8,12 +8,17 @@ use PHPCensor\Plugin;
 
 /**
  * Pdepend Plugin - Allows Pdepend report
- * 
+ *
  * @author Johan van der Heide <info@japaveh.nl>
  */
 class Pdepend extends Plugin
 {
     protected $args;
+
+    /**
+     * @var string
+     */
+    protected $buildDirectory;
 
     /**
      * @var string Directory which needs to be scanned
@@ -56,13 +61,16 @@ class Pdepend extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        $this->directory = isset($options['directory']) ? $options['directory'] : $this->builder->buildPath;
+        $this->directory = isset($options['directory'])
+            ? $options['directory']
+            : $this->builder->buildPath;
 
-        $title          = $this->builder->getBuildProjectTitle();
-        $this->summary  = $title . '-summary.xml';
-        $this->pyramid  = $title . '-pyramid.svg';
-        $this->chart    = $title . '-chart.svg';
-        $this->location = $this->builder->buildPath . '..' . DIRECTORY_SEPARATOR . 'pdepend';
+        $this->summary = 'summary.xml';
+        $this->pyramid = 'pyramid.svg';
+        $this->chart   = 'chart.svg';
+
+        $this->buildDirectory = $build->getProjectId() . '/' . $build->getId();
+        $this->location       = PUBLIC_DIR . 'artifacts/pdepend/' . $this->buildDirectory;
     }
 
     /**
@@ -71,7 +79,7 @@ class Pdepend extends Plugin
     public function execute()
     {
         if (!file_exists($this->location)) {
-            mkdir($this->location);
+            mkdir($this->location, 0777, true);
         }
         if (!is_writable($this->location)) {
             throw new \Exception(sprintf('The location %s is not writable or does not exist.', $this->location));
@@ -104,12 +112,10 @@ class Pdepend extends Plugin
         if ($success) {
             $this->builder->logSuccess(
                 sprintf(
-                    "Pdepend successful. You can use %s\n, ![Chart](%s \"Pdepend Chart\")\n
-                    and ![Pyramid](%s \"Pdepend Pyramid\")\n
-                    for inclusion in the readme.md file",
-                    $config['url'] . '/build/pdepend/' . $this->summary,
-                    $config['url'] . '/build/pdepend/' . $this->chart,
-                    $config['url'] . '/build/pdepend/' . $this->pyramid
+                    "\nPdepend successful.\nYou can use: %s,\n![Chart](%s \"Pdepend Chart\") and\n![Pyramid](%s \"Pdepend Pyramid\")\nfor inclusion in the readme.md file",
+                    $config['url'] . '/artifacts/pdepend/' . $this->buildDirectory . '/' . $this->summary,
+                    $config['url'] . '/artifacts/pdepend/' . $this->buildDirectory . '/' . $this->chart,
+                    $config['url'] . '/artifacts/pdepend/' . $this->buildDirectory . '/' . $this->pyramid
                 )
             );
         }
