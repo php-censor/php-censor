@@ -9,12 +9,29 @@ namespace PHPCensor\Plugin\Option;
  */
 class PhpUnitOptions
 {
+    /**
+     * @var array
+     */
     protected $options;
+
+    /**
+     * @var string
+     */
+    protected $location;
+
+    /**
+     * @var array
+     */
     protected $arguments = [];
 
-    public function __construct($options)
+    /**
+     * @param array  $options
+     * @param string $location
+     */
+    public function __construct($options, $location)
     {
-        $this->options = $options;
+        $this->options  = $options;
+        $this->location = $location;
     }
 
     /**
@@ -102,8 +119,8 @@ class PhpUnitOptions
             /*
              * Handles command aliases outside of the args option
              */
-            if (isset($this->options['coverage'])) {
-                $this->addArgument('coverage-html', $this->options['coverage']);
+            if (isset($this->options['coverage']) && $this->options['coverage']) {
+                $this->addArgument('coverage-html', $this->location);
             }
 
             /*

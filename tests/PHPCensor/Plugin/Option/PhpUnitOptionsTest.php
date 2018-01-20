@@ -27,30 +27,28 @@ class PhpUnitOptionsTest extends \PHPUnit\Framework\TestCase
             ],
             [
                 [
+                    'coverage' => '',
+                ],
+                [],
+            ],
+            [
+                [
                     'coverage' => '/path/to/coverage2/',
-                    'args'     => [
-                        'coverage-html' => '/path/to/coverage1/',
-                    ],
                 ],
                 [
-                    'coverage-html' => [
-                        '/path/to/coverage1/',
-                        '/path/to/coverage2/',
-                    ],
+                    'coverage-html' => '/location',
                 ],
             ],
             [
                 [
+                    'coverage' => true,
                     'directory' => [
                         '/path/to/test1/',
                         '/path/to/test2/',
                     ],
-                    'args'      => [
-                        'coverage-html' => '/path/to/coverage1/',
-                    ],
                 ],
                 [
-                    'coverage-html' => '/path/to/coverage1/',
+                    'coverage-html' => '/location',
                 ],
             ],
             [
@@ -97,7 +95,7 @@ class PhpUnitOptionsTest extends \PHPUnit\Framework\TestCase
      */
     public function testCommandArguments($rawOptions, $parsedArguments)
     {
-        $options = new PhpUnitOptions($rawOptions);
+        $options = new PhpUnitOptions($rawOptions, '/location');
         $this->assertSame($parsedArguments, $options->getCommandArguments());
     }
 
@@ -107,7 +105,8 @@ class PhpUnitOptionsTest extends \PHPUnit\Framework\TestCase
             [
                 'run_from' => '/path/to/run/from',
                 'path'     => 'subTest',
-            ]
+            ],
+            '/location'
         );
 
         $this->assertEquals('/path/to/run/from', $options->getRunFrom());

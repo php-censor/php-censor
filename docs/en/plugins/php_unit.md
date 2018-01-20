@@ -35,6 +35,7 @@ test:
         config:
             - "path/to/phpunit.xml"
         path: "app/tests/"
+        coverage: true
 ```
 
 Troubleshooting

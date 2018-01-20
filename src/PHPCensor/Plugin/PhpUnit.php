@@ -20,6 +20,16 @@ use PHPCensor\ZeroConfigPluginInterface;
  */
 class PhpUnit extends Plugin implements ZeroConfigPluginInterface
 {
+    /**
+     * @var string
+     */
+    protected $buildDirectory;
+
+    /**
+     * @var string
+     */
+    protected $location;
+
     /** @var string[] Raw options from the config file */
     protected $options = [];
 
@@ -30,7 +40,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
     {
         return 'php_unit';
     }
-    
+
     /**
      * Standard Constructor
      * $options['config']    Path to a PHPUnit XML configuration file.
@@ -47,7 +57,10 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
     {
         parent::__construct($builder, $build, $options);
 
-        $this->options = new PhpUnitOptions($options);
+        $this->buildDirectory = $this->build->getProjectId() . '/' . $this->build->getId();
+        $this->location       = PUBLIC_DIR . 'artifacts/phpunit/' . $this->buildDirectory . '/coverage';
+
+        $this->options = new PhpUnitOptions($options, $this->location);
     }
 
     /**
@@ -134,11 +147,26 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
             $options->addArgument('configuration', $buildPath . $configFile);
         }
 
+        if (!file_exists($this->location) && $options->getOption('coverage')) {
+            mkdir($this->location, 0777, true);
+        }
+
         $arguments = $this->builder->interpolate($options->buildArgumentString());
         $cmd       = $this->findBinary('phpunit') . ' %s %s';
         $success   = $this->builder->executeCommand($cmd, $arguments, $directory);
 
         $this->processResults($logFile, $logFormat);
+
+        $config = $this->builder->getSystemConfig('php-censor');
+
+        if ($options->getOption('coverage')) {
+            $this->builder->logSuccess(
+                sprintf(
+                    "\nPHPUnit successful.\nYou can use coverage report: %s",
+                    $config['url'] . '/artifacts/phpunit/' . $this->buildDirectory . '/coverage/index.html'
+                )
+            );
+        }
 
         return $success;
     }
