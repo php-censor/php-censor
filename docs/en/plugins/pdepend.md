@@ -8,4 +8,11 @@ Configuration
 
 ### Options
 
-* **directory** - Required - Directory in which to run PDepend.
+* **directory** [string, optional] - Directory in which to run PDepend (default: `%BUILD_PATH%`).
+
+### Examples
+
+```yaml
+pdepend:
+    directory: ./src
+```

@@ -8,7 +8,7 @@ Configuration
 
 ### Options
 
-* **path** - Optional - Path in which to run PHP Copy/Paste Detector (default: build root).
+* **path** - Optional - Path in which to run PHP Copy/Paste Detector (default: `%BUILD_PATH%`).
 * **ignore** - Optional - A list of files / paths to ignore (default: build_settings > ignore).
 
 ### Examples

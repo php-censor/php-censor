@@ -15,7 +15,7 @@ Configuration
 
 ### Examples
 
-```
+```yaml
 phar:
     directory: /path/to/directory
     filename: foobar.phar
