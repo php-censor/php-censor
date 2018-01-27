@@ -29,11 +29,21 @@ use Phinx\Config\Config as PhinxConfig;
 
 /**
  * Class Application
- * 
+ *
  * @package PHPCensor\Console
  */
 class Application extends BaseApplication
 {
+    const LOGO = <<<'LOGO'
+    ____  __  ______    ______
+   / __ \/ / / / __ \  / ____/__  ____  _________  _____
+  / /_/ / /_/ / /_/ / / /   / _ \/ __ \/ ___/ __ \/ ___/
+ / ____/ __  / ____/ / /___/  __/ / / (__  ) /_/ / /
+/_/   /_/ /_/_/      \____/\___/_/ /_/____/\____/_/
+
+
+LOGO;
+
     /**
      * @param Config $applicationConfig
      *
@@ -53,18 +63,20 @@ class Application extends BaseApplication
 
         $logger = new Logger('php-censor', $loggerHandlers);
         Handler::register($logger);
-        
+
         return $logger;
     }
-    
+
     /**
      * Constructor.
      *
      * @param string $name    The name of the application
      * @param string $version The version of the application
      */
-    public function __construct($name = 'PHP Censor - Continuous Integration for PHP', $version = '')
+    public function __construct($name = 'PHP Censor', $version = 'UNKNOWN')
     {
+        $version = trim(file_get_contents(ROOT_DIR . 'VERSION.md'));
+
         parent::__construct($name, $version);
 
         $applicationConfig = Config::getInstance();
@@ -89,7 +101,7 @@ class Application extends BaseApplication
                 ],
             ];
         }
-        
+
         if (!empty($databaseSettings['port'])) {
             $phinxSettings['environments']['php-censor']['port'] = (integer)$databaseSettings['port'];
         }
@@ -116,18 +128,18 @@ class Application extends BaseApplication
                 ->setConfig($phinxConfig)
                 ->setName('php-censor-migrations:status')
         );
-        
+
         /** @var UserStore $userStore */
         $userStore = Factory::getStore('User');
-        
+
         /** @var ProjectStore $projectStore */
         $projectStore = Factory::getStore('Project');
-        
+
         /** @var BuildStore $buildStore */
         $buildStore = Factory::getStore('Build');
 
         $logger = $this->initLogger($applicationConfig);
-        
+
         $this->add(new RunCommand($logger));
         $this->add(new RebuildCommand($logger));
         $this->add(new InstallCommand());
@@ -136,5 +148,28 @@ class Application extends BaseApplication
         $this->add(new WorkerCommand($logger));
         $this->add(new RebuildQueueCommand($logger));
         $this->add(new ScheduleBuildCommand($projectStore, $buildStore, new BuildService($buildStore)));
+    }
+
+    public function getHelp()
+    {
+        return self::LOGO . parent::getHelp();
+    }
+
+    /**
+     * Returns the long version of the application.
+     *
+     * @return string The long application version
+     */
+    public function getLongVersion()
+    {
+        if ('UNKNOWN' !== $this->getName()) {
+            if ('UNKNOWN' !== $this->getVersion()) {
+                return sprintf('<info>%s</info> v%s', $this->getName(), $this->getVersion());
+            }
+
+            return sprintf('<info>%s</info>', $this->getName());
+        }
+
+        return '<info>Console Tool</info>';
     }
 }

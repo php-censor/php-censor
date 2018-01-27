@@ -58,7 +58,7 @@
     </a>
     <div class="navbar-custom-menu">
     <ul class="nav navbar-nav">
-    
+
     <li class="dropdown messages-menu app-pending">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
             <i class="fa fa-clock-o"></i>
@@ -72,7 +72,7 @@
             </li>
         </ul>
     </li>
-    
+
     <li class="dropdown messages-menu app-running">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
             <i class="fa fa-cogs"></i>
@@ -86,7 +86,7 @@
             </li>
         </ul>
     </li>
-    
+
     <?php if (!$this->LoginIsDisabled()->check()): ?>
     <!-- User Account: style can be found in dropdown.less -->
     <li class="dropdown user user-menu">
@@ -102,7 +102,7 @@
                     <?php print $this->User()->getName(); ?>
                 </p>
             </li>
-    
+
             <!-- Menu Footer-->
             <li class="user-footer">
                 <div class="pull-left">
@@ -249,9 +249,12 @@
             }
             ?>
 
-            <?php print $content; ?>
-        </section><!-- /.content -->
-    </aside><!-- /.content-wrapper -->
-</div><!-- ./wrapper -->
+            <?= $content; ?>
+        </section>
+    </aside>
+    <footer class="main-footer">
+        PHP Censor v<?= $version; ?>
+    </footer>
+</div>
 </body>
 </html>
