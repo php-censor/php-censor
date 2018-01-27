@@ -119,6 +119,7 @@ class Application extends b8\Application
         $controller->layout             = new View('layout');
         $controller->layout->title      = 'PHP Censor';
         $controller->layout->breadcrumb = [];
+        $controller->layout->version    = trim(file_get_contents(ROOT_DIR . 'VERSION.md'));
 
         return $controller;
     }
