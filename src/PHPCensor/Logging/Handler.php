@@ -117,18 +117,18 @@ class Handler
     }
 
     /**
-     * @param \Exception $exception
+     * @param $exception
      */
-    public function handleException(\Exception $exception)
+    public function handleException($exception)
     {
         $this->log($exception);
     }
 
     /**
      * Write to the build log.
-     * @param \Exception $exception
+     * @param $exception
      */
-    protected function log(\Exception $exception)
+    protected function log($exception)
     {
         if (null !== $this->logger) {
             $message = sprintf(
