@@ -46,7 +46,7 @@ More [screenshots](docs/en/screenshots.md).
 
 ## Features
 
-* Clone project from Github, Bitbucket, Gitlab, Git, Mercurial, SVN or from local directory;
+* Clone project from GitHub, Bitbucket, GitLab, Git, Mercurial, SVN or from local directory;
 
 * Set up and tear down database tests for [PostgreSQL](docs/en/plugins/pgsql.md), [MySQL](docs/en/plugins/mysql.md) or 
 [SQLite](docs/en/plugins/sqlite.md);
@@ -79,10 +79,10 @@ cd /var/www
 composer create-project php-censor/php-censor php-censor.local --keep-vcs
 ```
 
-Or download [latest archive](https://github.com/php-censor/php-censor/releases/latest) from Github, unzip it and run 
+Or download [latest archive](https://github.com/php-censor/php-censor/releases/latest) from GitHub, unzip it and run 
 `composer install`.
 
-* Create empty database for application (Mysql/MariaDB or Postgres);
+* Create empty database for application (MySQL/MariaDB or PostgreSQL);
 
 * Install Beanstalkd Queue (Optional, if you are going to use queue with Worker):
 
@@ -218,7 +218,7 @@ cd /path/to/php-censor
 ```bash
 cd /path/to/php-censor
 
-# For testing on MySQL DB
+# For testing on MySQL
 ./vendor/bin/phpunit --configuration ./phpunit.mysql.xml
 
 # For testing on PostgreSQL
@@ -227,8 +227,8 @@ cd /path/to/php-censor
 
 For Phar plugin tests set 'phar.readonly' setting to Off (0) in `php.ini` config. Otherwise tests will be skipped.  
 
-For database B8Framework tests create empty 'b8_test' database on 'localhost' with user/password: `root/<empty>'` 
-for MySQL and with user/password: `postgres/<empty>'` for PostgreSQL (You can change default test user, password and 
+For database B8Framework tests create empty 'b8_test' database on 'localhost' with user/password: `root/<empty>` 
+for MySQL and with user/password: `postgres/<empty>` for PostgreSQL (You can change default test user, password and 
 database name in `phpunit.mysql|pgsql.xml` config). If connection failed tests will be skipped.
 
 ## Documentation
