@@ -148,7 +148,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
         }
 
         if (!file_exists($this->location) && $options->getOption('coverage')) {
-            mkdir($this->location, 0777, true);
+            mkdir($this->location, (0777 & ~umask()), true);
         }
 
         $arguments = $this->builder->interpolate($options->buildArgumentString());

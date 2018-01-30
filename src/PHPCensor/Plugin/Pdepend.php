@@ -79,7 +79,7 @@ class Pdepend extends Plugin
     public function execute()
     {
         if (!file_exists($this->location)) {
-            mkdir($this->location, 0777, true);
+            mkdir($this->location, (0777 & ~umask()), true);
         }
         if (!is_writable($this->location)) {
             throw new \Exception(sprintf('The location %s is not writable or does not exist.', $this->location));
