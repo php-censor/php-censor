@@ -40,10 +40,21 @@ class PhpUnitResultJson extends PhpUnitResult
         $this->failures = 0;
 
         if ($events) {
+            $started = null;
             foreach ($events as $event) {
                 if (isset($event['event']) && $event['event'] == self::EVENT_TEST) {
                     $this->parseTestcase($event);
+                    $started = null;
+                } elseif (isset($event['event']) && $event['event'] == self::EVENT_TEST_START) {
+                    $started = $event;
                 }
+            }
+            if ($started) {
+                $event = $started;
+                $event['status'] = 'error';
+                $event['message'] = 'Test is not finished';
+                $event['output'] = '';
+                $this->parseTestcase($event);
             }
         }
 
@@ -134,6 +145,12 @@ class PhpUnitResultJson extends PhpUnitResult
      */
     protected function getFileAndLine($event)
     {
+        if (empty($event['trace'])) {
+            return [
+                'file' => '',
+                'line' => '',
+            ];
+        }
         $firstTrace = end($event['trace']);
         reset($event['trace']);
 
