@@ -98,26 +98,22 @@ class CommandExecutor implements CommandExecutorInterface
         $pipes   = [];
         $process = proc_open($command, $descriptorSpec, $pipes, $this->buildPath, null);
 
-        $this->lastOutput = '';
-        $this->lastError  = '';
+        $lastOutput = '';
+        $lastError  = '';
 
         if (is_resource($process)) {
             fclose($pipes[0]);
 
-            list($this->lastOutput, $this->lastError) = $this->readAlternating([$pipes[1], $pipes[2]]);
+            list($lastOutput, $lastError) = $this->readAlternating([$pipes[1], $pipes[2]]);
 
             $status = proc_close($process);
+
+            $lastOutput = $this->replaceIllegalCharacters($lastOutput);
+            $lastError = $this->replaceIllegalCharacters($lastError);
         }
 
-        $regexp = '/[\x00-\x08\x10\x0B\x0C\x0E-\x19\x7F]' .
-            '|[\x00-\x7F][\x80-\xBF]+' .
-            '|([\xC0\xC1]|[\xF0-\xFF])[\x80-\xBF]*' .
-            '|[\xC2-\xDF]((?![\x80-\xBF])|[\x80-\xBF]{2,})' .
-            '|[\xE0-\xEF](([\x80-\xBF](?![\x80-\xBF]))|(?![\x80-\xBF]{2})|[\x80-\xBF]{3,})/S';
-        $this->lastOutput = preg_replace($regexp, '�', $this->lastOutput);
-        $this->lastError  = preg_replace($regexp, '�', $this->lastError);
-
-        $this->lastOutput = array_filter(explode(PHP_EOL, $this->lastOutput));
+        $this->lastOutput = array_filter(explode(PHP_EOL, $lastOutput));
+        $this->lastError = $lastError;
 
         $shouldOutput = ($this->logExecOutput && ($this->verbose || $status != 0));
 
@@ -169,6 +165,22 @@ class CommandExecutor implements CommandExecutorInterface
             }
         } while (count($descriptors) > 0);
         return $outputs;
+    }
+
+    private static function replaceIllegalCharacters($utf8String)
+    {
+        $substCharCode = 65533;
+        mb_substitute_character($substCharCode);
+        $legalUtf8String = mb_convert_encoding($utf8String, 'utf8', 'utf8');
+
+        $regexp = '/[\x00-\x08\x10\x0B\x0C\x0E-\x19\x7F]' .
+            '|[\x00-\x7F][\x80-\xBF]+' .
+            '|([\xC0\xC1]|[\xF0-\xFF])[\x80-\xBF]*' .
+            '|[\xC2-\xDF]((?![\x80-\xBF])|[\x80-\xBF]{2,})' .
+            '|[\xE0-\xEF](([\x80-\xBF](?![\x80-\xBF]))|(?![\x80-\xBF]{2})|[\x80-\xBF]{3,})/S';
+        $cleanUtf8String  = preg_replace($regexp, chr($substCharCode), $legalUtf8String);
+
+        return $cleanUtf8String;
     }
 
     /**
