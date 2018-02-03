@@ -100,7 +100,7 @@ class CommandExecutor implements CommandExecutorInterface
 
         $this->lastOutput = '';
         $this->lastError  = '';
-        
+
         if (is_resource($process)) {
             fclose($pipes[0]);
 
@@ -109,9 +109,14 @@ class CommandExecutor implements CommandExecutorInterface
             $status = proc_close($process);
         }
 
-        mb_substitute_character(65533);
+        $regexp = '/[\x00-\x08\x10\x0B\x0C\x0E-\x19\x7F]' .
+            '|[\x00-\x7F][\x80-\xBF]+' .
+            '|([\xC0\xC1]|[\xF0-\xFF])[\x80-\xBF]*' .
+            '|[\xC2-\xDF]((?![\x80-\xBF])|[\x80-\xBF]{2,})' .
+            '|[\xE0-\xEF](([\x80-\xBF](?![\x80-\xBF]))|(?![\x80-\xBF]{2})|[\x80-\xBF]{3,})/S';
+        $this->lastOutput = preg_replace($regexp, '�', $this->lastOutput);
+        $this->lastError  = preg_replace($regexp, '�', $this->lastError);
 
-        $this->lastOutput = mb_convert_encoding($this->lastOutput, 'utf8', 'utf8');
         $this->lastOutput = array_filter(explode(PHP_EOL, $this->lastOutput));
 
         $shouldOutput = ($this->logExecOutput && ($this->verbose || $status != 0));
@@ -199,7 +204,7 @@ class CommandExecutor implements CommandExecutorInterface
 
             return $composerBin . '/' . $binary;
         }
-        
+
         return false;
     }
 
