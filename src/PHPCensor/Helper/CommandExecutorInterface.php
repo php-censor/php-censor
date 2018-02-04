@@ -24,11 +24,11 @@ interface CommandExecutorInterface
     /**
      * Find a binary required by a plugin.
      *
-     * @param string $binary
-     * @param bool   $quiet Returns null instead of throwing an exception.
-     * @param string $priorityPath
+     * @param array|string $binary
+     * @param bool         $quiet Returns null instead of throwing an exception.
+     * @param string       $priorityPath
      *
-     * @return null|string
+     * @return string|false
      *
      * @throws \Exception when no binary has been found and $quiet is false.
      */
