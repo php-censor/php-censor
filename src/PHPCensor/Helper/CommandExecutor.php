@@ -36,6 +36,9 @@ class CommandExecutor implements CommandExecutorInterface
      */
     protected $lastError;
 
+    /**
+     * @var boolean
+     */
     public $logExecOutput = true;
 
     /**
@@ -100,7 +103,6 @@ class CommandExecutor implements CommandExecutorInterface
 
         $lastOutput = '';
         $lastError  = '';
-
         if (is_resource($process)) {
             fclose($pipes[0]);
 
@@ -109,7 +111,7 @@ class CommandExecutor implements CommandExecutorInterface
             $status = proc_close($process);
 
             $lastOutput = $this->replaceIllegalCharacters($lastOutput);
-            $lastError = $this->replaceIllegalCharacters($lastError);
+            $lastError  = $this->replaceIllegalCharacters($lastError);
         }
 
         $this->lastOutput = array_filter(explode(PHP_EOL, $lastOutput));
@@ -138,7 +140,7 @@ class CommandExecutor implements CommandExecutorInterface
     /**
      * Reads from array of streams as data becomes available.
      *
-     * @param array     $descriptors
+     * @param array $descriptors
      *
      * @return string[] data read from each descriptor
      */
@@ -167,20 +169,20 @@ class CommandExecutor implements CommandExecutorInterface
         return $outputs;
     }
 
-    private static function replaceIllegalCharacters($utf8String)
+    /**
+     * @param string $utf8String
+     *
+     * @return string
+     */
+    public function replaceIllegalCharacters($utf8String)
     {
-        $substCharCode = 65533;
-        mb_substitute_character($substCharCode);
-        $legalUtf8String = mb_convert_encoding($utf8String, 'utf8', 'utf8');
-
         $regexp = '/[\x00-\x08\x10\x0B\x0C\x0E-\x19\x7F]' .
             '|[\x00-\x7F][\x80-\xBF]+' .
             '|([\xC0\xC1]|[\xF0-\xFF])[\x80-\xBF]*' .
             '|[\xC2-\xDF]((?![\x80-\xBF])|[\x80-\xBF]{2,})' .
             '|[\xE0-\xEF](([\x80-\xBF](?![\x80-\xBF]))|(?![\x80-\xBF]{2})|[\x80-\xBF]{3,})/S';
-        $cleanUtf8String  = preg_replace($regexp, chr($substCharCode), $legalUtf8String);
 
-        return $cleanUtf8String;
+        return preg_replace($regexp, '�', $utf8String);
     }
 
     /**
@@ -207,7 +209,7 @@ class CommandExecutor implements CommandExecutorInterface
      * @param string $composerBin
      * @param string $binary
      *
-     * @return false|string
+     * @return string|false
      */
     protected function findBinaryLocal($composerBin, $binary)
     {
@@ -223,7 +225,7 @@ class CommandExecutor implements CommandExecutorInterface
     /**
      * @param string $binary
      *
-     * @return false|string
+     * @return string|false
      */
     protected function findBinaryGlobal($binary)
     {
@@ -241,7 +243,7 @@ class CommandExecutor implements CommandExecutorInterface
      *
      * @param string $binary
      *
-     * @return false|string
+     * @return string|false
      */
     protected function findBinarySystem($binary)
     {
@@ -258,11 +260,11 @@ class CommandExecutor implements CommandExecutorInterface
     /**
      * Find a binary required by a plugin.
      *
-     * @param string $binary
-     * @param bool   $quiet Returns null instead of throwing an exception.
-     * @param string $priorityPath
+     * @param array|string $binary
+     * @param bool         $quiet Returns null instead of throwing an exception.
+     * @param string       $priorityPath
      *
-     * @return null|string
+     * @return string|false
      *
      * @throws \Exception when no binary has been found and $quiet is false.
      */
@@ -317,7 +319,7 @@ class CommandExecutor implements CommandExecutorInterface
         }
 
         if ($quiet) {
-            return null;
+            return false;
         }
 
         throw new Exception(sprintf('Could not find %s', implode('/', $binary)));

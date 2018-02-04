@@ -647,30 +647,30 @@ class WebhookController extends Controller
      */
     protected function gogsPullRequest(Project $project, array $payload)
     {
-        $pull_request = $payload['pull_request'];
-        $head_branch = $pull_request['head_branch'];
+        $pullRequest = $payload['pull_request'];
+        $headBranch  = $pullRequest['head_branch'];
 
-        $action = $payload['action'];
-        $active_actions = ['opened', 'reopened', 'label_updated', 'label_cleared'];
-        $inactive_actions = ['closed'];
+        $action          = $payload['action'];
+        $activeActions   = ['opened', 'reopened', 'label_updated', 'label_cleared'];
+        $inactiveActions = ['closed'];
 
-        $state = $pull_request['state'];
-        $active_states = ['open'];
-        $inactive_states = ['closed'];
+        $state          = $pullRequest['state'];
+        $activeStates   = ['open'];
+        $inactiveStates = ['closed'];
 
-        if (!in_array($action, $active_actions) and !in_array($action, $inactive_actions)) {
+        if (!in_array($action, $activeActions) and !in_array($action, $inactiveActions)) {
             return ['status' => 'ignored', 'message' => 'Action ' . $action . ' ignored'];
         }
-        if (!in_array($state, $active_states) and !in_array($state, $inactive_states)) {
+        if (!in_array($state, $activeStates) and !in_array($state, $inactiveStates)) {
             return ['status' => 'ignored', 'message' => 'State ' . $state . ' ignored'];
         }
 
         $envs = [];
 
         // Get environment form labels
-        if (in_array($action, $active_actions) and in_array($state, $active_states)) {
-            if (isset($pull_request['labels']) && is_array($pull_request['labels'])) {
-                foreach ($pull_request['labels'] as $label) {
+        if (in_array($action, $activeActions) and in_array($state, $activeStates)) {
+            if (isset($pullRequest['labels']) && is_array($pullRequest['labels'])) {
+                foreach ($pullRequest['labels'] as $label) {
                     if (strpos($label['name'], 'env:') === 0) {
                         $envs[] = substr($label['name'], 4);
                     }
@@ -678,42 +678,42 @@ class WebhookController extends Controller
             }
         }
 
-        $envs_updated = [];
-        $env_objs = $project->getEnvironmentsObjects();
-        $store = Factory::getStore('Environment', 'PHPCensor');;
-        foreach ($env_objs['items'] as $environment) {
+        $envsUpdated = [];
+        $envObjects  = $project->getEnvironmentsObjects();
+        $store       = Factory::getStore('Environment', 'PHPCensor');
+        foreach ($envObjects['items'] as $environment) {
             $branches = $environment->getBranches();
             if (in_array($environment->getName(), $envs)) {
-                if (!in_array($head_branch, $branches)) {
+                if (!in_array($headBranch, $branches)) {
                     // Add branch to environment
-                    $branches[] = $head_branch;
+                    $branches[] = $headBranch;
                     $environment->setBranches($branches);
                     $store->save($environment);
-                    $envs_updated[] = $environment->getName();
+                    $envsUpdated[] = $environment->getName();
                 }
             } else {
-                if (in_array($head_branch, $branches)) {
+                if (in_array($headBranch, $branches)) {
                     // Remove branch from environment
-                    $branches = array_diff($branches, [$head_branch]);
+                    $branches = array_diff($branches, [$headBranch]);
                     $environment->setBranches($branches);
                     $store->save($environment);
-                    $envs_updated[] = $environment->getName();
+                    $envsUpdated[] = $environment->getName();
                 }
             }
         }
 
-        if (($state == 'closed') and $pull_request['merged']) {
-            // update base branch enviroments
-            $environment_names = $project->getEnvironmentsNamesByBranch($pull_request['base_branch']);
-            $envs_updated = array_merge($envs_updated, $environment_names);
+        if (($state == 'closed') and $pullRequest['merged']) {
+            // update base branch environments
+            $environmentNames = $project->getEnvironmentsNamesByBranch($pullRequest['base_branch']);
+            $envsUpdated      = array_merge($envsUpdated, $environmentNames);
         }
 
-        $envs_updated = array_unique($envs_updated);
-        if (!empty($envs_updated)) {
-            foreach ($envs_updated as $environment_name) {
+        $envsUpdated = array_unique($envsUpdated);
+        if (!empty($envsUpdated)) {
+            foreach ($envsUpdated as $environmentName) {
                 $this->buildService->createBuild(
                     $project,
-                    $environment_name,
+                    $environmentName,
                     '',
                     $project->getBranch(),
                     null,
@@ -725,7 +725,7 @@ class WebhookController extends Controller
                 );
             }
 
-            return ['status' => 'ok', 'message' => 'Branch environments updated ' . join(', ', $envs_updated)];
+            return ['status' => 'ok', 'message' => 'Branch environments updated ' . join(', ', $envsUpdated)];
         }
 
         return ['status' => 'ignored', 'message' => 'Branch environments not changed'];

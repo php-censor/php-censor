@@ -12,7 +12,7 @@ use SensioLabs\Security\SecurityChecker as BaseSecurityChecker;
 
 /**
  * SensioLabs Security Checker Plugin
- * 
+ *
  * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class SecurityChecker extends Plugin implements ZeroConfigPluginInterface
@@ -20,8 +20,8 @@ class SecurityChecker extends Plugin implements ZeroConfigPluginInterface
     /**
      * @var integer
      */
-    protected $allowed_warnings;
-    
+    protected $allowedWarnings;
+
     /**
      * @return string
      */
@@ -37,14 +37,14 @@ class SecurityChecker extends Plugin implements ZeroConfigPluginInterface
     {
         parent::__construct($builder, $build, $options);
 
-        $this->allowed_warnings = 0;
+        $this->allowedWarnings = 0;
 
         if (isset($options['zero_config']) && $options['zero_config']) {
-            $this->allowed_warnings = -1;
+            $this->allowedWarnings = -1;
         }
 
         if (array_key_exists('allowed_warnings', $options)) {
-            $this->allowed_warnings = (int)$options['allowed_warnings'];
+            $this->allowedWarnings = (int)$options['allowed_warnings'];
         }
     }
 
@@ -76,7 +76,7 @@ class SecurityChecker extends Plugin implements ZeroConfigPluginInterface
 
         if ($warnings) {
             foreach ($warnings as $library => $warning) {
-                foreach ($warning['advisories'] as $advisory => $data) {
+                foreach ($warning['advisories'] as $data) {
                     $this->build->reportError(
                         $this->builder,
                         'security_checker',
@@ -88,7 +88,7 @@ class SecurityChecker extends Plugin implements ZeroConfigPluginInterface
                 }
             }
 
-            if ($this->allowed_warnings != -1 && ((int)$checker->getLastVulnerabilityCount() > $this->allowed_warnings)) {
+            if ($this->allowedWarnings != -1 && ((int)$checker->getLastVulnerabilityCount() > $this->allowedWarnings)) {
                 $success = false;
             }
         }

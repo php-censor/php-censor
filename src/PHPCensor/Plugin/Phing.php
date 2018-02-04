@@ -26,7 +26,7 @@ class Phing extends Plugin
     {
         return 'phing';
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -106,7 +106,7 @@ class Phing extends Plugin
     }
 
     /**
-     * @return string
+     * @return array
      */
     public function getTargets()
     {

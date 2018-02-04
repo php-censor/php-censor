@@ -8,7 +8,7 @@ use PHPCensor\Plugin;
 
 /**
  * Create a ZIP or TAR.GZ archive of the entire build.
- * 
+ *
  * @author Dan Cryer <dan@block8.co.uk>
  */
 class PackageBuild extends Plugin
@@ -24,7 +24,7 @@ class PackageBuild extends Plugin
     {
         return 'package_build';
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -58,7 +58,7 @@ class PackageBuild extends Plugin
         $filename = str_replace('%time%', date('Hi'), $filename);
         $filename = preg_replace('/([^a-zA-Z0-9_-]+)/', '', $filename);
 
-        $curdir = getcwd();
+        $currentDir = getcwd();
         chdir($this->builder->buildPath);
 
         if (!is_array($this->format)) {
@@ -79,7 +79,7 @@ class PackageBuild extends Plugin
             $success = $this->builder->executeCommand($cmd, $this->directory, $filename);
         }
 
-        chdir($curdir);
+        chdir($currentDir);
 
         return $success;
     }

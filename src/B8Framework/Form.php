@@ -9,19 +9,19 @@ class Form extends FieldSet
     /**
      * @var string
      */
-    protected $_action = '';
+    protected $action = '';
 
     /**
      * @var string
      */
-    protected $_method = 'POST';
+    protected $method = 'POST';
 
     /**
      * @return string
      */
     public function getAction()
     {
-        return $this->_action;
+        return $this->action;
     }
 
     /**
@@ -29,7 +29,7 @@ class Form extends FieldSet
      */
     public function setAction($action)
     {
-        $this->_action = $action;
+        $this->action = $action;
     }
 
     /**
@@ -37,7 +37,7 @@ class Form extends FieldSet
      */
     public function getMethod()
     {
-        return $this->_method;
+        return $this->method;
     }
 
     /**
@@ -45,7 +45,7 @@ class Form extends FieldSet
      */
     public function setMethod($method)
     {
-        $this->_method = $method;
+        $this->method = $method;
     }
 
     /**

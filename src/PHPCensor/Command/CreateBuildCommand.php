@@ -47,12 +47,14 @@ class CreateBuildCommand extends Command
     {
         $this
             ->setName('php-censor:create-build')
-            ->setDescription('Create a build for a project')
+
             ->addArgument('projectId', InputArgument::REQUIRED, 'A project ID')
             ->addOption('commit', null, InputOption::VALUE_OPTIONAL, 'Commit ID to build')
             ->addOption('branch', null, InputOption::VALUE_OPTIONAL, 'Branch to build')
             ->addOption('email', null, InputOption::VALUE_OPTIONAL, 'Committer email')
-            ->addOption('message', null, InputOption::VALUE_OPTIONAL, 'Commit message');
+            ->addOption('message', null, InputOption::VALUE_OPTIONAL, 'Commit message')
+
+            ->setDescription('Create a build for a project');
     }
 
     /**

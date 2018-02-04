@@ -274,8 +274,8 @@ class BuildStore extends Store
             $res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
             $projects = [];
-            $latest = [];
-            foreach($res as $item) {
+            $latest   = [];
+            foreach ($res as $item) {
                 $project_id = $item['project_id'];
                 $environment = $item['environment'];
                 if (empty($projects[$project_id])) {
@@ -312,11 +312,13 @@ class BuildStore extends Store
                     $projects[$project_id][$environment]['failed'] = $build;
                 }
             }
-            foreach($projects as $idx => $project) {
+
+            foreach ($projects as $idx => $project) {
                 $projects[$idx] = array_filter($project, function($val) {
                     return ($val['latest'][0]->getStatus() != Build::STATUS_SUCCESS);
                 });
             }
+
             $projects = array_filter($projects);
 
             return ['projects' => $projects, 'latest' => $latest];

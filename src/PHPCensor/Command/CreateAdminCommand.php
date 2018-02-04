@@ -13,7 +13,7 @@ use Symfony\Component\Console\Question\Question;
 
 /**
  * Create admin command - creates an admin user
- * 
+ *
  * @author Wogan May (@woganmay)
  */
 class CreateAdminCommand extends Command
@@ -38,9 +38,9 @@ class CreateAdminCommand extends Command
         $this
             ->setName('php-censor:create-admin')
 
-            ->addOption('admin-name',     null, InputOption::VALUE_OPTIONAL, 'Admin name')
+            ->addOption('admin-name', null, InputOption::VALUE_OPTIONAL, 'Admin name')
             ->addOption('admin-password', null, InputOption::VALUE_OPTIONAL, 'Admin password')
-            ->addOption('admin-email',    null, InputOption::VALUE_OPTIONAL, 'Admin email')
+            ->addOption('admin-email', null, InputOption::VALUE_OPTIONAL, 'Admin email')
 
             ->setDescription('Create an admin user');
     }

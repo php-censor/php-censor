@@ -7,7 +7,7 @@ use PHPCensor\Plugin;
 
 /**
  * PHP Spec Plugin - Allows PHP Spec testing.
- * 
+ *
  * @author Dan Cryer <dan@block8.co.uk>
  */
 class PhpSpec extends Plugin
@@ -25,7 +25,7 @@ class PhpSpec extends Plugin
     */
     public function execute()
     {
-        $curdir = getcwd();
+        $currentDir = getcwd();
         chdir($this->builder->buildPath);
 
         $phpspec = $this->findBinary(['phpspec', 'phpspec.php']);
@@ -33,7 +33,7 @@ class PhpSpec extends Plugin
         $success = $this->builder->executeCommand($phpspec . ' --format=junit --no-code-generation run');
         $output = $this->builder->getLastOutput();
 
-        chdir($curdir);
+        chdir($currentDir);
 
         /*
          * process xml output

@@ -10,7 +10,7 @@ use PHPCensor\ZeroConfigPluginInterface;
 
 /**
  * Composer Plugin - Provides access to Composer functionality.
- * 
+ *
  * @author Dan Cryer <dan@block8.co.uk>
  */
 class Composer extends Plugin implements ZeroConfigPluginInterface
@@ -18,7 +18,7 @@ class Composer extends Plugin implements ZeroConfigPluginInterface
     protected $directory;
     protected $action;
     protected $preferDist;
-    protected $nodev;
+    protected $noDev;
     protected $ignorePlatformReqs;
     protected $preferSource;
 
@@ -42,7 +42,7 @@ class Composer extends Plugin implements ZeroConfigPluginInterface
         $this->action             = 'install';
         $this->preferDist         = false;
         $this->preferSource       = false;
-        $this->nodev              = false;
+        $this->noDev              = false;
         $this->ignorePlatformReqs = false;
 
         if (array_key_exists('directory', $options)) {
@@ -63,7 +63,7 @@ class Composer extends Plugin implements ZeroConfigPluginInterface
         }
 
         if (array_key_exists('no_dev', $options)) {
-            $this->nodev = (bool)$options['no_dev'];
+            $this->noDev = (bool)$options['no_dev'];
         }
 
         if (array_key_exists('ignore_platform_reqs', $options)) {
@@ -107,7 +107,7 @@ class Composer extends Plugin implements ZeroConfigPluginInterface
             $cmd .= ' --prefer-source';
         }
 
-        if ($this->nodev) {
+        if ($this->noDev) {
             $this->builder->log('Using --no-dev flag');
             $cmd .= ' --no-dev';
         }

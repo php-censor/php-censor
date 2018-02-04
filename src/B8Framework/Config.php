@@ -52,7 +52,7 @@ class Config
     {
         // Path to a YAML file.
         $parser = new YamlParser();
-        $yaml = file_get_contents($yamlFile);
+        $yaml   = file_get_contents($yamlFile);
         $config = (array)$parser->parse($yaml);
 
         if (empty($config)) {
@@ -75,7 +75,7 @@ class Config
         $keyParts = explode('.', $key);
         $selected = $this->config;
 
-        $i = -1;
+        $i         = -1;
         $last_part = count($keyParts) - 1;
         while ($part = array_shift($keyParts)) {
             $i++;
@@ -180,6 +180,7 @@ class Config
             $source = $target;
             return;
         }
+
         foreach ($target as $target_key => $target_value) {
             if (isset($source[$target_key])) {
                 if (!is_array($source[$target_key]) && !is_array($target_value)) {
@@ -188,7 +189,6 @@ class Config
                 } elseif (is_array($source[$target_key]) && is_array($target_value)) {
                     // Both are arrays, deep merge them
                     self::deepMerge($source[$target_key], $target_value);
-
                 } elseif (is_array($source[$target_key])) {
                     // Source is the array, push target value
                     $source[$target_key][] = $target_value;

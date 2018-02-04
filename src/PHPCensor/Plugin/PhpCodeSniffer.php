@@ -11,7 +11,7 @@ use PHPCensor\ZeroConfigPluginInterface;
 
 /**
  * PHP Code Sniffer Plugin - Allows PHP Code Sniffer testing.
- * 
+ *
  * @author Dan Cryer <dan@block8.co.uk>
  */
 class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
@@ -34,7 +34,7 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
     /**
      * @var string
      */
-    protected $tab_width;
+    protected $tabWidth;
 
     /**
      * @var string
@@ -44,12 +44,12 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
     /**
      * @var int
      */
-    protected $allowed_errors;
+    protected $allowedErrors;
 
     /**
      * @var int
      */
-    protected $allowed_warnings;
+    protected $allowedWarnings;
 
     /**
      * @var string, based on the assumption the root may not hold the code to be tested, extends the base path
@@ -68,12 +68,12 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
     /**
      * @var null|int
      */
-    protected $error_severity = null;
+    protected $errorSeverity = null;
 
     /**
      * @var null|int
      */
-    protected $warning_severity = null;
+    protected $warningSeverity = null;
 
     /**
      * @return string
@@ -93,24 +93,24 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
         $this->suffixes         = ['php'];
         $this->directory        = $this->builder->buildPath;
         $this->standard         = 'PSR2';
-        $this->tab_width        = '';
+        $this->tabWidth        = '';
         $this->encoding         = '';
         $this->path             = '';
         $this->ignore           = $this->builder->ignore;
-        $this->allowed_warnings = 0;
-        $this->allowed_errors   = 0;
+        $this->allowedWarnings = 0;
+        $this->allowedErrors   = 0;
 
         if (isset($options['zero_config']) && $options['zero_config']) {
-            $this->allowed_warnings = -1;
-            $this->allowed_errors   = -1;
+            $this->allowedWarnings = -1;
+            $this->allowedErrors   = -1;
         }
 
         if (!empty($options['allowed_errors']) && is_int($options['allowed_errors'])) {
-            $this->allowed_errors = $options['allowed_errors'];
+            $this->allowedErrors = $options['allowed_errors'];
         }
 
         if (!empty($options['allowed_warnings']) && is_int($options['allowed_warnings'])) {
-            $this->allowed_warnings = $options['allowed_warnings'];
+            $this->allowedWarnings = $options['allowed_warnings'];
         }
 
         if (isset($options['suffixes'])) {
@@ -118,7 +118,7 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
         }
 
         if (!empty($options['tab_width'])) {
-            $this->tab_width = ' --tab-width='.$options['tab_width'];
+            $this->tabWidth = ' --tab-width='.$options['tab_width'];
         }
 
         if (!empty($options['encoding'])) {
@@ -138,11 +138,11 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
         }
 
         if (isset($options['error_severity']) && is_int($options['error_severity'])) {
-            $this->error_severity = $options['error_severity'];
+            $this->errorSeverity = $options['error_severity'];
         }
 
         if (isset($options['warning_severity']) && is_int($options['warning_severity'])) {
-            $this->warning_severity = $options['warning_severity'];
+            $this->warningSeverity = $options['warning_severity'];
         }
     }
 
@@ -181,7 +181,7 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
             $standard,
             $suffixes,
             $ignore,
-            $this->tab_width,
+            $this->tabWidth,
             $this->encoding,
             $this->builder->buildPath . $this->path,
             $severity,
@@ -198,11 +198,11 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
         $this->build->storeMeta('phpcs-warnings', $warnings);
         $this->build->storeMeta('phpcs-errors', $errors);
 
-        if ($this->allowed_warnings != -1 && $warnings > $this->allowed_warnings) {
+        if ($this->allowedWarnings != -1 && $warnings > $this->allowedWarnings) {
             $success = false;
         }
 
-        if ($this->allowed_errors != -1 && $errors > $this->allowed_errors) {
+        if ($this->allowedErrors != -1 && $errors > $this->allowedErrors) {
             $success = false;
         }
 
@@ -237,13 +237,13 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
         }
 
         $errorSeverity = '';
-        if ($this->error_severity !== null) {
-            $errorSeverity = ' --error-severity=' . $this->error_severity;
+        if ($this->errorSeverity !== null) {
+            $errorSeverity = ' --error-severity=' . $this->errorSeverity;
         }
 
         $warningSeverity = '';
-        if ($this->warning_severity !== null) {
-            $warningSeverity = ' --warning-severity=' . $this->warning_severity;
+        if ($this->warningSeverity !== null) {
+            $warningSeverity = ' --warning-severity=' . $this->warningSeverity;
         }
 
         return [$ignore, $standard, $suffixes, $severity, $errorSeverity, $warningSeverity];

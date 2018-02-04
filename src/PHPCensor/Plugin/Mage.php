@@ -12,13 +12,14 @@ use \PHPCensor\Plugin;
 
 /**
  * Integrates PHPCensor with Mage: https://github.com/andres-montanez/Magallanes
+ *
  * @package      PHPCensor
  * @subpackage   Plugins
  */
 class Mage extends Plugin
 {
-    protected $mage_bin = 'mage';
-    protected $mage_env;
+    protected $mageBin = 'mage';
+    protected $mageEnv;
 
     /**
      * {@inheritdoc}
@@ -37,11 +38,11 @@ class Mage extends Plugin
 
         $config = $builder->getSystemConfig('mage');
         if (!empty($config['bin'])) {
-            $this->mage_bin = $config['bin'];
+            $this->mageBin = $config['bin'];
         }
 
         if (isset($options['env'])) {
-            $this->mage_env = $builder->interpolate($options['env']);
+            $this->mageEnv = $builder->interpolate($options['env']);
         }
     }
 
@@ -50,12 +51,12 @@ class Mage extends Plugin
      */
     public function execute()
     {
-        if (empty($this->mage_env)) {
+        if (empty($this->mageEnv)) {
             $this->builder->logFailure('You must specify environment.');
             return false;
         }
 
-        $result = $this->builder->executeCommand($this->mage_bin . ' deploy to:' . $this->mage_env);
+        $result = $this->builder->executeCommand($this->mageBin . ' deploy to:' . $this->mageEnv);
 
         try {
             $this->builder->log('########## MAGE LOG BEGIN ##########');
@@ -75,12 +76,12 @@ class Mage extends Plugin
      */
     protected function getMageLog()
     {
-        $logs_dir = $this->build->getBuildPath() . '/.mage/logs';
-        if (!is_dir($logs_dir)) {
+        $logsDir = $this->build->getBuildPath() . '/.mage/logs';
+        if (!is_dir($logsDir)) {
             throw new \Exception('Log directory not found');
         }
 
-        $list = scandir($logs_dir);
+        $list = scandir($logsDir);
         if ($list === false) {
             throw new \Exception('Log dir read fail');
         }
@@ -97,17 +98,17 @@ class Mage extends Plugin
             throw new \Exception('Logs sort fail');
         }
 
-        $last_log_file = end($list);
-        if ($last_log_file === false) {
+        $lastLogFile = end($list);
+        if ($lastLogFile === false) {
             throw new \Exception('Get last Log name fail');
         }
 
-        $log_content = file_get_contents($logs_dir . '/' . $last_log_file);
-        if ($log_content === false) {
+        $logContent = file_get_contents($logsDir . '/' . $lastLogFile);
+        if ($logContent === false) {
             throw new \Exception('Get last Log content fail');
         }
 
-        $lines = explode("\n", $log_content);
+        $lines = explode("\n", $logContent);
         $lines = array_map('trim', $lines);
         $lines = array_filter($lines);
 

@@ -14,6 +14,9 @@ class Model
     protected $tableName;
     protected $cache;
 
+    /**
+     * @param array $initialData
+     */
     public function __construct($initialData = [])
     {
         if (is_array($initialData)) {
@@ -23,11 +26,20 @@ class Model
         $this->cache = Cache::getCache(Cache::TYPE_REQUEST);
     }
 
+    /**
+     * @return string
+     */
     public function getTableName()
     {
         return $this->tableName;
     }
 
+    /**
+     * @param integer $depth
+     * @param integer $currentDepth
+     *
+     * @return array
+     */
     public function toArray($depth = 2, $currentDepth = 0)
     {
         if (isset(static::$sleepable) && is_array(static::$sleepable) && count(static::$sleepable)) {
@@ -44,6 +56,13 @@ class Model
         return $rtn;
     }
 
+    /**
+     * @param string  $property
+     * @param integer $currentDepth
+     * @param integer $depth
+     *
+     * @return mixed
+     */
     protected function propertyToArray($property, $currentDepth, $depth)
     {
         $rtn = null;
@@ -60,6 +79,13 @@ class Model
         return $rtn;
     }
 
+    /**
+     * @param mixed   $value
+     * @param integer $currentDepth
+     * @param integer $depth
+     *
+     * @return mixed
+     */
     protected function valueToArray($value, $currentDepth, $depth)
     {
         $rtn = null;
@@ -84,16 +110,25 @@ class Model
         return $rtn;
     }
 
+    /**
+     * @return array
+     */
     public function getDataArray()
     {
         return $this->data;
     }
 
+    /**
+     * @return array
+     */
     public function getModified()
     {
         return $this->modified;
     }
 
+    /**
+     * @param array $values
+     */
     public function setValues(array $values)
     {
         foreach ($values as $key => $value) {
@@ -113,11 +148,20 @@ class Model
         }
     }
 
+    /**
+     * @param string $column
+     */
     protected function setModified($column)
     {
         $this->modified[$column] = $column;
     }
 
+    /**
+     * @param string $name
+     * @param mixed  $value
+     *
+     * @throws HttpException\ValidationException
+     */
     protected function validateString($name, $value)
     {
         if (!is_string($value) && !is_null($value)) {
@@ -125,6 +169,12 @@ class Model
         }
     }
 
+    /**
+     * @param string $name
+     * @param mixed  $value
+     *
+     * @throws HttpException\ValidationException
+     */
     protected function validateInt($name, &$value)
     {
         if (is_bool($value)) {
@@ -140,6 +190,12 @@ class Model
         }
     }
 
+    /**
+     * @param string $name
+     * @param mixed  $value
+     *
+     * @throws HttpException\ValidationException
+     */
     protected function validateFloat($name, &$value)
     {
         if (!is_numeric($value) && !is_null($value)) {
@@ -151,6 +207,12 @@ class Model
         }
     }
 
+    /**
+     * @param string $name
+     * @param mixed  $value
+     *
+     * @throws HttpException\ValidationException
+     */
     protected function validateDate($name, &$value)
     {
         if (is_string($value)) {
@@ -164,6 +226,12 @@ class Model
         $value = empty($value) ? null : $value->format('Y-m-d H:i:s');
     }
 
+    /**
+     * @param string $name
+     * @param mixed  $value
+     *
+     * @throws HttpException\ValidationException
+     */
     protected function validateNotNull($name, $value)
     {
         if (is_null($value)) {
@@ -171,6 +239,11 @@ class Model
         }
     }
 
+    /**
+     * @param string $key
+     *
+     * @return mixed
+     */
     public function __get($key)
     {
         if (array_key_exists($key, $this->getters)) {
@@ -181,6 +254,12 @@ class Model
         return null;
     }
 
+    /**
+     * @param string $key
+     * @param mixed  $value
+     *
+     * @return mixed
+     */
     public function __set($key, $value)
     {
         if (array_key_exists($key, $this->setters)) {

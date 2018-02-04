@@ -9,14 +9,14 @@ class Csrf extends Hidden
     /**
      * @var integer
      */
-    protected $_rows = 4;
+    protected $rows = 4;
 
     /**
      * @return boolean
      */
     public function validate()
     {
-        if ($this->_value != $_COOKIE[$this->getName()]) {
+        if ($this->value != $_COOKIE[$this->getName()]) {
             return false;
         }
 

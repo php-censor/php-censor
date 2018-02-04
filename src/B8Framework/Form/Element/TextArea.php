@@ -9,14 +9,14 @@ class TextArea extends Text
     /**
      * @var integer
      */
-    protected $_rows = 4;
+    protected $rows = 4;
 
     /**
      * @return integer
      */
     public function getRows()
     {
-        return $this->_rows;
+        return $this->rows;
     }
 
     /**
@@ -24,7 +24,7 @@ class TextArea extends Text
      */
     public function setRows($rows)
     {
-        $this->_rows = $rows;
+        $this->rows = $rows;
     }
 
     /**

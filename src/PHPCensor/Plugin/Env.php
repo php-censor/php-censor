@@ -6,13 +6,11 @@ use PHPCensor\Plugin;
 
 /**
  * Environment variable plugin
- * 
+ *
  * @author Steve Kamerman <stevekamerman@gmail.com>
  */
 class Env extends Plugin
 {
-    protected $env_vars;
-
     /**
      * @return string
      */
@@ -20,7 +18,7 @@ class Env extends Plugin
     {
         return 'env';
     }
-    
+
     /**
     * Adds the specified environment variables to the builder environment
     */
@@ -30,13 +28,13 @@ class Env extends Plugin
         foreach ($this->options as $key => $value) {
             if (is_numeric($key)) {
                 // This allows the developer to specify env vars like " - FOO=bar" or " - FOO: bar"
-                $env_var = is_array($value)? key($value).'='.current($value): $value;
+                $envVar = is_array($value)? key($value).'='.current($value): $value;
             } else {
                 // This allows the standard syntax: "FOO: bar"
-                $env_var = "$key=$value";
+                $envVar = "$key=$value";
             }
 
-            if (!putenv($this->builder->interpolate($env_var))) {
+            if (!putenv($this->builder->interpolate($envVar))) {
                 $success = false;
                 $this->builder->logFailure('Unable to set environment variable');
             }

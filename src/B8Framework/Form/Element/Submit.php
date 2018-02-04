@@ -9,7 +9,7 @@ class Submit extends Button
     /**
      * @var string
      */
-    protected $_value = 'Submit';
+    protected $value = 'Submit';
 
     /**
      * @param string $viewFile

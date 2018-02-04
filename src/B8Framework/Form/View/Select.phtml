@@ -1,10 +1,10 @@
-<div class="control-group <?= $ccss; ?>">
+<div class="control-group <?= $containerClass; ?>">
     <?php if ($label): ?>
         <label class="control-label" for="<?= $id ?>"><?= $label; ?></label>
     <?php endif; ?>
 
     <div class="controls">
-        <select id="<?= $id; ?>" class="<?= $css; ?>" name="<?= $name; ?>">
+        <select id="<?= $id; ?>" class="<?= $class; ?>" name="<?= $name; ?>">
             <?php foreach ($options as $val => $lbl): ?>
                 <option
                     value="<?= $val; ?>" <?= ($value == $val) ? ' selected="selected"' : ''; ?>

@@ -10,14 +10,14 @@ class Select extends Input
     /**
      * @var array
      */
-    protected $_options = [];
+    protected $options = [];
 
     /**
      * @param array $options
      */
     public function setOptions(array $options)
     {
-        $this->_options = $options;
+        $this->options = $options;
     }
 
     /**
@@ -27,6 +27,6 @@ class Select extends Input
     {
         parent::onPreRender($view);
 
-        $view->options = $this->_options;
+        $view->options = $this->options;
     }
 }

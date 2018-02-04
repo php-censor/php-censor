@@ -8,7 +8,7 @@ use PHPCensor\Plugin;
 
 /**
  * XMPP Notification - Send notification for successful or failure build
- * 
+ *
  * @author Alexandre Russo <dev.github@ange7.com>
  */
 class XMPP extends Plugin
@@ -48,7 +48,7 @@ class XMPP extends Plugin
     /**
      * @var string, mask to format date
      */
-    protected $date_format;
+    protected $dateFormat;
 
     /**
      * @return string
@@ -57,7 +57,7 @@ class XMPP extends Plugin
     {
         return 'xmpp';
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -71,7 +71,7 @@ class XMPP extends Plugin
         $this->alias       = '';
         $this->recipients  = [];
         $this->tls         = false;
-        $this->date_format = '%c';
+        $this->dateFormat = '%c';
 
         /*
          * Set recipients list
@@ -189,7 +189,7 @@ class XMPP extends Plugin
             $message = "✘ [".$this->build->getProjectTitle()."] Build #" . $this->build->getId()." failure";
         }
 
-        $message .= ' ('.strftime($this->date_format).')';
+        $message .= ' ('.strftime($this->dateFormat).')';
 
         return file_put_contents($message_file, $message);
     }

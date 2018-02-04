@@ -18,7 +18,7 @@ use PHPCensor\Model\Build;
 
 /**
  * Run console command - Runs any pending builds.
- * 
+ *
  * @author Dan Cryer <dan@block8.co.uk>
  */
 class RunCommand extends Command
@@ -52,8 +52,10 @@ class RunCommand extends Command
     {
         $this
             ->setName('php-censor:run-builds')
-            ->setDescription('Run all pending PHP Censor builds')
-            ->addOption('debug', null, null, 'Run PHP Censor in debug mode');
+
+            ->addOption('debug', null, null, 'Run PHP Censor in debug mode')
+
+            ->setDescription('Run all pending PHP Censor builds');
     }
 
     /**
@@ -81,7 +83,7 @@ class RunCommand extends Command
 
         $this->logger->pushProcessor(new LoggedBuildContextTidier());
         $this->logger->addInfo('Finding builds to process');
-        
+
         /** @var BuildStore $buildStore */
         $buildStore = Factory::getStore('Build');
         $result     = $buildStore->getByStatus(Build::STATUS_PENDING, $this->maxBuilds);

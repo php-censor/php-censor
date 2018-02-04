@@ -93,9 +93,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
             return false;
         }
 
-        $cmd = $this->findBinary('phpunit');
-        // run without logging
-        $ret = null;
+        $cmd      = $this->findBinary('phpunit');
         $lastLine = exec($cmd.' --log-json . --version');
         if (false !== strpos($lastLine, '--log-json')) {
             $logFormat = 'junit'; // --log-json is not supported

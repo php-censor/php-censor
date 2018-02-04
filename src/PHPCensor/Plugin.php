@@ -55,10 +55,10 @@ abstract class Plugin
     /**
      * Find a binary required by a plugin.
      *
-     * @param string  $binary
-     * @param boolean $quiet Returns null instead of throwing an exception.
+     * @param array|string $binary
+     * @param boolean      $quiet Returns null instead of throwing an exception.
      *
-     * @return null|string
+     * @return string|false
      *
      * @throws \Exception when no binary has been found and $quiet is false.
      */

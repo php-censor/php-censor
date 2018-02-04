@@ -1,10 +1,10 @@
-<div class="control-group <?= $ccss; ?> <?= (isset($error) ? 'error' : ''); ?>">
+<div class="control-group <?= $containerClass; ?> <?= (isset($error) ? 'error' : ''); ?>">
     <?php if ($label): ?>
         <label class="control-label" for="<?= $id ?>"><?= $label; ?></label>
     <?php endif; ?>
 
     <div class="controls">
-        <input id="<?= $id; ?>" type="<?= $type; ?>" class="<?= $css; ?>"
+        <input id="<?= $id; ?>" type="<?= $type; ?>" class="<?= $class; ?>"
             name="<?= $name; ?>"
             <?= isset($value) ? ' value="' . $value . '"' : '' ?>
             <?= isset($pattern) ? ' pattern="' . $pattern . '"' : '' ?>

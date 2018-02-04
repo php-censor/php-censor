@@ -11,7 +11,7 @@ use PHPCensor\Model\User;
 
 /**
  * Project Controller - Allows users to create, edit and view projects.
- * 
+ *
  * @author Dan Cryer <dan@block8.co.uk>
  */
 class GroupController extends Controller
@@ -46,7 +46,7 @@ class GroupController extends Controller
             ];
             $projects_active   = b8\Store\Factory::getStore('Project')->getByGroupId($group->getId(), false);
             $projects_archived = b8\Store\Factory::getStore('Project')->getByGroupId($group->getId(), true);
-            
+
             $thisGroup['projects'] = array_merge($projects_active['items'], $projects_archived['items']);
             $groups[]              = $thisGroup;
         }
