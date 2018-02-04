@@ -11,7 +11,7 @@ use PHPCensor\ZeroConfigPluginInterface;
 
 /**
  * PHP Docblock Checker Plugin - Checks your PHP files for appropriate uses of Docblocks
- * 
+ *
  * @author Dan Cryer <dan@block8.co.uk>
  */
 class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
@@ -33,7 +33,7 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
     /**
      * @var integer
      */
-    protected $allowed_warnings;
+    protected $allowedWarnings;
 
     /**
      * @return string
@@ -42,7 +42,7 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
     {
         return 'php_docblock_checker';
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -52,10 +52,10 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
 
         $this->ignore = $this->builder->ignore;
         $this->path = '';
-        $this->allowed_warnings = 0;
+        $this->allowedWarnings = 0;
 
         if (isset($options['zero_config']) && $options['zero_config']) {
-            $this->allowed_warnings = -1;
+            $this->allowedWarnings = -1;
         }
 
         if (array_key_exists('skip_classes', $options)) {
@@ -71,7 +71,7 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
         }
 
         if (array_key_exists('allowed_warnings', $options)) {
-            $this->allowed_warnings = (int)$options['allowed_warnings'];
+            $this->allowedWarnings = (int)$options['allowed_warnings'];
         }
     }
 
@@ -140,7 +140,7 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
         $this->build->storeMeta('phpdoccheck-warnings', $errors);
         $this->reportErrors($output);
 
-        if ($this->allowed_warnings != -1 && $errors > $this->allowed_warnings) {
+        if ($this->allowedWarnings != -1 && $errors > $this->allowedWarnings) {
             $success = false;
         }
 

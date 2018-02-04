@@ -12,14 +12,15 @@ use \PHPCensor\Plugin;
 
 /**
  * Integrates PHPCensor with Mage v3: https://github.com/andres-montanez/Magallanes
+ *
  * @package      PHPCensor
  * @subpackage   Plugins
  */
 class Mage3 extends Plugin
 {
-    protected $mage_bin = 'mage';
-    protected $mage_env;
-    protected $mage_log_dir;
+    protected $mageBin = 'mage';
+    protected $mageEnv;
+    protected $mageLogDir;
 
     /**
      * {@inheritdoc}
@@ -38,15 +39,15 @@ class Mage3 extends Plugin
 
         $config = $builder->getSystemConfig('mage3');
         if (!empty($config['bin'])) {
-            $this->mage_bin = $config['bin'];
+            $this->mageBin = $config['bin'];
         }
 
         if (isset($options['env'])) {
-            $this->mage_env = $builder->interpolate($options['env']);
+            $this->mageEnv = $builder->interpolate($options['env']);
         }
 
         if (isset($options['log_dir'])) {
-            $this->mage_log_dir = $builder->interpolate($options['log_dir']);
+            $this->mageLogDir = $builder->interpolate($options['log_dir']);
         }
     }
 
@@ -55,12 +56,12 @@ class Mage3 extends Plugin
      */
     public function execute()
     {
-        if (empty($this->mage_env)) {
+        if (empty($this->mageEnv)) {
             $this->builder->logFailure('You must specify environment.');
             return false;
         }
 
-        $result = $this->builder->executeCommand($this->mage_bin . ' -n deploy ' . $this->mage_env);
+        $result = $this->builder->executeCommand($this->mageBin . ' -n deploy ' . $this->mageEnv);
 
         try {
             $this->builder->log('########## MAGE LOG BEGIN ##########');
@@ -80,12 +81,12 @@ class Mage3 extends Plugin
      */
     protected function getMageLog()
     {
-        $logs_dir = $this->build->getBuildPath() . (!empty($this->mage_log_dir) ? '/' . $this->mage_log_dir : '');
-        if (!is_dir($logs_dir)) {
+        $logsDir = $this->build->getBuildPath() . (!empty($this->mageLogDir) ? '/' . $this->mageLogDir : '');
+        if (!is_dir($logsDir)) {
             throw new \Exception('Log directory not found');
         }
 
-        $list = scandir($logs_dir);
+        $list = scandir($logsDir);
         if ($list === false) {
             throw new \Exception('Log dir read fail');
         }
@@ -102,17 +103,17 @@ class Mage3 extends Plugin
             throw new \Exception('Logs sort fail');
         }
 
-        $last_log_file = end($list);
-        if ($last_log_file === false) {
+        $lastLogFile = end($list);
+        if ($lastLogFile === false) {
             throw new \Exception('Get last Log name fail');
         }
 
-        $log_content = file_get_contents($logs_dir . '/' . $last_log_file);
-        if ($log_content === false) {
+        $logContent = file_get_contents($logsDir . '/' . $lastLogFile);
+        if ($logContent === false) {
             throw new \Exception('Get last Log content fail');
         }
 
-        $lines = explode("\n", $log_content);
+        $lines = explode("\n", $logContent);
         $lines = array_map('trim', $lines);
         $lines = array_filter($lines);
 

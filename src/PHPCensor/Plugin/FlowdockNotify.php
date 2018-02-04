@@ -10,12 +10,12 @@ use PHPCensor\Plugin;
 
 /**
  * Flowdock Plugin
- * 
+ *
  * @author Petr Cervenka <petr@nanosolutions.io>
  */
 class FlowdockNotify extends Plugin
 {
-    protected $api_key;
+    protected $apiKey;
     protected $email;
     protected $message;
 
@@ -29,7 +29,7 @@ class FlowdockNotify extends Plugin
     {
         return 'flowdock_notify';
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -40,7 +40,7 @@ class FlowdockNotify extends Plugin
         if (!is_array($options) || !isset($options['api_key'])) {
             throw new \Exception('Please define the api_key for Flowdock Notify plugin!');
         }
-        $this->api_key = trim($options['api_key']);
+        $this->apiKey  = trim($options['api_key']);
         $this->message = isset($options['message']) ? $options['message'] : self::MESSAGE_DEFAULT;
         $this->email   = isset($options['email']) ? $options['email'] : 'PHP Censor';
     }
@@ -53,9 +53,9 @@ class FlowdockNotify extends Plugin
     public function execute()
     {
 
-        $message = $this->builder->interpolate($this->message);
+        $message         = $this->builder->interpolate($this->message);
         $successfulBuild = $this->build->isSuccessful() ? 'Success' : 'Failed';
-        $push = new Push($this->api_key);
+        $push            = new Push($this->apiKey);
         $flowMessage = TeamInboxMessage::create()
             ->setSource("PHPCensor")
             ->setFromAddress($this->email)

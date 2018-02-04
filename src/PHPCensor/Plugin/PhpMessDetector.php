@@ -10,7 +10,7 @@ use PHPCensor\ZeroConfigPluginInterface;
 
 /**
  * PHP Mess Detector Plugin - Allows PHP Mess Detector testing.
- * 
+ *
  * @author Dan Cryer <dan@block8.co.uk>
  */
 class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
@@ -38,7 +38,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
      * @var array
      */
     protected $rules;
-    protected $allowed_warnings;
+    protected $allowedWarnings;
 
     /**
      * @return string
@@ -59,10 +59,10 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
         $this->ignore           = $this->builder->ignore;
         $this->path             = '';
         $this->rules            = ['codesize', 'unusedcode', 'naming'];
-        $this->allowed_warnings = 0;
+        $this->allowedWarnings = 0;
 
         if (isset($options['zero_config']) && $options['zero_config']) {
-            $this->allowed_warnings = -1;
+            $this->allowedWarnings = -1;
         }
 
         if (!empty($options['path'])) {
@@ -70,7 +70,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
         }
 
         if (array_key_exists('allowed_warnings', $options)) {
-            $this->allowed_warnings = (int)$options['allowed_warnings'];
+            $this->allowedWarnings = (int)$options['allowed_warnings'];
         }
 
         foreach (['rules', 'ignore', 'suffixes'] as $key) {
@@ -247,7 +247,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
     {
         $success = true;
 
-        if ($this->allowed_warnings != -1 && $errorCount > $this->allowed_warnings) {
+        if ($this->allowedWarnings != -1 && $errorCount > $this->allowedWarnings) {
             $success = false;
             return $success;
         }

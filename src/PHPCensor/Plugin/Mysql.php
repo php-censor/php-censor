@@ -10,7 +10,7 @@ use b8\Database;
 
 /**
  * MySQL Plugin - Provides access to a MySQL database.
- * 
+ *
  * @author Dan Cryer <dan@block8.co.uk>
  * @author Steve Kamerman <stevekamerman@gmail.com>
  */
@@ -110,15 +110,15 @@ class Mysql extends Plugin
             throw new \Exception('Import statement must contain a \'file\' key');
         }
 
-        $import_file = $this->builder->buildPath . $this->builder->interpolate($query['file']);
-        if (!is_readable($import_file)) {
-            throw new \Exception(sprintf('Cannot open SQL import file: %s', $import_file));
+        $importFile = $this->builder->buildPath . $this->builder->interpolate($query['file']);
+        if (!is_readable($importFile)) {
+            throw new \Exception(sprintf('Cannot open SQL import file: %s', $importFile));
         }
 
         $database = isset($query['database']) ? $this->builder->interpolate($query['database']) : null;
 
-        $import_command = $this->getImportCommand($import_file, $database);
-        if (!$this->builder->executeCommand($import_command)) {
+        $importCommand = $this->getImportCommand($importFile, $database);
+        if (!$this->builder->executeCommand($importCommand)) {
             throw new \Exception('Unable to execute SQL file');
         }
 
@@ -140,15 +140,15 @@ class Mysql extends Plugin
             'gz'  => '| gzip --decompress',
         ];
 
-        $extension = strtolower(pathinfo($import_file, PATHINFO_EXTENSION));
-        $decomp_cmd = '';
+        $extension        = strtolower(pathinfo($import_file, PATHINFO_EXTENSION));
+        $decompressionCmd = '';
         if (array_key_exists($extension, $decompression)) {
-            $decomp_cmd = $decompression[$extension];
+            $decompressionCmd = $decompression[$extension];
         }
 
         $args = [
             ':import_file' => escapeshellarg($import_file),
-            ':decomp_cmd'  => $decomp_cmd,
+            ':decomp_cmd'  => $decompressionCmd,
             ':host'        => escapeshellarg($this->host),
             ':user'        => escapeshellarg($this->user),
             ':pass'        => (!$this->pass) ? '' : '-p' . escapeshellarg($this->pass),

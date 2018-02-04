@@ -11,7 +11,7 @@ use Maknz\Slack\AttachmentField;
 
 /**
  * Slack Plugin
- * 
+ *
  * @author Stephen Ball <phpci@stephen.rebelinblue.com>
  */
 class SlackNotify extends Plugin
@@ -21,7 +21,7 @@ class SlackNotify extends Plugin
     private $username;
     private $message;
     private $icon;
-    private $show_status;
+    private $showStatus;
 
     /**
      * @return string
@@ -62,9 +62,9 @@ class SlackNotify extends Plugin
             }
 
             if (isset($options['show_status'])) {
-                $this->show_status = (bool) $options['show_status'];
+                $this->showStatus = (bool) $options['show_status'];
             } else {
-                $this->show_status = true;
+                $this->showStatus = true;
             }
 
             if (isset($options['icon'])) {
@@ -100,7 +100,7 @@ class SlackNotify extends Plugin
         }
 
         // Include an attachment which shows the status and hide the message
-        if ($this->show_status) {
+        if ($this->showStatus) {
             $successfulBuild = $this->build->isSuccessful();
 
             if ($successfulBuild) {

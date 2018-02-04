@@ -16,11 +16,17 @@
 
     <rule ref="rulesets/naming.xml">
         <exclude name="ShortVariable"/>
+        <exclude name="ShortMethodName"/>
     </rule>
 
     <rule ref="rulesets/naming.xml/ShortVariable">
         <properties>
-            <property name="exceptions" value="db,id,i,j" />
+            <property name="exceptions" value="db,dn,id,i,j" />
+        </properties>
+    </rule>
+    <rule ref="rulesets/naming.xml/ShortMethodName">
+        <properties>
+            <property name="exceptions" value="up" />
         </properties>
     </rule>
 </ruleset>

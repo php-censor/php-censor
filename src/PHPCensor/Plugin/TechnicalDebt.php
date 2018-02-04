@@ -28,7 +28,7 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
     /**
      * @var int
      */
-    protected $allowed_errors;
+    protected $allowedErrors;
 
     /**
      * @var array - paths to ignore
@@ -123,7 +123,7 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
         $this->suffixes       = ['php'];
         $this->directory      = $this->builder->buildPath;
         $this->ignore         = $this->builder->ignore;
-        $this->allowed_errors = 0;
+        $this->allowedErrors = 0;
         $this->searches       = ['TODO', 'FIXME', 'TO DO', 'FIX ME'];
 
         if (!empty($options['suffixes']) && is_array($options['suffixes'])) {
@@ -135,7 +135,7 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
         }
 
         if (isset($options['zero_config']) && $options['zero_config']) {
-            $this->allowed_errors = -1;
+            $this->allowedErrors = -1;
         }
 
         $this->setOptions($options);
@@ -185,7 +185,7 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
 
         $this->build->storeMeta('technical_debt-warnings', $errorCount);
 
-        if ($this->allowed_errors !== -1 && $errorCount > $this->allowed_errors) {
+        if ($this->allowedErrors !== -1 && $errorCount > $this->allowedErrors) {
             $success = false;
         }
 
