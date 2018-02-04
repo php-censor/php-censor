@@ -10,7 +10,7 @@ Getting Started
     * [Run builds using cronjob](workers/cron.md)
 * [Adding PHP Censor Support to Your Projects](configuring_project.md)
 * Updating PHP Censor (See [README](../../README.md))
-* [Configuring PHP Censor](configuring.md)
+* [Configuring PHP Censor](configuring-application.md)
 
 Using PHP Censor
 ----------------

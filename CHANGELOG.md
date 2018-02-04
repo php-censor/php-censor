@@ -163,7 +163,7 @@ to [@vinpel](https://github.com/vinpel). Pull request [#141](https://github.com/
 - Filtration for errors by severity and plugin. Issue [#85](https://github.com/php-censor/php-censor/issues/85).
 - Links to errors from summary block (Information tab). Issue [#85](https://github.com/php-censor/php-censor/issues/85).
 - New dashboard widget with only failed projects (See 
-[documentation](https://github.com/php-censor/php-censor/blob/master/docs/en/configuring.md#dashboard-widgets)). 
+[documentation](https://github.com/php-censor/php-censor/blob/master/docs/en/configuring-application.md#dashboard-widgets)). 
 Thanks to [@ss-gxp](https://github.com/ss-gxp). Pull request [#131](https://github.com/php-censor/php-censor/pull/131).
 - Ability to call Git webhook by project name instead id. Thanks to [@ss-gxp](https://github.com/ss-gxp). Pull request 
 [#132](https://github.com/php-censor/php-censor/pull/132).
@@ -171,7 +171,7 @@ Thanks to [@ss-gxp](https://github.com/ss-gxp). Pull request [#131](https://gith
 ### Changed
 
 - Dashboard on the index page, now dashboard more flexible and include separated widgets (See 
-[documentation](https://github.com/php-censor/php-censor/blob/master/docs/en/configuring.md#dashboard-widgets)). 
+[documentation](https://github.com/php-censor/php-censor/blob/master/docs/en/configuring-application.md#dashboard-widgets)). 
 Thanks to [@ss-gxp](https://github.com/ss-gxp). Pull request [#131](https://github.com/php-censor/php-censor/pull/131).
 
 ### Fixed
