@@ -100,7 +100,7 @@ EOD;
         );
 
         $this->assertEquals(
-            \Normalizer::normalize("start 123_X08�_X00�_Xa�_5432 end"),
+            \Normalizer::normalize("start 123_X08�_X00�_Xa4�_5432 end"),
             \Normalizer::normalize($this->testedExecutor->replaceIllegalCharacters(
                 "start 123_X08\x08_X00\x00_Xa4\xa4_5432 end"
             ))
