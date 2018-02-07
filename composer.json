@@ -56,6 +56,7 @@
     "symfony/debug":                "~3.4.0",
     "symfony/dependency-injection": "~3.4.0",
     "symfony/event-dispatcher":     "~3.4.0",
+    "symfony/cache":                "~3.4.0",
     "psr/log":                      "~1.0.0",
     "monolog/monolog":              "~1.22.0",
     "pimple/pimple":                "~3.0.0",
@@ -94,6 +95,9 @@
     "mremi/flowdock":      "For FlowdockNotify plugin"
   },
   "extra": {
+    "platform": {
+        "php": "5.6.*"
+    },
     "installer-paths": {
       "public/assets/vendor/sprintf-js":   ["npm-asset/sprintf-js"],
       "public/assets/vendor/codemirror":   ["npm-asset/codemirror"],

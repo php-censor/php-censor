@@ -1,7 +1,9 @@
 /vendor
 /composer.phar
 /runtime
+
 /app/config.yml
 /public/assets/vendor
+
 /public/artifacts
 !/public/artifacts/.gitkeep
