@@ -86,24 +86,24 @@ EOD;
     public function testReplaceIllegalCharacters()
     {
         $this->assertEquals(
-            \Normalizer::normalize("start � end"),
-            \Normalizer::normalize($this->testedExecutor->replaceIllegalCharacters(
+            "start � end",
+            $this->testedExecutor->replaceIllegalCharacters(
                 "start \xf0\x9c\x83\x96 end"
-            ))
+            )
         );
 
         $this->assertEquals(
-            \Normalizer::normalize("start � end"),
-            \Normalizer::normalize($this->testedExecutor->replaceIllegalCharacters(
+            "start � end",
+            $this->testedExecutor->replaceIllegalCharacters(
                 "start \xF0\x9C\x83\x96 end"
-            ))
+            )
         );
 
         $this->assertEquals(
-            \Normalizer::normalize("start 123_X08�_X00�_Xa�_5432 end"),
-            \Normalizer::normalize($this->testedExecutor->replaceIllegalCharacters(
+            "start 123_X08�_X00�_Xa4�_5432 end",
+            $this->testedExecutor->replaceIllegalCharacters(
                 "start 123_X08\x08_X00\x00_Xa4\xa4_5432 end"
-            ))
+            )
         );
     }
 }

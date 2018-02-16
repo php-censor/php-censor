@@ -176,13 +176,12 @@ class CommandExecutor implements CommandExecutorInterface
      */
     public function replaceIllegalCharacters($utf8String)
     {
+        mb_substitute_character(0xFFFD); // is '�'
+        $legalUtf8String = mb_convert_encoding($utf8String, 'utf8', 'utf8');
         $regexp = '/[\x00-\x08\x10\x0B\x0C\x0E-\x19\x7F]' .
-            '|[\x00-\x7F][\x80-\xBF]+' .
-            '|([\xC0\xC1]|[\xF0-\xFF])[\x80-\xBF]*' .
-            '|[\xC2-\xDF]((?![\x80-\xBF])|[\x80-\xBF]{2,})' .
-            '|[\xE0-\xEF](([\x80-\xBF](?![\x80-\xBF]))|(?![\x80-\xBF]{2})|[\x80-\xBF]{3,})/S';
+            '|[^\x{0}-\x{ffff}]/u'; // more than 3 byte UTF-8 sequences (unsupported in mysql)
 
-        return preg_replace($regexp, '�', $utf8String);
+        return preg_replace($regexp, '�', $legalUtf8String);
     }
 
     /**
