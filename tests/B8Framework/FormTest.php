@@ -68,6 +68,19 @@ class FormTest extends TestCase
         self::assertTrue(is_callable($f->getValidator()));
     }
 
+    public function testInputCreate()
+    {
+        $text = Form\Element\Text::create(
+            'input-name',
+            'input-label',
+            true
+        );
+
+        self::assertEquals('input-name', $text->getName());
+        self::assertEquals('input-label', $text->getLabel());
+        self::assertTrue($text->getRequired());
+    }
+
     public function testInputValidation()
     {
         $f = new Form\Element\Text();
@@ -94,6 +107,16 @@ class FormTest extends TestCase
 
         $f->setValue('fail');
         $f->setPattern(null);
+
+        self::assertFalse($f->validate());
+    }
+
+    public function testInputValidationWithCustomError()
+    {
+        $f = new Form\Element\Text();
+        $f->setRequired(true);
+        $f->setValue('input-value');
+        $f->setError('Error!');
 
         self::assertFalse($f->validate());
     }
@@ -188,5 +211,8 @@ class FormTest extends TestCase
 
         $e = new Form\Element\Url();
         self::assertTrue(strpos($e->render(), 'url') !== false);
+
+        $e = new Form\Element\Password();
+        self::assertTrue(strpos($e->render(), 'password') !== false);
     }
 }

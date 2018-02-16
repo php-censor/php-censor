@@ -9,17 +9,17 @@ class Input extends Element
     /**
      * @var boolean
      */
-    protected $_required = false;
+    protected $required = false;
 
     /**
      * @var string
      */
-    protected $_pattern;
+    protected $pattern;
 
     /**
      * @var callable
      */
-    protected $_validator;
+    protected $validator;
 
     /**
      * @var mixed
@@ -29,12 +29,12 @@ class Input extends Element
     /**
      * @var string
      */
-    protected $_error;
+    protected $error;
 
     /**
      * @var boolean
      */
-    protected $_customError = false;
+    protected $customError = false;
 
     /**
      * @param string  $name
@@ -78,7 +78,7 @@ class Input extends Element
      */
     public function getRequired()
     {
-        return $this->_required;
+        return $this->required;
     }
 
     /**
@@ -88,7 +88,7 @@ class Input extends Element
      */
     public function setRequired($required)
     {
-        $this->_required = (bool)$required;
+        $this->required = (bool)$required;
 
         return $this;
     }
@@ -98,7 +98,7 @@ class Input extends Element
      */
     public function getValidator()
     {
-        return $this->_validator;
+        return $this->validator;
     }
 
     /**
@@ -109,7 +109,7 @@ class Input extends Element
     public function setValidator($validator)
     {
         if (is_callable($validator) || $validator instanceof \Closure) {
-            $this->_validator = $validator;
+            $this->validator = $validator;
         }
 
         return $this;
@@ -120,7 +120,7 @@ class Input extends Element
      */
     public function getPattern()
     {
-        return $this->_pattern;
+        return $this->pattern;
     }
 
     /**
@@ -130,7 +130,7 @@ class Input extends Element
      */
     public function setPattern($pattern)
     {
-        $this->_pattern = $pattern;
+        $this->pattern = $pattern;
 
         return $this;
     }
@@ -141,12 +141,12 @@ class Input extends Element
     public function validate()
     {
         if ($this->getRequired() && empty($this->value)) {
-            $this->_error = $this->getLabel() . ' is required.';
+            $this->error = $this->getLabel() . ' is required.';
             return false;
         }
 
         if ($this->getPattern() && !preg_match('/' . $this->getPattern() . '/', $this->value)) {
-            $this->_error = 'Invalid value entered.';
+            $this->error = 'Invalid value entered.';
 
             return false;
         }
@@ -157,13 +157,13 @@ class Input extends Element
             try {
                 call_user_func_array($validator, [$this->value]);
             } catch (\Exception $ex) {
-                $this->_error = $ex->getMessage();
+                $this->error = $ex->getMessage();
 
                 return false;
             }
         }
 
-        if ($this->_customError) {
+        if ($this->customError) {
             return false;
         }
 
@@ -177,8 +177,8 @@ class Input extends Element
      */
     public function setError($message)
     {
-        $this->_customError = true;
-        $this->_error       = $message;
+        $this->customError = true;
+        $this->error       = $message;
 
         return $this;
     }
@@ -189,8 +189,8 @@ class Input extends Element
     protected function onPreRender(View &$view)
     {
         $view->value    = $this->getValue();
-        $view->error    = $this->_error;
-        $view->pattern  = $this->_pattern;
-        $view->required = $this->_required;
+        $view->error    = $this->error;
+        $view->pattern  = $this->pattern;
+        $view->required = $this->required;
     }
 }
