@@ -2,14 +2,14 @@
 
 namespace PHPCensor\Plugin;
 
-use b8\View;
+use PHPCensor\View;
 use PHPCensor\Helper\Email as EmailHelper;
 use Psr\Log\LogLevel;
 use PHPCensor\Plugin;
 
 /**
  * Email Plugin - Provides simple email capability.
- * 
+ *
  * @author Steve Brazier <meadsteve@gmail.com>
  */
 class Email extends Plugin

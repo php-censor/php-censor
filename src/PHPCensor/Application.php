@@ -6,7 +6,6 @@ use b8;
 use b8\Exception\HttpException;
 use b8\Http\Response;
 use b8\Http\Response\RedirectResponse;
-use b8\View;
 
 /**
  * @author Dan Cryer <dan@block8.co.uk>

@@ -14,6 +14,7 @@ use PHPCensor\Model\Project;
 use PHPCensor\Model\User;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Controller;
+use PHPCensor\View;
 
 /**
  * Build Controller - Allows users to run and view builds.
@@ -189,7 +190,7 @@ class BuildController extends Controller
         $errorStore = b8\Store\Factory::getStore('BuildError');
         $errors     = $errorStore->getByBuildId($build->getId(), $perPage, $start, $plugin, $severity, $isNew);
 
-        $errorView         = new b8\View('Build/errors');
+        $errorView         = new View('Build/errors');
         $errorView->build  = $build;
         $errorView->errors = $errors['items'];
 
@@ -213,7 +214,7 @@ class BuildController extends Controller
      */
     protected function getPaginatorHtml($buildId, $plugin, $severity, $isNew, $total, $perPage, $page)
     {
-        $view = new b8\View('pagination');
+        $view = new View('pagination');
 
         $urlPattern = APP_URL . 'build/view/' . $buildId;
         $params     = [];
@@ -306,7 +307,7 @@ class BuildController extends Controller
         foreach ($builds['items'] as $build) {
             $item = $build->toArray(1);
 
-            $header = new b8\View('Build/header-row');
+            $header = new View('Build/header-row');
             $header->build = $build;
 
             $item['header_row'] = $header->render();

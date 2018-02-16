@@ -16,6 +16,7 @@ use PHPCensor\Service\BuildService;
 use PHPCensor\Service\ProjectService;
 use PHPCensor\Model\Build;
 use b8\Http\Response\RedirectResponse;
+use PHPCensor\View;
 
 /**
  * Project Controller - Allows users to create, edit and view projects.
@@ -141,7 +142,7 @@ class ProjectController extends PHPCensor\Controller
      */
     protected function getPaginatorHtml($projectId, $branch, $environment, $total, $perPage, $page)
     {
-        $view = new b8\View('pagination');
+        $view = new View('pagination');
 
         $urlPattern = APP_URL . 'project/view/' . $projectId;
         $params     = [];
@@ -178,7 +179,7 @@ class ProjectController extends PHPCensor\Controller
         if (empty($project) || $project->getArchived()) {
             throw new NotFoundException(Lang::get('project_x_not_found', $projectId));
         }
-        
+
         $type  = $this->getParam('type', 'branch');
         $id    = $this->getParam('id');
         $debug = (boolean)$this->getParam('debug', false);
@@ -273,7 +274,7 @@ class ProjectController extends PHPCensor\Controller
 
         $order  = ['id' => 'DESC'];
         $builds = $this->buildStore->getWhere($criteria, $perPage, $start, [], $order);
-        $view   = new b8\View('Project/ajax-builds');
+        $view   = new View('Project/ajax-builds');
 
         foreach ($builds['items'] as &$build) {
             $build = BuildFactory::getBuild($build);
@@ -312,7 +313,7 @@ class ProjectController extends PHPCensor\Controller
         $form = $this->projectForm($values);
 
         if ($method != 'POST' || ($method == 'POST' && !$form->validate())) {
-            $view           = new b8\View('Project/edit');
+            $view           = new View('Project/edit');
             $view->type     = 'add';
             $view->project  = null;
             $view->form     = $form;
@@ -381,7 +382,7 @@ class ProjectController extends PHPCensor\Controller
         $form = $this->projectForm($values, 'edit/' . $projectId);
 
         if ($method != 'POST' || ($method == 'POST' && !$form->validate())) {
-            $view           = new b8\View('Project/edit');
+            $view           = new View('Project/edit');
             $view->type     = 'edit';
             $view->project  = $project;
             $view->form     = $form;

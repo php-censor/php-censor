@@ -6,22 +6,26 @@ use b8\Config;
 use b8\Exception\HttpException\ForbiddenException;
 use b8\Http\Request;
 use b8\Http\Response;
-use b8\View;
 
 class Controller extends \b8\Controller
 {
     /**
-    * @var \b8\View
+    * @var View
     */
     protected $controllerView;
 
     /**
-     * @var \b8\View
+     * @var View
      */
     protected $view;
 
     /**
-     * @var \b8\View
+     * @var string
+     */
+    protected $className;
+
+    /**
+     * @var View
      */
     public $layout;
 
@@ -55,7 +59,7 @@ class Controller extends \b8\Controller
         if (View::exists($this->className)) {
             $this->controllerView = new View($this->className);
         } else {
-            $this->controllerView = new View\Template('{@content}');
+            $this->controllerView = new View('{@content}');
         }
     }
 

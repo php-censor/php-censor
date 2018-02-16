@@ -5,7 +5,7 @@ namespace PHPCensor\Controller;
 use PHPCensor\Model\Build;
 use PHPCensor\Controller;
 use b8\Store\Factory;
-use b8\View;
+use PHPCensor\View;
 use PHPCensor\Model\Project;
 use b8\Http\Response;
 use PHPCensor\Store\BuildStore;
@@ -101,7 +101,7 @@ class WidgetAllProjectsController extends Controller
 
     /**
      * Get a summary of the project groups we have, and what projects they have in them.
-     * 
+     *
      * @return array
      */
     protected function getGroupInfo()

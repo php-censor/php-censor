@@ -4,13 +4,15 @@
  * @var $exception \Exception
  */
 
+$user = $_SESSION['php-censor-user'];
+
 ?>
 <div class="panel panel-danger">
     <div class="box-header">
         <h2 class="box-title">Sorry, there was a problem</h2>
     </div>
 
-    <?php if ($this->User()->getIsAdmin()): ?>
+    <?php if ($user->getIsAdmin()): ?>
         <div class="box-body">
             <strong>Message</strong>: <?= $exception->getMessage(); ?><br />
             <strong>File</strong>: <?= $exception->getFile(); ?><br />

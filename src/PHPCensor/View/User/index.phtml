@@ -1,4 +1,10 @@
-<?php use PHPCensor\Helper\Lang; ?>
+<?php
+
+use PHPCensor\Helper\Lang;
+
+$user = $_SESSION['php-censor-user'];
+
+?>
 <div class="clearfix"  style="margin-bottom: 20px;">
     <div class="pull-right btn-group">
         <a class="btn btn-success" href="<?php print APP_URL; ?>user/add"><?php Lang::out('add_user'); ?></a>
@@ -39,7 +45,7 @@
                             <td><?php print htmlspecialchars($user->getName()); ?></td>
                             <td><?php print $status; ?></td>
                             <td>
-                                <?php if($this->User()->getIsAdmin()): ?>
+                                <?php if($user->getIsAdmin()): ?>
                                     <div class="btn-group btn-group-right">
                                         <a class="btn btn-default btn-sm" href="<?php echo APP_URL ?>user/edit/<?php print $user->getId(); ?>"><?php Lang::out('edit'); ?></a>
                                         <button class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">

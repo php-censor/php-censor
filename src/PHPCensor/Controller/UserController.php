@@ -9,10 +9,11 @@ use PHPCensor\Controller;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Model\User;
 use PHPCensor\Service\UserService;
+use PHPCensor\View;
 
 /**
  * User Controller - Allows an administrator to view, add, edit and delete users.
- * 
+ *
  * @author Dan Cryer <dan@block8.co.uk>
  */
 class UserController extends Controller
@@ -61,7 +62,7 @@ class UserController extends Controller
             $name     = $this->getParam('name', null);
             $email    = $this->getParam('email', null);
             $password = $this->getParam('password', null);
-            
+
             $language = $this->getParam('language', null);
             if (!$language) {
                 $language = null;
@@ -166,7 +167,7 @@ class UserController extends Controller
         $form   = $this->userForm($values);
 
         if ($method != 'POST' || ($method == 'POST' && !$form->validate())) {
-            $view       = new b8\View('User/edit');
+            $view       = new View('User/edit');
             $view->type = 'add';
             $view->user = null;
             $view->form = $form;
@@ -208,7 +209,7 @@ class UserController extends Controller
         $form = $this->userForm($values, 'edit/' . $userId);
 
         if ($method != 'POST' || ($method == 'POST' && !$form->validate())) {
-            $view = new b8\View('User/edit');
+            $view = new View('User/edit');
             $view->type = 'edit';
             $view->user = $user;
             $view->form = $form;

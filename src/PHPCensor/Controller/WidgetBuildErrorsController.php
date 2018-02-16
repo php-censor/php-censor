@@ -3,7 +3,7 @@
 namespace PHPCensor\Controller;
 
 use b8\Store\Factory;
-use b8\View;
+use PHPCensor\View;
 use b8\Http\Response;
 use PHPCensor\Controller;
 use PHPCensor\Store\BuildStore;

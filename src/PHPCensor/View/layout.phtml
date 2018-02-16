@@ -1,4 +1,10 @@
-<?php use PHPCensor\Helper\Lang; ?>
+<?php
+
+use PHPCensor\Helper\Lang;
+
+$user = $_SESSION['php-censor-user'];
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -87,19 +93,19 @@
         </ul>
     </li>
 
-    <?php if (!$this->LoginIsDisabled()->check()): ?>
+    <?php if (!$this->LoginIsDisabled()): ?>
     <!-- User Account: style can be found in dropdown.less -->
     <li class="dropdown user user-menu">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
             <i class="glyphicon glyphicon-user"></i>
-            <span><?php print $this->User()->getName(); ?> <i class="caret"></i></span>
+            <span><?= $user->getName(); ?> <i class="caret"></i></span>
         </a>
         <ul class="dropdown-menu">
             <!-- User image -->
             <li class="user-header">
-                <img src="https://www.gravatar.com/avatar/<?php print md5($this->User()->getEmail()); ?>?d=mm" class="img-circle" alt="<?php print $this->User()->getName(); ?>" />
+                <img src="https://www.gravatar.com/avatar/<?php print md5($user->getEmail()); ?>?d=mm" class="img-circle" alt="<?php print $user->getName(); ?>" />
                 <p>
-                    <?php print $this->User()->getName(); ?>
+                    <?php print $user->getName(); ?>
                 </p>
             </li>
 
@@ -124,14 +130,14 @@
         <!-- sidebar: style can be found in sidebar.less -->
         <section class="sidebar">
 
-            <?php if (!$this->LoginIsDisabled()->check()): ?>
+            <?php if (!$this->LoginIsDisabled()): ?>
             <!-- Sidebar user panel -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="https://www.gravatar.com/avatar/<?php print md5($this->User()->getEmail()); ?>?d=mm" class="img-circle" alt="<?php print $this->User()->getName(); ?>" />
+                    <img src="https://www.gravatar.com/avatar/<?php print md5($user->getEmail()); ?>?d=mm" class="img-circle" alt="<?php print $user->getName(); ?>" />
                 </div>
                 <div class="pull-left info">
-                    <p><?php Lang::out('hello_name', $this->User()->getName()); ?></p>
+                    <p><?php Lang::out('hello_name', $user->getName()); ?></p>
                 </div>
             </div>
             <?php endif; ?>
@@ -144,7 +150,7 @@
                     </a>
                 </li>
 
-                <?php if ($this->User()->getIsAdmin()): ?>
+                <?php if ($user->getIsAdmin()): ?>
                     <li class="treeview">
                         <a href="#">
                             <i class="fa fa-edit"></i>
