@@ -17,6 +17,6 @@ class UnixProcessControlTest extends ProcessControlTest
 
     public function testIsAvailable()
     {
-        $this->assertEquals(DIRECTORY_SEPARATOR === '/', UnixProcessControl::isAvailable());
+        self::assertEquals(DIRECTORY_SEPARATOR === '/', UnixProcessControl::isAvailable());
     }
 }

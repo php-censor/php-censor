@@ -8,7 +8,7 @@ use PHPCensor\Service\BuildStatusService;
 
 /**
  * Unit tests for the ProjectService class.
- * 
+ *
  * @author Dan Cryer <dan@block8.co.uk>
  */
 class BuildStatusServiceTest extends \PHPUnit\Framework\TestCase
@@ -142,7 +142,7 @@ class BuildStatusServiceTest extends \PHPUnit\Framework\TestCase
         $build = $this->getBuild($buildConfigId);
         $service = new BuildStatusService(self::BRANCH, $this->project, $build);
         $service->setUrl('http://php-censor.local/');
-        $this->assertEquals($expectedResult, $service->toArray());
+        self::assertEquals($expectedResult, $service->toArray());
     }
 
     public function finishedProvider()

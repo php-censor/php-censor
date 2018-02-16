@@ -92,14 +92,14 @@ class ExecutorTest extends \PHPUnit\Framework\TestCase
 
         $returnValue = $this->testedExecutor->executePlugin($pluginName, $options);
 
-        $this->assertEquals($expectedReturnValue, $returnValue);
+        self::assertEquals($expectedReturnValue, $returnValue);
     }
 
     public function testExecutePlugin_LogsFailureForNonExistentClasses()
     {
         $options    = [];
         $pluginName = 'DOESNTEXIST';
-        
+
         $this->mockBuildLogger->logFailure(sprintf('Plugin does not exist: %s', $pluginName))->shouldBeCalledTimes(1);
 
         $this->testedExecutor->executePlugin($pluginName, $options);
@@ -162,7 +162,7 @@ class ExecutorTest extends \PHPUnit\Framework\TestCase
             ]
         ];
 
-        $this->assertEquals([], $this->testedExecutor->getBranchSpecificConfig($config, 'branch-1'));
+        self::assertEquals([], $this->testedExecutor->getBranchSpecificConfig($config, 'branch-1'));
 
         $config = [
             'setup' => [
@@ -173,7 +173,7 @@ class ExecutorTest extends \PHPUnit\Framework\TestCase
             ],
         ];
 
-        $this->assertEquals(['phpunit' => []], $this->testedExecutor->getBranchSpecificConfig($config, 'branch-1'));
+        self::assertEquals(['phpunit' => []], $this->testedExecutor->getBranchSpecificConfig($config, 'branch-1'));
 
         $config = [
             'setup' => [
@@ -184,7 +184,7 @@ class ExecutorTest extends \PHPUnit\Framework\TestCase
             ],
         ];
 
-        $this->assertEquals([], $this->testedExecutor->getBranchSpecificConfig($config, 'branch-1'));
+        self::assertEquals([], $this->testedExecutor->getBranchSpecificConfig($config, 'branch-1'));
 
         $config = [
             'setup' => [
@@ -197,7 +197,7 @@ class ExecutorTest extends \PHPUnit\Framework\TestCase
             ],
         ];
 
-        $this->assertEquals(['phpunit' => []], $this->testedExecutor->getBranchSpecificConfig($config, 'branch-1'));
+        self::assertEquals(['phpunit' => []], $this->testedExecutor->getBranchSpecificConfig($config, 'branch-1'));
 
         $config = [
             'setup' => [
@@ -210,7 +210,7 @@ class ExecutorTest extends \PHPUnit\Framework\TestCase
             ],
         ];
 
-        $this->assertEquals(['phpunit' => []], $this->testedExecutor->getBranchSpecificConfig($config, 'branch-1'));
+        self::assertEquals(['phpunit' => []], $this->testedExecutor->getBranchSpecificConfig($config, 'branch-1'));
 
         $config = [
             'setup' => [
@@ -223,7 +223,7 @@ class ExecutorTest extends \PHPUnit\Framework\TestCase
             ],
         ];
 
-        $this->assertEquals([], $this->testedExecutor->getBranchSpecificConfig($config, 'branch-1'));
+        self::assertEquals([], $this->testedExecutor->getBranchSpecificConfig($config, 'branch-1'));
     }
 }
 

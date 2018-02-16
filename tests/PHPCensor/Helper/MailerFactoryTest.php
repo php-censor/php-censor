@@ -27,12 +27,12 @@ class MailerFactoryTest extends \PHPUnit\Framework\TestCase
 
         $factory = new MailerFactory(['email_settings' => $config]);
 
-        $this->assertEquals($config['smtp_address'], $factory->getMailConfig('smtp_address'));
-        $this->assertEquals($config['smtp_port'], $factory->getMailConfig('smtp_port'));
-        $this->assertEquals($config['smtp_encryption'], $factory->getMailConfig('smtp_encryption'));
-        $this->assertEquals($config['smtp_username'], $factory->getMailConfig('smtp_username'));
-        $this->assertEquals($config['smtp_password'], $factory->getMailConfig('smtp_password'));
-        $this->assertEquals($config['default_mailto_address'], $factory->getMailConfig('default_mailto_address'));
+        self::assertEquals($config['smtp_address'], $factory->getMailConfig('smtp_address'));
+        self::assertEquals($config['smtp_port'], $factory->getMailConfig('smtp_port'));
+        self::assertEquals($config['smtp_encryption'], $factory->getMailConfig('smtp_encryption'));
+        self::assertEquals($config['smtp_username'], $factory->getMailConfig('smtp_username'));
+        self::assertEquals($config['smtp_password'], $factory->getMailConfig('smtp_password'));
+        self::assertEquals($config['default_mailto_address'], $factory->getMailConfig('default_mailto_address'));
     }
 
     public function testExecute_TestMailer()
@@ -49,10 +49,10 @@ class MailerFactoryTest extends \PHPUnit\Framework\TestCase
         $factory = new MailerFactory(['email_settings' => $config]);
         $mailer = $factory->getSwiftMailerFromConfig();
 
-        $this->assertEquals($config['smtp_address'], $mailer->getTransport()->getHost());
-        $this->assertEquals($config['smtp_port'], $mailer->getTransport()->getPort());
-        $this->assertEquals('tls', $mailer->getTransport()->getEncryption());
-        $this->assertEquals($config['smtp_username'], $mailer->getTransport()->getUsername());
-        $this->assertEquals($config['smtp_password'], $mailer->getTransport()->getPassword());
+        self::assertEquals($config['smtp_address'], $mailer->getTransport()->getHost());
+        self::assertEquals($config['smtp_port'], $mailer->getTransport()->getPort());
+        self::assertEquals('tls', $mailer->getTransport()->getEncryption());
+        self::assertEquals($config['smtp_username'], $mailer->getTransport()->getUsername());
+        self::assertEquals($config['smtp_password'], $mailer->getTransport()->getPassword());
     }
 }

@@ -16,17 +16,17 @@ class WebhookControllerTest extends \PHPUnit\Framework\TestCase
 
         $error = $webController->handleAction('test', []);
 
-        $this->assertInstanceOf('b8\Http\Response\JsonResponse', $error);
+        self::assertInstanceOf('b8\Http\Response\JsonResponse', $error);
 
         $responseData = $error->getData();
-        $this->assertEquals(500, $responseData['code']);
+        self::assertEquals(500, $responseData['code']);
 
-        $this->assertEquals('failed', $responseData['body']['status']);
+        self::assertEquals('failed', $responseData['body']['status']);
 
-        $this->assertEquals('application/json', $responseData['headers']['Content-Type']);
+        self::assertEquals('application/json', $responseData['headers']['Content-Type']);
 
         // @todo: we can't text the result is JSON file with
-        //   $this->assertJson((string) $error);
+        //   self::assertJson((string) $error);
         // since the flush method automatically add the header and break the
         // testing framework.
     }

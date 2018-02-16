@@ -2,9 +2,11 @@
 
 namespace Tests\b8;
 
-use b8\Form, b8\Config;
+use b8\Form;
+use b8\Config;
+use PHPUnit\Framework\TestCase;
 
-class FormTest extends \PHPUnit\Framework\TestCase
+class FormTest extends TestCase
 {
     public function testFormBasics()
     {
@@ -12,8 +14,8 @@ class FormTest extends \PHPUnit\Framework\TestCase
         $f->setAction('/');
         $f->setMethod('POST');
 
-        $this->assertTrue($f->getAction() == '/');
-        $this->assertTrue($f->getMethod() == 'POST');
+        self::assertTrue($f->getAction() == '/');
+        self::assertTrue($f->getMethod() == 'POST');
 
         $config = new Config([
             'b8' => [
@@ -23,10 +25,11 @@ class FormTest extends \PHPUnit\Framework\TestCase
             ]
         ]);
 
-        $this->assertTrue($f->render('form') == '/POST');
+        self::assertTrue($f->render('form') == '/POST');
 
         Config::getInstance()->set('b8.view.path', '');
-        $this->assertTrue(strpos((string)$f, '<form') !== false);
+
+        self::assertTrue(strpos((string)$f, '<form') !== false);
     }
 
     public function testElementBasics()
@@ -37,44 +40,49 @@ class FormTest extends \PHPUnit\Framework\TestCase
         $f->setClass('element-class');
         $f->setContainerClass('container-class');
 
-        $this->assertTrue($f->getName() == 'element-name');
-        $this->assertTrue($f->getId() == 'element-id');
-        $this->assertTrue($f->getLabel() == 'element-label');
-        $this->assertTrue($f->getClass() == 'element-class');
-        $this->assertTrue($f->getContainerClass() == 'container-class');
+        self::assertTrue($f->getName() == 'element-name');
+        self::assertTrue($f->getId() == 'element-id');
+        self::assertTrue($f->getLabel() == 'element-label');
+        self::assertTrue($f->getClass() == 'element-class');
+        self::assertTrue($f->getContainerClass() == 'container-class');
 
         $output = $f->render();
-        $this->assertTrue(is_string($output));
-        $this->assertTrue(!empty($output));
-        $this->assertTrue(strpos($output, 'container-class') !== false);
+
+        self::assertTrue(is_string($output));
+        self::assertTrue(!empty($output));
+        self::assertTrue(strpos($output, 'container-class') !== false);
     }
 
     public function testInputBasics()
     {
         $f = new Form\Element\Text();
+
         $f->setValue('input-value');
         $f->setRequired(true);
         $f->setValidator(function ($value) {
             return ($value == 'input-value');
         });
 
-        $this->assertTrue($f->getValue() == 'input-value');
-        $this->assertTrue($f->getRequired() == true);
-        $this->assertTrue(is_callable($f->getValidator()));
+        self::assertTrue($f->getValue() == 'input-value');
+        self::assertTrue($f->getRequired() == true);
+        self::assertTrue(is_callable($f->getValidator()));
     }
 
     public function testInputValidation()
     {
         $f = new Form\Element\Text();
         $f->setRequired(true);
-        $this->assertFalse($f->validate());
+
+        self::assertFalse($f->validate());
 
         $f->setRequired(false);
         $f->setPattern('input\-value');
-        $this->assertFalse($f->validate());
+
+        self::assertFalse($f->validate());
 
         $f->setValue('input-value');
-        $this->assertTrue($f->validate());
+
+        self::assertTrue($f->validate());
 
         $f->setValidator(function ($item) {
             if ($item != 'input-value') {
@@ -82,11 +90,12 @@ class FormTest extends \PHPUnit\Framework\TestCase
             }
         });
 
-        $this->assertTrue($f->validate());
+        self::assertTrue($f->validate());
 
         $f->setValue('fail');
         $f->setPattern(null);
-        $this->assertFalse($f->validate());
+
+        self::assertFalse($f->validate());
     }
 
     public function testFieldSetBasics()
@@ -108,76 +117,76 @@ class FormTest extends \PHPUnit\Framework\TestCase
         $f->addField($f2);
         $f->addField($f3);
 
-        $this->assertFalse($f->validate());
+        self::assertFalse($f->validate());
 
         $f->setValues(['group' => ['one' => 'ONE', 'two' => 'TWO'], 'three' => 'THREE']);
 
         $values = $f->getValues();
-        $this->assertTrue(is_array($values));
-        $this->assertTrue(array_key_exists('group', $values));
-        $this->assertTrue(array_key_exists('one', $values['group']));
-        $this->assertTrue(array_key_exists('three', $values));
-        $this->assertTrue($values['group']['one'] == 'ONE');
-        $this->assertTrue($values['group']['two'] == 'TWO');
-        $this->assertTrue($values['three'] == 'THREE');
-        $this->assertTrue($f->validate());
+        self::assertTrue(is_array($values));
+        self::assertTrue(array_key_exists('group', $values));
+        self::assertTrue(array_key_exists('one', $values['group']));
+        self::assertTrue(array_key_exists('three', $values));
+        self::assertTrue($values['group']['one'] == 'ONE');
+        self::assertTrue($values['group']['two'] == 'TWO');
+        self::assertTrue($values['three'] == 'THREE');
+        self::assertTrue($f->validate());
 
         $html = $f->render();
-        $this->assertTrue(strpos($html, 'one') !== false);
-        $this->assertTrue(strpos($html, 'two') !== false);
+        self::assertTrue(strpos($html, 'one') !== false);
+        self::assertTrue(strpos($html, 'two') !== false);
     }
 
     public function testElements()
     {
         $e = new Form\Element\Button();
-        $this->assertTrue($e->validate());
-        $this->assertTrue(strpos($e->render(), 'button') !== false);
+        self::assertTrue($e->validate());
+        self::assertTrue(strpos($e->render(), 'button') !== false);
 
         $e = new Form\Element\Checkbox();
         $e->setCheckedValue('ten');
-        $this->assertTrue($e->getCheckedValue() == 'ten');
-        $this->assertTrue(strpos($e->render(), 'checkbox') !== false);
-        $this->assertTrue(strpos($e->render(), 'checked') === false);
+        self::assertTrue($e->getCheckedValue() == 'ten');
+        self::assertTrue(strpos($e->render(), 'checkbox') !== false);
+        self::assertTrue(strpos($e->render(), 'checked') === false);
 
         $e->setValue(true);
-        $this->assertTrue(strpos($e->render(), 'checked') !== false);
+        self::assertTrue(strpos($e->render(), 'checked') !== false);
 
         $e->setValue('ten');
-        $this->assertTrue(strpos($e->render(), 'checked') !== false);
+        self::assertTrue(strpos($e->render(), 'checked') !== false);
 
         $e->setValue('fail');
-        $this->assertTrue(strpos($e->render(), 'checked') === false);
+        self::assertTrue(strpos($e->render(), 'checked') === false);
 
         $e = new Form\Element\CheckboxGroup();
-        $this->assertTrue(strpos($e->render(), 'group') !== false);
+        self::assertTrue(strpos($e->render(), 'group') !== false);
 
         $e = new Form\ControlGroup();
-        $this->assertTrue(strpos($e->render(), 'group') !== false);
+        self::assertTrue(strpos($e->render(), 'group') !== false);
 
         $e = new Form\Element\Email();
-        $this->assertTrue(strpos($e->render(), 'email') !== false);
+        self::assertTrue(strpos($e->render(), 'email') !== false);
 
         $e = new Form\Element\Select();
         $e->setOptions(['key' => 'Val']);
         $html = $e->render();
-        $this->assertTrue(strpos($html, 'select') !== false);
-        $this->assertTrue(strpos($html, 'option') !== false);
-        $this->assertTrue(strpos($html, 'key') !== false);
-        $this->assertTrue(strpos($html, 'Val') !== false);
+        self::assertTrue(strpos($html, 'select') !== false);
+        self::assertTrue(strpos($html, 'option') !== false);
+        self::assertTrue(strpos($html, 'key') !== false);
+        self::assertTrue(strpos($html, 'Val') !== false);
 
         $e = new Form\Element\Submit();
-        $this->assertTrue($e->validate());
-        $this->assertTrue(strpos($e->render(), 'submit') !== false);
+        self::assertTrue($e->validate());
+        self::assertTrue(strpos($e->render(), 'submit') !== false);
 
         $e = new Form\Element\Text();
         $e->setValue('test');
-        $this->assertTrue(strpos($e->render(), 'test') !== false);
+        self::assertTrue(strpos($e->render(), 'test') !== false);
 
         $e = new Form\Element\TextArea();
         $e->setRows(10);
-        $this->assertTrue(strpos($e->render(), '10') !== false);
+        self::assertTrue(strpos($e->render(), '10') !== false);
 
         $e = new Form\Element\Url();
-        $this->assertTrue(strpos($e->render(), 'url') !== false);
+        self::assertTrue(strpos($e->render(), 'url') !== false);
     }
 }

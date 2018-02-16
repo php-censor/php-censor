@@ -28,7 +28,7 @@ class CreateAdminCommandTest extends \PHPUnit\Framework\TestCase
         parent::setUp();
 
         $userStoreMock = $this->getMockBuilder('PHPCensor\\Store\\UserStore')->getMock();
-        
+
         $this->command = new CreateAdminCommand($userStoreMock);
 
         $this->helper = $this
@@ -60,6 +60,6 @@ class CreateAdminCommandTest extends \PHPUnit\Framework\TestCase
         $commandTester = $this->getCommandTester();
         $commandTester->execute([]);
 
-        $this->assertEquals('User account created!' . PHP_EOL, $commandTester->getDisplay());
+        self::assertEquals('User account created!' . PHP_EOL, $commandTester->getDisplay());
     }
 }
