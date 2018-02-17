@@ -74,7 +74,7 @@ class GroupController extends Controller
             $group->setTitle($this->getParam('title'));
             if (is_null($groupId)) {
                 /** @var User $user */
-                $user = $_SESSION['php-censor-user'];
+                $user = $this->getUser();
 
                 $group->setCreateDate(new \DateTime());
                 $group->setUserId($user->getId());

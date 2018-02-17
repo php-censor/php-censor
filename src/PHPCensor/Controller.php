@@ -6,6 +6,9 @@ use b8\Config;
 use b8\Exception\HttpException\ForbiddenException;
 use b8\Http\Request;
 use b8\Http\Response;
+use b8\Store\Factory;
+use PHPCensor\Model\User;
+use PHPCensor\Store\UserStore;
 
 class Controller extends \b8\Controller
 {
@@ -49,6 +52,8 @@ class Controller extends \b8\Controller
         $class = explode('\\', get_class($this));
         $this->className = substr(array_pop($class), 0, -10);
         $this->setControllerView();
+
+        unset($_SESSION['php-censor-user']);
     }
 
     /**
@@ -122,6 +127,26 @@ class Controller extends \b8\Controller
      */
     protected function currentUserIsAdmin()
     {
-        return $_SESSION['php-censor-user']->getIsAdmin();
+        $user = $this->getUser();
+        if (!$user) {
+            return false;
+        }
+
+        return $this->getUser()->getIsAdmin();
+    }
+
+    /**
+     * @return User|null
+     */
+    protected function getUser()
+    {
+        if (empty($_SESSION['php-censor-user-id'])) {
+            return null;
+        }
+
+        /** @var UserStore $userStore */
+        $userStore = Factory::getStore('User');
+
+        return $userStore->getById($_SESSION['php-censor-user-id']);
     }
 }

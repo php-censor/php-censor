@@ -6,8 +6,6 @@
 
 use PHPCensor\Helper\Lang;
 
-$user = $_SESSION['php-censor-user'];
-
 ?>
 
 <?php if(empty($builds) || !count($builds)): ?>
@@ -94,7 +92,7 @@ $branches = $build->getExtra('branches');
     <td>
         <div class="btn-group btn-group-right">
             <a class="btn btn-default btn-sm" href="<?php echo APP_URL ?>build/view/<?php print $build->getId(); ?>"><?php Lang::out('view'); ?></a>
-            <?php if($user->getIsAdmin()): ?>
+            <?php if($this->getUser()->getIsAdmin()): ?>
             <button class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
                 <span class="caret"></span>
             </button>

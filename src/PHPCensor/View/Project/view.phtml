@@ -6,8 +6,6 @@
 
 use PHPCensor\Helper\Lang;
 
-$user = $_SESSION['php-censor-user'];
-
 ?>
 <script>
     var PROJECT_ID     = <?= $project->getId(); ?>;
@@ -31,7 +29,7 @@ $user = $_SESSION['php-censor-user'];
     ?>
     <div class="pull-right btn-group">
         <?php if (!$project->getArchived()): ?>
-            <?php if ($user->getIsAdmin()): ?>
+            <?php if ($this->getUser()->getIsAdmin()): ?>
                 <?php if (!empty($environment)): ?>
                     <a class="btn btn-danger" href="<?= $build_url . '?' . http_build_query(['type' => 'environment', 'id' => $environment, 'debug' => 1]); ?>">
                         <?php Lang::out('build_now_debug'); ?>

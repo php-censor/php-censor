@@ -96,7 +96,7 @@ class ProjectController extends PHPCensor\Controller
         }
 
         /** @var PHPCensor\Model\User $user */
-        $user     = $_SESSION['php-censor-user'];
+        $user     = $this->getUser();
         $perPage  = $user->getFinalPerPage();
         $builds   = $this->getLatestBuildsHtml($projectId, $branch, $environment, (($page - 1) * $perPage), $perPage);
         $pages    = ($builds[1] === 0)
@@ -209,7 +209,7 @@ class ProjectController extends PHPCensor\Controller
         }
 
         /** @var PHPCensor\Model\User $user */
-        $user  = $_SESSION['php-censor-user'];
+        $user  = $this->getUser();
         $build = $this->buildService->createBuild(
             $project,
             $environment,
@@ -337,7 +337,7 @@ class ProjectController extends PHPCensor\Controller
             ];
 
             /** @var PHPCensor\Model\User $user */
-            $user    = $_SESSION['php-censor-user'];
+            $user    = $this->getUser();
             $project = $this->projectService->createProject($title, $type, $reference, $user->getId(), $options);
 
             $response = new RedirectResponse();

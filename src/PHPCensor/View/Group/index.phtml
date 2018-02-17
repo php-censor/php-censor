@@ -2,8 +2,6 @@
 
 use PHPCensor\Helper\Lang;
 
-$user = $_SESSION['php-censor-user'];
-
 ?>
 <div class="clearfix"  style="margin-bottom: 20px;">
     <a class="btn btn-success pull-right" href="<?php print APP_URL . 'group/edit'; ?>">
@@ -28,7 +26,7 @@ $user = $_SESSION['php-censor-user'];
                 <td>
                     <div class="btn-group btn-group-right">
                         <a class="btn btn-default btn-sm" href="<?php echo APP_URL ?>group/edit/<?php print $group['id']; ?>"><?php Lang::out('group_edit'); ?></a>
-                        <?php if($user->getIsAdmin() && (!count($group['projects']))): ?>
+                        <?php if($this->getUser()->getIsAdmin() && (!count($group['projects']))): ?>
                             <button class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
                                 <span class="caret"></span>
                             </button>

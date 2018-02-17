@@ -56,7 +56,7 @@ class UserController extends Controller
     public function profile()
     {
         /** @var User $user */
-        $user = $_SESSION['php-censor-user'];
+        $user = $this->getUser();
 
         if ($this->request->getMethod() == 'POST') {
             $name     = $this->getParam('name', null);
@@ -73,8 +73,7 @@ class UserController extends Controller
                 $perPage = null;
             }
 
-            $_SESSION['php-censor-user'] = $this->userService->updateUser($user, $name, $email, $password, null, $language, $perPage);
-            $user                        = $_SESSION['php-censor-user'];
+            $user = $this->userService->updateUser($user, $name, $email, $password, null, $language, $perPage);
 
             $this->view->updated = 1;
         }

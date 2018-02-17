@@ -3,7 +3,9 @@
 namespace PHPCensor;
 
 use b8\Config;
+use b8\Store\Factory;
 use PHPCensor\Model\User;
+use PHPCensor\Store\UserStore;
 
 class View
 {
@@ -84,5 +86,20 @@ class View
         $disableAuth = (boolean)$config->get('php-censor.security.disable_auth', false);
 
         return $disableAuth;
+    }
+
+    /**
+     * @return User|null
+     */
+    protected function getUser()
+    {
+        if (empty($_SESSION['php-censor-user-id'])) {
+            return null;
+        }
+
+        /** @var UserStore $userStore */
+        $userStore = Factory::getStore('User');
+
+        return $userStore->getById($_SESSION['php-censor-user-id']);
     }
 }

@@ -73,7 +73,7 @@ class BuildController extends Controller
         }
 
         /** @var User $user */
-        $user    = $_SESSION['php-censor-user'];
+        $user    = $this->getUser();
         $perPage = $user->getFinalPerPage();
         $data    = $this->getBuildData($build, $plugin, $severity, $isNew, (($page - 1) * $perPage), $perPage);
         $pages   = ($data['errors'] === 0)
