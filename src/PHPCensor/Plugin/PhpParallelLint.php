@@ -67,7 +67,7 @@ class PhpParallelLint extends Plugin implements ZeroConfigPluginInterface
         }
 
         if (isset($options['shorttags'])) {
-            $this->shortTag = (strtolower($options['shorttags']) == 'true');
+            $this->shortTag = $options['shorttags'];
         }
 
         if (isset($options['extensions'])) {
