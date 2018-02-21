@@ -133,10 +133,23 @@ class PhpUnitResultJunit extends PhpUnitResult
      */
     private function loadResultFile()
     {
+        if (!file_exists($this->outputFile) || 0 === filesize($this->outputFile)) {
+            $this->internalProblem('empty output file');
+
+            return new \SimpleXMLElement('<empty/>'); // new empty element
+        }
+
         if (true) {
             $suites = simplexml_load_file($this->outputFile);
         }
 
         return $suites;
+    }
+
+    private function internalProblem($description)
+    {
+        throw new \Exception($description);
+
+        // alternative to error throwing: append to $this->errors
     }
 }
