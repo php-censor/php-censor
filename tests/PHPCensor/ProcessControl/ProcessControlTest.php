@@ -33,8 +33,8 @@ abstract class ProcessControlTest extends \PHPUnit\Framework\TestCase
         $this->process = proc_open($this->getTestCommand(), $desc, $this->pipes);
         sleep(1);
 
-        $this->assertTrue(is_resource($this->process));
-        $this->assertTrue($this->isRunning());
+        self::assertTrue(is_resource($this->process));
+        self::assertTrue($this->isRunning());
 
         $status = proc_get_status($this->process);
         return (integer)$status['pid'];
@@ -51,7 +51,7 @@ abstract class ProcessControlTest extends \PHPUnit\Framework\TestCase
         }
         array_map('fclose', $this->pipes);
         $exitCode = proc_close($this->process);
-        $this->assertFalse($this->isRunning());
+        self::assertFalse($this->isRunning());
         $this->process = null;
         return $exitCode;
     }
@@ -76,14 +76,14 @@ abstract class ProcessControlTest extends \PHPUnit\Framework\TestCase
 
         $pid = $this->startProcess();
 
-        $this->assertTrue($this->object->isRunning($pid));
+        self::assertTrue($this->object->isRunning($pid));
 
         fwrite($this->pipes[0], PHP_EOL);
 
         $exitCode = $this->endProcess();
 
-        $this->assertEquals(0, $exitCode);
-        $this->assertFalse($this->object->isRunning($pid));
+        self::assertEquals(0, $exitCode);
+        self::assertFalse($this->object->isRunning($pid));
     }
 
     public function testSoftKill()

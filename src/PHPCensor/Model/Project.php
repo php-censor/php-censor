@@ -453,8 +453,8 @@ class Project extends Model
             return null;
         }
 
-        $cacheKey = 'Cache.ProjectGroup.' . $key;
-        $rtn      = $this->cache->get($cacheKey, null);
+        $cacheKey = 'php-censor.project-group-' . $key;
+        $rtn      = $this->cache->get($cacheKey);
 
         if (empty($rtn)) {
             $rtn = Factory::getStore('ProjectGroup', 'PHPCensor')->getById($key);
@@ -741,8 +741,8 @@ class Project extends Model
             return null;
         }
 
-        $cacheKey = 'Cache.ProjectEnvironments.' . $key;
-        $rtn      = $this->cache->get($cacheKey, null);
+        $cacheKey = 'php-censor.project-environments-' . $key;
+        $rtn      = $this->cache->get($cacheKey);
 
         if (empty($rtn)) {
             $store = $this->getEnvironmentStore();

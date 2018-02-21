@@ -8,7 +8,7 @@ use PHPCensor\Service\BuildService;
 
 /**
  * Unit tests for the ProjectService class.
- * 
+ *
  * @author Dan Cryer <dan@block8.co.uk>
  */
 class BuildServiceTest extends \PHPUnit\Framework\TestCase
@@ -60,18 +60,18 @@ class BuildServiceTest extends \PHPUnit\Framework\TestCase
 
         $returnValue = $this->testedService->createBuild($project, null);
 
-        $this->assertEquals(101, $returnValue->getProjectId());
-        $this->assertEquals(Build::STATUS_PENDING, $returnValue->getStatus());
-        $this->assertNull($returnValue->getStartDate());
-        $this->assertNull($returnValue->getFinishDate());
-        $this->assertNull($returnValue->getLog());
-        $this->assertEquals(null, $returnValue->getCommitMessage());
-        $this->assertNull($returnValue->getCommitterEmail());
-        $this->assertEquals(['branches' => []], $returnValue->getExtra());
-        $this->assertEquals('master', $returnValue->getBranch());
-        $this->assertInstanceOf('DateTime', $returnValue->getCreateDate());
-        $this->assertEquals('', $returnValue->getCommitId());
-        $this->assertEquals(Build::SOURCE_UNKNOWN, $returnValue->getSource());
+        self::assertEquals(101, $returnValue->getProjectId());
+        self::assertEquals(Build::STATUS_PENDING, $returnValue->getStatus());
+        self::assertNull($returnValue->getStartDate());
+        self::assertNull($returnValue->getFinishDate());
+        self::assertNull($returnValue->getLog());
+        self::assertEquals(null, $returnValue->getCommitMessage());
+        self::assertNull($returnValue->getCommitterEmail());
+        self::assertEquals(['branches' => []], $returnValue->getExtra());
+        self::assertEquals('master', $returnValue->getBranch());
+        self::assertInstanceOf('DateTime', $returnValue->getCreateDate());
+        self::assertEquals('', $returnValue->getCommitId());
+        self::assertEquals(Build::SOURCE_UNKNOWN, $returnValue->getSource());
     }
 
     public function testExecute_CreateBuildWithOptions()
@@ -98,10 +98,10 @@ class BuildServiceTest extends \PHPUnit\Framework\TestCase
             'test'
         );
 
-        $this->assertEquals('testbranch', $returnValue->getBranch());
-        $this->assertEquals('123', $returnValue->getCommitId());
-        $this->assertEquals('test', $returnValue->getCommitMessage());
-        $this->assertEquals('test@example.com', $returnValue->getCommitterEmail());
+        self::assertEquals('testbranch', $returnValue->getBranch());
+        self::assertEquals('123', $returnValue->getCommitId());
+        self::assertEquals('test', $returnValue->getCommitMessage());
+        self::assertEquals('test@example.com', $returnValue->getCommitterEmail());
     }
 
     public function testExecute_CreateBuildWithExtra()
@@ -131,7 +131,7 @@ class BuildServiceTest extends \PHPUnit\Framework\TestCase
             ['item1' => 1001]
         );
 
-        $this->assertEquals(1001, $returnValue->getExtra('item1'));
+        self::assertEquals(1001, $returnValue->getExtra('item1'));
     }
 
     public function testExecute_CreateDuplicateBuild()
@@ -151,19 +151,19 @@ class BuildServiceTest extends \PHPUnit\Framework\TestCase
 
         $returnValue = $this->testedService->createDuplicateBuild($build);
 
-        $this->assertNotEquals($build->getId(), $returnValue->getId());
-        $this->assertEquals($build->getProjectId(), $returnValue->getProjectId());
-        $this->assertEquals($build->getCommitId(), $returnValue->getCommitId());
-        $this->assertNotEquals($build->getStatus(), $returnValue->getStatus());
-        $this->assertEquals(Build::STATUS_PENDING, $returnValue->getStatus());
-        $this->assertNull($returnValue->getLog());
-        $this->assertEquals($build->getBranch(), $returnValue->getBranch());
-        $this->assertNotEquals($build->getCreateDate(), $returnValue->getCreateDate());
-        $this->assertNull($returnValue->getStartDate());
-        $this->assertNull($returnValue->getFinishDate());
-        $this->assertEquals('test', $returnValue->getCommitMessage());
-        $this->assertEquals('test@example.com', $returnValue->getCommitterEmail());
-        $this->assertEquals($build->getExtra('item1'), $returnValue->getExtra('item1'));
+        self::assertNotEquals($build->getId(), $returnValue->getId());
+        self::assertEquals($build->getProjectId(), $returnValue->getProjectId());
+        self::assertEquals($build->getCommitId(), $returnValue->getCommitId());
+        self::assertNotEquals($build->getStatus(), $returnValue->getStatus());
+        self::assertEquals(Build::STATUS_PENDING, $returnValue->getStatus());
+        self::assertNull($returnValue->getLog());
+        self::assertEquals($build->getBranch(), $returnValue->getBranch());
+        self::assertNotEquals($build->getCreateDate(), $returnValue->getCreateDate());
+        self::assertNull($returnValue->getStartDate());
+        self::assertNull($returnValue->getFinishDate());
+        self::assertEquals('test', $returnValue->getCommitMessage());
+        self::assertEquals('test@example.com', $returnValue->getCommitterEmail());
+        self::assertEquals($build->getExtra('item1'), $returnValue->getExtra('item1'));
     }
 
     public function testExecute_DeleteBuild()
@@ -176,6 +176,6 @@ class BuildServiceTest extends \PHPUnit\Framework\TestCase
         $service = new BuildService($store);
         $build = new Build();
 
-        $this->assertEquals(true, $service->deleteBuild($build));
+        self::assertEquals(true, $service->deleteBuild($build));
     }
 }

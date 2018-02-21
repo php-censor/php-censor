@@ -6,22 +6,29 @@ use b8\Config;
 use b8\Exception\HttpException\ForbiddenException;
 use b8\Http\Request;
 use b8\Http\Response;
-use b8\View;
+use b8\Store\Factory;
+use PHPCensor\Model\User;
+use PHPCensor\Store\UserStore;
 
 class Controller extends \b8\Controller
 {
     /**
-    * @var \b8\View
+    * @var View
     */
     protected $controllerView;
 
     /**
-     * @var \b8\View
+     * @var View
      */
     protected $view;
 
     /**
-     * @var \b8\View
+     * @var string
+     */
+    protected $className;
+
+    /**
+     * @var View
      */
     public $layout;
 
@@ -45,6 +52,8 @@ class Controller extends \b8\Controller
         $class = explode('\\', get_class($this));
         $this->className = substr(array_pop($class), 0, -10);
         $this->setControllerView();
+
+        unset($_SESSION['php-censor-user']);
     }
 
     /**
@@ -55,7 +64,7 @@ class Controller extends \b8\Controller
         if (View::exists($this->className)) {
             $this->controllerView = new View($this->className);
         } else {
-            $this->controllerView = new View\Template('{@content}');
+            $this->controllerView = new View('{@content}');
         }
     }
 
@@ -118,6 +127,26 @@ class Controller extends \b8\Controller
      */
     protected function currentUserIsAdmin()
     {
-        return $_SESSION['php-censor-user']->getIsAdmin();
+        $user = $this->getUser();
+        if (!$user) {
+            return false;
+        }
+
+        return $this->getUser()->getIsAdmin();
+    }
+
+    /**
+     * @return User|null
+     */
+    protected function getUser()
+    {
+        if (empty($_SESSION['php-censor-user-id'])) {
+            return null;
+        }
+
+        /** @var UserStore $userStore */
+        $userStore = Factory::getStore('User');
+
+        return $userStore->getById($_SESSION['php-censor-user-id']);
     }
 }

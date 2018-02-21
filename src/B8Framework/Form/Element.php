@@ -2,7 +2,7 @@
 
 namespace b8\Form;
 
-use b8\View;
+use PHPCensor\View;
 use b8\Config;
 
 abstract class Element

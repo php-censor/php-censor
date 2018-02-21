@@ -3,7 +3,7 @@
 namespace b8\Form\Element;
 
 use b8\Form\Input;
-use b8\View;
+use PHPCensor\View;
 
 class Button extends Input
 {

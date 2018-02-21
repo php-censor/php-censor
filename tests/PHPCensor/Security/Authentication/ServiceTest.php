@@ -8,14 +8,14 @@ class ServiceTest extends \PHPUnit\Framework\TestCase
 {
     public function testGetInstance()
     {
-        $this->assertInstanceOf('\PHPCensor\Security\Authentication\Service', Service::getInstance());
+        self::assertInstanceOf('\PHPCensor\Security\Authentication\Service', Service::getInstance());
     }
 
     public function testBuildBuiltinProvider()
     {
         $provider = Service::buildProvider('test', ['type' => 'internal']);
 
-        $this->assertInstanceOf('\PHPCensor\Security\Authentication\UserProvider\Internal', $provider);
+        self::assertInstanceOf('\PHPCensor\Security\Authentication\UserProvider\Internal', $provider);
     }
 
     public function testBuildAnyProvider()
@@ -23,9 +23,9 @@ class ServiceTest extends \PHPUnit\Framework\TestCase
         $config   = ['type' => '\Tests\PHPCensor\Security\Authentication\DummyProvider'];
         $provider = Service::buildProvider("test", $config);
 
-        $this->assertInstanceOf('\Tests\PHPCensor\Security\Authentication\DummyProvider', $provider);
-        $this->assertEquals('test', $provider->key);
-        $this->assertEquals($config, $provider->config);
+        self::assertInstanceOf('\Tests\PHPCensor\Security\Authentication\DummyProvider', $provider);
+        self::assertEquals('test', $provider->key);
+        self::assertEquals($config, $provider->config);
     }
 
     public function testGetProviders()
@@ -36,7 +36,7 @@ class ServiceTest extends \PHPUnit\Framework\TestCase
 
         $service = new Service($providers);
 
-        $this->assertEquals($providers, $service->getProviders());
+        self::assertEquals($providers, $service->getProviders());
     }
 
     public function testGetLoginPasswordProviders()
@@ -47,7 +47,7 @@ class ServiceTest extends \PHPUnit\Framework\TestCase
 
         $service = new Service($providers);
 
-        $this->assertEquals(['b' => $b], $service->getLoginPasswordProviders());
+        self::assertEquals(['b' => $b], $service->getLoginPasswordProviders());
     }
 }
 

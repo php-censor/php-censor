@@ -13,6 +13,6 @@ class AnsiConverterTest extends TestCase
         $expectedOutput = '<span class="ansi_color_bg_black ansi_color_fg_red">This is red !</span>';
         $actualOutput   = AnsiConverter::convert($input);
 
-        $this->assertEquals($expectedOutput, $actualOutput);
+        self::assertEquals($expectedOutput, $actualOutput);
     }
 }

@@ -7,7 +7,7 @@ use PHPCensor\Service\ProjectService;
 
 /**
  * Unit tests for the ProjectService class.
- * 
+ *
  * @author Dan Cryer <dan@block8.co.uk>
  */
 class ProjectServiceTest extends \PHPUnit\Framework\TestCase
@@ -37,10 +37,10 @@ class ProjectServiceTest extends \PHPUnit\Framework\TestCase
     {
         $returnValue = $this->testedService->createProject('Test Project', 'github', 'block8/phpci', 0);
 
-        $this->assertEquals('Test Project', $returnValue->getTitle());
-        $this->assertEquals('github', $returnValue->getType());
-        $this->assertEquals('block8/phpci', $returnValue->getReference());
-        $this->assertEquals('master', $returnValue->getBranch());
+        self::assertEquals('Test Project', $returnValue->getTitle());
+        self::assertEquals('github', $returnValue->getType());
+        self::assertEquals('block8/phpci', $returnValue->getReference());
+        self::assertEquals('master', $returnValue->getBranch());
     }
 
     public function testExecute_CreateProjectWithOptions()
@@ -55,11 +55,11 @@ class ProjectServiceTest extends \PHPUnit\Framework\TestCase
 
         $returnValue = $this->testedService->createProject('Test Project', 'github', 'block8/phpci', 0, $options);
 
-        $this->assertEquals('private', $returnValue->getSshPrivateKey());
-        $this->assertEquals('public', $returnValue->getSshPublicKey());
-        $this->assertEquals('config', $returnValue->getBuildConfig());
-        $this->assertEquals('testbranch', $returnValue->getBranch());
-        $this->assertEquals(1, $returnValue->getAllowPublicStatus());
+        self::assertEquals('private', $returnValue->getSshPrivateKey());
+        self::assertEquals('public', $returnValue->getSshPublicKey());
+        self::assertEquals('config', $returnValue->getBuildConfig());
+        self::assertEquals('testbranch', $returnValue->getBranch());
+        self::assertEquals(1, $returnValue->getAllowPublicStatus());
     }
 
     /**
@@ -70,9 +70,9 @@ class ProjectServiceTest extends \PHPUnit\Framework\TestCase
         $reference = 'git@gitlab.block8.net:block8/phpci.git';
         $returnValue = $this->testedService->createProject('Gitlab', 'gitlab', $reference, 0);
 
-        $this->assertEquals('git', $returnValue->getAccessInformation('user'));
-        $this->assertEquals('gitlab.block8.net', $returnValue->getAccessInformation('domain'));
-        $this->assertEquals('block8/phpci', $returnValue->getReference());
+        self::assertEquals('git', $returnValue->getAccessInformation('user'));
+        self::assertEquals('gitlab.block8.net', $returnValue->getAccessInformation('domain'));
+        self::assertEquals('block8/phpci', $returnValue->getReference());
     }
 
     public function testExecute_UpdateExistingProject()
@@ -84,9 +84,9 @@ class ProjectServiceTest extends \PHPUnit\Framework\TestCase
 
         $returnValue = $this->testedService->updateProject($project, 'After Title', 'bitbucket', 'After Reference');
 
-        $this->assertEquals('After Title', $returnValue->getTitle());
-        $this->assertEquals('After Reference', $returnValue->getReference());
-        $this->assertEquals('bitbucket', $returnValue->getType());
+        self::assertEquals('After Title', $returnValue->getTitle());
+        self::assertEquals('After Reference', $returnValue->getReference());
+        self::assertEquals('bitbucket', $returnValue->getType());
     }
 
     public function testExecute_EmptyPublicStatus()
@@ -102,7 +102,7 @@ class ProjectServiceTest extends \PHPUnit\Framework\TestCase
 
         $returnValue = $this->testedService->updateProject($project, 'Test Project', 'github', 'block8/phpci', $options);
 
-        $this->assertEquals(0, $returnValue->getAllowPublicStatus());
+        self::assertEquals(0, $returnValue->getAllowPublicStatus());
     }
 
     public function testExecute_DeleteProject()
@@ -115,6 +115,6 @@ class ProjectServiceTest extends \PHPUnit\Framework\TestCase
         $service = new ProjectService($store);
         $project = new Project();
 
-        $this->assertEquals(true, $service->deleteProject($project));
+        self::assertEquals(true, $service->deleteProject($project));
     }
 }

@@ -2,7 +2,7 @@
 
 namespace b8\Form\Element;
 
-use b8\View;
+use PHPCensor\View;
 
 class Password extends Text
 {

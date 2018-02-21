@@ -48,7 +48,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase {
     {
         $pluginClass = $this->getFakePluginClassName('ExamplePluginWithSingleOptionalArg');
         $plugin = $this->testedFactory->buildPlugin($pluginClass);
-        $this->assertInstanceOf($pluginClass, $plugin);
+        self::assertInstanceOf($pluginClass, $plugin);
     }
 
     public function testBuildPluginThrowsExceptionIfMissingResourcesForRequiredArg()
@@ -74,7 +74,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase {
         /** @var ExamplePluginWithSingleRequiredArg $plugin */
         $plugin = $this->testedFactory->buildPlugin($pluginClass);
 
-        $this->assertEquals($this->expectedResource, $plugin->RequiredArgument);
+        self::assertEquals($this->expectedResource, $plugin->RequiredArgument);
     }
 
     public function testBuildPluginLoadsArgumentsBasedOnType()
@@ -90,7 +90,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase {
         /** @var ExamplePluginWithSingleTypedRequiredArg $plugin */
         $plugin = $this->testedFactory->buildPlugin($pluginClass);
 
-        $this->assertEquals($this->expectedResource, $plugin->RequiredArgument);
+        self::assertEquals($this->expectedResource, $plugin->RequiredArgument);
     }
 
     public function testBuildPluginLoadsFullExample()
@@ -102,7 +102,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase {
         /** @var ExamplePluginFull $plugin */
         $plugin = $this->testedFactory->buildPlugin($pluginClass);
 
-        $this->assertInstanceOf($pluginClass, $plugin);
+        self::assertInstanceOf($pluginClass, $plugin);
     }
 
     public function testBuildPluginLoadsFullExampleWithOptions()
@@ -121,8 +121,8 @@ class FactoryTest extends \PHPUnit\Framework\TestCase {
             $expectedArgs
         );
 
-        $this->assertInternalType('array', $plugin->options);
-        $this->assertArrayHasKey('thing', $plugin->options);
+        self::assertInternalType('array', $plugin->options);
+        self::assertArrayHasKey('thing', $plugin->options);
     }
 
     /**

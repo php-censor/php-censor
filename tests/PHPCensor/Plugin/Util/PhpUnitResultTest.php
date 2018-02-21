@@ -30,31 +30,31 @@ class PhpUnitResultTest extends \PHPUnit\Framework\TestCase
         $output = $parser->parse()->getResults();
         $errors = $parser->getErrors();
 
-        $this->assertEquals(7, $parser->getFailures());
-        $this->assertInternalType('array', $output);
-        $this->assertInternalType('array', $errors);
-        $this->assertNotEmpty($output);
-        $this->assertNotEmpty($errors);
+        self::assertEquals(7, $parser->getFailures());
+        self::assertInternalType('array', $output);
+        self::assertInternalType('array', $errors);
+        self::assertNotEmpty($output);
+        self::assertNotEmpty($errors);
 
         // The trace elements should not include the build path
-        $this->assertStringStartsNotWith($buildPath, $output[3]['trace'][0]);
-        $this->assertStringStartsNotWith($buildPath, $output[3]['trace'][1]);
+        self::assertStringStartsNotWith($buildPath, $output[3]['trace'][0]);
+        self::assertStringStartsNotWith($buildPath, $output[3]['trace'][1]);
 
-        $this->assertEquals("some output\nfrom f4", $output[7]['output']);
-        $this->assertEquals("has output\non lines", $output[15]['output']);
+        self::assertEquals("some output\nfrom f4", $output[7]['output']);
+        self::assertEquals("has output\non lines", $output[15]['output']);
 
-        $this->assertEquals(PhpUnitResult::SEVERITY_SKIPPED, $output[5]['severity']);
+        self::assertEquals(PhpUnitResult::SEVERITY_SKIPPED, $output[5]['severity']);
         try {
-            $this->assertContains('Incomplete Test:', $output[5]['message']);
+            self::assertContains('Incomplete Test:', $output[5]['message']);
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
             self::$skipped[] = ['cls' => $resultClass, 'ex' => $e];
         } catch (\PHPUnit\Framework\ExpectationFailedException $e) {
             self::$skipped[] = ['cls' => $resultClass, 'ex' => $e];
         }
 
-        $this->assertEquals(PhpUnitResult::SEVERITY_SKIPPED, $output[11]['severity']);
+        self::assertEquals(PhpUnitResult::SEVERITY_SKIPPED, $output[11]['severity']);
         try {
-            $this->assertContains('Skipped Test:', $output[11]['message']);
+            self::assertContains('Skipped Test:', $output[11]['message']);
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
             self::$skipped[] = ['cls' => $resultClass, 'ex' => $e];
         } catch (\PHPUnit\Framework\ExpectationFailedException $e) {

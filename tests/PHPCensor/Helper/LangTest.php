@@ -8,9 +8,9 @@ class LangTest extends LocalizationTestCase
 {
     public function testSuccess()
     {
-        $this->assertTrue(true);
+        self::assertTrue(true);
     }
-    
+
     /**
      * @return array
      */
@@ -37,7 +37,7 @@ class LangTest extends LocalizationTestCase
         $en        = include($directory . 'lang.en.php');
 
         foreach ($en as $enIndex => $enString) {
-            $this->assertArrayHasKey($enIndex, $strings);
+            self::assertArrayHasKey($enIndex, $strings);
         }
     }*/
 }

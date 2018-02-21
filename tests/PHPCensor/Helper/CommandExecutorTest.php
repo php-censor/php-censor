@@ -25,7 +25,7 @@ class CommandExecutorTest extends \PHPUnit\Framework\TestCase
     {
         $this->testedExecutor->executeCommand(['echo "%s"', 'Hello World']);
         $output = $this->testedExecutor->getLastOutput();
-        $this->assertEquals("Hello World", $output);
+        self::assertEquals("Hello World", $output);
     }
 
     public function testGetLastOutput_ForgetsPreviousCommandOutput()
@@ -33,19 +33,19 @@ class CommandExecutorTest extends \PHPUnit\Framework\TestCase
         $this->testedExecutor->executeCommand(['echo "%s"', 'Hello World']);
         $this->testedExecutor->executeCommand(['echo "%s"', 'Hello Tester']);
         $output = $this->testedExecutor->getLastOutput();
-        $this->assertEquals("Hello Tester", $output);
+        self::assertEquals("Hello Tester", $output);
     }
 
     public function testExecuteCommand_ReturnsTrueForValidCommands()
     {
         $returnValue = $this->testedExecutor->executeCommand(['echo "%s"', 'Hello World']);
-        $this->assertTrue($returnValue);
+        self::assertTrue($returnValue);
     }
 
     public function testExecuteCommand_ReturnsFalseForInvalidCommands()
     {
         $returnValue = $this->testedExecutor->executeCommand(['eerfdcvcho "%s" > /dev/null 2>&1', 'Hello World']);
-        $this->assertFalse($returnValue);
+        self::assertFalse($returnValue);
     }
 
     /**
@@ -62,9 +62,9 @@ class CommandExecutorTest extends \PHPUnit\Framework\TestCase
 EOD;
         $data = str_repeat("-", $length);
         $returnValue = $this->testedExecutor->executeCommand([$script]);
-        $this->assertTrue($returnValue);
-        $this->assertEquals($data, trim($this->testedExecutor->getLastOutput()));
-        $this->assertEquals($data, trim($this->testedExecutor->getLastError()));
+        self::assertTrue($returnValue);
+        self::assertEquals($data, trim($this->testedExecutor->getLastOutput()));
+        self::assertEquals($data, trim($this->testedExecutor->getLastError()));
     }
 
     /**
@@ -80,26 +80,26 @@ EOD;
     public function testFindBinary_ReturnsNullWihQuietArgument()
     {
         $thisFileName = "WorldWidePeace";
-        $this->assertFalse($this->testedExecutor->findBinary($thisFileName, true));
+        self::assertFalse($this->testedExecutor->findBinary($thisFileName, true));
     }
 
     public function testReplaceIllegalCharacters()
     {
-        $this->assertEquals(
+        self::assertEquals(
             "start � end",
             $this->testedExecutor->replaceIllegalCharacters(
                 "start \xf0\x9c\x83\x96 end"
             )
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             "start � end",
             $this->testedExecutor->replaceIllegalCharacters(
                 "start \xF0\x9C\x83\x96 end"
             )
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             "start 123_X08�_X00�_Xa4�_5432 end",
             $this->testedExecutor->replaceIllegalCharacters(
                 "start 123_X08\x08_X00\x00_Xa4\xa4_5432 end"

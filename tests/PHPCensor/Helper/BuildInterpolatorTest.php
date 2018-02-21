@@ -24,7 +24,7 @@ class BuildInterpolatorTest extends \PHPUnit\Framework\TestCase
 
         $actualOutput = $this->testedInterpolator->interpolate($string);
 
-        $this->assertEquals($expectedOutput, $actualOutput);
+        self::assertEquals($expectedOutput, $actualOutput);
     }
 
     public function testInterpolate_LeavesStringsUnchangedWhenBuildIsSet()
@@ -42,7 +42,7 @@ class BuildInterpolatorTest extends \PHPUnit\Framework\TestCase
 
         $actualOutput = $this->testedInterpolator->interpolate($string);
 
-        $this->assertEquals($expectedOutput, $actualOutput);
+        self::assertEquals($expectedOutput, $actualOutput);
     }
 }
 

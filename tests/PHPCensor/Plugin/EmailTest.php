@@ -8,7 +8,7 @@ use PHPCensor\Model\Build;
 
 /**
  * Unit test for the PHPUnit plugin.
- * 
+ *
  * @author meadsteve
  */
 class EmailTest extends \PHPUnit\Framework\TestCase
@@ -156,7 +156,7 @@ class EmailTest extends \PHPUnit\Framework\TestCase
         // As no addresses will have been mailed as non are configured.
         $expectedReturn = false;
 
-        $this->assertEquals($expectedReturn, $returnValue);
+        self::assertEquals($expectedReturn, $returnValue);
     }
 
     public function testBuildsBasicEmails()
@@ -165,7 +165,7 @@ class EmailTest extends \PHPUnit\Framework\TestCase
 
         $this->testedEmailPlugin->execute();
 
-        $this->assertContains('test-receiver@example.com', $this->message['to']);
+        self::assertContains('test-receiver@example.com', $this->message['to']);
     }
 
     public function testBuildsDefaultEmails()
@@ -174,7 +174,7 @@ class EmailTest extends \PHPUnit\Framework\TestCase
 
         $this->testedEmailPlugin->execute();
 
-        $this->assertContains('default-mailto-address@example.com', $this->message['to']);
+        self::assertContains('default-mailto-address@example.com', $this->message['to']);
     }
 
     public function testExecute_UniqueRecipientsFromWithCommitter()
@@ -182,12 +182,12 @@ class EmailTest extends \PHPUnit\Framework\TestCase
         $this->loadEmailPluginWithOptions(['addresses' => ['test-receiver@example.com', 'test-receiver2@example.com']]);
 
         $returnValue = $this->testedEmailPlugin->execute();
-        $this->assertTrue($returnValue);
+        self::assertTrue($returnValue);
 
-        $this->assertCount(2, $this->message['to']);
+        self::assertCount(2, $this->message['to']);
 
-        $this->assertContains('test-receiver@example.com', $this->message['to']);
-        $this->assertContains('test-receiver2@example.com', $this->message['to']);
+        self::assertContains('test-receiver@example.com', $this->message['to']);
+        self::assertContains('test-receiver2@example.com', $this->message['to']);
     }
 
     public function testExecute_UniqueRecipientsWithCommitter()
@@ -198,10 +198,10 @@ class EmailTest extends \PHPUnit\Framework\TestCase
         ]);
 
         $returnValue = $this->testedEmailPlugin->execute();
-        $this->assertTrue($returnValue);
+        self::assertTrue($returnValue);
 
-        $this->assertContains('test-receiver@example.com', $this->message['to']);
-        $this->assertContains('committer@test.com', $this->message['to']);
+        self::assertContains('test-receiver@example.com', $this->message['to']);
+        self::assertContains('committer@test.com', $this->message['to']);
     }
 
     public function testCcDefaultEmails()
@@ -220,7 +220,7 @@ class EmailTest extends \PHPUnit\Framework\TestCase
 
         $this->testedEmailPlugin->execute();
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 'cc-email-1@example.com',
                 'cc-email-2@example.com',
@@ -241,7 +241,7 @@ class EmailTest extends \PHPUnit\Framework\TestCase
 
         $this->testedEmailPlugin->execute();
 
-        $this->assertContains('committer-email@example.com', $this->message['to']);
+        self::assertContains('committer-email@example.com', $this->message['to']);
     }
 
     public function testMailSuccessfulBuildHaveProjectName()
@@ -255,8 +255,8 @@ class EmailTest extends \PHPUnit\Framework\TestCase
 
         $this->testedEmailPlugin->execute();
 
-        $this->assertContains('Test-Project', $this->message['subject']);
-        $this->assertContains('Test-Project', $this->message['body']);
+        self::assertContains('Test-Project', $this->message['subject']);
+        self::assertContains('Test-Project', $this->message['body']);
     }
 
     public function testMailFailingBuildHaveProjectName()
@@ -270,8 +270,8 @@ class EmailTest extends \PHPUnit\Framework\TestCase
 
         $this->testedEmailPlugin->execute();
 
-        $this->assertContains('Test-Project', $this->message['subject']);
-        $this->assertContains('Test-Project', $this->message['body']);
+        self::assertContains('Test-Project', $this->message['subject']);
+        self::assertContains('Test-Project', $this->message['body']);
     }
 
     public function testMailSuccessfulBuildHaveStatus()
@@ -285,8 +285,8 @@ class EmailTest extends \PHPUnit\Framework\TestCase
 
         $this->testedEmailPlugin->execute();
 
-        $this->assertContains('Passing', $this->message['subject']);
-        $this->assertContains('success', $this->message['body']);
+        self::assertContains('Passing', $this->message['subject']);
+        self::assertContains('success', $this->message['body']);
     }
 
     public function testMailFailingBuildHaveStatus()
@@ -300,8 +300,8 @@ class EmailTest extends \PHPUnit\Framework\TestCase
 
         $this->testedEmailPlugin->execute();
 
-        $this->assertContains('Failing', $this->message['subject']);
-        $this->assertContains('failed', $this->message['body']);
+        self::assertContains('Failing', $this->message['subject']);
+        self::assertContains('failed', $this->message['body']);
     }
 
     public function testMailDeliverySuccess()
@@ -316,7 +316,7 @@ class EmailTest extends \PHPUnit\Framework\TestCase
 
         $returnValue = $this->testedEmailPlugin->execute();
 
-        $this->assertEquals(true, $returnValue);
+        self::assertEquals(true, $returnValue);
     }
 
     public function testMailDeliveryFail()
@@ -331,6 +331,6 @@ class EmailTest extends \PHPUnit\Framework\TestCase
 
         $returnValue = $this->testedEmailPlugin->execute();
 
-        $this->assertEquals(false, $returnValue);
+        self::assertEquals(false, $returnValue);
     }
 }

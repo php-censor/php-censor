@@ -11,7 +11,7 @@ use PHPCensor\Store\UserStore;
 
 /**
  * Session Controller - Handles user login / logout.
- * 
+ *
  * @author Dan Cryer <dan@block8.co.uk>
  */
 class SessionController extends Controller
@@ -53,7 +53,7 @@ class SessionController extends Controller
                 return $response;
             }
         }
-        
+
         $isLoginFailure = false;
 
         if ($this->request->getMethod() == 'POST') {
@@ -92,7 +92,7 @@ class SessionController extends Controller
 
                     if ($rememberMe) {
                         $rememberKey = md5(microtime(true));
-                        
+
                         $user->setRememberKey($rememberKey);
                         $this->userStore->save($user);
 
@@ -161,7 +161,6 @@ class SessionController extends Controller
     */
     public function logout()
     {
-        unset($_SESSION['php-censor-user']);
         unset($_SESSION['php-censor-user-id']);
 
         session_destroy();
@@ -233,7 +232,8 @@ class SessionController extends Controller
             $hash = password_hash($this->getParam('password'), PASSWORD_DEFAULT);
             $user->setHash($hash);
 
-            $_SESSION['php-censor-user']    = $this->userStore->save($user);
+            $this->userStore->save($user);
+
             $_SESSION['php-censor-user-id'] = $user->getId();
 
             $response = new b8\Http\Response\RedirectResponse();

@@ -3,6 +3,7 @@
 namespace b8;
 
 use b8\Form\FieldSet;
+use PHPCensor\View;
 
 class Form extends FieldSet
 {

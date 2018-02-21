@@ -29,7 +29,7 @@ use PHPCensor\Helper\Lang;
     ?>
     <div class="pull-right btn-group">
         <?php if (!$project->getArchived()): ?>
-            <?php if ($this->User()->getIsAdmin()): ?>
+            <?php if ($this->getUser()->getIsAdmin()): ?>
                 <?php if (!empty($environment)): ?>
                     <a class="btn btn-danger" href="<?= $build_url . '?' . http_build_query(['type' => 'environment', 'id' => $environment, 'debug' => 1]); ?>">
                         <?php Lang::out('build_now_debug'); ?>

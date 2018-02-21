@@ -3,7 +3,9 @@
 namespace PHPCensor\Helper;
 
 use b8\Config;
+use b8\Store\Factory;
 use PHPCensor\Model\User;
+use PHPCensor\Store\UserStore;
 
 /**
  * Languages Helper Class - Handles loading strings files and the strings within them.
@@ -11,7 +13,7 @@ use PHPCensor\Model\User;
 class Lang
 {
     const DEFAULT_LANGUAGE = 'en';
-    
+
     /**
      * @var string
      */
@@ -99,7 +101,7 @@ class Lang
         $languages = [];
         foreach (self::$languages as $language) {
             $strings = include(SRC_DIR . 'Languages' . DIRECTORY_SEPARATOR . 'lang.' . $language . '.php');
-            $languages[$language] = !empty($strings['language_name']) 
+            $languages[$language] = !empty($strings['language_name'])
                 ? $strings['language_name'] . ' (' . $language . ')'
                 : $language;
         }
@@ -132,11 +134,11 @@ class Lang
             return;
         }
 
-        /** @var User $user */
-        $user = !empty($_SESSION['php-censor-user']) ? $_SESSION['php-censor-user'] : null;
-
-        if ((!is_object($user) || get_class($user) == '__PHP_Incomplete_Class') && gettype($user) == 'object') {
-            $user = unserialize(serialize($_SESSION['php-censor-user']));
+        $user = null;
+        if (!empty($_SESSION['php-censor-user-id'])) {
+            /** @var UserStore $userStore */
+            $userStore = Factory::getStore('User');
+            $user      = $userStore->getById($_SESSION['php-censor-user-id']);
         }
 
         if ($user) {
@@ -173,7 +175,7 @@ class Lang
         if (is_null($strings) || !is_array($strings) || !count($strings)) {
             return null;
         }
-        
+
         return $strings;
     }
 

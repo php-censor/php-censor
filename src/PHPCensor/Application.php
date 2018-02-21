@@ -6,7 +6,6 @@ use b8;
 use b8\Exception\HttpException;
 use b8\Http\Response;
 use b8\Http\Response\RedirectResponse;
-use b8\View;
 
 /**
  * @author Dan Cryer <dan@block8.co.uk>
@@ -33,11 +32,8 @@ class Application extends b8\Application
                 $user = b8\Store\Factory::getStore('User')->getByPrimaryKey($_SESSION['php-censor-user-id']);
 
                 if ($user) {
-                    $_SESSION['php-censor-user'] = $user;
                     return true;
                 }
-
-                unset($_SESSION['php-censor-user-id']);
             }
 
             return false;
@@ -159,11 +155,9 @@ class Application extends b8\Application
         $defaultUserId = (integer)$config->get('php-censor.security.default_user_id', 1);
 
         if ($disableAuth && $defaultUserId) {
-            $user = b8\Store\Factory::getStore('User')
-                ->getByPrimaryKey($defaultUserId);
+            $user = b8\Store\Factory::getStore('User')->getByPrimaryKey($defaultUserId);
 
             if ($user) {
-                $_SESSION['php-censor-user'] = $user;
                 return true;
             }
         }

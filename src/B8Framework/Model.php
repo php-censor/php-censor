@@ -3,6 +3,7 @@
 namespace b8;
 
 use b8\Exception\HttpException;
+use Symfony\Component\Cache\Simple\ArrayCache;
 
 class Model
 {
@@ -23,7 +24,7 @@ class Model
             $this->data = array_merge($this->data, $initialData);
         }
 
-        $this->cache = Cache::getCache(Cache::TYPE_REQUEST);
+        $this->cache = new ArrayCache();
     }
 
     /**

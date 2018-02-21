@@ -47,7 +47,7 @@ class DatabaseTest extends \PHPUnit\Framework\TestCase
         $this->checkDatabaseConnection();
 
         $connection = Database::getConnection('write');
-        $this->assertInstanceOf('\b8\Database', $connection);
+        self::assertInstanceOf('\b8\Database', $connection);
     }
 
     public function testGetDetails()
@@ -55,10 +55,10 @@ class DatabaseTest extends \PHPUnit\Framework\TestCase
         $this->checkDatabaseConnection();
 
         $details = Database::getConnection('read')->getDetails();
-        $this->assertTrue(is_array($details));
-        $this->assertTrue(($details['db'] == DB_NAME));
-        $this->assertTrue(($details['user'] == DB_USER));
-        $this->assertTrue(($details['pass'] == DB_PASS));
+        self::assertTrue(is_array($details));
+        self::assertTrue(($details['db'] == DB_NAME));
+        self::assertTrue(($details['user'] == DB_USER));
+        self::assertTrue(($details['pass'] == DB_PASS));
     }
 
     /**

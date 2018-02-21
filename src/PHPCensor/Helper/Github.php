@@ -2,9 +2,9 @@
 
 namespace PHPCensor\Helper;
 
-use b8\Cache;
 use b8\Config;
 use GuzzleHttp\Client;
+use Symfony\Component\Cache\Simple\FilesystemCache;
 
 /**
  * The Github Helper class provides some Github API call functionality.
@@ -26,10 +26,10 @@ class Github
         $response = $client->get(('https://api.github.com' . $url), [
             'query' => $params,
         ]);
-        
+
         $body    = json_decode($response->getBody(), true);
         $headers = $response->getHeaders();
-        
+
         foreach ($body as $item) {
             $results[] = $item;
         }
@@ -62,8 +62,8 @@ class Github
             return [];
         }
 
-        $cache = Cache::getCache(Cache::TYPE_APC);
-        $rtn   = $cache->get('php-censor-github-repos');
+        $cache = new FilesystemCache('', 0, RUNTIME_DIR . 'cache');
+        $rtn   = $cache->get('php-censor.github-repos');
 
         if (!$rtn) {
             $client   = new Client();
@@ -90,7 +90,7 @@ class Github
                 }
             }
 
-            $cache->set('php-censor-github-repos', $rtn);
+            $cache->set('php-censor.github-repos', $rtn, 3600);
         }
 
         return $rtn;

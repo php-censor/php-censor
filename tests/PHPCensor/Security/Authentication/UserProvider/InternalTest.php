@@ -25,7 +25,7 @@ class InternalTest extends \PHPUnit\Framework\TestCase
         $password = 'bla';
         $user->setHash(password_hash($password, PASSWORD_DEFAULT));
 
-        $this->assertTrue($this->provider->verifyPassword($user, $password));
+        self::assertTrue($this->provider->verifyPassword($user, $password));
     }
 
     public function testVerifyInvaldPassword()
@@ -34,7 +34,7 @@ class InternalTest extends \PHPUnit\Framework\TestCase
         $password = 'foo';
         $user->setHash(password_hash($password, PASSWORD_DEFAULT));
 
-        $this->assertFalse($this->provider->verifyPassword($user, 'bar'));
+        self::assertFalse($this->provider->verifyPassword($user, 'bar'));
     }
 
     public function testCheckRequirements()
@@ -44,6 +44,6 @@ class InternalTest extends \PHPUnit\Framework\TestCase
 
     public function testProvisionUser()
     {
-        $this->assertNull($this->provider->provisionUser('john@doe.com'));
+        self::assertNull($this->provider->provisionUser('john@doe.com'));
     }
 }

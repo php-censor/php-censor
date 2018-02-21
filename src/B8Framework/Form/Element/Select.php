@@ -2,7 +2,7 @@
 
 namespace b8\Form\Element;
 
-use b8\View;
+use PHPCensor\View;
 use b8\Form\Input;
 
 class Select extends Input

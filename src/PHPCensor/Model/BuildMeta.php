@@ -181,8 +181,8 @@ class BuildMeta extends Model
             return null;
         }
 
-        $cacheKey = 'Cache.Build.' . $key;
-        $rtn      = $this->cache->get($cacheKey, null);
+        $cacheKey = 'php-censor.build-' . $key;
+        $rtn      = $this->cache->get($cacheKey);
 
         if (empty($rtn)) {
             $rtn    = Factory::getStore('Build', 'PHPCensor')->getById($key);

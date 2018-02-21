@@ -96,7 +96,7 @@ class PhpUnitOptionsTest extends \PHPUnit\Framework\TestCase
     public function testCommandArguments($rawOptions, $parsedArguments)
     {
         $options = new PhpUnitOptions($rawOptions, '/location');
-        $this->assertSame($parsedArguments, $options->getCommandArguments());
+        self::assertSame($parsedArguments, $options->getCommandArguments());
     }
 
     public function testGetters()
@@ -109,14 +109,14 @@ class PhpUnitOptionsTest extends \PHPUnit\Framework\TestCase
             '/location'
         );
 
-        $this->assertEquals('/path/to/run/from', $options->getRunFrom());
-        $this->assertEquals('subTest', $options->getTestsPath());
-        $this->assertNull($options->getOption('random'));
-        $this->assertEmpty($options->getDirectories());
-        $this->assertEmpty($options->getConfigFiles());
+        self::assertEquals('/path/to/run/from', $options->getRunFrom());
+        self::assertEquals('subTest', $options->getTestsPath());
+        self::assertNull($options->getOption('random'));
+        self::assertEmpty($options->getDirectories());
+        self::assertEmpty($options->getConfigFiles());
 
         $files = $options->getConfigFiles(ROOT_DIR);
 
-        $this->assertFileExists(ROOT_DIR . $files[0]);
+        self::assertFileExists(ROOT_DIR . $files[0]);
     }
 }
