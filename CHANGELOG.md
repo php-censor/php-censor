@@ -5,6 +5,49 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [0.21.0](https://github.com/php-censor/php-censor/tree/0.21.0) (2018-02-21)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/0.20.0...0.21.0)
+
+### Added
+
+- Gogs pull request webhook for manage environments branches. Thanks to [@ss-gxp](https://github.com/ss-gxp). 
+Pull request [#142](https://github.com/php-censor/php-censor/pull/142).
+- Access to Pdepend plugin artifacts. Issue [#107](https://github.com/php-censor/php-censor/issues/107).
+- Code coverage report for PHPUnit plugin. Issue [#86](https://github.com/php-censor/php-censor/issues/86).
+- PHP Censor logo and version to console and web interfaces.
+
+### Changed
+
+- Small improvements in README.md. Thanks to [@lex111](https://github.com/lex111). Pull request 
+[#144](https://github.com/php-censor/php-censor/pull/144).
+- Renamed 'Webhook' to 'Webhook (Push)' in according to 'Webhook (Pull request)'.
+- Improved small-box block icon appearance.
+- Improved Pdepend plugin documentation. Issue [#143](https://github.com/php-censor/php-censor/issues/143).
+- Code style fixes.
+- Updated dependencies.
+
+### Removed
+
+- Application Cache class and replaced by Symfony/Cache component.
+- Useless Template class and refactored View.
+- User model from $_SESSION.
+
+### Fixed
+
+- Versions of dependencies.
+- PHPUnit assert calls from public to static.
+- Error page (Only admin access to error page now).
+- Build log for non-unicode characters. Issue [#145](https://github.com/php-censor/php-censor/issues/145). Thanks to 
+[@SimonHeimberg](https://github.com/SimonHeimberg). Pull request 
+[#146](https://github.com/php-censor/php-censor/pull/146), [#149](https://github.com/php-censor/php-censor/pull/149).
+- PhpUnitJson fail on empty trace and unfinished tests. Thanks to [@SimonHeimberg](https://github.com/SimonHeimberg). 
+Pull request [#147](https://github.com/php-censor/php-censor/pull/147).
+- PhpParallelLint Short tags Option. Thanks to [@Dave13h](https://github.com/Dave13h). Pull request 
+[#151](https://github.com/php-censor/php-censor/pull/151).
+- Exception handler for PHP7+.
+
+
 ## [0.20.0](https://github.com/php-censor/php-censor/tree/0.20.0) (2018-01-10)
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/0.19.0...0.20.0)
