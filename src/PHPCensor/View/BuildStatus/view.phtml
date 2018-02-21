@@ -11,7 +11,7 @@
         <link href="<?php print APP_URL; ?>assets/css/main.css" rel="stylesheet" type="text/css" />
 
         <link href="<?php print APP_URL; ?>assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-        <link href="<?php print APP_URL; ?>assets/vendor/ion-icons/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+        <link href="<?php print APP_URL; ?>assets/vendor/ionicons/css/ionicons.min.css" rel="stylesheet" type="text/css" />
 
         <script src="<?php print APP_URL; ?>assets/vendor/admin-lte/plugins/jQuery/jquery-2.2.3.min.js"></script>
         <script src="<?php print APP_URL; ?>assets/js/class.js"></script>
@@ -71,10 +71,10 @@
                                     <?php if ($latest->getCommitMessage()): ?>
                                         <?php print $latest->getCommitMessage(); ?><br /><br />
                                     <?php endif; ?>
-    
+
                                     <strong>Branch: </strong> <?php print $latest->getBranch(); ?><br />
                                     <strong>Committer: </strong> <?php print $latest->getCommitterEmail(); ?>
-    
+
                                     <?php if (!empty($latest->getCommitId())): ?>
                                         <br /><strong>Commit: </strong> <?php print $latest->getCommitId(); ?><br>
                                     <?php endif; ?>
