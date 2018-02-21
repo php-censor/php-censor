@@ -17,12 +17,12 @@ class PhpUnitResultJunit extends PhpUnitResult
      */
     public function parse()
     {
-        $suites = simplexml_load_file($this->outputFile);
-
         // Reset the parsing variables
         $this->results  = [];
         $this->errors   = [];
         $this->failures = 0;
+
+        $suites = $this->loadResultFile();
 
         foreach ($suites->xpath('//testcase') as $testCase) {
             $this->parseTestcase($testCase);
@@ -126,5 +126,17 @@ class PhpUnitResultJunit extends PhpUnitResult
         }
 
         return $msg;
+    }
+
+    /**
+     * @return \SimpleXMLElement
+     */
+    private function loadResultFile()
+    {
+        if (true) {
+            $suites = simplexml_load_file($this->outputFile);
+        }
+
+        return $suites;
     }
 }
