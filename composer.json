@@ -80,7 +80,7 @@
     "phpunit/php-token-stream":          "~1.4.0",
     "phpdocumentor/reflection-docblock": "~2.0.0",
 
-    "mnsami/composer-custom-directory-installer": "~1.1.0",
+    "oomphinc/composer-installers-extender": "~1.1.0",
 
     "npm-asset/sprintf-js":     "~1.0.0",
     "npm-asset/codemirror":     "~5.23.0",
@@ -98,14 +98,12 @@
     "platform": {
         "php": "5.6.*"
     },
+    "installer-types": [
+        "bower-asset",
+        "npm-asset"
+    ],
     "installer-paths": {
-      "public/assets/vendor/sprintf-js":   ["npm-asset/sprintf-js"],
-      "public/assets/vendor/codemirror":   ["npm-asset/codemirror"],
-      "public/assets/vendor/admin-lte":    ["bower-asset/admin-lte"],
-      "public/assets/vendor/font-awesome": ["bower-asset/font-awesome"],
-      "public/assets/vendor/ion-icons":    ["bower-asset/ionicons"],
-      "public/assets/vendor/raphael":      ["bower-asset/raphael"],
-      "public/assets/vendor/eve-raphael":  ["bower-asset/eve-raphael"]
+      "public/assets/vendor/{$name}/": ["type:bower-asset", "type:npm-asset"]
     }
   },
   "repositories": [
