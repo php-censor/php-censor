@@ -125,9 +125,9 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
             $this->encoding = ' --encoding=' . $options['encoding'];
         }
 
-       if (!empty($options['ignore'])) {
+        if (!empty($options['ignore'])) {
             $this->ignore = (array)$options['ignore'];
-       }
+        }
 
         if (!empty($options['standard'])) {
             $this->standard = $options['standard'];
@@ -143,6 +143,10 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
 
         if (isset($options['warning_severity']) && is_int($options['warning_severity'])) {
             $this->warningSeverity = $options['warning_severity'];
+        }
+        
+        if (isset($options['path'])) {
+            $this->path = $options['path'];
         }
     }
 
