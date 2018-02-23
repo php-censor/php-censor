@@ -2,6 +2,8 @@
 
 namespace PHPCensor\Helper;
 
+use b8\Config;
+
 /**
  * Helper class for dealing with SSH keys.
  */
@@ -9,6 +11,7 @@ class SshKey
 {
     /**
      * Uses ssh-keygen to generate a public/private key pair.
+     *
      * @return array
      */
     public function generate()
@@ -22,7 +25,17 @@ class SshKey
 
         $return = ['private_key' => '', 'public_key' => ''];
 
-        $output = @shell_exec('ssh-keygen -t rsa -b 2048 -f '.$keyFile.' -N "" -C "deploy@php-censor"');
+        $sshStrength = Config::getInstance()->get('php-censor.ssh.strength', 2048);
+        $sshComment  = Config::getInstance()->get('php-censor.ssh.comment', 'admin@php-censor');
+
+        $output = @shell_exec(
+            sprintf(
+                'ssh-keygen -t rsa -b %s -f %s -N "" -C "%s"',
+                $sshStrength,
+                $keyFile,
+                $sshComment
+            )
+        );
 
         if (!empty($output)) {
             $pub = file_get_contents($keyFile . '.pub');

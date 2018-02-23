@@ -39,6 +39,9 @@ php-censor:
   log:
     rotate:    true
     max_files: 10
+  ssh:
+    strength: 4096                  # SSH keys strength (default: 2048)
+    comment: admin@php-censor.info  # SSH keys comment (default: admin@php-censor)
   bitbucket:
     username: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
     app_password: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
