@@ -34,11 +34,18 @@ use PHPCensor\Model\BuildError;
                     <tr>
                         <th><?php Lang::out('branch'); ?></th>
                         <td style="text-align: right">
-                            <a target="_blank" href="<?= $build->getBranchLink(); ?>">
-                                <i class="fa fa-code-fork"></i> <?= $build->getBranch(); ?>
+                            <?php if (Build::SOURCE_WEBHOOK_PULL_REQUEST === $build->getSource()): ?>
+                                <a href="<?= $build->getRemoteBranchLink(); ?>">
+                                    <i class="fa fa-code-fork"></i>
+                                    <?= $build->getRemoteBranch(); ?> :
+                                </a>
+                            <?php endif; ?>
+                            <a href="<?= $build->getBranchLink(); ?>">
+                                <i class="fa fa-code-fork"></i>
+                                <?= $build->getBranch(); ?>
                             </a>
                             <?php if ($tag = $build->getTag()): ?> /
-                                <a target="_blank" href="<?= $build->getTagLink(); ?>">
+                                <a href="<?= $build->getTagLink(); ?>">
                                     <i class="fa fa-tag"></i> <?= $tag; ?>
                                 </a>
                             <?php endif; ?>
@@ -58,7 +65,7 @@ use PHPCensor\Model\BuildError;
                     <tr>
                         <th><?php Lang::out('merged_branches'); ?></th>
                         <td style="text-align: right">
-                            <a target="_blank" href="<?= $build->getBranchLink(); ?>">
+                            <a href="<?= $build->getBranchLink(); ?>">
                                 <i class="fa fa-code-fork"></i> <?= $build->getBranch(); ?>
                             </a>
                             + <?php
@@ -97,7 +104,7 @@ use PHPCensor\Model\BuildError;
                     <tr>
                         <th><?php Lang::out('commit'); ?></th>
                         <td style="text-align: right">
-                            <a target="_blank" href="<?= $build->getCommitLink(); ?>">
+                            <a href="<?= $build->getCommitLink(); ?>">
                                 <?php print substr($build->getCommitId(), 0, 7); ?>
                             </a>
                         </td>

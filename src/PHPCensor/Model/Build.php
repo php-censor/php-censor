@@ -712,6 +712,22 @@ class Build extends Model
     }
 
     /**
+     * Get remote branch (from pull request) from another source (i.e. Github)
+     */
+    public function getRemoteBranch()
+    {
+        return $this->getExtra('remote_branch');
+    }
+
+    /**
+     * Get link to remote branch (from pull request) from another source (i.e. Github)
+     */
+    public function getRemoteBranchLink()
+    {
+        return '#';
+    }
+
+    /**
      * Get link to tag from another source (i.e. Github)
      */
     public function getTagLink()

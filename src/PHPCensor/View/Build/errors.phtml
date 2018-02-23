@@ -24,9 +24,9 @@ foreach ($errors as $error):
            </span>
        </td>
        <td><?= Lang::get($error->getPlugin()); ?></td>
-       <td><a href="<?php print $link; ?>" target="_blank"><?= $error->getFile(); ?></a></td>
+       <td><a href="<?= $link; ?>"><?= $error->getFile(); ?></a></td>
        <td>
-           <a href="<?php print $link; ?>" target="_blank">
+           <a href="<?= $link; ?>">
            <?php
            if ($error->getLineStart() == $error->getLineEnd() || !$error->getLineEnd()) {
                echo $error->getLineStart();

@@ -38,6 +38,17 @@ class BitbucketBuild extends RemoteGitBuild
     }
 
     /**
+     * Get link to remote branch (from pull request) from another source (i.e. BitBucket)
+     */
+    public function getRemoteBranchLink()
+    {
+        $remoteBranch    = $this->getExtra('remote_branch');
+        $remoteReference = $this->getExtra('remote_reference');
+
+        return 'https://bitbucket.org/' . $remoteReference . '/src/?at=' . $remoteBranch;
+    }
+
+    /**
      * Get link to tag from another source (i.e. BitBucket)
      *
      * @return string

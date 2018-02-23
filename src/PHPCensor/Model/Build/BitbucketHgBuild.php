@@ -32,6 +32,27 @@ class BitbucketHgBuild extends MercurialBuild
     }
 
     /**
+     * Get link to remote branch (from pull request) from another source (i.e. BitBucket)
+     */
+    public function getRemoteBranchLink()
+    {
+        $remoteBranch    = $this->getExtra('remote_branch');
+        $remoteReference = $this->getExtra('remote_reference');
+
+        return 'https://bitbucket.org/' . $remoteReference . '/src/?at=' . $remoteBranch;
+    }
+
+    /**
+     * Get link to tag from another source (i.e. BitBucket)
+     *
+     * @return string
+     */
+    public function getTagLink()
+    {
+        return 'https://bitbucket.org/' . $this->getProject()->getReference() . '/src/?at=' . $this->getTag();
+    }
+
+    /**
      * Get the URL to be used to clone this remote repository.
      *
      * @return string

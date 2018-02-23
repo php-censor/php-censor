@@ -38,6 +38,17 @@ class GithubBuild extends RemoteGitBuild
     }
 
     /**
+     * Get link to remote branch (from pull request) from another source (i.e. Github)
+     */
+    public function getRemoteBranchLink()
+    {
+        $remoteBranch    = $this->getExtra('remote_branch');
+        $remoteReference = $this->getExtra('remote_reference');
+
+        return 'https://github.com/' . $remoteReference . '/tree/' . $remoteBranch;
+    }
+
+    /**
      * Get link to tag from another source (i.e. Github)
      *
      * @return string
@@ -151,9 +162,9 @@ class GithubBuild extends RemoteGitBuild
 
         if (!is_null($project)) {
             $reference = $project->getReference();
-            $commitLink = '<a target="_blank" href="https://github.com/' . $reference . '/issues/$1">#$1</a>';
+            $commitLink = '<a href="https://github.com/' . $reference . '/issues/$1">#$1</a>';
             $rtn = preg_replace('/\#([0-9]+)/', $commitLink, $rtn);
-            $rtn = preg_replace('/\@([a-zA-Z0-9_]+)/', '<a target="_blank" href="https://github.com/$1">@$1</a>', $rtn);
+            $rtn = preg_replace('/\@([a-zA-Z0-9_]+)/', '<a href="https://github.com/$1">@$1</a>', $rtn);
         }
 
         return $rtn;
