@@ -93,12 +93,12 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
         $this->suffixes         = ['php'];
         $this->directory        = $this->builder->buildPath;
         $this->standard         = 'PSR2';
-        $this->tabWidth        = '';
+        $this->tabWidth         = '';
         $this->encoding         = '';
         $this->path             = '';
         $this->ignore           = $this->builder->ignore;
-        $this->allowedWarnings = 0;
-        $this->allowedErrors   = 0;
+        $this->allowedWarnings  = 0;
+        $this->allowedErrors    = 0;
 
         if (isset($options['zero_config']) && $options['zero_config']) {
             $this->allowedWarnings = -1;
@@ -133,6 +133,10 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
             $this->standard = $options['standard'];
         }
 
+        if (!empty($options['path'])) {
+            $this->path = $options['path'];
+        }
+
         if (isset($options['severity']) && is_int($options['severity'])) {
             $this->severity = $options['severity'];
         }
@@ -143,10 +147,6 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
 
         if (isset($options['warning_severity']) && is_int($options['warning_severity'])) {
             $this->warningSeverity = $options['warning_severity'];
-        }
-        
-        if (isset($options['path'])) {
-            $this->path = $options['path'];
         }
     }
 

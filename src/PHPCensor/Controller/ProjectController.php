@@ -297,17 +297,15 @@ class ProjectController extends PHPCensor\Controller
         $this->requireAdmin();
 
         $method           = $this->request->getMethod();
-        $pub              = null;
         $values           = $this->getParams();
         $values['branch'] = '';
 
-        if ($method != 'POST') {
+        if ($method !== 'POST') {
             $sshKey = new SshKey();
             $key    = $sshKey->generate();
 
             $values['key']    = $key['private_key'];
             $values['pubkey'] = $key['public_key'];
-            $pub              = $key['public_key'];
         }
 
         $form = $this->projectForm($values);
@@ -317,7 +315,7 @@ class ProjectController extends PHPCensor\Controller
             $view->type     = 'add';
             $view->project  = null;
             $view->form     = $form;
-            $view->key      = $pub;
+            $view->key      = $values['pubkey'];
 
             return $view->render();
         } else {

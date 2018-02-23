@@ -265,6 +265,10 @@ class InstallCommand extends Command
                 'smtp_password'          => null,
                 'smtp_encryption'        => false,
             ],
+            'ssh' => [
+                'strength' => 2048,
+                'comment'  => 'admin@php-censor',
+            ],
             'bitbucket'   => [
                 'username'     => null,
                 'app_password' => null,
