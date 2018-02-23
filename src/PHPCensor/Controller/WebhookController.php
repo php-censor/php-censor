@@ -207,7 +207,6 @@ class WebhookController extends Controller
                 $message   = $commit['message'];
 
                 $extra = [
-                    'build_type'          => 'pull_request',
                     'pull_request_number' => $payload['pullrequest']['id'],
                     'remote_branch'       => $payload['pullrequest']['source']['branch']['name'],
                     'remote_reference'    => $payload['pullrequest']['source']['repository']['full_name'],
@@ -437,7 +436,7 @@ class WebhookController extends Controller
         foreach ($commits as $commit) {
             // Skip all but the current HEAD commit ID:
             $id = $commit['sha'];
-            if ($id != $payload['pull_request']['head']['sha']) {
+            if ($id !== $payload['pull_request']['head']['sha']) {
                 $results[$id] = ['status' => 'ignored', 'message' => 'not branch head'];
                 continue;
             }
@@ -447,14 +446,10 @@ class WebhookController extends Controller
                 $committer = $commit['commit']['author']['email'];
                 $message   = $commit['commit']['message'];
 
-                $remoteUrlKey = $payload['pull_request']['head']['repo']['private'] ? 'ssh_url' : 'clone_url';
-
                 $extra = [
-                    'build_type'          => 'pull_request',
-                    'pull_request_id'     => $payload['pull_request']['id'],
                     'pull_request_number' => $payload['number'],
                     'remote_branch'       => $payload['pull_request']['head']['ref'],
-                    'remote_url'          => $payload['pull_request']['head']['repo'][$remoteUrlKey],
+                    'remote_reference'    => $payload['pull_request']['head']['repo']['full_name'],
                 ];
 
                 $results[$id] = $this->createBuild(

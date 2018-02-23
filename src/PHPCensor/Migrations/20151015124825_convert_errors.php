@@ -24,8 +24,8 @@ class ConvertErrors extends AbstractMigration
         $this->metaStore  = Factory::getStore('BuildMeta');
         $this->errorStore = Factory::getStore('BuildError');
 
-        while ($count === 100) {
-            $data = $this->metaStore->getErrorsForUpgrade(100);
+        while ($count >= 100) {
+            $data  = $this->metaStore->getErrorsForUpgrade(100);
             $count = count($data);
 
             /** @var \PHPCensor\Model\BuildMeta $meta */

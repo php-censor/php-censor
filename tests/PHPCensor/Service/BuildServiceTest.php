@@ -3,7 +3,6 @@
 namespace Tests\PHPCensor\Service;
 
 use PHPCensor\Model\Build;
-use PHPCensor\Model\Project;
 use PHPCensor\Service\BuildService;
 
 /**
@@ -32,12 +31,14 @@ class BuildServiceTest extends \PHPUnit\Framework\TestCase
     public function setUp()
     {
         $this->mockBuildStore = $this->getMockBuilder('PHPCensor\Store\BuildStore')->getMock();
-        $this->mockBuildStore->expects($this->any())
-                               ->method('save')
-                               ->will($this->returnArgument(0));
+        $this->mockBuildStore
+            ->expects($this->any())
+            ->method('save')
+            ->will($this->returnArgument(0));
 
         $this->mockEnvironmentStore = $this->getMockBuilder('PHPCensor\Store\EnvironmentStore')->getMock();
-        $this->mockEnvironmentStore->expects($this->any())
+        $this->mockEnvironmentStore
+            ->expects($this->any())
             ->method('getByProjectId')
             ->will($this->returnValue(['items' => [], 'count' => 0]));
 

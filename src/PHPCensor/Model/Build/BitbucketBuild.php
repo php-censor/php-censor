@@ -19,6 +19,8 @@ class BitbucketBuild extends RemoteGitBuild
 {
     /**
      * Get link to commit from another source (i.e. BitBucket)
+     *
+     * @return string
      */
     public function getCommitLink()
     {
@@ -27,6 +29,8 @@ class BitbucketBuild extends RemoteGitBuild
 
     /**
      * Get link to branch from another source (i.e. BitBucket)
+     *
+     * @return string
      */
     public function getBranchLink()
     {
@@ -35,6 +39,8 @@ class BitbucketBuild extends RemoteGitBuild
 
     /**
      * Get link to tag from another source (i.e. BitBucket)
+     *
+     * @return string
      */
     public function getTagLink()
     {
@@ -97,7 +103,7 @@ class BitbucketBuild extends RemoteGitBuild
 
         $url = sprintf(
             '/2.0/repositories/%s/commit/%s/statuses/build',
-            $this->getExtra('build_type') == 'pull_request'
+            Build::SOURCE_WEBHOOK_PULL_REQUEST === $this->getSource()
                 ? $this->getExtra('remote_reference')
                 : $project->getReference(),
             $this->getCommitId()
@@ -128,6 +134,8 @@ class BitbucketBuild extends RemoteGitBuild
 
     /**
      * Get the URL to be used to clone this remote repository.
+     *
+     * @return string
      */
     protected function getCloneUrl()
     {
@@ -149,7 +157,7 @@ class BitbucketBuild extends RemoteGitBuild
     {
         $reference = $this->getProject()->getReference();
 
-        if ($this->getExtra('build_type') == 'pull_request') {
+        if (Build::SOURCE_WEBHOOK_PULL_REQUEST === $this->getSource()) {
             $reference = $this->getExtra('remote_reference');
         }
 
@@ -162,21 +170,15 @@ class BitbucketBuild extends RemoteGitBuild
     }
 
     /**
-     * Handle any post-clone tasks, like applying a pull request patch on top of the branch.
-     * @param Builder $builder
-     * @param $cloneTo
-     * @param array $extra
-     * @return bool
+     * @inheritdoc
      */
     protected function postCloneSetup(Builder $builder, $cloneTo, array $extra = null)
     {
-        $buildType = $this->getExtra('build_type');
-
-        $success = true;
+        $success             = true;
         $skipGitFinalization = false;
 
         try {
-            if (!empty($buildType) && $buildType == 'pull_request') {
+            if (Build::SOURCE_WEBHOOK_PULL_REQUEST === $this->getSource()) {
                 $helper = new Bitbucket();
                 $diff = $helper->getPullRequestDiff(
                     $this->getProject()->getReference(),
@@ -206,7 +208,8 @@ class BitbucketBuild extends RemoteGitBuild
     /**
      * Create an diff file on disk for this build.
      *
-     * @param  string $cloneTo
+     * @param string $cloneTo
+     * @param string $diff
      *
      * @return string
      */
@@ -271,10 +274,12 @@ class BitbucketBuild extends RemoteGitBuild
 
     /**
      * Uses git diff to figure out what the diff line position is, based on the error line number.
+     *
      * @param Builder $builder
-     * @param $file
-     * @param $line
-     * @return int|null
+     * @param string  $file
+     * @param integer $line
+     *
+     * @return integer|null
      */
     protected function getDiffLineNumber(Builder $builder, $file, $line)
     {

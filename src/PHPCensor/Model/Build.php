@@ -849,13 +849,14 @@ class Build extends Model
 
     /**
      * Allows specific build types (e.g. Github) to report violations back to their respective services.
+     *
      * @param Builder $builder
-     * @param $plugin
-     * @param $message
-     * @param int $severity
-     * @param null $file
-     * @param null $lineStart
-     * @param null $lineEnd
+     * @param string  $plugin
+     * @param string  $message
+     * @param integer $severity
+     * @param string  $file
+     * @param integer $lineStart
+     * @param integer $lineEnd
      */
     public function reportError(
         Builder $builder,

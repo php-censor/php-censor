@@ -18,16 +18,20 @@ use PHPCensor\Model\BuildError;
 class GithubBuild extends RemoteGitBuild
 {
     /**
-    * Get link to commit from another source (i.e. Github)
-    */
+     * Get link to commit from another source (i.e. Github)
+     *
+     * @return string
+     */
     public function getCommitLink()
     {
         return 'https://github.com/' . $this->getProject()->getReference() . '/commit/' . $this->getCommitId();
     }
 
     /**
-    * Get link to branch from another source (i.e. Github)
-    */
+     * Get link to branch from another source (i.e. Github)
+     *
+     * @return string
+     */
     public function getBranchLink()
     {
         return 'https://github.com/' . $this->getProject()->getReference() . '/tree/' . $this->getBranch();
@@ -35,6 +39,8 @@ class GithubBuild extends RemoteGitBuild
 
     /**
      * Get link to tag from another source (i.e. Github)
+     *
+     * @return string
      */
     public function getTagLink()
     {
@@ -117,8 +123,10 @@ class GithubBuild extends RemoteGitBuild
     }
 
     /**
-    * Get the URL to be used to clone this remote repository.
-    */
+     * Get the URL to be used to clone this remote repository.
+     *
+     * @return string
+     */
     protected function getCloneUrl()
     {
         $key = trim($this->getProject()->getSshPrivateKey());
@@ -160,11 +168,8 @@ class GithubBuild extends RemoteGitBuild
     {
         $reference = $this->getProject()->getReference();
 
-        if ($this->getExtra('build_type') == 'pull_request') {
-            $matches = [];
-            preg_match('/[\/:]([a-zA-Z0-9_\-]+\/[a-zA-Z0-9_\-]+)/', $this->getExtra('remote_url'), $matches);
-
-            $reference = $matches[1];
+        if (Build::SOURCE_WEBHOOK_PULL_REQUEST === $this->getSource()) {
+            $reference = $this->getExtra('remote_reference');
         }
 
         $link = 'https://github.com/' . $reference . '/';
@@ -176,20 +181,14 @@ class GithubBuild extends RemoteGitBuild
     }
 
     /**
-     * Handle any post-clone tasks, like applying a pull request patch on top of the branch.
-     * @param Builder $builder
-     * @param $cloneTo
-     * @param array $extra
-     * @return bool
+     * @inheritdoc
      */
     protected function postCloneSetup(Builder $builder, $cloneTo, array $extra = null)
     {
-        $buildType = $this->getExtra('build_type');
-
         $success = true;
 
         try {
-            if (!empty($buildType) && $buildType == 'pull_request') {
+            if (Build::SOURCE_WEBHOOK_PULL_REQUEST === $this->getSource()) {
                 $pullRequestId = $this->getExtra('pull_request_number');
 
                 $cmd = 'cd "%s" && git checkout -b php-censor/' . $this->getId()
@@ -211,7 +210,7 @@ class GithubBuild extends RemoteGitBuild
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function reportError(
         Builder $builder,
@@ -259,10 +258,12 @@ class GithubBuild extends RemoteGitBuild
 
     /**
      * Uses git diff to figure out what the diff line position is, based on the error line number.
+     *
      * @param Builder $builder
-     * @param $file
-     * @param $line
-     * @return int|null
+     * @param string  $file
+     * @param integer $line
+     *
+     * @return integer|null
      */
     protected function getDiffLineNumber(Builder $builder, $file, $line)
     {
