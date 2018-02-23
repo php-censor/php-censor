@@ -53,6 +53,10 @@
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./src</directory>
+            <exclude>
+                <directory suffix=".php">./src/PHPCensor/Migrations</directory>
+                <directory suffix=".php">./src/PHPCensor/Languages</directory>
+            </exclude>
         </whitelist>
     </filter>
 </phpunit>

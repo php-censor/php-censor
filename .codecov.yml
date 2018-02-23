@@ -1,0 +1,12 @@
+coverage:
+  ignore:
+    - "app"
+    - "docs"
+    - "public"
+    - "runtime"
+    - "tests"
+    - "vendor"
+    - "src/PHPCensor/Migrations"
+    - "src/PHPCensor/Languages"
+
+comment: off
