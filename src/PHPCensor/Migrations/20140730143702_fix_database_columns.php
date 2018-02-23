@@ -50,6 +50,5 @@ class FixDatabaseColumns extends AbstractMigration
 
     public function down()
     {
-        
     }
 }

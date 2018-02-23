@@ -712,6 +712,22 @@ class Build extends Model
     }
 
     /**
+     * Get remote branch (from pull request) from another source (i.e. Github)
+     */
+    public function getRemoteBranch()
+    {
+        return $this->getExtra('remote_branch');
+    }
+
+    /**
+     * Get link to remote branch (from pull request) from another source (i.e. Github)
+     */
+    public function getRemoteBranchLink()
+    {
+        return '#';
+    }
+
+    /**
      * Get link to tag from another source (i.e. Github)
      */
     public function getTagLink()
@@ -849,13 +865,14 @@ class Build extends Model
 
     /**
      * Allows specific build types (e.g. Github) to report violations back to their respective services.
+     *
      * @param Builder $builder
-     * @param $plugin
-     * @param $message
-     * @param int $severity
-     * @param null $file
-     * @param null $lineStart
-     * @param null $lineEnd
+     * @param string  $plugin
+     * @param string  $message
+     * @param integer $severity
+     * @param string  $file
+     * @param integer $lineStart
+     * @param integer $lineEnd
      */
     public function reportError(
         Builder $builder,

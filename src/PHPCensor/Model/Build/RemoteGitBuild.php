@@ -135,7 +135,7 @@ class RemoteGitBuild extends Build
      * @param string  $cloneTo
      * @param array   $extra
      *
-     * @return bool
+     * @return boolean
      */
     protected function postCloneSetup(Builder $builder, $cloneTo, array $extra = null)
     {

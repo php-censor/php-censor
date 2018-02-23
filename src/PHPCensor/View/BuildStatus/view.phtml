@@ -147,7 +147,7 @@
                                         <?php
                                             if (!empty($build->getCommitId())) {
                                                 print sprintf(
-                                                    '<a href="%s" target="_blank">%s %s</a>',
+                                                    '<a href="%s">%s %s</a>',
                                                     $build->getCommitLink(),
                                                     substr($build->getCommitId(), 0, 7),
                                                     $build->getCommitterEmail() ? ('(' . $build->getCommitterEmail() . ')') : ''
@@ -159,12 +159,22 @@
                                     </td>
 
                                     <td>
+                                        <?php if (\PHPCensor\Model\Build::SOURCE_WEBHOOK_PULL_REQUEST === $build->getSource()): ?>
+                                            <a href="<?= $build->getRemoteBranchLink(); ?>">
+                                                <i class="fa fa-code-fork"></i>
+                                                <?= $build->getRemoteBranch(); ?> :
+                                            </a>
+                                        <?php endif; ?>
+                                        <a href="<?= $build->getBranchLink();?>">
+                                            <i class="fa fa-code-fork"></i>
+                                            <?= $build->getBranch(); ?>
+                                        </a>
                                         <?php $branches = $build->getExtra('branches'); ?>
-                                        <a href="<?= $build->getBranchLink();?>"><i class="fa fa-code-fork"></i> <?php echo $build->getBranch(); ?></a>
                                         <?= $branches ? ' + '.implode(', ', $branches) : ''; ?>
                                         <?php if ($tag = $build->getTag()): ?> /
-                                            <a href="<?= $build->getTagLink(); ?>" target="_blank">
-                                                <i class="fa fa-tag"></i> <?= $tag; ?>
+                                            <a href="<?= $build->getTagLink(); ?>">
+                                                <i class="fa fa-tag"></i>
+                                                <?= $tag; ?>
                                             </a>
                                         <?php endif; ?>
                                     </td>
