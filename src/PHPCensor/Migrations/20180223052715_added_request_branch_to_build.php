@@ -15,14 +15,14 @@ class AddedRequestBranchToBuild extends AbstractMigration
         $count  = 100;
         $offset = 0;
         while ($count >= 100) {
-            $builds = $buildStore->getBuilds(100, $offset);
-            $offset =+ 100;
-            $count  = count($builds);
+            $builds    =  $buildStore->getBuilds(100, $offset);
+            $offset    += 100;
+            $count     =  count($builds);
 
             /** @var Build $build */
             foreach ($builds as &$build) {
                 $extra = $build->getExtra();
-                if (isset($extra['build_type']) && 'pull_request' === $extra['build_type']) {
+                if (isset($extra['build_type'])) {
                     unset($extra['build_type']);
 
                     $build->setSource(Build::SOURCE_WEBHOOK_PULL_REQUEST);
@@ -39,11 +39,11 @@ class AddedRequestBranchToBuild extends AbstractMigration
                     if ($remoteReference && empty($extra['remote_reference'])) {
                         $extra['remote_reference'] = $remoteReference;
                     }
-
-                    unset($extra['remote_url']);
                 }
+                unset($extra['build_type']);
+                unset($extra['pull_request_id']);
 
-                $build->setExtra($extra);
+                $build->setExtra(json_encode($extra));
                 $buildStore->save($build);
             }
             unset($build);
