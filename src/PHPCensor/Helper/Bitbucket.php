@@ -33,7 +33,8 @@ class Bitbucket
 
         $url = '/1.0/repositories/' . $repo . '/pullrequests/' . $pullId . '/comments/';
         $client = new Client(['base_uri' => 'https://api.bitbucket.org']);
-        $response = $client->post($url, [
+
+        $client->post($url, [
             'auth'      => [$username, $appPassword],
             'headers'   => [
                 'Content-Type' => 'application/json',
@@ -69,7 +70,8 @@ class Bitbucket
         $url = '/1.0/repositories/' . $repo . '/changesets/' . $commitId . '/comments';
 
         $client = new Client(['base_uri' => 'https://api.bitbucket.org']);
-        $response = $client->post($url, [
+
+        $client->post($url, [
             'auth'      => [$username, $appPassword],
             'headers'   => [
                 'Content-Type' => 'application/json',

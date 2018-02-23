@@ -257,7 +257,6 @@ class BitbucketBuild extends RemoteGitBuild
             false
         );
 
-        //$file = $builder->buildPath.'test.php';
         if ($allowCommentCommit || $allowCommentPullRequest) {
             $diffLineNumber = $this->getDiffLineNumber($builder, $file, $lineStart);
 
