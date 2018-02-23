@@ -164,7 +164,6 @@ class WebhookController extends Controller
             return ['status' => 'ok'];
         }
 
-        $headers = [];
         $username = Config::getInstance()->get('php-censor.bitbucket.username');
         $appPassword = Config::getInstance()->get('php-censor.bitbucket.app_password');
 

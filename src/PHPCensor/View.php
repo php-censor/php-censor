@@ -80,7 +80,7 @@ class View
     /**
      * @return boolean
      */
-    protected function LoginIsDisabled()
+    protected function loginIsDisabled()
     {
         $config      = Config::getInstance();
         $disableAuth = (boolean)$config->get('php-censor.security.disable_auth', false);
