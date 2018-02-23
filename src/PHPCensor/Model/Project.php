@@ -15,19 +15,9 @@ use Symfony\Component\Yaml\Dumper as YamlDumper;
 class Project extends Model
 {
     /**
-     * @var array
-     */
-    public static $sleepable = [];
-
-    /**
      * @var string
      */
     protected $tableName = 'project';
-
-    /**
-     * @var string
-     */
-    protected $modelName = 'Project';
 
     /**
      * @var array

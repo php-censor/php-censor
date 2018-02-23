@@ -8,19 +8,9 @@ use b8\Store\Factory;
 class ProjectGroup extends Model
 {
     /**
-     * @var array
-     */
-    public static $sleepable = [];
-
-    /**
      * @var string
      */
     protected $tableName = 'project_group';
-
-    /**
-     * @var string
-     */
-    protected $modelName = 'ProjectGroup';
 
     /**
      * @var array

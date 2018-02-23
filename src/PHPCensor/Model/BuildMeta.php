@@ -8,19 +8,9 @@ use b8\Store\Factory;
 class BuildMeta extends Model
 {
     /**
-     * @var array
-     */
-    public static $sleepable = [];
-
-    /**
      * @var string
      */
     protected $tableName = 'build_meta';
-
-    /**
-     * @var string
-     */
-    protected $modelName = 'BuildMeta';
 
     /**
      * @var array

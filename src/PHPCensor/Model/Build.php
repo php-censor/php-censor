@@ -35,19 +35,9 @@ class Build extends Model
     const SOURCE_WEBHOOK_PULL_REQUEST = 5;
 
     /**
-     * @var array
-     */
-    public static $sleepable = [];
-
-    /**
      * @var string
      */
     protected $tableName = 'build';
-
-    /**
-     * @var string
-     */
-    protected $modelName = 'Build';
 
     /**
      * @var integer

@@ -13,19 +13,9 @@ class BuildError extends Model
     const SEVERITY_LOW      = 3;
 
     /**
-     * @var array
-     */
-    public static $sleepable = [];
-
-    /**
      * @var string
      */
     protected $tableName = 'build_error';
-
-    /**
-     * @var string
-     */
-    protected $modelName = 'BuildError';
 
     /**
      * @var array

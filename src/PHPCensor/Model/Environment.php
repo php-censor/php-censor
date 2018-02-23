@@ -7,19 +7,9 @@ use PHPCensor\Model;
 class Environment extends Model
 {
     /**
-     * @var array
-     */
-    public static $sleepable = [];
-
-    /**
      * @var string
      */
     protected $tableName = 'environment';
-
-    /**
-     * @var string
-     */
-    protected $modelName = 'Environment';
 
     /**
      * @var array

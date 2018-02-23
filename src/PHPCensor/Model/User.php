@@ -11,19 +11,9 @@ use PHPCensor\Model;
 class User extends Model
 {
     /**
-     * @var array
-     */
-    public static $sleepable = [];
-
-    /**
      * @var string
      */
     protected $tableName = 'user';
-
-    /**
-     * @var string
-     */
-    protected $modelName = 'User';
 
     /**
      * @var array
