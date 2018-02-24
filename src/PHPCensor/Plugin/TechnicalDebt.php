@@ -138,6 +138,10 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
             $this->allowedErrors = -1;
         }
 
+        if (array_key_exists('allowed_errors', $options) && $options['allowed_errors']) {
+            $this->allowedErrors = (int) $options['allowed_errors'];
+        }
+
         $this->setOptions($options);
     }
 
@@ -148,7 +152,7 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
      */
     protected function setOptions($options)
     {
-        foreach (['directory', 'ignore', 'allowed_errors'] as $key) {
+        foreach (['directory', 'ignore'] as $key) {
             if (array_key_exists($key, $options)) {
                 $this->{$key} = $options[$key];
             }
