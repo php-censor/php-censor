@@ -70,7 +70,7 @@ class BuildDBLogHandler extends AbstractProcessingHandler
     protected function write(array $record)
     {
         $message = (string)$record['message'];
-        $message = str_replace($this->build->currentBuildPath, './', $message);
+        $message = str_replace($this->build->getBuildPath(), './', $message);
 
         $this->logValue .= $message . PHP_EOL;
 

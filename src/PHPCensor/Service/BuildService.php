@@ -151,6 +151,7 @@ class BuildService
     public function deleteBuild(Build $build)
     {
         $build->removeBuildDirectory();
+
         return $this->buildStore->delete($build);
     }
 

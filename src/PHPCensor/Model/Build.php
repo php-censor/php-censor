@@ -4,6 +4,7 @@ namespace PHPCensor\Model;
 
 use PHPCensor\Builder;
 use PHPCensor\Store\BuildErrorStore;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Parser as YamlParser;
 use PHPCensor\Model;
 use b8\Store\Factory;
@@ -43,6 +44,16 @@ class Build extends Model
      * @var integer
      */
     protected $newErrorsCount = null;
+
+    /**
+     * @var string
+     */
+    protected $buildDirectory;
+
+    /**
+     * @var string
+     */
+    protected $buildBranchDirectory;
 
     /**
      * @var array
@@ -683,8 +694,6 @@ class Build extends Model
         return Factory::getStore('BuildMeta', 'PHPCensor')->getByBuildId($this->getId());
     }
 
-    public $currentBuildPath;
-
     /**
     * Get link to commit from another source (i.e. Github)
     */
@@ -885,8 +894,42 @@ class Build extends Model
     }
 
     /**
-     * Return the path to run this build into.
-     *
+     * @return string|null
+     */
+    public function getBuildDirectory()
+    {
+        if (!$this->getId()) {
+            return null;
+        }
+
+        if (empty($this->buildDirectory)) {
+            $this->buildDirectory = $this->getProjectId() . '/' . $this->getId() . '_' . substr(
+                md5(($this->getId() . '_' . $this->getCreateDate()->format('Y-m-d H:i:s'))
+            ), 0, 8);
+        }
+
+        return $this->buildDirectory;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getBuildBranchDirectory()
+    {
+        if (!$this->getId()) {
+            return null;
+        }
+
+        if (empty($this->buildBranchDirectory)) {
+            $this->buildBranchDirectory = $this->getProjectId() . '/' . $this->getBranch() . '_' . substr(
+                md5(($this->getBranch() . '_' . $this->getProject()->getCreateDate()->format('Y-m-d H:i:s'))
+            ), 0, 8);
+        }
+
+        return $this->buildBranchDirectory;
+    }
+
+    /**
      * @return string|null
      */
     public function getBuildPath()
@@ -895,17 +938,7 @@ class Build extends Model
             return null;
         }
 
-        if (empty($this->currentBuildPath)) {
-            $buildDirectory         = $this->getId() . '_' . substr(md5(microtime(true)), 0, 5);
-            $this->currentBuildPath =
-                RUNTIME_DIR .
-                'builds' .
-                DIRECTORY_SEPARATOR .
-                $buildDirectory .
-                DIRECTORY_SEPARATOR;
-        }
-
-        return $this->currentBuildPath;
+        return RUNTIME_DIR . 'builds/' . $this->getBuildDirectory() . '/';
     }
 
     /**
@@ -921,11 +954,22 @@ class Build extends Model
             return;
         }
 
-        if (is_link($buildPath)) {
-            // Remove the symlink without using recursive.
-            exec(sprintf('rm "%s"', $buildPath));
-        } else {
-            exec(sprintf('rm -Rf "%s"', $buildPath));
+        try {
+            $fileSystem = new Filesystem();
+
+            if (is_link($buildPath)) {
+                // Remove the symlink without using recursive.
+                exec(sprintf('rm "%s"', $buildPath));
+            } else {
+                $fileSystem->remove($buildPath);
+            }
+
+            $buildDirectory = $this->getBuildDirectory();
+
+            $fileSystem->remove(PUBLIC_DIR . 'artifacts/pdepend/' . $buildDirectory);
+            $fileSystem->remove(PUBLIC_DIR . 'artifacts/phpunit/' . $buildDirectory);
+        } catch (\Exception $e) {
+
         }
     }
 

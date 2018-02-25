@@ -11,6 +11,7 @@ use PHPCensor\Plugin\Util\PhpUnitResultJson;
 use PHPCensor\Plugin\Util\PhpUnitResultJunit;
 use PHPCensor\Plugin;
 use PHPCensor\ZeroConfigPluginInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * PHP Unit Plugin - A rewrite of the original PHP Unit plugin
@@ -28,9 +29,21 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
     /**
      * @var string
      */
-    protected $location;
+    protected $buildBranchDirectory;
 
-    /** @var string[] Raw options from the config file */
+    /**
+     * @var string
+     */
+    protected $buildLocation;
+
+    /**
+     * @var string
+     */
+    protected $buildBranchLocation;
+
+    /**
+     * @var string[] Raw options from the config file
+     */
     protected $options = [];
 
     /**
@@ -57,10 +70,13 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
     {
         parent::__construct($builder, $build, $options);
 
-        $this->buildDirectory = $this->build->getProjectId() . '/' . $this->build->getId();
-        $this->location       = PUBLIC_DIR . 'artifacts/phpunit/' . $this->buildDirectory . '/coverage';
+        $this->buildDirectory       = $build->getBuildDirectory();
+        $this->buildBranchDirectory = $build->getBuildBranchDirectory();
 
-        $this->options = new PhpUnitOptions($options, $this->location);
+        $this->buildLocation       = PUBLIC_DIR . 'artifacts/phpunit/' . $this->buildDirectory;
+        $this->buildBranchLocation = PUBLIC_DIR . 'artifacts/phpunit/' . $this->buildBranchDirectory;
+
+        $this->options = new PhpUnitOptions($options, $this->buildLocation, $this->buildBranchLocation);
     }
 
     /**
@@ -145,14 +161,21 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
             $options->addArgument('configuration', $buildPath . $configFile);
         }
 
-        if (!file_exists($this->location) && $options->getOption('coverage')) {
-            mkdir($this->location, (0777 & ~umask()), true);
+        $fileSystem = new Filesystem();
+
+        if (!$fileSystem->exists($this->buildLocation) && $options->getOption('coverage')) {
+            $fileSystem->mkdir($this->buildLocation, (0777 & ~umask()));
         }
 
         $arguments = $this->builder->interpolate($options->buildArgumentString());
         $cmd       = $this->findBinary('phpunit') . ' %s %s';
         $success   = $this->builder->executeCommand($cmd, $arguments, $directory);
         $output    = $this->builder->getLastOutput();
+
+        if ($fileSystem->exists($this->buildLocation) && $options->getOption('coverage')) {
+            $fileSystem->remove($this->buildBranchLocation);
+            $fileSystem->mirror($this->buildLocation, $this->buildBranchLocation);
+        }
 
         $this->processResults($logFile, $logFormat);
 
@@ -173,8 +196,9 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
 
             $this->builder->logSuccess(
                 sprintf(
-                    "\nPHPUnit successful.\nYou can use coverage report: %s",
-                    $config['url'] . '/artifacts/phpunit/' . $this->buildDirectory . '/coverage/index.html'
+                    "\nPHPUnit successful build coverage report.\nYou can use coverage report for this build: %s\nOr coverage report for last build in the branch: %s",
+                    $config['url'] . '/artifacts/phpunit/' . $this->buildDirectory . '/index.html',
+                    $config['url'] . '/artifacts/phpunit/' . $this->buildBranchDirectory . '/index.html'
                 )
             );
         }
