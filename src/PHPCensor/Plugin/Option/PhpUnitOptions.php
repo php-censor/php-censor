@@ -121,6 +121,7 @@ class PhpUnitOptions
              */
             if (isset($this->options['coverage']) && $this->options['coverage']) {
                 $this->addArgument('coverage-html', $this->location);
+                $this->addArgument('coverage-text');
             }
 
             /*
@@ -141,7 +142,7 @@ class PhpUnitOptions
      * @param string $argumentName
      * @param string $argumentValue
      */
-    public function addArgument($argumentName, $argumentValue)
+    public function addArgument($argumentName, $argumentValue = null)
     {
         if (isset($this->arguments[$argumentName])) {
             if (!is_array($this->arguments[$argumentName])) {
