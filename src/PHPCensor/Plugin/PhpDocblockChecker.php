@@ -149,17 +149,48 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
 
     /**
      * Report all of the errors we've encountered line-by-line.
-     * @param $output
+     * @param array $output
      */
     protected function reportErrors($output)
     {
         foreach ($output as $error) {
-            $message = 'Class ' . $error['class'] . ' is missing a docblock.';
-            $severity = BuildError::SEVERITY_LOW;
+            switch ($error['type']) {
+                case 'class':
+                    $message = 'Class ' . $error['class'] . ' is missing a docblock.';
+                    $severity = BuildError::SEVERITY_NORMAL;
+                    break;
 
-            if ($error['type'] == 'method') {
-                $message = $error['class'] . '::' . $error['method'] . ' is missing a docblock.';
-                $severity = BuildError::SEVERITY_NORMAL;
+                case 'method':
+                    $message = $error['class'] . '::' . $error['method'] . ' is missing a docblock.';
+                    $severity = BuildError::SEVERITY_NORMAL;
+                    break;
+
+                case 'param-missing':
+                    $message = $error['class'] . '::' . $error['method'] . ' @param ' . $error['param'] . ' missing.';
+                    $severity = BuildError::SEVERITY_LOW;
+                    break;
+
+                case 'param-mismatch':
+                    $message = $error['class'] . '::' . $error['method'] . ' @param ' . $error['param'] .
+                        '(' . $error['doc-type'] . ') does not match method signature (' . $error['param-type'] . ')';
+                    $severity = BuildError::SEVERITY_LOW;
+                    break;
+
+                case 'return-missing':
+                    $message = $error['class'] . '::' . $error['method'] . ' @return missing.';
+                    $severity = BuildError::SEVERITY_LOW;
+                    break;
+
+                case 'return-mismatch':
+                    $message = $error['class'] . '::' . $error['method'] . ' @return ' . $error['doc-type'] .
+                        ' does not match method signature (' . $error['return-type'] . ')';
+                    $severity = BuildError::SEVERITY_LOW;
+                    break;
+
+                default:
+                    $message = 'Class ' . $error['class'] . ' invalid/missing a docblock.';
+                    $severity = BuildError::SEVERITY_LOW;
+                    break;
             }
 
             $this->build->reportError(
