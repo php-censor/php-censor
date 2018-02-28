@@ -83,7 +83,7 @@ class PhpUnitResultTest extends \PHPUnit\Framework\TestCase
     public static function getTestData()
     {
         return [
-            'json' => [PhpUnitResultJson::class, 'tests/PHPCensor/Plugin/SampleFiles/phpunit_money.txt'],
+            'json'  => [PhpUnitResultJson::class, 'tests/PHPCensor/Plugin/SampleFiles/phpunit_money.txt'],
             'junit' => [PhpUnitResultJunit::class, 'tests/PHPCensor/Plugin/SampleFiles/phpunit_money_junit.xml'],
         ];
     }

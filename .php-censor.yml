@@ -11,7 +11,7 @@ setup:
 test:
   php_unit:
     config:
-      - phpunit.pgsql.xml
+      - phpunit.xml
 
   php_mess_detector:
     allow_failures: true

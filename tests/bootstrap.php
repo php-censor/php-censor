@@ -45,7 +45,10 @@ if (!defined('APP_URL') && !empty($config)) {
 
 \PHPCensor\Helper\Lang::init($config, 'en');
 
-define('DB_NAME', getenv('DB_NAME'));
-define('DB_USER', getenv('DB_USER'));
-define('DB_TYPE', getenv('DB_TYPE'));
-define('DB_PASS', getenv('DB_PASS'));
+define('MYSQL_DBNAME', getenv('MYSQL_DBNAME'));
+define('MYSQL_USER', getenv('MYSQL_USER'));
+define('MYSQL_PASSWORD', getenv('MYSQL_PASSWORD'));
+
+define('POSTGRESQL_DBNAME', getenv('POSTGRESQL_DBNAME'));
+define('POSTGRESQL_USER', getenv('POSTGRESQL_USER'));
+define('POSTGRESQL_PASSWORD', getenv('POSTGRESQL_PASSWORD'));

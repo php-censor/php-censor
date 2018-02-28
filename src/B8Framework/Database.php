@@ -103,7 +103,7 @@ class Database extends \PDO
             }
 
             // No connection? Oh dear.
-            if (!$connection && $type == 'read') {
+            if (!$connection && $type === 'read') {
                 throw new \Exception('Could not connect to any ' . $type . ' servers.');
             }
 

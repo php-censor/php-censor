@@ -4,8 +4,9 @@ namespace Tests\b8;
 
 use b8\Config;
 use b8\Database;
+use PHPUnit\Framework\TestCase;
 
-class DatabaseTest extends \PHPUnit\Framework\TestCase
+class DatabasePostgresqlTest extends TestCase
 {
     protected function setUp()
     {
@@ -20,13 +21,14 @@ class DatabaseTest extends \PHPUnit\Framework\TestCase
                             ['host' => 'localhost'],
                         ],
                     ],
-                    'type'     => DB_TYPE,
-                    'name'     => DB_NAME,
-                    'username' => DB_USER,
-                    'password' => DB_PASS,
+                    'type'     => 'pgsql',
+                    'name'     => POSTGRESQL_DBNAME,
+                    'username' => POSTGRESQL_USER,
+                    'password' => POSTGRESQL_PASSWORD,
                 ],
             ],
         ]);
+        Database::reset();
     }
 
     protected function checkDatabaseConnection()
@@ -56,9 +58,9 @@ class DatabaseTest extends \PHPUnit\Framework\TestCase
 
         $details = Database::getConnection('read')->getDetails();
         self::assertTrue(is_array($details));
-        self::assertTrue(($details['db'] == DB_NAME));
-        self::assertTrue(($details['user'] == DB_USER));
-        self::assertTrue(($details['pass'] == DB_PASS));
+        self::assertTrue(($details['db'] === POSTGRESQL_DBNAME));
+        self::assertTrue(($details['user'] === POSTGRESQL_USER));
+        self::assertTrue(($details['pass'] === POSTGRESQL_PASSWORD));
     }
 
     /**
@@ -81,7 +83,7 @@ class DatabaseTest extends \PHPUnit\Framework\TestCase
                             ['host' => 'localhost'],
                         ],
                     ],
-                    'type'     => DB_TYPE,
+                    'type'     => 'pgsql',
                     'name'     => 'b8_test_2',
                     'username' => '',
                     'password' => '',
