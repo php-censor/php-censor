@@ -220,16 +220,16 @@
         },
         {
             "name": "codeception/codeception",
-            "version": "2.3.8",
+            "version": "2.3.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/Codeception.git",
-                "reference": "43eade17a8cd68e9cde401e8585b09d11d41b12d"
+                "reference": "104f46fa0bde339f1bcc3a375aac21eb36e65a1e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/43eade17a8cd68e9cde401e8585b09d11d41b12d",
-                "reference": "43eade17a8cd68e9cde401e8585b09d11d41b12d",
+                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/104f46fa0bde339f1bcc3a375aac21eb36e65a1e",
+                "reference": "104f46fa0bde339f1bcc3a375aac21eb36e65a1e",
                 "shasum": ""
             },
             "require": {
@@ -310,7 +310,7 @@
                 "functional testing",
                 "unit testing"
             ],
-            "time": "2018-01-27T22:47:33+00:00"
+            "time": "2018-02-26T23:29:41+00:00"
         },
         {
             "name": "codeception/stub",
