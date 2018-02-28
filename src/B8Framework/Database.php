@@ -4,11 +4,13 @@ namespace b8;
 
 class Database extends \PDO
 {
+    const MYSQL_TYPE      = 'mysql';
+    const POSTGRESQL_TYPE = 'pgsql';
+
     protected static $initialised = false;
     protected static $servers     = ['read' => [], 'write' => []];
     protected static $connections = ['read' => null, 'write' => null];
     protected static $details     = [];
-    protected static $lastUsed    = ['read' => null, 'write' => null];
 
     /**
      * @param string $table
@@ -17,7 +19,7 @@ class Database extends \PDO
      */
     public function lastInsertIdExtended($table = null)
     {
-        if ($table && $this->getAttribute(self::ATTR_DRIVER_NAME) == 'pgsql') {
+        if ($table && self::POSTGRESQL_TYPE === $this->getAttribute(self::ATTR_DRIVER_NAME)) {
             return parent::lastInsertId($table . '_id_seq');
         }
 
@@ -31,10 +33,11 @@ class Database extends \PDO
 
         self::$servers['read']  = $settings['servers']['read'];
         self::$servers['write'] = $settings['servers']['write'];
-        self::$details['type']  = $settings['type'];
-        self::$details['db']    = $settings['name'];
-        self::$details['user']  = $settings['username'];
-        self::$details['pass']  = $settings['password'];
+
+        self::$details['type'] = $settings['type'];
+        self::$details['db']   = $settings['name'];
+        self::$details['user'] = $settings['username'];
+        self::$details['pass'] = $settings['password'];
 
         self::$initialised = true;
     }
@@ -50,11 +53,6 @@ class Database extends \PDO
     {
         if (!self::$initialised) {
             self::init();
-        }
-
-        // If the connection hasn't been used for 5 minutes, force a reconnection:
-        if (!is_null(self::$lastUsed[$type]) && (time() - self::$lastUsed[$type]) > 300) {
-            self::$connections[$type] = null;
         }
 
         if (is_null(self::$connections[$type])) {
@@ -80,7 +78,7 @@ class Database extends \PDO
                     \PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
                     \PDO::ATTR_TIMEOUT            => 2,
                 ];
-                if ('mysql' === self::$details['type']) {
+                if (self::MYSQL_TYPE === self::$details['type']) {
                     $pdoOptions[\PDO::MYSQL_ATTR_INIT_COMMAND] = "SET NAMES 'UTF8'";
                 }
 
@@ -110,11 +108,12 @@ class Database extends \PDO
             self::$connections[$type] = $connection;
         }
 
-        self::$lastUsed[$type] = time();
-
         return self::$connections[$type];
     }
 
+    /**
+     * @return array
+     */
     public function getDetails()
     {
         return self::$details;
@@ -123,21 +122,34 @@ class Database extends \PDO
     public static function reset()
     {
         self::$connections = ['read' => null, 'write' => null];
-        self::$lastUsed    = ['read' => null, 'write' => null];
         self::$initialised = false;
     }
 
-    public function prepareCommon($statement, array $driver_options = [])
+    /**
+     * @param string $statement
+     *
+     * @return string
+     */
+    protected function quoteNames($statement)
     {
         $quote = '';
-        if ('mysql' === self::$details['type']) {
+        if (self::MYSQL_TYPE === self::$details['type']) {
             $quote = '`';
-        } elseif ('pgsql' === self::$details['type']) {
+        } elseif (self::POSTGRESQL_TYPE === self::$details['type']) {
             $quote = '"';
         }
 
-        $statement = preg_replace('/{{(.*?)}}/', ($quote . '\1' . $quote), $statement);
+        return preg_replace('/{{(.*?)}}/', ($quote . '\1' . $quote), $statement);
+    }
 
-        return parent::prepare($statement, $driver_options);
+    /**
+     * @param string $statement
+     * @param array  $driver_options
+     *
+     * @return \PDOStatement
+     */
+    public function prepareCommon($statement, array $driver_options = [])
+    {
+        return parent::prepare($this->quoteNames($statement), $driver_options);
     }
 }

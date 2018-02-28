@@ -21,7 +21,7 @@ class DatabasePostgresqlTest extends TestCase
                             ['host' => 'localhost'],
                         ],
                     ],
-                    'type'     => 'pgsql',
+                    'type'     => Database::POSTGRESQL_TYPE,
                     'name'     => POSTGRESQL_DBNAME,
                     'username' => POSTGRESQL_USER,
                     'password' => POSTGRESQL_PASSWORD,
@@ -33,6 +33,10 @@ class DatabasePostgresqlTest extends TestCase
 
     protected function checkDatabaseConnection()
     {
+        if (!extension_loaded('pgsql')) {
+            $this->markTestSkipped('Test skipped because Pgsql extension doesn`t exist.');
+        }
+
         try {
             $connection = Database::getConnection('read');
         } catch (\Exception $e) {
@@ -44,23 +48,66 @@ class DatabasePostgresqlTest extends TestCase
         }
     }
 
-    public function testGetWriteConnection()
+    public function testGetConnection()
     {
         $this->checkDatabaseConnection();
 
-        $connection = Database::getConnection('write');
-        self::assertInstanceOf('\b8\Database', $connection);
+        $writeConnection = Database::getConnection('write');
+        $readConnection  = Database::getConnection('read');
+
+        self::assertInstanceOf('\b8\Database', $writeConnection);
+        self::assertInstanceOf('\b8\Database', $readConnection);
+
+        $writeDetails = Database::getConnection('write')->getDetails();
+
+        self::assertTrue(is_array($writeDetails));
+        self::assertEquals(POSTGRESQL_DBNAME, $writeDetails['db']);
+        self::assertEquals(POSTGRESQL_USER, $writeDetails['user']);
+        self::assertEquals(POSTGRESQL_PASSWORD, $writeDetails['pass']);
+
+        $readDetails  = Database::getConnection('read')->getDetails();
+
+        self::assertTrue(is_array($readDetails));
+        self::assertEquals(POSTGRESQL_DBNAME, $readDetails['db']);
+        self::assertEquals(POSTGRESQL_USER, $readDetails['user']);
+        self::assertEquals(POSTGRESQL_PASSWORD, $readDetails['pass']);
     }
 
-    public function testGetDetails()
+    public function testGetWriteConnectionWithPort()
     {
+        $config = new Config([
+            'b8' => [
+                'database' => [
+                    'servers' => [
+                        'read'  => [
+                            [
+                                'host' => 'localhost',
+                                'port' => 5432,
+                            ],
+                        ],
+                        'write' => [
+                            [
+                                'host' => 'localhost',
+                                'port' => 5432,
+                            ],
+                        ],
+                    ],
+                    'type'     => Database::POSTGRESQL_TYPE,
+                    'name'     => POSTGRESQL_DBNAME,
+                    'username' => POSTGRESQL_USER,
+                    'password' => POSTGRESQL_PASSWORD,
+                ],
+            ],
+        ]);
+        Database::reset();
+
         $this->checkDatabaseConnection();
 
-        $details = Database::getConnection('read')->getDetails();
-        self::assertTrue(is_array($details));
-        self::assertTrue(($details['db'] === POSTGRESQL_DBNAME));
-        self::assertTrue(($details['user'] === POSTGRESQL_USER));
-        self::assertTrue(($details['pass'] === POSTGRESQL_PASSWORD));
+        $writeConnection = Database::getConnection('write');
+        $readConnection  = Database::getConnection('read');
+
+        self::assertInstanceOf('\b8\Database', $writeConnection);
+        self::assertInstanceOf('\b8\Database', $readConnection);
     }
 
     /**
@@ -83,7 +130,7 @@ class DatabasePostgresqlTest extends TestCase
                             ['host' => 'localhost'],
                         ],
                     ],
-                    'type'     => 'pgsql',
+                    'type'     => Database::POSTGRESQL_TYPE,
                     'name'     => 'b8_test_2',
                     'username' => '',
                     'password' => '',

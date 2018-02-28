@@ -21,7 +21,7 @@ class DatabaseMysqlTest extends TestCase
                             ['host' => 'localhost'],
                         ],
                     ],
-                    'type'     => 'mysql',
+                    'type'     => Database::MYSQL_TYPE,
                     'name'     => MYSQL_DBNAME,
                     'username' => MYSQL_USER,
                     'password' => MYSQL_PASSWORD,
@@ -33,6 +33,10 @@ class DatabaseMysqlTest extends TestCase
 
     protected function checkDatabaseConnection()
     {
+        if (!extension_loaded('mysqli')) {
+            $this->markTestSkipped('Test skipped because Mysqli extension doesn`t exist.');
+        }
+
         try {
             $connection = Database::getConnection('read');
         } catch (\Exception $e) {
@@ -44,23 +48,66 @@ class DatabaseMysqlTest extends TestCase
         }
     }
 
-    public function testGetWriteConnection()
+    public function testGetConnection()
     {
         $this->checkDatabaseConnection();
 
-        $connection = Database::getConnection('write');
-        self::assertInstanceOf('\b8\Database', $connection);
+        $writeConnection = Database::getConnection('write');
+        $readConnection  = Database::getConnection('read');
+
+        self::assertInstanceOf('\b8\Database', $writeConnection);
+        self::assertInstanceOf('\b8\Database', $readConnection);
+
+        $writeDetails = Database::getConnection('write')->getDetails();
+
+        self::assertTrue(is_array($writeDetails));
+        self::assertEquals(MYSQL_DBNAME, $writeDetails['db']);
+        self::assertEquals(MYSQL_USER, $writeDetails['user']);
+        self::assertEquals(MYSQL_PASSWORD, $writeDetails['pass']);
+
+        $readDetails  = Database::getConnection('read')->getDetails();
+
+        self::assertTrue(is_array($readDetails));
+        self::assertEquals(MYSQL_DBNAME, $readDetails['db']);
+        self::assertEquals(MYSQL_USER, $readDetails['user']);
+        self::assertEquals(MYSQL_PASSWORD, $readDetails['pass']);
     }
 
-    public function testGetDetails()
+    public function testGetWriteConnectionWithPort()
     {
+        $config = new Config([
+            'b8' => [
+                'database' => [
+                    'servers' => [
+                        'read'  => [
+                            [
+                                'host' => 'localhost',
+                                'port' => 3306,
+                            ],
+                        ],
+                        'write' => [
+                            [
+                                'host' => 'localhost',
+                                'port' => 3306,
+                            ],
+                        ],
+                    ],
+                    'type'     => Database::MYSQL_TYPE,
+                    'name'     => MYSQL_DBNAME,
+                    'username' => MYSQL_USER,
+                    'password' => MYSQL_PASSWORD,
+                ],
+            ],
+        ]);
+        Database::reset();
+
         $this->checkDatabaseConnection();
 
-        $details = Database::getConnection('read')->getDetails();
-        self::assertTrue(is_array($details));
-        self::assertTrue(($details['db'] === MYSQL_DBNAME));
-        self::assertTrue(($details['user'] === MYSQL_USER));
-        self::assertTrue(($details['pass'] === MYSQL_PASSWORD));
+        $writeConnection = Database::getConnection('write');
+        $readConnection  = Database::getConnection('read');
+
+        self::assertInstanceOf('\b8\Database', $writeConnection);
+        self::assertInstanceOf('\b8\Database', $readConnection);
     }
 
     /**
@@ -83,7 +130,7 @@ class DatabaseMysqlTest extends TestCase
                             ['host' => 'localhost'],
                         ],
                     ],
-                    'type'     => 'mysql',
+                    'type'     => Database::MYSQL_TYPE,
                     'name'     => 'b8_test_2',
                     'username' => '',
                     'password' => '',
