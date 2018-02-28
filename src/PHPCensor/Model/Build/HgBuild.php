@@ -10,7 +10,7 @@ use PHPCensor\Builder;
  *
  * @author Pavel Gopanenko <pavelgopanenko@gmail.com>
  */
-class MercurialBuild extends Build
+class HgBuild extends Build
 {
     /**
      * Get the URL to be used to clone this remote repository.

@@ -9,7 +9,7 @@ use PHPCensor\Model\Build;
  *
  * @author Artem Bochkov <artem.v.bochkov@gmail.com>
  */
-class BitbucketHgBuild extends MercurialBuild
+class BitbucketHgBuild extends HgBuild
 {
     /**
      * Get link to commit from another source (i.e. BitBucket)

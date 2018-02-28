@@ -7,7 +7,7 @@ use PHPCensor\Model\Build;
 
 /**
  * BuildFactory - Takes in a generic "Build" and returns a type-specific build model.
- * 
+ *
  * @author Dan Cryer <dan@block8.co.uk>
  */
 class BuildFactory
@@ -43,11 +43,11 @@ class BuildFactory
 
         if (!empty($project)) {
             switch ($project->getType()) {
-                case 'remote':
-                    $type = 'RemoteGitBuild';
-                    break;
                 case 'local':
                     $type = 'LocalBuild';
+                    break;
+                case 'git':
+                    $type = 'GitBuild';
                     break;
                 case 'github':
                     $type = 'GithubBuild';
@@ -55,20 +55,20 @@ class BuildFactory
                 case 'bitbucket':
                     $type = 'BitbucketBuild';
                     break;
-                case 'bitbuckethg':
-                    $type = 'BitbucketHgBuild';
-                    break;
                 case 'gitlab':
                     $type = 'GitlabBuild';
                     break;
-                case 'hg':
-                    $type = 'MercurialBuild';
-                    break;
-                case 'svn':
-                    $type = 'SubversionBuild';
-                    break;
                 case 'gogs':
                     $type = 'GogsBuild';
+                    break;
+                case 'hg':
+                    $type = 'HgBuild';
+                    break;
+                case 'bitbucket-hg':
+                    $type = 'BitbucketHgBuild';
+                    break;
+                case 'svn':
+                    $type = 'SvnBuild';
                     break;
                 default:
                     return $build;

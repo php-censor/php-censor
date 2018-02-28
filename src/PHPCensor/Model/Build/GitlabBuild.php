@@ -4,10 +4,10 @@ namespace PHPCensor\Model\Build;
 
 /**
  * Gitlab Build Model
- * 
+ *
  * @author André Cianfarani <a.cianfarani@c2is.fr>
  */
-class GitlabBuild extends RemoteGitBuild
+class GitlabBuild extends GitBuild
 {
 
     /**
