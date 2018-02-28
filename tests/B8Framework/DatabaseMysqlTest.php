@@ -58,19 +58,21 @@ class DatabaseMysqlTest extends TestCase
         self::assertInstanceOf('\b8\Database', $writeConnection);
         self::assertInstanceOf('\b8\Database', $readConnection);
 
-        $writeDetails = Database::getConnection('write')->getDetails();
+        $writeDetails = $writeConnection->getDetails();
 
         self::assertTrue(is_array($writeDetails));
         self::assertEquals(MYSQL_DBNAME, $writeDetails['db']);
         self::assertEquals(MYSQL_USER, $writeDetails['user']);
         self::assertEquals(MYSQL_PASSWORD, $writeDetails['pass']);
 
-        $readDetails  = Database::getConnection('read')->getDetails();
+        $readDetails  = $readConnection->getDetails();
 
         self::assertTrue(is_array($readDetails));
         self::assertEquals(MYSQL_DBNAME, $readDetails['db']);
         self::assertEquals(MYSQL_USER, $readDetails['user']);
         self::assertEquals(MYSQL_PASSWORD, $readDetails['pass']);
+
+        self::assertEquals('mysql:host=localhost;dbname=b8_test', $readConnection->getDsn());
     }
 
     public function testGetWriteConnectionWithPort()
@@ -108,6 +110,8 @@ class DatabaseMysqlTest extends TestCase
 
         self::assertInstanceOf('\b8\Database', $writeConnection);
         self::assertInstanceOf('\b8\Database', $readConnection);
+
+        self::assertEquals('mysql:host=localhost;port=3306;dbname=b8_test', $readConnection->getDsn());
     }
 
     /**

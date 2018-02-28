@@ -7,10 +7,41 @@ class Database extends \PDO
     const MYSQL_TYPE      = 'mysql';
     const POSTGRESQL_TYPE = 'pgsql';
 
+    /**
+     * @var string
+     */
+    protected $type = 'read';
+
+    /**
+     * @var boolean
+     */
     protected static $initialised = false;
-    protected static $servers     = ['read' => [], 'write' => []];
-    protected static $connections = ['read' => null, 'write' => null];
-    protected static $details     = [];
+
+    /**
+     * @var array
+     */
+    protected static $servers = [
+        'read'  => [],
+        'write' => []
+    ];
+
+    /**
+     * @var array
+     */
+    protected static $connections = [
+        'read'  => null,
+        'write' => null
+    ];
+
+    /**
+     * @var array
+     */
+    protected static $dsn = [
+        'read'  => '',
+        'write' => ''
+    ];
+
+    protected static $details = [];
 
     /**
      * @param string $table
@@ -34,10 +65,10 @@ class Database extends \PDO
         self::$servers['read']  = $settings['servers']['read'];
         self::$servers['write'] = $settings['servers']['write'];
 
-        self::$details['type'] = $settings['type'];
-        self::$details['db']   = $settings['name'];
-        self::$details['user'] = $settings['username'];
-        self::$details['pass'] = $settings['password'];
+        self::$details['driver'] = $settings['type'];
+        self::$details['db']     = $settings['name'];
+        self::$details['user']   = $settings['username'];
+        self::$details['pass']   = $settings['password'];
 
         self::$initialised = true;
     }
@@ -67,29 +98,30 @@ class Database extends \PDO
                 // Pull the next server:
                 $server = array_shift($servers);
 
-                $dns = self::$details['type'] . ':host=' . $server['host'];
+                self::$dsn[$type] = self::$details['driver'] . ':host=' . $server['host'];
                 if (isset($server['port'])) {
-                    $dns .= ';port=' . (integer)$server['port'];
+                    self::$dsn[$type] .= ';port=' . (integer)$server['port'];
                 }
-                $dns .= ';dbname=' . self::$details['db'];
+                self::$dsn[$type] .= ';dbname=' . self::$details['db'];
 
                 $pdoOptions = [
-                    \PDO::ATTR_PERSISTENT         => false,
-                    \PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
-                    \PDO::ATTR_TIMEOUT            => 2,
+                    \PDO::ATTR_PERSISTENT => false,
+                    \PDO::ATTR_ERRMODE    => \PDO::ERRMODE_EXCEPTION,
+                    \PDO::ATTR_TIMEOUT    => 2,
                 ];
-                if (self::MYSQL_TYPE === self::$details['type']) {
+                if (self::MYSQL_TYPE === self::$details['driver']) {
                     $pdoOptions[\PDO::MYSQL_ATTR_INIT_COMMAND] = "SET NAMES 'UTF8'";
                 }
 
                 // Try to connect:
                 try {
                     $connection = new self(
-                        $dns,
+                        self::$dsn[$type],
                         self::$details['user'],
                         self::$details['pass'],
                         $pdoOptions
                     );
+                    $connection->setType($type);
                 } catch (\PDOException $ex) {
                     $connection = false;
                 }
@@ -119,6 +151,22 @@ class Database extends \PDO
         return self::$details;
     }
 
+    /**
+     * @return string
+     */
+    public function getDsn()
+    {
+        return self::$dsn[$this->type];
+    }
+
+    /**
+     * @param string $type
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+
     public static function reset()
     {
         self::$connections = ['read' => null, 'write' => null];
@@ -133,9 +181,9 @@ class Database extends \PDO
     protected function quoteNames($statement)
     {
         $quote = '';
-        if (self::MYSQL_TYPE === self::$details['type']) {
+        if (self::MYSQL_TYPE === self::$details['driver']) {
             $quote = '`';
-        } elseif (self::POSTGRESQL_TYPE === self::$details['type']) {
+        } elseif (self::POSTGRESQL_TYPE === self::$details['driver']) {
             $quote = '"';
         }
 

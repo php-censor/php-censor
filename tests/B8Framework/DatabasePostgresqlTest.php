@@ -58,19 +58,21 @@ class DatabasePostgresqlTest extends TestCase
         self::assertInstanceOf('\b8\Database', $writeConnection);
         self::assertInstanceOf('\b8\Database', $readConnection);
 
-        $writeDetails = Database::getConnection('write')->getDetails();
+        $writeDetails = $writeConnection->getDetails();
 
         self::assertTrue(is_array($writeDetails));
         self::assertEquals(POSTGRESQL_DBNAME, $writeDetails['db']);
         self::assertEquals(POSTGRESQL_USER, $writeDetails['user']);
         self::assertEquals(POSTGRESQL_PASSWORD, $writeDetails['pass']);
 
-        $readDetails  = Database::getConnection('read')->getDetails();
+        $readDetails  = $readConnection->getDetails();
 
         self::assertTrue(is_array($readDetails));
         self::assertEquals(POSTGRESQL_DBNAME, $readDetails['db']);
         self::assertEquals(POSTGRESQL_USER, $readDetails['user']);
         self::assertEquals(POSTGRESQL_PASSWORD, $readDetails['pass']);
+
+        self::assertEquals('pgsql:host=localhost;dbname=b8_test', $readConnection->getDsn());
     }
 
     public function testGetWriteConnectionWithPort()
@@ -108,6 +110,8 @@ class DatabasePostgresqlTest extends TestCase
 
         self::assertInstanceOf('\b8\Database', $writeConnection);
         self::assertInstanceOf('\b8\Database', $readConnection);
+
+        self::assertEquals('pgsql:host=localhost;port=5432;dbname=b8_test', $readConnection->getDsn());
     }
 
     /**
