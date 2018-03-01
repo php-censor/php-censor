@@ -33,7 +33,7 @@ class DatabaseMysqlTest extends \PHPUnit_Extensions_Database_TestCase
                     $this->connection = $this->createDefaultDBConnection($pdo, MYSQL_DBNAME);
 
                     $this->connection->getConnection()->query('
-                        CREATE TABLE IF NOT EXISTS `database_mysql_test` (
+                        CREATE TABLE IF NOT EXISTS `databaseMysqlTest` (
                             `id`         int(11) NOT NULL AUTO_INCREMENT,
                             `projectId`  int(11) NOT NULL,
                             `branch`     varchar(250) NOT NULL DEFAULT \'master\',
@@ -68,7 +68,7 @@ class DatabaseMysqlTest extends \PHPUnit_Extensions_Database_TestCase
     protected function getDataSet()
     {
         return $this->createArrayDataSet([
-            'database_mysql_test' => [[
+            'databaseMysqlTest' => [[
                 'id'         => 1,
                 'projectId'  => 1,
                 'branch'     => 'master',
@@ -206,22 +206,28 @@ class DatabaseMysqlTest extends \PHPUnit_Extensions_Database_TestCase
     {
         $readConnection = Database::getConnection('read');
 
-        $sql   = 'SELECT * FROM {{database_mysql_test}} WHERE {{projectId}} = :projectId';
+        $sql   = 'SELECT * FROM {{databaseMysqlTest}} WHERE {{projectId}} = :projectId';
         $query = $readConnection->prepareCommon($sql);
 
-        $query->bindValue(':projectId', 2);
+        $query->bindValue(':projectId', 1);
         $query->execute();
 
         $data = $query->fetchAll(\PDO::FETCH_ASSOC);
 
-        self::assertEquals(2, count($data));
+        self::assertEquals(1, count($data));
+        self::assertEquals([[
+            'id'         => 1,
+            'projectId'  => 1,
+            'branch'     => 'master',
+            'createDate' => null,
+        ]], $data);
     }
 
     public function testLastInsertIdExtended()
     {
         $writeConnection = Database::getConnection('write');
 
-        $sql   = 'INSERT INTO {{database_mysql_test}} ({{projectId}}) VALUES (3)';
+        $sql   = 'INSERT INTO {{databaseMysqlTest}} ({{projectId}}) VALUES (3)';
         $query = $writeConnection->prepareCommon($sql);
 
         $query->execute();
