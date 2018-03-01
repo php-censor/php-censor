@@ -4,13 +4,94 @@ namespace Tests\b8;
 
 use b8\Config;
 use b8\Database;
-use PHPUnit\Framework\TestCase;
 
-class DatabasePostgresqlTest extends TestCase
+class DatabasePostgresqlTest extends \PHPUnit_Extensions_Database_TestCase
 {
+    /**
+     * @var \PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection|null
+     */
+    protected $connection = null;
+
+    /**
+     * @param string $name
+     * @param array  $data
+     * @param string $dataName
+     */
+    public function __construct($name = null, array $data = [], $dataName = '')
+    {
+        parent::__construct($name, $data, $dataName);
+
+        if (extension_loaded('pgsql')) {
+            if (null === $this->connection) {
+                try {
+                    $pdo = new \PDO(
+                        'pgsql:host=localhost;dbname=' . POSTGRESQL_DBNAME,
+                        POSTGRESQL_USER,
+                        POSTGRESQL_PASSWORD
+                    );
+
+                    $this->connection = $this->createDefaultDBConnection($pdo, POSTGRESQL_DBNAME);
+
+                    $this->connection->getConnection()->query('
+                        CREATE TABLE IF NOT EXISTS "database_mysql_test" (
+                            "id"         SERIAL,
+                            "projectId"  integer NOT NULL,
+                            "branch"     character varying(250) NOT NULL DEFAULT \'master\',
+                            "createDate" timestamp without time zone,
+                            PRIMARY KEY ("id")
+                        );
+                    ');
+                } catch (\PDOException $ex) {
+                    $this->connection = null;
+                }
+            }
+        } else {
+            $this->connection = null;
+        }
+    }
+
+    /**
+     * @return \PHPUnit_Extensions_Database_DB_IDatabaseConnection
+     */
+    protected function getConnection()
+    {
+        if (null === $this->connection) {
+            $this->markTestSkipped('Test skipped because PostgreSQL database/user/extension doesn`t exist.');
+        }
+
+        return $this->connection;
+    }
+
+    /**
+     * @return \PHPUnit_Extensions_Database_DataSet_IDataSet
+     */
+    protected function getDataSet()
+    {
+        return $this->createArrayDataSet([
+            'database_mysql_test' => [[
+                'id'         => 1,
+                'projectId'  => 1,
+                'branch'     => 'master',
+                'createDate' => null,
+            ], [
+                'id'         => 2,
+                'projectId'  => 2,
+                'branch'     => 'dev',
+                'createDate' => '2018-02-20 01:01:01',
+            ], [
+                'id'         => 3,
+                'projectId'  => 2,
+                'branch'     => 'master',
+                'createDate' => '2018-02-21 02:02:02',
+            ]],
+        ]);
+    }
+
     protected function setUp()
     {
-        $config = new Config([
+        parent::setUp();
+
+        new Config([
             'b8' => [
                 'database' => [
                     'servers' => [
@@ -31,27 +112,8 @@ class DatabasePostgresqlTest extends TestCase
         Database::reset();
     }
 
-    protected function checkDatabaseConnection()
-    {
-        if (!extension_loaded('pgsql')) {
-            $this->markTestSkipped('Test skipped because Pgsql extension doesn`t exist.');
-        }
-
-        try {
-            $connection = Database::getConnection('read');
-        } catch (\Exception $e) {
-            if ('Could not connect to any read servers.' === $e->getMessage()) {
-                $this->markTestSkipped('Test skipped because test database doesn`t exist.');
-            } else {
-                throw $e;
-            }
-        }
-    }
-
     public function testGetConnection()
     {
-        $this->checkDatabaseConnection();
-
         $writeConnection = Database::getConnection('write');
         $readConnection  = Database::getConnection('read');
 
@@ -77,7 +139,7 @@ class DatabasePostgresqlTest extends TestCase
 
     public function testGetWriteConnectionWithPort()
     {
-        $config = new Config([
+        new Config([
             'b8' => [
                 'database' => [
                     'servers' => [
@@ -103,8 +165,6 @@ class DatabasePostgresqlTest extends TestCase
         ]);
         Database::reset();
 
-        $this->checkDatabaseConnection();
-
         $writeConnection = Database::getConnection('write');
         $readConnection  = Database::getConnection('read');
 
@@ -119,11 +179,7 @@ class DatabasePostgresqlTest extends TestCase
      */
     public function testConnectionFailure()
     {
-        $this->checkDatabaseConnection();
-
-        Database::reset();
-
-        $config = new Config([
+        new Config([
             'b8' => [
                 'database' => [
                     'servers' => [
@@ -141,7 +197,39 @@ class DatabasePostgresqlTest extends TestCase
                 ],
             ],
         ]);
+        Database::reset();
 
         Database::getConnection('read');
+    }
+
+    public function testPrepareCommon()
+    {
+        $readConnection = Database::getConnection('read');
+
+        $sql   = 'SELECT * FROM {{database_mysql_test}} WHERE {{projectId}} = :projectId';
+        $query = $readConnection->prepareCommon($sql);
+
+        $query->bindValue(':projectId', 2);
+        $query->execute();
+
+        $data = $query->fetchAll(\PDO::FETCH_ASSOC);
+
+        self::assertEquals(2, count($data));
+    }
+
+    public function testLastInsertIdExtended()
+    {
+        $this->connection->getConnection()->query('
+            ALTER SEQUENCE "database_mysql_test_id_seq" RESTART WITH 4;
+        ');
+
+        $writeConnection = Database::getConnection('write');
+
+        $sql   = 'INSERT INTO {{database_mysql_test}} ({{projectId}}) VALUES (3)';
+        $query = $writeConnection->prepareCommon($sql);
+
+        $query->execute();
+
+        self::assertEquals(4, $writeConnection->lastInsertIdExtended('database_mysql_test'));
     }
 }
