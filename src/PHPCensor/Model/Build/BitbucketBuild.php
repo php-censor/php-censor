@@ -15,7 +15,7 @@ use PHPCensor\Model\BuildError;
  *
  * @author Dan Cryer <dan@block8.co.uk>
  */
-class BitbucketBuild extends RemoteGitBuild
+class BitbucketBuild extends GitBuild
 {
     /**
      * Get link to commit from another source (i.e. BitBucket)

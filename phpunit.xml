@@ -12,10 +12,12 @@
     bootstrap="./tests/bootstrap.php"
 >
     <php>
-        <env name="DB_TYPE" value="pgsql" />
-        <env name="DB_USER" value="postgres" />
-        <env name="DB_PASS" value="" />
-        <env name="DB_NAME" value="b8_test" />
+        <const name="MYSQL_USER" value="root" />
+        <const name="MYSQL_PASSWORD" value="" />
+        <const name="MYSQL_DBNAME" value="b8_test" />
+        <const name="POSTGRESQL_USER" value="postgres" />
+        <const name="POSTGRESQL_PASSWORD" value="" />
+        <const name="POSTGRESQL_DBNAME" value="b8_test" />
     </php>
     <testsuites>
         <testsuite name="B8Framework Test Suite">

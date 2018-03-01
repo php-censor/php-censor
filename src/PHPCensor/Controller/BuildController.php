@@ -300,18 +300,14 @@ class BuildController extends Controller
      */
     protected function formatBuilds($builds)
     {
-        Project::$sleepable = ['id', 'title', 'reference', 'type'];
-
         $rtn = ['count' => $builds['count'], 'items' => []];
 
+        /** @var Build $build */
         foreach ($builds['items'] as $build) {
-            $item = $build->toArray(1);
-
-            $header = new View('Build/header-row');
+            $header        = new View('Build/header-row');
             $header->build = $build;
 
-            $item['header_row'] = $header->render();
-            $rtn['items'][$item['id']] = $item;
+            $rtn['items'][$build->getId()]['header_row'] = $header->render();
         }
 
         ksort($rtn['items']);

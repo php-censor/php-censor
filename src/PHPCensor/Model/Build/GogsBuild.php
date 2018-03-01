@@ -5,7 +5,7 @@ namespace PHPCensor\Model\Build;
 /**
  * GogsBuild Build Model
  */
-class GogsBuild extends RemoteGitBuild
+class GogsBuild extends GitBuild
 {
     /**
     * Get link to commit from Gogs repository

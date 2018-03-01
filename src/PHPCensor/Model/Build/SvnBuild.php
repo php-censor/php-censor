@@ -7,10 +7,10 @@ use PHPCensor\Builder;
 
 /**
  * Remote Subversion Build Model
- * 
+ *
  * @author Nadir Dzhilkibaev <imam.sharif@gmail.com>
  */
-class SubversionBuild extends Build
+class SvnBuild extends Build
 {
     protected $svnCommand = 'svn export -q --non-interactive ';
 
@@ -21,7 +21,7 @@ class SubversionBuild extends Build
     {
         $url    = rtrim($this->getProject()->getReference(), '/') . '/';
         $branch = ltrim($this->getBranch(), '/');
-        
+
         // For empty default branch or default branch name like "/trunk" or "trunk" (-> "trunk")
         if (empty($branch) || $branch == 'trunk') {
             $url .= 'trunk';

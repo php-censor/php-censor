@@ -11,7 +11,7 @@ use Psr\Log\LogLevel;
  *
  * @author Dan Cryer <dan@block8.co.uk>
  */
-class RemoteGitBuild extends Build
+class GitBuild extends Build
 {
     /**
     * Get the URL to be used to clone this remote repository.

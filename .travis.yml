@@ -15,20 +15,16 @@ php:
 matrix:
   fast_finish: true
 
-env:
-  - TYPE=mysql
-  - TYPE=pgsql
-
 install:
   - composer selfupdate
   - composer install
 
 before_script:
-  - if [[ "$TYPE" == "mysql" ]]; then mysql -e "create database IF NOT EXISTS b8_test;" -uroot; fi
-  - if [[ "$TYPE" == "pgsql" ]]; then psql -c 'create database b8_test;' -U postgres; fi
+  - mysql -e "create database IF NOT EXISTS b8_test;" -uroot
+  - psql -c 'create database b8_test;' -U postgres
 
 script:
-  - vendor/bin/phpunit --configuration phpunit.$TYPE.xml --coverage-clover=coverage.xml
+  - vendor/bin/phpunit --configuration phpunit.xml --coverage-clover=coverage.xml
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)

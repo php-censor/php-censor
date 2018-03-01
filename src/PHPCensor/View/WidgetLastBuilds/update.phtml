@@ -87,6 +87,7 @@ use PHPCensor\Model\Build;
                 </h3>
 
                 <div class="timeline-body">
+                    <p>
                     <?php if (Build::SOURCE_WEBHOOK_PULL_REQUEST === $build->getSource()): ?>
                         <a href="<?= $build->getRemoteBranchLink(); ?>">
                             <i class="fa fa-code-fork"></i>
@@ -115,11 +116,12 @@ use PHPCensor\Model\Build;
                                 $build->getCommitterEmail() ? ('(' . $build->getCommitterEmail() . ')') : ''
                             );
                             if (!empty($build->getCommitMessage())) {
-                                echo ' &mdash; ';
+                                echo '</p><p>';
                                 print $build->getCommitMessage();
                             }
                         }
                     ?>
+                    </p>
                 </div>
             </div>
         </li>

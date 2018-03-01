@@ -7,7 +7,6 @@ use Symfony\Component\Cache\Simple\ArrayCache;
 
 class Model
 {
-    public static $sleepable = [];
     protected $getters       = [];
     protected $setters       = [];
     protected $data          = [];
@@ -33,82 +32,6 @@ class Model
     public function getTableName()
     {
         return $this->tableName;
-    }
-
-    /**
-     * @param integer $depth
-     * @param integer $currentDepth
-     *
-     * @return array
-     */
-    public function toArray($depth = 2, $currentDepth = 0)
-    {
-        if (isset(static::$sleepable) && is_array(static::$sleepable) && count(static::$sleepable)) {
-            $sleepable = static::$sleepable;
-        } else {
-            $sleepable = array_keys($this->getters);
-        }
-
-        $rtn = [];
-        foreach ($sleepable as $property) {
-            $rtn[$property] = $this->propertyToArray($property, $currentDepth, $depth);
-        }
-
-        return $rtn;
-    }
-
-    /**
-     * @param string  $property
-     * @param integer $currentDepth
-     * @param integer $depth
-     *
-     * @return mixed
-     */
-    protected function propertyToArray($property, $currentDepth, $depth)
-    {
-        $rtn = null;
-
-        if (array_key_exists($property, $this->getters)) {
-            $method = $this->getters[$property];
-            $rtn = $this->{$method}();
-
-            if (is_object($rtn) || is_array($rtn)) {
-                $rtn = ($depth > $currentDepth) ? $this->valueToArray($rtn, $currentDepth, $depth) : null;
-            }
-        }
-
-        return $rtn;
-    }
-
-    /**
-     * @param mixed   $value
-     * @param integer $currentDepth
-     * @param integer $depth
-     *
-     * @return mixed
-     */
-    protected function valueToArray($value, $currentDepth, $depth)
-    {
-        $rtn = null;
-        if (!is_null($value)) {
-            if (is_object($value) && method_exists($value, 'toArray')) {
-                $rtn = $value->toArray($depth, $currentDepth + 1);
-            } elseif (is_array($value)) {
-                $childArray = [];
-
-                foreach ($value as $k => $v) {
-                    $childArray[$k] = $this->valueToArray($v, $currentDepth + 1, $depth);
-                }
-
-                $rtn = $childArray;
-            } else {
-                $rtn = (is_string($value) && !mb_check_encoding($value, 'UTF-8'))
-                    ? mb_convert_encoding($value, 'UTF-8')
-                    : $value;
-            }
-        }
-
-        return $rtn;
     }
 
     /**

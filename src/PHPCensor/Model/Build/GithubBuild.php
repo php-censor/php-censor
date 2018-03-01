@@ -15,7 +15,7 @@ use PHPCensor\Model\BuildError;
  *
  * @author Dan Cryer <dan@block8.co.uk>
  */
-class GithubBuild extends RemoteGitBuild
+class GithubBuild extends GitBuild
 {
     /**
      * Get link to commit from another source (i.e. Github)

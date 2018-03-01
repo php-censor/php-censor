@@ -12,17 +12,17 @@ class EnvironmentStore extends Store
     /**
      * @var string
      */
-    protected $tableName   = 'environment';
+    protected $tableName = 'environment';
 
     /**
      * @var string
      */
-    protected $modelName   = '\PHPCensor\Model\Environment';
+    protected $modelName = '\PHPCensor\Model\Environment';
 
     /**
      * @var string
      */
-    protected $primaryKey  = 'id';
+    protected $primaryKey = 'id';
 
     /**
      * Get a Environment by primary key (Id)
