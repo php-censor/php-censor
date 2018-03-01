@@ -33,7 +33,7 @@ class ProjectStore extends Store
      * @param integer $key
      * @param string  $useConnection
      *
-     * @return null|Project
+     * @return Project|null
      */
     public function getByPrimaryKey($key, $useConnection = 'read')
     {
@@ -46,7 +46,7 @@ class ProjectStore extends Store
      * @param integer $id
      * @param string  $useConnection
      *
-     * @return null|Project
+     * @return Project|null
      *
      * @throws HttpException
      */

@@ -225,7 +225,7 @@ class BuildStatusController extends Controller
     {
         $criteria = ['project_id' => $projectId];
         $order    = ['id' => 'DESC'];
-        $builds   = $this->buildStore->getWhere($criteria, 10, 0, [], $order);
+        $builds   = $this->buildStore->getWhere($criteria, 10, 0, $order);
 
         foreach ($builds['items'] as &$build) {
             $build = BuildFactory::getBuild($build);

@@ -39,7 +39,7 @@ class DatabaseMysqlTest extends \PHPUnit_Extensions_Database_TestCase
                             `branch`     varchar(250) NOT NULL DEFAULT \'master\',
                             `createDate` datetime,
                             PRIMARY KEY (`id`)
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8
                     ');
                 } catch (\PDOException $ex) {
                     $this->connection = null;

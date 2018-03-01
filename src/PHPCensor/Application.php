@@ -129,7 +129,7 @@ class Application extends b8\Application
     {
         $groups = [];
         $groupStore = b8\Store\Factory::getStore('ProjectGroup');
-        $groupList = $groupStore->getWhere([], 100, 0, [], ['title' => 'ASC']);
+        $groupList = $groupStore->getWhere([], 100, 0, ['title' => 'ASC']);
 
         foreach ($groupList['items'] as $group) {
             $thisGroup             = ['title' => $group->getTitle()];

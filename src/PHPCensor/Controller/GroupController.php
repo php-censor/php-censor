@@ -37,7 +37,7 @@ class GroupController extends Controller
         $this->requireAdmin();
 
         $groups    = [];
-        $groupList = $this->groupStore->getWhere([], 100, 0, [], ['title' => 'ASC']);
+        $groupList = $this->groupStore->getWhere([], 100, 0, ['title' => 'ASC']);
 
         foreach ($groupList['items'] as $group) {
             $thisGroup = [

@@ -39,7 +39,7 @@ class DatabasePostgresqlTest extends \PHPUnit_Extensions_Database_TestCase
                             "branch"     character varying(250) NOT NULL DEFAULT \'master\',
                             "createDate" timestamp without time zone,
                             PRIMARY KEY ("id")
-                        );
+                        )
                     ');
                 } catch (\PDOException $ex) {
                     $this->connection = null;
