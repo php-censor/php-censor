@@ -13,6 +13,7 @@ class Factory
 
     /**
      * A collection of the stores currently loaded by the factory.
+     *
      * @var \b8\Store[]
      */
     protected $loadedStores = [];
@@ -30,7 +31,8 @@ class Factory
     }
 
     /**
-     * @param $storeName string Store name (should match a model name).
+     * @param string $storeName Store name (should match a model name).
+     * @param string $namespace
      *
      * @return \b8\Store
      */
@@ -45,17 +47,20 @@ class Factory
     }
 
     /**
-     * @param $store
+     * @param string $store
+     * @param string $namespace
      *
      * @return \b8\Store;
      */
     public function loadStore($store, $namespace = null)
     {
         if (!isset($this->loadedStores[$store])) {
-            $namespace = is_null($namespace) ? Config::getInstance()->get('b8.app.namespace') : $namespace;
-            $class     = $namespace . '\\Store\\' . $store . 'Store';
-            $obj = new $class();
+            $namespace = is_null($namespace)
+                ? Config::getInstance()->get('b8.app.namespace')
+                : $namespace;
 
+            $class                      = $namespace . '\\Store\\' . $store . 'Store';
+            $obj                        = new $class();
             $this->loadedStores[$store] = $obj;
         }
 

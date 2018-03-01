@@ -273,7 +273,7 @@ class ProjectController extends PHPCensor\Controller
         }
 
         $order  = ['id' => 'DESC'];
-        $builds = $this->buildStore->getWhere($criteria, $perPage, $start, [], $order);
+        $builds = $this->buildStore->getWhere($criteria, $perPage, $start, $order);
         $view   = new View('Project/ajax-builds');
 
         foreach ($builds['items'] as &$build) {
@@ -496,7 +496,7 @@ class ProjectController extends PHPCensor\Controller
 
         $groups = [];
         $groupStore = b8\Store\Factory::getStore('ProjectGroup');
-        $groupList = $groupStore->getWhere([], 100, 0, [], ['title' => 'ASC']);
+        $groupList = $groupStore->getWhere([], 100, 0, ['title' => 'ASC']);
 
         foreach ($groupList['items'] as $group) {
             $groups[$group->getId()] = $group->getTitle();

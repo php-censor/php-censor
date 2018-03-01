@@ -2,8 +2,6 @@
 
 namespace b8;
 
-use b8\Exception\HttpException;
-
 abstract class Store
 {
     /**
@@ -25,19 +23,25 @@ abstract class Store
      * @param string $key
      * @param string $useConnection
      *
-     * @return Model
+     * @return Model|null
      */
     abstract public function getByPrimaryKey($key, $useConnection = 'read');
+
+    /**
+     * @throws \RuntimeException
+     */
+    public function __construct()
+    {
+        if (empty($this->primaryKey)) {
+            throw new \RuntimeException('Save not implemented for this store.');
+        }
+    }
 
     /**
      * @param array   $where
      * @param integer $limit
      * @param integer $offset
-     * @param array   $joins
      * @param array   $order
-     * @param array   $manualJoins
-     * @param string  $group
-     * @param array   $manualWheres
      * @param string  $whereType
      *
      * @return array
@@ -46,11 +50,7 @@ abstract class Store
         $where = [],
         $limit = 25,
         $offset = 0,
-        $joins = [],
         $order = [],
-        $manualJoins = [],
-        $group = null,
-        $manualWheres = [],
         $whereType = 'AND'
     ) {
         $query      = 'SELECT * FROM {{' . $this->tableName . '}}';
@@ -64,129 +64,21 @@ abstract class Store
             if (!is_array($value)) {
                 $params[] = $value;
                 $wheres[] = $key . ' = ?';
-            } else {
-                if (isset($value['operator'])) {
-                    if (is_array($value['value'])) {
-                        if ($value['operator'] == 'between') {
-                            $params[] = $value['value'][0];
-                            $params[] = $value['value'][1];
-                            $wheres[] = $key . ' BETWEEN ? AND ?';
-                        } elseif ($value['operator'] == 'IN') {
-                            $in = [];
-
-                            foreach ($value['value'] as $item) {
-                                $params[] = $item;
-                                $in[] = '?';
-                            }
-
-                            $wheres[] = $key . ' IN (' . implode(', ', $in) . ') ';
-                        } else {
-                            $ors = [];
-                            foreach ($value['value'] as $item) {
-                                if ($item == 'null') {
-                                    switch ($value['operator']) {
-                                        case '!=':
-                                            $ors[] = $key . ' IS NOT NULL';
-                                            break;
-
-                                        case '==':
-                                        default:
-                                            $ors[] = $key . ' IS NULL';
-                                            break;
-                                    }
-                                } else {
-                                    $params[] = $item;
-                                    $ors[] = $key . ' ' . $value['operator'] . ' ?';
-                                }
-                            }
-                            $wheres[] = '(' . implode(' OR ', $ors) . ')';
-                        }
-                    } else {
-                        if ($value['operator'] == 'like') {
-                            $params[] = '%' . $value['value'] . '%';
-                            $wheres[] = $key . ' ' . $value['operator'] . ' ?';
-                        } else {
-                            if ($value['value'] === 'null') {
-                                switch ($value['operator']) {
-                                    case '!=':
-                                        $wheres[] = $key . ' IS NOT NULL';
-                                        break;
-
-                                    case '==':
-                                    default:
-                                        $wheres[] = $key . ' IS NULL';
-                                        break;
-                                }
-                            } else {
-                                $params[] = $value['value'];
-                                $wheres[] = $key . ' ' . $value['operator'] . ' ?';
-                            }
-                        }
-                    }
-                } else {
-                    $wheres[] = $key . ' IN (' . implode(', ', array_map([Database::getConnection('read'), 'quote'], $value)) . ')';
-                }
             }
         }
 
-        if (count($joins)) {
-            foreach ($joins as $table => $join) {
-                $query .= ' LEFT JOIN {{' . $table . '}} AS ' . $join['alias'] . ' ON ' . $join['on'] . ' ';
-                $countQuery .= ' LEFT JOIN {{' . $table . '}} AS ' . $join['alias'] . ' ON ' . $join['on'] . ' ';
-            }
-        }
-
-        if (count($manualJoins)) {
-            foreach ($manualJoins as $join) {
-                $query .= ' ' . $join . ' ';
-                $countQuery .= ' ' . $join . ' ';
-            }
-        }
-
-        $hasWhere = false;
         if (count($wheres)) {
-            $hasWhere = true;
             $query .= ' WHERE (' . implode(' ' . $whereType . ' ', $wheres) . ')';
             $countQuery .= ' WHERE (' . implode(' ' . $whereType . ' ', $wheres) . ')';
         }
 
-        if (count($manualWheres)) {
-            foreach ($manualWheres as $where) {
-                if (!$hasWhere) {
-                    $hasWhere = true;
-                    $query .= ' WHERE ';
-                    $countQuery .= ' WHERE ';
-                } else {
-                    $query .= ' ' . $where['type'] . ' ';
-                    $countQuery .= ' ' . $where['type'] . ' ';
-                }
-
-                $query .= ' ' . $where['query'];
-                $countQuery .= ' ' . $where['query'];
-
-                if (isset($where['params'])) {
-                    foreach ($where['params'] as $param) {
-                        $params[] = $param;
-                    }
-                }
-            }
-        }
-
-        if (!is_null($group)) {
-            $query .= ' GROUP BY ' . $group . ' ';
-        }
-
         if (count($order)) {
             $orders = [];
-            if (is_string($order) && $order == 'rand') {
-                $query .= ' ORDER BY RAND() ';
-            } else {
-                foreach ($order as $key => $value) {
-                    $orders[] = $this->fieldCheck($key) . ' ' . $value;
-                }
-
-                $query .= ' ORDER BY ' . implode(', ', $orders);
+            foreach ($order as $key => $value) {
+                $orders[] = $this->fieldCheck($key) . ' ' . $value;
             }
+
+            $query .= ' ORDER BY ' . implode(', ', $orders);
         }
 
         if ($limit) {
@@ -197,47 +89,36 @@ abstract class Store
             $query .= ' OFFSET ' . $offset;
         }
 
-        try {
-            $stmt = Database::getConnection('read')->prepareCommon($countQuery);
-            $stmt->execute($params);
-            $res = $stmt->fetch(\PDO::FETCH_ASSOC);
-            $count = (int)$res['count'];
-        } catch (\PDOException $ex) {
-            $count = 0;
+        $stmt = Database::getConnection('read')->prepareCommon($countQuery);
+        $stmt->execute($params);
+        $res = $stmt->fetch(\PDO::FETCH_ASSOC);
+        $count = (int)$res['count'];
+
+        $stmt = Database::getConnection('read')->prepareCommon($query);
+        $stmt->execute($params);
+        $res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        $rtn = [];
+
+        foreach ($res as $data) {
+            $rtn[] = new $this->modelName($data);
         }
 
-        try {
-            $stmt = Database::getConnection('read')->prepareCommon($query);
-            $stmt->execute($params);
-            $res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-            $rtn = [];
-
-            foreach ($res as $data) {
-                $rtn[] = new $this->modelName($data);
-            }
-
-            return ['items' => $rtn, 'count' => $count];
-        } catch (\PDOException $ex) {
-            throw $ex;
-        }
+        return ['items' => $rtn, 'count' => $count];
     }
 
     /**
      * @param Model   $obj
      * @param boolean $saveAllColumns
      *
-     * @throws HttpException\BadRequestException
+     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
      *
      * @return Model|null
      */
     public function save(Model $obj, $saveAllColumns = false)
     {
-        if (!isset($this->primaryKey)) {
-            throw new HttpException\BadRequestException('Save not implemented for this store.');
-        }
-
         if (!($obj instanceof $this->modelName)) {
-            throw new HttpException\BadRequestException(get_class($obj) . ' is an invalid model type for this store.');
+            throw new \InvalidArgumentException(get_class($obj) . ' is an invalid model type for this store.');
         }
 
         $data = $obj->getDataArray();
@@ -315,10 +196,7 @@ abstract class Store
             $q = Database::getConnection('write')->prepareCommon($qs);
 
             if ($q->execute($qParams)) {
-                $id = !empty($data[$this->primaryKey])
-                    ? $data[$this->primaryKey]
-                    : Database::getConnection('write')->lastInsertIdExtended($obj->getTableName());
-
+                $id  = Database::getConnection('write')->lastInsertIdExtended($obj->getTableName());
                 $rtn = $this->getByPrimaryKey($id, 'write');
             }
         }
@@ -329,18 +207,15 @@ abstract class Store
     /**
      * @param Model $obj
      *
-     * @throws HttpException\BadRequestException
+     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
      *
      * @return boolean
      */
     public function delete(Model $obj)
     {
-        if (!isset($this->primaryKey)) {
-            throw new HttpException\BadRequestException('Delete not implemented for this store.');
-        }
-
         if (!($obj instanceof $this->modelName)) {
-            throw new HttpException\BadRequestException(get_class($obj) . ' is an invalid model type for this store.');
+            throw new \InvalidArgumentException(get_class($obj) . ' is an invalid model type for this store.');
         }
 
         $data = $obj->getDataArray();
@@ -355,14 +230,14 @@ abstract class Store
     /**
      * @param string $field
      *
-     * @throws HttpException
+     * @throws \InvalidArgumentException
      *
      * @return string
      */
     protected function fieldCheck($field)
     {
         if (empty($field)) {
-            throw new HttpException('You cannot have an empty field name.');
+            throw new \InvalidArgumentException('You cannot have an empty field name.');
         }
 
         if (strpos($field, '.') === false) {

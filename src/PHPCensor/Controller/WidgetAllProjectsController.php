@@ -76,7 +76,6 @@ class WidgetAllProjectsController extends Controller
                 ['project_id' => $project->getId()],
                 1,
                 0,
-                [],
                 ['id' => 'DESC']
             );
             $counts[$project->getId()] = $count['count'];
@@ -107,7 +106,7 @@ class WidgetAllProjectsController extends Controller
     protected function getGroupInfo()
     {
         $rtn = [];
-        $groups = $this->groupStore->getWhere([], 100, 0, [], ['title' => 'ASC']);
+        $groups = $this->groupStore->getWhere([], 100, 0, ['title' => 'ASC']);
 
         foreach ($groups['items'] as $group) {
             $thisGroup = ['title' => $group->getTitle()];
@@ -133,7 +132,6 @@ class WidgetAllProjectsController extends Controller
             ['project_id' => $projectId],
             1,
             0,
-            [],
             ['id' => 'DESC']
         );
         $counts = $count['count'];

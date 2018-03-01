@@ -42,7 +42,7 @@ class UserController extends Controller
     */
     public function index()
     {
-        $users               = $this->userStore->getWhere([], 1000, 0, [], ['email' => 'ASC']);
+        $users               = $this->userStore->getWhere([], 1000, 0, ['email' => 'ASC']);
         $this->view->users   = $users;
         $this->layout->title = Lang::get('manage_users');
 

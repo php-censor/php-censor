@@ -33,13 +33,13 @@ class DatabasePostgresqlTest extends \PHPUnit_Extensions_Database_TestCase
                     $this->connection = $this->createDefaultDBConnection($pdo, POSTGRESQL_DBNAME);
 
                     $this->connection->getConnection()->query('
-                        CREATE TABLE IF NOT EXISTS "database_mysql_test" (
+                        CREATE TABLE IF NOT EXISTS "databasePostgresqlTest" (
                             "id"         SERIAL,
                             "projectId"  integer NOT NULL,
                             "branch"     character varying(250) NOT NULL DEFAULT \'master\',
                             "createDate" timestamp without time zone,
                             PRIMARY KEY ("id")
-                        );
+                        )
                     ');
                 } catch (\PDOException $ex) {
                     $this->connection = null;
@@ -68,7 +68,7 @@ class DatabasePostgresqlTest extends \PHPUnit_Extensions_Database_TestCase
     protected function getDataSet()
     {
         return $this->createArrayDataSet([
-            'database_mysql_test' => [[
+            'databasePostgresqlTest' => [[
                 'id'         => 1,
                 'projectId'  => 1,
                 'branch'     => 'master',
@@ -206,30 +206,36 @@ class DatabasePostgresqlTest extends \PHPUnit_Extensions_Database_TestCase
     {
         $readConnection = Database::getConnection('read');
 
-        $sql   = 'SELECT * FROM {{database_mysql_test}} WHERE {{projectId}} = :projectId';
+        $sql   = 'SELECT * FROM {{databasePostgresqlTest}} WHERE {{projectId}} = :projectId';
         $query = $readConnection->prepareCommon($sql);
 
-        $query->bindValue(':projectId', 2);
+        $query->bindValue(':projectId', 1);
         $query->execute();
 
         $data = $query->fetchAll(\PDO::FETCH_ASSOC);
 
-        self::assertEquals(2, count($data));
+        self::assertEquals(1, count($data));
+        self::assertEquals([[
+            'id'         => 1,
+            'projectId'  => 1,
+            'branch'     => 'master',
+            'createDate' => null,
+        ]], $data);
     }
 
     public function testLastInsertIdExtended()
     {
         $this->connection->getConnection()->query('
-            ALTER SEQUENCE "database_mysql_test_id_seq" RESTART WITH 4;
+            ALTER SEQUENCE "databasePostgresqlTest_id_seq" RESTART WITH 4;
         ');
 
         $writeConnection = Database::getConnection('write');
 
-        $sql   = 'INSERT INTO {{database_mysql_test}} ({{projectId}}) VALUES (3)';
+        $sql   = 'INSERT INTO {{databasePostgresqlTest}} ({{projectId}}) VALUES (3)';
         $query = $writeConnection->prepareCommon($sql);
 
         $query->execute();
 
-        self::assertEquals(4, $writeConnection->lastInsertIdExtended('database_mysql_test'));
+        self::assertEquals(4, $writeConnection->lastInsertIdExtended('databasePostgresqlTest'));
     }
 }

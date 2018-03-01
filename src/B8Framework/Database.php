@@ -51,7 +51,7 @@ class Database extends \PDO
     public function lastInsertIdExtended($table = null)
     {
         if ($table && self::POSTGRESQL_TYPE === $this->getAttribute(self::ATTR_DRIVER_NAME)) {
-            return parent::lastInsertId($table . '_id_seq');
+            return parent::lastInsertId('"' . $table . '_id_seq"');
         }
 
         return parent::lastInsertId();
