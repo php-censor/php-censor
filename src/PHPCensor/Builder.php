@@ -278,11 +278,13 @@ class Builder implements LoggerAwareInterface
     /**
      * Used by this class, and plugins, to execute shell commands.
      *
+     * @param array ...$params
+     *
      * @return boolean
      */
-    public function executeCommand()
+    public function executeCommand(...$params)
     {
-        return $this->commandExecutor->executeCommand(func_get_args());
+        return $this->commandExecutor->executeCommand($params);
     }
 
     /**

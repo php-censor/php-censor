@@ -37,19 +37,19 @@ class Lang
     /**
      * Get a specific string from the language file.
      *
-     * @param $string
-     * @return mixed|string
+     * @param string $string
+     * @param array  ...$params
+     *
+     * @return string
      */
-    public static function get($string)
+    public static function get($string, ...$params)
     {
-        $vars = func_get_args();
-
         if (array_key_exists($string, self::$strings)) {
-            $vars[0] = self::$strings[$string];
-            return call_user_func_array('sprintf', $vars);
+            $params[0] = self::$strings[$string];
+            return call_user_func_array('sprintf', $params);
         } elseif (self::DEFAULT_LANGUAGE !== self::$language && array_key_exists($string, self::$default_strings)) {
-            $vars[0] = self::$default_strings[$string];
-            return call_user_func_array('sprintf', $vars);
+            $params[0] = self::$default_strings[$string];
+            return call_user_func_array('sprintf', $params);
         }
 
         return $string;
@@ -57,10 +57,12 @@ class Lang
 
     /**
      * Output a specific string from the language file.
+     *
+     * @param array ...$params
      */
-    public static function out()
+    public static function out(...$params)
     {
-        print call_user_func_array(['PHPCensor\Helper\Lang', 'get'], func_get_args());
+        print call_user_func_array(['PHPCensor\Helper\Lang', 'get'], $params);
     }
 
     /**

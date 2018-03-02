@@ -35,7 +35,7 @@ $conf['php-censor']['url']               = 'http://php-censor.local';
 
 $config = new b8\Config($conf);
 
-if (!defined('APP_URL') && !empty($config)) {
+if (!defined('APP_URL')) {
     define('APP_URL', $config->get('php-censor.url', '') . '/');
 }
 
