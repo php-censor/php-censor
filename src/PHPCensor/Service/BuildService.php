@@ -61,7 +61,7 @@ class BuildService
     ) {
         $build = new Build();
         $build->setCreateDate(new \DateTime());
-        $build->setProject($project);
+        $build->setProjectId($project->getId());
         $build->setStatus(Build::STATUS_PENDING);
         $build->setEnvironment($environment);
 
@@ -116,15 +116,17 @@ class BuildService
     {
         $data = $copyFrom->getDataArray();
 
-        // Clean up unwanted properties from the original build:
-        unset($data['id']);
-        unset($data['status']);
-        unset($data['log']);
-        unset($data['start_date']);
-        unset($data['finish_date']);
-
         $build = new Build();
-        $build->setValues($data);
+        $build->setProjectId($data['project_id']);
+        $build->setCommitId($data['commit_id']);
+        $build->setBranch($data['branch']);
+        $build->setTag($data['tag']);
+        $build->setCommitterEmail($data['committer_email']);
+        $build->setCommitMessage($data['commit_message']);
+        $build->setExtra($data['extra']);
+        $build->setEnvironment($data['environment']);
+        $build->setSource($data['source']);
+        $build->setUserId($data['user_id']);
         $build->setCreateDate(new \DateTime());
         $build->setStatus(Build::STATUS_PENDING);
 

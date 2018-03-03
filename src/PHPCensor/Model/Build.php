@@ -124,9 +124,6 @@ class Build extends Model
         'environment'     => 'setEnvironment',
         'source'          => 'setSource',
         'user_id'         => 'setUserId',
-
-        // Foreign key setters:
-        'Project' => 'setProject',
     ];
 
     /**
@@ -140,7 +137,7 @@ class Build extends Model
     }
 
     /**
-     * @param $value int
+     * @param integer $value
      */
     public function setId($value)
     {
@@ -167,7 +164,7 @@ class Build extends Model
     }
 
     /**
-     * @param $value int
+     * @param integer $value
      */
     public function setProjectId($value)
     {
@@ -194,7 +191,7 @@ class Build extends Model
     }
 
     /**
-     * @param $value string
+     * @param string $value
      */
     public function setCommitId($value)
     {
@@ -221,7 +218,7 @@ class Build extends Model
     }
 
     /**
-     * @param $value int
+     * @param integer $value
      */
     public function setStatus($value)
     {
@@ -248,7 +245,7 @@ class Build extends Model
     }
 
     /**
-     * @param $value string
+     * @param string $value
      */
     public function setLog($value)
     {
@@ -274,7 +271,7 @@ class Build extends Model
     }
 
     /**
-     * @param $value string
+     * @param string $value
      */
     public function setBranch($value)
     {
@@ -305,17 +302,19 @@ class Build extends Model
     }
 
     /**
-     * @param $value \DateTime
+     * @param \DateTime $value
      */
-    public function setCreateDate($value)
+    public function setCreateDate(\DateTime $value)
     {
         $this->validateDate('create_date', $value);
 
-        if ($this->data['create_date'] === $value) {
+        $stringValue = $value->format('Y-m-d H:i:s');
+
+        if ($this->data['create_date'] === $stringValue) {
             return;
         }
 
-        $this->data['create_date'] = $value;
+        $this->data['create_date'] = $stringValue;
 
         $this->setModified('create_date');
     }
@@ -335,17 +334,19 @@ class Build extends Model
     }
 
     /**
-     * @param $value \DateTime
+     * @param \DateTime $value
      */
-    public function setStartDate($value)
+    public function setStartDate(\DateTime $value)
     {
         $this->validateDate('start_date', $value);
 
-        if ($this->data['start_date'] === $value) {
+        $stringValue = $value->format('Y-m-d H:i:s');
+
+        if ($this->data['start_date'] === $stringValue) {
             return;
         }
 
-        $this->data['start_date'] = $value;
+        $this->data['start_date'] = $stringValue;
 
         $this->setModified('start_date');
     }
@@ -365,17 +366,19 @@ class Build extends Model
     }
 
     /**
-     * @param $value \DateTime
+     * @param \DateTime $value
      */
-    public function setFinishDate($value)
+    public function setFinishDate(\DateTime $value)
     {
         $this->validateDate('finish_date', $value);
 
-        if ($this->data['finish_date'] === $value) {
+        $stringValue = $value->format('Y-m-d H:i:s');
+
+        if ($this->data['finish_date'] === $stringValue) {
             return;
         }
 
-        $this->data['finish_date'] = $value;
+        $this->data['finish_date'] = $stringValue;
 
         $this->setModified('finish_date');
     }
@@ -391,7 +394,7 @@ class Build extends Model
     }
 
     /**
-     * @param $value string
+     * @param string $value
      */
     public function setCommitterEmail($value)
     {
@@ -417,7 +420,7 @@ class Build extends Model
     }
 
     /**
-     * @param $value string
+     * @param string $value
      */
     public function setCommitMessage($value)
     {
@@ -443,7 +446,7 @@ class Build extends Model
     }
 
     /**
-     * @param $value string
+     * @param string $value
      */
     public function setTag($value)
     {
@@ -469,7 +472,7 @@ class Build extends Model
     }
 
     /**
-     * @param $value integer
+     * @param integer $value
      */
     public function setSource($value)
     {
@@ -495,7 +498,7 @@ class Build extends Model
     }
 
     /**
-     * @param $value integer
+     * @param integer $value
      */
     public function setUserId($value)
     {
@@ -522,7 +525,7 @@ class Build extends Model
     }
 
     /**
-     * @param $value string
+     * @param string $value
      */
     public function setEnvironment($value)
     {
@@ -540,8 +543,9 @@ class Build extends Model
     /**
      * Set the value of status only if it synced with db. Must not be null.
      *
-     * @param $value int
-     * @return bool
+     * @param integer $value
+     *
+     * @return boolean
      */
     public function setStatusSync($value)
     {
@@ -561,9 +565,9 @@ class Build extends Model
     /**
      * Return a value from the build's "extra" JSON array.
      *
-     * @param null $key
+     * @param string|null $key
      *
-     * @return mixed|null|string
+     * @return array|string|null
      */
     public function getExtra($key = null)
     {
@@ -581,7 +585,7 @@ class Build extends Model
     }
 
     /**
-     * @param $value string
+     * @param string $value
      */
     public function setExtra($value)
     {
@@ -599,8 +603,8 @@ class Build extends Model
     /**
      * Set the value of extra.
      *
-     * @param $name string
-     * @param $value mixed
+     * @param string $name
+     * @param mixed  $value
      */
     public function setExtraValue($name, $value)
     {
@@ -615,7 +619,7 @@ class Build extends Model
     /**
      * Set the values of extra.
      *
-     * @param $values mixed
+     * @param mixed $values
      */
     public function setExtraValues($values)
     {
@@ -641,37 +645,6 @@ class Build extends Model
         }
 
         return Factory::getStore('Project', 'PHPCensor')->getById($key);
-    }
-
-    /**
-     * Set Project - Accepts an ID, an array representing a Project or a Project model.
-     *
-     * @param $value mixed
-     */
-    public function setProject($value)
-    {
-        // Is this an instance of Project?
-        if ($value instanceof Project) {
-            return $this->setProjectObject($value);
-        }
-
-        // Is this an array representing a Project item?
-        if (is_array($value) && !empty($value['id'])) {
-            return $this->setProjectId($value['id']);
-        }
-
-        // Is this a scalar value representing the ID of this foreign key?
-        return $this->setProjectId($value);
-    }
-
-    /**
-     * Set Project - Accepts a Project model.
-     *
-     * @param $value Project
-     */
-    public function setProjectObject(Project $value)
-    {
-        return $this->setProjectId($value->getId());
     }
 
     /**
@@ -763,6 +736,9 @@ class Build extends Model
 
     /**
      * Store build metadata
+     *
+     * @param string $key
+     * @param string $value
      */
     public function storeMeta($key, $value)
     {
@@ -813,7 +789,9 @@ class Build extends Model
 
     /**
      * Get an array of plugins to run if there's no .php-censor.yml file.
+     *
      * @param Builder $builder
+     *
      * @return array
      */
     protected function getZeroConfigPlugins(Builder $builder)
@@ -982,7 +960,7 @@ class Build extends Model
     /**
      * Get the number of seconds a build has been running for.
      *
-     * @return int
+     * @return integer
      */
     public function getDuration()
     {
@@ -1044,7 +1022,7 @@ class Build extends Model
     /**
      * Create an SSH key file on disk for this build.
      *
-     * @param  string $cloneTo
+     * @param string $cloneTo
      *
      * @return string
      */

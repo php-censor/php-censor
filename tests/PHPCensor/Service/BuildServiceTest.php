@@ -139,7 +139,7 @@ class BuildServiceTest extends \PHPUnit\Framework\TestCase
     {
         $build = new Build();
         $build->setId(1);
-        $build->setProject(101);
+        $build->setProjectId(101);
         $build->setCommitId('abcde');
         $build->setStatus(Build::STATUS_FAILED);
         $build->setLog('Test');

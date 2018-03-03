@@ -42,7 +42,7 @@ class Environment extends Model
     ];
 
     /**
-     * @return int
+     * @return integer
      */
     public function getId()
     {
@@ -52,7 +52,7 @@ class Environment extends Model
     }
 
     /**
-     * @return int
+     * @return integer
      */
     public function getProjectId()
     {
@@ -82,7 +82,7 @@ class Environment extends Model
     }
 
     /**
-     * @param $value int
+     * @param integer $value
      */
     public function setId($value)
     {
@@ -99,7 +99,7 @@ class Environment extends Model
     }
 
     /**
-     * @param $value int
+     * @param integer $value
      */
     public function setProjectId($value)
     {
@@ -116,7 +116,7 @@ class Environment extends Model
     }
 
     /**
-     * @param $value string
+     * @param string $value
      */
     public function setName($value)
     {
@@ -133,7 +133,7 @@ class Environment extends Model
     }
 
     /**
-     * @param $value array
+     * @param array $value
      */
     public function setBranches($value)
     {

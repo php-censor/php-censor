@@ -37,13 +37,13 @@ class Lang
     /**
      * Get a specific string from the language file.
      *
-     * @param string $string
      * @param array  ...$params
      *
      * @return string
      */
-    public static function get($string, ...$params)
+    public static function get(...$params)
     {
+        $string = $params[0];
         if (array_key_exists($string, self::$strings)) {
             $params[0] = self::$strings[$string];
             return call_user_func_array('sprintf', $params);

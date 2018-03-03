@@ -94,7 +94,7 @@ class Project extends Model
     ];
 
     /**
-     * @return int
+     * @return integer
      */
     public function getId()
     {
@@ -174,7 +174,7 @@ class Project extends Model
     }
 
     /**
-     * @return int
+     * @return integer
      */
     public function getAllowPublicStatus()
     {
@@ -184,7 +184,7 @@ class Project extends Model
     }
 
     /**
-     * @return int
+     * @return integer
      */
     public function getArchived()
     {
@@ -194,7 +194,7 @@ class Project extends Model
     }
 
     /**
-     * @return int
+     * @return integer
      */
     public function getGroupId()
     {
@@ -204,7 +204,7 @@ class Project extends Model
     }
 
     /**
-     * @return int
+     * @return integer
      */
     public function getDefaultBranchOnly()
     {
@@ -214,7 +214,7 @@ class Project extends Model
     }
 
     /**
-     * @param $value int
+     * @param integer $value
      */
     public function setId($value)
     {
@@ -231,7 +231,7 @@ class Project extends Model
     }
 
     /**
-     * @param $value string
+     * @param string $value
      */
     public function setTitle($value)
     {
@@ -248,7 +248,7 @@ class Project extends Model
     }
 
     /**
-     * @param $value string
+     * @param string $value
      */
     public function setReference($value)
     {
@@ -265,7 +265,7 @@ class Project extends Model
     }
 
     /**
-     * @param $value string
+     * @param string $value
      */
     public function setBranch($value)
     {
@@ -282,7 +282,7 @@ class Project extends Model
     }
 
     /**
-     * @param $value int
+     * @param integer $value
      */
     public function setDefaultBranchOnly($value)
     {
@@ -299,7 +299,7 @@ class Project extends Model
     }
 
     /**
-     * @param $value string
+     * @param string $value
      */
     public function setSshPrivateKey($value)
     {
@@ -315,7 +315,7 @@ class Project extends Model
     }
 
     /**
-     * @param $value string
+     * @param string $value
      */
     public function setType($value)
     {
@@ -332,7 +332,7 @@ class Project extends Model
     }
 
     /**
-     * @param $value string
+     * @param string $value
      */
     public function setLastCommit($value)
     {
@@ -348,7 +348,7 @@ class Project extends Model
     }
 
     /**
-     * @param $value string
+     * @param string $value
      */
     public function setBuildConfig($value)
     {
@@ -364,7 +364,7 @@ class Project extends Model
     }
 
     /**
-     * @param $value string
+     * @param string $value
      */
     public function setSshPublicKey($value)
     {
@@ -380,7 +380,7 @@ class Project extends Model
     }
 
     /**
-     * @param $value int
+     * @param integer $value
      */
     public function setAllowPublicStatus($value)
     {
@@ -397,7 +397,7 @@ class Project extends Model
     }
 
     /**
-     * @param $value int
+     * @param integer $value
      */
     public function setArchived($value)
     {
@@ -414,7 +414,7 @@ class Project extends Model
     }
 
     /**
-     * @param $value int
+     * @param integer $value
      */
     public function setGroupId($value)
     {
@@ -437,52 +437,13 @@ class Project extends Model
      */
     public function getGroup()
     {
-        $key = $this->getGroupId();
+        $groupId = $this->getGroupId();
 
-        if (empty($key)) {
+        if (empty($groupId)) {
             return null;
         }
 
-        $cacheKey = 'php-censor.project-group-' . $key;
-        $rtn      = $this->cache->get($cacheKey);
-
-        if (empty($rtn)) {
-            $rtn = Factory::getStore('ProjectGroup', 'PHPCensor')->getById($key);
-            $this->cache->set($cacheKey, $rtn);
-        }
-
-        return $rtn;
-    }
-
-    /**
-     * Set Group - Accepts an ID, an array representing a ProjectGroup or a ProjectGroup model.
-     *
-     * @param $value mixed
-     */
-    public function setGroup($value)
-    {
-        // Is this an instance of ProjectGroup?
-        if ($value instanceof ProjectGroup) {
-            return $this->setGroupObject($value);
-        }
-
-        // Is this an array representing a ProjectGroup item?
-        if (is_array($value) && !empty($value['id'])) {
-            return $this->setGroupId($value['id']);
-        }
-
-        // Is this a scalar value representing the ID of this foreign key?
-        return $this->setGroupId($value);
-    }
-
-    /**
-     * Set Group - Accepts a ProjectGroup model.
-     *
-     * @param $value ProjectGroup
-     */
-    public function setGroupObject(ProjectGroup $value)
-    {
-        return $this->setGroupId($value->getId());
+        return Factory::getStore('ProjectGroup', 'PHPCensor')->getById($groupId);
     }
 
     /**
@@ -613,17 +574,19 @@ class Project extends Model
     }
 
     /**
-     * @param $value \DateTime
+     * @param \DateTime $value
      */
-    public function setCreateDate($value)
+    public function setCreateDate(\DateTime $value)
     {
         $this->validateDate('create_date', $value);
 
-        if ($this->data['create_date'] === $value) {
+        $stringValue = $value->format('Y-m-d H:i:s');
+
+        if ($this->data['create_date'] === $stringValue) {
             return;
         }
 
-        $this->data['create_date'] = $value;
+        $this->data['create_date'] = $stringValue;
 
         $this->setModified('create_date');
     }
@@ -639,7 +602,7 @@ class Project extends Model
     }
 
     /**
-     * @param $value integer
+     * @param integer $value
      */
     public function setUserId($value)
     {
@@ -726,22 +689,13 @@ class Project extends Model
      */
     public function getEnvironmentsObjects()
     {
-        $key = $this->getId();
+        $projectId = $this->getId();
 
-        if (empty($key)) {
+        if (empty($projectId)) {
             return null;
         }
 
-        $cacheKey = 'php-censor.project-environments-' . $key;
-        $rtn      = $this->cache->get($cacheKey);
-
-        if (empty($rtn)) {
-            $store = $this->getEnvironmentStore();
-            $rtn   = $store->getByProjectId($key);
-            $this->cache->set($cacheKey, $rtn);
-        }
-
-        return $rtn;
+        return $this->getEnvironmentStore()->getByProjectId($projectId);
     }
 
     /**

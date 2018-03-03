@@ -94,7 +94,7 @@ class BuildStatusServiceTest extends \PHPUnit\Framework\TestCase
 
         $project = $this->getProjectMock($config[$configId]['previousBuild'], $setProject);
 
-        $build->setProjectObject($project);
+        $build->setProjectId($project->getId());
 
         return $build;
     }

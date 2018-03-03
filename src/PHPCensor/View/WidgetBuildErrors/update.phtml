@@ -92,7 +92,7 @@ foreach($builds as $project_id => $project_envs):
 ?>
     <div class="project-box">
     <div class="small-box small-box-full bg-<?= $subcls; ?>">
-        
+
         <div class="inner">
             <h3>
                 <a href="<?= APP_URL; ?>project/view/<?= $project->getId(); ?>">
@@ -127,7 +127,7 @@ foreach($builds as $project_id => $project_envs):
                 echo '<span class="small-box-footer-build small-box-footer bg-gray"><i class="fa fa-minus"></i></span>';
             } else {
                 $build = $project_env['latest'][$idx];
-                $link = APP_URL . 'build/view/' . $build->id;
+                $link = APP_URL . 'build/view/' . $build->getId();
                 switch ($build->getStatus()) {
                     case 0:
                         $class = 'bg-blue';

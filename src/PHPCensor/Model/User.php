@@ -64,7 +64,7 @@ class User extends Model
     ];
 
     /**
-     * @return int
+     * @return integer
      */
     public function getId()
     {
@@ -104,7 +104,7 @@ class User extends Model
     }
 
     /**
-     * @return int
+     * @return integer
      */
     public function getIsAdmin()
     {
@@ -164,7 +164,7 @@ class User extends Model
     }
 
     /**
-     * @param $value int
+     * @param integer $value
      */
     public function setId($value)
     {
@@ -181,7 +181,7 @@ class User extends Model
     }
 
     /**
-     * @param $value string
+     * @param string $value
      */
     public function setEmail($value)
     {
@@ -198,7 +198,7 @@ class User extends Model
     }
 
     /**
-     * @param $value string
+     * @param string $value
      */
     public function setHash($value)
     {
@@ -215,7 +215,7 @@ class User extends Model
     }
 
     /**
-     * @param $value string
+     * @param string $value
      */
     public function setName($value)
     {
@@ -232,7 +232,7 @@ class User extends Model
     }
 
     /**
-     * @param $value int
+     * @param integer $value
      */
     public function setIsAdmin($value)
     {
@@ -249,7 +249,7 @@ class User extends Model
     }
 
     /**
-     * @param $value string
+     * @param string $value
      */
     public function setProviderKey($value)
     {
@@ -266,7 +266,7 @@ class User extends Model
     }
 
     /**
-     * @param $value string
+     * @param string $value
      */
     public function setProviderData($value)
     {
@@ -282,7 +282,7 @@ class User extends Model
     }
 
     /**
-     * @param $value string
+     * @param string $value
      */
     public function setRememberKey($value)
     {
@@ -298,7 +298,7 @@ class User extends Model
     }
 
     /**
-     * @param $value string
+     * @param string $value
      */
     public function setLanguage($value)
     {
@@ -312,7 +312,7 @@ class User extends Model
     }
 
     /**
-     * @param $value string
+     * @param string $value
      */
     public function setPerPage($value)
     {

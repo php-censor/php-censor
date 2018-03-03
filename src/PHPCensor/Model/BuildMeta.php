@@ -45,13 +45,10 @@ class BuildMeta extends Model
         'build_id'   => 'setBuildId',
         'meta_key'   => 'setMetaKey',
         'meta_value' => 'setMetaValue',
-
-        // Foreign key setters:
-        'Build' => 'setBuild',
     ];
 
     /**
-     * @return int
+     * @return integer
      */
     public function getId()
     {
@@ -61,7 +58,7 @@ class BuildMeta extends Model
     }
 
     /**
-     * @return int
+     * @return integer
      */
     public function getBuildId()
     {
@@ -91,7 +88,7 @@ class BuildMeta extends Model
     }
 
     /**
-     * @param int $value
+     * @param integer $value
      */
     public function setId($value)
     {
@@ -108,7 +105,7 @@ class BuildMeta extends Model
     }
 
     /**
-     * @param int $value
+     * @param integer $value
      */
     public function setBuildId($value)
     {
@@ -125,7 +122,7 @@ class BuildMeta extends Model
     }
 
     /**
-     * @param $value string
+     * @param string $value
      */
     public function setMetaKey($value)
     {
@@ -142,7 +139,7 @@ class BuildMeta extends Model
     }
 
     /**
-     * @param $value string
+     * @param string $value
      */
     public function setMetaValue($value)
     {
@@ -165,51 +162,11 @@ class BuildMeta extends Model
      */
     public function getBuild()
     {
-        $key = $this->getBuildId();
-
-        if (empty($key)) {
+        $buildId = $this->getBuildId();
+        if (empty($buildId)) {
             return null;
         }
 
-        $cacheKey = 'php-censor.build-' . $key;
-        $rtn      = $this->cache->get($cacheKey);
-
-        if (empty($rtn)) {
-            $rtn    = Factory::getStore('Build', 'PHPCensor')->getById($key);
-            $this->cache->set($cacheKey, $rtn);
-        }
-
-        return $rtn;
-    }
-
-    /**
-     * Set Build - Accepts an ID, an array representing a Build or a Build model.
-     *
-     * @param $value mixed
-     */
-    public function setBuild($value)
-    {
-        // Is this an instance of Build?
-        if ($value instanceof Build) {
-            return $this->setBuildObject($value);
-        }
-
-        // Is this an array representing a Build item?
-        if (is_array($value) && !empty($value['id'])) {
-            return $this->setBuildId($value['id']);
-        }
-
-        // Is this a scalar value representing the ID of this foreign key?
-        return $this->setBuildId($value);
-    }
-
-    /**
-     * Set Build - Accepts a Build model.
-     *
-     * @param $value Build
-     */
-    public function setBuildObject(Build $value)
-    {
-        return $this->setBuildId($value->getId());
+        return Factory::getStore('Build', 'PHPCensor')->getById($buildId);
     }
 }

@@ -43,7 +43,7 @@ class ProjectGroup extends Model
     ];
 
     /**
-     * @return int
+     * @return integer
      */
     public function getId()
     {
@@ -53,7 +53,7 @@ class ProjectGroup extends Model
     }
 
     /**
-     * @param $value int
+     * @param integer $value
      */
     public function setId($value)
     {
@@ -80,7 +80,7 @@ class ProjectGroup extends Model
     }
 
     /**
-     * @param $value string
+     * @param string $value
      */
     public function setTitle($value)
     {
@@ -111,17 +111,19 @@ class ProjectGroup extends Model
     }
 
     /**
-     * @param $value \DateTime
+     * @param \DateTime $value
      */
-    public function setCreateDate($value)
+    public function setCreateDate(\DateTime $value)
     {
         $this->validateDate('create_date', $value);
 
-        if ($this->data['create_date'] === $value) {
+        $stringValue = $value->format('Y-m-d H:i:s');
+
+        if ($this->data['create_date'] === $stringValue) {
             return;
         }
 
-        $this->data['create_date'] = $value;
+        $this->data['create_date'] = $stringValue;
 
         $this->setModified('create_date');
     }
@@ -137,7 +139,7 @@ class ProjectGroup extends Model
     }
 
     /**
-     * @param $value integer
+     * @param integer $value
      */
     public function setUserId($value)
     {

@@ -2,6 +2,7 @@
 
 namespace Tests\PHPCensor\Model;
 
+use b8\Exception\HttpException\ValidationException;
 use PHPCensor\Model\Build;
 use PHPCensor\Model;
 
@@ -12,15 +13,67 @@ use PHPCensor\Model;
  */
 class BuildTest extends \PHPUnit\Framework\TestCase
 {
-    public function setUp()
-    {
-    }
-
-    public function testExecute_TestIsAValidModel()
+    public function testConstruct()
     {
         $build = new Build();
-        self::assertTrue($build instanceof \b8\Model);
-        self::assertTrue($build instanceof Model);
+
+        self::assertInstanceOf('PHPCensor\Model', $build);
+        self::assertInstanceOf('PHPCensor\Model\Build', $build);
+
+        $build = new Build([
+            'project_id' => 100,
+            'branch'     => 'master',
+        ]);
+
+        self::assertEquals([
+            'id'              => null,
+            'project_id'      => 100,
+            'commit_id'       => null,
+            'status'          => null,
+            'log'             => null,
+            'branch'          => 'master',
+            'tag'             => null,
+            'create_date'     => null,
+            'start_date'      => null,
+            'finish_date'     => null,
+            'committer_email' => null,
+            'commit_message'  => null,
+            'extra'           => null,
+            'environment'     => null,
+            'source'          => Build::SOURCE_UNKNOWN,
+            'user_id'         => 0,
+        ], $build->getDataArray());
+
+        try {
+            $build = new Build([
+                'project_id' => 101,
+                'branch'     => 'dev',
+                'unknown'    => 'unknown',
+            ]);
+        } catch (\InvalidArgumentException $e) {
+            self::assertEquals(
+                'Model "PHPCensor\Model\Build" doesn\'t have field "unknown"',
+                $e->getMessage()
+            );
+        }
+
+        $build = new Build();
+        $build->setLog('log');
+
+        self::assertEquals('log', $build->getLog());
+
+        $build->setLog(null);
+
+        self::assertEquals(null, $build->getLog());
+
+        try {
+            $build->setLog([]);
+        } catch (ValidationException $e) {
+            self::assertEquals(
+                'Column "log" must be a string.',
+                $e->getMessage()
+            );
+        }
     }
 
     public function testExecute_TestBaseBuildDefaults()

@@ -4,9 +4,8 @@ namespace Tests\b8;
 
 use b8\Form;
 use b8\Config;
-use PHPUnit\Framework\TestCase;
 
-class FormTest extends TestCase
+class FormTest extends \PHPUnit\Framework\TestCase
 {
     public function testFormBasics()
     {
@@ -17,7 +16,7 @@ class FormTest extends TestCase
         self::assertTrue($f->getAction() == '/');
         self::assertTrue($f->getMethod() == 'POST');
 
-        $config = new Config([
+        new Config([
             'b8' => [
                 'view' => [
                     'path' => __DIR__ . '/data/view/'

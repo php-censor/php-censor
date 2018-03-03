@@ -2,6 +2,8 @@
 
 namespace b8;
 
+use PHPCensor\Model;
+
 abstract class Store
 {
     /**

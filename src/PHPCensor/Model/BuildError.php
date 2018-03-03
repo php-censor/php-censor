@@ -71,13 +71,10 @@ class BuildError extends Model
         'create_date'  => 'setCreateDate',
         'hash'         => 'setHash',
         'is_new'       => 'setIsNew',
-
-        // Foreign key setters:
-        'Build' => 'setBuild',
     ];
 
     /**
-     * @return int
+     * @return integer
      */
     public function getId()
     {
@@ -87,7 +84,7 @@ class BuildError extends Model
     }
 
     /**
-     * @return int
+     * @return integer
      */
     public function getBuildId()
     {
@@ -117,7 +114,7 @@ class BuildError extends Model
     }
 
     /**
-     * @return int
+     * @return integer
      */
     public function getLineStart()
     {
@@ -127,7 +124,7 @@ class BuildError extends Model
     }
 
     /**
-     * @return int
+     * @return integer
      */
     public function getLineEnd()
     {
@@ -137,7 +134,7 @@ class BuildError extends Model
     }
 
     /**
-     * @return int
+     * @return integer
      */
     public function getSeverity()
     {
@@ -191,7 +188,7 @@ class BuildError extends Model
     }
 
     /**
-     * @param $value int
+     * @param integer $value
      */
     public function setId($value)
     {
@@ -208,7 +205,7 @@ class BuildError extends Model
     }
 
     /**
-     * @param $value int
+     * @param integer $value
      */
     public function setBuildId($value)
     {
@@ -225,7 +222,7 @@ class BuildError extends Model
     }
 
     /**
-     * @param $value string
+     * @param string $value
      */
     public function setPlugin($value)
     {
@@ -242,7 +239,7 @@ class BuildError extends Model
     }
 
     /**
-     * @param $value string
+     * @param string $value
      */
     public function setFile($value)
     {
@@ -258,7 +255,7 @@ class BuildError extends Model
     }
 
     /**
-     * @param $value int
+     * @param integer $value
      */
     public function setLineStart($value)
     {
@@ -274,7 +271,7 @@ class BuildError extends Model
     }
 
     /**
-     * @param $value int
+     * @param integer $value
      */
     public function setLineEnd($value)
     {
@@ -290,7 +287,7 @@ class BuildError extends Model
     }
 
     /**
-     * @param $value int
+     * @param integer $value
      */
     public function setSeverity($value)
     {
@@ -307,7 +304,7 @@ class BuildError extends Model
     }
 
     /**
-     * @param $value string
+     * @param string $value
      */
     public function setMessage($value)
     {
@@ -324,24 +321,26 @@ class BuildError extends Model
     }
 
     /**
-     * @param $value \DateTime
+     * @param \DateTime $value
      */
-    public function setCreateDate($value)
+    public function setCreateDate(\DateTime $value)
     {
         $this->validateNotNull('create_date', $value);
         $this->validateDate('create_date', $value);
 
-        if ($this->data['create_date'] === $value) {
+        $stringValue = $value->format('Y-m-d H:i:s');
+
+        if ($this->data['create_date'] === $stringValue) {
             return;
         }
 
-        $this->data['create_date'] = $value;
+        $this->data['create_date'] = $stringValue;
 
         $this->setModified('create_date');
     }
 
     /**
-     * @param $value string
+     * @param string $value
      */
     public function setHash($value)
     {
@@ -358,7 +357,7 @@ class BuildError extends Model
     }
 
     /**
-     * @param $value int
+     * @param integer $value
      */
     public function setIsNew($value)
     {
@@ -377,56 +376,16 @@ class BuildError extends Model
     /**
      * Get the Build model for this BuildError by Id.
      *
-     * @return \PHPCensor\Model\Build
+     * @return \PHPCensor\Model\Build|null
      */
     public function getBuild()
     {
-        $key = $this->getBuildId();
-
-        if (empty($key)) {
+        $buildId = $this->getBuildId();
+        if (empty($buildId)) {
             return null;
         }
 
-        $cacheKey   = 'php-censor.build-' . $key;
-        $rtn        = $this->cache->get($cacheKey);
-
-        if (empty($rtn)) {
-            $rtn    = Factory::getStore('Build', 'PHPCensor')->getById($key);
-            $this->cache->set($cacheKey, $rtn);
-        }
-
-        return $rtn;
-    }
-
-    /**
-     * Set Build - Accepts an ID, an array representing a Build or a Build model.
-     *
-     * @param $value mixed
-     */
-    public function setBuild($value)
-    {
-        // Is this an instance of Build?
-        if ($value instanceof Build) {
-            return $this->setBuildObject($value);
-        }
-
-        // Is this an array representing a Build item?
-        if (is_array($value) && !empty($value['id'])) {
-            return $this->setBuildId($value['id']);
-        }
-
-        // Is this a scalar value representing the ID of this foreign key?
-        return $this->setBuildId($value);
-    }
-
-    /**
-     * Set Build - Accepts a Build model.
-     *
-     * @param $value Build
-     */
-    public function setBuildObject(Build $value)
-    {
-        return $this->setBuildId($value->getId());
+        return Factory::getStore('Build', 'PHPCensor')->getById($buildId);
     }
 
     /**
