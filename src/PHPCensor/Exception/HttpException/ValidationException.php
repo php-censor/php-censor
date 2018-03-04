@@ -1,8 +1,8 @@
 <?php
 
-namespace b8\Exception\HttpException;
+namespace PHPCensor\Exception\HttpException;
 
-use b8\Exception\HttpException;
+use PHPCensor\Exception\HttpException;
 
 class ValidationException extends HttpException
 {

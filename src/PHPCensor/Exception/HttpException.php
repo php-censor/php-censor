@@ -1,6 +1,6 @@
 <?php
 
-namespace b8\Exception;
+namespace PHPCensor\Exception;
 
 class HttpException extends \Exception
 {

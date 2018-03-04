@@ -2,9 +2,8 @@
 
 namespace Tests\PHPCensor\Model;
 
-use b8\Exception\HttpException\ValidationException;
+use PHPCensor\Exception\HttpException\ValidationException;
 use PHPCensor\Model\Build;
-use PHPCensor\Model;
 
 /**
  * Unit tests for the Build model class.

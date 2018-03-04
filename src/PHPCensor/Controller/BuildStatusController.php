@@ -2,8 +2,9 @@
 
 namespace PHPCensor\Controller;
 
-use b8;
-use b8\Exception\HttpException\NotFoundException;
+use b8\Http\Response;
+use b8\Http\Response\RedirectResponse;
+use PHPCensor\Exception\HttpException\NotFoundException;
 use PHPCensor\Store\Factory;
 use PHPCensor\BuildFactory;
 use PHPCensor\Model\Project;
@@ -76,7 +77,6 @@ class BuildStatusController extends Controller
      * @return bool
      *
      * @throws \Exception
-     * @throws b8\Exception\HttpException
      */
     public function ccxml($projectId)
     {
@@ -131,7 +131,7 @@ class BuildStatusController extends Controller
      *
      * @param $projectId
      *
-     * @return b8\Http\Response|b8\Http\Response\RedirectResponse
+     * @return Response
      */
     public function image($projectId)
     {
@@ -149,7 +149,7 @@ class BuildStatusController extends Controller
         $status = $this->getStatus($projectId);
 
         if (is_null($status)) {
-            $response = new b8\Http\Response\RedirectResponse();
+            $response = new RedirectResponse();
             $response->setHeader('Location', '/');
 
             return $response;
@@ -182,6 +182,7 @@ class BuildStatusController extends Controller
         $this->response->disableLayout();
         $this->response->setHeader('Content-Type', 'image/svg+xml');
         $this->response->setContent($image);
+
         return $this->response;
     }
 
@@ -192,7 +193,7 @@ class BuildStatusController extends Controller
      *
      * @return string
      *
-     * @throws \b8\Exception\HttpException\NotFoundException
+     * @throws NotFoundException
      */
     public function view($projectId)
     {

@@ -2,8 +2,7 @@
 
 namespace PHPCensor\Controller;
 
-use b8;
-use b8\Exception\HttpException\NotFoundException;
+use PHPCensor\Exception\HttpException\NotFoundException;
 use b8\Form;
 use JasonGrimes\Paginator;
 use PHPCensor;

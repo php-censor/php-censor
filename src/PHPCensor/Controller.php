@@ -2,7 +2,7 @@
 
 namespace PHPCensor;
 
-use b8\Exception\HttpException\ForbiddenException;
+use PHPCensor\Exception\HttpException\ForbiddenException;
 use b8\Http\Request;
 use b8\Http\Response;
 use PHPCensor\Store\Factory;

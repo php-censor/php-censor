@@ -5,7 +5,7 @@ namespace PHPCensor\Store;
 use PHPCensor\Store;
 use PHPCensor\Database;
 use PHPCensor\Model\BuildMeta;
-use b8\Exception\HttpException;
+use PHPCensor\Exception\HttpException;
 
 class BuildMetaStore extends Store
 {

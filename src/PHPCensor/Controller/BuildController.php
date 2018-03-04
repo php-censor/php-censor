@@ -2,8 +2,7 @@
 
 namespace PHPCensor\Controller;
 
-use b8;
-use b8\Exception\HttpException\NotFoundException;
+use PHPCensor\Exception\HttpException\NotFoundException;
 use b8\Http\Response\JsonResponse;
 use JasonGrimes\Paginator;
 use PHPCensor\BuildFactory;

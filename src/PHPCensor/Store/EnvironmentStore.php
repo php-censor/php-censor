@@ -5,7 +5,7 @@ namespace PHPCensor\Store;
 use PHPCensor\Database;
 use PHPCensor\Model\Environment;
 use PHPCensor\Store;
-use b8\Exception\HttpException;
+use PHPCensor\Exception\HttpException;
 
 class EnvironmentStore extends Store
 {

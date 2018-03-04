@@ -2,11 +2,11 @@
 
 namespace PHPCensor;
 
-use b8\Exception\HttpException;
+use PHPCensor\Exception\HttpException;
 use b8\Http\Response;
 use b8\Http\Response\RedirectResponse;
 use PHPCensor\Store\Factory;
-use b8\Exception\HttpException\NotFoundException;
+use PHPCensor\Exception\HttpException\NotFoundException;
 use b8\Http\Request;
 use b8\Http\Router;
 

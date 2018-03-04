@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\b8;
+namespace Tests\PHPCensor;
 
-use b8\Exception\HttpException;
+use PHPCensor\Exception\HttpException;
 
 class HttpExceptionTest extends \PHPUnit\Framework\TestCase
 {

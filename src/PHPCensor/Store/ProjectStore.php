@@ -5,7 +5,7 @@ namespace PHPCensor\Store;
 use PHPCensor\Database;
 use PHPCensor\Model\Project;
 use PHPCensor\Store;
-use b8\Exception\HttpException;
+use PHPCensor\Exception\HttpException;
 
 /**
  * @author Dan Cryer <dan@block8.co.uk>

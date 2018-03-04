@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\b8;
+namespace Tests\PHPCensor;
 
 use PHPCensor\Config;
 use PHPCensor\Database;

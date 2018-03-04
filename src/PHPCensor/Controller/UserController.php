@@ -3,7 +3,7 @@
 namespace PHPCensor\Controller;
 
 use PHPCensor\Config;
-use b8\Exception\HttpException\NotFoundException;
+use PHPCensor\Exception\HttpException\NotFoundException;
 use b8\Form;
 use PHPCensor\Controller;
 use PHPCensor\Helper\Lang;

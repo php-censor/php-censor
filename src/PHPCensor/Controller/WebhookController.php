@@ -2,7 +2,6 @@
 
 namespace PHPCensor\Controller;
 
-use b8;
 use Exception;
 use GuzzleHttp\Client;
 use PHPCensor\Helper\Lang;
@@ -13,7 +12,7 @@ use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\ProjectStore;
 use PHPCensor\Controller;
 use PHPCensor\Config;
-use b8\Exception\HttpException\NotFoundException;
+use PHPCensor\Exception\HttpException\NotFoundException;
 use PHPCensor\Store\Factory;
 use b8\Http\Request;
 use b8\Http\Response;
@@ -75,7 +74,7 @@ class WebhookController extends Controller
      */
     public function handleAction($action, $actionParams)
     {
-        $response = new b8\Http\Response\JsonResponse();
+        $response = new Response\JsonResponse();
         try {
             $data = call_user_func_array([$this, $action], $actionParams);
             if (isset($data['responseCode'])) {

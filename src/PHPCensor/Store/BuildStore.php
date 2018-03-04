@@ -4,7 +4,7 @@ namespace PHPCensor\Store;
 
 use PHPCensor\Database;
 use PHPCensor\Model\Build;
-use b8\Exception\HttpException;
+use PHPCensor\Exception\HttpException;
 use PHPCensor\Model\BuildMeta;
 use PHPCensor\Store;
 
