@@ -1,11 +1,10 @@
 <?php
 
-namespace Tests\b8;
+namespace Tests\PHPCensor;
 
 use PHPCensor\View;
-use PHPUnit\Framework\TestCase;
 
-class ViewTest extends TestCase
+class ViewTest extends \PHPUnit\Framework\TestCase
 {
     public function testSimpleView()
     {

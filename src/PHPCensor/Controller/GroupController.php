@@ -2,8 +2,7 @@
 
 namespace PHPCensor\Controller;
 
-use b8;
-use b8\Form;
+use PHPCensor\Form;
 use PHPCensor\Controller;
 use PHPCensor\Http\Response\RedirectResponse;
 use PHPCensor\Model\ProjectGroup;

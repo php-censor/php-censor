@@ -1,9 +1,9 @@
 <?php
 
-namespace b8\Form\Element;
+namespace PHPCensor\Form\Element;
 
 use PHPCensor\View;
-use b8\Form\Input;
+use PHPCensor\Form\Input;
 
 class Select extends Input
 {

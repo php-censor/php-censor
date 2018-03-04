@@ -1,6 +1,6 @@
 <?php
 
-namespace b8\Form;
+namespace PHPCensor\Form;
 
 use PHPCensor\View;
 

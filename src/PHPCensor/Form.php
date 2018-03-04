@@ -1,9 +1,8 @@
 <?php
 
-namespace b8;
+namespace PHPCensor;
 
-use b8\Form\FieldSet;
-use PHPCensor\View;
+use PHPCensor\Form\FieldSet;
 
 class Form extends FieldSet
 {

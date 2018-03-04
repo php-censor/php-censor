@@ -30,7 +30,6 @@ $conf = [];
 
 $conf['b8']['app']['namespace']          = 'PHPCensor';
 $conf['b8']['app']['default_controller'] = 'Home';
-$conf['b8']['view']['path']              = SRC_DIR . 'View/';
 $conf['php-censor']['url']               = 'http://php-censor.local';
 
 $config = new PHPCensor\Config($conf);

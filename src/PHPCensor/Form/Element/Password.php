@@ -1,10 +1,10 @@
 <?php
 
-namespace b8\Form\Element;
+namespace PHPCensor\Form\Element;
 
 use PHPCensor\View;
 
-class Url extends Text
+class Password extends Text
 {
     /**
      * @param string $viewFile
@@ -23,6 +23,6 @@ class Url extends Text
     {
         parent::onPreRender($view);
 
-        $view->type = 'url';
+        $view->type = 'password';
     }
 }

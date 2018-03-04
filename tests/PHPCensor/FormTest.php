@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\b8;
+namespace Tests\PHPCensor;
 
-use b8\Form;
+use PHPCensor\Form;
 use PHPCensor\Config;
 
 class FormTest extends \PHPUnit\Framework\TestCase
@@ -15,20 +15,6 @@ class FormTest extends \PHPUnit\Framework\TestCase
 
         self::assertTrue($f->getAction() == '/');
         self::assertTrue($f->getMethod() == 'POST');
-
-        new Config([
-            'b8' => [
-                'view' => [
-                    'path' => __DIR__ . '/data/view/'
-                ]
-            ]
-        ]);
-
-        self::assertTrue($f->render('form') == '/POST');
-
-        Config::getInstance()->set('b8.view.path', '');
-
-        self::assertTrue(strpos((string)$f, '<form') !== false);
     }
 
     public function testElementBasics()

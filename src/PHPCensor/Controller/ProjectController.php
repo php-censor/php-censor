@@ -3,7 +3,7 @@
 namespace PHPCensor\Controller;
 
 use PHPCensor\Exception\HttpException\NotFoundException;
-use b8\Form;
+use PHPCensor\Form;
 use JasonGrimes\Paginator;
 use PHPCensor;
 use PHPCensor\BuildFactory;

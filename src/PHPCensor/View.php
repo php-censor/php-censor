@@ -28,7 +28,7 @@ class View
 
     protected static function getViewFile($file, $path = null)
     {
-        $viewPath = is_null($path) ? Config::getInstance()->get('b8.view.path') : $path;
+        $viewPath = is_null($path) ? (SRC_DIR . 'View/') : $path;
         $fullPath = $viewPath . $file . '.' . static::$extension;
 
         return $fullPath;

@@ -1,6 +1,6 @@
 <?php
 
-namespace b8\Form\Element;
+namespace PHPCensor\Form\Element;
 
 class Radio extends Select
 {

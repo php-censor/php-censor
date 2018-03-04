@@ -2,7 +2,6 @@
 
 namespace PHPCensor\Controller;
 
-use b8;
 use PHPCensor\Helper\Email;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Controller;
@@ -117,42 +116,42 @@ class SessionController extends Controller
             }
         }
 
-        $form = new b8\Form();
+        $form = new \PHPCensor\Form();
         $form->setMethod('POST');
         $form->setAction(APP_URL . 'session/login');
 
-        $email = new b8\Form\Element\Text('email');
+        $email = new \PHPCensor\Form\Element\Text('email');
         $email->setLabel(Lang::get('login'));
         $email->setRequired(true);
         $email->setContainerClass('form-group');
         $email->setClass('form-control');
         $form->addField($email);
 
-        $pwd = new b8\Form\Element\Password('password');
+        $pwd = new \PHPCensor\Form\Element\Password('password');
         $pwd->setLabel(Lang::get('password'));
         $pwd->setRequired(true);
         $pwd->setContainerClass('form-group');
         $pwd->setClass('form-control');
         $form->addField($pwd);
 
-        $remember = b8\Form\Element\Checkbox::create('remember_me', Lang::get('remember_me'), false);
+        $remember = \PHPCensor\Form\Element\Checkbox::create('remember_me', Lang::get('remember_me'), false);
         $remember->setContainerClass('form-group');
         $remember->setCheckedValue(1);
         $remember->setValue(0);
         $form->addField($remember);
 
-        $pwd = new b8\Form\Element\Submit();
+        $pwd = new \PHPCensor\Form\Element\Submit();
         $pwd->setValue(Lang::get('log_in'));
         $pwd->setClass('btn-success');
         $form->addField($pwd);
 
         $tokenValue = $this->generateToken();
         $_SESSION['login_token'] = $tokenValue;
-        $token = new b8\Form\Element\Hidden('token');
+        $token = new \PHPCensor\Form\Element\Hidden('token');
         $token->setValue($tokenValue);
         $form->addField($token);
 
-        $this->view->form = $form->render();
+        $this->view->form   = $form->render();
         $this->view->failed = $isLoginFailure;
 
         return $this->view->render();

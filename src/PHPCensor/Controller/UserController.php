@@ -4,7 +4,7 @@ namespace PHPCensor\Controller;
 
 use PHPCensor\Config;
 use PHPCensor\Exception\HttpException\NotFoundException;
-use b8\Form;
+use PHPCensor\Form;
 use PHPCensor\Controller;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Http\Response\RedirectResponse;

@@ -30,7 +30,6 @@ require_once(ROOT_DIR . 'vendor/autoload.php');
 $conf = [];
 $conf['b8']['app']['namespace']          = 'PHPCensor';
 $conf['b8']['app']['default_controller'] = 'Home';
-$conf['b8']['view']['path']              = SRC_DIR . 'View/';
 
 $config = new PHPCensor\Config($conf);
 

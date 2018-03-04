@@ -1,9 +1,8 @@
 <?php
 
-namespace b8\Form;
+namespace PHPCensor\Form;
 
 use PHPCensor\View;
-use PHPCensor\Config;
 
 abstract class Element
 {
@@ -168,7 +167,7 @@ abstract class Element
      */
     public function render($viewFile = null)
     {
-        $viewPath = Config::getInstance()->get('b8.view.path');
+        $viewPath = SRC_DIR . 'View/';
 
         if (is_null($viewFile)) {
             $class    = explode('\\', get_called_class());
@@ -178,7 +177,7 @@ abstract class Element
         if (file_exists($viewPath . 'Form/' . $viewFile . '.phtml')) {
             $view = new View('Form/' . $viewFile);
         } else {
-            $view = new View($viewFile, B8_PATH . 'Form/View/');
+            $view = new View($viewFile, SRC_DIR . 'Form/View/');
         }
 
         $view->name           = $this->getName();

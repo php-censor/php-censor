@@ -1,8 +1,8 @@
 <?php
 
-namespace b8\Form\Element;
+namespace PHPCensor\Form\Element;
 
-use b8\Form\Input;
+use PHPCensor\Form\Input;
 use PHPCensor\View;
 
 class Text extends Input
