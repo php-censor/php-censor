@@ -7,6 +7,7 @@ use PHPCensor\Exception\HttpException\NotFoundException;
 use b8\Form;
 use PHPCensor\Controller;
 use PHPCensor\Helper\Lang;
+use PHPCensor\Http\Response\RedirectResponse;
 use PHPCensor\Model\User;
 use PHPCensor\Service\UserService;
 use PHPCensor\View;
@@ -183,7 +184,7 @@ class UserController extends Controller
 
         $this->userService->createUser($name, $email, 'internal', json_encode(['type' => 'internal']), $password, $isAdmin);
 
-        $response = new b8\Http\Response\RedirectResponse();
+        $response = new RedirectResponse();
         $response->setHeader('Location', APP_URL . 'user');
         return $response;
     }
@@ -224,7 +225,7 @@ class UserController extends Controller
 
         $this->userService->updateUser($user, $name, $email, $password, $isAdmin);
 
-        $response = new b8\Http\Response\RedirectResponse();
+        $response = new RedirectResponse();
         $response->setHeader('Location', APP_URL . 'user');
         return $response;
     }
@@ -298,7 +299,7 @@ class UserController extends Controller
 
         $this->userService->deleteUser($user);
 
-        $response = new b8\Http\Response\RedirectResponse();
+        $response = new RedirectResponse();
         $response->setHeader('Location', APP_URL . 'user');
         return $response;
     }

@@ -3,12 +3,12 @@
 namespace PHPCensor;
 
 use PHPCensor\Exception\HttpException;
-use b8\Http\Response;
-use b8\Http\Response\RedirectResponse;
+use PHPCensor\Http\Response;
+use PHPCensor\Http\Response\RedirectResponse;
 use PHPCensor\Store\Factory;
 use PHPCensor\Exception\HttpException\NotFoundException;
-use b8\Http\Request;
-use b8\Http\Router;
+use PHPCensor\Http\Request;
+use PHPCensor\Http\Router;
 
 /**
  * @author Dan Cryer <dan@block8.co.uk>

@@ -1,8 +1,8 @@
 <?php
 
-namespace b8\Http\Response;
+namespace PHPCensor\Http\Response;
 
-use b8\Http\Response;
+use PHPCensor\Http\Response;
 
 class RedirectResponse extends Response
 {

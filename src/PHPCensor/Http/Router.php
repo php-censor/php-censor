@@ -1,6 +1,6 @@
 <?php
 
-namespace b8\Http;
+namespace PHPCensor\Http;
 
 use PHPCensor\Application;
 use PHPCensor\Config;

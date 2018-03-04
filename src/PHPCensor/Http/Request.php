@@ -1,6 +1,6 @@
 <?php
 
-namespace b8\Http;
+namespace PHPCensor\Http;
 
 class Request
 {

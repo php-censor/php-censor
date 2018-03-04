@@ -5,6 +5,7 @@ namespace PHPCensor\Controller;
 use b8;
 use b8\Form;
 use PHPCensor\Controller;
+use PHPCensor\Http\Response\RedirectResponse;
 use PHPCensor\Model\ProjectGroup;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Model\User;
@@ -58,8 +59,10 @@ class GroupController extends Controller
 
     /**
      * Add or edit a project group.
+     *
      * @param null $groupId
-     * @return void|b8\Http\Response\RedirectResponse
+     *
+     * @return RedirectResponse
      */
     public function edit($groupId = null)
     {
@@ -83,7 +86,7 @@ class GroupController extends Controller
 
             $this->groupStore->save($group);
 
-            $response = new b8\Http\Response\RedirectResponse();
+            $response = new RedirectResponse();
             $response->setHeader('Location', APP_URL.'group');
 
             return $response;
@@ -112,7 +115,7 @@ class GroupController extends Controller
     /**
      * Delete a project group.
      * @param $groupId
-     * @return b8\Http\Response\RedirectResponse
+     * @return RedirectResponse
      */
     public function delete($groupId)
     {
@@ -120,7 +123,7 @@ class GroupController extends Controller
         $group = $this->groupStore->getById($groupId);
 
         $this->groupStore->delete($group);
-        $response = new b8\Http\Response\RedirectResponse();
+        $response = new RedirectResponse();
         $response->setHeader('Location', APP_URL.'group');
         return $response;
     }

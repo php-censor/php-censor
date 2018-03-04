@@ -6,6 +6,7 @@ use b8;
 use PHPCensor\Helper\Email;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Controller;
+use PHPCensor\Http\Response\RedirectResponse;
 use PHPCensor\Security\Authentication\Service;
 use PHPCensor\Store\UserStore;
 use PHPCensor\Store\Factory;
@@ -48,7 +49,7 @@ class SessionController extends Controller
             if ($user) {
                 $_SESSION['php-censor-user-id'] = $user->getId();
 
-                $response = new b8\Http\Response\RedirectResponse();
+                $response = new RedirectResponse();
                 $response->setHeader('Location', $this->getLoginRedirect());
 
                 return $response;
@@ -108,7 +109,7 @@ class SessionController extends Controller
                         );
                     }
 
-                    $response = new b8\Http\Response\RedirectResponse();
+                    $response = new RedirectResponse();
                     $response->setHeader('Location', $this->getLoginRedirect());
 
                     return $response;
@@ -176,7 +177,7 @@ class SessionController extends Controller
             true
         );
 
-        $response = new b8\Http\Response\RedirectResponse();
+        $response = new RedirectResponse();
         $response->setHeader('Location', APP_URL);
         return $response;
     }
@@ -237,7 +238,7 @@ class SessionController extends Controller
 
             $_SESSION['php-censor-user-id'] = $user->getId();
 
-            $response = new b8\Http\Response\RedirectResponse();
+            $response = new RedirectResponse();
             $response->setHeader('Location', APP_URL);
             return $response;
         }

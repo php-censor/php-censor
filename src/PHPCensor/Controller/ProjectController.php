@@ -13,7 +13,7 @@ use PHPCensor\Helper\SshKey;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Service\ProjectService;
 use PHPCensor\Model\Build;
-use b8\Http\Response\RedirectResponse;
+use PHPCensor\Http\Response\RedirectResponse;
 use PHPCensor\View;
 use PHPCensor\Store\Factory;
 
@@ -58,7 +58,7 @@ class ProjectController extends PHPCensor\Controller
     /**
      * @param int $projectId
      *
-     * @return b8\Http\Response
+     * @return PHPCensor\Http\Response
      */
     public function ajaxBuilds($projectId)
     {
@@ -581,7 +581,7 @@ class ProjectController extends PHPCensor\Controller
     {
         $github = new Github();
 
-        $response = new b8\Http\Response\JsonResponse();
+        $response = new PHPCensor\Http\Response\JsonResponse();
         $response->setContent($github->getRepositories());
 
         return $response;

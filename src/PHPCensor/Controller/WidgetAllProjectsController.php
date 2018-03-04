@@ -7,7 +7,7 @@ use PHPCensor\Controller;
 use PHPCensor\Store\Factory;
 use PHPCensor\View;
 use PHPCensor\Model\Project;
-use b8\Http\Response;
+use PHPCensor\Http\Response;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\ProjectStore;
 use PHPCensor\Store\ProjectGroupStore;

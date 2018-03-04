@@ -2,8 +2,8 @@
 
 namespace PHPCensor\Controller;
 
-use b8\Http\Response;
-use b8\Http\Response\RedirectResponse;
+use PHPCensor\Http\Response;
+use PHPCensor\Http\Response\RedirectResponse;
 use PHPCensor\Exception\HttpException\NotFoundException;
 use PHPCensor\Store\Factory;
 use PHPCensor\BuildFactory;

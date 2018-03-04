@@ -14,8 +14,8 @@ use PHPCensor\Controller;
 use PHPCensor\Config;
 use PHPCensor\Exception\HttpException\NotFoundException;
 use PHPCensor\Store\Factory;
-use b8\Http\Request;
-use b8\Http\Response;
+use PHPCensor\Http\Request;
+use PHPCensor\Http\Response;
 
 /**
  * Webhook Controller - Processes webhook pings from BitBucket, Github, Gitlab, Gogs, etc.
@@ -70,7 +70,7 @@ class WebhookController extends Controller
      * @param string $action
      * @param mixed $actionParams
      *
-     * @return \b8\Http\Response
+     * @return Response
      */
     public function handleAction($action, $actionParams)
     {

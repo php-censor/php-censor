@@ -10,13 +10,13 @@ class WebhookControllerTest extends \PHPUnit\Framework\TestCase
     {
         $webController = new WebhookController(
             $this->prophesize('PHPCensor\Config')->reveal(),
-            $this->prophesize('b8\Http\Request')->reveal(),
-            $this->prophesize('b8\Http\Response')->reveal()
+            $this->prophesize('PHPCensor\Http\Request')->reveal(),
+            $this->prophesize('PHPCensor\Http\Response')->reveal()
         );
 
         $error = $webController->handleAction('test', []);
 
-        self::assertInstanceOf('b8\Http\Response\JsonResponse', $error);
+        self::assertInstanceOf('PHPCensor\Http\Response\JsonResponse', $error);
 
         $responseData = $error->getData();
         self::assertEquals(500, $responseData['code']);

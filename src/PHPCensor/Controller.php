@@ -3,8 +3,8 @@
 namespace PHPCensor;
 
 use PHPCensor\Exception\HttpException\ForbiddenException;
-use b8\Http\Request;
-use b8\Http\Response;
+use PHPCensor\Http\Request;
+use PHPCensor\Http\Response;
 use PHPCensor\Store\Factory;
 use PHPCensor\Model\User;
 use PHPCensor\Store\UserStore;

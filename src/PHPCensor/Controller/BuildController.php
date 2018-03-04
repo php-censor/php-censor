@@ -3,11 +3,12 @@
 namespace PHPCensor\Controller;
 
 use PHPCensor\Exception\HttpException\NotFoundException;
-use b8\Http\Response\JsonResponse;
+use PHPCensor\Http\Response\JsonResponse;
 use JasonGrimes\Paginator;
 use PHPCensor\BuildFactory;
 use PHPCensor\Helper\AnsiConverter;
 use PHPCensor\Helper\Lang;
+use PHPCensor\Http\Response\RedirectResponse;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\User;
 use PHPCensor\Service\BuildService;
@@ -251,7 +252,7 @@ class BuildController extends Controller
             $_SESSION['global_error'] = Lang::get('add_to_queue_failed');
         }
 
-        $response = new b8\Http\Response\RedirectResponse();
+        $response = new RedirectResponse();
         $response->setHeader('Location', APP_URL.'build/view/' . $build->getId());
 
         return $response;
@@ -272,7 +273,7 @@ class BuildController extends Controller
 
         $this->buildService->deleteBuild($build);
 
-        $response = new b8\Http\Response\RedirectResponse();
+        $response = new RedirectResponse();
         $response->setHeader('Location', APP_URL.'project/view/' . $build->getProjectId());
 
         return $response;
