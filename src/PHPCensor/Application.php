@@ -2,21 +2,71 @@
 
 namespace PHPCensor;
 
-use b8;
 use b8\Exception\HttpException;
 use b8\Http\Response;
 use b8\Http\Response\RedirectResponse;
 use PHPCensor\Store\Factory;
+use b8\Exception\HttpException\NotFoundException;
+use b8\Http\Request;
+use b8\Http\Router;
 
 /**
  * @author Dan Cryer <dan@block8.co.uk>
  */
-class Application extends b8\Application
+class Application
 {
     /**
-     * @var \PHPCensor\Controller
+     * @var array
+     */
+    protected $route;
+
+    /**
+     * @var Controller
      */
     protected $controller;
+
+    /**
+     * @var Request
+     */
+    protected $request;
+
+    /**
+     * @var Response
+     */
+    protected $response;
+
+    /**
+     * @var Config
+     */
+    protected $config;
+
+    /**
+     * @var Router
+     */
+    protected $router;
+
+    /**
+     * @param Config $config
+     *
+     * @param Request|null $request
+     */
+    public function __construct(Config $config, Request $request = null)
+    {
+        $this->config = $config;
+        $this->response = new Response();
+
+        if (!is_null($request)) {
+            $this->request = $request;
+        } else {
+            $this->request = new Request();
+        }
+
+        $this->router = new Router($this, $this->request, $this->config);
+
+        if (method_exists($this, 'init')) {
+            $this->init();
+        }
+    }
 
     /**
      * Initialise Application - Handles session verification, routing, etc.
@@ -67,6 +117,35 @@ class Application extends b8\Application
     }
 
     /**
+     * @return Response
+     *
+     * @throws NotFoundException
+     */
+    protected function handleRequestInner()
+    {
+        $this->route = $this->router->dispatch();
+
+        if (!empty($this->route['callback'])) {
+            $callback = $this->route['callback'];
+
+            if (!$callback($this->route, $this->response)) {
+                return $this->response;
+            }
+        }
+
+        if (!$this->controllerExists($this->route)) {
+            throw new NotFoundException('Controller ' . $this->toPhpName($this->route['controller']) . ' does not exist!');
+        }
+
+        $action = lcfirst($this->toPhpName($this->route['action']));
+        if (!$this->getController()->hasAction($action)) {
+            throw new NotFoundException('Controller ' . $this->toPhpName($this->route['controller']) . ' does not have action ' . $action . '!');
+        }
+
+        return $this->getController()->handleAction($action, $this->route['args']);
+    }
+
+    /**
      * Handle an incoming web request.
      *
      * @return Response
@@ -74,7 +153,7 @@ class Application extends b8\Application
     public function handleRequest()
     {
         try {
-            $this->response = parent::handleRequest();
+            $this->response = $this->handleRequestInner();
         } catch (HttpException $ex) {
             $this->config->set('page_title', 'Error');
 
@@ -108,11 +187,14 @@ class Application extends b8\Application
      *
      * @param string $class
      *
-     * @return b8\Controller
+     * @return Controller
      */
     protected function loadController($class)
     {
-        $controller                     = parent::loadController($class);
+        /** @var Controller $controller */
+        $controller = new $class($this->config, $this->request, $this->response);
+        $controller->init();
+
         $controller->layout             = new View('layout');
         $controller->layout->title      = 'PHP Censor';
         $controller->layout->breadcrumb = [];
@@ -164,5 +246,69 @@ class Application extends b8\Application
         }
 
         return false;
+    }
+
+    /**
+     * @return Controller
+     */
+    public function getController()
+    {
+        if (empty($this->controller)) {
+            $controllerClass  = $this->getControllerClass($this->route);
+            $this->controller = $this->loadController($controllerClass);
+        }
+
+        return $this->controller;
+    }
+
+    /**
+     * @param array $route
+     *
+     * @return bool
+     */
+    protected function controllerExists($route)
+    {
+        return class_exists($this->getControllerClass($route));
+    }
+
+    /**
+     * @param array $route
+     *
+     * @return string
+     */
+    protected function getControllerClass($route)
+    {
+        $namespace  = $this->toPhpName($route['namespace']);
+        $controller = $this->toPhpName($route['controller']);
+
+        return $this->config->get('b8.app.namespace') . '\\' . $namespace . '\\' . $controller . 'Controller';
+    }
+
+    /**
+     * @param array $route
+     *
+     * @return boolean
+     */
+    public function isValidRoute(array $route)
+    {
+        if ($this->controllerExists($route)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param string $string
+     *
+     * @return string
+     */
+    protected function toPhpName($string)
+    {
+        $string = str_replace('-', ' ', $string);
+        $string = ucwords($string);
+        $string = str_replace(' ', '', $string);
+
+        return $string;
     }
 }

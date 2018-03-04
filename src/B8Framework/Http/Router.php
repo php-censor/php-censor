@@ -2,7 +2,7 @@
 
 namespace b8\Http;
 
-use b8\Application;
+use PHPCensor\Application;
 use PHPCensor\Config;
 
 class Router
@@ -18,7 +18,7 @@ class Router
     protected $config;
 
     /**
-     * @var \b8\Application
+     * @var Application
      */
     protected $application;
 
