@@ -6,7 +6,7 @@ use Exception;
 use PDO;
 
 use b8\Config;
-use b8\Store\Factory;
+use PHPCensor\Store\Factory;
 use PHPCensor\Model\ProjectGroup;
 use PHPCensor\Store\UserStore;
 use PHPCensor\Store\ProjectGroupStore;

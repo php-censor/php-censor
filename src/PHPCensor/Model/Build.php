@@ -7,7 +7,7 @@ use PHPCensor\Store\BuildErrorStore;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Parser as YamlParser;
 use PHPCensor\Model;
-use b8\Store\Factory;
+use PHPCensor\Store\Factory;
 
 /**
  * @author Dan Cryer <dan@block8.co.uk>
@@ -306,8 +306,6 @@ class Build extends Model
      */
     public function setCreateDate(\DateTime $value)
     {
-        $this->validateDate('create_date', $value);
-
         $stringValue = $value->format('Y-m-d H:i:s');
 
         if ($this->data['create_date'] === $stringValue) {
@@ -338,8 +336,6 @@ class Build extends Model
      */
     public function setStartDate(\DateTime $value)
     {
-        $this->validateDate('start_date', $value);
-
         $stringValue = $value->format('Y-m-d H:i:s');
 
         if ($this->data['start_date'] === $stringValue) {
@@ -370,8 +366,6 @@ class Build extends Model
      */
     public function setFinishDate(\DateTime $value)
     {
-        $this->validateDate('finish_date', $value);
-
         $stringValue = $value->format('Y-m-d H:i:s');
 
         if ($this->data['finish_date'] === $stringValue) {
@@ -644,7 +638,7 @@ class Build extends Model
             return null;
         }
 
-        return Factory::getStore('Project', 'PHPCensor')->getById($key);
+        return Factory::getStore('Project')->getById($key);
     }
 
     /**
@@ -654,7 +648,7 @@ class Build extends Model
      */
     public function getBuildBuildErrors()
     {
-        return Factory::getStore('BuildError', 'PHPCensor')->getByBuildId($this->getId());
+        return Factory::getStore('BuildError')->getByBuildId($this->getId());
     }
 
     /**
@@ -664,7 +658,7 @@ class Build extends Model
      */
     public function getBuildBuildMetas()
     {
-        return Factory::getStore('BuildMeta', 'PHPCensor')->getByBuildId($this->getId());
+        return Factory::getStore('BuildMeta')->getByBuildId($this->getId());
     }
 
     /**

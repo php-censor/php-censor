@@ -3,7 +3,7 @@
 namespace PHPCensor\Model;
 
 use PHPCensor\Model;
-use b8\Store\Factory;
+use PHPCensor\Store\Factory;
 
 class ProjectGroup extends Model
 {
@@ -115,8 +115,6 @@ class ProjectGroup extends Model
      */
     public function setCreateDate(\DateTime $value)
     {
-        $this->validateDate('create_date', $value);
-
         $stringValue = $value->format('Y-m-d H:i:s');
 
         if ($this->data['create_date'] === $stringValue) {
@@ -162,6 +160,6 @@ class ProjectGroup extends Model
      */
     public function getGroupProjects()
     {
-        return Factory::getStore('Project', 'PHPCensor')->getByGroupId($this->getId(), false);
+        return Factory::getStore('Project')->getByGroupId($this->getId(), false);
     }
 }

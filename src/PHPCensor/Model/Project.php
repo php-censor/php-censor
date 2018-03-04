@@ -3,8 +3,7 @@
 namespace PHPCensor\Model;
 
 use PHPCensor\Model;
-use b8\Store;
-use b8\Store\Factory;
+use PHPCensor\Store\Factory;
 use PHPCensor\Store\EnvironmentStore;
 use Symfony\Component\Yaml\Parser as YamlParser;
 use Symfony\Component\Yaml\Dumper as YamlDumper;
@@ -443,7 +442,7 @@ class Project extends Model
             return null;
         }
 
-        return Factory::getStore('ProjectGroup', 'PHPCensor')->getById($groupId);
+        return Factory::getStore('ProjectGroup')->getById($groupId);
     }
 
     /**
@@ -453,7 +452,7 @@ class Project extends Model
      */
     public function getProjectBuilds()
     {
-        return Factory::getStore('Build', 'PHPCensor')->getByProjectId($this->getId());
+        return Factory::getStore('Build')->getByProjectId($this->getId());
     }
 
     /**
@@ -473,7 +472,7 @@ class Project extends Model
         }
 
         $order  = ['id' => 'DESC'];
-        $builds = Store\Factory::getStore('Build')->getWhere($criteria, 1, 0, $order);
+        $builds = Factory::getStore('Build')->getWhere($criteria, 1, 0, $order);
 
         if (is_array($builds['items']) && count($builds['items'])) {
             $latest = array_shift($builds['items']);
@@ -497,7 +496,7 @@ class Project extends Model
     {
         $criteria = ['branch' => $branch, 'project_id' => $this->getId()];
         $order    = ['id' => 'DESC'];
-        $builds   = Store\Factory::getStore('Build')->getWhere($criteria, 1, 1, $order);
+        $builds   = Factory::getStore('Build')->getWhere($criteria, 1, 1, $order);
 
         if (is_array($builds['items']) && count($builds['items'])) {
             $previous = array_shift($builds['items']);
@@ -578,8 +577,6 @@ class Project extends Model
      */
     public function setCreateDate(\DateTime $value)
     {
-        $this->validateDate('create_date', $value);
-
         $stringValue = $value->format('Y-m-d H:i:s');
 
         if ($this->data['create_date'] === $stringValue) {
@@ -678,7 +675,7 @@ class Project extends Model
     protected function getEnvironmentStore()
     {
         /** @var EnvironmentStore $store */
-        $store = Factory::getStore('Environment', 'PHPCensor');
+        $store = Factory::getStore('Environment');
         return $store;
     }
 

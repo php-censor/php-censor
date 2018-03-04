@@ -6,6 +6,7 @@ use b8;
 use b8\Exception\HttpException;
 use b8\Http\Response;
 use b8\Http\Response\RedirectResponse;
+use PHPCensor\Store\Factory;
 
 /**
  * @author Dan Cryer <dan@block8.co.uk>
@@ -29,7 +30,7 @@ class Application extends b8\Application
         // Inlined as a closure to fix "using $this when not in object context" on 5.3
         $validateSession = function () {
             if (!empty($_SESSION['php-censor-user-id'])) {
-                $user = b8\Store\Factory::getStore('User')->getByPrimaryKey($_SESSION['php-censor-user-id']);
+                $user = Factory::getStore('User')->getByPrimaryKey($_SESSION['php-censor-user-id']);
 
                 if ($user) {
                     return true;
@@ -128,17 +129,17 @@ class Application extends b8\Application
     protected function setLayoutVariables(View &$layout)
     {
         $groups = [];
-        $groupStore = b8\Store\Factory::getStore('ProjectGroup');
+        $groupStore = Factory::getStore('ProjectGroup');
         $groupList = $groupStore->getWhere([], 100, 0, ['title' => 'ASC']);
 
         foreach ($groupList['items'] as $group) {
             $thisGroup             = ['title' => $group->getTitle()];
-            $projects              = b8\Store\Factory::getStore('Project')->getByGroupId($group->getId(), false);
+            $projects              = Factory::getStore('Project')->getByGroupId($group->getId(), false);
             $thisGroup['projects'] = $projects['items'];
             $groups[]              = $thisGroup;
         }
 
-        $archived_projects         = b8\Store\Factory::getStore('Project')->getAll(true);
+        $archived_projects         = Factory::getStore('Project')->getAll(true);
         $layout->archived_projects = $archived_projects['items'];
         $layout->groups            = $groups;
     }
@@ -155,7 +156,7 @@ class Application extends b8\Application
         $defaultUserId = (integer)$config->get('php-censor.security.default_user_id', 1);
 
         if ($disableAuth && $defaultUserId) {
-            $user = b8\Store\Factory::getStore('User')->getByPrimaryKey($defaultUserId);
+            $user = Factory::getStore('User')->getByPrimaryKey($defaultUserId);
 
             if ($user) {
                 return true;

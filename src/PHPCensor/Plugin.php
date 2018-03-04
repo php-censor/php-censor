@@ -45,7 +45,7 @@ abstract class Plugin
         $this->build   = $build;
         $this->options = $options;
 
-        if (!empty($options['priority_path']) && in_array($options['priority_path'], ['global', 'system'])) {
+        if (!empty($options['priority_path']) && in_array($options['priority_path'], ['global', 'system'], true)) {
             $this->priorityPath = $options['priority_path'];
         }
 
@@ -81,6 +81,14 @@ abstract class Plugin
     public function getBuilder()
     {
         return $this->builder;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPriorityPath()
+    {
+        return $this->priorityPath;
     }
 
     /**

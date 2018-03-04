@@ -1,7 +1,7 @@
 <?php
 
 use Phinx\Migration\AbstractMigration;
-use b8\Store\Factory;
+use PHPCensor\Store\Factory;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Model\Build;
 

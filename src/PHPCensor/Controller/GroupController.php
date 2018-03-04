@@ -8,6 +8,7 @@ use PHPCensor\Controller;
 use PHPCensor\Model\ProjectGroup;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Model\User;
+use PHPCensor\Store\Factory;
 
 /**
  * Project Controller - Allows users to create, edit and view projects.
@@ -26,7 +27,7 @@ class GroupController extends Controller
      */
     public function init()
     {
-        $this->groupStore = b8\Store\Factory::getStore('ProjectGroup');
+        $this->groupStore = Factory::getStore('ProjectGroup');
     }
 
     /**
@@ -44,8 +45,8 @@ class GroupController extends Controller
                 'title' => $group->getTitle(),
                 'id'    => $group->getId(),
             ];
-            $projects_active   = b8\Store\Factory::getStore('Project')->getByGroupId($group->getId(), false);
-            $projects_archived = b8\Store\Factory::getStore('Project')->getByGroupId($group->getId(), true);
+            $projects_active   = Factory::getStore('Project')->getByGroupId($group->getId(), false);
+            $projects_archived = Factory::getStore('Project')->getByGroupId($group->getId(), true);
 
             $thisGroup['projects'] = array_merge($projects_active['items'], $projects_archived['items']);
             $groups[]              = $thisGroup;

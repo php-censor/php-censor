@@ -24,32 +24,8 @@
             <directory suffix="Test.php">./tests/B8Framework</directory>
         </testsuite>
 
-        <testsuite name="PHP Censor Helper Test Suite">
-            <directory suffix="Test.php">./tests/PHPCensor/Helper</directory>
-        </testsuite>
-        <testsuite name="PHP Censor Controller Test Suite">
-            <directory suffix="Test.php">./tests/PHPCensor/Controller</directory>
-        </testsuite>
-        <testsuite name="PHP Censor Logging Test Suite">
-            <directory suffix="Test.php">./tests/PHPCensor/Logging</directory>
-        </testsuite>
-        <testsuite name="PHP Censor Model Test Suite">
-            <directory suffix="Test.php">./tests/PHPCensor/Model</directory>
-        </testsuite>
-        <testsuite name="PHP Censor Plugin Test Suite">
-            <directory suffix="Test.php">./tests/PHPCensor/Plugin</directory>
-        </testsuite>
-        <testsuite name="PHP Censor Service Test Suite">
-            <directory suffix="Test.php">./tests/PHPCensor/Service</directory>
-        </testsuite>
-        <testsuite name="PHP Censor Command Test Suite">
-            <directory suffix="Test.php">./tests/PHPCensor/Command</directory>
-        </testsuite>
-        <testsuite name="PHP Censor ProcessControl Test Suite">
-            <directory suffix="Test.php">./tests/PHPCensor/ProcessControl</directory>
-        </testsuite>
-        <testsuite name="PHP Censor Security Test Suite">
-            <directory suffix="Test.php">./tests/PHPCensor/Security</directory>
+        <testsuite name="PHP Common Test Suite">
+            <directory suffix="Test.php">./tests/PHPCensor</directory>
         </testsuite>
     </testsuites>
     <filter>

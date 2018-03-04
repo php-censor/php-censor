@@ -3,7 +3,7 @@
 use Phinx\Migration\AbstractMigration;
 use PHPCensor\Model\BuildMeta;
 use PHPCensor\Model\BuildError;
-use b8\Store\Factory;
+use PHPCensor\Store\Factory;
 
 class ConvertErrors extends AbstractMigration
 {

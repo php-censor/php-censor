@@ -3,7 +3,6 @@
 namespace PHPCensor\Store;
 
 use b8\Database;
-use b8\Store\Factory;
 use PHPCensor\Model\Build;
 use b8\Exception\HttpException;
 use PHPCensor\Model\BuildMeta;

@@ -5,7 +5,6 @@ namespace PHPCensor\Controller;
 use b8;
 use b8\Exception\HttpException\NotFoundException;
 use b8\Form;
-use b8\Store;
 use JasonGrimes\Paginator;
 use PHPCensor;
 use PHPCensor\BuildFactory;
@@ -17,6 +16,7 @@ use PHPCensor\Service\ProjectService;
 use PHPCensor\Model\Build;
 use b8\Http\Response\RedirectResponse;
 use PHPCensor\View;
+use PHPCensor\Store\Factory;
 
 /**
  * Project Controller - Allows users to create, edit and view projects.
@@ -50,8 +50,8 @@ class ProjectController extends PHPCensor\Controller
      */
     public function init()
     {
-        $this->buildStore     = Store\Factory::getStore('Build');
-        $this->projectStore   = Store\Factory::getStore('Project');
+        $this->buildStore     = Factory::getStore('Build');
+        $this->projectStore   = Factory::getStore('Project');
         $this->projectService = new ProjectService($this->projectStore);
         $this->buildService   = new BuildService($this->buildStore);
     }
@@ -495,7 +495,7 @@ class ProjectController extends PHPCensor\Controller
         $field->setClass('form-control')->setContainerClass('form-group')->setValue(1);
 
         $groups = [];
-        $groupStore = b8\Store\Factory::getStore('ProjectGroup');
+        $groupStore = Factory::getStore('ProjectGroup');
         $groupList = $groupStore->getWhere([], 100, 0, ['title' => 'ASC']);
 
         foreach ($groupList['items'] as $group) {

@@ -10,11 +10,11 @@ use PHPCensor\BuildFactory;
 use PHPCensor\Helper\AnsiConverter;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Model\Build;
-use PHPCensor\Model\Project;
 use PHPCensor\Model\User;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Controller;
 use PHPCensor\View;
+use PHPCensor\Store\Factory;
 
 /**
  * Build Controller - Allows users to run and view builds.
@@ -38,7 +38,7 @@ class BuildController extends Controller
      */
     public function init()
     {
-        $this->buildStore = b8\Store\Factory::getStore('Build');
+        $this->buildStore = Factory::getStore('Build');
         $this->buildService = new BuildService($this->buildStore);
     }
 
@@ -81,7 +81,7 @@ class BuildController extends Controller
         }
 
         /** @var \PHPCensor\Store\BuildErrorStore $errorStore */
-        $errorStore = b8\Store\Factory::getStore('BuildError');
+        $errorStore = Factory::getStore('BuildError');
 
         $this->view->uiPlugins = $this->getUiPlugins();
         $this->view->build     = $build;
@@ -125,7 +125,7 @@ class BuildController extends Controller
         $delete = Lang::get('delete_build');
         $deleteLink = APP_URL . 'build/delete/' . $build->getId();
 
-        $project = b8\Store\Factory::getStore('Project')->getByPrimaryKey($build->getProjectId());
+        $project = Factory::getStore('Project')->getByPrimaryKey($build->getProjectId());
 
         $actions = '';
         if (!$project->getArchived()) {
@@ -183,7 +183,7 @@ class BuildController extends Controller
         $data['duration']    = $build->getDuration();
 
         /** @var \PHPCensor\Store\BuildErrorStore $errorStore */
-        $errorStore = b8\Store\Factory::getStore('BuildError');
+        $errorStore = Factory::getStore('BuildError');
         $errors     = $errorStore->getByBuildId($build->getId(), $perPage, $start, $plugin, $severity, $isNew);
 
         $errorView         = new View('Build/errors');
@@ -240,7 +240,7 @@ class BuildController extends Controller
     public function rebuild($buildId)
     {
         $copy    = BuildFactory::getBuildById($buildId);
-        $project = b8\Store\Factory::getStore('Project')->getByPrimaryKey($copy->getProjectId());
+        $project = Factory::getStore('Project')->getByPrimaryKey($copy->getProjectId());
 
         if (!$copy || $project->getArchived()) {
             throw new NotFoundException(Lang::get('build_x_not_found', $buildId));

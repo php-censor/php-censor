@@ -6,7 +6,7 @@ use b8\Config;
 use b8\Exception\HttpException\ForbiddenException;
 use b8\Http\Request;
 use b8\Http\Response;
-use b8\Store\Factory;
+use PHPCensor\Store\Factory;
 use PHPCensor\Model\User;
 use PHPCensor\Store\UserStore;
 

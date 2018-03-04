@@ -1,20 +1,20 @@
 <?php
 
-namespace b8\Store;
+namespace PHPCensor\Store;
 
-use b8\Config;
+use PHPCensor\Store;
 
 class Factory
 {
     /**
-     * @var \b8\Store\Factory
+     * @var Factory
      */
     protected static $instance;
 
     /**
      * A collection of the stores currently loaded by the factory.
      *
-     * @var \b8\Store[]
+     * @var Store[]
      */
     protected $loadedStores = [];
 
@@ -32,14 +32,13 @@ class Factory
 
     /**
      * @param string $storeName Store name (should match a model name).
-     * @param string $namespace
      *
-     * @return \b8\Store
+     * @return Store
      */
-    public static function getStore($storeName, $namespace = null)
+    public static function getStore($storeName)
     {
         $factory = self::getInstance();
-        return $factory->loadStore($storeName, $namespace);
+        return $factory->loadStore($storeName);
     }
 
     protected function __construct()
@@ -48,19 +47,15 @@ class Factory
 
     /**
      * @param string $store
-     * @param string $namespace
      *
-     * @return \b8\Store;
+     * @return Store;
      */
-    public function loadStore($store, $namespace = null)
+    public function loadStore($store)
     {
         if (!isset($this->loadedStores[$store])) {
-            $namespace = is_null($namespace)
-                ? Config::getInstance()->get('b8.app.namespace')
-                : $namespace;
+            $class = 'PHPCensor\\Store\\' . $store . 'Store';
+            $obj   = new $class();
 
-            $class                      = $namespace . '\\Store\\' . $store . 'Store';
-            $obj                        = new $class();
             $this->loadedStores[$store] = $obj;
         }
 

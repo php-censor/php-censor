@@ -8,6 +8,7 @@ use PHPCensor\Helper\Lang;
 use PHPCensor\Controller;
 use PHPCensor\Security\Authentication\Service;
 use PHPCensor\Store\UserStore;
+use PHPCensor\Store\Factory;
 
 /**
  * Session Controller - Handles user login / logout.
@@ -33,7 +34,7 @@ class SessionController extends Controller
     {
         $this->response->disableLayout();
 
-        $this->userStore      = b8\Store\Factory::getStore('User');
+        $this->userStore      = Factory::getStore('User');
         $this->authentication = Service::getInstance();
     }
 

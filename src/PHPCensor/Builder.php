@@ -6,8 +6,8 @@ use PHPCensor\Helper\BuildInterpolator;
 use PHPCensor\Helper\MailerFactory;
 use PHPCensor\Logging\BuildLogger;
 use PHPCensor\Model\Build;
+use PHPCensor\Store\Factory;
 use b8\Config;
-use b8\Store\Factory;
 use PHPCensor\Store\BuildErrorWriter;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
@@ -103,7 +103,7 @@ class Builder implements LoggerAwareInterface
     public function __construct(Build $build, LoggerInterface $logger = null)
     {
         $this->build = $build;
-        $this->store = Factory::getStore('Build', 'PHPCensor');
+        $this->store = Factory::getStore('Build');
 
         $this->buildLogger    = new BuildLogger($logger, $build);
         $pluginFactory        = $this->buildPluginFactory($build);

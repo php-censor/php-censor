@@ -10,6 +10,7 @@ use PHPCensor\Helper\Lang;
 use PHPCensor\Model\User;
 use PHPCensor\Service\UserService;
 use PHPCensor\View;
+use PHPCensor\Store\Factory;
 
 /**
  * User Controller - Allows an administrator to view, add, edit and delete users.
@@ -33,7 +34,7 @@ class UserController extends Controller
      */
     public function init()
     {
-        $this->userStore = b8\Store\Factory::getStore('User');
+        $this->userStore = Factory::getStore('User');
         $this->userService = new UserService($this->userStore);
     }
 

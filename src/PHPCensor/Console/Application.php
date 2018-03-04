@@ -3,7 +3,7 @@
 namespace PHPCensor\Console;
 
 use b8\Config;
-use b8\Store\Factory;
+use PHPCensor\Store\Factory;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;

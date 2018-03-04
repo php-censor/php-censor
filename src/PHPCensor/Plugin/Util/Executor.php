@@ -2,7 +2,7 @@
 
 namespace PHPCensor\Plugin\Util;
 
-use b8\Store\Factory as StoreFactory;
+use PHPCensor\Store\Factory as StoreFactory;
 use Exception;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Logging\BuildLogger;
@@ -162,7 +162,7 @@ class Executor
         $success = true;
 
         foreach ($plugins as $plugin => $options) {
-            $this->logger->log("\n" . 
+            $this->logger->log("\n" .
                 sprintf('RUNNING PLUGIN: %s', Lang::get($plugin)) . ' (' .
                 'Stage' . ': ' . ucfirst($stage) . ')'
             );

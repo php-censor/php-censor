@@ -3,7 +3,7 @@
 namespace PHPCensor\Model;
 
 use PHPCensor\Model;
-use b8\Store\Factory;
+use PHPCensor\Store\Factory;
 
 class BuildError extends Model
 {
@@ -326,7 +326,6 @@ class BuildError extends Model
     public function setCreateDate(\DateTime $value)
     {
         $this->validateNotNull('create_date', $value);
-        $this->validateDate('create_date', $value);
 
         $stringValue = $value->format('Y-m-d H:i:s');
 
@@ -385,7 +384,7 @@ class BuildError extends Model
             return null;
         }
 
-        return Factory::getStore('Build', 'PHPCensor')->getById($buildId);
+        return Factory::getStore('Build')->getById($buildId);
     }
 
     /**

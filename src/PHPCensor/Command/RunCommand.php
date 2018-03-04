@@ -11,7 +11,7 @@ use PHPCensor\Store\BuildStore;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use b8\Store\Factory;
+use PHPCensor\Store\Factory;
 use PHPCensor\Builder;
 use PHPCensor\BuildFactory;
 use PHPCensor\Model\Build;

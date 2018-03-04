@@ -3,7 +3,7 @@
 namespace PHPCensor\Model;
 
 use PHPCensor\Model;
-use b8\Store\Factory;
+use PHPCensor\Store\Factory;
 
 class BuildMeta extends Model
 {
@@ -167,6 +167,6 @@ class BuildMeta extends Model
             return null;
         }
 
-        return Factory::getStore('Build', 'PHPCensor')->getById($buildId);
+        return Factory::getStore('Build')->getById($buildId);
     }
 }

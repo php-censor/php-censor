@@ -2,7 +2,7 @@
 
 namespace PHPCensor\Worker;
 
-use b8\Store\Factory;
+use PHPCensor\Store\Factory;
 use Monolog\Logger;
 use Pheanstalk\Job;
 use Pheanstalk\Pheanstalk;

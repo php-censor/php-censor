@@ -3,6 +3,7 @@
 namespace Tests\PHPCensor\Plugin;
 
 use b8\Config;
+use PHPCensor\Plugin;
 use PHPCensor\Plugin\Email as EmailPlugin;
 use PHPCensor\Model\Build;
 
@@ -161,7 +162,9 @@ class EmailTest extends \PHPUnit\Framework\TestCase
 
     public function testBuildsBasicEmails()
     {
-        $this->loadEmailPluginWithOptions(['addresses' => ['test-receiver@example.com']], Build::STATUS_SUCCESS);
+        $this->loadEmailPluginWithOptions([
+            'addresses' => ['test-receiver@example.com']
+        ], Build::STATUS_SUCCESS);
 
         $this->testedEmailPlugin->execute();
 
@@ -170,7 +173,9 @@ class EmailTest extends \PHPUnit\Framework\TestCase
 
     public function testBuildsDefaultEmails()
     {
-        $this->loadEmailPluginWithOptions(['default_mailto_address' => 'default-mailto-address@example.com'], Build::STATUS_SUCCESS);
+        $this->loadEmailPluginWithOptions([
+            'default_mailto_address' => 'default-mailto-address@example.com'
+        ], Build::STATUS_SUCCESS);
 
         $this->testedEmailPlugin->execute();
 
@@ -179,7 +184,9 @@ class EmailTest extends \PHPUnit\Framework\TestCase
 
     public function testExecute_UniqueRecipientsFromWithCommitter()
     {
-        $this->loadEmailPluginWithOptions(['addresses' => ['test-receiver@example.com', 'test-receiver2@example.com']]);
+        $this->loadEmailPluginWithOptions([
+            'addresses' => ['test-receiver@example.com', 'test-receiver2@example.com']
+        ]);
 
         $returnValue = $this->testedEmailPlugin->execute();
         self::assertTrue($returnValue);
@@ -283,6 +290,8 @@ class EmailTest extends \PHPUnit\Framework\TestCase
             Build::STATUS_SUCCESS
         );
 
+        self::assertEquals('local', $this->testedEmailPlugin->getPriorityPath());
+
         $this->testedEmailPlugin->execute();
 
         self::assertContains('Passing', $this->message['subject']);
@@ -293,10 +302,13 @@ class EmailTest extends \PHPUnit\Framework\TestCase
     {
         $this->loadEmailPluginWithOptions(
             [
-                'addresses' => ['test-receiver@example.com']
+                'addresses'     => ['test-receiver@example.com'],
+                'priority_path' => 'global',
             ],
             Build::STATUS_FAILED
         );
+
+        self::assertEquals('global', $this->testedEmailPlugin->getPriorityPath());
 
         $this->testedEmailPlugin->execute();
 
@@ -308,11 +320,14 @@ class EmailTest extends \PHPUnit\Framework\TestCase
     {
         $this->loadEmailPluginWithOptions(
             [
-                'addresses' => ['test-receiver@example.com']
+                'addresses'     => ['test-receiver@example.com'],
+                'priority_path' => 'system',
             ],
             Build::STATUS_FAILED,
             1
         );
+
+        self::assertEquals('system', $this->testedEmailPlugin->getPriorityPath());
 
         $returnValue = $this->testedEmailPlugin->execute();
 
@@ -323,14 +338,19 @@ class EmailTest extends \PHPUnit\Framework\TestCase
     {
         $this->loadEmailPluginWithOptions(
             [
-                'addresses' => ['test-receiver@example.com']
+                'addresses' => ['test-receiver@example.com'],
+                'priority_path' => 'Global',
             ],
             Build::STATUS_FAILED,
             0
         );
 
+        self::assertEquals('local', $this->testedEmailPlugin->getPriorityPath());
+
         $returnValue = $this->testedEmailPlugin->execute();
 
         self::assertEquals(false, $returnValue);
+
+        self::assertEquals('', Plugin::pluginName());
     }
 }

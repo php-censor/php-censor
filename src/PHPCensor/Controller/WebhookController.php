@@ -3,7 +3,6 @@
 namespace PHPCensor\Controller;
 
 use b8;
-use b8\Store;
 use Exception;
 use GuzzleHttp\Client;
 use PHPCensor\Helper\Lang;
@@ -15,7 +14,7 @@ use PHPCensor\Store\ProjectStore;
 use b8\Controller;
 use b8\Config;
 use b8\Exception\HttpException\NotFoundException;
-use b8\Store\Factory;
+use PHPCensor\Store\Factory;
 
 /**
  * Webhook Controller - Processes webhook pings from BitBucket, Github, Gitlab, Gogs, etc.
@@ -48,8 +47,8 @@ class WebhookController extends Controller
      */
     public function init()
     {
-        $this->buildStore = Store\Factory::getStore('Build');
-        $this->projectStore = Store\Factory::getStore('Project');
+        $this->buildStore   = Factory::getStore('Build');
+        $this->projectStore = Factory::getStore('Project');
         $this->buildService = new BuildService($this->buildStore);
     }
 
@@ -674,7 +673,7 @@ class WebhookController extends Controller
 
         $envsUpdated = [];
         $envObjects  = $project->getEnvironmentsObjects();
-        $store       = Factory::getStore('Environment', 'PHPCensor');
+        $store       = Factory::getStore('Environment');
         foreach ($envObjects['items'] as $environment) {
             $branches = $environment->getBranches();
             if (in_array($environment->getName(), $envs)) {

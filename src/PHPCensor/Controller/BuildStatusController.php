@@ -4,7 +4,7 @@ namespace PHPCensor\Controller;
 
 use b8;
 use b8\Exception\HttpException\NotFoundException;
-use b8\Store;
+use PHPCensor\Store\Factory;
 use PHPCensor\BuildFactory;
 use PHPCensor\Model\Project;
 use PHPCensor\Model\Build;
@@ -31,8 +31,8 @@ class BuildStatusController extends Controller
     {
         $this->response->disableLayout();
 
-        $this->buildStore   = Store\Factory::getStore('Build');
-        $this->projectStore = Store\Factory::getStore('Project');
+        $this->buildStore   = Factory::getStore('Build');
+        $this->projectStore = Factory::getStore('Project');
     }
 
     /**

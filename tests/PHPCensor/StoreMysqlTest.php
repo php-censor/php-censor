@@ -1,14 +1,27 @@
 <?php
 
-namespace Tests\b8;
+namespace Tests\PHPCensor;
 
 use b8\Config;
 use b8\Database;
-use b8\Store\Factory;
+use PHPCensor\Store\Factory;
 use PHPCensor\Model\Project;
 use PHPCensor\Model\ProjectGroup;
+use PHPCensor\Store;
 
-class StorePostgresqlTest extends \PHPUnit_Extensions_Database_TestCase
+class WrongStore extends Store
+{
+    protected $tableName  = 'project_group';
+
+    protected $modelName  = '\PHPCensor\Model\ProjectGroup';
+
+    public function getByPrimaryKey($key, $useConnection = 'read')
+    {
+        return null;
+    }
+}
+
+class StoreMysqlTest extends \PHPUnit_Extensions_Database_TestCase
 {
     /**
      * @var \PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection|null
@@ -24,25 +37,25 @@ class StorePostgresqlTest extends \PHPUnit_Extensions_Database_TestCase
     {
         parent::__construct($name, $data, $dataName);
 
-        if (extension_loaded('pgsql')) {
+        if (extension_loaded('mysqli')) {
             if (null === $this->connection) {
                 try {
                     $pdo = new \PDO(
-                        'pgsql:host=localhost;dbname=' . POSTGRESQL_DBNAME,
-                        POSTGRESQL_USER,
-                        POSTGRESQL_PASSWORD
+                        'mysql:host=localhost;dbname=' . MYSQL_DBNAME,
+                        MYSQL_USER,
+                        MYSQL_PASSWORD
                     );
 
-                    $this->connection = $this->createDefaultDBConnection($pdo, POSTGRESQL_DBNAME);
+                    $this->connection = $this->createDefaultDBConnection($pdo, MYSQL_DBNAME);
 
                     $this->connection->getConnection()->query('
-                        CREATE TABLE IF NOT EXISTS "project_group" (
-                            "id" SERIAL,
-                            "title" character varying(100) NOT NULL,
-                            "create_date" timestamp without time zone,
-                            "user_id" integer NOT NULL DEFAULT 0,
-                            PRIMARY KEY ("id")
-                        )
+                        CREATE TABLE IF NOT EXISTS `project_group` (
+                            `id`          int(11) NOT NULL AUTO_INCREMENT,
+                            `title`       varchar(100) NOT NULL,
+                            `create_date` datetime,
+                            `user_id`     int(11) NOT NULL DEFAULT 0,
+                            PRIMARY KEY (`id`)
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8
                     ');
                 } catch (\PDOException $ex) {
                     $this->connection = null;
@@ -59,7 +72,7 @@ class StorePostgresqlTest extends \PHPUnit_Extensions_Database_TestCase
     protected function getConnection()
     {
         if (null === $this->connection) {
-            $this->markTestSkipped('Test skipped because PostgreSQL database/user/extension doesn`t exist.');
+            $this->markTestSkipped('Test skipped because MySQL database/user/extension doesn`t exist.');
         }
 
         return $this->connection;
@@ -125,10 +138,10 @@ class StorePostgresqlTest extends \PHPUnit_Extensions_Database_TestCase
                             ['host' => 'localhost'],
                         ],
                     ],
-                    'type'     => Database::POSTGRESQL_TYPE,
-                    'name'     => POSTGRESQL_DBNAME,
-                    'username' => POSTGRESQL_USER,
-                    'password' => POSTGRESQL_PASSWORD,
+                    'type'     => Database::MYSQL_TYPE,
+                    'name'     => MYSQL_DBNAME,
+                    'username' => MYSQL_USER,
+                    'password' => MYSQL_PASSWORD,
                 ],
             ],
         ]);
@@ -145,7 +158,7 @@ class StorePostgresqlTest extends \PHPUnit_Extensions_Database_TestCase
 
     public function testGetWhere()
     {
-        $testStore = Factory::getStore('ProjectGroup', 'PHPCensor');
+        $testStore = Factory::getStore('ProjectGroup');
 
         $data = $testStore->getWhere([], 3, 1, ['id' => 'DESC']);
         self::assertEquals(7, $data['count']);
@@ -177,11 +190,7 @@ class StorePostgresqlTest extends \PHPUnit_Extensions_Database_TestCase
 
     public function testSaveByInsert()
     {
-        $this->connection->getConnection()->query('
-            ALTER SEQUENCE "project_group_id_seq" RESTART WITH 8;
-        ');
-
-        $testStore = Factory::getStore('ProjectGroup', 'PHPCensor');
+        $testStore = Factory::getStore('ProjectGroup');
         $model     = new ProjectGroup();
 
         $model->setTitle('group 8');
@@ -196,11 +205,7 @@ class StorePostgresqlTest extends \PHPUnit_Extensions_Database_TestCase
 
     public function testSaveByUpdate()
     {
-        $this->connection->getConnection()->query('
-            ALTER SEQUENCE "project_group_id_seq" RESTART WITH 8;
-        ');
-
-        $testStore = Factory::getStore('ProjectGroup', 'PHPCensor');
+        $testStore = Factory::getStore('ProjectGroup');
         $model     = $testStore->getByPrimaryKey(7);
 
         $model->setTitle('group 100');
@@ -238,7 +243,7 @@ class StorePostgresqlTest extends \PHPUnit_Extensions_Database_TestCase
 
     public function testDelete()
     {
-        $testStore = Factory::getStore('ProjectGroup', 'PHPCensor');
+        $testStore = Factory::getStore('ProjectGroup');
         $model     = $testStore->getByPrimaryKey(5);
 
         $testStore->delete($model);

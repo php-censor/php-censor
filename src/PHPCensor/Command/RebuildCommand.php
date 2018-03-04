@@ -2,7 +2,7 @@
 
 namespace PHPCensor\Command;
 
-use b8\Store\Factory;
+use PHPCensor\Store\Factory;
 use Monolog\Logger;
 use PHPCensor\Service\BuildService;
 use Symfony\Component\Console\Command\Command;
@@ -12,7 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Re-runs the last run build.
- * 
+ *
  * @author Dan Cryer <dan@block8.co.uk>
  */
 class RebuildCommand extends Command

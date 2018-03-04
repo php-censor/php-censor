@@ -2,7 +2,7 @@
 
 namespace PHPCensor\Command;
 
-use b8\Store\Factory;
+use PHPCensor\Store\Factory;
 use Monolog\Logger;
 use PHPCensor\BuildFactory;
 use PHPCensor\Logging\OutputLogHandler;

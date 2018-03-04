@@ -2,7 +2,7 @@
 
 namespace PHPCensor;
 
-use b8\Store\Factory;
+use PHPCensor\Store\Factory;
 use PHPCensor\Model\Build;
 
 /**

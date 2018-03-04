@@ -59,11 +59,9 @@ class BuildTest extends \PHPUnit\Framework\TestCase
 
         $build = new Build();
         $build->setLog('log');
-
         self::assertEquals('log', $build->getLog());
 
         $build->setLog(null);
-
         self::assertEquals(null, $build->getLog());
 
         try {
@@ -71,6 +69,27 @@ class BuildTest extends \PHPUnit\Framework\TestCase
         } catch (ValidationException $e) {
             self::assertEquals(
                 'Column "log" must be a string.',
+                $e->getMessage()
+            );
+        }
+
+        $build->setSource(Build::SOURCE_WEBHOOK_PULL_REQUEST);
+        self::assertEquals(Build::SOURCE_WEBHOOK_PULL_REQUEST, $build->getSource());
+
+        try {
+            $build->setSource('5');
+        } catch (ValidationException $e) {
+            self::assertEquals(
+                'Column "source" must be an integer.',
+                $e->getMessage()
+            );
+        }
+
+        try {
+            $build->setId(null);
+        } catch (ValidationException $e) {
+            self::assertEquals(
+                'Column "id" must not be null.',
                 $e->getMessage()
             );
         }

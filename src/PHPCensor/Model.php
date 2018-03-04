@@ -115,36 +115,10 @@ class Model
      *
      * @throws HttpException\ValidationException
      */
-    protected function validateFloat($name, $value)
-    {
-        if (!is_float($value) && !is_null($value)) {
-            throw new HttpException\ValidationException('Column "' . $name . '" must be a float.');
-        }
-    }
-
-    /**
-     * @param string $name
-     * @param mixed  $value
-     *
-     * @throws HttpException\ValidationException
-     */
-    protected function validateDate($name, $value)
-    {
-        if (!($value instanceof \DateTime) && !is_null($value)) {
-            throw new HttpException\ValidationException('Column "', $name . '" must be a date object.');
-        }
-    }
-
-    /**
-     * @param string $name
-     * @param mixed  $value
-     *
-     * @throws HttpException\ValidationException
-     */
     protected function validateNotNull($name, $value)
     {
         if (is_null($value)) {
-            throw new HttpException\ValidationException('Column "', $name . '" must not be null.');
+            throw new HttpException\ValidationException('Column "' . $name . '" must not be null.');
         }
     }
 }
