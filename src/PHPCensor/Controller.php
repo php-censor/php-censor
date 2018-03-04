@@ -9,11 +9,26 @@ use PHPCensor\Store\Factory;
 use PHPCensor\Model\User;
 use PHPCensor\Store\UserStore;
 
-class Controller extends \b8\Controller
+class Controller
 {
     /**
-    * @var View
-    */
+     * @var Request
+     */
+    protected $request;
+
+    /**
+     * @var Response
+     */
+    protected $response;
+
+    /**
+     * @var Config
+     */
+    protected $config;
+
+    /**
+     * @var View
+     */
     protected $controllerView;
 
     /**
@@ -46,13 +61,17 @@ class Controller extends \b8\Controller
      */
     public function __construct(Config $config, Request $request, Response $response)
     {
-        parent::__construct($config, $request, $response);
+        $this->config   = $config;
+        $this->request  = $request;
+        $this->response = $response;
 
         $class = explode('\\', get_class($this));
         $this->className = substr(array_pop($class), 0, -10);
         $this->setControllerView();
 
-        unset($_SESSION['php-censor-user']);
+        if (!empty($_SESSION['php-censor-user'])) {
+            unset($_SESSION['php-censor-user']);
+        }
     }
 
     /**
@@ -90,7 +109,7 @@ class Controller extends \b8\Controller
     public function handleAction($action, $actionParams)
     {
         $this->setView($action);
-        $response = parent::handleAction($action, $actionParams);
+        $response = call_user_func_array([$this, $action], $actionParams);
 
         if ($response instanceof Response) {
             return $response;
@@ -147,5 +166,67 @@ class Controller extends \b8\Controller
         $userStore = Factory::getStore('User');
 
         return $userStore->getById($_SESSION['php-censor-user-id']);
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return boolean
+     */
+    public function hasAction($name)
+    {
+        if (method_exists($this, $name)) {
+            return true;
+        }
+
+        if (method_exists($this, '__call')) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Get a hash of incoming request parameters ($_GET, $_POST)
+     *
+     * @return array
+     */
+    public function getParams()
+    {
+        return $this->request->getParams();
+    }
+
+    /**
+     * Get a specific incoming request parameter.
+     *
+     * @param string $key
+     * @param mixed  $default Default return value (if key does not exist)
+     *
+     * @return mixed
+     */
+    public function getParam($key, $default = null)
+    {
+        return $this->request->getParam($key, $default);
+    }
+
+    /**
+     * Change the value of an incoming request parameter.
+     *
+     * @param string $key
+     * @param mixed  $value
+     */
+    public function setParam($key, $value)
+    {
+        $this->request->setParam($key, $value);
+    }
+
+    /**
+     * Remove an incoming request parameter.
+     *
+     * @param string $key
+     */
+    public function unsetParam($key)
+    {
+        $this->request->unsetParam($key);
     }
 }

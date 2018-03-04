@@ -11,10 +11,12 @@ use PHPCensor\Model\Project;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\ProjectStore;
-use b8\Controller;
+use PHPCensor\Controller;
 use PHPCensor\Config;
 use b8\Exception\HttpException\NotFoundException;
 use PHPCensor\Store\Factory;
+use b8\Http\Request;
+use b8\Http\Response;
 
 /**
  * Webhook Controller - Processes webhook pings from BitBucket, Github, Gitlab, Gogs, etc.
@@ -43,6 +45,18 @@ class WebhookController extends Controller
     protected $buildService;
 
     /**
+     * @param Config   $config
+     * @param Request  $request
+     * @param Response $response
+     */
+    public function __construct(Config $config, Request $request, Response $response)
+    {
+        $this->config   = $config;
+        $this->request  = $request;
+        $this->response = $response;
+    }
+
+    /**
      * Initialise the controller, set up stores and services.
      */
     public function init()
@@ -63,7 +77,7 @@ class WebhookController extends Controller
     {
         $response = new b8\Http\Response\JsonResponse();
         try {
-            $data = parent::handleAction($action, $actionParams);
+            $data = call_user_func_array([$this, $action], $actionParams);
             if (isset($data['responseCode'])) {
                 $response->setResponseCode($data['responseCode']);
                 unset($data['responseCode']);

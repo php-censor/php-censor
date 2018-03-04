@@ -7,6 +7,7 @@ use b8\Http\Response;
 use b8\Http\Request;
 use b8\Http\Router;
 use PHPCensor\Config;
+use PHPCensor\Controller;
 
 class Application
 {
