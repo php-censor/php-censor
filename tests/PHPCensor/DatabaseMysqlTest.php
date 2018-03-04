@@ -3,7 +3,7 @@
 namespace Tests\b8;
 
 use b8\Config;
-use b8\Database;
+use PHPCensor\Database;
 
 class DatabaseMysqlTest extends \PHPUnit_Extensions_Database_TestCase
 {
@@ -117,8 +117,8 @@ class DatabaseMysqlTest extends \PHPUnit_Extensions_Database_TestCase
         $writeConnection = Database::getConnection('write');
         $readConnection  = Database::getConnection('read');
 
-        self::assertInstanceOf('\b8\Database', $writeConnection);
-        self::assertInstanceOf('\b8\Database', $readConnection);
+        self::assertInstanceOf('\PHPCensor\Database', $writeConnection);
+        self::assertInstanceOf('\PHPCensor\Database', $readConnection);
 
         $writeDetails = $writeConnection->getDetails();
 
@@ -168,8 +168,8 @@ class DatabaseMysqlTest extends \PHPUnit_Extensions_Database_TestCase
         $writeConnection = Database::getConnection('write');
         $readConnection  = Database::getConnection('read');
 
-        self::assertInstanceOf('\b8\Database', $writeConnection);
-        self::assertInstanceOf('\b8\Database', $readConnection);
+        self::assertInstanceOf('\PHPCensor\Database', $writeConnection);
+        self::assertInstanceOf('\PHPCensor\Database', $readConnection);
 
         self::assertEquals('mysql:host=localhost;port=3306;dbname=b8_test', $readConnection->getDsn());
     }

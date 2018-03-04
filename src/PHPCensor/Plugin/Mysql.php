@@ -6,7 +6,7 @@ use PDO;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
-use b8\Database;
+use PHPCensor\Database;
 
 /**
  * MySQL Plugin - Provides access to a MySQL database.

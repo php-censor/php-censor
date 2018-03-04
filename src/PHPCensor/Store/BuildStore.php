@@ -2,7 +2,7 @@
 
 namespace PHPCensor\Store;
 
-use b8\Database;
+use PHPCensor\Database;
 use PHPCensor\Model\Build;
 use b8\Exception\HttpException;
 use PHPCensor\Model\BuildMeta;

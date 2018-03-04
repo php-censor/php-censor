@@ -1,6 +1,8 @@
 <?php
 
-namespace b8;
+namespace PHPCensor;
+
+use b8\Config;
 
 class Database extends \PDO
 {
@@ -76,7 +78,7 @@ class Database extends \PDO
     /**
      * @param string $type
      *
-     * @return \b8\Database
+     * @return Database
      *
      * @throws \Exception
      */

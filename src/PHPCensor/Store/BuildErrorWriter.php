@@ -3,7 +3,7 @@
 namespace PHPCensor\Store;
 
 use b8\Config;
-use b8\Database;
+use PHPCensor\Database;
 use PHPCensor\Model\BuildError;
 
 /**

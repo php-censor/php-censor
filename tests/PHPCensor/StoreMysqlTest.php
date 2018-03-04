@@ -3,7 +3,7 @@
 namespace Tests\PHPCensor;
 
 use b8\Config;
-use b8\Database;
+use PHPCensor\Database;
 use PHPCensor\Store\Factory;
 use PHPCensor\Model\Project;
 use PHPCensor\Model\ProjectGroup;

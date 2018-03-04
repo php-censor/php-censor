@@ -3,7 +3,7 @@
 namespace PHPCensor\Store;
 
 use PHPCensor\Store;
-use b8\Database;
+use PHPCensor\Database;
 use b8\Exception\HttpException;
 use PHPCensor\Model\User;
 
