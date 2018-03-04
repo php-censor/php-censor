@@ -298,13 +298,13 @@ class BuildStore extends Store
                     }
                     $latest[] = $build;
                 }
-                if (empty($projects[$project_id][$environment]['success']) and ($item['status'] == Build::STATUS_SUCCESS)) {
+                if (empty($projects[$project_id][$environment]['success']) && Build::STATUS_SUCCESS === $item['status']) {
                     if (is_null($build)) {
                         $build = new Build($item);
                     }
                     $projects[$project_id][$environment]['success'] = $build;
                 }
-                if (empty($projects[$project_id][$environment]['failed']) and ($item['status'] == Build::STATUS_FAILED)) {
+                if (empty($projects[$project_id][$environment]['failed']) && Build::STATUS_FAILED === $item['status']) {
                     if (is_null($build)) {
                         $build = new Build($item);
                     }

@@ -31,7 +31,9 @@ class HomeController extends Controller
             ],
         ]);
         foreach($widgets_config as $name => $params) {
-            $side = (isset($params['side']) and ($params['side'] == 'right')) ? 'right' : 'left';
+            $side = (isset($params['side']) && 'right' === $params['side'])
+                ? 'right'
+                : 'left';
             $widgets[$side][$name] = $params;
         }
 

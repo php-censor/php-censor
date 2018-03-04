@@ -664,17 +664,17 @@ class WebhookController extends Controller
         $activeStates   = ['open'];
         $inactiveStates = ['closed'];
 
-        if (!in_array($action, $activeActions) and !in_array($action, $inactiveActions)) {
+        if (!in_array($action, $activeActions) && !in_array($action, $inactiveActions)) {
             return ['status' => 'ignored', 'message' => 'Action ' . $action . ' ignored'];
         }
-        if (!in_array($state, $activeStates) and !in_array($state, $inactiveStates)) {
+        if (!in_array($state, $activeStates) && !in_array($state, $inactiveStates)) {
             return ['status' => 'ignored', 'message' => 'State ' . $state . ' ignored'];
         }
 
         $envs = [];
 
         // Get environment form labels
-        if (in_array($action, $activeActions) and in_array($state, $activeStates)) {
+        if (in_array($action, $activeActions) && in_array($state, $activeStates)) {
             if (isset($pullRequest['labels']) && is_array($pullRequest['labels'])) {
                 foreach ($pullRequest['labels'] as $label) {
                     if (strpos($label['name'], 'env:') === 0) {
@@ -708,7 +708,7 @@ class WebhookController extends Controller
             }
         }
 
-        if (($state == 'closed') and $pullRequest['merged']) {
+        if ('closed' === $state && $pullRequest['merged']) {
             // update base branch environments
             $environmentNames = $project->getEnvironmentsNamesByBranch($pullRequest['base_branch']);
             $envsUpdated      = array_merge($envsUpdated, $environmentNames);
