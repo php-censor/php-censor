@@ -9,7 +9,7 @@ class WebhookControllerTest extends \PHPUnit\Framework\TestCase
     public function test_wrong_action_name_return_json_with_error()
     {
         $webController = new WebhookController(
-            $this->prophesize('b8\Config')->reveal(),
+            $this->prophesize('PHPCensor\Config')->reveal(),
             $this->prophesize('b8\Http\Request')->reveal(),
             $this->prophesize('b8\Http\Response')->reveal()
         );

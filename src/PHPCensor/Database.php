@@ -2,8 +2,6 @@
 
 namespace PHPCensor;
 
-use b8\Config;
-
 class Database extends \PDO
 {
     const MYSQL_TYPE      = 'mysql';

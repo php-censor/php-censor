@@ -2,7 +2,7 @@
 
 namespace Tests\PHPCensor\Plugin;
 
-use b8\Config;
+use PHPCensor\Config;
 use PHPCensor\Plugin;
 use PHPCensor\Plugin\Email as EmailPlugin;
 use PHPCensor\Model\Build;

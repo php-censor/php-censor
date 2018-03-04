@@ -2,7 +2,7 @@
 
 namespace Tests\b8;
 
-use b8\Config;
+use PHPCensor\Config;
 use PHPCensor\Database;
 
 class DatabasePostgresqlTest extends \PHPUnit_Extensions_Database_TestCase

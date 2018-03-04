@@ -2,7 +2,6 @@
 
 namespace PHPCensor;
 
-use b8\Config;
 use PHPCensor\Store\Factory;
 use PHPCensor\Model\User;
 use PHPCensor\Store\UserStore;

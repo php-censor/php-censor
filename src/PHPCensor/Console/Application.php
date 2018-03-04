@@ -2,7 +2,7 @@
 
 namespace PHPCensor\Console;
 
-use b8\Config;
+use PHPCensor\Config;
 use PHPCensor\Store\Factory;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Handler\StreamHandler;

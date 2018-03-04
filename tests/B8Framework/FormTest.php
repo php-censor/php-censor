@@ -3,7 +3,7 @@
 namespace Tests\b8;
 
 use b8\Form;
-use b8\Config;
+use PHPCensor\Config;
 
 class FormTest extends \PHPUnit\Framework\TestCase
 {

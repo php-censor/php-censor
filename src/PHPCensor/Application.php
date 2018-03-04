@@ -151,7 +151,7 @@ class Application extends b8\Application
      */
     protected function shouldSkipAuth()
     {
-        $config        = b8\Config::getInstance();
+        $config        = Config::getInstance();
         $disableAuth   = (bool)$config->get('php-censor.security.disable_auth', false);
         $defaultUserId = (integer)$config->get('php-censor.security.default_user_id', 1);
 

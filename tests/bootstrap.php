@@ -33,7 +33,7 @@ $conf['b8']['app']['default_controller'] = 'Home';
 $conf['b8']['view']['path']              = SRC_DIR . 'View/';
 $conf['php-censor']['url']               = 'http://php-censor.local';
 
-$config = new b8\Config($conf);
+$config = new PHPCensor\Config($conf);
 
 if (!defined('APP_URL')) {
     define('APP_URL', $config->get('php-censor.url', '') . '/');

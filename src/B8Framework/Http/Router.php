@@ -3,7 +3,7 @@
 namespace b8\Http;
 
 use b8\Application;
-use b8\Config;
+use PHPCensor\Config;
 
 class Router
 {

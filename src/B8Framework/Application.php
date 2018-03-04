@@ -6,6 +6,7 @@ use b8\Exception\HttpException\NotFoundException;
 use b8\Http\Response;
 use b8\Http\Request;
 use b8\Http\Router;
+use PHPCensor\Config;
 
 class Application
 {

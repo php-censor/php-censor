@@ -2,7 +2,7 @@
 
 namespace PHPCensor\Service;
 
-use b8\Config;
+use PHPCensor\Config;
 use Pheanstalk\Pheanstalk;
 use Pheanstalk\PheanstalkInterface;
 use PHPCensor\BuildFactory;

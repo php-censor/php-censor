@@ -2,7 +2,7 @@
 
 namespace PHPCensor\Model;
 
-use b8\Config;
+use PHPCensor\Config;
 use PHPCensor\Model;
 
 /**

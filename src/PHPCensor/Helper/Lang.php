@@ -2,7 +2,7 @@
 
 namespace PHPCensor\Helper;
 
-use b8\Config;
+use PHPCensor\Config;
 use PHPCensor\Store\Factory;
 use PHPCensor\Store\UserStore;
 

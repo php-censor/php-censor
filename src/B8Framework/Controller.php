@@ -5,6 +5,7 @@ namespace b8;
 use b8\Http\Request;
 use b8\Http\Response;
 use PHPCensor\View;
+use PHPCensor\Config;
 
 abstract class Controller
 {

@@ -32,7 +32,7 @@ $conf['b8']['app']['namespace']          = 'PHPCensor';
 $conf['b8']['app']['default_controller'] = 'Home';
 $conf['b8']['view']['path']              = SRC_DIR . 'View/';
 
-$config = new b8\Config($conf);
+$config = new PHPCensor\Config($conf);
 
 $configFile = APP_DIR . 'config.yml';
 if (file_exists($configFile)) {

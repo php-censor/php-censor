@@ -2,7 +2,7 @@
 
 namespace Tests\PHPCensor;
 
-use b8\Config;
+use PHPCensor\Config;
 use PHPCensor\Database;
 use PHPCensor\Store\Factory;
 use PHPCensor\Model\Project;

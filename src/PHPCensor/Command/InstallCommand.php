@@ -5,7 +5,7 @@ namespace PHPCensor\Command;
 use Exception;
 use PDO;
 
-use b8\Config;
+use PHPCensor\Config;
 use PHPCensor\Store\Factory;
 use PHPCensor\Model\ProjectGroup;
 use PHPCensor\Store\UserStore;

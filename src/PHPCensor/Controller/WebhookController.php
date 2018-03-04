@@ -12,7 +12,7 @@ use PHPCensor\Service\BuildService;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\ProjectStore;
 use b8\Controller;
-use b8\Config;
+use PHPCensor\Config;
 use b8\Exception\HttpException\NotFoundException;
 use PHPCensor\Store\Factory;
 

@@ -7,7 +7,6 @@ use PHPCensor\Helper\MailerFactory;
 use PHPCensor\Logging\BuildLogger;
 use PHPCensor\Model\Build;
 use PHPCensor\Store\Factory;
-use b8\Config;
 use PHPCensor\Store\BuildErrorWriter;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;

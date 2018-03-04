@@ -3,7 +3,7 @@
 namespace b8\Form;
 
 use PHPCensor\View;
-use b8\Config;
+use PHPCensor\Config;
 
 abstract class Element
 {

@@ -2,7 +2,7 @@
 
 namespace PHPCensor\Controller;
 
-use b8;
+use PHPCensor\Config;
 use b8\Exception\HttpException\NotFoundException;
 use b8\Form;
 use PHPCensor\Controller;
@@ -116,7 +116,7 @@ class UserController extends Controller
         $language->setLabel(Lang::get('language'));
         $language->setRequired(true);
         $language->setOptions(array_merge(
-            [null => Lang::get('default') . ' (' . b8\Config::getInstance()->get('php-censor.language') .  ')'],
+            [null => Lang::get('default') . ' (' . Config::getInstance()->get('php-censor.language') .  ')'],
             Lang::getLanguageOptions())
         );
         $language->setValue($user->getLanguage());
@@ -128,7 +128,7 @@ class UserController extends Controller
         $perPage->setLabel(Lang::get('per_page'));
         $perPage->setRequired(true);
         $perPage->setOptions([
-            null => Lang::get('default') . ' (' . b8\Config::getInstance()->get('php-censor.per_page') .  ')',
+            null => Lang::get('default') . ' (' . Config::getInstance()->get('php-censor.per_page') .  ')',
             10    => 10,
             25    => 25,
             50    => 50,

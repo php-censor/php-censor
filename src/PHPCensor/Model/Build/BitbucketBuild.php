@@ -6,7 +6,7 @@ use GuzzleHttp\Client;
 use PHPCensor\Builder;
 use PHPCensor\Helper\Bitbucket;
 use PHPCensor\Helper\Diff;
-use b8\Config;
+use PHPCensor\Config;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
 

@@ -2,7 +2,7 @@
 
 namespace PHPCensor\Helper;
 
-use b8\Config;
+use PHPCensor\Config;
 use PHPCensor\Builder;
 
 /**
@@ -99,13 +99,13 @@ class Email
             'php-censor.email_settings.from_address',
             self::DEFAULT_FROM
         );
-        
+
         if (strpos($from, '<') === false) {
             return (string)$from;
         }
-        
+
         preg_match('#^(.*?)<(.*)>$#ui', $from, $fromParts);
-        
+
         return [$fromParts[2] => $fromParts[1]];
     }
 

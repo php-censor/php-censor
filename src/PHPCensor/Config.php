@@ -1,11 +1,11 @@
 <?php
 
-namespace b8;
+namespace PHPCensor;
 
 use Symfony\Component\Yaml\Parser as YamlParser;
 
 if (!defined('B8_PATH')) {
-    define('B8_PATH', __DIR__ . '/');
+    define('B8_PATH', dirname(__DIR__) . '/B8Framework/');
 }
 
 class Config

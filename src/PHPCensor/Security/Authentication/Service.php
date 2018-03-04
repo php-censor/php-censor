@@ -2,7 +2,7 @@
 
 namespace PHPCensor\Security\Authentication;
 
-use b8\Config;
+use PHPCensor\Config;
 
 /**
  * Authentication facade.

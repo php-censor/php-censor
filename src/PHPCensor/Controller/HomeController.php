@@ -2,7 +2,7 @@
 
 namespace PHPCensor\Controller;
 
-use b8;
+use PHPCensor\Config;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Controller;
 
@@ -22,7 +22,7 @@ class HomeController extends Controller
             'left' => [],
             'right' => [],
         ];
-        $widgets_config = b8\Config::getInstance()->get('php-censor.dashboard_widgets', [
+        $widgets_config = Config::getInstance()->get('php-censor.dashboard_widgets', [
             'all_projects' => [
                 'side' => 'left',
             ],

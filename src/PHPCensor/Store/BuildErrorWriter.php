@@ -2,7 +2,7 @@
 
 namespace PHPCensor\Store;
 
-use b8\Config;
+use PHPCensor\Config;
 use PHPCensor\Database;
 use PHPCensor\Model\BuildError;
 
