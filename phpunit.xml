@@ -20,20 +20,16 @@
         <const name="POSTGRESQL_DBNAME" value="b8_test" />
     </php>
     <testsuites>
-        <testsuite name="B8Framework Test Suite">
-            <directory suffix="Test.php">./tests/B8Framework</directory>
-        </testsuite>
-
         <testsuite name="PHP Common Test Suite">
-            <directory suffix="Test.php">./tests/PHPCensor</directory>
+            <directory suffix="Test.php">./tests/src</directory>
         </testsuite>
     </testsuites>
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./src</directory>
             <exclude>
-                <directory suffix=".php">./src/PHPCensor/Migrations</directory>
-                <directory suffix=".php">./src/PHPCensor/Languages</directory>
+                <directory suffix=".php">./src/Migrations</directory>
+                <directory suffix=".php">./src/Languages</directory>
             </exclude>
         </whitelist>
     </filter>

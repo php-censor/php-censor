@@ -36,14 +36,12 @@
     },
     "autoload": {
         "psr-4": {
-            "PHPCensor\\": "src/PHPCensor/",
-            "b8\\":        "src/B8Framework/"
+            "PHPCensor\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\PHPCensor\\": "tests/PHPCensor/",
-            "Tests\\b8\\":        "tests/B8Framework/"
+            "Tests\\PHPCensor\\": "tests/src/"
         }
     },
     "require": {

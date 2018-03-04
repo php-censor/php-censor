@@ -5,7 +5,7 @@ if (!defined('ROOT_DIR')) {
 }
 
 if (!defined('SRC_DIR')) {
-    define('SRC_DIR', ROOT_DIR . 'src/PHPCensor/');
+    define('SRC_DIR', ROOT_DIR . 'src/');
 }
 
 if (!defined('PUBLIC_DIR')) {
