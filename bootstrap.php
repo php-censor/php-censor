@@ -26,12 +26,7 @@ if (!defined('RUNTIME_DIR')) {
 
 require_once(ROOT_DIR . 'vendor/autoload.php');
 
-// Load configuration if present:
-$conf = [];
-$conf['b8']['app']['namespace']          = 'PHPCensor';
-$conf['b8']['app']['default_controller'] = 'Home';
-
-$config = new PHPCensor\Config($conf);
+$config = new PHPCensor\Config();
 
 $configFile = APP_DIR . 'config.yml';
 if (file_exists($configFile)) {

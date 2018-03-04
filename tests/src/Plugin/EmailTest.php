@@ -56,13 +56,7 @@ class EmailTest extends \PHPUnit\Framework\TestCase
         $this->mailDelivered = true;
         $self                = $this;
 
-        $config = new Config([
-            'b8' => [
-                'view' => [
-                    'path' => SRC_DIR . 'View/'
-                ]
-            ]
-        ]);
+        new Config();
 
         $this->mockProject = $this
             ->getMockBuilder('\PHPCensor\Model\Project')

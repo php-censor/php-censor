@@ -48,16 +48,12 @@ class PhpUnitResultTest extends \PHPUnit\Framework\TestCase
             self::assertContains('Incomplete Test:', $output[5]['message']);
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
             self::$skipped[] = ['cls' => $resultClass, 'ex' => $e];
-        } catch (\PHPUnit\Framework\ExpectationFailedException $e) {
-            self::$skipped[] = ['cls' => $resultClass, 'ex' => $e];
         }
 
         self::assertEquals(PhpUnitResult::SEVERITY_SKIPPED, $output[11]['severity']);
         try {
             self::assertContains('Skipped Test:', $output[11]['message']);
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
-            self::$skipped[] = ['cls' => $resultClass, 'ex' => $e];
-        } catch (\PHPUnit\Framework\ExpectationFailedException $e) {
             self::$skipped[] = ['cls' => $resultClass, 'ex' => $e];
         }
     }

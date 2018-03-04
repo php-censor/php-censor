@@ -281,7 +281,7 @@ class Application
         $namespace  = $this->toPhpName($route['namespace']);
         $controller = $this->toPhpName($route['controller']);
 
-        return $this->config->get('b8.app.namespace') . '\\' . $namespace . '\\' . $controller . 'Controller';
+        return 'PHPCensor\\' . $namespace . '\\' . $controller . 'Controller';
     }
 
     /**

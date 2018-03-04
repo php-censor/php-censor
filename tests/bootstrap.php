@@ -26,11 +26,8 @@ if (!defined('RUNTIME_DIR')) {
 
 require_once(ROOT_DIR . 'vendor/autoload.php');
 
-$conf = [];
-
-$conf['b8']['app']['namespace']          = 'PHPCensor';
-$conf['b8']['app']['default_controller'] = 'Home';
-$conf['php-censor']['url']               = 'http://php-censor.local';
+$conf                      = [];
+$conf['php-censor']['url'] = 'http://php-censor.local';
 
 $config = new PHPCensor\Config($conf);
 
