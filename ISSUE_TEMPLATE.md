@@ -12,4 +12,7 @@
 
 ## Environment
 
-*OS, PHP version, MySQL/PostgreSQL version.*
+* PHP Censor version
+* Operating System
+* PHP version
+* MySQL/PostgreSQL version
