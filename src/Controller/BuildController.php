@@ -119,10 +119,10 @@ class BuildController extends Controller
                 break;
         }
 
-        $rebuild = Lang::get('rebuild_now');
+        $rebuild     = Lang::get('rebuild_now');
         $rebuildLink = APP_URL . 'build/rebuild/' . $build->getId();
 
-        $delete = Lang::get('delete_build');
+        $delete     = Lang::get('delete_build');
         $deleteLink = APP_URL . 'build/delete/' . $build->getId();
 
         $project = Factory::getStore('Project')->getByPrimaryKey($build->getProjectId());

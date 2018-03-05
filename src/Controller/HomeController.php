@@ -19,10 +19,11 @@ class HomeController extends Controller
         $this->layout->title = Lang::get('dashboard');
 
         $widgets = [
-            'left' => [],
+            'left'  => [],
             'right' => [],
         ];
-        $widgets_config = Config::getInstance()->get('php-censor.dashboard_widgets', [
+
+        $widgetsConfig = Config::getInstance()->get('php-censor.dashboard_widgets', [
             'all_projects' => [
                 'side' => 'left',
             ],
@@ -30,7 +31,8 @@ class HomeController extends Controller
                 'side' => 'right',
             ],
         ]);
-        foreach($widgets_config as $name => $params) {
+
+        foreach($widgetsConfig as $name => $params) {
             $side = (isset($params['side']) && 'right' === $params['side'])
                 ? 'right'
                 : 'left';

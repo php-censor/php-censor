@@ -34,9 +34,9 @@ class Github
             $results[] = $item;
         }
 
-        foreach ($headers as $header_name => $header) {
+        foreach ($headers as $headerName => $header) {
             if (
-                'Link' === $header_name &&
+                'Link' === $headerName &&
                 preg_match('/^<([^>]+)>; rel="next"/', implode(', ', $header), $r)
             ) {
                 $host = parse_url($r[1]);

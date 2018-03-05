@@ -197,7 +197,7 @@ class UserController extends Controller
         $this->requireAdmin();
 
         $method = $this->request->getMethod();
-        $user = $this->userStore->getById($userId);
+        $user   = $this->userStore->getById($userId);
 
         if (empty($user)) {
             throw new NotFoundException(Lang::get('user_n_not_found', $userId));
@@ -291,7 +291,7 @@ class UserController extends Controller
     {
         $this->requireAdmin();
 
-        $user   = $this->userStore->getById($userId);
+        $user = $this->userStore->getById($userId);
 
         if (empty($user)) {
             throw new NotFoundException(Lang::get('user_n_not_found', $userId));

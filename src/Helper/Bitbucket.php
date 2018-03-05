@@ -92,7 +92,7 @@ class Bitbucket
      */
     public function getPullRequestDiff($repo, $pullRequestId)
     {
-        $username = Config::getInstance()->get('php-censor.bitbucket.username');
+        $username    = Config::getInstance()->get('php-censor.bitbucket.username');
         $appPassword = Config::getInstance()->get('php-censor.bitbucket.app_password');
 
         if (empty($username) || empty($appPassword)) {

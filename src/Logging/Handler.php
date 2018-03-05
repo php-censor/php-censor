@@ -62,10 +62,10 @@ class Handler
     public function handleError($level, $message, $file, $line)
     {
         if (error_reporting() & $level) {
-            $exception_level = isset($this->levels[$level]) ? $this->levels[$level] : $level;
+            $exceptionLevel = isset($this->levels[$level]) ? $this->levels[$level] : $level;
 
             throw new \ErrorException(
-                sprintf('%s: %s in %s line %d', $exception_level, $message, $file, $line),
+                sprintf('%s: %s in %s line %d', $exceptionLevel, $message, $file, $line),
                 0,
                 $level,
                 $file,
@@ -79,22 +79,22 @@ class Handler
      */
     public function handleFatalError()
     {
-        $fatal_error = error_get_last();
+        $fatalError = error_get_last();
 
         try {
             if (($error = error_get_last()) !== null) {
                 $error = new \ErrorException(
                     sprintf(
                         '%s: %s in %s line %d',
-                        $fatal_error['type'],
-                        $fatal_error['message'],
-                        $fatal_error['file'],
-                        $fatal_error['line']
+                        $fatalError['type'],
+                        $fatalError['message'],
+                        $fatalError['file'],
+                        $fatalError['line']
                     ),
                     0,
-                    $fatal_error['type'],
-                    $fatal_error['file'],
-                    $fatal_error['line']
+                    $fatalError['type'],
+                    $fatalError['file'],
+                    $fatalError['line']
                 );
                 $this->log($error);
             }
@@ -102,15 +102,15 @@ class Handler
             $error = new \ErrorException(
                 sprintf(
                     '%s: %s in %s line %d',
-                    $fatal_error['type'],
-                    $fatal_error['message'],
-                    $fatal_error['file'],
-                    $fatal_error['line']
+                    $fatalError['type'],
+                    $fatalError['message'],
+                    $fatalError['file'],
+                    $fatalError['line']
                 ),
                 0,
-                $fatal_error['type'],
-                $fatal_error['file'],
-                $fatal_error['line']
+                $fatalError['type'],
+                $fatalError['file'],
+                $fatalError['line']
             );
             $this->log($error);
         }

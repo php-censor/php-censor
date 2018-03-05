@@ -61,7 +61,7 @@ class CommandExecutor implements CommandExecutorInterface
      * @param bool        $quiet
      * @param bool        $verbose
      */
-    public function __construct(BuildLogger $logger, $rootDir, &$quiet = false, &$verbose = false)
+    public function __construct(BuildLogger $logger, $rootDir, $quiet = false, $verbose = false)
     {
         $this->logger     = $logger;
         $this->quiet      = $quiet;

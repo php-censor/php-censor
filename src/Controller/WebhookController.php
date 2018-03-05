@@ -423,10 +423,10 @@ class WebhookController extends Controller
         $url = $payload['pull_request']['commits_url'];
 
         //for large pull requests, allow grabbing more then the default number of commits
-        $custom_per_page = Config::getInstance()->get('php-censor.github.per_page');
-        $params          = [];
-        if ($custom_per_page) {
-            $params['per_page'] = $custom_per_page;
+        $customPerPage = Config::getInstance()->get('php-censor.github.per_page');
+        $params        = [];
+        if ($customPerPage) {
+            $params['per_page'] = $customPerPage;
         }
 
         $client   = new Client();
@@ -490,12 +490,12 @@ class WebhookController extends Controller
         $project = $this->fetchProject($projectId, ['gitlab', 'git']);
 
         $payloadString = file_get_contents("php://input");
-        $payload = json_decode($payloadString, true);
+        $payload       = json_decode($payloadString, true);
 
         // build on merge request events
         if (isset($payload['object_kind']) && $payload['object_kind'] == 'merge_request') {
             $attributes = $payload['object_attributes'];
-            if ($attributes['state'] == 'opened' || $attributes['state'] == 'reopened') {
+            if ($attributes['state'] === 'opened' || $attributes['state'] === 'reopened') {
                 $branch    = $attributes['source_branch'];
                 $commit    = $attributes['last_commit'];
                 $committer = $commit['author']['email'];
@@ -520,8 +520,8 @@ class WebhookController extends Controller
             $status  = 'failed';
             foreach ($payload['commits'] as $commit) {
                 try {
-                    $branch = str_replace('refs/heads/', '', $payload['ref']);
-                    $committer = $commit['author']['email'];
+                    $branch                 = str_replace('refs/heads/', '', $payload['ref']);
+                    $committer              = $commit['author']['email'];
                     $results[$commit['id']] = $this->createBuild(
                         Build::SOURCE_WEBHOOK,
                         $project,
@@ -554,11 +554,11 @@ class WebhookController extends Controller
      */
     public function svn($projectId)
     {
-        $project = $this->fetchProject($projectId, 'svn');
-        $branch = $this->getParam('branch', $project->getBranch());
-        $commit = $this->getParam('commit');
+        $project       = $this->fetchProject($projectId, 'svn');
+        $branch        = $this->getParam('branch', $project->getBranch());
+        $commit        = $this->getParam('commit');
         $commitMessage = $this->getParam('message');
-        $committer = $this->getParam('committer');
+        $committer     = $this->getParam('committer');
 
         return $this->createBuild(
             Build::SOURCE_WEBHOOK,
@@ -770,13 +770,13 @@ class WebhookController extends Controller
         // Check if a build already exists for this commit ID:
         $builds = $this->buildStore->getByProjectAndCommit($project->getId(), $commitId);
 
-        $ignore_environments = [];
-        $ignore_tags         = [];
+        $ignoreEnvironments = [];
+        $ignoreTags         = [];
         if ($builds['count']) {
             foreach($builds['items'] as $build) {
                 /** @var Build $build */
-                $ignore_environments[$build->getId()] = $build->getEnvironment();
-                $ignore_tags[$build->getId()]         = $build->getTag();
+                $ignoreEnvironments[$build->getId()] = $build->getEnvironment();
+                $ignoreTags[$build->getId()]         = $build->getTag();
             }
         }
 
@@ -790,20 +790,20 @@ class WebhookController extends Controller
 
         $environments = $project->getEnvironmentsObjects();
         if ($environments['count']) {
-            $created_builds    = [];
-            $environment_names = $project->getEnvironmentsNamesByBranch($branch);
+            $createdBuilds    = [];
+            $environmentNames = $project->getEnvironmentsNamesByBranch($branch);
             // use base branch from project
-            if (!empty($environment_names)) {
+            if (!empty($environmentNames)) {
                 $duplicates = [];
-                foreach ($environment_names as $environment_name) {
+                foreach ($environmentNames as $environmentName) {
                     if (
-                        !in_array($environment_name, $ignore_environments) ||
-                        ($tag && !in_array($tag, $ignore_tags, true))
+                        !in_array($environmentName, $ignoreEnvironments) ||
+                        ($tag && !in_array($tag, $ignoreTags, true))
                     ) {
                         // If not, create a new build job for it:
                         $build = $this->buildService->createBuild(
                             $project,
-                            $environment_name,
+                            $environmentName,
                             $commitId,
                             $project->getBranch(),
                             $tag,
@@ -814,19 +814,19 @@ class WebhookController extends Controller
                             $extra
                         );
 
-                        $created_builds[] = [
+                        $createdBuilds[] = [
                             'id'          => $build->getID(),
-                            'environment' => $environment_name,
+                            'environment' => $environmentName,
                         ];
                     } else {
-                        $duplicates[] = array_search($environment_name, $ignore_environments);
+                        $duplicates[] = array_search($environmentName, $ignoreEnvironments);
                     }
                 }
-                if (!empty($created_builds)) {
+                if (!empty($createdBuilds)) {
                     if (empty($duplicates)) {
-                        return ['status' => 'ok', 'builds' => $created_builds];
+                        return ['status' => 'ok', 'builds' => $createdBuilds];
                     } else {
-                        return ['status' => 'ok', 'builds' => $created_builds, 'message' => sprintf('For this commit some builds already exists (%s)', implode(', ', $duplicates))];
+                        return ['status' => 'ok', 'builds' => $createdBuilds, 'message' => sprintf('For this commit some builds already exists (%s)', implode(', ', $duplicates))];
                     }
                 } else {
                     return ['status' => 'ignored', 'message' => sprintf('For this commit already created builds (%s)', implode(', ', $duplicates))];
@@ -835,10 +835,10 @@ class WebhookController extends Controller
                 return ['status' => 'ignored', 'message' => 'Branch not assigned to any environment'];
             }
         } else {
-            $environment_name = null;
+            $environmentName = null;
             if (
-                !in_array($environment_name, $ignore_environments, true) ||
-                ($tag && !in_array($tag, $ignore_tags, true))
+                !in_array($environmentName, $ignoreEnvironments, true) ||
+                ($tag && !in_array($tag, $ignoreTags, true))
             ) {
                 $build = $this->buildService->createBuild(
                     $project,
@@ -857,7 +857,7 @@ class WebhookController extends Controller
             } else {
                 return [
                     'status'  => 'ignored',
-                    'message' => sprintf('Duplicate of build #%d', array_search($environment_name, $ignore_environments)),
+                    'message' => sprintf('Duplicate of build #%d', array_search($environmentName, $ignoreEnvironments)),
                 ];
             }
         }

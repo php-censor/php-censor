@@ -161,7 +161,7 @@ class GithubBuild extends GitBuild
         $project = $this->getProject();
 
         if (!is_null($project)) {
-            $reference = $project->getReference();
+            $reference  = $project->getReference();
             $commitLink = '<a href="https://github.com/' . $reference . '/issues/$1">#$1</a>';
             $rtn = preg_replace('/\#([0-9]+)/', $commitLink, $rtn);
             $rtn = preg_replace('/\@([a-zA-Z0-9_]+)/', '<a href="https://github.com/$1">@$1</a>', $rtn);

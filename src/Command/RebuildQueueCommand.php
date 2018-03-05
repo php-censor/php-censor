@@ -55,7 +55,7 @@ class RebuildQueueCommand extends Command
             );
         }
 
-        $store = Factory::getStore('Build');
+        $store  = Factory::getStore('Build');
         $result = $store->getByStatus(0);
 
         $this->logger->addInfo(sprintf('Found %d builds', count($result['items'])));

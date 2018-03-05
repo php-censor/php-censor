@@ -22,12 +22,12 @@ class BuildDBLogHandler extends AbstractProcessingHandler
     /**
      * @var int last flush timestamp
      */
-    protected $flush_timestamp = 0;
+    protected $flushTimestamp = 0;
 
     /**
      * @var int flush delay, seconds
      */
-    protected $flush_delay = 1;
+    protected $flushDelay = 1;
 
     /**
      * @param Build $build
@@ -60,7 +60,7 @@ class BuildDBLogHandler extends AbstractProcessingHandler
     {
         $this->build->setLog($this->logValue);
         Factory::getStore('Build')->save($this->build);
-        $this->flush_timestamp = time();
+        $this->flushTimestamp = time();
     }
 
     /**
@@ -74,7 +74,7 @@ class BuildDBLogHandler extends AbstractProcessingHandler
 
         $this->logValue .= $message . PHP_EOL;
 
-        if ($this->flush_timestamp < (time() - $this->flush_delay)) {
+        if ($this->flushTimestamp < (time() - $this->flushDelay)) {
             $this->flushData();
         }
     }

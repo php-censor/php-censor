@@ -82,7 +82,7 @@ class BuildStatusController extends Controller
     {
         /* @var Project $project */
         $project = $this->projectStore->getById($projectId);
-        $xml = new \SimpleXMLElement('<Projects/>');
+        $xml     = new \SimpleXMLElement('<Projects/>');
 
         if (!$project instanceof Project || !$project->getAllowPublicStatus()) {
             return $this->renderXml($xml);

@@ -31,7 +31,7 @@ class Lang
     /**
      * @var array
      */
-    protected static $default_strings = [];
+    protected static $defaultStrings = [];
 
     /**
      * Get a specific string from the language file.
@@ -46,8 +46,8 @@ class Lang
         if (array_key_exists($string, self::$strings)) {
             $params[0] = self::$strings[$string];
             return call_user_func_array('sprintf', $params);
-        } elseif (self::DEFAULT_LANGUAGE !== self::$language && array_key_exists($string, self::$default_strings)) {
-            $params[0] = self::$default_strings[$string];
+        } elseif (self::DEFAULT_LANGUAGE !== self::$language && array_key_exists($string, self::$defaultStrings)) {
+            $params[0] = self::$defaultStrings[$string];
             return call_user_func_array('sprintf', $params);
         }
 
@@ -124,14 +124,14 @@ class Lang
      * Initialise the Language helper, try load the language file for the user's browser or the configured default.
      *
      * @param Config $config
-     * @param string $language_force
+     * @param string $languageForce
      */
-    public static function init(Config $config, $language_force = null)
+    public static function init(Config $config, $languageForce = null)
     {
-        self::$default_strings = self::loadLanguage(self::DEFAULT_LANGUAGE);
+        self::$defaultStrings = self::loadLanguage(self::DEFAULT_LANGUAGE);
         self::loadAvailableLanguages();
 
-        if ($language_force && self::setLanguage($language_force)) {
+        if ($languageForce && self::setLanguage($languageForce)) {
             return;
         }
 
@@ -165,7 +165,10 @@ class Lang
      */
     protected static function loadLanguage($language = null)
     {
-        $language = $language ? $language : self::$language;
+        $language = $language
+            ? $language
+            : self::$language;
+
         $langFile = SRC_DIR . 'Languages' . DIRECTORY_SEPARATOR . 'lang.' . $language . '.php';
 
         if (!file_exists($langFile)) {

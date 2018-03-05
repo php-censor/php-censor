@@ -62,9 +62,9 @@ class Router
             //-------
             // Set up default values for everything:
             //-------
-            $thisNamespace = 'Controller';
+            $thisNamespace  = 'Controller';
             $thisController = null;
-            $thisAction = null;
+            $thisAction     = null;
 
             if (array_key_exists('namespace', $route['defaults'])) {
                 $thisNamespace = $route['defaults']['namespace'];

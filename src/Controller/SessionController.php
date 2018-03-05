@@ -189,17 +189,15 @@ class SessionController extends Controller
     {
         if ($this->request->getMethod() == 'POST') {
             $email = $this->getParam('email', null);
-            $user = $this->userStore->getByEmail($email);
+            $user  = $this->userStore->getByEmail($email);
 
             if (empty($user)) {
                 $this->view->error = Lang::get('reset_no_user_exists');
                 return $this->view->render();
             }
 
-            $key = md5(date('Y-m-d') . $user->getHash());
-            $url = APP_URL;
-
-            $message = Lang::get('reset_email_body', $user->getName(), $url, $user->getId(), $key);
+            $key     = md5(date('Y-m-d') . $user->getHash());
+            $message = Lang::get('reset_email_body', $user->getName(), APP_URL, $user->getId(), $key);
 
             $email = new Email();
             $email->setEmailTo($user->getEmail(), $user->getName());
