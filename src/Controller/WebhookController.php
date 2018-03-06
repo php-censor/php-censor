@@ -65,10 +65,11 @@ class WebhookController extends Controller
         $this->buildService = new BuildService($this->buildStore);
     }
 
-    /** Handle the action, Ensuring to return a JsonResponse.
+    /**
+     * Handle the action, Ensuring to return a JsonResponse.
      *
      * @param string $action
-     * @param mixed $actionParams
+     * @param array  $actionParams
      *
      * @return Response
      */
@@ -91,6 +92,10 @@ class WebhookController extends Controller
 
     /**
      * Called by Bitbucket.
+     *
+     * @param integer $projectId
+     *
+     * @return array
      */
     public function bitbucket($projectId)
     {
@@ -124,7 +129,7 @@ class WebhookController extends Controller
      * Handle the payload when Bitbucket sends a commit webhook.
      *
      * @param Project $project
-     * @param array $payload
+     * @param array   $payload
      *
      * @return array
      */
@@ -176,7 +181,7 @@ class WebhookController extends Controller
             return ['status' => 'ok'];
         }
 
-        $username = Config::getInstance()->get('php-censor.bitbucket.username');
+        $username    = Config::getInstance()->get('php-censor.bitbucket.username');
         $appPassword = Config::getInstance()->get('php-censor.bitbucket.app_password');
 
         if (empty($username) || empty($appPassword)) {
@@ -185,7 +190,7 @@ class WebhookController extends Controller
 
         $commitsUrl = $payload['pullrequest']['links']['commits']['href'];
 
-        $client   = new Client();
+        $client = new Client();
         $commitsResponse = $client->get($commitsUrl, [
             'auth' => [$username, $appPassword],
         ]);
@@ -244,11 +249,14 @@ class WebhookController extends Controller
 
     /**
      * Bitbucket POST service.
+     *
+     * @param array   $payload
+     * @param Project $project
+     *
+     * @return array
      */
-    protected function bitbucketService($payload, $project)
+    protected function bitbucketService(array $payload, Project $project)
     {
-        $payload = json_decode($this->getParam('payload'), true);
-
         $results = [];
         $status  = 'failed';
         foreach ($payload['commits'] as $commit) {
@@ -303,6 +311,10 @@ class WebhookController extends Controller
 
     /**
      * Called by Github Webhooks:
+     *
+     * @param integer $projectId
+     *
+     * @return array
      */
     public function github($projectId)
     {
@@ -340,7 +352,7 @@ class WebhookController extends Controller
      * Handle the payload when Github sends a commit webhook.
      *
      * @param Project $project
-     * @param array $payload
+     * @param array   $payload
      *
      * @return array
      */
@@ -484,6 +496,10 @@ class WebhookController extends Controller
 
     /**
      * Called by Gitlab Webhooks:
+     *
+     * @param integer $projectId
+     *
+     * @return array
      */
     public function gitlab($projectId)
     {
@@ -866,8 +882,8 @@ class WebhookController extends Controller
     /**
      * Fetch a project and check its type.
      *
-     * @param int|string   $projectId    id or title of project
-     * @param array|string $expectedType
+     * @param integer $projectId    id or title of project
+     * @param string  $expectedType
      *
      * @return Project
      *

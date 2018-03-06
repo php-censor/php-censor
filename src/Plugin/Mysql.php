@@ -100,11 +100,13 @@ class Mysql extends Plugin
     }
 
     /**
-     * @param string $query
+     * @param array $query
+     *
      * @return boolean
+     *
      * @throws \Exception
      */
-    protected function executeFile($query)
+    protected function executeFile(array $query)
     {
         if (!isset($query['file'])) {
             throw new \Exception('Import statement must contain a \'file\' key');

@@ -56,7 +56,7 @@ class FlowdockNotify extends Plugin
         $message         = $this->builder->interpolate($this->message);
         $successfulBuild = $this->build->isSuccessful() ? 'Success' : 'Failed';
         $push            = new Push($this->apiKey);
-        $flowMessage = TeamInboxMessage::create()
+        $flowMessage     = TeamInboxMessage::create()
             ->setSource("PHPCensor")
             ->setFromAddress($this->email)
             ->setFromName($this->build->getProject()->getTitle())
