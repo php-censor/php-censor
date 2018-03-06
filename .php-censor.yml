@@ -12,6 +12,7 @@ test:
   php_unit:
     config:
       - phpunit.xml
+    coverage: true
 
   php_mess_detector:
     allow_failures: true
