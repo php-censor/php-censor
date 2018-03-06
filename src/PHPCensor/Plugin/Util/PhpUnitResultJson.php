@@ -140,8 +140,9 @@ class PhpUnitResultJson extends PhpUnitResult
     /**
      * Saves additional info for a failing test
      *
-     * @param array $data
      * @param array $event
+     *
+     * @return array
      */
     protected function getFileAndLine($event)
     {

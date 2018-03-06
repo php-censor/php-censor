@@ -136,7 +136,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
 
         // Save the results into a log file
         $logFile = @tempnam($buildPath, 'jLog_');
-        $options->addArgument('log-'.$logFormat, $logFile);
+        $options->addArgument('log-' . $logFormat, $logFile);
 
         // Removes any current configurations files
         $options->removeArgument('configuration');
@@ -152,12 +152,25 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
         $arguments = $this->builder->interpolate($options->buildArgumentString());
         $cmd       = $this->findBinary('phpunit') . ' %s %s';
         $success   = $this->builder->executeCommand($cmd, $arguments, $directory);
+        $output    = $this->builder->getLastOutput();
 
         $this->processResults($logFile, $logFormat);
 
         $config = $this->builder->getSystemConfig('php-censor');
 
         if ($options->getOption('coverage')) {
+            preg_match(
+                '#Classes:[\s]*(.*?)%[^M]*?Methods:[\s]*(.*?)%[^L]*?Lines:[\s]*(.*?)\%#s',
+                $output,
+                $matches
+            );
+
+            $this->build->storeMeta('phpunit-coverage', [
+                'classes' => !empty($matches[1]) ? $matches[1] : '0.00',
+                'methods' => !empty($matches[2]) ? $matches[2] : '0.00',
+                'lines'   => !empty($matches[3]) ? $matches[3] : '0.00',
+            ]);
+
             $this->builder->logSuccess(
                 sprintf(
                     "\nPHPUnit successful.\nYou can use coverage report: %s",
@@ -190,7 +203,10 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
             $this->build->storeMeta('phpunit-errors', $parser->getFailures());
 
             foreach ($parser->getErrors() as $error) {
-                $severity = $error['severity'] == $parser::SEVERITY_ERROR ? BuildError::SEVERITY_CRITICAL : BuildError::SEVERITY_HIGH;
+                $severity = $error['severity'] ==
+                    $parser::SEVERITY_ERROR ?
+                        BuildError::SEVERITY_CRITICAL :
+                        BuildError::SEVERITY_HIGH;
                 $this->build->reportError(
                     $this->builder, 'php_unit', $error['message'], $severity, $error['file'], $error['line']
                 );

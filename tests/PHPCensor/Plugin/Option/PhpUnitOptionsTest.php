@@ -37,6 +37,7 @@ class PhpUnitOptionsTest extends \PHPUnit\Framework\TestCase
                 ],
                 [
                     'coverage-html' => '/location',
+                    'coverage-text' => null,
                 ],
             ],
             [
@@ -49,6 +50,7 @@ class PhpUnitOptionsTest extends \PHPUnit\Framework\TestCase
                 ],
                 [
                     'coverage-html' => '/location',
+                    'coverage-text' => null,
                 ],
             ],
             [
