@@ -30,8 +30,8 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
      */
     protected $location;
 
-    /** @var string[] Raw options from the config file */
-    protected $options = [];
+    /** @var PhpUnitOptions*/
+    protected $options;
 
     /**
      * @return string
@@ -66,7 +66,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
     /**
      * Check if the plugin can be executed without any configurations
      *
-     * @param         $stage
+     * @param string  $stage
      * @param Builder $builder
      * @param Build   $build
      *
@@ -123,9 +123,9 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
     /**
      * Run the tests defined in a PHPUnit config file or in a specific directory.
      *
-     * @param $directory
-     * @param $configFile
-     * @param string $logFormat
+     * @param string      $directory
+     * @param string|null $configFile
+     * @param string      $logFormat
      *
      * @return bool|mixed
      */
