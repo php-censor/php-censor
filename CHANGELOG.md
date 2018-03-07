@@ -31,7 +31,7 @@ Pull request [#142](https://github.com/php-censor/php-censor/pull/142).
 
 - Application Cache class and replaced by Symfony/Cache component.
 - Useless Template class and refactored View.
-- User model from $_SESSION.
+- User model from `$_SESSION`.
 
 ### Fixed
 

@@ -42,11 +42,14 @@ More [screenshots](docs/en/screenshots.md).
 
 * Database (MySQL/MariaDB or PostgreSQL);
 
-* Beanstalkd queue (Optional);
+* Beanstalkd queue (Optional, needed if you use [worker](docs/en/workers/worker.md) instead of 
+[cronjob](docs/en/workers/cron.md));
 
 ## Features
 
-* Clone project from GitHub, Bitbucket, GitLab, Git, Mercurial, SVN or from local directory;
+* Clone project from [GitHub](docs/en/sources/github.md), [Bitbucket](docs/en/sources/bitbucket.md) (Git/Hg), 
+[GitLab](docs/en/sources/gitlab.md), [Git](docs/en/sources/git.md), Hg (Mercurial), SVN (Subversion) or from local 
+directory;
 
 * Set up and tear down database tests for [PostgreSQL](docs/en/plugins/pgsql.md), [MySQL](docs/en/plugins/mysql.md) or 
 [SQLite](docs/en/plugins/sqlite.md);
@@ -58,10 +61,11 @@ More [screenshots](docs/en/screenshots.md).
 * Check code via Lint, PHPParallelLint, Pdepend, PHPCodeSniffer, PHPCpd, PHPCsFixer, PHPDocblockChecker, PHPLoc, 
 PHPMessDetect, PHPTalLint and TechnicalDept;
 
-* Run through any combination of the other [supported plugins](docs/en/README.md#plugins), including Campfire, CleanBuild, 
-CopyBuild, Deployer, Env, Git, Grunt, Gulp, PackageBuild, Phar, Phing, Shell and Wipe;
+* Run through any combination of the other [supported plugins](docs/en/README.md#plugins), including Campfire, 
+CleanBuild, CopyBuild, Deployer, Env, Git, Grunt, Gulp, PackageBuild, Phar, Phing, Shell and Wipe;
 
-* Send notifications on Email, XMPP, Slack, IRC, Flowdock, HipChat and [Telegram](https://github.com/LEXASOFT/PHP-Censor-Telegram-Plugin);
+* Send notifications on Email, XMPP, Slack, IRC, Flowdock, HipChat and 
+[Telegram](https://github.com/LEXASOFT/PHP-Censor-Telegram-Plugin);
 
 * Use your LDAP-server for authentication;
 
