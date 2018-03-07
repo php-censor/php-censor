@@ -2,6 +2,7 @@
 
 namespace PHPCensor\Plugin;
 
+use b8\Config;
 use PHPCensor;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
@@ -76,7 +77,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
         $this->buildLocation       = PUBLIC_DIR . 'artifacts/phpunit/' . $this->buildDirectory;
         $this->buildBranchLocation = PUBLIC_DIR . 'artifacts/phpunit/' . $this->buildBranchDirectory;
 
-        $this->options = new PhpUnitOptions($options, $this->buildLocation, $this->buildBranchLocation);
+        $this->options = new PhpUnitOptions($options, $this->buildLocation);
     }
 
     /**
@@ -144,9 +145,18 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
      * @param string $logFormat
      *
      * @return bool|mixed
+     *
+     * @throws \Exception
      */
     protected function runConfig($directory, $configFile, $logFormat)
     {
+        $allowPublicArtifacts = (bool)Config::getInstance()->get(
+            'php-censor.build.allow_public_artifacts',
+            true
+        );
+
+        $fileSystem = new Filesystem();
+
         $options   = clone $this->options;
         $buildPath = $this->build->getBuildPath();
 
@@ -161,10 +171,17 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
             $options->addArgument('configuration', $buildPath . $configFile);
         }
 
-        $fileSystem = new Filesystem();
+        if ($options->getOption('coverage') && $allowPublicArtifacts) {
+            if (!$fileSystem->exists($this->buildLocation)) {
+                $fileSystem->mkdir($this->buildLocation, (0777 & ~umask()));
+            }
 
-        if (!$fileSystem->exists($this->buildLocation) && $options->getOption('coverage')) {
-            $fileSystem->mkdir($this->buildLocation, (0777 & ~umask()));
+            if (!is_writable($this->buildLocation)) {
+                throw new \Exception(sprintf(
+                    'The location %s is not writable or does not exist.',
+                    $this->buildLocation
+                ));
+            }
         }
 
         $arguments = $this->builder->interpolate($options->buildArgumentString());
@@ -172,7 +189,11 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
         $success   = $this->builder->executeCommand($cmd, $arguments, $directory);
         $output    = $this->builder->getLastOutput();
 
-        if ($fileSystem->exists($this->buildLocation) && $options->getOption('coverage')) {
+        if (
+            $fileSystem->exists($this->buildLocation) &&
+            $options->getOption('coverage') &&
+            $allowPublicArtifacts
+        ) {
             $fileSystem->remove($this->buildBranchLocation);
             $fileSystem->mirror($this->buildLocation, $this->buildBranchLocation);
         }
@@ -194,13 +215,15 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
                 'lines'   => !empty($matches[3]) ? $matches[3] : '0.00',
             ]);
 
-            $this->builder->logSuccess(
-                sprintf(
-                    "\nPHPUnit successful build coverage report.\nYou can use coverage report for this build: %s\nOr coverage report for last build in the branch: %s",
-                    $config['url'] . '/artifacts/phpunit/' . $this->buildDirectory . '/index.html',
-                    $config['url'] . '/artifacts/phpunit/' . $this->buildBranchDirectory . '/index.html'
-                )
-            );
+            if ($allowPublicArtifacts) {
+                $this->builder->logSuccess(
+                    sprintf(
+                        "\nPHPUnit successful build coverage report.\nYou can use coverage report for this build: %s\nOr coverage report for last build in the branch: %s",
+                        $config['url'] . '/artifacts/phpunit/' . $this->buildDirectory . '/index.html',
+                        $config['url'] . '/artifacts/phpunit/' . $this->buildBranchDirectory . '/index.html'
+                    )
+                );
+            }
         }
 
         return $success;

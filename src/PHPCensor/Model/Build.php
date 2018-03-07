@@ -943,8 +943,10 @@ class Build extends Model
 
     /**
      * Removes the build directory.
+     *
+     * @param boolean $withArtifacts
      */
-    public function removeBuildDirectory()
+    public function removeBuildDirectory($withArtifacts = false)
     {
         // Get the path and remove the trailing slash as this may prompt PHP
         // to see this as a directory even if it's a link.
@@ -964,10 +966,12 @@ class Build extends Model
                 $fileSystem->remove($buildPath);
             }
 
-            $buildDirectory = $this->getBuildDirectory();
+            if ($withArtifacts) {
+                $buildDirectory = $this->getBuildDirectory();
 
-            $fileSystem->remove(PUBLIC_DIR . 'artifacts/pdepend/' . $buildDirectory);
-            $fileSystem->remove(PUBLIC_DIR . 'artifacts/phpunit/' . $buildDirectory);
+                $fileSystem->remove(PUBLIC_DIR . 'artifacts/pdepend/' . $buildDirectory);
+                $fileSystem->remove(PUBLIC_DIR . 'artifacts/phpunit/' . $buildDirectory);
+            }
         } catch (\Exception $e) {
 
         }
