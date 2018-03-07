@@ -163,7 +163,7 @@ class RunCommand extends Command
                 $build->setStatus(Build::STATUS_FAILED);
                 $build->setFinishDate(new \DateTime());
                 $store->save($build);
-                $build->removeBuildDirectory();
+                $build->removeBuildDirectory(true);
                 continue;
             }
 

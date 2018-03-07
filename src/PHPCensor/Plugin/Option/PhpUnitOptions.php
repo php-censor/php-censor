@@ -2,6 +2,8 @@
 
 namespace PHPCensor\Plugin\Option;
 
+use b8\Config;
+
 /**
  * Class PhpUnitOptions validates and parse the option for the PhpUnitV2 plugin
  *
@@ -120,7 +122,14 @@ class PhpUnitOptions
              * Handles command aliases outside of the args option
              */
             if (isset($this->options['coverage']) && $this->options['coverage']) {
-                $this->addArgument('coverage-html', $this->location);
+                $allowPublicArtifacts = (bool)Config::getInstance()->get(
+                    'php-censor.build.allow_public_artifacts',
+                    true
+                );
+
+                if ($allowPublicArtifacts) {
+                    $this->addArgument('coverage-html', $this->location);
+                }
                 $this->addArgument('coverage-text');
             }
 

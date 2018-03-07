@@ -2,9 +2,11 @@
 
 namespace PHPCensor\Plugin;
 
+use b8\Config;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Pdepend Plugin - Allows Pdepend report
@@ -19,6 +21,11 @@ class Pdepend extends Plugin
      * @var string
      */
     protected $buildDirectory;
+
+    /**
+     * @var string
+     */
+    protected $buildBranchDirectory;
 
     /**
      * @var string Directory which needs to be scanned
@@ -41,10 +48,14 @@ class Pdepend extends Plugin
     protected $pyramid;
 
     /**
-     * @var string Location on the server where the files are stored. Preferably in the webroot for inclusion
-     *             in the readme.md of the repository
+     * @var string
      */
-    protected $location;
+    protected $buildLocation;
+
+    /**
+     * @var string
+     */
+    protected $buildBranchLocation;
 
     /**
      * @return string
@@ -69,8 +80,11 @@ class Pdepend extends Plugin
         $this->pyramid = 'pyramid.svg';
         $this->chart   = 'chart.svg';
 
-        $this->buildDirectory = $build->getProjectId() . '/' . $build->getId();
-        $this->location       = PUBLIC_DIR . 'artifacts/pdepend/' . $this->buildDirectory;
+        $this->buildDirectory       = $build->getBuildDirectory();
+        $this->buildBranchDirectory = $build->getBuildBranchDirectory();
+
+        $this->buildLocation       = PUBLIC_DIR . 'artifacts/pdepend/' . $this->buildDirectory;
+        $this->buildBranchLocation = PUBLIC_DIR . 'artifacts/pdepend/' . $this->buildBranchDirectory;
     }
 
     /**
@@ -78,18 +92,26 @@ class Pdepend extends Plugin
      */
     public function execute()
     {
-        if (!file_exists($this->location)) {
-            mkdir($this->location, (0777 & ~umask()), true);
+        $allowPublicArtifacts = (bool)Config::getInstance()->get(
+            'php-censor.build.allow_public_artifacts',
+            true
+        );
+
+        $fileSystem = new Filesystem();
+
+        if (!$fileSystem->exists($this->buildLocation)) {
+            $fileSystem->mkdir($this->buildLocation, (0777 & ~umask()));
         }
-        if (!is_writable($this->location)) {
-            throw new \Exception(sprintf('The location %s is not writable or does not exist.', $this->location));
+
+        if (!is_writable($this->buildLocation)) {
+            throw new \Exception(sprintf(
+                'The location %s is not writable or does not exist.',
+                $this->buildLocation
+            ));
         }
 
         $pdepend = $this->findBinary('pdepend');
-
-        $cmd = $pdepend . ' --summary-xml="%s" --jdepend-chart="%s" --overview-pyramid="%s" %s "%s"';
-
-        $this->removeBuildArtifacts();
+        $cmd     = $pdepend . ' --summary-xml="%s" --jdepend-chart="%s" --overview-pyramid="%s" %s "%s"';
 
         // If we need to ignore directories
         if (count($this->builder->ignore)) {
@@ -100,39 +122,37 @@ class Pdepend extends Plugin
 
         $success = $this->builder->executeCommand(
             $cmd,
-            $this->location . DIRECTORY_SEPARATOR . $this->summary,
-            $this->location . DIRECTORY_SEPARATOR . $this->chart,
-            $this->location . DIRECTORY_SEPARATOR . $this->pyramid,
+            $this->buildLocation . DIRECTORY_SEPARATOR . $this->summary,
+            $this->buildLocation . DIRECTORY_SEPARATOR . $this->chart,
+            $this->buildLocation . DIRECTORY_SEPARATOR . $this->pyramid,
             $ignore,
             $this->directory
         );
 
+        if (!$allowPublicArtifacts) {
+            $fileSystem->remove($this->buildLocation);
+        }
+        if ($allowPublicArtifacts && file_exists($this->buildLocation)) {
+            $fileSystem->remove($this->buildBranchLocation);
+            $fileSystem->mirror($this->buildLocation, $this->buildBranchLocation);
+        }
+
         $config = $this->builder->getSystemConfig('php-censor');
 
-        if ($success) {
+        if ($allowPublicArtifacts && $success) {
             $this->builder->logSuccess(
                 sprintf(
-                    "\nPdepend successful.\nYou can use: %s,\n![Chart](%s \"Pdepend Chart\") and\n![Pyramid](%s \"Pdepend Pyramid\")\nfor inclusion in the readme.md file",
+                    "\nPdepend successful build report.\nYou can use report for this build for inclusion in the readme.md file:\n%s,\n![Chart](%s \"Pdepend Chart\") and\n![Pyramid](%s \"Pdepend Pyramid\")\n\nOr report for last build in the branch:\n%s,\n![Chart](%s \"Pdepend Chart\") and\n![Pyramid](%s \"Pdepend Pyramid\")\n",
                     $config['url'] . '/artifacts/pdepend/' . $this->buildDirectory . '/' . $this->summary,
                     $config['url'] . '/artifacts/pdepend/' . $this->buildDirectory . '/' . $this->chart,
-                    $config['url'] . '/artifacts/pdepend/' . $this->buildDirectory . '/' . $this->pyramid
+                    $config['url'] . '/artifacts/pdepend/' . $this->buildDirectory . '/' . $this->pyramid,
+                    $config['url'] . '/artifacts/pdepend/' . $this->buildBranchDirectory . '/' . $this->summary,
+                    $config['url'] . '/artifacts/pdepend/' . $this->buildBranchDirectory . '/' . $this->chart,
+                    $config['url'] . '/artifacts/pdepend/' . $this->buildBranchDirectory . '/' . $this->pyramid
                 )
             );
         }
 
         return $success;
-    }
-
-    /**
-     * Remove files created from previous builds
-     */
-    protected function removeBuildArtifacts()
-    {
-        //Remove the created files first
-        foreach ([$this->summary, $this->chart, $this->pyramid] as $file) {
-            if (file_exists($this->location . DIRECTORY_SEPARATOR . $file)) {
-                unlink($this->location . DIRECTORY_SEPARATOR . $file);
-            }
-        }
     }
 }

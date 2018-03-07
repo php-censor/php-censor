@@ -2,8 +2,10 @@
 
 namespace PHPCensor\Service;
 
+use PHPCensor\Model\Build;
 use PHPCensor\Model\Project;
 use PHPCensor\Store\ProjectStore;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * The project service handles the creation, modification and deletion of projects.
@@ -120,6 +122,16 @@ class ProjectService
      */
     public function deleteProject(Project $project)
     {
+        try {
+            $fileSystem = new Filesystem();
+
+            $fileSystem->remove(RUNTIME_DIR . 'builds/' . $project->getId());
+            $fileSystem->remove(PUBLIC_DIR . 'artifacts/pdepend/' . $project->getId());
+            $fileSystem->remove(PUBLIC_DIR . 'artifacts/phpunit/' . $project->getId());
+        } catch (\Exception $e) {
+
+        }
+
         return $this->projectStore->delete($project);
     }
 

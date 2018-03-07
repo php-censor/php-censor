@@ -2,6 +2,7 @@
 
 namespace PHPCensor\Plugin;
 
+use b8\Config;
 use PHPCensor;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
@@ -11,6 +12,7 @@ use PHPCensor\Plugin\Util\PhpUnitResultJson;
 use PHPCensor\Plugin\Util\PhpUnitResultJunit;
 use PHPCensor\Plugin;
 use PHPCensor\ZeroConfigPluginInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * PHP Unit Plugin - A rewrite of the original PHP Unit plugin
@@ -28,9 +30,21 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
     /**
      * @var string
      */
-    protected $location;
+    protected $buildBranchDirectory;
 
-    /** @var string[] Raw options from the config file */
+    /**
+     * @var string
+     */
+    protected $buildLocation;
+
+    /**
+     * @var string
+     */
+    protected $buildBranchLocation;
+
+    /**
+     * @var string[] Raw options from the config file
+     */
     protected $options = [];
 
     /**
@@ -57,10 +71,13 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
     {
         parent::__construct($builder, $build, $options);
 
-        $this->buildDirectory = $this->build->getProjectId() . '/' . $this->build->getId();
-        $this->location       = PUBLIC_DIR . 'artifacts/phpunit/' . $this->buildDirectory . '/coverage';
+        $this->buildDirectory       = $build->getBuildDirectory();
+        $this->buildBranchDirectory = $build->getBuildBranchDirectory();
 
-        $this->options = new PhpUnitOptions($options, $this->location);
+        $this->buildLocation       = PUBLIC_DIR . 'artifacts/phpunit/' . $this->buildDirectory;
+        $this->buildBranchLocation = PUBLIC_DIR . 'artifacts/phpunit/' . $this->buildBranchDirectory;
+
+        $this->options = new PhpUnitOptions($options, $this->buildLocation);
     }
 
     /**
@@ -128,9 +145,18 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
      * @param string $logFormat
      *
      * @return bool|mixed
+     *
+     * @throws \Exception
      */
     protected function runConfig($directory, $configFile, $logFormat)
     {
+        $allowPublicArtifacts = (bool)Config::getInstance()->get(
+            'php-censor.build.allow_public_artifacts',
+            true
+        );
+
+        $fileSystem = new Filesystem();
+
         $options   = clone $this->options;
         $buildPath = $this->build->getBuildPath();
 
@@ -145,14 +171,32 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
             $options->addArgument('configuration', $buildPath . $configFile);
         }
 
-        if (!file_exists($this->location) && $options->getOption('coverage')) {
-            mkdir($this->location, (0777 & ~umask()), true);
+        if ($options->getOption('coverage') && $allowPublicArtifacts) {
+            if (!$fileSystem->exists($this->buildLocation)) {
+                $fileSystem->mkdir($this->buildLocation, (0777 & ~umask()));
+            }
+
+            if (!is_writable($this->buildLocation)) {
+                throw new \Exception(sprintf(
+                    'The location %s is not writable or does not exist.',
+                    $this->buildLocation
+                ));
+            }
         }
 
         $arguments = $this->builder->interpolate($options->buildArgumentString());
         $cmd       = $this->findBinary('phpunit') . ' %s %s';
         $success   = $this->builder->executeCommand($cmd, $arguments, $directory);
         $output    = $this->builder->getLastOutput();
+
+        if (
+            $fileSystem->exists($this->buildLocation) &&
+            $options->getOption('coverage') &&
+            $allowPublicArtifacts
+        ) {
+            $fileSystem->remove($this->buildBranchLocation);
+            $fileSystem->mirror($this->buildLocation, $this->buildBranchLocation);
+        }
 
         $this->processResults($logFile, $logFormat);
 
@@ -171,12 +215,15 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
                 'lines'   => !empty($matches[3]) ? $matches[3] : '0.00',
             ]);
 
-            $this->builder->logSuccess(
-                sprintf(
-                    "\nPHPUnit successful.\nYou can use coverage report: %s",
-                    $config['url'] . '/artifacts/phpunit/' . $this->buildDirectory . '/coverage/index.html'
-                )
-            );
+            if ($allowPublicArtifacts) {
+                $this->builder->logSuccess(
+                    sprintf(
+                        "\nPHPUnit successful build coverage report.\nYou can use coverage report for this build: %s\nOr coverage report for last build in the branch: %s",
+                        $config['url'] . '/artifacts/phpunit/' . $this->buildDirectory . '/index.html',
+                        $config['url'] . '/artifacts/phpunit/' . $this->buildBranchDirectory . '/index.html'
+                    )
+                );
+            }
         }
 
         return $success;
