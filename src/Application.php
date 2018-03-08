@@ -221,8 +221,8 @@ class Application
             $groups[]              = $thisGroup;
         }
 
-        $archived_projects         = Factory::getStore('Project')->getAll(true);
-        $layout->archived_projects = $archived_projects['items'];
+        $archivedProjects          = Factory::getStore('Project')->getAll(true);
+        $layout->archived_projects = $archivedProjects['items'];
         $layout->groups            = $groups;
     }
 

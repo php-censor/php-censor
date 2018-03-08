@@ -35,12 +35,12 @@ class PhpTalLint extends Plugin
     /**
      * @var int
      */
-    protected $allowed_warnings;
+    protected $allowedWarnings;
 
     /**
      * @var int
      */
-    protected $allowed_errors;
+    protected $allowedErrors;
 
     /**
      * @var array The results of the lint scan
@@ -58,8 +58,8 @@ class PhpTalLint extends Plugin
         $this->suffixes = ['zpt'];
         $this->ignore = $this->builder->ignore;
 
-        $this->allowed_warnings = 0;
-        $this->allowed_errors = 0;
+        $this->allowedWarnings = 0;
+        $this->allowedErrors   = 0;
 
         if (!empty($options['directory'])) {
             $this->directories = [$options['directory']];
@@ -102,11 +102,11 @@ class PhpTalLint extends Plugin
 
         $success = true;
 
-        if ($this->allowed_warnings != -1 && $warnings > $this->allowed_warnings) {
+        if ($this->allowedWarnings != -1 && $warnings > $this->allowedWarnings) {
             $success = false;
         }
 
-        if ($this->allowed_errors != -1 && $errors > $this->allowed_errors) {
+        if ($this->allowedErrors != -1 && $errors > $this->allowedErrors) {
             $success = false;
         }
 

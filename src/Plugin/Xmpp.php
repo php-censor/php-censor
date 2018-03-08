@@ -140,10 +140,10 @@ class XMPP extends Plugin
         /*
          * Try to build conf file
          */
-        $config_file = $this->builder->buildPath . '/.sendxmpprc';
+        $configFile = $this->builder->buildPath . '/.sendxmpprc';
         if (is_null($this->findConfigFile())) {
-            file_put_contents($config_file, $this->getConfigFormat());
-            chmod($config_file, 0600);
+            file_put_contents($configFile, $this->getConfigFormat());
+            chmod($configFile, 0600);
         }
 
         /*
@@ -154,8 +154,8 @@ class XMPP extends Plugin
             $tls = ' -t';
         }
 
-        $message_file = $this->builder->buildPath . '/' . uniqid('xmppmessage');
-        if ($this->buildMessage($message_file) === false) {
+        $messageFile = $this->builder->buildPath . '/' . uniqid('xmppmessage');
+        if ($this->buildMessage($messageFile) === false) {
             return false;
         }
 
@@ -165,23 +165,23 @@ class XMPP extends Plugin
         $cmd = $sendxmpp . "%s -f %s -m %s %s";
         $recipients = implode(' ', $this->recipients);
 
-        $success = $this->builder->executeCommand($cmd, $tls, $config_file, $message_file, $recipients);
+        $success = $this->builder->executeCommand($cmd, $tls, $configFile, $messageFile, $recipients);
 
         print $this->builder->getLastOutput();
 
         /*
          * Remove temp message file
          */
-        $this->builder->executeCommand("rm -rf ".$message_file);
+        $this->builder->executeCommand("rm -rf ".$messageFile);
 
         return $success;
     }
 
     /**
-     * @param $message_file
+     * @param $messageFile
      * @return int
      */
-    protected function buildMessage($message_file)
+    protected function buildMessage($messageFile)
     {
         if ($this->build->isSuccessful()) {
             $message = "✔ [".$this->build->getProjectTitle()."] Build #" . $this->build->getId()." successful";
@@ -191,6 +191,6 @@ class XMPP extends Plugin
 
         $message .= ' ('.strftime($this->dateFormat).')';
 
-        return file_put_contents($message_file, $message);
+        return file_put_contents($messageFile, $message);
     }
 }

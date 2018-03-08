@@ -756,27 +756,27 @@ class Build extends Model
      */
     protected function handleConfig(Builder $builder, $buildPath)
     {
-        $build_config = $this->getProject()->getBuildConfig();
+        $buildConfig = $this->getProject()->getBuildConfig();
 
-        if (empty($build_config)) {
+        if (empty($buildConfig)) {
             if (file_exists($buildPath . '/.php-censor.yml')) {
-                $build_config = file_get_contents($buildPath . '/.php-censor.yml');
+                $buildConfig = file_get_contents($buildPath . '/.php-censor.yml');
             } elseif (file_exists($buildPath . '/.phpci.yml')) {
-                $build_config = file_get_contents($buildPath . '/.phpci.yml');
+                $buildConfig = file_get_contents($buildPath . '/.phpci.yml');
             } elseif (file_exists($buildPath . '/phpci.yml')) {
-                $build_config = file_get_contents($buildPath . '/phpci.yml');
+                $buildConfig = file_get_contents($buildPath . '/phpci.yml');
             } else {
-                $build_config = $this->getZeroConfigPlugins($builder);
+                $buildConfig = $this->getZeroConfigPlugins($builder);
             }
         }
 
         // for YAML configs from files/DB
-        if (is_string($build_config)) {
+        if (is_string($buildConfig)) {
             $yamlParser   = new YamlParser();
-            $build_config = $yamlParser->parse($build_config);
+            $buildConfig = $yamlParser->parse($buildConfig);
         }
 
-        $builder->setConfigArray($build_config);
+        $builder->setConfigArray($buildConfig);
 
         return true;
     }
@@ -989,11 +989,11 @@ class Build extends Model
             $end = new \DateTime();
         }
 
-        $diff = date_diff($start, $end);
+        $diff  = date_diff($start, $end);
         $parts = [];
-        foreach (['y', 'm', 'd', 'h', 'i', 's'] as $time_part) {
-            if ($diff->{$time_part} != 0) {
-                $parts[] = $diff->{$time_part} . ($time_part == 'i' ? 'm' : $time_part);
+        foreach (['y', 'm', 'd', 'h', 'i', 's'] as $timePart) {
+            if ($diff->{$timePart} != 0) {
+                $parts[] = $diff->{$timePart} . ($timePart == 'i' ? 'm' : $timePart);
             }
         }
 

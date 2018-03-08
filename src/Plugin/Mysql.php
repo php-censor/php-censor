@@ -130,26 +130,26 @@ class Mysql extends Plugin
     /**
      * Builds the MySQL import command required to import/execute the specified file
      *
-     * @param string $import_file Path to file, relative to the build root
-     * @param string $database If specified, this database is selected before execution
+     * @param string $importFile Path to file, relative to the build root
+     * @param string $database   If specified, this database is selected before execution
      *
      * @return string
      */
-    protected function getImportCommand($import_file, $database = null)
+    protected function getImportCommand($importFile, $database = null)
     {
         $decompression = [
             'bz2' => '| bzip2 --decompress',
             'gz'  => '| gzip --decompress',
         ];
 
-        $extension        = strtolower(pathinfo($import_file, PATHINFO_EXTENSION));
+        $extension        = strtolower(pathinfo($importFile, PATHINFO_EXTENSION));
         $decompressionCmd = '';
         if (array_key_exists($extension, $decompression)) {
             $decompressionCmd = $decompression[$extension];
         }
 
         $args = [
-            ':import_file' => escapeshellarg($import_file),
+            ':import_file' => escapeshellarg($importFile),
             ':decomp_cmd'  => $decompressionCmd,
             ':host'        => escapeshellarg($this->host),
             ':user'        => escapeshellarg($this->user),

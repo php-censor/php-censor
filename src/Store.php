@@ -144,19 +144,19 @@ abstract class Store
         $data = $obj->getDataArray();
         $modified = ($saveAllColumns) ? array_keys($data) : $obj->getModified();
 
-        $updates       = [];
-        $update_params = [];
+        $updates      = [];
+        $updateParams = [];
         foreach ($modified as $key) {
-            $updates[]       = $key . ' = :' . $key;
-            $update_params[] = [$key, $data[$key]];
+            $updates[]      = $key . ' = :' . $key;
+            $updateParams[] = [$key, $data[$key]];
         }
 
         if (count($updates)) {
             $qs = 'UPDATE {{' . $this->tableName . '}} SET ' . implode(', ', $updates) . ' WHERE {{' . $this->primaryKey . '}} = :primaryKey';
             $q  = Database::getConnection('write')->prepareCommon($qs);
 
-            foreach ($update_params as $update_param) {
-                $q->bindValue(':' . $update_param[0], $update_param[1]);
+            foreach ($updateParams as $updateParam) {
+                $q->bindValue(':' . $updateParam[0], $updateParam[1]);
             }
 
             $q->bindValue(':primaryKey', $data[$this->primaryKey]);

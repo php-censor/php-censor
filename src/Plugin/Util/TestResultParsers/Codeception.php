@@ -39,39 +39,39 @@ class Codeception implements ParserInterface
         $this->results = new \SimpleXMLElement($this->resultsXml);
 
         // calculate total results
-        foreach ($this->results->testsuite as $test_suite) {
-            $this->totalTests     += (int)$test_suite['tests'];
-            $this->totalTimeTaken += (float)$test_suite['time'];
-            $this->totalFailures  += (int)$test_suite['failures'];
-            $this->totalErrors    += (int)$test_suite['errors'];
+        foreach ($this->results->testsuite as $testSuite) {
+            $this->totalTests     += (int)$testSuite['tests'];
+            $this->totalTimeTaken += (float)$testSuite['time'];
+            $this->totalFailures  += (int)$testSuite['failures'];
+            $this->totalErrors    += (int)$testSuite['errors'];
 
-            foreach ($test_suite->testcase as $test_case) {
-                $test_result = [
-                    'suite'      => (string)$test_suite['name'],
-                    'file'       => str_replace($this->builder->buildPath, '/', (string) $test_case['file']),
-                    'name'       => (string)$test_case['name'],
-                    'feature'    => (string)$test_case['feature'],
-                    'assertions' => (int)$test_case['assertions'],
-                    'time'       => (float)$test_case['time']
+            foreach ($testSuite->testcase as $testCase) {
+                $testResult = [
+                    'suite'      => (string)$testSuite['name'],
+                    'file'       => str_replace($this->builder->buildPath, '/', (string) $testCase['file']),
+                    'name'       => (string)$testCase['name'],
+                    'feature'    => (string)$testCase['feature'],
+                    'assertions' => (int)$testCase['assertions'],
+                    'time'       => (float)$testCase['time']
                 ];
 
-                if (isset($test_case['class'])) {
-                    $test_result['class'] = (string) $test_case['class'];
+                if (isset($testCase['class'])) {
+                    $testResult['class'] = (string) $testCase['class'];
                 }
 
                 // PHPUnit testcases does not have feature field. Use class::method instead
-                if (!$test_result['feature']) {
-                    $test_result['feature'] = sprintf('%s::%s', $test_result['class'], $test_result['name']);
+                if (!$testResult['feature']) {
+                    $testResult['feature'] = sprintf('%s::%s', $testResult['class'], $testResult['name']);
                 }
 
-                if (isset($test_case->failure) || isset($test_case->error)) {
-                    $test_result['pass']    = false;
-                    $test_result['message'] = isset($test_case->failure) ? (string)$test_case->failure : (string)$test_case->error;
+                if (isset($testCase->failure) || isset($testCase->error)) {
+                    $testResult['pass']    = false;
+                    $testResult['message'] = isset($testCase->failure) ? (string)$testCase->failure : (string)$testCase->error;
                 } else {
-                    $test_result['pass'] = true;
+                    $testResult['pass'] = true;
                 }
 
-                $rtn[] = $test_result;
+                $rtn[] = $testResult;
             }
         }
 

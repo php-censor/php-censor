@@ -45,10 +45,10 @@ class GroupController extends Controller
                 'title' => $group->getTitle(),
                 'id'    => $group->getId(),
             ];
-            $projects_active   = Factory::getStore('Project')->getByGroupId($group->getId(), false);
-            $projects_archived = Factory::getStore('Project')->getByGroupId($group->getId(), true);
+            $projectsActive   = Factory::getStore('Project')->getByGroupId($group->getId(), false);
+            $projectsArchived = Factory::getStore('Project')->getByGroupId($group->getId(), true);
 
-            $thisGroup['projects'] = array_merge($projects_active['items'], $projects_archived['items']);
+            $thisGroup['projects'] = array_merge($projectsActive['items'], $projectsArchived['items']);
             $groups[]              = $thisGroup;
         }
 

@@ -702,14 +702,14 @@ class Project extends Model
      */
     public function getEnvironmentsNames()
     {
-        $environments       = $this->getEnvironmentsObjects();
-        $environments_names = [];
+        $environments      = $this->getEnvironmentsObjects();
+        $environmentsNames = [];
         foreach($environments['items'] as $environment) {
             /** @var Environment $environment */
-            $environments_names[] = $environment->getName();
+            $environmentsNames[] = $environment->getName();
         }
 
-        return $environments_names;
+        return $environmentsNames;
     }
 
     /**
@@ -719,15 +719,15 @@ class Project extends Model
      */
     public function getEnvironments()
     {
-        $environments        = $this->getEnvironmentsObjects();
-        $environments_config = [];
+        $environments       = $this->getEnvironmentsObjects();
+        $environmentsConfig = [];
         foreach($environments['items'] as $environment) {
             /** @var Environment $environment */
-            $environments_config[$environment->getName()] = $environment->getBranches();
+            $environmentsConfig[$environment->getName()] = $environment->getBranches();
         }
 
-        $yaml_dumper = new YamlDumper();
-        $value       = $yaml_dumper->dump($environments_config, 10, 0, true, false);
+        $yamlDumper = new YamlDumper();
+        $value      = $yamlDumper->dump($environmentsConfig, 10, 0, true, false);
 
         return $value;
     }
@@ -739,18 +739,18 @@ class Project extends Model
      */
     public function setEnvironments($value)
     {
-        $yaml_parser          = new YamlParser();
-        $environments_config  = $yaml_parser->parse($value);
-        $environments_names   = !empty($environments_config) ? array_keys($environments_config) : [];
-        $current_environments = $this->getEnvironmentsObjects();
-        $store                = $this->getEnvironmentStore();
-        foreach ($current_environments['items'] as $environment) {
+        $yamlParser          = new YamlParser();
+        $environmentsConfig  = $yamlParser->parse($value);
+        $environmentsNames   = !empty($environmentsConfig) ? array_keys($environmentsConfig) : [];
+        $currentEnvironments = $this->getEnvironmentsObjects();
+        $store               = $this->getEnvironmentStore();
+        foreach ($currentEnvironments['items'] as $environment) {
             /** @var Environment $environment */
-            $key = array_search($environment->getName(), $environments_names);
+            $key = array_search($environment->getName(), $environmentsNames);
             if ($key !== false) {
                 // already exist
-                unset($environments_names[$key]);
-                $environment->setBranches(!empty($environments_config[$environment->getName()]) ? $environments_config[$environment->getName()] : []);
+                unset($environmentsNames[$key]);
+                $environment->setBranches(!empty($environmentsConfig[$environment->getName()]) ? $environmentsConfig[$environment->getName()] : []);
                 $store->save($environment);
             } else {
                 // remove
@@ -758,13 +758,13 @@ class Project extends Model
             }
         }
 
-        if (!empty($environments_names)) {
+        if (!empty($environmentsNames)) {
             // add
-            foreach ($environments_names as $environment_name) {
+            foreach ($environmentsNames as $environmentName) {
                 $environment = new Environment();
                 $environment->setProjectId($this->getId());
-                $environment->setName($environment_name);
-                $environment->setBranches(!empty($environments_config[$environment->getName()]) ? $environments_config[$environment->getName()] : []);
+                $environment->setName($environmentName);
+                $environment->setBranches(!empty($environmentsConfig[$environment->getName()]) ? $environmentsConfig[$environment->getName()] : []);
                 $store->save($environment);
             }
         }
@@ -777,31 +777,31 @@ class Project extends Model
      */
     public function getEnvironmentsNamesByBranch($branch)
     {
-        $environments_names = [];
-        $environments       = $this->getEnvironmentsObjects();
-        $default_branch     = ($branch == $this->getBranch());
+        $environmentsNames = [];
+        $environments      = $this->getEnvironmentsObjects();
+        $defaultBranch     = ($branch == $this->getBranch());
         foreach($environments['items'] as $environment) {
             /** @var Environment $environment */
-            if ($default_branch || in_array($branch, $environment->getBranches())) {
-                $environments_names[] = $environment->getName();
+            if ($defaultBranch || in_array($branch, $environment->getBranches())) {
+                $environmentsNames[] = $environment->getName();
             }
         }
 
-        return $environments_names;
+        return $environmentsNames;
     }
 
     /**
-     * @param string $environment_name
+     * @param string $environmentName
      *
      * @return string[]
      */
-    public function getBranchesByEnvironment($environment_name)
+    public function getBranchesByEnvironment($environmentName)
     {
         $branches     = [];
         $environments = $this->getEnvironmentsObjects();
         foreach($environments['items'] as $environment) {
             /** @var Environment $environment */
-            if ($environment_name == $environment->getName()) {
+            if ($environmentName == $environment->getName()) {
                 return $environment->getBranches();
             }
         }

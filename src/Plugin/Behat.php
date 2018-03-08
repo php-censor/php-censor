@@ -9,7 +9,7 @@ use PHPCensor\Plugin;
 
 /**
  * Behat BDD Plugin
- * 
+ *
  * @author Dan Cryer <dan@block8.co.uk>
  */
 class Behat extends Plugin
@@ -50,7 +50,7 @@ class Behat extends Plugin
      */
     public function execute()
     {
-        $current_dir = getcwd();
+        $currentDir = getcwd();
         chdir($this->builder->buildPath);
 
         $behat = $this->executable;
@@ -62,7 +62,7 @@ class Behat extends Plugin
         }
 
         $success = $this->builder->executeCommand($behat . ' %s', $this->features);
-        chdir($current_dir);
+        chdir($currentDir);
 
         list($errorCount, $data) = $this->parseBehatOutput();
 

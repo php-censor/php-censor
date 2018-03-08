@@ -97,8 +97,8 @@ class PhpSpec extends Plugin
                         $error['message'] = (String)$attr['message'];
                     }
 
-                    foreach ($child->xpath('system-err') as $system_err) {
-                        $error['raw'] = (String)$system_err;
+                    foreach ($child->xpath('system-err') as $systemError) {
+                        $error['raw'] = (String)$systemError;
                     }
 
                     $case['error'] = $error;

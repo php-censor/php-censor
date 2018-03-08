@@ -192,12 +192,12 @@ class Database extends \PDO
 
     /**
      * @param string $statement
-     * @param array  $driver_options
+     * @param array  $driverOptions
      *
      * @return \PDOStatement
      */
-    public function prepareCommon($statement, array $driver_options = [])
+    public function prepareCommon($statement, array $driverOptions = [])
     {
-        return parent::prepare($this->quoteNames($statement), $driver_options);
+        return parent::prepare($this->quoteNames($statement), $driverOptions);
     }
 }

@@ -239,12 +239,12 @@ class BuildStore extends Store
     /**
      * Return an array of the latest builds for all projects.
      *
-     * @param integer $limit_by_project
-     * @param integer $limit_all
+     * @param integer $limitByProject
+     * @param integer $limitAll
      *
      * @return array
      */
-    public function getAllProjectsLatestBuilds($limit_by_project = 5, $limit_all = 10)
+    public function getAllProjectsLatestBuilds($limitByProject = 5, $limitAll = 10)
     {
         // don't fetch log field - contain many data
         $query = '
@@ -275,40 +275,40 @@ class BuildStore extends Store
             $projects = [];
             $latest   = [];
             foreach ($res as $item) {
-                $project_id = $item['project_id'];
+                $projectId = $item['project_id'];
                 $environment = $item['environment'];
-                if (empty($projects[$project_id])) {
-                    $projects[$project_id] = [];
+                if (empty($projects[$projectId])) {
+                    $projects[$projectId] = [];
                 }
-                if (empty($projects[$project_id][$environment])) {
-                    $projects[$project_id][$environment] = [
+                if (empty($projects[$projectId][$environment])) {
+                    $projects[$projectId][$environment] = [
                         'latest' => [],
                         'success' => null,
                         'failed' => null,
                     ];
                 }
                 $build = null;
-                if (count($projects[$project_id][$environment]['latest']) < $limit_by_project) {
+                if (count($projects[$projectId][$environment]['latest']) < $limitByProject) {
                     $build = new Build($item);
-                    $projects[$project_id][$environment]['latest'][] = $build;
+                    $projects[$projectId][$environment]['latest'][] = $build;
                 }
-                if (count($latest) < $limit_all) {
+                if (count($latest) < $limitAll) {
                     if (is_null($build)) {
                         $build = new Build($item);
                     }
                     $latest[] = $build;
                 }
-                if (empty($projects[$project_id][$environment]['success']) && Build::STATUS_SUCCESS === $item['status']) {
+                if (empty($projects[$projectId][$environment]['success']) && Build::STATUS_SUCCESS === $item['status']) {
                     if (is_null($build)) {
                         $build = new Build($item);
                     }
-                    $projects[$project_id][$environment]['success'] = $build;
+                    $projects[$projectId][$environment]['success'] = $build;
                 }
-                if (empty($projects[$project_id][$environment]['failed']) && Build::STATUS_FAILED === $item['status']) {
+                if (empty($projects[$projectId][$environment]['failed']) && Build::STATUS_FAILED === $item['status']) {
                     if (is_null($build)) {
                         $build = new Build($item);
                     }
-                    $projects[$project_id][$environment]['failed'] = $build;
+                    $projects[$projectId][$environment]['failed'] = $build;
                 }
             }
 

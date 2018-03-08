@@ -71,8 +71,8 @@ class Config
         $keyParts = explode('.', $key);
         $selected = $this->config;
 
-        $i         = -1;
-        $last_part = count($keyParts) - 1;
+        $i        = -1;
+        $lastPart = count($keyParts) - 1;
         while ($part = array_shift($keyParts)) {
             $i++;
 
@@ -80,7 +80,7 @@ class Config
                 return $default;
             }
 
-            if ($i === $last_part) {
+            if ($i === $lastPart) {
                 return $selected[$part];
             } else {
                 $selected = $selected[$part];
@@ -177,25 +177,25 @@ class Config
             return;
         }
 
-        foreach ($target as $target_key => $target_value) {
-            if (isset($source[$target_key])) {
-                if (!is_array($source[$target_key]) && !is_array($target_value)) {
+        foreach ($target as $targetKey => $targetValue) {
+            if (isset($source[$targetKey])) {
+                if (!is_array($source[$targetKey]) && !is_array($targetValue)) {
                     // Neither value is an array, overwrite
-                    $source[$target_key] = $target_value;
-                } elseif (is_array($source[$target_key]) && is_array($target_value)) {
+                    $source[$targetKey] = $targetValue;
+                } elseif (is_array($source[$targetKey]) && is_array($targetValue)) {
                     // Both are arrays, deep merge them
-                    self::deepMerge($source[$target_key], $target_value);
-                } elseif (is_array($source[$target_key])) {
+                    self::deepMerge($source[$targetKey], $targetValue);
+                } elseif (is_array($source[$targetKey])) {
                     // Source is the array, push target value
-                    $source[$target_key][] = $target_value;
+                    $source[$targetKey][] = $targetValue;
                 } else {
                     // Target is the array, push source value and copy back
-                    $target_value[] = $source[$target_key];
-                    $source[$target_key] = $target_value;
+                    $targetValue[] = $source[$targetKey];
+                    $source[$targetKey] = $targetValue;
                 }
             } else {
                 // No merge required, just set the value
-                $source[$target_key] = $target_value;
+                $source[$targetKey] = $targetValue;
             }
         }
     }
