@@ -902,9 +902,10 @@ class Build extends Model
             return null;
         }
 
+        $createDate = $this->getCreateDate();
         if (empty($this->buildDirectory)) {
             $this->buildDirectory = $this->getProjectId() . '/' . $this->getId() . '_' . substr(
-                md5(($this->getId() . '_' . $this->getCreateDate()->format('Y-m-d H:i:s'))
+                md5(($this->getId() . '_' . ($createDate ? $createDate->format('Y-m-d H:i:s') : null))
             ), 0, 8);
         }
 
@@ -920,9 +921,10 @@ class Build extends Model
             return null;
         }
 
+        $createDate = $this->getCreateDate();
         if (empty($this->buildBranchDirectory)) {
             $this->buildBranchDirectory = $this->getProjectId() . '/' . $this->getBranch() . '_' . substr(
-                md5(($this->getBranch() . '_' . $this->getProject()->getCreateDate()->format('Y-m-d H:i:s'))
+                md5(($this->getBranch() . '_' . ($createDate ? $createDate->format('Y-m-d H:i:s') : null))
             ), 0, 8);
         }
 
