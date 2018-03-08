@@ -82,7 +82,7 @@ class WebhookController extends Controller
      */
     public function bitbucket($projectId)
     {
-        $project = $this->fetchProject($projectId, ['bitbucket', 'bitbuckethg', 'remote']);
+        $project = $this->fetchProject($projectId, ['bitbucket', 'bitbucket-hg', 'hg', 'git']);
 
         // Support both old services and new webhooks
         if ($payload = $this->getParam('payload')) {
@@ -272,7 +272,7 @@ class WebhookController extends Controller
      */
     public function git($projectId)
     {
-        $project       = $this->fetchProject($projectId, ['local', 'remote']);
+        $project       = $this->fetchProject($projectId, ['local', 'git']);
         $branch        = $this->getParam('branch', $project->getBranch());
         $commit        = $this->getParam('commit');
         $commitMessage = $this->getParam('message');
@@ -294,7 +294,7 @@ class WebhookController extends Controller
      */
     public function github($projectId)
     {
-        $project = $this->fetchProject($projectId, ['github', 'remote']);
+        $project = $this->fetchProject($projectId, ['github', 'git']);
 
         switch ($_SERVER['CONTENT_TYPE']) {
             case 'application/json':
@@ -475,7 +475,7 @@ class WebhookController extends Controller
      */
     public function gitlab($projectId)
     {
-        $project = $this->fetchProject($projectId, ['gitlab', 'remote']);
+        $project = $this->fetchProject($projectId, ['gitlab', 'git']);
 
         $payloadString = file_get_contents("php://input");
         $payload = json_decode($payloadString, true);
@@ -568,7 +568,7 @@ class WebhookController extends Controller
      */
     public function gogs($projectId)
     {
-        $project = $this->fetchProject($projectId, ['gogs', 'remote']);
+        $project = $this->fetchProject($projectId, ['gogs', 'git']);
         switch ($_SERVER['CONTENT_TYPE']) {
             case 'application/json':
                 $payload = json_decode(file_get_contents('php://input'), true);

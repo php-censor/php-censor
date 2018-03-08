@@ -427,20 +427,20 @@ class ProjectController extends PHPCensor\Controller
         $form->addField(new Form\Element\Hidden('pubkey'));
 
         $options = [
-            'choose'      => Lang::get('select_repository_type'),
-            'github'      => 'GitHub',
-            'bitbucket'   => 'Bitbucket (Git)',
-            'bitbuckethg' => 'Bitbucket (Hg)',
-            'gitlab'      => 'GitLab',
-            'gogs'        => 'Gogs',
-            'remote'      => 'Git',
-            'local'       => Lang::get('local'),
-            'hg'          => 'Mercurial (Hg)',
-            'svn'         => 'SVN',
+            'choose'       => Lang::get('select_repository_type'),
+            'github'       => 'GitHub',
+            'bitbucket'    => 'Bitbucket (Git)',
+            'bitbucket-hg' => 'Bitbucket (Hg)',
+            'gitlab'       => 'GitLab',
+            'gogs'         => 'Gogs',
+            'git'          => 'Git',
+            'local'        => Lang::get('local'),
+            'hg'           => 'Hg (Mercurial)',
+            'svn'          => 'Svn (Subversion)',
         ];
 
         $field = Form\Element\Select::create('type', Lang::get('where_hosted'), true);
-        $field->setPattern('^(github|bitbucket|bitbuckethg|gitlab|gogs|remote|local|hg|svn)');
+        $field->setPattern('^(github|bitbucket|bitbucket-hg|gitlab|gogs|git|local|hg|svn)');
         $field->setOptions($options);
         $field->setClass('form-control')->setContainerClass('form-group');
         $form->addField($field);
@@ -541,11 +541,11 @@ class ProjectController extends PHPCensor\Controller
             $validators = [
                 'hg' => [
                     'regex'   => '/^(ssh|https?):\/\//',
-                    'message' => Lang::get('error_mercurial')
+                    'message' => Lang::get('error_hg')
                 ],
-                'remote' => [
+                'git' => [
                     'regex'   => '/^(git|https?):\/\//',
-                    'message' => Lang::get('error_remote')
+                    'message' => Lang::get('error_git')
                 ],
                 'gitlab' => [
                     'regex'   => '`^(.*)@(.*):(.*)/(.*)\.git`',
@@ -559,7 +559,7 @@ class ProjectController extends PHPCensor\Controller
                     'regex'   => '/^[a-zA-Z0-9_\-]+\/[a-zA-Z0-9_\-\.]+$/',
                     'message' => Lang::get('error_bitbucket')
                 ],
-                'bitbuckethg' => [
+                'bitbucket-hg' => [
                     'regex'   => '/^[a-zA-Z0-9_\-]+\/[a-zA-Z0-9_\-\.]+$/',
                     'message' => Lang::get('error_bitbucket')
                 ],

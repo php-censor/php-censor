@@ -89,7 +89,7 @@ PHP Censor',
     'github' => 'GitHub',
     'bitbucket' => 'Bitbucket',
     'gitlab' => 'GitLab',
-    'remote' => 'URL Remoto',
+    'git' => 'Git',
     'local' => 'Percorso Locale',
     'hg'    => 'Mercurial',
 
@@ -108,12 +108,11 @@ PHP Censor',
     'archived_menu' => 'Archived',
     'save_project' => 'Salva il Progetto',
 
-    'error_mercurial' => 'L\'URL del repository Mercurial URL deve iniziare con http:// o https://',
-    'error_remote' => 'L\'URL del repository deve iniziare con git://, http:// o https://',
+    'error_hg' => 'L\'URL del repository Mercurial URL deve iniziare con http:// o https://',
+    'error_git' => 'L\'URL del repository deve iniziare con git://, http:// o https://',
     'error_gitlab' => 'Il nome del repository di GitLab deve essere nel seguente formato "utente@dominio.tld:proprietario/repository.git"',
     'error_github' => 'Il nome del repository deve essere nel formato "proprietario/repository"',
     'error_bitbucket' => 'Il nome del repository deve essere nel formato "proprietario/repository"',
-    'error_path' => 'The path you specified does not exist.',
     'error_path' => 'Il percorso che hai indicato non esiste.',
 
     // View Project:

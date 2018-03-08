@@ -694,12 +694,13 @@ class Project extends Model
                 break;
 
             case 'bitbucket':
-            case 'bitbuckethg':
+            case 'bitbucket-hg':
                 $icon = 'bitbucket';
                 break;
 
-            case 'remote':
+            case 'git':
             case 'gitlab':
+            case 'gogs':
             default:
                 $icon = 'code-fork';
                 break;
