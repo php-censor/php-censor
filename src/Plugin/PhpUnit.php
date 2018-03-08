@@ -2,7 +2,7 @@
 
 namespace PHPCensor\Plugin;
 
-use b8\Config;
+use PHPCensor\Config;
 use PHPCensor;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
