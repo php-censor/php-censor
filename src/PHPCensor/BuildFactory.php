@@ -13,18 +13,16 @@ use PHPCensor\Model\Build;
 class BuildFactory
 {
     /**
-     * @param $buildId
+     * @param integer $buildId
      *
-     * @throws \Exception
-     *
-     * @return Build
+     * @return Build|null
      */
     public static function getBuildById($buildId)
     {
         $build = Factory::getStore('Build')->getById($buildId);
 
         if (empty($build)) {
-            throw new \Exception('Build ID ' . $buildId . ' does not exist.');
+            return null;
         }
 
         return self::getBuild($build);

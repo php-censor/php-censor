@@ -62,13 +62,9 @@ class BuildController extends Controller
             $severity = null;
         }
 
-        try {
-            $build = BuildFactory::getBuildById($buildId);
-        } catch (\Exception $ex) {
-            $build = null;
-        }
+        $build = BuildFactory::getBuildById($buildId);
 
-        if (empty($build)) {
+        if (!$build) {
             throw new NotFoundException(Lang::get('build_x_not_found', $buildId));
         }
 
@@ -246,7 +242,7 @@ class BuildController extends Controller
         $copy    = BuildFactory::getBuildById($buildId);
         $project = b8\Store\Factory::getStore('Project')->getByPrimaryKey($copy->getProjectId());
 
-        if (empty($copy) || $project->getArchived()) {
+        if (!$copy || $project->getArchived()) {
             throw new NotFoundException(Lang::get('build_x_not_found', $buildId));
         }
 
@@ -271,7 +267,7 @@ class BuildController extends Controller
 
         $build = BuildFactory::getBuildById($buildId);
 
-        if (empty($build)) {
+        if (!$build) {
             throw new NotFoundException(Lang::get('build_x_not_found', $buildId));
         }
 
@@ -348,10 +344,10 @@ class BuildController extends Controller
 
     public function ajaxMeta($buildId)
     {
-        $build  = BuildFactory::getBuildById($buildId);
-        $key = $this->getParam('key', null);
+        $build     = BuildFactory::getBuildById($buildId);
+        $key       = $this->getParam('key', null);
         $numBuilds = $this->getParam('num_builds', 1);
-        $data = null;
+        $data      = null;
 
         if ($key && $build) {
             $data = $this->buildStore->getMeta($key, $build->getProjectId(), $buildId, $build->getBranch(), $numBuilds);

@@ -96,9 +96,8 @@ class BuildWorker
 
             $this->logger->addInfo('Received build #'.$jobData['build_id'].' from Beanstalkd');
 
-            try {
-                $build = BuildFactory::getBuildById($jobData['build_id']);
-            } catch (\Exception $ex) {
+            $build = BuildFactory::getBuildById($jobData['build_id']);
+            if (!$build) {
                 $this->logger->addWarning('Build #' . $jobData['build_id'] . ' does not exist in the database.');
                 $this->pheanstalk->delete($job);
                 continue;
