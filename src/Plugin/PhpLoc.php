@@ -10,7 +10,7 @@ use PHPCensor\ZeroConfigPluginInterface;
 
 /**
  * PHP Loc - Allows PHP Copy / Lines of Code testing.
- * 
+ *
  * @author Johan van der Heide <info@japaveh.nl>
  */
 class PhpLoc extends Plugin implements ZeroConfigPluginInterface
@@ -27,7 +27,7 @@ class PhpLoc extends Plugin implements ZeroConfigPluginInterface
     {
         return 'php_loc';
     }
-    
+
     /**
      * Check if this plugin can be executed.
      * @param $stage
@@ -67,7 +67,7 @@ class PhpLoc extends Plugin implements ZeroConfigPluginInterface
 
         if (count($this->builder->ignore)) {
             $map = function ($item) {
-                return ' --exclude ' . rtrim($item, DIRECTORY_SEPARATOR);
+                return ' --exclude ' . rtrim($item, '/');
             };
 
             $ignore = array_map($map, $this->builder->ignore);

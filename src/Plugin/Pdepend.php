@@ -122,9 +122,9 @@ class Pdepend extends Plugin
 
         $success = $this->builder->executeCommand(
             $cmd,
-            $this->buildLocation . DIRECTORY_SEPARATOR . $this->summary,
-            $this->buildLocation . DIRECTORY_SEPARATOR . $this->chart,
-            $this->buildLocation . DIRECTORY_SEPARATOR . $this->pyramid,
+            $this->buildLocation . '/' . $this->summary,
+            $this->buildLocation . '/' . $this->chart,
+            $this->buildLocation . '/' . $this->pyramid,
             $ignore,
             $this->directory
         );

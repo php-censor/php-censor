@@ -178,7 +178,7 @@ class Phar extends Plugin
         $content  = '';
         $filename = $this->getStub();
         if ($filename) {
-            $content = file_get_contents($this->builder->buildPath . DIRECTORY_SEPARATOR . $this->getStub());
+            $content = file_get_contents($this->builder->buildPath . '/' . $this->getStub());
         }
         return $content;
     }
@@ -192,7 +192,7 @@ class Phar extends Plugin
         $success = false;
 
         try {
-            $file = $this->getDirectory() . DIRECTORY_SEPARATOR . $this->getFilename();
+            $file = $this->getDirectory() . '/' . $this->getFilename();
             $phar = new PHPPhar($file, 0, $this->getFilename());
             $phar->buildFromDirectory($this->builder->buildPath, $this->getRegExp());
 

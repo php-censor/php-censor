@@ -9,7 +9,7 @@ use PHPCensor\Plugin;
 
 /**
  * PHP Lint Plugin - Provides access to PHP lint functionality.
- * 
+ *
  * @author Dan Cryer <dan@block8.co.uk>
  */
 class Lint extends Plugin
@@ -83,7 +83,11 @@ class Lint extends Plugin
 
         if ($item->isFile() && $item->getExtension() == 'php' && !$this->lintFile($php, $itemPath)) {
             $success = false;
-        } elseif ($item->isDir() && $this->recursive && !$this->lintDirectory($php, $itemPath . DIRECTORY_SEPARATOR)) {
+        } elseif (
+            $item->isDir() &&
+            $this->recursive &&
+            !$this->lintDirectory($php, ($itemPath . '/'))
+        ) {
             $success = false;
         }
 

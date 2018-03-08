@@ -46,7 +46,7 @@ class Composer extends Plugin implements ZeroConfigPluginInterface
         $this->ignorePlatformReqs = false;
 
         if (array_key_exists('directory', $options)) {
-            $this->directory = $path . DIRECTORY_SEPARATOR . $options['directory'];
+            $this->directory = $path . '/' . $options['directory'];
         }
 
         if (array_key_exists('action', $options)) {
@@ -80,7 +80,7 @@ class Composer extends Plugin implements ZeroConfigPluginInterface
      */
     public static function canExecute($stage, Builder $builder, Build $build)
     {
-        $path = $builder->buildPath . DIRECTORY_SEPARATOR . 'composer.json';
+        $path = $builder->buildPath . '/composer.json';
 
         if (file_exists($path) && $stage == Build::STAGE_SETUP) {
             return true;

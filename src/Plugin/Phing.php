@@ -38,7 +38,7 @@ class Phing extends Plugin
          * Set working directory
          */
         if (isset($options['directory'])) {
-            $directory = $this->builder->buildPath . DIRECTORY_SEPARATOR . $options['directory'];
+            $directory = $this->builder->buildPath . '/' . $options['directory'];
         } else {
             $directory = $this->builder->buildPath;
         }
@@ -228,7 +228,7 @@ class Phing extends Plugin
      */
     public function setPropertyFile($propertyFile)
     {
-        if (!file_exists($this->getDirectory() . DIRECTORY_SEPARATOR . $propertyFile)) {
+        if (!file_exists($this->getDirectory() . '/' . $propertyFile)) {
             throw new \Exception('Specified property file does not exist.');
         }
 

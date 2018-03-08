@@ -146,7 +146,7 @@ class BuildController extends Controller
     protected function getUiPlugins()
     {
         $rtn  = [];
-        $path = PUBLIC_DIR . 'assets' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'build-plugins' . DIRECTORY_SEPARATOR;
+        $path = PUBLIC_DIR . 'assets/js/build-plugins/';
         $dir  = opendir($path);
 
         while ($item = readdir($dir)) {

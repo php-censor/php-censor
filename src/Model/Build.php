@@ -790,7 +790,7 @@ class Build extends Model
      */
     protected function getZeroConfigPlugins(Builder $builder)
     {
-        $pluginDir = SRC_DIR . 'Plugin' . DIRECTORY_SEPARATOR;
+        $pluginDir = SRC_DIR . 'Plugin/';
         $dir = new \DirectoryIterator($pluginDir);
 
         $config = [

@@ -127,7 +127,7 @@ class PhpTalLint extends Plugin
             if (!$this->lintFile($itemPath)) {
                 $success = false;
             }
-        } elseif ($item->isDir() && $this->recursive && !$this->lintDirectory($itemPath . DIRECTORY_SEPARATOR)) {
+        } elseif ($item->isDir() && $this->recursive && !$this->lintDirectory($itemPath . '/')) {
             $success = false;
         }
 
@@ -174,10 +174,10 @@ class PhpTalLint extends Plugin
 
         list($suffixes, $tales) = $this->getFlags();
 
-        $lint = __DIR__ . DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR;
-        $lint .= 'vendor' . DIRECTORY_SEPARATOR . 'phptal' . DIRECTORY_SEPARATOR . 'phptal' . DIRECTORY_SEPARATOR;
-        $lint .= 'tools' . DIRECTORY_SEPARATOR . 'phptal_lint.php';
-        $cmd  = '/usr/bin/env php ' . $lint . ' %s %s "%s"';
+        $lint = __DIR__ . '/';
+        $lint .= 'vendor/phptal/phptal/';
+        $lint .= 'tools/phptal_lint.php';
+        $cmd  = 'php ' . $lint . ' %s %s "%s"';
 
         $this->builder->executeCommand($cmd, $suffixes, $tales, $this->builder->buildPath . $path);
 

@@ -47,7 +47,7 @@ class Atoum extends Plugin
         parent::__construct($builder, $build, $options);
 
         if (isset($options['executable'])) {
-            $this->executable = $this->builder->buildPath . DIRECTORY_SEPARATOR.$options['executable'];
+            $this->executable = $this->builder->buildPath . '/' . $options['executable'];
         } else {
             $this->executable = $this->findBinary('atoum');
         }
@@ -83,7 +83,7 @@ class Atoum extends Plugin
         }
 
         if ($this->directory !== null) {
-            $dirPath = $this->builder->buildPath . DIRECTORY_SEPARATOR . $this->directory;
+            $dirPath = $this->builder->buildPath . '/' . $this->directory;
             $cmd .= " -d '{$dirPath}'";
         }
 

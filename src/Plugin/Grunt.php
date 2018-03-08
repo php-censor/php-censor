@@ -8,7 +8,7 @@ use PHPCensor\Plugin;
 
 /**
  * Grunt Plugin - Provides access to grunt functionality.
- * 
+ *
  * @author Tobias Tom <t.tom@succont.de>
  */
 class Grunt extends Plugin
@@ -26,14 +26,14 @@ class Grunt extends Plugin
     {
         return 'grunt';
     }
-    
+
     /**
      * {@inheritdoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
         parent::__construct($builder, $build, $options);
-        
+
         $path            = $this->builder->buildPath;
         $this->directory = $path;
         $this->task      = null;
@@ -42,7 +42,7 @@ class Grunt extends Plugin
 
         // Handle options:
         if (isset($options['directory'])) {
-            $this->directory = $path . DIRECTORY_SEPARATOR . $options['directory'];
+            $this->directory = $path . '/' . $options['directory'];
         }
 
         if (isset($options['task'])) {

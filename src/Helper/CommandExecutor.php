@@ -335,14 +335,14 @@ class CommandExecutor implements CommandExecutorInterface
     public function getComposerBinDir($path)
     {
         if (is_dir($path)) {
-            $composer = $path . DIRECTORY_SEPARATOR . 'composer.json';
+            $composer = $path . '/composer.json';
             if (is_file($composer)) {
                 $json = json_decode(file_get_contents($composer));
 
                 if (isset($json->config->{"bin-dir"})) {
-                    return $path . DIRECTORY_SEPARATOR . $json->config->{"bin-dir"};
-                } elseif (is_dir($path . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'bin')) {
-                    return $path  . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'bin';
+                    return $path . '/' . $json->config->{"bin-dir"};
+                } elseif (is_dir($path . '/vendor/bin')) {
+                    return $path  . '/vendor/bin';
                 }
             }
         }

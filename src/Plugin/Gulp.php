@@ -8,7 +8,7 @@ use PHPCensor\Plugin;
 
 /**
  * Gulp Plugin - Provides access to gulp functionality.
- * 
+ *
  * @author Dirk Heilig <dirk@heilig-online.com>
  */
 class Gulp extends Plugin
@@ -26,14 +26,14 @@ class Gulp extends Plugin
     {
         return 'gulp';
     }
-    
+
     /**
      * {@inheritdoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
         parent::__construct($builder, $build, $options);
-        
+
         $path            = $this->builder->buildPath;
         $this->directory = $path;
         $this->task      = null;
@@ -42,7 +42,7 @@ class Gulp extends Plugin
 
         // Handle options:
         if (isset($options['directory'])) {
-            $this->directory = $path . DIRECTORY_SEPARATOR . $options['directory'];
+            $this->directory = $path . '/' . $options['directory'];
         }
 
         if (isset($options['task'])) {

@@ -59,7 +59,7 @@ class SecurityChecker extends Plugin implements ZeroConfigPluginInterface
      */
     public static function canExecute($stage, Builder $builder, Build $build)
     {
-        $path = $builder->buildPath . DIRECTORY_SEPARATOR . 'composer.lock';
+        $path = $builder->buildPath . '/composer.lock';
 
         if (file_exists($path) && $stage == Build::STAGE_TEST) {
             return true;
@@ -72,7 +72,7 @@ class SecurityChecker extends Plugin implements ZeroConfigPluginInterface
     {
         $success   = true;
         $checker   = new BaseSecurityChecker();
-        $warnings  = $checker->check($this->builder->buildPath . DIRECTORY_SEPARATOR . 'composer.lock');
+        $warnings  = $checker->check($this->builder->buildPath . '/composer.lock');
 
         if ($warnings) {
             foreach ($warnings as $library => $warning) {

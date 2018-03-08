@@ -83,8 +83,8 @@ class PhpCpd extends Plugin implements ZeroConfigPluginInterface
         $namesExclude = ' --names-exclude ';
 
         foreach ($this->ignore as $item) {
-            $item = rtrim($item, DIRECTORY_SEPARATOR);
-            if (is_file(rtrim($this->path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $item)) {
+            $item = rtrim($item, '/');
+            if (is_file(rtrim($this->path, '/') . '/' . $item)) {
                 $ignoredFile     = explode('/', $item);
                 $filesToIgnore[] = array_pop($ignoredFile);
             } else {

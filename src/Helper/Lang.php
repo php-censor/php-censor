@@ -101,7 +101,7 @@ class Lang
     {
         $languages = [];
         foreach (self::$languages as $language) {
-            $strings = include(SRC_DIR . 'Languages' . DIRECTORY_SEPARATOR . 'lang.' . $language . '.php');
+            $strings = include(SRC_DIR . 'Languages/lang.' . $language . '.php');
             $languages[$language] = !empty($strings['language_name'])
                 ? $strings['language_name'] . ' (' . $language . ')'
                 : $language;
@@ -169,7 +169,7 @@ class Lang
             ? $language
             : self::$language;
 
-        $langFile = SRC_DIR . 'Languages' . DIRECTORY_SEPARATOR . 'lang.' . $language . '.php';
+        $langFile = SRC_DIR . 'Languages/lang.' . $language . '.php';
 
         if (!file_exists($langFile)) {
             return null;
@@ -189,7 +189,7 @@ class Lang
     protected static function loadAvailableLanguages()
     {
         $matches = [];
-        foreach (glob(SRC_DIR . 'Languages' . DIRECTORY_SEPARATOR . 'lang.*.php') as $file) {
+        foreach (glob(SRC_DIR . 'Languages/lang.*.php') as $file) {
             if (preg_match('/lang\.([a-z]{2}\-?[a-z]*)\.php/', $file, $matches)) {
                 self::$languages[] = $matches[1];
             }
