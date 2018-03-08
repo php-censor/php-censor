@@ -185,7 +185,7 @@ use PHPCensor\Helper\Lang;
                             break;
 
                         case 'bitbucket':
-                        case 'bitbuckethg':
+                        case 'bitbucket-hg':
                             $url = APP_URL . 'webhook/bitbucket/' . $project->getId();
                             Lang::out('webhooks_help_bitbucket', $project->getReference());
                             break;
