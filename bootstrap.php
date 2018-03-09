@@ -26,7 +26,10 @@ if (!defined('RUNTIME_DIR')) {
 
 require_once(ROOT_DIR . 'vendor/autoload.php');
 
-$config = new PHPCensor\Config();
+use PHPCensor\Config;
+use PHPCensor\Helper\Lang;
+
+$config = new Config();
 
 $configFile = APP_DIR . 'config.yml';
 if (file_exists($configFile)) {
@@ -37,4 +40,4 @@ if (!defined('APP_URL') && !empty($config)) {
     define('APP_URL', $config->get('php-censor.url', '') . '/');
 }
 
-\PHPCensor\Helper\Lang::init($config);
+Lang::init($config);

@@ -24,15 +24,8 @@ if (!defined('RUNTIME_DIR')) {
     define('RUNTIME_DIR', ROOT_DIR . 'runtime/');
 }
 
-require_once(ROOT_DIR . 'vendor/autoload.php');
-
-$conf                      = [];
-$conf['php-censor']['url'] = 'http://php-censor.local';
-
-$config = new PHPCensor\Config($conf);
-
 if (!defined('APP_URL')) {
-    define('APP_URL', $config->get('php-censor.url', '') . '/');
+    define('APP_URL', 'http://php-censor.local/');
 }
 
-\PHPCensor\Helper\Lang::init($config);
+require_once(ROOT_DIR . 'vendor/autoload.php');
