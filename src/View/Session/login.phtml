@@ -2,8 +2,8 @@
 <?php if($failed): ?>
     <p class="alert alert-danger"><?php Lang::out('login_error'); ?></p>
 <?php endif; ?>
-<?php print $form; ?>
+<?= $form; ?>
 
-<a style="margin-top: -22px;" class="pull-right" href="<?php print APP_URL; ?>session/forgot-password">
+<a style="margin-top: -22px;" class="pull-right" href="<?= APP_URL; ?>session/forgot-password">
     <?php Lang::out('forgotten_password_link'); ?>
 </a>

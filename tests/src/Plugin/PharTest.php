@@ -40,12 +40,12 @@ class PharTest extends \PHPUnit\Framework\TestCase
     {
         $directory = $this->buildTemp();
         mkdir($directory);
-        file_put_contents($directory . '/one.php', '<?php echo "one";');
-        file_put_contents($directory . '/two.php', '<?php echo "two";');
+        file_put_contents($directory . '/one.php', '<?= "one";');
+        file_put_contents($directory . '/two.php', '<?= "two";');
         mkdir($directory . '/config');
         file_put_contents($directory . '/config/config.ini', '[config]');
         mkdir($directory . '/views');
-        file_put_contents($directory . '/views/index.phtml', '<?php echo "hello";');
+        file_put_contents($directory . '/views/index.phtml', '<?= "hello";');
         $this->directory = $directory;
         return $directory;
     }

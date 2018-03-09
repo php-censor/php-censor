@@ -109,7 +109,7 @@ foreach($builds as $project_id => $project_envs):
 
         </div>
         <div class="icon">
-            <i class="fa fa-<?php print $project->getIcon(); ?>"></i>
+            <i class="fa fa-<?= $project->getIcon(); ?>"></i>
         </div>
         <a href="<?= APP_URL; ?>project/view/<?= $project->getId(); ?>" class="small-box-footer small-box-footer-project">
             <div class="pull-left" style="margin-left: 10px">

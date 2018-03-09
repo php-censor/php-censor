@@ -72,7 +72,7 @@ use PHPCensor\Model\BuildError;
                             $branches = $build->getExtra('branches');
                             if (!empty($branches)) {
                                 foreach($branches as $branch) {
-                                    ?><i class="fa fa-code-fork"></i> <?php print $branch ?><?php
+                                    ?><i class="fa fa-code-fork"></i> <?= $branch ?><?php
                                 }
                             } else {
                                 ?>&mdash;<?php
@@ -105,7 +105,7 @@ use PHPCensor\Model\BuildError;
                         <th><?php Lang::out('commit'); ?></th>
                         <td style="text-align: right">
                             <a href="<?= $build->getCommitLink(); ?>">
-                                <?php print substr($build->getCommitId(), 0, 7); ?>
+                                <?= substr($build->getCommitId(), 0, 7); ?>
                             </a>
                         </td>
                     </tr>
@@ -113,14 +113,14 @@ use PHPCensor\Model\BuildError;
                     <tr>
                         <th><?php Lang::out('committer'); ?></th>
                         <td style="text-align: right">
-                            <?php print $build->getCommitterEmail(); ?>
+                            <?= $build->getCommitterEmail(); ?>
                         </td>
                     </tr>
 
                     <tr>
                         <th><?php Lang::out('commit_message'); ?></th>
                         <td style="text-align: right">
-                            <?php print $build->getCommitMessage(); ?>
+                            <?= $build->getCommitMessage(); ?>
                         </td>
                     </tr>
                 </table>
@@ -175,26 +175,26 @@ use PHPCensor\Model\BuildError;
 <div class="nav-tabs-custom">
     <ul class="nav nav-tabs">
         <li class="active">
-            <a href="#log" data-toggle="tab"><i class="fa fa-cogs"></i> <?php print Lang::get('build_log'); ?></a>
+            <a href="#log" data-toggle="tab"><i class="fa fa-cogs"></i> <?= Lang::get('build_log'); ?></a>
         </li>
         <li class="">
             <a href="#errors" data-toggle="tab">
-                <i class="fa fa-exclamation-triangle"></i>  <?php print Lang::get('errors'); ?>
+                <i class="fa fa-exclamation-triangle"></i>  <?= Lang::get('errors'); ?>
                 <?php if ($data['errors_total'] == 0): ?>
                     <span class="errors-label label label-danger" style="display: none">0</span>
                 <?php else: ?>
-                    <span class="errors-label label label-danger"><?php print $data['errors_total']; ?></span>
+                    <span class="errors-label label label-danger"><?= $data['errors_total']; ?></span>
                 <?php endif; ?>
             </a>
         </li>
         <li class="">
-            <a href="#information" data-toggle="tab"><i class="fa fa-info-circle"></i>  <?php print Lang::get('information'); ?></a>
+            <a href="#information" data-toggle="tab"><i class="fa fa-info-circle"></i>  <?= Lang::get('information'); ?></a>
         </li>
     </ul>
 
     <div class="tab-content">
         <div class="tab-pane active" id="log">
-            <pre style="overflow-y: visible; white-space: pre-wrap"><?php print $data['log']; ?></pre>
+            <pre style="overflow-y: visible; white-space: pre-wrap"><?= $data['log']; ?></pre>
         </div>
 
         <div class="tab-pane" id="errors">
@@ -298,7 +298,7 @@ use PHPCensor\Model\BuildError;
                     </tr>
                 </thead>
                 <tbody>
-                    <?php print $data['error_html']; ?>
+                    <?= $data['error_html']; ?>
                 </tbody>
             </table>
             <div id="paginator">
@@ -312,7 +312,7 @@ use PHPCensor\Model\BuildError;
     </div>
 </div>
 
-<script src="<?php print APP_URL; ?>assets/js/build.js"></script>
+<script src="<?= APP_URL; ?>assets/js/build.js"></script>
 <script>
     var PER_PAGE       = <?= $perPage; ?>;
     var PAGE           = <?= $page; ?>;

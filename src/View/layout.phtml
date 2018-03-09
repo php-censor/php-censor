@@ -9,29 +9,29 @@ $user = $this->getUser();
 <html>
 <head>
     <meta charset="UTF-8">
-    <title><?php print $title; ?><?php print !empty($subtitle) ? ' - ' . $subtitle : ''; ?></title>
+    <title><?= $title; ?><?= (!empty($subtitle) ? ' - ' . $subtitle : ''); ?></title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 
-    <link href="<?php print APP_URL; ?>assets/vendor/admin-lte/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <link href="<?php print APP_URL; ?>assets/vendor/admin-lte/dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />
-    <link href="<?php print APP_URL; ?>assets/css/ansi-colors.css" rel="stylesheet" type="text/css" />
-    <link href="<?php print APP_URL; ?>assets/css/main.css" rel="stylesheet" type="text/css" />
+    <link href="<?= APP_URL; ?>assets/vendor/admin-lte/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="<?= APP_URL; ?>assets/vendor/admin-lte/dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />
+    <link href="<?= APP_URL; ?>assets/css/ansi-colors.css" rel="stylesheet" type="text/css" />
+    <link href="<?= APP_URL; ?>assets/css/main.css" rel="stylesheet" type="text/css" />
 
-    <link href="<?php print APP_URL; ?>assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-    <link href="<?php print APP_URL; ?>assets/vendor/ionicons/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+    <link href="<?= APP_URL; ?>assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="<?= APP_URL; ?>assets/vendor/ionicons/css/ionicons.min.css" rel="stylesheet" type="text/css" />
 
-    <script src="<?php print APP_URL; ?>assets/js/class.js"></script>
+    <script src="<?= APP_URL; ?>assets/js/class.js"></script>
 
-    <script src="<?php print APP_URL; ?>assets/vendor/admin-lte/plugins/jQuery/jquery-2.2.3.min.js"></script>
-    <script src="<?php print APP_URL; ?>assets/vendor/admin-lte/plugins/jQueryUI/jquery-ui.min.js" type="text/javascript"></script>
-    <script src="<?php print APP_URL; ?>assets/vendor/admin-lte/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="<?= APP_URL; ?>assets/vendor/admin-lte/plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="<?= APP_URL; ?>assets/vendor/admin-lte/plugins/jQueryUI/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="<?= APP_URL; ?>assets/vendor/admin-lte/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 
-    <link href="<?php print APP_URL; ?>assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-    <script src="<?php print APP_URL; ?>assets/vendor/admin-lte/plugins/chartjs/Chart.min.js" type="text/javascript"></script>
-    <script src="<?php print APP_URL; ?>assets/vendor/admin-lte/dist/js/app.min.js" type="text/javascript"></script>
-    <script src="<?php print APP_URL; ?>assets/vendor/sprintf-js/dist/sprintf.min.js"></script>
+    <link href="<?= APP_URL; ?>assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <script src="<?= APP_URL; ?>assets/vendor/admin-lte/plugins/chartjs/Chart.min.js" type="text/javascript"></script>
+    <script src="<?= APP_URL; ?>assets/vendor/admin-lte/dist/js/app.min.js" type="text/javascript"></script>
+    <script src="<?= APP_URL; ?>assets/vendor/sprintf-js/dist/sprintf.min.js"></script>
 
-    <script src="<?php print APP_URL; ?>assets/js/app.js?v2" type="text/javascript"></script>
+    <script src="<?= APP_URL; ?>assets/js/app.js?v2" type="text/javascript"></script>
 
     <script>
         var APP_URL  = '<?= APP_URL; ?>';
@@ -45,13 +45,13 @@ $user = $this->getUser();
     </script>
 
 </head>
-<body class="app-layout <?php print !empty($skin) ? 'skin-' . $skin : 'skin-black'; ?>">
+<body class="app-layout <?= (!empty($skin) ? 'skin-' . $skin : 'skin-black'); ?>">
 <div class="wrapper row-offcanvas row-offcanvas-left">
 
 <!-- header logo: style can be found in header.less -->
 <header class="main-header">
-    <a href="<?php print APP_URL; ?>" class="logo" title="PHP Censor">
-        <img src="<?php print APP_URL; ?>assets/img/php-censor-white.svg" width="170" height="auto" alt="PHP Censor" />
+    <a href="<?= APP_URL; ?>" class="logo" title="PHP Censor">
+        <img src="<?= APP_URL; ?>assets/img/php-censor-white.svg" width="170" height="auto" alt="PHP Censor" />
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top" role="navigation">
@@ -103,19 +103,19 @@ $user = $this->getUser();
         <ul class="dropdown-menu">
             <!-- User image -->
             <li class="user-header">
-                <img src="https://www.gravatar.com/avatar/<?php print md5($user->getEmail()); ?>?d=mm" class="img-circle" alt="<?php print $user->getName(); ?>" />
+                <img src="https://www.gravatar.com/avatar/<?= md5($user->getEmail()); ?>?d=mm" class="img-circle" alt="<?= $user->getName(); ?>" />
                 <p>
-                    <?php print $user->getName(); ?>
+                    <?= $user->getName(); ?>
                 </p>
             </li>
 
             <!-- Menu Footer-->
             <li class="user-footer">
                 <div class="pull-left">
-                    <a href="<?php print APP_URL ?>user/profile" class="btn btn-default btn-flat"><?php Lang::out('edit_profile'); ?></a>
+                    <a href="<?= APP_URL; ?>user/profile" class="btn btn-default btn-flat"><?php Lang::out('edit_profile'); ?></a>
                 </div>
                 <div class="pull-right">
-                    <a href="<?php print APP_URL ?>session/logout" class="btn btn-default btn-flat"><?php Lang::out('sign_out'); ?></a>
+                    <a href="<?= APP_URL; ?>session/logout" class="btn btn-default btn-flat"><?php Lang::out('sign_out'); ?></a>
                 </div>
             </li>
         </ul>
@@ -134,7 +134,7 @@ $user = $this->getUser();
             <!-- Sidebar user panel -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="https://www.gravatar.com/avatar/<?php print md5($user->getEmail()); ?>?d=mm" class="img-circle" alt="<?php print $user->getName(); ?>" />
+                    <img src="https://www.gravatar.com/avatar/<?= md5($user->getEmail()); ?>?d=mm" class="img-circle" alt="<?= $user->getName(); ?>" />
                 </div>
                 <div class="pull-left info">
                     <p><?php Lang::out('hello_name', $user->getName()); ?></p>
@@ -144,8 +144,8 @@ $user = $this->getUser();
 
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu">
-                <li<?php print (array_key_exists('archived', $_GET) ? '' : ' class="active"'); ?>>
-                    <a href="<?php print APP_URL; ?>">
+                <li<?= (array_key_exists('archived', $_GET) ? '' : ' class="active"'); ?>>
+                    <a href="<?= APP_URL; ?>">
                         <i class="fa fa-dashboard"></i> <span><?php Lang::out('dashboard'); ?></span>
                     </a>
                 </li>
@@ -159,17 +159,17 @@ $user = $this->getUser();
                         </a>
                         <ul class="treeview-menu">
                             <li>
-                                <a href="<?php print APP_URL; ?>project/add">
+                                <a href="<?= APP_URL; ?>project/add">
                                     <i class="fa fa-angle-double-right"></i> <?php Lang::out('add_project'); ?>
                                 </a>
                             </li>
                             <li>
-                                <a href="<?php print APP_URL; ?>group">
+                                <a href="<?= APP_URL; ?>group">
                                     <i class="fa fa-angle-double-right"></i> <?php Lang::out('project_groups'); ?>
                                 </a>
                             </li>
                             <li>
-                                <a href="<?php print APP_URL; ?>user">
+                                <a href="<?= APP_URL; ?>user">
                                     <i class="fa fa-angle-double-right"></i> <?php Lang::out('manage_users'); ?>
                                 </a>
                             </li>
@@ -181,7 +181,7 @@ $user = $this->getUser();
                     <li class="treeview">
                         <a href="#">
                             <i class="fa fa-folder"></i>
-                            <span><?php print $group['title']; ?></span>
+                            <span><?= $group['title']; ?></span>
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
 
@@ -189,9 +189,9 @@ $user = $this->getUser();
                         <ul class="treeview-menu">
                             <?php foreach($group['projects'] as $project): ?>
                             <li>
-                                <a href="<?php print APP_URL; ?>project/view/<?= $project->getId(); ?>">
-                                    <i class="fa fa-<?php print $project->getIcon(); ?>"></i>
-                                    <span><?php print $project->getTitle(); ?></span>
+                                <a href="<?= APP_URL; ?>project/view/<?= $project->getId(); ?>">
+                                    <i class="fa fa-<?= $project->getIcon(); ?>"></i>
+                                    <span><?= $project->getTitle(); ?></span>
                                 </a>
                             </li>
                             <?php endforeach; ?>
@@ -211,7 +211,7 @@ $user = $this->getUser();
                         <ul class="treeview-menu">
                             <?php foreach($archived_projects as $archived_project): ?>
                                 <li>
-                                    <a href="<?php print APP_URL; ?>project/view/<?= $archived_project->getId(); ?>">
+                                    <a href="<?= APP_URL; ?>project/view/<?= $archived_project->getId(); ?>">
                                         <i class="fa fa-<?= $archived_project->getIcon(); ?>"></i>
                                         <span><?= $archived_project->getTitle(); ?></span>
                                     </a>
@@ -231,17 +231,16 @@ $user = $this->getUser();
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <div class="pull-right">
-                <?php print (!empty($actions) ? $actions : ''); ?>
+                <?= (!empty($actions) ? $actions : ''); ?>
             </div>
 
             <h1>
-                <?php print !empty($title) ? $title : 'PHP Censor'; ?>
+                <?= (!empty($title) ? $title : 'PHP Censor'); ?>
 
                 <?php if (!empty($subtitle)): ?>
-                <small><?php print $subtitle; ?></small>
+                <small><?= $subtitle; ?></small>
                 <?php endif; ?>
             </h1>
-
 
         </section>
 

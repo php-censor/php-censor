@@ -100,13 +100,13 @@ $branches = $build->getExtra('branches');
     </td>
     <td>
         <div class="btn-group btn-group-right">
-            <a class="btn btn-default btn-sm" href="<?php echo APP_URL ?>build/view/<?php print $build->getId(); ?>"><?php Lang::out('view'); ?></a>
+            <a class="btn btn-default btn-sm" href="<?= APP_URL; ?>build/view/<?= $build->getId(); ?>"><?php Lang::out('view'); ?></a>
             <?php if($this->getUser()->getIsAdmin()): ?>
             <button class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu">
-                <li><a href="<?php echo APP_URL ?>build/delete/<?php print $build->getId(); ?>" class="delete-build"><?php Lang::out('delete_build'); ?></a></li>
+                <li><a href="<?= APP_URL; ?>build/delete/<?= $build->getId(); ?>" class="delete-build"><?php Lang::out('delete_build'); ?></a></li>
             </ul>
             <?php endif; ?>
         </div>

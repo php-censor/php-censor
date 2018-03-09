@@ -9,15 +9,15 @@ use PHPCensor\Model\Build;
 
 ?>
 <li>
-    <a href="<?php print APP_URL; ?>build/view/<?php print $build->getId(); ?>">
+    <a href="<?= APP_URL; ?>build/view/<?= $build->getId(); ?>">
         <?php if ($build->getCommitterEmail()): ?>
             <div class="pull-left">
-                <img src="https://www.gravatar.com/avatar/<?php print md5($build->getCommitterEmail()); ?>?d=mm&s=40" class="img-circle" alt="">
+                <img src="https://www.gravatar.com/avatar/<?= md5($build->getCommitterEmail()); ?>?d=mm&s=40" class="img-circle" alt="">
             </div>
         <?php endif; ?>
 
         <h4>
-            <?php print $build->getProject()->getTitle(); ?>
+            <?= $build->getProject()->getTitle(); ?>
 
             <?php if ($build->getStatus() == \PHPCensor\Model\Build::STATUS_PENDING): ?>
             <small class="pull-right"><?php Lang::out('created_x', $build->getCreateDate()->format('H:i')); ?></small>

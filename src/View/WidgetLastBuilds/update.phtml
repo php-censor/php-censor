@@ -58,7 +58,7 @@ use PHPCensor\Model\Build;
         <!-- /.timeline-label -->
         <!-- timeline item -->
         <li>
-            <i class="fa fa-<?php print $build->getProject()->getIcon(); ?> bg-<?php print $color; ?>"></i>
+            <i class="fa fa-<?= $build->getProject()->getIcon(); ?> bg-<?= $color; ?>"></i>
             <div class="timeline-item">
                 <span class="time"><i class="fa fa-clock-o"></i>
                 <?php

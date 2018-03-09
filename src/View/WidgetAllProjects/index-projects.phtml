@@ -102,7 +102,7 @@ foreach($projects as $project):
 
         </div>
         <div class="icon">
-            <i class="fa fa-<?php print $project->getIcon(); ?>"></i>
+            <i class="fa fa-<?= $project->getIcon(); ?>"></i>
         </div>
         <a href="<?= APP_URL; ?>project/view/<?= $project->getId(); ?>" class="small-box-footer small-box-footer-project">
             <div class="pull-left" style="margin-left: 10px">
@@ -112,7 +112,7 @@ foreach($projects as $project):
                     <i class="fa fa-lock"></i>
                 <?php endif; ?>
             </div>
-            <?php Lang::out('view_project'); ?> (<?php print $counts[$project->getId()]; ?>) <i class="fa fa-arrow-circle-right"></i>
+            <?php Lang::out('view_project'); ?> (<?= $counts[$project->getId()]; ?>) <i class="fa fa-arrow-circle-right"></i>
         </a>
 
             <?php for ($idx=0; $idx < 5; $idx++) {
