@@ -43,7 +43,7 @@ class BuildService
      * @param string|null $commitMessage
      * @param integer     $source
      * @param integer     $userId
-     * @param string|null $extra
+     * @param array|null  $extra
      *
      * @return \PHPCensor\Model\Build
      */
@@ -65,8 +65,12 @@ class BuildService
         $build->setStatus(Build::STATUS_PENDING);
         $build->setEnvironment($environment);
 
+        if (!is_null($extra)) {
+            $build->setExtra($extra);
+        }
+
         $branches = $project->getBranchesByEnvironment($environment);
-        $build->setExtraValue('branches', $branches);
+        $build->addExtraValue('branches', $branches);
 
         $build->setSource($source);
         $build->setUserId($userId);
@@ -88,10 +92,6 @@ class BuildService
 
         if (!empty($commitMessage)) {
             $build->setCommitMessage($commitMessage);
-        }
-
-        if (!is_null($extra)) {
-            $build->setExtraValues($extra);
         }
 
         /** @var Build $build */
@@ -123,7 +123,7 @@ class BuildService
         $build->setTag($data['tag']);
         $build->setCommitterEmail($data['committer_email']);
         $build->setCommitMessage($data['commit_message']);
-        $build->setExtra($data['extra']);
+        $build->setExtra(json_decode($data['extra'], true));
         $build->setEnvironment($data['environment']);
         $build->setSource($data['source']);
         $build->setUserId($data['user_id']);

@@ -120,7 +120,7 @@ use PHPCensor\Model\BuildError;
                     <tr>
                         <th><?php Lang::out('commit_message'); ?></th>
                         <td style="text-align: right">
-                            <?= $build->getCommitMessage(); ?>
+                            <?= htmlspecialchars($build->getCommitMessage()); ?>
                         </td>
                     </tr>
                 </table>

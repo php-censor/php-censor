@@ -68,8 +68,9 @@
                                     <?= $latest->getProject()->getTitle(); ?> #<?= $latest->getId(); ?> (<?= $statusText; ?>)
                                 </h3>
                                 <p>
-                                    <?php if ($latest->getCommitMessage()): ?>
-                                        <?= $latest->getCommitMessage(); ?><br /><br />
+                                    <?php $latestCommitMessage = htmlspecialchars($latest->getCommitMessage()); ?>
+                                    <?php if ($latestCommitMessage): ?>
+                                        <?= $latestCommitMessage; ?><br /><br />
                                     <?php endif; ?>
 
                                     <strong>Branch: </strong> <?= $latest->getBranch(); ?><br />

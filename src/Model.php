@@ -9,16 +9,6 @@ class Model
     /**
      * @var array
      */
-    protected $getters = [];
-
-    /**
-     * @var array
-     */
-    protected $setters = [];
-
-    /**
-     * @var array
-     */
     protected $data = [];
 
     /**
@@ -106,6 +96,19 @@ class Model
     {
         if (!is_integer($value) && !is_null($value)) {
             throw new ValidationException('Column "' . $name . '" must be an integer.');
+        }
+    }
+
+    /**
+     * @param string $name
+     * @param mixed  $value
+     *
+     * @throws ValidationException
+     */
+    protected function validateBoolean($name, $value)
+    {
+        if (!is_bool($value) && !is_null($value)) {
+            throw new ValidationException('Column "' . $name . '" must be a boolean.');
         }
     }
 

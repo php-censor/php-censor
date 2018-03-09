@@ -115,9 +115,10 @@ use PHPCensor\Model\Build;
                                 substr($build->getCommitId(), 0, 7),
                                 $build->getCommitterEmail() ? ('(' . $build->getCommitterEmail() . ')') : ''
                             );
-                            if (!empty($build->getCommitMessage())) {
+                            $buildCommitMessage = htmlspecialchars($build->getCommitMessage());
+                            if ($buildCommitMessage) {
                                 echo '</p><p>';
-                                print $build->getCommitMessage();
+                                echo $buildCommitMessage;
                             }
                         }
                     ?>

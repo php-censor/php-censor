@@ -126,32 +126,16 @@ class BuildTest extends \PHPUnit\Framework\TestCase
         ];
 
         $build = new Build();
-        $build->setExtra(json_encode($info));
+        $build->setExtra($info);
 
         self::assertEquals('Item One', $build->getExtra('item1'));
         self::assertEquals(2, $build->getExtra('item2'));
         self::assertNull($build->getExtra('item3'));
         self::assertEquals($info, $build->getExtra());
 
-        $build->setExtraValue('item3', 'Item Three');
+        $build->addExtraValue('item3', 'Item Three');
 
         self::assertEquals('Item One', $build->getExtra('item1'));
         self::assertEquals('Item Three', $build->getExtra('item3'));
-
-        $build->setExtraValues([
-            'item3' => 'Item Three New',
-            'item4' => 4,
-        ]);
-
-        self::assertEquals('Item One', $build->getExtra('item1'));
-        self::assertEquals('Item Three New', $build->getExtra('item3'));
-        self::assertEquals(4, $build->getExtra('item4'));
-
-        self::assertEquals([
-            'item1' => 'Item One',
-            'item2' => 2,
-            'item3' => 'Item Three New',
-            'item4' => 4,
-        ], $build->getExtra());
     }
 }

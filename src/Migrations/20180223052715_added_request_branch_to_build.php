@@ -43,7 +43,7 @@ class AddedRequestBranchToBuild extends AbstractMigration
                 unset($extra['build_type']);
                 unset($extra['pull_request_id']);
 
-                $build->setExtra(json_encode($extra));
+                $build->setExtra($extra);
                 $buildStore->save($build);
             }
             unset($build);

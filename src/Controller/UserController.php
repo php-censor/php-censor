@@ -182,7 +182,7 @@ class UserController extends Controller
         $password = $this->getParam('password', null);
         $isAdmin  = (int)$this->getParam('is_admin', 0);
 
-        $this->userService->createUser($name, $email, 'internal', json_encode(['type' => 'internal']), $password, $isAdmin);
+        $this->userService->createUser($name, $email, 'internal', ['type' => 'internal'], $password, $isAdmin);
 
         $response = new RedirectResponse();
         $response->setHeader('Location', APP_URL . 'user');

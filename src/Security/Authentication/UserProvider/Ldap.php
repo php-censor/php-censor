@@ -79,6 +79,6 @@ class Ldap extends AbstractProvider implements LoginPasswordProviderInterface
         $parts    = explode("@", $identifier);
         $username = $parts[0];
 
-        return $userService->createUser($username, $identifier, $this->key, json_encode($this->config), '', false);
+        return $userService->createUser($username, $identifier, $this->key, $this->config, '', false);
     }
 }

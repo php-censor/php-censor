@@ -29,7 +29,7 @@ class UserService
      * @param string  $name
      * @param string  $email
      * @param string  $providerKey
-     * @param string  $providerData
+     * @param array   $providerData
      * @param string  $password
      * @param boolean $isAdmin
      *
@@ -43,7 +43,7 @@ class UserService
         $user->setHash(password_hash($password, PASSWORD_DEFAULT));
         $user->setProviderKey($providerKey);
         $user->setProviderData($providerData);
-        $user->setIsAdmin(($isAdmin ? 1 : 0));
+        $user->setIsAdmin($isAdmin);
 
         return $this->store->save($user);
     }
@@ -71,9 +71,9 @@ class UserService
         }
 
         if (!is_null($isAdmin)) {
-            $user->setIsAdmin(($isAdmin ? 1 : 0));
+            $user->setIsAdmin($isAdmin);
         }
-        
+
         $user->setLanguage($language);
         $user->setPerPage($perPage);
 

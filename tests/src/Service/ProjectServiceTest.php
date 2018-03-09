@@ -48,7 +48,7 @@ class ProjectServiceTest extends \PHPUnit\Framework\TestCase
         $options = [
             'ssh_private_key'     => 'private',
             'ssh_public_key'      => 'public',
-            'allow_public_status' => 1,
+            'allow_public_status' => true,
             'build_config'        => 'config',
             'branch'              => 'testbranch',
         ];
@@ -59,7 +59,7 @@ class ProjectServiceTest extends \PHPUnit\Framework\TestCase
         self::assertEquals('public', $returnValue->getSshPublicKey());
         self::assertEquals('config', $returnValue->getBuildConfig());
         self::assertEquals('testbranch', $returnValue->getBranch());
-        self::assertEquals(1, $returnValue->getAllowPublicStatus());
+        self::assertEquals(true, $returnValue->getAllowPublicStatus());
     }
 
     /**
@@ -92,7 +92,7 @@ class ProjectServiceTest extends \PHPUnit\Framework\TestCase
     public function testExecute_EmptyPublicStatus()
     {
         $project = new Project();
-        $project->setAllowPublicStatus(1);
+        $project->setAllowPublicStatus(true);
 
         $options = [
             'ssh_private_key' => 'private',
@@ -102,7 +102,7 @@ class ProjectServiceTest extends \PHPUnit\Framework\TestCase
 
         $returnValue = $this->testedService->updateProject($project, 'Test Project', 'github', 'block8/phpci', $options);
 
-        self::assertEquals(0, $returnValue->getAllowPublicStatus());
+        self::assertEquals(false, $returnValue->getAllowPublicStatus());
     }
 
     public function testExecute_DeleteProject()

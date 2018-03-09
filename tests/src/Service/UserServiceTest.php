@@ -39,14 +39,14 @@ class UserServiceTest extends \PHPUnit\Framework\TestCase
             'Test',
             'test@example.com',
             'internal',
-            json_encode(['type' => 'internal']),
+            ['type' => 'internal'],
             'testing',
             false
         );
 
         self::assertEquals('Test', $user->getName());
         self::assertEquals('test@example.com', $user->getEmail());
-        self::assertEquals(0, $user->getIsAdmin());
+        self::assertEquals(false, $user->getIsAdmin());
         self::assertTrue(password_verify('testing', $user->getHash()));
     }
 
@@ -56,12 +56,12 @@ class UserServiceTest extends \PHPUnit\Framework\TestCase
             'Test',
             'test@example.com',
             'internal',
-            json_encode(['type' => 'internal']),
+            ['type' => 'internal'],
             'testing',
             true
         );
 
-        self::assertEquals(1, $user->getIsAdmin());
+        self::assertEquals(true, $user->getIsAdmin());
     }
 
     public function testExecute_RevokeAdminStatus()
@@ -69,10 +69,10 @@ class UserServiceTest extends \PHPUnit\Framework\TestCase
         $user = new User();
         $user->setEmail('test@example.com');
         $user->setName('Test');
-        $user->setIsAdmin(1);
+        $user->setIsAdmin(true);
 
-        $user = $this->testedService->updateUser($user, 'Test', 'test@example.com', 'testing', 0);
-        self::assertEquals(0, $user->getIsAdmin());
+        $user = $this->testedService->updateUser($user, 'Test', 'test@example.com', 'testing', false);
+        self::assertEquals(false, $user->getIsAdmin());
     }
 
     public function testExecute_GrantAdminStatus()
@@ -80,10 +80,10 @@ class UserServiceTest extends \PHPUnit\Framework\TestCase
         $user = new User();
         $user->setEmail('test@example.com');
         $user->setName('Test');
-        $user->setIsAdmin(0);
+        $user->setIsAdmin(false);
 
-        $user = $this->testedService->updateUser($user, 'Test', 'test@example.com', 'testing', 1);
-        self::assertEquals(1, $user->getIsAdmin());
+        $user = $this->testedService->updateUser($user, 'Test', 'test@example.com', 'testing', true);
+        self::assertEquals(true, $user->getIsAdmin());
     }
 
     public function testExecute_ChangesPasswordIfNotEmpty()
@@ -91,7 +91,7 @@ class UserServiceTest extends \PHPUnit\Framework\TestCase
         $user = new User();
         $user->setHash(password_hash('testing', PASSWORD_DEFAULT));
 
-        $user = $this->testedService->updateUser($user, 'Test', 'test@example.com', 'newpassword', 0);
+        $user = $this->testedService->updateUser($user, 'Test', 'test@example.com', 'newpassword', false);
         self::assertFalse(password_verify('testing', $user->getHash()));
         self::assertTrue(password_verify('newpassword', $user->getHash()));
     }
@@ -101,7 +101,7 @@ class UserServiceTest extends \PHPUnit\Framework\TestCase
         $user = new User();
         $user->setHash(password_hash('testing', PASSWORD_DEFAULT));
 
-        $user = $this->testedService->updateUser($user, 'Test', 'test@example.com', '', 0);
+        $user = $this->testedService->updateUser($user, 'Test', 'test@example.com', '', false);
         self::assertTrue(password_verify('testing', $user->getHash()));
     }
 }

@@ -520,7 +520,7 @@ class InstallCommand extends Command
             }
 
             $userService = new UserService($userStore);
-            $userService->createUser($admin['name'], $admin['email'], 'internal', json_encode(['type' => 'internal']), $admin['password'], true);
+            $userService->createUser($admin['name'], $admin['email'], 'internal', ['type' => 'internal'], $admin['password'], true);
 
             $output->writeln('<info>User account created!</info>');
         } catch (\Exception $ex) {

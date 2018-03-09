@@ -63,8 +63,8 @@ class ProjectService
         $project->setTitle($title);
         $project->setType($type);
         $project->setReference($reference);
-        $project->setAllowPublicStatus(0);
-        $project->setDefaultBranchOnly(0);
+        $project->setAllowPublicStatus(false);
+        $project->setDefaultBranchOnly(false);
 
         // Handle extra project options:
         if (array_key_exists('ssh_private_key', $options)) {
@@ -80,11 +80,11 @@ class ProjectService
         }
 
         if (array_key_exists('allow_public_status', $options)) {
-            $project->setAllowPublicStatus((int)$options['allow_public_status']);
+            $project->setAllowPublicStatus($options['allow_public_status']);
         }
 
         if (array_key_exists('archived', $options)) {
-            $project->setArchived((bool)$options['archived']);
+            $project->setArchived($options['archived']);
         }
 
         if (array_key_exists('branch', $options)) {
@@ -92,7 +92,7 @@ class ProjectService
         }
 
         if (array_key_exists('default_branch_only', $options)) {
-            $project->setDefaultBranchOnly((int)$options['default_branch_only']);
+            $project->setDefaultBranchOnly($options['default_branch_only']);
         }
 
         if (array_key_exists('group', $options)) {

@@ -85,7 +85,7 @@ class CreateAdminCommand extends Command
 
         try {
             $userService = new UserService($this->userStore);
-            $userService->createUser($adminName, $adminEmail, 'internal', json_encode(['type' => 'internal']), $adminPassword, true);
+            $userService->createUser($adminName, $adminEmail, 'internal', ['type' => 'internal'], $adminPassword, true);
 
             $output->writeln('<info>User account created!</info>');
         } catch (\Exception $ex) {

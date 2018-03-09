@@ -396,10 +396,10 @@ class ProjectController extends PHPCensor\Controller
             'ssh_private_key'     => $this->getParam('key', null),
             'ssh_public_key'      => $this->getParam('pubkey', null),
             'build_config'        => $this->getParam('build_config', null),
-            'allow_public_status' => $this->getParam('allow_public_status', 0),
-            'archived'            => $this->getParam('archived', 0),
+            'allow_public_status' => $this->getParam('allow_public_status', false),
+            'archived'            => $this->getParam('archived', false),
             'branch'              => $this->getParam('branch', null),
-            'default_branch_only' => $this->getParam('default_branch_only', 0),
+            'default_branch_only' => $this->getParam('default_branch_only', false),
             'group'               => $this->getParam('group_id', null),
             'environments'        => $this->getParam('environments', null),
         ];
