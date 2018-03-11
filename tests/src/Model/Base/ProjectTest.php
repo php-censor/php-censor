@@ -24,7 +24,6 @@ class ProjectTest extends TestCase
             'ssh_public_key'      => null,
             'type'                => null,
             'access_information'  => null,
-            'last_commit'         => null,
             'build_config'        => null,
             'allow_public_status' => null,
             'archived'            => null,
@@ -152,18 +151,6 @@ class ProjectTest extends TestCase
         self::assertEquals(null, $project->getAccessInformation('key-3'));
 
         $result = $project->setAccessInformation(['key-1' => 'value-1', 'key-2' => 'value-2']);
-        self::assertEquals(false, $result);
-    }
-
-    public function testLastCommit()
-    {
-        $project = new Project();
-
-        $result = $project->setLastCommit('commit');
-        self::assertEquals(true, $result);
-        self::assertEquals('commit', $project->getLastCommit());
-
-        $result = $project->setLastCommit('commit');
         self::assertEquals(false, $result);
     }
 

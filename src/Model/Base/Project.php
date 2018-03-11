@@ -24,7 +24,6 @@ class Project extends Model
         'ssh_public_key'      => null,
         'type'                => null,
         'access_information'  => null,
-        'last_commit'         => null,
         'build_config'        => null,
         'allow_public_status' => null,
         'archived'            => null,
@@ -298,33 +297,6 @@ class Project extends Model
         $this->data['access_information'] = $accessInformation;
 
         return $this->setModified('access_information');
-    }
-
-
-    /**
-     * @return string
-     */
-    public function getLastCommit()
-    {
-        return $this->data['last_commit'];
-    }
-
-    /**
-     * @param string $value
-     *
-     * @return boolean
-     */
-    public function setLastCommit($value)
-    {
-        $this->validateString('last_commit', $value);
-
-        if ($this->data['last_commit'] === $value) {
-            return false;
-        }
-
-        $this->data['last_commit'] = $value;
-
-        return $this->setModified('last_commit');
     }
 
     /**
