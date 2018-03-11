@@ -2,6 +2,7 @@
 
 namespace PHPCensor;
 
+use PHPCensor\Model\Project;
 use PHPCensor\Store\Factory;
 use PHPCensor\Model\Build;
 
@@ -41,31 +42,31 @@ class BuildFactory
 
         if (!empty($project)) {
             switch ($project->getType()) {
-                case 'local':
+                case Project::TYPE_LOCAL:
                     $type = 'LocalBuild';
                     break;
-                case 'git':
+                case Project::TYPE_GIT:
                     $type = 'GitBuild';
                     break;
-                case 'github':
+                case Project::TYPE_GITHUB:
                     $type = 'GithubBuild';
                     break;
-                case 'bitbucket':
+                case Project::TYPE_BITBUCKET:
                     $type = 'BitbucketBuild';
                     break;
-                case 'gitlab':
+                case Project::TYPE_GITLAB:
                     $type = 'GitlabBuild';
                     break;
-                case 'gogs':
+                case Project::TYPE_GOGS:
                     $type = 'GogsBuild';
                     break;
-                case 'hg':
+                case Project::TYPE_HG:
                     $type = 'HgBuild';
                     break;
-                case 'bitbucket-hg':
+                case Project::TYPE_BITBUCKET_HG:
                     $type = 'BitbucketHgBuild';
                     break;
-                case 'svn':
+                case Project::TYPE_SVN:
                     $type = 'SvnBuild';
                     break;
                 default:

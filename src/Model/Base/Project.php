@@ -2,10 +2,21 @@
 
 namespace PHPCensor\Model\Base;
 
+use PHPCensor\Exception\HttpException\ValidationException;
 use PHPCensor\Model;
 
 class Project extends Model
 {
+    const TYPE_LOCAL        = 'local';
+    const TYPE_GIT          = 'git';
+    const TYPE_GITHUB       = 'github';
+    const TYPE_BITBUCKET    = 'bitbucket';
+    const TYPE_GITLAB       = 'gitlab';
+    const TYPE_GOGS         = 'gogs';
+    const TYPE_HG           = 'hg';
+    const TYPE_BITBUCKET_HG = 'bitbucket-hg';
+    const TYPE_SVN          = 'svn';
+
     /**
      * @var string
      */
@@ -30,6 +41,21 @@ class Project extends Model
         'group_id'            => null,
         'create_date'         => null,
         'user_id'             => 0,
+    ];
+
+    /**
+     * @var array
+     */
+    protected $allowedTypes = [
+        self::TYPE_LOCAL,
+        self::TYPE_GIT,
+        self::TYPE_GITHUB,
+        self::TYPE_BITBUCKET,
+        self::TYPE_GITLAB,
+        self::TYPE_GOGS,
+        self::TYPE_HG,
+        self::TYPE_BITBUCKET_HG,
+        self::TYPE_SVN,
     ];
 
     /**
@@ -247,11 +273,19 @@ class Project extends Model
      * @param string $value
      *
      * @return boolean
+     *
+     * @throws ValidationException
      */
     public function setType($value)
     {
         $this->validateNotNull('type', $value);
         $this->validateString('type', $value);
+
+        if (!in_array($value, $this->allowedTypes, true)) {
+            throw new ValidationException(
+                'Column "type" must be one of: ' . join(', ', $this->allowedTypes) . '.'
+            );
+        }
 
         if ($this->data['type'] === $value) {
             return false;

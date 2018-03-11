@@ -16,6 +16,7 @@ use PHPCensor\Model\Build;
 use PHPCensor\Http\Response\RedirectResponse;
 use PHPCensor\View;
 use PHPCensor\Store\Factory;
+use PHPCensor\Model\Project;
 
 /**
  * Project Controller - Allows users to create, edit and view projects.
@@ -426,16 +427,16 @@ class ProjectController extends PHPCensor\Controller
         $form->addField(new Form\Element\Hidden('pubkey'));
 
         $options = [
-            'choose'       => Lang::get('select_repository_type'),
-            'github'       => 'GitHub',
-            'bitbucket'    => 'Bitbucket (Git)',
-            'bitbucket-hg' => 'Bitbucket (Hg)',
-            'gitlab'       => 'GitLab',
-            'gogs'         => 'Gogs',
-            'git'          => 'Git',
-            'local'        => Lang::get('local'),
-            'hg'           => 'Hg (Mercurial)',
-            'svn'          => 'Svn (Subversion)',
+            'choose'                   => Lang::get('select_repository_type'),
+            Project::TYPE_GITHUB       => 'GitHub',
+            Project::TYPE_BITBUCKET    => 'Bitbucket (Git)',
+            Project::TYPE_BITBUCKET_HG => 'Bitbucket (Hg)',
+            Project::TYPE_GITLAB       => 'GitLab',
+            Project::TYPE_GOGS         => 'Gogs',
+            Project::TYPE_GIT          => 'Git',
+            Project::TYPE_LOCAL        => Lang::get('local'),
+            Project::TYPE_HG           => 'Hg (Mercurial)',
+            Project::TYPE_SVN          => 'Svn (Subversion)',
         ];
 
         $field = Form\Element\Select::create('type', Lang::get('where_hosted'), true);
@@ -566,7 +567,7 @@ class ProjectController extends PHPCensor\Controller
 
             if (in_array($type, $validators) && !preg_match($validators[$type]['regex'], $val)) {
                 throw new \Exception($validators[$type]['message']);
-            } elseif ($type == 'local' && !is_dir($val)) {
+            } elseif (Project::TYPE_LOCAL === $type && !is_dir($val)) {
                 throw new \Exception(Lang::get('error_path'));
             }
 

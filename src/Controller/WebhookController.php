@@ -99,7 +99,12 @@ class WebhookController extends Controller
      */
     public function bitbucket($projectId)
     {
-        $project = $this->fetchProject($projectId, ['bitbucket', 'bitbucket-hg', 'hg', 'git']);
+        $project = $this->fetchProject($projectId, [
+            Project::TYPE_BITBUCKET,
+            Project::TYPE_BITBUCKET_HG,
+            Project::TYPE_HG,
+            Project::TYPE_GIT,
+        ]);
 
         // Support both old services and new webhooks
         if ($payload = $this->getParam('payload')) {
@@ -292,7 +297,10 @@ class WebhookController extends Controller
      */
     public function git($projectId)
     {
-        $project       = $this->fetchProject($projectId, ['local', 'git']);
+        $project       = $this->fetchProject($projectId, [
+            Project::TYPE_LOCAL,
+            Project::TYPE_GIT,
+        ]);
         $branch        = $this->getParam('branch', $project->getBranch());
         $commit        = $this->getParam('commit');
         $commitMessage = $this->getParam('message');
@@ -318,7 +326,10 @@ class WebhookController extends Controller
      */
     public function github($projectId)
     {
-        $project = $this->fetchProject($projectId, ['github', 'git']);
+        $project = $this->fetchProject($projectId, [
+            Project::TYPE_GITHUB,
+            Project::TYPE_GIT,
+        ]);
 
         switch ($_SERVER['CONTENT_TYPE']) {
             case 'application/json':
@@ -503,7 +514,10 @@ class WebhookController extends Controller
      */
     public function gitlab($projectId)
     {
-        $project = $this->fetchProject($projectId, ['gitlab', 'git']);
+        $project = $this->fetchProject($projectId, [
+            Project::TYPE_GITLAB,
+            Project::TYPE_GIT,
+        ]);
 
         $payloadString = file_get_contents("php://input");
         $payload       = json_decode($payloadString, true);
@@ -570,7 +584,9 @@ class WebhookController extends Controller
      */
     public function svn($projectId)
     {
-        $project       = $this->fetchProject($projectId, 'svn');
+        $project       = $this->fetchProject($projectId, [
+            Project::TYPE_SVN
+        ]);
         $branch        = $this->getParam('branch', $project->getBranch());
         $commit        = $this->getParam('commit');
         $commitMessage = $this->getParam('message');
@@ -596,7 +612,11 @@ class WebhookController extends Controller
      */
     public function gogs($projectId)
     {
-        $project = $this->fetchProject($projectId, ['gogs', 'git']);
+        $project = $this->fetchProject($projectId, [
+            Project::TYPE_GOGS,
+            Project::TYPE_GIT,
+        ]);
+
         switch ($_SERVER['CONTENT_TYPE']) {
             case 'application/json':
                 $payload = json_decode(file_get_contents('php://input'), true);
@@ -883,13 +903,13 @@ class WebhookController extends Controller
      * Fetch a project and check its type.
      *
      * @param integer $projectId    id or title of project
-     * @param string  $expectedType
+     * @param array   $expectedType
      *
      * @return Project
      *
      * @throws Exception If the project does not exist or is not of the expected type.
      */
-    protected function fetchProject($projectId, $expectedType)
+    protected function fetchProject($projectId, array $expectedType)
     {
         if (empty($projectId)) {
             throw new Exception('Project does not exist: ' . $projectId);
@@ -908,10 +928,7 @@ class WebhookController extends Controller
             $project = reset($projects['items']);
         }
 
-        if (is_array($expectedType)
-            ? !in_array($project->getType(), $expectedType)
-            : $project->getType() !== $expectedType
-        ) {
+        if (!in_array($project->getType(), $expectedType, true)) {
             throw new Exception('Wrong project type: ' . $project->getType());
         }
 
