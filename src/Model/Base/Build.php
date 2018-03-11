@@ -50,6 +50,8 @@ class Build extends Model
 
     /**
      * @param integer $value
+     *
+     * @return boolean
      */
     public function setId($value)
     {
@@ -57,12 +59,12 @@ class Build extends Model
         $this->validateInt('id', $value);
 
         if ($this->data['id'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['id'] = (integer)$value;
 
-        $this->setModified('id');
+        return $this->setModified('id');
     }
 
     /**
@@ -75,6 +77,8 @@ class Build extends Model
 
     /**
      * @param integer $value
+     *
+     * @return boolean
      */
     public function setProjectId($value)
     {
@@ -82,12 +86,12 @@ class Build extends Model
         $this->validateInt('project_id', $value);
 
         if ($this->data['project_id'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['project_id'] = $value;
 
-        $this->setModified('project_id');
+        return $this->setModified('project_id');
     }
 
     /**
@@ -100,6 +104,8 @@ class Build extends Model
 
     /**
      * @param string $value
+     *
+     * @return boolean
      */
     public function setCommitId($value)
     {
@@ -107,12 +113,12 @@ class Build extends Model
         $this->validateString('commit_id', $value);
 
         if ($this->data['commit_id'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['commit_id'] = $value;
 
-        $this->setModified('commit_id');
+        return $this->setModified('commit_id');
     }
 
     /**
@@ -125,6 +131,8 @@ class Build extends Model
 
     /**
      * @param integer $value
+     *
+     * @return boolean
      */
     public function setStatus($value)
     {
@@ -132,12 +140,12 @@ class Build extends Model
         $this->validateInt('status', $value);
 
         if ($this->data['status'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['status'] = $value;
 
-        $this->setModified('status');
+        return $this->setModified('status');
     }
 
     /**
@@ -150,18 +158,20 @@ class Build extends Model
 
     /**
      * @param string $value
+     *
+     * @return boolean
      */
     public function setLog($value)
     {
         $this->validateString('log', $value);
 
         if ($this->data['log'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['log'] = $value;
 
-        $this->setModified('log');
+        return $this->setModified('log');
     }
 
     /**
@@ -174,6 +184,8 @@ class Build extends Model
 
     /**
      * @param string $value
+     *
+     * @return boolean
      */
     public function setBranch($value)
     {
@@ -181,12 +193,12 @@ class Build extends Model
         $this->validateString('branch', $value);
 
         if ($this->data['branch'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['branch'] = $value;
 
-        $this->setModified('branch');
+        return $this->setModified('branch');
     }
 
     /**
@@ -199,18 +211,20 @@ class Build extends Model
 
     /**
      * @param string $value
+     *
+     * @return boolean
      */
     public function setTag($value)
     {
         $this->validateString('tag', $value);
 
         if ($this->data['tag'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['tag'] = $value;
 
-        $this->setModified('tag');
+        return $this->setModified('tag');
     }
 
     /**
@@ -227,18 +241,20 @@ class Build extends Model
 
     /**
      * @param \DateTime $value
+     *
+     * @return boolean
      */
     public function setCreateDate(\DateTime $value)
     {
         $stringValue = $value->format('Y-m-d H:i:s');
 
         if ($this->data['create_date'] === $stringValue) {
-            return;
+            return false;
         }
 
         $this->data['create_date'] = $stringValue;
 
-        $this->setModified('create_date');
+        return $this->setModified('create_date');
     }
 
     /**
@@ -255,18 +271,20 @@ class Build extends Model
 
     /**
      * @param \DateTime $value
+     *
+     * @return boolean
      */
     public function setStartDate(\DateTime $value)
     {
         $stringValue = $value->format('Y-m-d H:i:s');
 
         if ($this->data['start_date'] === $stringValue) {
-            return;
+            return false;
         }
 
         $this->data['start_date'] = $stringValue;
 
-        $this->setModified('start_date');
+        return $this->setModified('start_date');
     }
 
     /**
@@ -283,18 +301,20 @@ class Build extends Model
 
     /**
      * @param \DateTime $value
+     *
+     * @return boolean
      */
     public function setFinishDate(\DateTime $value)
     {
         $stringValue = $value->format('Y-m-d H:i:s');
 
         if ($this->data['finish_date'] === $stringValue) {
-            return;
+            return false;
         }
 
         $this->data['finish_date'] = $stringValue;
 
-        $this->setModified('finish_date');
+        return $this->setModified('finish_date');
     }
 
     /**
@@ -307,18 +327,20 @@ class Build extends Model
 
     /**
      * @param string $value
+     *
+     * @return boolean
      */
     public function setCommitterEmail($value)
     {
         $this->validateString('committer_email', $value);
 
         if ($this->data['committer_email'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['committer_email'] = $value;
 
-        $this->setModified('committer_email');
+        return $this->setModified('committer_email');
     }
 
     /**
@@ -331,18 +353,20 @@ class Build extends Model
 
     /**
      * @param string $value
+     *
+     * @return boolean
      */
     public function setCommitMessage($value)
     {
         $this->validateString('commit_message', $value);
 
         if ($this->data['commit_message'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['commit_message'] = $value;
 
-        $this->setModified('commit_message');
+        return $this->setModified('commit_message');
     }
 
     /**
@@ -365,6 +389,8 @@ class Build extends Model
 
     /**
      * @param array $value
+     *
+     * @return boolean
      */
     public function setExtra(array $value)
     {
@@ -372,12 +398,12 @@ class Build extends Model
 
         $extra = json_encode($value);
         if ($this->data['extra'] === $extra) {
-            return;
+            return false;
         }
 
         $this->data['extra'] = $extra;
 
-        $this->setModified('extra');
+        return $this->setModified('extra');
     }
 
     /**
@@ -390,18 +416,20 @@ class Build extends Model
 
     /**
      * @param string $value
+     *
+     * @return boolean
      */
     public function setEnvironment($value)
     {
         $this->validateString('environment', $value);
 
         if ($this->data['environment'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['environment'] = $value;
 
-        $this->setModified('environment');
+        return $this->setModified('environment');
     }
 
     /**
@@ -414,18 +442,20 @@ class Build extends Model
 
     /**
      * @param integer $value
+     *
+     * @return boolean
      */
     public function setSource($value)
     {
         $this->validateInt('source', $value);
 
         if ($this->data['source'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['source'] = $value;
 
-        $this->setModified('source');
+        return $this->setModified('source');
     }
 
     /**
@@ -438,6 +468,8 @@ class Build extends Model
 
     /**
      * @param integer $value
+     *
+     * @return boolean
      */
     public function setUserId($value)
     {
@@ -445,11 +477,11 @@ class Build extends Model
         $this->validateInt('user_id', $value);
 
         if ($this->data['user_id'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['user_id'] = $value;
 
-        $this->setModified('user_id');
+        return $this->setModified('user_id');
     }
 }

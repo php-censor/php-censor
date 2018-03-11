@@ -31,6 +31,8 @@ class BuildMeta extends Model
 
     /**
      * @param integer $value
+     *
+     * @return boolean
      */
     public function setId($value)
     {
@@ -38,12 +40,12 @@ class BuildMeta extends Model
         $this->validateInt('id', $value);
 
         if ($this->data['id'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['id'] = $value;
 
-        $this->setModified('id');
+        return $this->setModified('id');
     }
 
     /**
@@ -56,6 +58,8 @@ class BuildMeta extends Model
 
     /**
      * @param integer $value
+     *
+     * @return boolean
      */
     public function setBuildId($value)
     {
@@ -63,12 +67,12 @@ class BuildMeta extends Model
         $this->validateInt('build_id', $value);
 
         if ($this->data['build_id'] === $value) {
-            return;
+            return false ;
         }
 
         $this->data['build_id'] = $value;
 
-        $this->setModified('build_id');
+        return $this->setModified('build_id');
     }
 
     /**
@@ -81,6 +85,8 @@ class BuildMeta extends Model
 
     /**
      * @param string $value
+     *
+     * @return boolean
      */
     public function setMetaKey($value)
     {
@@ -88,12 +94,12 @@ class BuildMeta extends Model
         $this->validateString('meta_key', $value);
 
         if ($this->data['meta_key'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['meta_key'] = $value;
 
-        $this->setModified('meta_key');
+        return $this->setModified('meta_key');
     }
 
     /**
@@ -106,6 +112,8 @@ class BuildMeta extends Model
 
     /**
      * @param string $value
+     *
+     * @return boolean
      */
     public function setMetaValue($value)
     {
@@ -113,11 +121,11 @@ class BuildMeta extends Model
         $this->validateString('meta_value', $value);
 
         if ($this->data['meta_value'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['meta_value'] = $value;
 
-        $this->setModified('meta_value');
+        return $this->setModified('meta_value');
     }
 }

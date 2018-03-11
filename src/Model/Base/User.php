@@ -37,6 +37,8 @@ class User extends Model
 
     /**
      * @param integer $value
+     *
+     * @return boolean
      */
     public function setId($value)
     {
@@ -44,12 +46,12 @@ class User extends Model
         $this->validateInt('id', $value);
 
         if ($this->data['id'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['id'] = $value;
 
-        $this->setModified('id');
+        return $this->setModified('id');
     }
 
     /**
@@ -62,6 +64,8 @@ class User extends Model
 
     /**
      * @param string $value
+     *
+     * @return boolean
      */
     public function setEmail($value)
     {
@@ -69,12 +73,12 @@ class User extends Model
         $this->validateString('email', $value);
 
         if ($this->data['email'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['email'] = $value;
 
-        $this->setModified('email');
+        return $this->setModified('email');
     }
 
     /**
@@ -87,6 +91,8 @@ class User extends Model
 
     /**
      * @param string $value
+     *
+     * @return boolean
      */
     public function setHash($value)
     {
@@ -94,12 +100,12 @@ class User extends Model
         $this->validateString('hash', $value);
 
         if ($this->data['hash'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['hash'] = $value;
 
-        $this->setModified('hash');
+        return $this->setModified('hash');
     }
 
     /**
@@ -112,19 +118,21 @@ class User extends Model
 
     /**
      * @param boolean $value
+     *
+     * @return boolean
      */
     public function setIsAdmin($value)
     {
         $this->validateNotNull('is_admin', $value);
         $this->validateBoolean('is_admin', $value);
 
-        if ($this->data['is_admin'] === $value) {
-            return;
+        if ($this->data['is_admin'] === (integer)$value) {
+            return false;
         }
 
         $this->data['is_admin'] = (integer)$value;
 
-        $this->setModified('is_admin');
+        return $this->setModified('is_admin');
     }
 
     /**
@@ -137,6 +145,8 @@ class User extends Model
 
     /**
      * @param string $value
+     *
+     * @return boolean
      */
     public function setName($value)
     {
@@ -144,12 +154,12 @@ class User extends Model
         $this->validateString('name', $value);
 
         if ($this->data['name'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['name'] = $value;
 
-        $this->setModified('name');
+        return $this->setModified('name');
     }
 
     /**
@@ -162,16 +172,18 @@ class User extends Model
 
     /**
      * @param string $value
+     *
+     * @return boolean
      */
     public function setLanguage($value)
     {
         if ($this->data['language'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['language'] = $value;
 
-        $this->setModified('language');
+        return $this->setModified('language');
     }
 
     /**
@@ -184,18 +196,20 @@ class User extends Model
 
     /**
      * @param integer $value
+     *
+     * @return boolean
      */
     public function setPerPage($value)
     {
         $this->validateInt('per_page', $value);
 
         if ($this->data['per_page'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['per_page'] = $value;
 
-        $this->setModified('per_page');
+        return $this->setModified('per_page');
     }
 
     /**
@@ -208,6 +222,8 @@ class User extends Model
 
     /**
      * @param string $value
+     *
+     * @return boolean
      */
     public function setProviderKey($value)
     {
@@ -215,12 +231,12 @@ class User extends Model
         $this->validateString('provider_key', $value);
 
         if ($this->data['provider_key'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['provider_key'] = $value;
 
-        $this->setModified('provider_key');
+        return $this->setModified('provider_key');
     }
 
     /**
@@ -230,7 +246,7 @@ class User extends Model
      */
     public function getProviderData($key = null)
     {
-        $data  = json_decode($this->data['provider_data'], true);
+        $data         = json_decode($this->data['provider_data'], true);
         $providerData = null;
         if (is_null($key)) {
             $providerData = $data;
@@ -243,6 +259,8 @@ class User extends Model
 
     /**
      * @param array $value
+     *
+     * @return boolean
      */
     public function setProviderData(array $value)
     {
@@ -250,12 +268,12 @@ class User extends Model
 
         $providerData = json_encode($value);
         if ($this->data['provider_data'] === $providerData) {
-            return;
+            return false;
         }
 
         $this->data['provider_data'] = $providerData;
 
-        $this->setModified('provider_data');
+        return $this->setModified('provider_data');
     }
 
     /**
@@ -268,17 +286,19 @@ class User extends Model
 
     /**
      * @param string $value
+     *
+     * @return boolean
      */
     public function setRememberKey($value)
     {
         $this->validateString('remember_key', $value);
 
         if ($this->data['remember_key'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['remember_key'] = $value;
 
-        $this->setModified('remember_key');
+        return $this->setModified('remember_key');
     }
 }

@@ -31,6 +31,8 @@ class Environment extends Model
 
     /**
      * @param integer $value
+     *
+     * @return boolean
      */
     public function setId($value)
     {
@@ -38,12 +40,12 @@ class Environment extends Model
         $this->validateInt('id', $value);
 
         if ($this->data['id'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['id'] = $value;
 
-        $this->setModified('id');
+        return $this->setModified('id');
     }
 
     /**
@@ -56,6 +58,8 @@ class Environment extends Model
 
     /**
      * @param integer $value
+     *
+     * @return boolean
      */
     public function setProjectId($value)
     {
@@ -63,12 +67,12 @@ class Environment extends Model
         $this->validateInt('project_id', $value);
 
         if ($this->data['project_id'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['project_id'] = $value;
 
-        $this->setModified('project_id');
+        return $this->setModified('project_id');
     }
 
     /**
@@ -81,6 +85,8 @@ class Environment extends Model
 
     /**
      * @param string $value
+     *
+     * @return boolean
      */
     public function setName($value)
     {
@@ -88,12 +94,12 @@ class Environment extends Model
         $this->validateString('name', $value);
 
         if ($this->data['name'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['name'] = $value;
 
-        $this->setModified('name');
+        return $this->setModified('name');
     }
 
     /**
@@ -111,6 +117,8 @@ class Environment extends Model
 
     /**
      * @param array $value
+     *
+     * @return boolean
      */
     public function setBranches(array $value)
     {
@@ -118,11 +126,11 @@ class Environment extends Model
 
         $branches = implode("\n", $value);
         if ($this->data['branches'] === $branches) {
-            return;
+            return false;
         }
 
         $this->data['branches'] = $branches;
 
-        $this->setModified('branches');
+        return $this->setModified('branches');
     }
 }

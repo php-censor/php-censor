@@ -43,6 +43,8 @@ class Project extends Model
 
     /**
      * @param integer $value
+     *
+     * @return boolean
      */
     public function setId($value)
     {
@@ -50,12 +52,12 @@ class Project extends Model
         $this->validateInt('id', $value);
 
         if ($this->data['id'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['id'] = $value;
 
-        $this->setModified('id');
+        return $this->setModified('id');
     }
 
     /**
@@ -68,6 +70,8 @@ class Project extends Model
 
     /**
      * @param string $value
+     *
+     * @return boolean
      */
     public function setTitle($value)
     {
@@ -75,12 +79,12 @@ class Project extends Model
         $this->validateString('title', $value);
 
         if ($this->data['title'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['title'] = $value;
 
-        $this->setModified('title');
+        return $this->setModified('title');
     }
 
     /**
@@ -93,6 +97,8 @@ class Project extends Model
 
     /**
      * @param string $value
+     *
+     * @return boolean
      */
     public function setReference($value)
     {
@@ -100,12 +106,12 @@ class Project extends Model
         $this->validateString('reference', $value);
 
         if ($this->data['reference'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['reference'] = $value;
 
-        $this->setModified('reference');
+        return $this->setModified('reference');
     }
 
     /**
@@ -134,6 +140,8 @@ class Project extends Model
 
     /**
      * @param string $value
+     *
+     * @return boolean
      */
     public function setBranch($value)
     {
@@ -141,12 +149,12 @@ class Project extends Model
         $this->validateString('branch', $value);
 
         if ($this->data['branch'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['branch'] = $value;
 
-        $this->setModified('branch');
+        return $this->setModified('branch');
     }
 
     /**
@@ -159,19 +167,21 @@ class Project extends Model
 
     /**
      * @param boolean $value
+     *
+     * @return boolean
      */
     public function setDefaultBranchOnly($value)
     {
         $this->validateNotNull('default_branch_only', $value);
         $this->validateBoolean('default_branch_only', $value);
 
-        if ($this->data['default_branch_only'] === $value) {
-            return;
+        if ($this->data['default_branch_only'] === (integer)$value) {
+            return false;
         }
 
         $this->data['default_branch_only'] = (integer)$value;
 
-        $this->setModified('default_branch_only');
+        return $this->setModified('default_branch_only');
     }
 
     /**
@@ -184,18 +194,20 @@ class Project extends Model
 
     /**
      * @param string $value
+     *
+     * @return boolean
      */
     public function setSshPrivateKey($value)
     {
         $this->validateString('ssh_private_key', $value);
 
         if ($this->data['ssh_private_key'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['ssh_private_key'] = $value;
 
-        $this->setModified('ssh_private_key');
+        return $this->setModified('ssh_private_key');
     }
 
     /**
@@ -208,18 +220,20 @@ class Project extends Model
 
     /**
      * @param string $value
+     *
+     * @return boolean
      */
     public function setSshPublicKey($value)
     {
         $this->validateString('ssh_public_key', $value);
 
         if ($this->data['ssh_public_key'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['ssh_public_key'] = $value;
 
-        $this->setModified('ssh_public_key');
+        return $this->setModified('ssh_public_key');
     }
 
     /**
@@ -232,6 +246,8 @@ class Project extends Model
 
     /**
      * @param string $value
+     *
+     * @return boolean
      */
     public function setType($value)
     {
@@ -239,12 +255,12 @@ class Project extends Model
         $this->validateString('type', $value);
 
         if ($this->data['type'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['type'] = $value;
 
-        $this->setModified('type');
+        return $this->setModified('type');
     }
 
     /**
@@ -267,6 +283,8 @@ class Project extends Model
 
     /**
      * @param array $value
+     *
+     * @return boolean
      */
     public function setAccessInformation(array $value)
     {
@@ -274,12 +292,12 @@ class Project extends Model
 
         $accessInformation = json_encode($value);
         if ($this->data['access_information'] === $accessInformation) {
-            return;
+            return false;
         }
 
         $this->data['access_information'] = $accessInformation;
 
-        $this->setModified('access_information');
+        return $this->setModified('access_information');
     }
 
 
@@ -293,18 +311,20 @@ class Project extends Model
 
     /**
      * @param string $value
+     *
+     * @return boolean
      */
     public function setLastCommit($value)
     {
         $this->validateString('last_commit', $value);
 
         if ($this->data['last_commit'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['last_commit'] = $value;
 
-        $this->setModified('last_commit');
+        return $this->setModified('last_commit');
     }
 
     /**
@@ -317,18 +337,20 @@ class Project extends Model
 
     /**
      * @param string $value
+     *
+     * @return boolean
      */
     public function setBuildConfig($value)
     {
         $this->validateString('build_config', $value);
 
         if ($this->data['build_config'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['build_config'] = $value;
 
-        $this->setModified('build_config');
+        return $this->setModified('build_config');
     }
 
     /**
@@ -341,19 +363,21 @@ class Project extends Model
 
     /**
      * @param boolean $value
+     *
+     * @return boolean
      */
     public function setAllowPublicStatus($value)
     {
         $this->validateNotNull('allow_public_status', $value);
         $this->validateBoolean('allow_public_status', $value);
 
-        if ($this->data['allow_public_status'] === $value) {
-            return;
+        if ($this->data['allow_public_status'] === (integer)$value) {
+            return false;
         }
 
         $this->data['allow_public_status'] = (integer)$value;
 
-        $this->setModified('allow_public_status');
+        return $this->setModified('allow_public_status');
     }
 
     /**
@@ -366,19 +390,21 @@ class Project extends Model
 
     /**
      * @param boolean $value
+     *
+     * @return boolean
      */
     public function setArchived($value)
     {
         $this->validateNotNull('archived', $value);
         $this->validateBoolean('archived', $value);
 
-        if ($this->data['archived'] === $value) {
-            return;
+        if ($this->data['archived'] === (integer)$value) {
+            return false;
         }
 
         $this->data['archived'] = (integer)$value;
 
-        $this->setModified('archived');
+        return $this->setModified('archived');
     }
 
     /**
@@ -391,6 +417,8 @@ class Project extends Model
 
     /**
      * @param integer $value
+     *
+     * @return boolean
      */
     public function setGroupId($value)
     {
@@ -398,12 +426,12 @@ class Project extends Model
         $this->validateInt('group_id', $value);
 
         if ($this->data['group_id'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['group_id'] = $value;
 
-        $this->setModified('group_id');
+        return $this->setModified('group_id');
     }
 
     /**
@@ -420,18 +448,20 @@ class Project extends Model
 
     /**
      * @param \DateTime $value
+     *
+     * @return boolean
      */
     public function setCreateDate(\DateTime $value)
     {
         $stringValue = $value->format('Y-m-d H:i:s');
 
         if ($this->data['create_date'] === $stringValue) {
-            return;
+            return false;
         }
 
         $this->data['create_date'] = $stringValue;
 
-        $this->setModified('create_date');
+        return $this->setModified('create_date');
     }
 
     /**
@@ -444,6 +474,8 @@ class Project extends Model
 
     /**
      * @param integer $value
+     *
+     * @return boolean
      */
     public function setUserId($value)
     {
@@ -451,11 +483,11 @@ class Project extends Model
         $this->validateInt('user_id', $value);
 
         if ($this->data['user_id'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['user_id'] = $value;
 
-        $this->setModified('user_id');
+        return $this->setModified('user_id');
     }
 }

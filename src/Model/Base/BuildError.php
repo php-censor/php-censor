@@ -6,6 +6,11 @@ use PHPCensor\Model;
 
 class BuildError extends Model
 {
+    const SEVERITY_CRITICAL = 0;
+    const SEVERITY_HIGH     = 1;
+    const SEVERITY_NORMAL   = 2;
+    const SEVERITY_LOW      = 3;
+
     /**
      * @var string
      */
@@ -15,17 +20,17 @@ class BuildError extends Model
      * @var array
      */
     protected $data = [
-        'id'           => null,
-        'build_id'     => null,
-        'plugin'       => null,
-        'file'         => null,
-        'line_start'   => null,
-        'line_end'     => null,
-        'severity'     => null,
-        'message'      => null,
-        'create_date'  => null,
-        'hash'         => null,
-        'is_new'       => null,
+        'id'          => null,
+        'build_id'    => null,
+        'plugin'      => null,
+        'file'        => null,
+        'line_start'  => null,
+        'line_end'    => null,
+        'severity'    => null,
+        'message'     => null,
+        'create_date' => null,
+        'hash'        => null,
+        'is_new'      => null,
     ];
 
     /**
@@ -38,6 +43,8 @@ class BuildError extends Model
 
     /**
      * @param integer $value
+     *
+     * @return boolean
      */
     public function setId($value)
     {
@@ -45,12 +52,12 @@ class BuildError extends Model
         $this->validateInt('id', $value);
 
         if ($this->data['id'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['id'] = $value;
 
-        $this->setModified('id');
+        return $this->setModified('id');
     }
 
     /**
@@ -63,6 +70,8 @@ class BuildError extends Model
 
     /**
      * @param integer $value
+     *
+     * @return boolean
      */
     public function setBuildId($value)
     {
@@ -70,12 +79,12 @@ class BuildError extends Model
         $this->validateInt('build_id', $value);
 
         if ($this->data['build_id'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['build_id'] = $value;
 
-        $this->setModified('build_id');
+        return $this->setModified('build_id');
     }
 
     /**
@@ -88,6 +97,8 @@ class BuildError extends Model
 
     /**
      * @param string $value
+     *
+     * @return boolean
      */
     public function setPlugin($value)
     {
@@ -95,12 +106,12 @@ class BuildError extends Model
         $this->validateString('plugin', $value);
 
         if ($this->data['plugin'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['plugin'] = $value;
 
-        $this->setModified('plugin');
+        return $this->setModified('plugin');
     }
 
     /**
@@ -113,18 +124,20 @@ class BuildError extends Model
 
     /**
      * @param string $value
+     *
+     * @return boolean
      */
     public function setFile($value)
     {
         $this->validateString('file', $value);
 
         if ($this->data['file'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['file'] = $value;
 
-        $this->setModified('file');
+        return $this->setModified('file');
     }
 
     /**
@@ -137,18 +150,20 @@ class BuildError extends Model
 
     /**
      * @param integer $value
+     *
+     * @return boolean
      */
     public function setLineStart($value)
     {
         $this->validateInt('line_start', $value);
 
         if ($this->data['line_start'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['line_start'] = $value;
 
-        $this->setModified('line_start');
+        return $this->setModified('line_start');
     }
 
     /**
@@ -161,18 +176,20 @@ class BuildError extends Model
 
     /**
      * @param integer $value
+     *
+     * @return boolean
      */
     public function setLineEnd($value)
     {
         $this->validateInt('line_end', $value);
 
         if ($this->data['line_end'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['line_end'] = $value;
 
-        $this->setModified('line_end');
+        return $this->setModified('line_end');
     }
 
     /**
@@ -185,6 +202,8 @@ class BuildError extends Model
 
     /**
      * @param integer $value
+     *
+     * @return boolean
      */
     public function setSeverity($value)
     {
@@ -192,12 +211,12 @@ class BuildError extends Model
         $this->validateInt('severity', $value);
 
         if ($this->data['severity'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['severity'] = $value;
 
-        $this->setModified('severity');
+        return $this->setModified('severity');
     }
 
     /**
@@ -210,6 +229,8 @@ class BuildError extends Model
 
     /**
      * @param string $value
+     *
+     * @return boolean
      */
     public function setMessage($value)
     {
@@ -217,12 +238,12 @@ class BuildError extends Model
         $this->validateString('message', $value);
 
         if ($this->data['message'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['message'] = $value;
 
-        $this->setModified('message');
+        return $this->setModified('message');
     }
 
     /**
@@ -239,6 +260,8 @@ class BuildError extends Model
 
     /**
      * @param \DateTime $value
+     *
+     * @return boolean
      */
     public function setCreateDate(\DateTime $value)
     {
@@ -247,12 +270,12 @@ class BuildError extends Model
         $stringValue = $value->format('Y-m-d H:i:s');
 
         if ($this->data['create_date'] === $stringValue) {
-            return;
+            return false;
         }
 
         $this->data['create_date'] = $stringValue;
 
-        $this->setModified('create_date');
+        return $this->setModified('create_date');
     }
 
     /**
@@ -265,6 +288,8 @@ class BuildError extends Model
 
     /**
      * @param string $value
+     *
+     * @return boolean
      */
     public function setHash($value)
     {
@@ -272,12 +297,12 @@ class BuildError extends Model
         $this->validateString('hash', $value);
 
         if ($this->data['hash'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['hash'] = $value;
 
-        $this->setModified('hash');
+        return $this->setModified('hash');
     }
 
     /**
@@ -290,18 +315,20 @@ class BuildError extends Model
 
     /**
      * @param boolean $value
+     *
+     * @return boolean
      */
     public function setIsNew($value)
     {
         $this->validateNotNull('is_new', $value);
         $this->validateBoolean('is_new', $value);
 
-        if ($this->data['is_new'] === $value) {
-            return;
+        if ($this->data['is_new'] === (integer)$value) {
+            return false;
         }
 
         $this->data['is_new'] = (integer)$value;
 
-        $this->setModified('is_new');
+        return $this->setModified('is_new');
     }
 }

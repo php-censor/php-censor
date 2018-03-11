@@ -31,6 +31,8 @@ class ProjectGroup extends Model
 
     /**
      * @param integer $value
+     *
+     * @return boolean
      */
     public function setId($value)
     {
@@ -38,12 +40,12 @@ class ProjectGroup extends Model
         $this->validateInt('id', $value);
 
         if ($this->data['id'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['id'] = $value;
 
-        $this->setModified('id');
+        return $this->setModified('id');
     }
 
     /**
@@ -56,6 +58,8 @@ class ProjectGroup extends Model
 
     /**
      * @param string $value
+     *
+     * @return boolean
      */
     public function setTitle($value)
     {
@@ -63,12 +67,12 @@ class ProjectGroup extends Model
         $this->validateString('title', $value);
 
         if ($this->data['title'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['title'] = $value;
 
-        $this->setModified('title');
+        return $this->setModified('title');
     }
 
     /**
@@ -85,18 +89,20 @@ class ProjectGroup extends Model
 
     /**
      * @param \DateTime $value
+     *
+     * @return boolean
      */
     public function setCreateDate(\DateTime $value)
     {
         $stringValue = $value->format('Y-m-d H:i:s');
 
         if ($this->data['create_date'] === $stringValue) {
-            return;
+            return false;
         }
 
         $this->data['create_date'] = $stringValue;
 
-        $this->setModified('create_date');
+        return $this->setModified('create_date');
     }
 
     /**
@@ -109,6 +115,8 @@ class ProjectGroup extends Model
 
     /**
      * @param integer $value
+     *
+     * @return boolean
      */
     public function setUserId($value)
     {
@@ -116,11 +124,11 @@ class ProjectGroup extends Model
         $this->validateInt('user_id', $value);
 
         if ($this->data['user_id'] === $value) {
-            return;
+            return false;
         }
 
         $this->data['user_id'] = $value;
 
-        $this->setModified('user_id');
+        return $this->setModified('user_id');
     }
 }

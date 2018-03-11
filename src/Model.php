@@ -67,10 +67,14 @@ class Model
 
     /**
      * @param string $column
+     *
+     * @return boolean
      */
     protected function setModified($column)
     {
         $this->modified[$column] = $column;
+
+        return true;
     }
 
     /**

@@ -8,11 +8,6 @@ use PHPCensor\Store\Factory;
 
 class BuildError extends BaseBuildError
 {
-    const SEVERITY_CRITICAL = 0;
-    const SEVERITY_HIGH     = 1;
-    const SEVERITY_NORMAL   = 2;
-    const SEVERITY_LOW      = 3;
-
     /**
      * @return Build|null
      */
