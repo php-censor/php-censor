@@ -107,7 +107,7 @@ class FormTest extends \PHPUnit\Framework\TestCase
 
     public function testFieldSetBasics()
     {
-        $f = new Form\FieldSet();
+        $f  = new Form\FieldSet();
         $f2 = new Form\FieldSet('group');
         $f3 = new Form\FieldSet();
 
@@ -141,6 +141,14 @@ class FormTest extends \PHPUnit\Framework\TestCase
         $html = $f->render();
         self::assertTrue(strpos($html, 'one') !== false);
         self::assertTrue(strpos($html, 'two') !== false);
+
+        $children = $f->getChildren();
+        self::assertEquals(2, count($children));
+        self::assertEquals($f2, $children[$f2->getName()]);
+        self::assertEquals($f3, $children[$f3->getName()]);
+
+        $child = $f->getChild($f3->getName());
+        self::assertEquals($f3, $child);
     }
 
     public function testElements()
@@ -195,6 +203,15 @@ class FormTest extends \PHPUnit\Framework\TestCase
 
         $e = new Form\Element\Url();
         self::assertTrue(strpos($e->render(), 'url') !== false);
+
+        $_SESSION = [];
+
+        $e = new Form\Element\Csrf();
+        self::assertTrue(strpos($e->render(), $e->getValue()) !== false);
+        self::assertEquals($_SESSION['csrf_tokens'][$e->getName()], $e->getValue());
+        self::assertTrue($e->validate());
+        $e->setValue('111');
+        self::assertFalse($e->validate());
 
         $e = new Form\Element\Password();
         self::assertTrue(strpos($e->render(), 'password') !== false);

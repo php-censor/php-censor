@@ -84,8 +84,11 @@ class UserController extends Controller
         $this->layout->subtitle = Lang::get('edit_profile');
 
         $form = new Form();
-        $form->setAction(APP_URL.'user/profile');
+
+        $form->setAction(APP_URL . 'user/profile');
         $form->setMethod('POST');
+
+        $form->addField(new Form\Element\Csrf('profile_form'));
 
         $name = new Form\Element\Text('name');
         $name->setClass('form-control');
@@ -159,15 +162,15 @@ class UserController extends Controller
 
         $method = $this->request->getMethod();
 
-        if ($method == 'POST') {
+        if ($method === 'POST') {
             $values = $this->getParams();
         } else {
             $values = [];
         }
 
-        $form   = $this->userForm($values);
+        $form = $this->userForm($values);
 
-        if ($method != 'POST' || ($method == 'POST' && !$form->validate())) {
+        if ($method !== 'POST' || ($method == 'POST' && !$form->validate())) {
             $view       = new View('User/edit');
             $view->type = 'add';
             $view->user = null;
@@ -236,9 +239,11 @@ class UserController extends Controller
     protected function userForm($values, $type = 'add')
     {
         $form = new Form();
+
         $form->setMethod('POST');
-        $form->setAction(APP_URL.'user/' . $type);
-        $form->addField(new Form\Element\Csrf('csrf'));
+        $form->setAction(APP_URL . 'user/' . $type);
+
+        $form->addField(new Form\Element\Csrf('user_form'));
 
         $field = new Form\Element\Email('email');
         $field->setRequired(true);
@@ -281,6 +286,7 @@ class UserController extends Controller
         $form->addField($field);
 
         $form->setValues($values);
+
         return $form;
     }
 

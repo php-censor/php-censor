@@ -81,6 +81,7 @@
         "phploc/phploc":                   "~4.0.0",
         "jakub-onderka/php-parallel-lint": "~0.9.0",
         "sensiolabs/security-checker":     "~4.0.0",
+        "paragonie/random_compat":         "~2.0.0",
 
         "symfony/debug":                     "~3.4.0",
         "doctrine/instantiator":             "~1.0.0",

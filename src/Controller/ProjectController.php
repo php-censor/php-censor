@@ -421,9 +421,9 @@ class ProjectController extends PHPCensor\Controller
         $form = new Form();
 
         $form->setMethod('POST');
-        $form->setAction(APP_URL.'project/' . $type);
+        $form->setAction(APP_URL . 'project/' . $type);
 
-        $form->addField(new Form\Element\Csrf('csrf'));
+        $form->addField(new Form\Element\Csrf('project_form'));
         $form->addField(new Form\Element\Hidden('pubkey'));
 
         $options = [

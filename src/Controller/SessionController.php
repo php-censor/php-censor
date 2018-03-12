@@ -2,6 +2,7 @@
 
 namespace PHPCensor\Controller;
 
+use PHPCensor\Form\Element\Csrf;
 use PHPCensor\Helper\Email;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Controller;
@@ -38,6 +39,44 @@ class SessionController extends Controller
         $this->authentication = Service::getInstance();
     }
 
+    protected function loginForm($values)
+    {
+        $form = new \PHPCensor\Form();
+        $form->setMethod('POST');
+        $form->setAction(APP_URL . 'session/login');
+
+        $form->addField(new Csrf('login_form'));
+
+        $email = new \PHPCensor\Form\Element\Text('email');
+        $email->setLabel(Lang::get('login'));
+        $email->setRequired(true);
+        $email->setContainerClass('form-group');
+        $email->setClass('form-control');
+        $form->addField($email);
+
+        $pwd = new \PHPCensor\Form\Element\Password('password');
+        $pwd->setLabel(Lang::get('password'));
+        $pwd->setRequired(true);
+        $pwd->setContainerClass('form-group');
+        $pwd->setClass('form-control');
+        $form->addField($pwd);
+
+        $remember = \PHPCensor\Form\Element\Checkbox::create('remember_me', Lang::get('remember_me'), false);
+        $remember->setContainerClass('form-group');
+        $remember->setCheckedValue(1);
+        $remember->setValue(0);
+        $form->addField($remember);
+
+        $pwd = new \PHPCensor\Form\Element\Submit();
+        $pwd->setValue(Lang::get('log_in'));
+        $pwd->setClass('btn-success');
+        $form->addField($pwd);
+
+        $form->setValues($values);
+
+        return $form;
+    }
+
     /**
      * Handles user login (form and processing)
      */
@@ -55,15 +94,22 @@ class SessionController extends Controller
             }
         }
 
+        $method = $this->request->getMethod();
+
+        if ($method === 'POST') {
+            $values = $this->getParams();
+        } else {
+            $values = [];
+        }
+
+        $form = $this->loginForm($values);
+
         $isLoginFailure = false;
 
-        if ($this->request->getMethod() == 'POST') {
-            $token = $this->getParam('token');
-            if (!isset($token, $_SESSION['login_token']) || $token !== $_SESSION['login_token']) {
+        if ($this->request->getMethod() === 'POST') {
+            if (!$form->getChild('login_form')->validate()) {
                 $isLoginFailure = true;
             } else {
-                unset($_SESSION['login_token']);
-
                 $email          = $this->getParam('email');
                 $password       = $this->getParam('password', '');
                 $rememberMe     = (bool)$this->getParam('remember_me', 0);
@@ -115,41 +161,6 @@ class SessionController extends Controller
                 }
             }
         }
-
-        $form = new \PHPCensor\Form();
-        $form->setMethod('POST');
-        $form->setAction(APP_URL . 'session/login');
-
-        $email = new \PHPCensor\Form\Element\Text('email');
-        $email->setLabel(Lang::get('login'));
-        $email->setRequired(true);
-        $email->setContainerClass('form-group');
-        $email->setClass('form-control');
-        $form->addField($email);
-
-        $pwd = new \PHPCensor\Form\Element\Password('password');
-        $pwd->setLabel(Lang::get('password'));
-        $pwd->setRequired(true);
-        $pwd->setContainerClass('form-group');
-        $pwd->setClass('form-control');
-        $form->addField($pwd);
-
-        $remember = \PHPCensor\Form\Element\Checkbox::create('remember_me', Lang::get('remember_me'), false);
-        $remember->setContainerClass('form-group');
-        $remember->setCheckedValue(1);
-        $remember->setValue(0);
-        $form->addField($remember);
-
-        $pwd = new \PHPCensor\Form\Element\Submit();
-        $pwd->setValue(Lang::get('log_in'));
-        $pwd->setClass('btn-success');
-        $form->addField($pwd);
-
-        $tokenValue = $this->generateToken();
-        $_SESSION['login_token'] = $tokenValue;
-        $token = new \PHPCensor\Form\Element\Hidden('token');
-        $token->setValue($tokenValue);
-        $form->addField($token);
 
         $this->view->form   = $form->render();
         $this->view->failed = $isLoginFailure;
@@ -260,21 +271,5 @@ class SessionController extends Controller
         }
 
         return $rtn;
-    }
-
-    /** Generate a random token.
-     *
-     * @return string
-     */
-    protected function generateToken()
-    {
-        if (function_exists('openssl_random_pseudo_bytes')) {
-            return bin2hex(openssl_random_pseudo_bytes(16));
-        }
-
-        return sprintf("%04x", mt_rand(0, 0xFFFF))
-            . sprintf("%04x", mt_rand(0, 0xFFFF))
-            . sprintf("%04x", mt_rand(0, 0xFFFF))
-            . sprintf("%04x", mt_rand(0, 0xFFFF));
     }
 }

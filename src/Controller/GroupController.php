@@ -92,8 +92,11 @@ class GroupController extends Controller
         }
 
         $form = new Form();
+
         $form->setMethod('POST');
         $form->setAction(APP_URL . 'group/edit' . (!is_null($groupId) ? '/' . $groupId : ''));
+
+        $form->addField(new Form\Element\Csrf('group_form'));
 
         $title = new Form\Element\Text('title');
         $title->setContainerClass('form-group');

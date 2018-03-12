@@ -7,16 +7,15 @@ use PHPCensor\View;
 class Csrf extends Hidden
 {
     /**
-     * @var integer
-     */
-    protected $rows = 4;
-
-    /**
      * @return boolean
      */
     public function validate()
     {
-        if ($this->value != $_COOKIE[$this->getName()]) {
+        $sessionToken = isset($_SESSION['csrf_tokens'][$this->getName()])
+            ? $_SESSION['csrf_tokens'][$this->getName()]
+            : null;
+
+        if ($this->value !== $sessionToken) {
             return false;
         }
 
@@ -30,9 +29,12 @@ class Csrf extends Hidden
     {
         parent::onPreRender($view);
 
-        $csrf       = md5(microtime(true));
-        $view->csrf = $csrf;
+        $this->setValue(
+            rtrim(strtr(base64_encode(random_bytes(32)), '+/', '-_'), '=')
+        );
 
-        setcookie($this->getName(), $csrf);
+        $view->value = $this->getValue();
+
+        $_SESSION['csrf_tokens'][$this->getName()] = $this->getValue();
     }
 }
