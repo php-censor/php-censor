@@ -2,6 +2,7 @@
 
 namespace PHPCensor\Model\Base;
 
+use PHPCensor\Exception\HttpException\ValidationException;
 use PHPCensor\Model;
 
 class Build extends Model
@@ -38,6 +39,28 @@ class Build extends Model
         'environment'     => null,
         'source'          => Build::SOURCE_UNKNOWN,
         'user_id'         => 0,
+    ];
+
+    /**
+     * @var array
+     */
+    protected $allowedStatuses = [
+        self::STATUS_PENDING,
+        self::STATUS_RUNNING,
+        self::STATUS_SUCCESS,
+        self::STATUS_FAILED,
+    ];
+
+    /**
+     * @var array
+     */
+    protected $allowedSources = [
+        self::SOURCE_UNKNOWN,
+        self::SOURCE_MANUAL_WEB,
+        self::SOURCE_MANUAL_CONSOLE,
+        self::SOURCE_PERIODICAL,
+        self::SOURCE_WEBHOOK,
+        self::SOURCE_WEBHOOK_PULL_REQUEST,
     ];
 
     /**
@@ -132,12 +155,20 @@ class Build extends Model
     /**
      * @param integer $value
      *
+     * @throws ValidationException
+     *
      * @return boolean
      */
     public function setStatus($value)
     {
         $this->validateNotNull('status', $value);
         $this->validateInt('status', $value);
+
+        if (!in_array($value, $this->allowedStatuses, true)) {
+            throw new ValidationException(
+                'Column "status" must be one of: ' . join(', ', $this->allowedStatuses) . '.'
+            );
+        }
 
         if ($this->data['status'] === $value) {
             return false;
@@ -443,11 +474,19 @@ class Build extends Model
     /**
      * @param integer $value
      *
+     * @throws ValidationException
+     *
      * @return boolean
      */
     public function setSource($value)
     {
         $this->validateInt('source', $value);
+
+        if (!in_array($value, $this->allowedSources, true)) {
+            throw new ValidationException(
+                'Column "source" must be one of: ' . join(', ', $this->allowedSources) . '.'
+            );
+        }
 
         if ($this->data['source'] === $value) {
             return false;

@@ -2,6 +2,7 @@
 
 namespace Tests\PHPCensor\Model;
 
+use PHPCensor\Exception\HttpException\ValidationException;
 use PHPCensor\Model\Project;
 use PHPCensor\Model;
 
@@ -16,6 +17,15 @@ class ProjectTest extends \PHPUnit\Framework\TestCase
     {
         $project = new Project();
         self::assertTrue($project instanceof Model);
+
+        try {
+            $project->setArchived('true');
+        } catch (ValidationException $e) {
+            self::assertEquals(
+                'Column "archived" must be a boolean.',
+                $e->getMessage()
+            );
+        }
     }
 
     public function testExecute_TestGitDefaultBranch()

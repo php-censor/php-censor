@@ -137,8 +137,10 @@ class ProjectTest extends TestCase
 
         $result = $project->setType('git');
         self::assertEquals(false, $result);
-    }
 
+        self::expectException('\PHPCensor\Exception\HttpException\ValidationException');
+        $project->setType('invalid-type');
+    }
 
     public function testAccessInformation()
     {
