@@ -5,7 +5,7 @@ namespace PHPCensor\Controller;
 use PHPCensor\Form\Element\Csrf;
 use PHPCensor\Helper\Email;
 use PHPCensor\Helper\Lang;
-use PHPCensor\Controller;
+use PHPCensor\WebController;
 use PHPCensor\Http\Response\RedirectResponse;
 use PHPCensor\Security\Authentication\Service;
 use PHPCensor\Store\UserStore;
@@ -16,8 +16,13 @@ use PHPCensor\Store\Factory;
  *
  * @author Dan Cryer <dan@block8.co.uk>
  */
-class SessionController extends Controller
+class SessionController extends WebController
 {
+    /**
+     * @var string
+     */
+    public $layoutName = 'layoutSession';
+
     /**
      * @var UserStore
      */
@@ -33,7 +38,7 @@ class SessionController extends Controller
      */
     public function init()
     {
-        $this->response->disableLayout();
+        parent::init();
 
         $this->userStore      = Factory::getStore('User');
         $this->authentication = Service::getInstance();

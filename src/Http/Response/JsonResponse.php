@@ -14,11 +14,6 @@ class JsonResponse extends Response
         $this->setHeader('Content-Type', 'application/json');
     }
 
-    public function hasLayout()
-    {
-        return false;
-    }
-
     protected function flushBody()
     {
         if (isset($this->data['body'])) {

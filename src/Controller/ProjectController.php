@@ -17,14 +17,20 @@ use PHPCensor\Http\Response\RedirectResponse;
 use PHPCensor\View;
 use PHPCensor\Store\Factory;
 use PHPCensor\Model\Project;
+use PHPCensor\WebController;
 
 /**
  * Project Controller - Allows users to create, edit and view projects.
  *
  * @author Dan Cryer <dan@block8.co.uk>
  */
-class ProjectController extends PHPCensor\Controller
+class ProjectController extends WebController
 {
+    /**
+     * @var string
+     */
+    public $layoutName = 'layout';
+
     /**
      * @var \PHPCensor\Store\ProjectStore
      */
@@ -50,6 +56,8 @@ class ProjectController extends PHPCensor\Controller
      */
     public function init()
     {
+        parent::init();
+
         $this->buildStore     = Factory::getStore('Build');
         $this->projectStore   = Factory::getStore('Project');
         $this->projectService = new ProjectService($this->projectStore);
@@ -69,10 +77,10 @@ class ProjectController extends PHPCensor\Controller
         $perPage      = (integer)$this->getParam('per_page', 10);
         $builds       = $this->getLatestBuildsHtml($projectId, $branch, $environment, (($page - 1) * $perPage), $perPage);
 
-        $this->response->disableLayout();
-        $this->response->setContent($builds[0]);
+        $response = new PHPCensor\Http\Response();
+        $response->setContent($builds[0]);
 
-        return $this->response;
+        return $response;
     }
 
     /**
@@ -327,10 +335,10 @@ class ProjectController extends PHPCensor\Controller
                 'ssh_private_key'     => $this->getParam('key', null),
                 'ssh_public_key'      => $this->getParam('pubkey', null),
                 'build_config'        => $this->getParam('build_config', null),
-                'allow_public_status' => $this->getParam('allow_public_status', 0),
+                'allow_public_status' => (boolean)$this->getParam('allow_public_status', 0),
                 'branch'              => $this->getParam('branch', null),
-                'default_branch_only' => $this->getParam('default_branch_only', 0),
-                'group'               => $this->getParam('group_id', null),
+                'default_branch_only' => (boolean)$this->getParam('default_branch_only', 0),
+                'group'               => (integer)$this->getParam('group_id', null),
                 'environments'        => $this->getParam('environments', null),
             ];
 
@@ -380,11 +388,11 @@ class ProjectController extends PHPCensor\Controller
         $form = $this->projectForm($values, 'edit/' . $projectId);
 
         if ($method != 'POST' || ($method == 'POST' && !$form->validate())) {
-            $view           = new View('Project/edit');
-            $view->type     = 'edit';
-            $view->project  = $project;
-            $view->form     = $form;
-            $view->key      = $values['pubkey'];
+            $view          = new View('Project/edit');
+            $view->type    = 'edit';
+            $view->project = $project;
+            $view->form    = $form;
+            $view->key     = $values['pubkey'];
 
             return $view->render();
         }
@@ -397,11 +405,11 @@ class ProjectController extends PHPCensor\Controller
             'ssh_private_key'     => $this->getParam('key', null),
             'ssh_public_key'      => $this->getParam('pubkey', null),
             'build_config'        => $this->getParam('build_config', null),
-            'allow_public_status' => $this->getParam('allow_public_status', false),
-            'archived'            => $this->getParam('archived', false),
+            'allow_public_status' => (boolean)$this->getParam('allow_public_status', false),
+            'archived'            => (boolean)$this->getParam('archived', false),
             'branch'              => $this->getParam('branch', null),
-            'default_branch_only' => $this->getParam('default_branch_only', false),
-            'group'               => $this->getParam('group_id', null),
+            'default_branch_only' => (boolean)$this->getParam('default_branch_only', false),
+            'group'               => (integer)$this->getParam('group_id', null),
             'environments'        => $this->getParam('environments', null),
         ];
 

@@ -3,7 +3,7 @@
 namespace PHPCensor\Controller;
 
 use PHPCensor\Model\Build;
-use PHPCensor\Controller;
+use PHPCensor\WebController;
 use PHPCensor\Store\Factory;
 use PHPCensor\View;
 use PHPCensor\Model\Project;
@@ -15,7 +15,7 @@ use PHPCensor\Store\ProjectGroupStore;
 /**
  * Widget All Projects Controller
  */
-class WidgetAllProjectsController extends Controller
+class WidgetAllProjectsController extends WebController
 {
     /**
      * @var BuildStore
@@ -37,6 +37,8 @@ class WidgetAllProjectsController extends Controller
      */
     public function init()
     {
+        parent::init();
+
         $this->buildStore   = Factory::getStore('Build');
         $this->projectStore = Factory::getStore('Project');
         $this->groupStore   = Factory::getStore('ProjectGroup');
@@ -49,10 +51,10 @@ class WidgetAllProjectsController extends Controller
     {
         $this->view->groups = $this->getGroupInfo();
 
-        $this->response->disableLayout();
-        $this->response->setContent($this->view->render());
+        $response = new Response();
+        $response->setContent($this->view->render());
 
-        return $this->response;
+        return $response;
     }
 
     /**
@@ -142,9 +144,9 @@ class WidgetAllProjectsController extends Controller
         $this->view->failed     = $this->buildStore->getLastBuildByStatus($projectId, Build::STATUS_FAILED);
         $this->view->counts     = $counts;
 
-        $this->response->disableLayout();
-        $this->response->setContent($this->view->render());
+        $response = new Response();
+        $response->setContent($this->view->render());
 
-        return $this->response;
+        return $response;
     }
 }

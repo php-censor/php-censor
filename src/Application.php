@@ -21,7 +21,7 @@ class Application
     protected $route;
 
     /**
-     * @var Controller
+     * @var Controller|WebController
      */
     protected $controller;
 
@@ -29,11 +29,6 @@ class Application
      * @var Request
      */
     protected $request;
-
-    /**
-     * @var Response
-     */
-    protected $response;
 
     /**
      * @var Config
@@ -53,7 +48,6 @@ class Application
     public function __construct(Config $config, Request $request = null)
     {
         $this->config = $config;
-        $this->response = new Response();
 
         if (!is_null($request)) {
             $this->request = $request;
@@ -128,8 +122,9 @@ class Application
         if (!empty($this->route['callback'])) {
             $callback = $this->route['callback'];
 
-            if (!$callback($this->route, $this->response)) {
-                return $this->response;
+            $response = new Response();
+            if (!$callback($this->route, $response)) {
+                return $response;
             }
         }
 
@@ -153,33 +148,30 @@ class Application
     public function handleRequest()
     {
         try {
-            $this->response = $this->handleRequestInner();
+            $response = $this->handleRequestInner();
         } catch (HttpException $ex) {
             $this->config->set('page_title', 'Error');
 
             $view = new View('exception');
             $view->exception = $ex;
 
-            $this->response->setResponseCode($ex->getErrorCode());
-            $this->response->setContent($view->render());
+            $response = new Response();
+
+            $response->setResponseCode($ex->getErrorCode());
+            $response->setContent($view->render());
         } catch (\Exception $ex) {
             $this->config->set('page_title', 'Error');
 
             $view = new View('exception');
             $view->exception = $ex;
 
-            $this->response->setResponseCode(500);
-            $this->response->setContent($view->render());
+            $response = new Response();
+
+            $response->setResponseCode(500);
+            $response->setContent($view->render());
         }
 
-        if ($this->response->hasLayout() && $this->controller && $this->controller->layout) {
-            $this->setLayoutVariables($this->controller->layout);
-
-            $this->controller->layout->content  = $this->response->getContent();
-            $this->response->setContent($this->controller->layout->render());
-        }
-
-        return $this->response;
+        return $response;
     }
 
     /**
@@ -192,38 +184,11 @@ class Application
     protected function loadController($class)
     {
         /** @var Controller $controller */
-        $controller = new $class($this->config, $this->request, $this->response);
+        $controller = new $class($this->config, $this->request);
+
         $controller->init();
 
-        $controller->layout             = new View('layout');
-        $controller->layout->title      = 'PHP Censor';
-        $controller->layout->breadcrumb = [];
-        $controller->layout->version    = trim(file_get_contents(ROOT_DIR . 'VERSION.md'));
-
         return $controller;
-    }
-
-    /**
-     * Injects variables into the layout before rendering it.
-     *
-     * @param View $layout
-     */
-    protected function setLayoutVariables(View &$layout)
-    {
-        $groups = [];
-        $groupStore = Factory::getStore('ProjectGroup');
-        $groupList = $groupStore->getWhere([], 100, 0, ['title' => 'ASC']);
-
-        foreach ($groupList['items'] as $group) {
-            $thisGroup             = ['title' => $group->getTitle()];
-            $projects              = Factory::getStore('Project')->getByGroupId($group->getId(), false);
-            $thisGroup['projects'] = $projects['items'];
-            $groups[]              = $thisGroup;
-        }
-
-        $archivedProjects          = Factory::getStore('Project')->getAll(true);
-        $layout->archived_projects = $archivedProjects['items'];
-        $layout->groups            = $groups;
     }
 
     /**

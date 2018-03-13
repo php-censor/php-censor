@@ -6,13 +6,13 @@ use PHPCensor\Store\Factory;
 use PHPCensor\View;
 use PHPCensor\Http\Response;
 use PHPCensor\BuildFactory;
-use PHPCensor\Controller;
+use PHPCensor\WebController;
 use PHPCensor\Store\BuildStore;
 
 /**
  * Widget Last Builds Controller
  */
-class WidgetLastBuildsController extends Controller
+class WidgetLastBuildsController extends WebController
 {
     /**
      * @var BuildStore
@@ -24,6 +24,8 @@ class WidgetLastBuildsController extends Controller
      */
     public function init()
     {
+        parent::init();
+
         $this->buildStore = Factory::getStore('Build');
     }
 
@@ -43,10 +45,10 @@ class WidgetLastBuildsController extends Controller
         $view->builds         = $builds;
         $this->view->timeline = $view->render();
 
-        $this->response->disableLayout();
-        $this->response->setContent($this->view->render());
+        $response = new Response();
+        $response->setContent($this->view->render());
 
-        return $this->response;
+        return $response;
     }
 
     /**
@@ -62,9 +64,9 @@ class WidgetLastBuildsController extends Controller
 
         $this->view->builds = $builds;
 
-        $this->response->disableLayout();
-        $this->response->setContent($this->view->render());
+        $response = new Response();
+        $response->setContent($this->view->render());
 
-        return $this->response;
+        return $response;
     }
 }

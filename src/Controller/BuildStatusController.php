@@ -10,27 +10,33 @@ use PHPCensor\BuildFactory;
 use PHPCensor\Model\Project;
 use PHPCensor\Model\Build;
 use PHPCensor\Service\BuildStatusService;
-use PHPCensor\Controller;
+use PHPCensor\WebController;
 
 /**
  * Build Status Controller - Allows external access to build status information / images.
  *
  * @author Dan Cryer <dan@block8.co.uk>
  */
-class BuildStatusController extends Controller
+class BuildStatusController extends WebController
 {
-    /* @var \PHPCensor\Store\ProjectStore */
-    protected $projectStore;
-
-    /* @var \PHPCensor\Store\BuildStore */
-    protected $buildStore;
+    /**
+     * @var string
+     */
+    public $layoutName = 'layoutPublic';
 
     /**
-     * Initialise the controller, set up stores and services.
+     * @var \PHPCensor\Store\ProjectStore
      */
+    protected $projectStore;
+
+    /**
+     * @var \PHPCensor\Store\BuildStore
+     */
+    protected $buildStore;
+
     public function init()
     {
-        $this->response->disableLayout();
+        parent::init();
 
         $this->buildStore   = Factory::getStore('Build');
         $this->projectStore = Factory::getStore('Project');
@@ -74,7 +80,7 @@ class BuildStatusController extends Controller
      *
      * @param $projectId
      *
-     * @return bool
+     * @return Response
      *
      * @throws \Exception
      */
@@ -114,16 +120,16 @@ class BuildStatusController extends Controller
     /**
      * @param \SimpleXMLElement $xml
      *
-     * @return boolean
+     * @return Response
      */
     protected function renderXml(\SimpleXMLElement $xml = null)
     {
-        $this->response->setHeader('Content-Type', 'text/xml');
-        $this->response->setContent($xml->asXML());
-        $this->response->flush();
-        echo $xml->asXML();
+        $response = new Response();
 
-        return true;
+        $response->setHeader('Content-Type', 'text/xml');
+        $response->setContent($xml->asXML());
+
+        return $response;
     }
 
     /**
@@ -179,11 +185,12 @@ class BuildStatusController extends Controller
 
         $image = file_get_contents($cacheFile);
 
-        $this->response->disableLayout();
-        $this->response->setHeader('Content-Type', 'image/svg+xml');
-        $this->response->setContent($image);
+        $response = new Response();
 
-        return $this->response;
+        $response->setHeader('Content-Type', 'image/svg+xml');
+        $response->setContent($image);
+
+        return $response;
     }
 
     /**

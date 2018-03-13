@@ -13,21 +13,6 @@ class Response
         }
     }
 
-    public function hasLayout()
-    {
-        return !isset($this->data['layout']) ? true : $this->data['layout'];
-    }
-
-    public function disableLayout()
-    {
-        $this->data['layout'] = false;
-    }
-
-    public function enableLayout()
-    {
-        $this->data['layout'] = true;
-    }
-
     public function getData()
     {
         return $this->data;

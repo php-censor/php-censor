@@ -5,14 +5,14 @@ namespace PHPCensor\Controller;
 use PHPCensor\Store\Factory;
 use PHPCensor\View;
 use PHPCensor\Http\Response;
-use PHPCensor\Controller;
+use PHPCensor\WebController;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\ProjectStore;
 
 /**
  * Widget Build Errors Controller
  */
-class WidgetBuildErrorsController extends Controller
+class WidgetBuildErrorsController extends WebController
 {
     /**
      * @var BuildStore
@@ -29,6 +29,8 @@ class WidgetBuildErrorsController extends Controller
      */
     public function init()
     {
+        parent::init();
+
         $this->buildStore   = Factory::getStore('Build');
         $this->projectStore = Factory::getStore('Project');
     }
@@ -42,10 +44,10 @@ class WidgetBuildErrorsController extends Controller
 
         $this->view->projects = $this->renderAllProjectsLatestBuilds($view);
 
-        $this->response->disableLayout();
-        $this->response->setContent($this->view->render());
+        $response = new Response();
+        $response->setContent($this->view->render());
 
-        return $this->response;
+        return $response;
     }
 
     /**
@@ -53,10 +55,10 @@ class WidgetBuildErrorsController extends Controller
      */
     public function update()
     {
-        $this->response->disableLayout();
-        $this->response->setContent($this->renderAllProjectsLatestBuilds($this->view));
+        $response = new Response();
+        $response->setContent($this->renderAllProjectsLatestBuilds($this->view));
 
-        return $this->response;
+        return $response;
     }
 
     /**

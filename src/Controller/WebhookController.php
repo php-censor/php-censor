@@ -44,18 +44,6 @@ class WebhookController extends Controller
     protected $buildService;
 
     /**
-     * @param Config   $config
-     * @param Request  $request
-     * @param Response $response
-     */
-    public function __construct(Config $config, Request $request, Response $response)
-    {
-        $this->config   = $config;
-        $this->request  = $request;
-        $this->response = $response;
-    }
-
-    /**
      * Initialise the controller, set up stores and services.
      */
     public function init()
@@ -77,7 +65,7 @@ class WebhookController extends Controller
     {
         $response = new Response\JsonResponse();
         try {
-            $data = call_user_func_array([$this, $action], $actionParams);
+            $data = parent::handleAction($action, $actionParams);
             if (isset($data['responseCode'])) {
                 $response->setResponseCode($data['responseCode']);
                 unset($data['responseCode']);

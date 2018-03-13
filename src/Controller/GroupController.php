@@ -3,7 +3,7 @@
 namespace PHPCensor\Controller;
 
 use PHPCensor\Form;
-use PHPCensor\Controller;
+use PHPCensor\WebController;
 use PHPCensor\Http\Response\RedirectResponse;
 use PHPCensor\Model\ProjectGroup;
 use PHPCensor\Helper\Lang;
@@ -15,18 +15,22 @@ use PHPCensor\Store\Factory;
  *
  * @author Dan Cryer <dan@block8.co.uk>
  */
-class GroupController extends Controller
+class GroupController extends WebController
 {
+    /**
+     * @var string
+     */
+    public $layoutName = 'layout';
+
     /**
      * @var \PHPCensor\Store\ProjectGroupStore
      */
     protected $groupStore;
 
-    /**
-     * Set up this controller.
-     */
     public function init()
     {
+        parent::init();
+
         $this->groupStore = Factory::getStore('ProjectGroup');
     }
 

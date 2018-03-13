@@ -4,13 +4,18 @@ namespace PHPCensor\Controller;
 
 use PHPCensor\Config;
 use PHPCensor\Helper\Lang;
-use PHPCensor\Controller;
+use PHPCensor\WebController;
 
 /**
  * Home Controller - Displays the Dashboard.
  */
-class HomeController extends Controller
+class HomeController extends WebController
 {
+    /**
+     * @var string
+     */
+    public $layoutName = 'layout';
+
     /**
     * Display dashboard:
     */

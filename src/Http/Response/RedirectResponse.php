@@ -14,11 +14,6 @@ class RedirectResponse extends Response
         $this->setResponseCode(302);
     }
 
-    public function hasLayout()
-    {
-        return false;
-    }
-
     public function flush()
     {
         parent::flush();

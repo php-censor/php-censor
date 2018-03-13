@@ -12,7 +12,7 @@ use PHPCensor\Http\Response\RedirectResponse;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\User;
 use PHPCensor\Service\BuildService;
-use PHPCensor\Controller;
+use PHPCensor\WebController;
 use PHPCensor\View;
 use PHPCensor\Store\Factory;
 
@@ -21,8 +21,13 @@ use PHPCensor\Store\Factory;
  *
  * @author Dan Cryer <dan@block8.co.uk>
  */
-class BuildController extends Controller
+class BuildController extends WebController
 {
+    /**
+     * @var string
+     */
+    public $layoutName = 'layout';
+
     /**
      * @var \PHPCensor\Store\BuildStore
      */
@@ -33,11 +38,10 @@ class BuildController extends Controller
      */
     protected $buildService;
 
-    /**
-     * Initialise the controller, set up stores and services.
-     */
     public function init()
     {
+        parent::init();
+
         $this->buildStore = Factory::getStore('Build');
         $this->buildService = new BuildService($this->buildStore);
     }

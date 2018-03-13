@@ -5,7 +5,7 @@ namespace PHPCensor\Controller;
 use PHPCensor\Config;
 use PHPCensor\Exception\HttpException\NotFoundException;
 use PHPCensor\Form;
-use PHPCensor\Controller;
+use PHPCensor\WebController;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Http\Response\RedirectResponse;
 use PHPCensor\Model\User;
@@ -18,8 +18,13 @@ use PHPCensor\Store\Factory;
  *
  * @author Dan Cryer <dan@block8.co.uk>
  */
-class UserController extends Controller
+class UserController extends WebController
 {
+    /**
+     * @var string
+     */
+    public $layoutName = 'layout';
+
     /**
      * @var \PHPCensor\Store\UserStore
      */
@@ -35,6 +40,8 @@ class UserController extends Controller
      */
     public function init()
     {
+        parent::init();
+
         $this->userStore = Factory::getStore('User');
         $this->userService = new UserService($this->userStore);
     }
@@ -70,7 +77,7 @@ class UserController extends Controller
                 $language = null;
             }
 
-            $perPage  = $this->getParam('per_page', null);
+            $perPage  = (integer)$this->getParam('per_page', null);
             if (!$perPage) {
                 $perPage = null;
             }
@@ -183,7 +190,7 @@ class UserController extends Controller
         $name     = $this->getParam('name', null);
         $email    = $this->getParam('email', null);
         $password = $this->getParam('password', null);
-        $isAdmin  = (int)$this->getParam('is_admin', 0);
+        $isAdmin  = (boolean)$this->getParam('is_admin', 0);
 
         $this->userService->createUser($name, $email, 'internal', ['type' => 'internal'], $password, $isAdmin);
 
@@ -224,7 +231,7 @@ class UserController extends Controller
         $name     = $this->getParam('name', null);
         $email    = $this->getParam('email', null);
         $password = $this->getParam('password', null);
-        $isAdmin  = (int)$this->getParam('is_admin', 0);
+        $isAdmin  = (boolean)$this->getParam('is_admin', 0);
 
         $this->userService->updateUser($user, $name, $email, $password, $isAdmin);
 
