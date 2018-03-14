@@ -1,0 +1,20 @@
+<?php if (!($parent instanceof \PHPCensor\Form\Element\CheckboxGroup)): ?>
+<div class="control-group <?= $containerClass ?> <?= (isset($error) ? 'error' : ''); ?>">
+    <div class="controls">
+        <div class="checkbox">
+            <?php endif; ?>
+            <label class="checkbox <?= $class; ?>" for="<?= $id ?>">
+                <input type="checkbox" id="<?= $id; ?>" name="<?= $name; ?>"
+                    value="<?= $checkedValue; ?>"
+                    <?= ($checked ? 'checked' : ''); ?> <?= $required ? 'required' : '' ?>
+                >
+                <?= $label; ?>
+            </label>
+            <?php if (isset($error)): ?>
+                <span class="help-block"><?= $error; ?></span>
+            <?php endif; ?>
+            <?php if (!($parent instanceof \PHPCensor\Form\Element\CheckboxGroup)): ?>
+        </div>
+    </div>
+</div>
+<?php endif; ?>

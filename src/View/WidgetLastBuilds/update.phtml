@@ -1,0 +1,136 @@
+<?php
+
+use PHPCensor\Helper\Lang;
+use PHPCensor\Model\Build;
+
+/**
+ * @var Build[] $builds
+ */
+
+?>
+<ul class="timeline">
+    <?php $last = new \DateTime('-1 Year'); ?>
+
+    <?php
+    foreach ($builds as $build):
+        $environment = $build->getEnvironment();
+        $branches = $build->getExtra('branches');
+
+        switch ($build->getStatus()) {
+            case Build::STATUS_PENDING:
+                $updated = $build->getCreateDate();
+                $label = Lang::get('pending');
+                $color = 'blue';
+                break;
+
+            case Build::STATUS_RUNNING:
+                $updated = $build->getStartDate();
+                $label = Lang::get('running');
+                $color = 'yellow';
+                break;
+
+            case Build::STATUS_SUCCESS:
+                $updated = $build->getFinishDate();
+                $label = Lang::get('success');
+                $color = 'green';
+                break;
+
+            case Build::STATUS_FAILED:
+                $updated = $build->getFinishDate();
+                $label = Lang::get('failed');
+                $color = 'red';
+                break;
+        }
+
+        if (!$updated) {
+            $updated = $build->getCreateDate();
+        }
+
+        if ($updated->format('Y-m-d') != $last->format('Y-m-d')): $last = $updated;
+            ?>
+            <li class="time-label">
+    <span class="bg-gray">
+        <?= $last->format('Y-m-d'); ?>
+    </span>
+            </li>
+        <?php endif; ?>
+
+        <!-- /.timeline-label -->
+        <!-- timeline item -->
+        <li>
+            <i class="fa fa-<?= $build->getProject()->getIcon(); ?> bg-<?= $color; ?>"></i>
+            <div class="timeline-item">
+                <span class="time"><i class="fa fa-clock-o"></i>
+                <?php
+                    echo $updated->format('H:i:s');
+                    if ($build->getStatus() != Build::STATUS_PENDING) {
+                        echo ' &mdash; ' . $build->getDuration(); ?> <?= Lang::get('seconds');
+                    }
+                ?>
+                </span>
+                <h3 class="timeline-header">
+                    <a href="<?= APP_URL; ?>project/view/<?= $build->getProjectId(); ?>">
+                        <?= $build->getProject()->getTitle(); ?>
+                    </a>
+                    <span><?= $environment; ?></span>
+                    &mdash;
+                    <a href="<?= APP_URL; ?>build/view/<?= $build->getId(); ?>">
+                        <?php Lang::out('build'); ?> #<?= $build->getId(); ?>
+                    </a>
+                    &mdash;
+                    <?php Lang::out($build->getSourceHumanize()); ?>
+                    <?php if ($newErrorsCount = $build->getNewErrorsCount()): ?>
+                        &mdash;
+                        <?php Lang::out('new_errors'); ?>:
+                        <?= $newErrorsCount; ?>
+                    <?php endif; ?>
+                </h3>
+
+                <div class="timeline-body">
+                    <p>
+                    <?php if (Build::SOURCE_WEBHOOK_PULL_REQUEST === $build->getSource()): ?>
+                        <a href="<?= $build->getRemoteBranchLink(); ?>">
+                            <i class="fa fa-code-fork"></i>
+                            <?= $build->getRemoteBranch(); ?> :
+                        </a>
+                    <?php endif; ?>
+
+                    <a href="<?= $build->getBranchLink(); ?>">
+                        <i class="fa fa-code-fork"></i>
+                        <?= $build->getBranch(); ?>
+                    </a>
+                    <?= $branches ? ' + '.implode(', ', $branches) : ''; ?>
+                    <?php if ($tag = $build->getTag()): ?> /
+                        <a href="<?= $build->getTagLink(); ?>">
+                            <i class="fa fa-tag"></i>
+                            <?= $tag; ?>
+                        </a>
+                    <?php endif; ?>
+                    <?php
+                        if (!empty($build->getCommitId())) {
+                            echo ' &mdash; ';
+                            echo sprintf(
+                                '<a href="%s">%s %s</a>',
+                                $build->getCommitLink(),
+                                substr($build->getCommitId(), 0, 7),
+                                $build->getCommitterEmail() ? ('(' . $build->getCommitterEmail() . ')') : ''
+                            );
+                            $buildCommitMessage = htmlspecialchars($build->getCommitMessage());
+                            if ($buildCommitMessage) {
+                                echo '</p><p>';
+                                echo $buildCommitMessage;
+                            }
+                        }
+                    ?>
+                    </p>
+                </div>
+            </div>
+        </li>
+        <!-- END timeline item -->
+
+    <?php endforeach; ?>
+
+    <li>
+        <i class="fa fa-clock-o"></i>
+    </li>
+</ul>

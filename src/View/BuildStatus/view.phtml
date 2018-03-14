@@ -1,0 +1,161 @@
+<?php if (!empty($latest)): ?>
+
+    <?php
+
+    $statusClass = null;
+    $statusText = null;
+
+    switch ($latest->getStatus()) {
+        case 0:
+            $statusClass = 'blue';
+            $statusText = 'Pending';
+            break;
+        case 1:
+            $statusClass = 'yellow';
+            $statusText = 'Running';
+            break;
+        case 2:
+            $statusClass = 'green';
+            $statusText = 'Success';
+            break;
+        case 3:
+            $statusClass = 'red';
+            $statusText = 'Failed';
+            break;
+    }
+
+    ?>
+
+    <div class="small-box small-box-full bg-<?= $statusClass; ?>">
+        <div class="inner">
+            <h3 class="box-title">
+                <?= $latest->getProject()->getTitle(); ?> #<?= $latest->getId(); ?> (<?= $statusText; ?>)
+            </h3>
+            <p>
+                <?php $latestCommitMessage = htmlspecialchars($latest->getCommitMessage()); ?>
+                <?php if ($latestCommitMessage): ?>
+                    <?= $latestCommitMessage; ?><br /><br />
+                <?php endif; ?>
+
+                <strong>Branch: </strong> <?= $latest->getBranch(); ?><br />
+                <strong>Committer: </strong> <?= $latest->getCommitterEmail(); ?>
+
+                <?php if (!empty($latest->getCommitId())): ?>
+                    <br /><strong>Commit: </strong> <?= $latest->getCommitId(); ?><br>
+                <?php endif; ?>
+            </p>
+        </div>
+        <div class="icon">
+            <i class="fa fa-<?= $project->getIcon(); ?>"></i>
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+<?php endif; ?>
+
+<div class="box">
+    <div class="box-header"><h3 class="box-title">Builds</h3></div>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Status</th>
+            <th>Date</th>
+            <th>Commit</th>
+            <th>Branch</th>
+            <th>Environment</th>
+            <th>Duration</th>
+        </tr>
+        </thead>
+        <tbody id="latest-builds">
+
+
+        <?php if(empty($builds) || !count($builds)): ?>
+            <tr class="">
+                <td colspan="6">No builds yet.</td>
+            </tr>
+        <?php endif; ?>
+
+        <?php foreach($builds as $build): ?>
+
+            <?php
+            switch($build->getStatus())
+            {
+                case 0:
+                    $class  = 'info';
+                    $status = 'Pending';
+
+                    break;
+
+                case 1:
+                    $class  = 'warning';
+                    $status = 'Running';
+                    break;
+
+                case 2:
+                    $class  = 'success';
+                    $status = 'Success';
+                    break;
+
+                case 3:
+                    $class  = 'danger';
+                    $status = 'Failed';
+                    break;
+            }
+            ?>
+            <tr>
+                <td><a href="<?= APP_URL; ?>build/view/<?= $build->getId(); ?>">#<?= str_pad($build->getId(), 6, '0', STR_PAD_LEFT); ?></a></td>
+                <td>
+                    <span class='label label-<?= $class; ?>'><?= $status; ?></span>
+                </td>
+                <td><?= $build->getCreateDate()->format('Y-m-d H:i:s'); ?></td>
+                <td>
+                    <?php
+                    if (!empty($build->getCommitId())) {
+                        print sprintf(
+                            '<a href="%s">%s %s</a>',
+                            $build->getCommitLink(),
+                            substr($build->getCommitId(), 0, 7),
+                            $build->getCommitterEmail() ? ('(' . $build->getCommitterEmail() . ')') : ''
+                        );
+                    } else {
+                        print '&mdash;';
+                    }
+                    ?>
+                </td>
+
+                <td>
+                    <?php if (\PHPCensor\Model\Build::SOURCE_WEBHOOK_PULL_REQUEST === $build->getSource()): ?>
+                        <a href="<?= $build->getRemoteBranchLink(); ?>">
+                            <i class="fa fa-code-fork"></i>
+                            <?= $build->getRemoteBranch(); ?> :
+                        </a>
+                    <?php endif; ?>
+                    <a href="<?= $build->getBranchLink();?>">
+                        <i class="fa fa-code-fork"></i>
+                        <?= $build->getBranch(); ?>
+                    </a>
+                    <?php $branches = $build->getExtra('branches'); ?>
+                    <?= $branches ? ' + '.implode(', ', $branches) : ''; ?>
+                    <?php if ($tag = $build->getTag()): ?> /
+                        <a href="<?= $build->getTagLink(); ?>">
+                            <i class="fa fa-tag"></i>
+                            <?= $tag; ?>
+                        </a>
+                    <?php endif; ?>
+                </td>
+                <td>
+                    <?php
+                    $environment = $build->getEnvironment();
+                    echo !empty($environment) ? $environment : '—' ;
+                    ?>
+                </td>
+                <td>
+                    <?= $build->getDuration(); ?> sec.
+                </td>
+            </tr>
+        <?php endforeach; ?>
+
+
+        </tbody>
+    </table>
+</div>

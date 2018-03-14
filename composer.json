@@ -36,14 +36,12 @@
     },
     "autoload": {
         "psr-4": {
-            "PHPCensor\\": "src/PHPCensor/",
-            "b8\\":        "src/B8Framework/"
+            "PHPCensor\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\PHPCensor\\": "tests/PHPCensor/",
-            "Tests\\b8\\":        "tests/B8Framework/"
+            "Tests\\PHPCensor\\": "tests/src/"
         }
     },
     "require": {
@@ -63,7 +61,6 @@
         "symfony/browser-kit":             "~3.4.0",
         "symfony/process":                 "~3.4.0",
         "symfony/filesystem":              "~3.4.0",
-        "symfony/debug":                   "~3.4.0",
         "symfony/dependency-injection":    "~3.4.0",
         "symfony/event-dispatcher":        "~3.4.0",
         "symfony/cache":                   "~3.4.0",
@@ -84,7 +81,9 @@
         "phploc/phploc":                   "~4.0.0",
         "jakub-onderka/php-parallel-lint": "~0.9.0",
         "sensiolabs/security-checker":     "~4.0.0",
+        "paragonie/random_compat":         "~2.0.0",
 
+        "symfony/debug":                     "~3.4.0",
         "doctrine/instantiator":             "~1.0.0",
         "phpunit/php-token-stream":          "~1.4.0",
         "phpdocumentor/reflection-docblock": "~2.0.0",
@@ -99,7 +98,8 @@
         "bower-asset/raphael":      "~2.2.0"
     },
     "require-dev": {
-        "phpunit/dbunit": "~2.0.0"
+        "phpunit/dbunit":     "~2.0.0",
+        "symfony/var-dumper": "~3.4.0"
     },
     "suggest": {
         "maknz/slack":         "For SlackNotify plugin",
