@@ -114,19 +114,17 @@ class BuildService
      */
     public function createDuplicateBuild(Build $copyFrom)
     {
-        $data = $copyFrom->getDataArray();
-
         $build = new Build();
-        $build->setProjectId($data['project_id']);
-        $build->setCommitId($data['commit_id']);
-        $build->setBranch($data['branch']);
-        $build->setTag($data['tag']);
-        $build->setCommitterEmail($data['committer_email']);
-        $build->setCommitMessage($data['commit_message']);
-        $build->setExtra(json_decode($data['extra'], true));
-        $build->setEnvironment($data['environment']);
-        $build->setSource($data['source']);
-        $build->setUserId($data['user_id']);
+        $build->setProjectId($copyFrom->getProjectId());
+        $build->setCommitId($copyFrom->getCommitId());
+        $build->setBranch($copyFrom->getBranch());
+        $build->setTag($copyFrom->getTag());
+        $build->setCommitterEmail($copyFrom->getCommitterEmail());
+        $build->setCommitMessage($copyFrom->getCommitMessage());
+        $build->setExtra($copyFrom->getExtra());
+        $build->setEnvironment($copyFrom->getEnvironment());
+        $build->setSource($copyFrom->getSource());
+        $build->setUserId($copyFrom->getUserId());
         $build->setCreateDate(new \DateTime());
         $build->setStatus(Build::STATUS_PENDING);
 
