@@ -472,7 +472,7 @@ class Build extends BaseBuild
      */
     protected function writeSshKey($cloneTo)
     {
-        $keyPath = dirname($cloneTo . '/temp');
+        $keyPath = $cloneTo . 'temp';
         $keyFile = $keyPath . '.key';
 
         file_put_contents($keyFile, $this->getProject()->getSshPrivateKey());
@@ -491,7 +491,7 @@ class Build extends BaseBuild
      */
     protected function writeSshWrapper($cloneTo, $keyFile)
     {
-        $path        = dirname($cloneTo . '/temp');
+        $path        = $cloneTo . 'temp';
         $wrapperFile = $path . '.sh';
 
         $sshFlags = '-o CheckHostIP=no -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o PasswordAuthentication=no';

@@ -109,7 +109,7 @@ class GitBuild extends Build
         }
 
         $cmd .= ' -b "%s" "%s" "%s"';
-        $cmd = 'export GIT_SSH="'.$gitSshWrapper.'" && ' . $cmd;
+        $cmd = 'export GIT_SSH="' . $gitSshWrapper . '" && ' . $cmd;
 
         $success = $builder->executeCommand($cmd, $this->getBranch(), $this->getCloneUrl(), $cloneTo);
 

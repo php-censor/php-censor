@@ -63,7 +63,7 @@ class HgBuild extends Build
         $keyFile = $this->writeSshKey($cloneTo);
 
         // Do the hg clone:
-        $cmd     = 'hg clone --ssh "ssh -i '.$keyFile.'" %s "%s" -r %s';
+        $cmd     = 'hg clone --ssh "ssh -i ' . $keyFile . '" %s "%s" -r %s';
         $success = $builder->executeCommand($cmd, $this->getCloneUrl(), $cloneTo, $this->getBranch());
 
         if ($success) {
