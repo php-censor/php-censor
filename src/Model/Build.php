@@ -472,13 +472,11 @@ class Build extends BaseBuild
      */
     protected function writeSshKey($cloneTo)
     {
-        $keyPath = $cloneTo . 'temp';
-        $keyFile = $keyPath . '.key';
+        $tempKeyFile = tempnam(sys_get_temp_dir(), 'key_');
 
-        file_put_contents($keyFile, $this->getProject()->getSshPrivateKey());
-        chmod($keyFile, 0600);
+        file_put_contents($tempKeyFile, $this->getProject()->getSshPrivateKey());
 
-        return $keyFile;
+        return $tempKeyFile;
     }
 
     /**
@@ -491,9 +489,6 @@ class Build extends BaseBuild
      */
     protected function writeSshWrapper($cloneTo, $keyFile)
     {
-        $path        = $cloneTo . 'temp';
-        $wrapperFile = $path . '.sh';
-
         $sshFlags = '-o CheckHostIP=no -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o PasswordAuthentication=no';
 
         // Write out the wrapper script for this build:
@@ -502,11 +497,12 @@ class Build extends BaseBuild
 ssh {$sshFlags} -o IdentityFile={$keyFile} $*
 
 OUT;
+        $tempShFile = tempnam(sys_get_temp_dir(), 'sh_');
 
-        file_put_contents($wrapperFile, $script);
-        shell_exec('chmod +x "' . $wrapperFile . '"');
+        file_put_contents($tempShFile, $script);
+        shell_exec('chmod +x "' . $tempShFile . '"');
 
-        return $wrapperFile;
+        return $tempShFile;
     }
 
     /**

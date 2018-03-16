@@ -99,7 +99,7 @@ class PhpCpd extends Plugin implements ZeroConfigPluginInterface
 
         $phpcpd = $this->findBinary('phpcpd');
 
-        $tmpFileName = tempnam('/tmp', 'phpcpd');
+        $tmpFileName = tempnam(sys_get_temp_dir(), 'phpcpd_');
 
         $cmd     = $phpcpd . ' --log-pmd "%s" %s "%s"';
         $success = $this->builder->executeCommand($cmd, $tmpFileName, $ignore, $this->path);

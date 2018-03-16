@@ -161,7 +161,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
         $buildPath = $this->build->getBuildPath();
 
         // Save the results into a log file
-        $logFile = @tempnam($buildPath, 'jLog_');
+        $logFile = tempnam(sys_get_temp_dir(), 'jlog_');
         $options->addArgument('log-' . $logFormat, $logFile);
 
         // Removes any current configurations files
@@ -258,7 +258,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
                     $this->builder, 'php_unit', $error['message'], $severity, $error['file'], $error['line']
                 );
             }
-            @unlink($logFile);
+            unlink($logFile);
         } else {
             throw new \Exception('log output file does not exist: ' . $logFile);
         }
