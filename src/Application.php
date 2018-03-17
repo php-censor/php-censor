@@ -57,9 +57,7 @@ class Application
 
         $this->router = new Router($this, $this->request, $this->config);
 
-        if (method_exists($this, 'init')) {
-            $this->init();
-        }
+        $this->init();
     }
 
     /**

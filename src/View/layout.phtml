@@ -39,9 +39,9 @@ $user = $this->getUser();
         var LANGUAGE = '<?= Lang::getLanguage(); ?>';
 
         <?php if (defined('JSON_UNESCAPED_UNICODE')): ?>
-        var STRINGS = <?= json_encode(Lang::getStrings(), JSON_UNESCAPED_UNICODE); ?>;
+            var STRINGS = <?= json_encode(Lang::getStrings(), JSON_UNESCAPED_UNICODE); ?>;
         <?php else: ?>
-        var STRINGS = <?= json_encode(Lang::getStrings()); ?>;
+            var STRINGS = <?= json_encode(Lang::getStrings()); ?>;
         <?php endif; ?>
     </script>
 
@@ -58,7 +58,7 @@ $user = $this->getUser();
     <nav class="navbar navbar-static-top" role="navigation">
     <!-- Sidebar toggle button-->
     <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-        <span class="sr-only"><?php Lang::out('toggle_navigation'); ?></span>
+        <span class="sr-only"><?= Lang::get('toggle_navigation'); ?></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -72,7 +72,7 @@ $user = $this->getUser();
             <span class="label label-info app-pending-count"></span>
         </a>
         <ul class="dropdown-menu">
-            <li class="header"><?php Lang::out('n_builds_pending', 0); ?></li>
+            <li class="header"><?= Lang::get('n_builds_pending', 0); ?></li>
             <li>
                 <ul class="menu app-pending-list">
                 </ul>
@@ -86,7 +86,7 @@ $user = $this->getUser();
             <span class="label label-warning app-running-count"></span>
         </a>
         <ul class="dropdown-menu">
-            <li class="header"><?php Lang::out('n_builds_running', 0); ?></li>
+            <li class="header"><?= Lang::get('n_builds_running', 0); ?></li>
             <li>
                 <ul class="menu app-running-list">
                 </ul>
@@ -113,10 +113,10 @@ $user = $this->getUser();
             <!-- Menu Footer-->
             <li class="user-footer">
                 <div class="pull-left">
-                    <a href="<?= APP_URL; ?>user/profile" class="btn btn-default btn-flat"><?php Lang::out('edit_profile'); ?></a>
+                    <a href="<?= APP_URL; ?>user/profile" class="btn btn-default btn-flat"><?= Lang::get('edit_profile'); ?></a>
                 </div>
                 <div class="pull-right">
-                    <a href="<?= APP_URL; ?>session/logout" class="btn btn-default btn-flat"><?php Lang::out('sign_out'); ?></a>
+                    <a href="<?= APP_URL; ?>session/logout" class="btn btn-default btn-flat"><?= Lang::get('sign_out'); ?></a>
                 </div>
             </li>
         </ul>
@@ -138,7 +138,7 @@ $user = $this->getUser();
                     <img src="https://www.gravatar.com/avatar/<?= md5($user->getEmail()); ?>?d=mm" class="img-circle" alt="<?= $user->getName(); ?>" />
                 </div>
                 <div class="pull-left info">
-                    <p><?php Lang::out('hello_name', $user->getName()); ?></p>
+                    <p><?= Lang::get('hello_name', $user->getName()); ?></p>
                 </div>
             </div>
             <?php endif; ?>
@@ -147,7 +147,7 @@ $user = $this->getUser();
             <ul class="sidebar-menu">
                 <li<?= (array_key_exists('archived', $_GET) ? '' : ' class="active"'); ?>>
                     <a href="<?= APP_URL; ?>">
-                        <i class="fa fa-dashboard"></i> <span><?php Lang::out('dashboard'); ?></span>
+                        <i class="fa fa-dashboard"></i> <span><?= Lang::get('dashboard'); ?></span>
                     </a>
                 </li>
 
@@ -155,23 +155,23 @@ $user = $this->getUser();
                     <li class="treeview">
                         <a href="#">
                             <i class="fa fa-edit"></i>
-                            <span><?php Lang::out('admin_options'); ?></span>
+                            <span><?= Lang::get('admin_options'); ?></span>
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
                             <li>
                                 <a href="<?= APP_URL; ?>project/add">
-                                    <i class="fa fa-angle-double-right"></i> <?php Lang::out('add_project'); ?>
+                                    <i class="fa fa-angle-double-right"></i> <?= Lang::get('add_project'); ?>
                                 </a>
                             </li>
                             <li>
                                 <a href="<?= APP_URL; ?>group">
-                                    <i class="fa fa-angle-double-right"></i> <?php Lang::out('project_groups'); ?>
+                                    <i class="fa fa-angle-double-right"></i> <?= Lang::get('project_groups'); ?>
                                 </a>
                             </li>
                             <li>
                                 <a href="<?= APP_URL; ?>user">
-                                    <i class="fa fa-angle-double-right"></i> <?php Lang::out('manage_users'); ?>
+                                    <i class="fa fa-angle-double-right"></i> <?= Lang::get('manage_users'); ?>
                                 </a>
                             </li>
                         </ul>
@@ -204,7 +204,7 @@ $user = $this->getUser();
 
                 <li class="treeview">
                     <a href="#">
-                        <i class="fa fa-archive"></i> <span><?php Lang::out('archived_menu'); ?></span>
+                        <i class="fa fa-archive"></i> <span><?= Lang::get('archived_menu'); ?></span>
                         <i class="fa fa-angle-left pull-right"></i>
                     </a>
 

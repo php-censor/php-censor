@@ -7,7 +7,7 @@ $user = $this->getUser();
 ?>
 <div class="clearfix"  style="margin-bottom: 20px;">
     <div class="pull-right btn-group">
-        <a class="btn btn-success" href="<?= APP_URL; ?>user/add"><?php Lang::out('add_user'); ?></a>
+        <a class="btn btn-success" href="<?= APP_URL; ?>user/add"><?= Lang::get('add_user'); ?></a>
     </div>
 </div>
 
@@ -18,9 +18,9 @@ $user = $this->getUser();
                 <table class="table table-hover">
                     <thead>
                     <tr>
-                        <th><?php Lang::out('email_address'); ?></th>
-                        <th><?php Lang::out('name'); ?></th>
-                        <th><?php Lang::out('is_admin'); ?></th>
+                        <th><?= Lang::get('email_address'); ?></th>
+                        <th><?= Lang::get('name'); ?></th>
+                        <th><?= Lang::get('is_admin'); ?></th>
                         <th></th>
                     </tr>
                     </thead>
@@ -47,12 +47,12 @@ $user = $this->getUser();
                             <td>
                                 <?php if($user->getIsAdmin()): ?>
                                     <div class="btn-group btn-group-right">
-                                        <a class="btn btn-default btn-sm" href="<?= APP_URL; ?>user/edit/<?= $user->getId(); ?>"><?php Lang::out('edit'); ?></a>
+                                        <a class="btn btn-default btn-sm" href="<?= APP_URL; ?>user/edit/<?= $user->getId(); ?>"><?= Lang::get('edit'); ?></a>
                                         <button class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
                                             <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu">
-                                            <li><a href="<?= APP_URL; ?>user/delete/<?= $user->getId(); ?>" class="delete-user"><?php Lang::out('delete_user'); ?></a></li>
+                                            <li><a href="<?= APP_URL; ?>user/delete/<?= $user->getId(); ?>" class="delete-user"><?= Lang::get('delete_user'); ?></a></li>
                                         </ul>
                                     </div>
                                 <?php endif; ?>

@@ -17,11 +17,11 @@ use PHPCensor\Helper\Lang;
 
 <div class="clearfix"  style="margin-bottom: 20px;">
     <a class="btn btn-default" href="<?= APP_URL . 'project/edit/' . $project->getId(); ?>">
-        <?php Lang::out('edit_project'); ?>
+        <?= Lang::get('edit_project'); ?>
     </a>
 
     <a class="btn btn-danger" id="delete-project">
-        <?php Lang::out('delete_project'); ?>
+        <?= Lang::get('delete_project'); ?>
     </a>
 
     <?php
@@ -32,30 +32,30 @@ use PHPCensor\Helper\Lang;
             <?php if ($this->getUser()->getIsAdmin()): ?>
                 <?php if (!empty($environment)): ?>
                     <a class="btn btn-danger" href="<?= $build_url . '?' . http_build_query(['type' => 'environment', 'id' => $environment, 'debug' => 1]); ?>">
-                        <?php Lang::out('build_now_debug'); ?>
+                        <?= Lang::get('build_now_debug'); ?>
                     </a>
                 <?php elseif (!empty($branch)): ?>
                     <a class="btn btn-danger" href="<?= $build_url . '?' . http_build_query(['type' => 'branch', 'id' => $branch, 'debug' => 1]); ?>">
-                        <?php Lang::out('build_now_debug'); ?>
+                        <?= Lang::get('build_now_debug'); ?>
                     </a>
                 <?php else: ?>
                     <a class="btn btn-danger" href="<?= $build_url . '?' . http_build_query(['debug' => 1]); ?>">
-                        <?php Lang::out('build_now_debug'); ?>
+                        <?= Lang::get('build_now_debug'); ?>
                     </a>
                 <?php endif; ?>
             <?php endif; ?>
 
             <?php if (!empty($environment)): ?>
                 <a class="btn btn-success" href="<?= $build_url . '?' . http_build_query(['type' => 'environment', 'id' => $environment]); ?>">
-                    <?php Lang::out('build_now'); ?>
+                    <?= Lang::get('build_now'); ?>
                 </a>
             <?php elseif (!empty($branch)): ?>
                 <a class="btn btn-success" href="<?= $build_url . '?' . http_build_query(['type' => 'branch', 'id' => $branch]); ?>">
-                    <?php Lang::out('build_now'); ?>
+                    <?= Lang::get('build_now'); ?>
                 </a>
             <?php else: ?>
                 <a class="btn btn-success" href="<?= $build_url; ?>">
-                    <?php Lang::out('build_now'); ?>
+                    <?= Lang::get('build_now'); ?>
                 </a>
             <?php endif; ?>
         <?php endif; ?>
@@ -63,16 +63,16 @@ use PHPCensor\Helper\Lang;
         <div class="btn-group branch-btn pull-right">
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                 <?php if (!empty($environment)) {
-                    Lang::out('environment_x', $environment);
+                    echo Lang::get('environment_x', $environment);
                 } elseif (!empty($branch)) {
-                    Lang::out('branch_x', $branch);
+                    echo Lang::get('branch_x', $branch);
                 } else {
-                    Lang::out('all');
+                    echo Lang::get('all');
                 } ?>&nbsp;&nbsp;<span class="caret"></span>
             </button>
 
             <ul class="dropdown-menu" role="menu">
-                <li><a href="<?= APP_URL; ?>project/view/<?= $project->getId(); ?>"><?php Lang::out('all'); ?></a></li>
+                <li><a href="<?= APP_URL; ?>project/view/<?= $project->getId(); ?>"><?= Lang::get('all'); ?></a></li>
                 <li class="divider"></li>
 
                 <?php if(!empty($environments)): ?>
@@ -103,20 +103,20 @@ use PHPCensor\Helper\Lang;
     <div class="col-lg-9 col-md-8 col-sm-8">
         <div class="box">
             <div class="box-header">
-                <h3 class="box-title"><?php Lang::out('builds'); ?> (<?= $total; ?>)</h3>
+                <h3 class="box-title"><?= Lang::get('builds'); ?> (<?= $total; ?>)</h3>
             </div>
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th><?php Lang::out('id'); ?></th>
-                    <th><?php Lang::out('status'); ?></th>
-                    <th><?php Lang::out('date'); ?></th>
-                    <th><?php Lang::out('build_source'); ?></th>
-                    <th class="hidden-md hidden-sm hidden-xs"><?php Lang::out('commit'); ?></th>
-                    <th><?php Lang::out('branch'); ?></th>
-                    <th><?php Lang::out('environment'); ?></th>
-                    <th><?php Lang::out('duration'); ?></th>
-                    <th><?php Lang::out('new_errors'); ?></th>
+                    <th><?= Lang::get('id'); ?></th>
+                    <th><?= Lang::get('status'); ?></th>
+                    <th><?= Lang::get('date'); ?></th>
+                    <th><?= Lang::get('build_source'); ?></th>
+                    <th class="hidden-md hidden-sm hidden-xs"><?= Lang::get('commit'); ?></th>
+                    <th><?= Lang::get('branch'); ?></th>
+                    <th><?= Lang::get('environment'); ?></th>
+                    <th><?= Lang::get('duration'); ?></th>
+                    <th><?= Lang::get('new_errors'); ?></th>
                     <th></th>
                 </tr>
                 </thead>
@@ -162,7 +162,7 @@ use PHPCensor\Helper\Lang;
         <?php if (in_array($project->getType(), ['github', 'gitlab', 'bitbucket'])): ?>
             <div class="box">
                 <div class="box-header">
-                    <h4 class="box-title"><?php Lang::out('webhooks'); ?></h4>
+                    <h4 class="box-title"><?= Lang::get('webhooks'); ?></h4>
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
                             <i class="fa fa-minus"></i>
@@ -174,18 +174,18 @@ use PHPCensor\Helper\Lang;
                     <?php switch($project->getType()) {
                         case 'github':
                             $url = APP_URL . 'webhook/github/' . $project->getId();
-                            Lang::out('webhooks_help_github', $project->getReference());
+                            echo Lang::get('webhooks_help_github', $project->getReference());
                             break;
 
                         case 'gitlab':
                             $url = APP_URL. 'webhook/gitlab/' . $project->getId();
-                            Lang::out('webhooks_help_gitlab');
+                            echo Lang::get('webhooks_help_gitlab');
                             break;
 
                         case 'bitbucket':
                         case 'bitbucket-hg':
                             $url = APP_URL . 'webhook/bitbucket/' . $project->getId();
-                            Lang::out('webhooks_help_bitbucket', $project->getReference());
+                            echo Lang::get('webhooks_help_bitbucket', $project->getReference());
                             break;
                     } ?>
                     <br><br><strong style="word-wrap: break-word;"><?= $url; ?></strong>
@@ -196,7 +196,7 @@ use PHPCensor\Helper\Lang;
         <?php if ($project->getSshPublicKey()): ?>
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title"><?php Lang::out('public_key'); ?></h3>
+                    <h3 class="box-title"><?= Lang::get('public_key'); ?></h3>
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
                             <i class="fa fa-minus"></i>
