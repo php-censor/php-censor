@@ -2,7 +2,7 @@
 
 namespace PHPCensor;
 
-use PHPCensor\Exception\HttpException\ValidationException;
+use PHPCensor\Exception\InvalidArgumentException;
 
 class Model
 {
@@ -29,7 +29,7 @@ class Model
         if (is_array($initialData)) {
             foreach ($initialData as $index => $item) {
                 if (!array_key_exists($index, $this->data)) {
-                    throw new \InvalidArgumentException(sprintf(
+                    throw new InvalidArgumentException(sprintf(
                         'Model "%s" doesn\'t have field "%s"',
                         get_called_class(),
                         $index
@@ -81,12 +81,12 @@ class Model
      * @param string $name
      * @param mixed  $value
      *
-     * @throws ValidationException
+     * @throws InvalidArgumentException
      */
     protected function validateString($name, $value)
     {
         if (!is_string($value) && !is_null($value)) {
-            throw new ValidationException('Column "' . $name . '" must be a string.');
+            throw new InvalidArgumentException('Column "' . $name . '" must be a string.');
         }
     }
 
@@ -94,12 +94,12 @@ class Model
      * @param string $name
      * @param mixed  $value
      *
-     * @throws ValidationException
+     * @throws InvalidArgumentException
      */
     protected function validateInt($name, $value)
     {
         if (!is_integer($value) && !is_null($value)) {
-            throw new ValidationException('Column "' . $name . '" must be an integer.');
+            throw new InvalidArgumentException('Column "' . $name . '" must be an integer.');
         }
     }
 
@@ -107,12 +107,12 @@ class Model
      * @param string $name
      * @param mixed  $value
      *
-     * @throws ValidationException
+     * @throws InvalidArgumentException
      */
     protected function validateBoolean($name, $value)
     {
         if (!is_bool($value) && !is_null($value)) {
-            throw new ValidationException('Column "' . $name . '" must be a boolean.');
+            throw new InvalidArgumentException('Column "' . $name . '" must be a boolean.');
         }
     }
 
@@ -120,12 +120,12 @@ class Model
      * @param string $name
      * @param mixed  $value
      *
-     * @throws ValidationException
+     * @throws InvalidArgumentException
      */
     protected function validateNotNull($name, $value)
     {
         if (is_null($value)) {
-            throw new ValidationException('Column "' . $name . '" must not be null.');
+            throw new InvalidArgumentException('Column "' . $name . '" must not be null.');
         }
     }
 }

@@ -73,14 +73,4 @@ class HttpExceptionTest extends \PHPUnit\Framework\TestCase
             self::assertTrue($ex->getStatusMessage() == 'Internal Server Error');
         }
     }
-
-    public function testValidationException()
-    {
-        try {
-            throw new HttpException\ValidationException('Test');
-        } catch (HttpException $ex) {
-            self::assertTrue($ex->getErrorCode() == 400);
-            self::assertTrue($ex->getStatusMessage() == 'Bad Request');
-        }
-    }
 }

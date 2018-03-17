@@ -2,7 +2,7 @@
 
 namespace Tests\PHPCensor\Model;
 
-use PHPCensor\Exception\HttpException\ValidationException;
+use PHPCensor\Exception\InvalidArgumentException;
 use PHPCensor\Model\Build;
 
 /**
@@ -49,7 +49,7 @@ class BuildTest extends \PHPUnit\Framework\TestCase
                 'branch'     => 'dev',
                 'unknown'    => 'unknown',
             ]);
-        } catch (\InvalidArgumentException $e) {
+        } catch (InvalidArgumentException $e) {
             self::assertEquals(
                 'Model "PHPCensor\Model\Build" doesn\'t have field "unknown"',
                 $e->getMessage()
@@ -65,7 +65,7 @@ class BuildTest extends \PHPUnit\Framework\TestCase
 
         try {
             $build->setLog([]);
-        } catch (ValidationException $e) {
+        } catch (InvalidArgumentException $e) {
             self::assertEquals(
                 'Column "log" must be a string.',
                 $e->getMessage()
@@ -77,7 +77,7 @@ class BuildTest extends \PHPUnit\Framework\TestCase
 
         try {
             $build->setSource('5');
-        } catch (ValidationException $e) {
+        } catch (InvalidArgumentException $e) {
             self::assertEquals(
                 'Column "source" must be an integer.',
                 $e->getMessage()
@@ -86,7 +86,7 @@ class BuildTest extends \PHPUnit\Framework\TestCase
 
         try {
             $build->setId(null);
-        } catch (ValidationException $e) {
+        } catch (InvalidArgumentException $e) {
             self::assertEquals(
                 'Column "id" must not be null.',
                 $e->getMessage()

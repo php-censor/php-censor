@@ -2,6 +2,7 @@
 
 namespace PHPCensor\Command;
 
+use PHPCensor\Exception\InvalidArgumentException;
 use PHPCensor\Service\UserService;
 use PHPCensor\Store\UserStore;
 use Symfony\Component\Console\Command\Command;
@@ -58,7 +59,7 @@ class CreateAdminCommand extends Command
         // Function to validate email address.
         $mailValidator = function ($answer) {
             if (!filter_var($answer, FILTER_VALIDATE_EMAIL)) {
-                throw new \InvalidArgumentException('Must be a valid email address.');
+                throw new InvalidArgumentException('Must be a valid email address.');
             }
 
             return $answer;

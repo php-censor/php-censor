@@ -81,7 +81,7 @@ class BuildTest extends TestCase
         $result = $build->setStatus(Build::STATUS_FAILED);
         self::assertEquals(false, $result);
 
-        self::expectException('\PHPCensor\Exception\HttpException\ValidationException');
+        self::expectException('\PHPCensor\Exception\InvalidArgumentException');
         $build->setStatus(10);
     }
 
@@ -230,7 +230,7 @@ class BuildTest extends TestCase
         $result = $build->setSource(Build::SOURCE_WEBHOOK_PULL_REQUEST);
         self::assertEquals(false, $result);
 
-        self::expectException('\PHPCensor\Exception\HttpException\ValidationException');
+        self::expectException('\PHPCensor\Exception\InvalidArgumentException');
         $build->setSource(20);
     }
 

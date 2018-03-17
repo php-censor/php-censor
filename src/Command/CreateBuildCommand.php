@@ -2,6 +2,7 @@
 
 namespace PHPCensor\Command;
 
+use PHPCensor\Exception\InvalidArgumentException;
 use PHPCensor\Model\Build;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Store\ProjectStore;
@@ -71,7 +72,7 @@ class CreateBuildCommand extends Command
 
         $project = $this->projectStore->getById($projectId);
         if (empty($project) || $project->getArchived()) {
-            throw new \InvalidArgumentException('Project does not exist: ' . $projectId);
+            throw new InvalidArgumentException('Project does not exist: ' . $projectId);
         }
 
         try {

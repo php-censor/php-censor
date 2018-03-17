@@ -2,6 +2,8 @@
 
 namespace PHPCensor;
 
+use PHPCensor\Exception\InvalidArgumentException;
+
 abstract class Store
 {
     /**
@@ -110,15 +112,14 @@ abstract class Store
      * @param Model   $obj
      * @param boolean $saveAllColumns
      *
-     * @throws \RuntimeException
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      *
      * @return Model|null
      */
     public function save(Model $obj, $saveAllColumns = false)
     {
         if (!($obj instanceof $this->modelName)) {
-            throw new \InvalidArgumentException(get_class($obj) . ' is an invalid model type for this store.');
+            throw new InvalidArgumentException(get_class($obj) . ' is an invalid model type for this store.');
         }
 
         $data = $obj->getDataArray();
@@ -207,15 +208,14 @@ abstract class Store
     /**
      * @param Model $obj
      *
-     * @throws \RuntimeException
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      *
      * @return boolean
      */
     public function delete(Model $obj)
     {
         if (!($obj instanceof $this->modelName)) {
-            throw new \InvalidArgumentException(get_class($obj) . ' is an invalid model type for this store.');
+            throw new InvalidArgumentException(get_class($obj) . ' is an invalid model type for this store.');
         }
 
         $data = $obj->getDataArray();
@@ -230,14 +230,14 @@ abstract class Store
     /**
      * @param string $field
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      *
      * @return string
      */
     protected function fieldCheck($field)
     {
         if (empty($field)) {
-            throw new \InvalidArgumentException('You cannot have an empty field name.');
+            throw new InvalidArgumentException('You cannot have an empty field name.');
         }
 
         if (strpos($field, '.') === false) {
