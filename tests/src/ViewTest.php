@@ -29,11 +29,4 @@ class ViewTest extends \PHPUnit\Framework\TestCase
         self::assertFalse(isset($view->what));
         self::assertTrue($view->render() == 'Hello World');
     }
-
-    public function testUserViewVars()
-    {
-        $view          = new View('{@content}');
-        $view->content = 'World';
-        self::assertTrue($view->render() == 'World');
-    }
 }
