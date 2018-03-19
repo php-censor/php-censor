@@ -99,8 +99,7 @@ class ProjectService
             $project->setGroupId($options['group']);
         }
 
-        // Allow certain project types to set access information:
-        $this->processAccessInformation($project);
+        $project = $this->processAccessInformation($project);
 
         // Save and return the project:
         /** @var Project $project */
@@ -138,27 +137,32 @@ class ProjectService
     /**
      * In circumstances where it is necessary, populate access information based on other project properties.
      *
-     * @see ProjectService::createProject()
-     *
      * @param Project $project
+     *
+     * @return Project
      */
-    protected function processAccessInformation(Project &$project)
+    protected function processAccessInformation(Project $project)
     {
         $matches   = [];
         $reference = $project->getReference();
 
-        if ($project->getType() == 'gitlab') {
+        if (in_array($project->getType(), [
+            Project::TYPE_GITHUB,
+            Project::TYPE_GITLAB
+        ], true)) {
             $info = [];
 
             if (preg_match('`^(.+)@(.+):([0-9]*)\/?(.+)\.git`', $reference, $matches)) {
-                $info['user'] = $matches[1];
+                $info['user']   = $matches[1];
                 $info['domain'] = $matches[2];
-                $info['port'] = $matches[3];
+                $info['port']   = $matches[3];
 
                 $project->setReference($matches[4]);
             }
 
             $project->setAccessInformation($info);
         }
+
+        return $project;
     }
 }
