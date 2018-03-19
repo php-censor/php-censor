@@ -148,7 +148,7 @@ PHP Censor',
     'source_unknown' => 'Неизвестный',
     'source_manual_web' => 'Вручную (Через Web)',
     'source_manual_console' => 'Вручную (Через CLI)',
-    'source_periodical' => 'Переодический',
+    'source_periodical' => 'Периодический',
     'source_webhook' => 'Webhook (Push)',
     'source_webhook_pull_request' => 'Webhook (Pull request)',
 
