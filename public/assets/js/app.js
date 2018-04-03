@@ -50,8 +50,8 @@ var PHPCensor = {
     /**
      * Web notification. 
      * Chrome doesn't allow insecure protocols. 
-     * Enable HTTPS even on localhost in order for web notifications 
-     * to work properly.
+     * Enable HTTPS even on localhost in order for 
+     * web notifications to work properly.
      * @param  object data  Contains an array of builds.
      * @return void
      */
@@ -60,17 +60,16 @@ var PHPCensor = {
 
         var pending = n.pending;
         var running = n.running;
-        /*var success = n.success;
-        var failed  = n.failed;*/
+        var success = n.success;
+        var failed  = n.failed;
         var notification = null;
 
-        //Determine which notification to show 
-        //either pending or running.
-        //TODO: Refactor.
-        if(pending.count > 0) notification = pending;
-        else if(running.count > 0) notification = running;
-        /*else if(success.count > 0) notification = success;
-        else if(failed.count > 0) notification = failed;*/
+        //Determine which notification to show.
+        //TODO: Refactor. Use foreach.
+        if(pending && pending.count > 0) notification = pending;
+        else if(running && running.count > 0) notification = running;
+        else if(success && success.count > 0) notification = success;
+        else if(failed && failed.count > 0) notification = failed;
 
         if(notification)
         {
@@ -105,8 +104,11 @@ var PHPCensor = {
                         msg += 
                             'Project title: ' + projTitle  + rn + 
                             'Git branch: '    + branch     + rn + 
-                            'Build status: '  + status     + rn + 
-                            'Build details: ' + details;
+                            'Build status: '  + status     + rn;
+
+                        //Details is empty during widget-all-projects.
+                        if(details.length > 0)
+                            msg += 'Build details: ' + details;
 
                         PHPCensor.lastWebNotification = 
                             lastWebNotification;

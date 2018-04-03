@@ -41,7 +41,7 @@ PHPCensor.widgets.allProjects = {
                 url: APP_URL + 'widget-all-projects/webNotificationUpdate/' + projectId,
 
                 success: function (data) {
-                    console.log('webNotificationUpdate ', data)
+                    PHPCensor.showWebNotification(data);
                 },
 
                 error: PHPCensor.handleFailedAjax

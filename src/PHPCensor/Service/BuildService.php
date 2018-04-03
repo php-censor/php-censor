@@ -231,6 +231,7 @@ class BuildService
             $statusDetails = 'Created: ' . $build->getCreateDate()->format('H:i');
         else if($status === Build::STATUS_RUNNING)
             $statusDetails = 'Started: ' . $build->getStartDate()->format('H:i');
+        
         return [
             'branch'          => $build->getBranch(),
             'url'             => APP_URL . 'build/view/' . $build->getId(),
