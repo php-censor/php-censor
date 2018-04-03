@@ -11,6 +11,8 @@ use b8\Http\Response;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\ProjectStore;
 use PHPCensor\Store\ProjectGroupStore;
+use PHPCensor\Service\BuildService;
+use b8\Http\Response\JsonResponse;
 
 /**
  * Widget All Projects Controller
@@ -146,5 +148,29 @@ class WidgetAllProjectsController extends Controller
         $this->response->setContent($this->view->render());
 
         return $this->response;
+    }
+
+    public function webNotificationUpdate($projectId)
+    {
+        /*$count = $this->buildStore->getWhere(
+            ['project_id' => $projectId],
+            1,
+            0,
+            ['id' => 'DESC']
+        );
+        $counts = $count['count'];*/
+
+        $success = $this->buildStore->getLastBuildByStatus($projectId, Build::STATUS_SUCCESS);
+        $failed  = $this->buildStore->getLastBuildByStatus($projectId, Build::STATUS_FAILED);
+        $builds  = [
+            'web_notifications' => [
+                'success' => BuildService::formatWebNotificationBuild($success),
+                'failed'  => BuildService::formatWebNotificationBuild($failed)
+            ]
+        ];
+
+        $response = new JsonResponse();
+        $response->setContent($builds);
+        return $response;
     }
 }

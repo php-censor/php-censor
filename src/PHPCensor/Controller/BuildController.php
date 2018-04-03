@@ -314,6 +314,8 @@ class BuildController extends Controller
         return $rtn;
     }
 
+    
+
     public function ajaxData($buildId)
     {
         $page    = (integer)$this->getParam('page', 1);
@@ -365,9 +367,21 @@ class BuildController extends Controller
 
     public function ajaxQueue()
     {
+        $sPending = 'pending';
+        $sRunning = 'running';
+
+        $pending = $this->buildStore->getByStatus(Build::STATUS_PENDING);
+        $running = $this->buildStore->getByStatus(Build::STATUS_RUNNING);
+        
         $rtn = [
-            'pending' => $this->formatBuilds($this->buildStore->getByStatus(Build::STATUS_PENDING)),
-            'running' => $this->formatBuilds($this->buildStore->getByStatus(Build::STATUS_RUNNING)),
+            
+            $sPending => $this->formatBuilds($pending),
+            $sRunning => $this->formatBuilds($running),
+
+            'web_notifications' => [
+                $sPending => BuildService::formatWebNotificationBuilds($pending),
+                $sRunning => BuildService::formatWebNotificationBuilds($running)
+            ]
         ];
 
         $response = new JsonResponse();
