@@ -33,6 +33,18 @@ PHPCensor.widgets.allProjects = {
 
                 error: PHPCensor.handleFailedAjax
             });
+
+            //Let's build another mechanism for web notification
+            //since the above feature is tightly coupled to the view.
+            $.ajax({
+                url: APP_URL +
+                    'web-notifications/widgets-all-projects-update/' +
+                     projectId,
+                success: function (data) {
+                    PHPCensor.showWebNotification(data);
+                },
+                error: PHPCensor.handleFailedAjax
+            });
         });
     }
 };
