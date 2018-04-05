@@ -92,6 +92,7 @@
 
         "npm-asset/sprintf-js":     "~1.0.0",
         "npm-asset/codemirror":     "~5.23.0",
+        "npm-asset/notifyjs":       "*",
         "bower-asset/admin-lte":    "~2.3.0",
         "bower-asset/font-awesome": "~4.7.0",
         "bower-asset/ionicons":     "~2.0.0",
