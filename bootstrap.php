@@ -5,7 +5,7 @@ if (!defined('ROOT_DIR')) {
 }
 
 if (!defined('SRC_DIR')) {
-    define('SRC_DIR', ROOT_DIR . 'src/PHPCensor/');
+    define('SRC_DIR', ROOT_DIR . 'src/');
 }
 
 if (!defined('PUBLIC_DIR')) {
@@ -26,13 +26,10 @@ if (!defined('RUNTIME_DIR')) {
 
 require_once(ROOT_DIR . 'vendor/autoload.php');
 
-// Load configuration if present:
-$conf = [];
-$conf['b8']['app']['namespace']          = 'PHPCensor';
-$conf['b8']['app']['default_controller'] = 'Home';
-$conf['b8']['view']['path']              = SRC_DIR . 'View/';
+use PHPCensor\Config;
+use PHPCensor\Helper\Lang;
 
-$config = new b8\Config($conf);
+$config = new Config();
 
 $configFile = APP_DIR . 'config.yml';
 if (file_exists($configFile)) {
@@ -43,4 +40,4 @@ if (!defined('APP_URL') && !empty($config)) {
     define('APP_URL', $config->get('php-censor.url', '') . '/');
 }
 
-\PHPCensor\Helper\Lang::init($config);
+Lang::init($config);

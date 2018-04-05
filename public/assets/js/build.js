@@ -122,7 +122,11 @@ var Build = Class.extend({
         if (renderOrder) {
             renderOrder = JSON.parse(renderOrder);
         } else {
-            renderOrder = ['build-lines-chart', 'build-warnings-chart'];
+            renderOrder = [
+                'build-lines-chart',
+                'build-warnings-chart',
+                'build-phpunit-coverage-chart'
+            ];
         }
 
         for (var idx in renderOrder) {

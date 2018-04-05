@@ -6,7 +6,7 @@ coverage:
     - "runtime"
     - "tests"
     - "vendor"
-    - "src/PHPCensor/Migrations"
-    - "src/PHPCensor/Languages"
+    - "src/Migrations"
+    - "src/Languages"
 
 comment: off

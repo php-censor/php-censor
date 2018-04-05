@@ -1,0 +1,353 @@
+<?php
+
+use PHPCensor\Helper\Lang;
+use PHPCensor\Model\Build;
+use PHPCensor\Model\BuildError;
+
+/**
+ * @var Build $build
+ */
+
+?>
+
+<div class="row">
+    <div class="col-sm-4">
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">
+                    <?php Lang::out('build_details'); ?>
+                </h3>
+            </div>
+
+            <div class="box-body no-padding">
+                <table class="table">
+                    <tr>
+                        <th><?php Lang::out('project'); ?></th>
+                        <td style="text-align: right">
+                            <a href="<?= APP_URL . 'project/view/' . $build->getProjectId(); ?>">
+                                <i class="fa fa-<?= $build->getProject()->getIcon(); ?>"></i>
+                                <?= $build->getProject()->getTitle(); ?>
+                            </a>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th><?php Lang::out('branch'); ?></th>
+                        <td style="text-align: right">
+                            <?php if (Build::SOURCE_WEBHOOK_PULL_REQUEST === $build->getSource()): ?>
+                                <a href="<?= $build->getRemoteBranchLink(); ?>">
+                                    <i class="fa fa-code-fork"></i>
+                                    <?= $build->getRemoteBranch(); ?> :
+                                </a>
+                            <?php endif; ?>
+                            <a href="<?= $build->getBranchLink(); ?>">
+                                <i class="fa fa-code-fork"></i>
+                                <?= $build->getBranch(); ?>
+                            </a>
+                            <?php if ($tag = $build->getTag()): ?> /
+                                <a href="<?= $build->getTagLink(); ?>">
+                                    <i class="fa fa-tag"></i> <?= $tag; ?>
+                                </a>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th><?php Lang::out('environment'); ?></th>
+                        <td style="text-align: right">
+                            <?php
+                                $environment = $build->getEnvironment();
+                                echo !empty($environment) ? ('<i class="fa fa-gear"> ' . $environment) : '—' ;
+                            ?>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th><?php Lang::out('merged_branches'); ?></th>
+                        <td style="text-align: right">
+                            <a href="<?= $build->getBranchLink(); ?>">
+                                <i class="fa fa-code-fork"></i> <?= $build->getBranch(); ?>
+                            </a>
+                            + <?php
+                            $branches = $build->getExtra('branches');
+                            if (!empty($branches)) {
+                                foreach($branches as $branch) {
+                                    ?><i class="fa fa-code-fork"></i> <?= $branch ?><?php
+                                }
+                            } else {
+                                ?>&mdash;<?php
+                            }
+                            ?>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">
+                    <?php Lang::out('commit_details'); ?>
+                </h3>
+            </div>
+
+            <div class="box-body no-padding">
+                <table class="table">
+                    <tr>
+                        <th><?php Lang::out('build_source'); ?></th>
+                        <td style="text-align: right">
+                            <?php Lang::out($build->getSourceHumanize()); ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><?php Lang::out('commit'); ?></th>
+                        <td style="text-align: right">
+                            <a href="<?= $build->getCommitLink(); ?>">
+                                <?= substr($build->getCommitId(), 0, 7); ?>
+                            </a>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th><?php Lang::out('committer'); ?></th>
+                        <td style="text-align: right">
+                            <?= $build->getCommitterEmail(); ?>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th><?php Lang::out('commit_message'); ?></th>
+                        <td style="text-align: right">
+                            <?= htmlspecialchars($build->getCommitMessage()); ?>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">
+                    <?php Lang::out('timing'); ?>
+                </h3>
+            </div>
+
+            <div class="box-body no-padding">
+                <table class="table">
+                    <tr>
+                        <th><?php Lang::out('created'); ?></th>
+                        <td style="text-align: right" class="build-created datetime">
+                            <?= ($build->getCreateDate() ? $build->getCreateDate()->format('Y-m-d H:i:s') : ''); ?>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th><?php Lang::out('started'); ?></th>
+                        <td style="text-align: right" class="build-started datetime">
+                            <?= ($build->getStartDate() ? $build->getStartDate()->format('Y-m-d H:i:s') : ''); ?>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th><?php Lang::out('finished'); ?></th>
+                        <td style="text-align: right" class="build-finished datetime">
+                            <?= ($build->getFinishDate() ? $build->getFinishDate()->format('Y-m-d H:i:s') : ''); ?>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th><?php Lang::out('duration'); ?></th>
+                        <td style="text-align: right" class="build-duration duration">
+                            <?= $build->getDuration(); ?> <?= Lang::get('seconds'); ?>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="nav-tabs-custom">
+    <ul class="nav nav-tabs">
+        <li class="active">
+            <a href="#log" data-toggle="tab"><i class="fa fa-cogs"></i> <?= Lang::get('build_log'); ?></a>
+        </li>
+        <li class="">
+            <a href="#errors" data-toggle="tab">
+                <i class="fa fa-exclamation-triangle"></i>  <?= Lang::get('errors'); ?>
+                <?php if ($data['errors_total'] == 0): ?>
+                    <span class="errors-label label label-danger" style="display: none">0</span>
+                <?php else: ?>
+                    <span class="errors-label label label-danger"><?= $data['errors_total']; ?></span>
+                <?php endif; ?>
+            </a>
+        </li>
+        <li class="">
+            <a href="#information" data-toggle="tab"><i class="fa fa-info-circle"></i>  <?= Lang::get('information'); ?></a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <div class="tab-pane active" id="log">
+            <pre style="overflow-y: visible; white-space: pre-wrap"><?= $data['log']; ?></pre>
+        </div>
+
+        <div class="tab-pane" id="errors">
+            <?php if ($build->getStatus() > Build::STATUS_RUNNING): ?>
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title"><?= Lang::get('filters'); ?></h3>
+                    </div>
+                    <div class="box-body">
+                        <?php if ($data['errors'] < $data['errors_total']): ?>
+                            <p><?= Lang::get('errors_selected'); ?>: <?= $data['errors']; ?> / <?= $data['errors_total']; ?></p>
+                        <?php endif; ?>
+
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                <?php if (!empty($isNew)) {
+                                    echo Lang::get($isNew);
+                                } else {
+                                    echo Lang::get('all_errors');
+                                } ?>&nbsp;&nbsp;<span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a href="<?= APP_URL; ?>build/view/<?= $build->getId(); ?>?plugin=<?= urlencode($plugin); ?>&severity=<?= urlencode($severity); ?>#errors"><?= Lang::get('all_errors'); ?></a>
+                                </li>
+                                <li class="divider"></li>
+
+                                <?php if(!empty($isNews)): ?>
+                                    <?php foreach ($isNews as $currentIsNew) : ?>
+                                        <li <?= ($currentIsNew === $isNew) ? 'class="active"' : ''; ?>>
+                                            <a href="<?= APP_URL; ?>build/view/<?= $build->getId(); ?>?is_new=<?= urlencode($currentIsNew); ?>&plugin=<?= urlencode($plugin); ?>&severity=<?= urlencode($severity); ?>#errors">
+                                                <?= Lang::get($currentIsNew); ?>
+                                            </a>
+                                        </li>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </ul>
+                        </div>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                <?php if (!empty($plugin)) {
+                                    echo Lang::get('plugin') . ': ' . Lang::get($plugin);
+                                } else {
+                                    echo Lang::get('all_plugins');
+                                } ?>&nbsp;&nbsp;<span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a href="<?= APP_URL; ?>build/view/<?= $build->getId(); ?>?is_new=<?= urlencode($isNew); ?>&severity=<?= urlencode($severity); ?>#errors"><?= Lang::get('all_plugins'); ?></a>
+                                </li>
+                                <li class="divider"></li>
+
+                                <?php if(!empty($plugins)): ?>
+                                    <?php foreach ($plugins as $currentPlugin) : ?>
+                                        <li <?= ($currentPlugin === $plugin) ? 'class="active"' : ''; ?>>
+                                            <a href="<?= APP_URL; ?>build/view/<?= $build->getId(); ?>?is_new=<?= urlencode($isNew); ?>&plugin=<?= urlencode($currentPlugin); ?>&severity=<?= urlencode($severity); ?>#errors">
+                                                <?= Lang::get($currentPlugin); ?>
+                                            </a>
+                                        </li>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </ul>
+                        </div>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                <?php if ('' !== $severity) {
+                                    echo Lang::get('severity') . ': ' . Lang::get(BuildError::getSeverityName($severity));
+                                } else {
+                                    echo Lang::get('all_severities');
+                                } ?>&nbsp;&nbsp;<span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a href="<?= APP_URL; ?>build/view/<?= $build->getId(); ?>?is_new=<?= urlencode($isNew); ?>&plugin=<?= urlencode($plugin); ?>#errors"><?= Lang::get('all_severities'); ?></a>
+                                </li>
+                                <li class="divider"></li>
+
+                                <?php if(!empty($severities)): ?>
+                                    <?php foreach ($severities as $currentSeverity) : ?>
+                                        <li <?= ($currentSeverity === $severity) ? 'class="active"' : ''; ?>>
+                                            <a href="<?= APP_URL; ?>build/view/<?= $build->getId(); ?>?is_new=<?= urlencode($isNew); ?>&plugin=<?= urlencode($plugin); ?>&severity=<?= urlencode($currentSeverity); ?>#errors">
+                                                <?= Lang::get(BuildError::getSeverityName($currentSeverity)); ?>
+                                            </a>
+                                        </li>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
+            <table class="errors-table table table-hover">
+                <thead>
+                    <tr>
+                        <th><?php Lang::out('is_new'); ?></th>
+                        <th><?php Lang::out('severity'); ?></th>
+                        <th><?php Lang::out('plugin'); ?></th>
+                        <th><?php Lang::out('file'); ?></th>
+                        <th data-orderable="false"><?php Lang::out('line'); ?></th>
+                        <th data-orderable="false"><?php Lang::out('message'); ?></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?= $data['error_html']; ?>
+                </tbody>
+            </table>
+            <div id="paginator">
+                <?= $paginator; ?>
+            </div>
+        </div>
+
+        <div class="tab-pane" id="information">
+            <div id="plugins" class="row"></div>
+        </div>
+    </div>
+</div>
+
+<script src="<?= APP_URL; ?>assets/js/build.js"></script>
+<script>
+    var PER_PAGE       = <?= $perPage; ?>;
+    var PAGE           = <?= $page; ?>;
+    var BUILD_PLUGIN   = '<?= $plugin; ?>';
+    var BUILD_SEVERITY = '<?= $severity; ?>';
+    var BUILD_IS_NEW   = '<?= $isNew; ?>';
+
+    var ActiveBuild = new Build(<?= $build->getId(); ?>);
+    ActiveBuild.setupBuild(<?= json_encode($data); ?>, <?= json_encode($build->getFileLinkTemplate()); ?>);
+
+    var url = document.location.toString();
+    if (url.match('#')) {
+        $('.nav-tabs a[href="#' + url.split('#')[1] + '"]').tab('show');
+    }
+
+    $('.nav-tabs a').on('shown.bs.tab', function (e) {
+        window.location.hash = e.target.hash;
+    })
+
+</script>
+
+<?php
+foreach ($uiPlugins as $uiPlugin) {
+    print '<script src="' . APP_URL . 'assets/js/build-plugins/' . $uiPlugin . '"></script>' . PHP_EOL;
+}
+?>
+
+<script>
+    $(document).ready(function() {
+        ActiveBuild.renderPlugins();
+
+        $('#delete-build').on('click', function (e) {
+            e.preventDefault();
+            confirmDelete("<?= APP_URL; ?>build/delete/<?= $build->getId(); ?>")
+                .onCloseConfirmed = function () {window.location = '<?= APP_URL; ?>project/view/<?= $build->getProjectId(); ?>'};
+        });
+    });
+</script>
