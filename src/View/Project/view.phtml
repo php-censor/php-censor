@@ -171,9 +171,7 @@ use PHPCensor\Helper\Lang;
                 </div>
 
                 <div class="box-body">
-                    <?php
-                    switch($project->getType())
-                    {
+                    <?php switch($project->getType()) {
                         case 'github':
                             $url = APP_URL . 'webhook/github/' . $project->getId();
                             Lang::out('webhooks_help_github', $project->getReference());
@@ -189,8 +187,7 @@ use PHPCensor\Helper\Lang;
                             $url = APP_URL . 'webhook/bitbucket/' . $project->getId();
                             Lang::out('webhooks_help_bitbucket', $project->getReference());
                             break;
-                    }
-                    ?>
+                    } ?>
                     <br><br><strong style="word-wrap: break-word;"><?= $url; ?></strong>
                 </div>
             </div>
