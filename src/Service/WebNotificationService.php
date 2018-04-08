@@ -56,8 +56,7 @@ class WebNotificationService
         */
         if ($status === Build::STATUS_PENDING) {
             $datePerformed = 'Created: ' . $build->getCreateDate()->format('H:i');
-        }
-        elseif ($status === Build::STATUS_RUNNING) {
+        } elseif ($status === Build::STATUS_RUNNING) {
             $datePerformed = 'Started: ' . $build->getStartDate()->format('H:i');
         }
 
