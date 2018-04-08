@@ -151,36 +151,4 @@ class WidgetAllProjectsController extends WebController
 
         return $response;
     }
-
-    public function webNotificationUpdate($projectId)
-    {
-        $success  = $this->buildStore->getLastBuildByStatus($projectId, Build::STATUS_SUCCESS);
-        $failed   = $this->buildStore->getLastBuildByStatus($projectId, Build::STATUS_FAILED);
-        
-        $oSuccess = BuildService::formatWebNotificationBuild($success);
-        $oFailed  = BuildService::formatWebNotificationBuild($failed);
-
-        //@keys  count and items  Follow the for-loop structure 
-        //found in \PHPCensor\Service\BuildService::formatWebNotificationBuilds()
-        $aSuccess = [
-            'count' => count($oSuccess), 
-            'items' => [$projectId => ['build' => $oSuccess]]
-        ];
-        $aFailed  = [
-            'count' => count($oFailed), 
-            'items' => [$projectId => ['build' => $oFailed]]
-        ];
-
-        $builds  = [
-            'web_notifications' => [
-                'success' => $aSuccess,
-                'failed'  => $aFailed
-            ]
-        ];
-
-        $response = new JsonResponse();
-        $response->setContent($builds);
-        
-        return $response;
-    }
 }

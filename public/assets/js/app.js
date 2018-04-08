@@ -1,11 +1,10 @@
 var PHPCensor = {
     intervals: {},
     widgets: {},
-    lastWebNotification: {},
-
+    webNotifiedBuilds: [],
     /*
         @var  STATUS  Refer to \PHPCensor\Model\Build.php constants.
-        TODO: Transfer this variable to Build JS class so 
+        TODO: Transfer this variable to Build JS class so
         Build JS itself can use it as well.
     */
     STATUS: [
@@ -33,107 +32,123 @@ var PHPCensor = {
     },
 
     /**
-     * Shallow comparison of a displayed build notification.
+     * Shallow comparison that determines that the build
+     * has been shown as at least once as a web notification.
+     * Also adds the build to a list of shown web notifications
+     * if it's not found in the list.
      * @param  object  build
      * @return boolean
      */
-    isLastWebNotification: function(build){
-        var o = PHPCensor.lastWebNotification;
-        var b = 
-            o.projectTitle === build.projectTitle &&
-            o.branch       === build.branch &&
-            o.status       === build.status &&
-            o.details      === build.details;
-        return b;
+    isWebNotifiedBuild: function (build) {
+        var o = PHPCensor.webNotifiedBuilds;
+        for (var i = 0; i < o.length; i++) {
+            var webNotifiedBuild = o[i];
+            var b =
+                webNotifiedBuild.projectTitle  === build.projectTitle &&
+                webNotifiedBuild.branch        === build.branch &&
+                webNotifiedBuild.status        === build.status &&
+                webNotifiedBuild.datePerformed === build.datePerformed &&
+                webNotifiedBuild.dateFinished  === build.dateFinished;
+            if (b) {
+                return true;
+            }
+        }
+        /*
+            It's impossible to remember or use all previously shown
+            builds. So let's clear them out once they reach 1000.
+            @var 1000  Estimated.
+        */
+        if (PHPCensor.webNotifiedBuilds.length > 1000) {
+            PHPCensor.webNotifiedBuilds = [];
+        }
+        PHPCensor.webNotifiedBuilds.push(build);
+        return false;
     },
 
     /**
-     * Web notification. 
-     * Chrome doesn't allow insecure protocols. 
-     * Enable HTTPS even on localhost in order for 
+     * Web notification.
+     * Chrome doesn't allow insecure protocols.
+     * Enable HTTPS even on localhost in order for
      * web notifications to work properly.
      * @param  object data  Contains an array of builds.
      * @return void
      */
-    showWebNotification: function(data){
-        var n = data.web_notifications;
-
-        var pending = n.pending;
-        var running = n.running;
-        var success = n.success;
-        var failed  = n.failed;
+    showWebNotification: function (data) {
+        var pending = data.pending;
+        var running = data.running;
+        var success = data.success;
+        var failed  = data.failed;
         var notification = null;
 
         //Determine which notification to show.
         //TODO: Refactor. Use foreach.
-        if(pending && pending.count > 0) notification = pending;
-        else if(running && running.count > 0) notification = running;
-        else if(success && success.count > 0) notification = success;
-        else if(failed && failed.count > 0) notification = failed;
+        if (pending && pending.count > 0) {
+            notification = pending;
+        }
+        else if (running && running.count > 0) {
+            notification = running;
+        }
+        else if (success && success.count > 0) {
+            notification = success;
+        }
+        else if (failed && failed.count > 0) {
+            notification = failed;
+        }
 
-        if(notification)
-        {
+        if (notification) {
             var msg = '';
-            if(!Notify.needsPermission)
-            {
+            if (!Notify.needsPermission) {
                 var items = notification.items;
-                for(var item in items)
-                {
-                    var build     = items[item].build;
-                    var projTitle = build.project_title;
-                    var branch    = build.branch;
-                    var status    = PHPCensor.STATUS[build.status];
-                    var details   = build.status_details;
-                    var rn        = "\r\n";
+                for (var item in items) {
+                    var build         = items[item].build;
+                    var projTitle     = build.project_title;
+                    var branch        = build.branch;
+                    var status        = PHPCensor.STATUS[build.status];
+                    var datePerformed = build.date_performed;
+                    var dateFinished  = build.date_finished;
+                    var rn            = "\r\n";
 
-                    var lastWebNotification = {
+                    var build = {
                         projectTitle: projTitle,
                         branch: branch,
                         status: status,
-                        details: details
+                        datePerformed: datePerformed,
+                        dateFinished: dateFinished
                     };
 
-                    //Ignore if the last displayed notification
-                    //is similar to what we're again about to display.
-                    if(
-                        !PHPCensor.isLastWebNotification(
-                            lastWebNotification
-                        )
-                    )
-                    {
-                        msg += 
-                            'Project title: ' + projTitle  + rn + 
-                            'Git branch: '    + branch     + rn + 
-                            'Build status: '  + status     + rn;
+                    //Ignore if the last displayed notification is
+                    //similar to what we're again about to display.
+                    if (!PHPCensor.isWebNotifiedBuild(build)) {
+                        msg +=
+                            'Project title: ' + projTitle  + rn +
+                            'Git branch: '    + branch     + rn +
+                            'Status: '  + status     + rn;
 
-                        //Details is empty during widget-all-projects.
-                        if(details.length > 0)
-                            msg += 'Build details: ' + details;
+                        //Build details is empty during
+                        //widget-all-projects-update.
+                        if (datePerformed.length > 0) {
+                            msg += datePerformed + rn;
+                        }
 
-                        PHPCensor.lastWebNotification = 
-                            lastWebNotification;
+                        if (dateFinished.length > 0) {
+                            msg += dateFinished;
+                        }
 
                         new Notify(
-                            'PHP Censor Web Notification', 
+                            'PHP Censor Web Notification',
                             {body: msg}
                         ).show();
                     }
-                    
+
                 }
-                
-            } 
-            else if(Notify.isSupported())
-            {
-                Notify.requestPermission
-                (
-                    null, 
-                    function()
-                    {
-                        msg = 'Web notifications permission ' + 
-                              'has been denied by the user.'
-                        console.warn(msg);
-                    }
-                );
+
+            }
+            else if (Notify.isSupported()) {
+                Notify.requestPermission(null, function(){
+                    msg = 'Web notifications permission ' +
+                          'has been denied by the user.'
+                    console.warn(msg);
+                });
             }
         }
     },
@@ -144,10 +159,16 @@ var PHPCensor = {
 
             success: function (data) {
                 $(window).trigger('builds-updated', [data]);
-
-                PHPCensor.showWebNotification(data);
             },
 
+            error: PHPCensor.handleFailedAjax
+        });
+
+        $.ajax({
+            url: APP_URL + 'web-notifications/builds-queue',
+            success: function (data) {
+                PHPCensor.showWebNotification(data);
+            },
             error: PHPCensor.handleFailedAjax
         });
     },

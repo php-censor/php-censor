@@ -17,10 +17,3 @@
 
 /public/artifacts
 !/public/artifacts/.gitkeep
-
-.phpintel/*
-/app/config.yml.sample
-/node_modules/*
-/public/.htaccess
-
-docker-php-censor

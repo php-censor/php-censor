@@ -5,7 +5,7 @@ var Build = Class.extend({
     buildData: {},
     queries: {},
     updateInterval: null,
-    
+
     init: function (build) {
         var self = this;
         self.buildId = build;

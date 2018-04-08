@@ -314,8 +314,6 @@ class BuildController extends WebController
         return $rtn;
     }
 
-    
-
     public function ajaxData($buildId)
     {
         $page    = (integer)$this->getParam('page', 1);
@@ -372,16 +370,12 @@ class BuildController extends WebController
 
         $pending = $this->buildStore->getByStatus(Build::STATUS_PENDING);
         $running = $this->buildStore->getByStatus(Build::STATUS_RUNNING);
-        
+
         $rtn = [
-            
+
             $sPending => $this->formatBuilds($pending),
             $sRunning => $this->formatBuilds($running),
 
-            'web_notifications' => [
-                $sPending => BuildService::formatWebNotificationBuilds($pending),
-                $sRunning => BuildService::formatWebNotificationBuilds($running)
-            ]
         ];
 
         $response = new JsonResponse();
