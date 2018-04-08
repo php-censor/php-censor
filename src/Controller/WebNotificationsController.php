@@ -89,7 +89,14 @@ class WebNotificationsController extends WebController
     }
 
 
-    public function buildsQueue()
+    /**
+     * Provides JSON format for web notification UI of all last
+     * builds that have pending and running status.
+     * This is similar to WidgetAllProjectsController::update()
+     * but instead, this only returns JSON.
+     * @return \PHPCensor\Http\Response\JsonResponse
+     */
+    public function buildsUpdated()
     {
         $pending = $this->buildStore->getByStatus(Build::STATUS_PENDING);
         $running = $this->buildStore->getByStatus(Build::STATUS_RUNNING);

@@ -16,9 +16,8 @@ use PHPCensor\Store\BuildStore;
 class WebNotificationService
 {
     /**
-     * A similar function as \PHPCensor\Controller\BuildController::formatBuilds()
-     * but uses pure object to be used for rendering
-     * web notifications.
+     * Similar to BuildController::formatBuilds() but uses
+     * pure object to be used for rendering web notifications.
      * @param  array $builds
      * @return array  Formatted builds
      * @see \PHPCensor\Controller\WidgetLastBuildsController::webNotificationUpdate().
@@ -56,17 +55,14 @@ class WebNotificationService
             returning them.
         */
         if ($status === Build::STATUS_PENDING) {
-            $datePerformed = 'Created: ' .
-                $build->getCreateDate()->format('H:i');
+            $datePerformed = 'Created: ' . $build->getCreateDate()->format('H:i');
         }
         elseif ($status === Build::STATUS_RUNNING) {
-            $datePerformed = 'Started: ' .
-                $build->getStartDate()->format('H:i');
+            $datePerformed = 'Started: ' . $build->getStartDate()->format('H:i');
         }
 
         if (!is_null($build->getFinishDate())) {
-            $dateFinished = 'Finished: ' .
-                $build->getFinishDate()->format('H:i');
+            $dateFinished = 'Finished: ' . $build->getFinishDate()->format('H:i');
         }
 
         return [

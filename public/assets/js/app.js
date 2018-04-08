@@ -165,7 +165,7 @@ var PHPCensor = {
         });
 
         $.ajax({
-            url: APP_URL + 'web-notifications/builds-queue',
+            url: APP_URL + 'web-notifications/builds-updated',
             success: function (data) {
                 PHPCensor.showWebNotification(data);
             },
