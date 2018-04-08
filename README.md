@@ -237,4 +237,4 @@ database name in `phpunit.xml` config constants). If connection failed tests wil
 
 ## License
 
-PHP Censor is open source software licensed under the [BSD-2-Clause license](LICENSE.md).
+PHP Censor is open source software licensed under the [BSD-2-Clause license](LICENSE).
