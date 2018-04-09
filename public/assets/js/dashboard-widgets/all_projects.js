@@ -33,6 +33,16 @@ PHPCensor.widgets.allProjects = {
 
                 error: PHPCensor.handleFailedAjax
             });
+
+            $.ajax({
+                url: APP_URL +
+                    'web-notifications/widgets-all-projects-update/' +
+                     projectId,
+                success: function (data) {
+                    PHPCensor.showWebNotification(data);
+                },
+                error: PHPCensor.handleFailedAjax
+            });
         });
     }
 };

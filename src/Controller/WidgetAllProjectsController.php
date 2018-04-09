@@ -104,6 +104,8 @@ class WidgetAllProjectsController extends WebController
      * Get a summary of the project groups we have, and what projects they have in them.
      *
      * @return array
+     *
+     * @throws \Exception
      */
     protected function getGroupInfo()
     {
@@ -127,6 +129,8 @@ class WidgetAllProjectsController extends WebController
      * @param integer $projectId
      *
      * @return Response
+     *
+     * @throws \PHPCensor\Exception\HttpException
      */
     public function update($projectId)
     {
