@@ -11,8 +11,6 @@ use PHPCensor\Http\Response;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\ProjectStore;
 use PHPCensor\Store\ProjectGroupStore;
-use PHPCensor\Service\BuildService;
-use b8\Http\Response\JsonResponse;
 
 /**
  * Widget All Projects Controller
@@ -106,6 +104,8 @@ class WidgetAllProjectsController extends WebController
      * Get a summary of the project groups we have, and what projects they have in them.
      *
      * @return array
+     *
+     * @throws \Exception
      */
     protected function getGroupInfo()
     {
@@ -129,6 +129,8 @@ class WidgetAllProjectsController extends WebController
      * @param integer $projectId
      *
      * @return Response
+     *
+     * @throws \PHPCensor\Exception\HttpException
      */
     public function update($projectId)
     {

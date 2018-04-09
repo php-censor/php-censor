@@ -365,17 +365,9 @@ class BuildController extends WebController
 
     public function ajaxQueue()
     {
-        $sPending = 'pending';
-        $sRunning = 'running';
-
-        $pending = $this->buildStore->getByStatus(Build::STATUS_PENDING);
-        $running = $this->buildStore->getByStatus(Build::STATUS_RUNNING);
-
         $rtn = [
-
-            $sPending => $this->formatBuilds($pending),
-            $sRunning => $this->formatBuilds($running),
-
+            'pending' => $this->formatBuilds($this->buildStore->getByStatus(Build::STATUS_PENDING)),
+            'running' => $this->formatBuilds($this->buildStore->getByStatus(Build::STATUS_RUNNING)),
         ];
 
         $response = new JsonResponse();

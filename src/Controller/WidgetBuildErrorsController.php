@@ -52,6 +52,8 @@ class WidgetBuildErrorsController extends WebController
 
     /**
      * @return Response
+     *
+     * @throws \PHPCensor\Exception\HttpException
      */
     public function update()
     {
@@ -65,6 +67,8 @@ class WidgetBuildErrorsController extends WebController
      * @param View $view
      *
      * @return string
+     *
+     * @throws \PHPCensor\Exception\HttpException
      */
     protected function renderAllProjectsLatestBuilds($view)
     {

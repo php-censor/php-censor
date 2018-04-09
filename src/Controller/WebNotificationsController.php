@@ -3,16 +3,9 @@
 namespace PHPCensor\Controller;
 
 use PHPCensor\Model\Build;
+use PHPCensor\Store\BuildStore;
 use PHPCensor\WebController;
 use PHPCensor\Store\Factory;
-//use PHPCensor\View;
-//use PHPCensor\Model\Project;
-//use PHPCensor\Http\Response;
-//use PHPCensor\Store\BuildStore;
-//use PHPCensor\Store\ProjectStore;
-//use PHPCensor\Store\ProjectGroupStore;
-//use PHPCensor\Service\BuildService;
-//use b8\Http\Response\JsonResponse;
 use PHPCensor\Http\Response\JsonResponse;
 use PHPCensor\Service\WebNotificationService;
 
@@ -27,34 +20,23 @@ class WebNotificationsController extends WebController
     protected $buildStore;
 
     /**
-     * @var ProjectStore
-     */
-    protected $projectStore;
-
-    /**
-     * @var ProjectGroupStore
-     */
-    protected $groupStore;
-
-    /**
      * Initialise the controller, set up stores and services.
      */
     public function init()
     {
         parent::init();
 
-        $this->buildStore   = Factory::getStore('Build');
-        $this->projectStore = Factory::getStore('Project');
-        $this->groupStore   = Factory::getStore('ProjectGroup');
+        $this->buildStore = Factory::getStore('Build');
     }
 
     /**
-     * Provides JSON format for web notification UI of all last
-     * builds that have success and failed status.
-     * This is similar to WidgetAllProjectsController::update()
-     * but instead, this only returns JSON.
+     * Provides JSON format for web notification UI of all last builds that have success and failed status.
+     * This is similar to WidgetAllProjectsController::update() but instead, this only returns JSON.
+     *
      * @param  int $projectId
+     *
      * @return \PHPCensor\Http\Response\JsonResponse
+     *
      * @see  \PHPCensor\Controller\WidgetAllProjectsController
      */
     public function widgetsAllProjectsUpdate($projectId)
@@ -65,9 +47,6 @@ class WebNotificationsController extends WebController
         $oSuccess = WebNotificationService::formatBuild($success);
         $oFailed  = WebNotificationService::formatBuild($failed);
 
-        //@keys  count and items  Follow the for-loop structure
-        //found in
-        //\PHPCensor\Service\WebNotificationService::formatBuilds()
         $aSuccess = [
             'count' => count($oSuccess),
             'items' => [$projectId => ['build' => $oSuccess]]
@@ -90,24 +69,25 @@ class WebNotificationsController extends WebController
 
 
     /**
-     * Provides JSON format for web notification UI of all last
-     * builds that have pending and running status.
-     * This is similar to WidgetAllProjectsController::update()
-     * but instead, this only returns JSON.
-     * @return \PHPCensor\Http\Response\JsonResponse
+     * Provides JSON format for web notification UI of all last builds that have pending and running status.
+     * This is similar to WidgetAllProjectsController::update() but instead, this only returns JSON.
+     *
+     * @return JsonResponse
+     *
+     * @throws \PHPCensor\Exception\HttpException
      */
     public function buildsUpdated()
     {
         $pending = $this->buildStore->getByStatus(Build::STATUS_PENDING);
         $running = $this->buildStore->getByStatus(Build::STATUS_RUNNING);
 
-        $rtn = [
+        $result = [
             'pending' => WebNotificationService::formatBuilds($pending),
             'running' => WebNotificationService::formatBuilds($running)
         ];
 
         $response = new JsonResponse();
-        $response->setContent($rtn);
+        $response->setContent($result);
 
         return $response;
     }
