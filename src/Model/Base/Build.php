@@ -2,7 +2,7 @@
 
 namespace PHPCensor\Model\Base;
 
-use PHPCensor\Exception\HttpException\ValidationException;
+use PHPCensor\Exception\InvalidArgumentException;
 use PHPCensor\Model;
 
 class Build extends Model
@@ -155,7 +155,7 @@ class Build extends Model
     /**
      * @param integer $value
      *
-     * @throws ValidationException
+     * @throws InvalidArgumentException
      *
      * @return boolean
      */
@@ -165,7 +165,7 @@ class Build extends Model
         $this->validateInt('status', $value);
 
         if (!in_array($value, $this->allowedStatuses, true)) {
-            throw new ValidationException(
+            throw new InvalidArgumentException(
                 'Column "status" must be one of: ' . join(', ', $this->allowedStatuses) . '.'
             );
         }
@@ -474,7 +474,7 @@ class Build extends Model
     /**
      * @param integer $value
      *
-     * @throws ValidationException
+     * @throws InvalidArgumentException
      *
      * @return boolean
      */
@@ -483,7 +483,7 @@ class Build extends Model
         $this->validateInt('source', $value);
 
         if (!in_array($value, $this->allowedSources, true)) {
-            throw new ValidationException(
+            throw new InvalidArgumentException(
                 'Column "source" must be one of: ' . join(', ', $this->allowedSources) . '.'
             );
         }

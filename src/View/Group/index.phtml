@@ -5,7 +5,7 @@ use PHPCensor\Helper\Lang;
 ?>
 <div class="clearfix"  style="margin-bottom: 20px;">
     <a class="btn btn-success pull-right" href="<?= (APP_URL . 'group/edit'); ?>">
-        <?php Lang::out('group_add'); ?>
+        <?= Lang::get('group_add'); ?>
     </a>
 </div>
 
@@ -13,8 +13,8 @@ use PHPCensor\Helper\Lang;
     <table class="table table-hover">
         <thead>
         <tr>
-            <th><?php Lang::out('group_title'); ?></th>
-            <th><?php Lang::out('group_count'); ?></th>
+            <th><?= Lang::get('group_title'); ?></th>
+            <th><?= Lang::get('group_count'); ?></th>
             <th></th>
         </tr>
         </thead>
@@ -25,13 +25,13 @@ use PHPCensor\Helper\Lang;
                 <td><?= count($group['projects']); ?></td>
                 <td>
                     <div class="btn-group btn-group-right">
-                        <a class="btn btn-default btn-sm" href="<?= APP_URL; ?>group/edit/<?= $group['id']; ?>"><?php Lang::out('group_edit'); ?></a>
+                        <a class="btn btn-default btn-sm" href="<?= APP_URL; ?>group/edit/<?= $group['id']; ?>"><?= Lang::get('group_edit'); ?></a>
                         <?php if($this->getUser()->getIsAdmin() && (!count($group['projects']))): ?>
                             <button class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a href="<?= APP_URL; ?>group/delete/<?= $group['id']; ?>" class="delete-group"><?php Lang::out('group_delete'); ?></a></li>
+                                <li><a href="<?= APP_URL; ?>group/delete/<?= $group['id']; ?>" class="delete-group"><?= Lang::get('group_delete'); ?></a></li>
                             </ul>
                         <?php endif; ?>
                     </div>

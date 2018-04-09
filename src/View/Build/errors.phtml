@@ -1,9 +1,16 @@
 <?php
+
 use PHPCensor\Helper\Lang;
+use PHPCensor\Model\Build;
+use PHPCensor\Model\BuildError;
+
+/**
+ * @var Build        $build
+ * @var BuildError[] $errors
+ */
 
 $linkTemplate = $build->getFileLinkTemplate();
 
-/** @var \PHPCensor\Model\BuildError[] $errors */
 foreach ($errors as $error):
 
     $link = str_replace('{BASEFILE}', basename($error->getFile()), $linkTemplate);
@@ -11,7 +18,6 @@ foreach ($errors as $error):
     $link = str_replace('{LINE}', $error->getLineStart(), $link);
     $link = str_replace('{LINE_END}', $error->getLineEnd(), $link);
 ?>
-
    <tr>
        <td>
            <?php if ($error->getIsNew()): ?>
@@ -37,7 +43,5 @@ foreach ($errors as $error):
            </a>
        </td>
        <td class="visible-line-breaks"><?= htmlspecialchars(trim($error->getMessage())); ?></td>
-
    </tr>
-
 <?php endforeach; ?>

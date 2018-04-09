@@ -55,16 +55,6 @@ class Lang
     }
 
     /**
-     * Output a specific string from the language file.
-     *
-     * @param array ...$params
-     */
-    public static function out(...$params)
-    {
-        print call_user_func_array(['PHPCensor\Helper\Lang', 'get'], $params);
-    }
-
-    /**
      * Get the currently active language.
      *
      * @return string|null

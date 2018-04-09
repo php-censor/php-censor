@@ -2,6 +2,7 @@
 
 namespace PHPCensor\Plugin\Util;
 
+use PHPCensor\Exception\InvalidArgumentException;
 use PHPCensor\Plugin;
 use Pimple\Container;
 
@@ -68,10 +69,8 @@ class Factory
      * Builds an instance of plugin of class $className. $options will
      * be passed along with any resources registered with the factory.
      *
-     * @param $className
+     * @param string     $className
      * @param array|null $options
-     *
-     * @throws \InvalidArgumentException if $className doesn't represent a valid plugin
      *
      * @return \PHPCensor\Plugin
      */
@@ -103,10 +102,12 @@ class Factory
     }
 
     /**
-     * @param callable $loader
+     * @param callable    $loader
      * @param string|null $name
      * @param string|null $type
-     * @throws \InvalidArgumentException
+     *
+     * @throws InvalidArgumentException
+     *
      * @internal param mixed $resource
      */
     public function registerResource(
@@ -115,13 +116,13 @@ class Factory
         $type = null
     ) {
         if ($name === null && $type === null) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 "Type or Name must be specified"
             );
         }
 
         if (!($loader instanceof \Closure)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 '$loader is expected to be a function'
             );
         }

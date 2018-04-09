@@ -4,6 +4,7 @@ namespace Tests\PHPCensor;
 
 use PHPCensor\Config;
 use PHPCensor\Database;
+use PHPCensor\Exception\InvalidArgumentException;
 use PHPCensor\Store\Factory;
 use PHPCensor\Model\Project;
 use PHPCensor\Model\ProjectGroup;
@@ -177,7 +178,7 @@ class StoreMysqlTest extends \PHPUnit_Extensions_Database_TestCase
 
         try {
             $data = $testStore->getWhere(['' => 0], 100, 0, ['id' => 'ASC']);
-        } catch (\InvalidArgumentException $e) {
+        } catch (InvalidArgumentException $e) {
             self::assertEquals('You cannot have an empty field name.', $e->getMessage());
         }
 
@@ -233,7 +234,7 @@ class StoreMysqlTest extends \PHPUnit_Extensions_Database_TestCase
             $model->setId(1);
 
             $testStore->save($model);
-        } catch (\InvalidArgumentException $e) {
+        } catch (InvalidArgumentException $e) {
             self::assertEquals(
                 'PHPCensor\Model\Project is an invalid model type for this store.',
                 $e->getMessage()
@@ -258,7 +259,7 @@ class StoreMysqlTest extends \PHPUnit_Extensions_Database_TestCase
             $model->setId(1);
 
             $testStore->delete($model);
-        } catch (\InvalidArgumentException $e) {
+        } catch (InvalidArgumentException $e) {
             self::assertEquals(
                 'PHPCensor\Model\Project is an invalid model type for this store.',
                 $e->getMessage()

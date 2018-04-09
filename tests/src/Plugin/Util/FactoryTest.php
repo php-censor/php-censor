@@ -34,13 +34,15 @@ class FactoryTest extends \PHPUnit\Framework\TestCase {
 
     public function testRegisterResourceThrowsExceptionWithoutTypeAndName()
     {
-        $this->setExpectedException('InvalidArgumentException', 'Type or Name must be specified');
+        self::expectException('\PHPCensor\Exception\InvalidArgumentException');
+        self::expectExceptionMessage('Type or Name must be specified');
         $this->testedFactory->registerResource($this->resourceLoader, null, null);
     }
 
     public function testRegisterResourceThrowsExceptionIfLoaderIsntFunction()
     {
-        $this->setExpectedException('InvalidArgumentException', '$loader is expected to be a function');
+        self::expectException('\PHPCensor\Exception\InvalidArgumentException');
+        self::expectExceptionMessage('$loader is expected to be a function');
         $this->testedFactory->registerResource(["dummy"], "TestName", "TestClass");
     }
 
@@ -53,10 +55,8 @@ class FactoryTest extends \PHPUnit\Framework\TestCase {
 
     public function testBuildPluginThrowsExceptionIfMissingResourcesForRequiredArg()
     {
-        $this->setExpectedException(
-            'DomainException',
-            'Unsatisfied dependency: requiredArgument'
-        );
+        self::expectException('\DomainException');
+        self::expectExceptionMessage('Unsatisfied dependency: requiredArgument');
 
         $pluginClass = $this->getFakePluginClassName('ExamplePluginWithSingleRequiredArg');
         $plugin = $this->testedFactory->buildPlugin($pluginClass);

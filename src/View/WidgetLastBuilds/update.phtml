@@ -75,13 +75,13 @@ use PHPCensor\Model\Build;
                     <span><?= $environment; ?></span>
                     &mdash;
                     <a href="<?= APP_URL; ?>build/view/<?= $build->getId(); ?>">
-                        <?php Lang::out('build'); ?> #<?= $build->getId(); ?>
+                        <?= Lang::get('build'); ?> #<?= $build->getId(); ?>
                     </a>
                     &mdash;
-                    <?php Lang::out($build->getSourceHumanize()); ?>
+                    <?= Lang::get($build->getSourceHumanize()); ?>
                     <?php if ($newErrorsCount = $build->getNewErrorsCount()): ?>
                         &mdash;
-                        <?php Lang::out('new_errors'); ?>:
+                        <?= Lang::get('new_errors'); ?>:
                         <?= $newErrorsCount; ?>
                     <?php endif; ?>
                 </h3>

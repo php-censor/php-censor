@@ -4,6 +4,7 @@ namespace PHPCensor\Http;
 
 use PHPCensor\Application;
 use PHPCensor\Config;
+use PHPCensor\Exception\InvalidArgumentException;
 
 class Router
 {
@@ -40,15 +41,16 @@ class Router
     }
 
     /**
-     * @param string $route Route definition
-     * @param array $options
+     * @param string   $route Route definition
+     * @param array    $options
      * @param callable $callback
-     * @throws \InvalidArgumentException
+     *
+     * @throws InvalidArgumentException
      */
     public function register($route, $options = [], $callback = null)
     {
         if (!is_callable($callback)) {
-            throw new \InvalidArgumentException('$callback must be callable.');
+            throw new InvalidArgumentException('$callback must be callable.');
         }
 
         array_unshift($this->routes, ['route' => $route, 'callback' => $callback, 'defaults' => $options]);

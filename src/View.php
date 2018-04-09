@@ -8,24 +8,40 @@ use PHPCensor\Store\UserStore;
 
 class View
 {
-    protected $vars      = [];
-    protected $isContent = false;
+    /**
+     * @var array
+     */
+    protected $data = [];
 
+    /**
+     * @var string
+     */
+    protected $viewFile;
+
+    /**
+     * @var string
+     */
     protected static $extension = 'phtml';
 
+    /**
+     * @param string      $file
+     * @param string|null $path
+     */
     public function __construct($file, $path = null)
     {
-        if ('{@content}' === $file) {
-            $this->isContent = true;
-        } else {
-            if (!self::exists($file, $path)) {
-                throw new \RuntimeException('View file does not exist: ' . $file);
-            }
-
-            $this->viewFile = self::getViewFile($file, $path);
+        if (!self::exists($file, $path)) {
+            throw new \RuntimeException('View file does not exist: ' . $file);
         }
+
+        $this->viewFile = self::getViewFile($file, $path);
     }
 
+    /**
+     * @param string      $file
+     * @param string|null $path
+     *
+     * @return string
+     */
     protected static function getViewFile($file, $path = null)
     {
         $viewPath = is_null($path) ? (SRC_DIR . 'View/') : $path;
@@ -34,6 +50,12 @@ class View
         return $fullPath;
     }
 
+    /**
+     * @param string      $file
+     * @param string|null $path
+     *
+     * @return boolean
+     */
     public static function exists($file, $path = null)
     {
         if (!file_exists(self::getViewFile($file, $path))) {
@@ -43,37 +65,50 @@ class View
         return true;
     }
 
-    public function __isset($var)
+    /**
+     * @param string $key
+     *
+     * @return boolean
+     */
+    public function __isset($key)
     {
-        return isset($this->vars[$var]);
+        return isset($this->data[$key]);
     }
 
-    public function __get($var)
+    /**
+     * @param string $key
+     *
+     * @return mixed
+     */
+    public function __get($key)
     {
-        return $this->vars[$var];
+        return $this->data[$key];
     }
 
-    public function __set($var, $val)
+    /**
+     * @param string $key
+     * @param mixed  $value
+     */
+    public function __set($key, $value)
     {
-        $this->vars[$var] = $val;
+        $this->data[$key] = $value;
     }
 
+    /**
+     * @return string
+     */
     public function render()
     {
-        if ($this->isContent) {
-            return $this->vars['content'];
-        } else {
-            extract($this->vars);
+        extract($this->data);
 
-            ob_start();
+        ob_start();
 
-            require($this->viewFile);
+        require($this->viewFile);
 
-            $html = ob_get_contents();
-            ob_end_clean();
+        $html = ob_get_contents();
+        ob_end_clean();
 
-            return $html;
-        }
+        return $html;
     }
 
     /**

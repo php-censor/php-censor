@@ -15,14 +15,14 @@ use PHPCensor\Model\BuildError;
         <div class="box">
             <div class="box-header">
                 <h3 class="box-title">
-                    <?php Lang::out('build_details'); ?>
+                    <?= Lang::get('build_details'); ?>
                 </h3>
             </div>
 
             <div class="box-body no-padding">
                 <table class="table">
                     <tr>
-                        <th><?php Lang::out('project'); ?></th>
+                        <th><?= Lang::get('project'); ?></th>
                         <td style="text-align: right">
                             <a href="<?= APP_URL . 'project/view/' . $build->getProjectId(); ?>">
                                 <i class="fa fa-<?= $build->getProject()->getIcon(); ?>"></i>
@@ -32,7 +32,7 @@ use PHPCensor\Model\BuildError;
                     </tr>
 
                     <tr>
-                        <th><?php Lang::out('branch'); ?></th>
+                        <th><?= Lang::get('branch'); ?></th>
                         <td style="text-align: right">
                             <?php if (Build::SOURCE_WEBHOOK_PULL_REQUEST === $build->getSource()): ?>
                                 <a href="<?= $build->getRemoteBranchLink(); ?>">
@@ -53,7 +53,7 @@ use PHPCensor\Model\BuildError;
                     </tr>
 
                     <tr>
-                        <th><?php Lang::out('environment'); ?></th>
+                        <th><?= Lang::get('environment'); ?></th>
                         <td style="text-align: right">
                             <?php
                                 $environment = $build->getEnvironment();
@@ -63,7 +63,7 @@ use PHPCensor\Model\BuildError;
                     </tr>
 
                     <tr>
-                        <th><?php Lang::out('merged_branches'); ?></th>
+                        <th><?= Lang::get('merged_branches'); ?></th>
                         <td style="text-align: right">
                             <a href="<?= $build->getBranchLink(); ?>">
                                 <i class="fa fa-code-fork"></i> <?= $build->getBranch(); ?>
@@ -89,20 +89,20 @@ use PHPCensor\Model\BuildError;
         <div class="box">
             <div class="box-header">
                 <h3 class="box-title">
-                    <?php Lang::out('commit_details'); ?>
+                    <?= Lang::get('commit_details'); ?>
                 </h3>
             </div>
 
             <div class="box-body no-padding">
                 <table class="table">
                     <tr>
-                        <th><?php Lang::out('build_source'); ?></th>
+                        <th><?= Lang::get('build_source'); ?></th>
                         <td style="text-align: right">
-                            <?php Lang::out($build->getSourceHumanize()); ?>
+                            <?= Lang::get($build->getSourceHumanize()); ?>
                         </td>
                     </tr>
                     <tr>
-                        <th><?php Lang::out('commit'); ?></th>
+                        <th><?= Lang::get('commit'); ?></th>
                         <td style="text-align: right">
                             <a href="<?= $build->getCommitLink(); ?>">
                                 <?= substr($build->getCommitId(), 0, 7); ?>
@@ -111,14 +111,14 @@ use PHPCensor\Model\BuildError;
                     </tr>
 
                     <tr>
-                        <th><?php Lang::out('committer'); ?></th>
+                        <th><?= Lang::get('committer'); ?></th>
                         <td style="text-align: right">
                             <?= $build->getCommitterEmail(); ?>
                         </td>
                     </tr>
 
                     <tr>
-                        <th><?php Lang::out('commit_message'); ?></th>
+                        <th><?= Lang::get('commit_message'); ?></th>
                         <td style="text-align: right">
                             <?= htmlspecialchars($build->getCommitMessage()); ?>
                         </td>
@@ -132,35 +132,35 @@ use PHPCensor\Model\BuildError;
         <div class="box">
             <div class="box-header">
                 <h3 class="box-title">
-                    <?php Lang::out('timing'); ?>
+                    <?= Lang::get('timing'); ?>
                 </h3>
             </div>
 
             <div class="box-body no-padding">
                 <table class="table">
                     <tr>
-                        <th><?php Lang::out('created'); ?></th>
+                        <th><?= Lang::get('created'); ?></th>
                         <td style="text-align: right" class="build-created datetime">
                             <?= ($build->getCreateDate() ? $build->getCreateDate()->format('Y-m-d H:i:s') : ''); ?>
                         </td>
                     </tr>
 
                     <tr>
-                        <th><?php Lang::out('started'); ?></th>
+                        <th><?= Lang::get('started'); ?></th>
                         <td style="text-align: right" class="build-started datetime">
                             <?= ($build->getStartDate() ? $build->getStartDate()->format('Y-m-d H:i:s') : ''); ?>
                         </td>
                     </tr>
 
                     <tr>
-                        <th><?php Lang::out('finished'); ?></th>
+                        <th><?= Lang::get('finished'); ?></th>
                         <td style="text-align: right" class="build-finished datetime">
                             <?= ($build->getFinishDate() ? $build->getFinishDate()->format('Y-m-d H:i:s') : ''); ?>
                         </td>
                     </tr>
 
                     <tr>
-                        <th><?php Lang::out('duration'); ?></th>
+                        <th><?= Lang::get('duration'); ?></th>
                         <td style="text-align: right" class="build-duration duration">
                             <?= $build->getDuration(); ?> <?= Lang::get('seconds'); ?>
                         </td>
@@ -289,12 +289,12 @@ use PHPCensor\Model\BuildError;
             <table class="errors-table table table-hover">
                 <thead>
                     <tr>
-                        <th><?php Lang::out('is_new'); ?></th>
-                        <th><?php Lang::out('severity'); ?></th>
-                        <th><?php Lang::out('plugin'); ?></th>
-                        <th><?php Lang::out('file'); ?></th>
-                        <th data-orderable="false"><?php Lang::out('line'); ?></th>
-                        <th data-orderable="false"><?php Lang::out('message'); ?></th>
+                        <th><?= Lang::get('is_new'); ?></th>
+                        <th><?= Lang::get('severity'); ?></th>
+                        <th><?= Lang::get('plugin'); ?></th>
+                        <th><?= Lang::get('file'); ?></th>
+                        <th data-orderable="false"><?= Lang::get('line'); ?></th>
+                        <th data-orderable="false"><?= Lang::get('message'); ?></th>
                     </tr>
                 </thead>
                 <tbody>

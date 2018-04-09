@@ -3,6 +3,7 @@
 namespace Tests\PHPCensor\Command;
 
 use PHPCensor\Command\CreateBuildCommand;
+use PHPCensor\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -68,7 +69,7 @@ class CreateBuildCommandTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectedException InvalidArgumentException
      */
     public function testExecuteWithUnknownProjectId()
     {

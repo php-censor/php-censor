@@ -2,7 +2,7 @@
 
 namespace PHPCensor\Model\Base;
 
-use PHPCensor\Exception\HttpException\ValidationException;
+use PHPCensor\Exception\InvalidArgumentException;
 use PHPCensor\Model;
 
 class Project extends Model
@@ -274,7 +274,7 @@ class Project extends Model
      *
      * @return boolean
      *
-     * @throws ValidationException
+     * @throws InvalidArgumentException
      */
     public function setType($value)
     {
@@ -282,7 +282,7 @@ class Project extends Model
         $this->validateString('type', $value);
 
         if (!in_array($value, $this->allowedTypes, true)) {
-            throw new ValidationException(
+            throw new InvalidArgumentException(
                 'Column "type" must be one of: ' . join(', ', $this->allowedTypes) . '.'
             );
         }

@@ -2,7 +2,7 @@
 
 namespace Tests\PHPCensor\Model;
 
-use PHPCensor\Exception\HttpException\ValidationException;
+use PHPCensor\Exception\InvalidArgumentException;
 use PHPCensor\Model\Project;
 use PHPCensor\Model;
 
@@ -20,7 +20,7 @@ class ProjectTest extends \PHPUnit\Framework\TestCase
 
         try {
             $project->setArchived('true');
-        } catch (ValidationException $e) {
+        } catch (InvalidArgumentException $e) {
             self::assertEquals(
                 'Column "archived" must be a boolean.',
                 $e->getMessage()
