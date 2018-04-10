@@ -16,7 +16,7 @@ class GitlabBuild extends GitBuild
     public function getCommitLink()
     {
         $domain = $this->getProject()->getAccessInformation("domain");
-        return 'http://' . $domain . '/' . $this->getProject()->getReference() . '/commit/' . $this->getCommitId();
+        return '//' . $domain . '/' . $this->getProject()->getReference() . '/commit/' . $this->getCommitId();
     }
 
     /**
@@ -25,7 +25,7 @@ class GitlabBuild extends GitBuild
     public function getBranchLink()
     {
         $domain = $this->getProject()->getAccessInformation("domain");
-        return 'http://' . $domain . '/' . $this->getProject()->getReference() . '/tree/' . $this->getBranch();
+        return '//' . $domain . '/' . $this->getProject()->getReference() . '/tree/' . $this->getBranch();
     }
 
     /**
@@ -34,7 +34,7 @@ class GitlabBuild extends GitBuild
     public function getFileLinkTemplate()
     {
         return sprintf(
-            'http://%s/%s/blob/%s/{FILE}#L{LINE}',
+            '//%s/%s/blob/%s/{FILE}#L{LINE}',
             $this->getProject()->getAccessInformation("domain"),
             $this->getProject()->getReference(),
             $this->getCommitId()

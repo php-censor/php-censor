@@ -18,13 +18,26 @@ use PHPCensor\Model\BuildError;
 class GithubBuild extends GitBuild
 {
     /**
+     * @return string
+     */
+    protected function getDomain()
+    {
+        $domain = $this->getProject()->getAccessInformation('domain');
+        if (!$domain) {
+            $domain = 'github.com';
+        }
+
+        return $domain;
+    }
+
+    /**
      * Get link to commit from another source (i.e. Github)
      *
      * @return string
      */
     public function getCommitLink()
     {
-        return 'https://github.com/' . $this->getProject()->getReference() . '/commit/' . $this->getCommitId();
+        return '//' . $this->getDomain() . '/' . $this->getProject()->getReference() . '/commit/' . $this->getCommitId();
     }
 
     /**
@@ -34,7 +47,7 @@ class GithubBuild extends GitBuild
      */
     public function getBranchLink()
     {
-        return 'https://github.com/' . $this->getProject()->getReference() . '/tree/' . $this->getBranch();
+        return '//' . $this->getDomain() . '/' . $this->getProject()->getReference() . '/tree/' . $this->getBranch();
     }
 
     /**
@@ -45,7 +58,7 @@ class GithubBuild extends GitBuild
         $remoteBranch    = $this->getExtra('remote_branch');
         $remoteReference = $this->getExtra('remote_reference');
 
-        return 'https://github.com/' . $remoteReference . '/tree/' . $remoteBranch;
+        return '//' . $this->getDomain() . '/' . $remoteReference . '/tree/' . $remoteBranch;
     }
 
     /**
@@ -55,7 +68,7 @@ class GithubBuild extends GitBuild
      */
     public function getTagLink()
     {
-        return 'https://github.com/' . $this->getProject()->getReference() . '/tree/' . $this->getTag();
+        return '//' . $this->getDomain() . '/' . $this->getProject()->getReference() . '/tree/' . $this->getTag();
     }
 
     /**
@@ -112,7 +125,7 @@ class GithubBuild extends GitBuild
 
         $url    = '/repos/' . $project->getReference() . '/statuses/' . $this->getCommitId();
         $client = new Client([
-            'base_uri'    => 'https://api.github.com',
+            'base_uri'    => 'https://api.' . $this->getDomain(),
             'http_errors' => false,
         ]);
         $response = $client->post($url, [
@@ -143,9 +156,15 @@ class GithubBuild extends GitBuild
         $key = trim($this->getProject()->getSshPrivateKey());
 
         if (!empty($key)) {
-            return 'git@github.com:' . $this->getProject()->getReference() . '.git';
+            $port = $this->getProject()->getAccessInformation('port');
+            $url  = 'git@' . $this->getDomain() . ':';
+            if (!empty($port)) {
+                $url .= $port . '/';
+            }
+
+            return $url . $this->getProject()->getReference() . '.git';
         } else {
-            return 'https://github.com/' . $this->getProject()->getReference() . '.git';
+            return 'https://' . $this->getDomain() . '/' . $this->getProject()->getReference() . '.git';
         }
     }
 
@@ -156,18 +175,21 @@ class GithubBuild extends GitBuild
      */
     public function getCommitMessage()
     {
-        $rtn = parent::getCommitMessage();
-
+        $message = parent::getCommitMessage();
         $project = $this->getProject();
 
         if (!is_null($project)) {
             $reference  = $project->getReference();
-            $commitLink = '<a href="https://github.com/' . $reference . '/issues/$1">#$1</a>';
-            $rtn = preg_replace('/\#([0-9]+)/', $commitLink, $rtn);
-            $rtn = preg_replace('/\@([a-zA-Z0-9_]+)/', '<a href="https://github.com/$1">@$1</a>', $rtn);
+            $commitLink = '<a href="//' . $this->getDomain() . '/' . $reference . '/issues/$1">#$1</a>';
+            $message    = preg_replace('/\#([0-9]+)/', $commitLink, $message);
+            $message    = preg_replace(
+                '/\@([a-zA-Z0-9_]+)/',
+                '<a href="//' . $this->getDomain() . '/$1">@$1</a>',
+                $message
+            );
         }
 
-        return $rtn;
+        return $message;
     }
 
     /**
@@ -178,12 +200,11 @@ class GithubBuild extends GitBuild
     public function getFileLinkTemplate()
     {
         $reference = $this->getProject()->getReference();
-
         if (Build::SOURCE_WEBHOOK_PULL_REQUEST === $this->getSource()) {
             $reference = $this->getExtra('remote_reference');
         }
 
-        $link = 'https://github.com/' . $reference . '/';
+        $link = '//' . $this->getDomain() . '/' . $reference . '/';
         $link .= 'blob/' . $this->getCommitId() . '/';
         $link .= '{FILE}';
         $link .= '#L{LINE}-L{LINE_END}';

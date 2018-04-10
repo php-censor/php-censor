@@ -7,7 +7,6 @@ use PHPCensor\Form;
 use JasonGrimes\Paginator;
 use PHPCensor;
 use PHPCensor\BuildFactory;
-use PHPCensor\Helper\Github;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Helper\SshKey;
 use PHPCensor\Service\BuildService;
@@ -375,7 +374,7 @@ class ProjectController extends WebController
         $values['pubkey']       = $values['ssh_public_key'];
         $values['environments'] = $project->getEnvironments();
 
-        if ($values['type'] == 'gitlab') {
+        if (Project::TYPE_GITLAB === $values['type']) {
             $accessInfo          = $project->getAccessInformation();
             $reference           = $accessInfo["user"] . '@' . $accessInfo["domain"] . ':' . $accessInfo["port"] . '/' . ltrim($project->getReference(), '/') . ".git";
             $values['reference'] = $reference;
@@ -452,14 +451,6 @@ class ProjectController extends WebController
         $field->setOptions($options);
         $field->setClass('form-control')->setContainerClass('form-group');
         $form->addField($field);
-
-        $container = new Form\ControlGroup('github-container');
-        $container->setClass('github-container');
-
-        $field = Form\Element\Select::create('github', Lang::get('choose_github'), false);
-        $field->setClass('form-control')->setContainerClass('form-group');
-        $container->addField($field);
-        $form->addField($container);
 
         $field = Form\Element\Text::create('reference', Lang::get('repo_name'), true);
         $field->setValidator($this->getReferenceValidator($values));
@@ -547,27 +538,27 @@ class ProjectController extends WebController
             $type = $values['type'];
 
             $validators = [
-                'hg' => [
+                Project::TYPE_HG => [
                     'regex'   => '/^(ssh|https?):\/\//',
                     'message' => Lang::get('error_hg')
                 ],
-                'git' => [
+                Project::TYPE_GIT => [
                     'regex'   => '/^(git|https?):\/\//',
                     'message' => Lang::get('error_git')
                 ],
-                'gitlab' => [
-                    'regex'   => '`^(.*)@(.*):(.*)/(.*)\.git`',
+                Project::TYPE_GITLAB => [
+                    'regex'   => '/^(git|https?):\/\//',
                     'message' => Lang::get('error_gitlab')
                 ],
-                'github' => [
-                    'regex'   => '/^[a-zA-Z0-9_\-]+\/[a-zA-Z0-9_\-\.]+$/',
+                Project::TYPE_GITHUB => [
+                    'regex'   => '/^(git|https?):\/\//',
                     'message' => Lang::get('error_github')
                 ],
-                'bitbucket' => [
+                Project::TYPE_BITBUCKET => [
                     'regex'   => '/^[a-zA-Z0-9_\-]+\/[a-zA-Z0-9_\-\.]+$/',
                     'message' => Lang::get('error_bitbucket')
                 ],
-                'bitbucket-hg' => [
+                Project::TYPE_BITBUCKET_HG => [
                     'regex'   => '/^[a-zA-Z0-9_\-]+\/[a-zA-Z0-9_\-\.]+$/',
                     'message' => Lang::get('error_bitbucket')
                 ],
@@ -581,18 +572,5 @@ class ProjectController extends WebController
 
             return true;
         };
-    }
-
-    /**
-     * Get an array of repositories from Github's API.
-     */
-    public function ajaxGithubRepositories()
-    {
-        $github = new Github();
-
-        $response = new PHPCensor\Http\Response\JsonResponse();
-        $response->setContent($github->getRepositories());
-
-        return $response;
     }
 }

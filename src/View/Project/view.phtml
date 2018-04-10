@@ -5,6 +5,7 @@
  */
 
 use PHPCensor\Helper\Lang;
+use PHPCensor\Model\Project;
 
 ?>
 <script>
@@ -159,7 +160,12 @@ use PHPCensor\Helper\Lang;
             </div>
         <?php endif; ?>
 
-        <?php if (in_array($project->getType(), ['github', 'gitlab', 'bitbucket'])): ?>
+        <?php if (in_array($project->getType(), [
+            Project::TYPE_GITHUB,
+            Project::TYPE_GITLAB,
+            Project::TYPE_BITBUCKET,
+            Project::TYPE_BITBUCKET_HG
+        ])): ?>
             <div class="box">
                 <div class="box-header">
                     <h4 class="box-title"><?= Lang::get('webhooks'); ?></h4>
@@ -172,18 +178,18 @@ use PHPCensor\Helper\Lang;
 
                 <div class="box-body">
                     <?php switch($project->getType()) {
-                        case 'github':
+                        case Project::TYPE_GITHUB:
                             $url = APP_URL . 'webhook/github/' . $project->getId();
                             echo Lang::get('webhooks_help_github', $project->getReference());
                             break;
 
-                        case 'gitlab':
+                        case Project::TYPE_GITLAB:
                             $url = APP_URL. 'webhook/gitlab/' . $project->getId();
                             echo Lang::get('webhooks_help_gitlab');
                             break;
 
-                        case 'bitbucket':
-                        case 'bitbucket-hg':
+                        case Project::TYPE_BITBUCKET:
+                        case Project::TYPE_BITBUCKET_HG:
                             $url = APP_URL . 'webhook/bitbucket/' . $project->getId();
                             echo Lang::get('webhooks_help_bitbucket', $project->getReference());
                             break;

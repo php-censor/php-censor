@@ -67,8 +67,13 @@ class ProjectServiceTest extends \PHPUnit\Framework\TestCase
      */
     public function testExecute_CreateGitlabProjectWithoutPort()
     {
-        $reference = 'git@gitlab.block8.net:block8/phpci.git';
-        $returnValue = $this->testedService->createProject('Gitlab', 'gitlab', $reference, 0);
+        $reference   = 'git@gitlab.block8.net:block8/phpci.git';
+        $returnValue = $this->testedService->createProject(
+            'Gitlab',
+            Project::TYPE_GITLAB,
+            $reference,
+            0
+        );
 
         self::assertEquals('git', $returnValue->getAccessInformation('user'));
         self::assertEquals('gitlab.block8.net', $returnValue->getAccessInformation('domain'));

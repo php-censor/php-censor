@@ -102,18 +102,20 @@ class Project extends BaseProject
     public function getIcon()
     {
         switch ($this->getType()) {
-            case 'github':
+            case Project::TYPE_GITHUB:
                 $icon = 'github';
                 break;
 
-            case 'bitbucket':
-            case 'bitbucket-hg':
+            case Project::TYPE_BITBUCKET:
+            case Project::TYPE_BITBUCKET_HG:
                 $icon = 'bitbucket';
                 break;
 
-            case 'git':
-            case 'gitlab':
-            case 'gogs':
+            case Project::TYPE_GIT:
+            case Project::TYPE_GITLAB:
+            case Project::TYPE_GOGS:
+            case Project::TYPE_HG:
+            case Project::TYPE_SVN:
             default:
                 $icon = 'code-fork';
                 break;
