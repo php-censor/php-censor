@@ -143,7 +143,6 @@ class ProjectService
      */
     protected function processAccessInformation(Project $project)
     {
-        $matches   = [];
         $reference = $project->getReference();
 
         if (in_array($project->getType(), [
@@ -152,12 +151,30 @@ class ProjectService
         ], true)) {
             $info = [];
 
-            if (preg_match('`^(.+)@(.+):([0-9]*)\/?(.+)\.git`', $reference, $matches)) {
-                $info['user']   = $matches[1];
-                $info['domain'] = $matches[2];
-                $info['port']   = $matches[3];
+            if (preg_match(
+                '#^((https|http|ssh)://)?((.+)@)?(([^/:]+):?)(:?([0-9]*)/?)(.+)\.git#',
+                $reference,
+                $matches
+            )) {
+                if (isset($matches[4]) && $matches[4]) {
+                    $info['user'] = $matches[4];
+                }
 
-                $project->setReference($matches[4]);
+                if (isset($matches[6]) && $matches[6]) {
+                    $info['domain'] = $matches[6];
+                }
+
+                if (isset($matches[8]) && $matches[8]) {
+                    $info['port'] = $matches[8];
+                }
+
+                if (isset($matches[9]) && $matches[9]) {
+                    $info['reference'] = $matches[9];
+
+                    $project->setReference($matches[9]);
+                }
+
+                $info['origin'] = $reference;
             }
 
             $project->setAccessInformation($info);
