@@ -374,10 +374,22 @@ class ProjectController extends WebController
         $values['pubkey']       = $values['ssh_public_key'];
         $values['environments'] = $project->getEnvironments();
 
-        if (Project::TYPE_GITLAB === $values['type']) {
-            $accessInfo          = $project->getAccessInformation();
-            $reference           = $accessInfo["user"] . '@' . $accessInfo["domain"] . ':' . $accessInfo["port"] . '/' . ltrim($project->getReference(), '/') . ".git";
-            $values['reference'] = $reference;
+        if (in_array($values['type'], [
+            Project::TYPE_GITHUB,
+            Project::TYPE_GITLAB
+        ], true)) {
+            $originReference = $project->getAccessInformation('origin');
+            if ($originReference) {
+                $values['reference'] = $originReference;
+            } else {
+                $accessInfo = $project->getAccessInformation();
+                $reference  = $accessInfo['user'] . '@' . $accessInfo['domain'] . ':' . ltrim($project->getReference(), '/') . '.git';
+                if (isset($accessInfo['port']) && $accessInfo['port']) {
+                    $reference = $accessInfo['user'] . '@' . $accessInfo['domain'] . ':' . $accessInfo['port'] . '/' . ltrim($project->getReference(), '/') . '.git';
+                }
+
+                $values['reference'] = $reference;
+            }
         }
 
         if ($method == 'POST') {
@@ -535,7 +547,8 @@ class ProjectController extends WebController
     protected function getReferenceValidator($values)
     {
         return function ($val) use ($values) {
-            $type = $values['type'];
+            $type     = $values['type'];
+            $gitRegex = '#^((https|http|ssh)://)?((.+)@)?(([^/:]+):?)(:?([0-9]*)/?)(.+)\.git#';
 
             $validators = [
                 Project::TYPE_HG => [
@@ -543,19 +556,19 @@ class ProjectController extends WebController
                     'message' => Lang::get('error_hg')
                 ],
                 Project::TYPE_GIT => [
-                    'regex'   => '/^(git|https?):\/\//',
+                    'regex'   => $gitRegex,
                     'message' => Lang::get('error_git')
                 ],
                 Project::TYPE_GITLAB => [
-                    'regex'   => '/^(git|https?):\/\//',
+                    'regex'   => $gitRegex,
                     'message' => Lang::get('error_gitlab')
                 ],
                 Project::TYPE_GITHUB => [
-                    'regex'   => '/^(git|https?):\/\//',
+                    'regex'   => $gitRegex,
                     'message' => Lang::get('error_github')
                 ],
                 Project::TYPE_BITBUCKET => [
-                    'regex'   => '/^[a-zA-Z0-9_\-]+\/[a-zA-Z0-9_\-\.]+$/',
+                    'regex'   => $gitRegex,
                     'message' => Lang::get('error_bitbucket')
                 ],
                 Project::TYPE_BITBUCKET_HG => [

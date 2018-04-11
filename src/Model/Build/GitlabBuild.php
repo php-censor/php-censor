@@ -49,8 +49,8 @@ class GitlabBuild extends GitBuild
         $key = trim($this->getProject()->getSshPrivateKey());
 
         if (!empty($key)) {
-            $user   = $this->getProject()->getAccessInformation("user");
-            $domain = $this->getProject()->getAccessInformation("domain");
+            $user   = $this->getProject()->getAccessInformation('user');
+            $domain = $this->getProject()->getAccessInformation('domain');
             $port   = $this->getProject()->getAccessInformation('port');
 
             $url = $user . '@' . $domain . ':';

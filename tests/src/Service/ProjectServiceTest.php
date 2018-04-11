@@ -25,25 +25,184 @@ class ProjectServiceTest extends \PHPUnit\Framework\TestCase
 
     public function setUp()
     {
-        $this->mockProjectStore = $this->getMockBuilder('PHPCensor\Store\ProjectStore')->getMock();
-        $this->mockProjectStore->expects($this->any())
-                               ->method('save')
-                               ->will($this->returnArgument(0));
+        $this->mockProjectStore = $this
+            ->getMockBuilder('PHPCensor\Store\ProjectStore')
+            ->getMock();
+
+        $this->mockProjectStore
+            ->expects($this->any())
+            ->method('save')
+            ->will(
+                $this->returnArgument(0)
+            );
 
         $this->testedService = new ProjectService($this->mockProjectStore);
     }
 
-    public function testExecute_CreateBasicProject()
+    public function testExecuteCreateGithubProject()
     {
-        $returnValue = $this->testedService->createProject('Test Project', 'github', 'block8/phpci', 0);
+        $project = $this->testedService->createProject(
+            'Test Project',
+            'github',
+            'php-censor/php-censor1',
+            0
+        );
 
-        self::assertEquals('Test Project', $returnValue->getTitle());
-        self::assertEquals('github', $returnValue->getType());
-        self::assertEquals('block8/phpci', $returnValue->getReference());
-        self::assertEquals('master', $returnValue->getBranch());
+        self::assertEquals('Test Project', $project->getTitle());
+        self::assertEquals('github', $project->getType());
+        self::assertEquals('php-censor/php-censor1', $project->getReference());
+        self::assertEquals('master', $project->getBranch());
+        self::assertEquals([], $project->getAccessInformation());
     }
 
-    public function testExecute_CreateProjectWithOptions()
+    /**
+     * @return array
+     */
+    public function getExecuteCreateGithubProjectAccessInformationData()
+    {
+        return [
+            [
+                'git@github.com:php-censor/php-censor.git', [
+                    'user'      => 'git',
+                    'domain'    => 'github.com',
+                    'reference' => 'php-censor/php-censor',
+                    'origin'    => 'git@github.com:php-censor/php-censor.git',
+                ],
+            ], [
+                'git@sss.github.com:php-censor/php-censor.git', [
+                    'user'      => 'git',
+                    'domain'    => 'sss.github.com',
+                    'reference' => 'php-censor/php-censor',
+                    'origin'    => 'git@sss.github.com:php-censor/php-censor.git',
+                ],
+            ], [
+                'ssh://git@github.com/php-censor/php-censor.git', [
+                    'user'      => 'git',
+                    'domain'    => 'github.com',
+                    'reference' => 'php-censor/php-censor',
+                    'origin'    => 'ssh://git@github.com/php-censor/php-censor.git',
+                ],
+            ], [
+                'https://github.com/php-censor/php-censor.git', [
+                    'domain'    => 'github.com',
+                    'reference' => 'php-censor/php-censor',
+                    'origin'    => 'https://github.com/php-censor/php-censor.git',
+                ],
+            ], [
+                'http://github.com/php-censor/php-censor.git', [
+                    'domain'    => 'github.com',
+                    'reference' => 'php-censor/php-censor',
+                    'origin'    => 'http://github.com/php-censor/php-censor.git',
+                ],
+            ], [
+                'git@github.com:443/php-censor/php-censor.git', [
+                    'user'      => 'git',
+                    'domain'    => 'github.com',
+                    'port'      => '443',
+                    'reference' => 'php-censor/php-censor',
+                    'origin'    => 'git@github.com:443/php-censor/php-censor.git',
+                ],
+            ], [
+                'ssh://git@github.com:443/php-censor/php-censor.git', [
+                    'user'      => 'git',
+                    'domain'    => 'github.com',
+                    'port'      => '443',
+                    'reference' => 'php-censor/php-censor',
+                    'origin'    => 'ssh://git@github.com:443/php-censor/php-censor.git',
+                ],
+            ], [
+                'https://github.com:443/php-censor/php-censor.git', [
+                    'domain'    => 'github.com',
+                    'port'      => '443',
+                    'reference' => 'php-censor/php-censor',
+                    'origin'    => 'https://github.com:443/php-censor/php-censor.git',
+                ],
+            ], [
+                'http://github.com:443/php-censor/php-censor.git', [
+                    'domain'    => 'github.com',
+                    'port'      => '443',
+                    'reference' => 'php-censor/php-censor',
+                    'origin'    => 'http://github.com:443/php-censor/php-censor.git',
+                ],
+            ], [
+                'git@github:php-censor.git', [
+                    'user'      => 'git',
+                    'domain'    => 'github',
+                    'reference' => 'php-censor',
+                    'origin'    => 'git@github:php-censor.git',
+                ],
+            ], [
+                'ssh://git@github/php-censor.git', [
+                    'user'      => 'git',
+                    'domain'    => 'github',
+                    'reference' => 'php-censor',
+                    'origin'    => 'ssh://git@github/php-censor.git',
+                ],
+            ], [
+                'https://github/php-censor.git', [
+                    'domain'    => 'github',
+                    'reference' => 'php-censor',
+                    'origin'    => 'https://github/php-censor.git',
+                ],
+            ], [
+                'http://github/php-censor.git', [
+                    'domain'    => 'github',
+                    'reference' => 'php-censor',
+                    'origin'    => 'http://github/php-censor.git',
+                ],
+            ], [
+                'git@github:443/php-censor.git', [
+                    'user'      => 'git',
+                    'domain'    => 'github',
+                    'port'      => '443',
+                    'reference' => 'php-censor',
+                    'origin'    => 'git@github:443/php-censor.git',
+                ],
+            ], [
+                'ssh://git@github:443/php-censor.git', [
+                    'user'      => 'git',
+                    'domain'    => 'github',
+                    'port'      => '443',
+                    'reference' => 'php-censor',
+                    'origin'    => 'ssh://git@github:443/php-censor.git',
+                ],
+            ], [
+                'https://github:443/php-censor.git', [
+                    'domain'    => 'github',
+                    'port'      => '443',
+                    'reference' => 'php-censor',
+                    'origin'    => 'https://github:443/php-censor.git',
+                ],
+            ], [
+                'http://github:443/php-censor.git', [
+                    'domain'    => 'github',
+                    'port'      => '443',
+                    'reference' => 'php-censor',
+                    'origin'    => 'http://github:443/php-censor.git',
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @param string $reference
+     * @param array  $accessInformation
+     *
+     * @dataProvider getExecuteCreateGithubProjectAccessInformationData
+     */
+    public function testExecuteCreateGithubProjectAccessInformation($reference, array $accessInformation)
+    {
+        $project = $this->testedService->createProject(
+            'Test Project',
+            'github',
+            $reference,
+            0
+        );
+
+        self::assertEquals($accessInformation, $project->getAccessInformation());
+    }
+
+    public function testExecuteCreateProjectWithOptions()
     {
         $options = [
             'ssh_private_key'     => 'private',
@@ -53,7 +212,13 @@ class ProjectServiceTest extends \PHPUnit\Framework\TestCase
             'branch'              => 'testbranch',
         ];
 
-        $returnValue = $this->testedService->createProject('Test Project', 'github', 'block8/phpci', 0, $options);
+        $returnValue = $this->testedService->createProject(
+            'Test Project',
+            'github',
+            'block8/phpci',
+            0,
+            $options
+        );
 
         self::assertEquals('private', $returnValue->getSshPrivateKey());
         self::assertEquals('public', $returnValue->getSshPublicKey());
@@ -62,25 +227,7 @@ class ProjectServiceTest extends \PHPUnit\Framework\TestCase
         self::assertEquals(true, $returnValue->getAllowPublicStatus());
     }
 
-    /**
-     * @link https://github.com/Block8/PHPCI/issues/484
-     */
-    public function testExecute_CreateGitlabProjectWithoutPort()
-    {
-        $reference   = 'git@gitlab.block8.net:block8/phpci.git';
-        $returnValue = $this->testedService->createProject(
-            'Gitlab',
-            Project::TYPE_GITLAB,
-            $reference,
-            0
-        );
-
-        self::assertEquals('git', $returnValue->getAccessInformation('user'));
-        self::assertEquals('gitlab.block8.net', $returnValue->getAccessInformation('domain'));
-        self::assertEquals('block8/phpci', $returnValue->getReference());
-    }
-
-    public function testExecute_UpdateExistingProject()
+    public function testExecuteUpdateExistingProject()
     {
         $project = new Project();
         $project->setTitle('Before Title');
@@ -94,7 +241,7 @@ class ProjectServiceTest extends \PHPUnit\Framework\TestCase
         self::assertEquals('bitbucket', $returnValue->getType());
     }
 
-    public function testExecute_EmptyPublicStatus()
+    public function testExecuteEmptyPublicStatus()
     {
         $project = new Project();
         $project->setAllowPublicStatus(true);
@@ -110,7 +257,7 @@ class ProjectServiceTest extends \PHPUnit\Framework\TestCase
         self::assertEquals(false, $returnValue->getAllowPublicStatus());
     }
 
-    public function testExecute_DeleteProject()
+    public function testExecuteDeleteProject()
     {
         $store = $this->getMockBuilder('PHPCensor\Store\ProjectStore')->getMock();
         $store->expects($this->once())
