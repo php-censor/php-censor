@@ -378,11 +378,10 @@ class ProjectController extends WebController
             Project::TYPE_GITHUB,
             Project::TYPE_GITLAB
         ], true)) {
-            $originReference = $project->getAccessInformation('origin');
-            if ($originReference) {
-                $values['reference'] = $originReference;
-            } else {
-                $accessInfo = $project->getAccessInformation();
+            $accessInfo = $project->getAccessInformation();
+            if (isset($accessInfo['origin']) && $accessInfo['origin']) {
+                $values['reference'] = $accessInfo['origin'];
+            } elseif (isset($accessInfo['domain']) && $accessInfo['domain']) {
                 $reference  = $accessInfo['user'] . '@' . $accessInfo['domain'] . ':' . ltrim($project->getReference(), '/') . '.git';
                 if (isset($accessInfo['port']) && $accessInfo['port']) {
                     $reference = $accessInfo['user'] . '@' . $accessInfo['domain'] . ':' . $accessInfo['port'] . '/' . ltrim($project->getReference(), '/') . '.git';
