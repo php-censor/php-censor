@@ -23,9 +23,8 @@ class BuildLogger implements LoggerAwareInterface
     protected $build;
 
     /**
-     * Set up the BuildLogger class.
      * @param LoggerInterface $logger
-     * @param Build $build
+     * @param Build           $build
      */
     public function __construct(LoggerInterface $logger, Build $build)
     {
@@ -35,9 +34,10 @@ class BuildLogger implements LoggerAwareInterface
 
     /**
      * Add an entry to the build log.
+     *
      * @param string|string[] $message
-     * @param string $level
-     * @param mixed[] $context
+     * @param string          $level
+     * @param mixed[]         $context
      */
     public function log($message, $level = LogLevel::INFO, $context = [])
     {
@@ -60,8 +60,19 @@ class BuildLogger implements LoggerAwareInterface
     }
 
     /**
+     * Add a warning-coloured message to the log.
+     *
+     * @param string $message
+     */
+    public function logWarning($message)
+    {
+        $this->log("\033[0;31m" . $message . "\033[0m", LogLevel::WARNING);
+    }
+
+    /**
      * Add a success-coloured message to the log.
-     * @param string
+     *
+     * @param string $message
      */
     public function logSuccess($message)
     {
@@ -70,7 +81,8 @@ class BuildLogger implements LoggerAwareInterface
 
     /**
      * Add a failure-coloured message to the log.
-     * @param string $message
+     *
+     * @param string     $message
      * @param \Exception $exception The exception that caused the error. 
      */
     public function logFailure($message, \Exception $exception = null)
@@ -88,8 +100,9 @@ class BuildLogger implements LoggerAwareInterface
     }
 
     /**
-     * Add a debug message to the log.
-     * @param string
+     * Add a debug-coloured message to the log.
+     *
+     * @param string $message
      */
     public function logDebug($message)
     {
@@ -105,7 +118,6 @@ class BuildLogger implements LoggerAwareInterface
      * Sets a logger instance on the object
      *
      * @param LoggerInterface $logger
-     * @return null
      */
     public function setLogger(LoggerInterface $logger)
     {

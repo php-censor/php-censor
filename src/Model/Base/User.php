@@ -18,11 +18,11 @@ class User extends Model
         'id'            => null,
         'email'         => null,
         'hash'          => null,
-        'is_admin'      => null,
+        'is_admin'      => 0,
         'name'          => null,
         'language'      => null,
         'per_page'      => null,
-        'provider_key'  => null,
+        'provider_key'  => 'internal',
         'provider_data' => null,
         'remember_key'  => null,
     ];

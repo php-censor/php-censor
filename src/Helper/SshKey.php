@@ -23,7 +23,10 @@ class SshKey
             mkdir($tempPath);
         }
 
-        $return = ['private_key' => '', 'public_key' => ''];
+        $return = [
+            'ssh_private_key' => '',
+            'ssh_public_key'  => ''
+        ];
 
         $sshStrength = Config::getInstance()->get('php-censor.ssh.strength', 2048);
         $sshComment  = Config::getInstance()->get('php-censor.ssh.comment', 'admin@php-censor');
@@ -42,11 +45,11 @@ class SshKey
             $prv = file_get_contents($keyFile);
 
             if (!empty($pub)) {
-                $return['public_key'] = $pub;
+                $return['ssh_public_key'] = $pub;
             }
 
             if (!empty($prv)) {
-                $return['private_key'] = $prv;
+                $return['ssh_private_key'] = $prv;
             }
         }
 

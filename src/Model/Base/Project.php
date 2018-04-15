@@ -26,27 +26,28 @@ class Project extends Model
      * @var array
      */
     protected $data = [
-        'id'                  => null,
-        'title'               => null,
-        'reference'           => null,
-        'branch'              => null,
-        'default_branch_only' => null,
-        'ssh_private_key'     => null,
-        'ssh_public_key'      => null,
-        'type'                => null,
-        'access_information'  => null,
-        'build_config'        => null,
-        'allow_public_status' => null,
-        'archived'            => null,
-        'group_id'            => null,
-        'create_date'         => null,
-        'user_id'             => 0,
+        'id'                     => null,
+        'title'                  => null,
+        'reference'              => null,
+        'branch'                 => null,
+        'default_branch_only'    => 0,
+        'ssh_private_key'        => null,
+        'ssh_public_key'         => null,
+        'type'                   => null,
+        'access_information'     => null,
+        'build_config'           => null,
+        'overwrite_build_config' => 1,
+        'allow_public_status'    => 0,
+        'archived'               => 0,
+        'group_id'               => 1,
+        'create_date'            => null,
+        'user_id'                => 0,
     ];
 
     /**
      * @var array
      */
-    protected $allowedTypes = [
+    public static $allowedTypes = [
         self::TYPE_LOCAL,
         self::TYPE_GIT,
         self::TYPE_GITHUB,
@@ -281,9 +282,9 @@ class Project extends Model
         $this->validateNotNull('type', $value);
         $this->validateString('type', $value);
 
-        if (!in_array($value, $this->allowedTypes, true)) {
+        if (!in_array($value, static::$allowedTypes, true)) {
             throw new InvalidArgumentException(
-                'Column "type" must be one of: ' . join(', ', $this->allowedTypes) . '.'
+                'Column "type" must be one of: ' . join(', ', static::$allowedTypes) . '.'
             );
         }
 
@@ -357,6 +358,33 @@ class Project extends Model
         $this->data['build_config'] = $value;
 
         return $this->setModified('build_config');
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getOverwriteBuildConfig()
+    {
+        return (boolean)$this->data['overwrite_build_config'];
+    }
+
+    /**
+     * @param boolean $value
+     *
+     * @return boolean
+     */
+    public function setOverwriteBuildConfig($value)
+    {
+        $this->validateNotNull('overwrite_build_config', $value);
+        $this->validateBoolean('overwrite_build_config', $value);
+
+        if ($this->data['overwrite_build_config'] === (integer)$value) {
+            return false;
+        }
+
+        $this->data['overwrite_build_config'] = (integer)$value;
+
+        return $this->setModified('overwrite_build_config');
     }
 
     /**
