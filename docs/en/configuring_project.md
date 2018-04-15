@@ -7,7 +7,8 @@ look something like this:
 
 ```yml
 build_settings:
-  clone_depth: 1 # depth of 1 is a shallow clone, remove this line to clone entire repo
+  # WORKS ONLY IN IN-DATABASE PROJECT CONFIG! Clone depth of 1 is a shallow clone, remove this line to clone entire repo (For Git and Svn only).
+  clone_depth: 1
   ignore:
     - "vendor"
     - "tests"
@@ -15,6 +16,10 @@ build_settings:
     host: "localhost"
     user: "root"
     pass: ""
+  # WORKS ONLY IN IN-DATABASE PROJECT CONFIG! Svn additional CLI options (For example: --username='username').
+  svn:
+    username: "username"
+    password: "password"
 
 setup:
   mysql:
