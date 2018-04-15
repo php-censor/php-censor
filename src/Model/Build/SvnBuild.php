@@ -47,16 +47,17 @@ class SvnBuild extends Build
     {
         $cmd = $this->svnCommand;
 
-        $svn = $builder->getConfig('svn');
-        if ($svn) {
-            foreach ($svn as $key => $value) {
-                $cmd .= " --${key} ${value} ";
-            }
-        }
-
         $buildSettings = $builder->getConfig('build_settings');
-        if ($buildSettings && isset($buildSettings['clone_depth'])) {
-            $cmd .= ' --depth ' . intval($buildSettings['clone_depth']) . ' ';
+        if ($buildSettings) {
+            if (isset($buildSettings['svn']) && is_array($buildSettings['svn'])) {
+                foreach ($buildSettings['svn'] as $key => $value) {
+                    $cmd .= " --${key} ${value} ";
+                }
+            }
+
+            if (isset($buildSettings['clone_depth']) && 0 < (integer)$buildSettings['clone_depth']) {
+                $cmd .= ' --depth ' . intval($buildSettings['clone_depth']) . ' ';
+            }
         }
 
         $this->svnCommand = $cmd;

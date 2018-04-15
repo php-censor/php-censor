@@ -53,7 +53,6 @@ class Mysql extends Plugin
         $this->pass = $config['pass'];
 
         $buildSettings = $this->builder->getConfig('build_settings');
-
         if (!isset($buildSettings['mysql'])) {
             return;
         }

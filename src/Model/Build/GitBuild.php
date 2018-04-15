@@ -76,7 +76,7 @@ class GitBuild extends Build
         $cmd = 'cd .. && git clone --recursive ';
 
         $buildSettings = $builder->getConfig('build_settings');
-        if ($buildSettings && isset($buildSettings['clone_depth'])) {
+        if ($buildSettings && isset($buildSettings['clone_depth']) && (0 < (integer)$buildSettings['clone_depth'])) {
             $cmd .= ' --depth ' . intval($buildSettings['clone_depth']) . ' ';
         }
 
@@ -102,7 +102,7 @@ class GitBuild extends Build
         $cmd = 'cd .. && git clone --recursive ';
 
         $buildSettings = $builder->getConfig('build_settings');
-        if ($buildSettings && isset($buildSettings['clone_depth'])) {
+        if ($buildSettings && isset($buildSettings['clone_depth']) && (0 < (integer)$buildSettings['clone_depth'])) {
             $cmd .= ' --depth ' . intval($buildSettings['clone_depth']) . ' ';
         }
 
