@@ -50,14 +50,13 @@ class SvnBuild extends Build
         $svn = $builder->getConfig('svn');
         if ($svn) {
             foreach ($svn as $key => $value) {
-                $cmd .= " --$key $value ";
+                $cmd .= " --${key} ${value} ";
             }
         }
 
-        $depth = $builder->getConfig('clone_depth');
-
-        if (!is_null($depth)) {
-            $cmd .= ' --depth ' . intval($depth) . ' ';
+        $buildSettings = $builder->getConfig('build_settings');
+        if ($buildSettings && isset($buildSettings['clone_depth'])) {
+            $cmd .= ' --depth ' . intval($buildSettings['clone_depth']) . ' ';
         }
 
         $this->svnCommand = $cmd;
@@ -68,8 +67,6 @@ class SvnBuild extends Build
      */
     public function createWorkingCopy(Builder $builder, $buildPath)
     {
-        $this->handleConfig($builder, $buildPath);
-
         $this->extendSvnCommandFromConfig($builder);
 
         $key = trim($this->getProject()->getSshPrivateKey());

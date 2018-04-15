@@ -29,8 +29,8 @@ class BuildError extends Model
         'severity'    => null,
         'message'     => null,
         'create_date' => null,
-        'hash'        => null,
-        'is_new'      => null,
+        'hash'        => '',
+        'is_new'      => 0,
     ];
 
     /**

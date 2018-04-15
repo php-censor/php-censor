@@ -65,6 +65,7 @@ class ProjectService
         $project->setReference($reference);
         $project->setAllowPublicStatus(false);
         $project->setDefaultBranchOnly(false);
+        $project->setOverwriteBuildConfig(true);
 
         // Handle extra project options:
         if (array_key_exists('ssh_private_key', $options)) {
@@ -73,6 +74,10 @@ class ProjectService
 
         if (array_key_exists('ssh_public_key', $options)) {
             $project->setSshPublicKey($options['ssh_public_key']);
+        }
+
+        if (array_key_exists('overwrite_build_config', $options)) {
+            $project->setOverwriteBuildConfig($options['overwrite_build_config']);
         }
 
         if (array_key_exists('build_config', $options)) {

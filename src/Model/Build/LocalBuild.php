@@ -23,8 +23,11 @@ class LocalBuild extends Build
 
         // If there's a /config file in the reference directory, it is probably a bare repository
         // which we'll extract into our build path directly.
-        if (is_file($reference.'/config') && $this->handleBareRepository($builder, $reference, $buildPath) === true) {
-            return $this->handleConfig($builder, $buildPath) !== false;
+        if (
+            is_file($reference . '/config') &&
+            true === $this->handleBareRepository($builder, $reference, $buildPath)
+        ) {
+            return $this->handleConfig($builder, $buildPath);
         }
 
         $configHandled = $this->handleConfig($builder, $reference);

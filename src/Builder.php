@@ -127,13 +127,14 @@ class Builder implements LoggerAwareInterface
      *
      * @throws \Exception
      */
-    public function setConfigArray($config)
+    public function setConfig(array $config)
     {
         if (is_null($config) || !is_array($config)) {
             throw new \Exception('This project does not contain a .php-censor.yml (.phpci.yml|phpci.yml) file, or it is empty.');
         }
 
         $this->logDebug('Config: ' . json_encode($config));
+
         $this->config = $config;
     }
 
@@ -144,15 +145,16 @@ class Builder implements LoggerAwareInterface
      *
      * @return mixed
      */
-    public function getConfig($key)
+    public function getConfig($key = null)
     {
-        $rtn = null;
-
-        if (isset($this->config[$key])) {
-            $rtn = $this->config[$key];
+        $value = null;
+        if (null === $key) {
+            $value = $this->config;
+        } elseif (isset($this->config[$key])) {
+            $value = $this->config[$key];
         }
 
-        return $rtn;
+        return $value;
     }
 
     /**
@@ -353,6 +355,8 @@ class Builder implements LoggerAwareInterface
 
         $this->commandExecutor->setBuildPath($this->buildPath);
 
+        $this->build->handleConfigBeforeClone($this);
+
         // Create a working copy of the project:
         if (!$this->build->createWorkingCopy($this, $this->buildPath)) {
             throw new \Exception('Could not create a working copy.');
@@ -396,9 +400,19 @@ class Builder implements LoggerAwareInterface
     }
 
     /**
+     * Add a warning-coloured message to the log.
+     *
+     * @param string $message
+     */
+    public function logWarning($message)
+    {
+        $this->buildLogger->logWarning($message);
+    }
+
+    /**
      * Add a success-coloured message to the log.
      *
-     * @param string
+     * @param string $message
      */
     public function logSuccess($message)
     {
@@ -417,9 +431,9 @@ class Builder implements LoggerAwareInterface
     }
 
     /**
-     * Add a debug message to the log.
+     * Add a debug-coloured message to the log.
      *
-     * @param string
+     * @param string $message
      */
     public function logDebug($message)
     {

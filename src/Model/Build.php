@@ -6,6 +6,7 @@ use PHPCensor\Builder;
 use PHPCensor\Store\Factory;
 use PHPCensor\Store\ProjectStore;
 use PHPCensor\Store\BuildErrorStore;
+use Psr\Log\LogLevel;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Parser as YamlParser;
 use PHPCensor\Model\Base\Build as BaseBuild;
@@ -200,33 +201,70 @@ class Build extends BaseBuild
 
     /**
      * @param Builder $builder
-     * @param string  $buildPath
      *
      * @return bool
+     *
+     * @throws \Exception
      */
-    protected function handleConfig(Builder $builder, $buildPath)
+    public function handleConfigBeforeClone(Builder $builder)
     {
         $buildConfig = $this->getProject()->getBuildConfig();
 
-        if (empty($buildConfig)) {
-            if (file_exists($buildPath . '/.php-censor.yml')) {
-                $buildConfig = file_get_contents($buildPath . '/.php-censor.yml');
-            } elseif (file_exists($buildPath . '/.phpci.yml')) {
-                $buildConfig = file_get_contents($buildPath . '/.phpci.yml');
-            } elseif (file_exists($buildPath . '/phpci.yml')) {
-                $buildConfig = file_get_contents($buildPath . '/phpci.yml');
-            } else {
-                $buildConfig = $this->getZeroConfigPlugins($builder);
+        if ($buildConfig) {
+            $yamlParser  = new YamlParser();
+            $buildConfig = $yamlParser->parse($buildConfig);
+
+            if ($buildConfig && is_array($buildConfig)) {
+                $builder->setConfig($buildConfig);
             }
         }
 
-        // for YAML configs from files/DB
-        if (is_string($buildConfig)) {
-            $yamlParser   = new YamlParser();
-            $buildConfig = $yamlParser->parse($buildConfig);
+        return true;
+    }
+
+    /**
+     * @param Builder $builder
+     * @param string  $buildPath
+     *
+     * @return bool
+     *
+     * @throws \Exception
+     */
+    protected function handleConfig(Builder $builder, $buildPath)
+    {
+        $yamlParser           = new YamlParser();
+        $overwriteBuildConfig = $this->getProject()->getOverwriteBuildConfig();
+        $buildConfig          = $builder->getConfig();
+
+        $repositoryConfig = $this->getZeroConfigPlugins($builder);
+        if (file_exists($buildPath . '/.php-censor.yml')) {
+            $repositoryConfig = $yamlParser->parse(
+                file_get_contents($buildPath . '/.php-censor.yml')
+            );
+        } elseif (file_exists($buildPath . '/.phpci.yml')) {
+            $repositoryConfig = $yamlParser->parse(
+                file_get_contents($buildPath . '/.phpci.yml')
+            );
+        } elseif (file_exists($buildPath . '/phpci.yml')) {
+            $repositoryConfig = $yamlParser->parse(
+                file_get_contents($buildPath . '/phpci.yml')
+            );
         }
 
-        $builder->setConfigArray($buildConfig);
+        if (isset($repositoryConfig['build_settings']['clone_depth'])) {
+            $builder->logWarning(
+                'Option "build_settings.clone_depth" supported only in additional DB project config.' .
+                ' Please move this option to DB config from your in-repository config file (".php-censor.yml").'
+            );
+        }
+
+        if (!$buildConfig) {
+            $buildConfig = $repositoryConfig;
+        } elseif ($buildConfig && !$overwriteBuildConfig) {
+            $buildConfig = array_replace_recursive($repositoryConfig, $buildConfig);
+        }
+
+        $builder->setConfig($buildConfig);
 
         return true;
     }

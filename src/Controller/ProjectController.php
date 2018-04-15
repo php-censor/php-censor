@@ -311,18 +311,18 @@ class ProjectController extends WebController
             $sshKey = new SshKey();
             $key    = $sshKey->generate();
 
-            $values['key']    = $key['private_key'];
-            $values['pubkey'] = $key['public_key'];
+            $values['ssh_private_key'] = $key['ssh_private_key'];
+            $values['ssh_public_key']  = $key['ssh_public_key'];
         }
 
         $form = $this->projectForm($values);
 
-        if ($method != 'POST' || ($method == 'POST' && !$form->validate())) {
+        if ($method !== 'POST' || ($method === 'POST' && !$form->validate())) {
             $view           = new View('Project/edit');
             $view->type     = 'add';
             $view->project  = null;
             $view->form     = $form;
-            $view->key      = $values['pubkey'];
+            $view->key      = $values['ssh_public_key'];
 
             return $view->render();
         } else {
@@ -331,14 +331,15 @@ class ProjectController extends WebController
             $type      = $this->getParam('type', null);
 
             $options = [
-                'ssh_private_key'     => $this->getParam('key', null),
-                'ssh_public_key'      => $this->getParam('pubkey', null),
-                'build_config'        => $this->getParam('build_config', null),
-                'allow_public_status' => (boolean)$this->getParam('allow_public_status', 0),
-                'branch'              => $this->getParam('branch', null),
-                'default_branch_only' => (boolean)$this->getParam('default_branch_only', 0),
-                'group'               => (integer)$this->getParam('group_id', null),
-                'environments'        => $this->getParam('environments', null),
+                'ssh_private_key'        => $this->getParam('ssh_private_key', null),
+                'ssh_public_key'         => $this->getParam('ssh_public_key', null),
+                'overwrite_build_config' => (boolean)$this->getParam('overwrite_build_config', true),
+                'build_config'           => $this->getParam('build_config', null),
+                'allow_public_status'    => (boolean)$this->getParam('allow_public_status', false),
+                'branch'                 => $this->getParam('branch', null),
+                'default_branch_only'    => (boolean)$this->getParam('default_branch_only', false),
+                'group'                  => (integer)$this->getParam('group_id', null),
+                'environments'           => $this->getParam('environments', null),
             ];
 
             /** @var PHPCensor\Model\User $user */
@@ -370,8 +371,6 @@ class ProjectController extends WebController
         $this->layout->subtitle = Lang::get('edit_project');
 
         $values                 = $project->getDataArray();
-        $values['key']          = $values['ssh_private_key'];
-        $values['pubkey']       = $values['ssh_public_key'];
         $values['environments'] = $project->getEnvironments();
 
         if (in_array($values['type'], [
@@ -391,18 +390,18 @@ class ProjectController extends WebController
             }
         }
 
-        if ($method == 'POST') {
+        if ($method === 'POST') {
             $values = $this->getParams();
         }
 
         $form = $this->projectForm($values, 'edit/' . $projectId);
 
-        if ($method != 'POST' || ($method == 'POST' && !$form->validate())) {
+        if ($method !== 'POST' || ($method === 'POST' && !$form->validate())) {
             $view          = new View('Project/edit');
             $view->type    = 'edit';
             $view->project = $project;
             $view->form    = $form;
-            $view->key     = $values['pubkey'];
+            $view->key     = $values['ssh_public_key'];
 
             return $view->render();
         }
@@ -412,15 +411,16 @@ class ProjectController extends WebController
         $type      = $this->getParam('type', null);
 
         $options = [
-            'ssh_private_key'     => $this->getParam('key', null),
-            'ssh_public_key'      => $this->getParam('pubkey', null),
-            'build_config'        => $this->getParam('build_config', null),
-            'allow_public_status' => (boolean)$this->getParam('allow_public_status', false),
-            'archived'            => (boolean)$this->getParam('archived', false),
-            'branch'              => $this->getParam('branch', null),
-            'default_branch_only' => (boolean)$this->getParam('default_branch_only', false),
-            'group'               => (integer)$this->getParam('group_id', null),
-            'environments'        => $this->getParam('environments', null),
+            'ssh_private_key'        => $this->getParam('ssh_private_key', null),
+            'ssh_public_key'         => $this->getParam('ssh_public_key', null),
+            'overwrite_build_config' => (boolean)$this->getParam('overwrite_build_config', false),
+            'build_config'           => $this->getParam('build_config', null),
+            'allow_public_status'    => (boolean)$this->getParam('allow_public_status', false),
+            'archived'               => (boolean)$this->getParam('archived', false),
+            'branch'                 => $this->getParam('branch', null),
+            'default_branch_only'    => (boolean)$this->getParam('default_branch_only', false),
+            'group'                  => (integer)$this->getParam('group_id', null),
+            'environments'           => $this->getParam('environments', null),
         ];
 
         $project = $this->projectService->updateProject($project, $title, $type, $reference, $options);
@@ -442,7 +442,7 @@ class ProjectController extends WebController
         $form->setAction(APP_URL . 'project/' . $type);
 
         $form->addField(new Form\Element\Csrf('project_form'));
-        $form->addField(new Form\Element\Hidden('pubkey'));
+        $form->addField(new Form\Element\Hidden('ssh_public_key'));
 
         $options = [
             'choose'                   => Lang::get('select_repository_type'),
@@ -457,8 +457,10 @@ class ProjectController extends WebController
             Project::TYPE_SVN          => 'Svn (Subversion)',
         ];
 
+        $sourcesPattern = sprintf('^(%s)', implode('|', Project::$allowedTypes));
+
         $field = Form\Element\Select::create('type', Lang::get('where_hosted'), true);
-        $field->setPattern('^(github|bitbucket|bitbucket-hg|gitlab|gogs|git|local|hg|svn)');
+        $field->setPattern($sourcesPattern);
         $field->setOptions($options);
         $field->setClass('form-control')->setContainerClass('form-group');
         $form->addField($field);
@@ -486,9 +488,19 @@ class ProjectController extends WebController
         $field->setValue(0);
         $form->addField($field);
 
-        $field = Form\Element\TextArea::create('key', Lang::get('project_private_key'), false);
+        $field = Form\Element\TextArea::create('ssh_private_key', Lang::get('project_private_key'), false);
         $field->setClass('form-control')->setContainerClass('form-group');
         $field->setRows(6);
+        $form->addField($field);
+
+        $field = Form\Element\Checkbox::create(
+            'overwrite_build_config',
+            Lang::get('overwrite_build_config'),
+            false
+        );
+        $field->setContainerClass('form-group');
+        $field->setCheckedValue(1);
+        $field->setValue(1);
         $form->addField($field);
 
         $field = Form\Element\TextArea::create('build_config', Lang::get('build_config'), false);
@@ -515,7 +527,11 @@ class ProjectController extends WebController
         $field->setOptions($groups);
         $form->addField($field);
 
-        $field = Form\Element\Checkbox::create('allow_public_status', Lang::get('allow_public_status'), false);
+        $field = Form\Element\Checkbox::create(
+            'allow_public_status',
+            Lang::get('allow_public_status'),
+            false
+        );
         $field->setContainerClass('form-group');
         $field->setCheckedValue(1);
         $field->setValue(0);

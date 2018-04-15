@@ -59,10 +59,10 @@ class GitBuild extends Build
             foreach ($branches as $branch) {
                 $success = $builder->executeCommand($cmd, $buildPath, $branch);
                 if (!$success) {
-                    $builder->log('Fail merge branch origin/'.$branch, LogLevel::ERROR);
+                    $builder->log('Fail merge branch origin/' . $branch, LogLevel::ERROR);
                     return false;
                 }
-                $builder->log('Merged branch origin/'.$branch, LogLevel::INFO);
+                $builder->log('Merged branch origin/' . $branch, LogLevel::INFO);
             }
         }
         return true;
@@ -75,10 +75,9 @@ class GitBuild extends Build
     {
         $cmd = 'cd .. && git clone --recursive ';
 
-        $depth = $builder->getConfig('clone_depth');
-
-        if (!is_null($depth)) {
-            $cmd .= ' --depth ' . intval($depth) . ' ';
+        $buildSettings = $builder->getConfig('build_settings');
+        if ($buildSettings && isset($buildSettings['clone_depth'])) {
+            $cmd .= ' --depth ' . intval($buildSettings['clone_depth']) . ' ';
         }
 
         $cmd .= ' -b "%s" "%s" "%s"';
@@ -102,10 +101,9 @@ class GitBuild extends Build
         // Do the git clone:
         $cmd = 'cd .. && git clone --recursive ';
 
-        $depth = $builder->getConfig('clone_depth');
-
-        if (!is_null($depth)) {
-            $cmd .= ' --depth ' . intval($depth) . ' ';
+        $buildSettings = $builder->getConfig('build_settings');
+        if ($buildSettings && isset($buildSettings['clone_depth'])) {
+            $cmd .= ' --depth ' . intval($buildSettings['clone_depth']) . ' ';
         }
 
         $cmd .= ' -b "%s" "%s" "%s"';

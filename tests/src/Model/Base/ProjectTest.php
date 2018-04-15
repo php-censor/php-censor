@@ -15,21 +15,22 @@ class ProjectTest extends TestCase
         self::assertInstanceOf('PHPCensor\Model\Base\Project', $project);
 
         self::assertEquals([
-            'id'                  => null,
-            'title'               => null,
-            'reference'           => null,
-            'branch'              => null,
-            'default_branch_only' => null,
-            'ssh_private_key'     => null,
-            'ssh_public_key'      => null,
-            'type'                => null,
-            'access_information'  => null,
-            'build_config'        => null,
-            'allow_public_status' => null,
-            'archived'            => null,
-            'group_id'            => null,
-            'create_date'         => null,
-            'user_id'             => 0,
+            'id'                     => null,
+            'title'                  => null,
+            'reference'              => null,
+            'branch'                 => null,
+            'default_branch_only'    => 0,
+            'ssh_private_key'        => null,
+            'ssh_public_key'         => null,
+            'type'                   => null,
+            'access_information'     => null,
+            'build_config'           => null,
+            'overwrite_build_config' => 1,
+            'allow_public_status'    => 0,
+            'archived'               => 0,
+            'group_id'               => 1,
+            'create_date'            => null,
+            'user_id'                => 0,
         ], $project->getDataArray());
     }
 
