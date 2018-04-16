@@ -1,4 +1,4 @@
-PHP Censor documentation
+PHP Censor Documentation
 ========================
 
 Getting Started
@@ -34,7 +34,7 @@ Using PHP Censor
 Plugins
 -------
 
-### Internal plugins
+### Internal Plugins
 
 #### Dependencies
 
@@ -49,7 +49,7 @@ Plugins
 * [PHP Unit](plugins/php_unit.md) - `php_unit`
 * [PHP Spec](plugins/php_spec.md) - `php_spec`
 
-#### Code style
+#### Code Style
 
 * [Lint](plugins/lint.md) - `lint`
 * [PDepend](plugins/pdepend.md) - `pdepend`
@@ -101,9 +101,10 @@ Plugins
 * [Shell](plugins/shell.md) - `shell`
 * Wipe - `wipe`
 
-### Third-party plugins
+### Third-party Plugins
 
 * [Telegram](https://github.com/php-censor/php-censor-telegram-plugin) - Telegram plugin by 
 [@LEXASOFT](https://github.com/LEXASOFT)
+
 * [Deployer](https://github.com/php-censor/php-censor-deployer-plugin) - Plugin for [Deployer](http://deployer.org) by 
 [@ketchoop](https://github.com/ketchoop)

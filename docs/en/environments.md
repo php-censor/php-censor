@@ -1,5 +1,5 @@
-Environments
-============
+Project Environments
+====================
 
 A environment can include several branches - base branch (default project branch) and optional additional branches 
 (which merge into base).
@@ -10,6 +10,7 @@ environments).
 When you build a environment, additional branches merged into base branch.
 
 For example, it can be useful when you delay merging into master or test some branches at once. Or deploy.
+
 
 Config example and explanation
 ------------------------------
@@ -56,9 +57,12 @@ Webhooks to include branches in the environment
 
 Prepare project in GOGS web-admin:
 
-* Create webhook
-* Set "Payload URL" to php-censor webhook URL `http://domain.tld/webhook/gogs/project`
-* Enable triggering "Pull request"
-* Create labels for your environments in the format: "env:environment-name", for example "env:test"
+* Create webhook.
 
-After creating the pull request, to include the branch in the environment, add the appropriate labels.
+* Set "Payload URL" to php-censor webhook URL like: `http://php-censor.local/webhook/gogs/<project_id>`.
+
+* Enable triggering "Pull request".
+
+* Create labels for your environments in the format: `env:<environment-name>` (For example `env:test`).
+
+* After creating the pull request, to include the branch in the environment, add the appropriate labels.
