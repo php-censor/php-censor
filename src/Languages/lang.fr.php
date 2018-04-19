@@ -13,7 +13,7 @@ return [
     'reset_emailed' => 'Nous vous avons envoyé un email avec un lien pour réinitialiser votre mot de passe.',
     'reset_header' => '<strong>Pas d\'inquiétude</strong><br>Entrez simplement votre adresse email ci-dessous
                             et nous vous enverrons un message avec un lien pour réinitialiser votre mot de passe.',
-    'reset_email_address' => 'Entrez votre adresse email:',
+    'reset_email_address' => 'Entrez votre adresse email&nbsp;:',
     'reset_send_email' => 'Envoyer le mail',
     'reset_enter_password' => 'Veuillez entrer un nouveau mot de passe',
     'reset_new_password' => 'Nouveau mot de passe&nbsp;:',
@@ -34,7 +34,7 @@ PHP Censor',
     'reset_email_title' => 'Réinitialisation du mot de passe PHP Censor pour %s',
     'reset_invalid' => 'Requête de réinitialisation de mot de passe invalide.',
     'email_address' => 'Adresse email',
-    'login' => 'Login / Email Address',
+    'login' => 'Identifiant / Adresse email',
     'password' => 'Mot de passe',
     'log_in' => 'Connexion',
 
@@ -81,15 +81,15 @@ PHP Censor',
     'running' => 'En cours',
     'success' => 'Terminé',
     'failed' => 'Échoué',
-    'error'  => 'Error',
-    'skipped' => 'Skipped',
-    'trace'   => 'Stack trace',
+    'error'  => 'Erreur',
+    'skipped' => 'Ignoré',
+    'trace'   => 'Trace de la pile',
     'manual_build' => 'Build manuel',
 
     // Add/Edit Project:
     'new_project' => 'Nouveau Projet',
-    'project_x_not_found' => 'Il n\'existe pas de Projet avec l\'ID %d.',
-    'project_details' => 'Détails du Projet',
+    'project_x_not_found' => 'Il n\'existe pas de projet avec l\'ID %d.',
+    'project_details' => 'Détails du projet',
     'public_key_help' => 'Pour pouvoir démarrer plus facilement, nous avons généré une paire de clés SSH à utiliser avec ce projet.
                             Pour l\'utiliser, il faut simplement ajouter la clé publique dans la section "Clés de déploiement"
                             de votre outil d\'hébergement de code.',
@@ -118,10 +118,10 @@ PHP Censor',
     'save_project' => 'Enregistrer le projet',
 
     'error_hg' => 'Les URLs de dépôt Mercurial doivent commencer par http:// ou https://',
-    'error_git' => 'Les URLs de dépôt doivent commencer par git://, http:// ou https://',
+    'error_git' => 'Les URLs de dépôt Git doivent commencer par git://, http:// ou https://',
     'error_gitlab' => 'Le nom du dépôt GitLab doit avoir le format "user@domain.tld:owner/repo.git"',
-    'error_github' => 'Le nom du dépôt doit être dans le format "proprietaire/dépôt"',
-    'error_bitbucket' => 'Le nom du dépôt doit être dans le format "proprietaire/dépôt"',
+    'error_github' => 'Le nom du dépôt GitHub doit être dans le format "propriétaire/dépôt"',
+    'error_bitbucket' => 'Le nom du dépôt doit être dans le format "propriétaire/dépôt"',
     'error_path' => 'Le chemin que vous avez spécifié n\'existe pas.',
 
     // View Project:
@@ -140,11 +140,11 @@ PHP Censor',
 
     'webhooks' => 'Webhooks',
     'webhooks_help_github' => 'Pour générer un build quand de nouveaux commits sont poussés, ajouter l\'url suivante
-                                en tant que new "Webhook" dans la section <a href="https://github.com/%s/settings/hooks">Webhooks
+                                en tant que nouveau "Webhook" dans la section <a href="https://github.com/%s/settings/hooks">Webhooks
                                 and Services</a> de votre dépôt GitHub.',
 
     'webhooks_help_gitlab' => 'Pour générer un build quand de nouveaux commits sont poussés, ajouter l\'url suivante
-                                and tant que "WebHook URL" dans la section Web Hooks de votre dépôt GitLab.',
+                                en tant que "WebHook URL" dans la section "Web Hooks" de votre dépôt GitLab.',
 
     'webhooks_help_bitbucket' => 'Pour générer un build quand de nouveaux commits sont poussés, ajouter l\'url suivante
                                 en tant que service "POST" dans la section
@@ -192,7 +192,7 @@ PHP Censor',
     'phplint_errors' => 'Erreurs de Lint',
     'phpunit_errors' => 'Erreurs PHPUnit',
     'phpunit_fail_init' => 'Ni fichier de configuration, ni répertoire de test trouvé.',
-    'phpcpd_warnings' => 'PHP Copy/Paste Detector warnings',
+    'phpcpd_warnings' => 'Alertes PHP Copy/Paste Detector',
     'phpdoccheck_warnings' => 'Blocs de documentation manquants',
     'issues' => 'Tickets',
 
@@ -226,11 +226,11 @@ PHP Censor',
     'build_finished' => 'Build terminé',
     'test_message' => 'Message',
     'test_no_message' => 'Pas de message',
-    'test_success' => 'Réussi(s): %d',
-    'test_fail' => 'Echec(s): %d',
-    'test_skipped' => 'Passé(s): %d',
-    'test_error' => 'Erreurs: %d',
-    'test_todo' => 'Todos: %d',
+    'test_success' => 'Réussi(s) : %d',
+    'test_fail' => 'Echec(s) : %d',
+    'test_skipped' => 'Passé(s) : %d',
+    'test_error' => 'Erreurs : %d',
+    'test_todo' => 'Todos : %d',
     'test_total' => '%d test(s)',
 
     // Users
@@ -317,7 +317,7 @@ PHP Censor',
     'stage_setup' => 'Préparation',
     'stage_test' => 'Test',
     'stage_complete' => 'Terminé',
-    'stage_success' => 'Succes',
+    'stage_success' => 'Succès',
     'stage_failure' => 'Échec',
     'stage_broken'   => 'Cassé',
     'stage_fixed'    => 'Réparé',
@@ -327,7 +327,7 @@ PHP Censor',
     'commit_details' => 'Détails du Commit',
     'committer'      => 'Committer',
     'timing'         => 'Timing',
-    'created'        => 'Crée',
+    'created'        => 'Créé',
     'started'        => 'Demarré',
     'finished'       => 'Terminé',
 
@@ -338,7 +338,7 @@ PHP Censor',
     'install_instead' => 'Merci d\'installer PHP Censor grâce à la commande php-censor:install.',
 
     // Create Build Command
-    'add_to_queue_failed' => 'Build créé avec succès mais échec de l\'ajouter à la file d\'attente des Builds. Cela arrive généralement
+    'add_to_queue_failed' => 'Build créé avec succès mais échec de l\'ajout à la file d\'attente des Builds. Cela arrive généralement
                                 quand PHP Censor est configuré pour utiliser un serveur beanstalkd qui n\'existe pas ou qui n\'est pas démarré.',
 
     // Builder
@@ -346,15 +346,15 @@ PHP Censor',
     'build_success' => 'BUILD RÉUSSI',
     'build_failed' => 'BUILD ÉCHOUÉ',
     'removing_build' => 'Suppression du build.',
-    'exception' => 'Exception: ',
+    'exception' => 'Exception : ',
     'could_not_create_working' => 'Impossible de créer une copie de travail.',
-    'working_copy_created' => 'Copie de travail créée: %s',
-    'looking_for_binary' => 'Recherche du binaire: %s',
-    'found_in_path' => 'Trouver dans %s: %s',
-    'running_plugin' => 'EXÉCUTION DU PLUGIN: %s',
-    'plugin_success' => 'PLUGIN: RÉUSSI',
-    'plugin_failed' => 'PLUGIN: ÉCHOUÉ',
-    'plugin_missing' => 'Le plugin n\'existe pas: %s',
+    'working_copy_created' => 'Copie de travail créée : %s',
+    'looking_for_binary' => 'Recherche du binaire : %s',
+    'found_in_path' => 'Trouver dans %s : %s',
+    'running_plugin' => 'EXÉCUTION DU PLUGIN : %s',
+    'plugin_success' => 'PLUGIN : RÉUSSI',
+    'plugin_failed' => 'PLUGIN : ÉCHOUÉ',
+    'plugin_missing' => 'Le plugin n\'existe pas : %s',
     'failed_allowed' => 'Autorisé',
 
     // Build Plugins:
@@ -408,7 +408,7 @@ PHP Censor',
     'confirm_ok'      => 'Supprimer',
     'confirm_cancel'  => 'Annuler',
     'confirm_success' => 'L\'article a été supprimé avec succès.',
-    'confirm_failed'  => 'Echec de la suppresion! Le serveur a répondu: ',
+    'confirm_failed'  => 'Echec de la suppresion! Le serveur a répondu : ',
 
     'public_status_title' => 'Statut public',
     'public_status_image' => 'Image de statut',
