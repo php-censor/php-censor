@@ -115,10 +115,12 @@ PHP Censor',
     'project_private_key' => 'Clé privée à utiliser pour accéder au dépôt
                                 (laissez le champ vide pour les dépôts locaux ou les URLs distantes anonymes)',
     'build_config' => 'Configuration PHP Censor spécifique pour ce projet
-                                (si vous ne pouvez pas ajouter de fichier .php-censor.yml (.phpci.yml|phpci.yml) à la racine du dépôt)',
+        (si vous ne pouvez pas ajouter de fichier .php-censor.yml (.phpci.yml|phpci.yml) à la racine du dépôt)',
     'default_branch' => 'Nom de la branche par défaut',
     'default_branch_only' => 'Build la branche par défaut seulement',
-    'overwrite_build_config' => "Remplacer la configuration du fichier dans le dépôt par la configuration dans la base de données ? Si la case à cocher n'est pas cochée, la configuration dans la base de données sera fusionnée avec celle du fichier.",
+    'overwrite_build_config' => "Remplacer la configuration du fichier dans le dépôt par la configuration dans
+        la base de données ? Si la case à cocher n'est pas cochée, la configuration dans la base de données sera
+        fusionnée avec celle du fichier.",
     'allow_public_status' => 'Activer la page de statut publique et l\'image pour ce projet&nbsp;?',
     'archived' => 'Archivé',
     'archived_menu' => 'Archivé',
@@ -289,8 +291,8 @@ PHP Censor',
                             PHP Censor à accéder à votre compte.',
     'github_app_linked' => 'PHP Censor s\'est connecté avec succès au compte GitHub.',
     'github_where_to_find' => 'Où trouver ces informations...',
-    'github_where_help' => 'Si vous souhaitez utiliser une application qui vous appartient, vous pouvez trouver ces informations dans
-                            la zone de paramètres <a href="https://github.com/settings/applications">applications</a>.',
+    'github_where_help' => 'Si vous souhaitez utiliser une application qui vous appartient, vous pouvez trouver ces informations
+                        dans la zone de paramètres <a href="https://github.com/settings/applications">applications</a>.',
 
     'email_settings' => 'Configuration email',
     'email_settings_help' => 'Avant que PHP Censor puisse envoyer des emails concernant les statuts de build,
@@ -371,8 +373,9 @@ PHP Censor',
     'install_instead' => 'Merci d\'installer PHP Censor grâce à la commande php-censor:install.',
 
     // Create Build Command
-    'add_to_queue_failed' => 'Build créé avec succès mais échec de l\'ajout à la file d\'attente des Builds. Cela arrive généralement
-                                quand PHP Censor est configuré pour utiliser un serveur beanstalkd qui n\'existe pas ou qui n\'est pas démarré.',
+    'add_to_queue_failed' => 'Build créé avec succès mais échec de l\'ajout à la file d\'attente des Builds. Cela arrive
+            généralement quand PHP Censor est configuré pour utiliser un serveur beanstalkd qui n\'existe pas ou qui
+            n\'est pas démarré.',
 
     // Build Plugins:
     'passing_build' => 'Build réussi',
