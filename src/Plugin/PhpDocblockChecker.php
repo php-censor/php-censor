@@ -133,12 +133,17 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
         // Re-enable exec output logging:
         $this->builder->logExecOutput(true);
 
-        $output  = json_decode($this->builder->getLastOutput(), true);
-        $errors  = count($output);
-        $success = true;
+        $output = json_decode($this->builder->getLastOutput(), true);
 
+        $errors = 0;
+        if ($output && is_array($output)) {
+            $errors  = count($output);
+
+            $this->reportErrors($output);
+        }
         $this->build->storeMeta('phpdoccheck-warnings', $errors);
-        $this->reportErrors($output);
+
+        $success = true;
 
         if ($this->allowedWarnings != -1 && $errors > $this->allowedWarnings) {
             $success = false;
@@ -151,7 +156,7 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
      * Report all of the errors we've encountered line-by-line.
      * @param array $output
      */
-    protected function reportErrors($output)
+    protected function reportErrors(array $output)
     {
         foreach ($output as $error) {
             switch ($error['type']) {
