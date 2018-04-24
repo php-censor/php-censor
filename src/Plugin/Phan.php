@@ -45,6 +45,10 @@ class Phan extends Plugin
 
     /**
      * {@inheritdoc}
+     *
+     * @param Builder $builder
+     * @param Build   $build
+     * @param array   $options
      */
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
@@ -66,6 +70,8 @@ class Phan extends Plugin
 
     /**
      * Executes Phan.
+     *
+     * @return bool
      */
     public function execute()
     {
@@ -111,7 +117,7 @@ class Phan extends Plugin
     /**
      * Process the Phan Json report.
      *
-     * @param $jsonString
+     * @param string $jsonString
      *
      * @return int
      *
