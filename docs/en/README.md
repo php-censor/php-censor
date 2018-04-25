@@ -59,6 +59,7 @@ Plugins
 * [PHP Mess Detector](plugins/php_mess_detector.md) - `php_mess_detector`
 * [PHP Parallel Lint](plugins/php_parallel_lint.md) - `php_parallel_lint`
 * PHP Tal Lint - `php_tal_lint`
+* Phan - `phan`
 * [Technical Debt](plugins/technical_debt.md) - `technical_debt`
 
 #### Databases
