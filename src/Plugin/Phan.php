@@ -140,9 +140,9 @@ class Phan extends Plugin
                 'phan',
                 $data['check_name']."\n\n".$data['description'],
                 $this->severity($data['severity']),
-                $data['location']['path'] ?? '??',
-                $data['location']['lines']['begin'] ?? 0,
-                $data['location']['lines']['end'] ?? 0
+                isset($data['location']['path']) ? $data['location']['path'] : '??',
+                isset($data['location']['lines']['begin']) ? $data['location']['lines']['begin'] : '??',
+                isset($data['location']['lines']['end']) ? $data['location']['lines']['end'] : '??'
             );
 
             $warnings++;
