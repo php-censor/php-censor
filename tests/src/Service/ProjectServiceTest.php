@@ -76,6 +76,13 @@ class ProjectServiceTest extends \PHPUnit\Framework\TestCase
                     'origin'    => 'git@sss.github.com:php-censor/php-censor.git',
                 ],
             ], [
+                'git@172.168.23.4:php-censor/php-censor.git', [
+                    'user'      => 'git',
+                    'domain'    => '172.168.23.4',
+                    'reference' => 'php-censor/php-censor',
+                    'origin'    => 'git@172.168.23.4:php-censor/php-censor.git',
+                ],
+            ], [
                 'ssh://git@github.com/php-censor/php-censor.git', [
                     'user'      => 'git',
                     'domain'    => 'github.com',
@@ -83,10 +90,23 @@ class ProjectServiceTest extends \PHPUnit\Framework\TestCase
                     'origin'    => 'ssh://git@github.com/php-censor/php-censor.git',
                 ],
             ], [
+                'ssh://git@172.168.23.4/php-censor/php-censor.git', [
+                    'user'      => 'git',
+                    'domain'    => '172.168.23.4',
+                    'reference' => 'php-censor/php-censor',
+                    'origin'    => 'ssh://git@172.168.23.4/php-censor/php-censor.git',
+                ],
+            ], [
                 'https://github.com/php-censor/php-censor.git', [
                     'domain'    => 'github.com',
                     'reference' => 'php-censor/php-censor',
                     'origin'    => 'https://github.com/php-censor/php-censor.git',
+                ],
+            ], [
+                'https://172.168.23.4/php-censor/php-censor.git', [
+                    'domain'    => '172.168.23.4',
+                    'reference' => 'php-censor/php-censor',
+                    'origin'    => 'https://172.168.23.4/php-censor/php-censor.git',
                 ],
             ], [
                 'http://github.com/php-censor/php-censor.git', [
@@ -103,6 +123,14 @@ class ProjectServiceTest extends \PHPUnit\Framework\TestCase
                     'origin'    => 'git@github.com:443/php-censor/php-censor.git',
                 ],
             ], [
+                'git@172.168.23.4:443/php-censor/php-censor.git', [
+                    'user'      => 'git',
+                    'domain'    => '172.168.23.4',
+                    'port'      => '443',
+                    'reference' => 'php-censor/php-censor',
+                    'origin'    => 'git@172.168.23.4:443/php-censor/php-censor.git',
+                ],
+            ], [
                 'ssh://git@github.com:443/php-censor/php-censor.git', [
                     'user'      => 'git',
                     'domain'    => 'github.com',
@@ -111,11 +139,26 @@ class ProjectServiceTest extends \PHPUnit\Framework\TestCase
                     'origin'    => 'ssh://git@github.com:443/php-censor/php-censor.git',
                 ],
             ], [
+                'ssh://git@172.168.23.4:443/php-censor/php-censor.git', [
+                    'user'      => 'git',
+                    'domain'    => '172.168.23.4',
+                    'port'      => '443',
+                    'reference' => 'php-censor/php-censor',
+                    'origin'    => 'ssh://git@172.168.23.4:443/php-censor/php-censor.git',
+                ],
+            ], [
                 'https://github.com:443/php-censor/php-censor.git', [
                     'domain'    => 'github.com',
                     'port'      => '443',
                     'reference' => 'php-censor/php-censor',
                     'origin'    => 'https://github.com:443/php-censor/php-censor.git',
+                ],
+            ], [
+                'https://172.168.23.4:443/php-censor/php-censor.git', [
+                    'domain'    => '172.168.23.4',
+                    'port'      => '443',
+                    'reference' => 'php-censor/php-censor',
+                    'origin'    => 'https://172.168.23.4:443/php-censor/php-censor.git',
                 ],
             ], [
                 'http://github.com:443/php-censor/php-censor.git', [
@@ -180,7 +223,7 @@ class ProjectServiceTest extends \PHPUnit\Framework\TestCase
                     'reference' => 'php-censor',
                     'origin'    => 'http://github:443/php-censor.git',
                 ],
-            ],
+            ]
         ];
     }
 

@@ -320,7 +320,7 @@ class Build extends BaseBuild
                 continue;
             }
 
-            $className = '\PHPCensor\Plugin\\'.$item->getBasename('.php');
+            $className = '\PHPCensor\Plugin\\' . $item->getBasename('.php');
 
             $reflectedPlugin = new \ReflectionClass($className);
 
