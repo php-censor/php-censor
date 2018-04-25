@@ -35,7 +35,7 @@
 
 #### Зависимости
 
-* [Composer](plugins/composer.md) - `composer`
+* [Composer](plugins/composer.md) - Плагин для работы с зависимостями при помощи Composer-а (`composer`).
 * [Security Checker](plugins/security_checker.md) - Плагин для проверки наличия незакрытых уязвимостей в зависимостях 
 проекта с помощью SensioLabs Security Checker (`security_checker`).
 
@@ -59,6 +59,7 @@
 * [PHP Mess Detector](plugins/php_mess_detector.md) - `php_mess_detector`
 * [PHP Parallel Lint](plugins/php_parallel_lint.md) - `php_parallel_lint`
 * PHP Tal Lint - `php_tal_lint`
+* Phan - `phan`
 * [Technical Debt](plugins/technical_debt.md) - `technical_debt`
 
 #### Базы данных
