@@ -258,13 +258,16 @@ class InstallCommand extends Command
                 'rotate'    => false,
                 'max_files' => 0,
             ],
+            'notifications' => [
+                'enabled' => false,
+            ],
             'email_settings' => [
-                'from_address'           => 'PHP Censor <no-reply@php-censor.local>',
-                'smtp_address'           => null,
-                'smtp_port'              => null,
-                'smtp_username'          => null,
-                'smtp_password'          => null,
-                'smtp_encryption'        => false,
+                'from_address'    => 'PHP Censor <no-reply@php-censor.local>',
+                'smtp_address'    => null,
+                'smtp_port'       => null,
+                'smtp_username'   => null,
+                'smtp_password'   => null,
+                'smtp_encryption' => false,
             ],
             'ssh' => [
                 'strength' => 2048,

@@ -48,9 +48,12 @@ abstract class WebController extends Controller
         if (!empty($this->layoutName)) {
             $this->layout = new View($this->layoutName);
 
-            $this->layout->title      = 'PHP Censor';
-            $this->layout->breadcrumb = [];
-            $this->layout->version    = trim(file_get_contents(ROOT_DIR . 'VERSION.md'));
+            $notifications = (bool)Config::getInstance()->get('php-censor.notifications.enabled', false);
+
+            $this->layout->title         = 'PHP Censor';
+            $this->layout->breadcrumb    = [];
+            $this->layout->version       = trim(file_get_contents(ROOT_DIR . 'VERSION.md'));
+            $this->layout->notifications = $notifications;
 
             $groups = [];
             $groupStore = Factory::getStore('ProjectGroup');
