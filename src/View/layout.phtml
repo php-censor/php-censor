@@ -2,7 +2,19 @@
 
 use PHPCensor\Helper\Lang;
 
+/**
+ * @var \PHPCensor\Model\User $user
+ */
 $user = $this->getUser();
+
+/**
+ * @var string $title
+ * @var string $subtitle
+ * @var string $version
+ * @var string $content
+ * @var string $skin
+ * @var bool   $notifications
+ */
 
 ?>
 <!DOCTYPE html>
@@ -35,7 +47,8 @@ $user = $this->getUser();
     <script src="<?= APP_URL; ?>assets/vendor/notifyjs/dist/notify.js" type="text/javascript"></script>
 
     <script>
-        var APP_URL  = '<?= APP_URL; ?>';
+        var APP_URL = '<?= APP_URL; ?>';
+        var NOTIFICATIONS = <?= ($notifications ? 'true' : 'false'); ?>;
         var LANGUAGE = '<?= Lang::getLanguage(); ?>';
 
         <?php if (defined('JSON_UNESCAPED_UNICODE')): ?>

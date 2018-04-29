@@ -164,13 +164,15 @@ var PHPCensor = {
             error: PHPCensor.handleFailedAjax
         });
 
-        $.ajax({
-            url: APP_URL + 'web-notifications/builds-updated',
-            success: function (data) {
-                PHPCensor.showWebNotification(data);
-            },
-            error: PHPCensor.handleFailedAjax
-        });
+        if (NOTIFICATIONS) {
+            $.ajax({
+                url: APP_URL + 'web-notifications/builds-updated',
+                success: function (data) {
+                    PHPCensor.showWebNotification(data);
+                },
+                error: PHPCensor.handleFailedAjax
+            });
+        }
     },
 
     getProjectBuilds: function () {

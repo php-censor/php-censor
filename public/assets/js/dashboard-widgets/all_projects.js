@@ -34,15 +34,17 @@ PHPCensor.widgets.allProjects = {
                 error: PHPCensor.handleFailedAjax
             });
 
-            $.ajax({
-                url: APP_URL +
+            if (NOTIFICATIONS) {
+                $.ajax({
+                    url: APP_URL +
                     'web-notifications/widgets-all-projects-update/' +
-                     projectId,
-                success: function (data) {
-                    PHPCensor.showWebNotification(data);
-                },
-                error: PHPCensor.handleFailedAjax
-            });
+                    projectId,
+                    success: function (data) {
+                        PHPCensor.showWebNotification(data);
+                    },
+                    error: PHPCensor.handleFailedAjax
+                });
+            }
         });
     }
 };
