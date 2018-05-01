@@ -2,11 +2,7 @@
 
 namespace PHPCensor\Command;
 
-use Monolog\Logger;
-use PHPCensor\Service\BuildService;
-use PHPCensor\Store\Factory;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -16,6 +12,11 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class CheckLocalizationCommand extends Command
 {
+    /**
+     * @var string
+     */
+    protected $basePath;
+
     /**
      * @var array
      */
@@ -38,7 +39,12 @@ class CheckLocalizationCommand extends Command
     {
         $this
             ->setName('php-censor:check-localizations')
-            ->addOption('same', 0, InputOption::VALUE_OPTIONAL, 'Same than English version (0 = no, 1 = yes)')
+            ->addOption(
+                'same',
+                0,
+                InputOption::VALUE_OPTIONAL,
+                'Same than English version (0 = no, 1 = yes)'
+            )
             ->addOption(
                 'langs',
                 [],
@@ -56,31 +62,30 @@ class CheckLocalizationCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln('');
-        $output->writeln('<info>Check localizations!</info>');
-        $output->writeln('');
+        $output->writeln("\n<info>Check localizations!</info>");
 
-        $sameThanEnglish = (null !== $input->getOption('same')) ? $input->getOption('same') : false;
-        $languagesList = (null !== $input->getOption('langs')) ? explode(',', $input->getOption('langs')) : [];
+        $sameThanEnglish = (null !== $input->getOption('same'))
+            ? $input->getOption('same')
+            : false;
+
+        $languagesList = (null !== $input->getOption('langs'))
+            ? explode(',', $input->getOption('langs'))
+            : [];
 
         // Get English version
-        $english = $this->getTranslations($this->basePath.'/lang.en.php');
-
+        $english         = $this->getTranslations($this->basePath.'/lang.en.php');
         $othersLanguages = $this->getLanguages($languagesList);
-
-        $diffs = $this->compareTranslations($english, $othersLanguages);
+        $diffs           = $this->compareTranslations($english, $othersLanguages);
 
         foreach ($diffs as $language => $value) {
-            $output->writeln('');
-            $output->writeln($language.' : ');
+            $output->writeln(sprintf("%s:", $language));
             if (!empty($value['not_present'])) {
-                $output->writeln('    * not present : '.implode(', ', $value['not_present']));
+                $output->writeln("\tNot present:\n\t\t" . implode("\n\t\t", $value['not_present']));
             }
 
             if ($sameThanEnglish === '1' && !empty($value['same'])) {
-                $output->writeln('    * same than English : '.implode(', ', $value['same']));
+                $output->writeln("\tSame than English:\n\t\t" . implode("\n\t\t", $value['same']));
             }
-            $output->writeln('');
         }
     }
 
@@ -107,12 +112,11 @@ class CheckLocalizationCommand extends Command
      */
     private function getLanguages(array $languagesList = [])
     {
-        $files = glob($this->basePath.'/*.php');
+        $files = glob($this->basePath . '/*.php');
 
         $languages = array_map(function ($dir) use ($languagesList) {
             $name = basename($dir);
 
-            // Not exclused
             if (in_array($name, $this->excluded, true)) {
                 return null;
             }
