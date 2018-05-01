@@ -50,6 +50,7 @@ Plugins
 
 * [Lint](plugins/lint.md) - `lint`
 * [PDepend](plugins/pdepend.md) - `pdepend`
+* [Phan](plugins/phan.md) - `phan`
 * [PHP Code Sniffer](plugins/php_code_sniffer.md) - `php_code_sniffer`
 * [PHP Copy/Paste Detector](plugins/php_cpd.md) - `php_cpd`
 * [PHP Coding Standards Fixer](plugins/php_cs_fixes.md) - `php_cs_fixer`
