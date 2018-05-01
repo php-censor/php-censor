@@ -179,9 +179,12 @@ class PhpUnitResultJunit extends PhpUnitResult
         return $suites;
     }
 
+    /**
+     * @param string $description
+     */
     private function internalProblem($description)
     {
-        throw new \Exception($description);
+        throw new \RuntimeException($description);
 
         // alternative to error throwing: append to $this->errors
     }
