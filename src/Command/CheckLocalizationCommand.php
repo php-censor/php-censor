@@ -60,8 +60,8 @@ class CheckLocalizationCommand extends Command
         $output->writeln('<info>Check localizations!</info>');
         $output->writeln('');
 
-        $sameThanEnglish = (isset($input->getOption('same'))) ? $input->getOption('same') : false;
-        $languagesList = (isset($input->getOption('langs'))) ? explode(',', $input->getOption('langs')) : [];
+        $sameThanEnglish = (null !== $input->getOption('same')) ? $input->getOption('same') : false;
+        $languagesList = (null !== $input->getOption('langs')) ? explode(',', $input->getOption('langs')) : [];
 
         // Get English version
         $english = $this->getTranslations($this->basePath.'/lang.en.php');
