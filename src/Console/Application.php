@@ -152,6 +152,11 @@ LOGO;
         $this->add(new CheckLocalizationCommand());
     }
 
+    /**
+     * Returns help.
+     *
+     * @return string
+     */
     public function getHelp()
     {
         return self::LOGO . parent::getHelp();

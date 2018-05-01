@@ -50,6 +50,9 @@ class CheckLocalizationCommand extends Command
 
     /**
      * Loops through running.
+     *
+     * @param InputInterface  $input
+     * @param OutputInterface $output
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -57,8 +60,8 @@ class CheckLocalizationCommand extends Command
         $output->writeln('<info>Check localizations!</info>');
         $output->writeln('');
 
-        $sameThanEnglish = $input->getOption('same') ?? false;
-        $languagesList = (null !== $input->getOption('langs')) ? explode(',', $input->getOption('langs')) : [];
+        $sameThanEnglish = (isset($input->getOption('same'))) ? $input->getOption('same') : false;
+        $languagesList = (isset($input->getOption('langs'))) ? explode(',', $input->getOption('langs')) : [];
 
         // Get English version
         $english = $this->getTranslations($this->basePath.'/lang.en.php');
