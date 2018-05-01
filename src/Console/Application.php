@@ -2,11 +2,10 @@
 
 namespace PHPCensor\Console;
 
-use PHPCensor\Config;
-use PHPCensor\Store\Factory;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
+use PHPCensor\Command\CheckLocalizationCommand;
 use PHPCensor\Command\CreateAdminCommand;
 use PHPCensor\Command\CreateBuildCommand;
 use PHPCensor\Command\InstallCommand;
@@ -15,17 +14,19 @@ use PHPCensor\Command\RebuildQueueCommand;
 use PHPCensor\Command\RunCommand;
 use PHPCensor\Command\ScheduleBuildCommand;
 use PHPCensor\Command\WorkerCommand;
+use PHPCensor\Config;
 use PHPCensor\Logging\Handler;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Store\BuildStore;
+use PHPCensor\Store\Factory;
 use PHPCensor\Store\ProjectStore;
 use PHPCensor\Store\UserStore;
-use Symfony\Component\Console\Application as BaseApplication;
+use Phinx\Config\Config as PhinxConfig;
 use Phinx\Console\Command\Create;
 use Phinx\Console\Command\Migrate;
 use Phinx\Console\Command\Rollback;
 use Phinx\Console\Command\Status;
-use Phinx\Config\Config as PhinxConfig;
+use Symfony\Component\Console\Application as BaseApplication;
 
 /**
  * Class Application
@@ -148,6 +149,7 @@ LOGO;
         $this->add(new WorkerCommand($logger));
         $this->add(new RebuildQueueCommand($logger));
         $this->add(new ScheduleBuildCommand($projectStore, $buildStore, new BuildService($buildStore)));
+        $this->add(new CheckLocalizationCommand());
     }
 
     public function getHelp()
