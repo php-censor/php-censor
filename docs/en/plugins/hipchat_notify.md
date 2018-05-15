@@ -4,6 +4,13 @@ Plugin Hipchat Notify
 This plugin joins a [HipChat](https://www.hipchat.com/) room and sends a user-defined message, for example a 
 "Build Succeeded" message.
 
+Install via Composer
+--------------------
+```
+cd /var/www/php-censor
+composer require "hipchat/hipchat-php"
+```
+
 Configuration
 -------------
 
