@@ -78,7 +78,7 @@ Plugins
 
 * [Campfire](plugins/campfire.md) - `campfire`
 * [Email](plugins/email.md) - `email`
-* FlowDock - `flowdock_notify`
+* [FlowDock](plugins/flowdock_notify.md) - `flowdock_notify`
 * [HipChat](plugins/hipchat_notify.md) - `hipchat_notify`
 * [IRC](plugins/irc.md) - `irc`
 * [Slack](plugins/slack_notify.md) - `slack_notify`
