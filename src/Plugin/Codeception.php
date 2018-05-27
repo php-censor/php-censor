@@ -145,8 +145,7 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
             }
         }
 
-        $xml    = file_get_contents($outputPath . 'report.xml', false);
-        $parser = new Parser($this->builder, $xml);
+        $parser = new Parser($this->builder, ($outputPath . 'report.xml'));
         $output = $parser->parse();
 
         $meta = [

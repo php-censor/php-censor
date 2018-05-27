@@ -2,6 +2,8 @@
 
 namespace PHPCensor\Plugin\Util;
 
+use PHPCensor\Helper\Xml;
+
 /**
  * Class PhpUnitResultJunit parses the results for the PhpUnitV2 plugin
  *
@@ -24,11 +26,11 @@ class PhpUnitResultJunit extends PhpUnitResult
 
         $suites = $this->loadResultFile();
 
-        foreach ($suites->xpath('//testcase') as $testCase) {
-            $this->parseTestcase($testCase);
+        if ($suites) {
+            foreach ($suites->xpath('//testcase') as $testCase) {
+                $this->parseTestcase($testCase);
+            }
         }
-        $suites['failures'];
-        $suites['errors'];
 
         return $this;
     }
@@ -139,44 +141,7 @@ class PhpUnitResultJunit extends PhpUnitResult
             return new \SimpleXMLElement('<empty/>'); // new empty element
         }
 
-        try {
-            $suites = simplexml_load_file($this->outputFile);
-        } catch (\Exception $ex) {
-            $suites = null;
-        } catch (\Throwable $ex) { // since php7
-            $suites = null;
-        }
-        if (!$suites) {
-            // from https://stackoverflow.com/questions/7766455/how-to-handle-invalid-unicode-with-simplexml/8092672#8092672
-            $oldUse = libxml_use_internal_errors(true);
-            libxml_clear_errors();
-            $dom = new \DOMDocument("1.0", "UTF-8");
-            $dom->strictErrorChecking = false;
-            $dom->validateOnParse = false;
-            $dom->recover = true;
-            $dom->loadXML(strtr(
-                file_get_contents($this->outputFile),
-                array('&quot;' => "'") // &quot; in attribute names may mislead the parser
-            ));
-
-            /**
-             * @var \LibXMLError
-             */
-            $xmlError = libxml_get_last_error();
-            if ($xmlError) {
-                $warning = sprintf('L%s C%s: %s', $xmlError->line, $xmlError->column, $xmlError->message);
-                print 'WARNING: ignored errors while reading phpunit result, '.$warning."\n";
-            }
-            if (!$dom->hasChildNodes()) {
-                $this->internalProblem('xml file with no content');
-            }
-            $suites = simplexml_import_dom($dom);
-
-            libxml_clear_errors();
-            libxml_use_internal_errors($oldUse);
-        }
-
-        return $suites;
+        return Xml::loadFromFile($this->outputFile);
     }
 
     /**
@@ -185,7 +150,5 @@ class PhpUnitResultJunit extends PhpUnitResult
     private function internalProblem($description)
     {
         throw new \RuntimeException($description);
-
-        // alternative to error throwing: append to $this->errors
     }
 }
