@@ -3,6 +3,7 @@
 namespace PHPCensor\Plugin\Util\TestResultParsers;
 
 use PHPCensor\Builder;
+use PHPCensor\Helper\Xml;
 
 /**
  * Class Codeception
@@ -11,23 +12,49 @@ use PHPCensor\Builder;
  */
 class Codeception implements ParserInterface
 {
+    /**
+     * @var Builder
+     */
     protected $builder;
-    protected $resultsXml;
+
+    /**
+     * @var string
+     */
+    protected $xmlPath;
+
+    /**
+     * @var array
+     */
     protected $results;
-    protected $totalTests;
-    protected $totalTimeTaken;
-    protected $totalFailures;
-    protected $totalErrors;
+
+    /**
+     * @var int
+     */
+    protected $totalTests = 0;
+
+    /**
+     * @var int
+     */
+    protected $totalTimeTaken = 0;
+
+    /**
+     * @var int
+     */
+    protected $totalFailures = 0;
+
+    /**
+     * @var int
+     */
+    protected $totalErrors = 0;
 
     /**
      * @param Builder $builder
-     * @param $resultsXml
+     * @param string  $xmlPath
      */
-    public function __construct(Builder $builder, $resultsXml)
+    public function __construct(Builder $builder, $xmlPath)
     {
-        $this->builder    = $builder;
-        $this->resultsXml = $resultsXml;
-        $this->totalTests = 0;
+        $this->builder = $builder;
+        $this->xmlPath = $xmlPath;
     }
 
     /**
@@ -36,42 +63,43 @@ class Codeception implements ParserInterface
     public function parse()
     {
         $rtn           = [];
-        $this->results = new \SimpleXMLElement($this->resultsXml);
+        $this->results = Xml::loadFromFile($this->xmlPath);
 
-        // calculate total results
-        foreach ($this->results->testsuite as $testSuite) {
-            $this->totalTests     += (int)$testSuite['tests'];
-            $this->totalTimeTaken += (float)$testSuite['time'];
-            $this->totalFailures  += (int)$testSuite['failures'];
-            $this->totalErrors    += (int)$testSuite['errors'];
+        if ($this->results) {
+            foreach ($this->results->testsuite as $testSuite) {
+                $this->totalTests     += (int)$testSuite['tests'];
+                $this->totalTimeTaken += (float)$testSuite['time'];
+                $this->totalFailures  += (int)$testSuite['failures'];
+                $this->totalErrors    += (int)$testSuite['errors'];
 
-            foreach ($testSuite->testcase as $testCase) {
-                $testResult = [
-                    'suite'      => (string)$testSuite['name'],
-                    'file'       => str_replace($this->builder->buildPath, '/', (string) $testCase['file']),
-                    'name'       => (string)$testCase['name'],
-                    'feature'    => (string)$testCase['feature'],
-                    'assertions' => (int)$testCase['assertions'],
-                    'time'       => (float)$testCase['time']
-                ];
+                foreach ($testSuite->testcase as $testCase) {
+                    $testResult = [
+                        'suite'      => (string)$testSuite['name'],
+                        'file'       => str_replace($this->builder->buildPath, '/', (string) $testCase['file']),
+                        'name'       => (string)$testCase['name'],
+                        'feature'    => (string)$testCase['feature'],
+                        'assertions' => (int)$testCase['assertions'],
+                        'time'       => (float)$testCase['time']
+                    ];
 
-                if (isset($testCase['class'])) {
-                    $testResult['class'] = (string) $testCase['class'];
+                    if (isset($testCase['class'])) {
+                        $testResult['class'] = (string) $testCase['class'];
+                    }
+
+                    // PHPUnit testcases does not have feature field. Use class::method instead
+                    if (!$testResult['feature']) {
+                        $testResult['feature'] = sprintf('%s::%s', $testResult['class'], $testResult['name']);
+                    }
+
+                    if (isset($testCase->failure) || isset($testCase->error)) {
+                        $testResult['pass']    = false;
+                        $testResult['message'] = isset($testCase->failure) ? (string)$testCase->failure : (string)$testCase->error;
+                    } else {
+                        $testResult['pass'] = true;
+                    }
+
+                    $rtn[] = $testResult;
                 }
-
-                // PHPUnit testcases does not have feature field. Use class::method instead
-                if (!$testResult['feature']) {
-                    $testResult['feature'] = sprintf('%s::%s', $testResult['class'], $testResult['name']);
-                }
-
-                if (isset($testCase->failure) || isset($testCase->error)) {
-                    $testResult['pass']    = false;
-                    $testResult['message'] = isset($testCase->failure) ? (string)$testCase->failure : (string)$testCase->error;
-                } else {
-                    $testResult['pass'] = true;
-                }
-
-                $rtn[] = $testResult;
             }
         }
 
