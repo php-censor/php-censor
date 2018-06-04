@@ -592,11 +592,11 @@ class WebhookController extends Controller
     }
 
     /**
-     * Called by Gogs Webhooks:
-     *
      * @param string $projectId
      *
      * @return array
+     *
+     * @throws Exception
      */
     public function gogs($projectId)
     {
@@ -606,14 +606,12 @@ class WebhookController extends Controller
         ]);
 
         switch ($_SERVER['CONTENT_TYPE']) {
-            case 'application/json':
-                $payload = json_decode(file_get_contents('php://input'), true);
-                break;
             case 'application/x-www-form-urlencoded':
                 $payload = json_decode($this->getParam('payload'), true);
                 break;
+            case 'application/json':
             default:
-                return ['status' => 'failed', 'error' => 'Content type not supported.', 'responseCode' => 401];
+                $payload = json_decode(file_get_contents('php://input'), true);
         }
 
         // Handle Push web hooks:
