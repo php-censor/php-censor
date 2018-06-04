@@ -605,7 +605,11 @@ class WebhookController extends Controller
             Project::TYPE_GIT,
         ]);
 
-        switch ($_SERVER['CONTENT_TYPE']) {
+        $contentType = !empty($_SERVER['CONTENT_TYPE'])
+            ? $_SERVER['CONTENT_TYPE']
+            : null;
+
+        switch ($contentType) {
             case 'application/x-www-form-urlencoded':
                 $payload = json_decode($this->getParam('payload'), true);
                 break;
