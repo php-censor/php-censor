@@ -155,7 +155,7 @@ class Build extends BaseBuild
     /**
      * Return a template to use to generate a link to a specific file.
      *
-     * @return null
+     * @return string|null
      */
     public function getFileLinkTemplate()
     {

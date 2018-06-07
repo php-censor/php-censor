@@ -52,6 +52,8 @@ class GithubBuild extends GitBuild
 
     /**
      * Get link to remote branch (from pull request) from another source (i.e. Github)
+     *
+     * @return string
      */
     public function getRemoteBranchLink()
     {
@@ -195,7 +197,7 @@ class GithubBuild extends GitBuild
     /**
      * Get a template to use for generating links to files.
      *
-     * @return string
+     * @return string|null
      */
     public function getFileLinkTemplate()
     {

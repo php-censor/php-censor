@@ -14,16 +14,25 @@ use Psr\Log\LogLevel;
 class GitBuild extends Build
 {
     /**
-    * Get the URL to be used to clone this remote repository.
-    */
+     * Get the URL to be used to clone this remote repository.
+     *
+     * @return string
+     */
     protected function getCloneUrl()
     {
         return $this->getProject()->getReference();
     }
 
     /**
-    * Create a working copy by cloning, copying, or similar.
-    */
+     * Create a working copy by cloning, copying, or similar.
+     *
+     * @param Builder $builder
+     * @param string  $buildPath
+     *
+     * @return bool
+     *
+     * @throws \Exception
+     */
     public function createWorkingCopy(Builder $builder, $buildPath)
     {
         $key = trim($this->getProject()->getSshPrivateKey());
@@ -48,7 +57,8 @@ class GitBuild extends Build
 
     /**
      * @param Builder $builder
-     * @param string $buildPath
+     * @param string  $buildPath
+     *
      * @return bool
      */
     protected function mergeBranches(Builder $builder, $buildPath)
@@ -69,8 +79,13 @@ class GitBuild extends Build
     }
 
     /**
-    * Use an HTTP-based git clone.
-    */
+     * Use an HTTP-based git clone.
+     *
+     * @param Builder $builder
+     * @param string  $cloneTo
+     *
+     * @return bool
+     */
     protected function cloneByHttp(Builder $builder, $cloneTo)
     {
         $cmd = 'cd .. && git clone --recursive ';
@@ -91,8 +106,13 @@ class GitBuild extends Build
     }
 
     /**
-    * Use an SSH-based git clone.
-    */
+     * Use an SSH-based git clone.
+     *
+     * @param Builder $builder
+     * @param string  $cloneTo
+     *
+     * @return bool
+     */
     protected function cloneBySsh(Builder $builder, $cloneTo)
     {
         $keyFile       = $this->writeSshKey($cloneTo);
