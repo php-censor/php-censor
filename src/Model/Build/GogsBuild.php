@@ -8,11 +8,19 @@ namespace PHPCensor\Model\Build;
 class GogsBuild extends GitBuild
 {
     /**
+     * Get a cleaned reference to generate link
+     */
+    protected function getCleanedReferenceForLink()
+    {
+        return preg_replace('/\.git$/i', '', $this->getProject()->getReference());
+    }
+
+    /**
     * Get link to commit from Gogs repository
     */
     public function getCommitLink()
     {
-        return $this->getProject()->getReference() . '/commit/' . $this->getCommitId();
+        return $this->getCleanedReferenceForLink() . '/commit/' . $this->getCommitId();
     }
 
     /**
@@ -20,8 +28,9 @@ class GogsBuild extends GitBuild
     */
     public function getBranchLink()
     {
-        return $this->getProject()->getReference() . '/src/' . $this->getBranch();
+        return $this->getCleanedReferenceForLink() . '/src/' . $this->getBranch();
     }
+
     /**
      * Get link to specific file (and line) in a the repo's branch
      */
@@ -29,7 +38,7 @@ class GogsBuild extends GitBuild
     {
         return sprintf(
             '%s/src/%s/{FILE}#L{LINE}',
-            $this->getProject()->getReference(),
+            $this->getCleanedReferenceForLink(),
             $this->getCommitId()
         );
     }
