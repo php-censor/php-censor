@@ -4,6 +4,8 @@ namespace Tests\PHPCensor\Model;
 
 use PHPCensor\Exception\InvalidArgumentException;
 use PHPCensor\Model\Build;
+use PHPCensor\Model\Project;
+use PHPCensor\Model\Build\GogsBuild;
 
 /**
  * Unit tests for the Build model class.
@@ -137,5 +139,40 @@ class BuildTest extends \PHPUnit\Framework\TestCase
 
         self::assertEquals('Item One', $build->getExtra('item1'));
         self::assertEquals('Item Three', $build->getExtra('item3'));
+    }
+
+    public function testGogsBuildLinks()
+    {
+        $project = new Project();
+        $project->setType(Project::TYPE_GOGS);
+        $project->setReference('https://gogs.repository/the-vendor/the-project.git');
+
+        $stub = $this->getMockBuilder(GogsBuild::class)
+            ->setMethods(['getProject', 'getCommitId', 'getBranch'])
+            ->getMock();
+
+        $stub->method('getProject')
+            ->will($this->returnValue($project));
+
+        $stub->method('getCommitId')
+            ->will($this->returnValue('abcdef'));
+
+        $stub->method('getBranch')
+            ->will($this->returnValue('master'));
+
+        $this->assertEquals(
+            'https://gogs.repository/the-vendor/the-project/commit/abcdef',
+            $stub->getCommitLink()
+        );
+
+        $this->assertEquals(
+            'https://gogs.repository/the-vendor/the-project/src/master',
+            $stub->getBranchLink()
+        );
+
+        $this->assertEquals(
+            'https://gogs.repository/the-vendor/the-project/src/abcdef/{FILE}#L{LINE}',
+            $stub->getFileLinkTemplate()
+        );
     }
 }
