@@ -13,8 +13,15 @@ use PHPCensor\Builder;
 class LocalBuild extends Build
 {
     /**
-    * Create a working copy by cloning, copying, or similar.
-    */
+     * Create a working copy by cloning, copying, or similar.
+     *
+     * @param Builder $builder
+     * @param string $buildPath
+     *
+     * @return bool
+     *
+     * @throws \Exception
+     */
     public function createWorkingCopy(Builder $builder, $buildPath)
     {
         $reference  = $this->getProject()->getReference();
@@ -50,9 +57,11 @@ class LocalBuild extends Build
 
     /**
      * Check if this is a "bare" git repository, and if so, unarchive it.
+     *
      * @param Builder $builder
-     * @param $reference
-     * @param $buildPath
+     * @param string  $reference
+     * @param string  $buildPath
+     *
      * @return bool
      */
     protected function handleBareRepository(Builder $builder, $reference, $buildPath)
@@ -71,9 +80,11 @@ class LocalBuild extends Build
 
     /**
      * Create a symlink if required.
+     *
      * @param Builder $builder
-     * @param $reference
-     * @param $buildPath
+     * @param string  $reference
+     * @param string  $buildPath
+     *
      * @return bool
      */
     protected function handleSymlink(Builder $builder, $reference, $buildPath)

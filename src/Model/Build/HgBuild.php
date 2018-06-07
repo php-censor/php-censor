@@ -14,6 +14,8 @@ class HgBuild extends Build
 {
     /**
      * Get the URL to be used to clone this remote repository.
+     *
+     * @return string
      */
     protected function getCloneUrl()
     {
@@ -22,6 +24,13 @@ class HgBuild extends Build
 
     /**
      * Create a working copy by cloning, copying, or similar.
+     *
+     * @param Builder $builder
+     * @param string  $buildPath
+     *
+     * @return bool
+     *
+     * @throws \Exception
      */
     public function createWorkingCopy(Builder $builder, $buildPath)
     {
@@ -44,6 +53,11 @@ class HgBuild extends Build
 
     /**
      * Use a HTTP-based hg clone.
+     *
+     * @param Builder $builder
+     * @param string  $cloneTo
+     *
+     * @return bool
      */
     protected function cloneByHttp(Builder $builder, $cloneTo)
     {

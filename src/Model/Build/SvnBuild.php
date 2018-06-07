@@ -16,6 +16,8 @@ class SvnBuild extends Build
 
     /**
      * Get the URL to be used to clone this remote repository.
+     *
+     * @return string
      */
     protected function getCloneUrl()
     {
@@ -65,6 +67,13 @@ class SvnBuild extends Build
 
     /**
      * Create a working copy by cloning, copying, or similar.
+     *
+     * @param Builder $builder
+     * @param string $buildPath
+     *
+     * @return bool
+     *
+     * @throws \Exception
      */
     public function createWorkingCopy(Builder $builder, $buildPath)
     {
@@ -88,6 +97,11 @@ class SvnBuild extends Build
 
     /**
      * Use an HTTP-based svn export.
+     *
+     * @param Builder $builder
+     * @param string  $cloneTo
+     *
+     * @return bool
      */
     protected function cloneByHttp(Builder $builder, $cloneTo)
     {
@@ -106,6 +120,11 @@ class SvnBuild extends Build
 
     /**
      * Use an SSH-based svn export.
+     *
+     * @param Builder $builder
+     * @param string  $cloneTo
+     *
+     * @return bool
      */
     protected function cloneBySsh(Builder $builder, $cloneTo)
     {

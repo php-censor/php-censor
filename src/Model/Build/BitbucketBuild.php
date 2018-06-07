@@ -39,6 +39,8 @@ class BitbucketBuild extends GitBuild
 
     /**
      * Get link to remote branch (from pull request) from another source (i.e. BitBucket)
+     *
+     * @return string
      */
     public function getRemoteBranchLink()
     {
@@ -162,7 +164,7 @@ class BitbucketBuild extends GitBuild
     /**
      * Get a template to use for generating links to files.
      *
-     * @return string
+     * @return string|null
      */
     public function getFileLinkTemplate()
     {

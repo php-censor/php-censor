@@ -9,33 +9,38 @@ namespace PHPCensor\Model\Build;
  */
 class GitlabBuild extends GitBuild
 {
-
     /**
-    * Get link to commit from another source (i.e. Github)
-    */
+     * Get link to commit from another source (i.e. Github)
+     *
+     * @return string
+     */
     public function getCommitLink()
     {
-        $domain = $this->getProject()->getAccessInformation("domain");
+        $domain = $this->getProject()->getAccessInformation('domain');
         return '//' . $domain . '/' . $this->getProject()->getReference() . '/commit/' . $this->getCommitId();
     }
 
     /**
-    * Get link to branch from another source (i.e. Github)
-    */
+     * Get link to branch from another source (i.e. Github)
+     *
+     * @return string
+     */
     public function getBranchLink()
     {
-        $domain = $this->getProject()->getAccessInformation("domain");
+        $domain = $this->getProject()->getAccessInformation('domain');
         return '//' . $domain . '/' . $this->getProject()->getReference() . '/tree/' . $this->getBranch();
     }
 
     /**
      * Get link to specific file (and line) in a the repo's branch
+     *
+     * @return string|null
      */
     public function getFileLinkTemplate()
     {
         return sprintf(
             '//%s/%s/blob/%s/{FILE}#L{LINE}',
-            $this->getProject()->getAccessInformation("domain"),
+            $this->getProject()->getAccessInformation('domain'),
             $this->getProject()->getReference(),
             $this->getCommitId()
         );
