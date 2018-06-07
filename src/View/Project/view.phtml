@@ -193,6 +193,10 @@ use PHPCensor\Model\Project;
                             $url = APP_URL . 'webhook/bitbucket/' . $project->getId();
                             echo Lang::get('webhooks_help_bitbucket', $project->getReference());
                             break;
+                        case Project::TYPE_GOGS:
+                            $url = APP_URL . 'webhook/gogs/' . $project->getId();
+                            echo Lang::get('webhooks_help_gogs', $project->getReference());
+                            break;
                     } ?>
                     <br><br><strong style="word-wrap: break-word;"><?= $url; ?></strong>
                 </div>

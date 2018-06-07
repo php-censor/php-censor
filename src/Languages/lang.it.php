@@ -139,6 +139,10 @@ PHP Censor',
                                 aggiungi l\'URL seguente come "Webhook URL" nella sezione "WebHook URL" del tuo
                                 repository GitLab.',
 
+    'webhooks_help_gogs' => 'Per effettuare la build automatica di questo progetto quando vengono inseriti nuovi commit,
+                                aggiungi l\'URL seguente come "Webhook URL" nella sezione "WebHook URL" del tuo
+                                repository Gogs.',
+
     'webhooks_help_bitbucket' => 'Per effettuare la build automatica di questo progetto quando vengono inseriti nuovi
                                     commit, aggiungi l\'URL seguente come serizio "POST" nella sezione
                                     <a href="https://bitbucket.org/%s/admin/services">Services</a> del tuo repository su

@@ -138,6 +138,9 @@ and Services</a> under dit GitHub-repository.',
     'webhooks_help_gitlab' => 'For at køre dette build automatisk når nye commits bliver pushed kan du tilføje nedenstående URL
 som en "WebHook URL" i Web Hooks-sektionen i dit GitLab-repository.',
 
+    'webhooks_help_gogs' => 'For at køre dette build automatisk når nye commits bliver pushed kan du tilføje nedenstående URL
+som en "WebHook URL" i Web Hooks-sektionen i dit Gogs-repository.',
+
     'webhooks_help_bitbucket' => 'For at køre dette build automatisk når nye commits bliver pushed skal du tilføje nedenstående
 URL som "POST" service i
 <a href="https://bitbucket.org/%s/admin/services">
