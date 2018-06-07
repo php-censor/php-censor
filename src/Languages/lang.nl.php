@@ -139,6 +139,9 @@ and Services</a> sectie van je GitHub repository toegevoegd worden.',
     'webhooks_help_gitlab' => 'Voor automatische builds wanneer nieuwe commits worden gepusht, dient onderstaande URL
 als nieuwe "Webhook URL" in de Web Hooks sectie van je GitLab repository toegevoegd worden.',
 
+    'webhooks_help_gogs' => 'Voor automatische builds wanneer nieuwe commits worden gepusht, dient onderstaande URL
+als nieuwe "Webhook URL" in de Web Hooks sectie van je Gogs repository toegevoegd worden.',
+
     'webhooks_help_bitbucket' => 'Voor automatische builds wanneer nieuwe commits worden gepusht, dient onderstaande URL
 als "POST" service in de in de
 <a href="https://bitbucket.org/%s/admin/services">

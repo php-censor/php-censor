@@ -160,6 +160,9 @@ PHP Censor',
     'webhooks_help_gitlab' => 'Чтобы Автоматически собирать этот проект при публикации новых коммитов, добавьте URL ниже в качестве "WebHook URL"
                                 в разделе "Web Hooks" вашего GitLab репозитория.',
 
+    'webhooks_help_gogs' => 'Чтобы Автоматически собирать этот проект при публикации новых коммитов, добавьте URL ниже в качестве "WebHook URL"
+                                в разделе "Web Hooks" вашего Gogs репозитория.',
+
     'webhooks_help_bitbucket' => 'Чтобы Автоматически собирать этот проект при публикации новых коммитов, добавьте URL ниже как "POST" сервис в разделе <a href="https://bitbucket.org/%s/admin/services">
                                   Services</a> вашего Bitbucket репозитория.',
 

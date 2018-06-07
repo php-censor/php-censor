@@ -164,7 +164,8 @@ use PHPCensor\Model\Project;
             Project::TYPE_GITHUB,
             Project::TYPE_GITLAB,
             Project::TYPE_BITBUCKET,
-            Project::TYPE_BITBUCKET_HG
+            Project::TYPE_BITBUCKET_HG,
+            Project::TYPE_GOGS,
         ])): ?>
             <div class="box">
                 <div class="box-header">
@@ -192,6 +193,10 @@ use PHPCensor\Model\Project;
                         case Project::TYPE_BITBUCKET_HG:
                             $url = APP_URL . 'webhook/bitbucket/' . $project->getId();
                             echo Lang::get('webhooks_help_bitbucket', $project->getReference());
+                            break;
+                        case Project::TYPE_GOGS:
+                            $url = APP_URL . 'webhook/gogs/' . $project->getId();
+                            echo Lang::get('webhooks_help_gogs', $project->getReference());
                             break;
                     } ?>
                     <br><br><strong style="word-wrap: break-word;"><?= $url; ?></strong>

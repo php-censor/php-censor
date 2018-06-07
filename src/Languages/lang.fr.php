@@ -167,6 +167,9 @@ PHP Censor',
     'webhooks_help_gitlab' => 'Pour générer un build quand de nouveaux commits sont poussés, ajouter l\'url suivante
                                 en tant que "WebHook URL" dans la section "Web Hooks" de votre dépôt GitLab.',
 
+    'webhooks_help_gogs' => 'Pour générer un build quand de nouveaux commits sont poussés, ajouter l\'url suivante
+                                en tant que "WebHook URL" dans la section "Web Hooks" de votre dépôt Gogs.',
+
     'webhooks_help_bitbucket' => 'Pour générer un build quand de nouveaux commits sont poussés, ajouter l\'url suivante
                                 en tant que service "POST" dans la section
                                 <a href="https://bitbucket.org/%s/admin/services">

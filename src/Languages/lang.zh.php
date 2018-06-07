@@ -136,6 +136,8 @@ PHP Censor',
 
     'webhooks_help_gitlab' => '要想当您的仓库由新的提交推送时自动构建，请在您的GitLab仓库的 "WebHook URL" 添加该URL。',
 
+    'webhooks_help_gogs' => '要想当您的仓库由新的提交推送时自动构建，请在您的Gogs仓库的 "WebHook URL" 添加该URL。',
+
     'webhooks_help_bitbucket' => '要想当您的仓库由新的提交推送时自动构建，请在您的GitLab仓库的
                                 <a href="https://bitbucket.org/%s/admin/services">
                                 Services</a> 将该URL添加成 “POST服务”。',

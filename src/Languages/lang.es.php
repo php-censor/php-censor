@@ -138,6 +138,9 @@ PHP Censor',
     'webhooks_help_gitlab' => 'Para compilar automáticamente este proyecto, cada vez que se realiza un commit, agreagar la siguiente URL
                                 como una "WebHook URL" en la sección "web hooks" de tu repositorio en GitLab.',
 
+    'webhooks_help_gogs' => 'Para compilar automáticamente este proyecto, cada vez que se realiza un commit, agreagar la siguiente URL
+                                como una "WebHook URL" en la sección "web hooks" de tu repositorio en Gogs.',
+
     'webhooks_help_bitbucket' => 'Para compilar automáticamente este proyecto, cada vez que se realiza un commit, agreagar la siguiente URL
                                 como un servicio "POST" en la sección
                                 <a href="https://bitbucket.org/%s/admin/services">

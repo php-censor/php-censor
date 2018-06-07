@@ -140,6 +140,9 @@ od wybranego kodu źródłowego platformy hostingowej.',
     'webhooks_help_gitlab' => 'Aby automatycznie uruchomić nową budowę po wysłaniu commitów dodaj poniższy adres URL
  jako "WebHook URL" w sekcji Web Hook Twojego repozytoria GitLab.',
 
+    'webhooks_help_gogs' => 'Aby automatycznie uruchomić nową budowę po wysłaniu commitów dodaj poniższy adres URL
+ jako "WebHook URL" w sekcji Web Hook Twojego repozytoria Gogs.',
+
     'webhooks_help_bitbucket' => 'Aby automatycznie uruchomić nową budowę po wysłaniu commitów, dodaj poniższy adres URL
  jako usługę "POST" w sekcji
 <a href="https://bitbucket.org/%s/admin/services">
