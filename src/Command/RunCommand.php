@@ -2,7 +2,6 @@
 
 namespace PHPCensor\Command;
 
-use PHPCensor\Config;
 use Monolog\Logger;
 use PHPCensor\Logging\BuildDBLogHandler;
 use PHPCensor\Logging\LoggedBuildContextTidier;
@@ -40,7 +39,7 @@ class RunCommand extends Command
 
     /**
      * @param \Monolog\Logger $logger
-     * @param string $name
+     * @param string          $name
      */
     public function __construct(Logger $logger, $name = null)
     {
@@ -60,6 +59,13 @@ class RunCommand extends Command
 
     /**
      * Pulls all pending builds from the database or queue and runs them.
+     *
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     *
+     * @return int
+     *
+     * @throws \PHPCensor\Exception\HttpException
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -78,8 +84,6 @@ class RunCommand extends Command
             $output->writeln('<comment>Debug mode enabled.</comment>');
             define('DEBUG_MODE', true);
         }
-
-        $running = $this->validateRunningBuilds();
 
         $this->logger->pushProcessor(new LoggedBuildContextTidier());
         $this->logger->addInfo('Finding builds to process');
@@ -127,9 +131,6 @@ class RunCommand extends Command
             $this->logger->popHandler();
             // destructor implicitly call flush
             unset($buildDbLog);
-
-            // Re-run build validator:
-            $running = $this->validateRunningBuilds();
         }
 
         $this->logger->addInfo('Finished processing builds.');
@@ -137,40 +138,11 @@ class RunCommand extends Command
         return $builds;
     }
 
+    /**
+     * @param int $numBuilds
+     */
     public function setMaxBuilds($numBuilds)
     {
         $this->maxBuilds = (int)$numBuilds;
-    }
-
-    protected function validateRunningBuilds()
-    {
-        /** @var \PHPCensor\Store\BuildStore $store */
-        $store   = Factory::getStore('Build');
-        $running = $store->getByStatus(Build::STATUS_RUNNING);
-        $rtn     = [];
-
-        $timeout = Config::getInstance()->get('php-censor.build.failed_after', 1800);
-
-        foreach ($running['items'] as $build) {
-            /** @var \PHPCensor\Model\Build $build */
-            $build = BuildFactory::getBuild($build);
-
-            $now   = time();
-            $start = $build->getStartDate()->getTimestamp();
-
-            if (($now - $start) > $timeout) {
-                $this->logger->addInfo(sprintf('Build %d marked as failed due to timeout.', $build->getId()));
-                $build->setStatus(Build::STATUS_FAILED);
-                $build->setFinishDate(new \DateTime());
-                $store->save($build);
-                $build->removeBuildDirectory(true);
-
-                continue;
-            }
-
-            $rtn[$build->getProjectId()] = true;
-        }
-
-        return $rtn;
     }
 }

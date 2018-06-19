@@ -29,7 +29,7 @@ class WorkerCommand extends Command
 
     /**
      * @param \Monolog\Logger $logger
-     * @param string $name
+     * @param string          $name
      */
     public function __construct(Logger $logger, $name = null)
     {
@@ -47,6 +47,12 @@ class WorkerCommand extends Command
             ->setDescription('Runs the PHP Censor build worker.');
     }
 
+    /**
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     *
+     * @throws \Exception
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->output = $output;
@@ -66,13 +72,14 @@ class WorkerCommand extends Command
         }
 
         $config = Config::getInstance()->get('php-censor.queue', []);
-
         if (empty($config['host']) || empty($config['name'])) {
-            $error = 'The worker is not configured. You must set a host and queue in your config.yml file.';
-            throw new \Exception($error);
+            throw new \RuntimeException(
+                'The worker is not configured. You must set a host and queue in your config.yml file.'
+            );
         }
 
         $worker = new BuildWorker($config['host'], $config['name']);
+
         $worker->setLogger($this->logger);
         $worker->startWorker();
     }
