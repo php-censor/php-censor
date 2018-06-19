@@ -155,7 +155,7 @@ class RunCommand extends Command
             /** @var \PHPCensor\Model\Build $build */
             $build = BuildFactory::getBuild($build);
 
-            $now = time();
+            $now   = time();
             $start = $build->getStartDate()->getTimestamp();
 
             if (($now - $start) > $timeout) {
@@ -164,6 +164,7 @@ class RunCommand extends Command
                 $build->setFinishDate(new \DateTime());
                 $store->save($build);
                 $build->removeBuildDirectory(true);
+
                 continue;
             }
 
