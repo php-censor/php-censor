@@ -217,6 +217,7 @@ PHP Censor',
     'codeception_errors' => 'Codeception errors',
     'phpmd_warnings' => 'PHPMD warnings',
     'phpcs_warnings' => 'PHPCS warnings',
+    'phan_warnings' => 'Phan warnings',
     'phpcs_errors' => 'PHPCS errors',
     'phplint_errors' => 'Lint errors',
     'phpunit_errors' => 'PHPUnit errors',
@@ -375,7 +376,7 @@ PHP Censor',
 
     // Create Build Command
     'add_to_queue_failed' => 'Build created successfully, but failed to add to build queue. This usually happens
-                                when PHP Censor is set to use a beanstalkd server that does not exist, 
+                                when PHP Censor is set to use a beanstalkd server that does not exist,
                                 or your beanstalkd server has stopped.',
 
     // Build Plugins:
