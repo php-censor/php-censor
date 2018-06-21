@@ -63,9 +63,9 @@ class PhpCsFixer extends Plugin
             $this->args   .= ' --config=' . $builder->interpolate($options['config']);
         }
 
-        $this->directory = isset($options['directory'])
-            ? $options['directory']
-            : $this->builder->buildPath;
+        if (isset($options['directory']) && $options['directory']) {
+            $this->directory = $builder->interpolate($options['directory']);
+        }
 
         if (isset($options['errors']) && $options['errors']) {
             $this->errors = true;
