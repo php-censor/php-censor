@@ -76,7 +76,7 @@ class PhpCsFixer extends Plugin
             $this->errors = true;
             $this->args .= ' --dry-run';
 
-            if (isset($options['report-errors']) && $options['report-errors']) {
+            if (isset($options['report_errors']) && $options['report_errors']) {
                 $this->reportErrors = true;
             }
 
