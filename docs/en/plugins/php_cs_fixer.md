@@ -14,8 +14,8 @@ Configuration
 * **rules** [string, optional] - Fixer rules (default: `@PSR2`)
 * **args** [string, optional] - Command line args (in string format) to pass to PHP Coding Standards Fixer (default: ``)
 * **config** [string, optional] - Special config file (default: `%BUILD_PATH%./.php_cs` or `%BUILD_PATH%./.php_cs.dist`)
-* **errors** [bool, optional] - Not fix files, but get the number of files with problem
-* **report-errors** [bool, optional] - With **errors**, get the list of files in "Errors" tab
+* **errors** [bool, optional] - Not fix files, but get the number of files with problem (default: false)
+* **report_errors** [bool, optional] - With **errors**, get the list of files in "Errors" tab (default: false)
 
 ### Examples
 
