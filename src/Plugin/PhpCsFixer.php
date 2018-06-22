@@ -28,6 +28,11 @@ class PhpCsFixer extends Plugin
     protected $fileErrors = 'tmp_php-cs-fixer.log';
 
     /**
+     * @var int
+     */
+    protected $allowedWarnings;
+
+    /**
      * @return string
      */
     public static function pluginName()
