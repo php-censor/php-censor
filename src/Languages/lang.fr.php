@@ -226,6 +226,7 @@ PHP Censor',
     'phpunit_errors' => 'Erreurs PHPUnit',
     'phpcpd_warnings' => 'Alertes PHP Copy/Paste Detector',
     'phpdoccheck_warnings' => 'Blocs de documentation manquants',
+    'php_cs_fixer_warnings' => 'Alertes PHP CS Fixer',
     'issues' => 'Tickets',
     'merged_branches' => 'Branches mergéess',
 

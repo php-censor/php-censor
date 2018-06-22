@@ -53,7 +53,7 @@ Plugins
 * [Phan](plugins/phan.md) - `phan`
 * [PHP Code Sniffer](plugins/php_code_sniffer.md) - `php_code_sniffer`
 * [PHP Copy/Paste Detector](plugins/php_cpd.md) - `php_cpd`
-* [PHP Coding Standards Fixer](plugins/php_cs_fixes.md) - `php_cs_fixer`
+* [PHP Coding Standards Fixer](plugins/php_cs_fixer.md) - `php_cs_fixer`
 * [PHP Docblock Checker](plugins/php_docblock_checker.md) - `php_docblock_checker`
 * [PHP Loc](plugins/php_loc.md) - `php_loc`
 * [PHP Mess Detector](plugins/php_mess_detector.md) - `php_mess_detector`
