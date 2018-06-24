@@ -152,12 +152,12 @@ PHP Censor',
     'delete_build' => 'Supprimer le build',
     'build_source' => 'Build la source',
 
-    'source_unknown' => 'Inconnue',
-    'source_manual_web' => 'Manuel (depuis le portail Web)',
-    'source_manual_console' => 'Manuel (depuis le CLI)',
-    'source_periodical' => 'Périodique',
-    'source_webhook' => 'Webhook (Push)',
-    'source_webhook_pull_request' => 'Webhook (Pull request)',
+    'source_unknown'                      => 'Inconnue',
+    'source_manual_web'                   => 'Manuel (depuis le portail Web)',
+    'source_manual_console'               => 'Manuel (depuis le CLI)',
+    'source_periodical'                   => 'Périodique',
+    'source_webhook_push'                 => 'Webhook (Push)',
+    'source_webhook_pull_request_created' => 'Webhook (Pull request)',
 
     'webhooks' => 'Webhooks',
     'webhooks_help_github' => 'Pour générer un build quand de nouveaux commits sont poussés, ajouter l\'url suivante

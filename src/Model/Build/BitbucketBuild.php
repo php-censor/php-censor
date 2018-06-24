@@ -18,6 +18,16 @@ use PHPCensor\Model\BuildError;
 class BitbucketBuild extends GitBuild
 {
     /**
+     * @var array
+     */
+    public static $pullrequestTriggersToSources = [
+        'pullrequest:created'   => Build::SOURCE_WEBHOOK_PULL_REQUEST_CREATED,
+        'pullrequest:updated'   => Build::SOURCE_WEBHOOK_PULL_REQUEST_UPDATED,
+        'pullrequest:approved'  => Build::SOURCE_WEBHOOK_PULL_REQUEST_APPROVED,
+        'pullrequest:fulfilled' => Build::SOURCE_WEBHOOK_PULL_REQUEST_MERGED,
+    ];
+
+    /**
      * Get link to commit from another source (i.e. BitBucket)
      *
      * @return string
@@ -67,7 +77,7 @@ class BitbucketBuild extends GitBuild
      */
     public function sendStatusPostback()
     {
-        if (!in_array($this->getSource(), [Build::SOURCE_WEBHOOK, Build::SOURCE_WEBHOOK_PULL_REQUEST], true)) {
+        if (!in_array($this->getSource(), Build::$webhookSources, true)) {
             return false;
         }
 
@@ -116,9 +126,9 @@ class BitbucketBuild extends GitBuild
 
         $url = sprintf(
             '/2.0/repositories/%s/commit/%s/statuses/build',
-            Build::SOURCE_WEBHOOK_PULL_REQUEST === $this->getSource()
+            (in_array($this->getSource(), Build::$pullRequestSources, true)
                 ? $this->getExtra('remote_reference')
-                : $project->getReference(),
+                : $project->getReference()),
             $this->getCommitId()
         );
 
@@ -170,7 +180,7 @@ class BitbucketBuild extends GitBuild
     {
         $reference = $this->getProject()->getReference();
 
-        if (Build::SOURCE_WEBHOOK_PULL_REQUEST === $this->getSource()) {
+        if (in_array($this->getSource(), Build::$pullRequestSources, true)) {
             $reference = $this->getExtra('remote_reference');
         }
 
@@ -191,7 +201,7 @@ class BitbucketBuild extends GitBuild
         $skipGitFinalization = false;
 
         try {
-            if (Build::SOURCE_WEBHOOK_PULL_REQUEST === $this->getSource()) {
+            if (in_array($this->getSource(), Build::$pullRequestSources, true)) {
                 $helper = new Bitbucket();
                 $diff = $helper->getPullRequestDiff(
                     $this->getProject()->getReference(),

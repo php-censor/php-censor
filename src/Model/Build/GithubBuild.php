@@ -80,7 +80,7 @@ class GithubBuild extends GitBuild
      */
     public function sendStatusPostback()
     {
-        if (!in_array($this->getSource(), [Build::SOURCE_WEBHOOK, Build::SOURCE_WEBHOOK_PULL_REQUEST], true)) {
+        if (!in_array($this->getSource(), Build::$webhookSources, true)) {
             return false;
         }
 
@@ -202,7 +202,7 @@ class GithubBuild extends GitBuild
     public function getFileLinkTemplate()
     {
         $reference = $this->getProject()->getReference();
-        if (Build::SOURCE_WEBHOOK_PULL_REQUEST === $this->getSource()) {
+        if (in_array($this->getSource(), Build::$pullRequestSources, true)) {
             $reference = $this->getExtra('remote_reference');
         }
 
@@ -222,7 +222,7 @@ class GithubBuild extends GitBuild
         $success = true;
 
         try {
-            if (Build::SOURCE_WEBHOOK_PULL_REQUEST === $this->getSource()) {
+            if (in_array($this->getSource(), Build::$pullRequestSources, true)) {
                 $pullRequestId = $this->getExtra('pull_request_number');
 
                 $cmd = 'cd "%s" && git checkout -b php-censor/' . $this->getId()

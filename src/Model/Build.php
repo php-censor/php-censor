@@ -6,7 +6,6 @@ use PHPCensor\Builder;
 use PHPCensor\Store\Factory;
 use PHPCensor\Store\ProjectStore;
 use PHPCensor\Store\BuildErrorStore;
-use Psr\Log\LogLevel;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Parser as YamlParser;
 use PHPCensor\Model\Base\Build as BaseBuild;
@@ -24,6 +23,27 @@ class Build extends BaseBuild
     const STAGE_FAILURE  = 'failure';
     const STAGE_FIXED    = 'fixed';
     const STAGE_BROKEN   = 'broken';
+
+    /**
+     * @var array
+     */
+    public static $pullRequestSources = [
+        self::SOURCE_WEBHOOK_PULL_REQUEST_CREATED,
+        self::SOURCE_WEBHOOK_PULL_REQUEST_UPDATED,
+        self::SOURCE_WEBHOOK_PULL_REQUEST_APPROVED,
+        self::SOURCE_WEBHOOK_PULL_REQUEST_MERGED,
+    ];
+
+    /**
+     * @var array
+     */
+    public static $webhookSources = [
+        self::SOURCE_WEBHOOK_PUSH,
+        self::SOURCE_WEBHOOK_PULL_REQUEST_CREATED,
+        self::SOURCE_WEBHOOK_PULL_REQUEST_UPDATED,
+        self::SOURCE_WEBHOOK_PULL_REQUEST_APPROVED,
+        self::SOURCE_WEBHOOK_PULL_REQUEST_MERGED,
+    ];
 
     /**
      * @var integer
@@ -549,10 +569,16 @@ OUT;
     public function getSourceHumanize()
     {
         switch ($this->getSource()) {
-            case Build::SOURCE_WEBHOOK:
-                return 'source_webhook';
-            case Build::SOURCE_WEBHOOK_PULL_REQUEST:
-                return 'source_webhook_pull_request';
+            case Build::SOURCE_WEBHOOK_PUSH:
+                return 'source_webhook_push';
+            case Build::SOURCE_WEBHOOK_PULL_REQUEST_CREATED:
+                return 'source_webhook_pull_request_created';
+            case Build::SOURCE_WEBHOOK_PULL_REQUEST_UPDATED:
+                return 'source_webhook_pull_request_updated';
+            case Build::SOURCE_WEBHOOK_PULL_REQUEST_APPROVED:
+                return 'source_webhook_pull_request_approved';
+            case Build::SOURCE_WEBHOOK_PULL_REQUEST_MERGED:
+                return 'source_webhook_pull_request_merged';
             case Build::SOURCE_MANUAL_WEB:
                 return 'source_manual_web';
             case Build::SOURCE_MANUAL_CONSOLE:

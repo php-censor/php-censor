@@ -15,6 +15,7 @@ use PHPCensor\Config;
 use PHPCensor\Exception\HttpException\NotFoundException;
 use PHPCensor\Store\Factory;
 use PHPCensor\Http\Response;
+use PHPCensor\Model\Build\BitbucketBuild;
 
 /**
  * Webhook Controller - Processes webhook pings from BitBucket, Github, Gitlab, Gogs, etc.
@@ -260,7 +261,7 @@ class WebhookController extends Controller
         $committer     = $this->getParam('committer');
 
         return $this->createBuild(
-            Build::SOURCE_WEBHOOK,
+            Build::SOURCE_WEBHOOK_PUSH,
             $project,
             $commit,
             $branch,
@@ -291,7 +292,7 @@ class WebhookController extends Controller
         $committer     = $this->getParam('committer');
 
         return $this->createBuild(
-            Build::SOURCE_WEBHOOK,
+            Build::SOURCE_WEBHOOK_PUSH,
             $project,
             $commit,
             $branch,
@@ -323,7 +324,7 @@ class WebhookController extends Controller
         $committer     = $this->getParam('committer');
 
         return $this->createBuild(
-            Build::SOURCE_WEBHOOK,
+            Build::SOURCE_WEBHOOK_PUSH,
             $project,
             $commit,
             $branch,
@@ -395,7 +396,7 @@ class WebhookController extends Controller
                 }
 
                 $results[$commit['new']['target']['hash']] = $this->createBuild(
-                    Build::SOURCE_WEBHOOK,
+                    Build::SOURCE_WEBHOOK_PUSH,
                     $project,
                     $commit['new']['target']['hash'],
                     $commit['new']['name'],
@@ -424,9 +425,17 @@ class WebhookController extends Controller
      */
     protected function bitbucketPullRequest(Project $project, array $payload)
     {
+        $triggerType = trim($_SERVER['HTTP_X_EVENT_KEY']);
+
         // We only want to know about open pull requests:
-        if (!in_array($_SERVER['HTTP_X_EVENT_KEY'], ['pullrequest:created', 'pullrequest:updated'])) {
-            return ['status' => 'ok'];
+        if (!array_key_exists(
+            $triggerType,
+            BitbucketBuild::$pullrequestTriggersToSources
+        )) {
+            return [
+                'status'  => 'ignored',
+                'message' => 'Trigger type "' . $triggerType . '" is not supported.'
+            ];
         }
 
         $username    = Config::getInstance()->get('php-censor.bitbucket.username');
@@ -457,6 +466,7 @@ class WebhookController extends Controller
             $id = $commit['hash'];
             if (strpos($id, $payload['pullrequest']['source']['commit']['hash']) !== 0) {
                 $results[$id] = ['status' => 'ignored', 'message' => 'not branch head'];
+
                 continue;
             }
 
@@ -477,7 +487,7 @@ class WebhookController extends Controller
                 ];
 
                 $results[$id] = $this->createBuild(
-                    Build::SOURCE_WEBHOOK_PULL_REQUEST,
+                    BitbucketBuild::$pullrequestTriggersToSources[$triggerType],
                     $project,
                     $id,
                     $branch,
@@ -514,7 +524,7 @@ class WebhookController extends Controller
                 $email = substr($email, strpos($email, '<') + 1);
 
                 $results[$commit['raw_node']] = $this->createBuild(
-                    Build::SOURCE_WEBHOOK,
+                    Build::SOURCE_WEBHOOK_PUSH,
                     $project,
                     $commit['raw_node'],
                     $commit['branch'],
@@ -611,7 +621,7 @@ class WebhookController extends Controller
                     }
 
                     $results[$commit['id']] = $this->createBuild(
-                        Build::SOURCE_WEBHOOK,
+                        Build::SOURCE_WEBHOOK_PUSH,
                         $project,
                         $commit['id'],
                         $branch,
@@ -645,8 +655,15 @@ class WebhookController extends Controller
     protected function githubPullRequest(Project $project, array $payload)
     {
         // We only want to know about open pull requests:
-        if (!in_array($payload['action'], ['opened', 'synchronize', 'reopened'])) {
-            return ['status' => 'ok'];
+        if (!in_array($payload['action'], [
+            'opened',
+            'synchronize',
+            'reopened'
+        ])) {
+            return [
+                'status'  => 'ignored',
+                'message' => 'Action type "' . $payload['action'] . '" is not supported.'
+            ];
         }
 
         $headers = [];
@@ -685,6 +702,7 @@ class WebhookController extends Controller
             $id = $commit['sha'];
             if ($id !== $payload['pull_request']['head']['sha']) {
                 $results[$id] = ['status' => 'ignored', 'message' => 'not branch head'];
+
                 continue;
             }
 
@@ -700,7 +718,7 @@ class WebhookController extends Controller
                 ];
 
                 $results[$id] = $this->createBuild(
-                    Build::SOURCE_WEBHOOK_PULL_REQUEST,
+                    Build::SOURCE_WEBHOOK_PULL_REQUEST_CREATED,
                     $project,
                     $id,
                     $branch,
@@ -746,7 +764,7 @@ class WebhookController extends Controller
                 $committer = $commit['author']['email'];
 
                 return $this->createBuild(
-                    Build::SOURCE_WEBHOOK_PULL_REQUEST,
+                    Build::SOURCE_WEBHOOK_PULL_REQUEST_CREATED,
                     $project,
                     $commit['id'],
                     $branch,
@@ -768,7 +786,7 @@ class WebhookController extends Controller
                     $branch                 = str_replace('refs/heads/', '', $payload['ref']);
                     $committer              = $commit['author']['email'];
                     $results[$commit['id']] = $this->createBuild(
-                        Build::SOURCE_WEBHOOK,
+                        Build::SOURCE_WEBHOOK_PUSH,
                         $project,
                         $commit['id'],
                         $branch,
@@ -845,7 +863,7 @@ class WebhookController extends Controller
                     $branch = str_replace('refs/heads/', '', $payload['ref']);
                     $committer = $commit['author']['email'];
                     $results[$commit['id']] = $this->createBuild(
-                        Build::SOURCE_WEBHOOK,
+                        Build::SOURCE_WEBHOOK_PUSH,
                         $project,
                         $commit['id'],
                         $branch,
@@ -947,7 +965,7 @@ class WebhookController extends Controller
                     null,
                     null,
                     null,
-                    Build::SOURCE_WEBHOOK,
+                    Build::SOURCE_WEBHOOK_PUSH,
                     0,
                     null
                 );

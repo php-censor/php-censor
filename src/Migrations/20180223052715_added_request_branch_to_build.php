@@ -25,7 +25,7 @@ class AddedRequestBranchToBuild extends AbstractMigration
                 if (isset($extra['build_type'])) {
                     unset($extra['build_type']);
 
-                    $build->setSource(Build::SOURCE_WEBHOOK_PULL_REQUEST);
+                    $build->setSource(Build::SOURCE_WEBHOOK_PULL_REQUEST_CREATED);
                 }
 
                 if (!empty($extra['remote_url'])) {
