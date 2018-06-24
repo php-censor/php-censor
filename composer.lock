@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "8ed0d649c464752b717de050e04cd313",
+    "content-hash": "d2c0c5015f58ebb5011d8f28dbc1bb05",
     "packages": [
         {
             "name": "behat/gherkin",

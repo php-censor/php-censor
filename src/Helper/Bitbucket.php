@@ -32,6 +32,16 @@ class Bitbucket
         }
 
         $url = '/1.0/repositories/' . $repo . '/pullrequests/' . $pullId . '/comments/';
+
+        $data = [
+            'content'   => $comment,
+            'anchor'    => substr($commitId, 0, 12),
+            'filename'  => $file,
+        ];
+        if ($line > 0) {
+            $data['line_to'] = $line;
+        }
+
         $client = new Client(['base_uri' => 'https://api.bitbucket.org']);
 
         $client->post($url, [
@@ -39,12 +49,7 @@ class Bitbucket
             'headers'   => [
                 'Content-Type' => 'application/json',
             ],
-            'json'      => [
-                'content'   => $comment,
-                'anchor'    => substr($commitId, 0, 12),
-                'filename'  => $file,
-                'line_to'   => $line,
-            ],
+            'json'      => $data,
         ]);
     }
 
@@ -69,6 +74,15 @@ class Bitbucket
 
         $url = '/1.0/repositories/' . $repo . '/changesets/' . $commitId . '/comments';
 
+        $data = [
+            'content'   => $comment,
+            'filename'  => $file,
+        ];
+
+        if ($line > 0) {
+            $data['line_to'] = $line;
+        }
+
         $client = new Client(['base_uri' => 'https://api.bitbucket.org']);
 
         $client->post($url, [
@@ -76,11 +90,7 @@ class Bitbucket
             'headers'   => [
                 'Content-Type' => 'application/json',
             ],
-            'json'      => [
-                'content'   => $comment,
-                'filename'  => $file,
-                'line_to'   => $line,
-            ],
+            'json'      => $data,
         ]);
     }
 
