@@ -14,7 +14,6 @@ use PHPCensor\Controller;
 use PHPCensor\Config;
 use PHPCensor\Exception\HttpException\NotFoundException;
 use PHPCensor\Store\Factory;
-use PHPCensor\Http\Request;
 use PHPCensor\Http\Response;
 
 /**
@@ -79,19 +78,275 @@ class WebhookController extends Controller
     }
 
     /**
-     * Called by Bitbucket.
+     * Wrapper for creating a new build.
      *
-     * @param integer $projectId
+     * @param integer $source
+     * @param Project $project
+     * @param string  $commitId
+     * @param string  $branch
+     * @param string  $tag
+     * @param string  $committer
+     * @param string  $commitMessage
+     * @param array   $extra
      *
      * @return array
+     *
+     * @throws Exception
+     */
+    protected function createBuild(
+        $source,
+        Project $project,
+        $commitId,
+        $branch,
+        $tag,
+        $committer,
+        $commitMessage,
+        array $extra = null
+    ) {
+        if ($project->getArchived()) {
+            throw new NotFoundException(Lang::get('project_x_not_found', $project->getId()));
+        }
+
+        // Check if a build already exists for this commit ID:
+        $builds = $this->buildStore->getByProjectAndCommit($project->getId(), $commitId);
+
+        $ignoreEnvironments = [];
+        $ignoreTags         = [];
+        if ($builds['count']) {
+            foreach($builds['items'] as $build) {
+                /** @var Build $build */
+                $ignoreEnvironments[$build->getId()] = $build->getEnvironment();
+                $ignoreTags[$build->getId()]         = $build->getTag();
+            }
+        }
+
+        // Check if this branch is to be built.
+        if ($project->getDefaultBranchOnly() && ($branch !== $project->getBranch())) {
+            return [
+                'status'  => 'ignored',
+                'message' => 'The branch is not a branch by default. Build is allowed only for the branch by default.'
+            ];
+        }
+
+        $environments = $project->getEnvironmentsObjects();
+        if ($environments['count']) {
+            $createdBuilds    = [];
+            $environmentNames = $project->getEnvironmentsNamesByBranch($branch);
+            // use base branch from project
+            if (!empty($environmentNames)) {
+                $duplicates = [];
+                foreach ($environmentNames as $environmentName) {
+                    if (
+                        !in_array($environmentName, $ignoreEnvironments) ||
+                        ($tag && !in_array($tag, $ignoreTags, true))
+                    ) {
+                        // If not, create a new build job for it:
+                        $build = $this->buildService->createBuild(
+                            $project,
+                            $environmentName,
+                            $commitId,
+                            $project->getBranch(),
+                            $tag,
+                            $committer,
+                            $commitMessage,
+                            (integer)$source,
+                            0,
+                            $extra
+                        );
+
+                        $createdBuilds[] = [
+                            'id'          => $build->getID(),
+                            'environment' => $environmentName,
+                        ];
+                    } else {
+                        $duplicates[] = array_search($environmentName, $ignoreEnvironments);
+                    }
+                }
+                if (!empty($createdBuilds)) {
+                    if (empty($duplicates)) {
+                        return ['status' => 'ok', 'builds' => $createdBuilds];
+                    } else {
+                        return ['status' => 'ok', 'builds' => $createdBuilds, 'message' => sprintf('For this commit some builds already exists (%s)', implode(', ', $duplicates))];
+                    }
+                } else {
+                    return ['status' => 'ignored', 'message' => sprintf('For this commit already created builds (%s)', implode(', ', $duplicates))];
+                }
+            } else {
+                return ['status' => 'ignored', 'message' => 'Branch not assigned to any environment'];
+            }
+        } else {
+            $environmentName = null;
+            if (
+                !in_array($environmentName, $ignoreEnvironments, true) ||
+                ($tag && !in_array($tag, $ignoreTags, true))
+            ) {
+                $build = $this->buildService->createBuild(
+                    $project,
+                    null,
+                    $commitId,
+                    $branch,
+                    $tag,
+                    $committer,
+                    $commitMessage,
+                    (integer)$source,
+                    0,
+                    $extra
+                );
+
+                return ['status' => 'ok', 'buildID' => $build->getID()];
+            } else {
+                return [
+                    'status'  => 'ignored',
+                    'message' => sprintf('Duplicate of build #%d', array_search($environmentName, $ignoreEnvironments)),
+                ];
+            }
+        }
+    }
+
+    /**
+     * Fetch a project and check its type.
+     *
+     * @param integer $projectId    id or title of project
+     * @param array   $expectedType
+     *
+     * @return Project
+     *
+     * @throws Exception If the project does not exist or is not of the expected type.
+     */
+    protected function fetchProject($projectId, array $expectedType)
+    {
+        if (empty($projectId)) {
+            throw new Exception('Project does not exist: ' . $projectId);
+        }
+
+        if (is_numeric($projectId)) {
+            $project = $this->projectStore->getById((integer)$projectId);
+        } else {
+            $projects = $this->projectStore->getByTitle($projectId, 2);
+            if ($projects['count'] < 1) {
+                throw new Exception('Project does not found: ' . $projectId);
+            }
+            if ($projects['count'] > 1) {
+                throw new Exception('Project id is ambiguous: ' . $projectId);
+            }
+            $project = reset($projects['items']);
+        }
+
+        if (!in_array($project->getType(), $expectedType, true)) {
+            throw new Exception('Wrong project type: ' . $project->getType());
+        }
+
+        return $project;
+    }
+
+    /**
+     * Called by POSTing to /webhook/git/<project_id>?branch=<branch>&commit=<commit>
+     *
+     * @param int $projectId
+     *
+     * @return array
+     *
+     * @throws Exception
+     */
+    public function git($projectId)
+    {
+        $project = $this->fetchProject($projectId, [
+            Project::TYPE_LOCAL,
+            Project::TYPE_GIT,
+        ]);
+        $branch        = $this->getParam('branch', $project->getBranch());
+        $commit        = $this->getParam('commit');
+        $commitMessage = $this->getParam('message');
+        $committer     = $this->getParam('committer');
+
+        return $this->createBuild(
+            Build::SOURCE_WEBHOOK,
+            $project,
+            $commit,
+            $branch,
+            null,
+            $committer,
+            $commitMessage
+        );
+    }
+
+    /**
+     * Called by POSTing to /webhook/hg/<project_id>?branch=<branch>&commit=<commit>
+     *
+     * @param int $projectId
+     *
+     * @return array
+     *
+     * @throws Exception
+     */
+    public function hg($projectId)
+    {
+        $project = $this->fetchProject($projectId, [
+            Project::TYPE_LOCAL,
+            Project::TYPE_HG,
+        ]);
+        $branch        = $this->getParam('branch', $project->getBranch());
+        $commit        = $this->getParam('commit');
+        $commitMessage = $this->getParam('message');
+        $committer     = $this->getParam('committer');
+
+        return $this->createBuild(
+            Build::SOURCE_WEBHOOK,
+            $project,
+            $commit,
+            $branch,
+            null,
+            $committer,
+            $commitMessage
+        );
+    }
+
+    /**
+     * Called by POSTing to /webhook/svn/<project_id>?branch=<branch>&commit=<commit>
+     *
+     * @author Sylvain Lévesque <slevesque@gezere.com>
+     *
+     * @param int $projectId
+     *
+     * @return array
+     *
+     * @throws Exception
+     */
+    public function svn($projectId)
+    {
+        $project       = $this->fetchProject($projectId, [
+            Project::TYPE_SVN
+        ]);
+        $branch        = $this->getParam('branch', $project->getBranch());
+        $commit        = $this->getParam('commit');
+        $commitMessage = $this->getParam('message');
+        $committer     = $this->getParam('committer');
+
+        return $this->createBuild(
+            Build::SOURCE_WEBHOOK,
+            $project,
+            $commit,
+            $branch,
+            null,
+            $committer,
+            $commitMessage
+        );
+    }
+
+    /**
+     * Called by Bitbucket.
+     *
+     * @param int $projectId
+     *
+     * @return array
+     *
+     * @throws Exception
      */
     public function bitbucket($projectId)
     {
         $project = $this->fetchProject($projectId, [
             Project::TYPE_BITBUCKET,
             Project::TYPE_BITBUCKET_HG,
-            Project::TYPE_HG,
-            Project::TYPE_GIT,
         ]);
 
         // Support both old services and new webhooks
@@ -277,46 +532,16 @@ class WebhookController extends Controller
     }
 
     /**
-     * Called by POSTing to /webhook/git/<project_id>?branch=<branch>&commit=<commit>
-     *
-     * @param string $projectId
+     * @param int $projectId
      *
      * @return array
-     */
-    public function git($projectId)
-    {
-        $project       = $this->fetchProject($projectId, [
-            Project::TYPE_LOCAL,
-            Project::TYPE_GIT,
-        ]);
-        $branch        = $this->getParam('branch', $project->getBranch());
-        $commit        = $this->getParam('commit');
-        $commitMessage = $this->getParam('message');
-        $committer     = $this->getParam('committer');
-
-        return $this->createBuild(
-            Build::SOURCE_WEBHOOK,
-            $project,
-            $commit,
-            $branch,
-            null,
-            $committer,
-            $commitMessage
-        );
-    }
-
-    /**
-     * Called by Github Webhooks:
      *
-     * @param integer $projectId
-     *
-     * @return array
+     * @throws Exception
      */
     public function github($projectId)
     {
         $project = $this->fetchProject($projectId, [
             Project::TYPE_GITHUB,
-            Project::TYPE_GIT,
         ]);
 
         switch ($_SERVER['CONTENT_TYPE']) {
@@ -499,6 +724,8 @@ class WebhookController extends Controller
      * @param integer $projectId
      *
      * @return array
+     *
+     * @throws Exception
      */
     public function gitlab($projectId)
     {
@@ -558,37 +785,6 @@ class WebhookController extends Controller
         }
 
         return ['status' => 'ignored', 'message' => 'Unusable payload.'];
-    }
-
-
-    /**
-     * Called by POSTing to /webhook/svn/<project_id>?branch=<branch>&commit=<commit>
-     *
-     * @author Sylvain Lévesque <slevesque@gezere.com>
-     *
-     * @param string $projectId
-     *
-     * @return array
-     */
-    public function svn($projectId)
-    {
-        $project       = $this->fetchProject($projectId, [
-            Project::TYPE_SVN
-        ]);
-        $branch        = $this->getParam('branch', $project->getBranch());
-        $commit        = $this->getParam('commit');
-        $commitMessage = $this->getParam('message');
-        $committer     = $this->getParam('committer');
-
-        return $this->createBuild(
-            Build::SOURCE_WEBHOOK,
-            $project,
-            $commit,
-            $branch,
-            null,
-            $committer,
-            $commitMessage
-        );
     }
 
     /**
@@ -761,167 +957,5 @@ class WebhookController extends Controller
         }
 
         return ['status' => 'ignored', 'message' => 'Branch environments not changed'];
-    }
-
-    /**
-     * Wrapper for creating a new build.
-     *
-     * @param integer $source
-     * @param Project $project
-     * @param string  $commitId
-     * @param string  $branch
-     * @param string  $tag
-     * @param string  $committer
-     * @param string  $commitMessage
-     * @param array   $extra
-     *
-     * @return array
-     *
-     * @throws Exception
-     */
-    protected function createBuild(
-        $source,
-        Project $project,
-        $commitId,
-        $branch,
-        $tag,
-        $committer,
-        $commitMessage,
-        array $extra = null
-    ) {
-        if ($project->getArchived()) {
-            throw new NotFoundException(Lang::get('project_x_not_found', $project->getId()));
-        }
-
-        // Check if a build already exists for this commit ID:
-        $builds = $this->buildStore->getByProjectAndCommit($project->getId(), $commitId);
-
-        $ignoreEnvironments = [];
-        $ignoreTags         = [];
-        if ($builds['count']) {
-            foreach($builds['items'] as $build) {
-                /** @var Build $build */
-                $ignoreEnvironments[$build->getId()] = $build->getEnvironment();
-                $ignoreTags[$build->getId()]         = $build->getTag();
-            }
-        }
-
-        // Check if this branch is to be built.
-        if ($project->getDefaultBranchOnly() && ($branch !== $project->getBranch())) {
-            return [
-                'status'  => 'ignored',
-                'message' => 'The branch is not a branch by default. Build is allowed only for the branch by default.'
-            ];
-        }
-
-        $environments = $project->getEnvironmentsObjects();
-        if ($environments['count']) {
-            $createdBuilds    = [];
-            $environmentNames = $project->getEnvironmentsNamesByBranch($branch);
-            // use base branch from project
-            if (!empty($environmentNames)) {
-                $duplicates = [];
-                foreach ($environmentNames as $environmentName) {
-                    if (
-                        !in_array($environmentName, $ignoreEnvironments) ||
-                        ($tag && !in_array($tag, $ignoreTags, true))
-                    ) {
-                        // If not, create a new build job for it:
-                        $build = $this->buildService->createBuild(
-                            $project,
-                            $environmentName,
-                            $commitId,
-                            $project->getBranch(),
-                            $tag,
-                            $committer,
-                            $commitMessage,
-                            (integer)$source,
-                            0,
-                            $extra
-                        );
-
-                        $createdBuilds[] = [
-                            'id'          => $build->getID(),
-                            'environment' => $environmentName,
-                        ];
-                    } else {
-                        $duplicates[] = array_search($environmentName, $ignoreEnvironments);
-                    }
-                }
-                if (!empty($createdBuilds)) {
-                    if (empty($duplicates)) {
-                        return ['status' => 'ok', 'builds' => $createdBuilds];
-                    } else {
-                        return ['status' => 'ok', 'builds' => $createdBuilds, 'message' => sprintf('For this commit some builds already exists (%s)', implode(', ', $duplicates))];
-                    }
-                } else {
-                    return ['status' => 'ignored', 'message' => sprintf('For this commit already created builds (%s)', implode(', ', $duplicates))];
-                }
-            } else {
-                return ['status' => 'ignored', 'message' => 'Branch not assigned to any environment'];
-            }
-        } else {
-            $environmentName = null;
-            if (
-                !in_array($environmentName, $ignoreEnvironments, true) ||
-                ($tag && !in_array($tag, $ignoreTags, true))
-            ) {
-                $build = $this->buildService->createBuild(
-                    $project,
-                    null,
-                    $commitId,
-                    $branch,
-                    $tag,
-                    $committer,
-                    $commitMessage,
-                    (integer)$source,
-                    0,
-                    $extra
-                );
-
-                return ['status' => 'ok', 'buildID' => $build->getID()];
-            } else {
-                return [
-                    'status'  => 'ignored',
-                    'message' => sprintf('Duplicate of build #%d', array_search($environmentName, $ignoreEnvironments)),
-                ];
-            }
-        }
-    }
-
-    /**
-     * Fetch a project and check its type.
-     *
-     * @param integer $projectId    id or title of project
-     * @param array   $expectedType
-     *
-     * @return Project
-     *
-     * @throws Exception If the project does not exist or is not of the expected type.
-     */
-    protected function fetchProject($projectId, array $expectedType)
-    {
-        if (empty($projectId)) {
-            throw new Exception('Project does not exist: ' . $projectId);
-        }
-
-        if (is_numeric($projectId)) {
-            $project = $this->projectStore->getById((integer)$projectId);
-        } else {
-            $projects = $this->projectStore->getByTitle($projectId, 2);
-            if ($projects['count'] < 1) {
-                throw new Exception('Project does not found: ' . $projectId);
-            }
-            if ($projects['count'] > 1) {
-                throw new Exception('Project id is ambiguous: ' . $projectId);
-            }
-            $project = reset($projects['items']);
-        }
-
-        if (!in_array($project->getType(), $expectedType, true)) {
-            throw new Exception('Wrong project type: ' . $project->getType());
-        }
-
-        return $project;
     }
 }
