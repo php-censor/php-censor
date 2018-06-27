@@ -6,15 +6,15 @@ use PHPCensor\Model\Build as BaseBuild;
 
 /**
  * The BuildInterpolator class replaces variables in a string with build-specific information.
- *
- * @package PHPCensor\Helper
  */
 class BuildInterpolator
 {
     /**
      * An array of key => value pairs that will be used for
      * interpolation and environment variables
+     *
      * @var mixed[]
+     *
      * @see setupInterpolationVars()
      */
     protected $interpolationVars = [];
@@ -23,8 +23,8 @@ class BuildInterpolator
      * Sets the variables that will be used for interpolation.
      *
      * @param BaseBuild $build
-     * @param string $buildPath
-     * @param string $url
+     * @param string    $buildPath
+     * @param string    $url
      */
     public function setupInterpolationVars(BaseBuild $build, $buildPath, $url)
     {
@@ -73,13 +73,16 @@ class BuildInterpolator
     /**
      * Replace every occurrence of the interpolation vars in the given string
      * Example: "This is build %PHPCI_BUILD%" => "This is build 182"
+     *
      * @param string $input
+     *
      * @return string
      */
     public function interpolate($input)
     {
-        $keys = array_keys($this->interpolationVars);
+        $keys   = array_keys($this->interpolationVars);
         $values = array_values($this->interpolationVars);
+
         return str_replace($keys, $values, $input);
     }
 }

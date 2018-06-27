@@ -46,6 +46,8 @@ class Atoum extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
+        $this->directory = $this->getWorkingDirectory($options);
+
         if (isset($options['executable'])) {
             $this->executable = $this->builder->buildPath . $options['executable'];
         } else {
@@ -58,10 +60,6 @@ class Atoum extends Plugin
 
         if (isset($options['config'])) {
             $this->config = $options['config'];
-        }
-
-        if (isset($options['directory'])) {
-            $this->directory = $options['directory'];
         }
     }
 
@@ -83,8 +81,7 @@ class Atoum extends Plugin
         }
 
         if ($this->directory !== null) {
-            $dirPath = $this->builder->buildPath . $this->directory;
-            $cmd .= " -d '{$dirPath}'";
+            $cmd .= " -d '{$this->directory}'";
         }
 
         chdir($this->builder->buildPath);

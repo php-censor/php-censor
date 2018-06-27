@@ -34,11 +34,6 @@ class Builder implements LoggerAwareInterface
     protected $currentStage = null;
 
     /**
-     * @var string
-     */
-    protected $directory;
-
-    /**
      * @var bool
      */
     protected $verbose = true;

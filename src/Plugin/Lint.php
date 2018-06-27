@@ -33,15 +33,23 @@ class Lint extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        $this->directories = [''];
-        $this->ignore      = $this->builder->ignore;
+        $this->directories = [
+            $this->getWorkingDirectory($options)
+        ];
 
-        if (!empty($options['directory'])) {
-            $this->directories[] = $options['directory'];
-        }
+        $this->ignore = $this->builder->ignore;
 
-        if (!empty($options['directories'])) {
-            $this->directories = $options['directories'];
+        if (!empty($options['directories']) && is_array($options['directories'])) {
+            foreach ($options['directories'] as $index => $directory) {
+                $relativePath = preg_replace(
+                    '#^(\./|/)?(.*)$#',
+                    '$2',
+                    $options['directories'][$index]
+                );
+                $relativePath = rtrim($relativePath, "\//");
+
+                $this->directories[] = $this->builder->buildPath . $relativePath . '/';
+            }
         }
 
         if (array_key_exists('recursive', $options)) {

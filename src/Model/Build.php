@@ -186,6 +186,7 @@ class Build extends BaseBuild
     public function storeMeta($key, $value)
     {
         $value = json_encode($value);
+
         Factory::getStore('Build')->setMeta($this->getId(), $key, $value);
     }
 

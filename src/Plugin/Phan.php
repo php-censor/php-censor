@@ -54,12 +54,10 @@ class Phan extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        $this->directory = isset($options['directory'])
-            ? $options['directory']
-            : $this->builder->buildPath;
+        $this->directory = $this->getWorkingDirectory($options);
 
-        $this->location = $this->builder->buildPath.'phan_tmp';
-        $this->ignore = isset($options['ignore']) && is_array($options['ignore']) ? $options['ignore'] : [];
+        $this->location = $this->builder->buildPath .'phan_tmp';
+        $this->ignore   = isset($options['ignore']) && is_array($options['ignore']) ? $options['ignore'] : [];
 
         if (empty($this->ignore) && is_array($this->builder->ignore)) {
             $this->ignore = $this->builder->ignore;

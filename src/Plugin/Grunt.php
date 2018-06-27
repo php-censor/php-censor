@@ -34,16 +34,10 @@ class Grunt extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        $path            = $this->builder->buildPath;
-        $this->directory = $path;
+        $this->directory = $this->getWorkingDirectory($options);
         $this->task      = null;
         $this->grunt     = $this->findBinary('grunt');
         $this->gruntfile = 'Gruntfile.js';
-
-        // Handle options:
-        if (isset($options['directory'])) {
-            $this->directory = $path . '/' . $options['directory'];
-        }
 
         if (isset($options['task'])) {
             $this->task = $options['task'];

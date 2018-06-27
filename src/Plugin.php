@@ -45,11 +45,32 @@ abstract class Plugin
         $this->build   = $build;
         $this->options = $options;
 
-        if (!empty($options['priority_path']) && in_array($options['priority_path'], ['global', 'system'], true)) {
+        if (
+            !empty($options['priority_path']) &&
+            in_array($options['priority_path'], ['global', 'system'], true)
+        ) {
             $this->priorityPath = $options['priority_path'];
         }
 
         $this->builder->logDebug('Plugin options: ' . json_encode($options));
+    }
+
+    /**
+     * @param array $options
+     *
+     * @return string
+     */
+    protected function getWorkingDirectory(array $options)
+    {
+        $directory = $this->builder->buildPath;
+        if (!empty($options['directory'])) {
+            $relativePath = preg_replace('#^(\./|/)?(.*)$#', '$2', $options['directory']);
+            $relativePath = rtrim($relativePath, "\//");
+
+            $directory .= $relativePath . '/';
+        }
+
+        return $this->builder->interpolate($directory);
     }
 
     /**

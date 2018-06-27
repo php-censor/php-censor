@@ -37,17 +37,12 @@ class Composer extends Plugin implements ZeroConfigPluginInterface
     {
         parent::__construct($builder, $build, $options);
 
-        $path                     = $this->builder->buildPath;
-        $this->directory          = $path;
         $this->action             = 'install';
         $this->preferDist         = false;
         $this->preferSource       = false;
         $this->noDev              = false;
         $this->ignorePlatformReqs = false;
-
-        if (array_key_exists('directory', $options)) {
-            $this->directory .= $options['directory'];
-        }
+        $this->directory          = $this->getWorkingDirectory($options);
 
         if (array_key_exists('action', $options)) {
             $this->action = $options['action'];
