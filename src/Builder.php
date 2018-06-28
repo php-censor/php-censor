@@ -29,6 +29,11 @@ class Builder implements LoggerAwareInterface
     public $ignore = [];
 
     /**
+     * @var string|null
+     */
+    protected $currentStage = null;
+
+    /**
      * @var string
      */
     protected $directory;
@@ -121,6 +126,14 @@ class Builder implements LoggerAwareInterface
     }
 
     /**
+     * @return null|string
+     */
+    public function getCurrentStage()
+    {
+        return $this->currentStage;
+    }
+
+    /**
      * Set the config array, as read from .php-censor.yml
      *
      * @param array $config
@@ -210,6 +223,7 @@ class Builder implements LoggerAwareInterface
 
             // Run the core plugin stages:
             foreach ([Build::STAGE_SETUP, Build::STAGE_TEST, Build::STAGE_DEPLOY] as $stage) {
+                $this->currentStage = $stage;
                 $success &= $this->pluginExecutor->executePlugins($this->config, $stage);
                 if (!$success) {
                     break;
@@ -231,15 +245,19 @@ class Builder implements LoggerAwareInterface
 
         try {
             if ($success) {
+                $this->currentStage = Build::STAGE_SUCCESS;
                 $this->pluginExecutor->executePlugins($this->config, Build::STAGE_SUCCESS);
 
-                if ($previousState == Build::STATUS_FAILED) {
+                if (Build::STATUS_FAILED === $previousState) {
+                    $this->currentStage = Build::STAGE_FIXED;
                     $this->pluginExecutor->executePlugins($this->config, Build::STAGE_FIXED);
                 }
             } else {
+                $this->currentStage = Build::STAGE_FAILURE;
                 $this->pluginExecutor->executePlugins($this->config, Build::STAGE_FAILURE);
 
                 if ($previousState == Build::STATUS_SUCCESS || $previousState == Build::STATUS_PENDING) {
+                    $this->currentStage = Build::STAGE_BROKEN;
                     $this->pluginExecutor->executePlugins($this->config, Build::STAGE_BROKEN);
                 }
             }
@@ -255,6 +273,7 @@ class Builder implements LoggerAwareInterface
 
         try {
             // Complete stage plugins are always run
+            $this->currentStage = Build::STAGE_COMPLETE;
             $this->pluginExecutor->executePlugins($this->config, Build::STAGE_COMPLETE);
         } catch (\Exception $ex) {
             $this->buildLogger->logFailure('Exception: ' . $ex->getMessage());
