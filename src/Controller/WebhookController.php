@@ -16,6 +16,7 @@ use PHPCensor\Exception\HttpException\NotFoundException;
 use PHPCensor\Store\Factory;
 use PHPCensor\Http\Response;
 use PHPCensor\Model\Build\BitbucketBuild;
+use PHPCensor\Model\Build\GithubBuild;
 
 /**
  * Webhook Controller - Processes webhook pings from BitBucket, Github, Gitlab, Gogs, etc.
@@ -427,7 +428,6 @@ class WebhookController extends Controller
     {
         $triggerType = trim($_SERVER['HTTP_X_EVENT_KEY']);
 
-        // We only want to know about open pull requests:
         if (!array_key_exists(
             $triggerType,
             BitbucketBuild::$pullrequestTriggersToSources
@@ -654,15 +654,15 @@ class WebhookController extends Controller
      */
     protected function githubPullRequest(Project $project, array $payload)
     {
-        // We only want to know about open pull requests:
-        if (!in_array($payload['action'], [
-            'opened',
-            'synchronize',
-            'reopened'
-        ])) {
+        $triggerType = trim($payload['action']);
+
+        if (!array_key_exists(
+            $triggerType,
+            GithubBuild::$pullrequestTriggersToSources
+        )) {
             return [
                 'status'  => 'ignored',
-                'message' => 'Action type "' . $payload['action'] . '" is not supported.'
+                'message' => 'Trigger type "' . $triggerType . '" is not supported.'
             ];
         }
 
@@ -718,7 +718,7 @@ class WebhookController extends Controller
                 ];
 
                 $results[$id] = $this->createBuild(
-                    Build::SOURCE_WEBHOOK_PULL_REQUEST_CREATED,
+                    GithubBuild::$pullrequestTriggersToSources[$triggerType],
                     $project,
                     $id,
                     $branch,

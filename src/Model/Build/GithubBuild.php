@@ -18,6 +18,16 @@ use PHPCensor\Model\BuildError;
 class GithubBuild extends GitBuild
 {
     /**
+     * @var array
+     */
+    public static $pullrequestTriggersToSources = [
+        'opened'      => Build::SOURCE_WEBHOOK_PULL_REQUEST_CREATED,
+        'synchronize' => Build::SOURCE_WEBHOOK_PULL_REQUEST_UPDATED,
+        'reopened'    => Build::SOURCE_WEBHOOK_PULL_REQUEST_UPDATED,
+        'edited'      => Build::SOURCE_WEBHOOK_PULL_REQUEST_UPDATED,
+    ];
+
+    /**
      * @return string
      */
     protected function getDomain()
