@@ -79,7 +79,7 @@ class BitbucketHgBuild extends HgBuild
     {
         $reference = $this->getProject()->getReference();
 
-        if (Build::SOURCE_WEBHOOK_PULL_REQUEST === $this->getSource()) {
+        if (in_array($this->getSource(), Build::$pullRequestSources, true)) {
             $reference = $this->getExtra('remote_reference');
         }
 

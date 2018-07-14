@@ -34,7 +34,7 @@ use PHPCensor\Model\BuildError;
                     <tr>
                         <th><?= Lang::get('branch'); ?></th>
                         <td style="text-align: right">
-                            <?php if (Build::SOURCE_WEBHOOK_PULL_REQUEST === $build->getSource()): ?>
+                            <?php if (in_array($this->getSource(), Build::$pullRequestSources, true)): ?>
                                 <a href="<?= $build->getRemoteBranchLink(); ?>">
                                     <i class="fa fa-code-fork"></i>
                                     <?= $build->getRemoteBranch(); ?> :

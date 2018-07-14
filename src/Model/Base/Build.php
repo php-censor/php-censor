@@ -12,12 +12,15 @@ class Build extends Model
     const STATUS_SUCCESS = 2;
     const STATUS_FAILED  = 3;
 
-    const SOURCE_UNKNOWN              = 0;
-    const SOURCE_MANUAL_WEB           = 1;
-    const SOURCE_MANUAL_CONSOLE       = 2;
-    const SOURCE_PERIODICAL           = 3;
-    const SOURCE_WEBHOOK              = 4;
-    const SOURCE_WEBHOOK_PULL_REQUEST = 5;
+    const SOURCE_UNKNOWN                       = 0;
+    const SOURCE_MANUAL_WEB                    = 1;
+    const SOURCE_MANUAL_CONSOLE                = 2;
+    const SOURCE_PERIODICAL                    = 3;
+    const SOURCE_WEBHOOK_PUSH                  = 4;
+    const SOURCE_WEBHOOK_PULL_REQUEST_CREATED  = 5;
+    const SOURCE_WEBHOOK_PULL_REQUEST_UPDATED  = 6;
+    const SOURCE_WEBHOOK_PULL_REQUEST_APPROVED = 7;
+    const SOURCE_WEBHOOK_PULL_REQUEST_MERGED   = 8;
 
     /**
      * @var array
@@ -59,8 +62,11 @@ class Build extends Model
         self::SOURCE_MANUAL_WEB,
         self::SOURCE_MANUAL_CONSOLE,
         self::SOURCE_PERIODICAL,
-        self::SOURCE_WEBHOOK,
-        self::SOURCE_WEBHOOK_PULL_REQUEST,
+        self::SOURCE_WEBHOOK_PUSH,
+        self::SOURCE_WEBHOOK_PULL_REQUEST_CREATED,
+        self::SOURCE_WEBHOOK_PULL_REQUEST_UPDATED,
+        self::SOURCE_WEBHOOK_PULL_REQUEST_APPROVED,
+        self::SOURCE_WEBHOOK_PULL_REQUEST_MERGED,
     ];
 
     /**

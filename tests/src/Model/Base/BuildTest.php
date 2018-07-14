@@ -223,11 +223,11 @@ class BuildTest extends TestCase
     {
         $build = new Build();
 
-        $result = $build->setSource(Build::SOURCE_WEBHOOK_PULL_REQUEST);
+        $result = $build->setSource(Build::SOURCE_WEBHOOK_PULL_REQUEST_CREATED);
         self::assertEquals(true, $result);
-        self::assertEquals(Build::SOURCE_WEBHOOK_PULL_REQUEST, $build->getSource());
+        self::assertEquals(Build::SOURCE_WEBHOOK_PULL_REQUEST_CREATED, $build->getSource());
 
-        $result = $build->setSource(Build::SOURCE_WEBHOOK_PULL_REQUEST);
+        $result = $build->setSource(Build::SOURCE_WEBHOOK_PULL_REQUEST_CREATED);
         self::assertEquals(false, $result);
 
         self::expectException('\PHPCensor\Exception\InvalidArgumentException');

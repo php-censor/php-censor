@@ -88,7 +88,7 @@ use PHPCensor\Model\Build;
 
                 <div class="timeline-body">
                     <p>
-                    <?php if (Build::SOURCE_WEBHOOK_PULL_REQUEST === $build->getSource()): ?>
+                    <?php if (in_array($this->getSource(), Build::$pullRequestSources, true)): ?>
                         <a href="<?= $build->getRemoteBranchLink(); ?>">
                             <i class="fa fa-code-fork"></i>
                             <?= $build->getRemoteBranch(); ?> :

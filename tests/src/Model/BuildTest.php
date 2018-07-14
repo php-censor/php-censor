@@ -74,8 +74,8 @@ class BuildTest extends \PHPUnit\Framework\TestCase
             );
         }
 
-        $build->setSource(Build::SOURCE_WEBHOOK_PULL_REQUEST);
-        self::assertEquals(Build::SOURCE_WEBHOOK_PULL_REQUEST, $build->getSource());
+        $build->setSource(Build::SOURCE_WEBHOOK_PULL_REQUEST_CREATED);
+        self::assertEquals(Build::SOURCE_WEBHOOK_PULL_REQUEST_CREATED, $build->getSource());
 
         try {
             $build->setSource('5');
