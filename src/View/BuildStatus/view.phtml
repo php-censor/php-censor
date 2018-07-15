@@ -124,7 +124,7 @@
                 </td>
 
                 <td>
-                    <?php if (in_array($this->getSource(), \PHPCensor\Model\Build::$pullRequestSources, true)): ?>
+                    <?php if (in_array($build->getSource(), \PHPCensor\Model\Build::$pullRequestSources, true)): ?>
                         <a href="<?= $build->getRemoteBranchLink(); ?>">
                             <i class="fa fa-code-fork"></i>
                             <?= $build->getRemoteBranch(); ?> :
