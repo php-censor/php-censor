@@ -27,7 +27,7 @@ class SensiolabsInsight extends Plugin
     /**
      * @var string
      */
-    protected $projectId;
+    protected $projectUuid;
 
     /**
      * @var int
@@ -62,8 +62,8 @@ class SensiolabsInsight extends Plugin
             $this->apiToken = $options['api_token'];
         }
 
-        if (array_key_exists('project_id', $options)) {
-            $this->projectId = $options['project_id'];
+        if (array_key_exists('project_uuid', $options)) {
+            $this->projectUuid = $options['project_uuid'];
         }
     }
 
@@ -140,7 +140,7 @@ class SensiolabsInsight extends Plugin
         // Run Sensiolabs Insight:
         $this->builder->executeCommand(
             $cmd,
-            $this->projectId,
+            $this->projectUuid,
             $this->apiToken,
             $this->userUuid
         );
