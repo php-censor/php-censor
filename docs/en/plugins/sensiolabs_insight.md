@@ -1,5 +1,5 @@
 Plugin SensioLabs Insight
-=======================
+=========================
 
 Runs SensioLabs Insight against your build.
 

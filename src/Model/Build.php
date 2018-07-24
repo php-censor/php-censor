@@ -284,7 +284,9 @@ class Build extends BaseBuild
             $buildConfig = array_replace_recursive($repositoryConfig, $buildConfig);
         }
 
-        $builder->setConfig($buildConfig);
+        if ($buildConfig && is_array($buildConfig)) {
+            $builder->setConfig($buildConfig);
+        }
 
         return true;
     }
