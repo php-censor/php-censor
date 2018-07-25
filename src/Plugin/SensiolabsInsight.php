@@ -132,10 +132,21 @@ class SensiolabsInsight extends Plugin
      */
     protected function executeSensiolabsInsight($binaryPath)
     {
-        $cmd = $binaryPath . ' -n analysis --format pmd %s --api-token %s --user-uuid %s';
+        $cmd = $binaryPath . ' -n analyze --reference %s %s --api-token %s --user-uuid %s';
 
         // Disable exec output logging, as we don't want the XML report in the log:
         $this->builder->logExecOutput(false);
+
+        // Run Sensiolabs Insight:
+        $this->builder->executeCommand(
+            $cmd,
+            $this->build->getBranch(),
+            $this->projectUuid,
+            $this->apiToken,
+            $this->userUuid
+        );
+
+        $cmd = $binaryPath . ' -n analysis --format pmd %s --api-token %s --user-uuid %s';
 
         // Run Sensiolabs Insight:
         $this->builder->executeCommand(
