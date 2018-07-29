@@ -5,6 +5,55 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [0.23.0](https://github.com/php-censor/php-censor/tree/0.23.0) (2018-07-29)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/0.22.0...0.23.0)
+
+### Added
+
+- New SensioLabsInsight plugin. Thanks to [@EugenGanshorn](https://github.com/EugenGanshorn). Pull request 
+[#203](https://github.com/php-censor/php-censor/pull/203), [#204](https://github.com/php-censor/php-censor/pull/204).
+- Triggers `pullrequest:approved` and `pullrequest:fulfilled` (Merged) for BitBucket webhook. Issue 
+[#176](https://github.com/php-censor/php-censor/issues/176).
+- Error reporting for PHPCsFixer plugin. Thanks to [@caouecs](https://github.com/caouecs) and 
+[@StudioMaX](https://github.com/StudioMaX). Pull request [#193](https://github.com/php-censor/php-censor/pull/193), 
+[#195](https://github.com/php-censor/php-censor/pull/195), [#197](https://github.com/php-censor/php-censor/pull/197).
+- General webhook for Hg (Mercurial) like we have for Git. Issue [#194](https://github.com/php-censor/php-censor/issues/194).
+- Ability to get current stage into plugins (`Builder::getCurrentStage()` method). Issue 
+[#200](https://github.com/php-censor/php-censor/issues/200).
+
+### Changed
+
+- Improved documentation for HipChat, Slack and Flowdock plugins. Thanks to 
+[@underthecocotree](https://github.com/underthecocotree). Pull request 
+[#177](https://github.com/php-censor/php-censor/pull/177).
+- Improved Phan plugin localization in quality trends chart. Thanks to [@caouecs](https://github.com/caouecs). Pull 
+request [#192](https://github.com/php-censor/php-censor/pull/192).
+- Improved `directory` option for TechnicalDebt plugin. Thanks to [@nickel715](https://github.com/nickel715). Pull 
+request [#198](https://github.com/php-censor/php-censor/pull/198).
+- Improved PHP PhpDocblockChecker plugin (forked PHPDoc Checker with fixes for PHP 7.1 nullable params). Issue 
+[#188](https://github.com/php-censor/php-censor/issues/188).
+- Updated PHPCodeSniffer package version to `~3.2.0`. Thanks to 
+[@underthecocotree](https://github.com/underthecocotree). Pull request 
+[#178](https://github.com/php-censor/php-censor/pull/178).
+
+### Removed
+
+- Build timeout (`php-censor.build.failed_after` config option). Issue 
+[#190](https://github.com/php-censor/php-censor/issues/190).
+
+### Fixed
+
+- XML-report loading for Codeception plugin. Issue [#182](https://github.com/php-censor/php-censor/issues/182).
+- Content type check for Gogs webhook route. Issue [#185](https://github.com/php-censor/php-censor/issues/185).
+- Repository links for Gogs build. Thanks to [@simmstein](https://github.com/simmstein). Pull request 
+[#186](https://github.com/php-censor/php-censor/pull/186).
+- Webhook info position in BitBucket build source documentation. Thanks to 
+[@bochkovprivate](https://github.com/bochkovprivate). Pull request [#189](https://github.com/php-censor/php-censor/pull/189).
+- Path for Local build source. Thanks to [@caouecs](https://github.com/caouecs). Pull request 
+[#191](https://github.com/php-censor/php-censor/pull/191).
+
+
 ## [0.22.0](https://github.com/php-censor/php-censor/tree/0.22.0) (2018-05-02)
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/0.21.0...0.22.0)
