@@ -227,5 +227,11 @@ use PHPCensor\Model\Project;
             confirmDelete("<?= APP_URL; ?>project/delete/<?= $project->getId(); ?>")
                 .onCloseConfirmed = function () {window.location = '/'};
         });
+
+        $('#delete-page-builds').on('click', function (e) {
+            e.preventDefault();
+            confirmDelete("<?= APP_URL; ?>project/delete/<?= $project->getId(); ?>")
+                .onCloseConfirmed = function () {window.location = '/'};
+        });
     })
 </script>
