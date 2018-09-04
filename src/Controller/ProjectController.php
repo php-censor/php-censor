@@ -208,7 +208,6 @@ class ProjectController extends WebController
         }
 
         $extra = null;
-
         if ($debug && $this->currentUserIsAdmin()) {
             $extra = [
                 'debug' => true,

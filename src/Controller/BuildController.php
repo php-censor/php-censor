@@ -126,6 +126,8 @@ class BuildController extends WebController
         $rebuild     = Lang::get('rebuild_now');
         $rebuildLink = APP_URL . 'build/rebuild/' . $build->getId();
 
+        $rebuildDebug = Lang::get('rebuild_now_debug');
+
         $delete     = Lang::get('delete_build');
         $deleteLink = APP_URL . 'build/delete/' . $build->getId();
 
@@ -133,7 +135,10 @@ class BuildController extends WebController
 
         $actions = '';
         if (!$project->getArchived()) {
-            $actions .= "<a class=\"btn btn-default\" href=\"{$rebuildLink}\">{$rebuild}</a> ";
+            if ($this->currentUserIsAdmin()) {
+                $actions .= "<a class=\"btn btn-danger\" href=\"{$rebuildLink}?debug=1\">{$rebuildDebug}</a> ";
+            }
+            $actions .= "<a class=\"btn btn-success\" href=\"{$rebuildLink}\">{$rebuild}</a> ";
         }
 
         if ($this->currentUserIsAdmin()) {
@@ -239,8 +244,13 @@ class BuildController extends WebController
     }
 
     /**
-    * Create a build using an existing build as a template:
-    */
+     * Create a build using an existing build as a template:
+     *
+     * @param $buildId
+     *
+     * @return RedirectResponse
+     * @throws NotFoundException
+     */
     public function rebuild($buildId)
     {
         $copy    = BuildFactory::getBuildById($buildId);
@@ -248,6 +258,12 @@ class BuildController extends WebController
 
         if (!$copy || $project->getArchived()) {
             throw new NotFoundException(Lang::get('build_x_not_found', $buildId));
+        }
+
+        $debug = (boolean)$this->getParam('debug', false);
+
+        if ($debug && $this->currentUserIsAdmin()) {
+            $copy->addExtraValue('debug', true);
         }
 
         $build = $this->buildService->createDuplicateBuild($copy);
