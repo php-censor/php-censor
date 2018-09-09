@@ -129,8 +129,8 @@ class SvnBuild extends Build
     protected function cloneBySsh(Builder $builder, $cloneTo)
     {
         $cmd        = $this->svnCommand . ' %s "%s"';
-        $keyFile    = $this->writeSshKey($cloneTo);
-        $sshWrapper = $this->writeSshWrapper($cloneTo, $keyFile);
+        $keyFile    = $this->writeSshKey();
+        $sshWrapper = $this->writeSshWrapper($keyFile);
         $cmd        = 'export SVN_SSH="' . $sshWrapper . '" && ' . $cmd;
 
         $success = $builder->executeCommand($cmd, $this->getCloneUrl(), $cloneTo);
