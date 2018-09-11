@@ -1,6 +1,16 @@
 /vendor
 /composer.phar
-/runtime
+
+/runtime/*.log
+
+/runtime/builds
+!/runtime/builds/.gitkeep
+
+/runtime/cache
+!/runtime/cache/.gitkeep
+
+/runtime/status_cache
+!/runtime/status_cache/.gitkeep
 
 /app/config.yml
 /public/assets/vendor

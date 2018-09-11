@@ -1,0 +1,47 @@
+<?php
+
+use PHPCensor\Helper\Lang;
+use PHPCensor\Model\Build;
+use PHPCensor\Model\BuildError;
+
+/**
+ * @var Build        $build
+ * @var BuildError[] $errors
+ */
+
+$linkTemplate = $build->getFileLinkTemplate();
+
+foreach ($errors as $error):
+
+    $link = str_replace('{BASEFILE}', basename($error->getFile()), $linkTemplate);
+    $link = str_replace('{FILE}', $error->getFile(), $link);
+    $link = str_replace('{LINE}', $error->getLineStart(), $link);
+    $link = str_replace('{LINE_END}', $error->getLineEnd(), $link);
+?>
+   <tr>
+       <td>
+           <?php if ($error->getIsNew()): ?>
+               <span class="label label-danger"><?= Lang::get('new'); ?></span>
+           <?php endif; ?>
+       </td>
+       <td>
+           <span class="label label-<?= $error->getSeverityClass(); ?>">
+               <?= Lang::get($error->getSeverityString()); ?>
+           </span>
+       </td>
+       <td><?= Lang::get($error->getPlugin()); ?></td>
+       <td><a href="<?= $link; ?>"><?= $error->getFile(); ?></a></td>
+       <td>
+           <a href="<?= $link; ?>">
+           <?php
+           if ($error->getLineStart() == $error->getLineEnd() || !$error->getLineEnd()) {
+               echo $error->getLineStart();
+           } else {
+               echo ($error->getLineStart() . ' - ' . $error->getLineEnd());
+           }
+           ?>
+           </a>
+       </td>
+       <td class="visible-line-breaks"><?= htmlspecialchars(trim($error->getMessage())); ?></td>
+   </tr>
+<?php endforeach; ?>

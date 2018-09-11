@@ -39,6 +39,8 @@ php-censor:
   log:
     rotate:    true
     max_files: 10
+  notifications:
+    enabled: false # notify.js notifications to browser
   ssh:
     strength: 4096                  # SSH keys strength (default: 2048)
     comment: admin@php-censor.info  # SSH keys comment (default: admin@php-censor)
@@ -58,8 +60,9 @@ php-censor:
     status:
       commit: false # This option allow/deny to post status to Github commit
   build:
-    remove_builds:      true # This option allow/deny build cleaning
-    writer_buffer_size: 500  # BuildErrorWriter buffer size (count of inserts in one SQL query)
+    remove_builds:          true  # This option allow/deny build cleaning
+    writer_buffer_size:     500   # BuildErrorWriter buffer size (count of inserts in one SQL query)
+    allow_public_artifacts: false # This option allow/deny to generate public artifacts (PHPUnit code coverage html report, Pdepend html reports)
   security:
     disable_auth:    false # This option allows/deny you to disable authentication for PHP Censor
     default_user_id: 1     # Default user when authentication disabled

@@ -21,7 +21,7 @@
 
     <rule ref="rulesets/naming.xml/ShortVariable">
         <properties>
-            <property name="exceptions" value="db,dn,id,i,j" />
+            <property name="exceptions" value="db,dn,id,i,j,e,ex" />
         </properties>
     </rule>
     <rule ref="rulesets/naming.xml/ShortMethodName">

@@ -1,6 +1,18 @@
 var PHPCensor = {
     intervals: {},
     widgets: {},
+    webNotifiedBuilds: [],
+    /*
+        @var  STATUS  Refer to \PHPCensor\Model\Build.php constants.
+        TODO: Transfer this variable to Build JS class so
+        Build JS itself can use it as well.
+    */
+    STATUS: [
+        'Pending',
+        'Running',
+        'Success',
+        'Failed'
+    ],
 
     init: function () {
         $(document).ready(function () {
@@ -19,6 +31,128 @@ var PHPCensor = {
         });
     },
 
+    /**
+     * Shallow comparison that determines that the build
+     * has been shown as at least once as a web notification.
+     * Also adds the build to a list of shown web notifications
+     * if it's not found in the list.
+     * @param  object  build
+     * @return boolean
+     */
+    isWebNotifiedBuild: function (build) {
+        var o = PHPCensor.webNotifiedBuilds;
+        for (var i = 0; i < o.length; i++) {
+            var webNotifiedBuild = o[i];
+            var b =
+                webNotifiedBuild.projectTitle  === build.projectTitle &&
+                webNotifiedBuild.branch        === build.branch &&
+                webNotifiedBuild.status        === build.status &&
+                webNotifiedBuild.datePerformed === build.datePerformed &&
+                webNotifiedBuild.dateFinished  === build.dateFinished;
+            if (b) {
+                return true;
+            }
+        }
+        /*
+            It's impossible to remember or use all previously shown
+            builds. So let's clear them out once they reach 1000.
+            @var 1000  Estimated.
+        */
+        if (PHPCensor.webNotifiedBuilds.length > 1000) {
+            PHPCensor.webNotifiedBuilds = [];
+        }
+        PHPCensor.webNotifiedBuilds.push(build);
+        return false;
+    },
+
+    /**
+     * Web notification.
+     * Chrome doesn't allow insecure protocols.
+     * Enable HTTPS even on localhost in order for
+     * web notifications to work properly.
+     * @param  object data  Contains an array of builds.
+     * @return void
+     */
+    showWebNotification: function (data) {
+        var pending = data.pending;
+        var running = data.running;
+        var success = data.success;
+        var failed  = data.failed;
+        var notification = null;
+
+        //Determine which notification to show.
+        //TODO: Refactor. Use foreach.
+        if (pending && pending.count > 0) {
+            notification = pending;
+        }
+        else if (running && running.count > 0) {
+            notification = running;
+        }
+        else if (success && success.count > 0) {
+            notification = success;
+        }
+        else if (failed && failed.count > 0) {
+            notification = failed;
+        }
+
+        if (notification) {
+            var msg = '';
+            if (!Notify.needsPermission) {
+                var items = notification.items;
+                for (var item in items) {
+                    var build         = items[item].build;
+                    var projTitle     = build.project_title;
+                    var branch        = build.branch;
+                    var status        = PHPCensor.STATUS[build.status];
+                    var datePerformed = build.date_performed;
+                    var dateFinished  = build.date_finished;
+                    var rn            = "\r\n";
+
+                    var build = {
+                        projectTitle: projTitle,
+                        branch: branch,
+                        status: status,
+                        datePerformed: datePerformed,
+                        dateFinished: dateFinished
+                    };
+
+                    //Ignore if the last displayed notification is
+                    //similar to what we're again about to display.
+                    if (!PHPCensor.isWebNotifiedBuild(build)) {
+                        msg +=
+                            'Project title: ' + projTitle  + rn +
+                            'Git branch: '    + branch     + rn +
+                            'Status: '  + status     + rn;
+
+                        //Build details is empty during
+                        //widget-all-projects-update.
+                        if (datePerformed.length > 0) {
+                            msg += datePerformed + rn;
+                        }
+
+                        if (dateFinished.length > 0) {
+                            msg += dateFinished;
+                        }
+
+                        new Notify(
+                            'PHP Censor Web Notification',
+                            {body: msg}
+                        ).show();
+                    }
+
+                }
+
+            }
+            else if (Notify.isSupported()) {
+                Notify.requestPermission(null, function(){
+                    msg = 'Web notifications permission ' +
+                          'has been denied by the user.'
+                    console.warn(msg);
+                });
+            }
+        }
+    },
+
     getBuilds: function () {
         $.ajax({
             url: APP_URL + 'build/ajax-queue',
@@ -29,6 +163,16 @@ var PHPCensor = {
 
             error: PHPCensor.handleFailedAjax
         });
+
+        if (NOTIFICATIONS) {
+            $.ajax({
+                url: APP_URL + 'web-notifications/builds-updated',
+                success: function (data) {
+                    PHPCensor.showWebNotification(data);
+                },
+                error: PHPCensor.handleFailedAjax
+            });
+        }
     },
 
     getProjectBuilds: function () {
@@ -339,91 +483,6 @@ var PHPCensorConfirmDialog = Class.extend({
         }
     }
 });
-
-/**
- * Used to initialise the project form:
- */
-function setupProjectForm() {
-    $('.github-container').hide();
-
-    $('#element-reference').change(function () {
-        var el = $(this);
-        var val = el.val();
-        var type = $('#element-type').val();
-        var acceptable = {
-            'github': {
-                'ssh': /git\@github\.com\:([a-zA-Z0-9_\-]+\/[a-zA-Z0-9_\-]+)\.git/,
-                'git': /git\:\/\/github.com\/([a-zA-Z0-9_\-]+\/[a-zA-Z0-9_\-]+)\.git/,
-                'http': /https\:\/\/github\.com\/([a-zA-Z0-9_\-]+\/[a-zA-Z0-9_\-]+)(\.git)?/
-            },
-            'bitbucket': {
-                'ssh': /git\@bitbucket\.org\:([a-zA-Z0-9_\-]+\/[a-zA-Z0-9_\-]+)\.git/,
-                'http': /https\:\/\/[a-zA-Z0-9_\-]+\@bitbucket.org\/([a-zA-Z0-9_\-]+\/[a-zA-Z0-9_\-]+)\.git/,
-                'anon': /https\:\/\/bitbucket.org\/([a-zA-Z0-9_\-]+\/[a-zA-Z0-9_\-]+)(\.git)?/
-            }
-
-        };
-
-        if (acceptable[type] !== undefined) {
-            for (var i in acceptable[type]) {
-                if (val.match(acceptable[type][i])) {
-                    el.val(val.replace(acceptable[type][i], '$1'));
-                }
-            }
-        }
-    });
-
-    $('#element-type').change(function () {
-        if ($(this).val() == 'github') {
-            $('#loading').show();
-
-            $.ajax({
-                dataType: "json",
-                url: window.APP_URL + 'project/ajax-github-repositories',
-                success: function (data) {
-                    $('#loading').hide();
-
-                    if (data && data.repos) {
-                        $('#element-github').empty();
-
-                        for (var i in data.repos) {
-                            var name = data.repos[i];
-                            $('#element-github').append($('<option></option>').text(name).val(name));
-                        }
-
-                        $('.github-container').slideDown();
-                    }
-                },
-                error: handleFailedAjax
-            });
-        } else {
-            $('.github-container').slideUp();
-        }
-        $('#element-reference').trigger('change');
-    });
-
-    $('#element-github').change(function () {
-        var val = $('#element-github').val();
-
-        if (val != 'choose') {
-            $('#element-type').val('github');
-            $('#element-reference').val(val);
-
-            $('label[for=element-reference]').hide();
-            $('label[for=element-type]').hide();
-            $('#element-reference').hide();
-            $('#element-token').val(window.github_token);
-            $('#element-title').val(val);
-        } else {
-            $('label[for=element-reference]').show();
-            $('label[for=element-type]').show();
-            $('#element-reference').show();
-            $('#element-type').show();
-            $('#element-reference').val('');
-            $('#element-token').val('');
-        }
-    });
-}
 
 var Lang = {
     get: function () {

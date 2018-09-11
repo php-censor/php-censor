@@ -6,7 +6,7 @@ Bitbucket repository, perform the following steps:
 
 1. Log into PHP Censor.
 2. Click on your Bitbucket project.
-3. Copy the web hook link specified on the left.
+3. Copy the web hook link specified on the right.
 4. Log into Bitbucket and go to your repo.
 5. Click the settings cog icon at the top right of the page.
 6. Click on "Hooks" in the left hand menu

@@ -1,0 +1,125 @@
+<?php
+
+/**
+ * @var \PHPCensor\Model\Build[] $builds
+ */
+
+use PHPCensor\Helper\Lang;
+use PHPCensor\Model\Build;
+
+?>
+
+<?php if(empty($builds) || !count($builds)): ?>
+    <tr class="">
+        <td colspan="6"><?= Lang::get('no_builds_yet'); ?></td>
+    </tr>
+<?php endif; ?>
+
+<?php foreach($builds as $build): ?>
+
+<?php
+switch($build->getStatus())
+{
+    case 0:
+        $cls = 'active';
+        $subcls = 'info';
+        $status = Lang::get('pending');
+
+    break;
+
+    case 1:
+        $cls = 'warning';
+        $subcls = 'warning';
+        $status = Lang::get('running');
+    break;
+
+    case 2:
+        $cls = 'success';
+        $subcls = 'success';
+        $status = Lang::get('success');
+    break;
+
+    case 3:
+        $cls = 'danger';
+        $subcls = 'danger';
+        $status = Lang::get('failed');
+    break;
+}
+
+$branches = $build->getExtra('branches');
+?>
+<tr>
+    <td><a href="<?= APP_URL ?>build/view/<?= $build->getId(); ?>">#<?= str_pad($build->getId(), 6, '0', STR_PAD_LEFT); ?></a></td>
+    <td><span class='label label-<?= $subcls ?>'><?= $status ?></span></td>
+    <td><?= $build->getCreateDate()->format('Y-m-d H:i:s'); ?></td>
+    <td><?= Lang::get($build->getSourceHumanize()); ?></td>
+    <td class="hidden-md hidden-sm hidden-xs">
+        <?php
+            if (!empty($build->getCommitId())) {
+                print sprintf(
+                    '<a href="%s">%s %s</a>',
+                    $build->getCommitLink(),
+                    substr($build->getCommitId(), 0, 7),
+                    $build->getCommitterEmail() ? ('(' . $build->getCommitterEmail() . ')') : ''
+                );
+            } else {
+                print '&mdash;';
+            }
+        ?>
+    </td>
+    <td>
+        <?php if (in_array($build->getSource(), Build::$pullRequestSources, true)): ?>
+            <a href="<?= $build->getRemoteBranchLink(); ?>">
+                <i class="fa fa-code-fork"></i>
+                <?= $build->getRemoteBranch(); ?> :
+            </a>
+        <?php endif; ?>
+        <a href="<?= $build->getBranchLink(); ?>">
+            <i class="fa fa-code-fork"></i>
+            <?= $build->getBranch(); ?>
+        </a>
+        <?= $branches ? ' + '.implode(', ', $branches) : ''; ?>
+        <?php if ($tag = $build->getTag()): ?> /
+             <a href="<?= $build->getTagLink(); ?>">
+                <i class="fa fa-tag"></i>
+                 <?= $tag; ?>
+            </a>
+        <?php endif; ?>
+    </td>
+    <td>
+        <?php
+            $environment = $build->getEnvironment();
+            echo !empty($environment) ? $environment : '—' ;
+        ?>
+    </td>
+    <td>
+        <?= $build->getDuration(); ?> <?= Lang::get('seconds'); ?>
+    </td>
+    <td>
+        <?= $build->getNewErrorsCount(); ?>
+    </td>
+    <td>
+        <div class="btn-group btn-group-right">
+            <a class="btn btn-default btn-sm" href="<?= APP_URL; ?>build/view/<?= $build->getId(); ?>"><?= Lang::get('view'); ?></a>
+            <?php if($this->getUser()->getIsAdmin()): ?>
+            <button class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="<?= APP_URL; ?>build/delete/<?= $build->getId(); ?>" class="delete-build"><?= Lang::get('delete_build'); ?></a></li>
+            </ul>
+            <?php endif; ?>
+        </div>
+    </td>
+</tr>
+<?php endforeach; ?>
+
+<script>
+    $(document).ready(function() {
+        $('.delete-build').on('click', function (e) {
+            e.preventDefault();
+            confirmDelete(e.target.href)
+                .onCloseConfirmed = function () {window.location = window.location.href};
+        });
+    });
+</script>

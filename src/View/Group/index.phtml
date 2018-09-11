@@ -1,0 +1,52 @@
+<?php
+
+use PHPCensor\Helper\Lang;
+
+?>
+<div class="clearfix"  style="margin-bottom: 20px;">
+    <a class="btn btn-success pull-right" href="<?= (APP_URL . 'group/edit'); ?>">
+        <?= Lang::get('group_add'); ?>
+    </a>
+</div>
+
+<div class="box">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th><?= Lang::get('group_title'); ?></th>
+            <th><?= Lang::get('group_count'); ?></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+            <?php foreach($groups as $group): ?>
+            <tr>
+                <td><?= $group['title']; ?></td>
+                <td><?= count($group['projects']); ?></td>
+                <td>
+                    <div class="btn-group btn-group-right">
+                        <a class="btn btn-default btn-sm" href="<?= APP_URL; ?>group/edit/<?= $group['id']; ?>"><?= Lang::get('group_edit'); ?></a>
+                        <?php if($this->getUser()->getIsAdmin() && (!count($group['projects']))): ?>
+                            <button class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="<?= APP_URL; ?>group/delete/<?= $group['id']; ?>" class="delete-group"><?= Lang::get('group_delete'); ?></a></li>
+                            </ul>
+                        <?php endif; ?>
+                    </div>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('.delete-group').on('click', function (e) {
+            e.preventDefault();
+            confirmDelete(e.target.href).onCloseConfirmed = function () {window.location = window.location.href};
+        });
+    });
+</script>

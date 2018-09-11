@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title><?= $title; ?><?= (!empty($subtitle) ? ' - ' . $subtitle : ''); ?></title>
+
+        <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+
+        <link href="<?= APP_URL; ?>assets/vendor/admin-lte/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="<?= APP_URL; ?>assets/vendor/admin-lte/dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />
+        <link href="<?= APP_URL; ?>assets/css/ansi-colors.css" rel="stylesheet" type="text/css" />
+        <link href="<?= APP_URL; ?>assets/css/main.css" rel="stylesheet" type="text/css" />
+
+        <link href="<?= APP_URL; ?>assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+        <link href="<?= APP_URL; ?>assets/vendor/ionicons/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+
+        <script src="<?= APP_URL; ?>assets/vendor/admin-lte/plugins/jQuery/jquery-2.2.3.min.js"></script>
+        <script src="<?= APP_URL; ?>assets/js/class.js"></script>
+        <script src="<?= APP_URL; ?>assets/vendor/sprintf-js/dist/sprintf.min.js"></script>
+        <script src="<?= APP_URL; ?>assets/js/app.js?v2" type="text/javascript"></script>
+    </head>
+    <body class="hold-transition skin-black layout-top-nav">
+    <div class="wrapper">
+        <header class="main-header">
+            <nav class="navbar navbar-static-top">
+                <div class="container">
+                    <div class="navbar-header">
+                        <a href="<?= APP_URL; ?>" class="logo" title="PHP Censor" style="background-color: #222D32; width: 170px; padding: 0;">
+                            <img src="<?= APP_URL; ?>assets/img/php-censor-white.svg" width="170" height="auto" alt="PHP Censor" />
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <div class="content-wrapper">
+            <div class="container">
+                <section class="content" style="padding: 15px 0 15px;">
+                    <?= $content; ?>
+                </section>
+            </div>
+        </div>
+    </div>
+    </body>
+</html>

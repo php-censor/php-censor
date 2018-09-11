@@ -1,0 +1,36 @@
+<?php
+
+use PHPCensor\Helper\Lang;
+use PHPCensor\Model\Build;
+
+/**
+ * @var Build $build
+ */
+
+?>
+<li>
+    <a href="<?= APP_URL; ?>build/view/<?= $build->getId(); ?>">
+        <?php if ($build->getCommitterEmail()): ?>
+            <div class="pull-left">
+                <img src="https://www.gravatar.com/avatar/<?= md5($build->getCommitterEmail()); ?>?d=mm&s=40" class="img-circle" alt="">
+            </div>
+        <?php endif; ?>
+
+        <h4>
+            <?= $build->getProject()->getTitle(); ?>
+
+            <?php if ($build->getStatus() == Build::STATUS_PENDING): ?>
+                <small class="pull-right">
+                    <?= Lang::get('created_x', $build->getCreateDate()->format('H:i')); ?>
+                </small>
+            <?php elseif ($build->getStatus() == Build::STATUS_RUNNING): ?>
+                <small class="pull-right">
+                    <?= Lang::get('started_x', $build->getStartDate()->format('H:i')); ?>
+                </small>
+            <?php endif; ?>
+        </h4>
+        <p>
+            <?= Lang::get('branch_x', $build->getBranch()); ?>
+        </p>
+    </a>
+</li>

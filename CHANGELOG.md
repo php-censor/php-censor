@@ -5,6 +5,126 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [0.23.0](https://github.com/php-censor/php-censor/tree/0.23.0) (2018-07-29)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/0.22.0...0.23.0)
+
+### Added
+
+- New SensioLabsInsight plugin. Thanks to [@EugenGanshorn](https://github.com/EugenGanshorn). Pull request 
+[#203](https://github.com/php-censor/php-censor/pull/203), [#204](https://github.com/php-censor/php-censor/pull/204).
+- Triggers `pullrequest:approved` and `pullrequest:fulfilled` (Merged) for BitBucket webhook. Issue 
+[#176](https://github.com/php-censor/php-censor/issues/176).
+- Error reporting for PHPCsFixer plugin. Thanks to [@caouecs](https://github.com/caouecs) and 
+[@StudioMaX](https://github.com/StudioMaX). Pull request [#193](https://github.com/php-censor/php-censor/pull/193), 
+[#195](https://github.com/php-censor/php-censor/pull/195), [#197](https://github.com/php-censor/php-censor/pull/197).
+- General webhook for Hg (Mercurial) like we have for Git. Issue [#194](https://github.com/php-censor/php-censor/issues/194).
+- Ability to get current stage into plugins (`Builder::getCurrentStage()` method). Issue 
+[#200](https://github.com/php-censor/php-censor/issues/200).
+
+### Changed
+
+- Improved documentation for HipChat, Slack and Flowdock plugins. Thanks to 
+[@underthecocotree](https://github.com/underthecocotree). Pull request 
+[#177](https://github.com/php-censor/php-censor/pull/177).
+- Improved Phan plugin localization in quality trends chart. Thanks to [@caouecs](https://github.com/caouecs). Pull 
+request [#192](https://github.com/php-censor/php-censor/pull/192).
+- Improved `directory` option for TechnicalDebt plugin. Thanks to [@nickel715](https://github.com/nickel715). Pull 
+request [#198](https://github.com/php-censor/php-censor/pull/198).
+- Improved PHP PhpDocblockChecker plugin (forked PHPDoc Checker with fixes for PHP 7.1 nullable params). Issue 
+[#188](https://github.com/php-censor/php-censor/issues/188).
+- Updated PHPCodeSniffer package version to `~3.2.0`. Thanks to 
+[@underthecocotree](https://github.com/underthecocotree). Pull request 
+[#178](https://github.com/php-censor/php-censor/pull/178).
+
+### Removed
+
+- Build timeout (`php-censor.build.failed_after` config option). Issue 
+[#190](https://github.com/php-censor/php-censor/issues/190).
+
+### Fixed
+
+- XML-report loading for Codeception plugin. Issue [#182](https://github.com/php-censor/php-censor/issues/182).
+- Content type check for Gogs webhook route. Issue [#185](https://github.com/php-censor/php-censor/issues/185).
+- Repository links for Gogs build. Thanks to [@simmstein](https://github.com/simmstein). Pull request 
+[#186](https://github.com/php-censor/php-censor/pull/186).
+- Webhook info position in BitBucket build source documentation. Thanks to 
+[@bochkovprivate](https://github.com/bochkovprivate). Pull request [#189](https://github.com/php-censor/php-censor/pull/189).
+- Path for Local build source. Thanks to [@caouecs](https://github.com/caouecs). Pull request 
+[#191](https://github.com/php-censor/php-censor/pull/191).
+
+
+## [0.22.0](https://github.com/php-censor/php-censor/tree/0.22.0) (2018-05-02)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/0.21.0...0.22.0)
+
+### Added
+
+- Global application options `php-censor.ssh.strength` and `php-censor.ssh.comment` for SSH key generation. Issue 
+[#154](https://github.com/php-censor/php-censor/issues/154).
+- Pull request remote branch to GUI.
+- PHPDocBlockChecker plugin detailed error log. Thanks to [@Dave13h](https://github.com/Dave13h). Pull request 
+[#159](https://github.com/php-censor/php-censor/pull/159).
+- More unit/integration tests for DB logic (Connections, Stores, Models).
+- PHPUnit code coverage log output and chart in information tab for PHPUnit coverage. Issue 
+[#148](https://github.com/php-censor/php-censor/issues/148).
+- Global application option `php-censor.build.allow_public_artifacts` for allow/deny to generate public artifacts 
+(PHPUnit code coverage html report, Pdepend html reports). Issue 
+[#107](https://github.com/php-censor/php-censor/issues/107).
+- Web notifications (Initial frontend part). Web notifications are disabled by default (Global application option 
+`php-censor.notifications.enabled`). Issue [#156](https://github.com/php-censor/php-censor/issues/156). Thanks to 
+[@prezire](https://github.com/prezire). Pull request [#167](https://github.com/php-censor/php-censor/pull/167).
+- Github Enterprise support (Improved Github build type). Issue 
+[#163](https://github.com/php-censor/php-censor/issues/163).
+- Ability to merge in-database project config over in-repository config (`.php-censor.yml`) instead of overwrite only 
+(Checkbox in the project add/edit page). Issues: [#14](https://github.com/php-censor/php-censor/issues/14), 
+[#70](https://github.com/php-censor/php-censor/issues/70), [#106](https://github.com/php-censor/php-censor/issues/106), 
+[#121](https://github.com/php-censor/php-censor/issues/121).
+- Phan plugin. Thanks to [@caouecs](https://github.com/caouecs). Pull requests 
+[#171](https://github.com/php-censor/php-censor/pull/171), [#175](https://github.com/php-censor/php-censor/pull/175).
+- New command `php-censor:check-localizations` for search missing translated strings for non-english languages. Thanks 
+to [@caouecs](https://github.com/caouecs). Pull requests [#173](https://github.com/php-censor/php-censor/pull/173), 
+[#174](https://github.com/php-censor/php-censor/pull/174).
+
+### Changed
+
+- Improved coverage report by Codecov (edited `.codecov.yml` config file in application).
+- Massive refactored: pull requests, models, stores, database, config, controllers, application, forms, views etc. 
+Changed project structure.
+- Code style fixes: replaced `func_get_args()` by `...$params` (PHP 5.6+), `Lang::out` to `Lang::get` etc.
+- RemoteGitBuild (`remote`) renamed to GitBuild (`git`), MercurialBuild (`hg`) renamed to HgBuild (`hg`), 
+SubversionBuild (`svn`) renamed to SvnBuild (`svn`), BitbucketHgBuild (`bitbuckethg`) renamed to BitbucketHgBuild 
+(`bitbucket-hg`). DB data will refresh by migration automatically.
+- Merged PostgreSQL and MySQL tests inti one PHPUnit XML config.
+- Documentation improvements.
+- Improved translations for Russian and French. Thanks to [@caouecs](https://github.com/caouecs). Pull requests 
+[#167](https://github.com/php-censor/php-censor/pull/167), [#169](https://github.com/php-censor/php-censor/pull/169), 
+[#172](https://github.com/php-censor/php-censor/pull/172).
+- Improvements for PHPUnit plugin. Thanks to [@SimonHeimberg](https://github.com/SimonHeimberg). Pull request 
+[#160](https://github.com/php-censor/php-censor/pull/160).
+
+### Removed
+
+- Useless field `last_commit` from table `project`.
+
+### Fixed
+
+- PhpCodeSniffer plugin `path` option. Thanks to [@AlexisFinn](https://github.com/AlexisFinn). Issue 
+[#153](https://github.com/php-censor/php-censor/issues/153). Pull requests 
+[#155](https://github.com/php-censor/php-censor/pull/155).
+- TechnicalDebt plugin `allowed_errors` option. Thanks to [@glennmcewan](https://github.com/glennmcewan). Pull 
+requests [#158](https://github.com/php-censor/php-censor/pull/158).
+- Build creation by webhook. Issue [#162](https://github.com/php-censor/php-censor/issues/162).
+- Rebuild project. Thanks to [@Caffe1neAdd1ct](https://github.com/Caffe1neAdd1ct). Issue 
+[#164](https://github.com/php-censor/php-censor/issues/164). Pull request 
+[#166](https://github.com/php-censor/php-censor/pull/166).
+- Project directory path for SSH key generation. Issue [#165](https://github.com/php-censor/php-censor/issues/165).
+- SVN build type additional options (Like: `username`, `password` etc.). Issue 
+[#70](https://github.com/php-censor/php-censor/issues/70).
+- PHPDockblockChecker plugin error on `count` function for PHP 7.2. Issue 
+[#170](https://github.com/php-censor/php-censor/issues/170).
+
+
 ## [0.21.0](https://github.com/php-censor/php-censor/tree/0.21.0) (2018-02-21)
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/0.20.0...0.21.0)
@@ -31,7 +151,7 @@ Pull request [#142](https://github.com/php-censor/php-censor/pull/142).
 
 - Application Cache class and replaced by Symfony/Cache component.
 - Useless Template class and refactored View.
-- User model from $_SESSION.
+- User model from `$_SESSION`.
 
 ### Fixed
 

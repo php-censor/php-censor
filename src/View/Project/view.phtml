@@ -1,0 +1,237 @@
+<?php
+
+/**
+ * @var \JasonGrimes\Paginator $paginator
+ */
+
+use PHPCensor\Helper\Lang;
+use PHPCensor\Model\Project;
+
+?>
+<script>
+    var PROJECT_ID     = <?= $project->getId(); ?>;
+    var PROJECT_ENVIRONMENT = '<?= $environment; ?>';
+    var PROJECT_BRANCH = '<?= $branch; ?>';
+    var PER_PAGE       = <?= $perPage; ?>;
+    var PAGE           = <?= $page; ?>;
+</script>
+
+<div class="clearfix"  style="margin-bottom: 20px;">
+    <a class="btn btn-default" href="<?= APP_URL . 'project/edit/' . $project->getId(); ?>">
+        <?= Lang::get('edit_project'); ?>
+    </a>
+
+    <a class="btn btn-danger" id="delete-project">
+        <?= Lang::get('delete_project'); ?>
+    </a>
+
+    <?php
+        $build_url = APP_URL . 'project/build/' . $project->getId();
+    ?>
+    <div class="pull-right btn-group">
+        <?php if (!$project->getArchived()): ?>
+            <?php if ($this->getUser()->getIsAdmin()): ?>
+                <?php if (!empty($environment)): ?>
+                    <a class="btn btn-danger" href="<?= $build_url . '?' . http_build_query(['type' => 'environment', 'id' => $environment, 'debug' => 1]); ?>">
+                        <?= Lang::get('build_now_debug'); ?>
+                    </a>
+                <?php elseif (!empty($branch)): ?>
+                    <a class="btn btn-danger" href="<?= $build_url . '?' . http_build_query(['type' => 'branch', 'id' => $branch, 'debug' => 1]); ?>">
+                        <?= Lang::get('build_now_debug'); ?>
+                    </a>
+                <?php else: ?>
+                    <a class="btn btn-danger" href="<?= $build_url . '?' . http_build_query(['debug' => 1]); ?>">
+                        <?= Lang::get('build_now_debug'); ?>
+                    </a>
+                <?php endif; ?>
+            <?php endif; ?>
+
+            <?php if (!empty($environment)): ?>
+                <a class="btn btn-success" href="<?= $build_url . '?' . http_build_query(['type' => 'environment', 'id' => $environment]); ?>">
+                    <?= Lang::get('build_now'); ?>
+                </a>
+            <?php elseif (!empty($branch)): ?>
+                <a class="btn btn-success" href="<?= $build_url . '?' . http_build_query(['type' => 'branch', 'id' => $branch]); ?>">
+                    <?= Lang::get('build_now'); ?>
+                </a>
+            <?php else: ?>
+                <a class="btn btn-success" href="<?= $build_url; ?>">
+                    <?= Lang::get('build_now'); ?>
+                </a>
+            <?php endif; ?>
+        <?php endif; ?>
+
+        <div class="btn-group branch-btn pull-right">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                <?php if (!empty($environment)) {
+                    echo Lang::get('environment_x', $environment);
+                } elseif (!empty($branch)) {
+                    echo Lang::get('branch_x', $branch);
+                } else {
+                    echo Lang::get('all');
+                } ?>&nbsp;&nbsp;<span class="caret"></span>
+            </button>
+
+            <ul class="dropdown-menu" role="menu">
+                <li><a href="<?= APP_URL; ?>project/view/<?= $project->getId(); ?>"><?= Lang::get('all'); ?></a></li>
+                <li class="divider"></li>
+
+                <?php if(!empty($environments)): ?>
+                    <?php foreach ($environments as $currentEnvironment) : ?>
+                        <li <?= ($currentEnvironment == $environment) ? 'class="active"' : ''; ?>>
+                            <a href="<?= APP_URL; ?>project/view/<?= $project->getId(); ?>?environment=<?= urlencode($currentEnvironment); ?>">
+                                <i class="fa fa-cog"></i><?= $currentEnvironment; ?>
+                            </a>
+                        </li>
+                    <?php endforeach; ?>
+                    <li class="divider"></li>
+                <?php endif; ?>
+
+                <?php foreach ($branches as $currentBranch) : ?>
+                    <li <?= ($currentBranch == $branch) ? 'class="active"' : ''; ?>>
+                        <a href="<?= APP_URL; ?>project/view/<?= $project->getId(); ?>?branch=<?= urlencode($currentBranch); ?>">
+                            <i class="fa fa-code-fork"></i><?= $currentBranch; ?>
+                        </a>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-lg-9 col-md-8 col-sm-8">
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title"><?= Lang::get('builds'); ?> (<?= $total; ?>)</h3>
+            </div>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th><?= Lang::get('id'); ?></th>
+                    <th><?= Lang::get('status'); ?></th>
+                    <th><?= Lang::get('date'); ?></th>
+                    <th><?= Lang::get('build_source'); ?></th>
+                    <th class="hidden-md hidden-sm hidden-xs"><?= Lang::get('commit'); ?></th>
+                    <th><?= Lang::get('branch'); ?></th>
+                    <th><?= Lang::get('environment'); ?></th>
+                    <th><?= Lang::get('duration'); ?></th>
+                    <th><?= Lang::get('new_errors'); ?></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody id="latest-builds">
+                    <?= $builds; ?>
+                </tbody>
+            </table>
+        </div>
+        <div id="paginator">
+            <?= $paginator; ?>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-4 col-sm-4">
+
+        <?php if ($project->getAllowPublicStatus()): ?>
+            <div class="box">
+                <div class="box-header">
+                    <h4 class="box-title"><?= Lang::get('public_status_title'); ?></h4>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="box-body">
+                    <span style="word-wrap: break-word;">
+                        <a href="<?= APP_URL . 'build-status/view/' . $project->getId() . '?branch=master'; ?>">
+                            <img src="<?= APP_URL . 'build-status/image/' . $project->getId() . '?branch=master&label=PHPCensor&style=flat-square'; ?>" />
+                        </a>
+
+                        <br /><br />
+                        <?= Lang::get('public_status_image'); ?>:<br /><strong><?= APP_URL . 'build-status/image/' . $project->getId() . '?branch=master&label=PHPCensor&style=flat-square'; ?></strong>
+
+                        <br /><br />
+                        <?= Lang::get('public_status_page'); ?>:<br /><strong><?= APP_URL . 'build-status/view/' . $project->getId() . '?branch=master'; ?></strong>
+                    </span>
+                </div>
+            </div>
+        <?php endif; ?>
+
+        <?php if (in_array($project->getType(), [
+            Project::TYPE_GITHUB,
+            Project::TYPE_GITLAB,
+            Project::TYPE_BITBUCKET,
+            Project::TYPE_BITBUCKET_HG,
+            Project::TYPE_GOGS,
+        ])): ?>
+            <div class="box">
+                <div class="box-header">
+                    <h4 class="box-title"><?= Lang::get('webhooks'); ?></h4>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="box-body">
+                    <?php switch($project->getType()) {
+                        case Project::TYPE_GITHUB:
+                            $url = APP_URL . 'webhook/github/' . $project->getId();
+                            echo Lang::get('webhooks_help_github', $project->getReference());
+                            break;
+
+                        case Project::TYPE_GITLAB:
+                            $url = APP_URL. 'webhook/gitlab/' . $project->getId();
+                            echo Lang::get('webhooks_help_gitlab');
+                            break;
+
+                        case Project::TYPE_BITBUCKET:
+                        case Project::TYPE_BITBUCKET_HG:
+                            $url = APP_URL . 'webhook/bitbucket/' . $project->getId();
+                            echo Lang::get('webhooks_help_bitbucket', $project->getReference());
+                            break;
+                        case Project::TYPE_GOGS:
+                            $url = APP_URL . 'webhook/gogs/' . $project->getId();
+                            echo Lang::get('webhooks_help_gogs', $project->getReference());
+                            break;
+                    } ?>
+                    <br><br><strong style="word-wrap: break-word;"><?= $url; ?></strong>
+                </div>
+            </div>
+        <?php endif; ?>
+
+        <?php if ($project->getSshPublicKey()): ?>
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title"><?= Lang::get('public_key'); ?></h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body" style="word-break: break-all;"><?= $project->getSshPublicKey(); ?></div>
+            </div>
+        <?php endif; ?>
+    </div>
+</div>
+
+<script>
+    $(function() {
+        $('#delete-project').on('click', function (e) {
+            e.preventDefault();
+            confirmDelete("<?= APP_URL; ?>project/delete/<?= $project->getId(); ?>")
+                .onCloseConfirmed = function () {window.location = '/'};
+        });
+
+        $('#delete-page-builds').on('click', function (e) {
+            e.preventDefault();
+            confirmDelete("<?= APP_URL; ?>project/delete/<?= $project->getId(); ?>")
+                .onCloseConfirmed = function () {window.location = '/'};
+        });
+    })
+</script>
