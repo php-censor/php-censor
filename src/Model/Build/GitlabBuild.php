@@ -53,20 +53,20 @@ class GitlabBuild extends GitBuild
     {
         $key = trim($this->getProject()->getSshPrivateKey());
 
+        $user   = $this->getProject()->getAccessInformation('user');
+        $domain = $this->getProject()->getAccessInformation('domain');
+        $port   = $this->getProject()->getAccessInformation('port');
+
         if (!empty($key)) {
-            $user   = $this->getProject()->getAccessInformation('user');
-            $domain = $this->getProject()->getAccessInformation('domain');
-            $port   = $this->getProject()->getAccessInformation('port');
-
-            $url = $user . '@' . $domain . ':';
-
-            if (!empty($port)) {
-                $url .= $port . '/';
-            }
-
-            $url .= $this->getProject()->getReference() . '.git';
-
-            return $url;
+            $url =  'ssh://' . $user . '@' . $domain;
+        } else {
+            $url = 'https://' . $domain;
         }
+
+        if (!empty($port)) {
+            $url .= ':' . $port;
+        }
+
+        return $url . '/' . $this->getProject()->getReference() . '.git';
     }
 }

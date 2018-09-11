@@ -167,17 +167,19 @@ class GithubBuild extends GitBuild
     {
         $key = trim($this->getProject()->getSshPrivateKey());
 
-        if (!empty($key)) {
-            $port = $this->getProject()->getAccessInformation('port');
-            $url  = 'git@' . $this->getDomain() . ':';
-            if (!empty($port)) {
-                $url .= $port . '/';
-            }
+        $port = $this->getProject()->getAccessInformation('port');
 
-            return $url . $this->getProject()->getReference() . '.git';
+        if (!empty($key)) {
+            $url  = 'ssh://git@' . $this->getDomain();
         } else {
-            return 'https://' . $this->getDomain() . '/' . $this->getProject()->getReference() . '.git';
+            $url = 'https://' . $this->getDomain();
         }
+
+        if (!empty($port)) {
+            $url .= ':' . $port;
+        }
+
+        return $url . '/' . $this->getProject()->getReference() . '.git';
     }
 
     /**
@@ -235,11 +237,14 @@ class GithubBuild extends GitBuild
             if (in_array($this->getSource(), Build::$pullRequestSources, true)) {
                 $pullRequestId = $this->getExtra('pull_request_number');
 
-                $cmd = 'cd "%s" && git checkout -b php-censor/' . $this->getId()
+                $cmd = 'cd "%s" && git checkout -b php-censor/'
+                    . $this->getId()
                     . ' %s && git pull -q --no-edit origin pull/%s/head';
+
                 if (!empty($extra['git_ssh_wrapper'])) {
-                    $cmd = 'export GIT_SSH="'.$extra['git_ssh_wrapper'].'" && ' . $cmd;
+                    $cmd = 'export GIT_SSH="' . $extra['git_ssh_wrapper'] . '" && ' . $cmd;
                 }
+
                 $success = $builder->executeCommand($cmd, $cloneTo, $this->getBranch(), $pullRequestId);
             }
         } catch (\Exception $ex) {

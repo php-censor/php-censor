@@ -526,11 +526,9 @@ class Build extends BaseBuild
     /**
      * Create an SSH key file on disk for this build.
      *
-     * @param string $cloneTo
-     *
      * @return string
      */
-    protected function writeSshKey($cloneTo)
+    protected function writeSshKey()
     {
         $tempKeyFile = tempnam(sys_get_temp_dir(), 'key_');
 
@@ -542,12 +540,11 @@ class Build extends BaseBuild
     /**
      * Create an SSH wrapper script for Svn to use, to disable host key checking, etc.
      *
-     * @param string $cloneTo
      * @param string $keyFile
      *
      * @return string
      */
-    protected function writeSshWrapper($cloneTo, $keyFile)
+    protected function writeSshWrapper($keyFile)
     {
         $sshFlags = '-o CheckHostIP=no -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o PasswordAuthentication=no';
 

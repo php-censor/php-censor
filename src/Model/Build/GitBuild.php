@@ -115,8 +115,8 @@ class GitBuild extends Build
      */
     protected function cloneBySsh(Builder $builder, $cloneTo)
     {
-        $keyFile       = $this->writeSshKey($cloneTo);
-        $gitSshWrapper = $this->writeSshWrapper($cloneTo, $keyFile);
+        $keyFile       = $this->writeSshKey();
+        $gitSshWrapper = $this->writeSshWrapper($keyFile);
 
         // Do the git clone:
         $cmd = 'cd .. && git clone --recursive ';
