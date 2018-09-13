@@ -51,6 +51,8 @@ class UserController extends WebController
     */
     public function index()
     {
+        $this->requireAdmin();
+
         $users               = $this->userStore->getWhere([], 1000, 0, ['email' => 'ASC']);
         $this->view->users   = $users;
         $this->layout->title = Lang::get('manage_users');
