@@ -3,6 +3,7 @@
 use PHPCensor\Helper\Lang;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
+use PHPCensor\Helper\Template;
 
 /**
  * @var Build $build
@@ -120,7 +121,7 @@ use PHPCensor\Model\BuildError;
                     <tr>
                         <th><?= Lang::get('commit_message'); ?></th>
                         <td style="text-align: right">
-                            <?= htmlspecialchars($build->getCommitMessage()); ?>
+                            <?= Template::clean($build->getCommitMessage()); ?>
                         </td>
                     </tr>
                 </table>

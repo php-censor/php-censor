@@ -2,6 +2,7 @@
 
 use PHPCensor\Helper\Lang;
 use PHPCensor\Model\Build;
+use PHPCensor\Helper\Template;
 
 /**
  * @var Build[] $builds
@@ -115,7 +116,7 @@ use PHPCensor\Model\Build;
                                 substr($build->getCommitId(), 0, 7),
                                 $build->getCommitterEmail() ? ('(' . $build->getCommitterEmail() . ')') : ''
                             );
-                            $buildCommitMessage = htmlspecialchars($build->getCommitMessage());
+                            $buildCommitMessage = Template::clean($build->getCommitMessage());
                             if ($buildCommitMessage) {
                                 echo '</p><p>';
                                 echo $buildCommitMessage;

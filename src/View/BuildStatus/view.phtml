@@ -1,4 +1,8 @@
-<?php if (!empty($latest)): ?>
+<?php 
+
+use PHPCensor\Helper\Template;
+
+if (!empty($latest)): ?>
 
     <?php
 
@@ -32,7 +36,7 @@
                 <?= $latest->getProject()->getTitle(); ?> #<?= $latest->getId(); ?> (<?= $statusText; ?>)
             </h3>
             <p>
-                <?php $latestCommitMessage = htmlspecialchars($latest->getCommitMessage()); ?>
+                <?php $latestCommitMessage = Template::clean($latest->getCommitMessage()); ?>
                 <?php if ($latestCommitMessage): ?>
                     <?= $latestCommitMessage; ?><br /><br />
                 <?php endif; ?>
