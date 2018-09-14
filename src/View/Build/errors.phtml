@@ -3,6 +3,7 @@
 use PHPCensor\Helper\Lang;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
+use PHPCensor\Helper\Template;
 
 /**
  * @var Build        $build
@@ -42,6 +43,6 @@ foreach ($errors as $error):
            ?>
            </a>
        </td>
-       <td class="visible-line-breaks"><?= htmlspecialchars(trim($error->getMessage())); ?></td>
+       <td class="visible-line-breaks"><?= Template::clean(trim($error->getMessage())); ?></td>
    </tr>
 <?php endforeach; ?>

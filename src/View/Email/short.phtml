@@ -1,3 +1,8 @@
+<?php
+
+use PHPCensor\Helper\Template;
+
+?>
 <p style="margin: 10px; background: #fafafa">
-    <?= htmlspecialchars($build->getCommitMessage()); ?>
+    <?= Template::clean($build->getCommitMessage()); ?>
 </p>

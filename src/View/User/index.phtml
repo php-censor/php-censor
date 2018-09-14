@@ -1,6 +1,7 @@
 <?php
 
 use PHPCensor\Helper\Lang;
+use PHPCensor\Helper\Template;
 
 $currentUser = $this->getUser();
 
@@ -50,7 +51,7 @@ $currentUser = $this->getUser();
                                 <?= $user->getEmail(); ?>
                                 <?php endif; ?>
                             </td>
-                            <td><?= htmlspecialchars($user->getName()); ?></td>
+                            <td><?= Template::clean($user->getName()); ?></td>
                             <td><?= $status; ?></td>
                             <td>
                                 <div class="btn-group btn-group-right">
