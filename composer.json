@@ -85,6 +85,7 @@
         "sebastian/diff":                  "^1.0 || ^2.0 || ^3.0",
 
         "symfony/debug":                     "~3.4.0",
+        "symfony/intl":                      "~3.4.0",
         "doctrine/instantiator":             "~1.0.0",
         "phpunit/php-token-stream":          "~1.4.0",
         "phpdocumentor/reflection-docblock": "~2.0.0",
@@ -94,7 +95,6 @@
 
         "npm-asset/sprintf-js":     "~1.0.0",
         "npm-asset/codemirror":     "~5.23.0",
-        "npm-asset/notifyjs":       "~3.0.0",
         "bower-asset/admin-lte":    "~2.3.0",
         "bower-asset/font-awesome": "~4.7.0",
         "bower-asset/ionicons":     "~2.0.0",
