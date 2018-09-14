@@ -204,10 +204,14 @@ class UserController extends WebController
     */
     public function edit($userId)
     {
-        $this->requireAdmin();
+        $currentUser = $this->getUser();
 
         $method = $this->request->getMethod();
         $user   = $this->userStore->getById($userId);
+
+        if (!$currentUser->getIsAdmin() && $currentUser != $user) {
+            throw new ForbiddenException('You do not have permission to do that.');
+        }
 
         if (empty($user)) {
             throw new NotFoundException(Lang::get('user_n_not_found', $userId));
@@ -231,7 +235,12 @@ class UserController extends WebController
         $name     = $this->getParam('name', null);
         $email    = $this->getParam('email', null);
         $password = $this->getParam('password', null);
-        $isAdmin  = (boolean)$this->getParam('is_admin', 0);
+
+        // Only admins can promote/demote users.
+        $isAdmin = $user->getIsAdmin();
+        if ($currentUser->getIsAdmin()) {
+            $isAdmin = (boolean) $this->getParam('is_admin', 0);
+        }
 
         $this->userService->updateUser($user, $name, $email, $password, $isAdmin);
 
@@ -245,6 +254,8 @@ class UserController extends WebController
     */
     protected function userForm($values, $type = 'add')
     {
+        $currentUser = $this->getUser();
+
         $form = new Form();
 
         $form->setMethod('POST');
@@ -280,12 +291,14 @@ class UserController extends WebController
         $field->setContainerClass('form-group');
         $form->addField($field);
 
-        $field = new Form\Element\Checkbox('is_admin');
-        $field->setRequired(false);
-        $field->setCheckedValue(1);
-        $field->setLabel(Lang::get('is_user_admin'));
-        $field->setContainerClass('form-group');
-        $form->addField($field);
+        if ($currentUser->getIsAdmin()) {
+            $field = new Form\Element\Checkbox('is_admin');
+            $field->setRequired(false);
+            $field->setCheckedValue(1);
+            $field->setLabel(Lang::get('is_user_admin'));
+            $field->setContainerClass('form-group');
+            $form->addField($field);
+        }
 
         $field = new Form\Element\Submit();
         $field->setValue(Lang::get('save_user'));

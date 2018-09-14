@@ -2,12 +2,14 @@
 
 use PHPCensor\Helper\Lang;
 
-$user = $this->getUser();
+$currentUser = $this->getUser();
 
 ?>
 <div class="clearfix"  style="margin-bottom: 20px;">
     <div class="pull-right btn-group">
+        <?php if($currentUser->getIsAdmin()): ?>
         <a class="btn btn-success" href="<?= APP_URL; ?>user/add"><?= Lang::get('add_user'); ?></a>
+        <?php endif; ?>
     </div>
 </div>
 
@@ -41,21 +43,34 @@ $user = $this->getUser();
                         }
                         ?>
                         <tr class="<?= $cls; ?>">
-                            <td><a href="<?= APP_URL; ?>user/edit/<?= $user->getId(); ?>"><?= $user->getEmail(); ?></a></td>
+                            <td>
+                                <?php if($currentUser->getIsAdmin() || $currentUser == $user): ?>
+                                <a href="<?= APP_URL; ?>user/edit/<?= $user->getId(); ?>"><?= $user->getEmail(); ?></a>
+                                <?php else: ?>
+                                <?= $user->getEmail(); ?>
+                                <?php endif; ?>
+                            </td>
                             <td><?= htmlspecialchars($user->getName()); ?></td>
                             <td><?= $status; ?></td>
                             <td>
-                                <?php if($user->getIsAdmin()): ?>
-                                    <div class="btn-group btn-group-right">
-                                        <a class="btn btn-default btn-sm" href="<?= APP_URL; ?>user/edit/<?= $user->getId(); ?>"><?= Lang::get('edit'); ?></a>
-                                        <button class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
-                                            <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="<?= APP_URL; ?>user/delete/<?= $user->getId(); ?>" class="delete-user"><?= Lang::get('delete_user'); ?></a></li>
-                                        </ul>
-                                    </div>
-                                <?php endif; ?>
+                                <div class="btn-group btn-group-right">
+                                    <?php if($currentUser->getIsAdmin() || $currentUser == $user): ?>
+                                    <a class="btn btn-default btn-sm"
+                                        href="<?= APP_URL; ?>user/edit/<?= $user->getId(); ?>">
+                                        <?= Lang::get('edit'); ?>
+                                    </a>
+                                    <button class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+                                        <span class="caret"></span>
+                                    </button>
+                                    <?php endif; ?>
+
+                                    <?php if($currentUser->getIsAdmin()): ?>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="<?= APP_URL; ?>user/delete/<?= $user->getId(); ?>"
+                                            class="delete-user"><?= Lang::get('delete_user'); ?></a></li>
+                                    </ul>
+                                    <?php endif; ?>
+                                </div>
                             </td>
                         </tr>
                     <?php endforeach; ?>
