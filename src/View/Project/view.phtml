@@ -21,26 +21,34 @@ use PHPCensor\Model\Project;
         <?= Lang::get('edit_project'); ?>
     </a>
 
-    <a class="btn btn-danger" id="delete-project">
-        <?= Lang::get('delete_project'); ?>
-    </a>
+    <?php if ($this->getUser()->getIsAdmin()): ?>
+        <a class="btn btn-danger" id="delete-project">
+            <?= Lang::get('delete_project'); ?>
+        </a>
+    
+        <a class="btn btn-danger" id="delete-old-builds">
+            <?= Lang::get('delete_old_builds'); ?>
+        </a>
 
-    <?php
-        $build_url = APP_URL . 'project/build/' . $project->getId();
-    ?>
+        <a class="btn btn-danger" id="delete-all-builds">
+            <?= Lang::get('delete_all_builds'); ?>
+        </a>
+    <?php endif; ?>
+
+    <?php $build_url = APP_URL . 'project/build/' . $project->getId(); ?>
     <div class="pull-right btn-group">
         <?php if (!$project->getArchived()): ?>
             <?php if ($this->getUser()->getIsAdmin()): ?>
                 <?php if (!empty($environment)): ?>
-                    <a class="btn btn-danger" href="<?= $build_url . '?' . http_build_query(['type' => 'environment', 'id' => $environment, 'debug' => 1]); ?>">
+                    <a class="btn btn-warning" href="<?= $build_url . '?' . http_build_query(['type' => 'environment', 'id' => $environment, 'debug' => 1]); ?>">
                         <?= Lang::get('build_now_debug'); ?>
                     </a>
                 <?php elseif (!empty($branch)): ?>
-                    <a class="btn btn-danger" href="<?= $build_url . '?' . http_build_query(['type' => 'branch', 'id' => $branch, 'debug' => 1]); ?>">
+                    <a class="btn btn-warning" href="<?= $build_url . '?' . http_build_query(['type' => 'branch', 'id' => $branch, 'debug' => 1]); ?>">
                         <?= Lang::get('build_now_debug'); ?>
                     </a>
                 <?php else: ?>
-                    <a class="btn btn-danger" href="<?= $build_url . '?' . http_build_query(['debug' => 1]); ?>">
+                    <a class="btn btn-warning" href="<?= $build_url . '?' . http_build_query(['debug' => 1]); ?>">
                         <?= Lang::get('build_now_debug'); ?>
                     </a>
                 <?php endif; ?>
@@ -231,6 +239,18 @@ use PHPCensor\Model\Project;
         $('#delete-page-builds').on('click', function (e) {
             e.preventDefault();
             confirmDelete("<?= APP_URL; ?>project/delete/<?= $project->getId(); ?>")
+                .onCloseConfirmed = function () {window.location = '/'};
+        });
+
+        $('#delete-old-builds').on('click', function (e) {
+            e.preventDefault();
+            confirmDelete("<?= APP_URL; ?>project/delete-old-builds/<?= $project->getId(); ?>")
+                .onCloseConfirmed = function () {window.location = '/'};
+        });
+
+        $('#delete-all-builds').on('click', function (e) {
+            e.preventDefault();
+            confirmDelete("<?= APP_URL; ?>project/delete-all-builds/<?= $project->getId(); ?>")
                 .onCloseConfirmed = function () {window.location = '/'};
         });
     })

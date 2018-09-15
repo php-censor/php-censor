@@ -61,6 +61,7 @@ php-censor:
     remove_builds:          true  # This option allow/deny build cleaning
     writer_buffer_size:     500   # BuildErrorWriter buffer size (count of inserts in one SQL query)
     allow_public_artifacts: false # This option allow/deny to generate public artifacts (PHPUnit code coverage html report, Pdepend html reports)
+    keep_builds:            100   # How much builds is keeping when cleaning old builds.
   security:
     disable_auth:    false # This option allows/deny you to disable authentication for PHP Censor
     default_user_id: 1     # Default user when authentication disabled

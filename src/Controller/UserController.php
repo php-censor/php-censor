@@ -3,6 +3,7 @@
 namespace PHPCensor\Controller;
 
 use PHPCensor\Config;
+use PHPCensor\Exception\HttpException\ForbiddenException;
 use PHPCensor\Exception\HttpException\NotFoundException;
 use PHPCensor\Form;
 use PHPCensor\WebController;
