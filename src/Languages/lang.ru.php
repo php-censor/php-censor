@@ -63,6 +63,8 @@ PHP Censor',
     'build_now_debug' => 'Собрать в режиме отладки',
     'edit_project' => 'Редактировать проект',
     'delete_project' => 'Удалить проект',
+    'delete_old_builds' => 'Удалить старые сборки',
+    'delete_all_builds' => 'Удалить все сборки',
 
     // Project Summary:
     'no_builds_yet' => 'Нет сборок!',

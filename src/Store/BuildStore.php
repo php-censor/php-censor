@@ -494,9 +494,49 @@ class BuildStore extends Store
             $stmt->bindValue(':id', $build->getId(), \PDO::PARAM_INT);
             $stmt->bindValue(':status_current', $build->getStatus(), \PDO::PARAM_INT);
             $stmt->bindValue(':status_new', $status, \PDO::PARAM_INT);
+
             return ($stmt->execute() && ($stmt->rowCount() == 1));
         } catch (\Exception $e) {
             return false;
+        }
+    }
+
+    public function deleteAllByProject($projectId)
+    {
+        $q = Database::getConnection('write')
+            ->prepareCommon(
+                'DELETE FROM {{' . $this->tableName . '}} WHERE {{project_id}} = :project_id'
+            );
+        $q->bindValue(':project_id', $projectId);
+        $q->execute();
+
+        return $q->rowCount();
+    }
+
+    public function getOldByProject($projectId, $keep = 100)
+    {
+        if (is_null($projectId)) {
+            throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
+        }
+
+        $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{project_id}} = :project_id ORDER BY {{create_date}} DESC OFFSET :keep';
+        $stmt = Database::getConnection('read')->prepareCommon($query);
+        $stmt->bindValue(':project_id', $projectId);
+        $stmt->bindValue(':keep', (int)$keep, \PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            $res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+            $map = function ($item) {
+                return new Build($item);
+            };
+            $rtn = array_map($map, $res);
+
+            $count = count($rtn);
+
+            return ['items' => $rtn, 'count' => $count];
+        } else {
+            return ['items' => [], 'count' => 0];
         }
     }
 }

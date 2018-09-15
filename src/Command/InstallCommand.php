@@ -295,6 +295,7 @@ class InstallCommand extends Command
                 'remove_builds'          => true,
                 'writer_buffer_size'     => 500,
                 'allow_public_artifacts' => true,
+                'keep_builds'            => 100,
             ],
             'security' => [
                 'disable_auth'    => false,

@@ -65,6 +65,8 @@ PHP Censor',
     'build_now_debug' => 'Build now with debug',
     'edit_project' => 'Edit Project',
     'delete_project' => 'Delete Project',
+    'delete_old_builds' => 'Delete old builds',
+    'delete_all_builds' => 'Delete all builds',
 
     // Project Summary:
     'no_builds_yet' => 'No builds yet!',

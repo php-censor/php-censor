@@ -136,7 +136,7 @@ class BuildController extends WebController
         $actions = '';
         if (!$project->getArchived()) {
             if ($this->currentUserIsAdmin()) {
-                $actions .= "<a class=\"btn btn-danger\" href=\"{$rebuildLink}?debug=1\">{$rebuildDebug}</a> ";
+                $actions .= "<a class=\"btn btn-warning\" href=\"{$rebuildLink}?debug=1\">{$rebuildDebug}</a> ";
             }
             $actions .= "<a class=\"btn btn-success\" href=\"{$rebuildLink}\">{$rebuild}</a> ";
         }

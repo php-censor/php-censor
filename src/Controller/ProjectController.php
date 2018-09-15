@@ -17,6 +17,7 @@ use PHPCensor\View;
 use PHPCensor\Store\Factory;
 use PHPCensor\Model\Project;
 use PHPCensor\WebController;
+use PHPCensor\Config;
 
 /**
  * Project Controller - Allows users to create, edit and view projects.
@@ -240,8 +241,12 @@ class ProjectController extends WebController
     }
 
     /**
-    * Delete a project.
-    */
+     * @param int $projectId
+     *
+     * @return RedirectResponse
+     * @throws PHPCensor\Exception\HttpException
+     * @throws PHPCensor\Exception\HttpException\ForbiddenException
+     */
     public function delete($projectId)
     {
         $this->requireAdmin();
@@ -251,6 +256,44 @@ class ProjectController extends WebController
 
         $response = new RedirectResponse();
         $response->setHeader('Location', APP_URL);
+
+        return $response;
+    }
+
+    /**
+     * @param int $projectId
+     *
+     * @return RedirectResponse
+     * @throws PHPCensor\Exception\HttpException
+     * @throws PHPCensor\Exception\HttpException\ForbiddenException
+     */
+    public function deleteAllBuilds($projectId)
+    {
+        $this->requireAdmin();
+
+        $this->buildService->deleteAllByProject($projectId);
+
+        $response = new RedirectResponse();
+        $response->setHeader('Location', APP_URL . 'project/view/' . $projectId);
+
+        return $response;
+    }
+
+    /**
+     * @param int $projectId
+     *
+     * @return RedirectResponse
+     * @throws PHPCensor\Exception\HttpException
+     * @throws PHPCensor\Exception\HttpException\ForbiddenException
+     */
+    public function deleteOldBuilds($projectId)
+    {
+        $this->requireAdmin();
+
+        $this->buildService->deleteOldByProject($projectId);
+
+        $response = new RedirectResponse();
+        $response->setHeader('Location', APP_URL . 'project/view/' . $projectId);
 
         return $response;
     }

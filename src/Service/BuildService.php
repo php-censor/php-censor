@@ -9,6 +9,7 @@ use PHPCensor\BuildFactory;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\Project;
 use PHPCensor\Store\BuildStore;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * The build service handles the creation, duplication and deletion of builds.
@@ -139,6 +140,52 @@ class BuildService
         }
 
         return $build;
+    }
+
+    /**
+     * @param int $projectId
+     *
+     * @throws \PHPCensor\Exception\HttpException
+     */
+    public function deleteOldByProject($projectId)
+    {
+        $keepBuilds = (int)Config::getInstance()->get('php-censor.build.keep_builds', 100);
+        $builds     = $this->buildStore->getOldByProject((int)$projectId, $keepBuilds);
+        
+        /** @var Build $build */
+        foreach ($builds['items'] as $build) {
+            $build->removeBuildDirectory(true);
+            $this->buildStore->delete($build);
+        }
+    }
+
+    /**
+     * @param int $projectId
+     */
+    public function deleteAllByProject($projectId)
+    {
+        $this->buildStore->deleteAllByProject((int)$projectId);
+
+        try {
+            $projectPaths = [
+                RUNTIME_DIR . 'builds/' . $projectId . '/',
+                PUBLIC_DIR . 'artifacts/pdepend/' . $projectId . '/',
+                PUBLIC_DIR . 'artifacts/phpunit/' . $projectId . '/',
+            ]; 
+
+            $fileSystem = new Filesystem();
+
+            foreach ($projectPaths as $projectPath) {
+                if (is_link($projectPath)) {
+                    // Remove the symlink without using recursive.
+                    exec(sprintf('rm "%s"', $projectPath));
+                } else {
+                    $fileSystem->remove($projectPath);
+                }
+            }
+        } catch (\Exception $e) {
+
+        }
     }
 
     /**
