@@ -54,8 +54,7 @@ class Lint extends Plugin
      */
     public function execute()
     {
-        $this->builder->quiet = true;
-        $success            = true;
+        $success = true;
 
         $php = $this->findBinary('php');
 
@@ -64,8 +63,6 @@ class Lint extends Plugin
                 $success = false;
             }
         }
-
-        $this->builder->quiet = false;
 
         return $success;
     }

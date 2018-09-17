@@ -19,11 +19,6 @@ class CommandExecutor implements CommandExecutorInterface
     /**
      * @var bool
      */
-    protected $quiet;
-
-    /**
-     * @var bool
-     */
     protected $verbose;
 
     /**
@@ -58,13 +53,11 @@ class CommandExecutor implements CommandExecutorInterface
     /**
      * @param BuildLogger $logger
      * @param string      $rootDir
-     * @param bool        $quiet
      * @param bool        $verbose
      */
-    public function __construct(BuildLogger $logger, $rootDir, $quiet = false, $verbose = false)
+    public function __construct(BuildLogger $logger, $rootDir, $verbose = false)
     {
         $this->logger     = $logger;
-        $this->quiet      = $quiet;
         $this->verbose    = $verbose;
         $this->lastOutput = [];
         $this->rootDir    = $rootDir;
@@ -86,10 +79,6 @@ class CommandExecutor implements CommandExecutorInterface
         $command = call_user_func_array('sprintf', $args);
 
         $this->logger->logDebug('Command: ' . $command);
-
-        if ($this->quiet) {
-            $this->logger->log('Executing: ' . $command);
-        }
 
         $status = 0;
         $descriptorSpec = [
@@ -260,14 +249,13 @@ class CommandExecutor implements CommandExecutorInterface
      * Find a binary required by a plugin.
      *
      * @param array|string $binary
-     * @param bool         $quiet Returns null instead of throwing an exception.
      * @param string       $priorityPath
      *
-     * @return string|false
+     * @return string
      *
-     * @throws \Exception when no binary has been found and $quiet is false.
+     * @throws \Exception when no binary has been found.
      */
-    public function findBinary($binary, $quiet = false, $priorityPath = 'local')
+    public function findBinary($binary, $priorityPath = 'local')
     {
         $composerBin = $this->getComposerBinDir(realpath($this->buildPath));
 
@@ -315,10 +303,6 @@ class CommandExecutor implements CommandExecutorInterface
                     return $binarySystem;
                 }
             }
-        }
-
-        if ($quiet) {
-            return false;
         }
 
         throw new Exception(sprintf('Could not find %s', implode('/', $binary)));

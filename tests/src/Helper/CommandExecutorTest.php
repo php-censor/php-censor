@@ -77,12 +77,6 @@ EOD;
         $this->testedExecutor->findBinary($thisFileName);
     }
 
-    public function testFindBinary_ReturnsNullWihQuietArgument()
-    {
-        $thisFileName = "WorldWidePeace";
-        self::assertFalse($this->testedExecutor->findBinary($thisFileName, true));
-    }
-
     public function testReplaceIllegalCharacters()
     {
         self::assertEquals(

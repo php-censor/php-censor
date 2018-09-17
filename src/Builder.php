@@ -74,11 +74,6 @@ class Builder implements LoggerAwareInterface
     protected $store;
 
     /**
-     * @var bool
-     */
-    public $quiet = false;
-
-    /**
      * @var \PHPCensor\Plugin\Util\Executor
      */
     protected $pluginExecutor;
@@ -117,7 +112,6 @@ class Builder implements LoggerAwareInterface
         $this->commandExecutor = new $executorClass(
             $this->buildLogger,
             ROOT_DIR,
-            $this->quiet,
             $this->verbose
         );
 
@@ -326,16 +320,15 @@ class Builder implements LoggerAwareInterface
      * Find a binary required by a plugin.
      *
      * @param array|string $binary
-     * @param bool         $quiet Returns null instead of throwing an exception.
      * @param string       $priorityPath
      *
-     * @return string|false
+     * @return string
      *
-     * @throws \Exception when no binary has been found and $quiet is false.
+     * @throws \Exception when no binary has been found.
      */
-    public function findBinary($binary, $quiet = false, $priorityPath = 'local')
+    public function findBinary($binary, $priorityPath = 'local')
     {
-        return $this->commandExecutor->findBinary($binary, $quiet, $priorityPath);
+        return $this->commandExecutor->findBinary($binary, $priorityPath);
     }
 
     /**
