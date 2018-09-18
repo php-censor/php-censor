@@ -56,15 +56,14 @@ abstract class Plugin
      * Find a binary required by a plugin.
      *
      * @param array|string $binary
-     * @param boolean      $quiet Returns null instead of throwing an exception.
      *
-     * @return string|false
+     * @return string
      *
-     * @throws \Exception when no binary has been found and $quiet is false.
+     * @throws \Exception when no binary has been found.
      */
-    public function findBinary($binary, $quiet = false)
+    public function findBinary($binary)
     {
-        return $this->builder->findBinary($binary, $quiet, $this->priorityPath);
+        return $this->builder->findBinary($binary, $this->priorityPath);
     }
 
     /**

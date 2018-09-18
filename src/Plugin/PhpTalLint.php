@@ -75,17 +75,15 @@ class PhpTalLint extends Plugin
      */
     public function execute()
     {
-        $this->builder->quiet = true;
         $this->builder->logExecOutput(false);
 
         foreach ($this->directories as $dir) {
             $this->lintDirectory($dir);
         }
 
-        $this->builder->quiet = false;
         $this->builder->logExecOutput(true);
 
-        $errors = 0;
+        $errors   = 0;
         $warnings = 0;
 
         foreach ($this->failedPaths as $path) {
