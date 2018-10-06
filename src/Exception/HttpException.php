@@ -2,7 +2,7 @@
 
 namespace PHPCensor\Exception;
 
-class HttpException extends \Exception
+class HttpException extends Exception
 {
     /**
      * @var integer

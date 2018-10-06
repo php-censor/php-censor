@@ -2,6 +2,7 @@
 
 namespace PHPCensor\Worker;
 
+use Pheanstalk\Exception\ServerException;
 use PHPCensor\Store\Factory;
 use Monolog\Logger;
 use Pheanstalk\Job;
@@ -11,18 +12,16 @@ use PHPCensor\BuildFactory;
 use PHPCensor\Logging\BuildDBLogHandler;
 use PHPCensor\Model\Build;
 
-/**
- * Class BuildWorker
- * @package PHPCensor\Worker
- */
 class BuildWorker
 {
+    const JOB_TYPE = 'php-censor.build';
+
     /**
      * If this variable changes to false, the worker will stop after the current build.
      *
      * @var bool
      */
-    protected $run = true;
+    protected $canRun = true;
 
     /**
      * The logger for builds to use.
@@ -32,18 +31,11 @@ class BuildWorker
     protected $logger;
 
     /**
-     * beanstalkd host
-     *
-     * @var string
-     */
-    protected $host;
-
-    /**
      * beanstalkd queue to watch
      *
      * @var string
      */
-    protected $queue;
+    protected $queueTube;
 
     /**
      * @var \Pheanstalk\Pheanstalk
@@ -51,19 +43,13 @@ class BuildWorker
     protected $pheanstalk;
 
     /**
-     * @var int
+     * @param string $queueHost
+     * @param string $queueTube
      */
-    protected $totalJobs = 0;
-
-    /**
-     * @param string $host
-     * @param string $queue
-     */
-    public function __construct($host, $queue)
+    public function __construct($queueHost, $queueTube)
     {
-        $this->host       = $host;
-        $this->queue      = $queue;
-        $this->pheanstalk = new Pheanstalk($this->host);
+        $this->queueTube  = $queueTube;
+        $this->pheanstalk = new Pheanstalk($queueHost);
     }
 
     /**
@@ -74,32 +60,71 @@ class BuildWorker
         $this->logger = $logger;
     }
 
-    /**
-     * Start the worker.
-     */
+    public function stopWorker()
+    {
+        $this->canRun = false;
+    }
+
     public function startWorker()
     {
-        $this->pheanstalk->watch($this->queue);
-        $this->pheanstalk->ignore('default');
+        $this->canRun = true;
+
+        $this->runWorker();
+    }
+
+    protected function runWorker()
+    {
+        $this->pheanstalk->watchOnly($this->queueTube);
+
         $buildStore = Factory::getStore('Build');
 
-        while ($this->run) {
-            // Get a job from the queue:
-            $job = $this->pheanstalk->reserve();
-
-            // Get the job data and run the job:
+        while ($this->canRun) {
+            $job     = $this->pheanstalk->reserve();
             $jobData = json_decode($job->getData(), true);
 
-            if (!$this->verifyJob($job, $jobData)) {
+            if (!$this->verifyJob($job)) {
+                $this->deleteJob($job);
+
                 continue;
             }
 
-            $this->logger->addInfo('Received build #'.$jobData['build_id'].' from Beanstalkd');
+            $this->logger->addInfo(
+                sprintf(
+                    'Received build #%s from the queue tube "%s".',
+                    $jobData['build_id'],
+                    $this->queueTube
+                )
+            );
 
             $build = BuildFactory::getBuildById($jobData['build_id']);
+
             if (!$build) {
-                $this->logger->addWarning('Build #' . $jobData['build_id'] . ' does not exist in the database.');
-                $this->pheanstalk->delete($job);
+                $this->logger->warning(
+                    sprintf(
+                        'Build #%s from the queue tube "%s" does not exist in the database!',
+                        $jobData['build_id'],
+                        $this->queueTube
+                    )
+                );
+
+                $this->deleteJob($job);
+
+                continue;
+            }
+
+            if (Build::STATUS_PENDING !== $build->getStatus()) {
+                $this->logger->warning(
+                    sprintf(
+                        'Invalid build #%s status "%s" from the queue tube "%s". Build status should be "%s" (pending)!',
+                        $build->getId(),
+                        $build->getStatus(),
+                        $this->queueTube,
+                        Build::STATUS_PENDING
+                    )
+                );
+
+                $this->deleteJob($job);
+
                 continue;
             }
 
@@ -108,22 +133,25 @@ class BuildWorker
             $buildDbLog = new BuildDBLogHandler($build, Logger::INFO);
             $this->logger->pushHandler($buildDbLog);
 
+            $builder = new Builder($build, $this->logger);
+
             try {
-                $builder = new Builder($build, $this->logger);
                 $builder->execute();
-            } catch (\PDOException $ex) {
-                // If we've caught a PDO Exception, it is probably not the fault of the build, but of a failed
-                // connection or similar. Release the job and kill the worker.
-                $this->run = false;
-                $this->pheanstalk->release($job);
-                unset($job);
             } catch (\Exception $ex) {
-                $this->logger->addError($ex->getMessage());
+                $builder->getBuildLogger()->logFailure(
+                    sprintf(
+                        'Build #%s failed! Exception: %s',
+                        $build->getId(),
+                        $ex->getMessage()
+                    ),
+                    $ex
+                );
 
                 $build->setStatus(Build::STATUS_FAILED);
                 $build->setFinishDate(new \DateTime());
-                $build->setLog($build->getLog() . PHP_EOL . PHP_EOL . $ex->getMessage());
+
                 $buildStore->save($build);
+
                 $build->sendStatusPostback();
             }
 
@@ -133,38 +161,53 @@ class BuildWorker
             // destructor implicitly call flush
             unset($buildDbLog);
 
-            // Delete the job when we're done:
-            if (!empty($job)) {
-                $this->pheanstalk->delete($job);
-            }
+            $this->deleteJob($job);
         }
     }
 
     /**
-     * Stops the worker after the current build.
+     * @param Job $job
      */
-    public function stopWorker()
+    protected function deleteJob(Job $job)
     {
-        $this->run = false;
+        try {
+            $this->pheanstalk->delete($job);
+        } catch (ServerException $e) {
+            $this->logger->warning($e->getMessage());
+        }
     }
 
     /**
-     * Checks that the job received is actually, and has a valid type.
+     * @param Job $job
      *
-     * @param Job   $job
-     * @param array $jobData
-     *
-     * @return boolean
+     * @return bool
      */
-    protected function verifyJob(Job $job, $jobData)
+    protected function verifyJob(Job $job)
     {
+        $jobData = json_decode($job->getData(), true);
+
         if (empty($jobData) || !is_array($jobData)) {
-            $this->pheanstalk->delete($job);
+            $this->logger->warning(
+                sprintf('Empty job (#%s) from the queue tube "%s"!', $job->getId(), $this->queueTube)
+            );
+
             return false;
         }
 
-        if (!array_key_exists('type', $jobData) || $jobData['type'] !== 'php-censor.build') {
-            $this->pheanstalk->delete($job);
+        $jobType = !empty($jobData['type'])
+            ? $jobData['type']
+            : ''; 
+
+        if (self::JOB_TYPE !== $jobType) {
+            $this->logger->warning(
+                sprintf(
+                    'Invalid job (#%s) type "%s" in the queue tube "%s"!',
+                    $job->getId(),
+                    $jobType,
+                    $this->queueTube
+                )
+            );
+
             return false;
         }
 

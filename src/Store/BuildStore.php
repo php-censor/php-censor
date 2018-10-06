@@ -478,29 +478,6 @@ class BuildStore extends Store
         $store->save($meta);
     }
 
-    /**
-     * Update status only if it synced with db
-     *
-     * @param Build   $build
-     * @param integer $status
-     *
-     * @return boolean
-     */
-    public function updateStatusSync($build, $status)
-    {
-        try {
-            $query = 'UPDATE {{build}} SET status = :status_new WHERE {{id}} = :id AND {{status}} = :status_current';
-            $stmt = Database::getConnection('write')->prepareCommon($query);
-            $stmt->bindValue(':id', $build->getId(), \PDO::PARAM_INT);
-            $stmt->bindValue(':status_current', $build->getStatus(), \PDO::PARAM_INT);
-            $stmt->bindValue(':status_new', $status, \PDO::PARAM_INT);
-
-            return ($stmt->execute() && ($stmt->rowCount() == 1));
-        } catch (\Exception $e) {
-            return false;
-        }
-    }
-
     public function deleteAllByProject($projectId)
     {
         $q = Database::getConnection('write')

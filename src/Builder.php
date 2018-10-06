@@ -120,6 +120,14 @@ class Builder implements LoggerAwareInterface
     }
 
     /**
+     * @return BuildLogger
+     */
+    public function getBuildLogger()
+    {
+        return $this->buildLogger;
+    }
+
+    /**
      * @return null|string
      */
     public function getCurrentStage()
@@ -180,24 +188,13 @@ class Builder implements LoggerAwareInterface
         return $this->build->getProject()->getTitle();
     }
 
-    /**
-     * Run the active build.
-     */
     public function execute()
     {
-        // check current status
-        if ($this->build->getStatus() != Build::STATUS_PENDING) {
-            throw new BuilderException('Can`t build - status is not pending', BuilderException::FAIL_START);
-        }
-        // set status only if current status pending
-        if (!$this->build->setStatusSync(Build::STATUS_RUNNING)) {
-            throw new BuilderException('Can`t build - unable change status to running', BuilderException::FAIL_START);
-        }
-
-        // Update the build in the database, ping any external services.
+        $this->build->setStatus(Build::STATUS_RUNNING);
         $this->build->setStartDate(new \DateTime());
         $this->store->save($this->build);
         $this->build->sendStatusPostback();
+
         $success = true;
 
         $previousBuild = $this->build->getProject()->getPreviousBuild($this->build->getBranch());

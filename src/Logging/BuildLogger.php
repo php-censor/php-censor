@@ -88,7 +88,7 @@ class BuildLogger implements LoggerAwareInterface
     public function logFailure($message, \Exception $exception = null)
     {
         $context = [];
-    
+
         // The psr3 log interface stipulates that exceptions should be passed
         // as the exception key in the context array.
         if ($exception) {
