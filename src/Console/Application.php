@@ -2,6 +2,7 @@
 
 namespace PHPCensor\Console;
 
+use Monolog\Handler\HandlerInterface;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
@@ -15,6 +16,7 @@ use PHPCensor\Command\RunCommand;
 use PHPCensor\Command\ScheduleBuildCommand;
 use PHPCensor\Command\WorkerCommand;
 use PHPCensor\Config;
+use PHPCensor\Logging\AnsiFormatter;
 use PHPCensor\Logging\Handler;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Store\BuildStore;
@@ -55,12 +57,15 @@ LOGO;
         $rotate   = (bool)$applicationConfig->get('php-censor.log.rotate', false);
         $maxFiles = (int)$applicationConfig->get('php-censor.log.max_files', 0);
 
+        /** @var HandlerInterface[] $loggerHandlers */
         $loggerHandlers = [];
         if ($rotate) {
             $loggerHandlers[] = new RotatingFileHandler(RUNTIME_DIR . 'console.log', $maxFiles, Logger::DEBUG);
         } else {
             $loggerHandlers[] = new StreamHandler(RUNTIME_DIR . 'console.log', Logger::DEBUG);
         }
+
+        $loggerHandlers[0]->setFormatter(new AnsiFormatter());
 
         $logger = new Logger('php-censor', $loggerHandlers);
         Handler::register($logger);

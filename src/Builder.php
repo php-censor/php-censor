@@ -252,10 +252,11 @@ class Builder implements LoggerAwareInterface
             $this->buildLogger->logFailure('Exception: ' . $ex->getMessage(), $ex);
         }
 
+        $this->buildLogger->log('');
         if (Build::STATUS_FAILED === $this->build->getStatus()) {
-            $this->buildLogger->logFailure("\nBUILD FAILED");
+            $this->buildLogger->logFailure('BUILD FAILED!');
         } else {
-            $this->buildLogger->logSuccess("\nBUILD SUCCESS");
+            $this->buildLogger->logSuccess('BUILD SUCCESS!');
         }
 
         try {
@@ -273,7 +274,8 @@ class Builder implements LoggerAwareInterface
         $removeBuilds = (bool)Config::getInstance()->get('php-censor.build.remove_builds', true);
         if ($removeBuilds) {
             // Clean up:
-            $this->buildLogger->log("\nRemoving Build.");
+            $this->buildLogger->log('');
+            $this->buildLogger->logSuccess('REMOVING BUILD.');
             $this->build->removeBuildDirectory();
         }
 

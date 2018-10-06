@@ -125,7 +125,7 @@ class BuildStore extends Store
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
-        $query = 'SELECT * FROM {{build}} WHERE {{status}} = :status LIMIT :limit';
+        $query = 'SELECT * FROM {{build}} WHERE {{status}} = :status ORDER BY {{create_date}} ASC LIMIT :limit';
         $stmt = Database::getConnection($useConnection)->prepareCommon($query);
         $stmt->bindValue(':status', $status);
         $stmt->bindValue(':limit', (int)$limit, \PDO::PARAM_INT);

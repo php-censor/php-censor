@@ -43,21 +43,20 @@ class BuildWorker
     protected $pheanstalk;
 
     /**
+     * @param Logger $logger
      * @param string $queueHost
      * @param string $queueTube
      */
-    public function __construct($queueHost, $queueTube)
-    {
-        $this->queueTube  = $queueTube;
-        $this->pheanstalk = new Pheanstalk($queueHost);
-    }
-
-    /**
-     * @param Logger $logger
-     */
-    public function setLogger(Logger $logger)
+    public function __construct(
+        Logger $logger,
+        $queueHost,
+        $queueTube
+    )
     {
         $this->logger = $logger;
+
+        $this->queueTube  = $queueTube;
+        $this->pheanstalk = new Pheanstalk($queueHost);
     }
 
     public function stopWorker()
@@ -88,7 +87,7 @@ class BuildWorker
                 continue;
             }
 
-            $this->logger->addInfo(
+            $this->logger->addNotice(
                 sprintf(
                     'Received build #%s from the queue tube "%s".',
                     $jobData['build_id'],
@@ -138,9 +137,10 @@ class BuildWorker
             try {
                 $builder->execute();
             } catch (\Exception $ex) {
+                $builder->getBuildLogger()->log('');
                 $builder->getBuildLogger()->logFailure(
                     sprintf(
-                        'Build #%s failed! Exception: %s',
+                        'BUILD FAILED! Exception: %s',
                         $build->getId(),
                         $ex->getMessage()
                     ),

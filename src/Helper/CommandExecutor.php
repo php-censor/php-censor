@@ -113,7 +113,7 @@ class CommandExecutor implements CommandExecutorInterface
         }
 
         if (!empty($this->lastError)) {
-            $this->logger->log("\033[0;31m" . $this->lastError . "\033[0m", LogLevel::ERROR);
+            $this->logger->logFailure($this->lastError);
         }
 
         $rtn = false;
