@@ -147,7 +147,7 @@ class BuildWorker
                     $ex
                 );
 
-                $build->setStatus(Build::STATUS_FAILED);
+                $build->setStatusFailed();
                 $build->setFinishDate(new \DateTime());
 
                 $buildStore->save($build);

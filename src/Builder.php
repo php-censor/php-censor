@@ -190,7 +190,7 @@ class Builder implements LoggerAwareInterface
 
     public function execute()
     {
-        $this->build->setStatus(Build::STATUS_RUNNING);
+        $this->build->setStatusRunning();
         $this->build->setStartDate(new \DateTime());
         $this->store->save($this->build);
         $this->build->sendStatusPostback();
@@ -220,13 +220,13 @@ class Builder implements LoggerAwareInterface
             // Set the status so this can be used by complete, success and failure
             // stages.
             if ($success) {
-                $this->build->setStatus(Build::STATUS_SUCCESS);
+                $this->build->setStatusSuccess();
             } else {
-                $this->build->setStatus(Build::STATUS_FAILED);
+                $this->build->setStatusFailed();
             }
         } catch (\Exception $ex) {
             $success = false;
-            $this->build->setStatus(Build::STATUS_FAILED);
+            $this->build->setStatusFailed();
             $this->buildLogger->logFailure('Exception: ' . $ex->getMessage(), $ex);
         }
 

@@ -63,7 +63,7 @@ class BuildService
         $build = new Build();
         $build->setCreateDate(new \DateTime());
         $build->setProjectId($project->getId());
-        $build->setStatus(Build::STATUS_PENDING);
+        $build->setStatusPending();
         $build->setEnvironment($environment);
 
         if (!is_null($extra)) {
@@ -127,7 +127,7 @@ class BuildService
         $build->setSource($copyFrom->getSource());
         $build->setUserId($copyFrom->getUserId());
         $build->setCreateDate(new \DateTime());
-        $build->setStatus(Build::STATUS_PENDING);
+        $build->setStatusPending();
 
         /** @var Build $build */
         $build   = $this->buildStore->save($build);

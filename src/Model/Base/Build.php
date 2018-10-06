@@ -185,6 +185,42 @@ class Build extends Model
         return $this->setModified('status');
     }
 
+    public function setStatusPending()
+    {
+        if (self::STATUS_PENDING !== $this->data['status']) {
+            $this->setModified('status');
+        }
+
+        $this->data['status'] = self::STATUS_PENDING;
+    }
+
+    public function setStatusRunning()
+    {
+        if (self::STATUS_RUNNING !== $this->data['status']) {
+            $this->setModified('status');
+        }
+
+        $this->data['status'] = self::STATUS_RUNNING;
+    }
+
+    public function setStatusSuccess()
+    {
+        if (self::STATUS_SUCCESS !== $this->data['status']) {
+            $this->setModified('status');
+        }
+
+        $this->data['status'] = self::STATUS_SUCCESS;
+    }
+
+    public function setStatusFailed()
+    {
+        if (self::STATUS_FAILED !== $this->data['status']) {
+            $this->setModified('status');
+        }
+
+        $this->data['status'] = self::STATUS_FAILED;
+    }
+
     /**
      * @return string
      */

@@ -119,10 +119,12 @@ class RunCommand extends Command
             } catch (\Exception $ex) {
                 $this->logger->addError($ex->getMessage());
 
-                $build->setStatus(Build::STATUS_FAILED);
+                $build->setStatusFailed();
                 $build->setFinishDate(new \DateTime());
                 $build->setLog($build->getLog() . PHP_EOL . PHP_EOL . $ex->getMessage());
+
                 $buildStore->save($build);
+
                 $build->sendStatusPostback();
             }
 
