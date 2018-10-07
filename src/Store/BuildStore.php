@@ -125,7 +125,7 @@ class BuildStore extends Store
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
-        $query = 'SELECT * FROM {{build}} WHERE {{status}} = :status LIMIT :limit';
+        $query = 'SELECT * FROM {{build}} WHERE {{status}} = :status ORDER BY {{create_date}} ASC LIMIT :limit';
         $stmt = Database::getConnection($useConnection)->prepareCommon($query);
         $stmt->bindValue(':status', $status);
         $stmt->bindValue(':limit', (int)$limit, \PDO::PARAM_INT);
@@ -476,29 +476,6 @@ class BuildStore extends Store
         $meta->setMetaValue($value);
 
         $store->save($meta);
-    }
-
-    /**
-     * Update status only if it synced with db
-     *
-     * @param Build   $build
-     * @param integer $status
-     *
-     * @return boolean
-     */
-    public function updateStatusSync($build, $status)
-    {
-        try {
-            $query = 'UPDATE {{build}} SET status = :status_new WHERE {{id}} = :id AND {{status}} = :status_current';
-            $stmt = Database::getConnection('write')->prepareCommon($query);
-            $stmt->bindValue(':id', $build->getId(), \PDO::PARAM_INT);
-            $stmt->bindValue(':status_current', $build->getStatus(), \PDO::PARAM_INT);
-            $stmt->bindValue(':status_new', $status, \PDO::PARAM_INT);
-
-            return ($stmt->execute() && ($stmt->rowCount() == 1));
-        } catch (\Exception $e) {
-            return false;
-        }
     }
 
     public function deleteAllByProject($projectId)

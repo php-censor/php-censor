@@ -74,12 +74,8 @@ class BuildTest extends TestCase
     {
         $build = new Build();
 
-        $result = $build->setStatus(Build::STATUS_FAILED);
-        self::assertEquals(true, $result);
+        $build->setStatusFailed();
         self::assertEquals(Build::STATUS_FAILED, $build->getStatus());
-
-        $result = $build->setStatus(Build::STATUS_FAILED);
-        self::assertEquals(false, $result);
 
         self::expectException('\PHPCensor\Exception\InvalidArgumentException');
         $build->setStatus(10);

@@ -27,6 +27,7 @@ class OutputLogHandler extends AbstractProcessingHandler
         $bubble = true
     ) {
         parent::__construct($level, $bubble);
+
         $this->output = $output;
     }
 
@@ -36,6 +37,6 @@ class OutputLogHandler extends AbstractProcessingHandler
      */
     protected function write(array $record)
     {
-        $this->output->writeln((string)$record['formatted']);
+        $this->output->write((string)$record['formatted']);
     }
 }

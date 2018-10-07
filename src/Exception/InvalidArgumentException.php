@@ -2,6 +2,6 @@
 
 namespace PHPCensor\Exception;
 
-class InvalidArgumentException extends \InvalidArgumentException
+class InvalidArgumentException extends Exception
 {
 }

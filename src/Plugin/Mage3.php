@@ -68,7 +68,7 @@ class Mage3 extends Plugin
             $this->builder->log($this->getMageLog());
             $this->builder->log('########## MAGE LOG END ##########');
         } catch (\Exception $e) {
-            $this->builder->log($e->getMessage(), LogLevel::NOTICE);
+            $this->builder->logFailure($e->getMessage());
         }
 
         return $result;

@@ -52,10 +52,10 @@ class BuildLogger implements LoggerAwareInterface
 
         // The build is added to the context so the logger can use
         // details from it if required.
-        $context['build'] = $this->build;
+        $context['build'] = $this->build->getId();
 
         foreach ($message as $item) {
-            $this->logger->log($level, $item, $context);
+            $this->logger->log($level, $item, ($item ? $context : []));
         }
     }
 
@@ -66,7 +66,7 @@ class BuildLogger implements LoggerAwareInterface
      */
     public function logWarning($message)
     {
-        $this->log("\033[0;31m" . $message . "\033[0m", LogLevel::WARNING);
+        $this->log("\033[0;31m" . $message . "\033[0m");
     }
 
     /**
@@ -87,16 +87,19 @@ class BuildLogger implements LoggerAwareInterface
      */
     public function logFailure($message, \Exception $exception = null)
     {
+        $level   = LogLevel::INFO;
         $context = [];
-    
+
         // The psr3 log interface stipulates that exceptions should be passed
         // as the exception key in the context array.
         if ($exception) {
+            $level = LogLevel::ERROR;
+
             $context['exception'] = $exception;
             $context['trace']     = $exception->getTrace();
         }
     
-        $this->log("\033[0;31m" . $message . "\033[0m", LogLevel::ERROR, $context);
+        $this->log("\033[0;31m" . $message . "\033[0m", $level, $context);
     }
 
     /**
@@ -110,7 +113,7 @@ class BuildLogger implements LoggerAwareInterface
             (defined('DEBUG_MODE') && DEBUG_MODE) ||
             ((boolean)$this->build->getExtra('debug'))
         ) {
-            $this->log("\033[0;36m" . $message . "\033[0m");
+            $this->log("\033[0;36m" . $message . "\033[0m", LogLevel::DEBUG);
         }
     }
 

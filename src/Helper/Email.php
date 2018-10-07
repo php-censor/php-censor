@@ -139,6 +139,16 @@ class Email
             $message->setCc($this->emailCc);
         }
 
-        return $mailer->send($message);
+        ob_start();
+
+        $result = $mailer->send($message);
+
+        $rawOutput = ob_get_clean();
+
+        if ($rawOutput) {
+            $builder->getBuildLogger()->logWarning($rawOutput);
+        }
+
+        return $result;
     }
 }

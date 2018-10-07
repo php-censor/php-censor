@@ -162,7 +162,8 @@ class Executor
         $success = true;
 
         foreach ($plugins as $plugin => $options) {
-            $this->logger->log("\n" .
+            $this->logger->log('');
+            $this->logger->logSuccess(
                 sprintf('RUNNING PLUGIN: %s', Lang::get($plugin)) . ' (' .
                 'Stage' . ': ' . ucfirst($stage) . ')'
             );

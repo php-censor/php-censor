@@ -91,28 +91,6 @@ class Build extends BaseBuild
     }
 
     /**
-     * Set the value of status only if it synced with db. Must not be null.
-     *
-     * @param integer $value
-     *
-     * @return boolean
-     */
-    public function setStatusSync($value)
-    {
-        $this->validateNotNull('status', $value);
-        $this->validateInt('status', $value);
-
-        if ($this->data['status'] !== $value) {
-            $store = Factory::getStore('Build');
-            if ($store->updateStatusSync($this, $value)) {
-                $this->data['status'] = $value;
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
      * Get BuildError models by BuildId for this Build.
      *
      * @return \PHPCensor\Model\BuildError[]

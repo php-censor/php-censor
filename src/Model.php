@@ -23,6 +23,8 @@ class Model
 
     /**
      * @param array $initialData
+     *
+     * @throws InvalidArgumentException
      */
     public function __construct($initialData = [])
     {
