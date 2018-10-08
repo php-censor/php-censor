@@ -78,6 +78,10 @@ class BuildWorker
         $buildStore = Factory::getStore('Build');
 
         while ($this->canRun) {
+            if ($this->canForceRewindLoop()) {
+                continue;
+            }
+
             $job     = $this->pheanstalk->reserve();
             $jobData = json_decode($job->getData(), true);
 
@@ -127,8 +131,7 @@ class BuildWorker
                 continue;
             }
 
-            // Logging relevant to this build should be stored
-            // against the build itself.
+            // Logging relevant to this build should be stored against the build itself.
             $buildDbLog = new BuildDBLogHandler($build, Logger::INFO);
             $this->logger->pushHandler($buildDbLog);
 
@@ -155,8 +158,8 @@ class BuildWorker
                 $build->sendStatusPostback();
             }
 
-            // After execution we no longer want to record the information
-            // back to this specific build so the handler should be removed.
+            // After execution we no longer want to record the information back to this specific build so the handler
+            // should be removed.
             $this->logger->popHandler();
             // destructor implicitly call flush
             unset($buildDbLog);
@@ -175,6 +178,20 @@ class BuildWorker
         } catch (ServerException $e) {
             $this->logger->warning($e->getMessage());
         }
+    }
+
+    /**
+     * @return bool
+     */
+    protected function canForceRewindLoop()
+    {
+        try {
+            $peekedJob = $this->pheanstalk->peekReady($this->queueTube);
+        } catch (ServerException $e) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
