@@ -2,9 +2,15 @@
 
 namespace PHPCensor\Command;
 
+use Monolog\Logger;
 use PHPCensor\Config;
+use PHPCensor\Service\BuildService;
+use PHPCensor\Store\BuildStore;
+use PHPCensor\Store\Factory;
+use PHPCensor\Store\ProjectStore;
 use PHPCensor\Worker\BuildWorker;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -14,10 +20,37 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class WorkerCommand extends LoggingCommand
 {
+    /**
+     * @var BuildService
+     */
+    protected $buildService;
+
+    /**
+     * @param Logger       $logger
+     * @param BuildService $buildService
+     * @param string       $name
+     */
+    public function __construct(
+        Logger $logger,
+        BuildService $buildService,
+        $name = null
+    )
+    {
+        parent::__construct($logger, $name);
+
+        $this->buildService = $buildService;
+    }
+
     protected function configure()
     {
         $this
             ->setName('php-censor:worker')
+            ->addOption(
+                'periodical-work',
+                'p',
+                InputOption::VALUE_NONE,
+                'Allow worker run periodical work'
+            )
             ->setDescription('Runs the PHP Censor build worker.');
     }
 
@@ -38,7 +71,13 @@ class WorkerCommand extends LoggingCommand
             );
         }
 
-        (new BuildWorker($this->logger, $config['host'], $config['name']))
+        (new BuildWorker(
+            $this->logger,
+            $this->buildService,
+            $config['host'],
+            $config['name'],
+            ($input->hasOption('periodical-work') && $input->getOption('periodical-work'))
+        ))
             ->startWorker();
     }
 }

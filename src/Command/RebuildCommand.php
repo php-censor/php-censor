@@ -9,6 +9,8 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use PHPCensor\Store\BuildStore;
+use PHPCensor\Store\ProjectStore;
 
 /**
  * Re-runs the last run build.
@@ -62,11 +64,15 @@ class RebuildCommand extends Command
         $runner = new RunCommand($this->logger);
         $runner->setMaxBuilds(1);
 
-        /** @var \PHPCensor\Store\BuildStore $store */
-        $store = Factory::getStore('Build');
-        $service = new BuildService($store);
+        /** @var BuildStore $buildStore */
+        $buildStore = Factory::getStore('Build');
 
-        $builds = $store->getLatestBuilds(null, 1);
+        /** @var ProjectStore $projectStore */
+        $projectStore = Factory::getStore('Project');
+
+        $service = new BuildService($buildStore, $projectStore);
+
+        $builds = $buildStore->getLatestBuilds(null, 1);
         $lastBuild = array_shift($builds);
         $service->createDuplicateBuild($lastBuild);
 

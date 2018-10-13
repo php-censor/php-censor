@@ -51,7 +51,8 @@ class WebhookController extends Controller
     {
         $this->buildStore   = Factory::getStore('Build');
         $this->projectStore = Factory::getStore('Project');
-        $this->buildService = new BuildService($this->buildStore);
+
+        $this->buildService = new BuildService($this->buildStore, $this->projectStore);
     }
 
     /**

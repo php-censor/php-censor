@@ -42,7 +42,9 @@ class BuildServiceTest extends \PHPUnit\Framework\TestCase
             ->method('getByProjectId')
             ->will($this->returnValue(['items' => [], 'count' => 0]));
 
-        $this->testedService = new BuildService($this->mockBuildStore);
+        $mockProjectStore = $this->getMockBuilder('PHPCensor\Store\ProjectStore')->getMock();
+
+        $this->testedService = new BuildService($this->mockBuildStore, $mockProjectStore);
     }
 
     public function testExecute_CreateBasicBuild()
@@ -174,7 +176,9 @@ class BuildServiceTest extends \PHPUnit\Framework\TestCase
             ->method('delete')
             ->will($this->returnValue(true));
 
-        $service = new BuildService($store);
+        $mockProjectStore = $this->getMockBuilder('PHPCensor\Store\ProjectStore')->getMock();
+        
+        $service = new BuildService($store, $mockProjectStore);
         $build = new Build();
 
         self::assertEquals(true, $service->deleteBuild($build));

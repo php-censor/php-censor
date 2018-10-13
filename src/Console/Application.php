@@ -13,7 +13,6 @@ use PHPCensor\Command\InstallCommand;
 use PHPCensor\Command\RebuildCommand;
 use PHPCensor\Command\RebuildQueueCommand;
 use PHPCensor\Command\RunCommand;
-use PHPCensor\Command\ScheduleBuildCommand;
 use PHPCensor\Command\WorkerCommand;
 use PHPCensor\Config;
 use PHPCensor\Logging\AnsiFormatter;
@@ -51,6 +50,7 @@ LOGO;
      * @param Config $applicationConfig
      *
      * @return Logger
+     * @throws \Exception
      */
     protected function initLogger(Config $applicationConfig)
     {
@@ -74,10 +74,10 @@ LOGO;
     }
 
     /**
-     * Constructor.
+     * @param string $name
+     * @param string $version
      *
-     * @param string $name    The name of the application
-     * @param string $version The version of the application
+     * @throws \Exception
      */
     public function __construct($name = 'PHP Censor', $version = 'UNKNOWN')
     {
@@ -142,18 +142,18 @@ LOGO;
         $projectStore = Factory::getStore('Project');
 
         /** @var BuildStore $buildStore */
-        $buildStore = Factory::getStore('Build');
+        $buildStore   = Factory::getStore('Build');
 
-        $logger = $this->initLogger($applicationConfig);
+        $buildService = new BuildService($buildStore, $projectStore);
+        $logger       = $this->initLogger($applicationConfig);
 
-        $this->add(new RunCommand($logger));
         $this->add(new RebuildCommand($logger));
         $this->add(new InstallCommand());
         $this->add(new CreateAdminCommand($userStore));
-        $this->add(new CreateBuildCommand($projectStore, new BuildService($buildStore)));
-        $this->add(new WorkerCommand($logger));
+        $this->add(new CreateBuildCommand($projectStore, $buildService));
+        $this->add(new WorkerCommand($logger, $buildService));
+        $this->add(new RunCommand($logger, $buildService));
         $this->add(new RebuildQueueCommand($logger));
-        $this->add(new ScheduleBuildCommand($projectStore, $buildStore, new BuildService($buildStore)));
         $this->add(new CheckLocalizationCommand());
     }
 
@@ -174,14 +174,6 @@ LOGO;
      */
     public function getLongVersion()
     {
-        if ('UNKNOWN' !== $this->getName()) {
-            if ('UNKNOWN' !== $this->getVersion()) {
-                return sprintf('<info>%s</info> v%s', $this->getName(), $this->getVersion());
-            }
-
-            return sprintf('<info>%s</info>', $this->getName());
-        }
-
-        return '<info>Console Tool</info>';
+        return sprintf('<info>%s</info> v%s', $this->getName(), $this->getVersion());
     }
 }

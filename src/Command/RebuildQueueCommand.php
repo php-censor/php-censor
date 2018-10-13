@@ -2,11 +2,13 @@
 
 namespace PHPCensor\Command;
 
+use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\Factory;
 use Monolog\Logger;
 use PHPCensor\BuildFactory;
 use PHPCensor\Logging\OutputLogHandler;
 use PHPCensor\Service\BuildService;
+use PHPCensor\Store\ProjectStore;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -55,12 +57,17 @@ class RebuildQueueCommand extends Command
             );
         }
 
-        $store  = Factory::getStore('Build');
-        $result = $store->getByStatus(0);
+        /** @var BuildStore $buildStore */
+        $buildStore = Factory::getStore('Build');
+        
+        /** @var ProjectStore $projectStore */
+        $projectStore = Factory::getStore('Project');
+
+        $result = $buildStore->getByStatus(0);
 
         $this->logger->addInfo(sprintf('Found %d builds', count($result['items'])));
 
-        $buildService = new BuildService($store);
+        $buildService = new BuildService($buildStore, $projectStore);
 
         while (count($result['items'])) {
             $build = array_shift($result['items']);

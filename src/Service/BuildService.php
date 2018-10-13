@@ -2,6 +2,7 @@
 
 namespace PHPCensor\Service;
 
+use Monolog\Logger;
 use PHPCensor\Config;
 use Pheanstalk\Pheanstalk;
 use Pheanstalk\PheanstalkInterface;
@@ -9,7 +10,11 @@ use PHPCensor\BuildFactory;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\Project;
 use PHPCensor\Store\BuildStore;
+use PHPCensor\Store\Factory;
+use PHPCensor\Store\ProjectStore;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Yaml\Exception\ParseException;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * The build service handles the creation, duplication and deletion of builds.
@@ -17,9 +22,14 @@ use Symfony\Component\Filesystem\Filesystem;
 class BuildService
 {
     /**
-     * @var \PHPCensor\Store\BuildStore
+     * @var BuildStore
      */
     protected $buildStore;
+
+    /**
+     * @var ProjectStore
+     */
+    protected $projectStore;
 
     /**
      * @var boolean
@@ -27,11 +37,16 @@ class BuildService
     public $queueError = false;
 
     /**
-     * @param BuildStore $buildStore
+     * @param BuildStore   $buildStore
+     * @param ProjectStore $projectStore
      */
-    public function __construct(BuildStore $buildStore)
+    public function __construct(
+        BuildStore $buildStore,
+        ProjectStore $projectStore
+    )
     {
-        $this->buildStore = $buildStore;
+        $this->buildStore   = $buildStore;
+        $this->projectStore = $projectStore;
     }
 
     /**
@@ -106,6 +121,119 @@ class BuildService
         }
 
         return $build;
+    }
+
+    /**
+     * @param Logger $logger
+     *
+     * @throws \PHPCensor\Exception\HttpException
+     */
+    public function createPeriodicalBuilds(Logger $logger)
+    {
+        $periodicalConfig = null;
+        if (file_exists(APP_DIR . 'periodical.yml')) {
+            try {
+                $periodicalConfig = (new Yaml())->parse(
+                    file_get_contents(APP_DIR . 'periodical.yml')
+                );
+            } catch (ParseException $e) {
+                $logger->error(
+                    sprintf(
+                        'Invalid periodical builds config ("app/periodical.yml")! Exception: %s',
+                        $e->getMessage()
+                    ),
+                    $e
+                );
+
+                return;
+            }
+        }
+
+        if (
+            empty($periodicalConfig) ||
+            empty($periodicalConfig['projects']) ||
+            !is_array($periodicalConfig['projects'])
+        ) {
+            $logger->warning('Empty periodical builds config ("app/periodical.yml")!');
+
+            return;
+        }
+
+        $buildsCount = 0;
+        foreach ($periodicalConfig['projects'] as $projectId => $projectConfig) {
+            $project = $this->projectStore->getById((int)$projectId);
+
+            if (
+                !$project ||
+                empty($projectConfig['interval']) ||
+                empty($projectConfig['branches']) ||
+                !is_array($projectConfig['branches'])
+            ) {
+                $logger->warning(
+                    sprintf(
+                        'Invalid/empty section for project #%s ("app/periodical.yml")!',
+                        $projectId
+                    )
+                );
+
+                continue;
+            }
+
+            $date = new \DateTime('now');
+
+            try {
+                $interval = new \DateInterval($projectConfig['interval']);
+            } catch (\Exception $e) {
+                $logger->error(
+                    sprintf(
+                        'Invalid datetime interval for project #%s! Exception: %s',
+                        $projectId,
+                        $e->getMessage()
+                    ),
+                    $e
+                );
+
+                return;
+            }
+
+            $date->sub($interval);
+
+            foreach ($projectConfig['branches'] as $branch) {
+                $latestBuild = $this->buildStore->getLatestBuildByProjectAndBranch($projectId, $branch);
+
+                if ($latestBuild) {
+                    $status = (integer)$latestBuild->getStatus();
+                    if ($status === Build::STATUS_RUNNING || $status === Build::STATUS_PENDING) {
+                        continue;
+                    }
+
+                    if ($date <= $latestBuild->getFinishDate()) {
+                        continue;
+                    }
+                }
+                
+                $buildsCount++;
+
+                $this->createBuild(
+                    $project,
+                    null,
+                    '',
+                    $branch,
+                    null,
+                    null,
+                    null,
+                    Build::SOURCE_PERIODICAL
+                );
+            }
+        }
+
+        $logger->notice(
+            sprintf(
+                'Created %d periodical builds for %d projects.',
+                $buildsCount,
+                count($periodicalConfig['projects'])
+            )
+        );
     }
 
     /**
