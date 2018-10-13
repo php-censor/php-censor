@@ -61,7 +61,7 @@ class ProjectController extends WebController
         $this->buildStore     = Factory::getStore('Build');
         $this->projectStore   = Factory::getStore('Project');
         $this->projectService = new ProjectService($this->projectStore);
-        $this->buildService   = new BuildService($this->buildStore);
+        $this->buildService   = new BuildService($this->buildStore, $this->projectStore);
     }
 
     /**

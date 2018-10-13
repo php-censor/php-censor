@@ -1,5 +1,10 @@
-/vendor
 /composer.phar
+
+/vendor
+/public/assets/vendor
+
+/app/config.yml
+/app/periodical.yml
 
 /runtime/*.log
 
@@ -11,9 +16,6 @@
 
 /runtime/status_cache
 !/runtime/status_cache/.gitkeep
-
-/app/config.yml
-/public/assets/vendor
 
 /public/artifacts
 !/public/artifacts/.gitkeep

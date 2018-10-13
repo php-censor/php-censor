@@ -3,6 +3,7 @@
 namespace PHPCensor\Worker;
 
 use Pheanstalk\Exception\ServerException;
+use PHPCensor\Service\BuildService;
 use PHPCensor\Store\Factory;
 use Monolog\Logger;
 use Pheanstalk\Job;
@@ -24,11 +25,21 @@ class BuildWorker
     protected $canRun = true;
 
     /**
+     * @var bool
+     */
+    protected $canPeriodicalWork;
+
+    /**
      * The logger for builds to use.
      *
      * @var \Monolog\Logger
      */
     protected $logger;
+
+    /**
+     * @var BuildService
+     */
+    protected $buildService;
 
     /**
      * beanstalkd queue to watch
@@ -43,20 +54,33 @@ class BuildWorker
     protected $pheanstalk;
 
     /**
-     * @param Logger $logger
-     * @param string $queueHost
-     * @param string $queueTube
+     * @var int
+     */
+    protected $lastPeriodical;
+
+    /**
+     * @param Logger       $logger
+     * @param BuildService $buildService,
+     * @param string       $queueHost
+     * @param string       $queueTube
+     * @param bool         $canPeriodicalWork
      */
     public function __construct(
         Logger $logger,
+        BuildService $buildService,
         $queueHost,
-        $queueTube
+        $queueTube,
+        $canPeriodicalWork
     )
     {
-        $this->logger = $logger;
+        $this->logger       = $logger;
+        $this->buildService = $buildService;
 
         $this->queueTube  = $queueTube;
         $this->pheanstalk = new Pheanstalk($queueHost);
+
+        $this->lastPeriodical    = 0;
+        $this->canPeriodicalWork = $canPeriodicalWork;
     }
 
     public function stopWorker()
@@ -78,6 +102,17 @@ class BuildWorker
         $buildStore = Factory::getStore('Build');
 
         while ($this->canRun) {
+            if (
+                $this->canPeriodicalWork &&
+                $this->canRunPeriodicalWork()
+            ) {
+                $this->buildService->createPeriodicalBuilds($this->logger);
+            }
+
+            if ($this->canForceRewindLoop()) {
+                continue;
+            }
+
             $job     = $this->pheanstalk->reserve();
             $jobData = json_decode($job->getData(), true);
 
@@ -87,7 +122,7 @@ class BuildWorker
                 continue;
             }
 
-            $this->logger->addNotice(
+            $this->logger->notice(
                 sprintf(
                     'Received build #%s from the queue tube "%s".',
                     $jobData['build_id'],
@@ -127,8 +162,7 @@ class BuildWorker
                 continue;
             }
 
-            // Logging relevant to this build should be stored
-            // against the build itself.
+            // Logging relevant to this build should be stored against the build itself.
             $buildDbLog = new BuildDBLogHandler($build, Logger::INFO);
             $this->logger->pushHandler($buildDbLog);
 
@@ -136,15 +170,15 @@ class BuildWorker
 
             try {
                 $builder->execute();
-            } catch (\Exception $ex) {
+            } catch (\Exception $e) {
                 $builder->getBuildLogger()->log('');
                 $builder->getBuildLogger()->logFailure(
                     sprintf(
                         'BUILD FAILED! Exception: %s',
                         $build->getId(),
-                        $ex->getMessage()
+                        $e->getMessage()
                     ),
-                    $ex
+                    $e
                 );
 
                 $build->setStatusFailed();
@@ -155,8 +189,8 @@ class BuildWorker
                 $build->sendStatusPostback();
             }
 
-            // After execution we no longer want to record the information
-            // back to this specific build so the handler should be removed.
+            // After execution we no longer want to record the information back to this specific build so the handler
+            // should be removed.
             $this->logger->popHandler();
             // destructor implicitly call flush
             unset($buildDbLog);
@@ -175,6 +209,35 @@ class BuildWorker
         } catch (ServerException $e) {
             $this->logger->warning($e->getMessage());
         }
+    }
+
+    /**
+     * @return bool
+     */
+    protected function canForceRewindLoop()
+    {
+        try {
+            $peekedJob = $this->pheanstalk->peekReady($this->queueTube);
+        } catch (ServerException $e) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function canRunPeriodicalWork()
+    {
+        $currentTime = time();
+        if (($this->lastPeriodical + 60) > $currentTime) {
+            return false;
+        }
+
+        $this->lastPeriodical = $currentTime;
+
+        return true;
     }
 
     /**

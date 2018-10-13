@@ -4,7 +4,9 @@ namespace PHPCensor\Command;
 
 use Monolog\Logger;
 use PHPCensor\Logging\BuildDBLogHandler;
+use PHPCensor\Service\BuildService;
 use PHPCensor\Store\BuildStore;
+use PHPCensor\Store\ProjectStore;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use PHPCensor\Store\Factory;
@@ -20,9 +22,30 @@ use PHPCensor\Model\Build;
 class RunCommand extends LoggingCommand
 {
     /**
+     * @var BuildService
+     */
+    protected $buildService;
+
+    /**
      * @var int
      */
     protected $maxBuilds = 10;
+
+    /**
+     * @param Logger       $logger
+     * @param BuildService $buildService
+     * @param string       $name
+     */
+    public function __construct(
+        Logger $logger,
+        BuildService $buildService,
+        $name = null
+    )
+    {
+        parent::__construct($logger, $name);
+
+        $this->buildService = $buildService;
+    }
 
     protected function configure()
     {
@@ -37,7 +60,10 @@ class RunCommand extends LoggingCommand
 
         /** @var BuildStore $buildStore */
         $buildStore = Factory::getStore('Build');
-        $result     = $buildStore->getByStatus(Build::STATUS_PENDING, $this->maxBuilds);
+
+        $this->buildService->createPeriodicalBuilds($this->logger);
+
+        $result = $buildStore->getByStatus(Build::STATUS_PENDING, $this->maxBuilds);
 
         $this->logger->notice(
             sprintf('Found %d pending builds', count($result['items']))

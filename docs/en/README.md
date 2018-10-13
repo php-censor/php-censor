@@ -27,6 +27,9 @@ Using PHP Censor
 * [Injecting variables into messages](interpolation.md)
 * [Project Status Images and Status Page](status.md)
 * [Build environments](environments.md)
+* [Periodical builds](periodical_builds.md)
+* [Console commands](commands.md)
+* [CCMenu/CCTray integration](ccmenu.md)
 
 Plugins
 -------

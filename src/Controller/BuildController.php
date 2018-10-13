@@ -12,6 +12,7 @@ use PHPCensor\Http\Response\RedirectResponse;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\User;
 use PHPCensor\Service\BuildService;
+use PHPCensor\Store\ProjectStore;
 use PHPCensor\WebController;
 use PHPCensor\View;
 use PHPCensor\Store\Factory;
@@ -34,6 +35,11 @@ class BuildController extends WebController
     protected $buildStore;
 
     /**
+     * @var \PHPCensor\Store\ProjectStore
+     */
+    protected $projectStore;
+
+    /**
      * @var \PHPCensor\Service\BuildService
      */
     protected $buildService;
@@ -42,8 +48,10 @@ class BuildController extends WebController
     {
         parent::init();
 
-        $this->buildStore = Factory::getStore('Build');
-        $this->buildService = new BuildService($this->buildStore);
+        $this->buildStore   = Factory::getStore('Build');
+        $this->projectStore = Factory::getStore('Project');
+
+        $this->buildService = new BuildService($this->buildStore, $this->projectStore);
     }
 
     /**
