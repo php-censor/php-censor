@@ -59,7 +59,7 @@ directory;
 * Run tests for PHPUnit, Atoum, Behat, Codeception and PHPSpec;
 
 * Check code via Lint, PHPParallelLint, Pdepend, PHPCodeSniffer, PHPCpd, PHPCsFixer, PHPDocblockChecker, PHPLoc, 
-PHPMessDetect, PHPTalLint and TechnicalDept;
+PHPMessDetector, PHPTalLint and TechnicalDept;
 
 * Run through any combination of the other [supported plugins](docs/en/README.md#plugins), including Campfire, 
 CleanBuild, CopyBuild, Deployer, Env, Git, Grunt, Gulp, PackageBuild, Phar, Phing, Shell and Wipe;
@@ -172,7 +172,7 @@ If you want to install PHP Censor as Docker container, you can use
 There are several ways to set up the project:
 
 * Add project without any project config (Runs "zero-config" plugins, including: Composer, TechnicalDept, PHPLoc, 
-PHPCpd, PHPCodeSniffer, PHPMessDetect, PHPDocblockChecker, PHPParallelLint, PHPUnit and Codeception);
+PHPCpd, PHPCodeSniffer, PHPMessDetector, PHPDocblockChecker, PHPParallelLint, PHPUnit and Codeception);
 
 * Similar to [Travis CI](https://travis-ci.org), to support PHP Censor in your project, you simply need to add a 
 `.php-censor.yml` (`phpci.yml`/`.phpci.yml` for backward compatibility with PHPCI) file to the root of your repository;

@@ -14,7 +14,7 @@ projects:
             - master
             - release-1.0
             - release-2.0
-        interval: P1W     # Interval to build project if no other builds (from webhook etc.).Used format of PHP DateInterval class. See: http://php.net/manual/ru/dateinterval.construct.php
+        interval: P1W     # Interval to build project if no other builds (from webhook, manual etc.).Used format of PHP DateInterval class. See: http://php.net/manual/ru/dateinterval.construct.php
     12:                   # Another project id
         branches:
             - master
