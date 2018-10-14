@@ -5,10 +5,10 @@ Getting Started
 ---------------
 
 * Installing PHP Censor (See [README](../../README.md))
-    * [Adding a Virtual Host](virtual_host.md)
+    * [Adding a virtual host](virtual_host.md)
     * [Run builds using a worker](workers/worker.md)
     * [Run builds using cronjob](workers/cron.md)
-* [Adding PHP Censor Support to Your Projects](configuring_project.md)
+* [Adding PHP Censor support to your projects](configuring_project.md)
 * Updating PHP Censor (See [README](../../README.md))
 * [Configuring PHP Censor](configuring-application.md)
 
