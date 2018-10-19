@@ -125,7 +125,7 @@ branch-dev:
     grunt:
       task: "build-dev"
 ```
-Stages
+Build Stages
 ------
 
 As mentioned earlier, PHP Censor is powered by plugins, there are several phases in which plugins can be run:
