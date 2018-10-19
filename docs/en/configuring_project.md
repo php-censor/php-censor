@@ -17,8 +17,7 @@ There are several ways of configuring build in *PHP Censor* project:
     [PHPDocblockChecker](plugins/php_docblock_checker.md), [PHPParallelLint](plugins/php_parallel_lint.md)), and test
      plugins([PHPUnit](plugins/php_unit.md), [Codeception](plugins/codeception.md)).  
 
-    **Плагины для запуска тестов запустятся, если смогут найти конфигурации и тесты по стандартным путям**.
-    **Test plugins will launch if there are tests and configuration files by default paths.
+    **Test plugins will launch if there are tests and configuration files by default paths**.
     
     Default config will look like this:
 
