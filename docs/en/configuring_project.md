@@ -1,13 +1,75 @@
-Adding PHP Censor Support to Your Projects
-==========================================
+Project Build Configurations in PHP Censor
+=====================================
 
-Similar to Travis CI, to support PHP Censor in your project, you simply need to add a `.php-censor.yml` 
-(`phpci.yml`/`.phpci.yml` for backward compatibility with PHPCI) file to the root of your repository. The file should 
-look something like this:
+Configuration methods
+--------------------
+
+For builds configuration *PHP Censor* uses description in YAML (Like in [Travis CI](https://travis-ci.org)).
+
+There are several ways of configuring build in *PHP Censor* project:
+
+1. Adding a project without any config (The easiest way).  
+
+    In this case build launches with the default config, which includes dependency plugin
+    ([Composer](plugins/composer.md)), code static analysis plugin (
+    [TechnicalDept](plugins/technical_dept.md), [PHPLoc](plugins/php_loc.md), [PHPCpd](plugins/php_cpd.md), 
+    [PHPCodeSniffer](plugins/php_code_sniffer.md), [PHPMessDetector](plugins/php_mess_detector.md), 
+    [PHPDocblockChecker](plugins/php_docblock_checker.md), [PHPParallelLint](plugins/php_parallel_lint.md)), and test
+     plugins([PHPUnit](plugins/php_unit.md), [Codeception](plugins/codeception.md)).  
+
+    **Test plugins will launch if there are tests and configuration files by default paths**.
+    
+    Default config will look like this:
+
+    ```yml
+    build_settings:
+      ignore:
+        - "vendor"
+    setup:
+      composer:
+        action: "install"
+    test:
+      technical_debt:
+        allowed_errors: -1
+      php_code_sniffer:
+        allowed_warnings: -1
+        allowed_errors: -1
+      php_mess_detector:
+        allowed_warnings: -1
+      php_docblock_checker:
+        allowed_warnings: -1
+      security_checker:
+        allowed_warnings: -1
+      php_parallel_lint:
+      php_loc:
+      php_cpd:
+      codeception:
+      php_unit:
+    ```
+
+2. Adding a config `.php-censor.yml` (to accomplish backward compatibility with [PHPCI](https://www.phptesting.org) names 
+`phpci.yml`/`.phpci.yml` are also supported) to the root of the project.
+
+3. Adding a config via web-interface.
+
+    By default a config from web-interface replaces a config from repository (`.php-censor.yml`). But if you uncheck the 
+    option "Replace the configuration from file with the configuration from the data base", configurations will be 
+    merged (the config from web-interface will have priority over the config from the repository). 
+    
+    Setting config via web-interface and merging it with config from the repo may be useful if you want to hide some
+    secret data (passwords, keys) in case of using public repository. The most of the configuration can be stored as a 
+    public file in the repo, and passwords and keys may be added via web-interface.   
+
+**Config added via web-interface has the highest priority.**
+
+
+Config file format
+------------------------------
+
+Config example:
 
 ```yml
 build_settings:
-  # WORKS ONLY IN IN-DATABASE PROJECT CONFIG! Clone depth of 1 is a shallow clone, remove this line to clone entire repo (For Git and Svn only).
   clone_depth: 1
   ignore:
     - "vendor"
@@ -16,10 +78,6 @@ build_settings:
     host: "localhost"
     user: "root"
     pass: ""
-  # WORKS ONLY IN IN-DATABASE PROJECT CONFIG! Svn additional CLI options (For example: --username='username').
-  svn:
-    username: "username"
-    password: "password"
 
 setup:
   mysql:
@@ -31,10 +89,6 @@ setup:
 
 test:
   php_unit:
-    priority_path: global # Priority path for the search plugin binary (Variants: "local" (Local current build path) | 
-                          # "global" (Global PHP Censor 'vendor/bin' path) |
-                          # "system" (OS System binaries path, /bin:/usr/bin etc.). 
-                          # Default order: local -> global -> system)
     config:
       - "PHPUnit-all.xml"
       - "PHPUnit-ubuntu-fix.xml"
@@ -64,15 +118,13 @@ complete:
     pass: ""
     - "DROP DATABASE IF EXISTS test;"
 
-branch-dev:           # Branch-specific config (for "dev" branch)
-  run-option: replace # "run-option" parameter can be set to 'replace', 'after' or 'before'
+branch-dev:
+  run-option: replace
   test:
     grunt:
       task: "build-dev"
 ```
-
-
-Stages
+Build Stages
 ------
 
 As mentioned earlier, PHP Censor is powered by plugins, there are several phases in which plugins can be run:
