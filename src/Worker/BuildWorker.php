@@ -110,6 +110,8 @@ class BuildWorker
             }
 
             if ($this->canForceRewindLoop()) {
+                sleep(1);
+
                 continue;
             }
 
