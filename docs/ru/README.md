@@ -7,7 +7,7 @@
 * Установка PHP Censor (Смотри [README](../../README.md))
     * [Настройка веб-интерфейса](virtual_host.md)
     * [Запуск сборок с помощью демона (Worker-а)](workers/worker.md)
-    * [Запуск сборок с помощью переодической задачи (Cronjob)](workers/cron.md)
+    * [Запуск сборок с помощью периодической задачи (Cronjob)](workers/cron.md)
 * [Настройка проекта для сборки в PHP Censor](configuring_project.md)
 * Обновление PHP Censor (Смотри [README](../../README.md))
 * [Настройка PHP Censor](configuring-application.md)
