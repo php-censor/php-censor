@@ -45,12 +45,13 @@
         }
     },
     "require": {
-        "php":         ">=5.6.0",
-        "ext-openssl": "*",
-        "ext-PDO":     "*",
-        "ext-json":    "*",
-        "ext-xml":     "*",
-        "ext-curl":    "*",
+        "php":           ">=5.6.0",
+        "ext-openssl":   "*",
+        "ext-PDO":       "*",
+        "ext-json":      "*",
+        "ext-libxml":    "*",
+        "ext-SimpleXML": "*",
+        "ext-curl":      "*",
 
         "swiftmailer/swiftmailer":         "~5.4.0",
         "symfony/yaml":                    "~3.4.0",

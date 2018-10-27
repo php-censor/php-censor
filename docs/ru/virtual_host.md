@@ -1,9 +1,8 @@
-Adding a Virtual Host
-=====================
+Настройка веб-интерфейса
+========================
 
-In order to access the PHP Censor web interface, you need to set up a virtual host in your web server. 
-
-Below are a few examples of how to do this for various different web servers.
+Для доступа к веб-интерфейсу PHP Censor нужно настроить виртуальный хост на веб-сервере. Ниже описана несколько 
+примеров конфигурации для различных веб-серверов:
 
 Nginx
 -----
@@ -45,8 +44,8 @@ server {
 Apache
 ------
 
-For Apache, you can use a standard virtual host, as long as your server supports PHP. All you need to do is add the 
-following to a `.htaccess` file in your PHP Censor `/public` directory.
+В случае Apache, вы можете использовать виртуальный хост, если ваш сервер поддерживает PHP. Все что вам нужно сделать 
+- добавить сдедующий  `.htaccess` файл в `/public` директорию PHP Censor.
 
 ```
 <IfModule mod_rewrite.c>
@@ -58,7 +57,8 @@ following to a `.htaccess` file in your PHP Censor `/public` directory.
 </IfModule>
 ```
 
-- Edit virtual host in apache2.
+- Создайте виртуальный хост для Apache:
+
 ```
 <VirtualHost *:80>
     ServerAdmin  admin@php-censor.local
@@ -77,16 +77,17 @@ following to a `.htaccess` file in your PHP Censor `/public` directory.
 </VirtualHost>
 ```
 
-- Add in `/etc/hosts` following text:
+- Добавьте в файл `/etc/hosts` следующий текст:
+
 ```
 127.0.0.1 php-censor.local www.php-censor.local
 ```
 
-PHP Built-in Server
--------------------
+Встроенный сервер PHP
+---------------------
 
-You can use the built-in PHP web server by `php -S localhost:8080 -t ./public/routing.php` command and adding file 
-`public/routing.php` with content:
+Вы можете использовать встроенный в PHP тестовый веб-сервер, запустив его командой 
+`php -S localhost:8080 -t ./public/routing.php` и добавив файл `./public/routing.php` следующего содержания:
 
 ```php
 <?php
