@@ -29,6 +29,7 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
 
     protected $skipClasses = false;
     protected $skipMethods = false;
+    protected $skipSignatures = false;
 
     /**
      * @var integer
@@ -64,6 +65,10 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
 
         if (array_key_exists('skip_methods', $options)) {
             $this->skipMethods = true;
+        }
+
+        if (array_key_exists('skip_signatures', $options)) {
+            $this->skipSignatures = true;
         }
 
         if (!empty($options['path'])) {
@@ -116,6 +121,10 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
 
         if ($this->skipMethods) {
             $add .= ' --skip-methods';
+        }
+
+        if ($this->skipSignatures) {
+            $add .= ' --skip-signatures';
         }
 
         // Build command string:
