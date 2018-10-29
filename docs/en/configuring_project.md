@@ -152,39 +152,45 @@ instance.
 The `ignore` section is merely an array of paths that should be ignored in all tests (where possible).
 
 
-Branch specific stages
-----------------------
+### Redefining configuration for the specific branches.
 
-PHP Censor allows you configure plugins depending on the branch you configure in the project settings in the UI. 
-You can replace a complete stage for a branch, or add extra plugins to a stage that run before or after the default 
-plugins.  
+The directive `branch-<branch-name>` (For example: `branch-feature-1` для ветки `feature-1`) **allows to redefine or
+to complete the main build configuration for the specific branches**.
 
-### Example config
+There is also a directive `branch-regex:<branch-name-regex>` **which allows to compare branches by regexp** 
+for the same purposes (For example: `branch-regex:^feature\-\d$` for the branches: `feature-1`, `feature-2` etc.).
+
+**If there are several directives `branch-regex:`/`branch-`, the first directive that matches up with the name of the branch will be used.**
+
+The required parameter `run-option` allows to define, to redefine and to complete the configuration and can take different values:
+
+* `replace` - will cause the branch specific plugins to run and the default ones not.
+
+* `before` - will cause the branch specific plugins to run before the default ones.
+
+* `after` - will cause the branch specific plugins to run after the default ones.
+
+Configuration example:
 
 ```yml
-test: # Test stage config for all branches
-  php_cs_fixer:
-    allowed_warnings: -1
-success: # Success stage config for all branches
-  shell: ./notify
+test
+
+...
 
 branch-regex:^feature\-\d$:
   run-option: replace
   test:
-    php_cs_fixer:
-      allowed_warnings: 5
-
-branch-release: # Test config for release branch
-  run-option: replace # This can be set to either before, after or replace
+    grunt:
+      task: "build-feature"
+branch-dev:
+  run-option: replace
   test:
-
-php_cs_fixer:
-      allowed_warnings: 0
-branch-master: # Test config for release branch
-  run-option: after # This can be set to either before, after or replace
-  success:
-    shell:
-      - "rsync ..."
+    grunt:
+      task: "build-dev"
+branch-codeception:
+  run-option: after
+  test:
+    codeception:
 ```
 
 ### How it works
