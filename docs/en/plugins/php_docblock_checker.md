@@ -12,6 +12,7 @@ Configuration
 * **path** - Optional - Directory in which PHP Docblock Checker should run.
 * **skip_methods** - Optional - Tells the checker to ignore methods that don't have a docblock.
 * **skip_classes** - Optional - Tells the checker to ignore classes that don't have a docblock.
+* **skip_signatures** - Optional - Tells the checker to ignore check docblocks against method signatures.
 
 ### Examples
 
