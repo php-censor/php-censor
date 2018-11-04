@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5d620ef3d7801908942258c8f29f1578",
+    "content-hash": "17c35dcd99ab3be12e6a3ed28c645d0d",
     "packages": [
         {
             "name": "behat/gherkin",
@@ -3839,29 +3839,32 @@
         },
         {
             "name": "symfony/polyfill",
-            "version": "v1.7.0",
+            "version": "v1.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill.git",
-                "reference": "86e27771f290e6af6d95c1c256f6d6d15ac9e22e"
+                "reference": "cf87da97c2969a3446fa60e01eca99bd44b3b86d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill/zipball/86e27771f290e6af6d95c1c256f6d6d15ac9e22e",
-                "reference": "86e27771f290e6af6d95c1c256f6d6d15ac9e22e",
+                "url": "https://api.github.com/repos/symfony/polyfill/zipball/cf87da97c2969a3446fa60e01eca99bd44b3b86d",
+                "reference": "cf87da97c2969a3446fa60e01eca99bd44b3b86d",
                 "shasum": ""
             },
             "require": {
                 "ircmaxell/password-compat": "~1.0",
-                "paragonie/random_compat": "~1.0|~2.0",
+                "paragonie/random_compat": "~1.0|~2.0|~9.99",
                 "php": ">=5.3.3",
                 "symfony/intl": "~2.3|~3.0|~4.0"
             },
             "replace": {
                 "symfony/polyfill-apcu": "self.version",
+                "symfony/polyfill-ctype": "self.version",
                 "symfony/polyfill-iconv": "self.version",
                 "symfony/polyfill-intl-grapheme": "self.version",
                 "symfony/polyfill-intl-icu": "self.version",
+                "symfony/polyfill-intl-idn": "self.version",
+                "symfony/polyfill-intl-messageformatter": "self.version",
                 "symfony/polyfill-intl-normalizer": "self.version",
                 "symfony/polyfill-mbstring": "self.version",
                 "symfony/polyfill-php54": "self.version",
@@ -3870,6 +3873,7 @@
                 "symfony/polyfill-php70": "self.version",
                 "symfony/polyfill-php71": "self.version",
                 "symfony/polyfill-php72": "self.version",
+                "symfony/polyfill-php73": "self.version",
                 "symfony/polyfill-util": "self.version",
                 "symfony/polyfill-xml": "self.version"
             },
@@ -3879,7 +3883,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.7-dev"
+                    "dev-master": "1.10-dev"
                 }
             },
             "autoload": {
@@ -3888,19 +3892,24 @@
                 },
                 "files": [
                     "src/Apcu/bootstrap.php",
+                    "src/Ctype/bootstrap.php",
                     "src/Php54/bootstrap.php",
                     "src/Php55/bootstrap.php",
                     "src/Php56/bootstrap.php",
                     "src/Php70/bootstrap.php",
                     "src/Php71/bootstrap.php",
                     "src/Php72/bootstrap.php",
+                    "src/Php73/bootstrap.php",
                     "src/Iconv/bootstrap.php",
                     "src/Intl/Grapheme/bootstrap.php",
+                    "src/Intl/Idn/bootstrap.php",
                     "src/Intl/Icu/bootstrap.php",
+                    "src/Intl/MessageFormatter/bootstrap.php",
                     "src/Intl/Normalizer/bootstrap.php",
                     "src/Mbstring/bootstrap.php"
                 ],
                 "classmap": [
+                    "src/Intl/MessageFormatter/Resources/stubs",
                     "src/Intl/Normalizer/Resources/stubs",
                     "src/Php70/Resources/stubs",
                     "src/Php54/Resources/stubs"
@@ -3928,65 +3937,7 @@
                 "polyfill",
                 "shim"
             ],
-            "time": "2018-01-31T19:39:15+00:00"
-        },
-        {
-            "name": "symfony/polyfill-ctype",
-            "version": "v1.10.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/polyfill-ctype.git",
-                "reference": "e3d826245268269cd66f8326bd8bc066687b4a19"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/e3d826245268269cd66f8326bd8bc066687b4a19",
-                "reference": "e3d826245268269cd66f8326bd8bc066687b4a19",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3"
-            },
-            "suggest": {
-                "ext-ctype": "For best performance"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.9-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Polyfill\\Ctype\\": ""
-                },
-                "files": [
-                    "bootstrap.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                },
-                {
-                    "name": "Gert de Pagter",
-                    "email": "BackEndTea@gmail.com"
-                }
-            ],
-            "description": "Symfony polyfill for ctype functions",
-            "homepage": "https://symfony.com",
-            "keywords": [
-                "compatibility",
-                "ctype",
-                "polyfill",
-                "portable"
-            ],
-            "time": "2018-08-06T14:22:27+00:00"
+            "time": "2018-10-31T13:00:05+00:00"
         },
         {
             "name": "symfony/process",

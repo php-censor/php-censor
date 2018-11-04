@@ -92,6 +92,7 @@
         "phpunit/php-token-stream":          "~1.4.0",
         "phpdocumentor/reflection-docblock": "~2.0.0",
         "myclabs/deep-copy":                 "~1.7.0",
+        "symfony/polyfill":                  "~1.10.0",
 
         "oomphinc/composer-installers-extender": "~1.1.0",
 
