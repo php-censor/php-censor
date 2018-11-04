@@ -5,6 +5,48 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [0.24.0](https://github.com/php-censor/php-censor/tree/0.24.0) (2018-11-04)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/0.23.0...0.24.0)
+
+### Added
+
+- "Rebuild with debug" button. Issue [#208](https://github.com/php-censor/php-censor/issues/208).
+- Index for `build` table `hash` column. Pull request [#214](https://github.com/php-censor/php-censor/pull/214). 
+Thanks to [@Dave13h](https://github.com/Dave13h).
+- Buttons to project page for removing all/old project builds (App config option `php_censor.build.keep_builds` (int) 
+is define quantity of keeping builds. Issue [#209](https://github.com/php-censor/php-censor/issues/209).
+- Force rewind for worker loop if queue job isn't existing (It needs for cronjob-like works in the worker).
+- Implementation of periodical builds in Worker and Cronjob with rich configuration (New `app/periodical.yml` 
+config).
+- Russian documentation.
+- `skip-signatures` option for plugin PhpDocblockChecker. Pull request 
+[#225](https://github.com/php-censor/php-censor/pull/225). Thanks to [@ismaail](https://github.com/ismaail).
+
+### Changed
+
+- Improved HTML filtering for links.
+- Refactored worker, build status and worker logging.
+- Improved docs.
+- Improved project configuration doc. Pull requests [#219](https://github.com/php-censor/php-censor/pull/219), 
+[#220](https://github.com/php-censor/php-censor/pull/220), [#221](https://github.com/php-censor/php-censor/pull/221), 
+[#222](https://github.com/php-censor/php-censor/pull/222), [#226](https://github.com/php-censor/php-censor/pull/226). 
+Thanks to [@Ultra9](https://github.com/Ultra9).
+
+### Removed
+
+- Useless web notifications. Issue [#156](https://github.com/php-censor/php-censor/issues/156).
+- Useless quiet mode from `CommandExecutor`.
+
+### Fixed
+
+- Files rights for PHP Censor sources in the Git.
+- `LocalBuild` paths. Issue [#207](https://github.com/php-censor/php-censor/issues/207).
+- SSH port for project cloning. Issue [#213](https://github.com/php-censor/php-censor/issues/213).
+- User list page. Pull request [#215](https://github.com/php-censor/php-censor/pull/215). Thanks to 
+[@Dave13h](https://github.com/Dave13h).
+
+
 ## [0.23.0](https://github.com/php-censor/php-censor/tree/0.23.0) (2018-07-29)
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/0.22.0...0.23.0)
