@@ -19,3 +19,5 @@
 
 /public/artifacts
 !/public/artifacts/.gitkeep
+
+/public/.htaccess
