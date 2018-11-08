@@ -248,13 +248,13 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
                     $line = fgets($handle);
 
                     foreach ($this->searches as $search) {
-                        if ($technicalDeptLine = trim(strstr($line, $search))) {
+                        if ($technicalDebtLine = trim(strstr($line, $search))) {
                             $fileName = str_replace($this->directory, '', $filePath);
 
                             $this->build->reportError(
                                 $this->builder,
                                 'technical_debt',
-                                $technicalDeptLine,
+                                $technicalDebtLine,
                                 PHPCensor\Model\BuildError::SEVERITY_LOW,
                                 $fileName,
                                 $lineNumber
