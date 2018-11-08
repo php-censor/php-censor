@@ -140,31 +140,26 @@ class CommandExecutor implements CommandExecutorInterface
             stream_set_blocking($descriptor, false);
             $outputs[$key] = '';
         }
-        $nretries = 6;
+        $retries = 6;
         $timeout = 15;
-        //$tmpfile = '/tmp/READALTERNATING_'.date('Y-m-d-H-i-s');
-        //file_put_contents($tmpfile, "Starting ...\n");
         do {
-            for ($i = 0; $i < $nretries; ++$i) {
+            $resources = 0;
+            for ($i = 0; $i < $retries; ++$i) {
                 $read = $descriptors;
                 $write = null;
                 $except = null;
-                $nresources = stream_select($read, $write, $except, $timeout);
-                if (intval($nresources) > 0) {
+                $resources = stream_select($read, $write, $except, $timeout);
+                if (intval($resources) > 0) {
                     break;
                 }
             }
-            //file_put_contents($tmpfile, 'nresources: '.$nresources."\n", FILE_APPEND);
-
             foreach ($read as $descriptor) {
-                //file_put_contents($tmpfile, 'reading descriptor: '.$descriptor."\n", FILE_APPEND);
                 $key = array_search($descriptor, $descriptors);
                 if (feof($descriptor)) {
                     fclose($descriptor);
                     unset($descriptors[$key]);
                 } else {
                     $buffer = fgets($descriptor);
-                    //file_put_contents($tmpfile, 'buffer: '.$buffer."\n", FILE_APPEND);
                     if ($buffer === false) {
                         fclose($descriptor);
                         unset($descriptors[$key]);
@@ -173,8 +168,7 @@ class CommandExecutor implements CommandExecutorInterface
                     $outputs[$key] .= $buffer;
                 }
             }
-            //file_put_contents($tmpfile, 'count(descriptors): '.count($descriptors)."\n", FILE_APPEND);
-        } while (count($descriptors) > 0 && intval($nresources) > 0);
+        } while (count($descriptors) > 0 && intval($resources) > 0);
         return $outputs;
     }
 
