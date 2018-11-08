@@ -144,6 +144,7 @@ class CommandExecutor implements CommandExecutorInterface
         $timeout = 15;
         do {
             $resources = 0;
+            $read = [];
             for ($i = 0; $i < $retries; ++$i) {
                 $read = $descriptors;
                 $write = null;
