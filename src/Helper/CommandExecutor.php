@@ -140,21 +140,36 @@ class CommandExecutor implements CommandExecutorInterface
             stream_set_blocking($descriptor, false);
             $outputs[$key] = '';
         }
+        $retries = 6;
+        $timeout = 15;
         do {
-            $read = $descriptors;
-            $write = null;
-            $except = null;
-            stream_select($read, $write, $except, null);
+            $resources = 0;
+            $read = [];
+            for ($i = 0; $i < $retries; ++$i) {
+                $read = $descriptors;
+                $write = null;
+                $except = null;
+                $resources = stream_select($read, $write, $except, $timeout);
+                if (intval($resources) > 0) {
+                    break;
+                }
+            }
             foreach ($read as $descriptor) {
                 $key = array_search($descriptor, $descriptors);
                 if (feof($descriptor)) {
                     fclose($descriptor);
                     unset($descriptors[$key]);
                 } else {
-                    $outputs[$key] .= fgets($descriptor);
+                    $buffer = fgets($descriptor);
+                    if ($buffer === false) {
+                        fclose($descriptor);
+                        unset($descriptors[$key]);
+                        continue;
+                    }
+                    $outputs[$key] .= $buffer;
                 }
             }
-        } while (count($descriptors) > 0);
+        } while (count($descriptors) > 0 && intval($resources) > 0);
         return $outputs;
     }
 
