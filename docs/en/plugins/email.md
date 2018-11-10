@@ -15,7 +15,8 @@ Configuration
 * **template** - The template to use, options are short and long. Default is short on success and long otherwise.
 
 **Note:** _This plugin will only work if you configured email settings during installation or configured them later in 
-[`config.yml`](../configuring-application.md)._
+[`config.yml`](../configuring_application.md)._
+
 ### Examples
 
 See [Adding PHP Censor Support to Your Projects](../configuring_project.md) for more information about how to configure plugins.

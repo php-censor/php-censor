@@ -10,11 +10,10 @@ use PHPCensor\Model\Build;
 interface ZeroConfigPluginInterface
 {
     /**
-     * @param string  $stage
-     * @param Builder $builder
-     * @param Build   $build
+     * @param string $stage
+     * @param Build  $build
      *
-     * @return mixed
+     * @return bool
      */
-    public static function canExecute($stage, Builder $builder, Build $build);
+    public static function canExecuteOnStage($stage, Build $build);
 }

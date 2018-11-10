@@ -79,7 +79,7 @@ class RunCommand extends LoggingCommand
 
             // Logging relevant to this build should be stored
             // against the build itself.
-            $buildDbLog = new BuildDBLogHandler($build, Logger::INFO);
+            $buildDbLog = new BuildDBLogHandler($build, Logger::DEBUG);
             $this->logger->pushHandler($buildDbLog);
 
             $builder = new Builder($build, $this->logger);

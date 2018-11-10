@@ -49,17 +49,11 @@ class SecurityChecker extends Plugin implements ZeroConfigPluginInterface
     }
 
     /**
-     * Check if this plugin can be executed.
-     *
-     * @param         $stage
-     * @param Builder $builder
-     * @param Build   $build
-     *
-     * @return bool
+     * {@inheritdoc}
      */
-    public static function canExecute($stage, Builder $builder, Build $build)
+    public static function canExecuteOnStage($stage, Build $build)
     {
-        $path = $builder->buildPath . '/composer.lock';
+        $path = $build->getBuildPath() . '/composer.lock';
 
         if (file_exists($path) && $stage == Build::STAGE_TEST) {
             return true;

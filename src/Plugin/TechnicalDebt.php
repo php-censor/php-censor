@@ -164,15 +164,9 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
     }
 
     /**
-     * Check if this plugin can be executed.
-     *
-     * @param string  $stage
-     * @param Builder $builder
-     * @param Build   $build
-     *
-     * @return boolean
+     * {@inheritdoc}
      */
-    public static function canExecute($stage, Builder $builder, Build $build)
+    public static function canExecuteOnStage($stage, Build $build)
     {
         if ($stage == Build::STAGE_TEST) {
             return true;
@@ -248,13 +242,13 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
                     $line = fgets($handle);
 
                     foreach ($this->searches as $search) {
-                        if ($technicalDeptLine = trim(strstr($line, $search))) {
+                        if ($technicalDebtLine = trim(strstr($line, $search))) {
                             $fileName = str_replace($this->directory, '', $filePath);
 
                             $this->build->reportError(
                                 $this->builder,
                                 'technical_debt',
-                                $technicalDeptLine,
+                                $technicalDebtLine,
                                 PHPCensor\Model\BuildError::SEVERITY_LOW,
                                 $fileName,
                                 $lineNumber

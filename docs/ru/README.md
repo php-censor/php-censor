@@ -10,7 +10,7 @@
     * [Запуск сборок с помощью периодической задачи (Cronjob)](workers/cron.md)
 * [Настройка проекта для сборки в PHP Censor](configuring_project.md)
 * Обновление PHP Censor (Смотри [README](../../README.md))
-* [Настройка PHP Censor](configuring-application.md)
+* [Настройка PHP Censor](configuring_application.md)
 
 Использование
 -------------

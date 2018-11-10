@@ -12,7 +12,7 @@ There are several ways of configuring build in *PHP Censor* project:
 
     In this case build launches with the default config, which includes dependency plugin
     ([Composer](plugins/composer.md)), code static analysis plugin (
-    [TechnicalDept](plugins/technical_dept.md), [PHPLoc](plugins/php_loc.md), [PHPCpd](plugins/php_cpd.md), 
+    [TechnicalDebt](plugins/technical_debt.md), [PHPLoc](plugins/php_loc.md), [PHPCpd](plugins/php_cpd.md), 
     [PHPCodeSniffer](plugins/php_code_sniffer.md), [PHPMessDetector](plugins/php_mess_detector.md), 
     [PHPDocblockChecker](plugins/php_docblock_checker.md), [PHPParallelLint](plugins/php_parallel_lint.md)), and test
      plugins([PHPUnit](plugins/php_unit.md), [Codeception](plugins/codeception.md)).  

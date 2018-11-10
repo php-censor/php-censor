@@ -72,15 +72,11 @@ class Composer extends Plugin implements ZeroConfigPluginInterface
     }
 
     /**
-     * Check if this plugin can be executed.
-     * @param $stage
-     * @param Builder $builder
-     * @param Build $build
-     * @return bool
+     * {@inheritdoc}
      */
-    public static function canExecute($stage, Builder $builder, Build $build)
+    public static function canExecuteOnStage($stage, Build $build)
     {
-        $path = $builder->buildPath . '/composer.json';
+        $path = $build->getBuildPath() . '/composer.json';
 
         if (file_exists($path) && $stage == Build::STAGE_SETUP) {
             return true;

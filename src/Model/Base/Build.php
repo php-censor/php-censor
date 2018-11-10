@@ -506,7 +506,7 @@ class Build extends Model
     }
 
     /**
-     * @return string
+     * @return int
      */
     public function getSource()
     {
@@ -540,7 +540,7 @@ class Build extends Model
     }
 
     /**
-     * @return string
+     * @return int
      */
     public function getUserId()
     {
