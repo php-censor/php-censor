@@ -144,8 +144,6 @@ class Builder implements LoggerAwareInterface
      */
     public function setConfig(array $config)
     {
-        $this->logDebug('Config: ' . json_encode($config));
-
         $this->config = $config;
     }
 

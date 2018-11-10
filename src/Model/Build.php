@@ -213,6 +213,8 @@ class Build extends BaseBuild
             $buildConfig = $yamlParser->parse($buildConfig);
 
             if ($buildConfig && is_array($buildConfig)) {
+                $builder->logDebug('Config before repository clone (DB): ' . json_encode($buildConfig));
+
                 $builder->setConfig($buildConfig);
             }
         }
@@ -234,16 +236,20 @@ class Build extends BaseBuild
         $overwriteBuildConfig = $this->getProject()->getOverwriteBuildConfig();
         $buildConfig          = $builder->getConfig();
 
-        $repositoryConfig = $this->getZeroConfigPlugins($builder);
+        $repositoryConfig     = $this->getZeroConfigPlugins($builder);
+        $repositoryConfigFrom = '<empty config>';
         if (file_exists($buildPath . '/.php-censor.yml')) {
+            $repositoryConfigFrom = '.php-censor.yml';
             $repositoryConfig = $yamlParser->parse(
                 file_get_contents($buildPath . '/.php-censor.yml')
             );
         } elseif (file_exists($buildPath . '/.phpci.yml')) {
+            $repositoryConfigFrom = '.phpci.yml';
             $repositoryConfig = $yamlParser->parse(
                 file_get_contents($buildPath . '/.phpci.yml')
             );
         } elseif (file_exists($buildPath . '/phpci.yml')) {
+            $repositoryConfigFrom = 'phpci.yml';
             $repositoryConfig = $yamlParser->parse(
                 file_get_contents($buildPath . '/phpci.yml')
             );
@@ -257,12 +263,24 @@ class Build extends BaseBuild
         }
 
         if (!$buildConfig) {
+            $builder->logDebug(
+                sprintf('Build config from repository (%s)', $repositoryConfigFrom)
+            );
+
             $buildConfig = $repositoryConfig;
         } elseif ($buildConfig && !$overwriteBuildConfig) {
+            $builder->logDebug(
+                sprintf('Build config from project (DB) + config from repository (%s)', $repositoryConfigFrom)
+            );
+
             $buildConfig = array_replace_recursive($repositoryConfig, $buildConfig);
+        } elseif ($buildConfig) {
+            $builder->logDebug('Build config from project (DB)');
         }
 
         if ($buildConfig && is_array($buildConfig)) {
+            $builder->logDebug('Final config: ' . json_encode($buildConfig));
+
             $builder->setConfig($buildConfig);
         }
 
