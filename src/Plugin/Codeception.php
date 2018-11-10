@@ -65,14 +65,11 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
     }
 
     /**
-     * @param $stage
-     * @param Builder $builder
-     * @param Build $build
-     * @return bool
+     * {@inheritdoc}
      */
-    public static function canExecute($stage, Builder $builder, Build $build)
+    public static function canExecuteOnStage($stage, Build $build)
     {
-        return $stage == Build::STAGE_TEST && !is_null(self::findConfigFile($builder->buildPath));
+        return $stage == Build::STAGE_TEST && !is_null(self::findConfigFile($build->getBuildPath()));
     }
 
     /**

@@ -311,7 +311,7 @@ class Build extends BaseBuild
             }
 
             foreach ([Build::STAGE_SETUP, Build::STAGE_TEST] as $stage) {
-                if ($className::canExecute($stage, $builder, $this)) {
+                if ($className::canExecuteOnStage($stage, $this)) {
                     $config[$stage][$className::pluginName()] = [
                         'zero_config' => true
                     ];
