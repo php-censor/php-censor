@@ -46,7 +46,7 @@ class Composer extends Plugin implements ZeroConfigPluginInterface
         $this->ignorePlatformReqs = false;
 
         if (array_key_exists('directory', $options)) {
-            $this->directory = $path . '/' . $options['directory'];
+            $this->directory .= $options['directory'];
         }
 
         if (array_key_exists('action', $options)) {

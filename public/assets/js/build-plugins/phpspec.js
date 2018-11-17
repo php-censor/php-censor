@@ -1,16 +1,16 @@
 var phpspecPlugin = ActiveBuild.UiPlugin.extend({
-    id:              'build-phpspec-errors',
+    id:              'build-php_spec-errors',
     css:             'col-xs-12',
-    title:           Lang.get('phpspec'),
+    title:           Lang.get('php_spec'),
     lastData:        null,
     displayOnUpdate: false,
     rendered:        false,
 
     register: function () {
         var self  = this;
-        var query = ActiveBuild.registerQuery('phpspec', -1, {key: 'phpspec'})
+        var query = ActiveBuild.registerQuery('php_spec-data', -1, {key: 'php_spec-data'})
 
-        $(window).on('phpspec', function (data) {
+        $(window).on('php_spec-data', function (data) {
             self.onUpdate(data);
         });
 
@@ -25,7 +25,7 @@ var phpspecPlugin = ActiveBuild.UiPlugin.extend({
 
     render: function () {
 
-        return $('<table class="table table-hover" id="phpspec-data">' +
+        return $('<table class="table table-hover" id="php_spec-data">' +
             '<thead>' +
             '<tr>' +
             '   <th>' + Lang.get('status') + '</th>' +
@@ -39,7 +39,7 @@ var phpspecPlugin = ActiveBuild.UiPlugin.extend({
 
     onUpdate: function (e) {
         if (!e.queryData) {
-            $('#build-phpspec-errors').hide();
+            $('#build-php_spec-errors').hide();
             return;
         }
 
@@ -47,7 +47,7 @@ var phpspecPlugin = ActiveBuild.UiPlugin.extend({
         this.lastData = e.queryData;
 
         var tests = this.lastData[0].meta_value;
-        var tbody = $('#phpspec-data tbody');
+        var tbody = $('#php_spec-data tbody');
 
         tbody.empty();
 
@@ -72,7 +72,7 @@ var phpspecPlugin = ActiveBuild.UiPlugin.extend({
         }
 
         // show plugin once preparation of grid is done
-        $('#build-phpspec-errors').show();
+        $('#build-php_spec-errors').show();
     }
 });
 

@@ -144,7 +144,7 @@ class PhpCsFixer extends Plugin
         if ($this->errors) {
             $warningCount = $this->processReport($output);
 
-            $this->build->storeMeta('phpcsfixer-warnings', $warningCount);
+            $this->build->storeMeta((self::pluginName() . '-warnings'), $warningCount);
 
             if ($this->allowedWarnings != -1 && $warningCount > $this->allowedWarnings) {
                 $success = false;
@@ -221,7 +221,7 @@ class PhpCsFixer extends Plugin
                 if ($this->reportErrors) {
                     $this->build->reportError(
                         $this->builder,
-                        'php_cs_fixer',
+                        self::pluginName(),
                         "PHP CS Fixer suggestion:\r\n```diff\r\n" . implode("\r\n", $chunkDiff) . "\r\n```",
                         BuildError::SEVERITY_LOW,
                         $filename,
@@ -233,7 +233,7 @@ class PhpCsFixer extends Plugin
             if ($this->reportErrors && !empty($appliedFixers)) {
                 $this->build->reportError(
                     $this->builder,
-                    'php_cs_fixer',
+                    self::pluginName(),
                     'PHP CS Fixer failed fixers: ' . implode(', ', $appliedFixers),
                     BuildError::SEVERITY_LOW,
                     $filename

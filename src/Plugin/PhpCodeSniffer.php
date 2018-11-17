@@ -193,8 +193,8 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
         $this->builder->logExecOutput(true);
 
         $success = true;
-        $this->build->storeMeta('phpcs-warnings', $warnings);
-        $this->build->storeMeta('phpcs-errors', $errors);
+        $this->build->storeMeta((self::pluginName() . '-warnings'), $warnings);
+        $this->build->storeMeta((self::pluginName() . '-errors'), $errors);
 
         if ($this->allowedWarnings != -1 && $warnings > $this->allowedWarnings) {
             $success = false;
@@ -271,7 +271,7 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
             foreach ($file['messages'] as $message) {
                 $this->build->reportError(
                     $this->builder,
-                    'php_code_sniffer',
+                    self::pluginName(),
                     'PHPCS: ' . $message['message'],
                     $message['type'] == 'ERROR' ? BuildError::SEVERITY_HIGH : BuildError::SEVERITY_LOW,
                     $fileName,

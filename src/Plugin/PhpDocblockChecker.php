@@ -149,7 +149,7 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
 
             $this->reportErrors($output);
         }
-        $this->build->storeMeta('phpdoccheck-warnings', $errors);
+        $this->build->storeMeta((self::pluginName() . '-warnings'), $errors);
 
         $success = true;
 
@@ -208,7 +208,7 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
 
             $this->build->reportError(
                 $this->builder,
-                'php_docblock_checker',
+                self::pluginName(),
                 $message,
                 $severity,
                 $error['file'],

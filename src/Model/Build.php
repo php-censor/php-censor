@@ -181,7 +181,7 @@ class Build extends BaseBuild
      * Store build metadata
      *
      * @param string $key
-     * @param string $value
+     * @param mixed  $value
      */
     public function storeMeta($key, $value)
     {

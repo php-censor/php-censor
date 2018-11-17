@@ -125,7 +125,7 @@ var Build = Class.extend({
             renderOrder = [
                 'build-lines-chart',
                 'build-warnings-chart',
-                'build-phpunit-coverage-chart'
+                'build-php_unit-coverage-chart'
             ];
         }
 

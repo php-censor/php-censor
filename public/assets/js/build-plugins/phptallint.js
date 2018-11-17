@@ -1,5 +1,5 @@
 var phptalPlugin = ActiveBuild.UiPlugin.extend({
-    id:       'build-phptal',
+    id:       'build-php_tal_lint',
     css:      'col-xs-12',
     title:    'PHPTAL Lint',
     lastData: null,
@@ -7,9 +7,9 @@ var phptalPlugin = ActiveBuild.UiPlugin.extend({
 
     register: function () {
         var self  = this;
-        var query = ActiveBuild.registerQuery('phptallint-data', -1, {key: 'phptallint-data'})
+        var query = ActiveBuild.registerQuery('php_tal_lint-data', -1, {key: 'php_tal_lint-data'})
 
-        $(window).on('phptallint-data', function (data) {
+        $(window).on('php_tal_lint-data', function (data) {
             self.onUpdate(data);
         });
 
@@ -21,7 +21,7 @@ var phptalPlugin = ActiveBuild.UiPlugin.extend({
     },
 
     render: function () {
-        return $('<table class="table table-hover" id="phptal-data">' +
+        return $('<table class="table table-hover" id="php_tal_lint-data">' +
             '<thead>' +
             '<tr>' +
             '   <th>' + Lang.get('file') + '</th>' +
@@ -33,7 +33,7 @@ var phptalPlugin = ActiveBuild.UiPlugin.extend({
 
     onUpdate: function (e) {
         if (!e.queryData) {
-            $('#build-phptal').hide();
+            $('#build-php_tal_lint').hide();
             return;
         }
 
@@ -41,12 +41,12 @@ var phptalPlugin = ActiveBuild.UiPlugin.extend({
         this.lastData = e.queryData;
 
         var errors = this.lastData[0].meta_value;
-        var tbody  = $('#phptal-data tbody');
+        var tbody  = $('#php_tal_lint-data tbody');
 
         tbody.empty();
 
         if (errors.length == 0) {
-            $('#build-phptal').hide();
+            $('#build-php_tal_lint').hide();
             return;
         }
 
@@ -72,7 +72,7 @@ var phptalPlugin = ActiveBuild.UiPlugin.extend({
             tbody.append(row);
         }
 
-        $('#build-phptal').show();
+        $('#build-php_tal_lint').show();
     }
 });
 

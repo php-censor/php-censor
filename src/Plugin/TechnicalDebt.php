@@ -185,7 +185,7 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
 
         $this->builder->log($this->returnResult() . "Found $errorCount instances of " . implode(', ', $this->searches));
 
-        $this->build->storeMeta('technical_debt-warnings', $errorCount);
+        $this->build->storeMeta((self::pluginName() . '-warnings'), $errorCount);
 
         if ($this->allowedErrors !== -1 && $errorCount > $this->allowedErrors) {
             $success = false;
@@ -247,7 +247,7 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
 
                             $this->build->reportError(
                                 $this->builder,
-                                'technical_debt',
+                                self::pluginName(),
                                 $technicalDebtLine,
                                 PHPCensor\Model\BuildError::SEVERITY_LOW,
                                 $fileName,

@@ -1,7 +1,7 @@
 var phpunitPlugin = ActiveBuild.UiPlugin.extend({
-    id:              'build-phpunit-errors',
+    id:              'build-php_unit-errors',
     css:             'col-xs-12',
-    title:           Lang.get('phpunit'),
+    title:           Lang.get('php_unit'),
     lastData:        null,
     displayOnUpdate: false,
     rendered:        false,
@@ -15,9 +15,9 @@ var phpunitPlugin = ActiveBuild.UiPlugin.extend({
 
     register: function () {
         var self = this;
-        var query = ActiveBuild.registerQuery('phpunit-data', -1, {key: 'phpunit-data'})
+        var query = ActiveBuild.registerQuery('php_unit-data', -1, {key: 'php_unit-data'})
 
-        $(window).on('phpunit-data', function (data) {
+        $(window).on('php_unit-data', function (data) {
             self.onUpdate(data);
         });
 
@@ -30,7 +30,7 @@ var phpunitPlugin = ActiveBuild.UiPlugin.extend({
     },
 
     render: function () {
-        return $('<table class="table table-hover" id="phpunit-data">' +
+        return $('<table class="table table-hover" id="php_unit-data">' +
             '<thead>' +
             '<tr>' +
             '<th>' + Lang.get('status') + '</th>' +
@@ -42,7 +42,7 @@ var phpunitPlugin = ActiveBuild.UiPlugin.extend({
 
     onUpdate: function (e) {
         if (!e.queryData) {
-            $('#build-phpunit-errors').hide();
+            $('#build-php_unit-errors').hide();
             return;
         }
 
@@ -50,14 +50,14 @@ var phpunitPlugin = ActiveBuild.UiPlugin.extend({
         this.lastData = e.queryData;
 
         var tests = this.lastData[0].meta_value;
-        var thead = $('#phpunit-data thead tr');
-        var tbody = $('#phpunit-data tbody');
+        var thead = $('#php_unit-data thead tr');
+        var tbody = $('#php_unit-data tbody');
 
         thead.empty().append('<th>' + Lang.get('status') + '</th><th>' + Lang.get('test_message') + '</th><th>' + Lang.get('trace') + '</th>');
         tbody.empty();
 
         if (tests.length == 0) {
-            $('#build-phpunit-errors').hide();
+            $('#build-php_unit-errors').hide();
 
             return;
         }
@@ -102,7 +102,7 @@ var phpunitPlugin = ActiveBuild.UiPlugin.extend({
             total++;
         }
 
-        $('#build-phpunit-errors').show();
+        $('#build-php_unit-errors').show();
     },
 
     repr: function (data) {

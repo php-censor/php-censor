@@ -104,7 +104,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
         $this->executePhpMd($phpmdBinaryPath);
 
         $errorCount = $this->processReport(trim($this->builder->getLastOutput()));
-        $this->build->storeMeta('phpmd-warnings', $errorCount);
+        $this->build->storeMeta((self::pluginName() . '-warnings'), $errorCount);
 
         return $this->wasLastExecSuccessful($errorCount);
     }
@@ -150,7 +150,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
 
                 $this->build->reportError(
                     $this->builder,
-                    'php_mess_detector',
+                    self::pluginName(),
                     (string)$violation,
                     PHPCensor\Model\BuildError::SEVERITY_HIGH,
                     $fileName,
