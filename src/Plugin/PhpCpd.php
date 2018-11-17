@@ -15,9 +15,6 @@ use PHPCensor\ZeroConfigPluginInterface;
  */
 class PhpCpd extends Plugin implements ZeroConfigPluginInterface
 {
-    protected $directory;
-    protected $args;
-
     /**
      * @var string, based on the assumption the root may not hold the code to be
      * tested, extends the base path
@@ -93,14 +90,14 @@ class PhpCpd extends Plugin implements ZeroConfigPluginInterface
 
         $phpcpd = $this->findBinary('phpcpd');
 
-        $tmpFileName = tempnam(sys_get_temp_dir(), 'phpcpd_');
+        $tmpFileName = tempnam(sys_get_temp_dir(), (self::pluginName() . '_'));
 
         $cmd     = $phpcpd . ' --log-pmd "%s" %s "%s"';
         $success = $this->builder->executeCommand($cmd, $tmpFileName, $ignore, $this->path);
 
         $errorCount = $this->processReport(file_get_contents($tmpFileName));
 
-        $this->build->storeMeta('phpcpd-warnings', $errorCount);
+        $this->build->storeMeta((self::pluginName() . '-warnings'), $errorCount);
 
         unlink($tmpFileName);
 
@@ -141,7 +138,7 @@ CPD;
 
                 $this->build->reportError(
                     $this->builder,
-                    'php_cpd',
+                    self::pluginName(),
                     $message,
                     BuildError::SEVERITY_NORMAL,
                     $fileName,

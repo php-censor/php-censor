@@ -7,7 +7,6 @@ namespace PHPCensor\Plugin;
 
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
-use Psr\Log\LogLevel;
 use \PHPCensor\Plugin;
 
 /**

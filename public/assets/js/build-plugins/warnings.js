@@ -3,16 +3,22 @@ var warningsPlugin = ActiveBuild.UiPlugin.extend({
     css:   'col-xs-12',
     title: Lang.get('quality_trend'),
     keys:  {
-        'codeception-errors':   Lang.get('codeception_errors'),
-        'phplint-errors':       Lang.get('phplint_errors'),
-        'phpunit-errors':       Lang.get('phpunit_errors'),
-        'phptallint-errors':    Lang.get('phptal_errors'),
-        'phptallint-warnings':  Lang.get('phptal_warnings'),
-        'phpmd-warnings':       Lang.get('phpmd_warnings'),
-        'phpdoccheck-warnings': Lang.get('phpdoccheck_warnings'),
-        'phpcpd-warnings':      Lang.get('phpcpd_warnings'),
-        'phpcs-warnings':       Lang.get('phpcs_warnings'),
-        'phpcs-errors':         Lang.get('phpcs_errors')
+        'codeception-errors':            Lang.get('codeception_errors'),
+        'php_code_sniffer-errors':       Lang.get('php_code_sniffer_errors'),
+        'php_parallel_lint-errors':      Lang.get('php_parallel_lint_errors'),
+        'php_tal_lint-errors':           Lang.get('php_tal_lint_errors'),
+        'php_unit-errors':               Lang.get('php_unit_errors'),
+
+        'behat-warnings':                Lang.get('behat_warnings'),
+        'phan-warnings':                 Lang.get('phan_warnings'),
+        'php_code_sniffer-warnings':     Lang.get('php_code_sniffer_warnings'),
+        'php_cpd-warnings':              Lang.get('php_cpd_warnings'),
+        'php_cs_fixer-warnings':         Lang.get('php_cs_fixer_warnings'),
+        'php_docblock_checker-warnings': Lang.get('php_docblock_checker_warnings'),
+        'php_mess_detector-warnings':    Lang.get('php_mess_detector_warnings'),
+        'php_tal_lint-warnings':         Lang.get('php_tal_lint_warnings'),
+        'sensiolabs_insight-warnings':   Lang.get('sensiolabs_insight_warnings'),
+        'technical_debt-warnings':       Lang.get('technical_debt_warnings'),
     },
     data:            {},
     displayOnUpdate: false,
@@ -27,7 +33,7 @@ var warningsPlugin = ActiveBuild.UiPlugin.extend({
             queries.push(ActiveBuild.registerQuery(key, -1, {num_builds: 10, key: key}));
         }
 
-        $(window).on('codeception-errors phptallint-warnings phptallint-errors phplint-errors phpunit-errors phpmd-warnings phpdoccheck-warnings phpcpd-warnings phpcs-warnings phpcs-errors', function (data) {
+        $(window).on(Object.keys(self.keys).join(' '), function (data) {
             self.onUpdate(data);
         });
 
@@ -94,7 +100,7 @@ var warningsPlugin = ActiveBuild.UiPlugin.extend({
             '#7EDEDE',
             '#00A7D0',
             '#B5BBC8',
-            '#001F3F'
+            '#001F3F',
         ];
 
         self.chartData = {
@@ -102,26 +108,37 @@ var warningsPlugin = ActiveBuild.UiPlugin.extend({
             datasets: []
         };
 
+        var i = 0;
         for (var key in self.keys) {
-            var color = colors.shift();
+            var show = false;
 
-            self.chartData.datasets.push({
-                label:       self.keys[key],
-                strokeColor: color,
-                pointColor:  color,
-                data:        []
-            });
+            for (var buildId in self.data) {
+                if (0 < self.data[buildId][key]) {
+                    show = true;
+                }
+            }
+
+            if (show) {
+                var color = colors.shift();
+
+                self.chartData.datasets.push({
+                    label:       self.keys[key],
+                    strokeColor: color,
+                    pointColor:  color,
+                    data:        []
+                });
+
+                for (var build in self.data) {
+                    var value = parseInt(self.data[build][key]) || 0;
+                    self.chartData.datasets[i].data.push(value);
+                }
+
+                i++;
+            }
         }
 
         for (var build in self.data) {
             self.chartData.labels.push(Lang.get('build') + ' ' + build);
-
-            var i = 0;
-            for (var key in self.keys) {
-                var value = parseInt(self.data[build][key]) || 0;
-                self.chartData.datasets[i].data.push(value);
-                i++;
-            }
         }
 
         self.drawChart();

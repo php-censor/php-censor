@@ -114,7 +114,7 @@ class PhpParallelLint extends Plugin implements ZeroConfigPluginInterface
 
         $matches = [];
         if (preg_match_all('/Parse error\:/', $output, $matches)) {
-            $this->build->storeMeta('phplint-errors', count($matches[0]));
+            $this->build->storeMeta((self::pluginName() . '-errors'), count($matches[0]));
         }
 
         return $success;

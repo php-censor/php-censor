@@ -79,7 +79,7 @@ class SensiolabsInsight extends Plugin
         $this->executeSensiolabsInsight($insightBinaryPath);
 
         $errorCount = $this->processReport(trim($this->builder->getLastOutput()));
-        $this->build->storeMeta('sensiolabs_insight-warnings', $errorCount);
+        $this->build->storeMeta((self::pluginName() . '-warnings'), $errorCount);
 
         return $this->wasLastExecSuccessful($errorCount);
     }
@@ -113,7 +113,7 @@ class SensiolabsInsight extends Plugin
 
                 $this->build->reportError(
                     $this->builder,
-                    'sensiolabs_insight',
+                    self::pluginName(),
                     (string)$violation,
                     PHPCensor\Model\BuildError::SEVERITY_HIGH,
                     $fileName,

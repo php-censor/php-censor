@@ -201,7 +201,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
                 $matches
             );
 
-            $this->build->storeMeta('phpunit-coverage', [
+            $this->build->storeMeta((self::pluginName() . '-coverage'), [
                 'classes' => !empty($matches[1]) ? $matches[1] : '0.00',
                 'methods' => !empty($matches[2]) ? $matches[2] : '0.00',
                 'lines'   => !empty($matches[3]) ? $matches[3] : '0.00',
@@ -238,8 +238,8 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
                 $parser = new PhpUnitResultJunit($logFile, $this->build->getBuildPath());
             }
 
-            $this->build->storeMeta('phpunit-data', $parser->parse()->getResults());
-            $this->build->storeMeta('phpunit-errors', $parser->getFailures());
+            $this->build->storeMeta((self::pluginName() . '-data'), $parser->parse()->getResults());
+            $this->build->storeMeta((self::pluginName() . '-errors'), $parser->getFailures());
 
             foreach ($parser->getErrors() as $error) {
                 $severity = $error['severity'] ==
@@ -247,7 +247,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
                         BuildError::SEVERITY_CRITICAL :
                         BuildError::SEVERITY_HIGH;
                 $this->build->reportError(
-                    $this->builder, 'php_unit', $error['message'], $severity, $error['file'], $error['line']
+                    $this->builder, self::pluginName(), $error['message'], $severity, $error['file'], $error['line']
                 );
             }
             unlink($logFile);

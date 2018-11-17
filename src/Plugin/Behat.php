@@ -66,8 +66,8 @@ class Behat extends Plugin
 
         list($errorCount, $data) = $this->parseBehatOutput();
 
-        $this->build->storeMeta('behat-warnings', $errorCount);
-        $this->build->storeMeta('behat-data', $data);
+        $this->build->storeMeta((self::pluginName() . '-warnings'), $errorCount);
+        $this->build->storeMeta((self::pluginName() . '-data'), $data);
 
         return $success;
     }
@@ -112,7 +112,7 @@ class Behat extends Plugin
 
                 $this->build->reportError(
                     $this->builder,
-                    'behat',
+                    self::pluginName(),
                     'Behat scenario failed.',
                     BuildError::SEVERITY_HIGH,
                     $lineParts[0],

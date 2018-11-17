@@ -1,5 +1,5 @@
 var coveragePlugin = ActiveBuild.UiPlugin.extend({
-    id:              'build-phpunit-coverage-chart',
+    id:              'build-php_unit-coverage-chart',
     css:             'col-xs-12',
     title:           Lang.get('coverage'),
     lastData:        null,
@@ -9,9 +9,9 @@ var coveragePlugin = ActiveBuild.UiPlugin.extend({
 
     register: function () {
         var self  = this;
-        var query = ActiveBuild.registerQuery('phpunit-coverage', -1, {num_builds: 10, key: 'phpunit-coverage'})
+        var query = ActiveBuild.registerQuery('php_unit-coverage', -1, {num_builds: 10, key: 'php_unit-coverage'})
 
-        $(window).on('phpunit-coverage', function (data) {
+        $(window).on('php_unit-coverage', function (data) {
             self.onUpdate(data);
         });
 
@@ -24,12 +24,12 @@ var coveragePlugin = ActiveBuild.UiPlugin.extend({
 
     render: function () {
         var self      = this;
-        var container = $('<div id="phpunit-coverage" style="width: 100%; height: 300px"></div>');
+        var container = $('<div id="php_unit-coverage" style="width: 100%; height: 300px"></div>');
 
-        container.append('<canvas id="phpunit-coverage-chart" style="width: 100%; height: 300px"></canvas>');
+        container.append('<canvas id="php_unit-coverage-chart" style="width: 100%; height: 300px"></canvas>');
 
         $(document).on('shown.bs.tab', function () {
-            $('#build-phpunit-coverage-chart').hide();
+            $('#build-php_unit-coverage-chart').hide();
             self.drawChart();
         });
 
@@ -84,9 +84,9 @@ var coveragePlugin = ActiveBuild.UiPlugin.extend({
         var self = this;
 
         if ($('#information').hasClass('active') && self.chartData && self.lastData) {
-            $('#build-phpunit-coverage-chart').show();
+            $('#build-php_unit-coverage-chart').show();
 
-            var ctx = $("#phpunit-coverage-chart").get(0).getContext("2d");
+            var ctx = $("#php_unit-coverage-chart").get(0).getContext("2d");
             var chart = new Chart(ctx, {
                 responsive: true
             });

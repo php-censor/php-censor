@@ -81,7 +81,7 @@ class PhpLoc extends Plugin implements ZeroConfigPluginInterface
                 $data[$v] = (int)$matches[2][$k];
             }
 
-            $this->build->storeMeta('phploc', $data);
+            $this->build->storeMeta((self::pluginName() . '-data'), $data);
         }
 
         return $success;

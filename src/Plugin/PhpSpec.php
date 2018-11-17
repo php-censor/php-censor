@@ -110,7 +110,7 @@ class PhpSpec extends Plugin
             $data['suites'][] = $suite;
         }
 
-        $this->build->storeMeta('phpspec', $data);
+        $this->build->storeMeta((self::pluginName() . '-data'), $data);
 
 
         return $success;

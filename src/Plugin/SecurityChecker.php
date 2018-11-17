@@ -73,7 +73,7 @@ class SecurityChecker extends Plugin implements ZeroConfigPluginInterface
                 foreach ($warning['advisories'] as $data) {
                     $this->build->reportError(
                         $this->builder,
-                        'security_checker',
+                        self::pluginName(),
                         $library . ' (' . $warning['version'] . ")\n" . $data['cve'] . ': ' . $data['title'] . "\n" . $data['link'],
                         BuildError::SEVERITY_CRITICAL,
                         '-',

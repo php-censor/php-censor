@@ -94,9 +94,9 @@ class PhpTalLint extends Plugin
             }
         }
 
-        $this->build->storeMeta('phptallint-warnings', $warnings);
-        $this->build->storeMeta('phptallint-errors', $errors);
-        $this->build->storeMeta('phptallint-data', $this->failedPaths);
+        $this->build->storeMeta((self::pluginName() . '-warnings'), $warnings);
+        $this->build->storeMeta((self::pluginName() . '-errors'), $errors);
+        $this->build->storeMeta((self::pluginName() . '-data'), $this->failedPaths);
 
         $success = true;
 

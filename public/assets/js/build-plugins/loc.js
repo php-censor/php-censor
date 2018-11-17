@@ -9,9 +9,9 @@ var locPlugin = ActiveBuild.UiPlugin.extend({
 
     register: function () {
         var self  = this;
-        var query = ActiveBuild.registerQuery('phploc-lines', -1, {num_builds: 10, key: 'phploc'})
+        var query = ActiveBuild.registerQuery('php_loc-data', -1, {num_builds: 10, key: 'php_loc-data'})
 
-        $(window).on('phploc-lines', function (data) {
+        $(window).on('php_loc-data', function (data) {
             self.onUpdate(data);
         });
 
@@ -24,9 +24,9 @@ var locPlugin = ActiveBuild.UiPlugin.extend({
 
     render: function () {
         var self      = this;
-        var container = $('<div id="phploc-lines" style="width: 100%; height: 300px"></div>');
+        var container = $('<div id="php_loc-data" style="width: 100%; height: 300px"></div>');
 
-        container.append('<canvas id="phploc-lines-chart" style="width: 100%; height: 300px"></canvas>');
+        container.append('<canvas id="php_loc-data-chart" style="width: 100%; height: 300px"></canvas>');
 
         $(document).on('shown.bs.tab', function () {
             $('#build-lines-chart').hide();
@@ -93,7 +93,7 @@ var locPlugin = ActiveBuild.UiPlugin.extend({
         if ($('#information').hasClass('active') && self.chartData && self.lastData) {
             $('#build-lines-chart').show();
 
-            var ctx = $("#phploc-lines-chart").get(0).getContext("2d");
+            var ctx = $("#php_loc-data-chart").get(0).getContext("2d");
             var phpLocChart = new Chart(ctx, {"responsive": true});
 
             Chart.defaults.global.responsive = true;

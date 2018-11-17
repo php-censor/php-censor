@@ -35,7 +35,7 @@ class Git extends Plugin
         }
 
         // If there are, run them:
-        $curdir = getcwd();
+        $currentDirectory = getcwd();
         chdir($buildPath);
 
         $success = true;
@@ -46,7 +46,7 @@ class Git extends Plugin
             }
         }
 
-        chdir($curdir);
+        chdir($currentDirectory);
 
         return $success;
     }

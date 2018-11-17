@@ -103,7 +103,7 @@ class Phan extends Plugin
 
         $warningCount = $this->processReport(file_get_contents($this->location.'/phan.out'));
 
-        $this->build->storeMeta('phan-warnings', $warningCount);
+        $this->build->storeMeta((self::pluginName() . '-warnings'), $warningCount);
 
         $success = true;
 
@@ -137,7 +137,7 @@ class Phan extends Plugin
         foreach ($json as $data) {
             $this->build->reportError(
                 $this->builder,
-                'phan',
+                self::pluginName(),
                 $data['check_name']."\n\n".$data['description'],
                 $this->severity($data['severity']),
                 isset($data['location']['path']) ? $data['location']['path'] : '??',
