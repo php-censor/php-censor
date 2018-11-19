@@ -16,6 +16,7 @@ use PHPCensor\Model\Build;
 /**
  * Run console command - Runs any pending builds.
  *
+ * @deprecated This command deprecated and will be deleted in version 2.0. Use 'php-censor:worker' command instead!
  * @author Dan Cryer <dan@block8.co.uk>
  */
 class RunCommand extends LoggingCommand
@@ -50,7 +51,7 @@ class RunCommand extends LoggingCommand
     {
         $this
             ->setName('php-censor:run-builds')
-            ->setDescription('Run all pending PHP Censor builds');
+            ->setDescription('<fg=red;options=bold>[DEPRECATED]</> Run all pending PHP Censor builds. <fg=red;options=bold>This command deprecated and will be deleted in version 2.0. Use \'php-censor:worker\' command instead!</>');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -64,6 +65,9 @@ class RunCommand extends LoggingCommand
 
         $result = $buildStore->getByStatus(Build::STATUS_PENDING, $this->maxBuilds);
 
+        $this->logger->warning(
+            '[DEPRECATED] This command deprecated and will be deleted in version 2.0 Use \'php-censor:worker\' command instead!'
+        );
         $this->logger->notice(
             sprintf('Found %d pending builds', count($result['items']))
         );

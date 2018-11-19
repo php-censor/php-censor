@@ -48,8 +48,7 @@ There are several ways of configuring build in *PHP Censor* project:
       php_unit:
     ```
 
-2. Adding a config `.php-censor.yml` (to accomplish backward compatibility with [PHPCI](https://www.phptesting.org) names 
-`phpci.yml`/`.phpci.yml` are also supported) to the root of the project.
+2. Adding a config `.php-censor.yml` to the root of the project.
 
 3. Adding a config via web-interface.
 

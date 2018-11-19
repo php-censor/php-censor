@@ -255,11 +255,19 @@ class Build extends BaseBuild
                 file_get_contents($buildPath . '/.php-censor.yml')
             );
         } elseif (file_exists($buildPath . '/.phpci.yml')) {
+            $builder->logWarning(
+                '[DEPRECATED] Config file name ".phpci.yml" deprecated and will be deleted in version 2.0 (Use config file name ".php-censor.yml" instead)!'
+            );
+
             $repositoryConfigFrom = '.phpci.yml';
             $repositoryConfig = $yamlParser->parse(
                 file_get_contents($buildPath . '/.phpci.yml')
             );
         } elseif (file_exists($buildPath . '/phpci.yml')) {
+            $builder->logWarning(
+                '[DEPRECATED] Config file name "phpci.yml" deprecated and will be deleted in version 2.0 (Use config file name ".php-censor.yml" instead)!'
+            );
+
             $repositoryConfigFrom = 'phpci.yml';
             $repositoryConfig = $yamlParser->parse(
                 file_get_contents($buildPath . '/phpci.yml')

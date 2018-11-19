@@ -100,7 +100,7 @@ i din foretrukne hosting-platform.',
     'project_private_key' => 'Privat nøgle med adgang til dette repository
 (tom for lokal nøgle og/eller anonym adgang)',
     'build_config' => 'PHP Censor build-konfiguration for dette projekt
-(hvis du ikke har mulighed for at tilføje en .php-censor.yml (.phpci.yml|phpci.yml) fil i projektets repository)',
+(hvis du ikke har mulighed for at tilføje en .php-censor.yml fil i projektets repository)',
     'default_branch' => 'Default branch navn',
     'allow_public_status' => 'Tillad offentlig status-side og -billede for dette projekt?',
     'archived' => 'Archived',

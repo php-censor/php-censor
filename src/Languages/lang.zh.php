@@ -99,7 +99,7 @@ PHP Censor',
     'project_private_key' => '访问仓库私有秘钥
                                 (本地或公共仓库可为空)',
     'build_config' => '该项目 PHP Censor 构建配置文件
-                                (如果您无法在该项目仓库创建 .php-censor.yml (.phpci.yml|phpci.yml) 文件)',
+                                (如果您无法在该项目仓库创建 .php-censor.yml 文件)',
     'default_branch' => '默认分支名称',
     'allow_public_status' => '启用此项目的公共状态页和图像？',
     'archived' => '归档',

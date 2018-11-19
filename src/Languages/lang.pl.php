@@ -102,7 +102,7 @@ od wybranego kodu źródłowego platformy hostingowej.',
     'project_private_key' => 'Prywanty klucz dostępu do repozytoriów
 (pozostaw puste pole dla zdalnych lokalnych i/lub anonimowych)',
     'build_config' => 'PHP Censor zbudowało config dla tego projektu
-(jeśli nie możesz dodać pliku .php-censor.yml (.phpci.yml|phpci.yml) do repozytorium projektu)',
+(jeśli nie możesz dodać pliku .php-censor.yml do repozytorium projektu)',
     'default_branch' => 'Domyślna nazwa gałęzi',
     'allow_public_status' => 'Włączyć status publiczny dla tego projektu?',
     'archived' => 'W archiwum',
