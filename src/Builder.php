@@ -352,12 +352,6 @@ class Builder implements LoggerAwareInterface
     {
         $this->buildPath = $this->build->getBuildPath();
 
-        $this->interpolator->setupInterpolationVars(
-            $this->build,
-            $this->buildPath,
-            APP_URL
-        );
-
         $this->commandExecutor->setBuildPath($this->buildPath);
 
         $this->build->handleConfigBeforeClone($this);
@@ -366,6 +360,12 @@ class Builder implements LoggerAwareInterface
         if (!$this->build->createWorkingCopy($this, $this->buildPath)) {
             throw new \Exception('Could not create a working copy.');
         }
+
+        $this->interpolator->setupInterpolationVars(
+            $this->build,
+            $this->buildPath,
+            APP_URL
+        );
 
         // Does the project's .php-censor.yml request verbose mode?
         if (!isset($this->config['build_settings']['verbose']) || !$this->config['build_settings']['verbose']) {
