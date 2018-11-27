@@ -64,9 +64,12 @@ class SecurityChecker extends Plugin implements ZeroConfigPluginInterface
 
     public function execute()
     {
-        $success   = true;
-        $checker   = new BaseSecurityChecker();
-        $warnings  = $checker->check($this->builder->buildPath . '/composer.lock');
+        $success  = true;
+        $checker  = new BaseSecurityChecker();
+        $result   = $checker->check($this->builder->buildPath . '/composer.lock');
+        $warnings = json_decode((string)$result, true);
+
+        $this->builder->log((string)$result);
 
         if ($warnings) {
             foreach ($warnings as $library => $warning) {
@@ -82,7 +85,7 @@ class SecurityChecker extends Plugin implements ZeroConfigPluginInterface
                 }
             }
 
-            if ($this->allowedWarnings != -1 && ((int)$checker->getLastVulnerabilityCount() > $this->allowedWarnings)) {
+            if ($this->allowedWarnings != -1 && ($result->count() > $this->allowedWarnings)) {
                 $success = false;
             }
         }
