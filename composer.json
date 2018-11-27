@@ -82,7 +82,7 @@
         "php-censor/phpdoc-checker":       "~1.0",
         "phploc/phploc":                   "~4.0.0",
         "jakub-onderka/php-parallel-lint": "~0.9.0",
-        "sensiolabs/security-checker":     "~4.0.0",
+        "sensiolabs/security-checker":     "~5.0.0",
         "paragonie/random_compat":         "~2.0.0",
         "sebastian/diff":                  "^1.0 || ^2.0 || ^3.0",
 
