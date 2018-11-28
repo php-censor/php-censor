@@ -104,7 +104,7 @@ class PhpCsFixer extends Plugin
 
         if (!$this->config) {
             foreach ($this->configs as $config) {
-                if (file_exists($this->builder->buildPath . '/' . $config)) {
+                if (file_exists($this->builder->buildPath . $config)) {
                     $this->config = true;
                     $this->args   .= ' --config=./' . $config;
                     break;

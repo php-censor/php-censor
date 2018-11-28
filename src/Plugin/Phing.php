@@ -38,7 +38,7 @@ class Phing extends Plugin
          * Set working directory
          */
         if (isset($options['directory'])) {
-            $directory = $this->builder->buildPath . '/' . $options['directory'];
+            $directory = $this->builder->buildPath . $options['directory'];
         } else {
             $directory = $this->builder->buildPath;
         }

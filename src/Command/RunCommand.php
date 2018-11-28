@@ -6,7 +6,6 @@ use Monolog\Logger;
 use PHPCensor\Logging\BuildDBLogHandler;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Store\BuildStore;
-use PHPCensor\Store\ProjectStore;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use PHPCensor\Store\Factory;

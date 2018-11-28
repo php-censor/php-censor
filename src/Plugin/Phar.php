@@ -178,7 +178,7 @@ class Phar extends Plugin
         $content  = '';
         $filename = $this->getStub();
         if ($filename) {
-            $content = file_get_contents($this->builder->buildPath . '/' . $this->getStub());
+            $content = file_get_contents($this->builder->buildPath . $this->getStub());
         }
         return $content;
     }

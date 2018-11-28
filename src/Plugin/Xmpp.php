@@ -154,7 +154,7 @@ class XMPP extends Plugin
             $tls = ' -t';
         }
 
-        $messageFile = $this->builder->buildPath . '/' . uniqid('xmppmessage');
+        $messageFile = $this->builder->buildPath . uniqid('xmppmessage');
         if ($this->buildMessage($messageFile) === false) {
             return false;
         }
