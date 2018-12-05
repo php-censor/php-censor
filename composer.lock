@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "145c036a032cd64ca818fa5c4645226d",
+    "content-hash": "e65aba176cd9b59e98c1f5746f3e5a17",
     "packages": [
         {
             "name": "behat/gherkin",
@@ -1054,6 +1054,48 @@
             "time": "2018-12-04T20:46:45+00:00"
         },
         {
+            "name": "hipchat/hipchat-php",
+            "version": "v1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hipchat/hipchat-php.git",
+                "reference": "5936c0a48d2d514d94bfc1d774b04c42cd3bc39e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hipchat/hipchat-php/zipball/5936c0a48d2d514d94bfc1d774b04c42cd3bc39e",
+                "reference": "5936c0a48d2d514d94bfc1d774b04c42cd3bc39e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "HipChat": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "HipChat",
+                    "email": "support@hipchat.com",
+                    "homepage": "https://www.hipchat.com",
+                    "role": "Company"
+                }
+            ],
+            "description": "PHP library for HipChat",
+            "homepage": "http://github.com/hipchat/hipchat-php",
+            "keywords": [
+                "hipchat"
+            ],
+            "time": "2015-04-28T22:48:40+00:00"
+        },
+        {
             "name": "ircmaxell/password-compat",
             "version": "v1.0.4",
             "source": {
@@ -1186,6 +1228,55 @@
                 "paginator"
             ],
             "time": "2018-07-11T18:11:49+00:00"
+        },
+        {
+            "name": "maknz/slack",
+            "version": "1.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/maknz/slack.git",
+                "reference": "7f21fefc70c76b304adc1b3a780c8740dfcfb595"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/maknz/slack/zipball/7f21fefc70c76b304adc1b3a780c8740dfcfb595",
+                "reference": "7f21fefc70c76b304adc1b3a780c8740dfcfb595",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "guzzlehttp/guzzle": "~6.0|~5.0|~4.0",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "0.9.*",
+                "phpunit/phpunit": "4.2.*"
+            },
+            "suggest": {
+                "illuminate/support": "Required for Laravel support"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Maknz\\Slack\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "maknz",
+                    "email": "github@mak.geek.nz"
+                }
+            ],
+            "description": "A simple PHP package for sending messages to Slack, with a focus on ease of use and elegant syntax. Includes Laravel support out of the box.",
+            "keywords": [
+                "laravel",
+                "slack"
+            ],
+            "time": "2015-06-03T03:35:16+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -1569,6 +1660,60 @@
             ],
             "description": "Official version of pdepend to be handled with Composer",
             "time": "2017-12-13T13:21:38+00:00"
+        },
+        {
+            "name": "php-censor/flowdock-client",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-censor/flowdock-client.git",
+                "reference": "5be924e20b96a573386d3704e938d2b510800b3e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-censor/flowdock-client/zipball/5be924e20b96a573386d3704e938d2b510800b3e",
+                "reference": "5be924e20b96a573386d3704e938d2b510800b3e",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "guzzlehttp/guzzle": "~6.0",
+                "php": ">=5.6.0",
+                "symfony/console": "~2.5|~3.0|~4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~5.7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "FlowdockClient\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dmitry Khomutov",
+                    "email": "poisoncorpsee@gmail.com",
+                    "homepage": "http://corpsee.com",
+                    "role": "Flowdock Client developer"
+                },
+                {
+                    "name": "Rémi Marseille",
+                    "email": "marseille.remi@gmail.com",
+                    "role": "Flowdock developer"
+                }
+            ],
+            "description": "A PHP library to interact with the Flowdock API",
+            "homepage": "https://github.com/php-censor/flowdock-client",
+            "keywords": [
+                "api",
+                "flowdock"
+            ],
+            "time": "2018-12-16T09:47:50+00:00"
         },
         {
             "name": "php-censor/phpdoc-checker",

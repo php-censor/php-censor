@@ -4,8 +4,8 @@ namespace PHPCensor\Plugin;
 
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
-use Mremi\Flowdock\Api\Push\Push;
-use Mremi\Flowdock\Api\Push\TeamInboxMessage;
+use FlowdockClient\Api\Push\Push;
+use FlowdockClient\Api\Push\TeamInboxMessage;
 use PHPCensor\Plugin;
 
 /**
