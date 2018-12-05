@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cf6cafed4b03750d62da1d94577fb7d6",
+    "content-hash": "d7081ccbe17bc845b258cdd5b3ecc209",
     "packages": [
         {
             "name": "behat/gherkin",
@@ -1279,16 +1279,16 @@
         },
         {
             "name": "php-censor/phpdoc-checker",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-censor/phpdoc-checker.git",
-                "reference": "f4f977e60878344e7fa018ee69a39101ac580e18"
+                "reference": "65341ec3f34bfd796509ca2d6b79114de9273130"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-censor/phpdoc-checker/zipball/f4f977e60878344e7fa018ee69a39101ac580e18",
-                "reference": "f4f977e60878344e7fa018ee69a39101ac580e18",
+                "url": "https://api.github.com/repos/php-censor/phpdoc-checker/zipball/65341ec3f34bfd796509ca2d6b79114de9273130",
+                "reference": "65341ec3f34bfd796509ca2d6b79114de9273130",
                 "shasum": ""
             },
             "require": {
@@ -1335,7 +1335,7 @@
                 "phpdoc",
                 "testing"
             ],
-            "time": "2018-06-30T07:36:50+00:00"
+            "time": "2018-12-05T17:11:52+00:00"
         },
         {
             "name": "phpdocumentor/reflection-docblock",
