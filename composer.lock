@@ -1279,16 +1279,16 @@
         },
         {
             "name": "php-censor/phpdoc-checker",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-censor/phpdoc-checker.git",
-                "reference": "65341ec3f34bfd796509ca2d6b79114de9273130"
+                "reference": "d0662b939e3b24c432d2947f189fa65dace560b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-censor/phpdoc-checker/zipball/65341ec3f34bfd796509ca2d6b79114de9273130",
-                "reference": "65341ec3f34bfd796509ca2d6b79114de9273130",
+                "url": "https://api.github.com/repos/php-censor/phpdoc-checker/zipball/d0662b939e3b24c432d2947f189fa65dace560b4",
+                "reference": "d0662b939e3b24c432d2947f189fa65dace560b4",
                 "shasum": ""
             },
             "require": {
@@ -1335,7 +1335,7 @@
                 "phpdoc",
                 "testing"
             ],
-            "time": "2018-12-05T17:11:52+00:00"
+            "time": "2018-12-07T18:40:13+00:00"
         },
         {
             "name": "phpdocumentor/reflection-docblock",
