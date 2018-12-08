@@ -15,7 +15,7 @@ use PHPCensor\Helper\Template;
     <?php
     foreach ($builds as $build):
         $environment = $build->getEnvironment();
-        $branches = $build->getExtra('branches');
+        $branches    = $build->getExtra('branches');
 
         switch ($build->getStatus()) {
             case Build::STATUS_PENDING:
