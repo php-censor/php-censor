@@ -53,14 +53,11 @@ class PhpParallelLint extends Plugin implements ZeroConfigPluginInterface
     {
         parent::__construct($builder, $build, $options);
 
-        $this->directory  = $this->builder->buildPath;
         $this->ignore     = $this->builder->ignore;
         $this->extensions = 'php';
         $this->shortTag   = false;
 
-        if (isset($options['directory'])) {
-            $this->directory = $this->builder->buildPath.$options['directory'];
-        }
+        $this->directory = $this->getWorkingDirectory($options);
 
         if (isset($options['ignore'])) {
             $this->ignore = $options['ignore'];

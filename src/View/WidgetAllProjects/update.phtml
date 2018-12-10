@@ -7,29 +7,28 @@ use PHPCensor\Model\Build;
  * @var Build[] $builds
  */
 
-$statuses = [];
-$failures = 0;
-$subcls   = 'gray';
-$cls      = '';
-$success  = null;
-$failure  = null;
+$statuses        = [];
+$failures        = 0;
+$backgroundClass = 'gray';
+$success         = null;
+$failure         = null;
 
 if (count($builds)) {
     // Get the most recent build status to determine the main block colour.
     $last_build = $builds[0];
     $status = $last_build->getStatus();
     switch($status) {
-        case 0:
-            $subcls = 'blue';
+        case Build::STATUS_PENDING:
+            $backgroundClass = 'blue';
             break;
-        case 1:
-            $subcls = 'yellow';
+        case Build::STATUS_RUNNING:
+            $backgroundClass = 'yellow';
             break;
-        case 2:
-            $subcls = 'green';
+        case Build::STATUS_SUCCESS:
+            $backgroundClass = 'green';
             break;
-        case 3:
-            $subcls = 'red';
+        case Build::STATUS_FAILED:
+            $backgroundClass = 'red';
             break;
     }
     // Use the last 5 builds to determine project health:
@@ -37,17 +36,17 @@ if (count($builds)) {
 
     foreach ($builds as $build) {
         switch ($build->getStatus()) {
-            case 0:
+            case Build::STATUS_PENDING:
                 $statuses[] = 'pending';
                 break;
-            case 1:
+            case Build::STATUS_RUNNING:
                 $statuses[] = 'running';
                 break;
-            case 2:
+            case Build::STATUS_SUCCESS:
                 $statuses[] = 'ok';
                 $success = is_null($success) && !is_null($build->getFinishDate()) ? $build->getFinishDate()->format('Y-m-d H:i:s') : $success;
                 break;
-            case 3:
+            case Build::STATUS_FAILED:
                 $failures++;
                 $statuses[] = 'failed';
                 $failure = is_null($failure) && !is_null($build->getFinishDate()) ? $build->getFinishDate()->format('Y-m-d H:i:s') : $failure;
@@ -60,11 +59,9 @@ $buildCount  = count($builds);
 $lastSuccess = $successful;
 $lastFailure = $failed;
 $message = Lang::get('no_builds_yet');
-$shortMessage = Lang::get('no_builds_yet');
 
 if ($buildCount > 0) {
     if ($failures > 0) {
-        $shortMessage = Lang::get('x_of_x_failed_short', $failures, $buildCount);
         $message = Lang::get('x_of_x_failed', $failures, $buildCount);
 
         if (!is_null($lastSuccess) && !is_null($lastSuccess->getFinishDate())) {
@@ -74,7 +71,6 @@ if ($buildCount > 0) {
         }
     } else {
         $message = Lang::get('all_builds_passed', $buildCount);
-        $shortMessage = Lang::get('all_builds_passed_short', $buildCount, $buildCount);
 
         if (!is_null($lastFailure) && !is_null($lastFailure->getFinishDate())) {
             $message .= Lang::get('last_failed_build', $lastFailure->getFinishDate()->format('Y-m-d H:i:s'));
@@ -86,7 +82,7 @@ if ($buildCount > 0) {
 
 ?>
 
-<div class="small-box small-box-full bg-<?= $subcls; ?>">
+<div class="small-box small-box-full bg-<?= $backgroundClass; ?>">
 
     <div class="inner">
         <h3>
@@ -121,19 +117,19 @@ if ($buildCount > 0) {
             $build = $builds[$idx];
             $link = APP_URL . 'build/view/' . $build->getId();
             switch ($build->getStatus()) {
-                case 0:
+                case Build::STATUS_PENDING:
                     $class = 'bg-blue';
                     $icon = 'fa-clock-o';
                     break;
-                case 1:
+                case Build::STATUS_RUNNING:
                     $class = 'bg-yellow';
                     $icon = 'fa-cogs';
                     break;
-                case 2:
+                case Build::STATUS_SUCCESS:
                     $class = 'bg-green';
                     $icon = 'fa-check';
                     break;
-                case 3:
+                case Build::STATUS_FAILED:
                     $class = 'bg-red';
                     $icon = 'fa-times';
                     break;

@@ -51,10 +51,7 @@ class Phar extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        // Directory?
-        if (isset($options['directory'])) {
-            $this->setDirectory($options['directory']);
-        }
+        $this->directory = $this->getWorkingDirectory($options);
 
         // Filename?
         if (isset($options['filename'])) {
@@ -70,31 +67,6 @@ class Phar extends Plugin
         if (isset($options['stub'])) {
             $this->setStub($options['stub']);
         }
-    }
-
-    /**
-     * Directory Setter
-     *
-     * @param  string $directory Configuration Value
-     * @return Phar   Fluent Interface
-     */
-    public function setDirectory($directory)
-    {
-        $this->directory = $directory;
-        return $this;
-    }
-
-    /**
-     * Directory Getter
-     *
-     * @return string Configurated or Default Value
-     */
-    public function getDirectory()
-    {
-        if (!isset($this->directory)) {
-            $this->setDirectory($this->builder->buildPath);
-        }
-        return $this->directory;
     }
 
     /**
@@ -178,7 +150,7 @@ class Phar extends Plugin
         $content  = '';
         $filename = $this->getStub();
         if ($filename) {
-            $content = file_get_contents($this->builder->buildPath . '/' . $this->getStub());
+            $content = file_get_contents($this->builder->buildPath . $this->getStub());
         }
         return $content;
     }
@@ -192,8 +164,7 @@ class Phar extends Plugin
         $success = false;
 
         try {
-            $file = $this->getDirectory() . '/' . $this->getFilename();
-            $phar = new PHPPhar($file, 0, $this->getFilename());
+            $phar = new PHPPhar($this->directory . $this->getFilename(), 0, $this->getFilename());
             $phar->buildFromDirectory($this->builder->buildPath, $this->getRegExp());
 
             $stub = $this->getStubContent();

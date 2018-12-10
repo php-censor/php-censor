@@ -32,8 +32,8 @@ class PackageBuild extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        $path            = $this->builder->buildPath;
-        $this->directory = isset($options['directory']) ? $options['directory'] : $path;
+        $this->directory = $this->getWorkingDirectory($options);
+
         $this->filename  = isset($options['filename']) ? $options['filename'] : 'build';
         $this->format    = isset($options['format']) ?  $options['format'] : 'zip';
     }

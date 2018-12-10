@@ -125,7 +125,7 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
 
         // Build command string:
         $path = $this->builder->buildPath . $this->path;
-        $cmd = $checker . ' --json --directory="%s"%s%s';
+        $cmd  = $checker . ' --json --directory="%s"%s%s';
 
         // Disable exec output logging, as we don't want the XML report in the log:
         $this->builder->logExecOutput(false);

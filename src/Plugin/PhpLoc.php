@@ -47,11 +47,7 @@ class PhpLoc extends Plugin implements ZeroConfigPluginInterface
     {
         parent::__construct($builder, $build, $options);
 
-        $this->directory = $this->builder->buildPath;
-
-        if (isset($options['directory'])) {
-            $this->directory .= $options['directory'];
-        }
+        $this->directory = $this->getWorkingDirectory($options);
     }
 
     /**

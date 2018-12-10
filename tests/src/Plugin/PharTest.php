@@ -26,42 +26,52 @@ class PharTest extends \PHPUnit\Framework\TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $builder
+            ->expects($this->any())
+            ->method('interpolate')
+            ->willReturnArgument(0);
+
+        $buildPath          = $this->buildSource();
+        $builder->buildPath = $buildPath;
+
         return new PharPlugin($builder, $build, $options);
     }
 
     protected function buildTemp()
     {
         $directory = tempnam(ROOT_DIR . 'tests/runtime/', 'source');
-        unlink($directory);
-        return $directory;
+        @unlink($directory);
+
+        return $directory . '/';
     }
 
     protected function buildSource()
     {
         $directory = $this->buildTemp();
         mkdir($directory);
-        file_put_contents($directory . '/one.php', '<?= "one";');
-        file_put_contents($directory . '/two.php', '<?= "two";');
-        mkdir($directory . '/config');
-        file_put_contents($directory . '/config/config.ini', '[config]');
-        mkdir($directory . '/views');
-        file_put_contents($directory . '/views/index.phtml', '<?= "hello";');
+        file_put_contents($directory . 'one.php', '<?= "one";');
+        file_put_contents($directory . 'two.php', '<?= "two";');
+        mkdir($directory . 'config');
+        file_put_contents($directory . 'config/config.ini', '[config]');
+        mkdir($directory . 'views');
+        file_put_contents($directory . 'views/index.phtml', '<?= "hello";');
         $this->directory = $directory;
-        return $directory;
+
+        return $this->directory;
     }
 
     protected function cleanSource()
     {
         if ($this->directory) {
             $filenames = [
-                '/build.phar',
-                '/stub.php',
-                '/views/index.phtml',
-                '/views',
-                '/config/config.ini',
-                '/config',
-                '/two.php',
-                '/one.php',
+                'build.phar',
+                'stub.php',
+                'views/index.phtml',
+                'views',
+                'config/config.ini',
+                'config',
+                'two.php',
+                'one.php',
             ];
             foreach ($filenames as $filename) {
                 if (is_dir($this->directory . $filename)) {
@@ -88,16 +98,6 @@ class PharTest extends \PHPUnit\Framework\TestCase
         self::assertInstanceOf('PHPCensor\Plugin', $plugin);
         self::assertInstanceOf('PHPCensor\Model\Build', $plugin->getBuild());
         self::assertInstanceOf('PHPCensor\Builder', $plugin->getBuilder());
-    }
-
-    public function testDirectory()
-    {
-        $plugin = $this->getPlugin();
-        $plugin->getBuilder()->buildPath = 'foo';
-        self::assertEquals('foo', $plugin->getDirectory());
-
-        $plugin = $this->getPlugin(['directory' => 'dirname']);
-        self::assertEquals('dirname', $plugin->getDirectory());
     }
 
     public function testFilename()
@@ -132,15 +132,13 @@ class PharTest extends \PHPUnit\Framework\TestCase
         $this->checkReadonly();
 
         $plugin = $this->getPlugin();
-        $path   = $this->buildSource();
-        $plugin->getBuilder()->buildPath = $path;
 
         self::assertTrue($plugin->execute());
 
-        self::assertFileExists($path . '/build.phar');
-        PHPPhar::loadPhar($path . '/build.phar');
-        self::assertFileEquals($path . '/one.php', 'phar://build.phar/one.php');
-        self::assertFileEquals($path . '/two.php', 'phar://build.phar/two.php');
+        self::assertFileExists($plugin->getBuilder()->buildPath . 'build.phar');
+        PHPPhar::loadPhar($plugin->getBuilder()->buildPath . 'build.phar');
+        self::assertFileEquals($plugin->getBuilder()->buildPath . 'one.php', 'phar://build.phar/one.php');
+        self::assertFileEquals($plugin->getBuilder()->buildPath . 'two.php', 'phar://build.phar/two.php');
         self::assertFileNotExists('phar://build.phar/config/config.ini');
         self::assertFileNotExists('phar://build.phar/views/index.phtml');
     }
@@ -150,17 +148,18 @@ class PharTest extends \PHPUnit\Framework\TestCase
         $this->checkReadonly();
 
         $plugin = $this->getPlugin(['regexp' => '/\.(php|phtml)$/']);
-        $path   = $this->buildSource();
-        $plugin->getBuilder()->buildPath = $path;
 
         self::assertTrue($plugin->execute());
 
-        self::assertFileExists($path . '/build.phar');
-        PHPPhar::loadPhar($path . '/build.phar');
-        self::assertFileEquals($path . '/one.php', 'phar://build.phar/one.php');
-        self::assertFileEquals($path . '/two.php', 'phar://build.phar/two.php');
+        self::assertFileExists($plugin->getBuilder()->buildPath . 'build.phar');
+        PHPPhar::loadPhar($plugin->getBuilder()->buildPath . 'build.phar');
+        self::assertFileEquals($plugin->getBuilder()->buildPath . 'one.php', 'phar://build.phar/one.php');
+        self::assertFileEquals($plugin->getBuilder()->buildPath . 'two.php', 'phar://build.phar/two.php');
         self::assertFileNotExists('phar://build.phar/config/config.ini');
-        self::assertFileEquals($path . '/views/index.phtml', 'phar://build.phar/views/index.phtml');
+        self::assertFileEquals(
+            $plugin->getBuilder()->buildPath . 'views/index.phtml',
+            'phar://build.phar/views/index.phtml'
+        );
     }
 
     public function testExecuteStub()
@@ -173,16 +172,14 @@ Phar::mapPhar();
 __HALT_COMPILER(); ?>
 STUB;
 
-        $path = $this->buildSource();
-        file_put_contents($path . '/stub.php', $content);
-
         $plugin = $this->getPlugin(['stub' => 'stub.php']);
-        $plugin->getBuilder()->buildPath = $path;
+
+        file_put_contents($plugin->getBuilder()->buildPath . 'stub.php', $content);
 
         self::assertTrue($plugin->execute());
 
-        self::assertFileExists($path . '/build.phar');
-        $phar = new PHPPhar($path . '/build.phar');
+        self::assertFileExists($plugin->getBuilder()->buildPath . 'build.phar');
+        $phar = new PHPPhar($plugin->getBuilder()->buildPath . 'build.phar');
         self::assertEquals($content, trim($phar->getStub())); // + trim because PHP adds newline char
     }
 
@@ -193,7 +190,6 @@ STUB;
         $directory = $this->buildTemp();
 
         $plugin = $this->getPlugin(['directory' => $directory]);
-        $plugin->getBuilder()->buildPath = $this->buildSource();
 
         self::assertFalse($plugin->execute());
     }

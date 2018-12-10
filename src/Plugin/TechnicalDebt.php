@@ -120,11 +120,12 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
     {
         parent::__construct($builder, $build, $options);
 
-        $this->suffixes       = ['php'];
-        $this->directory      = $this->builder->buildPath;
-        $this->ignore         = $this->builder->ignore;
+        $this->suffixes      = ['php'];
+        $this->ignore        = $this->builder->ignore;
         $this->allowedErrors = 0;
-        $this->searches       = ['TODO', 'FIXME', 'TO DO', 'FIX ME'];
+        $this->searches      = ['TODO', 'FIXME', 'TO DO', 'FIX ME'];
+
+        $this->directory = $this->getWorkingDirectory($options);
 
         if (!empty($options['suffixes']) && is_array($options['suffixes'])) {
             $this->suffixes = $options['suffixes'];
@@ -140,10 +141,6 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
 
         if (array_key_exists('allowed_errors', $options) && $options['allowed_errors']) {
             $this->allowedErrors = (int) $options['allowed_errors'];
-        }
-
-        if (!empty($options['directory'])) {
-            $this->directory .= $options['directory'];
         }
 
         $this->setOptions($options);

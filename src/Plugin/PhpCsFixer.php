@@ -53,6 +53,8 @@ class PhpCsFixer extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
+        $this->directory = $this->getWorkingDirectory($options);
+
         if (!empty($options['args'])) {
             $this->args = $options['args'];
         }
@@ -72,10 +74,6 @@ class PhpCsFixer extends Plugin
         if (isset($options['config']) && $options['config']) {
             $this->config = true;
             $this->args   .= ' --config=' . $builder->interpolate($options['config']);
-        }
-
-        if (isset($options['directory']) && $options['directory']) {
-            $this->directory = $builder->interpolate($options['directory']);
         }
 
         if (isset($options['errors']) && $options['errors']) {
@@ -104,7 +102,7 @@ class PhpCsFixer extends Plugin
 
         if (!$this->config) {
             foreach ($this->configs as $config) {
-                if (file_exists($this->builder->buildPath . '/' . $config)) {
+                if (file_exists($this->builder->buildPath . $config)) {
                     $this->config = true;
                     $this->args   .= ' --config=./' . $config;
                     break;

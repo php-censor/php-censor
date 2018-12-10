@@ -111,8 +111,8 @@ class XMPP extends Plugin
      */
     public function findConfigFile()
     {
-        if (file_exists($this->builder->buildPath . '/.sendxmpprc')) {
-            if (md5(file_get_contents($this->builder->buildPath . '/.sendxmpprc'))
+        if (file_exists($this->builder->buildPath . '.sendxmpprc')) {
+            if (md5(file_get_contents($this->builder->buildPath . '.sendxmpprc'))
                 !== md5($this->getConfigFormat())) {
                 return null;
             }
@@ -140,7 +140,7 @@ class XMPP extends Plugin
         /*
          * Try to build conf file
          */
-        $configFile = $this->builder->buildPath . '/.sendxmpprc';
+        $configFile = $this->builder->buildPath . '.sendxmpprc';
         if (is_null($this->findConfigFile())) {
             file_put_contents($configFile, $this->getConfigFormat());
             chmod($configFile, 0600);
@@ -154,7 +154,7 @@ class XMPP extends Plugin
             $tls = ' -t';
         }
 
-        $messageFile = $this->builder->buildPath . '/' . uniqid('xmppmessage');
+        $messageFile = $this->builder->buildPath . uniqid('xmppmessage');
         if ($this->buildMessage($messageFile) === false) {
             return false;
         }

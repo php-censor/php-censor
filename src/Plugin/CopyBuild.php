@@ -31,9 +31,9 @@ class CopyBuild extends Plugin
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
         parent::__construct($builder, $build, $options);
-        
-        $path            = $this->builder->buildPath;
-        $this->directory = isset($options['directory']) ? $options['directory'] : $path;
+
+        $this->directory = $this->getWorkingDirectory($options);
+
         $this->wipe      = isset($options['wipe']) ?  (bool)$options['wipe'] : false;
         $this->ignore    = isset($options['respect_ignore']) ?  (bool)$options['respect_ignore'] : false;
     }

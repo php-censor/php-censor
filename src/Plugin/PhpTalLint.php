@@ -14,7 +14,7 @@ use PHPCensor\Plugin;
  */
 class PhpTalLint extends Plugin
 {
-    protected $directories;
+    protected $directory;
     protected $recursive = true;
     protected $suffixes;
     protected $ignore;
@@ -54,16 +54,13 @@ class PhpTalLint extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        $this->directories = [''];
         $this->suffixes = ['zpt'];
         $this->ignore = $this->builder->ignore;
 
         $this->allowedWarnings = 0;
         $this->allowedErrors   = 0;
 
-        if (!empty($options['directory'])) {
-            $this->directories = [$options['directory']];
-        }
+        $this->directory = $this->getWorkingDirectory($options);
 
         if (isset($options['suffixes'])) {
             $this->suffixes = (array)$options['suffixes'];
@@ -77,9 +74,7 @@ class PhpTalLint extends Plugin
     {
         $this->builder->logExecOutput(false);
 
-        foreach ($this->directories as $dir) {
-            $this->lintDirectory($dir);
-        }
+        $this->lintDirectory($this->directory);
 
         $this->builder->logExecOutput(true);
 

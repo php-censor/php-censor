@@ -17,12 +17,12 @@ class Atoum extends Plugin
     protected $executable;
 
     /**
-     * @var array
+     * @var string
      */
     protected $args;
 
     /**
-     * @var array
+     * @var string
      */
     protected $config;
 
@@ -46,8 +46,10 @@ class Atoum extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
+        $this->directory = $this->getWorkingDirectory($options);
+
         if (isset($options['executable'])) {
-            $this->executable = $this->builder->buildPath . '/' . $options['executable'];
+            $this->executable = $this->builder->buildPath . $options['executable'];
         } else {
             $this->executable = $this->findBinary('atoum');
         }
@@ -58,10 +60,6 @@ class Atoum extends Plugin
 
         if (isset($options['config'])) {
             $this->config = $options['config'];
-        }
-
-        if (isset($options['directory'])) {
-            $this->directory = $options['directory'];
         }
     }
 
@@ -83,16 +81,15 @@ class Atoum extends Plugin
         }
 
         if ($this->directory !== null) {
-            $dirPath = $this->builder->buildPath . '/' . $this->directory;
-            $cmd .= " -d '{$dirPath}'";
+            $cmd .= " -d '{$this->directory}'";
         }
 
         chdir($this->builder->buildPath);
 
-        $output = '';
         $status = true;
 
-        exec($cmd, $output);
+        $this->builder->executeCommand($cmd);
+        $output  = $this->builder->getLastOutput();
 
         if (count(preg_grep("/Success \(/", $output)) == 0) {
             $status = false;

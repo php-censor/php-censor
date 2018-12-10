@@ -29,9 +29,8 @@ class Wipe extends Plugin
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
         parent::__construct($builder, $build, $options);
-        
-        $path            = $this->builder->buildPath;
-        $this->directory = isset($options['directory']) ? $this->builder->interpolate($options['directory']) : $path;
+
+        $this->directory = $this->getWorkingDirectory($options);
     }
 
     /**

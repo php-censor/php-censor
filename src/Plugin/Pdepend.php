@@ -72,9 +72,7 @@ class Pdepend extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        $this->directory = isset($options['directory'])
-            ? $options['directory']
-            : $this->builder->buildPath;
+        $this->directory = $this->getWorkingDirectory($options);
 
         $this->summary = 'summary.xml';
         $this->pyramid = 'pyramid.svg';

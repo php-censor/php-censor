@@ -186,6 +186,7 @@ class Build extends BaseBuild
     public function storeMeta($key, $value)
     {
         $value = json_encode($value);
+
         Factory::getStore('Build')->setMeta($this->getId(), $key, $value);
     }
 
@@ -320,7 +321,7 @@ class Build extends BaseBuild
                 continue;
             }
 
-            $className = '\PHPCensor\Plugin\\'.$item->getBasename('.php');
+            $className = '\PHPCensor\Plugin\\' . $item->getBasename('.php');
 
             $reflectedPlugin = new \ReflectionClass($className);
 

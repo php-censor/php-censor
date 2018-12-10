@@ -34,16 +34,7 @@ class Phing extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        /*
-         * Set working directory
-         */
-        if (isset($options['directory'])) {
-            $directory = $this->builder->buildPath . '/' . $options['directory'];
-        } else {
-            $directory = $this->builder->buildPath;
-        }
-
-        $this->setDirectory($directory);
+        $this->directory = $this->getWorkingDirectory($options);
 
         /*
          * Sen name of a non default build file
@@ -85,24 +76,6 @@ class Phing extends Plugin
         $cmd[] = '2>&1';
 
         return $this->builder->executeCommand(implode(' ', $cmd), $this->directory, $this->targets);
-    }
-
-    /**
-     * @return string
-     */
-    public function getDirectory()
-    {
-        return $this->directory;
-    }
-
-    /**
-     * @param string $directory
-     *
-     * @return $this
-     */
-    public function setDirectory($directory)
-    {
-        $this->directory = $directory;
     }
 
     /**
@@ -152,7 +125,7 @@ class Phing extends Plugin
      */
     public function setBuildFile($buildFile)
     {
-        if (!file_exists($this->getDirectory() . $buildFile)) {
+        if (!file_exists($this->directory . $buildFile)) {
             throw new \Exception('Specified build file does not exist.');
         }
 
@@ -165,7 +138,7 @@ class Phing extends Plugin
      */
     public function getBuildFilePath()
     {
-        return $this->getDirectory() . $this->buildFile;
+        return $this->directory . $this->buildFile;
     }
 
     /**

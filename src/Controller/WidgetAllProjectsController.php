@@ -45,8 +45,10 @@ class WidgetAllProjectsController extends WebController
     }
 
     /**
-    * Display dashboard.
-    */
+     * @return Response
+     *
+     * @throws \Exception
+     */
     public function index()
     {
         $this->view->groups = $this->getGroupInfo();
@@ -63,6 +65,8 @@ class WidgetAllProjectsController extends WebController
      * @param Project[] $projects
      *
      * @return string
+     *
+     * @throws \Exception
      */
     protected function getSummaryHtml($projects)
     {
@@ -109,7 +113,7 @@ class WidgetAllProjectsController extends WebController
      */
     protected function getGroupInfo()
     {
-        $rtn = [];
+        $rtn    = [];
         $groups = $this->groupStore->getWhere([], 100, 0, ['title' => 'ASC']);
 
         foreach ($groups['items'] as $group) {

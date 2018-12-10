@@ -169,6 +169,18 @@ class ProjectTest extends TestCase
         self::assertEquals(false, $result);
     }
 
+    public function testOverwriteBuildConfig()
+    {
+        $project = new Project();
+
+        $result = $project->setOverwriteBuildConfig(false);
+        self::assertEquals(true, $result);
+        self::assertEquals(false, $project->getOverwriteBuildConfig());
+
+        $result = $project->setOverwriteBuildConfig(false);
+        self::assertEquals(false, $result);
+    }
+
     public function testAllowPublicStatus()
     {
         $project = new Project();
