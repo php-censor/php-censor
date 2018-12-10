@@ -60,7 +60,7 @@ class PhpUnitResultJunit extends PhpUnitResult
                 case 'system-out':
                 case 'system-err':
                     // not results
-                    continue;
+                    continue 2;
                 default:
                     $severity = 'UNKNOWN RESULT TYPE: '.$child->getName();
                     break 2;
@@ -117,7 +117,7 @@ class PhpUnitResultJunit extends PhpUnitResult
                 case 'system-out':
                 case 'system-err':
                     // not results
-                    continue;
+                    continue 2;
                 default:
                     $msg = (string)$child['message']; // according to xsd
                     if ('' === $msg) {
