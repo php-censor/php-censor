@@ -498,11 +498,22 @@ class InstallCommand extends Command
     {
         $output->write('Setting up your database...');
 
-        $outputMigration = shell_exec(ROOT_DIR . 'bin/console php-censor-migrations:migrate');
+        exec(ROOT_DIR . 'bin/console php-censor-migrations:migrate', $outputMigration, $status);
+
 
         $output->writeln('');
-        $output->writeln($outputMigration);
-        $output->writeln('<info>OK</info>');
+        $output->writeln(implode($outputMigration));
+        if (0 == $status) {
+          $output->writeln('<info>OK</info>');
+
+          return true;
+        }
+
+        $output->writeln('<error>Migration did not finish</error>');
+
+        return false;
+
+
     }
 
     /**
