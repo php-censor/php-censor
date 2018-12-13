@@ -96,7 +96,9 @@ class InstallCommand extends Command
         }
 
         $this->reloadConfig();
-        $this->setupDatabase($output);
+        if (!$this->setupDatabase($output)){
+          return false;
+        }
 
         $admin = $this->getAdminInformation($input, $output);
         $this->createAdminUser($admin, $output);
