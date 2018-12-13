@@ -29,6 +29,11 @@ class Builder implements LoggerAwareInterface
     public $ignore = [];
 
     /**
+     * Defaut directory for plugins
+     * @var string
+     */
+    public $directory;
+    /**
      * @var string|null
      */
     protected $currentStage = null;
@@ -370,6 +375,11 @@ class Builder implements LoggerAwareInterface
         // Does the project have any paths it wants plugins to ignore?
         if (isset($this->config['build_settings']['ignore'])) {
             $this->ignore = $this->config['build_settings']['ignore'];
+        }
+
+        // Does the project have a global directory for plugins ?
+        if (isset($this->config['build_settings']['directory'])) {
+            $this->directory = $this->config['build_settings']['directory'];
         }
 
         $this->buildLogger->logSuccess(sprintf('Working copy created: %s', $this->buildPath));

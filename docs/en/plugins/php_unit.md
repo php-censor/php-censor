@@ -16,8 +16,7 @@ Its activated if you have phpunit.xml file in your build path, `tests/` subfolde
 * **config** - Optional - Path to a PHP Unit XML configuration file.
 * **run_from** - Optional - When running PHPUnit with an XML config, the command is run from this directory
 * **coverage** - Optional - Value for the `--coverage-html` command line flag.
-* **path** - Optional - In cases where tests files are in a sub path of the /tests path, allows this path to be set in 
-the config.
+* **executable** [string, optional] -  Allows you to provide a path to phpunit executable
 
 #### Running Tests By Specifying Directory
 

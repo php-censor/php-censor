@@ -19,6 +19,8 @@ class PhpLoc extends Plugin implements ZeroConfigPluginInterface
      * @var string
      */
     protected $directory;
+    protected $executable;
+    protected $ignore;
 
     /**
      * @return string
@@ -47,7 +49,22 @@ class PhpLoc extends Plugin implements ZeroConfigPluginInterface
     {
         parent::__construct($builder, $build, $options);
 
-        $this->directory = $this->getWorkingDirectory($options);
+        $this->directory = $this->builder->directory;
+        $this->ignore    = $this->builder->ignore;
+
+        if (array_key_exists('ignore', $options)) {
+            $this->ignore = array_unshift($this->ignore, $options['ignore']);
+        }
+
+        if (isset($options['executable'])) {
+            $this->executable = $options['executable'];
+        } else {
+            $this->executable = $this->findBinary('phploc');
+        }
+        
+        if (isset($options['directory']) && !empty($options['directory'])) {
+            $this->directory = $this->getWorkingDirectory($options);
+        }
     }
 
     /**
@@ -57,7 +74,7 @@ class PhpLoc extends Plugin implements ZeroConfigPluginInterface
     {
         $ignore = '';
 
-        if (count($this->builder->ignore)) {
+        if (count($this->ignore)) {
             $map = function ($item) {
                 return ' --exclude ' . rtrim($item, '/');
             };
@@ -66,7 +83,7 @@ class PhpLoc extends Plugin implements ZeroConfigPluginInterface
             $ignore = implode('', $ignore);
         }
 
-        $phploc = $this->findBinary('phploc');
+        $phploc = $this->executable;
 
         $success = $this->builder->executeCommand($phploc . ' %s "%s"', $ignore, $this->directory);
         $output  = $this->builder->getLastOutput();

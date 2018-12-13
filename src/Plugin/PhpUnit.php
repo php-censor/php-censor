@@ -45,6 +45,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
     /** @var PhpUnitOptions*/
     protected $options;
 
+    protected $executable;
     /**
      * @return string
      */
@@ -76,6 +77,12 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
         $this->buildBranchLocation = PUBLIC_DIR . 'artifacts/phpunit/' . $this->buildBranchDirectory;
 
         $this->options = new PhpUnitOptions($options, $this->buildLocation);
+        if (isset($options['executable'])) {
+            $this->executable = $options['executable'];
+        } else {
+            $this->executable = $this->findBinary('phpunit');
+        }
+
     }
 
     /**
@@ -102,7 +109,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
             return false;
         }
 
-        $cmd      = $this->findBinary('phpunit');
+        $cmd      = $this->executable;
         $lastLine = exec($cmd.' --log-json . --version');
         if (false !== strpos($lastLine, '--log-json')) {
             $logFormat = 'junit'; // --log-json is not supported
@@ -177,7 +184,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
         }
 
         $arguments = $this->builder->interpolate($options->buildArgumentString());
-        $cmd       = $this->findBinary('phpunit') . ' %s %s';
+        $cmd       = $this->executable . ' %s %s';
         $success   = $this->builder->executeCommand($cmd, $arguments, $directory);
         $output    = $this->builder->getLastOutput();
 

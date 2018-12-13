@@ -18,6 +18,7 @@ Configuration
 * **no_dev** [optional, bool, true|false] - whether Composer should run with the `--no-dev` flag (default: false)
 * **ignore_platform_reqs** [optional, bool, true|false] - whether Composer should run with the `--ignore-platform-reqs` 
 flag (default: false)
+* **executable** [string, optional] - Allows you to provide a path to the codeception binary
 
 ### Examples
 

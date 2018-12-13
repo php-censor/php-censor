@@ -15,6 +15,7 @@ use PHPCensor\ZeroConfigPluginInterface;
  */
 class Composer extends Plugin implements ZeroConfigPluginInterface
 {
+    protected $executable;  
     protected $directory;
     protected $action;
     protected $preferDist;
@@ -42,7 +43,19 @@ class Composer extends Plugin implements ZeroConfigPluginInterface
         $this->preferSource       = false;
         $this->noDev              = false;
         $this->ignorePlatformReqs = false;
-        $this->directory          = $this->getWorkingDirectory($options);
+        $this->directory = $this->builder->directory;
+
+        if (isset($options['directory']) && !empty($options['directory'])) {
+            $this->directory = $this->getWorkingDirectory($options);
+        }
+
+
+
+        if (isset($options['executable'])) {
+            $this->executable = $options['executable'];
+        } else {
+            $this->executable = $this->findBinary(['composer', 'composer.phar']);
+        }
 
         if (array_key_exists('action', $options)) {
             $this->action = $options['action'];
@@ -85,7 +98,8 @@ class Composer extends Plugin implements ZeroConfigPluginInterface
     */
     public function execute()
     {
-        $composerLocation = $this->findBinary(['composer', 'composer.phar']);
+        $composerLocation = $this->executable;
+
         $cmd              = $composerLocation . ' --no-ansi --no-interaction ';
 
         if ($this->preferDist) {

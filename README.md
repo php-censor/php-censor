@@ -185,9 +185,11 @@ The project config should look something like this:
 setup:
   composer:
     action: "install"
+    directory: "."
 test:
   php_unit:
     config: "phpunit.xml"
+    executable: "/lastBinaryVersion/phpunit"
   php_mess_detector:
     allow_failures: true
   php_code_sniffer:

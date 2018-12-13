@@ -10,8 +10,8 @@ Configuration
 
 - **args** [string, optional] - Allows you to pass command line arguments to Atoum.
 - **config** [string, optional] - Path to an Atoum configuration file.
-- **directory** [string, optional] - Path in which to run Atom (defaults to the build root).
-- **executable** [string, optional] - Allows you to provide a path to the Atom binary (defaults to PHP Censor root, 
+- **directory** [string, optional] - This option lets you specify the tests directory to run.
+- **executable** [string, optional] - Allows you to provide a path to the Atom binary
 vendor/bin, or a system-provided Atom binary).
 
 ### Examples

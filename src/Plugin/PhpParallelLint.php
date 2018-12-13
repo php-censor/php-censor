@@ -33,6 +33,7 @@ class PhpParallelLint extends Plugin implements ZeroConfigPluginInterface
      * @var bool - enable short tags
      */
     protected $shortTag;
+    protected $executable;
 
     /**
      * @return string
@@ -56,11 +57,20 @@ class PhpParallelLint extends Plugin implements ZeroConfigPluginInterface
         $this->ignore     = $this->builder->ignore;
         $this->extensions = 'php';
         $this->shortTag   = false;
+        $this->directory = $this->builder->directory;
+        
+        if (isset($options['directory']) && !empty($options['directory'])) {
+            $this->directory = $this->getWorkingDirectory($options);
+        }
 
-        $this->directory = $this->getWorkingDirectory($options);
+        if (isset($options['executable'])) {
+            $this->executable = $options['executable'];
+        } else {
+            $this->executable = $this->findBinary('parallel-lint');
+        }
 
-        if (isset($options['ignore'])) {
-            $this->ignore = $options['ignore'];
+        if (array_key_exists('ignore', $options)) {
+            $this->ignore = array_unshift($this->ignore, $options['ignore']);
         }
 
         if (isset($options['shorttags'])) {
@@ -96,7 +106,7 @@ class PhpParallelLint extends Plugin implements ZeroConfigPluginInterface
     {
         list($ignore) = $this->getFlags();
 
-        $phplint = $this->findBinary('parallel-lint');
+        $phplint = $this->executable;
 
         $cmd     = $phplint . ' -e %s' . '%s %s "%s"';
         $success = $this->builder->executeCommand(

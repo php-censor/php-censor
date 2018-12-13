@@ -17,6 +17,7 @@ use SebastianBergmann\Diff\Parser;
 class PhpCsFixer extends Plugin
 {
     protected $directory = null;
+    protected $executable;
     protected $args      = '';
 
     protected $config    = false;
@@ -53,10 +54,20 @@ class PhpCsFixer extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        $this->directory = $this->getWorkingDirectory($options);
+        $this->directory = $this->builder->directory;
+        
+        if (isset($options['directory']) && !empty($options['directory'])) {
+            $this->directory = $this->getWorkingDirectory($options);
+        }
 
         if (!empty($options['args'])) {
             $this->args = $options['args'];
+        }
+
+        if (isset($options['executable'])) {
+            $this->executable = $options['executable'];
+        } else {
+            $this->executable = $this->findBinary('php-cs-fixer');
         }
 
         if (isset($options['verbose']) && $options['verbose']) {
@@ -114,7 +125,7 @@ class PhpCsFixer extends Plugin
             $directory = '.';
         }
 
-        $phpCsFixer = $this->findBinary('php-cs-fixer');
+        $phpCsFixer = $this->executable;
 
         // Determine the version of PHP CS Fixer
         $cmd        = $phpCsFixer . ' --version';

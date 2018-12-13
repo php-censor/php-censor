@@ -12,6 +12,7 @@ Configuration
 * **user_uuid** [string, required] - https://insight.sensiolabs.com/account Your user.
 * **api_token** [string, required] - https://insight.sensiolabs.com/account Your password (API token).
 * **project_uuid** [string, required] - Your Project UUID.
+* **executable** [string, optional] -  Allows you to provide a path to insight executable
 
 ### Examples
 

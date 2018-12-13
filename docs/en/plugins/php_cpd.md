@@ -8,15 +8,17 @@ Configuration
 
 ### Options
 
-* **path** - Optional - Path in which to run PHP Copy/Paste Detector (default: `%BUILD_PATH%`).
+* **path** - Deprecated - use directory
+* **directory** - Optional - direcotry in which to run PHP Copy/Paste Detector (default: `%BUILD_PATH%`).
 * **ignore** - Optional - A list of files / paths to ignore (default: build_settings > ignore).
+* **executable** [string, optional] -  Allows you to provide a path to phpcs executable
 
 ### Examples
 
 ```yml
 test:
   php_cpd:
-    path: "app"
+    directory: "app"
     ignore:
       - "app/my/path"
 ```

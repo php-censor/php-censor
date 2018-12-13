@@ -17,6 +17,11 @@ use PHPCensor\ZeroConfigPluginInterface;
 class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
 {
     /**
+     * @var string
+     */
+    protected $executable;
+
+     /**
      * @var array
      */
     protected $suffixes;
@@ -91,14 +96,24 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
         parent::__construct($builder, $build, $options);
 
         $this->suffixes         = ['php'];
-        $this->directory        = $this->builder->buildPath;
         $this->standard         = 'PSR2';
         $this->tabWidth         = '';
         $this->encoding         = '';
         $this->path             = '';
+        $this->directory        = $this->builder->directory;
         $this->ignore           = $this->builder->ignore;
         $this->allowedWarnings  = 0;
         $this->allowedErrors    = 0;
+
+        if (isset($options['directory']) && !empty($options['directory'])) {
+            $this->directory = $this->getWorkingDirectory($options);
+        }
+
+        if (isset($options['executable'])) {
+            $this->executable = $options['executable'];
+        } else {
+            $this->executable = $this->findBinary('phpcs');
+        }
 
         if (isset($options['zero_config']) && $options['zero_config']) {
             $this->allowedWarnings = -1;
@@ -126,7 +141,7 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
         }
 
         if (!empty($options['ignore'])) {
-            $this->ignore = (array)$options['ignore'];
+            $this->ignore = array_unshift($this->ignore,$options['ignore']);
         }
 
         if (!empty($options['standard'])) {
@@ -169,7 +184,7 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
     {
         list($ignore, $standard, $suffixes, $severity, $errorSeverity, $warningSeverity) = $this->getFlags();
 
-        $phpcs = $this->findBinary('phpcs');
+        $phpcs = $this->executable;
 
         $this->builder->logExecOutput(false);
 

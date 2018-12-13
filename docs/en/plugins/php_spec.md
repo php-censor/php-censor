@@ -8,7 +8,7 @@ Configuration
 
 ### Options
 
-* **bootstrap** - Optional - Path to a PHPSpec bootstrap file. 
+* **executable** [string, optional] -  Allows you to provide a path to phpspec executable
 
 ### Examples
 

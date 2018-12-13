@@ -16,8 +16,8 @@ class Gulp extends Plugin
     protected $directory;
     protected $task;
     protected $preferDist;
-    protected $gulp;
     protected $gulpfile;
+    protected $executable;
 
     /**
      * @return string
@@ -34,17 +34,29 @@ class Gulp extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        $this->directory = $this->getWorkingDirectory($options);
+
+        $this->directory = $this->builder->directory;
         $this->task      = null;
-        $this->gulp      = $this->findBinary('gulp');
+        
+        if (isset($options['directory']) && !empty($options['directory'])) {
+            $this->directory = $this->getWorkingDirectory($options);
+        }
+        
+        // deprecated compatibility option
+        if (isset($options['gulp']) && !isset($options['executable'])) {
+          $options['executable'] = $options['gulp'];
+        }
+
+       if (isset($options['executable'])) {
+          $this->executable = $options['executable'];
+        } else {
+            $this->executable = $this->findBinary('gulp');
+        }
+
         $this->gulpfile  = 'gulpfile.js';
 
         if (isset($options['task'])) {
             $this->task = $options['task'];
-        }
-
-        if (isset($options['gulp'])) {
-            $this->gulp = $options['gulp'];
         }
 
         if (isset($options['gulpfile'])) {
@@ -64,7 +76,7 @@ class Gulp extends Plugin
         }
 
         // build the gulp command
-        $cmd = 'cd %s && ' . $this->gulp;
+        $cmd = 'cd %s && ' . $this->executable;
         $cmd .= ' --no-color';
         $cmd .= ' --gulpfile %s';
         $cmd .= ' %s'; // the task that will be executed

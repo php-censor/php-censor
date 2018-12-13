@@ -9,6 +9,7 @@ Configuration
 ### Options
 
 * **directory** - Optional - The directory in which phploc should run. 
+* **executable** [string, optional] -  Allows you to provide a path to php_loc executable
 
 ### Example
 

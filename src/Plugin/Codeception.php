@@ -4,20 +4,27 @@ namespace PHPCensor\Plugin;
 
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
-use PHPCensor\Plugin\Util\TestResultParsers\Codeception as Parser;
 use PHPCensor\Plugin;
-use Symfony\Component\Yaml\Parser as YamlParser;
+use PHPCensor\Plugin\Util\TestResultParsers\Codeception as Parser;
 use PHPCensor\ZeroConfigPluginInterface;
+use Symfony\Component\Yaml\Parser as YamlParser;
 
 /**
  * Codeception Plugin - Enables full acceptance, unit, and functional testing.
- * 
+ *
  * @author Don Gilbert <don@dongilbert.net>
  * @author Igor Timoshenko <contact@igortimoshenko.com>
  * @author Adam Cooper <adam@networkpie.co.uk>
  */
 class Codeception extends Plugin implements ZeroConfigPluginInterface
 {
+    /**
+     * Allows you to provide a path to the codeception binary (defaults to PHP Censor root)
+     *
+     * @var string
+     */
+    protected $executable;
+
     /** @var string */
     protected $args = '';
 
@@ -27,12 +34,15 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
     protected $ymlConfigFile;
 
     /**
-     * @var array $path The path to the codeception tests folder.
+     * default sub-path for report.xml file
+     * 
+     * @var array $path The path to the report.xml file
      */
-    protected $path = [
+    protected $output_path = [
         'tests/_output',
         'tests/_log',
     ];
+
 
     /**
      * @return string
@@ -59,9 +69,21 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
             $this->args = (string) $options['args'];
         }
 
-        if (isset($options['path'])) {
-            array_unshift($this->path, $options['path']);
+        // deprecated compatibility option
+        if (isset($options['path']) && !isset($options['output_path'])) {
+            $options['output_path'] = $options['grunpatht'];
         }
+
+        if (isset($options['output_path'])) {
+            array_unshift($this->output_path, $options['output_path']);
+        }
+
+        if (isset($options['executable'])) {
+            $this->executable = $options['executable'];
+        } else {
+            $this->executable = $this->findBinary('codecept');
+        }
+
     }
 
     /**
@@ -69,7 +91,7 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
      */
     public static function canExecuteOnStage($stage, Build $build)
     {
-        return $stage == Build::STAGE_TEST && !is_null(self::findConfigFile($build->getBuildPath()));
+        return Build::STAGE_TEST == $stage && !is_null(self::findConfigFile($build->getBuildPath()));
     }
 
     /**
@@ -111,7 +133,7 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
      */
     protected function runConfigFile($configPath)
     {
-        $codeception = $this->findBinary('codecept');
+        $codeception = $this->executable;
 
         if (!$codeception) {
             $this->builder->logFailure(sprintf('Could not find "%s" binary', 'codecept'));
@@ -122,33 +144,33 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
         $cmd = 'cd "%s" && ' . $codeception . ' run -c "%s" ' . $this->args . ' --xml';
 
         $configPath = $this->builder->buildPath . $configPath;
-        $success = $this->builder->executeCommand($cmd, $this->builder->buildPath, $configPath);
+        $success    = $this->builder->executeCommand($cmd, $this->builder->buildPath, $configPath);
 
         $parser = new YamlParser();
         $yaml   = file_get_contents($configPath);
-        $config = (array)$parser->parse($yaml);
+        $config = (array) $parser->parse($yaml);
 
-        $outputPath = null;
+        $trueReportXmlPath = null;
         if ($config && isset($config['paths']['log'])) {
-            $outputPath = $this->builder->buildPath . $config['paths']['log'] . '/';
+            $trueReportXmlPath = $this->builder->buildPath . $config['paths']['log'] . '/';
         }
-        
-        if (!file_exists($outputPath . 'report.xml')) {
-            foreach ($this->path as $path) {
-                $outputPath = $this->builder->buildPath . rtrim($path, '/\\') . '/';
-                if (file_exists($outputPath . 'report.xml')) {
+
+        if (!file_exists($trueReportXmlPath . 'report.xml')) {
+            foreach ($this->output_path as $output_path) {
+                $trueReportXmlPath = $this->builder->buildPath . rtrim($output_path, '/\\') . '/';
+                if (file_exists($trueReportXmlPath . 'report.xml')) {
                     break;
                 }
             }
         }
 
-        $parser = new Parser($this->builder, ($outputPath . 'report.xml'));
+        $parser = new Parser($this->builder, ($trueReportXmlPath . 'report.xml'));
         $output = $parser->parse();
 
         $meta = [
             'tests'     => $parser->getTotalTests(),
             'timetaken' => $parser->getTotalTimeTaken(),
-            'failures'  => $parser->getTotalFailures()
+            'failures'  => $parser->getTotalFailures(),
         ];
 
         $this->build->storeMeta((self::pluginName() . '-meta'), $meta);

@@ -13,7 +13,6 @@ use PHPCensor\Plugin;
  */
 class XMPP extends Plugin
 {
-    protected $directory;
 
     /**
      * @var string, username of sender account xmpp
@@ -51,6 +50,11 @@ class XMPP extends Plugin
     protected $dateFormat;
 
     /**
+     * @var string
+     */
+    protected $executable;
+
+    /**
      * @return string
      */
     public static function pluginName()
@@ -72,6 +76,12 @@ class XMPP extends Plugin
         $this->recipients  = [];
         $this->tls         = false;
         $this->dateFormat = '%c';
+
+        if (isset($options['executable'])) {
+            $this->executable = $options['executable'];
+        } else {
+            $this->executable = $this->findBinary('sendxmpp');
+        }
 
         /*
          * Set recipients list
@@ -128,7 +138,7 @@ class XMPP extends Plugin
     */
     public function execute()
     {
-        $sendxmpp = $this->findBinary('sendxmpp');
+        $sendxmpp = $this->executable;
 
         /*
          * Without recipients we can't send notification

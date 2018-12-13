@@ -12,6 +12,8 @@ use PHPCensor\Plugin;
 class Atoum extends Plugin
 {
     /**
+     * Allows you to provide a path to the Atom binary (defaults to PHP Censor root)
+     * 
      * @var string
      */
     protected $executable;
@@ -27,7 +29,8 @@ class Atoum extends Plugin
     protected $config;
 
     /**
-     * @var string
+     * 
+     * @var This option lets you specify the tests directory to run.
      */
     protected $directory;
 
@@ -45,11 +48,15 @@ class Atoum extends Plugin
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
         parent::__construct($builder, $build, $options);
+        
+        $this->directory = $this->builder->directory;
 
-        $this->directory = $this->getWorkingDirectory($options);
+        if (isset($options['directory']) && !empty($options['directory'])) {
+            $this->directory = $this->getWorkingDirectory($options);
+        }
 
         if (isset($options['executable'])) {
-            $this->executable = $this->builder->buildPath . $options['executable'];
+            $this->executable = $options['executable'];
         } else {
             $this->executable = $this->findBinary('atoum');
         }
@@ -81,7 +88,7 @@ class Atoum extends Plugin
         }
 
         if ($this->directory !== null) {
-            $cmd .= " -d '{$this->directory}'";
+            $cmd .= " --directories '{$this->directory}'";
         }
 
         chdir($this->builder->buildPath);
@@ -89,6 +96,7 @@ class Atoum extends Plugin
         $status = true;
 
         $this->builder->executeCommand($cmd);
+
         $output  = $this->builder->getLastOutput();
 
         if (count(preg_grep("/Success \(/", $output)) == 0) {

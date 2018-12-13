@@ -12,12 +12,23 @@ use PHPCensor\Plugin;
  */
 class PhpSpec extends Plugin
 {
+  protected $executable;
     /**
      * @return string
      */
     public static function pluginName()
     {
         return 'php_spec';
+    }
+        public function __construct(Builder $builder, Build $build, array $options = [])
+    {
+        parent::__construct($builder, $build, $options);
+        
+        if (isset($options['executable'])) {
+            $this->executable = $options['executable'];
+        } else {
+            $this->executable = $this->findBinary(['phpspec', 'phpspec.php']);
+        }
     }
 
     /**
@@ -28,7 +39,7 @@ class PhpSpec extends Plugin
         $currentDir = getcwd();
         chdir($this->builder->buildPath);
 
-        $phpspec = $this->findBinary(['phpspec', 'phpspec.php']);
+        $phpspec = $this->executable;
 
         $success = $this->builder->executeCommand($phpspec . ' --format=junit --no-code-generation run');
         $output = $this->builder->getLastOutput();

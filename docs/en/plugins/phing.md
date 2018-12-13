@@ -13,7 +13,7 @@ Configuration
 * **targets** - Which build targets you want to run.
 * **properties** - Any custom properties you wish to pass to phing.
 * **property_file** - A file containing properties you wish to pass to phing.
-
+* **executable** [string, optional] -  Allows you to provide a path to phing executable
 ### Examples
 
 ```yml

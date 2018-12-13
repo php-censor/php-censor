@@ -127,6 +127,10 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
 
         $this->directory = $this->getWorkingDirectory($options);
 
+        if (array_key_exists('ignore', $options)) {
+            $this->ignore = array_unshift($this->ignore, $options['ignore']);
+        }
+
         if (!empty($options['suffixes']) && is_array($options['suffixes'])) {
             $this->suffixes = $options['suffixes'];
         }

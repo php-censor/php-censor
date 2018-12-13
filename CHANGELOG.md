@@ -4,6 +4,11 @@
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to 
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+### Changed
+- All plugins who have an executable can overide the executable with "executable" config (gulp & grunt use new parameter)
+- All plugins who use global ignore can now set a local ignore, cumulative settings
+- All plugins who use "path" or "directory" now use "directory", and this can be set like ignore for all plugins who use it
+
 
 ## [0.24.0](https://github.com/php-censor/php-censor/tree/0.24.0) (2018-11-04)
 
