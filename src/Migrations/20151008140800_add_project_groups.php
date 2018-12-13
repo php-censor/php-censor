@@ -21,29 +21,34 @@ class AddProjectGroups extends AbstractMigration
         $table = $this->table('project');
 
         if (!$table->hasColumn('group_id')) {
-            $table->addColumn('group_id', 'integer', ['signed'  => true, 'null'    => false, 'default' => 1,])->save();
+            $table->addColumn('group_id', 'integer', ['signed' => true, 'null' => false, 'default' => 1])->save();
         }
-        
+
         if (!$table->hasForeignKey('group_id')) {
-            $table->addForeignKey('group_id', 'project_group', 'id', ['delete'=> 'RESTRICT', 'update' => 'CASCADE'])->save();
+            $table->addForeignKey('group_id', 'project_group', 'id', ['delete' => 'RESTRICT', 'update' => 'CASCADE'])->save();
         }
+        $table->save();
     }
 
     public function down()
     {
-        $table = $this->table('project');
+        $project = $this->table('project');
 
-        if ($table->hasForeignKey('group_id')) {
-            $table->dropForeignKey('group_id');
+        if ($project->hasForeignKey('group_id')) {
+            $project->dropForeignKey('group_id');
         }
 
-        if ($table->hasColumn('group_id')) {
-            $table->removeColumn('group_id');
+        if ($project->hasColumn('group_id')) {
+            $project->removeColumn('group_id');
         }
+        $project->save();
 
-        $table = $this->table('project_group');
+
+        $project_group = $this->table('project_group');
         if ($this->hasTable('project_group')) {
-            $table->drop();
+            $project_group->drop();
         }
+        $project_group->save();
+        print "--";
     }
 }

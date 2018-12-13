@@ -15,6 +15,7 @@ class ChangeBuildKeysMigration extends AbstractMigration
         if (!$project->hasColumn('ssh_public_key') && $project->hasColumn('public_key')) {
             $project->renameColumn('public_key', 'ssh_public_key');
         }
+        $project->save();
     }
 
     public function down()
@@ -28,5 +29,7 @@ class ChangeBuildKeysMigration extends AbstractMigration
         if (!$project->hasColumn('public_key') && $project->hasColumn('ssh_public_key')) {
             $project->renameColumn('ssh_public_key', 'public_key');
         }
+        $project->save();
+
     }
 }

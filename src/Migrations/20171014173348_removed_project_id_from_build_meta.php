@@ -10,11 +10,11 @@ class RemovedProjectIdFromBuildMeta extends AbstractMigration
 
         if ($table->hasForeignKey('project_id')) {
             $table->dropForeignKey('project_id');
+            $table->save();
         }
 
         if ($table->hasColumn('project_id')) {
-            $table
-                ->removeColumn('project_id')
+            $table->removeColumn('project_id')
                 ->save();
         }
     }
@@ -29,10 +29,10 @@ class RemovedProjectIdFromBuildMeta extends AbstractMigration
                     'project_id',
                     'integer', [
                         'default' => 0,
-                        'after' => 'id'
+                        'after'   => 'id',
                     ]
                 )
-                ->addForeignKey('project_id', 'project', 'id', ['delete'=> 'CASCADE', 'update' => 'CASCADE'])
+                ->addForeignKey('project_id', 'project', 'id', ['delete' => 'CASCADE', 'update' => 'CASCADE'])
                 ->save();
         }
     }

@@ -52,13 +52,13 @@ class AddEnvironment extends AbstractMigration
         if ($this->hasTable('environment')) {
             $table->drop();
         }
-
+        $table->save();
         $table = $this->table('build');
 
         if ($table->hasColumn('environment')) {
             $table
-                ->removeColumn('environment')
-                ->save();
+                ->removeColumn('environment');
         }
+        $table->save();
     }
 }

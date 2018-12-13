@@ -25,9 +25,9 @@ class AddedSourceColumnToBuildTable extends AbstractMigration
         $table = $this->table('build');
 
         if ($table->hasColumn('source')) {
-            $table
-                ->removeColumn('source')
-                ->save();
+            $table               ->removeColumn('source');
+                
         }
+        $table->save();
     }
 }

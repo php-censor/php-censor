@@ -64,5 +64,6 @@ class ErrorsTable extends AbstractMigration
         if ($this->hasTable('build_error')) {
             $table->drop();
         }
+        $table->save();
     }
 }
