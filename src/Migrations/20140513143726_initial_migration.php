@@ -7,6 +7,18 @@ use Phinx\Migration\AbstractMigration;
  */
 class InitialMigration extends AbstractMigration
 {
+    public function down()
+    {
+        $tables = ['user','project','build_meta','build'];
+        foreach ($tables as $tableName) {
+            if ($this->hasTable($tableName)) {
+                $table = $this->table($tableName);
+                $table->drop();
+                $table->save();
+            }
+        }
+
+    }
     public function up()
     {
         $this->createBuildTable();
@@ -18,17 +30,17 @@ class InitialMigration extends AbstractMigration
         $build = $this->table('build');
 
         if (!$build->hasForeignKey('project_id')) {
-            $build->addForeignKey('project_id', 'project', 'id', ['delete'=> 'CASCADE', 'update' => 'CASCADE'])->save();
+            $build->addForeignKey('project_id', 'project', 'id', ['delete' => 'CASCADE', 'update' => 'CASCADE'])->save();
         }
 
         $buildMeta = $this->table('build_meta');
 
         if (!$buildMeta->hasForeignKey('build_id')) {
-            $buildMeta->addForeignKey('build_id', 'build', 'id', ['delete'=> 'CASCADE', 'update' => 'CASCADE'])->save();
+            $buildMeta->addForeignKey('build_id', 'build', 'id', ['delete' => 'CASCADE', 'update' => 'CASCADE'])->save();
         }
 
         if (!$buildMeta->hasForeignKey('project_id')) {
-            $buildMeta->addForeignKey('project_id', 'project', 'id', ['delete'=> 'CASCADE', 'update' => 'CASCADE'])->save();
+            $buildMeta->addForeignKey('project_id', 'project', 'id', ['delete' => 'CASCADE', 'update' => 'CASCADE'])->save();
         }
     }
 

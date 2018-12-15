@@ -8,4 +8,8 @@ class ConvertErrors extends AbstractMigration
     {
         return;
     }
+    public function down()
+    {
+      return ;
+    }
 }
