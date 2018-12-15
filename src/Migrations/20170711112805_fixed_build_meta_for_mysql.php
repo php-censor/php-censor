@@ -7,20 +7,21 @@ class FixedBuildMetaForMysql extends AbstractMigration
 {
     public function up()
     {
-        $adapter = $this->getAdapter();
-        if ($adapter instanceof MysqlAdapter) {
+        if ($this->getAdapter() instanceof MysqlAdapter) {
             $this
                 ->table('build_meta')
-                ->changeColumn(
-                    'meta_value',
-                    MysqlAdapter::PHINX_TYPE_TEXT,
-                    ['limit' => MysqlAdapter::TEXT_LONG, 'null' => false]
-                )
+                ->changeColumn('meta_value', 'text', ['limit' => MysqlAdapter::TEXT_LONG])
                 ->save();
         }
     }
 
     public function down()
     {
+        if ($this->getAdapter() instanceof MysqlAdapter) {
+            $this
+                ->table('build_meta')
+                ->changeColumn('meta_value', 'text')
+                ->save();
+        }
     }
 }

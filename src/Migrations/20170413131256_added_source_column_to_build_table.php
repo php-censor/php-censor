@@ -7,27 +7,17 @@ class AddedSourceColumnToBuildTable extends AbstractMigration
 {
     public function up()
     {
-        $table = $this->table('build');
-
-        if (!$table->hasColumn('source')) {
-            $table
-                ->addColumn('source', 'integer', ['default' => Build::SOURCE_UNKNOWN])
-                ->save();
-
-            $this->execute("UPDATE build SET source = 4");
-            $this->execute("UPDATE build SET source = 1, commit_id = '', commit_message = '' WHERE commit_id = 'Manual'");
-            $this->execute("UPDATE build SET source = 1, commit_message = '' WHERE commit_message = 'Manual'");
-        }
+        $this
+            ->table('build')
+            ->addColumn('source', 'integer', ['default' => Build::SOURCE_UNKNOWN])
+            ->save();
     }
 
     public function down()
     {
-        $table = $this->table('build');
-
-        if ($table->hasColumn('source')) {
-            $table               ->removeColumn('source');
-                
-        }
-        $table->save();
+        $this
+            ->table('build')
+            ->removeColumn('source')
+            ->save();
     }
 }

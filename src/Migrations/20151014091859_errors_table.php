@@ -6,64 +6,38 @@ class ErrorsTable extends AbstractMigration
 {
     public function up()
     {
-        $table = $this->table('build_error');
+        $this
+            ->table('build_error')
 
-        if (!$this->hasTable('build_error')) {
-            $table->create();
-        }
+            ->addColumn('build_id', 'integer')
+            ->addColumn('plugin', 'string', ['limit' => 100])
+            ->addColumn('file', 'string', ['limit' => 250, 'null' => true])
+            ->addColumn('line_start', 'integer', ['null' => true])
+            ->addColumn('line_end', 'integer', ['null' => true])
+            ->addColumn('severity', 'integer', ['limit' => 255])
+            ->addColumn('message', 'string', ['limit' => 250])
+            ->addColumn('created_date', 'datetime')
 
-        if (!$table->hasColumn('build_id')) {
-            $table->addColumn('build_id', 'integer', ['signed' => true])->save();
-        }
+            ->addIndex(['build_id', 'created_date'])
 
-        if (!$table->hasColumn('plugin')) {
-            $table->addColumn('plugin', 'string', ['limit' => 100])->save();
-        }
+            ->addForeignKey(
+                'build_id',
+                'build',
+                'id',
+                ['delete'=> 'CASCADE', 'update' => 'CASCADE']
+            )
 
-        if (!$table->hasColumn('file')) {
-            $table->addColumn('file', 'string', ['limit' => 250, 'null' => true])->save();
-        }
-
-        if (!$table->hasColumn('line_start')) {
-            $table->addColumn('line_start', 'integer', ['signed' => false, 'null' => true])->save();
-        }
-
-        if (!$table->hasColumn('line_end')) {
-            $table->addColumn('line_end', 'integer', ['signed' => false, 'null' => true])->save();
-        }
-
-        if (!$table->hasColumn('severity')) {
-            $table->addColumn('severity', 'integer', ['signed' => false, 'limit' => 255])->save();
-        }
-
-        if (!$table->hasColumn('message')) {
-            $table->addColumn('message', 'string', ['limit' => 250])->save();
-        }
-
-        if (!$table->hasColumn('created_date')) {
-            $table->addColumn('created_date', 'datetime')->save();
-        }
-
-        if (!$table->hasIndex(['build_id', 'created_date'], ['unique' => false])) {
-            $table->addIndex(['build_id', 'created_date'], ['unique' => false])->save();
-        }
-
-        if (!$table->hasForeignKey('build_id')) {
-            $table->addForeignKey('build_id', 'build', 'id', ['delete'=> 'CASCADE', 'update' => 'CASCADE'])->save();
-        }
+            ->save();
     }
 
     public function down()
     {
-        $table = $this->table('build_error');
+        $this
+            ->table('build_error')
 
-        if ($table->hasForeignKey('build_id')) {
-            $table->dropForeignKey('build_id')->save();
-        }
+            ->dropForeignKey('build_id')
+            ->drop()
 
-        if ($this->hasTable('build_error')) {
-            $table->drop();
-        }
-        $table->save();
+            ->save();
     }
 }

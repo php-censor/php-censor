@@ -6,30 +6,23 @@ class ChangeBuildKeysMigration extends AbstractMigration
 {
     public function up()
     {
-        $project = $this->table('project');
+        $this
+            ->table('project')
 
-        if (!$project->hasColumn('ssh_private_key') && $project->hasColumn('git_key')) {
-            $project->renameColumn('git_key', 'ssh_private_key');
-        }
+            ->renameColumn('git_key', 'ssh_private_key')
+            ->renameColumn('public_key', 'ssh_public_key')
 
-        if (!$project->hasColumn('ssh_public_key') && $project->hasColumn('public_key')) {
-            $project->renameColumn('public_key', 'ssh_public_key');
-        }
-        $project->save();
+            ->save();
     }
 
     public function down()
     {
-        $project = $this->table('project');
+        $this
+            ->table('project')
 
-        if (!$project->hasColumn('git_key') && $project->hasColumn('ssh_private_key')) {
-            $project->renameColumn('ssh_private_key', 'git_key');
-        }
+            ->renameColumn('ssh_private_key', 'git_key')
+            ->renameColumn('ssh_public_key', 'public_key')
 
-        if (!$project->hasColumn('public_key') && $project->hasColumn('ssh_public_key')) {
-            $project->renameColumn('ssh_public_key', 'public_key');
-        }
-        $project->save();
-
+            ->save();
     }
 }

@@ -6,19 +6,17 @@ class ArchiveProject extends AbstractMigration
 {
     public function up()
     {
-        $project = $this->table('project');
-
-        if (!$project->hasColumn('archived')) {
-            $project->addColumn('archived', 'boolean', ['default' => false])->save();
-        }
+        $this
+            ->table('project')
+            ->addColumn('archived', 'boolean', ['default' => false])
+            ->save();
     }
 
     public function down()
     {
-        $project = $this->table('project');
-
-        if ($project->hasColumn('archived')) {
-            $project->removeColumn('archived')->save();
-        }
+        $this
+            ->table('project')
+            ->removeColumn('archived')
+            ->save();
     }
 }
