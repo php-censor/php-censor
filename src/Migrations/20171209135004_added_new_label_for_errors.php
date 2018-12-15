@@ -6,39 +6,23 @@ class AddedNewLabelForErrors extends AbstractMigration
 {
     public function up()
     {
-        if ($this->hasTable('build_error')) {
-            $table = $this->table('build_error');
+        $this
+            ->table('build_error')
 
-            if (!$table->hasColumn('hash')) {
-                $table
-                    ->addColumn('hash', 'string', ['limit' => 32, 'default' => ''])
-                    ->save();
-            }
+            ->addColumn('hash', 'string', ['limit' => 32, 'default' => ''])
+            ->addColumn('is_new', 'boolean', ['default' => false])
 
-            if (!$table->hasColumn('is_new')) {
-                $table
-                    ->addColumn('is_new', 'boolean', ['default' => false])
-                    ->save();
-            }
-        }
+            ->save();
     }
 
     public function down()
     {
-        if ($this->hasTable('build_error')) {
-            $table = $this->table('build_error');
+        $this
+            ->table('build_error')
 
-            if ($table->hasColumn('hash')) {
-                $table
-                    ->removeColumn('hash')
-                    ->save();
-            }
+            ->removeColumn('hash')
+            ->removeColumn('is_new')
 
-            if ($table->hasColumn('is_new')) {
-                $table
-                    ->removeColumn('is_new')
-                    ->save();
-            }
-        }
+            ->save();
     }
 }

@@ -6,51 +6,33 @@ class AddedAdditionalColumns3 extends AbstractMigration
 {
     public function up()
     {
-        $table = $this->table('build_error');
+        $this
+            ->table('build_error')
+            ->renameColumn('created_date', 'create_date')
+            ->save();
 
-        if ($table->hasColumn('created_date') && !$table->hasColumn('create_date')) {
-            $table
-                ->renameColumn('created_date', 'create_date')
-                ->save();
-        }
+        $this
+            ->table('project')
 
-        $table = $this->table('project');
+            ->addColumn('create_date', 'datetime', ['null' => true])
+            ->addColumn('user_id', 'integer', ['default' => 0])
 
-        if (!$table->hasColumn('create_date')) {
-            $table
-                ->addColumn('create_date', 'datetime', ['null' => true])
-                ->save();
-        }
-
-        if (!$table->hasColumn('user_id')) {
-            $table
-                ->addColumn('user_id', 'integer', ['default' => 0])
-                ->save();
-        }
+            ->save();
     }
 
     public function down()
     {
-        $table = $this->table('build_error');
+        $this
+            ->table('build_error')
+            ->renameColumn('create_date', 'created_date')
+            ->save();
 
-        if ($table->hasColumn('create_date') && !$table->hasColumn('created_date')) {
-            $table
-                ->renameColumn('create_date', 'created_date')
-                ->save();
-        }
+        $this
+            ->table('project')
 
-        $table = $this->table('project');
+            ->removeColumn('create_date')
+            ->removeColumn('user_id')
 
-        if ($table->hasColumn('create_date')) {
-            $table
-                ->removeColumn('create_date')
-                ->save();
-        }
-
-        if ($table->hasColumn('user_id')) {
-            $table
-                ->removeColumn('user_id')
-                ->save();
-        }
+            ->save();
     }
 }

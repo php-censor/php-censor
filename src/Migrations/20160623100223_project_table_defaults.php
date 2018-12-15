@@ -6,11 +6,17 @@ class ProjectTableDefaults extends AbstractMigration
 {
     public function up()
     {
-        $this->table('project')
-             ->changeColumn('build_config', 'text', ['null' => true])
-             ->save();
+        $this
+            ->table('project')
+            ->changeColumn('build_config', 'text', ['null' => true])
+            ->save();
     }
-        public function down()
+
+    public function down()
     {
+        $this
+            ->table('project')
+            ->changeColumn('build_config', 'text')
+            ->save();
     }
 }
