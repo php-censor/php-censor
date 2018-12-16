@@ -89,7 +89,7 @@
 
         "maknz/slack":                "~1.7.0",
         "hipchat/hipchat-php":        "~1.4.0",
-        "php-censor/flowdock-client": "^1.0.0",
+        "php-censor/flowdock-client": "~1.0.0",
 
         "symfony/debug":                     "~3.4.0",
         "symfony/config":                    "~3.4.0",
