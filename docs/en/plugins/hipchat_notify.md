@@ -4,15 +4,6 @@ Plugin HipchatNotify
 This plugin joins a [HipChat](https://www.hipchat.com/) room and sends a user-defined message, for example a 
 "Build Succeeded" message.
 
-Installation
-------------
-
-The plugin depends on `hipchat/hipchat-php` library. To use HipchatNotify plugin you should install dependency:
-
-```
-composer require "hipchat/hipchat-php"
-```
-
 Configuration
 -------------
 
