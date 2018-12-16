@@ -113,11 +113,6 @@
         "phpunit/dbunit":     "~2.0.0",
         "symfony/var-dumper": "~3.4.0"
     },
-    "suggest": {
-        "maknz/slack":         "For SlackNotify plugin",
-        "hipchat/hipchat-php": "For HipchatNotify plugin",
-        "mremi/flowdock":      "For FlowdockNotify plugin"
-    },
     "extra": {
         "platform": {
             "php": "5.6.*"
