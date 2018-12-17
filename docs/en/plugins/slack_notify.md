@@ -4,15 +4,6 @@ Plugin SlackNotify
 This plugin joins a [Slack](https://www.slack.com/) room and sends a user-defined message, for example a "Build 
 Succeeded" message.
 
-Installation
-------------
-
-The plugin depends on `maknz/slack` library. To use SlackNotify plugin you should install dependency:
-
-```
-composer require "maknz/slack"
-```
-
 Configuration
 -------------
 

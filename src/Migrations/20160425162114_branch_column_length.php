@@ -6,26 +6,27 @@ class BranchColumnLength extends AbstractMigration
 {
     public function up()
     {
-        $build = $this->table('build');
-        $build->changeColumn('branch', 'string', ['limit' => 250, 'null' => false, 'default' => 'master']);
-        $build->save();
-        $project = $this->table('project');
-        $project->changeColumn('branch', 'string', ['limit' => 250, 'null' => false, 'default' => 'master']);
-        $project->save();
+        $this
+            ->table('build')
+            ->changeColumn('branch', 'string', ['limit' => 250, 'default' => 'master'])
+            ->save();
 
-     
-
+        $this
+            ->table('project')
+            ->changeColumn('branch', 'string', ['limit' => 250, 'default' => 'master'])
+            ->save();
     }
 
     public function down()
     {
-        $build = $this->table('build');
-        $build->changeColumn('branch', 'string', ['limit' => 50, 'null' => false, 'default' => 'master']);
-        $build->save();
+        $this
+            ->table('build')
+            ->changeColumn('branch', 'string', ['limit' => 50, 'default' => 'master'])
+            ->save();
 
-        $project = $this->table('project');
-        $project->changeColumn('branch', 'string', ['limit' => 50, 'null' => false, 'default' => 'master']);
-        $project->save();
-
+        $this
+            ->table('project')
+            ->changeColumn('branch', 'string', ['limit' => 50, 'default' => 'master'])
+            ->save();
     }
 }

@@ -6,59 +6,33 @@ class AddEnvironment extends AbstractMigration
 {
     public function up()
     {
-        $table = $this->table('environment');
+        $this
+            ->table('environment')
 
-        if (!$this->hasTable('environment')) {
-            $table->create();
-        }
+            ->addColumn('project_id', 'integer')
+            ->addColumn('name', 'string', ['limit' => 250])
+            ->addColumn('branches', 'text')
 
-        if (!$table->hasColumn('project_id')) {
-            $table
-                ->addColumn('project_id', 'integer')
-                ->save();
-        }
+            ->addIndex(['project_id', 'name'])
 
-        if (!$table->hasColumn('name')) {
-            $table
-                ->addColumn('name', 'string', ['limit' => 250])
-                ->save();
-        }
+            ->save();
 
-        if (!$table->hasColumn('branches')) {
-            $table
-                ->addColumn('branches', 'text')
-                ->save();
-        }
-
-        if (!$table->hasIndex(['project_id', 'name'])) {
-            $table
-                ->addIndex(['project_id', 'name'])
-                ->save();
-        }
-
-        $table = $this->table('build');
-
-        if (!$table->hasColumn('environment')) {
-            $table
-                ->addColumn('environment', 'string', ['limit' => 250])
-                ->save();
-        }
+        $this
+            ->table('build')
+            ->addColumn('environment', 'string', ['limit' => 250])
+            ->save();
     }
 
     public function down()
     {
-        $table = $this->table('environment');
+        $this
+            ->table('environment')
+            ->drop()
+            ->save();
 
-        if ($this->hasTable('environment')) {
-            $table->drop();
-        }
-        $table->save();
-        $table = $this->table('build');
-
-        if ($table->hasColumn('environment')) {
-            $table
-                ->removeColumn('environment');
-        }
-        $table->save();
+        $this
+            ->table('build')
+            ->removeColumn('environment')
+            ->save();
     }
 }

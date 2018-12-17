@@ -6,19 +6,17 @@ class BuildErrorHashIndex extends AbstractMigration
 {
     public function up()
     {
-        $table = $this->table('build_error');
-
-        if (!$table->hasIndex(['hash'])) {
-            $table->addIndex(['hash'])->save();
-        }
+        $this
+            ->table('build_error')
+            ->addIndex(['hash'])
+            ->save();
     }
 
     public function down()
     {
-        $table = $this->table('build_error');
-
-        if ($table->hasIndex(['hash'])) {
-            $table->removeIndex(['hash'])->save();
-        }
+        $this
+            ->table('build_error')
+            ->removeIndex(['hash'])
+            ->save();
     }
 }

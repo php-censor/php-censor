@@ -14,5 +14,9 @@ class FixedBuildErrorMessageColumn extends AbstractMigration
 
     public function down()
     {
+        $this
+            ->table('build_error')
+            ->changeColumn('message', 'string', ['limit' => 250])
+            ->save();
     }
 }

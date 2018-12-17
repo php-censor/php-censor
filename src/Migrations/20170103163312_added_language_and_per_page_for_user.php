@@ -6,35 +6,23 @@ class AddedLanguageAndPerPageForUser extends AbstractMigration
 {
     public function up()
     {
-        $table = $this->table('user');
+        $this
+            ->table('user')
 
-        if (!$table->hasColumn('language')) {
-            $table
-                ->addColumn('language', 'string', ['limit' => 5, 'null' => true])
-                ->save();
-        }
+            ->addColumn('language', 'string', ['limit' => 5, 'null' => true])
+            ->addColumn('per_page', 'integer', ['null' => true])
 
-        if (!$table->hasColumn('per_page')) {
-            $table
-                ->addColumn('per_page', 'integer', ['null' => true])
-                ->save();
-        }
+            ->save();
     }
 
     public function down()
     {
-        $table = $this->table('user');
+        $this
+            ->table('user')
 
-        if ($table->hasColumn('language')) {
-            $table
-                ->removeColumn('language')
-                ->save();
-        }
+            ->removeColumn('language')
+            ->removeColumn('per_page')
 
-        if ($table->hasColumn('per_page')) {
-            $table
-                ->removeColumn('per_page')
-                ->save();
-        }
+            ->save();
     }
 }
