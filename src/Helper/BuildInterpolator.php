@@ -3,6 +3,7 @@
 namespace PHPCensor\Helper;
 
 use PHPCensor\Model\Build as BaseBuild;
+use PHPCensor\Config;
 
 /**
  * The BuildInterpolator class replaces variables in a string with build-specific information.
@@ -55,6 +56,12 @@ class BuildInterpolator
         $this->interpolationVars['%PHPCI_PROJECT_URI%'] = $this->interpolationVars['%PROJECT_URI%'];
         $this->interpolationVars['%PHPCI_BUILD_PATH%'] = $this->interpolationVars['%BUILD_PATH%'];
         $this->interpolationVars['%PHPCI_BUILD_URI%'] = $this->interpolationVars['%BUILD_URI%'];
+        
+        $applicationConfig = Config::getInstance();
+        $databaseSettings  = $applicationConfig->get('b8.database', []);
+        $this->interpolationVars['%DATABASE_TEST_HOST%']=$databaseSettings['servers']['write']['0']['host'];
+        
+
 
         putenv('PHPCI=1');
         putenv('PHPCI_COMMIT=' . $this->interpolationVars['%COMMIT%']);

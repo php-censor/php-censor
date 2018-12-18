@@ -79,7 +79,7 @@ class Pdepend extends Plugin
         $this->ignore    = $this->builder->ignore;
 
         if (isset($options['ignore']) && !empty($options['ignore'])) {
-            $this->ignore = array_unshift($this->ignore, $options['ignore']);
+            array_unshift($this->ignore, $options['ignore']);
         }
           
         if (isset($options['directory']) && !empty($options['directory'])) {
@@ -87,7 +87,7 @@ class Pdepend extends Plugin
         }
           
         if (isset($options['executable'])) {
-            $this->executable = $options['executable'];
+          $this->executable = $this->builder->interpolate($options['executable']);
         } else {
             $this->executable = $this->findBinary('pdepend');
         }

@@ -52,7 +52,7 @@ class Composer extends Plugin implements ZeroConfigPluginInterface
 
 
         if (isset($options['executable'])) {
-            $this->executable = $options['executable'];
+            $this->executable = $this->builder->interpolate($options['executable']);
         } else {
             $this->executable = $this->findBinary(['composer', 'composer.phar']);
         }

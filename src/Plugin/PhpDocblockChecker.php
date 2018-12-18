@@ -51,7 +51,6 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
     {
         parent::__construct($builder, $build, $options);
 
-        $this->ignore          = $this->builder->ignore;
         $this->path            = '';
         $this->allowedWarnings = 0;
         $this->directory = $this->builder->directory;
@@ -61,9 +60,10 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
         }
         
         if (array_key_exists('ignore', $options)) {
-          $this->ignore = array_unshift($this->ignore, $options['ignore']);
+            $this->ignore = $this->ignorePathRelativeToDirectory($this->directory, array_merge($this->builder->ignore, $options['ignore']));
+        } else {
+            $this->ignore = $this->ignorePathRelativeToDirectory($this->directory, $this->builder->ignore);
         }
-
         if (array_key_exists('skip_classes', $options)) {
             $this->skipClasses = true;
         }
@@ -89,7 +89,7 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
         }
 
         if (isset($options['executable'])) {
-            $this->executable = $options['executable'];
+          $this->executable = $this->builder->interpolate($options['executable']);
         } else {
             $this->executable = $this->findBinary([
                 'phpdoc-checker',
@@ -122,7 +122,7 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
 
         // Build ignore string:
         $ignore = '';
-        if (count($this->ignore)) {
+        if (is_array($this->ignore)) {
             $ignore = ' --exclude="' . implode(',', $this->ignore) . '"';
         }
 
@@ -161,7 +161,9 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
 
         $errors = 0;
         if ($output && is_array($output)) {
-            $errors = count($output);
+          
+          $errors = count($output);
+          $this->builder->logWarning("Number of error : ".$errors);
 
             $this->reportErrors($output);
         }

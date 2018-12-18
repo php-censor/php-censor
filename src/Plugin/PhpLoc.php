@@ -19,7 +19,16 @@ class PhpLoc extends Plugin implements ZeroConfigPluginInterface
      * @var string
      */
     protected $directory;
+    /**
+     * @var string
+     */
+
     protected $executable;
+    /**
+     * Warning : you can only set subdirectory of $directory
+     * 
+     * @var string
+     */
     protected $ignore;
 
     /**
@@ -48,38 +57,41 @@ class PhpLoc extends Plugin implements ZeroConfigPluginInterface
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
         parent::__construct($builder, $build, $options);
-
+       
         $this->directory = $this->builder->directory;
-        $this->ignore    = $this->builder->ignore;
-
-        if (array_key_exists('ignore', $options)) {
-            $this->ignore = array_unshift($this->ignore, $options['ignore']);
+        if (isset($options['directory']) && !empty($options['directory'])) {
+            $this->directory = $this->getWorkingDirectory($options);
+        }else{
+            $this->directory = $this->builder->interpolate('%BUILD_PATH%'.$this->directory);
         }
-
+        // only sub - directory of $this->directory can be ignored, and string must not include root
+        if (array_key_exists('ignore', $options)) {
+            $this->ignore = $this->ignorePathRelativeToDirectory($this->directory, array_merge($this->builder->ignore, $options['ignore']));
+        } else {
+            $this->ignore = $this->ignorePathRelativeToDirectory($this->directory, $this->builder->ignore);
+        }
         if (isset($options['executable'])) {
-            $this->executable = $options['executable'];
+            $this->executable = $this->builder->interpolate($options['executable']);
         } else {
             $this->executable = $this->findBinary('phploc');
         }
         
-        if (isset($options['directory']) && !empty($options['directory'])) {
-            $this->directory = $this->getWorkingDirectory($options);
-        }
+ 
+
     }
 
     /**
-     * Runs PHP Copy/Paste Detector in a specified directory.
+     * Runs PHP LOC in a specified directory.
      */
     public function execute()
     {
         $ignore = '';
-
-        if (count($this->ignore)) {
+        if (is_array($this->ignore)) {
             $map = function ($item) {
                 return ' --exclude ' . rtrim($item, '/');
             };
 
-            $ignore = array_map($map, $this->builder->ignore);
+            $ignore = array_map($map, $this->ignore);
             $ignore = implode('', $ignore);
         }
 

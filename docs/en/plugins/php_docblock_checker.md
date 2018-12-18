@@ -9,12 +9,12 @@ Configuration
 ### Options
 
 * **path** - Deprecated - use directory
+* **executable** [string, optional] -  Allows you to provide a path to phpdoc-checker executable
 * **directory** - Optional - Directory in which PHP Docblock Checker should run.
 * **skip_methods** - Optional - Tells the checker to ignore methods that don't have a docblock.
 * **skip_classes** - Optional - Tells the checker to ignore classes that don't have a docblock.
 * **skip_signatures** - Optional - Tells the checker to ignore check docblocks against method signatures.
-* **allowed_warnings** - Optional - The warning limit for a successful build.
-* **executable** [string, optional] -  Allows you to provide a path to phpdoc-checker executable
+* **allowed_warnings** - Optional - The warning limit for a successful build (-1 for no limit).
 
 ### Examples
 

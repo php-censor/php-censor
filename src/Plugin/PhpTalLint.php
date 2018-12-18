@@ -221,7 +221,7 @@ class PhpTalLint extends Plugin
         }
 
         $suffixes = '';
-        if (count($this->suffixes)) {
+        if (is_array($this->suffixes) && count($this->suffixes) > 0) {
             $suffixes = ' -e ' . implode(',', $this->suffixes);
         }
 

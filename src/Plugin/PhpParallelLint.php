@@ -64,14 +64,21 @@ class PhpParallelLint extends Plugin implements ZeroConfigPluginInterface
         }
 
         if (isset($options['executable'])) {
-            $this->executable = $options['executable'];
+            $this->executable = $this->builder->interpolate($options['executable']);
         } else {
             $this->executable = $this->findBinary('parallel-lint');
         }
 
+        // only subdirecty of $this->directory can be ignored, and string must not include root
         if (array_key_exists('ignore', $options)) {
-            $this->ignore = array_unshift($this->ignore, $options['ignore']);
+            $this->ignore = $this->ignorePathRelativeToDirectory($this->directory, array_merge(
+              $this->builder->ignore, 
+              $options['ignore']
+            ));
+        } else {
+            $this->ignore = $this->ignorePathRelativeToDirectory($this->directory, $this->builder->ignore);
         }
+
 
         if (isset($options['shorttags'])) {
             $this->shortTag = $options['shorttags'];

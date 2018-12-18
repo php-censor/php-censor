@@ -75,13 +75,13 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
         }
 
         if (isset($options['executable'])) {
-            $this->executable = $options['executable'];
+            $this->executable = $this->builder->interpolate($options['executable']);
         } else {
             $this->executable = $this->findBinary('phpmd');
         }
 
         if (array_key_exists('ignore', $options)) {
-            $this->ignore = array_unshift($this->ignore, $options['ignore']);
+            $this->ignore = array_merge($this->builder->ignore, $options['ignore']);
         }
 
         foreach (['rules', 'suffixes'] as $key) {
@@ -203,12 +203,12 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
         $cmd = $binaryPath . ' "%s" xml %s %s %s';
 
         $ignore = '';
-        if (count($this->ignore)) {
+        if (is_array($this->ignore) && count($this->ignore) > 0) {
             $ignore = ' --exclude ' . implode(',', $this->ignore);
         }
 
         $suffixes = '';
-        if (count($this->suffixes)) {
+        if (is_array($this->suffixes) && count($this->suffixes) >0 ) {
             $suffixes = ' --suffixes ' . implode(',', $this->suffixes);
         }
 

@@ -47,8 +47,7 @@ class PhpCpd extends Plugin implements ZeroConfigPluginInterface
 
         
         $this->directory = $this->builder->directory;
-        $this->ignore    = $this->builder->ignore;
-
+        
         // deprecated compatibility option
         if (isset($options['path']) && !isset($options['directory'])) {
             $options['directory'] = $options['path'];
@@ -59,13 +58,16 @@ class PhpCpd extends Plugin implements ZeroConfigPluginInterface
         }
 
         if (isset($options['executable'])) {
-            $this->executable = $options['executable'];
+            $this->executable = $this->builder->interpolate($options['executable']);
         } else {
             $this->executable = $this->findBinary('phpcpd');
         }
 
-        if (!empty($options['ignore'])) {
-            $this->ignore = array_unshift($this->ignore, $options['ignore']);
+        // only subdirecty of $this->directory can be ignored, and string must not include root
+        if (array_key_exists('ignore', $options)) {
+            $this->ignore = $this->ignorePathRelativeToDirectory($this->directory,array_merge($this->builder->ignore, $options['ignore']));
+        }else{
+            $this->ignore = $this->ignorePathRelativeToDirectory($this->directory, $this->builder->ignore);
         }
     }
 
@@ -88,15 +90,16 @@ class PhpCpd extends Plugin implements ZeroConfigPluginInterface
     {
         $ignore       = '';
         $namesExclude = ' --names-exclude ';
-
-        foreach ($this->ignore as $item) {
-            $item = rtrim($item, '/');
-            if (is_file(rtrim($this->directory, '/') . '/' . $item)) {
-                $ignoredFile     = explode('/', $item);
-                $filesToIgnore[] = array_pop($ignoredFile);
-            } else {
-                $ignore .= ' --exclude ' . $item;
-            }
+        if (is_array($this->ignore)) {
+          foreach ($this->ignore as $item) {
+              $item = rtrim($item, '/');
+              if (is_file(rtrim($this->directory, '/') . '/' . $item)) {
+                  $ignoredFile     = explode('/', $item);
+                  $filesToIgnore[] = array_pop($ignoredFile);
+              } else {
+                  $ignore .= ' --exclude ' . $item;
+              }
+          }
         }
 
         if (isset($filesToIgnore)) {

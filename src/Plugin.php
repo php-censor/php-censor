@@ -56,21 +56,62 @@ abstract class Plugin
     }
 
     /**
+     * add an ending / and remove the starting /
+     *  
      * @param array $options
      *
      * @return string
      */
     protected function getWorkingDirectory(array $options)
     {
-        $directory = $this->builder->buildPath;
-        if (!empty($options['directory'])) {
-            $relativePath = preg_replace('#^(\./|/)?(.*)$#', '$2', $options['directory']);
-            $relativePath = rtrim($relativePath, "\//");
+      $directory = $this->builder->buildPath;
+      if (!empty($options['directory'])) {
+          $relativePath = preg_replace('#^(\./|/)?(.*)$#', '$2', $options['directory']);
+          $relativePath = rtrim($relativePath, "\//");
+          $directory .= $relativePath . '/';
+      }
 
-            $directory .= $relativePath . '/';
-        }
+      return  $this->builder->interpolate($directory);
+    }
 
-        return $this->builder->interpolate($directory);
+    /**
+     * @param array $options
+     *
+     * @return string
+     */
+    protected function getInterpolatedExecutable(array $options)
+    {
+      if (isset($options['executable'])) {
+          $executable = $this->builder->interpolate($options['executable']);
+      } else {
+          $executable = $this->findBinary('codecept');
+      }
+
+      return $executable;
+    }
+    /**
+     * Undocumented function
+     *
+     * @param string $rootDirectory
+     * @param array $ignored
+     * @return void
+     */
+    protected function ignorePathRelativeToDirectory($rootDirectory,$ignored){
+      // adding ending /  if not present
+      //$rootDirectory = preg_replace('#^(.*)(\./|/)?$#', '$1/', $rootDirectory);
+      $rootDirectory = preg_replace('{^\./}', '', $rootDirectory,-1,$count);
+      $rootDirectory = rtrim($rootDirectory, "/").'/';
+
+      // only subdirecty of the defined of $this->directory will be ignored.
+      foreach ($ignored as $aPath) {
+          // Get absolute Path
+          $aPath = $this->builder->interpolate('%BUILD_PATH%'.$aPath);
+          if (false !== mb_strpos($aPath, $rootDirectory)) {
+              $newIgnored[] = substr($aPath, strlen($rootDirectory));
+          }
+      }
+      
+      return $newIgnored;
     }
 
     /**

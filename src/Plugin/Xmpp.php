@@ -78,7 +78,7 @@ class XMPP extends Plugin
         $this->dateFormat = '%c';
 
         if (isset($options['executable'])) {
-            $this->executable = $options['executable'];
+            $this->executable = $this->builder->interpolate($options['executable']);
         } else {
             $this->executable = $this->findBinary('sendxmpp');
         }
@@ -143,7 +143,7 @@ class XMPP extends Plugin
         /*
          * Without recipients we can't send notification
          */
-        if (count($this->recipients) == 0) {
+        if (!is_array($this->recipients) || count($this->recipients) == 0) {
             return false;
         }
 

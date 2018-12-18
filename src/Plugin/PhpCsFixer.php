@@ -65,7 +65,7 @@ class PhpCsFixer extends Plugin
         }
 
         if (isset($options['executable'])) {
-            $this->executable = $options['executable'];
+          $this->executable = $this->builder->interpolate($options['executable']);
         } else {
             $this->executable = $this->findBinary('php-cs-fixer');
         }

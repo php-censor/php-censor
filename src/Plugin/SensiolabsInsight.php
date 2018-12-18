@@ -67,7 +67,7 @@ class SensiolabsInsight extends Plugin
         }
         
         if (array_key_exists('executable', $options)) {
-            $this->executable = $options['executable'];
+            $this->executable = $this->builder->interpolate($options['executable']);
         } else {
             $this->executable = $this->findBinary('insight');
         }

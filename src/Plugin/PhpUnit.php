@@ -78,7 +78,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
 
         $this->options = new PhpUnitOptions($options, $this->buildLocation);
         if (isset($options['executable'])) {
-            $this->executable = $options['executable'];
+            $this->executable = $this->builder->interpolate($options['executable']);
         } else {
             $this->executable = $this->findBinary('phpunit');
         }
