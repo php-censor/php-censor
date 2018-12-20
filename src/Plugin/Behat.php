@@ -15,9 +15,9 @@ use PHPCensor\Plugin;
 class Behat extends Plugin
 {
 
-  /**
-    * @var string
-    */
+    /**
+     * @var string
+     */
     protected $features;
 
     /**
@@ -39,12 +39,8 @@ class Behat extends Plugin
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
         parent::__construct($builder, $build, $options);
-        
-        if (isset($options['executable'])) {
-          $this->executable = $this->builder->interpolate($options['executable']);
-        } else {
-          $this->executable = $this->findBinary('behat');
-        }
+
+        $this->executable = $this->findBinary('behat');
 
         $this->features = '';
 
@@ -100,7 +96,7 @@ class Behat extends Plugin
 
         foreach ($lines as $line) {
             $line = trim($line);
-            if ($line == 'Failed scenarios:') {
+            if ('Failed scenarios:' == $line) {
                 $storeFailures = true;
                 continue;
             }
@@ -113,7 +109,7 @@ class Behat extends Plugin
                 $lineParts = explode(':', $line);
                 $data[]    = [
                     'file' => $lineParts[0],
-                    'line' => $lineParts[1]
+                    'line' => $lineParts[1],
                 ];
 
                 $this->build->reportError(

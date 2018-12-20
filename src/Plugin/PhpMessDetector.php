@@ -55,12 +55,11 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
     {
         parent::__construct($builder, $build, $options);
 
-        $this->suffixes         = ['php'];
-        $this->ignore           = $this->builder->ignore;
-        $this->rules            = ['codesize', 'unusedcode', 'naming'];
+        $this->suffixes        = ['php'];
+        $this->ignore          = $this->builder->ignore;
+        $this->rules           = ['codesize', 'unusedcode', 'naming'];
         $this->allowedWarnings = 0;
-        $this->directory = $this->builder->directory;
-
+        $this->directory       = $this->builder->directory;
 
         if (isset($options['zero_config']) && $options['zero_config']) {
             $this->allowedWarnings = -1;
@@ -71,14 +70,10 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
         }
 
         if (array_key_exists('allowed_warnings', $options)) {
-            $this->allowedWarnings = (int)$options['allowed_warnings'];
+            $this->allowedWarnings = (int) $options['allowed_warnings'];
         }
 
-        if (isset($options['executable'])) {
-            $this->executable = $this->builder->interpolate($options['executable']);
-        } else {
-            $this->executable = $this->findBinary('phpmd');
-        }
+        $this->executable = $this->findBinary('phpmd');
 
         if (array_key_exists('ignore', $options)) {
             $this->ignore = array_merge($this->builder->ignore, $options['ignore']);
@@ -94,7 +89,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
      */
     public static function canExecuteOnStage($stage, Build $build)
     {
-        if ($stage == Build::STAGE_TEST) {
+        if (Build::STAGE_TEST == $stage) {
             return true;
         }
 
@@ -145,7 +140,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
     {
         $xml = simplexml_load_string($xmlString);
 
-        if ($xml === false) {
+        if (false === $xml) {
             $this->builder->log($xmlString);
             throw new \Exception('Could not process PHPMD report XML.');
         }
@@ -153,7 +148,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
         $warnings = 0;
 
         foreach ($xml->file as $file) {
-            $fileName = (string)$file['name'];
+            $fileName = (string) $file['name'];
             $fileName = str_replace($this->builder->buildPath, '', $fileName);
 
             foreach ($file->violation as $violation) {
@@ -162,11 +157,11 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
                 $this->build->reportError(
                     $this->builder,
                     self::pluginName(),
-                    (string)$violation,
+                    (string) $violation,
                     PHPCensor\Model\BuildError::SEVERITY_HIGH,
                     $fileName,
-                    (int)$violation['beginline'],
-                    (int)$violation['endline']
+                    (int) $violation['beginline'],
+                    (int) $violation['endline']
                 );
             }
         }
@@ -208,7 +203,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
         }
 
         $suffixes = '';
-        if (is_array($this->suffixes) && count($this->suffixes) >0) {
+        if (is_array($this->suffixes) && count($this->suffixes) > 0) {
             $suffixes = ' --suffixes ' . implode(',', $this->suffixes);
         }
 
@@ -228,8 +223,6 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
         $this->builder->logExecOutput(true);
     }
 
-
-
     /**
      * Returns a boolean indicating if the error count can be considered a success.
      *
@@ -240,7 +233,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
     {
         $success = true;
 
-        if ($this->allowedWarnings != -1 && $errorCount > $this->allowedWarnings) {
+        if (-1 != $this->allowedWarnings && $errorCount > $this->allowedWarnings) {
             $success = false;
             return $success;
         }

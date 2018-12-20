@@ -15,7 +15,7 @@ use PHPCensor\ZeroConfigPluginInterface;
  */
 class Composer extends Plugin implements ZeroConfigPluginInterface
 {
-    protected $executable;  
+    protected $executable;
     protected $directory;
     protected $action;
     protected $preferDist;
@@ -43,39 +43,33 @@ class Composer extends Plugin implements ZeroConfigPluginInterface
         $this->preferSource       = false;
         $this->noDev              = false;
         $this->ignorePlatformReqs = false;
-        $this->directory = $this->builder->directory;
+        $this->directory          = $this->builder->directory;
 
         if (isset($options['directory']) && !empty($options['directory'])) {
             $this->directory = $this->getWorkingDirectory($options);
         }
 
-
-
-        if (isset($options['executable'])) {
-            $this->executable = $this->builder->interpolate($options['executable']);
-        } else {
-            $this->executable = $this->findBinary(['composer', 'composer.phar']);
-        }
+        $this->executable = $this->findBinary(['composer', 'composer.phar']);
 
         if (array_key_exists('action', $options)) {
             $this->action = $options['action'];
         }
 
         if (array_key_exists('prefer_dist', $options)) {
-            $this->preferDist = (bool)$options['prefer_dist'];
+            $this->preferDist = (bool) $options['prefer_dist'];
         }
 
         if (array_key_exists('prefer_source', $options)) {
             $this->preferDist   = false;
-            $this->preferSource = (bool)$options['prefer_source'];
+            $this->preferSource = (bool) $options['prefer_source'];
         }
 
         if (array_key_exists('no_dev', $options)) {
-            $this->noDev = (bool)$options['no_dev'];
+            $this->noDev = (bool) $options['no_dev'];
         }
 
         if (array_key_exists('ignore_platform_reqs', $options)) {
-            $this->ignorePlatformReqs = (bool)$options['ignore_platform_reqs'];
+            $this->ignorePlatformReqs = (bool) $options['ignore_platform_reqs'];
         }
     }
 
@@ -86,7 +80,7 @@ class Composer extends Plugin implements ZeroConfigPluginInterface
     {
         $path = $build->getBuildPath() . '/composer.json';
 
-        if (file_exists($path) && $stage == Build::STAGE_SETUP) {
+        if (file_exists($path) && Build::STAGE_SETUP == $stage) {
             return true;
         }
 
@@ -94,13 +88,13 @@ class Composer extends Plugin implements ZeroConfigPluginInterface
     }
 
     /**
-    * Executes Composer and runs a specified command (e.g. install / update)
-    */
+     * Executes Composer and runs a specified command (e.g. install / update)
+     */
     public function execute()
     {
         $composerLocation = $this->executable;
 
-        $cmd              = $composerLocation . ' --no-ansi --no-interaction ';
+        $cmd = $composerLocation . ' --no-ansi --no-interaction ';
 
         if ($this->preferDist) {
             $this->builder->log('Using --prefer-dist flag');

@@ -25,6 +25,11 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
      */
     protected $executable;
 
+    /**
+     * @var string
+     */
+    protected $directory;
+
     /** @var string */
     protected $args = '';
 
@@ -58,18 +63,32 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
     {
         parent::__construct($builder, $build, $options);
 
-        if (!isset($options['config'])) {
-            $this->builder->buildPath = $builder->interpolate($this->builder->buildPath);
-            $this->ymlConfigFile      = self::findConfigFile($this->builder->buildPath);
+        if (isset($options['directory'])) {
+            $this->directory = $builder->interpolate('%BUILD_PATH%' . $options['directory']);
         } else {
-            $this->ymlConfigFile = $options['config'];
+            $this->directory = $this->builder->buildPath;
         }
 
+        if (isset($options['config'])) {
+            // add directory if needed
+            if (!is_file($options['config'])) {
+                $this->ymlConfigFile = $builder->interpolate('%BUILD_PATH%' . $options['config']);
+            }
+            if (!is_file($this->ymlConfigFile)) {
+                $this->ymlConfigFile = $this->directory . '/' . $options['config'];
+            }
+            if (!is_file($this->ymlConfigFile)) {
+                throw new \Exception("config options set, codeception.yml file not found : [" . $options['config'] . ']');
+            }
+        } else {
+            $this->ymlConfigFile = self::findConfigFile($this->directory);
+        }
+        $this->builder->logDebug('Config File :' . $this->ymlConfigFile);
         if (isset($options['args'])) {
             $this->args = (string) $options['args'];
         }
 
-        // deprecated compatibility option
+        // @deprecated compatibility option
         if (isset($options['path']) && !isset($options['output_path'])) {
             $options['output_path'] = $options['grunpatht'];
         }
@@ -78,10 +97,8 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
             array_unshift($this->output_path, $options['output_path']);
         }
 
-        if (isset($options['executable']) && !empty($options['executable'])) {
-            $this->executable = $this->getInterpolatedExecutable($options);
-        }
-        $this->builder->logFailure('Executable : ' . print_r($this->executable, true));
+        $this->executable = $this->findBinary('codecept');
+
     }
 
     /**
@@ -94,16 +111,17 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
 
     /**
      * Try and find the codeception YML config file.
-     * @param $buildPath
+     *
+     * @param $configPath
      * @return null|string
      */
-    public static function findConfigFile($buildPath)
+    public static function findConfigFile($configPath)
     {
-        if (file_exists($buildPath . 'codeception.yml')) {
+        if (file_exists($configPath . 'codeception.yml')) {
             return 'codeception.yml';
         }
 
-        if (file_exists($buildPath . 'codeception.dist.yml')) {
+        if (file_exists($configPath . 'codeception.dist.yml')) {
             return 'codeception.dist.yml';
         }
 
@@ -120,16 +138,16 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
         }
 
         // Run any config files first. This can be either a single value or an array.
-        return $this->runConfigFile($this->ymlConfigFile);
+        return $this->runConfigFile();
     }
 
     /**
      * Run tests from a Codeception config file.
-     * @param $configPath
+
      * @return bool|mixed
      * @throws \Exception
      */
-    protected function runConfigFile($configPath)
+    protected function runConfigFile()
     {
         $codeception = $this->executable;
 
@@ -141,34 +159,31 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
 
         $cmd = 'cd "%s" && ' . $codeception . ' run -c "%s" ' . $this->args . ' --xml';
 
-        $configPath = $this->builder->buildPath . $configPath;
-        $success    = $this->builder->executeCommand($cmd, $this->builder->buildPath, $configPath);
+        $success = $this->builder->executeCommand($cmd, $this->directory, $this->ymlConfigFile);
         if (!$success) {
             $this->builder->logFailure('Codeception did not return 0');
 
             return false;
         }
 
-        $parser = new YamlParser();
-        $yaml   = file_get_contents($configPath);
-        $config = (array) $parser->parse($yaml);
+        $parser     = new YamlParser();
+        $yaml       = file_get_contents($this->ymlConfigFile);
+        $yamlConfig = (array) $parser->parse($yaml);
 
         $trueReportXmlPath = null;
-        if ($config && isset($config['paths']['log'])) {
-            $trueReportXmlPath = $this->builder->buildPath . $config['paths']['log'] . '/';
+        if ($yamlConfig && isset($yamlConfig['paths']['log'])) {
+            $trueReportXmlPath = dirname($this->ymlConfigFile) . '/' . $yamlConfig['paths']['log'] . '/';
         }
-
         if (!file_exists($trueReportXmlPath . 'report.xml')) {
             foreach ($this->output_path as $output_path) {
-                $trueReportXmlPath = $this->builder->buildPath . rtrim($output_path, '/\\') . '/';
+                $trueReportXmlPath =  dirname($this->ymlConfigFile) . '/' . rtrim($output_path, '/\\') . '/';
                 if (file_exists($trueReportXmlPath . 'report.xml')) {
                     break;
                 }
             }
         }
-
         if (!file_exists($trueReportXmlPath . 'report.xml')) {
-            $this->builder->logFailure('"report.xml" file can not be found in configured "$output_path"');
+            $this->builder->logFailure('"report.xml" file can not be found in configured "$output_path" ' . print_r($this->output_path, true));
 
             return false;
         }

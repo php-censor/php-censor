@@ -55,12 +55,8 @@ class PhpCpd extends Plugin implements ZeroConfigPluginInterface
         if (isset($options['directory']) && !empty($options['directory'])) {
             $this->directory = $this->getWorkingDirectory($options);
         }
-
-        if (isset($options['executable'])) {
-            $this->executable = $this->builder->interpolate($options['executable']);
-        } else {
-            $this->executable = $this->findBinary('phpcpd');
-        }
+        $this->builder->logDebug('Directory : '.$this->directory);
+        $this->executable = $this->findBinary('phpcpd');
 
         // only subdirecty of $this->directory can be ignored, and string must not include root
         if (array_key_exists('ignore', $options)) {

@@ -2,8 +2,8 @@
 
 namespace PHPCensor\Plugin;
 
-use PHPCensor\Config;
 use PHPCensor\Builder;
+use PHPCensor\Config;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 use Symfony\Component\Filesystem\Filesystem;
@@ -71,7 +71,7 @@ class Pdepend extends Plugin
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
         parent::__construct($builder, $build, $options);
-        
+
         $this->directory = $this->builder->directory;
         $this->summary   = 'summary.xml';
         $this->pyramid   = 'pyramid.svg';
@@ -81,16 +81,12 @@ class Pdepend extends Plugin
         if (isset($options['ignore']) && !empty($options['ignore'])) {
             array_unshift($this->ignore, $options['ignore']);
         }
-          
+
         if (isset($options['directory']) && !empty($options['directory'])) {
-          $this->directory = $this->getWorkingDirectory($options);
+            $this->directory = $this->getWorkingDirectory($options);
         }
-          
-        if (isset($options['executable'])) {
-          $this->executable = $this->builder->interpolate($options['executable']);
-        } else {
-            $this->executable = $this->findBinary('pdepend');
-        }
+
+        $this->executable = $this->findBinary('pdepend');
 
         $this->buildDirectory       = $build->getBuildDirectory();
         $this->buildBranchDirectory = $build->getBuildBranchDirectory();
@@ -104,7 +100,7 @@ class Pdepend extends Plugin
      */
     public function execute()
     {
-        $allowPublicArtifacts = (bool)Config::getInstance()->get(
+        $allowPublicArtifacts = (bool) Config::getInstance()->get(
             'php-censor.build.allow_public_artifacts',
             true
         );

@@ -59,11 +59,7 @@ class Phing extends Plugin
             $this->setPropertyFile($options['property_file']);
         }
 
-        if (isset($options['executable'])) {
-            $this->executable = $this->builder->interpolate($options['executable']);
-        } else {
-            $this->executable = $this->findBinary('phing');
-        }
+        $this->executable = $this->findBinary('phing');
     }
 
     /**

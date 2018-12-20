@@ -21,7 +21,7 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
      */
     protected $executable;
 
-     /**
+    /**
      * @var array
      */
     protected $suffixes;
@@ -95,25 +95,21 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
     {
         parent::__construct($builder, $build, $options);
 
-        $this->suffixes         = ['php'];
-        $this->standard         = 'PSR2';
-        $this->tabWidth         = '';
-        $this->encoding         = '';
-        $this->path             = '';
-        $this->directory        = $this->builder->directory;
-        $this->ignore           = $this->builder->ignore;
-        $this->allowedWarnings  = 0;
-        $this->allowedErrors    = 0;
+        $this->suffixes        = ['php'];
+        $this->standard        = 'PSR2';
+        $this->tabWidth        = '';
+        $this->encoding        = '';
+        $this->path            = '';
+        $this->directory       = $this->builder->directory;
+        $this->ignore          = $this->builder->ignore;
+        $this->allowedWarnings = 0;
+        $this->allowedErrors   = 0;
 
         if (isset($options['directory']) && !empty($options['directory'])) {
             $this->directory = $this->getWorkingDirectory($options);
         }
 
-        if (isset($options['executable'])) {
-            $this->executable = $this->builder->interpolate($options['executable']);
-        } else {
-            $this->executable = $this->findBinary('phpcs');
-        }
+        $this->executable = $this->findBinary('phpcs');
 
         if (isset($options['zero_config']) && $options['zero_config']) {
             $this->allowedWarnings = -1;
@@ -129,11 +125,11 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
         }
 
         if (isset($options['suffixes'])) {
-            $this->suffixes = (array)$options['suffixes'];
+            $this->suffixes = (array) $options['suffixes'];
         }
 
         if (!empty($options['tab_width'])) {
-            $this->tabWidth = ' --tab-width='.$options['tab_width'];
+            $this->tabWidth = ' --tab-width=' . $options['tab_width'];
         }
 
         if (!empty($options['encoding'])) {
@@ -170,7 +166,7 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
      */
     public static function canExecuteOnStage($stage, Build $build)
     {
-        if ($stage == Build::STAGE_TEST) {
+        if (Build::STAGE_TEST == $stage) {
             return true;
         }
 
@@ -178,8 +174,8 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
     }
 
     /**
-    * Runs PHP Code Sniffer in a specified directory, to a specified standard.
-    */
+     * Runs PHP Code Sniffer in a specified directory, to a specified standard.
+     */
     public function execute()
     {
         list($ignore, $standard, $suffixes, $severity, $errorSeverity, $warningSeverity) = $this->getFlags();
@@ -202,7 +198,7 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
             $warningSeverity
         );
 
-        $output = $this->builder->getLastOutput();
+        $output                  = $this->builder->getLastOutput();
         list($errors, $warnings) = $this->processReport($output);
 
         $this->builder->logExecOutput(true);
@@ -211,11 +207,11 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
         $this->build->storeMeta((self::pluginName() . '-warnings'), $warnings);
         $this->build->storeMeta((self::pluginName() . '-errors'), $errors);
 
-        if ($this->allowedWarnings != -1 && $warnings > $this->allowedWarnings) {
+        if (-1 != $this->allowedWarnings && $warnings > $this->allowedWarnings) {
             $success = false;
         }
 
-        if ($this->allowedErrors != -1 && $errors > $this->allowedErrors) {
+        if (-1 != $this->allowedErrors && $errors > $this->allowedErrors) {
             $success = false;
         }
 
@@ -234,7 +230,7 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
         }
 
         if (strpos($this->standard, '/') !== false) {
-            $standard = ' --standard=' . $this->directory.$this->standard;
+            $standard = ' --standard=' . $this->directory . $this->standard;
         } else {
             $standard = ' --standard=' . $this->standard;
         }
@@ -245,17 +241,17 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
         }
 
         $severity = '';
-        if ($this->severity !== null) {
+        if (null !== $this->severity) {
             $severity = ' --severity=' . $this->severity;
         }
 
         $errorSeverity = '';
-        if ($this->errorSeverity !== null) {
+        if (null !== $this->errorSeverity) {
             $errorSeverity = ' --error-severity=' . $this->errorSeverity;
         }
 
         $warningSeverity = '';
-        if ($this->warningSeverity !== null) {
+        if (null !== $this->warningSeverity) {
             $warningSeverity = ' --warning-severity=' . $this->warningSeverity;
         }
 
@@ -287,8 +283,7 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
                 $this->build->reportError(
                     $this->builder,
                     self::pluginName(),
-                    'PHPCS: ' . $message['message'],
-                    $message['type'] == 'ERROR' ? BuildError::SEVERITY_HIGH : BuildError::SEVERITY_LOW,
+                    'PHPCS: ' . $message['message'], 'ERROR' == $message['type'] ? BuildError::SEVERITY_HIGH : BuildError::SEVERITY_LOW,
                     $fileName,
                     $message['line']
                 );

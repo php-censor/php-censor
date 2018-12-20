@@ -11,7 +11,9 @@ Configuration
 
 * **directory** [string, optional] - directory to inspect (default: build root)
 * **ignore** [array, optional] - directory to ignore (default: inherits ignores specified in setup)
-* **executable** [string, optional] -  Allows you to provide a path to parallel-lint executable
+* **binary_name** [string, optional] - Allows you to provide a name of the binary
+* **binary_path** [string, optional] - Allows you to provide a path to the binary
+
 
 ### Examples
 

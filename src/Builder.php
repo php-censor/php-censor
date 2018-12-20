@@ -6,12 +6,12 @@ use PHPCensor\Helper\BuildInterpolator;
 use PHPCensor\Helper\MailerFactory;
 use PHPCensor\Logging\BuildLogger;
 use PHPCensor\Model\Build;
-use PHPCensor\Store\Factory;
+use PHPCensor\Plugin\Util\Factory as PluginFactory;
 use PHPCensor\Store\BuildErrorWriter;
+use PHPCensor\Store\Factory;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
-use PHPCensor\Plugin\Util\Factory as PluginFactory;
 
 /**
  * @author Dan Cryer <dan@block8.co.uk>
@@ -29,10 +29,20 @@ class Builder implements LoggerAwareInterface
     public $ignore = [];
 
     /**
+     * @var string[]
+     */
+    public $binaryPath = '';
+
+    /**
+     * @var string[]
+     */
+    public $priorityPath = 'local';
+    /**
      * Defaut directory for plugins
      * @var string
      */
     public $directory;
+
     /**
      * @var string|null
      */
@@ -241,7 +251,7 @@ class Builder implements LoggerAwareInterface
                 $this->currentStage = Build::STAGE_FAILURE;
                 $this->pluginExecutor->executePlugins($this->config, Build::STAGE_FAILURE);
 
-                if ($previousState == Build::STATUS_SUCCESS || $previousState == Build::STATUS_PENDING) {
+                if (Build::STATUS_SUCCESS == $previousState || Build::STATUS_PENDING == $previousState) {
                     $this->currentStage = Build::STAGE_BROKEN;
                     $this->pluginExecutor->executePlugins($this->config, Build::STAGE_BROKEN);
                 }
@@ -269,7 +279,7 @@ class Builder implements LoggerAwareInterface
         $this->build->sendStatusPostback();
         $this->build->setFinishDate(new \DateTime());
 
-        $removeBuilds = (bool)Config::getInstance()->get('php-censor.build.remove_builds', true);
+        $removeBuilds = (bool) Config::getInstance()->get('php-censor.build.remove_builds', true);
         if ($removeBuilds) {
             // Clean up:
             $this->buildLogger->log('');
@@ -318,14 +328,15 @@ class Builder implements LoggerAwareInterface
      *
      * @param array|string $binary
      * @param string       $priorityPath
-     *
+     * @param string       $binaryPath
+     * @param string       $binaryName
      * @return string
      *
      * @throws \Exception when no binary has been found.
      */
-    public function findBinary($binary, $priorityPath = 'local')
+    public function findBinary($binary, $priorityPath = 'local', $binaryPath = '', $binaryName = '')
     {
-        return $this->commandExecutor->findBinary($binary, $priorityPath);
+        return $this->commandExecutor->findBinary($binary, $priorityPath, $binaryName);
     }
 
     /**
@@ -375,6 +386,13 @@ class Builder implements LoggerAwareInterface
         // Does the project have any paths it wants plugins to ignore?
         if (isset($this->config['build_settings']['ignore'])) {
             $this->ignore = $this->config['build_settings']['ignore'];
+        }
+
+        if (isset($this->config['build_settings']['binary_path'])) {
+            $this->binaryPath = $this->config['build_settings']['binary_path'];
+        }
+        if (isset($this->config['build_settings']['priority_path'])) {
+            $this->priorityPath = $this->config['build_settings']['priority_path'];
         }
 
         // Does the project have a global directory for plugins ?

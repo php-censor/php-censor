@@ -3,11 +3,23 @@
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to 
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
+### Added
 
+  - **"priority_path"**, new accepted value : **"binary_path"**, "local" is  now accepted too
+  - global :
+    -  **binary_path** to manualy set a directory to find plugins binary (interpolated directory %%)
+
+  - per plugin :
+    - **"binary_path"** : set the path to find the finary, overwrite the global **"binary_path"** option if set
+    - **"binary_name"** : change the default name of binary, array accepted
+    - **"priority_path"** : can be defined per plugin
+     
 ### Changed
-- All plugins who have an executable can overide the executable with "executable" config (gulp & grunt use new parameter)
-- All plugins who use global ignore can now set a local ignore, cumulative settings
-- All plugins who use "path" or "directory" now use "directory", and this can be set like ignore for all plugins who use it
+
+- Per plugin:
+    - **ignore** : always define path  from root without ./ ,it will be merge with the global **ignore** directory list
+- All plugins who previously used "path" or "directory" option now use a common **"directory"**
+  it's the working directory of the plugin
 
 
 ## [0.24.0](https://github.com/php-censor/php-censor/tree/0.24.0) (2018-11-04)

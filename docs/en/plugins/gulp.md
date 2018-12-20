@@ -8,12 +8,12 @@ Configuration
 
 ### Options
 
-- **directory** [string, optional] - The directory in which to run Grunt (defaults to build root.)
-- **gulp** (deprecated) : replaced by **executable**, same functionality
-- **executable** [string, optional] -  Allows you to provide a path to Grunt (defaults to PHP Censor root, vendor/bin, or a 
-system-provided Grunt).
-- **gulpfile** [string, optional] - GulpFile to run (defaults to `gulpfile.js`).
-- **task** [string, optional] - The Gulp task to run.
+* **directory** [string, optional] - The directory in which to run Grunt (defaults to build root.)
+* **gulp** (deprecated) : replaced by **executable**, same functionality
+* **binary_name** [string, optional] - Allows you to provide a name of the binary
+* **binary_path** [string, optional] - Allows you to provide a path to the binary
+* **gulpfile** [string, optional] - GulpFile to run (defaults to `gulpfile.js`).
+* **task** [string, optional] - The Gulp task to run.
 
 ### Example
 

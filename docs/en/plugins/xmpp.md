@@ -24,8 +24,8 @@ Configuration
 * **tls** : Set 1 to enable TLS connection or 0 to disable it. (optional, default is 0)
 * **alias** : Alias of your sender account. (optional)
 * **date_format** : `strftime` mask date format display in notification message. (optional, default is %c of strftime 
-* **executable** [string, optional] -  Allows you to provide a path to sendxmpp executable
-function)
+* **binary_name** [string, optional] - Allows you to provide a name of the binary
+* **binary_path** [string, optional] - Allows you to provide a path to the binary
 
 ### Examples
 

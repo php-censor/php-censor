@@ -17,7 +17,7 @@ class Grunt extends Plugin
     protected $task;
     protected $preferDist;
     protected $executable;
-    
+
     protected $gruntfile;
 
     /**
@@ -37,7 +37,7 @@ class Grunt extends Plugin
 
         $this->directory = $this->builder->directory;
         $this->task      = null;
-        
+
         if (isset($options['directory']) && !empty($options['directory'])) {
             $this->directory = $this->getWorkingDirectory($options);
         }
@@ -52,11 +52,7 @@ class Grunt extends Plugin
             $options['executable'] = $options['grunt'];
         }
 
-        if (isset($options['executable'])) {
-          $this->executable = $this->builder->interpolate($options['executable']);
-        } else {
-            $this->executable = $this->findBinary('grunt');
-        }
+        $this->executable = $this->findBinary('grunt');
 
         if (isset($options['gruntfile'])) {
             $this->gruntfile = $options['gruntfile'];

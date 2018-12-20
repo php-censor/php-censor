@@ -46,11 +46,7 @@ class Gulp extends Plugin
             $options['executable'] = $options['gulp'];
         }
 
-        if (isset($options['executable'])) {
-            $this->executable = $this->builder->interpolate($options['executable']);
-        } else {
-            $this->executable = $this->findBinary('gulp');
-        }
+        $this->executable = $this->findBinary('gulp');
 
         $this->gulpfile = 'gulpfile.js';
 
