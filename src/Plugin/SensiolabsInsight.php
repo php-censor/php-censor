@@ -71,7 +71,6 @@ class SensiolabsInsight extends Plugin
         } else {
             $this->executable = $this->findBinary('insight');
         }
-
     }
 
     /**

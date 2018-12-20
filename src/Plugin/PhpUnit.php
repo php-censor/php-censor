@@ -82,7 +82,6 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
         } else {
             $this->executable = $this->findBinary('phpunit');
         }
-
     }
 
     /**

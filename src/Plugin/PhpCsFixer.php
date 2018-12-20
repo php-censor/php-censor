@@ -18,15 +18,15 @@ class PhpCsFixer extends Plugin
 {
     protected $directory = null;
     protected $executable;
-    protected $args      = '';
+    protected $args = '';
 
-    protected $config    = false;
-    protected $configs   = [
+    protected $config  = false;
+    protected $configs = [
         '.php_cs',
         '.php_cs.dist',
     ];
 
-    protected $errors = false;
+    protected $errors       = false;
     protected $reportErrors = false;
 
     /**
@@ -55,7 +55,7 @@ class PhpCsFixer extends Plugin
         parent::__construct($builder, $build, $options);
 
         $this->directory = $this->builder->directory;
-        
+
         if (isset($options['directory']) && !empty($options['directory'])) {
             $this->directory = $this->getWorkingDirectory($options);
         }
@@ -65,7 +65,7 @@ class PhpCsFixer extends Plugin
         }
 
         if (isset($options['executable'])) {
-          $this->executable = $this->builder->interpolate($options['executable']);
+            $this->executable = $this->builder->interpolate($options['executable']);
         } else {
             $this->executable = $this->findBinary('php-cs-fixer');
         }
@@ -84,7 +84,7 @@ class PhpCsFixer extends Plugin
 
         if (isset($options['config']) && $options['config']) {
             $this->config = true;
-            $this->args   .= ' --config=' . $builder->interpolate($options['config']);
+            $this->args .= ' --config=' . $builder->interpolate($options['config']);
         }
 
         if (isset($options['errors']) && $options['errors']) {
@@ -115,7 +115,7 @@ class PhpCsFixer extends Plugin
             foreach ($this->configs as $config) {
                 if (file_exists($this->builder->buildPath . $config)) {
                     $this->config = true;
-                    $this->args   .= ' --config=./' . $config;
+                    $this->args .= ' --config=./' . $config;
                     break;
                 }
             }
@@ -128,10 +128,10 @@ class PhpCsFixer extends Plugin
         $phpCsFixer = $this->executable;
 
         // Determine the version of PHP CS Fixer
-        $cmd        = $phpCsFixer . ' --version';
-        $success    = $this->builder->executeCommand($cmd);
-        $output     = $this->builder->getLastOutput();
-        $matches    = [];
+        $cmd     = $phpCsFixer . ' --version';
+        $success = $this->builder->executeCommand($cmd);
+        $output  = $this->builder->getLastOutput();
+        $matches = [];
         if (preg_match('/(\d+\.\d+\.\d+)/', $output, $matches)) {
             $version = $matches[1];
             // Appeared in PHP CS Fixer 2.8.0
@@ -146,16 +146,16 @@ class PhpCsFixer extends Plugin
             }
         }
 
-        $cmd        = $phpCsFixer . ' fix ' . $directory . ' %s';
-        $success    = $this->builder->executeCommand($cmd, $this->args);
-        $output = $this->builder->getLastOutput();
+        $cmd     = $phpCsFixer . ' fix ' . $directory . ' %s';
+        $success = $this->builder->executeCommand($cmd, $this->args);
+        $output  = $this->builder->getLastOutput();
 
         if ($this->errors) {
             $warningCount = $this->processReport($output);
 
             $this->build->storeMeta((self::pluginName() . '-warnings'), $warningCount);
 
-            if ($this->allowedWarnings != -1 && $warningCount > $this->allowedWarnings) {
+            if (-1 != $this->allowedWarnings && $warningCount > $this->allowedWarnings) {
                 $success = false;
             }
         }
@@ -184,7 +184,7 @@ class PhpCsFixer extends Plugin
         $warnings = 0;
 
         foreach ($data['files'] as $item) {
-            $filename = $item['name'];
+            $filename      = $item['name'];
             $appliedFixers = isset($item['appliedFixers']) ? $item['appliedFixers'] : [];
 
             $parser = new Parser();
@@ -194,10 +194,10 @@ class PhpCsFixer extends Plugin
             $diffItem = $parsed[0];
             foreach ($diffItem->getChunks() as $chunk) {
                 $firstModifiedLine = $chunk->getStart();
-                $foundChanges = false;
-                if ($firstModifiedLine === 0) {
+                $foundChanges      = false;
+                if (0 === $firstModifiedLine) {
                     $firstModifiedLine = null;
-                    $foundChanges = true;
+                    $foundChanges      = true;
                 }
                 $chunkDiff = [];
                 foreach ($chunk->getLines() as $line) {

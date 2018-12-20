@@ -35,14 +35,13 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
 
     /**
      * default sub-path for report.xml file
-     * 
+     *
      * @var array $path The path to the report.xml file
      */
     protected $output_path = [
         'tests/_output',
         'tests/_log',
     ];
-
 
     /**
      * @return string
@@ -61,7 +60,7 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
 
         if (!isset($options['config'])) {
             $this->builder->buildPath = $builder->interpolate($this->builder->buildPath);
-            $this->ymlConfigFile = self::findConfigFile($this->builder->buildPath);
+            $this->ymlConfigFile      = self::findConfigFile($this->builder->buildPath);
         } else {
             $this->ymlConfigFile = $options['config'];
         }
@@ -80,10 +79,9 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
         }
 
         if (isset($options['executable']) && !empty($options['executable'])) {
-          $this->executable = $this->getInterpolatedExecutable($options);
+            $this->executable = $this->getInterpolatedExecutable($options);
         }
         $this->builder->logFailure('Executable : ' . print_r($this->executable, true));
-
     }
 
     /**
@@ -145,12 +143,12 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
 
         $configPath = $this->builder->buildPath . $configPath;
         $success    = $this->builder->executeCommand($cmd, $this->builder->buildPath, $configPath);
-        if (!$success){
+        if (!$success) {
             $this->builder->logFailure('Codeception did not return 0');
-            
+
             return false;
         }
-        
+
         $parser = new YamlParser();
         $yaml   = file_get_contents($configPath);
         $config = (array) $parser->parse($yaml);
@@ -168,6 +166,7 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
                 }
             }
         }
+
         if (!file_exists($trueReportXmlPath . 'report.xml')) {
             $this->builder->logFailure('"report.xml" file can not be found in configured "$output_path"');
 

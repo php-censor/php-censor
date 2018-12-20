@@ -20,7 +20,7 @@ class PhpCpd extends Plugin implements ZeroConfigPluginInterface
      * tested, extends the base directory
      */
     protected $directory;
-    
+
     /**
      * @var string
      */
@@ -45,9 +45,8 @@ class PhpCpd extends Plugin implements ZeroConfigPluginInterface
     {
         parent::__construct($builder, $build, $options);
 
-        
         $this->directory = $this->builder->directory;
-        
+
         // deprecated compatibility option
         if (isset($options['path']) && !isset($options['directory'])) {
             $options['directory'] = $options['path'];
@@ -65,8 +64,11 @@ class PhpCpd extends Plugin implements ZeroConfigPluginInterface
 
         // only subdirecty of $this->directory can be ignored, and string must not include root
         if (array_key_exists('ignore', $options)) {
-            $this->ignore = $this->ignorePathRelativeToDirectory($this->directory,array_merge($this->builder->ignore, $options['ignore']));
-        }else{
+            $this->ignore = $this->ignorePathRelativeToDirectory(
+                $this->directory,
+                array_merge($this->builder->ignore, $options['ignore'])
+            );
+        } else {
             $this->ignore = $this->ignorePathRelativeToDirectory($this->directory, $this->builder->ignore);
         }
     }
@@ -91,15 +93,15 @@ class PhpCpd extends Plugin implements ZeroConfigPluginInterface
         $ignore       = '';
         $namesExclude = ' --names-exclude ';
         if (is_array($this->ignore)) {
-          foreach ($this->ignore as $item) {
-              $item = rtrim($item, '/');
-              if (is_file(rtrim($this->directory, '/') . '/' . $item)) {
-                  $ignoredFile     = explode('/', $item);
-                  $filesToIgnore[] = array_pop($ignoredFile);
-              } else {
-                  $ignore .= ' --exclude ' . $item;
-              }
-          }
+            foreach ($this->ignore as $item) {
+                $item = rtrim($item, '/');
+                if (is_file(rtrim($this->directory, '/') . '/' . $item)) {
+                    $ignoredFile     = explode('/', $item);
+                    $filesToIgnore[] = array_pop($ignoredFile);
+                } else {
+                    $ignore .= ' --exclude ' . $item;
+                }
+            }
         }
 
         if (isset($filesToIgnore)) {

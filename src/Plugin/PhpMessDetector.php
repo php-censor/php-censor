@@ -208,7 +208,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
         }
 
         $suffixes = '';
-        if (is_array($this->suffixes) && count($this->suffixes) >0 ) {
+        if (is_array($this->suffixes) && count($this->suffixes) >0) {
             $suffixes = ' --suffixes ' . implode(',', $this->suffixes);
         }
 

@@ -34,26 +34,25 @@ class Gulp extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-
         $this->directory = $this->builder->directory;
         $this->task      = null;
-        
+
         if (isset($options['directory']) && !empty($options['directory'])) {
             $this->directory = $this->getWorkingDirectory($options);
         }
-        
+
         // deprecated compatibility option
         if (isset($options['gulp']) && !isset($options['executable'])) {
-          $options['executable'] = $options['gulp'];
+            $options['executable'] = $options['gulp'];
         }
 
-       if (isset($options['executable'])) {
-        $this->executable = $this->builder->interpolate($options['executable']);
+        if (isset($options['executable'])) {
+            $this->executable = $this->builder->interpolate($options['executable']);
         } else {
             $this->executable = $this->findBinary('gulp');
         }
 
-        $this->gulpfile  = 'gulpfile.js';
+        $this->gulpfile = 'gulpfile.js';
 
         if (isset($options['task'])) {
             $this->task = $options['task'];
@@ -65,8 +64,8 @@ class Gulp extends Plugin
     }
 
     /**
-    * Executes gulp and runs a specified command (e.g. install / update)
-    */
+     * Executes gulp and runs a specified command (e.g. install / update)
+     */
     public function execute()
     {
         // if npm does not work, we cannot use gulp, so we return false

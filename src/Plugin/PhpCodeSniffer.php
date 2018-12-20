@@ -110,7 +110,7 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
         }
 
         if (isset($options['executable'])) {
-          $this->executable = $this->builder->interpolate($options['executable']);
+            $this->executable = $this->builder->interpolate($options['executable']);
         } else {
             $this->executable = $this->findBinary('phpcs');
         }
@@ -141,7 +141,7 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
         }
 
         if (!empty($options['ignore'])) {
-          array_unshift($this->ignore,$options['ignore']);
+            array_unshift($this->ignore, $options['ignore']);
         }
 
         if (!empty($options['standard'])) {
