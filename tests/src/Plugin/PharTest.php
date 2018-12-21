@@ -7,7 +7,7 @@ use Phar as PHPPhar;
 
 class PharTest extends \PHPUnit\Framework\TestCase
 {
-    protected $directory;
+    protected $directories = [];
 
     protected function tearDown()
     {
@@ -40,7 +40,7 @@ class PharTest extends \PHPUnit\Framework\TestCase
 
     protected function buildTemp()
     {
-        $directory = tempnam(ROOT_DIR . 'tests/runtime/', 'source');
+        $directory = tempnam(ROOT_DIR . 'tests/runtime/', 'phar_test_');
         @unlink($directory);
 
         return $directory . '/';
@@ -49,6 +49,7 @@ class PharTest extends \PHPUnit\Framework\TestCase
     protected function buildSource()
     {
         $directory = $this->buildTemp();
+
         mkdir($directory);
         file_put_contents($directory . 'one.php', '<?= "one";');
         file_put_contents($directory . 'two.php', '<?= "two";');
@@ -56,33 +57,37 @@ class PharTest extends \PHPUnit\Framework\TestCase
         file_put_contents($directory . 'config/config.ini', '[config]');
         mkdir($directory . 'views');
         file_put_contents($directory . 'views/index.phtml', '<?= "hello";');
-        $this->directory = $directory;
 
-        return $this->directory;
+        $this->directories[] = $directory;
+
+        return $directory;
     }
 
     protected function cleanSource()
     {
-        if ($this->directory) {
-            $filenames = [
-                'build.phar',
-                'stub.php',
-                'views/index.phtml',
-                'views',
-                'config/config.ini',
-                'config',
-                'two.php',
-                'one.php',
-            ];
-            foreach ($filenames as $filename) {
-                if (is_dir($this->directory . $filename)) {
-                    rmdir($this->directory . $filename);
-                } else if (is_file($this->directory . $filename)) {
-                    unlink($this->directory . $filename);
+        foreach ($this->directories as $directory) {
+            if ($directory) {
+                $filenames = [
+                    'build.phar',
+                    'stub.php',
+                    'views/index.phtml',
+                    'views',
+                    'config/config.ini',
+                    'config',
+                    'two.php',
+                    'one.php',
+                ];
+
+                foreach ($filenames as $filename) {
+                    if (is_dir($directory . $filename)) {
+                        @rmdir($directory . $filename);
+                    } else if (is_file($directory . $filename)) {
+                        @unlink($directory . $filename);
+                    }
                 }
+
+                @rmdir($directory);
             }
-            rmdir($this->directory);
-            $this->directory = null;
         }
     }
 
@@ -189,6 +194,7 @@ STUB;
         $this->checkReadonly();
 
         $directory = $this->buildTemp();
+        $this->directories[] = $directory;
 
         $plugin = $this->getPlugin(['directory' => $directory]);
 

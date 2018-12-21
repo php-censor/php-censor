@@ -39,20 +39,25 @@ class CopyBuild extends Plugin
     }
 
     /**
-    * Copies files from the root of the build directory into the target folder
-    */
+     * Copies files from the root of the build directory into the target folder
+     *
+     * @return bool
+     * @throws \RuntimeException
+     */
     public function execute()
     {
-        $build = $this->builder->buildPath;
+        $buildPath = $this->builder->buildPath;
 
-        if ($this->directory == $build) {
+        chdir($buildPath);
+
+        if ($this->directory === $buildPath) {
             return false;
         }
 
         $this->wipeExistingDirectory();
 
         if (is_dir($this->directory)) {
-            throw new \Exception(
+            throw new \RuntimeException(
                 sprintf(
                     'Directory "%s" already exists! Use "wipe" option if you want to delete directory before copy.',
                     $this->directory
@@ -60,9 +65,9 @@ class CopyBuild extends Plugin
             );
         }
 
-        $cmd     = 'mkdir -p "%s" && cp -R %s/* "%s"';
-        $success = $this->builder->executeCommand($cmd, $this->directory, rtrim($build, '/'), $this->directory);
-
+        $cmd     = 'cd "%s" && mkdir -p "%s" && cp -R %s/. "%s"';
+        $success = $this->builder->executeCommand($cmd, $buildPath, $this->directory, rtrim($buildPath, '/'), $this->directory);
+        
         $this->deleteIgnoredFiles();
 
         return $success;
@@ -70,16 +75,17 @@ class CopyBuild extends Plugin
 
     /**
      * Wipe the destination directory if it already exists.
-     * @throws \Exception
+     *
+     * @throws \RuntimeException
      */
     protected function wipeExistingDirectory()
     {
-        if ($this->wipe === true && $this->directory != '/' && is_dir($this->directory)) {
-            $cmd = 'rm -Rf "%s"';
-            $success = $this->builder->executeCommand($cmd, $this->directory);
+        if ($this->wipe === true && $this->directory !== '/' && is_dir($this->directory)) {
+            $cmd = 'cd "%s" && rm -Rf "%s"';
+            $success = $this->builder->executeCommand($cmd, $this->builder->buildPath, $this->directory);
 
             if (!$success) {
-                throw new \Exception(
+                throw new \RuntimeException(
                     sprintf('Failed to wipe existing directory "%s" before copy!', $this->directory)
                 );
             }
@@ -95,8 +101,8 @@ class CopyBuild extends Plugin
     {
         if ($this->ignore) {
             foreach ($this->builder->ignore as $file) {
-                $cmd = 'rm -Rf "%s/%s"';
-                $this->builder->executeCommand($cmd, $this->directory, $file);
+                $cmd = 'cd "%s" && rm -Rf "%s/%s"';
+                $this->builder->executeCommand($cmd, $this->builder->buildPath, $this->directory, $file);
             }
         }
     }

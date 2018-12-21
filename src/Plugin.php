@@ -105,12 +105,10 @@ abstract class Plugin
         $directory = $this->builder->directory;
 
         if (!empty($options['directory'])) {
-            $relativePath = preg_replace('#^(\./|/)?(.*)$#', '$2', $options['directory']);
-            $relativePath = rtrim($relativePath, "\//");
-            $directory    .= $relativePath . '/';
+            $directory = $options['directory'];
         }
 
-        return $this->builder->interpolate($directory);
+        return rtrim($this->builder->interpolate($directory), '/\\') . '/';
     }
 
     /**

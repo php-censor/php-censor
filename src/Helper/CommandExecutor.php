@@ -115,14 +115,14 @@ class CommandExecutor implements CommandExecutorInterface
             $this->logger->logFailure($this->lastError);
         }
 
-        $rtn = false;
+        $isSuccess = false;
         if (0 === $status) {
-            $rtn = true;
+            $isSuccess = true;
         }
 
         $this->logger->logDebug('Execution status: ' . $status);
 
-        return $rtn;
+        return $isSuccess;
     }
 
     /**
