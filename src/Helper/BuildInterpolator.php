@@ -57,10 +57,6 @@ class BuildInterpolator
         $this->interpolationVars['%PHPCI_BUILD_PATH%'] = $this->interpolationVars['%BUILD_PATH%'];
         $this->interpolationVars['%PHPCI_BUILD_URI%'] = $this->interpolationVars['%BUILD_URI%'];
         
-        $applicationConfig = Config::getInstance();
-        $databaseSettings  = $applicationConfig->get('b8.database', []);
-        $this->interpolationVars['%DATABASE_TEST_HOST%']=$databaseSettings['servers']['write']['0']['host'];
-        
 
 
         putenv('PHPCI=1');
