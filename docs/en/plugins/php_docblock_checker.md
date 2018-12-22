@@ -8,8 +8,8 @@ Configuration
 
 ### Options
 
-* **path** - Deprecated - use directory
-* **binary_name** [string, optional] - Allows you to provide a name of the binary
+* **path** - **[DEPRECATED]** - Use instead option `directory`!
+* **binary_name** [string|array, optional] - Allows you to provide a name of the binary
 * **binary_path** [string, optional] - Allows you to provide a path to the binary
 * **directory** - Optional - Directory in which PHP Docblock Checker should run.
 * **skip_methods** - Optional - Tells the checker to ignore methods that don't have a docblock.

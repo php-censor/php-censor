@@ -11,7 +11,7 @@ Configuration
 
 * **directory** [string, optional] - directory to inspect (default: build root)
 * **ignore** [array, optional] - directory to ignore (default: inherits ignores specified in setup)
-* **binary_name** [string, optional] - Allows you to provide a name of the binary
+* **binary_name** [string|array, optional] - Allows you to provide a name of the binary
 * **binary_path** [string, optional] - Allows you to provide a path to the binary
 
 

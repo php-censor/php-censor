@@ -9,7 +9,7 @@ Configuration
 ### Options
 
 * **directory** - Optional - The directory in which phploc should run. 
-* **binary_name** [string, optional] - Allows you to provide a name of the binary
+* **binary_name** [string|array, optional] - Allows you to provide a name of the binary
 * **binary_path** [string, optional] - Allows you to provide a path to the binary
 * **ignore** 
 ### Example

@@ -9,8 +9,8 @@ Configuration
 ### Options
 
 * **directory** [string, optional] - The directory in which to run Grunt (defaults to build root.)
-* **grunt** (deprecated) : replaced by **executable**, same functionality
-* **binary_name** [string, optional] - Allows you to provide a name of the binary
+* **grunt** - **[DEPRECATED]** - Use instead option `binary_path` and `binary_name`!
+* **binary_name** [string|array, optional] - Allows you to provide a name of the binary
 * **binary_path** [string, optional] - Allows you to provide a path to the binary
 * **gruntfile** [string, optional] - Gruntfile to run (defaults to `Gruntfile.js`).
 * **task** [string, optional] - The Grunt task to run.

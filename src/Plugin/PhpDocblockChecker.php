@@ -51,12 +51,22 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
     {
         parent::__construct($builder, $build, $options);
 
-        $this->path            = '';
         $this->allowedWarnings = 0;
 
         if (isset($options['zero_config']) && $options['zero_config']) {
             $this->allowedWarnings = -1;
         }
+
+        /** @deprecated Option "path" deprecated and will be deleted in version 2.0 (Use option "directory" instead)! */
+        if (isset($options['path']) && !isset($options['directory'])) {
+            $this->builder->logWarning(
+                '[DEPRECATED] Option "path" deprecated and will be deleted in version 2.0 (Use option "directory" instead)!'
+            );
+
+            $options['directory'] = $options['path'];
+        }
+
+        $this->directory = $this->getWorkingDirectory($options);
 
         if (array_key_exists('ignore', $options)) {
             $this->ignore = $this->ignorePathRelativeToDirectory($this->directory, array_merge($this->builder->ignore, $options['ignore']));
@@ -75,15 +85,8 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
             $this->skipSignatures = true;
         }
 
-        // deprecated compatibility option
-        if (isset($options['path']) && !isset($options['directory'])) {
-            $options['directory'] = $options['path'];
-        }
-
-        $this->directory = $this->getWorkingDirectory($options);
-
         if (array_key_exists('allowed_warnings', $options)) {
-            $this->allowedWarnings = (int) $options['allowed_warnings'];
+            $this->allowedWarnings = (int)$options['allowed_warnings'];
         }
 
         $this->executable = $this->findBinary([

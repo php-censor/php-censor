@@ -16,7 +16,7 @@ Configuration
 * **config** [string, optional] - Special config file (default: `%BUILD_PATH%./.php_cs` or `%BUILD_PATH%./.php_cs.dist`)
 * **errors** [bool, optional] - Not fix files, but get the number of files with problem (default: false)
 * **report_errors** [bool, optional] - With **errors**, get the list of files in "Errors" tab (default: false)
-* **binary_name** [string, optional] - Allows you to provide a name of the binary
+* **binary_name** [string|array, optional] - Allows you to provide a name of the binary
 * **binary_path** [string, optional] - Allows you to provide a path to the binary
 
 

@@ -45,8 +45,12 @@ class PhpCpd extends Plugin implements ZeroConfigPluginInterface
     {
         parent::__construct($builder, $build, $options);
 
-        // deprecated compatibility option
+        /** @deprecated Option "path" deprecated and will be deleted in version 2.0 (Use option "directory" instead)! */
         if (isset($options['path']) && !isset($options['directory'])) {
+            $this->builder->logWarning(
+                '[DEPRECATED] Option "path" deprecated and will be deleted in version 2.0 (Use option "directory" instead)!'
+            );
+
             $options['directory'] = $options['path'];
         }
 

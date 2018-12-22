@@ -48,7 +48,16 @@ class Grunt extends Plugin
             $options['executable'] = $options['grunt'];
         }
 
-        $this->executable = $this->findBinary('grunt');
+        /** @deprecated Option "grunt" deprecated and will be deleted in version 2.0 (Use option "binary_path" and "binary_name" instead)! */
+        if (isset($options['grunt'])) {
+            $this->builder->logWarning(
+                '[DEPRECATED] Option "grunt" deprecated and will be deleted in version 2.0 (Use option "binary_path" and "binary_name" instead)!'
+            );
+
+            $this->executable = $options['grunt'];
+        } else {
+            $this->executable = $this->findBinary('grunt');
+        }
 
         if (isset($options['gruntfile'])) {
             $this->gruntfile = $options['gruntfile'];
