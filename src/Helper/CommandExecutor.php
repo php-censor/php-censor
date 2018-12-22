@@ -312,16 +312,16 @@ class CommandExecutor implements CommandExecutorInterface
                     return $binaryPath;
                 }
 
-                if ($binarySystem = $this->findBinarySystem($bin)) {
-                    return $binarySystem;
-                }
-
                 if ($binaryLocal = $this->findBinaryLocal($composerBin, $bin)) {
                     return $binaryLocal;
                 }
 
                 if ($binaryGlobal = $this->findBinaryGlobal($bin)) {
                     return $binaryGlobal;
+                }
+
+                if ($binarySystem = $this->findBinarySystem($bin)) {
+                    return $binarySystem;
                 }
             } elseif ('system' === $priorityPath) {
                 if ($binarySystem = $this->findBinarySystem($bin)) {

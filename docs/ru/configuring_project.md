@@ -74,6 +74,9 @@
 ```yml
 build_settings:
   clone_depth: 1
+  priority_path: binary_path
+  binary_path:   /home/user/bin/
+  directory:     /home/project
   ignore:
     - "vendor"
     - "tests"
@@ -100,7 +103,9 @@ test:
     run_from: "phpunit/"
     coverage: "tests/logs/coverage"
   php_mess_detector:
-    allow_failures: true
+    priority_path: binary_path
+    binary_path:   /home/user/sbin/
+    binary_name:   phpmd-local
   php_code_sniffer:
     standard: "PSR2"
   php_cpd:
@@ -153,6 +158,9 @@ branch-dev:
         - tests
     ```
 
+* Опции `priority_path`, `binary_path` и `directory` - глобальные варианты одноименных опций плагинов, действующие 
+на все плагины сборки. Смотри раздел "Этапы сборки" ниже.
+
 * Опция `prefer_symlink` позволяет использовать ссылку (symlink) в качестве источника для сборки. Доступна только для 
 проектов из локальной директории (LocalBuild).
 
@@ -196,14 +204,35 @@ branch-dev:
     Также существует опция `priority_path`, доступная всем плагинам. **Она позволяет поменять порядок поиска 
     исполняемого файла плагина**. Возможные значения опции:
 
-    * `local` - В первую очередь искать в директории `vendor/bin` самой сборки, затем - в `global`, затем - в `system`;
+    * `local` - В первую очередь искать в директории `vendor/bin` самой сборки, затем - в `global`, затем - в `system`, 
+    затем - в `priority_path`;
 
-    * `global` - В первую очередь искать в директории `vendor/bin` *PHP Censor*, затем - в `local`, затем - в `system`;
+    * `global` - В первую очередь искать в директории `vendor/bin` *PHP Censor*, затем - в `local`, затем - в `system`, 
+    затем - в `priority_path`;
 
     * `sysmem` - В первую очередь искать среди системных утилит (В директориях `/bin`, `/usr/bin` и т.д., используется 
-    `which`. ), затем - в `local`, затем - в `global`;
+    `which`. ), затем - в `local`, затем - в `global`, затем - в `priority_path`;
+    
+    * `binary_path` - В первую очередь искать по конкретному пути, указанному в опции `binary_path`, затем - в `local`, 
+    затем - в `global`, затем, - в `system`;
 
-    **Порядок поиска исполняемого файла по умолчанию**: `local` -> `global` -> `system`.
+    Опция `binary_path` позволяет указать конкретный путь до директории с исполняемым файлом плагина. Есть так же 
+    опция `binary_name`, которая позволяет указать для любого плагина альтернативные названия исполняемого файла 
+    (строка или массив строк). Например:
+
+    ```yaml
+    setup:
+      composer:
+        priority_path: binary_path
+        binary_path: /home/user/bin/
+        # Поиск будет происходить по именам исполняемого файла: composer-1.4, composer-local, composer, composer.phar
+        binary_name:
+          - composer-1.4
+          - composer-local
+        action: install
+    ```
+
+    **Порядок поиска исполняемого файла по умолчанию**: `local` -> `global` -> `system` -> `binary_path`.
 
 * `deploy` - **Этап деплоя проекта**. Вызывается после `test`, если он был успешным. В этом этапе должны 
 вызываться плагины для деплоя приложения ([Shell](plugins/shell.md), [Deployer](plugins/deployer.md), 

@@ -183,17 +183,13 @@ The project config should look something like this:
 
 ```yml
 setup:
-  priority_path: binary_path
-  binary_path: %BUILD_PATH%src/vendor/bin
   composer:
-    action: "install"
+    action:    "install"
     directory: "."
 test:
   php_unit:
     config: "phpunit.xml"
-    binary_name: "phpunit-1.2"
   php_mess_detector:
-    binary_path: /usr/local/bin
     allow_failures: true
   php_code_sniffer:
     standard: "PSR2"
