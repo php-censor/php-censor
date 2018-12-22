@@ -25,7 +25,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
      * tested, extends the base path only if the provided path is relative. Absolute
      * paths are used verbatim
      */
-    protected $path;
+    protected $directory;
 
     /**
      * @var array - paths to ignore
@@ -55,25 +55,27 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
     {
         parent::__construct($builder, $build, $options);
 
-        $this->suffixes         = ['php'];
-        $this->ignore           = $this->builder->ignore;
-        $this->path             = '';
-        $this->rules            = ['codesize', 'unusedcode', 'naming'];
+        $this->suffixes        = ['php'];
+        $this->ignore          = $this->builder->ignore;
+        $this->rules           = ['codesize', 'unusedcode', 'naming'];
         $this->allowedWarnings = 0;
+        $this->directory       = $this->getWorkingDirectory($options);
 
         if (isset($options['zero_config']) && $options['zero_config']) {
             $this->allowedWarnings = -1;
         }
 
-        if (!empty($options['path'])) {
-            $this->path = $options['path'];
-        }
-
         if (array_key_exists('allowed_warnings', $options)) {
-            $this->allowedWarnings = (int)$options['allowed_warnings'];
+            $this->allowedWarnings = (int) $options['allowed_warnings'];
         }
 
-        foreach (['rules', 'ignore', 'suffixes'] as $key) {
+        $this->executable = $this->findBinary('phpmd');
+
+        if (array_key_exists('ignore', $options)) {
+            $this->ignore = array_merge($this->builder->ignore, $options['ignore']);
+        }
+
+        foreach (['rules', 'suffixes'] as $key) {
             $this->overrideSetting($options, $key);
         }
     }
@@ -83,7 +85,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
      */
     public static function canExecuteOnStage($stage, Build $build)
     {
-        if ($stage == Build::STAGE_TEST) {
+        if (Build::STAGE_TEST == $stage) {
             return true;
         }
 
@@ -99,7 +101,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
             return false;
         }
 
-        $phpmdBinaryPath = $this->findBinary('phpmd');
+        $phpmdBinaryPath = $this->executable;
 
         $this->executePhpMd($phpmdBinaryPath);
 
@@ -134,7 +136,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
     {
         $xml = simplexml_load_string($xmlString);
 
-        if ($xml === false) {
+        if (false === $xml) {
             $this->builder->log($xmlString);
             throw new \Exception('Could not process PHPMD report XML.');
         }
@@ -142,7 +144,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
         $warnings = 0;
 
         foreach ($xml->file as $file) {
-            $fileName = (string)$file['name'];
+            $fileName = (string) $file['name'];
             $fileName = str_replace($this->builder->buildPath, '', $fileName);
 
             foreach ($file->violation as $violation) {
@@ -151,11 +153,11 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
                 $this->build->reportError(
                     $this->builder,
                     self::pluginName(),
-                    (string)$violation,
+                    (string) $violation,
                     PHPCensor\Model\BuildError::SEVERITY_HIGH,
                     $fileName,
-                    (int)$violation['beginline'],
-                    (int)$violation['endline']
+                    (int) $violation['beginline'],
+                    (int) $violation['endline']
                 );
             }
         }
@@ -191,15 +193,13 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
     {
         $cmd = $binaryPath . ' "%s" xml %s %s %s';
 
-        $path = $this->getTargetPath();
-
         $ignore = '';
-        if (count($this->ignore)) {
+        if (is_array($this->ignore) && count($this->ignore) > 0) {
             $ignore = ' --exclude ' . implode(',', $this->ignore);
         }
 
         $suffixes = '';
-        if (count($this->suffixes)) {
+        if (is_array($this->suffixes) && count($this->suffixes) > 0) {
             $suffixes = ' --suffixes ' . implode(',', $this->suffixes);
         }
 
@@ -209,7 +209,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
         // Run PHPMD:
         $this->builder->executeCommand(
             $cmd,
-            $path,
+            $this->directory,
             implode(',', $this->rules),
             $ignore,
             $suffixes
@@ -217,20 +217,6 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
 
         // Re-enable exec output logging:
         $this->builder->logExecOutput(true);
-    }
-
-    /**
-     * Get the path PHPMD should be run against.
-     * @return string
-     */
-    protected function getTargetPath()
-    {
-        $path = $this->builder->buildPath . $this->path;
-        if (!empty($this->path) && $this->path{0} == '/') {
-            $path = $this->path;
-            return $path;
-        }
-        return $path;
     }
 
     /**
@@ -243,7 +229,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
     {
         $success = true;
 
-        if ($this->allowedWarnings != -1 && $errorCount > $this->allowedWarnings) {
+        if (-1 != $this->allowedWarnings && $errorCount > $this->allowedWarnings) {
             $success = false;
             return $success;
         }

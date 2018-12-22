@@ -1,8 +1,8 @@
 Project Build Configurations in PHP Censor
-=====================================
+==========================================
 
 Configuration methods
---------------------
+---------------------
 
 For builds configuration *PHP Censor* uses description in YAML (Like in [Travis CI](https://travis-ci.org)).
 
@@ -18,7 +18,7 @@ There are several ways of configuring build in *PHP Censor* project:
      plugins([PHPUnit](plugins/php_unit.md), [Codeception](plugins/codeception.md)).  
 
     **Test plugins will launch if there are tests and configuration files by default paths**.
-    
+
     Default config will look like this:
 
     ```yml
@@ -64,13 +64,16 @@ There are several ways of configuring build in *PHP Censor* project:
 
 
 Config file format
-------------------------------
+------------------
 
 Config example:
 
 ```yml
 build_settings:
   clone_depth: 1
+  priority_path: binary_path
+  binary_path:   /home/user/bin/
+  directory:     /home/project
   ignore:
     - "vendor"
     - "tests"
@@ -97,7 +100,9 @@ test:
     run_from: "phpunit/"
     coverage: "tests/logs/coverage"
   php_mess_detector:
-    allow_failures: true
+    priority_path: binary_path
+    binary_path:   /home/user/bin/
+    binary_name:   phpmd-local
   php_code_sniffer:
     standard: "PSR2"
   php_cpd:

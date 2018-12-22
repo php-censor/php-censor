@@ -8,8 +8,8 @@ Configuration
 
 ### Options
 
-- **executable** [string, optional] - Allows you to provide a path to the Behat binary (defaults to PHP Censor root, 
-vendor/bin, or a system-provided Behat binary).
+- **binary_name** [string|array, optional] - Allows you to provide a name of the binary
+- **binary_path** [string, optional] - Allows you to provide a path to the binary
 - **features** [string, optional] - Provide a list of Behat features to run.
 
 ### Examples

@@ -4,7 +4,6 @@ namespace PHPCensor\Helper;
 
 use Exception;
 use PHPCensor\Logging\BuildLogger;
-use Psr\Log\LogLevel;
 
 /**
  * Handles running system commands with variables.
@@ -80,7 +79,7 @@ class CommandExecutor implements CommandExecutorInterface
 
         $this->logger->logDebug('Command: ' . $command);
 
-        $status = 0;
+        $status         = 0;
         $descriptorSpec = [
             0 => ["pipe", "r"], // stdin
             1 => ["pipe", "w"], // stdout
@@ -97,16 +96,16 @@ class CommandExecutor implements CommandExecutorInterface
 
             list($lastOutput, $lastError) = $this->readAlternating([$pipes[1], $pipes[2]]);
 
-            $status = proc_close($process);
+            $status = (int)proc_close($process);
 
             $lastOutput = $this->replaceIllegalCharacters($lastOutput);
             $lastError  = $this->replaceIllegalCharacters($lastError);
         }
 
         $this->lastOutput = array_filter(explode(PHP_EOL, $lastOutput));
-        $this->lastError = $lastError;
+        $this->lastError  = $lastError;
 
-        $shouldOutput = ($this->logExecOutput && ($this->verbose || $status != 0));
+        $shouldOutput = ($this->logExecOutput && ($this->verbose || 0 !== $status));
 
         if ($shouldOutput && !empty($this->lastOutput)) {
             $this->logger->log($this->lastOutput);
@@ -116,14 +115,14 @@ class CommandExecutor implements CommandExecutorInterface
             $this->logger->logFailure($this->lastError);
         }
 
-        $rtn = false;
-        if ($status == 0) {
-            $rtn = true;
+        $isSuccess = false;
+        if (0 === $status) {
+            $isSuccess = true;
         }
 
         $this->logger->logDebug('Execution status: ' . $status);
 
-        return $rtn;
+        return $isSuccess;
     }
 
     /**
@@ -144,11 +143,11 @@ class CommandExecutor implements CommandExecutorInterface
         $timeout = 15;
         do {
             $resources = 0;
-            $read = [];
+            $read      = [];
             for ($i = 0; $i < $retries; ++$i) {
-                $read = $descriptors;
-                $write = null;
-                $except = null;
+                $read      = $descriptors;
+                $write     = null;
+                $except    = null;
                 $resources = stream_select($read, $write, $except, $timeout);
                 if (intval($resources) > 0) {
                     break;
@@ -161,7 +160,7 @@ class CommandExecutor implements CommandExecutorInterface
                     unset($descriptors[$key]);
                 } else {
                     $buffer = fgets($descriptor);
-                    if ($buffer === false) {
+                    if (false === $buffer) {
                         fclose($descriptor);
                         unset($descriptors[$key]);
                         continue;
@@ -182,7 +181,7 @@ class CommandExecutor implements CommandExecutorInterface
     {
         mb_substitute_character(0xFFFD); // is '�'
         $legalUtf8String = mb_convert_encoding($utf8String, 'utf8', 'utf8');
-        $regexp = '/[\x00-\x08\x10\x0B\x0C\x0E-\x19\x7F]' .
+        $regexp          = '/[\x00-\x08\x10\x0B\x0C\x0E-\x19\x7F]' .
             '|[^\x{0}-\x{ffff}]/u'; // more than 3 byte UTF-8 sequences (unsupported in mysql)
 
         return preg_replace($regexp, '�', $legalUtf8String);
@@ -206,6 +205,23 @@ class CommandExecutor implements CommandExecutorInterface
     public function getLastError()
     {
         return $this->lastError;
+    }
+
+    /**
+     * @param string $binaryPath
+     * @param string $binary
+     *
+     * @return string|false
+     */
+    protected function findBinaryByPath($binaryPath, $binary)
+    {
+        if (is_dir($binaryPath) && is_file($binaryPath . '/' . $binary)) {
+            $this->logger->logDebug(sprintf('Found in %s (binary_path): %s', $binaryPath, $binary));
+
+            return $binaryPath . '/' . $binary;
+        }
+
+        return false;
     }
 
     /**
@@ -265,12 +281,13 @@ class CommandExecutor implements CommandExecutorInterface
      *
      * @param array|string $binary
      * @param string       $priorityPath
-     *
+     * @param string       $binaryPath
+     * @param string       $binaryName
      * @return string
      *
      * @throws \Exception when no binary has been found.
      */
-    public function findBinary($binary, $priorityPath = 'local')
+    public function findBinary($binary, $priorityPath = 'local', $binaryPath = '', $binaryName = '')
     {
         $composerBin = $this->getComposerBinDir(realpath($this->buildPath));
 
@@ -278,10 +295,35 @@ class CommandExecutor implements CommandExecutorInterface
             $binary = [$binary];
         }
 
-        foreach ($binary as $bin) {
-            $this->logger->logDebug(sprintf('Looking for binary: %s', $bin));
+        //overwrite binary name
+        if ($binaryName) {
+            if (is_string($binaryName)) {
+                $binaryName = [$binaryName];
+            }
 
-            if ('system' === $priorityPath) {
+            array_unshift($binary, ...$binaryName);
+        }
+
+        foreach ($binary as $bin) {
+            $this->logger->logDebug(sprintf('Looking for binary: %s, priority = %s', $bin, $priorityPath));
+
+            if ('binary_path' === $priorityPath) {
+                if ($binaryPath = $this->findBinaryByPath($binaryPath, $bin)) {
+                    return $binaryPath;
+                }
+
+                if ($binaryLocal = $this->findBinaryLocal($composerBin, $bin)) {
+                    return $binaryLocal;
+                }
+
+                if ($binaryGlobal = $this->findBinaryGlobal($bin)) {
+                    return $binaryGlobal;
+                }
+
+                if ($binarySystem = $this->findBinarySystem($bin)) {
+                    return $binarySystem;
+                }
+            } elseif ('system' === $priorityPath) {
                 if ($binarySystem = $this->findBinarySystem($bin)) {
                     return $binarySystem;
                 }
@@ -292,6 +334,10 @@ class CommandExecutor implements CommandExecutorInterface
 
                 if ($binaryGlobal = $this->findBinaryGlobal($bin)) {
                     return $binaryGlobal;
+                }
+
+                if ($binaryPath = $this->findBinaryByPath($binaryPath, $bin)) {
+                    return $binaryPath;
                 }
             } elseif ('global' === $priorityPath) {
                 if ($binaryGlobal = $this->findBinaryGlobal($bin)) {
@@ -305,6 +351,10 @@ class CommandExecutor implements CommandExecutorInterface
                 if ($binarySystem = $this->findBinarySystem($bin)) {
                     return $binarySystem;
                 }
+
+                if ($binaryPath = $this->findBinaryByPath($binaryPath, $bin)) {
+                    return $binaryPath;
+                }
             } else {
                 if ($binaryLocal = $this->findBinaryLocal($composerBin, $bin)) {
                     return $binaryLocal;
@@ -316,6 +366,10 @@ class CommandExecutor implements CommandExecutorInterface
 
                 if ($binarySystem = $this->findBinarySystem($bin)) {
                     return $binarySystem;
+                }
+
+                if ($binaryPath = $this->findBinaryByPath($binaryPath, $bin)) {
+                    return $binaryPath;
                 }
             }
         }
@@ -341,7 +395,7 @@ class CommandExecutor implements CommandExecutorInterface
                 if (isset($json->config->{"bin-dir"})) {
                     return $path . '/' . $json->config->{"bin-dir"};
                 } elseif (is_dir($path . '/vendor/bin')) {
-                    return $path  . '/vendor/bin';
+                    return $path . '/vendor/bin';
                 }
             }
         }

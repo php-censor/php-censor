@@ -2,15 +2,15 @@
 
 namespace PHPCensor\Plugin;
 
-use PHPCensor\Config;
 use PHPCensor;
 use PHPCensor\Builder;
+use PHPCensor\Config;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
+use PHPCensor\Plugin;
 use PHPCensor\Plugin\Option\PhpUnitOptions;
 use PHPCensor\Plugin\Util\PhpUnitResultJson;
 use PHPCensor\Plugin\Util\PhpUnitResultJunit;
-use PHPCensor\Plugin;
 use PHPCensor\ZeroConfigPluginInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -45,6 +45,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
     /** @var PhpUnitOptions*/
     protected $options;
 
+    protected $executable;
     /**
      * @return string
      */
@@ -76,6 +77,8 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
         $this->buildBranchLocation = PUBLIC_DIR . 'artifacts/phpunit/' . $this->buildBranchDirectory;
 
         $this->options = new PhpUnitOptions($options, $this->buildLocation);
+
+        $this->executable = $this->findBinary('phpunit');
     }
 
     /**
@@ -83,7 +86,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
      */
     public static function canExecuteOnStage($stage, Build $build)
     {
-        if ($stage == Build::STAGE_TEST && !is_null(PhpUnitOptions::findConfigFile($build->getBuildPath()))) {
+        if (Build::STAGE_TEST == $stage && !is_null(PhpUnitOptions::findConfigFile($build->getBuildPath()))) {
             return true;
         }
 
@@ -102,8 +105,8 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
             return false;
         }
 
-        $cmd      = $this->findBinary('phpunit');
-        $lastLine = exec($cmd.' --log-json . --version');
+        $cmd      = $this->executable;
+        $lastLine = exec($cmd . ' --log-json . --version');
         if (false !== strpos($lastLine, '--log-json')) {
             $logFormat = 'junit'; // --log-json is not supported
         } else {
@@ -142,7 +145,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
      */
     protected function runConfig($directory, $configFile, $logFormat)
     {
-        $allowPublicArtifacts = (bool)Config::getInstance()->get(
+        $allowPublicArtifacts = (bool) Config::getInstance()->get(
             'php-censor.build.allow_public_artifacts',
             true
         );
@@ -177,7 +180,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
         }
 
         $arguments = $this->builder->interpolate($options->buildArgumentString());
-        $cmd       = $this->findBinary('phpunit') . ' %s %s';
+        $cmd       = $this->executable . ' %s %s';
         $success   = $this->builder->executeCommand($cmd, $arguments, $directory);
         $output    = $this->builder->getLastOutput();
 
@@ -243,9 +246,9 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
 
             foreach ($parser->getErrors() as $error) {
                 $severity = $error['severity'] ==
-                    $parser::SEVERITY_ERROR ?
-                        BuildError::SEVERITY_CRITICAL :
-                        BuildError::SEVERITY_HIGH;
+                $parser::SEVERITY_ERROR ?
+                BuildError::SEVERITY_CRITICAL :
+                BuildError::SEVERITY_HIGH;
                 $this->build->reportError(
                     $this->builder, self::pluginName(), $error['message'], $severity, $error['file'], $error['line']
                 );

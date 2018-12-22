@@ -16,8 +16,8 @@ class Gulp extends Plugin
     protected $directory;
     protected $task;
     protected $preferDist;
-    protected $gulp;
     protected $gulpfile;
+    protected $executable;
 
     /**
      * @return string
@@ -36,15 +36,27 @@ class Gulp extends Plugin
 
         $this->directory = $this->getWorkingDirectory($options);
         $this->task      = null;
-        $this->gulp      = $this->findBinary('gulp');
-        $this->gulpfile  = 'gulpfile.js';
+
+        // deprecated compatibility option
+        if (isset($options['gulp']) && !isset($options['executable'])) {
+            $options['executable'] = $options['gulp'];
+        }
+
+        /** @deprecated Option "gulp" deprecated and will be deleted in version 2.0 (Use option "binary_path" and "binary_name" instead)! */
+        if (isset($options['gulp'])) {
+            $this->builder->logWarning(
+                '[DEPRECATED] Option "gulp" deprecated and will be deleted in version 2.0 (Use option "binary_path" and "binary_name" instead)!'
+            );
+
+            $this->executable = $options['gulp'];
+        } else {
+            $this->executable = $this->findBinary('gulp');
+        }
+
+        $this->gulpfile = 'gulpfile.js';
 
         if (isset($options['task'])) {
             $this->task = $options['task'];
-        }
-
-        if (isset($options['gulp'])) {
-            $this->gulp = $options['gulp'];
         }
 
         if (isset($options['gulpfile'])) {
@@ -53,8 +65,8 @@ class Gulp extends Plugin
     }
 
     /**
-    * Executes gulp and runs a specified command (e.g. install / update)
-    */
+     * Executes gulp and runs a specified command (e.g. install / update)
+     */
     public function execute()
     {
         // if npm does not work, we cannot use gulp, so we return false
@@ -64,7 +76,7 @@ class Gulp extends Plugin
         }
 
         // build the gulp command
-        $cmd = 'cd %s && ' . $this->gulp;
+        $cmd = 'cd %s && ' . $this->executable;
         $cmd .= ' --no-color';
         $cmd .= ' --gulpfile %s';
         $cmd .= ' %s'; // the task that will be executed

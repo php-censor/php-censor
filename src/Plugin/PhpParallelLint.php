@@ -9,7 +9,7 @@ use PHPCensor\ZeroConfigPluginInterface;
 
 /**
  * Php Parallel Lint Plugin - Provides access to PHP lint functionality.
- * 
+ *
  * @author Vaclav Makes <vaclav@makes.cz>
  */
 class PhpParallelLint extends Plugin implements ZeroConfigPluginInterface
@@ -33,6 +33,7 @@ class PhpParallelLint extends Plugin implements ZeroConfigPluginInterface
      * @var bool - enable short tags
      */
     protected $shortTag;
+    protected $executable;
 
     /**
      * @return string
@@ -56,11 +57,18 @@ class PhpParallelLint extends Plugin implements ZeroConfigPluginInterface
         $this->ignore     = $this->builder->ignore;
         $this->extensions = 'php';
         $this->shortTag   = false;
+        $this->directory  = $this->getWorkingDirectory($options);
 
-        $this->directory = $this->getWorkingDirectory($options);
+        $this->executable = $this->findBinary('parallel-lint');
 
-        if (isset($options['ignore'])) {
-            $this->ignore = $options['ignore'];
+        // only subdirecty of $this->directory can be ignored, and string must not include root
+        if (array_key_exists('ignore', $options)) {
+            $this->ignore = $this->ignorePathRelativeToDirectory($this->directory, array_merge(
+                $this->builder->ignore,
+                $options['ignore']
+            ));
+        } else {
+            $this->ignore = $this->ignorePathRelativeToDirectory($this->directory, $this->builder->ignore);
         }
 
         if (isset($options['shorttags'])) {
@@ -82,7 +90,7 @@ class PhpParallelLint extends Plugin implements ZeroConfigPluginInterface
      */
     public static function canExecuteOnStage($stage, Build $build)
     {
-        if ($stage == Build::STAGE_TEST) {
+        if (Build::STAGE_TEST == $stage) {
             return true;
         }
 
@@ -90,13 +98,13 @@ class PhpParallelLint extends Plugin implements ZeroConfigPluginInterface
     }
 
     /**
-    * Executes parallel lint
-    */
+     * Executes parallel lint
+     */
     public function execute()
     {
         list($ignore) = $this->getFlags();
 
-        $phplint = $this->findBinary('parallel-lint');
+        $phplint = $this->executable;
 
         $cmd     = $phplint . ' -e %s' . '%s %s "%s"';
         $success = $this->builder->executeCommand(
@@ -125,7 +133,7 @@ class PhpParallelLint extends Plugin implements ZeroConfigPluginInterface
     {
         $ignoreFlags = [];
         foreach ($this->ignore as $ignoreDir) {
-            $ignoreFlags[] = '--exclude "' . $this->builder->buildPath . $ignoreDir . '"';
+            $ignoreFlags[] = '--exclude "' . $ignoreDir . '"';
         }
         $ignore = implode(' ', $ignoreFlags);
 

@@ -33,7 +33,7 @@ class SensiolabsInsight extends Plugin
      * @var int
      */
     protected $allowedWarnings;
-
+    protected $executable;
     /**
      * @return string
      */
@@ -65,6 +65,12 @@ class SensiolabsInsight extends Plugin
         if (array_key_exists('project_uuid', $options)) {
             $this->projectUuid = $options['project_uuid'];
         }
+        
+        if (array_key_exists('executable', $options)) {
+            $this->executable = $this->builder->interpolate($options['executable']);
+        } else {
+            $this->executable = $this->findBinary('insight');
+        }
     }
 
     /**
@@ -74,7 +80,7 @@ class SensiolabsInsight extends Plugin
      */
     public function execute()
     {
-        $insightBinaryPath = $this->findBinary('insight');
+        $insightBinaryPath = $this->executable;
 
         $this->executeSensiolabsInsight($insightBinaryPath);
 

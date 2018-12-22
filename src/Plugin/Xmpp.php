@@ -13,7 +13,6 @@ use PHPCensor\Plugin;
  */
 class XMPP extends Plugin
 {
-    protected $directory;
 
     /**
      * @var string, username of sender account xmpp
@@ -51,6 +50,11 @@ class XMPP extends Plugin
     protected $dateFormat;
 
     /**
+     * @var string
+     */
+    protected $executable;
+
+    /**
      * @return string
      */
     public static function pluginName()
@@ -65,13 +69,15 @@ class XMPP extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        $this->username    = '';
-        $this->password    = '';
-        $this->server      = '';
-        $this->alias       = '';
-        $this->recipients  = [];
-        $this->tls         = false;
+        $this->username   = '';
+        $this->password   = '';
+        $this->server     = '';
+        $this->alias      = '';
+        $this->recipients = [];
+        $this->tls        = false;
         $this->dateFormat = '%c';
+
+        $this->executable = $this->findBinary('sendxmpp');
 
         /*
          * Set recipients list
@@ -94,13 +100,13 @@ class XMPP extends Plugin
     {
         $conf = $this->username;
         if (!empty($this->server)) {
-            $conf .= ';'.$this->server;
+            $conf .= ';' . $this->server;
         }
 
-        $conf .= ' '.$this->password;
+        $conf .= ' ' . $this->password;
 
         if (!empty($this->alias)) {
-            $conf .= ' '.$this->alias;
+            $conf .= ' ' . $this->alias;
         }
 
         return $conf;
@@ -124,16 +130,16 @@ class XMPP extends Plugin
     }
 
     /**
-    * Send notification message.
-    */
+     * Send notification message.
+     */
     public function execute()
     {
-        $sendxmpp = $this->findBinary('sendxmpp');
+        $sendxmpp = $this->executable;
 
         /*
          * Without recipients we can't send notification
          */
-        if (count($this->recipients) == 0) {
+        if (!is_array($this->recipients) || count($this->recipients) == 0) {
             return false;
         }
 
@@ -162,7 +168,7 @@ class XMPP extends Plugin
         /*
          * Send XMPP notification for all recipients
          */
-        $cmd = $sendxmpp . "%s -f %s -m %s %s";
+        $cmd        = $sendxmpp . "%s -f %s -m %s %s";
         $recipients = implode(' ', $this->recipients);
 
         $success = $this->builder->executeCommand($cmd, $tls, $configFile, $messageFile, $recipients);
@@ -172,7 +178,7 @@ class XMPP extends Plugin
         /*
          * Remove temp message file
          */
-        $this->builder->executeCommand("rm -rf ".$messageFile);
+        $this->builder->executeCommand("rm -rf " . $messageFile);
 
         return $success;
     }
@@ -184,12 +190,12 @@ class XMPP extends Plugin
     protected function buildMessage($messageFile)
     {
         if ($this->build->isSuccessful()) {
-            $message = "✔ [".$this->build->getProjectTitle()."] Build #" . $this->build->getId()." successful";
+            $message = "✔ [" . $this->build->getProjectTitle() . "] Build #" . $this->build->getId() . " successful";
         } else {
-            $message = "✘ [".$this->build->getProjectTitle()."] Build #" . $this->build->getId()." failure";
+            $message = "✘ [" . $this->build->getProjectTitle() . "] Build #" . $this->build->getId() . " failure";
         }
 
-        $message .= ' ('.strftime($this->dateFormat).')';
+        $message .= ' (' . strftime($this->dateFormat) . ')';
 
         return file_put_contents($messageFile, $message);
     }

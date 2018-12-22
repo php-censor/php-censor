@@ -18,6 +18,8 @@ Configuration
 * **no_dev** [optional, bool, true|false] - whether Composer should run with the `--no-dev` flag (default: false)
 * **ignore_platform_reqs** [optional, bool, true|false] - whether Composer should run with the `--ignore-platform-reqs` 
 flag (default: false)
+* **binary_name** [string|array, optional] - Allows you to provide a name of the binary
+* **binary_path** [string, optional] - Allows you to provide a path to the binary
 
 ### Examples
 

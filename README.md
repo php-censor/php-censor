@@ -184,7 +184,8 @@ The project config should look something like this:
 ```yml
 setup:
   composer:
-    action: "install"
+    action:    "install"
+    directory: "."
 test:
   php_unit:
     config: "phpunit.xml"

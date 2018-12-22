@@ -20,17 +20,17 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
      * @var string Based on the assumption the root may not hold the code to be
      * tested, extends the build path.
      */
-    protected $path;
+    protected $directory;
 
     /**
      * @var array - paths to ignore
      */
     protected $ignore;
 
-    protected $skipClasses = false;
-    protected $skipMethods = false;
+    protected $skipClasses    = false;
+    protected $skipMethods    = false;
     protected $skipSignatures = false;
-
+    protected $executable;
     /**
      * @var integer
      */
@@ -51,14 +51,28 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
     {
         parent::__construct($builder, $build, $options);
 
-        $this->ignore = $this->builder->ignore;
-        $this->path = '';
         $this->allowedWarnings = 0;
 
         if (isset($options['zero_config']) && $options['zero_config']) {
             $this->allowedWarnings = -1;
         }
 
+        /** @deprecated Option "path" deprecated and will be deleted in version 2.0 (Use option "directory" instead)! */
+        if (isset($options['path']) && !isset($options['directory'])) {
+            $this->builder->logWarning(
+                '[DEPRECATED] Option "path" deprecated and will be deleted in version 2.0 (Use option "directory" instead)!'
+            );
+
+            $options['directory'] = $options['path'];
+        }
+
+        $this->directory = $this->getWorkingDirectory($options);
+
+        if (array_key_exists('ignore', $options)) {
+            $this->ignore = $this->ignorePathRelativeToDirectory($this->directory, array_merge($this->builder->ignore, $options['ignore']));
+        } else {
+            $this->ignore = $this->ignorePathRelativeToDirectory($this->directory, $this->builder->ignore);
+        }
         if (array_key_exists('skip_classes', $options)) {
             $this->skipClasses = true;
         }
@@ -71,13 +85,15 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
             $this->skipSignatures = true;
         }
 
-        if (!empty($options['path'])) {
-            $this->path = $options['path'];
-        }
-
         if (array_key_exists('allowed_warnings', $options)) {
             $this->allowedWarnings = (int)$options['allowed_warnings'];
         }
+
+        $this->executable = $this->findBinary([
+            'phpdoc-checker',
+            'phpdoc-checker.phar',
+        ]);
+
     }
 
     /**
@@ -85,7 +101,7 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
      */
     public static function canExecuteOnStage($stage, Build $build)
     {
-        if ($stage == Build::STAGE_TEST) {
+        if (Build::STAGE_TEST == $stage) {
             return true;
         }
 
@@ -98,14 +114,11 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
     public function execute()
     {
         // Check that the binary exists:
-        $checker = $this->findBinary([
-            'phpdoc-checker',
-            'phpdoc-checker.phar',
-        ]);
+        $checkerCmd = $this->executable;
 
         // Build ignore string:
         $ignore = '';
-        if (count($this->ignore)) {
+        if (is_array($this->ignore)) {
             $ignore = ' --exclude="' . implode(',', $this->ignore) . '"';
         }
 
@@ -124,8 +137,7 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
         }
 
         // Build command string:
-        $path = $this->builder->buildPath . $this->path;
-        $cmd  = $checker . ' --json --directory="%s"%s%s';
+        $cmd = $checkerCmd . ' --json --directory="%s"%s%s';
 
         // Disable exec output logging, as we don't want the XML report in the log:
         $this->builder->logExecOutput(false);
@@ -133,7 +145,7 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
         // Run checker:
         $this->builder->executeCommand(
             $cmd,
-            $path,
+            $this->directory,
             $ignore,
             $add
         );
@@ -145,7 +157,9 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
 
         $errors = 0;
         if ($output && is_array($output)) {
-            $errors  = count($output);
+
+            $errors = count($output);
+            $this->builder->logWarning("Number of error : " . $errors);
 
             $this->reportErrors($output);
         }
@@ -153,7 +167,7 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
 
         $success = true;
 
-        if ($this->allowedWarnings != -1 && $errors > $this->allowedWarnings) {
+        if (-1 != $this->allowedWarnings && $errors > $this->allowedWarnings) {
             $success = false;
         }
 
@@ -169,17 +183,17 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
         foreach ($output as $error) {
             switch ($error['type']) {
                 case 'class':
-                    $message = 'Class ' . $error['class'] . ' is missing a docblock.';
+                    $message  = 'Class ' . $error['class'] . ' is missing a docblock.';
                     $severity = BuildError::SEVERITY_NORMAL;
                     break;
 
                 case 'method':
-                    $message = 'Method ' . $error['class'] . '::' . $error['method'] . ' is missing a docblock.';
+                    $message  = 'Method ' . $error['class'] . '::' . $error['method'] . ' is missing a docblock.';
                     $severity = BuildError::SEVERITY_NORMAL;
                     break;
 
                 case 'param-missing':
-                    $message = $error['class'] . '::' . $error['method'] . ' @param ' . $error['param'] . ' missing.';
+                    $message  = $error['class'] . '::' . $error['method'] . ' @param ' . $error['param'] . ' missing.';
                     $severity = BuildError::SEVERITY_LOW;
                     break;
 
@@ -190,7 +204,7 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
                     break;
 
                 case 'return-missing':
-                    $message = $error['class'] . '::' . $error['method'] . ' @return missing.';
+                    $message  = $error['class'] . '::' . $error['method'] . ' @return missing.';
                     $severity = BuildError::SEVERITY_LOW;
                     break;
 
@@ -201,7 +215,7 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
                     break;
 
                 default:
-                    $message = 'Class ' . $error['class'] . ' invalid/missing a docblock.';
+                    $message  = 'Class ' . $error['class'] . ' invalid/missing a docblock.';
                     $severity = BuildError::SEVERITY_LOW;
                     break;
             }

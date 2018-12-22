@@ -2,8 +2,8 @@
 
 namespace PHPCensor\Plugin;
 
-use PHPCensor\Config;
 use PHPCensor\Builder;
+use PHPCensor\Config;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 use Symfony\Component\Filesystem\Filesystem;
@@ -21,7 +21,7 @@ class Pdepend extends Plugin
      * @var string
      */
     protected $buildDirectory;
-
+    protected $executable;
     /**
      * @var string
      */
@@ -56,7 +56,7 @@ class Pdepend extends Plugin
      * @var string
      */
     protected $buildBranchLocation;
-
+    protected $ignore;
     /**
      * @return string
      */
@@ -73,10 +73,16 @@ class Pdepend extends Plugin
         parent::__construct($builder, $build, $options);
 
         $this->directory = $this->getWorkingDirectory($options);
+        $this->summary   = 'summary.xml';
+        $this->pyramid   = 'pyramid.svg';
+        $this->chart     = 'chart.svg';
+        $this->ignore    = $this->builder->ignore;
 
-        $this->summary = 'summary.xml';
-        $this->pyramid = 'pyramid.svg';
-        $this->chart   = 'chart.svg';
+        if (isset($options['ignore']) && !empty($options['ignore'])) {
+            array_unshift($this->ignore, $options['ignore']);
+        }
+
+        $this->executable = $this->findBinary('pdepend');
 
         $this->buildDirectory       = $build->getBuildDirectory();
         $this->buildBranchDirectory = $build->getBuildBranchDirectory();
@@ -90,7 +96,7 @@ class Pdepend extends Plugin
      */
     public function execute()
     {
-        $allowPublicArtifacts = (bool)Config::getInstance()->get(
+        $allowPublicArtifacts = (bool) Config::getInstance()->get(
             'php-censor.build.allow_public_artifacts',
             true
         );
@@ -108,12 +114,12 @@ class Pdepend extends Plugin
             ));
         }
 
-        $pdepend = $this->findBinary('pdepend');
+        $pdepend = $this->executable;
         $cmd     = $pdepend . ' --summary-xml="%s" --jdepend-chart="%s" --overview-pyramid="%s" %s "%s"';
 
         // If we need to ignore directories
-        if (count($this->builder->ignore)) {
-            $ignore = ' --ignore=' . implode(',', $this->builder->ignore);
+        if (count($this->ignore)) {
+            $ignore = ' --ignore=' . implode(',', $this->ignore);
         } else {
             $ignore = '';
         }

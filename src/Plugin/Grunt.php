@@ -16,7 +16,8 @@ class Grunt extends Plugin
     protected $directory;
     protected $task;
     protected $preferDist;
-    protected $grunt;
+    protected $executable;
+
     protected $gruntfile;
 
     /**
@@ -36,15 +37,26 @@ class Grunt extends Plugin
 
         $this->directory = $this->getWorkingDirectory($options);
         $this->task      = null;
-        $this->grunt     = $this->findBinary('grunt');
+
         $this->gruntfile = 'Gruntfile.js';
 
         if (isset($options['task'])) {
             $this->task = $options['task'];
         }
+        // deprecated compatibility option
+        if (isset($options['grunt']) && !isset($options['executable'])) {
+            $options['executable'] = $options['grunt'];
+        }
 
+        /** @deprecated Option "grunt" deprecated and will be deleted in version 2.0 (Use option "binary_path" and "binary_name" instead)! */
         if (isset($options['grunt'])) {
-            $this->grunt = $options['grunt'];
+            $this->builder->logWarning(
+                '[DEPRECATED] Option "grunt" deprecated and will be deleted in version 2.0 (Use option "binary_path" and "binary_name" instead)!'
+            );
+
+            $this->executable = $options['grunt'];
+        } else {
+            $this->executable = $this->findBinary('grunt');
         }
 
         if (isset($options['gruntfile'])) {
@@ -53,8 +65,8 @@ class Grunt extends Plugin
     }
 
     /**
-    * Executes grunt and runs a specified command (e.g. install / update)
-    */
+     * Executes grunt and runs a specified command (e.g. install / update)
+     */
     public function execute()
     {
         // if npm does not work, we cannot use grunt, so we return false
@@ -64,7 +76,7 @@ class Grunt extends Plugin
         }
 
         // build the grunt command
-        $cmd = 'cd %s && ' . $this->grunt;
+        $cmd = 'cd %s && ' . $this->executable;
         $cmd .= ' --no-color';
         $cmd .= ' --gruntfile %s';
         $cmd .= ' %s'; // the task that will be executed
