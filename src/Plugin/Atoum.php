@@ -12,6 +12,8 @@ use PHPCensor\Plugin;
 class Atoum extends Plugin
 {
     /**
+     * Allows you to provide a path to the Atom binary (defaults to PHP Censor root)
+     *
      * @var string
      */
     protected $executable;
@@ -27,7 +29,8 @@ class Atoum extends Plugin
     protected $config;
 
     /**
-     * @var string
+     *
+     * @var This option lets you specify the tests directory to run.
      */
     protected $directory;
 
@@ -46,13 +49,13 @@ class Atoum extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        $this->directory = $this->getWorkingDirectory($options);
+        $this->directory = $this->builder->directory;
 
-        if (isset($options['executable'])) {
-            $this->executable = $this->builder->buildPath . $options['executable'];
-        } else {
-            $this->executable = $this->findBinary('atoum');
+        if (isset($options['directory']) && !empty($options['directory'])) {
+            $this->directory = $this->getWorkingDirectory($options);
         }
+
+        $this->executable = $this->findBinary('atoum');
 
         if (isset($options['args'])) {
             $this->args = $options['args'];
@@ -72,16 +75,16 @@ class Atoum extends Plugin
     {
         $cmd = $this->executable;
 
-        if ($this->args !== null) {
+        if (null !== $this->args) {
             $cmd .= " {$this->args}";
         }
 
-        if ($this->config !== null) {
+        if (null !== $this->config) {
             $cmd .= " -c '{$this->config}'";
         }
 
-        if ($this->directory !== null) {
-            $cmd .= " -d '{$this->directory}'";
+        if (null !== $this->directory) {
+            $cmd .= " --directories '{$this->directory}'";
         }
 
         chdir($this->builder->buildPath);
@@ -89,7 +92,8 @@ class Atoum extends Plugin
         $status = true;
 
         $this->builder->executeCommand($cmd);
-        $output  = $this->builder->getLastOutput();
+
+        $output = $this->builder->getLastOutput();
 
         if (count(preg_grep("/Success \(/", $output)) == 0) {
             $status = false;

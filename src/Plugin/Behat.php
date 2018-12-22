@@ -14,7 +14,15 @@ use PHPCensor\Plugin;
  */
 class Behat extends Plugin
 {
+
+    /**
+     * @var string
+     */
     protected $features;
+
+    /**
+     * @var string
+     */
     protected $executable;
 
     /**
@@ -32,13 +40,9 @@ class Behat extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        $this->features = '';
+        $this->executable = $this->findBinary('behat');
 
-        if (isset($options['executable'])) {
-            $this->executable = $options['executable'];
-        } else {
-            $this->executable = $this->findBinary('behat');
-        }
+        $this->features = '';
 
         if (!empty($options['features'])) {
             $this->features = $options['features'];
@@ -53,15 +57,13 @@ class Behat extends Plugin
         $currentDir = getcwd();
         chdir($this->builder->buildPath);
 
-        $behat = $this->executable;
-
-        if (!$behat) {
+        if (!$this->executable) {
             $this->builder->logFailure(sprintf('Could not find %s', 'behat'));
 
             return false;
         }
 
-        $success = $this->builder->executeCommand($behat . ' %s', $this->features);
+        $success = $this->builder->executeCommand($this->executable . ' %s', $this->features);
         chdir($currentDir);
 
         list($errorCount, $data) = $this->parseBehatOutput();
@@ -94,7 +96,7 @@ class Behat extends Plugin
 
         foreach ($lines as $line) {
             $line = trim($line);
-            if ($line == 'Failed scenarios:') {
+            if ('Failed scenarios:' == $line) {
                 $storeFailures = true;
                 continue;
             }
@@ -107,7 +109,7 @@ class Behat extends Plugin
                 $lineParts = explode(':', $line);
                 $data[]    = [
                     'file' => $lineParts[0],
-                    'line' => $lineParts[1]
+                    'line' => $lineParts[1],
                 ];
 
                 $this->build->reportError(

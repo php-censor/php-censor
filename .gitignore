@@ -21,3 +21,6 @@
 !/public/artifacts/.gitkeep
 
 /public/.htaccess
+
+/tests/runtime
+!/tests/runtime/.gitkeep

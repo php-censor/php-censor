@@ -18,6 +18,7 @@ class Phing extends Plugin
     protected $targets    = ['build'];
     protected $properties = [];
     protected $propertyFile;
+    protected $executable;
 
     /**
      * @return string
@@ -34,7 +35,10 @@ class Phing extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        $this->directory = $this->getWorkingDirectory($options);
+        $this->directory = $this->builder->directory;
+        if (isset($options['directory']) && !empty($options['directory'])) {
+            $this->directory = $this->getWorkingDirectory($options);
+        }
 
         /*
          * Sen name of a non default build file
@@ -54,6 +58,8 @@ class Phing extends Plugin
         if (isset($options['property_file'])) {
             $this->setPropertyFile($options['property_file']);
         }
+
+        $this->executable = $this->findBinary('phing');
     }
 
     /**
@@ -61,7 +67,7 @@ class Phing extends Plugin
      */
     public function execute()
     {
-        $phingExecutable = $this->findBinary('phing');
+        $phingExecutable = $this->executable;
 
         $cmd[] = $phingExecutable . ' -f ' . $this->getBuildFilePath();
 
