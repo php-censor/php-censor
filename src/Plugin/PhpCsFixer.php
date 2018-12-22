@@ -54,11 +54,7 @@ class PhpCsFixer extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        $this->directory = $this->builder->directory;
-
-        if (isset($options['directory']) && !empty($options['directory'])) {
-            $this->directory = $this->getWorkingDirectory($options);
-        }
+        $this->directory = $this->getWorkingDirectory($options);
 
         if (!empty($options['args'])) {
             $this->args = $options['args'];

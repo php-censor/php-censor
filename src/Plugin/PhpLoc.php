@@ -58,12 +58,8 @@ class PhpLoc extends Plugin implements ZeroConfigPluginInterface
     {
         parent::__construct($builder, $build, $options);
 
-        $this->directory = $this->builder->directory;
-        if (isset($options['directory']) && !empty($options['directory'])) {
-            $this->directory = $this->getWorkingDirectory($options);
-        } else {
-            $this->directory = $this->builder->interpolate('%BUILD_PATH%' . $this->directory);
-        }
+        $this->directory = $this->getWorkingDirectory($options);
+
         // only sub - directory of $this->directory can be ignored, and string must not include root
         if (array_key_exists('ignore', $options)) {
             $this->ignore = $this->ignorePathRelativeToDirectory($this->directory, array_merge($this->builder->ignore, $options['ignore']));

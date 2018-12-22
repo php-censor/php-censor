@@ -72,7 +72,7 @@ class Pdepend extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        $this->directory = $this->builder->directory;
+        $this->directory = $this->getWorkingDirectory($options);
         $this->summary   = 'summary.xml';
         $this->pyramid   = 'pyramid.svg';
         $this->chart     = 'chart.svg';
@@ -80,10 +80,6 @@ class Pdepend extends Plugin
 
         if (isset($options['ignore']) && !empty($options['ignore'])) {
             array_unshift($this->ignore, $options['ignore']);
-        }
-
-        if (isset($options['directory']) && !empty($options['directory'])) {
-            $this->directory = $this->getWorkingDirectory($options);
         }
 
         $this->executable = $this->findBinary('pdepend');

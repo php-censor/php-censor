@@ -49,11 +49,7 @@ class Atoum extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        $this->directory = $this->builder->directory;
-
-        if (isset($options['directory']) && !empty($options['directory'])) {
-            $this->directory = $this->getWorkingDirectory($options);
-        }
+        $this->directory = $this->getWorkingDirectory($options);
 
         $this->executable = $this->findBinary('atoum');
 

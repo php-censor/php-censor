@@ -53,7 +53,6 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
 
         $this->path            = '';
         $this->allowedWarnings = 0;
-        $this->directory       = $this->builder->directory;
 
         if (isset($options['zero_config']) && $options['zero_config']) {
             $this->allowedWarnings = -1;
@@ -75,14 +74,13 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
         if (array_key_exists('skip_signatures', $options)) {
             $this->skipSignatures = true;
         }
+
         // deprecated compatibility option
         if (isset($options['path']) && !isset($options['directory'])) {
             $options['directory'] = $options['path'];
         }
 
-        if (isset($options['directory']) && !empty($options['directory'])) {
-            $this->directory = $this->getWorkingDirectory($options);
-        }
+        $this->directory = $this->getWorkingDirectory($options);
 
         if (array_key_exists('allowed_warnings', $options)) {
             $this->allowedWarnings = (int) $options['allowed_warnings'];

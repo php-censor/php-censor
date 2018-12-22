@@ -37,8 +37,8 @@ class Builder implements LoggerAwareInterface
      * @var string[]
      */
     public $priorityPath = 'local';
+
     /**
-     * Defaut directory for plugins
      * @var string
      */
     public $directory;
@@ -251,7 +251,7 @@ class Builder implements LoggerAwareInterface
                 $this->currentStage = Build::STAGE_FAILURE;
                 $this->pluginExecutor->executePlugins($this->config, Build::STAGE_FAILURE);
 
-                if (Build::STATUS_SUCCESS == $previousState || Build::STATUS_PENDING == $previousState) {
+                if (Build::STATUS_SUCCESS === $previousState || Build::STATUS_PENDING === $previousState) {
                     $this->currentStage = Build::STAGE_BROKEN;
                     $this->pluginExecutor->executePlugins($this->config, Build::STAGE_BROKEN);
                 }
@@ -279,7 +279,7 @@ class Builder implements LoggerAwareInterface
         $this->build->sendStatusPostback();
         $this->build->setFinishDate(new \DateTime());
 
-        $removeBuilds = (bool) Config::getInstance()->get('php-censor.build.remove_builds', true);
+        $removeBuilds = (bool)Config::getInstance()->get('php-censor.build.remove_builds', true);
         if ($removeBuilds) {
             // Clean up:
             $this->buildLogger->log('');
@@ -336,7 +336,7 @@ class Builder implements LoggerAwareInterface
      */
     public function findBinary($binary, $priorityPath = 'local', $binaryPath = '', $binaryName = '')
     {
-        return $this->commandExecutor->findBinary($binary, $priorityPath, $binaryName);
+        return $this->commandExecutor->findBinary($binary, $priorityPath, $binaryPath, $binaryName);
     }
 
     /**
@@ -384,19 +384,29 @@ class Builder implements LoggerAwareInterface
         }
 
         // Does the project have any paths it wants plugins to ignore?
-        if (isset($this->config['build_settings']['ignore'])) {
+        if (!empty($this->config['build_settings']['ignore'])) {
             $this->ignore = $this->config['build_settings']['ignore'];
         }
 
-        if (isset($this->config['build_settings']['binary_path'])) {
+        if (!empty($this->config['build_settings']['binary_path'])) {
             $this->binaryPath = $this->config['build_settings']['binary_path'];
         }
-        if (isset($this->config['build_settings']['priority_path'])) {
+
+        if (
+            !empty($this->config['build_settings']['priority_path']) &&
+            in_array(
+                $this->config['build_settings']['priority_path'],
+                Plugin::AVAILABLE_PRIORITY_PATHS,
+                true
+            )
+        ) {
             $this->priorityPath = $this->config['build_settings']['priority_path'];
         }
 
+        $this->directory = $this->buildPath;
+
         // Does the project have a global directory for plugins ?
-        if (isset($this->config['build_settings']['directory'])) {
+        if (!empty($this->config['build_settings']['directory'])) {
             $this->directory = $this->config['build_settings']['directory'];
         }
 

@@ -45,20 +45,17 @@ class PhpCpd extends Plugin implements ZeroConfigPluginInterface
     {
         parent::__construct($builder, $build, $options);
 
-        $this->directory = $this->builder->directory;
-
         // deprecated compatibility option
         if (isset($options['path']) && !isset($options['directory'])) {
             $options['directory'] = $options['path'];
         }
 
-        if (isset($options['directory']) && !empty($options['directory'])) {
-            $this->directory = $this->getWorkingDirectory($options);
-        }
+        $this->directory = $this->getWorkingDirectory($options);
+
         $this->builder->logDebug('Directory : '.$this->directory);
         $this->executable = $this->findBinary('phpcpd');
 
-        // only subdirecty of $this->directory can be ignored, and string must not include root
+        // only subdirectory of $this->directory can be ignored, and string must not include root
         if (array_key_exists('ignore', $options)) {
             $this->ignore = $this->ignorePathRelativeToDirectory(
                 $this->directory,

@@ -35,10 +35,7 @@ class Phing extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        $this->directory = $this->builder->directory;
-        if (isset($options['directory']) && !empty($options['directory'])) {
-            $this->directory = $this->getWorkingDirectory($options);
-        }
+        $this->directory = $this->getWorkingDirectory($options);
 
         /*
          * Sen name of a non default build file

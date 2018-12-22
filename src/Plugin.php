@@ -14,6 +14,14 @@ abstract class Plugin
     const STATUS_SUCCESS        = 2;
     const STATUS_FAILED         = 3;
     const STATUS_FAILED_ALLOWED = 4;
+
+    const AVAILABLE_PRIORITY_PATHS = [
+        'global',
+        'system',
+        'local',
+        'binary_path'
+    ];
+
     /**
      * @var \PHPCensor\Builder
      */
@@ -47,6 +55,7 @@ abstract class Plugin
      * @var string
      */
     protected $binaryName = '';
+
     /**
      * @param Builder $builder
      * @param Build   $build
@@ -61,14 +70,14 @@ abstract class Plugin
         // Plugin option overwrite builder options for priority_path and binary_path
         if (
             !empty($options['priority_path']) &&
-            in_array($options['priority_path'], ['global', 'system', 'local', 'binary_path'], true)
+            in_array($options['priority_path'], self::AVAILABLE_PRIORITY_PATHS, true)
         ) {
             $this->priorityPath = $options['priority_path'];
         } else {
             $this->priorityPath = $this->builder->priorityPath;
         }
 
-        if (!empty($options['binary_path']) && is_dir($options['binary_path'])) {
+        if (!empty($options['binary_path'])) {
             $this->binaryPath = $options['binary_path'];
         } else {
             $this->binaryPath = $this->builder->binaryPath;
@@ -93,11 +102,12 @@ abstract class Plugin
      */
     protected function getWorkingDirectory(array $options)
     {
-        $directory = $this->builder->buildPath;
+        $directory = $this->builder->directory;
+
         if (!empty($options['directory'])) {
             $relativePath = preg_replace('#^(\./|/)?(.*)$#', '$2', $options['directory']);
             $relativePath = rtrim($relativePath, "\//");
-            $directory .= $relativePath . '/';
+            $directory    .= $relativePath . '/';
         }
 
         return $this->builder->interpolate($directory);
@@ -111,7 +121,8 @@ abstract class Plugin
      *
      * @param string $rootDirectory
      * @param array $list_ignored
-     * @return void
+     *
+     * @return array
      */
     protected function ignorePathRelativeToDirectory($rootDirectory, $list_ignored)
     {
@@ -122,7 +133,7 @@ abstract class Plugin
         }
 
         $newIgnored = [];
-        // only subdirecty of the defined of $this->directory will be ignored.
+        // only subdirectory of the defined of $this->directory will be ignored.
         foreach ($list_ignored as $path_to_ignore) {
             // Get absolute Path of the ignored path
             $absolutePathToIgnore = $this->builder->interpolate('%BUILD_PATH%' . $path_to_ignore);

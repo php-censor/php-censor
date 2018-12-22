@@ -59,14 +59,10 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
         $this->ignore          = $this->builder->ignore;
         $this->rules           = ['codesize', 'unusedcode', 'naming'];
         $this->allowedWarnings = 0;
-        $this->directory       = $this->builder->directory;
+        $this->directory       = $this->getWorkingDirectory($options);
 
         if (isset($options['zero_config']) && $options['zero_config']) {
             $this->allowedWarnings = -1;
-        }
-
-        if (isset($options['directory']) && !empty($options['directory'])) {
-            $this->directory = $this->getWorkingDirectory($options);
         }
 
         if (array_key_exists('allowed_warnings', $options)) {

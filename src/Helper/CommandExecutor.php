@@ -96,7 +96,7 @@ class CommandExecutor implements CommandExecutorInterface
 
             list($lastOutput, $lastError) = $this->readAlternating([$pipes[1], $pipes[2]]);
 
-            $status = proc_close($process);
+            $status = (int)proc_close($process);
 
             $lastOutput = $this->replaceIllegalCharacters($lastOutput);
             $lastError  = $this->replaceIllegalCharacters($lastError);
@@ -105,7 +105,7 @@ class CommandExecutor implements CommandExecutorInterface
         $this->lastOutput = array_filter(explode(PHP_EOL, $lastOutput));
         $this->lastError  = $lastError;
 
-        $shouldOutput = ($this->logExecOutput && ($this->verbose || 0 != $status));
+        $shouldOutput = ($this->logExecOutput && ($this->verbose || 0 !== $status));
 
         if ($shouldOutput && !empty($this->lastOutput)) {
             $this->logger->log($this->lastOutput);
@@ -116,7 +116,7 @@ class CommandExecutor implements CommandExecutorInterface
         }
 
         $rtn = false;
-        if (0 == $status) {
+        if (0 === $status) {
             $rtn = true;
         }
 
@@ -206,16 +206,17 @@ class CommandExecutor implements CommandExecutorInterface
     {
         return $this->lastError;
     }
+
     /**
-     * @param string $composerBin
+     * @param string $binaryPath
      * @param string $binary
      *
      * @return string|false
      */
-    protected function findBinaryPath($binaryPath, $binary)
+    protected function findBinaryByPath($binaryPath, $binary)
     {
         if (is_dir($binaryPath) && is_file($binaryPath . '/' . $binary)) {
-            $this->logger->logDebug(sprintf('Found in %s (binaryPath): %s', $binaryPath, $binary));
+            $this->logger->logDebug(sprintf('Found in %s (binary_path): %s', $binaryPath, $binary));
 
             return $binaryPath . '/' . $binary;
         }
@@ -289,21 +290,28 @@ class CommandExecutor implements CommandExecutorInterface
     public function findBinary($binary, $priorityPath = 'local', $binaryPath = '', $binaryName = '')
     {
         $composerBin = $this->getComposerBinDir(realpath($this->buildPath));
-        //overwrite binary name
-        if ((is_string($binaryName) && strlen($binaryName) > 0)
-            || is_array($binaryName) && count($binaryName) > 0) {
-            $binary = $binaryName;
-        }
+
         if (is_string($binary)) {
             $binary = [$binary];
         }
 
+        //overwrite binary name
+        if ($binaryName) {
+            if (is_string($binaryName)) {
+                $binaryName = [$binaryName];
+            }
+
+            array_unshift($binary, ...$binaryName);
+        }
+
         foreach ($binary as $bin) {
             $this->logger->logDebug(sprintf('Looking for binary: %s, priority = %s', $bin, $priorityPath));
+
             if ('binary_path' === $priorityPath) {
-                if ($binaryPath = $this->findBinaryPath($binaryPath, $bin)) {
-                    return $binaryCustomPath;
+                if ($binaryPath = $this->findBinaryByPath($binaryPath, $bin)) {
+                    return $binaryPath;
                 }
+
                 if ($binarySystem = $this->findBinarySystem($bin)) {
                     return $binarySystem;
                 }
@@ -328,8 +336,8 @@ class CommandExecutor implements CommandExecutorInterface
                     return $binaryGlobal;
                 }
 
-                if ($binaryPath = $this->findBinaryPath($binaryPath, $bin)) {
-                    return $binaryCustomPath;
+                if ($binaryPath = $this->findBinaryByPath($binaryPath, $bin)) {
+                    return $binaryPath;
                 }
             } elseif ('global' === $priorityPath) {
                 if ($binaryGlobal = $this->findBinaryGlobal($bin)) {
@@ -344,8 +352,8 @@ class CommandExecutor implements CommandExecutorInterface
                     return $binarySystem;
                 }
 
-                if ($binaryPath = $this->findBinaryPath($binaryPath, $bin)) {
-                    return $binaryCustomPath;
+                if ($binaryPath = $this->findBinaryByPath($binaryPath, $bin)) {
+                    return $binaryPath;
                 }
             } else {
                 if ($binaryLocal = $this->findBinaryLocal($composerBin, $bin)) {
@@ -360,8 +368,8 @@ class CommandExecutor implements CommandExecutorInterface
                     return $binarySystem;
                 }
 
-                if ($binaryPath = $this->findBinaryPath($binaryPath, $bin)) {
-                    return $binaryCustomPath;
+                if ($binaryPath = $this->findBinaryByPath($binaryPath, $bin)) {
+                    return $binaryPath;
                 }
             }
         }

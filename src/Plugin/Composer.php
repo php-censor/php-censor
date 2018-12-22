@@ -43,11 +43,8 @@ class Composer extends Plugin implements ZeroConfigPluginInterface
         $this->preferSource       = false;
         $this->noDev              = false;
         $this->ignorePlatformReqs = false;
-        $this->directory          = $this->builder->directory;
 
-        if (isset($options['directory']) && !empty($options['directory'])) {
-            $this->directory = $this->getWorkingDirectory($options);
-        }
+        $this->directory = $this->getWorkingDirectory($options);
 
         $this->executable = $this->findBinary(['composer', 'composer.phar']);
 

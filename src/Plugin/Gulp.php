@@ -34,12 +34,8 @@ class Gulp extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        $this->directory = $this->builder->directory;
+        $this->directory = $this->getWorkingDirectory($options);
         $this->task      = null;
-
-        if (isset($options['directory']) && !empty($options['directory'])) {
-            $this->directory = $this->getWorkingDirectory($options);
-        }
 
         // deprecated compatibility option
         if (isset($options['gulp']) && !isset($options['executable'])) {

@@ -100,14 +100,10 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
         $this->tabWidth        = '';
         $this->encoding        = '';
         $this->path            = '';
-        $this->directory       = $this->builder->directory;
+        $this->directory       = $this->getWorkingDirectory($options);
         $this->ignore          = $this->builder->ignore;
         $this->allowedWarnings = 0;
         $this->allowedErrors   = 0;
-
-        if (isset($options['directory']) && !empty($options['directory'])) {
-            $this->directory = $this->getWorkingDirectory($options);
-        }
 
         $this->executable = $this->findBinary('phpcs');
 
