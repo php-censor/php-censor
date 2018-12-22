@@ -33,6 +33,7 @@ class PharTest extends \PHPUnit\Framework\TestCase
 
         $buildPath          = $this->buildSource();
         $builder->buildPath = $buildPath;
+        $builder->directory = $buildPath;
 
         return new PharPlugin($builder, $build, $options);
     }
