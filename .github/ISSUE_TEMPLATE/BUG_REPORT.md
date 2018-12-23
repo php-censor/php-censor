@@ -1,3 +1,13 @@
+---
+
+name: Bug report
+about: Bug report
+title: '[Bug] Bug report'
+labels: ''
+assignees: ''
+
+---
+
 ## Expected behavior
 
 *Please describe what you're expecting to see happen.*
