@@ -1,5 +1,10 @@
 coverage:
-  ignore:
+    round: nearest
+    precision: 0
+
+comment: off
+
+ignore:
     - "app"
     - "docs"
     - "public"
@@ -8,5 +13,3 @@ coverage:
     - "vendor"
     - "src/Migrations"
     - "src/Languages"
-
-comment: off

@@ -1,35 +1,35 @@
 build_settings:
-  ignore:
-    - vendor
-    - tests
+    ignore:
+        - vendor
+        - tests
 
 setup:
-  composer:
-    action: install
+    composer:
+        action: install
 
 test:
-  php_unit:
-    config:
-      - phpunit.xml
-    coverage: true
+    php_unit:
+        config:
+            - phpunit.xml
+        coverage: true
 
-  php_code_sniffer:
-    standard:       PSR2
-    encoding:       UTF-8
-    allow_failures: true
+    php_code_sniffer:
+        standard:       PSR2
+        encoding:       UTF-8
+        allow_failures: true
 
-  php_cpd:
-    allow_failures: true
+    php_cpd:
+        allow_failures: true
 
-  php_loc:
-    allow_failures: true
+    php_loc:
+        allow_failures: true
 
-  php_parallel_lint:
-    allow_failures: true
+    php_parallel_lint:
+        allow_failures: true
 
-  security_checker:
-    allow_failures: false
+    security_checker:
+        allow_failures: false
 
 complete:
-  email:
-    default_mailto_address: poisoncorpsee@gmail.com
+    email:
+        default_mailto_address: poisoncorpsee@gmail.com
