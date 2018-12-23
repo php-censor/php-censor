@@ -80,8 +80,13 @@ use PHPCensor\Helper\Template;
                     </a>
                     &mdash;
                     <?= Lang::get($build->getSourceHumanize()); ?>
+
+                    &mdash;
+                    <?= Lang::get('total_errors'); ?>:
+                    <?= $build->getTotalErrorsCount(); ?>
+
                     <?php if ($newErrorsCount = $build->getNewErrorsCount()): ?>
-                        &mdash;
+                        /
                         <?= Lang::get('new_errors'); ?>:
                         <?= $newErrorsCount; ?>
                     <?php endif; ?>

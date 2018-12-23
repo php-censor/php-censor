@@ -169,7 +169,7 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
      */
     public static function canExecuteOnStage($stage, Build $build)
     {
-        if ($stage == Build::STAGE_TEST) {
+        if (Build::STAGE_TEST === $stage) {
             return true;
         }
 

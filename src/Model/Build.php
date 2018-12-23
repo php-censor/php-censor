@@ -46,9 +46,14 @@ class Build extends BaseBuild
     ];
 
     /**
-     * @var integer
+     * @var int|null
      */
     protected $newErrorsCount = null;
+
+    /**
+     * @var array
+     */
+    protected $totalErrorsCount = [];
 
     /**
      * @var string
@@ -61,7 +66,9 @@ class Build extends BaseBuild
     protected $buildBranchDirectory;
 
     /**
-     * @return Project|null
+     * @return null|Project
+     *
+     * @throws \PHPCensor\Exception\HttpException
      */
     public function getProject()
     {
@@ -170,6 +177,8 @@ class Build extends BaseBuild
 
     /**
      * @return string
+     *
+     * @throws \PHPCensor\Exception\HttpException
      */
     public function getProjectTitle()
     {
@@ -294,6 +303,8 @@ class Build extends BaseBuild
      * @param Builder $builder
      *
      * @return array
+     *
+     * @throws \ReflectionException
      */
     protected function getZeroConfigPlugins(Builder $builder)
     {
@@ -524,6 +535,8 @@ class Build extends BaseBuild
      * Create an SSH key file on disk for this build.
      *
      * @return string
+     *
+     * @throws \PHPCensor\Exception\HttpException
      */
     protected function writeSshKey()
     {
@@ -588,7 +601,9 @@ OUT;
     }
 
     /**
-     * @return integer
+     * @return int
+     *
+     * @throws \Exception
      */
     public function getNewErrorsCount()
     {
@@ -596,9 +611,42 @@ OUT;
             /** @var BuildErrorStore $store */
             $store = Factory::getStore('BuildError');
 
-            $this->newErrorsCount = $store->getNewErrorsCount($this->getId());
+            $this->newErrorsCount = (int)$store->getNewErrorsCount($this->getId());
         }
 
         return $this->newErrorsCount;
+    }
+
+    /**
+     * Gets the total number of errors for a given build.
+     *
+     * @param string|null $plugin
+     * @param int|null    $severity
+     * @param string|null $isNew
+     *
+     * @return int
+     *
+     * @throws \Exception
+     */
+    public function getTotalErrorsCount($plugin = null, $severity = null, $isNew = null)
+    {
+        $key = 
+            $plugin . ':' .
+            ((null === $severity) ? 'null' : (int)$severity) . ':' .
+            $isNew;
+
+        if (!isset($this->totalErrorsCount[$key])) {
+            /** @var BuildErrorStore $store */
+            $store = Factory::getStore('BuildError');
+
+            $this->totalErrorsCount[$key] = (int)$store->getErrorTotalForBuild(
+                $this->getId(),
+                $plugin,
+                $severity,
+                $isNew
+            );
+        }
+
+        return $this->totalErrorsCount[$key];
     }
 }
