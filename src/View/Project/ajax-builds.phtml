@@ -96,6 +96,9 @@ $branches = $build->getExtra('branches');
         <?= $build->getDuration(); ?> <?= Lang::get('seconds'); ?>
     </td>
     <td>
+        <?= $build->getTotalErrorsCount(); ?>
+    </td>
+    <td>
         <?= $build->getNewErrorsCount(); ?>
     </td>
     <td>

@@ -162,7 +162,7 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
      */
     public static function canExecuteOnStage($stage, Build $build)
     {
-        if (Build::STAGE_TEST == $stage) {
+        if (Build::STAGE_TEST === $stage) {
             return true;
         }
 

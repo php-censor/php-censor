@@ -12,7 +12,6 @@ use PHPCensor\Http\Response\RedirectResponse;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\User;
 use PHPCensor\Service\BuildService;
-use PHPCensor\Store\ProjectStore;
 use PHPCensor\WebController;
 use PHPCensor\View;
 use PHPCensor\Store\Factory;
@@ -207,8 +206,8 @@ class BuildController extends WebController
         $errorView->build  = $build;
         $errorView->errors = $errors['items'];
 
-        $data['errors']       = $errorStore->getErrorTotalForBuild($build->getId(), $plugin, $severity, $isNew);
-        $data['errors_total'] = $errorStore->getErrorTotalForBuild($build->getId());
+        $data['errors']       = $build->getTotalErrorsCount($plugin, $severity, $isNew);
+        $data['errors_total'] = $build->getTotalErrorsCount();
         $data['error_html']   = $errorView->render();
 
         return $data;
@@ -342,8 +341,8 @@ class BuildController extends WebController
     {
         $page    = (integer)$this->getParam('page', 1);
         $perPage = (integer)$this->getParam('per_page', 10);
-        $plugin  = $this->getParam('plugin', '');
-        $isNew   = $this->getParam('is_new', '');
+        $plugin  = $this->getParam('plugin', null);
+        $isNew   = $this->getParam('is_new', null);
 
         $severity = $this->getParam('severity', null);
         if (null !== $severity && '' !== $severity) {

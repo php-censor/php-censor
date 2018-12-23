@@ -33,6 +33,10 @@ class PhpParallelLint extends Plugin implements ZeroConfigPluginInterface
      * @var bool - enable short tags
      */
     protected $shortTag;
+
+    /**
+     * @var string
+     */
     protected $executable;
 
     /**
@@ -61,7 +65,7 @@ class PhpParallelLint extends Plugin implements ZeroConfigPluginInterface
 
         $this->executable = $this->findBinary('parallel-lint');
 
-        // only subdirecty of $this->directory can be ignored, and string must not include root
+        // only subdirectory of $this->directory can be ignored, and string must not include root
         if (array_key_exists('ignore', $options)) {
             $this->ignore = $this->ignorePathRelativeToDirectory($this->directory, array_merge(
                 $this->builder->ignore,
@@ -90,7 +94,7 @@ class PhpParallelLint extends Plugin implements ZeroConfigPluginInterface
      */
     public static function canExecuteOnStage($stage, Build $build)
     {
-        if (Build::STAGE_TEST == $stage) {
+        if (Build::STAGE_TEST === $stage) {
             return true;
         }
 

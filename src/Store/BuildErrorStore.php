@@ -69,11 +69,12 @@ class BuildErrorStore extends Store
     /**
      * Get multiple BuildError by BuildId.
      *
-     * @param integer $buildId
-     * @param integer $limit
-     * @param integer $offset
-     * @param string  $plugin
-     * @param integer $severity
+     * @param int         $buildId
+     * @param int|null    $limit
+     * @param int         $offset
+     * @param string|null $plugin
+     * @param int|null    $severity
+     * @param string|null $isNew
      *
      * @return array
      *
@@ -140,12 +141,14 @@ class BuildErrorStore extends Store
     /**
      * Gets the total number of errors for a given build.
      *
-     * @param integer $buildId
-     * @param string  $plugin
-     * @param integer $severity
-     * @param string  $isNew
+     * @param int         $buildId
+     * @param string|null $plugin
+     * @param int|null    $severity
+     * @param string|null $isNew
      *
-     * @return integer
+     * @return int
+     *
+     * @throws \Exception
      */
     public function getErrorTotalForBuild($buildId, $plugin = null, $severity = null, $isNew = null)
     {
@@ -298,9 +301,11 @@ class BuildErrorStore extends Store
     }
 
     /**
-     * @param integer $buildId
+     * @param int $buildId
      *
-     * @return integer
+     * @return int
+     *
+     * @throws \Exception
      */
     public function getNewErrorsCount($buildId)
     {
