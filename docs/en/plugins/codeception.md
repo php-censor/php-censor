@@ -16,8 +16,6 @@ made on line 132 regarding the value of `--xml` being the next argument which wi
 arguments using this config param, you must specify `report.xml` before any user input arguments to satisfy the report 
 processing on line 146.
 * **directory** [string, optional] - The directory in which to run Codeception (defaults to build root.)
-* **path** - **[DEPRECATED]** - Use instead option `output_path`!
-* **output_path** - Optional - The path from the root of your project to the root of the codeception `_output` directory
 * **binary_name** [string|array, optional] - Allows you to provide a name of the binary
 * **binary_path** [string, optional] - Allows you to provide a path to the binary
 

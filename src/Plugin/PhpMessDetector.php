@@ -66,7 +66,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
         }
 
         if (array_key_exists('allowed_warnings', $options)) {
-            $this->allowedWarnings = (int) $options['allowed_warnings'];
+            $this->allowedWarnings = (int)$options['allowed_warnings'];
         }
 
         $this->executable = $this->findBinary('phpmd');
