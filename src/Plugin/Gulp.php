@@ -17,7 +17,6 @@ class Gulp extends Plugin
     protected $task;
     protected $preferDist;
     protected $gulpfile;
-    protected $executable;
 
     /**
      * @return string

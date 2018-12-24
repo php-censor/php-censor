@@ -12,7 +12,6 @@ use PHPCensor\Plugin;
  */
 class PhpSpec extends Plugin
 {
-    protected $executable;
     /**
      * @return string
      */

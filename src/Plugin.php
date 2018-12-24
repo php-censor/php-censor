@@ -40,6 +40,11 @@ abstract class Plugin
     /**
      * @var string
      */
+    protected $executable;
+
+    /**
+     * @var string
+     */
     protected $priorityPath = 'local';
 
     /**

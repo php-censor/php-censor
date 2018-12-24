@@ -14,16 +14,10 @@ use PHPCensor\Plugin;
  */
 class Behat extends Plugin
 {
-
     /**
      * @var string
      */
     protected $features;
-
-    /**
-     * @var string
-     */
-    protected $executable;
 
     /**
      * @return string

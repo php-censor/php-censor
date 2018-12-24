@@ -15,7 +15,6 @@ use PHPCensor\ZeroConfigPluginInterface;
  */
 class Composer extends Plugin implements ZeroConfigPluginInterface
 {
-    protected $executable;
     protected $directory;
     protected $action;
     protected $preferDist;

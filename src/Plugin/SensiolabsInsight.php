@@ -33,7 +33,7 @@ class SensiolabsInsight extends Plugin
      * @var int
      */
     protected $allowedWarnings;
-    protected $executable;
+
     /**
      * @return string
      */

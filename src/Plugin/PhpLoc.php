@@ -19,11 +19,7 @@ class PhpLoc extends Plugin implements ZeroConfigPluginInterface
      * @var string
      */
     protected $directory;
-    /**
-     * @var string
-     */
 
-    protected $executable;
     /**
      * Warning : you can only set subdirectory of $directory
      *

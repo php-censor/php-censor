@@ -18,7 +18,6 @@ class Phing extends Plugin
     protected $targets    = ['build'];
     protected $properties = [];
     protected $propertyFile;
-    protected $executable;
 
     /**
      * @return string

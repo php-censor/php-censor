@@ -12,13 +12,6 @@ use PHPCensor\Plugin;
 class Atoum extends Plugin
 {
     /**
-     * Allows you to provide a path to the Atom binary (defaults to PHP Censor root)
-     *
-     * @var string
-     */
-    protected $executable;
-
-    /**
      * @var string
      */
     protected $args;
@@ -30,7 +23,7 @@ class Atoum extends Plugin
 
     /**
      *
-     * @var This option lets you specify the tests directory to run.
+     * @var string This option lets you specify the tests directory to run.
      */
     protected $directory;
 

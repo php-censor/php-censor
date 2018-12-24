@@ -35,11 +35,6 @@ class PhpParallelLint extends Plugin implements ZeroConfigPluginInterface
     protected $shortTag;
 
     /**
-     * @var string
-     */
-    protected $executable;
-
-    /**
      * @return string
      */
     public static function pluginName()

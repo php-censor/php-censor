@@ -3,6 +3,7 @@
 namespace PHPCensor\Model;
 
 use PHPCensor\Builder;
+use PHPCensor\Plugin\PhpParallelLint;
 use PHPCensor\Store\Factory;
 use PHPCensor\Store\ProjectStore;
 use PHPCensor\Store\BuildErrorStore;
@@ -342,9 +343,15 @@ class Build extends BaseBuild
 
             foreach ([Build::STAGE_SETUP, Build::STAGE_TEST] as $stage) {
                 if ($className::canExecuteOnStage($stage, $this)) {
-                    $config[$stage][$className::pluginName()] = [
-                        'zero_config' => true
+                    $pluginConfig = [
+                        'zero_config' => true,
                     ];
+
+                    if (PhpParallelLint::pluginName() === $className::pluginName()) {
+                        $pluginConfig['allow_failures'] = true;
+                    }
+
+                    $config[$stage][$className::pluginName()] = $pluginConfig;
                 }
             }
         }

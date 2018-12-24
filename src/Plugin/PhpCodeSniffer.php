@@ -17,11 +17,6 @@ use PHPCensor\ZeroConfigPluginInterface;
 class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
 {
     /**
-     * @var string
-     */
-    protected $executable;
-
-    /**
      * @var array
      */
     protected $suffixes;

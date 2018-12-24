@@ -19,13 +19,6 @@ use Symfony\Component\Yaml\Parser as YamlParser;
 class Codeception extends Plugin implements ZeroConfigPluginInterface
 {
     /**
-     * Allows you to provide a path to the codeception binary (defaults to PHP Censor root)
-     *
-     * @var string
-     */
-    protected $executable;
-
-    /**
      * @var string
      */
     protected $directory;
@@ -150,9 +143,10 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
 
         chdir($this->directory);
 
-        $cmd = 'cd "%s" && ' . $codeception . ' run -c "%s" ' . $this->args . ' --xml';
+        $cmd = 'cd "%s" && ' . $codeception . ' run -c "%s" ' . $this->args . ' --xml -vvv';
 
         $success = $this->builder->executeCommand($cmd, $this->directory, $this->ymlConfigFile);
+
         if (!$success) {
             $this->builder->logFailure('Codeception did not return 0');
 

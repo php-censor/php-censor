@@ -17,7 +17,6 @@ use SebastianBergmann\Diff\Parser;
 class PhpCsFixer extends Plugin
 {
     protected $directory = null;
-    protected $executable;
     protected $args = '';
 
     protected $config  = false;

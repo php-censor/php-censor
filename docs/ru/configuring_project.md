@@ -42,6 +42,7 @@
       security_checker:
         allowed_warnings: -1
       php_parallel_lint:
+        allow_failures: true
       php_loc:
       php_cpd:
       codeception:

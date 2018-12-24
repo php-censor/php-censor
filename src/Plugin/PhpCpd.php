@@ -22,10 +22,6 @@ class PhpCpd extends Plugin implements ZeroConfigPluginInterface
     protected $directory;
 
     /**
-     * @var string
-     */
-    protected $executable;
-    /**
      * @var array - paths to ignore
      */
     protected $ignore;

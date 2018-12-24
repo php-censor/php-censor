@@ -42,10 +42,11 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
      */
     protected $buildBranchLocation;
 
-    /** @var PhpUnitOptions*/
+    /**
+     * @var PhpUnitOptions
+     */
     protected $options;
 
-    protected $executable;
     /**
      * @return string
      */

@@ -50,11 +50,6 @@ class XMPP extends Plugin
     protected $dateFormat;
 
     /**
-     * @var string
-     */
-    protected $executable;
-
-    /**
      * @return string
      */
     public static function pluginName()

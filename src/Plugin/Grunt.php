@@ -16,7 +16,6 @@ class Grunt extends Plugin
     protected $directory;
     protected $task;
     protected $preferDist;
-    protected $executable;
 
     protected $gruntfile;
 

@@ -30,7 +30,6 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
     protected $skipClasses    = false;
     protected $skipMethods    = false;
     protected $skipSignatures = false;
-    protected $executable;
     /**
      * @var integer
      */

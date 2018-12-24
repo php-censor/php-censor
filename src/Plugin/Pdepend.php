@@ -21,7 +21,7 @@ class Pdepend extends Plugin
      * @var string
      */
     protected $buildDirectory;
-    protected $executable;
+
     /**
      * @var string
      */
