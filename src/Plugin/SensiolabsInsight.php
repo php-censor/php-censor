@@ -140,9 +140,6 @@ class SensiolabsInsight extends Plugin
     {
         $cmd = $binaryPath . ' -n analyze --reference %s %s --api-token %s --user-uuid %s';
 
-        // Disable exec output logging, as we don't want the XML report in the log:
-        $this->builder->logExecOutput(false);
-
         // Run Sensiolabs Insight:
         $this->builder->executeCommand(
             $cmd,
@@ -161,9 +158,6 @@ class SensiolabsInsight extends Plugin
             $this->apiToken,
             $this->userUuid
         );
-
-        // Re-enable exec output logging:
-        $this->builder->logExecOutput(true);
     }
 
     /**

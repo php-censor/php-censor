@@ -22,7 +22,9 @@ Its activated if you have phpunit.xml file in your build path, `tests/` subfolde
 
 #### Running Tests By Specifying Directory
 
-* **directory** - Optional - The directory (or array of dirs) to run PHPUnit on
+* **directory** - **[DEPRECATED]** - Option `directory` deprecated and will be deleted in version 2.0 (Use option `directories` 
+instead)!
+* **directories** - Optional - The directories (array) to run PHPUnit on.
 
 Both modes accept:
 * **args** - Optional - Command line args (in string format) to pass to PHP Unit
@@ -35,7 +37,8 @@ test:
     php_unit:
         config:
             - "path/to/phpunit.xml"
-        path: "app/tests/"
+        directories:
+            - "app/tests/"
         coverage: true
 ```
 

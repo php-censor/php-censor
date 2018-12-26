@@ -53,7 +53,7 @@ class BuildErrorStore extends Store
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
-        $query = 'SELECT * FROM {{build_error}} WHERE {{id}} = :id LIMIT 1';
+        $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{id}} = :id LIMIT 1';
         $stmt = Database::getConnection($useConnection)->prepareCommon($query);
         $stmt->bindValue(':id', $id);
 
@@ -86,7 +86,7 @@ class BuildErrorStore extends Store
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
-        $query = 'SELECT * FROM {{build_error}} WHERE {{build_id}} = :build_id';
+        $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{build_id}} = :build_id';
         if ($plugin) {
             $query .= ' AND {{plugin}} = :plugin';
         }
@@ -152,7 +152,7 @@ class BuildErrorStore extends Store
      */
     public function getErrorTotalForBuild($buildId, $plugin = null, $severity = null, $isNew = null)
     {
-        $query = 'SELECT COUNT(*) AS {{total}} FROM {{build_error}} WHERE {{build_id}} = :build';
+        $query = 'SELECT COUNT(*) AS {{total}} FROM {{' . $this->tableName . '}} WHERE {{build_id}} = :build';
 
         if ($plugin) {
             $query .= ' AND {{plugin}} = :plugin';
@@ -198,7 +198,7 @@ class BuildErrorStore extends Store
      */
     public function getKnownPlugins($buildId, $severity = null, $isNew = '')
     {
-        $query = 'SELECT DISTINCT {{plugin}} from {{build_error}} WHERE {{build_id}} = :build';
+        $query = 'SELECT DISTINCT {{plugin}} from {{' . $this->tableName . '}} WHERE {{build_id}} = :build';
 
         if (null !== $severity) {
             $query .= ' AND {{severity}} = :severity';
@@ -239,7 +239,7 @@ class BuildErrorStore extends Store
      */
     public function getKnownSeverities($buildId, $plugin = '', $isNew = '')
     {
-        $query = 'SELECT DISTINCT {{severity}} FROM {{build_error}} WHERE {{build_id}} = :build';
+        $query = 'SELECT DISTINCT {{severity}} FROM {{' . $this->tableName . '}} WHERE {{build_id}} = :build';
 
         if ($plugin) {
             $query .= ' AND {{plugin}} = :plugin';
@@ -282,7 +282,7 @@ class BuildErrorStore extends Store
     public function getIsNewError($projectId, $hash)
     {
         $query = '
-            SELECT COUNT(*) AS {{total}} FROM {{build_error}} AS be
+            SELECT COUNT(*) AS {{total}} FROM {{' . $this->tableName . '}} AS be
                 LEFT JOIN {{build}} AS b ON be.build_id = b.id
                 WHERE be.hash = :hash AND b.project_id = :project';
 
@@ -309,7 +309,7 @@ class BuildErrorStore extends Store
      */
     public function getNewErrorsCount($buildId)
     {
-        $query = 'SELECT COUNT(*) AS {{total}} FROM {{build_error}} WHERE {{build_id}} = :build AND {{is_new}} = true';
+        $query = 'SELECT COUNT(*) AS {{total}} FROM {{' . $this->tableName . '}} WHERE {{build_id}} = :build AND {{is_new}} = true';
 
         $stmt = Database::getConnection('read')->prepareCommon($query);
 

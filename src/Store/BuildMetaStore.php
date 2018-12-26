@@ -53,7 +53,7 @@ class BuildMetaStore extends Store
             throw new HttpException('id passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
-        $query = 'SELECT * FROM {{build_meta}} WHERE {{id}} = :id LIMIT 1';
+        $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{id}} = :id LIMIT 1';
         $stmt = Database::getConnection($useConnection)->prepareCommon($query);
         $stmt->bindValue(':id', $id);
 
@@ -84,7 +84,7 @@ class BuildMetaStore extends Store
             throw new HttpException('key passed to ' . __FUNCTION__ . ' cannot be empty.');
         }
 
-        $query = 'SELECT * FROM {{build_meta}} WHERE {{build_id}} = :build_id AND {{meta_key}} = :meta_key LIMIT 1';
+        $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{build_id}} = :build_id AND {{meta_key}} = :meta_key LIMIT 1';
         $stmt = Database::getConnection()->prepareCommon($query);
         $stmt->bindValue(':build_id', $buildId);
         $stmt->bindValue(':meta_key', $key);
@@ -115,7 +115,7 @@ class BuildMetaStore extends Store
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
-        $query = 'SELECT * FROM {{build_meta}} WHERE {{build_id}} = :build_id LIMIT :limit';
+        $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{build_id}} = :build_id LIMIT :limit';
         $stmt = Database::getConnection($useConnection)->prepareCommon($query);
         $stmt->bindValue(':build_id', $buildId);
         $stmt->bindValue(':limit', (int)$limit, \PDO::PARAM_INT);

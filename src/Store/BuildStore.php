@@ -57,7 +57,7 @@ class BuildStore extends Store
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
-        $query = 'SELECT * FROM {{build}} WHERE {{id}} = :id LIMIT 1';
+        $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{id}} = :id LIMIT 1';
         $stmt = Database::getConnection($useConnection)->prepareCommon($query);
         $stmt->bindValue(':id', $id);
 
@@ -87,7 +87,7 @@ class BuildStore extends Store
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
-        $query = 'SELECT * FROM {{build}} WHERE {{project_id}} = :project_id LIMIT :limit';
+        $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{project_id}} = :project_id LIMIT :limit';
         $stmt = Database::getConnection($useConnection)->prepareCommon($query);
         $stmt->bindValue(':project_id', $projectId);
         $stmt->bindValue(':limit', (int)$limit, \PDO::PARAM_INT);
@@ -125,7 +125,7 @@ class BuildStore extends Store
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
-        $query = 'SELECT * FROM {{build}} WHERE {{status}} = :status ORDER BY {{create_date}} ASC LIMIT :limit';
+        $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{status}} = :status ORDER BY {{create_date}} ASC LIMIT :limit';
         $stmt = Database::getConnection($useConnection)->prepareCommon($query);
         $stmt->bindValue(':status', $status);
         $stmt->bindValue(':limit', (int)$limit, \PDO::PARAM_INT);
@@ -154,7 +154,7 @@ class BuildStore extends Store
      */
     public function getBuilds($limit = 5, $offset = 0)
     {
-        $query = 'SELECT * FROM {{build}} ORDER BY {{id}} DESC LIMIT :limit OFFSET :offset';
+        $query = 'SELECT * FROM {{' . $this->tableName . '}} ORDER BY {{id}} DESC LIMIT :limit OFFSET :offset';
         $stmt  = Database::getConnection('read')->prepareCommon($query);
 
         $stmt->bindValue(':limit', $limit, \PDO::PARAM_INT);
@@ -184,7 +184,7 @@ class BuildStore extends Store
      */
     public function getLatestBuildByProjectAndBranch($projectId, $branch)
     {
-        $query = 'SELECT * FROM {{build}} WHERE {{project_id}} = :project_id AND {{branch}} = :branch ORDER BY {{id}} DESC';
+        $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{project_id}} = :project_id AND {{branch}} = :branch ORDER BY {{id}} DESC';
         $stmt  = Database::getConnection('read')->prepareCommon($query);
 
         $stmt->bindValue(':project_id', $projectId);
@@ -212,9 +212,9 @@ class BuildStore extends Store
     public function getLatestBuilds($projectId = null, $limit = 5)
     {
         if (!is_null($projectId)) {
-            $query = 'SELECT * FROM {{build}} WHERE {{project_id}} = :pid ORDER BY {{id}} DESC LIMIT :limit';
+            $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{project_id}} = :pid ORDER BY {{id}} DESC LIMIT :limit';
         } else {
-            $query = 'SELECT * FROM {{build}} ORDER BY {{id}} DESC LIMIT :limit';
+            $query = 'SELECT * FROM {{' . $this->tableName . '}} ORDER BY {{id}} DESC LIMIT :limit';
         }
 
         $stmt = Database::getConnection('read')->prepareCommon($query);
@@ -249,7 +249,7 @@ class BuildStore extends Store
      */
     public function getLastBuildByStatus($projectId = null, $status = Build::STATUS_SUCCESS)
     {
-        $query = 'SELECT * FROM {{build}} WHERE {{project_id}} = :pid AND {{status}} = :status ORDER BY {{id}} DESC LIMIT 1';
+        $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{project_id}} = :pid AND {{status}} = :status ORDER BY {{id}} DESC LIMIT 1';
         $stmt = Database::getConnection('read')->prepareCommon($query);
         $stmt->bindValue(':pid', $projectId);
         $stmt->bindValue(':status', $status);
@@ -289,7 +289,7 @@ class BuildStore extends Store
                 {{extra}},
                 {{environment}},
                 {{tag}}
-            FROM {{build}}
+            FROM {{' . $this->tableName . '}}
             ORDER BY {{id}} DESC
             LIMIT 10000
         ';
@@ -363,7 +363,7 @@ class BuildStore extends Store
      */
     public function getByProjectAndCommit($projectId, $commitId)
     {
-        $query = 'SELECT * FROM {{build}} WHERE {{project_id}} = :project_id AND {{commit_id}} = :commit_id';
+        $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{project_id}} = :project_id AND {{commit_id}} = :commit_id';
         $stmt  = Database::getConnection('read')->prepareCommon($query);
 
         $stmt->bindValue(':project_id', $projectId);
@@ -395,7 +395,7 @@ class BuildStore extends Store
      */
     public function getBuildBranches($projectId)
     {
-        $query = 'SELECT DISTINCT {{branch}} FROM {{build}} WHERE {{project_id}} = :project_id';
+        $query = 'SELECT DISTINCT {{branch}} FROM {{' . $this->tableName . '}} WHERE {{project_id}} = :project_id';
         $stmt = Database::getConnection('read')->prepareCommon($query);
         $stmt->bindValue(':project_id', $projectId);
 
@@ -422,7 +422,7 @@ class BuildStore extends Store
     {
         $query = 'SELECT bm.build_id, bm.meta_key, bm.meta_value
                     FROM {{build_meta}} AS {{bm}}
-                    LEFT JOIN {{build}} AS {{b}} ON b.id = bm.build_id
+                    LEFT JOIN {{' . $this->tableName . '}} AS {{b}} ON b.id = bm.build_id
                     WHERE bm.meta_key = :key AND b.project_id = :projectId';
 
         // If we're getting comparative meta data, include previous builds

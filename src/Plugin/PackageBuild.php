@@ -13,7 +13,6 @@ use PHPCensor\Plugin;
  */
 class PackageBuild extends Plugin
 {
-    protected $directory;
     protected $filename;
     protected $format;
 
@@ -32,10 +31,8 @@ class PackageBuild extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        $this->directory = $this->getWorkingDirectory($options);
-
-        $this->filename  = isset($options['filename']) ? $options['filename'] : 'build';
-        $this->format    = isset($options['format']) ?  $options['format'] : 'zip';
+        $this->filename = isset($options['filename']) ? $options['filename'] : 'build';
+        $this->format   = isset($options['format']) ?  $options['format'] : 'zip';
     }
 
     /**
@@ -46,7 +43,7 @@ class PackageBuild extends Plugin
         $path  = $this->builder->buildPath;
         $build = $this->build;
 
-        if ($this->directory == $path) {
+        if ($this->directory === $path) {
             return false;
         }
 

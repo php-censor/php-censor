@@ -15,16 +15,6 @@ use PHPCensor\ZeroConfigPluginInterface;
 class PhpParallelLint extends Plugin implements ZeroConfigPluginInterface
 {
     /**
-     * @var string
-     */
-    protected $directory;
-
-    /**
-     * @var array - paths to ignore
-     */
-    protected $ignore;
-
-    /**
      * @var string - comma separated list of file extensions
      */
     protected $extensions;
@@ -53,22 +43,10 @@ class PhpParallelLint extends Plugin implements ZeroConfigPluginInterface
     {
         parent::__construct($builder, $build, $options);
 
-        $this->ignore     = $this->builder->ignore;
         $this->extensions = 'php';
         $this->shortTag   = false;
-        $this->directory  = $this->getWorkingDirectory($options);
 
         $this->executable = $this->findBinary('parallel-lint');
-
-        // only subdirectory of $this->directory can be ignored, and string must not include root
-        if (array_key_exists('ignore', $options)) {
-            $this->ignore = $this->ignorePathRelativeToDirectory($this->directory, array_merge(
-                $this->builder->ignore,
-                $options['ignore']
-            ));
-        } else {
-            $this->ignore = $this->ignorePathRelativeToDirectory($this->directory, $this->builder->ignore);
-        }
 
         if (isset($options['shorttags'])) {
             $this->shortTag = $options['shorttags'];
@@ -132,8 +110,9 @@ class PhpParallelLint extends Plugin implements ZeroConfigPluginInterface
     {
         $ignoreFlags = [];
         foreach ($this->ignore as $ignoreDir) {
-            $ignoreFlags[] = '--exclude "' . $ignoreDir . '"';
+            $ignoreFlags[] = sprintf(' --exclude "%s"', $this->builder->buildPath . $ignoreDir);
         }
+
         $ignore = implode(' ', $ignoreFlags);
 
         return [$ignore];

@@ -2,6 +2,7 @@
 
 namespace Tests\PHPCensor\Plugin\Option;
 
+use PHPCensor\Builder;
 use PHPCensor\Plugin\Option\PhpUnitOptions;
 
 /**
@@ -111,10 +112,12 @@ class PhpUnitOptionsTest extends \PHPUnit\Framework\TestCase
             '/location'
         );
 
+        $builder = $this->createMock(Builder::class);
+
         self::assertEquals('/path/to/run/from', $options->getRunFrom());
         self::assertEquals('subTest', $options->getTestsPath());
         self::assertNull($options->getOption('random'));
-        self::assertEmpty($options->getDirectories());
+        self::assertEmpty($options->getDirectories($builder));
         self::assertEmpty($options->getConfigFiles());
 
         $files = $options->getConfigFiles(ROOT_DIR);

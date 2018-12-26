@@ -16,18 +16,6 @@ use PHPCensor\ZeroConfigPluginInterface;
 class PhpLoc extends Plugin implements ZeroConfigPluginInterface
 {
     /**
-     * @var string
-     */
-    protected $directory;
-
-    /**
-     * Warning : you can only set subdirectory of $directory
-     *
-     * @var string
-     */
-    protected $ignore;
-
-    /**
      * @return string
      */
     public static function pluginName()
@@ -54,14 +42,6 @@ class PhpLoc extends Plugin implements ZeroConfigPluginInterface
     {
         parent::__construct($builder, $build, $options);
 
-        $this->directory = $this->getWorkingDirectory($options);
-
-        // only sub - directory of $this->directory can be ignored, and string must not include root
-        if (array_key_exists('ignore', $options)) {
-            $this->ignore = $this->ignorePathRelativeToDirectory($this->directory, array_merge($this->builder->ignore, $options['ignore']));
-        } else {
-            $this->ignore = $this->ignorePathRelativeToDirectory($this->directory, $this->builder->ignore);
-        }
         $this->executable = $this->findBinary('phploc');
     }
 
@@ -73,7 +53,7 @@ class PhpLoc extends Plugin implements ZeroConfigPluginInterface
         $ignore = '';
         if (is_array($this->ignore)) {
             $map = function ($item) {
-                return ' --exclude ' . rtrim($item, '/');
+                return sprintf(' --exclude="%s"', $item);
             };
 
             $ignore = array_map($map, $this->ignore);
@@ -82,7 +62,7 @@ class PhpLoc extends Plugin implements ZeroConfigPluginInterface
 
         $phploc = $this->executable;
 
-        $success = $this->builder->executeCommand($phploc . ' %s "%s"', $ignore, $this->directory);
+        $success = $this->builder->executeCommand('cd "%s" && ' . $phploc . ' %s "%s"', $this->builder->buildPath, $ignore, $this->directory);
         $output  = $this->builder->getLastOutput();
 
         if (preg_match_all('/\((LOC|CLOC|NCLOC|LLOC)\)\s+([0-9]+)/', $output, $matches)) {

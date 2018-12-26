@@ -14,7 +14,9 @@ Configuration
 * **standard** [string, optional] - The standard against which your files should be checked (defaults to PSR2.)
 * **tab_width** [int, optional] - Your chosen tab width.
 * **encoding** [string, optional] - The file encoding you wish to check for.
-* **path** [string, optional] - Path in which to run PHP Code Sniffer.
+* **path** - **[DEPRECATED]** - Option `path` deprecated and will be deleted in version 2.0 (Use option `directory` 
+instead)!
+* **directory** - Optional - directory in which to run PHP Code Sniffer (default: `%BUILD_PATH%`).
 * **ignore** [array, optional] - A list of files / paths to ignore, defaults to the build_settings ignore list.
 * **severity** [int, optional] - Allows to set the minimum severity level
 * **error_severity** [int, optional] - Allows to set the minimum errors severity level
@@ -27,7 +29,7 @@ validation:
 ```yml
 test:
     php_code_sniffer:
-        path: "app"
+        directory: "app"
         ignore:
             - "app/views"
         standard: "PSR1,PSR2"

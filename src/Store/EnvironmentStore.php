@@ -53,7 +53,7 @@ class EnvironmentStore extends Store
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
-        $query = 'SELECT * FROM {{environment}} WHERE {{id}} = :id LIMIT 1';
+        $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{id}} = :id LIMIT 1';
         $stmt = Database::getConnection($useConnection)->prepareCommon($query);
         $stmt->bindValue(':id', $id);
 
@@ -82,7 +82,7 @@ class EnvironmentStore extends Store
             throw new \Exception('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
-        $query = 'SELECT * FROM {{environment}} WHERE {{project_id}} = :project_id';
+        $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{project_id}} = :project_id';
         $stmt  = Database::getConnection($useConnection)->prepareCommon($query);
 
         $stmt->bindValue(':project_id', $projectId);

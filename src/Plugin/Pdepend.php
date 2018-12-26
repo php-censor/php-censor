@@ -28,11 +28,6 @@ class Pdepend extends Plugin
     protected $buildBranchDirectory;
 
     /**
-     * @var string Directory which needs to be scanned
-     */
-    protected $directory;
-
-    /**
      * @var string File where the summary.xml is stored
      */
     protected $summary;
@@ -56,7 +51,7 @@ class Pdepend extends Plugin
      * @var string
      */
     protected $buildBranchLocation;
-    protected $ignore;
+
     /**
      * @return string
      */
@@ -72,15 +67,9 @@ class Pdepend extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        $this->directory = $this->getWorkingDirectory($options);
         $this->summary   = 'summary.xml';
         $this->pyramid   = 'pyramid.svg';
         $this->chart     = 'chart.svg';
-        $this->ignore    = $this->builder->ignore;
-
-        if (isset($options['ignore']) && !empty($options['ignore'])) {
-            array_unshift($this->ignore, $options['ignore']);
-        }
 
         $this->executable = $this->findBinary('pdepend');
 
@@ -115,17 +104,16 @@ class Pdepend extends Plugin
         }
 
         $pdepend = $this->executable;
-        $cmd     = $pdepend . ' --summary-xml="%s" --jdepend-chart="%s" --overview-pyramid="%s" %s "%s"';
+        $cmd     = 'cd "%s" && ' . $pdepend . ' --summary-xml="%s" --jdepend-chart="%s" --overview-pyramid="%s" %s "%s"';
 
-        // If we need to ignore directories
+        $ignore = '';
         if (count($this->ignore)) {
-            $ignore = ' --ignore=' . implode(',', $this->ignore);
-        } else {
-            $ignore = '';
+            $ignore = sprintf(' --ignore="%s"', implode(',', $this->ignore));
         }
 
         $success = $this->builder->executeCommand(
             $cmd,
+            $this->builder->buildPath,
             $this->buildLocation . '/' . $this->summary,
             $this->buildLocation . '/' . $this->chart,
             $this->buildLocation . '/' . $this->pyramid,

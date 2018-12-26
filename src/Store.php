@@ -14,7 +14,7 @@ abstract class Store
     /**
      * @var string
      */
-    protected $tableName = null;
+    protected $tableName = '';
 
     /**
      * @var string
@@ -197,7 +197,7 @@ abstract class Store
             $q = Database::getConnection('write')->prepareCommon($qs);
 
             if ($q->execute($qParams)) {
-                $id  = Database::getConnection('write')->lastInsertIdExtended($obj->getTableName());
+                $id  = Database::getConnection('write')->lastInsertIdExtended($this->tableName);
                 $rtn = $this->getByPrimaryKey($id, 'write');
             }
         }

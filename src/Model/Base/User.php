@@ -7,11 +7,6 @@ use PHPCensor\Model;
 class User extends Model
 {
     /**
-     * @var string
-     */
-    protected $tableName = 'user';
-
-    /**
      * @var array
      */
     protected $data = [

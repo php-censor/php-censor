@@ -16,19 +16,34 @@ class CopyBuildTest extends \PHPUnit\Framework\TestCase
 
     protected function tearDown()
     {
-        $this->cleanSource();
+        parent::tearDown();
+
+        foreach ($this->directories as $directory) {
+            if ($directory) {
+                $filenames = [
+                    'tree/four.php',
+                    'tree',
+                    '.two.yml',
+                    'one.php',
+                ];
+
+                foreach ($filenames as $filename) {
+                    if (is_dir($directory . $filename)) {
+                        @rmdir($directory . $filename);
+                    } else if (is_file($directory . $filename)) {
+                        @unlink($directory . $filename);
+                    }
+                }
+
+                @rmdir($directory);
+            }
+        }
     }
-
-    protected function buildTemp()
+    
+    protected function setUp()
     {
-        $directory = tempnam(ROOT_DIR . 'tests/runtime/', 'copy_build_test_');
-        @unlink($directory);
+        parent::setUp();
 
-        return $directory . '/';
-    }
-
-    protected function buildSource()
-    {
         $directory = $this->buildTemp();
 
         mkdir($directory);
@@ -42,8 +57,14 @@ class CopyBuildTest extends \PHPUnit\Framework\TestCase
 
         $this->directories[] = $directory;
         $this->buildPath     = $directory;
+    }
 
-        return $directory;
+    protected function buildTemp()
+    {
+        $directory = tempnam(ROOT_DIR . 'tests/runtime/', 'copy_build_test_');
+        @unlink($directory);
+
+        return $directory . '/';
     }
 
     protected function getPlugin(array $options = [])
@@ -81,35 +102,10 @@ class CopyBuildTest extends \PHPUnit\Framework\TestCase
                 return $executor->executeCommand($args);
             });
 
-        $buildPath          = $this->buildSource();
-        $builder->buildPath = $buildPath;
-        $builder->directory = $buildPath;
+        $builder->buildPath = $this->buildPath;
+        $builder->directory = $this->buildPath;
 
         return new CopyBuild($builder, $build, $options);
-    }
-
-    protected function cleanSource()
-    {
-        foreach ($this->directories as $directory) {
-            if ($directory) {
-                $filenames = [
-                    'tree/four.php',
-                    'tree',
-                    '.two.yml',
-                    'one.php',
-                ];
-
-                foreach ($filenames as $filename) {
-                    if (is_dir($directory . $filename)) {
-                        @rmdir($directory . $filename);
-                    } else if (is_file($directory . $filename)) {
-                        @unlink($directory . $filename);
-                    }
-                }
-
-                @rmdir($directory);
-            }
-        }
     }
 
     public function testExecuteAbsolute()

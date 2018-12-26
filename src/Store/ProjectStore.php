@@ -56,7 +56,7 @@ class ProjectStore extends Store
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
-        $query = 'SELECT * FROM {{project}} WHERE {{id}} = :id LIMIT 1';
+        $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{id}} = :id LIMIT 1';
         $stmt = Database::getConnection($useConnection)->prepareCommon($query);
         $stmt->bindValue(':id', $id);
 
@@ -85,7 +85,7 @@ class ProjectStore extends Store
             throw new HttpException('Values passed to ' . __FUNCTION__ . ' cannot be empty.');
         }
 
-        $query = 'SELECT * FROM {{project}} WHERE {{id}} IN ('.implode(', ', array_map('intval', $values)).')';
+        $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{id}} IN ('.implode(', ', array_map('intval', $values)).')';
         $stmt = Database::getConnection($useConnection)->prepareCommon($query);
 
         $rtn = [];
@@ -116,7 +116,7 @@ class ProjectStore extends Store
         }
 
 
-        $query = 'SELECT * FROM {{project}} WHERE {{title}} = :title LIMIT :limit';
+        $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{title}} = :title LIMIT :limit';
         $stmt = Database::getConnection($useConnection)->prepareCommon($query);
         $stmt->bindValue(':title', $title);
         $stmt->bindValue(':limit', (int)$limit, \PDO::PARAM_INT);
@@ -175,7 +175,7 @@ class ProjectStore extends Store
     {
         $archived = (integer)$archived;
 
-        $query = 'SELECT * FROM {{project}} WHERE {{archived}} = :archived ORDER BY {{title}} ASC';
+        $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{archived}} = :archived ORDER BY {{title}} ASC';
         $stmt  = Database::getConnection('read')->prepareCommon($query);
 
         $stmt->bindValue(':archived', $archived);
@@ -216,7 +216,7 @@ class ProjectStore extends Store
         }
         $archived = (integer)$archived;
 
-        $query = 'SELECT * FROM {{project}} WHERE {{group_id}} = :group_id AND {{archived}} = :archived ORDER BY {{title}} LIMIT :limit';
+        $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{group_id}} = :group_id AND {{archived}} = :archived ORDER BY {{title}} LIMIT :limit';
         $stmt  = Database::getConnection($useConnection)->prepareCommon($query);
 
         $stmt->bindValue(':group_id', $groupId);

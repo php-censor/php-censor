@@ -17,11 +17,6 @@ class Model
     protected $modified = [];
 
     /**
-     * @var string
-     */
-    protected $tableName;
-
-    /**
      * @param array $initialData
      *
      * @throws InvalidArgumentException
@@ -41,14 +36,6 @@ class Model
                 $this->data[$index] = $item;
             }
         }
-    }
-
-    /**
-     * @return string
-     */
-    public function getTableName()
-    {
-        return $this->tableName;
     }
 
     /**

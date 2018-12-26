@@ -16,7 +16,6 @@ use SebastianBergmann\Diff\Parser;
  */
 class PhpCsFixer extends Plugin
 {
-    protected $directory = null;
     protected $args = '';
 
     protected $config  = false;
@@ -52,8 +51,6 @@ class PhpCsFixer extends Plugin
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
         parent::__construct($builder, $build, $options);
-
-        $this->directory = $this->getWorkingDirectory($options);
 
         if (!empty($options['args'])) {
             $this->args = $options['args'];

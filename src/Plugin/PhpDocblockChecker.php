@@ -16,17 +16,6 @@ use PHPCensor\ZeroConfigPluginInterface;
  */
 class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
 {
-    /**
-     * @var string Based on the assumption the root may not hold the code to be
-     * tested, extends the build path.
-     */
-    protected $directory;
-
-    /**
-     * @var array - paths to ignore
-     */
-    protected $ignore;
-
     protected $skipClasses    = false;
     protected $skipMethods    = false;
     protected $skipSignatures = false;
@@ -56,22 +45,6 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
             $this->allowedWarnings = -1;
         }
 
-        /** @deprecated Option "path" deprecated and will be deleted in version 2.0 (Use option "directory" instead)! */
-        if (isset($options['path']) && !isset($options['directory'])) {
-            $this->builder->logWarning(
-                '[DEPRECATED] Option "path" deprecated and will be deleted in version 2.0 (Use option "directory" instead)!'
-            );
-
-            $options['directory'] = $options['path'];
-        }
-
-        $this->directory = $this->getWorkingDirectory($options);
-
-        if (array_key_exists('ignore', $options)) {
-            $this->ignore = $this->ignorePathRelativeToDirectory($this->directory, array_merge($this->builder->ignore, $options['ignore']));
-        } else {
-            $this->ignore = $this->ignorePathRelativeToDirectory($this->directory, $this->builder->ignore);
-        }
         if (array_key_exists('skip_classes', $options)) {
             $this->skipClasses = true;
         }
@@ -112,13 +85,16 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
      */
     public function execute()
     {
+        $currentDir = getcwd();
+        chdir($this->builder->buildPath);
+
         // Check that the binary exists:
         $checkerCmd = $this->executable;
 
         // Build ignore string:
         $ignore = '';
         if (is_array($this->ignore)) {
-            $ignore = ' --exclude="' . implode(',', $this->ignore) . '"';
+            $ignore = sprintf(' --exclude="%s"', implode(',', $this->ignore));
         }
 
         // Are we skipping any checks?
@@ -138,9 +114,6 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
         // Build command string:
         $cmd = $checkerCmd . ' --json --directory="%s"%s%s';
 
-        // Disable exec output logging, as we don't want the XML report in the log:
-        $this->builder->logExecOutput(false);
-
         // Run checker:
         $this->builder->executeCommand(
             $cmd,
@@ -148,9 +121,8 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
             $ignore,
             $add
         );
-
-        // Re-enable exec output logging:
-        $this->builder->logExecOutput(true);
+        
+        chdir($currentDir);
 
         $output = json_decode($this->builder->getLastOutput(), true);
 

@@ -2,6 +2,7 @@
 
 namespace PHPCensor\Plugin\Option;
 
+use PHPCensor\Builder;
 use PHPCensor\Config;
 
 /**
@@ -170,11 +171,22 @@ class PhpUnitOptions
     /**
      * Get the list of directory to run phpunit in
      *
+     * @param Builder $builder
+     *
      * @return string[] List of directories
      */
-    public function getDirectories()
+    public function getDirectories(Builder $builder)
     {
-        $directories = $this->getOption('directory');
+        /** @deprecated Option "directory" deprecated and will be deleted in version 2.0 (Use option "directories" instead)! */
+        if (!empty($this->options['directory']) && empty($this->options['directories'])) {
+            $builder->logWarning(
+                '[DEPRECATED] Option "path" deprecated and will be deleted in version 2.0 (Use option "directory" instead)!'
+            );
+
+            $this->options['directories'] = $this->options['directory'];
+        }
+
+        $directories = $this->getOption('directories');
 
         if (is_string($directories)) {
             $directories = [$directories];

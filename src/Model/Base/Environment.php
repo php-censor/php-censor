@@ -7,11 +7,6 @@ use PHPCensor\Model;
 class Environment extends Model
 {
     /**
-     * @var string
-     */
-    protected $tableName = 'environment';
-
-    /**
      * @var array
      */
     protected $data = [

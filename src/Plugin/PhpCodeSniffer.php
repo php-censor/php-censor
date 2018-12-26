@@ -24,11 +24,6 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
     /**
      * @var string
      */
-    protected $directory;
-
-    /**
-     * @var string
-     */
     protected $standard;
 
     /**
@@ -50,16 +45,6 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
      * @var int
      */
     protected $allowedWarnings;
-
-    /**
-     * @var string, based on the assumption the root may not hold the code to be tested, extends the base path
-     */
-    protected $path;
-
-    /**
-     * @var array - paths to ignore
-     */
-    protected $ignore;
 
     /**
      * @var int
@@ -94,9 +79,6 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
         $this->standard        = 'PSR2';
         $this->tabWidth        = '';
         $this->encoding        = '';
-        $this->path            = '';
-        $this->directory       = $this->getWorkingDirectory($options);
-        $this->ignore          = $this->builder->ignore;
         $this->allowedWarnings = 0;
         $this->allowedErrors   = 0;
 
@@ -127,16 +109,8 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
             $this->encoding = ' --encoding=' . $options['encoding'];
         }
 
-        if (!empty($options['ignore'])) {
-            array_unshift($this->ignore, $options['ignore']);
-        }
-
         if (!empty($options['standard'])) {
             $this->standard = $options['standard'];
-        }
-
-        if (!empty($options['path'])) {
-            $this->path = $options['path'];
         }
 
         if (isset($options['severity']) && is_int($options['severity'])) {
@@ -173,17 +147,16 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
 
         $phpcs = $this->executable;
 
-        $this->builder->logExecOutput(false);
-
-        $cmd = $phpcs . ' --report=json %s %s %s %s %s "%s" %s %s %s';
+        $cmd = 'cd "%s" && ' . $phpcs . ' --report=json %s %s %s %s %s "%s" %s %s %s';
         $this->builder->executeCommand(
             $cmd,
+            $this->builder->buildPath,
             $standard,
             $suffixes,
             $ignore,
             $this->tabWidth,
             $this->encoding,
-            $this->builder->buildPath . $this->path,
+            $this->directory,
             $severity,
             $errorSeverity,
             $warningSeverity
@@ -191,8 +164,6 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
 
         $output                  = $this->builder->getLastOutput();
         list($errors, $warnings) = $this->processReport($output);
-
-        $this->builder->logExecOutput(true);
 
         $success = true;
         $this->build->storeMeta((self::pluginName() . '-warnings'), $warnings);
@@ -217,7 +188,7 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
     {
         $ignore = '';
         if (count($this->ignore)) {
-            $ignore = ' --ignore=' . implode(',', $this->ignore);
+            $ignore = sprintf(' --ignore="%s"', implode(',', $this->ignore));
         }
 
         if (strpos($this->standard, '/') !== false) {

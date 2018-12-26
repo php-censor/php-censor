@@ -3,6 +3,7 @@
 namespace PHPCensor;
 
 use PHPCensor\Model\Build;
+use PHPCensor\Plugin\Codeception;
 
 /**
  * @author Dan Cryer <dan@block8.co.uk>
@@ -40,6 +41,16 @@ abstract class Plugin
     /**
      * @var string
      */
+    protected $directory;
+
+    /**
+     * @var string[]
+     */
+    protected $ignore;
+
+    /**
+     * @var string
+     */
     protected $executable;
 
     /**
@@ -57,9 +68,9 @@ abstract class Plugin
     /**
      * Manual set the binary name
      *
-     * @var string
+     * @var array
      */
-    protected $binaryName = '';
+    protected $binaryName = [];
 
     /**
      * @param Builder $builder
@@ -72,6 +83,10 @@ abstract class Plugin
         $this->build   = $build;
         $this->options = $options;
 
+        $this->directory  = $this->normalizeDirectory();
+        $this->binaryPath = $this->normalizeBinaryPath();
+        $this->ignore     = $this->normalizeIgnore();
+
         // Plugin option overwrite builder options for priority_path and binary_path
         if (
             !empty($options['priority_path']) &&
@@ -82,73 +97,129 @@ abstract class Plugin
             $this->priorityPath = $this->builder->priorityPath;
         }
 
-        if (!empty($options['binary_path'])) {
-            $this->binaryPath = $options['binary_path'];
-        } else {
-            $this->binaryPath = $this->builder->binaryPath;
-        }
-
-        //allow %BUILD_PATH% and other replacements for the directory
-        $this->binaryPath = $this->builder->interpolate($this->binaryPath);
-
         if (!empty($options['binary_name'])) {
-            $this->binaryName = $options['binary_name'];
+            if (is_array($options['binary_name'])) {
+                $this->binaryName = $options['binary_name'];
+            } else {
+                $this->binaryName = [(string)$options['binary_name']];
+            }
         }
 
         $this->builder->logDebug('Plugin options: ' . json_encode($options));
     }
 
     /**
-     * add an ending / and remove the starting /
-     *
-     * @param array $options
-     *
      * @return string
      */
-    protected function getWorkingDirectory(array $options)
+    protected function normalizeBinaryPath()
     {
-        $directory = $this->builder->directory;
+        $binaryPath = '';
+        if (!empty($this->options['binary_path'])) {
+            $optionBinaryPath = $this->builder->interpolate($this->options['binary_path']);
 
-        if (!empty($options['directory'])) {
-            $directory = $options['directory'];
+            if ('/' !== substr($optionBinaryPath, 0, 1)) {
+                $binaryPath = $this->builder->binaryPath;
+            }
+
+            $binaryPath .= $optionBinaryPath;
+        } else {
+            $binaryPath = $this->builder->binaryPath;
         }
 
-        return rtrim($this->builder->interpolate($directory), '/\\') . '/';
+        $realPath = realpath($binaryPath);
+
+        return (false !== $realPath)
+            ? rtrim($realPath, '/\\') . '/'
+            : rtrim(
+                str_replace('//', '/',
+                    str_replace('/./', '/',$binaryPath)
+                ), '/\\') . '/';
     }
 
     /**
-     * ignorePathRelativeToDirectory
-     *
-     * Ignore is not managed globaly like binary_path
-     * the usage is different per plugin
-     *
-     * @param string $rootDirectory
-     * @param array $list_ignored
-     *
+     * @return string
+     */
+    protected function normalizeDirectory()
+    {
+        if (!empty($this->options['directory']) && is_array($this->options['directory'])) {
+            return $this->builder->directory;
+        }
+
+        /** @deprecated Option "path" deprecated and will be deleted in version 2.0 (Use option "directory" instead)! */
+        if (
+            !empty($this->options['path']) &&
+            empty($this->options['directory']) &&
+            Codeception::pluginName() !== static::pluginName()
+        ) {
+            $this->builder->logWarning(
+                '[DEPRECATED] Option "path" deprecated and will be deleted in version 2.0 (Use option "directory" instead)!'
+            );
+
+            $this->options['directory'] = $this->options['path'];
+        }
+
+        $directory = '';
+        if (!empty($this->options['directory'])) {
+            $optionDirectory = $this->builder->interpolate($this->options['directory']);
+
+            if ('/' !== substr($optionDirectory, 0, 1)) {
+                $directory = $this->builder->directory;
+            }
+
+            $directory .= $optionDirectory;
+        } else {
+            $directory = $this->builder->directory;
+        }
+
+        $realPath = realpath($directory);
+
+        $finalDirectory = (false !== $realPath)
+            ? rtrim($realPath, '/\\') . '/'
+            : rtrim(
+                str_replace('//', '/',
+                    str_replace('/./', '/',$directory)
+            ), '/\\') . '/';
+
+        $this->builder->logDebug('Directory: ' . $finalDirectory);
+
+        return $finalDirectory;
+    }
+
+    /**
      * @return array
      */
-    protected function ignorePathRelativeToDirectory($rootDirectory, $list_ignored)
+    protected function normalizeIgnore()
     {
-        $rootDirectory = preg_replace('{^\./}', '', $rootDirectory, -1, $count);
-        $rootDirectory = rtrim($rootDirectory, "/") . '/';
-        if ('/' != $rootDirectory[0]) {
-            $rootDirectory = $this->builder->interpolate('%BUILD_PATH%' . $rootDirectory);
+        $ignore = $this->builder->ignore;
+
+        if (!empty($this->options['ignore'])) {
+            $ignore = array_merge($ignore, $this->options['ignore']);
         }
 
-        $newIgnored = [];
-        // only subdirectory of the defined of $this->directory will be ignored.
-        foreach ($list_ignored as $path_to_ignore) {
-            // Get absolute Path of the ignored path
-            $absolutePathToIgnore = $this->builder->interpolate('%BUILD_PATH%' . $path_to_ignore);
-            // We cut ou current directory to have the same size
-            $rootInIgnore = substr($absolutePathToIgnore, 0, strlen($rootDirectory));
-            if (strcmp($rootDirectory, $rootInIgnore) == 0) {
-                //we take the right part to have the relative
-                $newIgnored[] = substr($absolutePathToIgnore, strlen($rootInIgnore));
+        $baseDirectory = $this->builder->buildPath;
+
+        array_walk($ignore, function (&$value) use ($baseDirectory) {
+            $value = $this->builder->interpolate($value);
+
+            if ('/' !== substr($value, 0, 1)) {
+                $value = $baseDirectory . $value;
             }
-        }
 
-        return $newIgnored;
+            clearstatcache(true);
+            $realPath = realpath($value);
+
+            $value = (false !== $realPath)
+                ? $realPath
+                : $value;
+
+            $value = str_replace("/./", '/', $value);
+            $value = rtrim(
+                str_replace('//', '/',
+                    str_replace($baseDirectory, '', $value)
+            ), '/\\');
+        });
+
+        return array_unique($ignore);
     }
 
     /**
