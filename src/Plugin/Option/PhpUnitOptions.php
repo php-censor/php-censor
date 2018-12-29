@@ -171,21 +171,10 @@ class PhpUnitOptions
     /**
      * Get the list of directory to run phpunit in
      *
-     * @param Builder $builder
-     *
      * @return string[] List of directories
      */
-    public function getDirectories(Builder $builder)
+    public function getDirectories()
     {
-        /** @deprecated Option "directory" is deprecated and will be deleted in version 2.0. Use the option "directories" instead. */
-        if (!empty($this->options['directory']) && empty($this->options['directories'])) {
-            $builder->logWarning(
-                '[DEPRECATED] Option "path" is deprecated and will be deleted in version 2.0. Use the option "directory" instead.'
-            );
-
-            $this->options['directories'] = $this->options['directory'];
-        }
-
         $directories = $this->getOption('directories');
 
         if (is_string($directories)) {

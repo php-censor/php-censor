@@ -16,8 +16,6 @@ Configuration
 * **standard** [string, optional] - The standard against which your files should be checked (defaults to PSR2).
 * **tab_width** [int, optional] - Your chosen tab width.
 * **encoding** [string, optional] - The file encoding you wish to check for.
-* **path** - **[DEPRECATED]** Option `path` is deprecated and will be deleted in version 2.0. Use the option 
-`directory` instead.
 * **severity** [int, optional] - Allows to set the minimum severity level.
 * **error_severity** [int, optional] - Allows to set the minimum errors severity level.
 * **warning_severity** [int, optional] - Allows to set the minimum warnings severity level.

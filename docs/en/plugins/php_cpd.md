@@ -6,11 +6,6 @@ Runs PHP Copy/Paste Detector against your build.
 Configuration
 -------------
 
-### Options
-
-* **path** - **[DEPRECATED]** Option `path` is deprecated and will be deleted in version 2.0. Use the option 
-`directory` instead.
-
 ### Examples
 
 ```yaml

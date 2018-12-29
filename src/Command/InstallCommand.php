@@ -72,13 +72,6 @@ class InstallCommand extends Command
             )
             ->addOption('admin-email', null, InputOption::VALUE_OPTIONAL, 'Admin email')
             ->addOption(
-                'queue-use',
-                null,
-                InputOption::VALUE_OPTIONAL,
-                'Don\'t ask for queue details',
-                true
-            )
-            ->addOption(
                 'queue-host',
                 null,
                 InputOption::VALUE_OPTIONAL,
@@ -191,11 +184,10 @@ class InstallCommand extends Command
         $output->writeln('Checking requirements...');
         $errors = false;
 
-        if (!(version_compare(PHP_VERSION, '5.6.0') >= 0)) {
+        if (!(version_compare(PHP_VERSION, '7.1.0') >= 0)) {
             $output->writeln('');
             $output->writeln(
-                '<error>PHP Censor requires at least PHP 5.6.0! Installed PHP ' . PHP_VERSION . '</error>'
-            );
+                '<error>PHP Censor requires at least PHP 7.1.0! Installed PHP ' . PHP_VERSION . '</error>');
             $errors = true;
         }
 
@@ -209,7 +201,7 @@ class InstallCommand extends Command
             }
         }
 
-        $requiredFunctions = ['exec', 'shell_exec', 'proc_open', 'password_hash'];
+        $requiredFunctions = ['exec', 'shell_exec', 'proc_open'];
 
         foreach ($requiredFunctions as $function) {
             if (!function_exists($function)) {
@@ -371,24 +363,11 @@ class InstallCommand extends Command
      */
     protected function getQueueInformation(InputInterface $input, OutputInterface $output)
     {
-        $skipQueueConfig = [
-            'use_queue' => false,
-            'host'      => null,
-            'port'      => Pheanstalk::DEFAULT_PORT,
-            'name'      => null,
-            'lifetime'  => 600,
-        ];
-
-        if (!$input->getOption('queue-use')) {
-            return $skipQueueConfig;
-        }
-
         $queueConfig = [
-            'use_queue' => true,
-            'host'      => null,
-            'port'      => Pheanstalk::DEFAULT_PORT,
-            'name'      => null,
-            'lifetime'  => 600,
+            'host'     => null,
+            'port'     => Pheanstalk::DEFAULT_PORT,
+            'name'     => null,
+            'lifetime' => 600,
         ];
 
         $queueConfig['host'] = $input->getOption('queue-host');
@@ -399,14 +378,7 @@ class InstallCommand extends Command
 
         if (!$queueConfig['host'] && !$queueConfig['name']) {
             /** @var $helper QuestionHelper */
-            $helper   = $this->getHelper('question');
-            $question = new ConfirmationQuestion('Use beanstalkd to manage build queue? ', false);
-
-            if (!$helper->ask($input, $output, $question)) {
-                $output->writeln('<error>Skipping beanstalkd configuration.</error>');
-
-                return $skipQueueConfig;
-            }
+            $helper = $this->getHelper('question');
 
             $questionQueue = new Question(
                 'Enter your queue hostname (default: "localhost"): ',

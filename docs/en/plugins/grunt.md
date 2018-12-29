@@ -8,8 +8,6 @@ Configuration
 
 ### Options
 
-* **grunt** - **[DEPRECATED]** Option `grunt` is deprecated and will be deleted in version 2.0. Use the options 
-`binary_path` and `binary_name` instead.
 * **gruntfile** [string, optional] - Gruntfile to run (defaults to `Gruntfile.js`).
 * **task** [string, optional] - The Grunt task to run.
 

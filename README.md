@@ -133,7 +133,6 @@ cd ./php-censor.local
     --admin-name=admin \
     --admin-password=admin \
     --admin-email='admin@php-censor.local' \
-    --queue-use=1 \
     --queue-host=localhost \
     --queue-port=11300 \
     --queue-name=php-censor

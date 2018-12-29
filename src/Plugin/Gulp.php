@@ -38,16 +38,7 @@ class Gulp extends Plugin
             $options['executable'] = $options['gulp'];
         }
 
-        /** @deprecated Option "gulp" is deprecated and will be deleted in version 2.0. Use the option "binary_path" and "binary_name" instead. */
-        if (isset($options['gulp'])) {
-            $this->builder->logWarning(
-                '[DEPRECATED] Option "gulp" is deprecated and will be deleted in version 2.0. Use the option "binary_path" and "binary_name" instead.'
-            );
-
-            $this->executable = $options['gulp'];
-        } else {
-            $this->executable = $this->findBinary('gulp');
-        }
+        $this->executable = $this->findBinary('gulp');
 
         $this->gulpfile = 'gulpfile.js';
 
