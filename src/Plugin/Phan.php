@@ -13,22 +13,10 @@ use PHPCensor\Model\BuildError;
 class Phan extends Plugin
 {
     /**
-     * Ignore directories.
-     *
-     * @var array
-     */
-    protected $ignore;
-
-    /**
      * @var string Location on the server where the files are stored. Preferably in the webroot for inclusion
      *             in the readme.md of the repository
      */
     protected $location;
-
-    /**
-     * @var string Directory which needs to be scanned
-     */
-    protected $directory;
 
     /**
      * @var integer
@@ -54,15 +42,7 @@ class Phan extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        $this->directory = $this->getWorkingDirectory($options);
-
-        $this->location = $this->builder->buildPath .'phan_tmp';
-        $this->ignore   = isset($options['ignore']) && is_array($options['ignore']) ? $options['ignore'] : [];
-
-        if (empty($this->ignore) && is_array($this->builder->ignore)) {
-            $this->ignore = $this->builder->ignore;
-        }
-
+        $this->location        = $this->builder->buildPath .'phan_tmp';
         $this->allowedWarnings = isset($options['allowed_warnings']) ? $options['allowed_warnings'] : 0;
     }
 

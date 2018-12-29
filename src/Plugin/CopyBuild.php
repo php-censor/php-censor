@@ -13,8 +13,7 @@ use PHPCensor\Plugin;
  */
 class CopyBuild extends Plugin
 {
-    protected $directory;
-    protected $ignore;
+    protected $respectIgnore;
     protected $wipe;
 
     /**
@@ -32,10 +31,8 @@ class CopyBuild extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        $this->directory = $this->getWorkingDirectory($options);
-
-        $this->wipe      = isset($options['wipe']) ?  (bool)$options['wipe'] : false;
-        $this->ignore    = isset($options['respect_ignore']) ?  (bool)$options['respect_ignore'] : false;
+        $this->wipe          = isset($options['wipe']) ?  (bool)$options['wipe'] : false;
+        $this->respectIgnore = isset($options['respect_ignore']) ?  (bool)$options['respect_ignore'] : false;
     }
 
     /**
@@ -99,7 +96,7 @@ class CopyBuild extends Plugin
      */
     protected function deleteIgnoredFiles()
     {
-        if ($this->ignore) {
+        if ($this->respectIgnore) {
             foreach ($this->builder->ignore as $file) {
                 $cmd = 'cd "%s" && rm -Rf "%s/%s"';
                 $this->builder->executeCommand($cmd, $this->builder->buildPath, $this->directory, $file);

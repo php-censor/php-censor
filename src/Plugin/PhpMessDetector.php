@@ -21,18 +21,6 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
     protected $suffixes;
 
     /**
-     * @var string, based on the assumption the root may not hold the code to be
-     * tested, extends the base path only if the provided path is relative. Absolute
-     * paths are used verbatim
-     */
-    protected $directory;
-
-    /**
-     * @var array - paths to ignore
-     */
-    protected $ignore;
-
-    /**
      * Array of PHPMD rules. Can be one of the builtins (codesize, unusedcode, naming, design, controversial)
      * or a filename (detected by checking for a / in it), either absolute or relative to the project root.
      * @var array
@@ -56,10 +44,8 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
         parent::__construct($builder, $build, $options);
 
         $this->suffixes        = ['php'];
-        $this->ignore          = $this->builder->ignore;
         $this->rules           = ['codesize', 'unusedcode', 'naming'];
         $this->allowedWarnings = 0;
-        $this->directory       = $this->getWorkingDirectory($options);
 
         if (isset($options['zero_config']) && $options['zero_config']) {
             $this->allowedWarnings = -1;
@@ -70,10 +56,6 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
         }
 
         $this->executable = $this->findBinary('phpmd');
-
-        if (array_key_exists('ignore', $options)) {
-            $this->ignore = array_merge($this->builder->ignore, $options['ignore']);
-        }
 
         foreach (['rules', 'suffixes'] as $key) {
             $this->overrideSetting($options, $key);
@@ -101,12 +83,17 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
             return false;
         }
 
+        $currentDir = getcwd();
+        chdir($this->builder->buildPath);
+
         $phpmdBinaryPath = $this->executable;
 
         $this->executePhpMd($phpmdBinaryPath);
 
         $errorCount = $this->processReport(trim($this->builder->getLastOutput()));
         $this->build->storeMeta((self::pluginName() . '-warnings'), $errorCount);
+
+        chdir($currentDir);
 
         return $this->wasLastExecSuccessful($errorCount);
     }
@@ -191,11 +178,11 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
      */
     protected function executePhpMd($binaryPath)
     {
-        $cmd = $binaryPath . ' "%s" xml %s %s %s';
+        $cmd = 'cd "%s" && ' . $binaryPath . ' "%s" xml %s %s %s';
 
         $ignore = '';
         if (is_array($this->ignore) && count($this->ignore) > 0) {
-            $ignore = ' --exclude ' . implode(',', $this->ignore);
+            $ignore = sprintf(' --exclude "%s"', implode(',', $this->ignore));
         }
 
         $suffixes = '';
@@ -203,20 +190,15 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
             $suffixes = ' --suffixes ' . implode(',', $this->suffixes);
         }
 
-        // Disable exec output logging, as we don't want the XML report in the log:
-        $this->builder->logExecOutput(false);
-
         // Run PHPMD:
         $this->builder->executeCommand(
             $cmd,
+            $this->builder->buildPath,
             $this->directory,
             implode(',', $this->rules),
             $ignore,
             $suffixes
         );
-
-        // Re-enable exec output logging:
-        $this->builder->logExecOutput(true);
     }
 
     /**

@@ -15,7 +15,10 @@ configuration file paths and name. By default this is called `codeception.yml` a
 made on line 132 regarding the value of `--xml` being the next argument which will not be correct if the user provides 
 arguments using this config param, you must specify `report.xml` before any user input arguments to satisfy the report 
 processing on line 146.
-* **directory** [string, optional] - The directory in which to run Codeception (defaults to build root.)
+* **directory** - Optional - The directory to run Codeception on.
+* **path** - **[DEPRECATED]** - Option `path` deprecated and will be deleted in version 2.0 (Use option `output_path` 
+instead)!
+* **output_path** - Optional - The path from the root of your project to the root of the codeception `_output` directory
 * **binary_name** [string|array, optional] - Allows you to provide a name of the binary
 * **binary_path** [string, optional] - Allows you to provide a path to the binary
 
@@ -29,7 +32,7 @@ processing on line 146.
 - args
  - Empty string
  
-- path
+- output_path
  - `tests/_output/`
  - `test/_log`
 
@@ -47,6 +50,6 @@ Or
 codeception:
   config: "subdir1/subdir2"
   args:   "report.xml -vv "
-  path:
+  output_path:
     - "subdir1/subdir2/tests/_output/"
 ```

@@ -22,12 +22,6 @@ class Atoum extends Plugin
     protected $config;
 
     /**
-     *
-     * @var string This option lets you specify the tests directory to run.
-     */
-    protected $directory;
-
-    /**
      * @return string
      */
     public static function pluginName()
@@ -41,8 +35,6 @@ class Atoum extends Plugin
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
         parent::__construct($builder, $build, $options);
-
-        $this->directory = $this->getWorkingDirectory($options);
 
         $this->executable = $this->findBinary('atoum');
 
@@ -72,9 +64,7 @@ class Atoum extends Plugin
             $cmd .= " -c '{$this->config}'";
         }
 
-        if (null !== $this->directory) {
-            $cmd .= " --directories '{$this->directory}'";
-        }
+        $cmd .= " --directories '{$this->directory}'";
 
         chdir($this->builder->buildPath);
 

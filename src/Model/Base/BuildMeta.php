@@ -7,11 +7,6 @@ use PHPCensor\Model;
 class BuildMeta extends Model
 {
     /**
-     * @var string
-     */
-    protected $tableName = 'build_meta';
-
-    /**
      * @var array
      */
     protected $data = [

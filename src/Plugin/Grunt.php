@@ -13,7 +13,6 @@ use PHPCensor\Plugin;
  */
 class Grunt extends Plugin
 {
-    protected $directory;
     protected $task;
     protected $preferDist;
 
@@ -34,8 +33,7 @@ class Grunt extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        $this->directory = $this->getWorkingDirectory($options);
-        $this->task      = null;
+        $this->task = null;
 
         $this->gruntfile = 'Gruntfile.js';
 

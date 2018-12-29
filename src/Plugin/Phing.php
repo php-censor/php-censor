@@ -13,7 +13,6 @@ use PHPCensor\Plugin;
  */
 class Phing extends Plugin
 {
-    protected $directory;
     protected $buildFile  = 'build.xml';
     protected $targets    = ['build'];
     protected $properties = [];
@@ -33,8 +32,6 @@ class Phing extends Plugin
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
         parent::__construct($builder, $build, $options);
-
-        $this->directory = $this->getWorkingDirectory($options);
 
         /*
          * Sen name of a non default build file

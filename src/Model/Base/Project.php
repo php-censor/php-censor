@@ -18,11 +18,6 @@ class Project extends Model
     const TYPE_SVN          = 'svn';
 
     /**
-     * @var string
-     */
-    protected $tableName = 'project';
-
-    /**
      * @var array
      */
     protected $data = [

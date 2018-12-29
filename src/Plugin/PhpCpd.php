@@ -16,17 +16,6 @@ use PHPCensor\ZeroConfigPluginInterface;
 class PhpCpd extends Plugin implements ZeroConfigPluginInterface
 {
     /**
-     * @var string, based on the assumption the root may not hold the code to be
-     * tested, extends the base directory
-     */
-    protected $directory;
-
-    /**
-     * @var array - paths to ignore
-     */
-    protected $ignore;
-
-    /**
      * @return string
      */
     public static function pluginName()
@@ -41,29 +30,7 @@ class PhpCpd extends Plugin implements ZeroConfigPluginInterface
     {
         parent::__construct($builder, $build, $options);
 
-        /** @deprecated Option "path" deprecated and will be deleted in version 2.0 (Use option "directory" instead)! */
-        if (isset($options['path']) && !isset($options['directory'])) {
-            $this->builder->logWarning(
-                '[DEPRECATED] Option "path" deprecated and will be deleted in version 2.0 (Use option "directory" instead)!'
-            );
-
-            $options['directory'] = $options['path'];
-        }
-
-        $this->directory = $this->getWorkingDirectory($options);
-
-        $this->builder->logDebug('Directory : '.$this->directory);
         $this->executable = $this->findBinary('phpcpd');
-
-        // only subdirectory of $this->directory can be ignored, and string must not include root
-        if (array_key_exists('ignore', $options)) {
-            $this->ignore = $this->ignorePathRelativeToDirectory(
-                $this->directory,
-                array_merge($this->builder->ignore, $options['ignore'])
-            );
-        } else {
-            $this->ignore = $this->ignorePathRelativeToDirectory($this->directory, $this->builder->ignore);
-        }
     }
 
     /**
@@ -83,22 +50,21 @@ class PhpCpd extends Plugin implements ZeroConfigPluginInterface
      */
     public function execute()
     {
-        $ignore       = '';
-        $namesExclude = ' --names-exclude ';
+        $ignore = '';
         if (is_array($this->ignore)) {
             foreach ($this->ignore as $item) {
                 $item = rtrim($item, '/');
-                if (is_file(rtrim($this->directory, '/') . '/' . $item)) {
+                if (is_file($this->builder->buildPath . $item)) {
                     $ignoredFile     = explode('/', $item);
                     $filesToIgnore[] = array_pop($ignoredFile);
                 } else {
-                    $ignore .= ' --exclude ' . $item;
+                    $ignore .= sprintf(' --exclude="%s"', $item);
                 }
             }
         }
 
         if (isset($filesToIgnore)) {
-            $filesToIgnore = $namesExclude . implode(',', $filesToIgnore);
+            $filesToIgnore = sprintf(' --names-exclude="%s"', implode(',', $filesToIgnore));
             $ignore        = $ignore . $filesToIgnore;
         }
 
@@ -106,8 +72,8 @@ class PhpCpd extends Plugin implements ZeroConfigPluginInterface
 
         $tmpFileName = tempnam(sys_get_temp_dir(), (self::pluginName() . '_'));
 
-        $cmd     = $phpcpd . ' --log-pmd "%s" %s "%s"';
-        $success = $this->builder->executeCommand($cmd, $tmpFileName, $ignore, $this->directory);
+        $cmd     = 'cd "%s" && ' . $phpcpd . ' --log-pmd "%s" %s "%s"';
+        $success = $this->builder->executeCommand($cmd, $this->builder->buildPath, $tmpFileName, $ignore, $this->directory);
 
         $errorCount = $this->processReport(file_get_contents($tmpFileName));
 

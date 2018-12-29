@@ -329,12 +329,12 @@ class Builder implements LoggerAwareInterface
      * @param array|string $binary
      * @param string       $priorityPath
      * @param string       $binaryPath
-     * @param string       $binaryName
+     * @param array        $binaryName
      * @return string
      *
      * @throws \Exception when no binary has been found.
      */
-    public function findBinary($binary, $priorityPath = 'local', $binaryPath = '', $binaryName = '')
+    public function findBinary($binary, $priorityPath = 'local', $binaryPath = '', $binaryName = [])
     {
         return $this->commandExecutor->findBinary($binary, $priorityPath, $binaryPath, $binaryName);
     }
@@ -389,7 +389,10 @@ class Builder implements LoggerAwareInterface
         }
 
         if (!empty($this->config['build_settings']['binary_path'])) {
-            $this->binaryPath = $this->config['build_settings']['binary_path'];
+            $this->binaryPath = rtrim(
+                $this->interpolate($this->config['build_settings']['binary_path']),
+                '/\\'
+            ) . '/';
         }
 
         if (
@@ -403,12 +406,17 @@ class Builder implements LoggerAwareInterface
             $this->priorityPath = $this->config['build_settings']['priority_path'];
         }
 
-        $this->directory = $this->buildPath;
+        $directory = $this->buildPath;
 
         // Does the project have a global directory for plugins ?
         if (!empty($this->config['build_settings']['directory'])) {
-            $this->directory = $this->config['build_settings']['directory'];
+            $directory = $this->config['build_settings']['directory'];
         }
+
+        $this->directory = rtrim(
+            $this->interpolate($directory),
+            '/\\'
+        ) . '/';
 
         $this->buildLogger->logSuccess(sprintf('Working copy created: %s', $this->buildPath));
 

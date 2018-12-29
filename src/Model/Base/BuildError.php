@@ -12,11 +12,6 @@ class BuildError extends Model
     const SEVERITY_LOW      = 3;
 
     /**
-     * @var string
-     */
-    protected $tableName = 'build_error';
-
-    /**
      * @var array
      */
     protected $data = [

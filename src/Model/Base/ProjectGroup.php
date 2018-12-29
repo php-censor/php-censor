@@ -7,11 +7,6 @@ use PHPCensor\Model;
 class ProjectGroup extends Model
 {
     /**
-     * @var string
-     */
-    protected $tableName = 'project_group';
-
-    /**
      * @var array
      */
     protected $data = [

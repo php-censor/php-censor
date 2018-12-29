@@ -13,7 +13,6 @@ use PHPCensor\Plugin;
  */
 class Gulp extends Plugin
 {
-    protected $directory;
     protected $task;
     protected $preferDist;
     protected $gulpfile;
@@ -33,8 +32,7 @@ class Gulp extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        $this->directory = $this->getWorkingDirectory($options);
-        $this->task      = null;
+        $this->task = null;
 
         // deprecated compatibility option
         if (isset($options['gulp']) && !isset($options['executable'])) {

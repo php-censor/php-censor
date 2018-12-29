@@ -56,7 +56,7 @@ class UserStore extends Store
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
-        $query = 'SELECT * FROM {{user}} WHERE {{id}} = :id LIMIT 1';
+        $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{id}} = :id LIMIT 1';
         $stmt = Database::getConnection($useConnection)->prepareCommon($query);
         $stmt->bindValue(':id', $id);
 
@@ -84,7 +84,7 @@ class UserStore extends Store
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
-        $query = 'SELECT * FROM {{user}} WHERE {{email}} = :email LIMIT 1';
+        $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{email}} = :email LIMIT 1';
         $stmt  = Database::getConnection()->prepareCommon($query);
 
         $stmt->bindValue(':email', $email);
@@ -113,7 +113,7 @@ class UserStore extends Store
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
-        $query = 'SELECT * FROM {{user}} WHERE {{email}} = :value OR {{name}} = :value LIMIT 1';
+        $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{email}} = :value OR {{name}} = :value LIMIT 1';
         $stmt  = Database::getConnection()->prepareCommon($query);
         $stmt->bindValue(':value', $emailOrName);
 
@@ -141,7 +141,7 @@ class UserStore extends Store
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
-        $query = 'SELECT * FROM {{user}} WHERE {{remember_key}} = :remember_key LIMIT 1';
+        $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{remember_key}} = :remember_key LIMIT 1';
         $stmt  = Database::getConnection()->prepareCommon($query);
         $stmt->bindValue(':remember_key', $rememberKey);
 
@@ -171,7 +171,7 @@ class UserStore extends Store
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
-        $query = 'SELECT * FROM {{user}} WHERE {{name}} = :name LIMIT :limit';
+        $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{name}} = :name LIMIT :limit';
         $stmt = Database::getConnection($useConnection)->prepareCommon($query);
         $stmt->bindValue(':name', $name);
         $stmt->bindValue(':limit', (int)$limit, \PDO::PARAM_INT);

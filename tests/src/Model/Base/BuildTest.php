@@ -44,6 +44,8 @@ class BuildTest extends TestCase
 
         $result = $build->setId(100);
         self::assertEquals(false, $result);
+
+        self::assertEquals(['id' => 'id'], $build->getModified());
     }
 
     public function testProjectId()

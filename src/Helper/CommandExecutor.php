@@ -277,30 +277,17 @@ class CommandExecutor implements CommandExecutorInterface
     }
 
     /**
-     * Find a binary required by a plugin.
-     *
-     * @param array|string $binary
-     * @param string       $priorityPath
-     * @param string       $binaryPath
-     * @param string       $binaryName
-     * @return string
-     *
-     * @throws \Exception when no binary has been found.
+     * {@inheritdoc}
      */
-    public function findBinary($binary, $priorityPath = 'local', $binaryPath = '', $binaryName = '')
+    public function findBinary($binary, $priorityPath = 'local', $binaryPath = '', $binaryName = [])
     {
-        $composerBin = $this->getComposerBinDir(realpath($this->buildPath));
+        $composerBin = $this->getComposerBinDir($this->buildPath);
 
         if (is_string($binary)) {
             $binary = [$binary];
         }
 
-        //overwrite binary name
         if ($binaryName) {
-            if (is_string($binaryName)) {
-                $binaryName = [$binaryName];
-            }
-
             array_unshift($binary, ...$binaryName);
         }
 

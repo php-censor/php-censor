@@ -21,19 +21,9 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
     protected $suffixes;
 
     /**
-     * @var string
-     */
-    protected $directory;
-
-    /**
      * @var int
      */
     protected $allowedErrors;
-
-    /**
-     * @var array - paths to ignore
-     */
-    protected $ignore;
 
     /**
      * @var array - terms to search for
@@ -121,15 +111,8 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
         parent::__construct($builder, $build, $options);
 
         $this->suffixes      = ['php'];
-        $this->ignore        = $this->builder->ignore;
         $this->allowedErrors = 0;
         $this->searches      = ['TODO', 'FIXME', 'TO DO', 'FIX ME'];
-
-        $this->directory = $this->getWorkingDirectory($options);
-
-        if (array_key_exists('ignore', $options)) {
-            $this->ignore = array_merge($this->builder->ignore, $options['ignore']);
-        }
 
         if (!empty($options['suffixes']) && is_array($options['suffixes'])) {
             $this->suffixes = $options['suffixes'];
@@ -145,22 +128,6 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
 
         if (array_key_exists('allowed_errors', $options) && $options['allowed_errors']) {
             $this->allowedErrors = (int) $options['allowed_errors'];
-        }
-
-        $this->setOptions($options);
-    }
-
-    /**
-     * Handle this plugin's options.
-     *
-     * @param $options
-     */
-    protected function setOptions($options)
-    {
-        foreach (['ignore'] as $key) {
-            if (array_key_exists($key, $options)) {
-                $this->{$key} = $options[$key];
-            }
         }
     }
 
@@ -181,6 +148,9 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
     */
     public function execute()
     {
+        $currentDir = getcwd();
+        chdir($this->builder->buildPath);
+
         $success    = true;
         $errorCount = $this->getErrorList();
 
@@ -191,6 +161,8 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
         if ($this->allowedErrors !== -1 && $errorCount > $this->allowedErrors) {
             $success = false;
         }
+
+        chdir($currentDir);
 
         return $success;
     }
@@ -204,6 +176,7 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
     {
         $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($this->directory));
 
+        $this->builder->logDebug("Directory: " . $this->directory);
         $this->builder->logDebug("Ignored path: ".json_encode($this->ignore, true));
         $errorCount = 0;
 
@@ -221,14 +194,10 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
             }
 
             foreach ($this->ignore as $ignore) {
-                if ('/' === $ignore{0}) {
-                    if (0 === strpos($filePath, $ignore)) {
-                        $ignored = true;
-                        break;
-                    }
-                } else {
-                    $ignoreReal = $this->directory . $ignore;
-                    if (0 === strpos($filePath, $ignoreReal)) {
+                $ignoreAbsolute = $this->builder->buildPath . $ignore;
+
+                if ('/' === $ignoreAbsolute{0}) {
+                    if (0 === strpos($filePath, $ignoreAbsolute)) {
                         $ignored = true;
                         break;
                     }

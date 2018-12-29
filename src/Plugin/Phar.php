@@ -13,12 +13,6 @@ use PHPCensor\Plugin;
 class Phar extends Plugin
 {
     /**
-     * Output Directory
-     * @var string
-     */
-    protected $directory;
-
-    /**
      * Phar Filename
      * @var string
      */
@@ -50,8 +44,6 @@ class Phar extends Plugin
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
         parent::__construct($builder, $build, $options);
-
-        $this->directory = $this->getWorkingDirectory($options);
 
         // Filename?
         if (isset($options['filename'])) {

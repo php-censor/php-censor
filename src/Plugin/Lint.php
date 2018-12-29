@@ -16,7 +16,6 @@ class Lint extends Plugin
 {
     protected $directories;
     protected $recursive = true;
-    protected $ignore;
 
     /**
      * @return string
@@ -34,10 +33,8 @@ class Lint extends Plugin
         parent::__construct($builder, $build, $options);
 
         $this->directories = [
-            $this->getWorkingDirectory($options)
+            $this->directory,
         ];
-
-        $this->ignore = $this->builder->ignore;
 
         if (!empty($options['directories']) && is_array($options['directories'])) {
             foreach ($options['directories'] as $index => $directory) {

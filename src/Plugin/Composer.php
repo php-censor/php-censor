@@ -15,7 +15,6 @@ use PHPCensor\ZeroConfigPluginInterface;
  */
 class Composer extends Plugin implements ZeroConfigPluginInterface
 {
-    protected $directory;
     protected $action;
     protected $preferDist;
     protected $noDev;
@@ -42,8 +41,6 @@ class Composer extends Plugin implements ZeroConfigPluginInterface
         $this->preferSource       = false;
         $this->noDev              = false;
         $this->ignorePlatformReqs = false;
-
-        $this->directory = $this->getWorkingDirectory($options);
 
         $this->executable = $this->findBinary(['composer', 'composer.phar']);
 

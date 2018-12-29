@@ -13,8 +13,6 @@ use PHPCensor\Plugin;
  */
 class Wipe extends Plugin
 {
-    protected $directory;
-
     /**
      * @return string
      */
@@ -29,8 +27,6 @@ class Wipe extends Plugin
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
         parent::__construct($builder, $build, $options);
-
-        $this->directory = $this->getWorkingDirectory($options);
     }
 
     /**
@@ -40,9 +36,10 @@ class Wipe extends Plugin
     {
         $build = $this->builder->buildPath;
 
-        if ($this->directory == $build || empty($this->directory)) {
+        if ($this->directory === $build) {
             return true;
         }
+
         if (is_dir($this->directory)) {
             $cmd = 'rm -Rf "%s"';
 
