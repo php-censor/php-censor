@@ -77,6 +77,7 @@ Plugins
 * [Mage v3](plugins/mage3.md) - `mage3`
 * [Phing](plugins/phing.md) - `phing`
 * [Deployer](plugins/deployer.md) - `deployer`
+* [DeployerOrg](plugins/deployer_org.md) - `deployer_org`
 
 #### Notifications
 
@@ -87,6 +88,7 @@ Plugins
 * [IRC](plugins/irc.md) - `irc`
 * [Slack](plugins/slack_notify.md) - `slack_notify`
 * [XMPP](plugins/xmpp.md) - `xmpp`
+* [Telegram](plugins/telegram.md) - `telegram`
 
 #### Other
 
@@ -100,11 +102,3 @@ Plugins
 * [Phar](plugins/phar.md) - `phar`
 * [Shell](plugins/shell.md) - `shell`
 * Wipe - `wipe`
-
-### Third-party Plugins
-
-* [Telegram](https://github.com/php-censor/php-censor-telegram-plugin) - Telegram plugin by 
-[@LEXASOFT](https://github.com/LEXASOFT)
-
-* [Deployer](https://github.com/php-censor/php-censor-deployer-plugin) - Plugin for [Deployer](http://deployer.org) by 
-[@ketchoop](https://github.com/ketchoop)
