@@ -77,6 +77,7 @@
 * [Mage v3](plugins/mage3.md) - `mage3`
 * [Phing](plugins/phing.md) - `phing`
 * [Deployer](plugins/deployer.md) - `deployer`
+* [DeployerOrg](plugins/deployer_org.md) - `deployer_org`
 
 #### Оповещение
 
@@ -87,6 +88,7 @@
 * [IRC](plugins/irc.md) - `irc`
 * [Slack](plugins/slack_notify.md) - `slack_notify`
 * [XMPP](plugins/xmpp.md) - `xmpp`
+* [Telegram](plugins/telegram.md) - `telegram`
 
 #### Другое
 
@@ -100,11 +102,3 @@
 * [Phar](plugins/phar.md) - `phar`
 * [Shell](plugins/shell.md) - `shell`
 * Wipe - `wipe`
-
-### Сторонние плагины, не включенные в поставку
-
-* [Telegram](https://github.com/php-censor/php-censor-telegram-plugin) - Плагин для оповещения о результатах сборки 
-проекта в Telegram (Автор: [@LEXASOFT](https://github.com/LEXASOFT)).
-
-* [Deployer](https://github.com/php-censor/php-censor-deployer-plugin) - Плагин для деплоя приложения с помощью 
-библиотеки [Deployer](http://deployer.org) (Автор: [@ketchoop](https://github.com/ketchoop)).
