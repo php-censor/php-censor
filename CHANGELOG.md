@@ -3,23 +3,61 @@
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to 
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
+
+
+## [0.25.0](https://github.com/php-censor/php-censor/tree/0.25.0) (2019-01-01)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/0.24.0...0.25.0)
+
 ### Added
 
-  - **"priority_path"**, new accepted value : **"binary_path"**, "local" is  now accepted too
-  - global :
-    -  **binary_path** to manualy set a directory to find plugins binary (interpolated directory %%)
+- PHP 7.3 to TravisCI config (`.travis.yml`).
+- `.htaccess` to `.gitignore`. Pull request [#228](https://github.com/php-censor/php-censor/pull/228). Thanks to 
+[@jwmwalrus](https://github.com/jwmwalrus).
+- `.gitattributes` config.
+- Global options `directory` for all plugins (`build_settings.derectory`). Pull request 
+[#240](https://github.com/php-censor/php-censor/pull/240). Thanks to [@vinpel](https://github.com/vinpel).
+- Plugins options `binary_path` and `binary name` (and new `priority_path` variant: `priority_path`) for use your own 
+alternative executable file for plugin. Pull request [#240](https://github.com/php-censor/php-censor/pull/240). Thanks 
+to [@vinpel](https://github.com/vinpel).
+- Relative path resolving and interpolation for `directory` and `ignore` plugin options. Issue 
+[#245](https://github.com/php-censor/php-censor/issues/245).
+- Dependencies for notification plugins (Slack, Hipchat and Flowdock) to the project. Issue 
+[#233](https://github.com/php-censor/php-censor/issues/233).
+- Build total errors count to web interface.
+- Plugins: [Telegram](https://github.com/php-censor/php-censor-telegram-plugin) and 
+[DeployerOrg](https://github.com/php-censor/php-censor-deployer-plugin) to repository.
 
-  - per plugin :
-    - **"binary_path"** : set the path to find the finary, overwrite the global **"binary_path"** option if set
-    - **"binary_name"** : change the default name of binary, array accepted
-    - **"priority_path"** : can be defined per plugin
-     
 ### Changed
 
-- Per plugin:
-    - **ignore** : always define path  from root without ./ ,it will be merge with the global **ignore** directory list
-- All plugins who previously used "path" or "directory" option now use a common **"directory"**
-  it's the working directory of the plugin
+- Improved documentation.
+- Upgrade SensioLabs Security Checker version (v4 -> v5. See: [https://twitter.com/fabpot/status/1067085006542118913]().
+- Unified plugins options (`path` -> `directory` etc.). **Old options is DEPRECATED and will be deleted in v2.0**. 
+Pull request [#240](https://github.com/php-censor/php-censor/pull/240). Thanks to [@vinpel](https://github.com/vinpel).
+- Improved issue/pull request templates and etc Github stuff.
+- Improved Codecov config (`.codecov.yml`).
+- Updated dependencies.
+
+### Removed
+
+- Very verbose flag (`-vvv`) from Codeception's command by default. Pull request 
+[#248](https://github.com/php-censor/php-censor/pull/248). Thanks to [@jwmwalrus](https://github.com/jwmwalrus).
+
+### Fixed
+
+- Worker freezing after long commands (Codeception plugin). Issue 
+[#217](https://github.com/php-censor/php-censor/issues/217). Pull request 
+[#229](https://github.com/php-censor/php-censor/pull/229). Thanks to [@jwmwalrus](https://github.com/jwmwalrus).
+- Codeception plugin command for execution (Moved the `--xml` flag to the end of the command). Pull request 
+[#230](https://github.com/php-censor/php-censor/pull/230). Thanks to [@jwmwalrus](https://github.com/jwmwalrus).
+- Logging for builds in debug mode.
+- Error messages for PHPDocBlockChecker plugin. Issue [#234](https://github.com/php-censor/php-censor/issues/234).
+- Nullable types for PHPDocBlockChecker plugin. Issue [#235](https://github.com/php-censor/php-censor/issues/235).
+- Migrations from scratch. Pull request [#238](https://github.com/php-censor/php-censor/pull/238). Thanks to 
+[@vinpel](https://github.com/vinpel).
+- CopyBuild plugin working with files with first '.' in the name. Issue 
+[#242](https://github.com/php-censor/php-censor/issues/242).
+- PHPDocblockChecker notices. Issue [#246](https://github.com/php-censor/php-censor/issues/246).
 
 
 ## [0.24.0](https://github.com/php-censor/php-censor/tree/0.24.0) (2018-11-04)
