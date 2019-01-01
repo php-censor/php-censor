@@ -2,7 +2,7 @@
 
 namespace PHPCensor\Helper;
 
-use PHPCensor\Model\Build;
+use PHPCensor\Model\Build as BaseBuild;
 
 /**
  * The BuildInterpolator class replaces variables in a string with build-specific information.
@@ -22,13 +22,13 @@ class BuildInterpolator
     /**
      * Sets the variables that will be used for interpolation.
      *
-     * @param Build  $build
-     * @param string $buildPath
-     * @param        $url
+     * @param BaseBuild $build
+     * @param string    $buildPath
+     * @param           $url
      *
      * @throws \Exception
      */
-    public function setupInterpolationVars(Build $build, $buildPath, $url)
+    public function setupInterpolationVars(BaseBuild $build, $buildPath, $url)
     {
         $this->interpolationVars = [];
 
