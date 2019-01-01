@@ -139,7 +139,9 @@ class CommandExecutor implements CommandExecutorInterface
             stream_set_blocking($descriptor, false);
             $outputs[$key] = '';
         }
-        $retries = 6;
+        
+        // 20 retries for 15 seconds = 5 min
+        $retries = 20;
         $timeout = 15;
         do {
             $resources = 0;
@@ -169,6 +171,7 @@ class CommandExecutor implements CommandExecutorInterface
                 }
             }
         } while (count($descriptors) > 0 && intval($resources) > 0);
+
         return $outputs;
     }
 
