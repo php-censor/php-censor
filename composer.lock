@@ -167,7 +167,7 @@
         },
         {
             "name": "cakephp/cache",
-            "version": "3.7.0",
+            "version": "3.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/cache.git",
@@ -210,16 +210,16 @@
         },
         {
             "name": "cakephp/collection",
-            "version": "3.7.0",
+            "version": "3.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/collection.git",
-                "reference": "a6a410771e0fa97613fa060bba861e666a821c2e"
+                "reference": "5e28b596c85d163f8c8350c213c34b6102b641ec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/collection/zipball/a6a410771e0fa97613fa060bba861e666a821c2e",
-                "reference": "a6a410771e0fa97613fa060bba861e666a821c2e",
+                "url": "https://api.github.com/repos/cakephp/collection/zipball/5e28b596c85d163f8c8350c213c34b6102b641ec",
+                "reference": "5e28b596c85d163f8c8350c213c34b6102b641ec",
                 "shasum": ""
             },
             "require": {
@@ -252,20 +252,20 @@
                 "collections",
                 "iterators"
             ],
-            "time": "2018-09-15T21:32:30+00:00"
+            "time": "2018-12-14T09:39:58+00:00"
         },
         {
             "name": "cakephp/core",
-            "version": "3.7.0",
+            "version": "3.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/core.git",
-                "reference": "ae0fd1dd3bdf2eb1cb0c291a0573dc898d9ce6d6"
+                "reference": "02b4d6579246d7011e5062058c50c041ab542fa9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/core/zipball/ae0fd1dd3bdf2eb1cb0c291a0573dc898d9ce6d6",
-                "reference": "ae0fd1dd3bdf2eb1cb0c291a0573dc898d9ce6d6",
+                "url": "https://api.github.com/repos/cakephp/core/zipball/02b4d6579246d7011e5062058c50c041ab542fa9",
+                "reference": "02b4d6579246d7011e5062058c50c041ab542fa9",
                 "shasum": ""
             },
             "require": {
@@ -301,20 +301,20 @@
                 "core",
                 "framework"
             ],
-            "time": "2018-11-13T02:29:05+00:00"
+            "time": "2018-12-13T23:20:56+00:00"
         },
         {
             "name": "cakephp/database",
-            "version": "3.7.0",
+            "version": "3.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/database.git",
-                "reference": "73f20ff84f032923b23627f28049044a7c264977"
+                "reference": "b5649125528f9230d81c7b870edecfbe19ecac21"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/database/zipball/73f20ff84f032923b23627f28049044a7c264977",
-                "reference": "73f20ff84f032923b23627f28049044a7c264977",
+                "url": "https://api.github.com/repos/cakephp/database/zipball/b5649125528f9230d81c7b870edecfbe19ecac21",
+                "reference": "b5649125528f9230d81c7b870edecfbe19ecac21",
                 "shasum": ""
             },
             "require": {
@@ -351,20 +351,20 @@
                 "database abstraction",
                 "pdo"
             ],
-            "time": "2018-11-01T20:19:53+00:00"
+            "time": "2018-12-14T12:11:25+00:00"
         },
         {
             "name": "cakephp/datasource",
-            "version": "3.7.0",
+            "version": "3.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/datasource.git",
-                "reference": "174b9cc23aa82b00a816f4e82dbddcbee9a39ccb"
+                "reference": "d98a1675da0b62da834f86c976b2337db38adb49"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/datasource/zipball/174b9cc23aa82b00a816f4e82dbddcbee9a39ccb",
-                "reference": "174b9cc23aa82b00a816f4e82dbddcbee9a39ccb",
+                "url": "https://api.github.com/repos/cakephp/datasource/zipball/d98a1675da0b62da834f86c976b2337db38adb49",
+                "reference": "d98a1675da0b62da834f86c976b2337db38adb49",
                 "shasum": ""
             },
             "require": {
@@ -401,7 +401,7 @@
                 "entity",
                 "query"
             ],
-            "time": "2018-12-02T03:04:13+00:00"
+            "time": "2018-12-13T23:20:56+00:00"
         },
         {
             "name": "cakephp/utility",
@@ -3441,16 +3441,16 @@
         },
         {
             "name": "sensiolabs/security-checker",
-            "version": "v5.0.2",
+            "version": "v5.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/security-checker.git",
-                "reference": "728f9fb0fe815003b3bcfd331d33106c0d8a6b1e"
+                "reference": "46be3f58adac13084497961e10eed9a7fb4d44d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/security-checker/zipball/728f9fb0fe815003b3bcfd331d33106c0d8a6b1e",
-                "reference": "728f9fb0fe815003b3bcfd331d33106c0d8a6b1e",
+                "url": "https://api.github.com/repos/sensiolabs/security-checker/zipball/46be3f58adac13084497961e10eed9a7fb4d44d1",
+                "reference": "46be3f58adac13084497961e10eed9a7fb4d44d1",
                 "shasum": ""
             },
             "require": {
@@ -3483,7 +3483,7 @@
                 }
             ],
             "description": "A security checker for your composer.lock",
-            "time": "2018-12-10T06:08:43+00:00"
+            "time": "2018-12-19T17:14:59+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",
