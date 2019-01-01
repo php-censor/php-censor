@@ -7,7 +7,8 @@ Getting Started
 * Installing PHP Censor (See [README](../../README.md))
     * [Adding a virtual host](virtual_host.md)
     * [Run builds using a worker](workers/worker.md)
-    * [Run builds using cronjob](workers/cron.md)
+    * [\[DEPRECATED\] Run builds using cronjob](workers/cron.md) (This command deprecated and will be deleted in 
+version 2.0. Use `php-censor:worker` command instead!)
 * [Adding PHP Censor support to your projects](configuring_project.md)
 * Updating PHP Censor (See [README](../../README.md))
 * [Configuring PHP Censor](configuring_application.md)

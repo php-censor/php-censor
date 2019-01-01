@@ -6,10 +6,7 @@ Unless already running a build, the worker will pick up and start running new bu
 creation.
 
 The worker is the recommended way to run PHP Censor builds. You can run several workers all watching one queue,
-allowing jobs to be run simultaneously without the overhead of polling your database. 
-
-If you can't run Beanstalkd on your server, or would prefer to run builds on a regular schedule, you should consider
-using the [running builds via Cron](cron.md).
+allowing jobs to be run simultaneously without the overhead of polling your database.
 
 Pre-Requisites
 --------------

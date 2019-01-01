@@ -42,8 +42,7 @@ More [screenshots](docs/en/screenshots.md).
 
 * Database (MySQL/MariaDB or PostgreSQL);
 
-* Beanstalkd queue (Optional, needed if you use [worker](docs/en/workers/worker.md) instead of 
-[cronjob](docs/en/workers/cron.md));
+* Beanstalkd queue;
 
 ## Features
 
@@ -112,8 +111,7 @@ cd ./php-censor.local
 * [Add a virtual host to your web server](docs/en/virtual_host.md), pointing to the `public` directory within your new
 PHP Censor directory. You'll need to set up rewrite rules to point all non-existent requests to PHP Censor;
 
-* [Set up the PHP Censor Worker](docs/en/workers/worker.md) (Need configured Queue) or 
-[a cron-job](docs/en/workers/cron.md) to run PHP Censor builds;
+* [Set up the PHP Censor Worker](docs/en/workers/worker.md);
 
 ## Installing via Docker
 
@@ -175,7 +173,7 @@ There are several ways to set up the project:
 PHPCpd, PHPCodeSniffer, PHPMessDetector, PHPDocblockChecker, PHPParallelLint, PHPUnit and Codeception);
 
 * Similar to [Travis CI](https://travis-ci.org), to support PHP Censor in your project, you simply need to add a 
-`.php-censor.yml` (`phpci.yml`/`.phpci.yml` for backward compatibility with PHPCI) file to the root of your repository;
+`.php-censor.yml` file to the root of your repository;
 
 * Add project config in PHP Censor project page (And it will cancel file config from project repository);
 

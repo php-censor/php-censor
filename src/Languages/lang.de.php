@@ -102,7 +102,7 @@ generiert. Um es zu verwenden, fügen Sie einfach den folgenden Public Key im Ab
     'project_private_key' => 'Private Key für den Zugang zum Repository
                                 (leer lassen für lokale und oder anonyme externe Zugriffe)',
     'build_config' => 'PHP Censor Buildkonfiguration für dieses Projekt
-                                (falls Sie Ihrem Projektrepository kein .php-censor.yml (.phpci.yml|phpci.yml) hinzufügen können)',
+                                (falls Sie Ihrem Projektrepository kein .php-censor.yml hinzufügen können)',
     'default_branch' => 'Name des Standardbranches',
     'allow_public_status' => 'Öffentliche Statusseite und -bild für dieses Projekt einschalten?',
     'archived' => 'Archiviert',

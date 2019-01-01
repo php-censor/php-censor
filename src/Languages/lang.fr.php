@@ -114,7 +114,7 @@ PHP Censor',
     'project_private_key' => 'Clé privée à utiliser pour accéder au dépôt
                                 (laissez le champ vide pour les dépôts locaux ou les URLs distantes anonymes)',
     'build_config' => 'Configuration PHP Censor spécifique pour ce projet
-        (si vous ne pouvez pas ajouter de fichier .php-censor.yml (.phpci.yml|phpci.yml) à la racine du dépôt)',
+        (si vous ne pouvez pas ajouter de fichier .php-censor.yml à la racine du dépôt)',
     'default_branch' => 'Nom de la branche par défaut',
     'default_branch_only' => 'Build la branche par défaut seulement',
     'overwrite_build_config' => "Remplacer la configuration du fichier dans le dépôt par la configuration dans

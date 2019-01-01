@@ -101,7 +101,7 @@ van je gekozen source code hosting platform',
     'project_private_key' => 'Private key voor toegang tot repository
 (laat leeg voor lokaal en/of anonieme externen)',
     'build_config' => 'PHP Censor build configuratie voor dit project
-(indien je geen .php-censor.yml (.phpci.yml|phpci.yml) bestand aan de project repository kan toevoegen)',
+(indien je geen .php-censor.yml bestand aan de project repository kan toevoegen)',
     'default_branch' => 'Standaard branch naam',
     'allow_public_status' => 'Publieke statuspagina en afbeelding beschikbaar maken voor dit project?',
     'archived' => 'Archived',

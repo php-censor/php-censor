@@ -99,7 +99,7 @@ PHP Censor',
     'project_private_key' => 'Chave privada usada para acessar o repositório
                                 (Deixe em branco para controles remotos locais e/ou anônimos)',
     'build_config' => 'PHP Censor construir configuração para este projeto
-                                (if you cannot add a .php-censor.yml (.phpci.yml|phpci.yml) file in the project repository)',
+                                (if you cannot add a .php-censor.yml file in the project repository)',
     'default_branch' => 'Nome padrão do branch',
     'allow_public_status' => 'Habilitar página de status pública e imagem para este projeto?',
     'archived' => 'Arquivado',
