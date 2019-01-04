@@ -299,28 +299,4 @@ class BuildErrorStore extends Store
 
         return true;
     }
-
-    /**
-     * @param int $buildId
-     *
-     * @return int
-     *
-     * @throws \Exception
-     */
-    public function getNewErrorsCount($buildId)
-    {
-        $query = 'SELECT COUNT(*) AS {{total}} FROM {{' . $this->tableName . '}} WHERE {{build_id}} = :build AND {{is_new}} = true';
-
-        $stmt = Database::getConnection('read')->prepareCommon($query);
-
-        $stmt->bindValue(':build', $buildId);
-
-        if ($stmt->execute()) {
-            $res = $stmt->fetch(\PDO::FETCH_ASSOC);
-
-            return (integer)$res['total'];
-        }
-
-        return 0;
-    }
 }

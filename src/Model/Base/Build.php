@@ -4,6 +4,9 @@ namespace PHPCensor\Model\Base;
 
 use PHPCensor\Exception\InvalidArgumentException;
 use PHPCensor\Model;
+use PHPCensor\Store\BuildErrorStore;
+use PHPCensor\Store\BuildStore;
+use PHPCensor\Store\Factory;
 
 class Build extends Model
 {
@@ -26,22 +29,25 @@ class Build extends Model
      * @var array
      */
     protected $data = [
-        'id'              => null,
-        'project_id'      => null,
-        'commit_id'       => null,
-        'status'          => null,
-        'log'             => null,
-        'branch'          => 'master',
-        'tag'             => null,
-        'create_date'     => null,
-        'start_date'      => null,
-        'finish_date'     => null,
-        'committer_email' => null,
-        'commit_message'  => null,
-        'extra'           => null,
-        'environment'     => null,
-        'source'          => Build::SOURCE_UNKNOWN,
-        'user_id'         => 0,
+        'id'                    => null,
+        'project_id'            => null,
+        'commit_id'             => null,
+        'status'                => null,
+        'log'                   => null,
+        'branch'                => 'master',
+        'tag'                   => null,
+        'create_date'           => null,
+        'start_date'            => null,
+        'finish_date'           => null,
+        'committer_email'       => null,
+        'commit_message'        => null,
+        'extra'                 => null,
+        'environment'           => null,
+        'source'                => Build::SOURCE_UNKNOWN,
+        'user_id'               => 0,
+        'errors_total'          => null,
+        'errors_total_previous' => null,
+        'errors_new'            => null,
     ];
 
     /**
@@ -564,5 +570,147 @@ class Build extends Model
         $this->data['user_id'] = $value;
 
         return $this->setModified('user_id');
+    }
+
+    /**
+     * @return int
+     *
+     * @throws InvalidArgumentException
+     */
+    public function getErrorsTotal()
+    {
+        if (null === $this->data['errors_total']) {
+            /** @var BuildStore $errorStore */
+            $store = Factory::getStore('Build');
+
+            $trend = $store->getBuildErrorsTrend($this->getId(), $this->getProjectId(), $this->getBranch());
+
+            if (!isset($trend[1])) {
+                $trend[1] = [
+                    'build_id' => 0,
+                    'count'    => (int)$trend[0]['count'],
+                ];
+            }
+
+            $this->setErrorsTotal((int)$trend[0]['count']);
+            $this->setErrorsTotalPrevious((int)$trend[1]['count']);
+
+            $store->save($this);
+        }
+
+        return $this->data['errors_total'];
+    }
+
+    /**
+     * @param $value
+     *
+     * @return bool
+     *
+     * @throws InvalidArgumentException
+     */
+    public function setErrorsTotal($value)
+    {
+        $this->validateNotNull('errors_total', $value);
+        $this->validateInt('errors_total', $value);
+
+        if ($this->data['errors_total'] === $value) {
+            return false;
+        }
+
+        $this->data['errors_total'] = $value;
+
+        return $this->setModified('errors_total');
+    }
+
+    /**
+     * @return int
+     *
+     * @throws InvalidArgumentException
+     */
+    public function getErrorsTotalPrevious()
+    {
+        if (null === $this->data['errors_total_previous']) {
+            /** @var BuildStore $errorStore */
+            $store = Factory::getStore('Build');
+
+            $trend = $store->getBuildErrorsTrend($this->getId(), $this->getProjectId(), $this->getBranch());
+
+            if (!isset($trend[1])) {
+                $trend[1] = [
+                    'build_id' => 0,
+                    'count'    => (int)$trend[0]['count'],
+                ];
+            }
+
+            $this->setErrorsTotal((int)$trend[0]['count']);
+            $this->setErrorsTotalPrevious((int)$trend[1]['count']);
+
+            $store->save($this);
+        }
+
+        return $this->data['errors_total_previous'];
+    }
+
+    /**
+     * @param $value
+     *
+     * @return bool
+     *
+     * @throws InvalidArgumentException
+     */
+    public function setErrorsTotalPrevious($value)
+    {
+        $this->validateNotNull('errors_total_previous', $value);
+        $this->validateInt('errors_total_previous', $value);
+
+        if ($this->data['errors_total_previous'] === $value) {
+            return false;
+        }
+
+        $this->data['errors_total_previous'] = $value;
+
+        return $this->setModified('errors_total_previous');
+    }
+
+    /**
+     * @return int
+     *
+     * @throws InvalidArgumentException
+     */
+    public function getErrorsNew()
+    {
+        if (null === $this->data['errors_new']) {
+            /** @var BuildStore $errorStore */
+            $store = Factory::getStore('Build');
+
+            $this->setErrorsNew(
+                (int)$store->getNewErrorsCount($this->getId())
+            );
+
+            $store->save($this);
+        }
+
+        return $this->data['errors_new'];
+    }
+
+    /**
+     * @param $value
+     *
+     * @return bool
+     *
+     * @throws InvalidArgumentException
+     */
+    public function setErrorsNew($value)
+    {
+        $this->validateNotNull('errors_new', $value);
+        $this->validateInt('errors_new', $value);
+
+        if ($this->data['errors_new'] === $value) {
+            return false;
+        }
+
+        $this->data['errors_new'] = $value;
+
+        return $this->setModified('errors_new');
     }
 }

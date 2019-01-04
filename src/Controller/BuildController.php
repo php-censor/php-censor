@@ -207,7 +207,7 @@ class BuildController extends WebController
         $errorView->errors = $errors['items'];
 
         $data['errors']       = $build->getTotalErrorsCount($plugin, $severity, $isNew);
-        $data['errors_total'] = $build->getTotalErrorsCount();
+        $data['errors_total'] = $build->getErrorsTotal();
         $data['error_html']   = $errorView->render();
 
         return $data;

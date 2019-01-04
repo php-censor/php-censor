@@ -637,3 +637,11 @@ h6,
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+.arrow_trend_positive {
+    color: #00a65a;
+}
+
+.arrow_trend_negative {
+    color: #dd4b39;
+}
