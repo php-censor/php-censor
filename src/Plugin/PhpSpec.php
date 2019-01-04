@@ -2,7 +2,8 @@
 
 namespace PHPCensor\Plugin;
 
-use PHPCensor;
+use PHPCensor\Builder;
+use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 
 /**
@@ -19,6 +20,7 @@ class PhpSpec extends Plugin
     {
         return 'php_spec';
     }
+
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
         parent::__construct($builder, $build, $options);
