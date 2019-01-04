@@ -4,12 +4,14 @@ namespace PHPCensor\Model;
 
 use PHPCensor\Builder;
 use PHPCensor\Plugin\PhpParallelLint;
+use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\Factory;
 use PHPCensor\Store\ProjectStore;
 use PHPCensor\Store\BuildErrorStore;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Parser as YamlParser;
 use PHPCensor\Model\Base\Build as BaseBuild;
+use PHPCensor\Exception\InvalidArgumentException;
 
 /**
  * @author Dan Cryer <dan@block8.co.uk>
@@ -45,11 +47,6 @@ class Build extends BaseBuild
         self::SOURCE_WEBHOOK_PULL_REQUEST_APPROVED,
         self::SOURCE_WEBHOOK_PULL_REQUEST_MERGED,
     ];
-
-    /**
-     * @var int|null
-     */
-    protected $newErrorsCount = null;
 
     /**
      * @var array
@@ -616,23 +613,6 @@ OUT;
     }
 
     /**
-     * @return int
-     *
-     * @throws \Exception
-     */
-    public function getNewErrorsCount()
-    {
-        if (null === $this->newErrorsCount) {
-            /** @var BuildErrorStore $store */
-            $store = Factory::getStore('BuildError');
-
-            $this->newErrorsCount = (int)$store->getNewErrorsCount($this->getId());
-        }
-
-        return $this->newErrorsCount;
-    }
-
-    /**
      * Gets the total number of errors for a given build.
      *
      * @param string|null $plugin
@@ -645,6 +625,10 @@ OUT;
      */
     public function getTotalErrorsCount($plugin = null, $severity = null, $isNew = null)
     {
+        if (null === $plugin && null === $severity && null === $isNew) {
+            return $this->getErrorsTotal();
+        }
+
         $key = 
             $plugin . ':' .
             ((null === $severity) ? 'null' : (int)$severity) . ':' .
@@ -663,5 +647,24 @@ OUT;
         }
 
         return $this->totalErrorsCount[$key];
+    }
+
+    /**
+     * @return int
+     *
+     * @throws InvalidArgumentException
+     */
+    public function getErrorsTrend()
+    {
+        $total    = $this->getErrorsTotal();
+        $previous = $this->getErrorsTotalPrevious(); 
+
+        if ($previous > $total) {
+            return 1;
+        } elseif ($previous < $total) {
+            return -1;
+        }
+
+        return 0;
     }
 }

@@ -543,4 +543,61 @@ class BuildStore extends Store
             return ['items' => [], 'count' => 0];
         }
     }
+
+    /**
+     * @param int $buildId
+     *
+     * @return int
+     *
+     * @throws \Exception
+     */
+    public function getNewErrorsCount($buildId)
+    {
+        $query = 'SELECT COUNT(*) AS {{total}} FROM {{build_error}} WHERE {{build_id}} = :build_id AND {{is_new}} = true';
+
+        $stmt = Database::getConnection('read')->prepareCommon($query);
+
+        $stmt->bindValue(':build_id', $buildId);
+
+        if ($stmt->execute()) {
+            $res = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+            return (integer)$res['total'];
+        }
+
+        return 0;
+    }
+
+    /**
+     * @param int    $buildId
+     * @param int    $projectId
+     * @param string $branch
+     *
+     * @return array
+     *
+     * @throws \Exception
+     */
+    public function getBuildErrorsTrend($buildId, $projectId, $branch)
+    {
+        $query = '
+SELECT b.id AS {{build_id}}, count(be.id) AS {{count}} FROM {{' . $this->tableName . '}} AS b
+LEFT JOIN {{build_error}} AS be
+ON b.id = be.build_id
+WHERE b.project_id = :project_id AND b.branch = :branch AND b.id <= :build_id
+GROUP BY b.id
+order BY b.id DESC
+LIMIT 2';
+
+        $stmt = Database::getConnection('read')->prepareCommon($query);
+
+        $stmt->bindValue(':build_id', $buildId, \PDO::PARAM_INT);
+        $stmt->bindValue(':project_id', $projectId, \PDO::PARAM_INT);
+        $stmt->bindValue(':branch', $branch, \PDO::PARAM_STR);
+
+        if ($stmt->execute()) {
+            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        } else {
+            return [];
+        }
+    }
 }
