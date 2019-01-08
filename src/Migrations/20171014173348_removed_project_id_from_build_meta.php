@@ -8,10 +8,12 @@ class RemovedProjectIdFromBuildMeta extends AbstractMigration
     {
         $this
             ->table('build_meta')
-
             ->dropForeignKey('project_id')
-            ->removeColumn('project_id')
+            ->save();
 
+        $this
+            ->table('build_meta')
+            ->removeColumn('project_id')
             ->save();
     }
 

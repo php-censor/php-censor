@@ -18,7 +18,7 @@ class AddBuildErrorsTotals extends AbstractMigration
     public function down()
     {
         $this
-            ->table('project')
+            ->table('build')
             ->removeColumn('errors_total')
             ->removeColumn('errors_total_previous')
             ->removeColumn('errors_new')
