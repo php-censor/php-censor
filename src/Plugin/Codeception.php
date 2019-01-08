@@ -183,6 +183,10 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
             'failures'  => $parser->getTotalFailures(),
         ];
 
+        // NOTE: Codeception does not use stderr, so failure can only be detected
+        // through tests
+        $success = $success && (intval($meta['failures']) < 1);
+
         $this->build->storeMeta((self::pluginName() . '-meta'), $meta);
         $this->build->storeMeta((self::pluginName() . '-data'), $output);
         $this->build->storeMeta((self::pluginName() . '-errors'), $parser->getTotalFailures());
