@@ -34,10 +34,12 @@ class ErrorsTable extends AbstractMigration
     {
         $this
             ->table('build_error')
-
             ->dropForeignKey('build_id')
-            ->drop()
+            ->save();
 
+        $this
+            ->table('build_error')
+            ->drop()
             ->save();
     }
 }

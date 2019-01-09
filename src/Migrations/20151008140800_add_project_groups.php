@@ -28,6 +28,10 @@ class AddProjectGroups extends AbstractMigration
         $this
             ->table('project')
             ->dropForeignKey('group_id')
+            ->save();
+
+        $this
+            ->table('project')
             ->removeColumn('group_id')
             ->save();
 

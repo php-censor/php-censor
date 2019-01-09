@@ -8,10 +8,12 @@ class RemoveUniqueNameIndex extends AbstractMigration
     {
         $this
             ->table('user')
-
             ->removeIndex(['name'])
-            ->addIndex(['name'])
+            ->save();
 
+        $this
+            ->table('user')
+            ->addIndex(['name'])
             ->save();
     }
 
@@ -19,10 +21,12 @@ class RemoveUniqueNameIndex extends AbstractMigration
     {
         $this
             ->table('user')
-
             ->removeIndex(['name'])
-            ->addIndex(['name'], ['unique' => true])
+            ->save();
 
+        $this
+            ->table('user')
+            ->addIndex(['name'], ['unique' => true])
             ->save();
     }
 }
