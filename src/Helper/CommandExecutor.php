@@ -104,20 +104,18 @@ class CommandExecutor implements CommandExecutorInterface
             $process->start();
 
             $this->logger->logDebug("Assuming command '{$withNoExit}' does not exit properly");
-            sleep(15);
-            for (;;) {
+            do {
+                sleep(15);
                 $response = [];
                 exec("ps auxww | grep '{$withNoExit}' | grep -v grep", $response);
-                $response = array_filter($response, function ($a) {
-                    return strpos($a, $this->buildPath) !== false;
-                });
-
-                if (empty($response)) {
-                    $process->stop();
-                    break;
-                }
-                sleep(15);
-            }
+                $response = array_filter(
+                    $response,
+                    function ($a) {
+                        return strpos($a, $this->buildPath) !== false;
+                    }
+                );
+            } while (!empty($response));
+            $process->stop();
             $status = 0;
         } else {
             $process->setIdleTimeout(600);
@@ -126,7 +124,7 @@ class CommandExecutor implements CommandExecutorInterface
         }
 
         $lastOutput = $this->replaceIllegalCharacters($process->getOutput());
-        $lastError = $this->replaceIllegalCharacters($process->getErrorOutput());
+        $lastError  = $this->replaceIllegalCharacters($process->getErrorOutput());
 
         $this->lastOutput = array_filter(explode(PHP_EOL, $lastOutput));
         $this->lastError  = $lastError;
