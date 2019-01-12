@@ -23,6 +23,8 @@ More [screenshots](docs/en/screenshots.md).
 
 * [System requirements](#system-requirements)
 * [Features](#features)
+* [Changelog](#changelog)
+* [Roadmap](#roadmap)
 * [Installing](#installing)
 * [Installing via Docker](#installing-via-docker)
 * [Updating](#updating)
@@ -67,6 +69,14 @@ CleanBuild, CopyBuild, Deployer, Env, Git, Grunt, Gulp, PackageBuild, Phar, Phin
 [Telegram](https://github.com/LEXASOFT/PHP-Censor-Telegram-Plugin);
 
 * Use your LDAP-server for authentication;
+
+## Changelog
+
+[Versions changelog](ROADMAP.md).
+
+## Roadmap
+
+[PHP Censor roadmap](ROADMAP.md).
 
 ## Installing
 
