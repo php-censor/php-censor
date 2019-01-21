@@ -4,7 +4,6 @@ namespace PHPCensor\Model;
 
 use PHPCensor\Builder;
 use PHPCensor\Plugin\PhpParallelLint;
-use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\Factory;
 use PHPCensor\Store\ProjectStore;
 use PHPCensor\Store\BuildErrorStore;
@@ -92,6 +91,20 @@ class Build extends BaseBuild
             $extra = [];
         }
         $extra[$name] = $value;
+
+        $this->setExtra($extra);
+    }
+
+    /**
+     * @param string $name
+     */
+    public function removeExtraValue($name)
+    {
+        $extra = $this->getExtra();
+        if (!empty($extra[$name])) {
+            unset($extra[$name]);
+        }
+
         $this->setExtra($extra);
     }
 
