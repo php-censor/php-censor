@@ -147,6 +147,13 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
 
         $phpcs = $this->executable;
 
+        if (
+            (!defined('DEBUG_MODE') || !DEBUG_MODE) &&
+            !(boolean)$this->build->getExtra('debug')
+        ) {
+            $this->builder->logExecOutput(false);
+        }
+
         $cmd = 'cd "%s" && ' . $phpcs . ' --report=json %s %s %s %s %s "%s" %s %s %s';
         $this->builder->executeCommand(
             $cmd,
@@ -164,6 +171,8 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
 
         $output                  = $this->builder->getLastOutput();
         list($errors, $warnings) = $this->processReport($output);
+
+        $this->builder->logExecOutput(true);
 
         $success = true;
         $this->build->storeMeta((self::pluginName() . '-warnings'), $warnings);
