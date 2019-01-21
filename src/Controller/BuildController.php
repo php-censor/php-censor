@@ -271,6 +271,8 @@ class BuildController extends WebController
 
         if ($debug && $this->currentUserIsAdmin()) {
             $copy->addExtraValue('debug', true);
+        } elseif (!$debug) {
+            $copy->removeExtraValue('debug');
         }
 
         $build = $this->buildService->createDuplicateBuild($copy);
