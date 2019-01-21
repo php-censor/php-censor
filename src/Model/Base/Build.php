@@ -4,7 +4,6 @@ namespace PHPCensor\Model\Base;
 
 use PHPCensor\Exception\InvalidArgumentException;
 use PHPCensor\Model;
-use PHPCensor\Store\BuildErrorStore;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\Factory;
 
@@ -579,26 +578,18 @@ class Build extends Model
      */
     public function getErrorsTotal()
     {
-        if (null === $this->data['errors_total']) {
-            /** @var BuildStore $errorStore */
+        if (
+            null === $this->data['errors_total'] &&
+            !in_array($this->getStatus(), [self::STATUS_PENDING, self::STATUS_RUNNING], true)
+        ) {
+            /** @var BuildStore $store */
             $store = Factory::getStore('Build');
 
-            $trend = $store->getBuildErrorsTrend($this->getId(), $this->getProjectId(), $this->getBranch());
-
-            if (!isset($trend[1])) {
-                $trend[1] = [
-                    'build_id' => 0,
-                    'count'    => (int)$trend[0]['count'],
-                ];
-            }
-
-            $this->setErrorsTotal((int)$trend[0]['count']);
-            $this->setErrorsTotalPrevious((int)$trend[1]['count']);
-
+            $this->setErrorsTotal($store->getErrorsCount($this->getId()));
             $store->save($this);
         }
 
-        return $this->data['errors_total'];
+        return (int)$this->data['errors_total'];
     }
 
     /**
@@ -623,32 +614,36 @@ class Build extends Model
     }
 
     /**
-     * @return int
+     * @return int|null
      *
      * @throws InvalidArgumentException
+     * @throws \PHPCensor\Exception\HttpException
      */
     public function getErrorsTotalPrevious()
     {
         if (null === $this->data['errors_total_previous']) {
-            /** @var BuildStore $errorStore */
+            /** @var BuildStore $store */
             $store = Factory::getStore('Build');
 
             $trend = $store->getBuildErrorsTrend($this->getId(), $this->getProjectId(), $this->getBranch());
 
-            if (!isset($trend[1])) {
-                $trend[1] = [
-                    'build_id' => 0,
-                    'count'    => (int)$trend[0]['count'],
-                ];
+            if (isset($trend[1])) {
+                $previousBuild = $store->getById($trend[1]['build_id']);
+                if (
+                    $previousBuild &&
+                    !in_array(
+                        $previousBuild->getStatus(),
+                        [self::STATUS_PENDING, self::STATUS_RUNNING],
+                        true
+                    )
+                ) {
+                    $this->setErrorsTotalPrevious((int)$trend[1]['count']);
+                    $store->save($this);
+                }
             }
-
-            $this->setErrorsTotal((int)$trend[0]['count']);
-            $this->setErrorsTotalPrevious((int)$trend[1]['count']);
-
-            $store->save($this);
         }
 
-        return $this->data['errors_total_previous'];
+        return (int)$this->data['errors_total_previous'];
     }
 
     /**
