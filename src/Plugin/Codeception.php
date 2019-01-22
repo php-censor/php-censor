@@ -53,7 +53,7 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
     {
         parent::__construct($builder, $build, $options);
 
-        if (!empty($options['config'])) {
+        if (empty($options['config'])) {
             $this->ymlConfigFile = self::findConfigFile($this->directory);
         } else {
             $this->ymlConfigFile = $this->directory . $options['config'];
