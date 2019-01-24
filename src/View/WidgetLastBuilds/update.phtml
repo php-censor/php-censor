@@ -84,11 +84,13 @@ use PHPCensor\Helper\Template;
                     &mdash;
                     <?= Lang::get('total_errors'); ?>:
                     <?= $build->getErrorsTotal(); ?>
-                    <?php $trend = $build->getErrorsTrend(); ?>
-                    <?php if (1 === $trend): ?>
-                        <i class="fa fa-arrow-down arrow_trend_positive"></i>
-                    <?php elseif (-1 === $trend): ?>
-                        <i class="fa fa-arrow-up arrow_trend_negative"></i>
+                    <?php if(!in_array($build->getStatus(),[Build::STATUS_PENDING, Build::STATUS_RUNNING], true)): ?>
+                        <?php $trend = $build->getErrorsTrend(); ?>
+                        <?php if (1 === $trend): ?>
+                            <i class="fa fa-arrow-down arrow_trend_positive"></i>
+                        <?php elseif (-1 === $trend): ?>
+                            <i class="fa fa-arrow-up arrow_trend_negative"></i>
+                        <?php endif; ?>
                     <?php endif; ?>
 
                     <?php if ($newErrorsCount = $build->getErrorsNew()): ?>

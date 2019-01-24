@@ -455,7 +455,10 @@ class Build extends BaseBuild
             return null;
         }
 
-        return RUNTIME_DIR . 'builds/' . $this->getBuildDirectory() . '/';
+        return rtrim(
+            realpath(RUNTIME_DIR . 'builds'),
+            '/\\'
+        ) . '/' . $this->getBuildDirectory() . '/';
     }
 
     /**
