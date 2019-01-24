@@ -281,22 +281,24 @@ class GithubBuild extends GitBuild
         );
 
         if ($allowCommentCommit || $allowCommentPullRequest) {
-            $diffLineNumber = $this->getDiffLineNumber($builder, $file, $lineStart);
+            if ($file) {
+                $diffLineNumber = $this->getDiffLineNumber($builder, $file, $lineStart);
 
-            if (!is_null($diffLineNumber)) {
-                $helper = new Github();
+                if (!is_null($diffLineNumber)) {
+                    $helper = new Github();
 
-                $repo     = $this->getProject()->getReference();
-                $prNumber = $this->getExtra('pull_request_number');
-                $commit   = $this->getCommitId();
+                    $repo     = $this->getProject()->getReference();
+                    $prNumber = $this->getExtra('pull_request_number');
+                    $commit   = $this->getCommitId();
 
-                if (!empty($prNumber)) {
-                    if ($allowCommentPullRequest) {
-                        $helper->createPullRequestComment($repo, $prNumber, $commit, $file, $diffLineNumber, $message);
-                    }
-                } else {
-                    if ($allowCommentCommit) {
-                        $helper->createCommitComment($repo, $commit, $file, $diffLineNumber, $message);
+                    if (!empty($prNumber)) {
+                        if ($allowCommentPullRequest) {
+                            $helper->createPullRequestComment($repo, $prNumber, $commit, $file, $diffLineNumber, $message);
+                        }
+                    } else {
+                        if ($allowCommentCommit) {
+                            $helper->createCommitComment($repo, $commit, $file, $diffLineNumber, $message);
+                        }
                     }
                 }
             }
@@ -323,12 +325,12 @@ class GithubBuild extends GitBuild
         $path     = $builder->buildPath;
 
         if (!empty($prNumber)) {
-            $builder->executeCommand('cd %s && git diff origin/%s "%s"', $path, $this->getBranch(), $file);
+            $builder->executeCommand('cd "%s" && git diff "origin/%s" "%s"', $path, $this->getBranch(), $file);
         } else {
             $commitId = $this->getCommitId();
             $compare  = empty($commitId) ? 'HEAD' : $commitId;
 
-            $builder->executeCommand('cd %s && git diff %s^^ "%s"', $path, $compare, $file);
+            $builder->executeCommand('cd "%s" && git diff "%s^^" "%s"', $path, $compare, $file);
         }
 
         $builder->logExecOutput(true);
