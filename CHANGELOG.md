@@ -5,6 +5,22 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [1.0.3 (Morty Smith)](https://github.com/php-censor/php-censor/tree/1.0.3) (2019-01-27)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/1.0.2...1.0.3)
+
+### Fixed
+
+- Fixed errors trend processing (total errors count and previous build errors count).
+- Fixed rebuild without debug for builds with debug.
+- Fixed PhpCodeSniffer and PhpMessDetector plugins output for non-debug mode.
+- Fixed Codeception plugin config (codeception.yml) path. Issue 
+[#262](https://github.com/php-censor/php-censor/issues/262).
+- Fixed paths with symlinks for plugins.
+- Fixed arrow icon for build errors trend for pending/running builds (Arrow removed).
+- Fixed `getDiffLineNumber` method for case errors without file (`$file = NULL`).
+
+
 ## [1.0.2 (Morty Smith)](https://github.com/php-censor/php-censor/tree/1.0.2) (2019-01-13)
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/1.0.1...1.0.2)
