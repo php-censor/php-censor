@@ -45,8 +45,6 @@ class CopyBuild extends Plugin
     {
         $buildPath = $this->builder->buildPath;
 
-        chdir($buildPath);
-
         if ($this->directory === $buildPath) {
             return false;
         }

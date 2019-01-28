@@ -400,6 +400,8 @@ class Builder implements LoggerAwareInterface
             throw new \Exception('Could not create a working copy.');
         }
 
+        chdir($this->buildPath);
+
         $this->interpolator->setupInterpolationVars(
             $this->build,
             $this->buildPath,

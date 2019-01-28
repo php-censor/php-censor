@@ -148,9 +148,6 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
     */
     public function execute()
     {
-        $currentDir = getcwd();
-        chdir($this->builder->buildPath);
-
         $success    = true;
         $errorCount = $this->getErrorList();
 
@@ -161,8 +158,6 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
         if ($this->allowedErrors !== -1 && $errorCount > $this->allowedErrors) {
             $success = false;
         }
-
-        chdir($currentDir);
 
         return $success;
     }
