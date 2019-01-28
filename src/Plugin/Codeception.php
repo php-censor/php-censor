@@ -138,9 +138,6 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
             return false;
         }
 
-        $currentDir = getcwd();
-        chdir($this->builder->buildPath);
-
         $cmd = 'cd "%s" && ' . $codeception . ' run -c "%s" ' . $this->args . ' --xml';
 
         $success = $this->builder->executeCommand($cmd, $this->directory, $this->ymlConfigFile);
@@ -174,8 +171,6 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
 
         $parser = new Parser($this->builder, ($trueReportXmlPath . 'report.xml'));
         $output = $parser->parse();
-
-        chdir($currentDir);
 
         $meta = [
             'tests'     => $parser->getTotalTests(),

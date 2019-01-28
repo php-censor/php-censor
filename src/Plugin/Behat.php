@@ -48,9 +48,6 @@ class Behat extends Plugin
      */
     public function execute()
     {
-        $currentDir = getcwd();
-        chdir($this->builder->buildPath);
-
         if (!$this->executable) {
             $this->builder->logFailure(sprintf('Could not find %s', 'behat'));
 
@@ -58,7 +55,6 @@ class Behat extends Plugin
         }
 
         $success = $this->builder->executeCommand($this->executable . ' %s', $this->features);
-        chdir($currentDir);
 
         list($errorCount, $data) = $this->parseBehatOutput();
 

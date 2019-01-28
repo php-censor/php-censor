@@ -11,14 +11,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ### Fixed
 
-- Fixed errors trend processing (total errors count and previous build errors count).
-- Fixed rebuild without debug for builds with debug.
-- Fixed PhpCodeSniffer and PhpMessDetector plugins output for non-debug mode.
-- Fixed Codeception plugin config (codeception.yml) path. Issue 
-[#262](https://github.com/php-censor/php-censor/issues/262).
-- Fixed paths with symlinks for plugins.
-- Fixed arrow icon for build errors trend for pending/running builds (Arrow removed).
-- Fixed `getDiffLineNumber` method for case errors without file (`$file = NULL`).
+- Errors trend processing (total errors count and previous build errors count).
+- Rebuild without debug for builds with debug.
+- PhpCodeSniffer and PhpMessDetector plugins output for non-debug mode.
+- Codeception plugin config (codeception.yml) path. Issue [#262](https://github.com/php-censor/php-censor/issues/262).
+- Paths with symlinks for plugins.
+- Arrow icon for build errors trend for pending/running builds (Arrow removed).
+- Method `getDiffLineNumber` for case errors without file (`$file = NULL`).
 
 
 ## [1.0.2 (Morty Smith)](https://github.com/php-censor/php-censor/tree/1.0.2) (2019-01-13)
