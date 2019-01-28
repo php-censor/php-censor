@@ -55,9 +55,6 @@ class PackageBuild extends Plugin
         $filename = str_replace('%time%', date('Hi'), $filename);
         $filename = preg_replace('/([^a-zA-Z0-9_-]+)/', '', $filename);
 
-        $currentDir = getcwd();
-        chdir($this->builder->buildPath);
-
         if (!is_array($this->format)) {
             $this->format = [$this->format];
         }
@@ -75,8 +72,6 @@ class PackageBuild extends Plugin
 
             $success = $this->builder->executeCommand($cmd, $this->directory, $filename);
         }
-
-        chdir($currentDir);
 
         return $success;
     }

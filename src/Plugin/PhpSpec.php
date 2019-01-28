@@ -33,15 +33,10 @@ class PhpSpec extends Plugin
      */
     public function execute()
     {
-        $currentDir = getcwd();
-        chdir($this->builder->buildPath);
-
         $phpspec = $this->executable;
 
         $success = $this->builder->executeCommand($phpspec . ' --format=junit --no-code-generation run');
         $output  = $this->builder->getLastOutput();
-
-        chdir($currentDir);
 
         /*
          * process xml output

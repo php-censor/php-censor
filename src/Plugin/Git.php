@@ -27,16 +27,10 @@ class Git extends Plugin
      */
     public function execute()
     {
-        $buildPath = $this->builder->buildPath;
-
         // Check if there are any actions to be run for the branch we're running on:
         if (!array_key_exists($this->build->getBranch(), $this->actions)) {
             return true;
         }
-
-        // If there are, run them:
-        $currentDirectory = getcwd();
-        chdir($buildPath);
 
         $success = true;
         foreach ($this->actions[$this->build->getBranch()] as $action => $options) {
@@ -45,8 +39,6 @@ class Git extends Plugin
                 break;
             }
         }
-
-        chdir($currentDirectory);
 
         return $success;
     }

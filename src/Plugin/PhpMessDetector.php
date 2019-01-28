@@ -83,17 +83,12 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
             return false;
         }
 
-        $currentDir = getcwd();
-        chdir($this->builder->buildPath);
-
         $phpmdBinaryPath = $this->executable;
 
         $this->executePhpMd($phpmdBinaryPath);
 
         $errorCount = $this->processReport(trim($this->builder->getLastOutput()));
         $this->build->storeMeta((self::pluginName() . '-warnings'), $errorCount);
-
-        chdir($currentDir);
 
         return $this->wasLastExecSuccessful($errorCount);
     }
