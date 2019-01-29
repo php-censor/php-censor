@@ -642,7 +642,7 @@ OUT;
     public function getTotalErrorsCount($plugin = null, $severity = null, $isNew = null)
     {
         if (null === $plugin && null === $severity && null === $isNew) {
-            return $this->getErrorsTotal();
+            return (int)$this->getErrorsTotal();
         }
 
         $key = 
@@ -669,12 +669,18 @@ OUT;
      * @return int
      *
      * @throws InvalidArgumentException
+     * @throws \PHPCensor\Exception\HttpException
      */
     public function getErrorsTrend()
     {
-        $total    = $this->getErrorsTotal();
-        $previous = $this->getErrorsTotalPrevious(); 
+        $total    = (int)$this->getErrorsTotal();
+        $previous = $this->getErrorsTotalPrevious();
 
+        if (null === $previous) {
+            return 0;
+        }
+
+        $previous = (int)$previous;
         if ($previous > $total) {
             return 1;
         } elseif ($previous < $total) {

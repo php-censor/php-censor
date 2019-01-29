@@ -83,7 +83,7 @@ use PHPCensor\Helper\Template;
 
                     &mdash;
                     <?= Lang::get('total_errors'); ?>:
-                    <?= $build->getErrorsTotal(); ?>
+                    <?= (int)$build->getErrorsTotal(); ?>
                     <?php if(!in_array($build->getStatus(),[Build::STATUS_PENDING, Build::STATUS_RUNNING], true)): ?>
                         <?php $trend = $build->getErrorsTrend(); ?>
                         <?php if (1 === $trend): ?>
