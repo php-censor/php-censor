@@ -589,7 +589,7 @@ class Build extends Model
             $store->save($this);
         }
 
-        return (int)$this->data['errors_total'];
+        return $this->data['errors_total'];
     }
 
     /**
@@ -643,7 +643,7 @@ class Build extends Model
             }
         }
 
-        return (int)$this->data['errors_total_previous'];
+        return $this->data['errors_total_previous'];
     }
 
     /**
