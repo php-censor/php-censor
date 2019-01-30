@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PHPCensor\Model\Base;
 
 use PHPCensor\Exception\InvalidArgumentException;
@@ -35,14 +37,9 @@ class User extends Model
      * @param int $value
      *
      * @return bool
-     *
-     * @throws InvalidArgumentException
      */
-    public function setId($value)
+    public function setId(int $value)
     {
-        $this->validateNotNull('id', $value);
-        $this->validateInt('id', $value);
-
         if ($this->data['id'] === $value) {
             return false;
         }
@@ -64,14 +61,9 @@ class User extends Model
      * @param string $value
      *
      * @return bool
-     *
-     * @throws InvalidArgumentException
      */
-    public function setEmail($value)
+    public function setEmail(string $value)
     {
-        $this->validateNotNull('email', $value);
-        $this->validateString('email', $value);
-
         if ($this->data['email'] === $value) {
             return false;
         }
@@ -93,14 +85,9 @@ class User extends Model
      * @param string $value
      *
      * @return bool
-     *
-     * @throws InvalidArgumentException
      */
-    public function setHash($value)
+    public function setHash(string $value)
     {
-        $this->validateNotNull('hash', $value);
-        $this->validateString('hash', $value);
-
         if ($this->data['hash'] === $value) {
             return false;
         }
@@ -122,14 +109,9 @@ class User extends Model
      * @param bool $value
      *
      * @return bool
-     *
-     * @throws InvalidArgumentException
      */
-    public function setIsAdmin($value)
+    public function setIsAdmin(bool $value)
     {
-        $this->validateNotNull('is_admin', $value);
-        $this->validateBoolean('is_admin', $value);
-
         if ($this->data['is_admin'] === (int)$value) {
             return false;
         }
@@ -151,14 +133,9 @@ class User extends Model
      * @param string $value
      *
      * @return bool
-     *
-     * @throws InvalidArgumentException
      */
-    public function setName($value)
+    public function setName(string $value)
     {
-        $this->validateNotNull('name', $value);
-        $this->validateString('name', $value);
-
         if ($this->data['name'] === $value) {
             return false;
         }
@@ -201,16 +178,12 @@ class User extends Model
     }
 
     /**
-     * @param int $value
+     * @param int|null $value
      *
      * @return bool
-     *
-     * @throws InvalidArgumentException
      */
-    public function setPerPage($value)
+    public function setPerPage(?int $value)
     {
-        $this->validateInt('per_page', $value);
-
         if ($this->data['per_page'] === $value) {
             return false;
         }
@@ -232,14 +205,9 @@ class User extends Model
      * @param string $value
      *
      * @return bool
-     *
-     * @throws InvalidArgumentException
      */
-    public function setProviderKey($value)
+    public function setProviderKey(string $value)
     {
-        $this->validateNotNull('provider_key', $value);
-        $this->validateString('provider_key', $value);
-
         if ($this->data['provider_key'] === $value) {
             return false;
         }
@@ -271,13 +239,9 @@ class User extends Model
      * @param array $value
      *
      * @return bool
-     *
-     * @throws InvalidArgumentException
      */
     public function setProviderData(array $value)
     {
-        $this->validateNotNull('provider_data', $value);
-
         $providerData = json_encode($value);
         if ($this->data['provider_data'] === $providerData) {
             return false;
@@ -297,16 +261,12 @@ class User extends Model
     }
 
     /**
-     * @param string $value
+     * @param string|null $value
      *
      * @return bool
-     *
-     * @throws InvalidArgumentException
      */
-    public function setRememberKey($value)
+    public function setRememberKey(?string $value)
     {
-        $this->validateString('remember_key', $value);
-
         if ($this->data['remember_key'] === $value) {
             return false;
         }

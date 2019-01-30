@@ -3,7 +3,7 @@
 namespace PHPCensor\Helper;
 
 use Swift_Mailer;
-use Swift_MailTransport;
+use Swift_SendmailTransport;
 use Swift_SmtpTransport;
 
 /**
@@ -45,7 +45,7 @@ class MailerFactory
             }
 
             /** @var Swift_SmtpTransport $transport */
-            $transport = Swift_SmtpTransport::newInstance(
+            $transport = new Swift_SmtpTransport(
                 $this->getMailConfig('smtp_address'),
                 $this->getMailConfig('smtp_port'),
                 $encryptionType
@@ -54,10 +54,10 @@ class MailerFactory
             $transport->setUsername($this->getMailConfig('smtp_username'));
             $transport->setPassword($this->getMailConfig('smtp_password'));
         } else {
-            $transport = Swift_MailTransport::newInstance(null);
+            $transport = new Swift_SendmailTransport();
         }
 
-        return Swift_Mailer::newInstance($transport);
+        return new Swift_Mailer($transport);
     }
 
     /**

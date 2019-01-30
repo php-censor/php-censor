@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PHPCensor\Model\Base;
 
 use DateTime;
@@ -43,14 +45,9 @@ class BuildError extends Model
      * @param int $value
      *
      * @return bool
-     *
-     * @throws InvalidArgumentException
      */
-    public function setId($value)
+    public function setId(int $value)
     {
-        $this->validateNotNull('id', $value);
-        $this->validateInt('id', $value);
-
         if ($this->data['id'] === $value) {
             return false;
         }
@@ -72,14 +69,9 @@ class BuildError extends Model
      * @param int $value
      *
      * @return bool
-     *
-     * @throws InvalidArgumentException
      */
-    public function setBuildId($value)
+    public function setBuildId(int $value)
     {
-        $this->validateNotNull('build_id', $value);
-        $this->validateInt('build_id', $value);
-
         if ($this->data['build_id'] === $value) {
             return false;
         }
@@ -101,14 +93,9 @@ class BuildError extends Model
      * @param string $value
      *
      * @return bool
-     *
-     * @throws InvalidArgumentException
      */
-    public function setPlugin($value)
+    public function setPlugin(string $value)
     {
-        $this->validateNotNull('plugin', $value);
-        $this->validateString('plugin', $value);
-
         if ($this->data['plugin'] === $value) {
             return false;
         }
@@ -127,16 +114,12 @@ class BuildError extends Model
     }
 
     /**
-     * @param string $value
+     * @param string|null $value
      *
      * @return bool
-     *
-     * @throws InvalidArgumentException
      */
-    public function setFile($value)
+    public function setFile(?string $value)
     {
-        $this->validateString('file', $value);
-
         if ($this->data['file'] === $value) {
             return false;
         }
@@ -155,16 +138,12 @@ class BuildError extends Model
     }
 
     /**
-     * @param int $value
+     * @param int|null $value
      *
      * @return bool
-     *
-     * @throws InvalidArgumentException
      */
-    public function setLineStart($value)
+    public function setLineStart(?int $value)
     {
-        $this->validateInt('line_start', $value);
-
         if ($this->data['line_start'] === $value) {
             return false;
         }
@@ -183,16 +162,12 @@ class BuildError extends Model
     }
 
     /**
-     * @param int $value
+     * @param int|null $value
      *
      * @return bool
-     *
-     * @throws InvalidArgumentException
      */
-    public function setLineEnd($value)
+    public function setLineEnd(?int $value)
     {
-        $this->validateInt('line_end', $value);
-
         if ($this->data['line_end'] === $value) {
             return false;
         }
@@ -214,14 +189,9 @@ class BuildError extends Model
      * @param int $value
      *
      * @return bool
-     *
-     * @throws InvalidArgumentException
      */
-    public function setSeverity($value)
+    public function setSeverity(int $value)
     {
-        $this->validateNotNull('severity', $value);
-        $this->validateInt('severity', $value);
-
         if ($this->data['severity'] === $value) {
             return false;
         }
@@ -243,14 +213,9 @@ class BuildError extends Model
      * @param string $value
      *
      * @return bool
-     *
-     * @throws InvalidArgumentException
      */
-    public function setMessage($value)
+    public function setMessage(string $value)
     {
-        $this->validateNotNull('message', $value);
-        $this->validateString('message', $value);
-
         if ($this->data['message'] === $value) {
             return false;
         }
@@ -278,13 +243,9 @@ class BuildError extends Model
      * @param DateTime $value
      *
      * @return bool
-     *
-     * @throws InvalidArgumentException
      */
     public function setCreateDate(DateTime $value)
     {
-        $this->validateNotNull('create_date', $value);
-
         $stringValue = $value->format('Y-m-d H:i:s');
 
         if ($this->data['create_date'] === $stringValue) {
@@ -308,14 +269,9 @@ class BuildError extends Model
      * @param string $value
      *
      * @return bool
-     *
-     * @throws InvalidArgumentException
      */
-    public function setHash($value)
+    public function setHash(string $value)
     {
-        $this->validateNotNull('hash', $value);
-        $this->validateString('hash', $value);
-
         if ($this->data['hash'] === $value) {
             return false;
         }
@@ -337,14 +293,9 @@ class BuildError extends Model
      * @param bool $value
      *
      * @return bool
-     *
-     * @throws InvalidArgumentException
      */
-    public function setIsNew($value)
+    public function setIsNew(bool $value)
     {
-        $this->validateNotNull('is_new', $value);
-        $this->validateBoolean('is_new', $value);
-
         if ($this->data['is_new'] === (int)$value) {
             return false;
         }

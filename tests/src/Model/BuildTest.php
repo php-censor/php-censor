@@ -72,10 +72,10 @@ class BuildTest extends TestCase
 
         try {
             $build->setLog([]);
-        } catch (InvalidArgumentException $e) {
-            self::assertEquals(
-                'Column "log" must be a string.',
-                $e->getMessage()
+        } catch (\Throwable $e) {
+            self::assertInstanceOf(
+                \TypeError::class,
+                $e
             );
         }
 
@@ -93,10 +93,10 @@ class BuildTest extends TestCase
 
         try {
             $build->setId(null);
-        } catch (InvalidArgumentException $e) {
-            self::assertEquals(
-                'Column "id" must not be null.',
-                $e->getMessage()
+        } catch (\Throwable $e) {
+            self::assertInstanceOf(
+                \TypeError::class,
+                $e
             );
         }
     }

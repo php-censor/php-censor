@@ -44,7 +44,7 @@ More [screenshots](docs/en/screenshots.md).
 
 * Unix-like OS (**Windows isn't supported**);
 
-* PHP 5.6+ (with OpenSSL support and enabled functions: `exec()`, `shell_exec()` and `proc_open()`);
+* PHP 7.1+ (with OpenSSL support and enabled functions: `exec()`, `shell_exec()` and `proc_open()`);
 
 * Web-server (Nginx or Apache2);
 

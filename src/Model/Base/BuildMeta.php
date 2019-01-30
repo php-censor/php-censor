@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PHPCensor\Model\Base;
 
 use PHPCensor\Exception\InvalidArgumentException;
@@ -29,14 +31,9 @@ class BuildMeta extends Model
      * @param int $value
      *
      * @return bool
-     *
-     * @throws InvalidArgumentException
      */
-    public function setId($value)
+    public function setId(int $value)
     {
-        $this->validateNotNull('id', $value);
-        $this->validateInt('id', $value);
-
         if ($this->data['id'] === $value) {
             return false;
         }
@@ -58,14 +55,9 @@ class BuildMeta extends Model
      * @param int $value
      *
      * @return bool
-     *
-     * @throws InvalidArgumentException
      */
-    public function setBuildId($value)
+    public function setBuildId(int $value)
     {
-        $this->validateNotNull('build_id', $value);
-        $this->validateInt('build_id', $value);
-
         if ($this->data['build_id'] === $value) {
             return false ;
         }
@@ -87,14 +79,9 @@ class BuildMeta extends Model
      * @param string $value
      *
      * @return bool
-     *
-     * @throws InvalidArgumentException
      */
-    public function setMetaKey($value)
+    public function setMetaKey(string $value)
     {
-        $this->validateNotNull('meta_key', $value);
-        $this->validateString('meta_key', $value);
-
         if ($this->data['meta_key'] === $value) {
             return false;
         }
@@ -116,14 +103,9 @@ class BuildMeta extends Model
      * @param string $value
      *
      * @return bool
-     *
-     * @throws InvalidArgumentException
      */
-    public function setMetaValue($value)
+    public function setMetaValue(string $value)
     {
-        $this->validateNotNull('meta_value', $value);
-        $this->validateString('meta_value', $value);
-
         if ($this->data['meta_value'] === $value) {
             return false;
         }

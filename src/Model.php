@@ -1,8 +1,8 @@
 <?php
 
-namespace PHPCensor;
+declare(strict_types=1);
 
-use PHPCensor\Exception\InvalidArgumentException;
+namespace PHPCensor;
 
 class Model
 {
@@ -19,7 +19,7 @@ class Model
     /**
      * @param array $initialData
      */
-    public function __construct($initialData = [])
+    public function __construct(array $initialData = [])
     {
         if (is_array($initialData)) {
             foreach ($initialData as $index => $item) {
@@ -33,7 +33,7 @@ class Model
     /**
      * @return array
      */
-    public function getDataArray()
+    public function getDataArray(): array
     {
         return $this->data;
     }
@@ -41,7 +41,7 @@ class Model
     /**
      * @return array
      */
-    public function getModified()
+    public function getModified(): array
     {
         return $this->modified;
     }
@@ -51,62 +51,10 @@ class Model
      *
      * @return bool
      */
-    protected function setModified($column)
+    protected function setModified(string $column): bool
     {
         $this->modified[$column] = $column;
 
         return true;
-    }
-
-    /**
-     * @param string $name
-     * @param mixed  $value
-     *
-     * @throws InvalidArgumentException
-     */
-    protected function validateString($name, $value)
-    {
-        if (!is_string($value) && !is_null($value)) {
-            throw new InvalidArgumentException('Column "' . $name . '" must be a string.');
-        }
-    }
-
-    /**
-     * @param string $name
-     * @param mixed  $value
-     *
-     * @throws InvalidArgumentException
-     */
-    protected function validateInt($name, $value)
-    {
-        if (!is_int($value) && !is_null($value)) {
-            throw new InvalidArgumentException('Column "' . $name . '" must be an int.');
-        }
-    }
-
-    /**
-     * @param string $name
-     * @param mixed  $value
-     *
-     * @throws InvalidArgumentException
-     */
-    protected function validateBoolean($name, $value)
-    {
-        if (!is_bool($value) && !is_null($value)) {
-            throw new InvalidArgumentException('Column "' . $name . '" must be a bool.');
-        }
-    }
-
-    /**
-     * @param string $name
-     * @param mixed  $value
-     *
-     * @throws InvalidArgumentException
-     */
-    protected function validateNotNull($name, $value)
-    {
-        if (is_null($value)) {
-            throw new InvalidArgumentException('Column "' . $name . '" must not be null.');
-        }
     }
 }
