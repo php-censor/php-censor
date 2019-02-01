@@ -1,5 +1,5 @@
 Plugin Wipe
-============
+===========
 
 The plugin deletes a directory.
 

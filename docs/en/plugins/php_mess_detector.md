@@ -12,8 +12,8 @@ Configuration
 Setting allowed_warnings in conjunction with zero_config will override zero_config.
 - **suffixes** [array, optional] - An array of file extensions to check (default: 'php')
 - **ignore** [array, optional] - An array of files/paths to ignore (default: build_settings > ignore)
-- **path** - **[DEPRECATED]** - Option `path` deprecated and will be deleted in version 2.0 (Use option `directory` 
-instead)!
+- **path** - **[DEPRECATED]** Option `path` is deprecated and will be deleted in version 2.0. Use the option 
+`directory` instead.
 - **directory** - Optional - directory in which to run PHPMD (default: `%BUILD_PATH%`).
 - **rules** [array, optional] - Array of rulesets that PHPMD should use when checking your build or a string containing 
 at least one slash, will be treated as path to PHPMD ruleset. See http://phpmd.org/rules/index.html for complete 

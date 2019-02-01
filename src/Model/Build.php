@@ -266,7 +266,7 @@ class Build extends BaseBuild
             );
         } elseif (file_exists($buildPath . '/.phpci.yml')) {
             $builder->logWarning(
-                '[DEPRECATED] Config file name ".phpci.yml" deprecated and will be deleted in version 2.0 (Use config file name ".php-censor.yml" instead)!'
+                '[DEPRECATED] Config file name ".phpci.yml" is deprecated and will be deleted in version 2.0. Use a config file name ".php-censor.yml" instead.'
             );
 
             $repositoryConfigFrom = '.phpci.yml';
@@ -275,7 +275,7 @@ class Build extends BaseBuild
             );
         } elseif (file_exists($buildPath . '/phpci.yml')) {
             $builder->logWarning(
-                '[DEPRECATED] Config file name "phpci.yml" deprecated and will be deleted in version 2.0 (Use config file name ".php-censor.yml" instead)!'
+                '[DEPRECATED] Config file name "phpci.yml" is deprecated and will be deleted in version 2.0. Use a config file name ".php-censor.yml" instead.'
             );
 
             $repositoryConfigFrom = 'phpci.yml';
