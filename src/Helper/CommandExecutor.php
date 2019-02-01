@@ -4,6 +4,7 @@ namespace PHPCensor\Helper;
 
 use Exception;
 use PHPCensor\Logging\BuildLogger;
+use Symfony\Component\Process\Process;
 
 /**
  * Handles running system commands with variables.
@@ -50,6 +51,29 @@ class CommandExecutor implements CommandExecutorInterface
     protected $buildPath;
 
     /**
+     * Commands with no proper exit mechanism
+     *
+     * @var array
+     */
+    private static $noExitCommands = [
+        'codecept',
+    ];
+
+    /**
+     * Environment variables that should not be inherited
+     *
+     * @var array
+     */
+    private static $blacklistEnvVars = [
+        'PHP_SELF',
+        'SCRIPT_NAME',
+        'SCRIPT_FILENAME',
+        'PATH_TRANSLATED',
+        'DOCUMENT_ROOT',
+        'SHELL_VERBOSITY',
+    ];
+
+    /**
      * @param BuildLogger $logger
      * @param string      $rootDir
      * @param bool        $verbose
@@ -61,6 +85,7 @@ class CommandExecutor implements CommandExecutorInterface
         $this->lastOutput = [];
         $this->rootDir    = $rootDir;
     }
+
     /**
      * Executes shell commands.
      *
@@ -78,28 +103,44 @@ class CommandExecutor implements CommandExecutorInterface
 
         $this->logger->logDebug('Command: ' . $command);
 
-        $status         = 0;
-        $descriptorSpec = [
-            0 => ["pipe", "r"], // stdin
-            1 => ["pipe", "w"], // stdout
-            2 => ["pipe", "w"], // stderr
-        ];
-
-        $pipes   = [];
-        $process = proc_open($command, $descriptorSpec, $pipes, $this->buildPath, null);
-
-        $lastOutput = '';
-        $lastError  = '';
-        if (is_resource($process)) {
-            fclose($pipes[0]);
-
-            list($lastOutput, $lastError) = $this->readAlternating([$pipes[1], $pipes[2]]);
-
-            $status = (int)proc_close($process);
-
-            $lastOutput = $this->replaceIllegalCharacters($lastOutput);
-            $lastError  = $this->replaceIllegalCharacters($lastError);
+        $withNoExit = '';
+        foreach (self::$noExitCommands as $nec) {
+            if (preg_match("/\b{$nec}\b/", $command)) {
+                $withNoExit = $nec;
+                break;
+            }
         }
+
+        $process = new Process($command, $this->buildPath);
+        $process->setTimeout(86400);
+
+        $env = $this->getDefaultEnv();
+
+        if (!empty($withNoExit)) {
+            $process->start(null, $env);
+
+            $this->logger->logDebug("Assuming command '{$withNoExit}' does not exit properly");
+            do {
+                sleep(15);
+                $response = [];
+                exec("ps auxww | grep '{$withNoExit}' | grep -v grep", $response);
+                $response = array_filter(
+                    $response,
+                    function ($a) {
+                        return strpos($a, $this->buildPath) !== false;
+                    }
+                );
+            } while (!empty($response));
+            $process->stop();
+            $status = 0;
+        } else {
+            $process->setIdleTimeout(600);
+            $process->start(null, $env);
+            $status = $process->wait();
+        }
+
+        $lastOutput = $this->replaceIllegalCharacters($process->getOutput());
+        $lastError  = $this->replaceIllegalCharacters($process->getErrorOutput());
 
         $this->lastOutput = array_filter(explode(PHP_EOL, $lastOutput));
         $this->lastError  = $lastError;
@@ -122,56 +163,6 @@ class CommandExecutor implements CommandExecutorInterface
         $this->logger->logDebug('Execution status: ' . $status);
 
         return $isSuccess;
-    }
-
-    /**
-     * Reads from array of streams as data becomes available.
-     *
-     * @param array $descriptors
-     *
-     * @return string[] data read from each descriptor
-     */
-    private function readAlternating(array $descriptors)
-    {
-        $outputs = [];
-        foreach ($descriptors as $key => $descriptor) {
-            stream_set_blocking($descriptor, false);
-            $outputs[$key] = '';
-        }
-
-        // 20 retries for 15 seconds = 5 min
-        $retries = 20;
-        $timeout = 15;
-        do {
-            $resources = 0;
-            $read      = [];
-            for ($i = 0; $i < $retries; ++$i) {
-                $read      = $descriptors;
-                $write     = null;
-                $except    = null;
-                $resources = stream_select($read, $write, $except, $timeout);
-                if (intval($resources) > 0) {
-                    break;
-                }
-            }
-            foreach ($read as $descriptor) {
-                $key = array_search($descriptor, $descriptors);
-                if (feof($descriptor)) {
-                    fclose($descriptor);
-                    unset($descriptors[$key]);
-                } else {
-                    $buffer = fgets($descriptor);
-                    if (false === $buffer) {
-                        fclose($descriptor);
-                        unset($descriptors[$key]);
-                        continue;
-                    }
-                    $outputs[$key] .= $buffer;
-                }
-            }
-        } while (count($descriptors) > 0 && intval($resources) > 0);
-
-        return $outputs;
     }
 
     /**
@@ -400,4 +391,57 @@ class CommandExecutor implements CommandExecutorInterface
     {
         $this->buildPath = $path;
     }
+
+
+
+
+    private function getDefaultEnv()
+    {
+        $env = array();
+
+        foreach ($_SERVER as $k => $v) {
+            if (in_array($k, self::$blacklistEnvVars)) {
+                continue;
+            }
+            if (\is_string($v) && false !== $v = getenv($k)) {
+                $env[$k] = $v;
+            }
+        }
+
+        foreach ($_ENV as $k => $v) {
+            if (in_array($k, self::$blacklistEnvVars)) {
+                continue;
+            }
+            if (\is_string($v)) {
+                $env[$k] = $v;
+            }
+        }
+
+        if (PHP_MAJOR_VERSION >= 7 && PHP_MINOR_VERSION >= 1) {
+            foreach (getenv() as $k => $v) {
+                if (in_array($k, self::$blacklistEnvVars)) {
+                    continue;
+                }
+                if (\is_string($v)) {
+                    $env[$k] = $v;
+                }
+            }
+        } else {
+            $output = [];
+            exec('env', $output);
+            foreach ($output as $o) {
+                $keyval = explode('=', $o, 2);
+                if (count($keyval) < 2 || empty($keyval[1])) {
+                    continue;
+                }
+                if (in_array($keyval[0], self::$blacklistEnvVars)) {
+                    continue;
+                }
+                $env[$keyval[0]] = $keyval[1];
+            }
+        }
+
+        return $env;
+    }
+
 }
