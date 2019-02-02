@@ -5,6 +5,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [1.0.4 (Morty Smith)](https://github.com/php-censor/php-censor/tree/1.0.4) (2019-02-02)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/1.0.3...1.0.4)
+
+### Fixed
+
+- Calls of the `chdir` command in plugins. Issue [#264](https://github.com/php-censor/php-censor/issues/264).
+- Errors trend for the first build.
+
+### Changed
+
+- Improved documentation. Pull request [#267](https://github.com/php-censor/php-censor/pull/267). Thanks to 
+[@ptejada](https://github.com/ptejada).
+
+
 ## [1.0.3 (Morty Smith)](https://github.com/php-censor/php-censor/tree/1.0.3) (2019-01-27)
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/1.0.2...1.0.3)
