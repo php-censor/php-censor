@@ -1,5 +1,5 @@
 Plugin PHP TAL Lint
-========================
+===================
 
 PHP TAL (Template Attribute Language)  linter. https://phptal.org/
 

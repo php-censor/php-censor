@@ -1,5 +1,5 @@
 Plugin gulp
-============
+===========
 
 This plugin runs [gulpjs](https://gulpjs.com/) tasks.
 
@@ -8,8 +8,8 @@ Configuration
 
 ### Options
 
-* **directory** [string, optional] - The directory in which to run Grunt (defaults to build root.)
-* **gulp** - *[DEPRECATED]* Option `gulp` is deprecated and will be deleted in version 2.0. Use the option 
+* **directory** [string, optional] - The directory in which to run Gulp (defaults to build root.)
+* **gulp** - **[DEPRECATED]** Option `gulp` is deprecated and will be deleted in version 2.0. Use the option 
 `binary_path` and `binary_name` instead.
 * **binary_name** [string|array, optional] - Allows you to provide a name of the binary
 * **binary_path** [string, optional] - Allows you to provide a path to the binary
@@ -21,7 +21,7 @@ Configuration
 ```yml
   test:
     gulp:
-      directory: "/path/to/run/gulp/from"      
-      gulpfile: "gruntfile.js"
-      task: "css"
+      directory: "/path/to/run/gulp/from"
+      gulpfile:  "gulpfile.js"
+      task:      "css"
 ```

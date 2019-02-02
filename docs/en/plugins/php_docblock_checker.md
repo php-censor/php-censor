@@ -8,8 +8,8 @@ Configuration
 
 ### Options
 
-* **path** - **[DEPRECATED]** - Option `path` deprecated and will be deleted in version 2.0 (Use option `directory` 
-instead)!
+* **path** - **[DEPRECATED]** Option `path` is deprecated and will be deleted in version 2.0. Use the option 
+`directory` instead.
 * **directory** - Optional - Directory in which PHP Docblock Checker should run.
 * **binary_name** [string|array, optional] - Allows you to provide a name of the binary
 * **binary_path** [string, optional] - Allows you to provide a path to the binary
