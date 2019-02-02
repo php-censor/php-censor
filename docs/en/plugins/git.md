@@ -1,5 +1,5 @@
 Plugin Git
-===========
+==========
 
 Runs git command for an specific branch. Supports `merge`, `tag`, `pull` and `push` commands
 

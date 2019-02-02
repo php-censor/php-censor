@@ -8,8 +8,8 @@ Configuration
 
 ### Options
 
-* **path** - **[DEPRECATED]** - Option `path` deprecated and will be deleted in version 2.0 (Use option `directory` 
-instead)!
+* **path** - **[DEPRECATED]** Option `path` is deprecated and will be deleted in version 2.0. Use the option 
+`directory` instead.
 * **directory** - Optional - directory in which to run PHP Copy/Paste Detector (default: `%BUILD_PATH%`).
 * **ignore** - Optional - A list of files / paths to ignore (default: build_settings > ignore).
 * **binary_name** [string|array, optional] - Allows you to provide a name of the binary
