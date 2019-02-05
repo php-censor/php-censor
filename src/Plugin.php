@@ -118,7 +118,7 @@ abstract class Plugin
             $optionBinaryPath = $this->builder->interpolate($this->options['binary_path']);
 
             if ('/' !== substr($optionBinaryPath, 0, 1)) {
-                $binaryPath = $this->builder->binaryPath;
+                $binaryPath = $this->build->getBuildPath();
             }
 
             $binaryPath .= $optionBinaryPath;
@@ -163,7 +163,7 @@ abstract class Plugin
             $optionDirectory = $this->builder->interpolate($this->options['directory']);
 
             if ('/' !== substr($optionDirectory, 0, 1)) {
-                $directory = $this->builder->directory;
+                $directory = $this->build->getBuildPath();
             }
 
             $directory .= $optionDirectory;
