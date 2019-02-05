@@ -163,7 +163,7 @@ abstract class Plugin
             $optionDirectory = $this->builder->interpolate($this->options['directory']);
 
             if ('/' !== substr($optionDirectory, 0, 1)) {
-                $directory = $this->builder->directory;
+                $directory = $this->build->getBuildPath();
             }
 
             $directory .= $optionDirectory;

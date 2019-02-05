@@ -199,6 +199,13 @@ class PluginTest extends \PHPUnit\Framework\TestCase
 
         $plugin = new TestPlugin($this->builder, $this->build, []);
         self::assertEquals($absoluteRealPath . 'commit_hash/', $plugin->getDirectory());
+
+        $options = [
+            'directory' => './docs',
+        ];
+
+        $plugin = new TestPlugin($this->builder, $this->build, $options);
+        self::assertEquals($absoluteRealPath . 'docs/', $plugin->getDirectory());
     }
 
     public function testPath()
