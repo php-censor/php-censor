@@ -277,17 +277,13 @@ class PluginTest extends \PHPUnit\Framework\TestCase
         self::assertEquals('/option/commit_hash/bin/', $plugin->getBinaryPath());
         self::assertEquals(['example'], $plugin->getBinaryName());
 
-        $this->builder->binaryPath = '/builder/bin/';
-
         $options = [
             'priority_path' => 'binary_path',
             'binary_path'   => './bin2',
         ];
 
         $plugin = new TestPlugin($this->builder, $this->build, $options);
-        self::assertEquals('/builder/bin/bin2/', $plugin->getBinaryPath());
-
-        $this->builder->binaryPath = '/builder/bin/';
+        self::assertEquals($this->builder->buildPath . 'bin2/', $plugin->getBinaryPath());
 
         $options = [
             'binary_name' => ['example1', 'example2'],
