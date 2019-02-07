@@ -9,6 +9,7 @@ Configuration
 
 ### Options
 
+* **allow_failures** [bool, optional] - If true, allow the build to succeed even if this plugin fails.
 * **directory** - Required - The directory to which you want to copy the build.
 * **respect_ignore** - Optional - Whether to respect the global "ignore" setting when copying files. Default is false.
 * **wipe** - Optional - Set true if you want destination directory to be cleared before copying. Default is false.

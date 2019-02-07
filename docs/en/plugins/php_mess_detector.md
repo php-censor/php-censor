@@ -8,17 +8,17 @@ Configuration
 
 ### Options
 
-- **allowed_warnings** [int, optional] - The warning limit for a successful build (default: 0). -1 disables warnings. 
-Setting allowed_warnings in conjunction with zero_config will override zero_config.
-- **suffixes** [array, optional] - An array of file extensions to check (default: 'php')
-- **ignore** [array, optional] - An array of files/paths to ignore (default: build_settings > ignore)
-- **path** - **[DEPRECATED]** Option `path` is deprecated and will be deleted in version 2.0. Use the option 
+* **allow_failures** [bool, optional] - If true, allow the build to succeed even if this plugin fails.
+* **allowed_warnings** [int, optional] - Allow `n` warnings in a successful build (default: 0). 
+  Use -1 to allow unlimited warnings.
+* **suffixes** [array, optional] - An array of file extensions to check (default: 'php').
+* **ignore** [array, optional] - An array of files/paths to ignore (default: build_settings > ignore).
+* **path** - **[DEPRECATED]** Option `path` is deprecated and will be deleted in version 2.0. Use the option 
 `directory` instead.
-- **directory** - Optional - directory in which to run PHPMD (default: `%BUILD_PATH%`).
-- **rules** [array, optional] - Array of rulesets that PHPMD should use when checking your build or a string containing 
+* **directory** - Optional - directory in which to run PHPMD (default: `%BUILD_PATH%`).
+* **rules** [array, optional] - Array of rulesets that PHPMD should use when checking your build or a string containing 
 at least one slash, will be treated as path to PHPMD ruleset. See http://phpmd.org/rules/index.html for complete 
 details on the rules. (default: ['codesize', 'unusedcode', 'naming']).
-- **zero_config** [bool, optional] - Suppresses build failure on errors and warnings if set to true. (default: false).
 
 ### Examples
 
@@ -37,5 +37,4 @@ test:
       - "naming"
       - "unusedcode"
       - "somedir/customruleset.xml"
-    zero_config: true
 ```

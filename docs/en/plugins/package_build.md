@@ -8,9 +8,10 @@ Configuration
 
 ### Options
 
+* **allow_failures** [bool, optional] - If true, allow the build to succeed even if this plugin fails.
 * **directory** - Required - Directory in which to put the package file.
 * **filename** - Required - File name for the package.
-* **format** - Required - `tar` or `zip`
+* **format** - Required - `tar` or `zip`.
 
 You can use following variables in filename:
 
