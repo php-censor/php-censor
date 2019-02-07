@@ -9,6 +9,7 @@ Configuration
 ### Options
 
 * **command** - Required - The shell command to run.
+* **allow_failures** [bool, optional] - If true, allow the build to succeed even if this plugin fails.
 
 ```yml
 setup:

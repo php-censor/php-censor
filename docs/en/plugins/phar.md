@@ -8,9 +8,10 @@ Configuration
 
 ### Options
 
-* **directory**: `phar` output directory. Default: `%buildpath%`;
-* **filename**: `phar` filename inside output directory. Default: `build.phar`;
-* **regexp**: regular expression for Phar iterator. Default: `/\.php$/`; and
+* **allow_failures** [bool, optional] - If true, allow the build to succeed even if this plugin fails.
+* **directory**: `phar` output directory. Default: `%buildpath%`.
+* **filename**: `phar` filename inside output directory. Default: `build.phar`.
+* **regexp**: regular expression for Phar iterator. Default: `/\.php$/`.
 * **stub**: stub content filename. No default value.
 
 ### Examples

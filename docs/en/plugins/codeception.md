@@ -8,9 +8,9 @@ Configuration
 
 ### Options
 
+* **allow_failures** [bool, optional] - If true, allow the build to succeed even if this plugin fails.
 * **config** - Required - Can be either a single string pointing to a Codeception configuration file, or an array of 
 configuration file paths and name. By default this is called `codeception.yml` and will be in the root of your project.
-
 * **args** - Optional - The string of arguments to be passed to the run command.**Important**, due to the assumption 
 made on line 132 regarding the value of `--xml` being the next argument which will not be correct if the user provides 
 arguments using this config param, you must specify `report.xml` before any user input arguments to satisfy the report 
@@ -18,9 +18,10 @@ processing on line 146.
 * **directory** - Optional - The directory to run Codeception on.
 * **path** - **[DEPRECATED]** Option `path` is deprecated and will be deleted in version 2.0. Use the option 
 `output_path` instead.
-* **output_path** - Optional - The path from the root of your project to the root of the codeception `_output` directory
-* **binary_name** [string|array, optional] - Allows you to provide a name of the binary
-* **binary_path** [string, optional] - Allows you to provide a path to the binary
+* **output_path** - Optional - The path from the root of your project to the root of the 
+  codeception `_output` directory.
+* **binary_name** [string|array, optional] - Allows you to provide a name of the binary.
+* **binary_path** [string, optional] - Allows you to provide a path to the binary.
 
 #### Default values
 

@@ -8,10 +8,11 @@ Configuration
 
 ### Options
 
-* **webhook_url** [required, string] - The URL to your Deployer WebHook 
+* **allow_failures** [bool, optional] - If true, allow the build to succeed even if this plugin fails.
+* **webhook_url** [required, string] - The URL to your Deployer WebHook.
 * **reason** [optional, string] - Your deployment message. Default - PHP Censor Build #%BUILD% - %COMMIT_MESSAGE%
 * **update_only** [optional, bool, true|false] - Whether the deployment should only be run if the currently deployed 
-branches matches the one being built. Default - true
+branches matches the one being built (Default: true).
 
 ### Examples
 

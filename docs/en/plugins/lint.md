@@ -8,9 +8,10 @@ Configuration
 
 ### Options
 
-- **directory** [string, optional] - A single path in which you wish to lint files.
-- **directories** [array, optional] - An array of paths in which you wish to lint files. This overrides  `directory`.
-- **recursive** [bool, optional] - Whether or not you want to recursively check sub-directories of the above (defaults 
+* **allow_failures** [bool, optional] - If true, allow the build to succeed even if this plugin fails.
+* **directory** [string, optional] - A single path in which you wish to lint files.
+* **directories** [array, optional] - An array of paths in which you wish to lint files. This overrides  `directory`.
+* **recursive** [bool, optional] - Whether or not you want to recursively check sub-directories of the above (defaults 
 to true).
 
 ### Examples

@@ -12,13 +12,14 @@ Has two modes:
 
 #### phpunit.xml Configuration File
 
-Its activated if you have phpunit.xml file in your build path, `tests/` subfolder, or you specify it as a parameter:
+It's activated if you have phpunit.xml file in your build path, `tests/` subfolder, or you specify it as a parameter:
+
+* **allow_failures** [bool, optional] - If true, allow the build to succeed even if this plugin fails.
 * **config** - Optional - Path to a PHP Unit XML configuration file.
 * **run_from** - Optional - When running PHPUnit with an XML config, the command is run from this directory
 * **coverage** - Optional - Value for the `--coverage-html` command line flag.
 * **binary_name** [string|array, optional] - Allows you to provide a name of the binary
 * **binary_path** [string, optional] - Allows you to provide a path to the binary
-
 
 #### Running Tests By Specifying Directory
 

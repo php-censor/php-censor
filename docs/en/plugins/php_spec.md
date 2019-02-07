@@ -8,8 +8,9 @@ Configuration
 
 ### Options
 
-* **binary_name** [string|array, optional] - Allows you to provide a name of the binary
-* **binary_path** [string, optional] - Allows you to provide a path to the binary
+* **allow_failures** [bool, optional] - If true, allow the build to succeed even if this plugin fails.
+* **binary_name** [string|array, optional] - Allows you to provide a name of the binary.
+* **binary_path** [string, optional] - Allows you to provide a path to the binary.
 
 ### Examples
 

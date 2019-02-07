@@ -8,7 +8,8 @@ Configuration
 
 ### Options
 
-* **env** [required, string] - The environment name
+* **allow_failures** [bool, optional] - If true, allow the build to succeed even if this plugin fails.
+* **env** [required, string] - The environment name.
 
 ### Examples
 

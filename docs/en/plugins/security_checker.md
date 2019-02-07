@@ -8,15 +8,7 @@ Configuration
 
 ### Options
 
-- **allowed_warnings** [int, optional] - The warning limit for a successful build (default: 0). -1 disables warnings.
+* **allow_failures** [bool, optional] - If true, allow the build to succeed even if this plugin fails.
+* **allowed_warnings** [int, optional] - Allow `n` warnings in a successful build (default: 0). 
+  Use -1 to allow unlimited warnings.
 
-### Example
-
-Run PHPLoc against the app directory only. This will prevent inclusion of code from 3rd party libraries that are 
-included outside of the app directory.
-
-```yml
-test:
-  security_checker:
-    allowed_warnings: -1
-```
