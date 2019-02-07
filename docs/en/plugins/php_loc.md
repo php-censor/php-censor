@@ -6,13 +6,11 @@ Runs [PHPLoc](https://github.com/sebastianbergmann/phploc) against your project 
 Configuration
 -------------
 
+See also [Common Plugin Configuration Options](../plugin_common_options.md).
+
 ### Options
 
-* **allow_failures** [bool, optional] - If true, allow the build to succeed even if this plugin fails.
-* **directory** - Optional - The directory in which phploc should run. 
-* **binary_name** [string|array, optional] - Allows you to provide a name of the binary.
-* **binary_path** [string, optional] - Allows you to provide a path to the binary.
-* **ignore** 
+None, except [Common Plugin Configuration Options](../plugin_common_options.md)
 
 ### Example
 

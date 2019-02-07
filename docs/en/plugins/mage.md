@@ -6,9 +6,10 @@ Triggers a deployment of the project to run via [Mage](https://github.com/andres
 Configuration
 -------------
 
+See also [Common Plugin Configuration Options](../plugin_common_options.md).
+
 ### Options
 
-* **allow_failures** [bool, optional] - If true, allow the build to succeed even if this plugin fails.
 * **env** [required, string] - The environment name.
 
 ### Examples

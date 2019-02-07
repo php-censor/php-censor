@@ -6,16 +6,12 @@ Runs PHP Copy/Paste Detector against your build.
 Configuration
 -------------
 
+See also [Common Plugin Configuration Options](../plugin_common_options.md).
+
 ### Options
 
-* **allow_failures** [bool, optional] - If true, allow the build to succeed even if this plugin fails.
 * **path** - **[DEPRECATED]** Option `path` is deprecated and will be deleted in version 2.0. Use the option 
 `directory` instead.
-* **directory** - Optional - directory in which to run PHP Copy/Paste Detector (default: `%BUILD_PATH%`).
-* **ignore** - Optional - A list of files / paths to ignore (default: build_settings > ignore).
-* **binary_name** [string|array, optional] - Allows you to provide a name of the binary.
-* **binary_path** [string, optional] - Allows you to provide a path to the binary.
-
 
 ### Examples
 

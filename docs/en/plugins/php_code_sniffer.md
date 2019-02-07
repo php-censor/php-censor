@@ -6,9 +6,10 @@ Runs PHP Code Sniffer against your build.
 Configuration
 -------------
 
+See also [Common Plugin Configuration Options](../plugin_common_options.md).
+
 ### Options
 
-* **allow_failures** [bool, optional] - If true, allow the build to succeed even if this plugin fails.
 * **allowed_warnings** [int, optional] - Allow `n` warnings in a successful build (default: 0). 
   Use -1 to allow unlimited warnings.
 * **allowed_errors** [int, optional] - Allow `n` errors in a successful build (default: 0). 
@@ -19,8 +20,6 @@ Configuration
 * **encoding** [string, optional] - The file encoding you wish to check for.
 * **path** - **[DEPRECATED]** Option `path` is deprecated and will be deleted in version 2.0. Use the option 
 `directory` instead.
-* **directory** - Optional - directory in which to run PHP Code Sniffer (default: `%BUILD_PATH%`).
-* **ignore** [array, optional] - A list of files / paths to ignore, defaults to the build_settings ignore list.
 * **severity** [int, optional] - Allows to set the minimum severity level.
 * **error_severity** [int, optional] - Allows to set the minimum errors severity level.
 * **warning_severity** [int, optional] - Allows to set the minimum warnings severity level.

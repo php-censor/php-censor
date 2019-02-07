@@ -7,14 +7,11 @@ Similar to the [standard PHP Lint plugin](lint.md), except that it uses the
 Configuration
 -------------
 
+See also [Common Plugin Configuration Options](../plugin_common_options.md).
+
 ### Options
 
-* **allow_failures** [bool, optional] - If true, allow the build to succeed even if this plugin fails.
-* **directory** [string, optional] - directory to inspect (default: build root).
-* **ignore** [array, optional] - directory to ignore (default: inherits ignores specified in setup).
-* **binary_name** [string|array, optional] - Allows you to provide a name of the binary.
-* **binary_path** [string, optional] - Allows you to provide a path to the binary.
-
+None, except [Common Plugin Configuration Options](../plugin_common_options.md)
 
 ### Examples
 

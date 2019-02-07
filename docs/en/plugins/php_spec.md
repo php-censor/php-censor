@@ -6,11 +6,11 @@ Runs [PHP Spec](http://www.phpspec.net/) tests against your build.
 Configuration
 -------------
 
+See also [Common Plugin Configuration Options](../plugin_common_options.md).
+
 ### Options
 
-* **allow_failures** [bool, optional] - If true, allow the build to succeed even if this plugin fails.
-* **binary_name** [string|array, optional] - Allows you to provide a name of the binary.
-* **binary_path** [string, optional] - Allows you to provide a path to the binary.
+None, except [Common Plugin Configuration Options](../plugin_common_options.md)
 
 ### Examples
 
