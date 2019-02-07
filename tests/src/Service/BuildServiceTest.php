@@ -137,6 +137,9 @@ class BuildServiceTest extends \PHPUnit\Framework\TestCase
         self::assertEquals(1001, $returnValue->getExtra('item1'));
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testExecute_CreateDuplicateBuild()
     {
         $build = new Build();
@@ -151,8 +154,9 @@ class BuildServiceTest extends \PHPUnit\Framework\TestCase
         $build->setCommitMessage('test');
         $build->setCommitterEmail('test@example.com');
         $build->setExtra(['item1' => 1001]);
+        $build->setSource(Build::SOURCE_MANUAL_CONSOLE);
 
-        $returnValue = $this->testedService->createDuplicateBuild($build);
+        $returnValue = $this->testedService->createDuplicateBuild($build, Build::SOURCE_MANUAL_REBUILD_CONSOLE);
 
         self::assertNotEquals($build->getId(), $returnValue->getId());
         self::assertEquals($build->getProjectId(), $returnValue->getProjectId());
@@ -167,6 +171,8 @@ class BuildServiceTest extends \PHPUnit\Framework\TestCase
         self::assertEquals('test', $returnValue->getCommitMessage());
         self::assertEquals('test@example.com', $returnValue->getCommitterEmail());
         self::assertEquals($build->getExtra('item1'), $returnValue->getExtra('item1'));
+        self::assertEquals(Build::SOURCE_MANUAL_REBUILD_CONSOLE, $returnValue->getSource());
+        self::assertEquals($build->getId(), $returnValue->getParentId());
     }
 
     public function testExecute_DeleteBuild()

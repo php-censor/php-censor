@@ -2,6 +2,7 @@
 
 namespace PHPCensor\Command;
 
+use PHPCensor\Model\Build;
 use PHPCensor\Store\Factory;
 use Monolog\Logger;
 use PHPCensor\Service\BuildService;
@@ -74,7 +75,7 @@ class RebuildCommand extends Command
 
         $builds = $buildStore->getLatestBuilds(null, 1);
         $lastBuild = array_shift($builds);
-        $service->createDuplicateBuild($lastBuild);
+        $service->createDuplicateBuild($lastBuild, Build::SOURCE_MANUAL_REBUILD_CONSOLE);
 
         $runner->run(new ArgvInput([]), $output);
     }

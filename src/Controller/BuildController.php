@@ -275,7 +275,7 @@ class BuildController extends WebController
             $copy->removeExtraValue('debug');
         }
 
-        $build = $this->buildService->createDuplicateBuild($copy);
+        $build = $this->buildService->createDuplicateBuild($copy, Build::SOURCE_MANUAL_REBUILD_WEB);
 
         if ($this->buildService->queueError) {
             $_SESSION['global_error'] = Lang::get('add_to_queue_failed');

@@ -79,7 +79,7 @@ use PHPCensor\Helper\Template;
                         <?= Lang::get('build'); ?> #<?= $build->getId(); ?>
                     </a>
                     &mdash;
-                    <?= Lang::get($build->getSourceHumanize()); ?>
+                    <?= $build->getSourceHumanize(); ?>
 
                     &mdash;
                     <?= Lang::get('total_errors'); ?>:
