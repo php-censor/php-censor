@@ -16,6 +16,7 @@ class BuildTest extends TestCase
 
         self::assertEquals([
             'id'                    => null,
+            'parent_id'             => 0,
             'project_id'            => null,
             'commit_id'             => null,
             'status'                => null,
@@ -49,6 +50,23 @@ class BuildTest extends TestCase
         self::assertEquals(false, $result);
 
         self::assertEquals(['id' => 'id'], $build->getModified());
+    }
+
+    /**
+     * @throws \PHPCensor\Exception\InvalidArgumentException
+     */
+    public function testParentId()
+    {
+        $build = new Build();
+
+        self::assertEquals(0, $build->getParentId());
+
+        $result = $build->setParentId(222);
+        self::assertEquals(true, $result);
+        self::assertEquals(222, $build->getParentId());
+
+        $result = $build->setParentId(222);
+        self::assertEquals(false, $result);
     }
 
     public function testProjectId()

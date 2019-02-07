@@ -3,6 +3,7 @@
 namespace PHPCensor\Model;
 
 use PHPCensor\Builder;
+use PHPCensor\Helper\Lang;
 use PHPCensor\Plugin\PhpParallelLint;
 use PHPCensor\Store\Factory;
 use PHPCensor\Store\ProjectStore;
@@ -605,26 +606,33 @@ OUT;
      */
     public function getSourceHumanize()
     {
+        $parentId   = $this->getParentId();
+        $parentLink = '<a href="' . APP_URL . 'build/view/' . $parentId . '">#' . $parentId . '</a>';
+
         switch ($this->getSource()) {
             case Build::SOURCE_WEBHOOK_PUSH:
-                return 'source_webhook_push';
+                return Lang::get('source_webhook_push');
             case Build::SOURCE_WEBHOOK_PULL_REQUEST_CREATED:
-                return 'source_webhook_pull_request_created';
+                return Lang::get('source_webhook_pull_request_created');
             case Build::SOURCE_WEBHOOK_PULL_REQUEST_UPDATED:
-                return 'source_webhook_pull_request_updated';
+                return Lang::get('source_webhook_pull_request_updated');
             case Build::SOURCE_WEBHOOK_PULL_REQUEST_APPROVED:
-                return 'source_webhook_pull_request_approved';
+                return Lang::get('source_webhook_pull_request_approved');
             case Build::SOURCE_WEBHOOK_PULL_REQUEST_MERGED:
-                return 'source_webhook_pull_request_merged';
+                return Lang::get('source_webhook_pull_request_merged');
             case Build::SOURCE_MANUAL_WEB:
-                return 'source_manual_web';
+                return Lang::get('source_manual_web');
+            case Build::SOURCE_MANUAL_REBUILD_WEB:
+                return Lang::get('source_manual_rebuild_web', $parentLink);
             case Build::SOURCE_MANUAL_CONSOLE:
-                return 'source_manual_console';
+                return Lang::get('source_manual_console');
+            case Build::SOURCE_MANUAL_REBUILD_CONSOLE:
+                return Lang::get('source_manual_rebuild_console', $parentLink);
             case Build::SOURCE_PERIODICAL:
-                return 'source_periodical';
+                return Lang::get('source_periodical');
             case Build::SOURCE_UNKNOWN:
             default:
-                return 'source_unknown';
+                return Lang::get('source_unknown');
         }
     }
 

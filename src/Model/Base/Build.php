@@ -23,12 +23,15 @@ class Build extends Model
     const SOURCE_WEBHOOK_PULL_REQUEST_UPDATED  = 6;
     const SOURCE_WEBHOOK_PULL_REQUEST_APPROVED = 7;
     const SOURCE_WEBHOOK_PULL_REQUEST_MERGED   = 8;
+    const SOURCE_MANUAL_REBUILD_WEB            = 9;
+    const SOURCE_MANUAL_REBUILD_CONSOLE        = 10;
 
     /**
      * @var array
      */
     protected $data = [
         'id'                    => null,
+        'parent_id'             => 0,
         'project_id'            => null,
         'commit_id'             => null,
         'status'                => null,
@@ -66,6 +69,8 @@ class Build extends Model
         self::SOURCE_UNKNOWN,
         self::SOURCE_MANUAL_WEB,
         self::SOURCE_MANUAL_CONSOLE,
+        self::SOURCE_MANUAL_REBUILD_WEB,
+        self::SOURCE_MANUAL_REBUILD_CONSOLE,
         self::SOURCE_PERIODICAL,
         self::SOURCE_WEBHOOK_PUSH,
         self::SOURCE_WEBHOOK_PULL_REQUEST_CREATED,
@@ -75,7 +80,7 @@ class Build extends Model
     ];
 
     /**
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -83,9 +88,11 @@ class Build extends Model
     }
 
     /**
-     * @param integer $value
+     * @param int $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setId($value)
     {
@@ -102,7 +109,36 @@ class Build extends Model
     }
 
     /**
-     * @return integer
+     * @return int
+     */
+    public function getParentId()
+    {
+        return (integer)$this->data['parent_id'];
+    }
+
+    /**
+     * @param int $value
+     *
+     * @return bool
+     *
+     * @throws InvalidArgumentException
+     */
+    public function setParentId($value)
+    {
+        $this->validateNotNull('parent_id', $value);
+        $this->validateInt('parent_id', $value);
+
+        if ($this->data['parent_id'] === $value) {
+            return false;
+        }
+
+        $this->data['parent_id'] = $value;
+
+        return $this->setModified('parent_id');
+    }
+
+    /**
+     * @return int
      */
     public function getProjectId()
     {
@@ -110,9 +146,11 @@ class Build extends Model
     }
 
     /**
-     * @param integer $value
+     * @param int $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setProjectId($value)
     {
@@ -139,7 +177,9 @@ class Build extends Model
     /**
      * @param string $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setCommitId($value)
     {
@@ -156,7 +196,7 @@ class Build extends Model
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getStatus()
     {
@@ -164,11 +204,11 @@ class Build extends Model
     }
 
     /**
-     * @param integer $value
+     * @param int $value
+     *
+     * @return bool
      *
      * @throws InvalidArgumentException
-     *
-     * @return boolean
      */
     public function setStatus($value)
     {
@@ -235,9 +275,11 @@ class Build extends Model
     }
 
     /**
-     * @param string $value
+     * @param string|null $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setLog($value)
     {
@@ -263,7 +305,9 @@ class Build extends Model
     /**
      * @param string $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setBranch($value)
     {
@@ -288,9 +332,11 @@ class Build extends Model
     }
 
     /**
-     * @param string $value
+     * @param string|null $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setTag($value)
     {
@@ -307,6 +353,8 @@ class Build extends Model
 
     /**
      * @return \DateTime|null
+     *
+     * @throws \Exception
      */
     public function getCreateDate()
     {
@@ -337,6 +385,8 @@ class Build extends Model
 
     /**
      * @return \DateTime|null
+     *
+     * @throws \Exception
      */
     public function getStartDate()
     {
@@ -350,7 +400,7 @@ class Build extends Model
     /**
      * @param \DateTime $value
      *
-     * @return boolean
+     * @return bool
      */
     public function setStartDate(\DateTime $value)
     {
@@ -367,6 +417,8 @@ class Build extends Model
 
     /**
      * @return \DateTime|null
+     *
+     * @throws \Exception
      */
     public function getFinishDate()
     {
@@ -380,7 +432,7 @@ class Build extends Model
     /**
      * @param \DateTime $value
      *
-     * @return boolean
+     * @return bool
      */
     public function setFinishDate(\DateTime $value)
     {
@@ -404,9 +456,11 @@ class Build extends Model
     }
 
     /**
-     * @param string $value
+     * @param string|null $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setCommitterEmail($value)
     {
@@ -430,9 +484,11 @@ class Build extends Model
     }
 
     /**
-     * @param string $value
+     * @param string|null $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setCommitMessage($value)
     {
@@ -468,7 +524,9 @@ class Build extends Model
     /**
      * @param array $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setExtra(array $value)
     {
@@ -493,9 +551,11 @@ class Build extends Model
     }
 
     /**
-     * @param string $value
+     * @param string|null $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setEnvironment($value)
     {
@@ -519,11 +579,11 @@ class Build extends Model
     }
 
     /**
-     * @param integer $value
+     * @param int $value
+     *
+     * @return bool
      *
      * @throws InvalidArgumentException
-     *
-     * @return boolean
      */
     public function setSource($value)
     {
@@ -553,9 +613,11 @@ class Build extends Model
     }
 
     /**
-     * @param integer $value
+     * @param int $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setUserId($value)
     {
