@@ -7,10 +7,10 @@ plugin.
 Configuration
 -------------
 
+See also [Common Plugin Configuration Options](../plugin_common_options.md).
+
 ### Options
 
-* **allow_failures** [bool, optional] - If true, allow the build to succeed even if this plugin fails.
-* **directory** [optional, string] - Directory within which you want Composer to run (default: build root).
 * **action** [optional, string, update|install] - Action you wish Composer to run (default: 'install').
 * **prefer_dist** [optional, bool, true|false] - whether Composer should run with the `--prefer-dist` flag 
 (default: false).
@@ -19,8 +19,6 @@ Configuration
 * **no_dev** [optional, bool, true|false] - whether Composer should run with the `--no-dev` flag (default: false).
 * **ignore_platform_reqs** [optional, bool, true|false] - whether Composer should run with the `--ignore-platform-reqs` 
 flag (default: false).
-* **binary_name** [string|array, optional] - Allows you to provide a name of the binary.
-* **binary_path** [string, optional] - Allows you to provide a path to the binary.
 
 ### Examples
 

@@ -8,7 +8,6 @@ Configuration
 
 ### Options
 
-* **allow_failures** [bool, optional] - If true, allow the build to succeed even if this plugin fails.
 * **committer** - Whether or not to send the email to the committer that prompted this build.
 * **addresses** - A list of addresses to send to.
 * **default_mailto_address** - A default address to send to.

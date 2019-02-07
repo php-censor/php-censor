@@ -6,10 +6,10 @@ Allows you to create a [Phar](http://php.net/manual/en/book.phar.php) archive fr
 Configuration
 -------------
 
+See also [Common Plugin Configuration Options](../plugin_common_options.md).
+
 ### Options
 
-* **allow_failures** [bool, optional] - If true, allow the build to succeed even if this plugin fails.
-* **directory**: `phar` output directory. Default: `%buildpath%`.
 * **filename**: `phar` filename inside output directory. Default: `build.phar`.
 * **regexp**: regular expression for Phar iterator. Default: `/\.php$/`.
 * **stub**: stub content filename. No default value.

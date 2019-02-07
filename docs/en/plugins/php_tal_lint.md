@@ -8,11 +8,10 @@ This plugin expects the composer package [phptal/phptal](https://packagist.org/p
 Configuration
 -------------
 
+See also [Common Plugin Configuration Options](../plugin_common_options.md).
+
 ### Options
 
-* **allow_failures** [bool, optional] - If true, allow the build to succeed even if this plugin fails.
-* **directory** [string, optional] - directory to inspect (default: build root).
-* **ignore** [array, optional] - directory to ignore (default: inherits ignores specified in setup).
 * **suffixes** [array, optional] - list of file extensions to inspect. Defaults to `zpt`.
 
 ### Examples
