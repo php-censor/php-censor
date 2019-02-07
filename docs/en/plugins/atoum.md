@@ -6,14 +6,12 @@ Allows you to run [Atoum](https://github.com/atoum/atoum) unit tests.
 Configuration
 -------------
 
+See also [Common Plugin Configuration Options](../plugin_common_options.md).
+
 ### Options
 
-* **allow_failures** [bool, optional] - If true, allow the build to succeed even if this plugin fails.
 * **args** [string, optional] - Allows you to pass command line arguments to Atoum.
 * **config** [string, optional] - Path to an Atoum configuration file.
-* **directory** [string, optional] - This option lets you specify the tests directory to run.
-* **binary_name** [string|array, optional] - Allows you to provide a name of the binary.
-* **binary_path** [string, optional] - Allows you to provide a path to the binary vendor/bin, or a system-provided 
 Atom binary).
 
 ### Examples
