@@ -7,8 +7,6 @@ plugin.
 Configuration
 -------------
 
-See also [Common Plugin Configuration Options](../plugin_common_options.md).
-
 ### Options
 
 * **action** [optional, string, update|install] - Action you wish Composer to run (default: 'install').
@@ -22,19 +20,19 @@ flag (default: false).
 
 ### Examples
 
-```yml
+```yaml
 setup:
-  composer:
-    directory: "my/composer/dir"
-    action: "update"
-    prefer_dist: true
+    composer:
+        directory: "my/composer/dir"
+        action: "update"
+        prefer_dist: true
 ```
 
 Warning
 -------
 
 If you are using a Composer private repository like Satis, with HTTP authentication, you must check your username and 
-password inside the ```auth.json``` file. PHP Censor uses the ```--no-interaction``` flag, so it will not warn if you 
+password inside the `auth.json` file. PHP Censor uses the `--no-interaction` flag, so it will not warn if you 
 must provide that info.
 
 For more info, please check the Composer documentation.

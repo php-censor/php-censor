@@ -6,8 +6,6 @@ Runs SensioLabs Insight against your build.
 Configuration
 -------------
 
-See also [Common Plugin Configuration Options](../plugin_common_options.md).
-
 ### Options
 
 * **allowed_warnings** [int, optional] - Allow `n` warnings in a successful build (default: 0). 
@@ -18,7 +16,7 @@ See also [Common Plugin Configuration Options](../plugin_common_options.md).
 
 ### Examples
 
-```yml
+```yaml
 test:
     sensiolabs_insight:
         allow_failures: true

@@ -6,8 +6,6 @@ Runs [SensioLabs Security Checker](https://github.com/sensiolabs/security-checke
 Configuration
 -------------
 
-See also [Common Plugin Configuration Options](../plugin_common_options.md).
-
 ### Options
 
 * **allowed_warnings** [int, optional] - Allow `n` warnings in a successful build (default: 0). 

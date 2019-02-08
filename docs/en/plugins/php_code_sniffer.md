@@ -6,8 +6,6 @@ Runs PHP Code Sniffer against your build.
 Configuration
 -------------
 
-See also [Common Plugin Configuration Options](../plugin_common_options.md).
-
 ### Options
 
 * **allowed_warnings** [int, optional] - Allow `n` warnings in a successful build (default: 0). 
@@ -28,7 +26,8 @@ See also [Common Plugin Configuration Options](../plugin_common_options.md).
 
 Simple example where PHPCS will run on app directory, but ignore the views folder, and use PSR-1 and PSR-2 rules for 
 validation:
-```yml
+
+```yaml
 test:
     php_code_sniffer:
         directory: "app"
@@ -38,7 +37,7 @@ test:
 ```
 
 For use with an existing project:
-```yml
+```yaml
 test:
     php_code_sniffer:
         standard: "/phpcs.xml" # The leading slash is needed to trigger an external ruleset.
@@ -46,3 +45,18 @@ test:
         allowed_errors: -1 # Even a single error will cause the build to fail. -1 = unlimited
         allowed_warnings: -1
 ```
+
+### Additional Options
+
+The following general options can also be used: 
+
+* **allow_failures** [bool, optional] - If true, allow the build to succeed even if this plugin fails.
+* **directory** [string, optional] - This option lets you specify the tests directory to run.
+* **ignore** [optional] - A list of files / paths to ignore (default: build_settings > ignore).
+* **binary_name** [string|array, optional] - Allows you to provide a name of the binary.
+* **binary_path** [string, optional] - Allows you to provide a path to the binary vendor/bin, or a system-provided.
+* **priority_path** [string, optional] - Priority path for locating the plugin binary (Allowable values: 
+  `local` (Local current build path) | 
+  `global` (Global PHP Censor 'vendor/bin' path) |
+  `system` (OS System binaries path, /bin:/usr/bin etc.). 
+  Default order: local -> global -> system)

@@ -6,16 +6,14 @@ The plugin deletes a directory.
 Configuration
 -------------
 
-See also [Common Plugin Configuration Options](../plugin_common_options.md).
-
 ### Options
 
 * **directory** [string, required] - The directory path to delete.
 
 ### Example
 
-```yml
-  complete:
+```yaml
+complete:
     wipe:
-      directory: "/path/to/directory"
+        directory: "/path/to/directory"
 ```

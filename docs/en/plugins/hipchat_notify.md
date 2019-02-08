@@ -27,10 +27,11 @@ Message can be formatted via HTML. Example:
 ### Examples
 
 ```yaml
-hipchat_notify:
-    authToken: 123
-    room: 456
-    message: <b>%PROJECT_TITLE%</b> - build <a href="%BUILD_URI%">%BUILD%</a> failed!
-    color: red
-    notify: true
+success:
+	hipchat_notify:
+	    authToken: 123
+	    room: 456
+	    message: <b>%PROJECT_TITLE%</b> - build <a href="%BUILD_URI%">%BUILD%</a> failed!
+	    color: red
+	    notify: true
 ```

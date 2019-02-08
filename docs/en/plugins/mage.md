@@ -6,27 +6,16 @@ Triggers a deployment of the project to run via [Mage](https://github.com/andres
 Configuration
 -------------
 
-See also [Common Plugin Configuration Options](../plugin_common_options.md).
-
 ### Options
 
-* **env** [required, string] - The environment name.
+* **env** [string, required] - The environment name.
+* **bin** [string, optional] - The mage executable path
 
 ### Examples
 
 ```yaml
-deploy:
-    mage:
-        env: production
-```
-
-### Options for config.yml
-
-* **bin** [optional, string] - The mage executable path
-
-### Examples
-
-```yaml
-mage:
-    bin: /usr/local/bin/mage
+success:
+    deploy:
+        mage:
+            env: production
 ```

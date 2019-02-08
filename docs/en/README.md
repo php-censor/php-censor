@@ -34,8 +34,6 @@ Using PHP Censor
 Plugins
 -------
 
-* [Common Plugin Configuration Options](plugin_common_options.md) - Details of the configuration options that are available for all plugins.
-
 ### Internal Plugins
 
 #### Dependencies
