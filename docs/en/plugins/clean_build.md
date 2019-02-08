@@ -13,7 +13,7 @@ Configuration
 
 ### Examples
 
-```yml
+```yaml
 complete:
     clean_build:
         remove:

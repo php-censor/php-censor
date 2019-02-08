@@ -8,10 +8,10 @@ Configuration
 
 ### Options
 
-* **directory**: `phar` output directory. Default: `%buildpath%`;
-* **filename**: `phar` filename inside output directory. Default: `build.phar`;
-* **regexp**: regular expression for Phar iterator. Default: `/\.php$/`; and
-* **stub**: stub content filename. No default value.
+* **filename** [string, required] - `phar` filename inside output directory. Default: `build.phar`.
+* **directory** [string, optional] - `phar` output directory. Default: `%buildpath%`;
+* **regexp**: [string, optional] - regular expression for Phar iterator. Default: `/\.php$/`.
+* **stub**: [string, optional] - stub content filename. No default value.
 
 ### Examples
 
