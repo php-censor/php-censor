@@ -18,22 +18,14 @@ class Model
 
     /**
      * @param array $initialData
-     *
-     * @throws InvalidArgumentException
      */
     public function __construct($initialData = [])
     {
         if (is_array($initialData)) {
             foreach ($initialData as $index => $item) {
-                if (!array_key_exists($index, $this->data)) {
-                    throw new InvalidArgumentException(sprintf(
-                        'Model "%s" doesn\'t have field "%s"',
-                        get_called_class(),
-                        $index
-                    ));
+                if (array_key_exists($index, $this->data)) {
+                    $this->data[$index] = $item;
                 }
-
-                $this->data[$index] = $item;
             }
         }
     }
