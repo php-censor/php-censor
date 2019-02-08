@@ -8,23 +8,14 @@ Configuration
 
 ### Options
 
-* **env** [required, string] - The environment name
+* **env** [string, required] - The environment name.
+* **bin** [string, optional] - The mage executable path
 
 ### Examples
 
 ```yaml
-deploy:
-    mage:
-        env: production
-```
-
-### Options for config.yml
-
-* **bin** [optional, string] - The mage executable path
-
-### Examples
-
-```yaml
-mage:
-    bin: /usr/local/bin/mage
+success:
+    deploy:
+        mage:
+            env: production
 ```

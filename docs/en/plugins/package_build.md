@@ -10,7 +10,7 @@ Configuration
 
 * **directory** - Required - Directory in which to put the package file.
 * **filename** - Required - File name for the package.
-* **format** - Required - `tar` or `zip`
+* **format** - Required - `tar` or `zip`.
 
 You can use following variables in filename:
 

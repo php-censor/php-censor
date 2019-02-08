@@ -8,25 +8,15 @@ Configuration
 
 ### Options
 
-* **env** [required, string] - The environment name
+* **env** [string, required] - The environment name.
+* **bin** [string, optional] - The mage executable path
+* **log_dir** [string, optional] - The mage logs path
 
 ### Examples
 
 ```yaml
-deploy:
-    mage3:
-        env: production
-```
-
-### Options for config.yml
-
-* **bin** [optional, string] - The mage executable path
-* **log_dir** [optional, string] - The mage logs path
-
-### Examples
-
-```yaml
-mage:
-    bin: /usr/local/bin/mage
-    log_dir: ./var/log
+success:
+	deploy:
+	    mage3:
+	        env: production
 ```

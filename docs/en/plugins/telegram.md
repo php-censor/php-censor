@@ -8,7 +8,7 @@ Add to project
 
 In the PHP Censor Project config section add the Telegram trigger
 
-```
+```yaml
 complete:
     telegram:
         api_key: "<YOUR_BOT_TOKEN_HERE>"

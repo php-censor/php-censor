@@ -12,8 +12,8 @@ Configuration
 
 ### Example
 
-```yml
-  complete:
+```yaml
+complete:
     wipe:
-      directory: "/path/to/directory"
+        directory: "/path/to/directory"
 ```

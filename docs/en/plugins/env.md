@@ -6,9 +6,11 @@ Sets environment variables on the PHP Censor server for the build.
 Configuration
 -------------
 
-### Examples:
+None.
 
-```yml
+### Examples
+
+```yaml
 setup:
     env:
         APPLICATION_ENV: "development"
