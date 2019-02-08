@@ -7,8 +7,6 @@ This plugin joins a [Campfire](https://campfirenow.com/) room and sends a user-d
 Configuration
 -------------
 
-See also [Common Plugin Configuration Options](../plugin_common_options.md).
-
 ### Options
 
 * **authToken** [string, required] - Your Campfire user authentication token.
@@ -17,13 +15,15 @@ See also [Common Plugin Configuration Options](../plugin_common_options.md).
 * **url** [string, required] - Your Campfire chat room URL.
 
 ### Examples
-```yml
-  build_settings:
+
+```yaml
+build_settings:
     campfire:
-      authToken: "campfire auth token"
-      roomId: "campfire room ID"
-      url: "campfire URL"
-  success:
+        authToken: "campfire auth token"
+        roomId: "campfire room ID"
+        url: "campfire URL"
+        
+success:
     campfire:
-      message: "Build succeeded!"
+        message: "Build succeeded!"
 ```

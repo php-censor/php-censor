@@ -7,15 +7,13 @@ Build.
 Configuration
 -------------
 
-See also [Common Plugin Configuration Options](../plugin_common_options.md).
-
 ### Options
 
 * **remove** - Required - An array of files and / or directories to remove.
 
 ### Examples
 
-```yml
+```yaml
 complete:
     clean_build:
         remove:

@@ -6,13 +6,11 @@ Triggers a deployment of the project to run via [Deployer](http://phpdeployment.
 Configuration
 -------------
 
-See also [Common Plugin Configuration Options](../plugin_common_options.md).
-
 ### Options
 
-* **webhook_url** [required, string] - The URL to your Deployer WebHook.
-* **reason** [optional, string] - Your deployment message. Default - PHP Censor Build #%BUILD% - %COMMIT_MESSAGE%
-* **update_only** [optional, bool, true|false] - Whether the deployment should only be run if the currently deployed 
+* **webhook_url** [string, required] - The URL to your Deployer WebHook.
+* **reason** [string, optional] - Your deployment message. Default - PHP Censor Build #%BUILD% - %COMMIT_MESSAGE%
+* **update_only** [bool, optional] - Whether the deployment should only be run if the currently deployed 
 branches matches the one being built (Default: true).
 
 ### Examples

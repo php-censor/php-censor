@@ -6,8 +6,6 @@ A simple plugin that allows you to run [Codeception](http://codeception.com/) te
 Configuration
 -------------
 
-See also [Common Plugin Configuration Options](../plugin_common_options.md).
-
 ### Options
 
 * **config** - Required - Can be either a single string pointing to a Codeception configuration file, or an array of 
@@ -23,32 +21,34 @@ processing on line 146.
 
 #### Default values
 
-- config
- - `codeception.yml` if it exists in the root of the project
- - `codeception.dist.yml` if it exists in the root of the project
- - null if no option provided and the above two fail, this will cause an Exception to be thrown on execution
+* **config**
+  * `codeception.yml` if it exists in the root of the project
+  * `codeception.dist.yml` if it exists in the root of the project
+  * null if no option provided and the above two fail, this will cause an Exception to be thrown on execution
 
-- args
- - Empty string
+* **args**
+  * Empty string
  
-- output_path
- - `tests/_output/`
- - `test/_log`
+* **output_path**
+  * `tests/_output/`
+  * `test/_log`
 
 ### Examples
 
-```yml
-codeception:
-  config: "codeception.yml"
-  args:   "--no-ansi --coverage-html"
+```yaml
+tests:
+  codeception:
+      config: "codeception.yml"
+      args:   "--no-ansi --coverage-html"
 ```
 
 Or
 
-```yml
-codeception:
-  config: "subdir1/subdir2"
-  args:   "report.xml -vv "
-  output_path:
-    - "subdir1/subdir2/tests/_output/"
+```yaml
+tests:
+    codeception:
+        config: "subdir1/subdir2"
+        args:   "report.xml -vv "
+        output_path:
+            - "subdir1/subdir2/tests/_output/"
 ```

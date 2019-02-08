@@ -6,13 +6,11 @@ Allows you to create a [Phar](http://php.net/manual/en/book.phar.php) archive fr
 Configuration
 -------------
 
-See also [Common Plugin Configuration Options](../plugin_common_options.md).
-
 ### Options
 
-* **filename**: `phar` filename inside output directory. Default: `build.phar`.
-* **regexp**: regular expression for Phar iterator. Default: `/\.php$/`.
-* **stub**: stub content filename. No default value.
+* **filename** [string, required] - `phar` filename inside output directory. Default: `build.phar`.
+* **regexp**: [string, optional] - regular expression for Phar iterator. Default: `/\.php$/`.
+* **stub**: [string, optional] - stub content filename. No default value.
 
 ### Examples
 

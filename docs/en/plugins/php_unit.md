@@ -6,8 +6,6 @@ Runs PHPUnit tests against your build.
 Configuration
 -------------
 
-See also [Common Plugin Configuration Options](../plugin_common_options.md).
-
 ### Options
 
 Has two modes:
@@ -16,9 +14,9 @@ Has two modes:
 
 It's activated if you have phpunit.xml file in your build path, `tests/` subfolder, or you specify it as a parameter:
 
-* **config** - Optional - Path to a PHP Unit XML configuration file.
-* **run_from** - Optional - When running PHPUnit with an XML config, the command is run from this directory
-* **coverage** - Optional - Value for the `--coverage-html` command line flag.
+* **config** [string, optional] - Path to a PHP Unit XML configuration file.
+* **run_from** [string, optional] - When running PHPUnit with an XML config, the command is run from this directory
+* **coverage** [bool, optional] - Value for the `--coverage-html` command line flag.
 
 #### Running Tests By Specifying Directory
 
@@ -32,7 +30,7 @@ Both modes accept:
 ### Examples
 
 Specify config file and test directory:
-```yml
+```yaml
 test:
     php_unit:
         config:
