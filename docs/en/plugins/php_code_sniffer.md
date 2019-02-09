@@ -41,7 +41,7 @@ For use with an existing project:
 test:
     php_code_sniffer:
         standard: "/phpcs.xml" # The leading slash is needed to trigger an external ruleset.
-                               # Without it, PHP Censor looks for a rule named "phpcs.xml"
+# Without it, PHP Censor looks for a rule named "phpcs.xml"
         allowed_errors: -1 # Even a single error will cause the build to fail. -1 = unlimited
         allowed_warnings: -1
 ```

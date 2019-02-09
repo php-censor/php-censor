@@ -36,8 +36,8 @@ complete:
             - "recipient1@jabber.org"
             - "recipient2@jabber.org"    
         server: "gtalk.google.com"
-        tls: 1
-        alias: "PHP Censor Notification"
+        tls:         1
+        alias:       "PHP Censor Notification"
         date_format: "%d/%m/%Y"
 ```
 

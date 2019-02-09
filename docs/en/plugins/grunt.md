@@ -16,12 +16,12 @@ Configuration
 ### Example
 
 ```yaml
-  test:
+test:
     grunt:
-      directory: "path to run grunt in"
-      grunt: "path to grunt executable"
-      gruntfile: "gruntfile.js"
-      task: "css"
+        directory: "path to run grunt in"
+        grunt: "path to grunt executable"
+        gruntfile: "gruntfile.js"
+        task: "css"
 ```
 
 ### Additional Options

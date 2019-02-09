@@ -15,10 +15,10 @@ Configuration
 
 ```yaml
 test:
-  php_cpd:
-    directory: "app"
-    ignore:
-      - "app/my/path"
+    php_cpd:
+        directory: "app"
+        ignore:
+            - "app/my/path"
 ```
 
 ### Additional Options

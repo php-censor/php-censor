@@ -20,7 +20,7 @@ Configuration
 test:
     sensiolabs_insight:
         allow_failures: true
-        user_uuid: 'xxx-xxx-xxx-xxx-xxx'
-        api_token: 'xxxx'
-        project_uuid: 'xxx-xxx-xxx-xxx-xxx'
+        user_uuid:      'xxx-xxx-xxx-xxx-xxx'
+        api_token:      'xxxx'
+        project_uuid:   'xxx-xxx-xxx-xxx-xxx'
 ```

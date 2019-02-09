@@ -16,9 +16,10 @@ Configuration
 ### Examples
 
 ```yaml
-phar:
-    directory: /path/to/directory
-    filename: foobar.phar
-    regexp: /\.(php|phtml)$/
-    stub: filestub.php
+test:
+    phar:
+        directory: /path/to/directory
+        filename:  foobar.phar
+        regexp:    /\.(php|phtml)$/
+        stub:      filestub.php
 ```
