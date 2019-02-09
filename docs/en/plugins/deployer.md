@@ -19,6 +19,6 @@ branches matches the one being built (Default: true).
 success:
     deployer:
         webhook_url: "https://deployer.example.com/deploy/QZaF1bMIUqbMFTmKDmgytUuykRN0cjCgW9SooTnwkIGETAYhDTTYoR8C431t"
-        reason: "PHP Censor Build #%BUILD% - %COMMIT_MESSAGE%"
+        reason:      "PHP Censor Build #%BUILD% - %COMMIT_MESSAGE%"
         update_only: true
 ```

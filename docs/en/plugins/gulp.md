@@ -15,12 +15,12 @@ Configuration
 
 ### Example
 
-```yml
-  test:
+```yaml
+test:
     gulp:
-      directory: "/path/to/run/gulp/from"
-      gulpfile:  "gulpfile.js"
-      task:      "css"
+        directory: "/path/to/run/gulp/from"
+        gulpfile:  "gulpfile.js"
+        task:      "css"
 ```
 
 ### Additional Options

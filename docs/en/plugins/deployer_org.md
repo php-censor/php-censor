@@ -30,12 +30,13 @@ Sample configuration
 --------------------
 
 ```yaml
-\Ket4yii\PHPCensor\Deployer\Plugin\Deployer:
-    development: # branch name
-	    task: sample-task # optional, default task is deploy 
-	    stage: dev # required, name of stage or server
-	    verbose: debug # optional, default is normal(no verbosity)
-	    file: .deploy_config.php # optional, deployer takes the deploy.php file for default
-    master:
-        stage: prod #required, name of stage or server
+deploy:
+    deployer_org:
+        development: # branch name
+            task:    sample-task # optional, default task is deploy 
+            stage:   dev # required, name of stage or server
+            verbose: debug # optional, default is normal(no verbosity)
+            file:    .deploy_config.php # optional, deployer takes the deploy.php file for default
+        master:
+            stage: prod #required, name of stage or server
 ```

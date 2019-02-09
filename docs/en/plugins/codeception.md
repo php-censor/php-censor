@@ -37,9 +37,9 @@ processing on line 146.
 
 ```yaml
 tests:
-  codeception:
-      config: "codeception.yml"
-      args:   "--no-ansi --coverage-html"
+    codeception:
+        config: "codeception.yml"
+        args:   "--no-ansi --coverage-html"
 ```
 
 Or

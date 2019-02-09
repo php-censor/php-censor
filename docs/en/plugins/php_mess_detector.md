@@ -22,18 +22,18 @@ details on the rules. (default: ['codesize', 'unusedcode', 'naming']).
 ```yaml
 test:
     php_mess_detector:
-	    directory: 'app'
-	    ignore:
-	        - 'vendor'
-	    allowed_warnings: -1
-	    rules:
-	        - "cleancode"
-	        - "controversial"
-	        - "codesize"
-	        - "design"
-	        - "naming"
-	        - "unusedcode"
-	        - "somedir/customruleset.xml"
+        directory: 'app'
+        ignore:
+            - 'vendor'
+        allowed_warnings: -1
+        rules:
+            - "cleancode"
+            - "controversial"
+            - "codesize"
+            - "design"
+            - "naming"
+            - "unusedcode"
+            - "somedir/customruleset.xml"
 ```
 
 ### Additional Options

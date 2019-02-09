@@ -20,8 +20,8 @@ Configuration
 build_settings:
     campfire:
         authToken: "campfire auth token"
-        roomId: "campfire room ID"
-        url: "campfire URL"
+        roomId:    "campfire room ID"
+        url:       "campfire URL"
         
 success:
     campfire:

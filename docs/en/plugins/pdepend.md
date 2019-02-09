@@ -14,8 +14,8 @@ See additional options below.
 
 ```yaml
 test:
-	pdepend:
-	    directory: "src"
+    pdepend:
+        directory: "src"
 ```
 
 ### Additional Options
