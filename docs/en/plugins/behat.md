@@ -16,7 +16,7 @@ Configuration
 test:
     behat:
         executable: "path to behat binary"
-        features: "command line arguments"
+        features:   "command line arguments"
 ```
 
 ### Additional Options
