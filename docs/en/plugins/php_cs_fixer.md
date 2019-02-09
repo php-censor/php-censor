@@ -30,10 +30,10 @@ test:
 ```yaml
 test:
     php_cs_fixer:
-	    directory: "%BUILD_PATH%/my/dir/path"
-	    verbose:   true
-	    diff:      true
-	    rules:     "@PSR2"
+        directory: "%BUILD_PATH%/my/dir/path"
+        verbose:   true
+        diff:      true
+        rules:     "@PSR2"
 ```
 
 ```yaml
