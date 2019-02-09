@@ -16,7 +16,7 @@ Configuration
 
 ```yaml
 success:
-	deploy:
-	    mage3:
-	        env: production
+    deploy:
+        mage3:
+            env: production
 ```

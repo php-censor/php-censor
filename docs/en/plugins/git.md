@@ -10,10 +10,10 @@ Configuration
 
 ```yaml
 complete:
-	git:
-	    master:           <-- branch
-	        tag:          <-- action
-	            name: ""  <-- Action options
+    git:
+        master:           <-- branch
+            tag:          <-- action
+                name: ""  <-- Action options
     
 ```
 
