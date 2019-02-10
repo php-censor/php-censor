@@ -16,9 +16,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 - Models creation for cases when we have more columns in DB then model fields (Case: new feature with new columns in 
 the another branch). Issue [#270](https://github.com/php-censor/php-censor/issues/270).
 - Guzzle version for correct Slack plugin working. Issue [#270](https://github.com/php-censor/php-censor/issues/270).
-- Fixed behavior of application config option 'email_settings.from_address' for case when 'from_address' like 
-'test@test.test' without user name (Now the addresses like 'test@test.test' will be transform automatically to format: 
-'PHP Censor <test@test.test>'). Issue [#270](https://github.com/php-censor/php-censor/issues/270).
+- Behavior of application config option `email_settings.from_address` for case when `from_address` like 
+`test@test.test` without user name (Now the addresses like `test@test.test` will be transform automatically to format: 
+`PHP Censor <test@test.test>`). Issue [#270](https://github.com/php-censor/php-censor/issues/270).
 
 ### Changed
 
