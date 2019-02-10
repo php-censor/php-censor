@@ -5,6 +5,28 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [1.0.5 (Morty Smith)](https://github.com/php-censor/php-censor/tree/1.0.5) (2019-02-10)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/1.0.4...1.0.5)
+
+### Fixed
+
+- Overload for plugin options: "directory" and "binary_path". Issue 
+[#270](https://github.com/php-censor/php-censor/issues/270).
+- Models creation for cases when we have more columns in DB then model fields (Case: new feature with new columns in 
+the another branch). Issue [#270](https://github.com/php-censor/php-censor/issues/270).
+- Guzzle version for correct Slack plugin working. Issue [#270](https://github.com/php-censor/php-censor/issues/270).
+- Fixed behavior of application config option 'email_settings.from_address' for case when 'from_address' like 
+'test@test.test' without user name (Now the addresses like 'test@test.test' will be transform automatically to format: 
+'PHP Censor <test@test.test>'). Issue [#270](https://github.com/php-censor/php-censor/issues/270).
+
+### Changed
+
+- Improved documentation for plugins. Issue [#271](https://github.com/php-censor/php-censor/issues/271). Pull requests 
+[#275](https://github.com/php-censor/php-censor/pull/275), [#273](https://github.com/php-censor/php-censor/pull/273), 
+[#274](https://github.com/php-censor/php-censor/pull/274). Thanks to [@benr77](https://github.com/benr77).
+
+
 ## [1.0.4 (Morty Smith)](https://github.com/php-censor/php-censor/tree/1.0.4) (2019-02-02)
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/1.0.3...1.0.4)
