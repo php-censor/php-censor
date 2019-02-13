@@ -82,7 +82,13 @@ class Psalm extends Plugin implements ZeroConfigPluginInterface
                 $this->builder->logFailure('ERROR: ' . $error['full_message'] . \PHP_EOL);
 
                 $this->build->reportError(
-                    $this->builder, self::pluginName(), $error['message'], BuildError::SEVERITY_HIGH, $error['file'], $error['line_from'], $error['line_to']
+                    $this->builder,
+                    self::pluginName(),
+                    $error['message'],
+                    BuildError::SEVERITY_HIGH,
+                    $error['file'],
+                    $error['line_from'],
+                    $error['line_to']
                 );
             }
         }
@@ -96,13 +102,16 @@ class Psalm extends Plugin implements ZeroConfigPluginInterface
                 $this->builder->logFailure('INFO: ' . $info['full_message'] . \PHP_EOL);
 
                 $this->build->reportError(
-                    $this->builder, self::pluginName(), $info['message'], BuildError::SEVERITY_LOW, $info['file'], $info['line_from'], $info['line_to']
+                    $this->builder,
+                    self::pluginName(),
+                    $info['message'],
+                    BuildError::SEVERITY_LOW,
+                    $info['file'],
+                    $info['line_from'],
+                    $info['line_to']
                 );
             }
         }
-
-        $this->build->storeMeta(self::pluginName() . '-warnings', $infos);
-        $this->build->storeMeta(self::pluginName() . '-errors', $errors);
 
         if ($success) {
             $this->builder->logSuccess('No errors found!');
@@ -146,8 +155,6 @@ class Psalm extends Plugin implements ZeroConfigPluginInterface
                     continue;
                 }
 
-                // Template:
-                // MissingConstructor - src/Plugins/Foobar.php:29:15 - Foo\Bar has an uninitialized variable $this->filesystem, but no constructor
                 ${$value['severity'].'s'}[] = [
                     'full_message' => \vsprintf('%s - %s:%d:%d - %s' . \PHP_EOL . '%s', [
                         $value['type'],
