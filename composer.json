@@ -91,15 +91,6 @@
         "hipchat/hipchat-php":        "~1.4.0",
         "php-censor/flowdock-client": "~1.0.0",
 
-        "symfony/debug":                     "~3.4.0",
-        "symfony/config":                    "~3.4.0",
-        "symfony/intl":                      "~3.4.0",
-        "doctrine/instantiator":             "~1.0.0",
-        "phpunit/php-token-stream":          "~1.4.0",
-        "phpdocumentor/reflection-docblock": "~2.0.0",
-        "myclabs/deep-copy":                 "~1.7.0",
-        "symfony/polyfill":                  "~1.10.0",
-
         "oomphinc/composer-installers-extender": "~1.1.0",
 
         "npm-asset/sprintf-js":     "~1.0.0",
