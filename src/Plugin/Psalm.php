@@ -15,7 +15,7 @@ use PHPCensor\ZeroConfigPluginInterface;
  * Class Psalm
  * @package PHPCensor\Plugin
  */
-class Psalm extends Plugin implements ZeroConfigPluginInterface
+class Psalm extends Plugin
 {
     /**
      * @var int
@@ -40,17 +40,16 @@ class Psalm extends Plugin implements ZeroConfigPluginInterface
 
         $this->executable = $this->findBinary('psalm');
 
-        if (isset($options['zero_config']) && $options['zero_config']) {
-            $this->allowedWarnings = 0;
-            $this->allowedErrors   = 0;
-        }
-
         if (!empty($options['allowed_errors']) && \is_int($options['allowed_errors'])) {
             $this->allowedErrors = $options['allowed_errors'];
+        } else {
+            $this->allowedErrors   = 0;
         }
 
         if (!empty($options['allowed_warnings']) && \is_int($options['allowed_warnings'])) {
             $this->allowedWarnings = $options['allowed_warnings'];
+        } else {
+            $this->allowedWarnings = 0;
         }
     }
 
