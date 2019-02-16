@@ -1,5 +1,5 @@
 Plugin Psalm
-===========
+============
 
 Runs [Psalm](https://getpsalm.org/) against your build.
 

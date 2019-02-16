@@ -10,9 +10,6 @@ use PHPCensor\Plugin;
 
 /**
  * A static analysis tool for finding errors in PHP applications https://getpsalm.org
- *
- * Class Psalm
- * @package PHPCensor\Plugin
  */
 class Psalm extends Plugin
 {
@@ -23,10 +20,10 @@ class Psalm extends Plugin
     protected $allowedWarnings;
 
     /**
-     * Psalm constructor.
      * @param Builder $builder
-     * @param Build $build
-     * @param array $options
+     * @param Build   $build
+     * @param array   $options
+     *
      * @throws \Exception
      */
     public function __construct(Builder $builder, Build $build, array $options = [])
@@ -55,7 +52,7 @@ class Psalm extends Plugin
     {
         $psalm = $this->executable;
 
-        if ((!\defined('DEBUG_MODE') || !DEBUG_MODE) && !(boolean)$this->build->getExtra('debug')) {
+        if ((!\defined('DEBUG_MODE') || !DEBUG_MODE) && !(bool)$this->build->getExtra('debug')) {
             $this->builder->logExecOutput(false);
         }
 
@@ -123,25 +120,15 @@ class Psalm extends Plugin
     }
 
     /**
-     * @param string $stage
-     * @param Build $build
-     * @return bool
-     */
-    public static function canExecuteOnStage($stage, Build $build)
-    {
-        return Build::STAGE_TEST === $stage;
-    }
-
-    /**
      * @param string $output
      * @return array
      */
-    protected function processReport(string $output)
+    protected function processReport($output)
     {
         $data = \json_decode(trim($output), true);
 
         $errors = [];
-        $infos = [];
+        $infos  = [];
 
         if (!empty($data) && \is_array($data)) {
             foreach ($data as $value) {
@@ -158,10 +145,10 @@ class Psalm extends Plugin
                         $value['message'],
                         $value['snippet']
                     ]),
-                    'message' => $value['message'],
-                    'file' => $value['file_name'],
+                    'message'   => $value['message'],
+                    'file'      => $value['file_name'],
                     'line_from' => $value['line_from'],
-                    'line_to' => $value['line_to']
+                    'line_to'   => $value['line_to']
                 ];
             }
         }
