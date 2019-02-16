@@ -7,7 +7,6 @@ use PHPCensor\Builder;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
 use PHPCensor\Plugin;
-use PHPCensor\ZeroConfigPluginInterface;
 
 /**
  * A static analysis tool for finding errors in PHP applications https://getpsalm.org
@@ -17,14 +16,10 @@ use PHPCensor\ZeroConfigPluginInterface;
  */
 class Psalm extends Plugin
 {
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $allowedErrors;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $allowedWarnings;
 
     /**
