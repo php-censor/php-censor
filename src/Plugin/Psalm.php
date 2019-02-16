@@ -35,13 +35,13 @@ class Psalm extends Plugin
 
         $this->executable = $this->findBinary('psalm');
 
-        if (!empty($options['allowed_errors']) && \is_int($options['allowed_errors'])) {
+        if (isset($options['allowed_errors']) && \is_int($options['allowed_errors'])) {
             $this->allowedErrors = $options['allowed_errors'];
         } else {
             $this->allowedErrors   = 0;
         }
 
-        if (!empty($options['allowed_warnings']) && \is_int($options['allowed_warnings'])) {
+        if (isset($options['allowed_warnings']) && \is_int($options['allowed_warnings'])) {
             $this->allowedWarnings = $options['allowed_warnings'];
         } else {
             $this->allowedWarnings = 0;
