@@ -87,7 +87,6 @@ class Phlint extends Plugin
      */
     protected function processReport($output)
     {
-        \file_put_contents('/var/repos/output', $output);
         $data = \explode(\chr(226), \preg_replace('#\\x1b[[][^A-Za-z\n]*[A-Za-z]#', '', \trim($output)));
         \array_pop($data);
         \array_shift($data);
