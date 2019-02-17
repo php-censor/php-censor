@@ -80,7 +80,7 @@ class PhpStan extends Plugin
                         }
                         $out .= \vsprintf(' %d%s %s' . PHP_EOL, [
                             $message['line'],
-                            \str_repeat(' ', 6 - strlen($message['line'])),
+                            \str_repeat(' ', 6 - \strlen($message['line'])),
                             $message['message']
                         ]);
 
@@ -137,7 +137,7 @@ class PhpStan extends Plugin
      */
     protected function processReport(string $output)
     {
-        $data = \json_decode(trim($output), true);
+        $data = \json_decode(\trim($output), true);
 
         $total_errors = 0;
         $files = [];
