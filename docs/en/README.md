@@ -57,6 +57,7 @@ Plugins
 * [Psalm](plugins/psalm.md) - `psalm`
 * [PHPStan](plugins/phpstan.md) - `phpstan`
 * [Pahout](plugins/pahout.md) - `pahout`
+* [Phlint](plugins/phlint.md) - `phlint`
 * [PHP Code Sniffer](plugins/php_code_sniffer.md) - `php_code_sniffer`
 * [PHP Copy/Paste Detector](plugins/php_cpd.md) - `php_cpd`
 * [PHP Coding Standards Fixer](plugins/php_cs_fixer.md) - `php_cs_fixer`

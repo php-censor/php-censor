@@ -32,7 +32,7 @@ class Phlint extends Plugin
 
         $this->executable = $this->findBinary('phlint');
 
-        if (\array_key_exists($options, 'allowed_errors') && \is_int($options['allowed_errors'])) {
+        if (\array_key_exists('allowed_errors', $options) && \is_int($options['allowed_errors'])) {
             $this->allowedErrors = $options['allowed_errors'];
         }
     }
@@ -102,9 +102,9 @@ class Phlint extends Plugin
                 $message = \ltrim($error[0]) . PHP_EOL . \ltrim($error[1]);
 
                 $errors[] = [
-                    'message'      => $message,
-                    'file'         => $file,
-                    'line_from'    => $line
+                    'message'   => $message,
+                    'file'      => $file,
+                    'line_from' => $line
                 ];
             }
         }
