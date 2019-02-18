@@ -1,5 +1,5 @@
 Plugin PhpStan
-===========
+==============
 
 Runs [PhpStan](https://github.com/phpstan/phpstan) against your build.
 

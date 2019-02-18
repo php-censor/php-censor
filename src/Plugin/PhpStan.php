@@ -13,9 +13,6 @@ use PHPCensor\Plugin;
  * before you write tests for the code. It moves PHP closer to compiled languages in the sense that the correctness of
  * each line of the code can be checked before you run the actual line.
  * https://github.com/phpstan/phpstan
- *
- * Class PhpStan
- * @package PHPCensor\Plugin
  */
 class PhpStan extends Plugin
 {
@@ -23,10 +20,10 @@ class PhpStan extends Plugin
     protected $allowedErrors = 0;
 
     /**
-     * Psalm constructor.
      * @param Builder $builder
      * @param Build $build
      * @param array $options
+     *
      * @throws \Exception
      */
     public function __construct(Builder $builder, Build $build, array $options = [])
@@ -47,7 +44,7 @@ class PhpStan extends Plugin
     {
         $phpstan = $this->executable;
 
-        if ((!\defined('DEBUG_MODE') || !DEBUG_MODE) && !(boolean)$this->build->getExtra('debug')) {
+        if ((!\defined('DEBUG_MODE') || !DEBUG_MODE) && !(bool)$this->build->getExtra('debug')) {
             $this->builder->logExecOutput(false);
         }
 
@@ -123,7 +120,8 @@ class PhpStan extends Plugin
 
     /**
      * @param string $stage
-     * @param Build $build
+     * @param Build  $build
+     *
      * @return bool
      */
     public static function canExecuteOnStage($stage, Build $build)
@@ -135,18 +133,18 @@ class PhpStan extends Plugin
      * @param string $output
      * @return array
      */
-    protected function processReport(string $output)
+    protected function processReport($output)
     {
         $data = \json_decode(\trim($output), true);
 
-        $total_errors = 0;
-        $files = [];
+        $totalErrors = 0;
+        $files        = [];
 
         if (!empty($data) && \is_array($data) && (0 < $data['totals']['file_errors'])) {
-            $total_errors = $data['totals']['file_errors'];
+            $totalErrors = $data['totals']['file_errors'];
             $files = $data['files'];
         }
 
-        return [$total_errors, $files];
+        return [$totalErrors, $files];
     }
 }
