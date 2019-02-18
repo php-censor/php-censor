@@ -11,9 +11,6 @@ use PHPCensor\Plugin;
 /**
  * A pair programming partner for writing better PHP.
  * https://github.com/wata727/pahout
- *
- * Class Pahout
- * @package PHPCensor\Plugin
  */
 class Pahout extends Plugin
 {
@@ -27,10 +24,11 @@ class Pahout extends Plugin
     protected $allowedWarnings;
 
     /**
-     * Psalm constructor.
      * @param Builder $builder
      * @param Build $build
+     *
      * @param array $options
+     *
      * @throws \Exception
      */
     public function __construct(Builder $builder, Build $build, array $options = [])
@@ -59,7 +57,7 @@ class Pahout extends Plugin
     {
         $pahout = $this->executable;
 
-        if ((!\defined('DEBUG_MODE') || !DEBUG_MODE) && !(boolean)$this->build->getExtra('debug')) {
+        if ((!\defined('DEBUG_MODE') || !DEBUG_MODE) && !(bool)$this->build->getExtra('debug')) {
             $this->builder->logExecOutput(false);
         }
 
@@ -125,7 +123,7 @@ class Pahout extends Plugin
      * @param string $output
      * @return array
      */
-    protected function processReport(string $output)
+    protected function processReport($output)
     {
         $data = \json_decode(trim($output), true);
 
@@ -144,8 +142,8 @@ class Pahout extends Plugin
                         $hint['message'],
                         $hint['link']
                     ]),
-                    'message' => $hint['message'],
-                    'file' => $hint['filename'],
+                    'message'   => $hint['message'],
+                    'file'      => $hint['filename'],
                     'line_from' => $hint['lineno']
                 ];
             }

@@ -1,5 +1,5 @@
 Plugin Pahout
-===========
+=============
 
 Runs [Pahout](https://github.com/wata727/pahout/) against your build.
 
