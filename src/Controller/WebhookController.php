@@ -350,6 +350,7 @@ class WebhookController extends Controller
         $project = $this->fetchProject($projectId, [
             Project::TYPE_BITBUCKET,
             Project::TYPE_BITBUCKET_HG,
+            Project::TYPE_GIT,
         ]);
 
         // Support both old services and new webhooks
