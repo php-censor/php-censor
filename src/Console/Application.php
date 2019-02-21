@@ -116,7 +116,9 @@ LOGO;
             $phinxSettings['environments']['php-censor']['port'] = (integer) $databaseSettings['servers']['write'][0]['port'];
         }
 
-        if ($databaseSettings["type"] === "pgsql") {
+        if (! empty($databaseSettings["type"])
+            && $databaseSettings["type"] === "pgsql"
+        ) {
             $phinxSettings['environments']['php-censor']['host'] .= ';sslmode=' . $databaseSettings['servers']['write'][0]['sslmode'];
         }
 
