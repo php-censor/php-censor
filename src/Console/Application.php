@@ -114,11 +114,12 @@ LOGO;
 
         // TODO: figure out how to make sslmode stick
         if ($databaseSettings["type"] === "pgsql") {
-            $phinxSettings['environments']['php-censor']['name'] .= ';sslmode=' . $databaseSettings['servers']['write'][0]['sslmode'];
+            $phinxSettings['environments']['php-censor']['name'] .= ';sslmode='
+                . $databaseSettings['servers']['write'][0]['sslmode'];
         }
 
         $phinxConfig = new PhinxConfig($phinxSettings);
-// var_dump($phinxConfig["environments"]); die();
+
         $this->add(
             (new Create())
                 ->setConfig($phinxConfig)
