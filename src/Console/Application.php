@@ -108,14 +108,15 @@ LOGO;
             ];
         }
 
-        if (!empty($databaseSettings['port'])) {
-            $phinxSettings['environments']['php-censor']['port'] = (integer)$databaseSettings['port'];
+        if (!empty($databaseSettings['port'])
+            || $databaseSettings['servers']['write'][0]['port']
+        ) {
+            $phinxSettings['environments']['php-censor']['port'] = (integer)$databaseSettings['port']
+                ?: $databaseSettings['servers']['write'][0]['port'];
         }
 
-        // TODO: figure out how to make sslmode stick
         if ($databaseSettings["type"] === "pgsql") {
-            $phinxSettings['environments']['php-censor']['name'] .= ';sslmode='
-                . $databaseSettings['servers']['write'][0]['sslmode'];
+            $phinxSettings['environments']['php-censor']['host'] .= ';sslmode=' . $databaseSettings['servers']['write'][0]['sslmode'];
         }
 
         $phinxConfig = new PhinxConfig($phinxSettings);
