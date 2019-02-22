@@ -119,6 +119,8 @@ class CommandExecutor implements CommandExecutorInterface
         if (!empty($withNoExit)) {
             $process->start(null, $env);
 
+            $this->logger->logDebug("Assuming command '{$withNoExit}' does not exit properly");
+
             while ($process->isRunning()) {
                 sleep(15);
             }
