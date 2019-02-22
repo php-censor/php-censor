@@ -101,6 +101,10 @@ class Database extends \PDO
                 self::$dsn[$type] = self::$details['driver'] . ':host=' . $server['host'];
 
                 if (self::$details['driver'] === "pgsql") {
+                    if (! array_key_exists("sslmode", $server)) {
+                        $server["sslmode"] = "prefer";
+                    }
+
                     self::$dsn[$type] .= ';sslmode=' . $server['sslmode'];
                 }
 
