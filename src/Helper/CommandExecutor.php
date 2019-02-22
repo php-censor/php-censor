@@ -119,18 +119,10 @@ class CommandExecutor implements CommandExecutorInterface
         if (!empty($withNoExit)) {
             $process->start(null, $env);
 
-            $this->logger->logDebug("Assuming command '{$withNoExit}' does not exit properly");
-            do {
+            while ($process->isRunning()) {
                 sleep(15);
-                $response = [];
-                exec("ps auxww | grep '{$withNoExit}' | grep -v grep", $response);
-                $response = array_filter(
-                    $response,
-                    function ($a) {
-                        return strpos($a, $this->buildPath) !== false;
-                    }
-                );
-            } while (!empty($response));
+            }
+
             $process->stop();
             $status = 0;
         } else {
