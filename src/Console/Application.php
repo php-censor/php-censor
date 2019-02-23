@@ -122,7 +122,7 @@ LOGO;
             && $databaseSettings["type"] === "pgsql"
         ) {
             $phinxSettings['environments']['php-censor']['host'] .=
-                ';sslmode=' . $databaseSettings['servers']['write'][0]['sslmode'];
+                ';sslmode=' . $databaseSettings['servers']['write'][0]['pgsql-sslmode'];
         }
 
         $phinxConfig = new PhinxConfig($phinxSettings);

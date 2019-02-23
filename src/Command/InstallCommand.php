@@ -45,7 +45,7 @@ class InstallCommand extends Command
             ->addOption('db-name', null, InputOption::VALUE_OPTIONAL, 'Database name')
             ->addOption('db-user', null, InputOption::VALUE_OPTIONAL, 'Database user')
             ->addOption('db-password', null, InputOption::VALUE_OPTIONAL, 'Database password')
-            ->addOption('db-sslmode', null, InputOption::VALUE_OPTIONAL, 'Postgres SSLMODE option')
+            ->addOption('db-pgsql-sslmode', null, InputOption::VALUE_OPTIONAL, 'Postgres SSLMODE option')
             ->addOption('admin-name', null, InputOption::VALUE_OPTIONAL, 'Admin name')
             ->addOption('admin-password', null, InputOption::VALUE_OPTIONAL, 'Admin password')
             ->addOption('admin-email', null, InputOption::VALUE_OPTIONAL, 'Admin email')
@@ -402,11 +402,9 @@ class InstallCommand extends Command
             $dbPort       = $helper->ask($input, $output, $questionPort);
         }
 
-        if (strtolower($dbType) === "pgsql"
-            && ! $dbSslmode = $input->getOption('db-sslmode')
-        ) {
-            $questionSslmode = new Question('Please enter the connection\'s SSL mode (default: prefer): ', 'prefer');
-            $dbSslmode       = $helper->ask($input, $output, $questionSslmode);
+        if (strtolower($dbType) === "pgsql") {
+            $dbPgsqlSslmode = $input->getOption('db-pgsql-sslmode')
+                ?: 'prefer';
         }
 
         if (!$dbName = $input->getOption('db-name')) {
@@ -432,10 +430,8 @@ class InstallCommand extends Command
             ]
         ];
 
-        if (strtolower($dbType) === "pgsql"
-            && $dbSslmode
-        ) {
-            $dbServers[0]['sslmode'] = $dbSslmode;
+        if ($dbType === "pgsql") {
+            $dbServers[0]['pgsql-sslmode'] = $dbPgsqlSslmode;
         }
 
         $dbPort = (integer)$dbPort;
@@ -474,7 +470,7 @@ class InstallCommand extends Command
         $dns .= ';dbname=' . $db['name'];
 
         if ($db["type"] === "pgsql") {
-            $dns .= ';sslmode=' . $db['servers']['write'][0]['sslmode'];
+            $dns .= ';sslmode=' . $db['servers']['write'][0]['pgsql-sslmode'];
         }
 
         $pdoOptions = [
