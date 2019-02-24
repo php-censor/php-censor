@@ -45,6 +45,7 @@ class InstallCommand extends Command
             ->addOption('db-name', null, InputOption::VALUE_OPTIONAL, 'Database name')
             ->addOption('db-user', null, InputOption::VALUE_OPTIONAL, 'Database user')
             ->addOption('db-password', null, InputOption::VALUE_OPTIONAL, 'Database password')
+            ->addOption('db-pgsql-sslmode', null, InputOption::VALUE_OPTIONAL, 'Postgres SSLMODE option')
             ->addOption('admin-name', null, InputOption::VALUE_OPTIONAL, 'Admin name')
             ->addOption('admin-password', null, InputOption::VALUE_OPTIONAL, 'Admin password')
             ->addOption('admin-email', null, InputOption::VALUE_OPTIONAL, 'Admin email')
@@ -401,6 +402,11 @@ class InstallCommand extends Command
             $dbPort       = $helper->ask($input, $output, $questionPort);
         }
 
+        if (strtolower($dbType) === "pgsql") {
+            $dbPgsqlSslmode = $input->getOption('db-pgsql-sslmode')
+                ?: 'prefer';
+        }
+
         if (!$dbName = $input->getOption('db-name')) {
             $questionDb = new Question('Please enter your database name (default: php-censor-db): ', 'php-censor-db');
             $dbName     = $helper->ask($input, $output, $questionDb);
@@ -424,7 +430,12 @@ class InstallCommand extends Command
             ]
         ];
 
+        if ($dbType === "pgsql") {
+            $dbServers[0]['pgsql-sslmode'] = $dbPgsqlSslmode;
+        }
+
         $dbPort = (integer)$dbPort;
+
         if ($dbPort) {
             $dbServers[0]['port'] = $dbPort;
         }
@@ -451,10 +462,16 @@ class InstallCommand extends Command
     protected function verifyDatabaseDetails(array $db, OutputInterface $output)
     {
         $dns = $db['type'] . ':host=' . $db['servers']['write'][0]['host'];
+
         if (isset($db['servers']['write'][0]['port'])) {
             $dns .= ';port=' . (integer)$db['servers']['write'][0]['port'];
         }
+
         $dns .= ';dbname=' . $db['name'];
+
+        if ($db["type"] === "pgsql") {
+            $dns .= ';sslmode=' . $db['servers']['write'][0]['pgsql-sslmode'];
+        }
 
         $pdoOptions = [
             \PDO::ATTR_PERSISTENT         => false,

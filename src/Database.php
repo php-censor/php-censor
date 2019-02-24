@@ -99,9 +99,19 @@ class Database extends \PDO
                 $server = array_shift($servers);
 
                 self::$dsn[$type] = self::$details['driver'] . ':host=' . $server['host'];
+
+                if (self::$details['driver'] === "pgsql") {
+                    if (! array_key_exists("pgsql-sslmode", $server)) {
+                        $server["pgsql-sslmode"] = "prefer";
+                    }
+
+                    self::$dsn[$type] .= ';sslmode=' . $server['pgsql-sslmode'];
+                }
+
                 if (isset($server['port'])) {
                     self::$dsn[$type] .= ';port=' . (integer)$server['port'];
                 }
+
                 self::$dsn[$type] .= ';dbname=' . self::$details['db'];
 
                 $pdoOptions = [
@@ -109,6 +119,7 @@ class Database extends \PDO
                     \PDO::ATTR_ERRMODE    => \PDO::ERRMODE_EXCEPTION,
                     \PDO::ATTR_TIMEOUT    => 2,
                 ];
+
                 if (self::MYSQL_TYPE === self::$details['driver']) {
                     $pdoOptions[\PDO::MYSQL_ATTR_INIT_COMMAND] = "SET NAMES 'UTF8'";
                 }
