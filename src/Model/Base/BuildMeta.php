@@ -3,6 +3,7 @@
 namespace PHPCensor\Model\Base;
 
 use PHPCensor\Model;
+use PHPCensor\Exception\InvalidArgumentException;
 
 class BuildMeta extends Model
 {
@@ -17,7 +18,7 @@ class BuildMeta extends Model
     ];
 
     /**
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -25,9 +26,11 @@ class BuildMeta extends Model
     }
 
     /**
-     * @param integer $value
+     * @param int $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setId($value)
     {
@@ -44,7 +47,7 @@ class BuildMeta extends Model
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getBuildId()
     {
@@ -52,9 +55,11 @@ class BuildMeta extends Model
     }
 
     /**
-     * @param integer $value
+     * @param int $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setBuildId($value)
     {
@@ -81,7 +86,9 @@ class BuildMeta extends Model
     /**
      * @param string $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setMetaKey($value)
     {
@@ -108,7 +115,9 @@ class BuildMeta extends Model
     /**
      * @param string $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setMetaValue($value)
     {

@@ -3,6 +3,7 @@
 namespace PHPCensor\Model\Base;
 
 use PHPCensor\Model;
+use PHPCensor\Exception\InvalidArgumentException;
 
 class BuildError extends Model
 {
@@ -29,7 +30,7 @@ class BuildError extends Model
     ];
 
     /**
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -37,9 +38,11 @@ class BuildError extends Model
     }
 
     /**
-     * @param integer $value
+     * @param int $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setId($value)
     {
@@ -64,9 +67,11 @@ class BuildError extends Model
     }
 
     /**
-     * @param integer $value
+     * @param int $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setBuildId($value)
     {
@@ -93,7 +98,9 @@ class BuildError extends Model
     /**
      * @param string $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setPlugin($value)
     {
@@ -120,7 +127,9 @@ class BuildError extends Model
     /**
      * @param string $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setFile($value)
     {
@@ -136,7 +145,7 @@ class BuildError extends Model
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getLineStart()
     {
@@ -144,9 +153,11 @@ class BuildError extends Model
     }
 
     /**
-     * @param integer $value
+     * @param int $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setLineStart($value)
     {
@@ -162,7 +173,7 @@ class BuildError extends Model
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getLineEnd()
     {
@@ -170,9 +181,11 @@ class BuildError extends Model
     }
 
     /**
-     * @param integer $value
+     * @param int $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setLineEnd($value)
     {
@@ -188,17 +201,19 @@ class BuildError extends Model
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getSeverity()
     {
-        return (integer)$this->data['severity'];
+        return (int)$this->data['severity'];
     }
 
     /**
-     * @param integer $value
+     * @param int $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setSeverity($value)
     {
@@ -225,7 +240,9 @@ class BuildError extends Model
     /**
      * @param string $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setMessage($value)
     {
@@ -243,6 +260,8 @@ class BuildError extends Model
 
     /**
      * @return \DateTime|null
+     *
+     * @throws \Exception
      */
     public function getCreateDate()
     {
@@ -256,7 +275,9 @@ class BuildError extends Model
     /**
      * @param \DateTime $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setCreateDate(\DateTime $value)
     {
@@ -284,7 +305,9 @@ class BuildError extends Model
     /**
      * @param string $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setHash($value)
     {
@@ -301,7 +324,7 @@ class BuildError extends Model
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getIsNew()
     {
@@ -309,9 +332,11 @@ class BuildError extends Model
     }
 
     /**
-     * @param boolean $value
+     * @param bool $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setIsNew($value)
     {

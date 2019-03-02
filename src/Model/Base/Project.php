@@ -55,17 +55,19 @@ class Project extends Model
     ];
 
     /**
-     * @return integer
+     * @return int
      */
     public function getId()
     {
-        return (integer)$this->data['id'];
+        return (int)$this->data['id'];
     }
 
     /**
-     * @param integer $value
+     * @param int $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setId($value)
     {
@@ -92,7 +94,9 @@ class Project extends Model
     /**
      * @param string $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setTitle($value)
     {
@@ -119,7 +123,9 @@ class Project extends Model
     /**
      * @param string $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setReference($value)
     {
@@ -162,7 +168,9 @@ class Project extends Model
     /**
      * @param string $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setBranch($value)
     {
@@ -187,9 +195,11 @@ class Project extends Model
     }
 
     /**
-     * @param boolean $value
+     * @param bool $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setDefaultBranchOnly($value)
     {
@@ -216,7 +226,9 @@ class Project extends Model
     /**
      * @param string $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setSshPrivateKey($value)
     {
@@ -242,7 +254,9 @@ class Project extends Model
     /**
      * @param string $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setSshPublicKey($value)
     {
@@ -268,7 +282,7 @@ class Project extends Model
     /**
      * @param string $value
      *
-     * @return boolean
+     * @return bool
      *
      * @throws InvalidArgumentException
      */
@@ -313,11 +327,13 @@ class Project extends Model
     /**
      * @param array $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setAccessInformation(array $value)
     {
-        $this->validateNotNull('branches', $value);
+        $this->validateNotNull('access_information', $value);
 
         $accessInformation = json_encode($value);
         if ($this->data['access_information'] === $accessInformation) {
@@ -340,7 +356,9 @@ class Project extends Model
     /**
      * @param string $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setBuildConfig($value)
     {
@@ -364,9 +382,11 @@ class Project extends Model
     }
 
     /**
-     * @param boolean $value
+     * @param bool $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setOverwriteBuildConfig($value)
     {
@@ -383,7 +403,7 @@ class Project extends Model
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getAllowPublicStatus()
     {
@@ -391,9 +411,11 @@ class Project extends Model
     }
 
     /**
-     * @param boolean $value
+     * @param bool $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setAllowPublicStatus($value)
     {
@@ -410,7 +432,7 @@ class Project extends Model
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getArchived()
     {
@@ -418,9 +440,11 @@ class Project extends Model
     }
 
     /**
-     * @param boolean $value
+     * @param bool $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setArchived($value)
     {
@@ -437,7 +461,7 @@ class Project extends Model
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getGroupId()
     {
@@ -445,9 +469,11 @@ class Project extends Model
     }
 
     /**
-     * @param integer $value
+     * @param int $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setGroupId($value)
     {
@@ -465,6 +491,8 @@ class Project extends Model
 
     /**
      * @return \DateTime|null
+     *
+     * @throws \Exception
      */
     public function getCreateDate()
     {
@@ -478,7 +506,7 @@ class Project extends Model
     /**
      * @param \DateTime $value
      *
-     * @return boolean
+     * @return bool
      */
     public function setCreateDate(\DateTime $value)
     {
@@ -494,17 +522,19 @@ class Project extends Model
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getUserId()
     {
-        return (integer)$this->data['user_id'];
+        return (int)$this->data['user_id'];
     }
 
     /**
-     * @param integer $value
+     * @param int $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setUserId($value)
     {
