@@ -3,6 +3,7 @@
 namespace PHPCensor\Model\Base;
 
 use PHPCensor\Model;
+use PHPCensor\Exception\InvalidArgumentException;
 
 class User extends Model
 {
@@ -23,7 +24,7 @@ class User extends Model
     ];
 
     /**
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -31,9 +32,11 @@ class User extends Model
     }
 
     /**
-     * @param integer $value
+     * @param int $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setId($value)
     {
@@ -60,7 +63,9 @@ class User extends Model
     /**
      * @param string $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setEmail($value)
     {
@@ -87,7 +92,9 @@ class User extends Model
     /**
      * @param string $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setHash($value)
     {
@@ -104,7 +111,7 @@ class User extends Model
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getIsAdmin()
     {
@@ -112,9 +119,11 @@ class User extends Model
     }
 
     /**
-     * @param boolean $value
+     * @param bool $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setIsAdmin($value)
     {
@@ -141,7 +150,9 @@ class User extends Model
     /**
      * @param string $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setName($value)
     {
@@ -168,7 +179,7 @@ class User extends Model
     /**
      * @param string $value
      *
-     * @return boolean
+     * @return bool
      */
     public function setLanguage($value)
     {
@@ -182,7 +193,7 @@ class User extends Model
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getPerPage()
     {
@@ -190,9 +201,11 @@ class User extends Model
     }
 
     /**
-     * @param integer $value
+     * @param int $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setPerPage($value)
     {
@@ -218,7 +231,9 @@ class User extends Model
     /**
      * @param string $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setProviderKey($value)
     {
@@ -255,7 +270,9 @@ class User extends Model
     /**
      * @param array $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setProviderData(array $value)
     {
@@ -282,7 +299,9 @@ class User extends Model
     /**
      * @param string $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setRememberKey($value)
     {

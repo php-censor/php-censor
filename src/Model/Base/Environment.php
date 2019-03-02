@@ -3,6 +3,7 @@
 namespace PHPCensor\Model\Base;
 
 use PHPCensor\Model;
+use PHPCensor\Exception\InvalidArgumentException;
 
 class Environment extends Model
 {
@@ -17,7 +18,7 @@ class Environment extends Model
     ];
 
     /**
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -25,9 +26,11 @@ class Environment extends Model
     }
 
     /**
-     * @param integer $value
+     * @param int $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setId($value)
     {
@@ -44,7 +47,7 @@ class Environment extends Model
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getProjectId()
     {
@@ -52,9 +55,11 @@ class Environment extends Model
     }
 
     /**
-     * @param integer $value
+     * @param int $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setProjectId($value)
     {
@@ -81,7 +86,9 @@ class Environment extends Model
     /**
      * @param string $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setName($value)
     {
@@ -113,7 +120,9 @@ class Environment extends Model
     /**
      * @param array $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setBranches(array $value)
     {

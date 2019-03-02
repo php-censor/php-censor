@@ -368,7 +368,7 @@ class Build extends Model
     /**
      * @param \DateTime $value
      *
-     * @return boolean
+     * @return bool
      */
     public function setCreateDate(\DateTime $value)
     {
@@ -530,7 +530,7 @@ class Build extends Model
      */
     public function setExtra(array $value)
     {
-        $this->validateNotNull('branches', $value);
+        $this->validateNotNull('extra', $value);
 
         $extra = json_encode($value);
         if ($this->data['extra'] === $extra) {
@@ -655,7 +655,7 @@ class Build extends Model
     }
 
     /**
-     * @param $value
+     * @param int $value
      *
      * @return bool
      *
@@ -678,8 +678,7 @@ class Build extends Model
     /**
      * @return int|null
      *
-     * @throws InvalidArgumentException
-     * @throws \PHPCensor\Exception\HttpException
+     * @throws \Exception
      */
     public function getErrorsTotalPrevious()
     {
@@ -709,7 +708,7 @@ class Build extends Model
     }
 
     /**
-     * @param $value
+     * @param int $value
      *
      * @return bool
      *
@@ -751,7 +750,7 @@ class Build extends Model
     }
 
     /**
-     * @param $value
+     * @param int $value
      *
      * @return bool
      *
