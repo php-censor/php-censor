@@ -294,40 +294,4 @@ class BitbucketBuild extends GitBuild
 
         parent::reportError($builder, $plugin, $message, $severity, $file, $lineStart, $lineEnd);
     }
-
-    /**
-     * Uses git diff to figure out what the diff line position is, based on the error line number.
-     *
-     * @param Builder $builder
-     * @param string  $file
-     * @param integer $line
-     *
-     * @return integer|null
-     */
-    protected function getDiffLineNumber(Builder $builder, $file, $line)
-    {
-        $builder->logExecOutput(false);
-
-        $line     = (integer)$line;
-        $prNumber = $this->getExtra('pull_request_number');
-        $path     = $builder->buildPath;
-
-        if (!empty($prNumber)) {
-            $builder->executeCommand('cd "%s" && git diff "origin/%s" "%s"', $path, $this->getBranch(), $file);
-        } else {
-            $commitId = $this->getCommitId();
-            $compare  = empty($commitId) ? 'HEAD' : $commitId;
-
-            $builder->executeCommand('cd "%s" && git diff "%s^^" "%s"', $path, $compare, $file);
-        }
-
-        $builder->logExecOutput(true);
-
-        $diff = $builder->getLastOutput();
-
-        $helper = new Diff();
-        $lines  = $helper->getLinePositions($diff);
-
-        return isset($lines[$line]) ? $lines[$line] : null;
-    }
 }

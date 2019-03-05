@@ -117,7 +117,7 @@ class WebhookController extends Controller
         $ignoreEnvironments = [];
         $ignoreTags         = [];
         if ($builds['count']) {
-            foreach($builds['items'] as $build) {
+            foreach ($builds['items'] as $build) {
                 /** @var Build $build */
                 $ignoreEnvironments[$build->getId()] = $build->getEnvironment();
                 $ignoreTags[$build->getId()]         = $build->getTag();
@@ -140,8 +140,7 @@ class WebhookController extends Controller
             if (!empty($environmentNames)) {
                 $duplicates = [];
                 foreach ($environmentNames as $environmentName) {
-                    if (
-                        !in_array($environmentName, $ignoreEnvironments) ||
+                    if (!in_array($environmentName, $ignoreEnvironments) ||
                         ($tag && !in_array($tag, $ignoreTags, true))
                     ) {
                         // If not, create a new build job for it:
@@ -180,8 +179,7 @@ class WebhookController extends Controller
             }
         } else {
             $environmentName = null;
-            if (
-                !in_array($environmentName, $ignoreEnvironments, true) ||
+            if (!in_array($environmentName, $ignoreEnvironments, true) ||
                 ($tag && !in_array($tag, $ignoreTags, true))
             ) {
                 $build = $this->buildService->createBuild(
@@ -660,8 +658,7 @@ class WebhookController extends Controller
     protected function githubCommitRequest(Project $project, array $payload)
     {
         // Github sends a payload when you close a pull request with a non-existent commit. We don't want this.
-        if (
-            array_key_exists('after', $payload) &&
+        if (array_key_exists('after', $payload) &&
             $payload['after'] === '0000000000000000000000000000000000000000'
         ) {
             return ['status' => 'ignored'];
