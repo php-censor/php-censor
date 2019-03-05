@@ -8,7 +8,7 @@ Configuration
 
 ### Options
 
-* **message** - Required - The message to send.
+* **message** [string, required] - The message to send.
 
 #### Build Settings
 

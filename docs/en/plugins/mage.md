@@ -1,30 +1,23 @@
 Plugin Mage
 ===========
 
-Triggers a deployment of the project to run via [Mage](https://github.com/andres-montanez/Magallanes)
+Triggers a deployment of the project to run via [Mage](https://github.com/andres-montanez/Magallanes) (Magallanes).
 
 Configuration
 -------------
 
+Mage must be installed locally in your project as it is not provided by PHP Censor.
+
 ### Options
 
-* **env** [required, string] - The environment name
+* **env** [string, required] - The environment name.
+* **bin** [string, required] - The mage executable path
 
 ### Examples
 
 ```yaml
-deploy:
+success:
     mage:
         env: production
-```
-
-### Options for config.yml
-
-* **bin** [optional, string] - The mage executable path
-
-### Examples
-
-```yaml
-mage:
-    bin: /usr/local/bin/mage
+        bin: bin/mage
 ```

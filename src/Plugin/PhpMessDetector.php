@@ -83,17 +83,12 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
             return false;
         }
 
-        $currentDir = getcwd();
-        chdir($this->builder->buildPath);
-
         $phpmdBinaryPath = $this->executable;
 
         $this->executePhpMd($phpmdBinaryPath);
 
         $errorCount = $this->processReport(trim($this->builder->getLastOutput()));
         $this->build->storeMeta((self::pluginName() . '-warnings'), $errorCount);
-
-        chdir($currentDir);
 
         return $this->wasLastExecSuccessful($errorCount);
     }
@@ -182,12 +177,24 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
 
         $ignore = '';
         if (is_array($this->ignore) && count($this->ignore) > 0) {
-            $ignore = sprintf(' --exclude "%s"', implode(',', $this->ignore));
+            $ignoreArray = [];
+            foreach ($this->ignore as $ignoreItem) {
+                $ignoreArray[] = /*$this->builder->buildPath .*/ $ignoreItem;
+            }
+
+            $ignore = sprintf(' --exclude "%s"', implode(',', $ignoreArray));
         }
 
         $suffixes = '';
         if (is_array($this->suffixes) && count($this->suffixes) > 0) {
             $suffixes = ' --suffixes ' . implode(',', $this->suffixes);
+        }
+
+        if (
+            (!defined('DEBUG_MODE') || !DEBUG_MODE) &&
+            !(boolean)$this->build->getExtra('debug')
+        ) {
+            $this->builder->logExecOutput(false);
         }
 
         // Run PHPMD:
@@ -199,6 +206,8 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
             $ignore,
             $suffixes
         );
+
+        $this->builder->logExecOutput(true);
     }
 
     /**

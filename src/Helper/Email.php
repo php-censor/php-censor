@@ -20,11 +20,11 @@ class Email
     protected $config;
 
     /**
-     * Create a new email object.
+     * @param Config $config
      */
-    public function __construct()
+    public function __construct(Config $config)
     {
-        $this->config = Config::getInstance();
+        $this->config = $config;
     }
 
     /**
@@ -91,9 +91,10 @@ class Email
 
     /**
      * Get the from address to use for the email.
-     * @return mixed|string
+     *
+     * @return array
      */
-    protected function getFrom()
+    public function getFrom()
     {
         $from = $this->config->get(
             'php-censor.email_settings.from_address',
@@ -101,12 +102,12 @@ class Email
         );
 
         if (strpos($from, '<') === false) {
-            return (string)$from;
+            return [(string)trim($from) => 'PHP Censor'];
         }
 
-        preg_match('#^(.*?)<(.*)>$#ui', $from, $fromParts);
+        preg_match('#^(.*?)<(.*?)>$#ui', $from, $fromParts);
 
-        return [$fromParts[2] => $fromParts[1]];
+        return [trim($fromParts[2]) => trim($fromParts[1])];
     }
 
     /**

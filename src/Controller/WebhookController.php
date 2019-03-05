@@ -352,6 +352,8 @@ class WebhookController extends Controller
             Project::TYPE_BITBUCKET,
             Project::TYPE_BITBUCKET_HG,
             Project::TYPE_BITBUCKET_SV,
+            Project::TYPE_GIT,
+            Project::TYPE_HG,
         ]);
 
         // Support both old services and new webhooks
@@ -616,6 +618,7 @@ class WebhookController extends Controller
     {
         $project = $this->fetchProject($projectId, [
             Project::TYPE_GITHUB,
+            Project::TYPE_GIT,
         ]);
 
         switch ($_SERVER['CONTENT_TYPE']) {
@@ -954,6 +957,8 @@ class WebhookController extends Controller
      * @param array   $payload
      *
      * @return array
+     *
+     * @throws \PHPCensor\Exception\InvalidArgumentException
      */
     protected function gogsPullRequest(Project $project, array $payload)
     {

@@ -207,7 +207,7 @@ class BuildController extends WebController
         $errorView->errors = $errors['items'];
 
         $data['errors']       = $build->getTotalErrorsCount($plugin, $severity, $isNew);
-        $data['errors_total'] = $build->getErrorsTotal();
+        $data['errors_total'] = (int)$build->getErrorsTotal();
         $data['error_html']   = $errorView->render();
 
         return $data;
@@ -271,9 +271,11 @@ class BuildController extends WebController
 
         if ($debug && $this->currentUserIsAdmin()) {
             $copy->addExtraValue('debug', true);
+        } elseif (!$debug) {
+            $copy->removeExtraValue('debug');
         }
 
-        $build = $this->buildService->createDuplicateBuild($copy);
+        $build = $this->buildService->createDuplicateBuild($copy, Build::SOURCE_MANUAL_REBUILD_WEB);
 
         if ($this->buildService->queueError) {
             $_SESSION['global_error'] = Lang::get('add_to_queue_failed');

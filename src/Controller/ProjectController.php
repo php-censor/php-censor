@@ -17,7 +17,6 @@ use PHPCensor\View;
 use PHPCensor\Store\Factory;
 use PHPCensor\Model\Project;
 use PHPCensor\WebController;
-use PHPCensor\Config;
 
 /**
  * Project Controller - Allows users to create, edit and view projects.

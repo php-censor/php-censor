@@ -237,23 +237,27 @@ class BuildService
     }
 
     /**
-     * @param Build $copyFrom
+     * @param Build $originalBuild
+     * @param int   $source
      *
-     * @return \PHPCensor\Model\Build
+     * @return Build
+     *
+     * @throws \Exception
      */
-    public function createDuplicateBuild(Build $copyFrom)
+    public function createDuplicateBuild(Build $originalBuild, $source)
     {
         $build = new Build();
-        $build->setProjectId($copyFrom->getProjectId());
-        $build->setCommitId($copyFrom->getCommitId());
-        $build->setBranch($copyFrom->getBranch());
-        $build->setTag($copyFrom->getTag());
-        $build->setCommitterEmail($copyFrom->getCommitterEmail());
-        $build->setCommitMessage($copyFrom->getCommitMessage());
-        $build->setExtra($copyFrom->getExtra());
-        $build->setEnvironment($copyFrom->getEnvironment());
-        $build->setSource($copyFrom->getSource());
-        $build->setUserId($copyFrom->getUserId());
+        $build->setParentId($originalBuild->getId());
+        $build->setProjectId($originalBuild->getProjectId());
+        $build->setCommitId($originalBuild->getCommitId());
+        $build->setBranch($originalBuild->getBranch());
+        $build->setTag($originalBuild->getTag());
+        $build->setCommitterEmail($originalBuild->getCommitterEmail());
+        $build->setCommitMessage($originalBuild->getCommitMessage());
+        $build->setExtra($originalBuild->getExtra());
+        $build->setEnvironment($originalBuild->getEnvironment());
+        $build->setSource($source);
+        $build->setUserId($originalBuild->getUserId());
         $build->setCreateDate(new \DateTime());
         $build->setStatusPending();
 

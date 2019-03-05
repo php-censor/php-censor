@@ -1,6 +1,11 @@
 Run builds using cronjob
 ========================
 
+-----
+**Note: [DEPRECATED]** This functionality is deprecated and will be deleted in version 2.0. Use a 
+[worker](workers/worker.md) instead.
+-----
+
 Running builds using cron is a quick and simple method of getting up and running with PHP Censor. It also removes the
 need for PHP Censor to be running all the time.
 

@@ -134,7 +134,7 @@ class DatabasePostgresqlTest extends \PHPUnit_Extensions_Database_TestCase
         self::assertEquals(POSTGRESQL_USER, $readDetails['user']);
         self::assertEquals(POSTGRESQL_PASSWORD, $readDetails['pass']);
 
-        self::assertEquals('pgsql:host=localhost;dbname=b8_test', $readConnection->getDsn());
+        self::assertEquals('pgsql:host=localhost;sslmode=prefer;dbname=b8_test', $readConnection->getDsn());
     }
 
     public function testGetWriteConnectionWithPort()
@@ -171,7 +171,7 @@ class DatabasePostgresqlTest extends \PHPUnit_Extensions_Database_TestCase
         self::assertInstanceOf('\PHPCensor\Database', $writeConnection);
         self::assertInstanceOf('\PHPCensor\Database', $readConnection);
 
-        self::assertEquals('pgsql:host=localhost;port=5432;dbname=b8_test', $readConnection->getDsn());
+        self::assertEquals('pgsql:host=localhost;sslmode=prefer;port=5432;dbname=b8_test', $readConnection->getDsn());
     }
 
     /**

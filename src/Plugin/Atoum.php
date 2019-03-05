@@ -66,8 +66,6 @@ class Atoum extends Plugin
 
         $cmd .= " --directories '{$this->directory}'";
 
-        chdir($this->builder->buildPath);
-
         $status = true;
 
         $this->builder->executeCommand($cmd);

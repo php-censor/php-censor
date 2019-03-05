@@ -11,11 +11,13 @@ b8:
   database:
     servers:
       read:
-        - host: localhost
-          port: 3306
+        - host:          localhost
+          port:          3306
+          pgsql-sslmode: prefer # disable, allow, prefer, require, verify-ca, or verify-full. See https://www.postgresql.org/docs/8.4/libpq-connect.html#LIBPQ-CONNECT-SSLMODE for details
       write:
-        - host: localhost
-          port: 3306
+        - host:          localhost
+          port:          3306
+          pgsql-sslmode: prefer
     type:     mysql # Database type: "mysql" or "pgsql"
     name:     php-censor-db
     username: php-censor-user

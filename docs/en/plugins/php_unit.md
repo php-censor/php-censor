@@ -12,18 +12,16 @@ Has two modes:
 
 #### phpunit.xml Configuration File
 
-Its activated if you have phpunit.xml file in your build path, `tests/` subfolder, or you specify it as a parameter:
-* **config** - Optional - Path to a PHP Unit XML configuration file.
-* **run_from** - Optional - When running PHPUnit with an XML config, the command is run from this directory
-* **coverage** - Optional - Value for the `--coverage-html` command line flag.
-* **binary_name** [string|array, optional] - Allows you to provide a name of the binary
-* **binary_path** [string, optional] - Allows you to provide a path to the binary
+It's activated if you have phpunit.xml file in your build path, `tests/` subfolder, or you specify it as a parameter:
 
+* **config** [string, optional] - Path to a PHP Unit XML configuration file.
+* **run_from** [string, optional] - When running PHPUnit with an XML config, the command is run from this directory
+* **coverage** [bool, optional] - Value for the `--coverage-html` command line flag.
 
 #### Running Tests By Specifying Directory
 
-* **directory** - **[DEPRECATED]** - Option `directory` deprecated and will be deleted in version 2.0 (Use option `directories` 
-instead)!
+* **directory** - **[DEPRECATED]** Option `directory` is deprecated and will be deleted in version 2.0. Use the option 
+`directories` instead.
 * **directories** - Optional - The directories (array) to run PHPUnit on.
 
 Both modes accept:
@@ -32,7 +30,7 @@ Both modes accept:
 ### Examples
 
 Specify config file and test directory:
-```yml
+```yaml
 test:
     php_unit:
         config:

@@ -9,19 +9,21 @@ Configuration
 
 ### Options
 
-- **authToken** [string, required] - Your Campfire user authentication token.
-- **message** [string, required] - The message to send to the room.
-- **roomId** [string, required] - Your Campfire room ID number.
-- **url** [string, required] - Your Campfire chat room URL.
+* **authToken** [string, required] - Your Campfire user authentication token.
+* **message** [string, required] - The message to send to the room.
+* **roomId** [string, required] - Your Campfire room ID number.
+* **url** [string, required] - Your Campfire chat room URL.
 
 ### Examples
-```yml
-  build_settings:
+
+```yaml
+build_settings:
     campfire:
-      authToken: "campfire auth token"
-      roomId: "campfire room ID"
-      url: "campfire URL"
-  success:
+        authToken: "campfire auth token"
+        roomId:    "campfire room ID"
+        url:       "campfire URL"
+        
+success:
     campfire:
-      message: "Build succeeded!"
+        message: "Build succeeded!"
 ```

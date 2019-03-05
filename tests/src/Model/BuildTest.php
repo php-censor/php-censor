@@ -28,6 +28,7 @@ class BuildTest extends \PHPUnit\Framework\TestCase
 
         self::assertEquals([
             'id'                    => null,
+            'parent_id'             => 0,
             'project_id'            => 100,
             'commit_id'             => null,
             'status'                => null,

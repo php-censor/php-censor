@@ -14,28 +14,29 @@ default value that is "deploy"), stage name(it would be just server name or defi
 Plugin options
 --------------
 
-* stage(*required*) - Stage or server name
-* task(*optional*) - Task name (*default task is deploy*) 
-* verbosity(*optional*) - Add verbose mode to plugin execution (*default is no verbose that equal to normal in the 
+* **stage** [string, required] - Stage or server name
+* **task** [string, optional] - Task name (*default task is deploy*) 
+* **verbosity** [string, optional] - Add verbose mode to plugin execution (*default is no verbose that equal to normal in the 
 option list of values below*)
   * normal
   * verbose
   * very verbose
   * debug
   * quiet 
-* file(*optional*) - Filename of deployer configuration. For default deployer takes deploy.php if this field is not 
+* **file** [string, optional] - Filename of deployer configuration. For default deployer takes deploy.php if this field is not 
 specified
 
 Sample configuration
 --------------------
 
-```
-\Ket4yii\PHPCensor\Deployer\Plugin\Deployer:
-  development: # branch name
-    task: sample-task # optional, default task is deploy 
-    stage: dev # required, name of stage or server
-    verbose: debug # optional, default is normal(no verbosity)
-    file: .deploy_config.php # optional, deployer takes the deploy.php file for default
-  master:
-    stage: prod #required, name of stage or server
+```yaml
+deploy:
+    deployer_org:
+        development: # branch name
+            task:    sample-task # optional, default task is deploy 
+            stage:   dev # required, name of stage or server
+            verbose: debug # optional, default is normal(no verbosity)
+            file:    .deploy_config.php # optional, deployer takes the deploy.php file for default
+        master:
+            stage: prod #required, name of stage or server
 ```

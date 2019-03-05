@@ -53,7 +53,7 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
     {
         parent::__construct($builder, $build, $options);
 
-        if (!empty($options['config'])) {
+        if (empty($options['config'])) {
             $this->ymlConfigFile = self::findConfigFile($this->directory);
         } else {
             $this->ymlConfigFile = $this->directory . $options['config'];
@@ -63,10 +63,10 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
             $this->args = (string) $options['args'];
         }
 
-        /** @deprecated Option "path" deprecated and will be deleted in version 2.0 (Use option "output_path" instead)! */
+        /** @deprecated Option "path" is deprecated and will be deleted in version 2.0. Use the option "output_path" instead. */
         if (isset($options['path']) && !isset($options['output_path'])) {
             $this->builder->logWarning(
-                '[DEPRECATED] Option "path" deprecated and will be deleted in version 2.0 (Use option "output_path" instead)!'
+                '[DEPRECATED] Option "path" is deprecated and will be deleted in version 2.0. Use the option "output_path" instead.'
             );
 
             $options['output_path'] = $options['path'];
@@ -138,9 +138,6 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
             return false;
         }
 
-        $currentDir = getcwd();
-        chdir($this->builder->buildPath);
-
         $cmd = 'cd "%s" && ' . $codeception . ' run -c "%s" ' . $this->args . ' --xml';
 
         $success = $this->builder->executeCommand($cmd, $this->directory, $this->ymlConfigFile);
@@ -174,8 +171,6 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
 
         $parser = new Parser($this->builder, ($trueReportXmlPath . 'report.xml'));
         $output = $parser->parse();
-
-        chdir($currentDir);
 
         $meta = [
             'tests'     => $parser->getTotalTests(),

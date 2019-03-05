@@ -3,6 +3,7 @@
 namespace PHPCensor\Model\Base;
 
 use PHPCensor\Model;
+use PHPCensor\Exception\InvalidArgumentException;
 
 class ProjectGroup extends Model
 {
@@ -17,7 +18,7 @@ class ProjectGroup extends Model
     ];
 
     /**
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -25,9 +26,11 @@ class ProjectGroup extends Model
     }
 
     /**
-     * @param integer $value
+     * @param int $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setId($value)
     {
@@ -54,7 +57,9 @@ class ProjectGroup extends Model
     /**
      * @param string $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setTitle($value)
     {
@@ -72,6 +77,8 @@ class ProjectGroup extends Model
 
     /**
      * @return \DateTime|null
+     *
+     * @throws \Exception
      */
     public function getCreateDate()
     {
@@ -85,7 +92,7 @@ class ProjectGroup extends Model
     /**
      * @param \DateTime $value
      *
-     * @return boolean
+     * @return bool
      */
     public function setCreateDate(\DateTime $value)
     {
@@ -109,9 +116,11 @@ class ProjectGroup extends Model
     }
 
     /**
-     * @param integer $value
+     * @param int $value
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public function setUserId($value)
     {

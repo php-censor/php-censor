@@ -71,7 +71,7 @@
         "robmorgan/phinx":                 "~0.10.0",
         "sensiolabs/ansi-to-html":         "~1.1.0",
         "pda/pheanstalk":                  "~3.1.0",
-        "guzzlehttp/guzzle":               "~6.2.0",
+        "guzzlehttp/guzzle":               "~6.3.0",
         "jasongrimes/paginator":           "~1.0.0",
         "voku/anti-xss":                   "~2.3.1",
         "paragonie/random_compat":         "~2.0.0",
@@ -90,15 +90,6 @@
         "maknz/slack":                "~1.7.0",
         "hipchat/hipchat-php":        "~1.4.0",
         "php-censor/flowdock-client": "~1.0.0",
-
-        "symfony/debug":                     "~3.4.0",
-        "symfony/config":                    "~3.4.0",
-        "symfony/intl":                      "~3.4.0",
-        "doctrine/instantiator":             "~1.0.0",
-        "phpunit/php-token-stream":          "~1.4.0",
-        "phpdocumentor/reflection-docblock": "~2.0.0",
-        "myclabs/deep-copy":                 "~1.7.0",
-        "symfony/polyfill":                  "~1.10.0",
 
         "oomphinc/composer-installers-extender": "~1.1.0",
 

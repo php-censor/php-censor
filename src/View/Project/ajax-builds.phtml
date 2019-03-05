@@ -52,7 +52,7 @@ $branches = $build->getExtra('branches');
     <td><a href="<?= APP_URL ?>build/view/<?= $build->getId(); ?>">#<?= str_pad($build->getId(), 6, '0', STR_PAD_LEFT); ?></a></td>
     <td><span class='label label-<?= $subcls ?>'><?= $status ?></span></td>
     <td><?= $build->getCreateDate()->format('Y-m-d H:i:s'); ?></td>
-    <td><?= Lang::get($build->getSourceHumanize()); ?></td>
+    <td><?= $build->getSourceHumanize(); ?></td>
     <td class="hidden-md hidden-sm hidden-xs">
         <?php
             if (!empty($build->getCommitId())) {
@@ -96,12 +96,14 @@ $branches = $build->getExtra('branches');
         <?= $build->getDuration(); ?> <?= Lang::get('seconds'); ?>
     </td>
     <td>
-        <?= $build->getErrorsTotal(); ?>
-        <?php $trend = $build->getErrorsTrend(); ?>
-        <?php if (1 === $trend): ?>
-            <i class="fa fa-arrow-down arrow_trend_positive"></i>
-        <?php elseif (-1 === $trend): ?>
-            <i class="fa fa-arrow-up arrow_trend_negative"></i>
+        <?= (int)$build->getErrorsTotal(); ?>
+        <?php if(!in_array($build->getStatus(),[Build::STATUS_PENDING, Build::STATUS_RUNNING], true)): ?>
+            <?php $trend = $build->getErrorsTrend(); ?>
+            <?php if (1 === $trend): ?>
+                <i class="fa fa-arrow-down arrow_trend_positive"></i>
+            <?php elseif (-1 === $trend): ?>
+                <i class="fa fa-arrow-up arrow_trend_negative"></i>
+            <?php endif; ?>
         <?php endif; ?>
     </td>
     <td>

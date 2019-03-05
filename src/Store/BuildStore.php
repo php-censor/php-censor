@@ -569,6 +569,30 @@ class BuildStore extends Store
     }
 
     /**
+     * @param int $buildId
+     *
+     * @return int
+     *
+     * @throws \Exception
+     */
+    public function getErrorsCount($buildId)
+    {
+        $query = 'SELECT COUNT(*) AS {{total}} FROM {{build_error}} WHERE {{build_id}} = :build_id';
+
+        $stmt = Database::getConnection('read')->prepareCommon($query);
+
+        $stmt->bindValue(':build_id', $buildId);
+
+        if ($stmt->execute()) {
+            $res = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+            return (integer)$res['total'];
+        }
+
+        return 0;
+    }
+
+    /**
      * @param int    $buildId
      * @param int    $projectId
      * @param string $branch

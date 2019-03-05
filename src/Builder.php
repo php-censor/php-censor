@@ -288,7 +288,35 @@ class Builder implements LoggerAwareInterface
         }
 
         $this->buildErrorWriter->flush();
+
+        $this->setErrorTrend();
+
         $this->store->save($this->build);
+    }
+
+    protected function setErrorTrend()
+    {
+        $this->build->setErrorsTotal($this->store->getErrorsCount($this->build->getId()));
+
+        $trend = $this->store->getBuildErrorsTrend(
+            $this->build->getId(),
+            $this->build->getProjectId(),
+            $this->build->getBranch()
+        );
+
+        if (isset($trend[1])) {
+            $previousBuild = $this->store->getById($trend[1]['build_id']);
+            if (
+                $previousBuild &&
+                !in_array(
+                    $previousBuild->getStatus(),
+                    [Build::STATUS_PENDING, Build::STATUS_RUNNING],
+                    true
+                )
+            ) {
+                $this->build->setErrorsTotalPrevious((int)$trend[1]['count']);
+            }
+        }
     }
 
     /**
@@ -371,6 +399,8 @@ class Builder implements LoggerAwareInterface
         if (!$this->build->createWorkingCopy($this, $this->buildPath)) {
             throw new \Exception('Could not create a working copy.');
         }
+
+        chdir($this->buildPath);
 
         $this->interpolator->setupInterpolationVars(
             $this->build,

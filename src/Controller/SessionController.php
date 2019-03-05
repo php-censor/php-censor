@@ -2,6 +2,7 @@
 
 namespace PHPCensor\Controller;
 
+use PHPCensor\Config;
 use PHPCensor\Form\Element\Csrf;
 use PHPCensor\Helper\Email;
 use PHPCensor\Helper\Lang;
@@ -199,7 +200,10 @@ class SessionController extends WebController
 
     /**
      * Allows the user to request a password reset email.
+     *
      * @return string
+     *
+     * @throws \PHPCensor\Exception\HttpException
      */
     public function forgotPassword()
     {
@@ -215,7 +219,7 @@ class SessionController extends WebController
             $key     = md5(date('Y-m-d') . $user->getHash());
             $message = Lang::get('reset_email_body', $user->getName(), APP_URL, $user->getId(), $key);
 
-            $email = new Email();
+            $email = new Email(Config::getInstance());
             $email->setEmailTo($user->getEmail(), $user->getName());
             $email->setSubject(Lang::get('reset_email_title', $user->getName()));
             $email->setBody($message);

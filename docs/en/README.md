@@ -4,13 +4,12 @@ PHP Censor Documentation
 Getting Started
 ---------------
 
-* Installing PHP Censor (See [README](../../README.md))
+* [Installing PHP Censor](../../README.md#installing)
     * [Adding a virtual host](virtual_host.md)
     * [Run builds using a worker](workers/worker.md)
-    * [\[DEPRECATED\] Run builds using cronjob](workers/cron.md) (This command deprecated and will be deleted in 
-version 2.0. Use `php-censor:worker` command instead!)
+    * [Run builds using cronjob](workers/cron.md) **[DEPRECATED]**
 * [Adding PHP Censor support to your projects](configuring_project.md)
-* Updating PHP Censor (See [README](../../README.md))
+* [Updating PHP Censor](../../README.md#updating)
 * [Configuring PHP Censor](configuring_application.md)
 
 Using PHP Censor
@@ -55,6 +54,10 @@ Plugins
 * [Lint](plugins/lint.md) - `lint`
 * [PDepend](plugins/pdepend.md) - `pdepend`
 * [Phan](plugins/phan.md) - `phan`
+* [Psalm](plugins/psalm.md) - `psalm`
+* [PHPStan](plugins/phpstan.md) - `phpstan`
+* [Pahout](plugins/pahout.md) - `pahout`
+* [Phlint](plugins/phlint.md) - `phlint`
 * [PHP Code Sniffer](plugins/php_code_sniffer.md) - `php_code_sniffer`
 * [PHP Copy/Paste Detector](plugins/php_cpd.md) - `php_cpd`
 * [PHP Coding Standards Fixer](plugins/php_cs_fixer.md) - `php_cs_fixer`
@@ -62,7 +65,7 @@ Plugins
 * [PHP Loc](plugins/php_loc.md) - `php_loc`
 * [PHP Mess Detector](plugins/php_mess_detector.md) - `php_mess_detector`
 * [PHP Parallel Lint](plugins/php_parallel_lint.md) - `php_parallel_lint`
-* PHP Tal Lint - `php_tal_lint`
+* [PHP Tal Lint](plugins/php_tal_lint.md) - `php_tal_lint`
 * [Technical Debt](plugins/technical_debt.md) - `technical_debt`
 * [SensioLabs Insight](plugins/sensiolabs_insight.md) - `sensiolabs_insight`
 
@@ -96,10 +99,10 @@ Plugins
 * [Clean Build](plugins/clean_build.md) - `clean_build`
 * [Copy Build](plugins/copy_build.md) - `copy_build`
 * [Env](plugins/env.md) - `env`
-* Git - `git`
+* [Git](plugins/git.md) - `git`
 * [Grunt](plugins/grunt.md) - `grunt`
-* Gulp - `gulp`
+* [Gulp](plugins/gulp.md) - `gulp`
 * [Package Build](plugins/package_build.md) - `package_build`
 * [Phar](plugins/phar.md) - `phar`
 * [Shell](plugins/shell.md) - `shell`
-* Wipe - `wipe`
+* [Wipe](plugins/wipe.md) - `wipe`

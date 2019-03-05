@@ -1,5 +1,5 @@
 Plugin SlackNotify
-===================
+==================
 
 This plugin joins a [Slack](https://www.slack.com/) room and sends a user-defined message, for example a "Build 
 Succeeded" message.
@@ -23,27 +23,28 @@ WebHook setup |
 ### Examples
 
 Send a message if the build fails:
+
 ```yaml
 failure:
     slack_notify:
         webhook_url: "https://hooks.slack.com/services/R212T827A/G983UY31U/aIp0yuW9u0iTqwAMOEwTg"
-        room: "#php-censor"
-        username: "PHP Censor"
-        icon: ":ghost:"
-        message: "%PROJECT_TITLE% - build %BUILD% failed! :angry:"
+        room:        "#php-censor"
+        username:    "PHP Censor"
+        icon:        ":ghost:"
+        message:     "%PROJECT_TITLE% - build %BUILD% failed! :angry:"
         show_status: false
 ```
 
 Send a message if the build is successful:
-```yaml
 
+```yaml
 success:
     slack_notify:
         webhook_url: "https://hooks.slack.com/services/R212T827A/G983UY31U/aIp0yuW9u0iTqwAMOEwTg"
-        room: "#php-censor"
-        username: "PHP Censor"
-        icon: ":ghost:"
-        message: "%PROJECT_TITLE% - build %BUILD% succeeded! :smiley:"
+        room:        "#php-censor"
+        username:    "PHP Censor"
+        icon:        ":ghost:"
+        message:     "%PROJECT_TITLE% - build %BUILD% succeeded! :smiley:"
         show_status: false
 ```
 
@@ -53,9 +54,9 @@ Send a message every time the build runs:
 complete:
     slack_notify:
         webhook_url: "https://hooks.slack.com/services/R212T827A/G983UY31U/aIp0yuW9u0iTqwAMOEwTg"
-        room: "#php-censor"
-        username: "PHP Censor"
-        icon: ":ghost:"
-        message: "%PROJECT_TITLE% - build %BUILD% completed"
+        room:        "#php-censor"
+        username:    "PHP Censor"
+        icon:        ":ghost:"
+        message:     "%PROJECT_TITLE% - build %BUILD% completed"
         show_status: true
 ```

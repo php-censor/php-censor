@@ -60,6 +60,20 @@ class CommandExecutor implements CommandExecutorInterface
     ];
 
     /**
+     * Environment variables that should not be inherited
+     *
+     * @var array
+     */
+    private static $blacklistEnvVars = [
+        'PHP_SELF',
+        'SCRIPT_NAME',
+        'SCRIPT_FILENAME',
+        'PATH_TRANSLATED',
+        'DOCUMENT_ROOT',
+        'SHELL_VERBOSITY',
+    ];
+
+    /**
      * @param BuildLogger $logger
      * @param string      $rootDir
      * @param bool        $verbose
@@ -100,8 +114,10 @@ class CommandExecutor implements CommandExecutorInterface
         $process = new Process($command, $this->buildPath);
         $process->setTimeout(86400);
 
+        $env = $this->getDefaultEnv();
+
         if (!empty($withNoExit)) {
-            $process->start();
+            $process->start(null, $env);
 
             $this->logger->logDebug("Assuming command '{$withNoExit}' does not exit properly");
             do {
@@ -119,7 +135,7 @@ class CommandExecutor implements CommandExecutorInterface
             $status = 0;
         } else {
             $process->setIdleTimeout(600);
-            $process->start();
+            $process->start(null, $env);
             $status = $process->wait();
         }
 
@@ -375,4 +391,57 @@ class CommandExecutor implements CommandExecutorInterface
     {
         $this->buildPath = $path;
     }
+
+
+
+
+    private function getDefaultEnv()
+    {
+        $env = array();
+
+        foreach ($_SERVER as $k => $v) {
+            if (in_array($k, self::$blacklistEnvVars)) {
+                continue;
+            }
+            if (\is_string($v) && false !== $v = getenv($k)) {
+                $env[$k] = $v;
+            }
+        }
+
+        foreach ($_ENV as $k => $v) {
+            if (in_array($k, self::$blacklistEnvVars)) {
+                continue;
+            }
+            if (\is_string($v)) {
+                $env[$k] = $v;
+            }
+        }
+
+        if (PHP_MAJOR_VERSION >= 7 && PHP_MINOR_VERSION >= 1) {
+            foreach (getenv() as $k => $v) {
+                if (in_array($k, self::$blacklistEnvVars)) {
+                    continue;
+                }
+                if (\is_string($v)) {
+                    $env[$k] = $v;
+                }
+            }
+        } else {
+            $output = [];
+            exec('env', $output);
+            foreach ($output as $o) {
+                $keyval = explode('=', $o, 2);
+                if (count($keyval) < 2 || empty($keyval[1])) {
+                    continue;
+                }
+                if (in_array($keyval[0], self::$blacklistEnvVars)) {
+                    continue;
+                }
+                $env[$keyval[0]] = $keyval[1];
+            }
+        }
+
+        return $env;
+    }
+
 }

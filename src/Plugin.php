@@ -118,7 +118,7 @@ abstract class Plugin
             $optionBinaryPath = $this->builder->interpolate($this->options['binary_path']);
 
             if ('/' !== substr($optionBinaryPath, 0, 1)) {
-                $binaryPath = $this->builder->binaryPath;
+                $binaryPath = $this->build->getBuildPath();
             }
 
             $binaryPath .= $optionBinaryPath;
@@ -145,14 +145,14 @@ abstract class Plugin
             return $this->builder->directory;
         }
 
-        /** @deprecated Option "path" deprecated and will be deleted in version 2.0 (Use option "directory" instead)! */
+        /** @deprecated Option "path" is deprecated and will be deleted in version 2.0. Use the option "directory" instead. */
         if (
             !empty($this->options['path']) &&
             empty($this->options['directory']) &&
             Codeception::pluginName() !== static::pluginName()
         ) {
             $this->builder->logWarning(
-                '[DEPRECATED] Option "path" deprecated and will be deleted in version 2.0 (Use option "directory" instead)!'
+                '[DEPRECATED] Option "path" is deprecated and will be deleted in version 2.0. Use the option "directory" instead.'
             );
 
             $this->options['directory'] = $this->options['path'];
@@ -163,7 +163,7 @@ abstract class Plugin
             $optionDirectory = $this->builder->interpolate($this->options['directory']);
 
             if ('/' !== substr($optionDirectory, 0, 1)) {
-                $directory = $this->builder->directory;
+                $directory = $this->build->getBuildPath();
             }
 
             $directory .= $optionDirectory;

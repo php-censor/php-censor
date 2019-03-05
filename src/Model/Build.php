@@ -3,8 +3,8 @@
 namespace PHPCensor\Model;
 
 use PHPCensor\Builder;
+use PHPCensor\Helper\Lang;
 use PHPCensor\Plugin\PhpParallelLint;
-use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\Factory;
 use PHPCensor\Store\ProjectStore;
 use PHPCensor\Store\BuildErrorStore;
@@ -92,6 +92,20 @@ class Build extends BaseBuild
             $extra = [];
         }
         $extra[$name] = $value;
+
+        $this->setExtra($extra);
+    }
+
+    /**
+     * @param string $name
+     */
+    public function removeExtraValue($name)
+    {
+        $extra = $this->getExtra();
+        if (!empty($extra[$name])) {
+            unset($extra[$name]);
+        }
+
         $this->setExtra($extra);
     }
 
@@ -253,7 +267,7 @@ class Build extends BaseBuild
             );
         } elseif (file_exists($buildPath . '/.phpci.yml')) {
             $builder->logWarning(
-                '[DEPRECATED] Config file name ".phpci.yml" deprecated and will be deleted in version 2.0 (Use config file name ".php-censor.yml" instead)!'
+                '[DEPRECATED] Config file name ".phpci.yml" is deprecated and will be deleted in version 2.0. Use a config file name ".php-censor.yml" instead.'
             );
 
             $repositoryConfigFrom = '.phpci.yml';
@@ -262,7 +276,7 @@ class Build extends BaseBuild
             );
         } elseif (file_exists($buildPath . '/phpci.yml')) {
             $builder->logWarning(
-                '[DEPRECATED] Config file name "phpci.yml" deprecated and will be deleted in version 2.0 (Use config file name ".php-censor.yml" instead)!'
+                '[DEPRECATED] Config file name "phpci.yml" is deprecated and will be deleted in version 2.0. Use a config file name ".php-censor.yml" instead.'
             );
 
             $repositoryConfigFrom = 'phpci.yml';
@@ -442,7 +456,10 @@ class Build extends BaseBuild
             return null;
         }
 
-        return RUNTIME_DIR . 'builds/' . $this->getBuildDirectory() . '/';
+        return rtrim(
+            realpath(RUNTIME_DIR . 'builds'),
+            '/\\'
+        ) . '/' . $this->getBuildDirectory() . '/';
     }
 
     /**
@@ -589,26 +606,33 @@ OUT;
      */
     public function getSourceHumanize()
     {
+        $parentId   = $this->getParentId();
+        $parentLink = '<a href="' . APP_URL . 'build/view/' . $parentId . '">#' . $parentId . '</a>';
+
         switch ($this->getSource()) {
             case Build::SOURCE_WEBHOOK_PUSH:
-                return 'source_webhook_push';
+                return Lang::get('source_webhook_push');
             case Build::SOURCE_WEBHOOK_PULL_REQUEST_CREATED:
-                return 'source_webhook_pull_request_created';
+                return Lang::get('source_webhook_pull_request_created');
             case Build::SOURCE_WEBHOOK_PULL_REQUEST_UPDATED:
-                return 'source_webhook_pull_request_updated';
+                return Lang::get('source_webhook_pull_request_updated');
             case Build::SOURCE_WEBHOOK_PULL_REQUEST_APPROVED:
-                return 'source_webhook_pull_request_approved';
+                return Lang::get('source_webhook_pull_request_approved');
             case Build::SOURCE_WEBHOOK_PULL_REQUEST_MERGED:
-                return 'source_webhook_pull_request_merged';
+                return Lang::get('source_webhook_pull_request_merged');
             case Build::SOURCE_MANUAL_WEB:
-                return 'source_manual_web';
+                return Lang::get('source_manual_web');
+            case Build::SOURCE_MANUAL_REBUILD_WEB:
+                return Lang::get('source_manual_rebuild_web', $parentLink);
             case Build::SOURCE_MANUAL_CONSOLE:
-                return 'source_manual_console';
+                return Lang::get('source_manual_console');
+            case Build::SOURCE_MANUAL_REBUILD_CONSOLE:
+                return Lang::get('source_manual_rebuild_console', $parentLink);
             case Build::SOURCE_PERIODICAL:
-                return 'source_periodical';
+                return Lang::get('source_periodical');
             case Build::SOURCE_UNKNOWN:
             default:
-                return 'source_unknown';
+                return Lang::get('source_unknown');
         }
     }
 
@@ -626,7 +650,7 @@ OUT;
     public function getTotalErrorsCount($plugin = null, $severity = null, $isNew = null)
     {
         if (null === $plugin && null === $severity && null === $isNew) {
-            return $this->getErrorsTotal();
+            return (int)$this->getErrorsTotal();
         }
 
         $key = 
@@ -653,12 +677,18 @@ OUT;
      * @return int
      *
      * @throws InvalidArgumentException
+     * @throws \PHPCensor\Exception\HttpException
      */
     public function getErrorsTrend()
     {
-        $total    = $this->getErrorsTotal();
-        $previous = $this->getErrorsTotalPrevious(); 
+        $total    = (int)$this->getErrorsTotal();
+        $previous = $this->getErrorsTotalPrevious();
 
+        if (null === $previous) {
+            return 0;
+        }
+
+        $previous = (int)$previous;
         if ($previous > $total) {
             return 1;
         } elseif ($previous < $total) {

@@ -85,9 +85,6 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
      */
     public function execute()
     {
-        $currentDir = getcwd();
-        chdir($this->builder->buildPath);
-
         // Check that the binary exists:
         $checkerCmd = $this->executable;
 
@@ -121,8 +118,6 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
             $ignore,
             $add
         );
-        
-        chdir($currentDir);
 
         $output = json_decode($this->builder->getLastOutput(), true);
 

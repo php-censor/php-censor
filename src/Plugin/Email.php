@@ -2,6 +2,7 @@
 
 namespace PHPCensor\Plugin;
 
+use PHPCensor\Config;
 use PHPCensor\View;
 use PHPCensor\Helper\Email as EmailHelper;
 use Psr\Log\LogLevel;
@@ -25,7 +26,9 @@ class Email extends Plugin
     /**
      * Send a notification mail.
      *
-     * @return boolean
+     * @return bool
+     *
+     * @throws \PHPCensor\Exception\HttpException
      */
     public function execute()
     {
@@ -82,7 +85,7 @@ class Email extends Plugin
      */
     protected function sendEmail($toAddress, $ccList, $subject, $body)
     {
-        $email = new EmailHelper();
+        $email = new EmailHelper(Config::getInstance());
 
         $email->setEmailTo($toAddress, $toAddress);
         $email->setSubject($subject);
