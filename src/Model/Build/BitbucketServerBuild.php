@@ -76,86 +76,9 @@ class BitbucketServerBuild extends GitBuild
      */
     public function sendStatusPostback()
     {
-        // Just do success.  Will have to build a webhook in 
-        //bitbucket to get this or install an app that we can format a request to.
-        return true; 
-        
-        if (!in_array($this->getSource(), Build::$webhookSources, true)) {
-            return false;
-        }
-
-        $project = $this->getProject();
-        if (empty($project)) {
-            return false;
-        }
-
-        $username    = Config::getInstance()->get('php-censor.bitbucket.username');
-        $appPassword = Config::getInstance()->get('php-censor.bitbucket.app_password');
-
-        if (empty($username) || empty($appPassword) || empty($this->data['id'])) {
-            return false;
-        }
-
-        $allowStatusCommit = (boolean)Config::getInstance()->get(
-            'php-censor.bitbucket.status.commit',
-            false
-        );
-
-        if (!$allowStatusCommit) {
-            return false;
-        }
-
-        switch ($this->getStatus()) {
-            case 0:
-            case 1:
-                $status = 'INPROGRESS';
-                $description = 'PHP Censor build running.';
-                break;
-            case 2:
-                $status = 'SUCCESSFUL';
-                $description = 'PHP Censor build passed.';
-                break;
-            case 3:
-                $status = 'FAILED';
-                $description = 'PHP Censor build failed.';
-                break;
-            default:
-                $status = 'STOPPED';
-                $description = 'PHP Censor build failed to complete.';
-                break;
-        }
-
-        $phpCensorUrl = Config::getInstance()->get('php-censor.url');
-
-        $url = sprintf(
-            '/2.0/repositories/%s/commit/%s/statuses/build',
-            (in_array($this->getSource(), Build::$pullRequestSources, true)
-                ? $this->getExtra('remote_reference')
-                : $project->getReference()),
-            $this->getCommitId()
-        );
-
-        $client = new Client([
-            'base_uri'    => 'https://api.bitbucket.org',
-            'http_errors' => false,
-        ]);
-        $response = $client->post($url, [
-            'auth'    => [$username, $appPassword],
-            'headers' => [
-                'Content-Type' => 'application/json',
-            ],
-            'json' => [
-                'state'       => $status,
-                'key'         => 'PHP-CENSOR',
-                'url'         => $phpCensorUrl . '/build/view/' . $this->getId(),
-                'name'        => 'PHP Censor Build #' . $this->getId(),
-                'description' => $description,
-            ],
-        ]);
-
-        $status = (integer)$response->getStatusCode();
-
-        return ($status >= 200 && $status < 300);
+        // Just do success.  Will have to build a webhook in
+        // bitbucket to get this or install an app that we can format a request to.
+        return true;
     }
 
     /**
@@ -199,7 +122,6 @@ class BitbucketServerBuild extends GitBuild
 
         try {
             if (in_array($this->getSource(), Build::$pullRequestSources, true)) {
-            
                 $diff = $this->getPullRequestDiff($builder, $cloneTo, $extra['remote_branch']);
                 
                 $diffFile = $this->writeDiff($builder->buildPath, $diff);
@@ -229,19 +151,20 @@ class BitbucketServerBuild extends GitBuild
     
     /**
      * Create request patch with diff
-     * 
+     *
      * @param Builder $builder
      * @param string $cloneTo
      * @param string $targetBranch
      */
-    protected function getPullRequestDiff(Builder $builder, $cloneTo, $targetBranch) {
+    protected function getPullRequestDiff(Builder $builder, $cloneTo, $targetBranch)
+    {
          $cmd = 'cd "%s" && git diff %s';
 
          $success = $builder->executeCommand($cmd, $cloneTo, $targetBranch);
          
-         if ($success) {
-             return $builder->getLastOutput();
-         }
+        if ($success) {
+            return $builder->getLastOutput();
+        }
          throw new Exception('Unable to create diff patch.');
     }
 
@@ -262,53 +185,6 @@ class BitbucketServerBuild extends GitBuild
         chmod($diffFile, 0600);
 
         return $diffFile;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function reportError(
-        Builder $builder,
-        $plugin,
-        $message,
-        $severity = BuildError::SEVERITY_NORMAL,
-        $file = null,
-        $lineStart = null,
-        $lineEnd = null
-    ) {
-        $allowCommentCommit = (boolean)Config::getInstance()->get(
-            'php-censor.bitbucket.comments.commit',
-            false
-        );
-
-        $allowCommentPullRequest = (boolean)Config::getInstance()->get(
-            'php-censor.bitbucket.comments.pull_request',
-            false
-        );
-
-        if ($allowCommentCommit || $allowCommentPullRequest) {
-            $diffLineNumber = $this->getDiffLineNumber($builder, $file, $lineStart);
-
-            if (!is_null($diffLineNumber)) {
-                $helper = new Bitbucket();
-
-                $repo     = $this->getProject()->getReference();
-                $prNumber = $this->getExtra('pull_request_number');
-                $commit   = $this->getCommitId();
-
-                if (!empty($prNumber)) {
-                    if ($allowCommentPullRequest) {
-                        $helper->createPullRequestComment($repo, $prNumber, $commit, $file, $lineStart, $message);
-                    }
-                } else {
-                    if ($allowCommentCommit) {
-                        $helper->createCommitComment($repo, $commit, $file, $lineStart, $message);
-                    }
-                }
-            }
-        }
-
-        parent::reportError($builder, $plugin, $message, $severity, $file, $lineStart, $lineEnd);
     }
 
     /**
