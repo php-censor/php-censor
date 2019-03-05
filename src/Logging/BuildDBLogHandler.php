@@ -71,7 +71,7 @@ class BuildDBLogHandler extends AbstractProcessingHandler
     {
         $message = (string)$record['message'];
         $message = str_replace(['\/', '//'], '/', $message);
-        $message = str_replace($this->build->getBuildPath(), '<BUILD_PATH>/', $message);
+        //$message = str_replace($this->build->getBuildPath(), '<BUILD_PATH>/', $message);
         $message = str_replace(ROOT_DIR, '<PHP_CENSOR_PATH>/', $message);
 
         $this->logValue .= $message . PHP_EOL;
