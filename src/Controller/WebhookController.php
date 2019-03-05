@@ -16,6 +16,7 @@ use PHPCensor\Exception\HttpException\NotFoundException;
 use PHPCensor\Store\Factory;
 use PHPCensor\Http\Response;
 use PHPCensor\Model\Build\BitbucketBuild;
+use PHPCensor\Model\Build\BitbucketServerBuild;
 use PHPCensor\Model\Build\GithubBuild;
 
 /**
@@ -350,6 +351,7 @@ class WebhookController extends Controller
         $project = $this->fetchProject($projectId, [
             Project::TYPE_BITBUCKET,
             Project::TYPE_BITBUCKET_HG,
+            Project::TYPE_BITBUCKET_SV,
         ]);
 
         // Support both old services and new webhooks
@@ -362,6 +364,11 @@ class WebhookController extends Controller
         // Handle Pull Request webhooks:
         if (!empty($payload['pullrequest'])) {
             return $this->bitbucketPullRequest($project, $payload);
+        }
+        
+        // Handle Pull Request webhook for BB server:
+        if (!empty($payload['pullRequest'])) {
+            return $this->bitbucketSvrPullRequest($project, $payload);
         }
 
         // Handle Push (and Tag) webhooks:
@@ -506,6 +513,62 @@ class WebhookController extends Controller
         return ['status' => $status, 'commits' => $results];
     }
 
+    /**
+     * Handle the payload when Bitbucket Server sends a Pull Request webhook.
+     *
+     * @param Project $project
+     * @param array   $payload
+     *
+     * @return array
+     *
+     * @throws Exception
+     */
+    protected function bitbucketSvrPullRequest(Project $project, array $payload)
+    {
+        $triggerType = trim($_SERVER['HTTP_X_EVENT_KEY']);
+
+        if (!array_key_exists(
+            $triggerType,
+            BitbucketServerBuild::$pullrequestTriggersToSources
+        )) {
+            return [
+                'status'  => 'ignored',
+                'message' => 'Trigger type "' . $triggerType . '" is not supported.'
+            ];
+        }
+
+        try {
+            $branch    = $payload['pullRequest']['toRef']['displayId'];
+            $committer = $payload['pullRequest']['author']['user']['emailAddress'];
+            $message   = $payload['pullRequest']['description'];
+            $id        = $payload['pullRequest']['fromRef']['latestCommit'];
+
+            $extra = [
+                'pull_request_number' => $payload['pullRequest']['id'],
+                'remote_branch'       => $payload['pullrequest']['fromRef']['displayId'],
+                'remote_reference'    => $payload['pullrequest']['fromRef']['repository']['project']['name'],
+            ];
+
+            $results = [];
+
+            $results[$id] = $this->createBuild(
+                BitbucketServerBuild::$pullrequestTriggersToSources[$triggerType],
+                $project,
+                $id,
+                $branch,
+                null,
+                $committer,
+                $message,
+                $extra
+            );
+            $status = 'ok';
+        } catch (Exception $ex) {
+            $results[$id] = ['status' => 'failed', 'error' => $ex->getMessage()];
+        }    
+
+        return ['status' => $status, 'commits' => $results];
+    }
+    
     /**
      * Bitbucket POST service.
      *

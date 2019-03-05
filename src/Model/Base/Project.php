@@ -15,6 +15,7 @@ class Project extends Model
     const TYPE_GOGS         = 'gogs';
     const TYPE_HG           = 'hg';
     const TYPE_BITBUCKET_HG = 'bitbucket-hg';
+    const TYPE_BITBUCKET_SV = 'bitbucket-server';
     const TYPE_SVN          = 'svn';
 
     /**
@@ -52,6 +53,7 @@ class Project extends Model
         self::TYPE_HG,
         self::TYPE_BITBUCKET_HG,
         self::TYPE_SVN,
+        self::TYPE_BITBUCKET_SV
     ];
 
     /**

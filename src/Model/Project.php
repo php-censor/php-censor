@@ -108,6 +108,7 @@ class Project extends BaseProject
 
             case Project::TYPE_BITBUCKET:
             case Project::TYPE_BITBUCKET_HG:
+            case Project::TYPE_BITBUCKET_SV:
                 $icon = 'bitbucket';
                 break;
 
