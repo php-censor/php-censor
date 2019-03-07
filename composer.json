@@ -98,7 +98,16 @@
         "bower-asset/admin-lte":    "~2.3.0",
         "bower-asset/font-awesome": "~4.7.0",
         "bower-asset/ionicons":     "~2.0.0",
-        "bower-asset/raphael":      "~2.2.0"
+        "bower-asset/raphael":      "~2.2.0",
+
+        "symfony/debug":                     "~3.4.0",
+        "symfony/config":                    "~3.4.0",
+        "symfony/intl":                      "~3.4.0",
+        "doctrine/instantiator":             "~1.0.0",
+        "phpunit/php-token-stream":          "~1.4.0",
+        "phpdocumentor/reflection-docblock": "~2.0.0",
+        "myclabs/deep-copy":                 "~1.7.0",
+        "symfony/polyfill":                  "~1.10.0"
     },
     "require-dev": {
         "phpunit/dbunit":     "~2.0.0",

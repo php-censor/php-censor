@@ -5,6 +5,23 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [1.0.6 (Morty Smith)](https://github.com/php-censor/php-censor/tree/1.0.6) (2019-03-06)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/1.0.5...1.0.6)
+
+### Added
+
+- Information about actual releases and release branches to `README.md`.
+
+### Fixed
+
+- Validation for fields `project.access_information` and `build.extra` in models `Project` and `Build`.
+
+### Changed
+
+- Improved code style.
+
+
 ## [1.0.5 (Morty Smith)](https://github.com/php-censor/php-censor/tree/1.0.5) (2019-02-10)
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/1.0.4...1.0.5)
