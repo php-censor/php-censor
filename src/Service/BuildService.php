@@ -352,7 +352,11 @@ class BuildService
                     'build_id' => $build->getId(),
                 ];
 
-                $pheanstalk = new Pheanstalk($settings['host']);
+                $pheanstalk = new Pheanstalk(
+                    $settings['host'],
+                    $config->get('php-censor.queue.port', Pheanstalk::DEFAULT_PORT)
+                );
+
                 $pheanstalk->useTube($settings['name']);
                 $pheanstalk->put(
                     json_encode($jobData),

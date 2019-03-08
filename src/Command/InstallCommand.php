@@ -5,6 +5,7 @@ namespace PHPCensor\Command;
 use Exception;
 use PDO;
 
+use Pheanstalk\Pheanstalk;
 use PHPCensor\Config;
 use PHPCensor\Exception\InvalidArgumentException;
 use PHPCensor\Store\Factory;
@@ -50,6 +51,7 @@ class InstallCommand extends Command
             ->addOption('admin-email', null, InputOption::VALUE_OPTIONAL, 'Admin email')
             ->addOption('queue-use', null, InputOption::VALUE_OPTIONAL, 'Don\'t ask for queue details', true)
             ->addOption('queue-host', null, InputOption::VALUE_OPTIONAL, 'Beanstalkd queue server hostname')
+            ->addOption('queue-port', null, InputOption::VALUE_OPTIONAL, 'Beanstalkd queue server port')
             ->addOption('queue-name', null, InputOption::VALUE_OPTIONAL, 'Beanstalkd queue name')
             ->addOption('config-from-file', null, InputOption::VALUE_OPTIONAL, 'Take config from file and ignore options', false)
 
@@ -332,6 +334,7 @@ class InstallCommand extends Command
         $skipQueueConfig = [
             'use_queue' => false,
             'host'      => null,
+            'port'      => Pheanstalk::DEFAULT_PORT,
             'name'      => null,
             'lifetime'  => 600,
         ];
@@ -343,12 +346,16 @@ class InstallCommand extends Command
         $queueConfig = [
             'use_queue' => true,
             'host'      => null,
+            'port'      => Pheanstalk::DEFAULT_PORT,
             'name'      => null,
             'lifetime'  => 600,
         ];
 
         $queueConfig['host'] = $input->getOption('queue-host');
         $queueConfig['name'] = $input->getOption('queue-name');
+
+        $port = $input->getOption('queue-port');
+        $queueConfig['port'] = $port ? $port : $queueConfig['port'];
 
         if (!$queueConfig['host'] && !$queueConfig['name']) {
             /** @var $helper QuestionHelper */
@@ -363,6 +370,9 @@ class InstallCommand extends Command
 
             $questionQueue       = new Question('Enter your beanstalkd hostname [localhost]: ', 'localhost');
             $queueConfig['host'] = $helper->ask($input, $output, $questionQueue);
+
+            $questionQueue       = new Question('Enter your beanstalkd port [' . $queueConfig['port'] . ']: ', $queueConfig['port']);
+            $queueConfig['port'] = $helper->ask($input, $output, $questionQueue);
 
             $questionName        = new Question('Enter the queue (tube) name to use [php-censor-queue]: ', 'php-censor-queue');
             $queueConfig['name'] = $helper->ask($input, $output, $questionName);
