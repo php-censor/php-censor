@@ -18,7 +18,7 @@ use SensioLabs\Security\SecurityChecker as BaseSecurityChecker;
 class SecurityChecker extends Plugin implements ZeroConfigPluginInterface
 {
     /**
-     * @var integer
+     * @var int
      */
     protected $allowedWarnings;
 

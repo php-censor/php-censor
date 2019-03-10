@@ -8,7 +8,7 @@ use PHPCensor\View;
 class Button extends Input
 {
     /**
-     * @return boolean
+     * @return bool
      */
     public function validate()
     {

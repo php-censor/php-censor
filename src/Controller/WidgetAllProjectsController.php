@@ -130,7 +130,7 @@ class WidgetAllProjectsController extends WebController
     }
 
     /**
-     * @param integer $projectId
+     * @param int $projectId
      *
      * @return Response
      *

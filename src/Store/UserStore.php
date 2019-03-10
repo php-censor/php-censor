@@ -30,7 +30,7 @@ class UserStore extends Store
     /**
      * Get a User by primary key (Id)
      *
-     * @param integer $key
+     * @param int $key
      * @param string  $useConnection
      *
      * @return null|User
@@ -43,7 +43,7 @@ class UserStore extends Store
     /**
      * Get a single User by Id.
      *
-     * @param integer $id
+     * @param int $id
      * @param string  $useConnection
      *
      * @return null|User
@@ -158,7 +158,7 @@ class UserStore extends Store
      * Get multiple User by Name.
      *
      * @param string  $name
-     * @param integer $limit
+     * @param int $limit
      * @param string  $useConnection
      *
      * @return array

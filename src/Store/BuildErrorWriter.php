@@ -12,12 +12,12 @@ use PHPCensor\Model\BuildError;
 class BuildErrorWriter
 {
     /**
-     * @var integer
+     * @var int
      */
     protected $buildId;
 
     /**
-     * @var integer
+     * @var int
      */
     protected $projectId;
 
@@ -27,19 +27,19 @@ class BuildErrorWriter
     protected $errors = [];
 
     /**
-     * @var integer
+     * @var int
      *
      * @see https://stackoverflow.com/questions/40361164/pdoexception-sqlstatehy000-general-error-7-number-of-parameters-must-be-bet
      */
     protected $bufferSize;
 
     /**
-     * @param integer $projectId
-     * @param integer $buildId
+     * @param int $projectId
+     * @param int $buildId
      */
     public function __construct($projectId, $buildId)
     {
-        $this->bufferSize = (integer)Config::getInstance()->get('php-censor.build.writer_buffer_size', 500);
+        $this->bufferSize = (int)Config::getInstance()->get('php-censor.build.writer_buffer_size', 500);
 
         $this->projectId = $projectId;
         $this->buildId   = $buildId;
@@ -58,10 +58,10 @@ class BuildErrorWriter
      *
      * @param string    $plugin
      * @param string    $message
-     * @param integer   $severity
+     * @param int   $severity
      * @param string    $file
-     * @param integer   $lineStart
-     * @param integer   $lineEnd
+     * @param int   $lineStart
+     * @param int   $lineEnd
      * @param \DateTime $createdDate
      */
     public function write(

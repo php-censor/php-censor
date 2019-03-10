@@ -34,7 +34,7 @@ class BuildError extends Model
      */
     public function getId()
     {
-        return (integer)$this->data['id'];
+        return (int)$this->data['id'];
     }
 
     /**
@@ -59,11 +59,11 @@ class BuildError extends Model
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getBuildId()
     {
-        return (integer)$this->data['build_id'];
+        return (int)$this->data['build_id'];
     }
 
     /**
@@ -149,7 +149,7 @@ class BuildError extends Model
      */
     public function getLineStart()
     {
-        return (integer)$this->data['line_start'];
+        return (int)$this->data['line_start'];
     }
 
     /**
@@ -177,7 +177,7 @@ class BuildError extends Model
      */
     public function getLineEnd()
     {
-        return (integer)$this->data['line_end'];
+        return (int)$this->data['line_end'];
     }
 
     /**
@@ -328,7 +328,7 @@ class BuildError extends Model
      */
     public function getIsNew()
     {
-        return (boolean)$this->data['is_new'];
+        return (bool)$this->data['is_new'];
     }
 
     /**
@@ -343,11 +343,11 @@ class BuildError extends Model
         $this->validateNotNull('is_new', $value);
         $this->validateBoolean('is_new', $value);
 
-        if ($this->data['is_new'] === (integer)$value) {
+        if ($this->data['is_new'] === (int)$value) {
             return false;
         }
 
-        $this->data['is_new'] = (integer)$value;
+        $this->data['is_new'] = (int)$value;
 
         return $this->setModified('is_new');
     }

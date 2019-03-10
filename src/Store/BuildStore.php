@@ -31,7 +31,7 @@ class BuildStore extends Store
     /**
      * Get a Build by primary key (Id)
      *
-     * @param integer $key
+     * @param int $key
      * @param string  $useConnection
      *
      * @return null|Build
@@ -44,7 +44,7 @@ class BuildStore extends Store
     /**
      * Get a single Build by Id.
      *
-     * @param integer $id
+     * @param int $id
      * @param string  $useConnection
      *
      * @return Build|null
@@ -73,8 +73,8 @@ class BuildStore extends Store
     /**
      * Get multiple Build by ProjectId.
      *
-     * @param integer $projectId
-     * @param integer $limit
+     * @param int $projectId
+     * @param int $limit
      * @param string  $useConnection
      *
      * @return array
@@ -111,8 +111,8 @@ class BuildStore extends Store
     /**
      * Get multiple Build by Status.
      *
-     * @param integer $status
-     * @param integer $limit
+     * @param int $status
+     * @param int $limit
      * @param string  $useConnection
      *
      * @return array
@@ -147,8 +147,8 @@ class BuildStore extends Store
     }
 
     /**
-     * @param integer $limit
-     * @param integer $offset
+     * @param int $limit
+     * @param int $offset
      *
      * @return array
      */
@@ -242,8 +242,8 @@ class BuildStore extends Store
     /**
      * Return the latest build for a specific project, of a specific build status.
      *
-     * @param integer|null $projectId
-     * @param integer      $status
+     * @param int|null $projectId
+     * @param int      $status
      *
      * @return array|Build
      */
@@ -266,8 +266,8 @@ class BuildStore extends Store
     /**
      * Return an array of the latest builds for all projects.
      *
-     * @param integer $limitByProject
-     * @param integer $limitAll
+     * @param int $limitByProject
+     * @param int $limitAll
      *
      * @return array
      */
@@ -340,7 +340,7 @@ class BuildStore extends Store
             }
 
             foreach ($projects as $idx => $project) {
-                $projects[$idx] = array_filter($project, function($val) {
+                $projects[$idx] = array_filter($project, function ($val) {
                     return ($val['latest'][0]->getStatus() != Build::STATUS_SUCCESS);
                 });
             }
@@ -356,7 +356,7 @@ class BuildStore extends Store
     /**
      * Return an array of builds for a given project and commit ID.
      *
-     * @param integer $projectId
+     * @param int $projectId
      * @param string  $commitId
      *
      * @return array
@@ -387,7 +387,7 @@ class BuildStore extends Store
     /**
      * Returns all registered branches for project
      *
-     * @param integer $projectId
+     * @param int $projectId
      *
      * @return array
      *
@@ -411,10 +411,10 @@ class BuildStore extends Store
      * Return build metadata by key, project and optionally build id.
      *
      * @param string       $key
-     * @param integer      $projectId
-     * @param integer|null $buildId
+     * @param int      $projectId
+     * @param int|null $buildId
      * @param string|null  $branch
-     * @param integer      $numResults
+     * @param int      $numResults
      *
      * @return array|null
      */
@@ -486,7 +486,7 @@ class BuildStore extends Store
     /**
      * Set a metadata value for a given project and build ID.
      *
-     * @param integer $buildId
+     * @param int $buildId
      * @param string  $key
      * @param string  $value
      */
@@ -562,7 +562,7 @@ class BuildStore extends Store
         if ($stmt->execute()) {
             $res = $stmt->fetch(\PDO::FETCH_ASSOC);
 
-            return (integer)$res['total'];
+            return (int)$res['total'];
         }
 
         return 0;
@@ -586,7 +586,7 @@ class BuildStore extends Store
         if ($stmt->execute()) {
             $res = $stmt->fetch(\PDO::FETCH_ASSOC);
 
-            return (integer)$res['total'];
+            return (int)$res['total'];
         }
 
         return 0;

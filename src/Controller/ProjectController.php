@@ -73,8 +73,8 @@ class ProjectController extends WebController
     {
         $branch       = $this->getParam('branch', '');
         $environment  = $this->getParam('environment', '');
-        $page         = (integer)$this->getParam('page', 1);
-        $perPage      = (integer)$this->getParam('per_page', 10);
+        $page         = (int)$this->getParam('page', 1);
+        $perPage      = (int)$this->getParam('per_page', 10);
         $builds       = $this->getLatestBuildsHtml($projectId, $branch, $environment, (($page - 1) * $perPage), $perPage);
 
         $response = new PHPCensor\Http\Response();
@@ -86,7 +86,7 @@ class ProjectController extends WebController
     /**
      * View a specific project.
      *
-     * @param integer $projectId
+     * @param int $projectId
      *
      * @throws NotFoundException
      *
@@ -96,7 +96,7 @@ class ProjectController extends WebController
     {
         $branch      = $this->getParam('branch', '');
         $environment = $this->getParam('environment', '');
-        $page        = (integer)$this->getParam('page', 1);
+        $page        = (int)$this->getParam('page', 1);
         $project     = $this->projectStore->getById($projectId);
 
         if (empty($project)) {
@@ -109,7 +109,7 @@ class ProjectController extends WebController
         $builds   = $this->getLatestBuildsHtml($projectId, $branch, $environment, (($page - 1) * $perPage), $perPage);
         $pages    = ($builds[1] === 0)
             ? 1
-            : (integer)ceil($builds[1] / $perPage);
+            : (int)ceil($builds[1] / $perPage);
 
         if ($page > $pages) {
             $page = $pages;
@@ -139,12 +139,12 @@ class ProjectController extends WebController
     }
 
     /**
-     * @param integer $projectId
+     * @param int $projectId
      * @param string  $branch
      * @param string  $environment
-     * @param integer $total
-     * @param integer $perPage
-     * @param integer $page
+     * @param int $total
+     * @param int $perPage
+     * @param int $page
      *
      * @return string
      */
@@ -173,7 +173,7 @@ class ProjectController extends WebController
     /**
      * Create a new pending build for a project.
      *
-     * @param integer $projectId
+     * @param int $projectId
      *
      * @throws NotFoundException
      *
@@ -190,12 +190,12 @@ class ProjectController extends WebController
 
         $type  = $this->getParam('type', 'branch');
         $id    = $this->getParam('id');
-        $debug = (boolean)$this->getParam('debug', false);
+        $debug = (bool)$this->getParam('debug', false);
 
         $environment = null;
         $branch      = null;
 
-        switch($type) {
+        switch ($type) {
             case 'environment':
                 $environment = $id;
                 break;
@@ -333,7 +333,7 @@ class ProjectController extends WebController
 
         return [
             $view->render(),
-            (integer)$builds['count']
+            (int)$builds['count']
         ];
     }
 
@@ -375,12 +375,12 @@ class ProjectController extends WebController
             $options = [
                 'ssh_private_key'        => $this->getParam('ssh_private_key', null),
                 'ssh_public_key'         => $this->getParam('ssh_public_key', null),
-                'overwrite_build_config' => (boolean)$this->getParam('overwrite_build_config', true),
+                'overwrite_build_config' => (bool)$this->getParam('overwrite_build_config', true),
                 'build_config'           => $this->getParam('build_config', null),
-                'allow_public_status'    => (boolean)$this->getParam('allow_public_status', false),
+                'allow_public_status'    => (bool)$this->getParam('allow_public_status', false),
                 'branch'                 => $this->getParam('branch', null),
-                'default_branch_only'    => (boolean)$this->getParam('default_branch_only', false),
-                'group'                  => (integer)$this->getParam('group_id', null),
+                'default_branch_only'    => (bool)$this->getParam('default_branch_only', false),
+                'group'                  => (int)$this->getParam('group_id', null),
                 'environments'           => $this->getParam('environments', null),
             ];
 
@@ -455,13 +455,13 @@ class ProjectController extends WebController
         $options = [
             'ssh_private_key'        => $this->getParam('ssh_private_key', null),
             'ssh_public_key'         => $this->getParam('ssh_public_key', null),
-            'overwrite_build_config' => (boolean)$this->getParam('overwrite_build_config', false),
+            'overwrite_build_config' => (bool)$this->getParam('overwrite_build_config', false),
             'build_config'           => $this->getParam('build_config', null),
-            'allow_public_status'    => (boolean)$this->getParam('allow_public_status', false),
-            'archived'               => (boolean)$this->getParam('archived', false),
+            'allow_public_status'    => (bool)$this->getParam('allow_public_status', false),
+            'archived'               => (bool)$this->getParam('archived', false),
             'branch'                 => $this->getParam('branch', null),
-            'default_branch_only'    => (boolean)$this->getParam('default_branch_only', false),
-            'group'                  => (integer)$this->getParam('group_id', null),
+            'default_branch_only'    => (bool)$this->getParam('default_branch_only', false),
+            'group'                  => (int)$this->getParam('group_id', null),
             'environments'           => $this->getParam('environments', null),
         ];
 

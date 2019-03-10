@@ -115,7 +115,7 @@ class Email
      *
      * @param Builder $builder
      *
-     * @return integer
+     * @return int
      */
     public function send(Builder $builder = null)
     {

@@ -7,7 +7,7 @@ use PHPCensor\Builder;
 
 /**
  * Local Build Model
- * 
+ *
  * @author Dan Cryer <dan@block8.co.uk>
  */
 class LocalBuild extends Build
@@ -30,10 +30,8 @@ class LocalBuild extends Build
 
         // If there's a /config file in the reference directory, it is probably a bare repository
         // which we'll extract into our build path directly.
-        if (
-            is_file($reference . '/config') &&
-            true === $this->handleBareRepository($builder, $reference, $buildPath)
-        ) {
+        if (is_file($reference . '/config') &&
+            true === $this->handleBareRepository($builder, $reference, $buildPath)) {
             return $this->handleConfig($builder, $buildPath);
         }
 

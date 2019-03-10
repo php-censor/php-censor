@@ -96,7 +96,7 @@ class PluginTest extends \PHPUnit\Framework\TestCase
 
         $this->builder
             ->method('interpolate')
-            ->willReturnCallback(function ($x) use ($interpolator)  {
+            ->willReturnCallback(function ($x) use ($interpolator) {
                 return $interpolator->interpolate($x);
             });
 

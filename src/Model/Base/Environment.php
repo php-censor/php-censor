@@ -22,7 +22,7 @@ class Environment extends Model
      */
     public function getId()
     {
-        return (integer)$this->data['id'];
+        return (int)$this->data['id'];
     }
 
     /**
@@ -51,7 +51,7 @@ class Environment extends Model
      */
     public function getProjectId()
     {
-        return (integer)$this->data['project_id'];
+        return (int)$this->data['project_id'];
     }
 
     /**

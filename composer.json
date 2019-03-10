@@ -110,8 +110,9 @@
         "symfony/polyfill":                  "~1.10.0"
     },
     "require-dev": {
-        "phpunit/dbunit":     "~2.0.0",
-        "symfony/var-dumper": "~3.4.0"
+        "phpunit/dbunit":            "~2.0.0",
+        "symfony/var-dumper":        "~3.4.0",
+        "friendsofphp/php-cs-fixer": "~2.14.0"
     },
     "extra": {
         "platform": {

@@ -192,13 +192,13 @@ class Application
     /**
      * Check whether we should skip auth (because it is disabled)
      *
-     * @return boolean
+     * @return bool
      */
     protected function shouldSkipAuth()
     {
         $config        = Config::getInstance();
         $disableAuth   = (bool)$config->get('php-censor.security.disable_auth', false);
-        $defaultUserId = (integer)$config->get('php-censor.security.default_user_id', 1);
+        $defaultUserId = (int)$config->get('php-censor.security.default_user_id', 1);
 
         if ($disableAuth && $defaultUserId) {
             $user = Factory::getStore('User')->getByPrimaryKey($defaultUserId);
@@ -250,7 +250,7 @@ class Application
     /**
      * @param array $route
      *
-     * @return boolean
+     * @return bool
      */
     public function isValidRoute(array $route)
     {

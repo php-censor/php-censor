@@ -109,7 +109,7 @@ LOGO;
         }
 
         if (!empty($databaseSettings['port'])) {
-            $phinxSettings['environments']['php-censor']['port'] = (integer)$databaseSettings['port'];
+            $phinxSettings['environments']['php-censor']['port'] = (int)$databaseSettings['port'];
         }
 
         $phinxConfig = new PhinxConfig($phinxSettings);

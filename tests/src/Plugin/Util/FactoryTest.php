@@ -4,7 +4,8 @@ namespace Tests\PHPCensor\Plugin\Util;
 
 use PHPCensor\Plugin\Util\Factory;
 
-class FactoryTest extends \PHPUnit\Framework\TestCase {
+class FactoryTest extends \PHPUnit\Framework\TestCase
+{
 
     /**
      * @var \PHPCensor\Plugin\Util\Factory
@@ -22,7 +23,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase {
         // Setup a resource that can be returned and asserted against
         $this->expectedResource = new \stdClass();
         $resourceLink = $this->expectedResource;
-        $this->resourceLoader = function() use (&$resourceLink) {
+        $this->resourceLoader = function () use (&$resourceLink) {
             return $resourceLink;
         };
     }
@@ -163,4 +164,3 @@ class FactoryTest extends \PHPUnit\Framework\TestCase {
         return $pluginNamespace . $pluginName;
     }
 }
-

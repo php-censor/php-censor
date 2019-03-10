@@ -228,4 +228,3 @@ class ExecutorTest extends \PHPUnit\Framework\TestCase
         self::assertEquals([], $this->testedExecutor->getBranchSpecificConfig($config, 'branch-1'));
     }
 }
-

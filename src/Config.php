@@ -96,7 +96,7 @@ class Config
      * @param string $key
      * @param mixed  $value
      *
-     * @return boolean
+     * @return bool
      */
     public function set($key, $value = null)
     {
@@ -147,7 +147,7 @@ class Config
      *
      * @param string $key
      *
-     * @return boolean
+     * @return bool
      */
     public function __isset($key)
     {

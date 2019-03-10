@@ -91,7 +91,7 @@ class GitBuild extends Build
         $cmd = 'cd .. && git clone --recursive ';
 
         $buildSettings = $builder->getConfig('build_settings');
-        if ($buildSettings && isset($buildSettings['clone_depth']) && (0 < (integer)$buildSettings['clone_depth'])) {
+        if ($buildSettings && isset($buildSettings['clone_depth']) && (0 < (int)$buildSettings['clone_depth'])) {
             $cmd .= ' --depth ' . intval($buildSettings['clone_depth']) . ' ';
         }
 
@@ -122,7 +122,7 @@ class GitBuild extends Build
         $cmd = 'cd .. && git clone --recursive ';
 
         $buildSettings = $builder->getConfig('build_settings');
-        if ($buildSettings && isset($buildSettings['clone_depth']) && (0 < (integer)$buildSettings['clone_depth'])) {
+        if ($buildSettings && isset($buildSettings['clone_depth']) && (0 < (int)$buildSettings['clone_depth'])) {
             $cmd .= ' --depth ' . intval($buildSettings['clone_depth']) . ' ';
         }
 
@@ -153,7 +153,7 @@ class GitBuild extends Build
      * @param string  $cloneTo
      * @param array   $extra
      *
-     * @return boolean
+     * @return bool
      */
     protected function postCloneSetup(Builder $builder, $cloneTo, array $extra = null)
     {
@@ -167,7 +167,7 @@ class GitBuild extends Build
         }
 
         // Always update the commit hash with the actual HEAD hash
-        if ($builder->executeCommand($chdir . ' && git rev-parse HEAD',  $cloneTo)) {
+        if ($builder->executeCommand($chdir . ' && git rev-parse HEAD', $cloneTo)) {
             $commitId = trim($builder->getLastOutput());
 
             $this->setCommitId($commitId);

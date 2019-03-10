@@ -9,7 +9,7 @@ use SensioLabs\AnsiConverter\AnsiToHtmlConverter;
  */
 final class AnsiConverter
 {
-    static private $converter = null;
+    private static $converter = null;
 
     /**
      * Initialize the singleton.

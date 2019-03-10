@@ -19,7 +19,7 @@ class Phan extends Plugin
     protected $location;
 
     /**
-     * @var integer
+     * @var int
      */
     protected $allowedWarnings;
 

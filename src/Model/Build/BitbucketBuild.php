@@ -72,7 +72,7 @@ class BitbucketBuild extends GitBuild
     /**
      * Send status updates to any relevant third parties (i.e. Bitbucket)
      *
-     * @return boolean
+     * @return bool
      */
     public function sendStatusPostback()
     {
@@ -92,7 +92,7 @@ class BitbucketBuild extends GitBuild
             return false;
         }
 
-        $allowStatusCommit = (boolean)Config::getInstance()->get(
+        $allowStatusCommit = (bool)Config::getInstance()->get(
             'php-censor.bitbucket.status.commit',
             false
         );
@@ -149,7 +149,7 @@ class BitbucketBuild extends GitBuild
             ],
         ]);
 
-        $status = (integer)$response->getStatusCode();
+        $status = (int)$response->getStatusCode();
 
         return ($status >= 200 && $status < 300);
     }
@@ -258,12 +258,12 @@ class BitbucketBuild extends GitBuild
         $lineStart = null,
         $lineEnd = null
     ) {
-        $allowCommentCommit = (boolean)Config::getInstance()->get(
+        $allowCommentCommit = (bool)Config::getInstance()->get(
             'php-censor.bitbucket.comments.commit',
             false
         );
 
-        $allowCommentPullRequest = (boolean)Config::getInstance()->get(
+        $allowCommentPullRequest = (bool)Config::getInstance()->get(
             'php-censor.bitbucket.comments.pull_request',
             false
         );
@@ -300,15 +300,15 @@ class BitbucketBuild extends GitBuild
      *
      * @param Builder $builder
      * @param string  $file
-     * @param integer $line
+     * @param int $line
      *
-     * @return integer|null
+     * @return int|null
      */
     protected function getDiffLineNumber(Builder $builder, $file, $line)
     {
         $builder->logExecOutput(false);
 
-        $line     = (integer)$line;
+        $line     = (int)$line;
         $prNumber = $this->getExtra('pull_request_number');
         $path     = $builder->buildPath;
 

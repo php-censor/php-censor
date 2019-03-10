@@ -33,7 +33,7 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
      *
      * @var array $path The path to the report.xml file
      */
-    protected $output_path = [
+    protected $outputPath = [
         'tests/_output',
         'tests/_log',
     ];
@@ -73,7 +73,7 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
         }
 
         if (isset($options['output_path'])) {
-            array_unshift($this->output_path, $options['output_path']);
+            array_unshift($this->outputPath, $options['output_path']);
         }
 
         if (isset($options['executable'])) {
@@ -141,7 +141,7 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
         $cmd = 'cd "%s" && ' . $codeception . ' run -c "%s" ' . $this->args . ' --xml';
 
         $success = $this->builder->executeCommand($cmd, $this->directory, $this->ymlConfigFile);
-        if (!$success){
+        if (!$success) {
             return false;
         }
 
@@ -155,8 +155,8 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
         }
 
         if (!file_exists($trueReportXmlPath . 'report.xml')) {
-            foreach ($this->output_path as $output_path) {
-                $trueReportXmlPath = rtrim($output_path, '/\\') . '/';
+            foreach ($this->outputPath as $outputPath) {
+                $trueReportXmlPath = rtrim($outputPath, '/\\') . '/';
                 if (file_exists($trueReportXmlPath . 'report.xml')) {
                     break;
                 }

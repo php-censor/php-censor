@@ -8,7 +8,7 @@ use PHPCensor\Plugin;
 
 /**
  * IRC Plugin - Sends a notification to an IRC channel
- * 
+ *
  * @author Dan Cryer <dan@block8.co.uk>
  */
 class Irc extends Plugin

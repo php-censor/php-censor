@@ -14,9 +14,11 @@ use PHPCensor\Model\Build;
 class BuildFactory
 {
     /**
-     * @param integer $buildId
+     * @param int $buildId
      *
      * @return Build|null
+     *
+     * @throws Exception\HttpException
      */
     public static function getBuildById($buildId)
     {
@@ -35,6 +37,8 @@ class BuildFactory
      * @param Build $build The build from which to get a more specific build type.
      *
      * @return Build
+     *
+     * @throws Exception\HttpException
      */
     public static function getBuild(Build $build)
     {

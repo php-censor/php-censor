@@ -57,7 +57,7 @@ class SvnBuild extends Build
                 }
             }
 
-            if (isset($buildSettings['clone_depth']) && 0 < (integer)$buildSettings['clone_depth']) {
+            if (isset($buildSettings['clone_depth']) && 0 < (int)$buildSettings['clone_depth']) {
                 $cmd .= ' --depth ' . intval($buildSettings['clone_depth']) . ' ';
             }
         }

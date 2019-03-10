@@ -15,9 +15,9 @@ $failure         = null;
 
 if (count($builds)) {
     // Get the most recent build status to determine the main block colour.
-    $last_build = $builds[0];
-    $status = $last_build->getStatus();
-    switch($status) {
+    $lastBuild = $builds[0];
+    $status = $lastBuild->getStatus();
+    switch ($status) {
         case Build::STATUS_PENDING:
             $backgroundClass = 'blue';
             break;

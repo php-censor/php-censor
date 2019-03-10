@@ -32,7 +32,7 @@ class BuildService
     protected $projectStore;
 
     /**
-     * @var boolean
+     * @var bool
      */
     public $queueError = false;
 
@@ -43,8 +43,7 @@ class BuildService
     public function __construct(
         BuildStore $buildStore,
         ProjectStore $projectStore
-    )
-    {
+    ) {
         $this->buildStore   = $buildStore;
         $this->projectStore = $projectStore;
     }
@@ -57,8 +56,8 @@ class BuildService
      * @param string|null $tag
      * @param string|null $committerEmail
      * @param string|null $commitMessage
-     * @param integer     $source
-     * @param integer     $userId
+     * @param int     $source
+     * @param int     $userId
      * @param array|null  $extra
      *
      * @return \PHPCensor\Model\Build
@@ -149,11 +148,9 @@ class BuildService
             }
         }
 
-        if (
-            empty($periodicalConfig) ||
+        if (empty($periodicalConfig) ||
             empty($periodicalConfig['projects']) ||
-            !is_array($periodicalConfig['projects'])
-        ) {
+            !is_array($periodicalConfig['projects'])) {
             $logger->warning('Empty periodical builds config ("app/periodical.yml")!');
 
             return;
@@ -163,12 +160,10 @@ class BuildService
         foreach ($periodicalConfig['projects'] as $projectId => $projectConfig) {
             $project = $this->projectStore->getById((int)$projectId);
 
-            if (
-                !$project ||
+            if (!$project ||
                 empty($projectConfig['interval']) ||
                 empty($projectConfig['branches']) ||
-                !is_array($projectConfig['branches'])
-            ) {
+                !is_array($projectConfig['branches'])) {
                 $logger->warning(
                     sprintf(
                         'Invalid/empty section for project #%s ("app/periodical.yml")!',
@@ -202,7 +197,7 @@ class BuildService
                 $latestBuild = $this->buildStore->getLatestBuildByProjectAndBranch($projectId, $branch);
 
                 if ($latestBuild) {
-                    $status = (integer)$latestBuild->getStatus();
+                    $status = (int)$latestBuild->getStatus();
                     if ($status === Build::STATUS_RUNNING || $status === Build::STATUS_PENDING) {
                         continue;
                     }
@@ -299,7 +294,7 @@ class BuildService
                 RUNTIME_DIR . 'builds/' . $projectId . '/',
                 PUBLIC_DIR . 'artifacts/pdepend/' . $projectId . '/',
                 PUBLIC_DIR . 'artifacts/phpunit/' . $projectId . '/',
-            ]; 
+            ];
 
             $fileSystem = new Filesystem();
 
@@ -312,7 +307,6 @@ class BuildService
                 }
             }
         } catch (\Exception $e) {
-
         }
     }
 
@@ -321,7 +315,7 @@ class BuildService
      *
      * @param Build $build
      *
-     * @return boolean
+     * @return bool
      */
     public function deleteBuild(Build $build)
     {

@@ -70,7 +70,7 @@ class FieldSet extends Element
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function validate()
     {

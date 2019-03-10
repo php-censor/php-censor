@@ -7,7 +7,7 @@ use PHPCensor\Exception\HttpException;
 class ForbiddenException extends HttpException
 {
     /**
-     * @var integer
+     * @var int
      */
     protected $errorCode = 403;
 

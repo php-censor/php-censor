@@ -24,12 +24,12 @@ abstract class Plugin
     ];
 
     /**
-     * @var \PHPCensor\Builder
+     * @var Builder
      */
     protected $builder;
 
     /**
-     * @var \PHPCensor\Model\Build
+     * @var Build
      */
     protected $build;
 
@@ -88,10 +88,8 @@ abstract class Plugin
         $this->ignore     = $this->normalizeIgnore();
 
         // Plugin option overwrite builder options for priority_path and binary_path
-        if (
-            !empty($options['priority_path']) &&
-            in_array($options['priority_path'], self::AVAILABLE_PRIORITY_PATHS, true)
-        ) {
+        if (!empty($options['priority_path']) &&
+            in_array($options['priority_path'], self::AVAILABLE_PRIORITY_PATHS, true)) {
             $this->priorityPath = $options['priority_path'];
         } else {
             $this->priorityPath = $this->builder->priorityPath;
@@ -126,9 +124,13 @@ abstract class Plugin
         return (false !== $realPath)
             ? rtrim($realPath, '/\\') . '/'
             : rtrim(
-                str_replace('//', '/',
-                    str_replace('/./', '/',$normalizedPath)
-                ), '/\\') . '/';
+                str_replace(
+                    '//',
+                    '/',
+                    str_replace('/./', '/', $normalizedPath)
+                ),
+                '/\\'
+            ) . '/';
     }
 
     /**
@@ -154,9 +156,13 @@ abstract class Plugin
         return (false !== $realPath)
             ? rtrim($realPath, '/\\') . '/'
             : rtrim(
-                str_replace('//', '/',
-                    str_replace('/./', '/',$binaryPath)
-                ), '/\\') . '/';
+                str_replace(
+                    '//',
+                    '/',
+                    str_replace('/./', '/', $binaryPath)
+                ),
+                '/\\'
+            ) . '/';
     }
 
     /**
@@ -169,11 +175,9 @@ abstract class Plugin
         }
 
         /** @deprecated Option "path" is deprecated and will be deleted in version 2.0. Use the option "directory" instead. */
-        if (
-            !empty($this->options['path']) &&
+        if (!empty($this->options['path']) &&
             empty($this->options['directory']) &&
-            Codeception::pluginName() !== static::pluginName()
-        ) {
+            Codeception::pluginName() !== static::pluginName()) {
             $this->builder->logWarning(
                 '[DEPRECATED] Option "path" is deprecated and will be deleted in version 2.0. Use the option "directory" instead.'
             );
@@ -199,9 +203,13 @@ abstract class Plugin
         $finalDirectory = (false !== $realPath)
             ? rtrim($realPath, '/\\') . '/'
             : rtrim(
-                str_replace('//', '/',
-                    str_replace('/./', '/',$directory)
-            ), '/\\') . '/';
+                str_replace(
+                    '//',
+                    '/',
+                    str_replace('/./', '/', $directory)
+                ),
+                '/\\'
+            ) . '/';
 
         $this->builder->logDebug('Directory: ' . $finalDirectory);
 
@@ -237,9 +245,13 @@ abstract class Plugin
 
             $value = str_replace("/./", '/', $value);
             $value = rtrim(
-                str_replace('//', '/',
+                str_replace(
+                    '//',
+                    '/',
                     str_replace($baseDirectory, '', $value)
-            ), '/\\');
+                ),
+                '/\\'
+            );
         });
 
         return array_unique($ignore);
@@ -284,7 +296,7 @@ abstract class Plugin
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     abstract public function execute();
 

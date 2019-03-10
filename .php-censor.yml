@@ -17,6 +17,8 @@ test:
         standard:       PSR2
         encoding:       UTF-8
         allow_failures: true
+        ignore:
+            - src/Migrations
 
     php_cpd:
         allow_failures: true

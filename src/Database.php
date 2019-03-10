@@ -13,7 +13,7 @@ class Database extends \PDO
     protected $type = 'read';
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected static $initialised = false;
 
@@ -100,7 +100,7 @@ class Database extends \PDO
 
                 self::$dsn[$type] = self::$details['driver'] . ':host=' . $server['host'];
                 if (isset($server['port'])) {
-                    self::$dsn[$type] .= ';port=' . (integer)$server['port'];
+                    self::$dsn[$type] .= ';port=' . (int)$server['port'];
                 }
                 self::$dsn[$type] .= ';dbname=' . self::$details['db'];
 

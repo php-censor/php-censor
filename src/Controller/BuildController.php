@@ -56,19 +56,19 @@ class BuildController extends WebController
     /**
      * View a specific build.
      *
-     * @param integer $buildId
+     * @param int $buildId
      *
      * @throws NotFoundException
      */
     public function view($buildId)
     {
-        $page   = (integer)$this->getParam('page', 1);
+        $page   = (int)$this->getParam('page', 1);
         $plugin = $this->getParam('plugin', '');
         $isNew  = $this->getParam('is_new', '');
 
         $severity = $this->getParam('severity', null);
         if (null !== $severity && '' !== $severity) {
-            $severity = (integer)$severity;
+            $severity = (int)$severity;
         } else {
             $severity = null;
         }
@@ -85,7 +85,7 @@ class BuildController extends WebController
         $data    = $this->getBuildData($build, $plugin, $severity, $isNew, (($page - 1) * $perPage), $perPage);
         $pages   = ($data['errors'] === 0)
             ? 1
-            : (integer)ceil($data['errors'] / $perPage);
+            : (int)ceil($data['errors'] / $perPage);
 
         if ($page > $pages) {
             $page = $pages;
@@ -181,10 +181,10 @@ class BuildController extends WebController
      *
      * @param Build   $build
      * @param string  $plugin
-     * @param integer $severity
+     * @param int $severity
      * @param string  $isNew
-     * @param integer $start
-     * @param integer $perPage
+     * @param int $start
+     * @param int $perPage
      *
      * @return array
      */
@@ -214,13 +214,13 @@ class BuildController extends WebController
     }
 
     /**
-     * @param integer $buildId
+     * @param int $buildId
      * @param string  $plugin
-     * @param integer $severity
+     * @param int $severity
      * @param string  $isNew
-     * @param integer $total
-     * @param integer $perPage
-     * @param integer $page
+     * @param int $total
+     * @param int $perPage
+     * @param int $page
      *
      * @return string
      */
@@ -267,7 +267,7 @@ class BuildController extends WebController
             throw new NotFoundException(Lang::get('build_x_not_found', $buildId));
         }
 
-        $debug = (boolean)$this->getParam('debug', false);
+        $debug = (bool)$this->getParam('debug', false);
 
         if ($debug && $this->currentUserIsAdmin()) {
             $copy->addExtraValue('debug', true);
@@ -341,14 +341,14 @@ class BuildController extends WebController
 
     public function ajaxData($buildId)
     {
-        $page    = (integer)$this->getParam('page', 1);
-        $perPage = (integer)$this->getParam('per_page', 10);
+        $page    = (int)$this->getParam('page', 1);
+        $perPage = (int)$this->getParam('per_page', 10);
         $plugin  = $this->getParam('plugin', null);
         $isNew   = $this->getParam('is_new', null);
 
         $severity = $this->getParam('severity', null);
         if (null !== $severity && '' !== $severity) {
-            $severity = (integer)$severity;
+            $severity = (int)$severity;
         } else {
             $severity = null;
         }

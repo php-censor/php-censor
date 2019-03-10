@@ -52,10 +52,10 @@ class Handler
     }
 
     /**
-     * @param integer $level
+     * @param int $level
      * @param string  $message
      * @param string  $file
-     * @param integer $line
+     * @param int $line
      *
      * @throws \ErrorException
      */

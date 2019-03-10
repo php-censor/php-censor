@@ -90,7 +90,7 @@ class PhpCsFixer extends Plugin
     /**
      * Run PHP CS Fixer.
      *
-     * @return boolean
+     * @return bool
      */
     public function execute()
     {
