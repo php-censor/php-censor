@@ -3,6 +3,7 @@
 namespace PHPCensor\Command;
 
 use Monolog\Logger;
+use Pheanstalk\Pheanstalk;
 use PHPCensor\Config;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Worker\BuildWorker;
@@ -72,6 +73,7 @@ class WorkerCommand extends LoggingCommand
             $this->logger,
             $this->buildService,
             $config['host'],
+            Config::getInstance()->get('php-censor.queue.port', Pheanstalk::DEFAULT_PORT),
             $config['name'],
             ($input->hasOption('periodical-work') && $input->getOption('periodical-work'))
         ))

@@ -84,7 +84,10 @@ cd /var/www
 * Create project by Composer:
 
 ```bash
-composer create-project php-censor/php-censor php-censor.local --keep-vcs
+composer create-project \
+    php-censor/php-censor \
+    php-censor.local \
+    --keep-vcs
 ```
 
 Or download [latest archive](https://github.com/php-censor/php-censor/releases/latest) from GitHub, unzip it and run 
@@ -95,7 +98,8 @@ Or download [latest archive](https://github.com/php-censor/php-censor/releases/l
 * Install Beanstalkd Queue (Optional, if you are going to use queue with Worker):
 
 ```bash
-aptitude install beanstalkd # For deb-based
+# For Debian-based
+aptitude install beanstalkd
 ```
 
 * Install PHP Censor itself:
@@ -107,10 +111,28 @@ cd ./php-censor.local
 ./bin/console php-censor:install
 
 # Non-interactive installation
-./bin/console php-censor:install --url='http://php-censor.local' --db-type=pgsql --db-host=localhost --db-name=php-censor --db-user=php-censor --db-password=php-censor --db-port=null --admin-name=admin --admin-password=admin --admin-email='admin@php-censor.local' --queue-use=1 --queue-host=localhost --queue-name=php-censor
+./bin/console php-censor:install \
+    --url='http://php-censor.local' \
+    --db-type=pgsql \
+    --db-host=localhost \
+    --db-name=php-censor \
+    --db-user=php-censor \
+    --db-password=php-censor \
+    --db-port=null \
+    --admin-name=admin \
+    --admin-password=admin \
+    --admin-email='admin@php-censor.local' \
+    --queue-use=1 \
+    --queue-host=localhost \
+    --queue-port=11300 \
+    --queue-name=php-censor
 
 # Non-interactive installation with prepared config.yml file
-./bin/console php-censor:install --config-from-file=yes --admin-name=admin --admin-password=admin --admin-email='admin@php-censor.local'
+./bin/console php-censor:install \
+    --config-from-file=yes \
+    --admin-name=admin \
+    --admin-password=admin \
+    --admin-email='admin@php-censor.local'
 ```
 
 * [Add a virtual host to your web server](docs/en/virtual_host.md), pointing to the `public` directory within your new

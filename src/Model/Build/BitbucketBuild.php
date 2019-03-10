@@ -5,7 +5,6 @@ namespace PHPCensor\Model\Build;
 use GuzzleHttp\Client;
 use PHPCensor\Builder;
 use PHPCensor\Helper\Bitbucket;
-use PHPCensor\Helper\Diff;
 use PHPCensor\Config;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
