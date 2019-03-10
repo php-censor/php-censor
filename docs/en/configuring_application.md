@@ -36,6 +36,7 @@ php-censor:
   queue:
     use_queue: true
     host:      localhost
+    port:      11300
     name:      php-censor-queue
     lifetime:  600
   log:

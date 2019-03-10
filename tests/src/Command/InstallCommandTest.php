@@ -157,20 +157,6 @@ class InstallCommandTest extends \PHPUnit\Framework\TestCase
         self::assertEquals('testedvalue', $this->config['b8']['database']['servers']['write'][0]['host']);
     }
 
-    public function testDatabaseStringPortConfig()
-    {
-        $dialog = $this->getHelperMock();
-
-        // We specified an input value for hostname.
-        $dialog->expects($this->once())->method('ask')->willReturn('testedvalue');
-
-        $this->executeWithoutParam('--db-port', $dialog);
-
-        // Check that specified arguments are correctly loaded.
-        self::assertArrayNotHasKey('port', $this->config['b8']['database']['servers']['read'][0]);
-        self::assertArrayNotHasKey('port', $this->config['b8']['database']['servers']['write'][0]);
-    }
-
     public function testDatabasePortConfig()
     {
         $dialog = $this->getHelperMock();

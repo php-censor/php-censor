@@ -62,6 +62,7 @@ class BuildWorker
      * @param Logger       $logger
      * @param BuildService $buildService,
      * @param string       $queueHost
+     * @param int          $queuePort
      * @param string       $queueTube
      * @param bool         $canPeriodicalWork
      */
@@ -69,6 +70,7 @@ class BuildWorker
         Logger $logger,
         BuildService $buildService,
         $queueHost,
+        $queuePort,
         $queueTube,
         $canPeriodicalWork
     )
@@ -77,7 +79,7 @@ class BuildWorker
         $this->buildService = $buildService;
 
         $this->queueTube  = $queueTube;
-        $this->pheanstalk = new Pheanstalk($queueHost);
+        $this->pheanstalk = new Pheanstalk($queueHost, $queuePort);
 
         $this->lastPeriodical    = 0;
         $this->canPeriodicalWork = $canPeriodicalWork;

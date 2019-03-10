@@ -200,8 +200,9 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
             $ignore = sprintf(' --ignore="%s"', implode(',', $this->ignore));
         }
 
-        if (strpos($this->standard, '/') !== false) {
-            $standard = ' --standard=' . $this->directory . $this->standard;
+        $standardPath = $this->normalizePath($this->standard);
+        if (file_exists($standardPath)) {
+            $standard = ' --standard=' . $standardPath;
         } else {
             $standard = ' --standard=' . $this->standard;
         }

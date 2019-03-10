@@ -5,6 +5,7 @@ namespace PHPCensor\Command;
 use Exception;
 use PDO;
 
+use Pheanstalk\Pheanstalk;
 use PHPCensor\Config;
 use PHPCensor\Exception\InvalidArgumentException;
 use PHPCensor\Store\Factory;
@@ -51,6 +52,7 @@ class InstallCommand extends Command
             ->addOption('admin-email', null, InputOption::VALUE_OPTIONAL, 'Admin email')
             ->addOption('queue-use', null, InputOption::VALUE_OPTIONAL, 'Don\'t ask for queue details', true)
             ->addOption('queue-host', null, InputOption::VALUE_OPTIONAL, 'Beanstalkd queue server hostname')
+            ->addOption('queue-port', null, InputOption::VALUE_OPTIONAL, 'Beanstalkd queue server port')
             ->addOption('queue-name', null, InputOption::VALUE_OPTIONAL, 'Beanstalkd queue name')
             ->addOption('config-from-file', null, InputOption::VALUE_OPTIONAL, 'Take config from file and ignore options', false)
 
@@ -245,7 +247,7 @@ class InstallCommand extends Command
         if ($url = $input->getOption('url')) {
             $url = $urlValidator($url);
         } else {
-            $question = new Question('Your PHP Censor URL ("http://php-censor.local" for example): ');
+            $question = new Question('Enter your application URL (default: "http://php-censor.local"): ', 'http://php-censor.local');
             $question->setValidator($urlValidator);
             $url = $helper->ask($input, $output, $question);
         }
@@ -333,6 +335,7 @@ class InstallCommand extends Command
         $skipQueueConfig = [
             'use_queue' => false,
             'host'      => null,
+            'port'      => Pheanstalk::DEFAULT_PORT,
             'name'      => null,
             'lifetime'  => 600,
         ];
@@ -344,12 +347,16 @@ class InstallCommand extends Command
         $queueConfig = [
             'use_queue' => true,
             'host'      => null,
+            'port'      => Pheanstalk::DEFAULT_PORT,
             'name'      => null,
             'lifetime'  => 600,
         ];
 
         $queueConfig['host'] = $input->getOption('queue-host');
         $queueConfig['name'] = $input->getOption('queue-name');
+
+        $port = $input->getOption('queue-port');
+        $queueConfig['port'] = $port ? $port : $queueConfig['port'];
 
         if (!$queueConfig['host'] && !$queueConfig['name']) {
             /** @var $helper QuestionHelper */
@@ -362,10 +369,13 @@ class InstallCommand extends Command
                 return $skipQueueConfig;
             }
 
-            $questionQueue       = new Question('Enter your beanstalkd hostname [localhost]: ', 'localhost');
+            $questionQueue       = new Question('Enter your queue hostname (default: "localhost"): ', 'localhost');
             $queueConfig['host'] = $helper->ask($input, $output, $questionQueue);
 
-            $questionName        = new Question('Enter the queue (tube) name to use [php-censor-queue]: ', 'php-censor-queue');
+            $questionQueue       = new Question('Enter your queue port (default: ' . $queueConfig['port'] . '): ', $queueConfig['port']);
+            $queueConfig['port'] = $helper->ask($input, $output, $questionQueue);
+
+            $questionName        = new Question('Enter your queue name (default: "php-censor-queue"): ', 'php-censor-queue');
             $queueConfig['name'] = $helper->ask($input, $output, $questionName);
         }
 
@@ -388,37 +398,46 @@ class InstallCommand extends Command
         $helper = $this->getHelperSet()->get('question');
 
         if (!$dbType = $input->getOption('db-type')) {
-            $questionType = new Question('Please enter your database type (mysql or pgsql): ');
-            $dbType       = $helper->ask($input, $output, $questionType);
+            $questionType = new Question('Enter your database type ("mysql" or "pgsql"): ');
+            $dbType       = trim(strtolower($helper->ask($input, $output, $questionType)));
         }
 
         if (!$dbHost = $input->getOption('db-host')) {
-            $questionHost = new Question('Please enter your database host (default: localhost): ', 'localhost');
-            $dbHost       = $helper->ask($input, $output, $questionHost);
+            $questionHost = new Question('Enter your database host (default: "localhost"): ', 'localhost');
+            $dbHost       = trim($helper->ask($input, $output, $questionHost));
         }
 
-        if (!$dbPort = $input->getOption('db-port')) {
-            $questionPort = new Question('Please enter your database port (default: empty): ');
-            $dbPort       = $helper->ask($input, $output, $questionPort);
+        $defaultPort = 3306;
+        if ('pgsql' === $dbType) {
+            $defaultPort = 5432;
         }
 
-        if (strtolower($dbType) === "pgsql") {
+        if (!$dbPort = (int)$input->getOption('db-port')) {
+            $questionPort = new Question(
+                'Enter your database port (default: ' . $defaultPort . '): ',
+                $defaultPort
+            );
+
+            $dbPort = (int)$helper->ask($input, $output, $questionPort);
+        }
+
+        if ('pgsql' === $dbType) {
             $dbPgsqlSslmode = $input->getOption('db-pgsql-sslmode')
                 ?: 'prefer';
         }
 
         if (!$dbName = $input->getOption('db-name')) {
-            $questionDb = new Question('Please enter your database name (default: php-censor-db): ', 'php-censor-db');
-            $dbName     = $helper->ask($input, $output, $questionDb);
+            $questionDb = new Question('Enter your database name (default: "php-censor-db"): ', 'php-censor-db');
+            $dbName     = trim($helper->ask($input, $output, $questionDb));
         }
 
         if (!$dbUser = $input->getOption('db-user')) {
-            $questionUser = new Question('Please enter your DB user (default: php-censor-user): ', 'php-censor-user');
-            $dbUser       = $helper->ask($input, $output, $questionUser);
+            $questionUser = new Question('Enter your database user (default: "php-censor-user"): ', 'php-censor-user');
+            $dbUser       = trim($helper->ask($input, $output, $questionUser));
         }
 
         if (!$dbPass = $input->getOption('db-password')) {
-            $questionPass = new Question('Please enter your database password: ');
+            $questionPass = new Question('Enter your database password: ');
             $questionPass->setHidden(true);
             $questionPass->setHiddenFallback(false);
             $dbPass = $helper->ask($input, $output, $questionPass);
@@ -430,15 +449,11 @@ class InstallCommand extends Command
             ]
         ];
 
-        if ($dbType === "pgsql") {
+        if ($dbType === "pgsql" && !empty($dbPgsqlSslmode)) {
             $dbServers[0]['pgsql-sslmode'] = $dbPgsqlSslmode;
         }
 
-        $dbPort = (integer)$dbPort;
-
-        if ($dbPort) {
-            $dbServers[0]['port'] = $dbPort;
-        }
+        $dbServers[0]['port'] = $dbPort;
 
         $db['servers']['read']  = $dbServers;
         $db['servers']['write'] = $dbServers;

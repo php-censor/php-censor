@@ -109,6 +109,29 @@ abstract class Plugin
     }
 
     /**
+     * @param string $rawPath
+     *
+     * @return string
+     */
+    protected function normalizePath($rawPath)
+    {
+        $normalizedPath = $this->builder->interpolate($rawPath);
+
+        if ('/' !== substr($rawPath, 0, 1)) {
+            $normalizedPath = $this->build->getBuildPath() . $normalizedPath;
+        }
+
+        $realPath = realpath($normalizedPath);
+
+        return (false !== $realPath)
+            ? rtrim($realPath, '/\\') . '/'
+            : rtrim(
+                str_replace('//', '/',
+                    str_replace('/./', '/',$normalizedPath)
+                ), '/\\') . '/';
+    }
+
+    /**
      * @return string
      */
     protected function normalizeBinaryPath()

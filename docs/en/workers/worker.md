@@ -13,7 +13,8 @@ Pre-Requisites
 
 * You need to install [Beanstalkd](http://kr.github.io/beanstalkd/) - On Ubuntu, this is as simple as running
 `apt-get install beanstalkd`.
-* [Supervisord](http://supervisord.org/) needs to be installed and running on your server.
+
+* Systemd or [Supervisord](http://supervisord.org/) needs to be installed and running on your server.
 
 Setting up the PHP Censor worker
 --------------------------------
@@ -22,20 +23,60 @@ Setting up the PHP Censor worker
 
 Setting up the worker on a new installation of PHP Censor is as simple as entering the appropriate values for your 
 Beanstalkd server hostname and queue name when running the PHP Censor installer. By default, the installer assumes that 
-you'll be using beanstalkd on `localhost` and will use the queue name `php-censor-queue`.
+you'll be using beanstalkd on `localhost:11300` and will use the queue name `php-censor-queue`.
 
 ### On an existing installation
 
 On an existing installation, to set up the worker, you simply need to add the beanstalkd host and queue names directly 
-into your `config.yml` file. You should add a `worker` key beneath the `php-censor` section, with the properties `host` 
-and `queue` as outlined in the screenshot below:
+into your `config.yml` file like:
+
+```yml
+php-censor:
+  queue:
+    use_queue: true
+    host:      localhost
+    port:      11300
+    name:      php-censor-queue
+    lifetime:  600
+```
 
 Running the PHP Censor worker
 -----------------------------
 
-Once you've set up PHP Censor to add your jobs to a beanstalkd queue, you need to start the worker so that it can pick 
-up and run your builds. On most servers, it is best to manage this using supervisord. The following instructions work 
-on Ubuntu, but will need slight amendments for other distributions.
+### By Systemd
+
+You can use systemd to run the worker. Configuration for the unit is almost the same as supervisord's configuration.
+Just copy this config to `/etc/systemd/system/php-censor.service` with right permissions, enable 
+`systemctl enable php-censor.service` and run it by `systemctl start php-censor.service`. If you want to start more 
+than one worker, just create more unit files with different name and repeat previous steps.
+
+```
+[Unit]
+Description=PHPCensor Worker
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/your/path/bin/console php-censor:worker
+Restart=always
+
+#Could be changed
+User=php-censor
+
+#Could be changed
+Group=php-censor
+
+[Install]
+WantedBy=multi-user.target
+```
+
+And check that it works properly by `systemctl status php-censor.service`
+
+### By Supervisord
+
+Also you can use Supervisord to run the worker. Once you've set up PHP Censor to add your jobs to a beanstalkd queue, 
+you need to start the worker so that it can pick up and run your builds. On most servers, it is best to manage this 
+using supervisord. The following instructions work on Ubuntu, but will need slight amendments for other distributions.
 
 Using your preferred text editor, create a file named `php-censor.conf` under `/etc/supervisor/conf.d`. In it, enter 
 the following config:
@@ -66,6 +107,8 @@ php-censor    19057  0.0  0.9 200244 18720 ?        S    03:00   0:01 php /php-c
 php-censor    19058  0.0  0.9 200244 18860 ?        S    03:00   0:01 php /php-censor/console php-censor:worker
 ```
 
+### Simple start with nohup (not recommended)
+
 Also you can simple daemonise worker by `nohup`:
 
 ```
@@ -75,32 +118,5 @@ nohup /path/to/php-censor/bin/console php-censor:worker &> /var/log/php-censor-w
 But keep in mind: it won't restart your worker if it fails and can be inconvenient to manage worker process in contrast 
 with other solutions. So, it's good for debug purposes or as temporary solution.
 
-Also you can use systemd to run the worker. 
-Configuration for the unit is almost the same as supervisord's configuration.
-Just copy this config to `/etc/systemd/system/php-censor.service` with right permissions, enable 
-`systemctl enable php-censor.service` and run it by `systemctl start php-censor.service`. If you want to start more 
-than one worker, just create more unit files with different name and repeat previous steps.
-
-```
-[Unit]
-Description=PHPCensor Worker
-After=network.target
-
-[Service]
-Type=simple
-ExecStart=/your/path/bin/console php-censor:worker
-Restart=always
-
-#Could be changed
-User=php-censor
-
-#Could be changed
-Group=php-censor
-
-[Install]
-WantedBy=multi-user.target
-```
-
-And check that it works properly by `systemctl status php-censor.service`
 
 That's it! Now, whenever you create a new build in PHP Censor, it should start building immediately.
