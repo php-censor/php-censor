@@ -17,7 +17,13 @@ foreach ($errors as $error):
     $link = str_replace('{BASEFILE}', basename($error->getFile()), $linkTemplate);
     $link = str_replace('{FILE}', $error->getFile(), $link);
     $link = str_replace('{LINE}', $error->getLineStart(), $link);
-    $link = str_replace('{LINE_END}', $error->getLineEnd(), $link);
+
+    if ($error->getLineStart() == $error->getLineEnd() || !$error->getLineEnd()) {
+        # For Github
+        $link = str_replace('-L{LINE_END}', '', $link);
+    } else {
+        $link = str_replace('{LINE_END}', $error->getLineEnd(), $link);
+    }
 ?>
    <tr>
        <td>
