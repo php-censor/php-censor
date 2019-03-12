@@ -5,12 +5,6 @@ namespace PHPCensor\Model\Build;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
 
-/**
- * BitBucket Build Model
- * Derived from BitBucketBuild
- * @author Dan Cryer <dan@block8.co.uk>
- *
- */
 class BitbucketServerBuild extends GitBuild
 {
     /**
@@ -128,8 +122,8 @@ class BitbucketServerBuild extends GitBuild
                 $success = $builder->executeCommand($cmd, $cloneTo);
                 
                 if ($success) {
-                    $applycmd = 'git apply "%s"';
-                    $success = $builder->executeCommand($applycmd, $diffFile);
+                    $applyCmd = 'git apply "%s"';
+                    $success  = $builder->executeCommand($applyCmd, $diffFile);
                 }
 
                 //unlink($diffFile);
@@ -158,11 +152,12 @@ class BitbucketServerBuild extends GitBuild
          $cmd = 'cd "%s" && git diff %s';
 
          $success = $builder->executeCommand($cmd, $cloneTo, $targetBranch);
-         
+
         if ($success) {
             return $builder->getLastOutput();
         }
-         throw new Exception('Unable to create diff patch.');
+
+         throw new \Exception('Unable to create diff patch.');
     }
 
     /**

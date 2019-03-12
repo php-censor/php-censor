@@ -8,6 +8,7 @@ use PHPCensor\Helper\Bitbucket;
 use PHPCensor\Config;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
+use PHPCensor\Helper\Diff;
 
 /**
  * BitBucket Build Model
@@ -313,12 +314,12 @@ class BitbucketBuild extends GitBuild
         $path     = $builder->buildPath;
 
         if (!empty($prNumber)) {
-            $builder->executeCommand('cd %s && git diff origin/%s "%s"', $path, $this->getBranch(), $file);
+            $builder->executeCommand('cd "%s" && git diff "origin/%s" "%s"', $path, $this->getBranch(), $file);
         } else {
             $commitId = $this->getCommitId();
             $compare  = empty($commitId) ? 'HEAD' : $commitId;
 
-            $builder->executeCommand('cd %s && git diff %s^^ "%s"', $path, $compare, $file);
+            $builder->executeCommand('cd "%s" && git diff "%s^^" "%s"', $path, $compare, $file);
         }
 
         $builder->logExecOutput(true);

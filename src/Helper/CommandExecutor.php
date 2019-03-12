@@ -147,7 +147,7 @@ class CommandExecutor implements CommandExecutorInterface
 
         $shouldOutput = ($this->logExecOutput && ($this->verbose || 0 !== $status));
 
-        if (($shouldOutput) && !empty($this->lastOutput)) {
+        if ($shouldOutput && !empty($this->lastOutput)) {
             $this->logger->log($this->lastOutput);
         }
 
