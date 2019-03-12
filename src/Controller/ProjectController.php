@@ -103,10 +103,10 @@ class ProjectController extends WebController
         }
 
         /** @var PHPCensor\Model\User $user */
-        $user     = $this->getUser();
-        $perPage  = $user->getFinalPerPage();
-        $builds   = $this->getLatestBuildsHtml($projectId, $branch, $environment, (($page - 1) * $perPage), $perPage);
-        $pages    = ($builds[1] === 0)
+        $user    = $this->getUser();
+        $perPage = $user->getFinalPerPage();
+        $builds  = $this->getLatestBuildsHtml($projectId, $branch, $environment, (($page - 1) * $perPage), $perPage);
+        $pages   = ($builds[1] === 0)
             ? 1
             : (integer)ceil($builds[1] / $perPage);
 
@@ -194,7 +194,7 @@ class ProjectController extends WebController
         $environment = null;
         $branch      = null;
 
-        switch($type) {
+        switch ($type) {
             case 'environment':
                 $environment = $id;
                 break;
@@ -486,16 +486,17 @@ class ProjectController extends WebController
         $form->addField(new Form\Element\Hidden('ssh_public_key'));
 
         $options = [
-            'choose'                   => Lang::get('select_repository_type'),
-            Project::TYPE_GITHUB       => 'GitHub',
-            Project::TYPE_BITBUCKET    => 'Bitbucket (Git)',
-            Project::TYPE_BITBUCKET_HG => 'Bitbucket (Hg)',
-            Project::TYPE_GITLAB       => 'GitLab',
-            Project::TYPE_GOGS         => 'Gogs',
-            Project::TYPE_GIT          => 'Git',
-            Project::TYPE_LOCAL        => Lang::get('local'),
-            Project::TYPE_HG           => 'Hg (Mercurial)',
-            Project::TYPE_SVN          => 'Svn (Subversion)',
+            'choose'                       => Lang::get('select_repository_type'),
+            Project::TYPE_GITHUB           => 'GitHub',
+            Project::TYPE_BITBUCKET        => 'Bitbucket (Git)',
+            Project::TYPE_BITBUCKET_SERVER => 'Bitbucket (Server)',
+            Project::TYPE_BITBUCKET_HG     => 'Bitbucket (Hg)',
+            Project::TYPE_GITLAB           => 'GitLab',
+            Project::TYPE_GOGS             => 'Gogs',
+            Project::TYPE_GIT              => 'Git',
+            Project::TYPE_LOCAL            => Lang::get('local'),
+            Project::TYPE_HG               => 'Hg (Mercurial)',
+            Project::TYPE_SVN              => 'Svn (Subversion)',
         ];
 
         $sourcesPattern = sprintf('^(%s)', implode('|', Project::$allowedTypes));
@@ -624,6 +625,10 @@ class ProjectController extends WebController
                     'message' => Lang::get('error_github')
                 ],
                 Project::TYPE_BITBUCKET => [
+                    'regex'   => $gitRegex,
+                    'message' => Lang::get('error_bitbucket')
+                ],
+                Project::TYPE_BITBUCKET_SERVER => [
                     'regex'   => $gitRegex,
                     'message' => Lang::get('error_bitbucket')
                 ],

@@ -8,6 +8,7 @@ use PHPCensor\Helper\Bitbucket;
 use PHPCensor\Config;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
+use PHPCensor\Helper\Diff;
 
 /**
  * BitBucket Build Model
@@ -294,7 +295,7 @@ class BitbucketBuild extends GitBuild
 
         parent::reportError($builder, $plugin, $message, $severity, $file, $lineStart, $lineEnd);
     }
-
+    
     /**
      * Uses git diff to figure out what the diff line position is, based on the error line number.
      *

@@ -443,5 +443,4 @@ class CommandExecutor implements CommandExecutorInterface
 
         return $env;
     }
-
 }

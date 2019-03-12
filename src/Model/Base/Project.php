@@ -7,15 +7,16 @@ use PHPCensor\Model;
 
 class Project extends Model
 {
-    const TYPE_LOCAL        = 'local';
-    const TYPE_GIT          = 'git';
-    const TYPE_GITHUB       = 'github';
-    const TYPE_BITBUCKET    = 'bitbucket';
-    const TYPE_GITLAB       = 'gitlab';
-    const TYPE_GOGS         = 'gogs';
-    const TYPE_HG           = 'hg';
-    const TYPE_BITBUCKET_HG = 'bitbucket-hg';
-    const TYPE_SVN          = 'svn';
+    const TYPE_LOCAL            = 'local';
+    const TYPE_GIT              = 'git';
+    const TYPE_GITHUB           = 'github';
+    const TYPE_BITBUCKET        = 'bitbucket';
+    const TYPE_GITLAB           = 'gitlab';
+    const TYPE_GOGS             = 'gogs';
+    const TYPE_HG               = 'hg';
+    const TYPE_BITBUCKET_HG     = 'bitbucket-hg';
+    const TYPE_BITBUCKET_SERVER = 'bitbucket-server';
+    const TYPE_SVN              = 'svn';
 
     /**
      * @var array
@@ -52,6 +53,7 @@ class Project extends Model
         self::TYPE_HG,
         self::TYPE_BITBUCKET_HG,
         self::TYPE_SVN,
+        self::TYPE_BITBUCKET_SERVER
     ];
 
     /**

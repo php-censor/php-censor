@@ -108,6 +108,7 @@ class Project extends BaseProject
 
             case Project::TYPE_BITBUCKET:
             case Project::TYPE_BITBUCKET_HG:
+            case Project::TYPE_BITBUCKET_SERVER:
                 $icon = 'bitbucket';
                 break;
 
@@ -159,7 +160,7 @@ class Project extends BaseProject
     {
         $environments      = $this->getEnvironmentsObjects();
         $environmentsNames = [];
-        foreach($environments['items'] as $environment) {
+        foreach ($environments['items'] as $environment) {
             /** @var Environment $environment */
             $environmentsNames[] = $environment->getName();
         }
@@ -176,7 +177,7 @@ class Project extends BaseProject
     {
         $environments       = $this->getEnvironmentsObjects();
         $environmentsConfig = [];
-        foreach($environments['items'] as $environment) {
+        foreach ($environments['items'] as $environment) {
             /** @var Environment $environment */
             $environmentsConfig[$environment->getName()] = $environment->getBranches();
         }
@@ -235,7 +236,7 @@ class Project extends BaseProject
         $environmentsNames = [];
         $environments      = $this->getEnvironmentsObjects();
         $defaultBranch     = ($branch == $this->getBranch());
-        foreach($environments['items'] as $environment) {
+        foreach ($environments['items'] as $environment) {
             /** @var Environment $environment */
             if ($defaultBranch || in_array($branch, $environment->getBranches())) {
                 $environmentsNames[] = $environment->getName();
@@ -254,7 +255,7 @@ class Project extends BaseProject
     {
         $branches     = [];
         $environments = $this->getEnvironmentsObjects();
-        foreach($environments['items'] as $environment) {
+        foreach ($environments['items'] as $environment) {
             /** @var Environment $environment */
             if ($environmentName == $environment->getName()) {
                 return $environment->getBranches();
