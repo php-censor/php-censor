@@ -66,7 +66,7 @@ class BuildFactory
                 case Project::TYPE_BITBUCKET_HG:
                     $type = 'BitbucketHgBuild';
                     break;
-                case Project::TYPE_BITBUCKET_SV:
+                case Project::TYPE_BITBUCKET_SERVER:
                     $type = 'BitbucketServerBuild';
                     break;
                 case Project::TYPE_SVN:

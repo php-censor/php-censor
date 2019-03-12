@@ -349,7 +349,7 @@ class WebhookController extends Controller
         $project = $this->fetchProject($projectId, [
             Project::TYPE_BITBUCKET,
             Project::TYPE_BITBUCKET_HG,
-            Project::TYPE_BITBUCKET_SV,
+            Project::TYPE_BITBUCKET_SERVER,
             Project::TYPE_GIT,
             Project::TYPE_HG,
         ]);
