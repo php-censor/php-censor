@@ -194,7 +194,7 @@ class ProjectController extends WebController
         $environment = null;
         $branch      = null;
 
-        switch($type) {
+        switch ($type) {
             case 'environment':
                 $environment = $id;
                 break;
@@ -489,7 +489,7 @@ class ProjectController extends WebController
             'choose'                   => Lang::get('select_repository_type'),
             Project::TYPE_GITHUB       => 'GitHub',
             Project::TYPE_BITBUCKET    => 'Bitbucket (Git)',
-            Project::TYPE_BITBUCKET_SV => 'Bitbucket (Server)',
+            Project::TYPE_BITBUCKET_SERVER => 'Bitbucket (Server)',
             Project::TYPE_BITBUCKET_HG => 'Bitbucket (Hg)',
             Project::TYPE_GITLAB       => 'GitLab',
             Project::TYPE_GOGS         => 'Gogs',
@@ -628,7 +628,7 @@ class ProjectController extends WebController
                     'regex'   => $gitRegex,
                     'message' => Lang::get('error_bitbucket')
                 ],
-                Project::TYPE_BITBUCKET_SV => [
+                Project::TYPE_BITBUCKET_SERVER => [
                     'regex'   => $gitRegex,
                     'message' => Lang::get('error_bitbucket')
                 ],
