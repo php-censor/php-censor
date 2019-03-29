@@ -18,7 +18,7 @@ class PhpUnitResultTest extends \PHPUnit\Framework\TestCase
      *
      * @var array[]
      */
-    static $skipped = [];
+    public static $skipped = [];
 
     /**
      * @dataProvider getTestData

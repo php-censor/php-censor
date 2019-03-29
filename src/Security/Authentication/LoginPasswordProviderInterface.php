@@ -17,7 +17,7 @@ interface LoginPasswordProviderInterface extends UserProviderInterface
      * @param User   $user
      * @param string $password
      *
-     * @return boolean
+     * @return bool
      */
     public function verifyPassword(User $user, $password);
 }

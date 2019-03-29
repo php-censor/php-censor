@@ -8,7 +8,7 @@ use PHPCensor\Plugin;
 
 /**
  * Wipe Plugin - Wipes a folder
- * 
+ *
  * @author Claus Due <claus@namelesscoder.net>
  */
 class Wipe extends Plugin

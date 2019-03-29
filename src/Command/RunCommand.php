@@ -40,8 +40,7 @@ class RunCommand extends LoggingCommand
         Logger $logger,
         BuildService $buildService,
         $name = null
-    )
-    {
+    ) {
         parent::__construct($logger, $name);
 
         $this->buildService = $buildService;

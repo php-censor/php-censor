@@ -1,0 +1,14 @@
+<?php
+
+$finder = PhpCsFixer\Finder::create()
+    ->exclude('vendor')
+    ->in('./')
+;
+
+return PhpCsFixer\Config::create()
+    ->setRules([
+        '@PSR2' => true,
+        '@PSR1' => true
+    ])
+    ->setFinder($finder)
+;

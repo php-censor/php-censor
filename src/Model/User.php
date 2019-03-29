@@ -11,7 +11,7 @@ use PHPCensor\Model\Base\User as BaseUser;
 class User extends BaseUser
 {
     /**
-     * @return integer
+     * @return int
      */
     public function getFinalPerPage()
     {
@@ -20,6 +20,6 @@ class User extends BaseUser
             return $perPage;
         }
 
-        return (integer)Config::getInstance()->get('php-censor.per_page', 10);
+        return (int)Config::getInstance()->get('php-censor.per_page', 10);
     }
 }

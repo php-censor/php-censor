@@ -79,7 +79,7 @@ class WidgetBuildErrorsController extends WebController
             $projects     = $this->projectStore->getByIds(array_keys($builds['projects']));
 
             $viewProjects = [];
-            foreach($projects as $id => $project) {
+            foreach ($projects as $id => $project) {
                 if (!$project->getArchived()) {
                     $viewProjects[$id] = $project;
                 } else {

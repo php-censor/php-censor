@@ -16,13 +16,12 @@ class ExamplePluginWithSingleRequiredArg extends Plugin
 
     public $RequiredArgument;
 
-    function __construct($requiredArgument)
+    public function __construct($requiredArgument)
     {
         $this->RequiredArgument = $requiredArgument;
     }
 
     public function execute()
     {
-
     }
 }

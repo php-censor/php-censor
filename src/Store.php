@@ -40,13 +40,15 @@ abstract class Store
     }
 
     /**
-     * @param array   $where
-     * @param integer $limit
-     * @param integer $offset
-     * @param array   $order
-     * @param string  $whereType
+     * @param array  $where
+     * @param int    $limit
+     * @param int    $offset
+     * @param array  $order
+     * @param string $whereType
      *
      * @return array
+     *
+     * @throws InvalidArgumentException
      */
     public function getWhere(
         $where = [],
@@ -109,8 +111,8 @@ abstract class Store
     }
 
     /**
-     * @param Model   $obj
-     * @param boolean $saveAllColumns
+     * @param Model $obj
+     * @param bool  $saveAllColumns
      *
      * @throws InvalidArgumentException
      *
@@ -138,6 +140,8 @@ abstract class Store
      * @param bool  $saveAllColumns
      *
      * @return Model|null
+     *
+     * @throws \Exception
      */
     public function saveByUpdate(Model $obj, $saveAllColumns = false)
     {
@@ -153,7 +157,12 @@ abstract class Store
         }
 
         if (count($updates)) {
-            $qs = 'UPDATE {{' . $this->tableName . '}} SET ' . implode(', ', $updates) . ' WHERE {{' . $this->primaryKey . '}} = :primaryKey';
+            $qs = sprintf(
+                'UPDATE {{%s}} SET %s WHERE {{%s}} = :primaryKey',
+                $this->tableName,
+                implode(', ', $updates),
+                $this->primaryKey
+            );
             $q  = Database::getConnection('write')->prepareCommon($qs);
 
             foreach ($updateParams as $updateParam) {
@@ -176,6 +185,8 @@ abstract class Store
      * @param bool  $saveAllColumns
      *
      * @return Model|null
+     *
+     * @throws \Exception
      */
     public function saveByInsert(Model $obj, $saveAllColumns = false)
     {
@@ -193,7 +204,12 @@ abstract class Store
         }
 
         if (count($cols)) {
-            $qs = 'INSERT INTO {{' . $this->tableName . '}} (' . implode(', ', $cols) . ') VALUES (' . implode(', ', $values) . ')';
+            $qs = sprintf(
+                'INSERT INTO {{%s}} (%s) VALUES (%s)',
+                $this->tableName,
+                implode(', ', $cols),
+                implode(', ', $values)
+            );
             $q = Database::getConnection('write')->prepareCommon($qs);
 
             if ($q->execute($qParams)) {
@@ -208,9 +224,9 @@ abstract class Store
     /**
      * @param Model $obj
      *
-     * @throws InvalidArgumentException
+     * @return bool
      *
-     * @return boolean
+     * @throws InvalidArgumentException
      */
     public function delete(Model $obj)
     {
@@ -220,7 +236,14 @@ abstract class Store
 
         $data = $obj->getDataArray();
 
-        $q = Database::getConnection('write')->prepareCommon('DELETE FROM {{' . $this->tableName . '}} WHERE {{' . $this->primaryKey . '}} = :primaryKey');
+        $q = Database::getConnection('write')
+            ->prepareCommon(
+                sprintf(
+                    'DELETE FROM {{%s}} WHERE {{%s}} = :primaryKey',
+                    $this->tableName,
+                    $this->primaryKey
+                )
+            );
         $q->bindValue(':primaryKey', $data[$this->primaryKey]);
         $q->execute();
 
@@ -230,9 +253,9 @@ abstract class Store
     /**
      * @param string $field
      *
-     * @throws InvalidArgumentException
-     *
      * @return string
+     *
+     * @throws InvalidArgumentException
      */
     protected function fieldCheck($field)
     {

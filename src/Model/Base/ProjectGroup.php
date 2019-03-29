@@ -22,7 +22,7 @@ class ProjectGroup extends Model
      */
     public function getId()
     {
-        return (integer)$this->data['id'];
+        return (int)$this->data['id'];
     }
 
     /**
@@ -112,7 +112,7 @@ class ProjectGroup extends Model
      */
     public function getUserId()
     {
-        return (integer)$this->data['user_id'];
+        return (int)$this->data['user_id'];
     }
 
     /**

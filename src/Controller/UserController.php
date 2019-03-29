@@ -78,7 +78,7 @@ class UserController extends WebController
                 $language = null;
             }
 
-            $perPage  = (integer)$this->getParam('per_page', null);
+            $perPage  = (int)$this->getParam('per_page', null);
             if (!$perPage) {
                 $perPage = null;
             }
@@ -127,9 +127,11 @@ class UserController extends WebController
         $language->setContainerClass('form-group');
         $language->setLabel(Lang::get('language'));
         $language->setRequired(true);
-        $language->setOptions(array_merge(
-            [null => Lang::get('default') . ' (' . Config::getInstance()->get('php-censor.language') .  ')'],
-            Lang::getLanguageOptions())
+        $language->setOptions(
+            array_merge(
+                [null => Lang::get('default') . ' (' . Config::getInstance()->get('php-censor.language') .  ')'],
+                Lang::getLanguageOptions()
+            )
         );
         $language->setValue($user->getLanguage());
         $form->addField($language);
@@ -191,7 +193,7 @@ class UserController extends WebController
         $name     = $this->getParam('name', null);
         $email    = $this->getParam('email', null);
         $password = $this->getParam('password', null);
-        $isAdmin  = (boolean)$this->getParam('is_admin', 0);
+        $isAdmin  = (bool)$this->getParam('is_admin', 0);
 
         $this->userService->createUser($name, $email, 'internal', ['type' => 'internal'], $password, $isAdmin);
 
@@ -240,7 +242,7 @@ class UserController extends WebController
         // Only admins can promote/demote users.
         $isAdmin = $user->getIsAdmin();
         if ($currentUser->getIsAdmin()) {
-            $isAdmin = (boolean) $this->getParam('is_admin', 0);
+            $isAdmin = (bool) $this->getParam('is_admin', 0);
         }
 
         $this->userService->updateUser($user, $name, $email, $password, $isAdmin);

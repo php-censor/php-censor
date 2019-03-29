@@ -73,8 +73,7 @@ class BuildWorker
         $queuePort,
         $queueTube,
         $canPeriodicalWork
-    )
-    {
+    ) {
         $this->logger       = $logger;
         $this->buildService = $buildService;
 
@@ -104,10 +103,8 @@ class BuildWorker
         $buildStore = Factory::getStore('Build');
 
         while ($this->canRun) {
-            if (
-                $this->canPeriodicalWork &&
-                $this->canRunPeriodicalWork()
-            ) {
+            if ($this->canPeriodicalWork &&
+                $this->canRunPeriodicalWork()) {
                 $this->buildService->createPeriodicalBuilds($this->logger);
             }
 
@@ -263,7 +260,7 @@ class BuildWorker
 
         $jobType = !empty($jobData['type'])
             ? $jobData['type']
-            : ''; 
+            : '';
 
         if (self::JOB_TYPE !== $jobType) {
             $this->logger->warning(

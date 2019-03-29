@@ -86,7 +86,8 @@ class PhpUnitTest extends \PHPUnit\Framework\TestCase
 
         $mockPlugin = $this->getPluginBuilder($options)->setMethods(['runConfig'])->getMock();
         $mockPlugin->expects($this->exactly(2))->method('runConfig')->withConsecutive(
-            ['/test/directory/one'], ['/test/directory/two']
+            ['/test/directory/one'],
+            ['/test/directory/two']
         );
 
         $mockPlugin->execute();

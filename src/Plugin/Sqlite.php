@@ -9,7 +9,7 @@ use PHPCensor\Plugin;
 
 /**
  * SQLite Plugin — Provides access to a SQLite database.
- * 
+ *
  * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Sqlite extends Plugin
@@ -49,7 +49,7 @@ class Sqlite extends Plugin
 
     /**
      * Connects to SQLite and runs a specified set of queries.
-     * @return boolean
+     * @return bool
      */
     public function execute()
     {

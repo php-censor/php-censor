@@ -31,7 +31,7 @@ class ProjectService
      * @param string  $title
      * @param string  $type
      * @param string  $reference
-     * @param integer $userId
+     * @param int $userId
      * @param array   $options
      *
      * @return \PHPCensor\Model\Project
@@ -41,7 +41,7 @@ class ProjectService
         // Create base project and use updateProject() to set its properties:
         $project = new Project();
         $project->setCreateDate(new \DateTime());
-        $project->setUserId((integer)$userId);
+        $project->setUserId((int)$userId);
 
         return $this->updateProject($project, $title, $type, $reference, $options);
     }
@@ -133,7 +133,6 @@ class ProjectService
             $fileSystem->remove(PUBLIC_DIR . 'artifacts/pdepend/' . $project->getId());
             $fileSystem->remove(PUBLIC_DIR . 'artifacts/phpunit/' . $project->getId());
         } catch (\Exception $e) {
-
         }
 
         return $this->projectStore->delete($project);

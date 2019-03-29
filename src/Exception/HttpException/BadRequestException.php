@@ -7,7 +7,7 @@ use PHPCensor\Exception\HttpException;
 class BadRequestException extends HttpException
 {
     /**
-     * @var integer
+     * @var int
      */
     protected $errorCode = 400;
 

@@ -16,13 +16,12 @@ class ExamplePluginWithSingleTypedRequiredArg extends Plugin
 
     public $RequiredArgument;
 
-    function __construct(\stdClass $requiredArgument)
+    public function __construct(\stdClass $requiredArgument)
     {
         $this->RequiredArgument = $requiredArgument;
     }
 
     public function execute()
     {
-
     }
 }

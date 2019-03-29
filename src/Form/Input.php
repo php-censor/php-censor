@@ -7,7 +7,7 @@ use PHPCensor\View;
 class Input extends Element
 {
     /**
-     * @var boolean
+     * @var bool
      */
     protected $required = false;
 
@@ -32,14 +32,14 @@ class Input extends Element
     protected $error;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $customError = false;
 
     /**
      * @param string  $name
      * @param string  $label
-     * @param boolean $required
+     * @param bool $required
      *
      * @return static
      */
@@ -74,7 +74,7 @@ class Input extends Element
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getRequired()
     {
@@ -82,7 +82,7 @@ class Input extends Element
     }
 
     /**
-     * @param boolean $required
+     * @param bool $required
      *
      * @return $this
      */
@@ -136,7 +136,7 @@ class Input extends Element
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function validate()
     {

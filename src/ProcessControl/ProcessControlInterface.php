@@ -14,7 +14,7 @@ interface ProcessControlInterface
      *
      * @param int $pid The process identifier.
      *
-     * @return boolean true is the process is running, else false.
+     * @return bool true is the process is running, else false.
      */
     public function isRunning($pid);
 
@@ -24,7 +24,7 @@ interface ProcessControlInterface
      * @param int $pid The process identifier.
      * @param bool $forcefully Whether to gently (false) or forcefully (true) terminate the process.
      *
-     * @return boolean
+     * @return bool
      */
     public function kill($pid, $forcefully = false);
 }

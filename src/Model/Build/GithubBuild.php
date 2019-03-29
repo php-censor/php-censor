@@ -86,7 +86,7 @@ class GithubBuild extends GitBuild
     /**
      * Send status updates to any relevant third parties (i.e. Github)
      *
-     * @return boolean
+     * @return bool
      */
     public function sendStatusPostback()
     {
@@ -104,7 +104,7 @@ class GithubBuild extends GitBuild
             return false;
         }
 
-        $allowStatusCommit = (boolean)Config::getInstance()->get(
+        $allowStatusCommit = (bool)Config::getInstance()->get(
             'php-censor.github.status.commit',
             false
         );
@@ -153,7 +153,7 @@ class GithubBuild extends GitBuild
             ]
         ]);
 
-        $status = (integer)$response->getStatusCode();
+        $status = (int)$response->getStatusCode();
 
         return ($status >= 200 && $status < 300);
     }
@@ -270,12 +270,12 @@ class GithubBuild extends GitBuild
         $lineStart = null,
         $lineEnd = null
     ) {
-        $allowCommentCommit = (boolean)Config::getInstance()->get(
+        $allowCommentCommit = (bool)Config::getInstance()->get(
             'php-censor.github.comments.commit',
             false
         );
 
-        $allowCommentPullRequest = (boolean)Config::getInstance()->get(
+        $allowCommentPullRequest = (bool)Config::getInstance()->get(
             'php-censor.github.comments.pull_request',
             false
         );
@@ -312,15 +312,15 @@ class GithubBuild extends GitBuild
      *
      * @param Builder $builder
      * @param string  $file
-     * @param integer $line
+     * @param int $line
      *
-     * @return integer|null
+     * @return int|null
      */
     protected function getDiffLineNumber(Builder $builder, $file, $line)
     {
         $builder->logExecOutput(false);
 
-        $line     = (integer)$line;
+        $line     = (int)$line;
         $prNumber = $this->getExtra('pull_request_number');
         $path     = $builder->buildPath;
 

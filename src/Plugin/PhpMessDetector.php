@@ -110,7 +110,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
      *
      * @param $xmlString
      *
-     * @return integer
+     * @return int
      *
      * @throws \Exception
      */
@@ -190,10 +190,8 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
             $suffixes = ' --suffixes ' . implode(',', $this->suffixes);
         }
 
-        if (
-            (!defined('DEBUG_MODE') || !DEBUG_MODE) &&
-            !(boolean)$this->build->getExtra('debug')
-        ) {
+        if ((!defined('DEBUG_MODE') || !DEBUG_MODE) &&
+            !(bool)$this->build->getExtra('debug')) {
             $this->builder->logExecOutput(false);
         }
 
@@ -211,9 +209,10 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
     }
 
     /**
-     * Returns a boolean indicating if the error count can be considered a success.
+     * Returns a bool indicating if the error count can be considered a success.
      *
      * @param int $errorCount
+     *
      * @return bool
      */
     protected function wasLastExecSuccessful($errorCount)

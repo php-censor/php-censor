@@ -35,7 +35,7 @@ abstract class Controller
     /**
      * @param string $name
      *
-     * @return boolean
+     * @return bool
      */
     public function hasAction($name)
     {

@@ -50,9 +50,9 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
      */
     protected $numberOfAnalysedFile = 0;
 
-   /**
-    * @return string
-    */
+    /**
+     * @return string
+     */
     public static function pluginName()
     {
         return 'technical_debt';
@@ -165,7 +165,7 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
     /**
      * Gets the number and list of errors returned from the search
      *
-     * @return integer
+     * @return int
      */
     protected function getErrorList()
     {
@@ -225,7 +225,7 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
                     }
                     $lineNumber++;
                 }
-                fclose ($handle);
+                fclose($handle);
 
                 if ($errorInFile === true) {
                     $this->buildLogString('X');

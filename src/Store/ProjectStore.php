@@ -30,7 +30,7 @@ class ProjectStore extends Store
     /**
      * Get a Project by primary key (Id)
      *
-     * @param integer $key
+     * @param int $key
      * @param string  $useConnection
      *
      * @return Project|null
@@ -43,7 +43,7 @@ class ProjectStore extends Store
     /**
      * Get a single Project by Id.
      *
-     * @param integer $id
+     * @param int $id
      * @param string  $useConnection
      *
      * @return Project|null
@@ -72,7 +72,7 @@ class ProjectStore extends Store
     /**
      * Get a single Project by Ids.
      *
-     * @param integer[] $values
+     * @param int[] $values
      * @param string    $useConnection
      *
      * @throws HttpException
@@ -102,7 +102,7 @@ class ProjectStore extends Store
      * Get multiple Project by Title.
      *
      * @param string  $title
-     * @param integer $limit
+     * @param int $limit
      * @param string  $useConnection
      *
      * @return array
@@ -167,13 +167,13 @@ class ProjectStore extends Store
     /**
      * Get a list of all projects, ordered by their title.
      *
-     * @param boolean $archived
+     * @param bool $archived
      *
      * @return array
      */
     public function getAll($archived = false)
     {
-        $archived = (integer)$archived;
+        $archived = (int)$archived;
 
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{archived}} = :archived ORDER BY {{title}} ASC';
         $stmt  = Database::getConnection('read')->prepareCommon($query);
@@ -200,9 +200,9 @@ class ProjectStore extends Store
     /**
      * Get multiple Project by GroupId.
      *
-     * @param integer $groupId
-     * @param boolean $archived
-     * @param integer $limit
+     * @param int $groupId
+     * @param bool $archived
+     * @param int $limit
      * @param string  $useConnection
      *
      * @return array
@@ -214,7 +214,7 @@ class ProjectStore extends Store
         if (is_null($groupId)) {
             throw new \Exception('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
-        $archived = (integer)$archived;
+        $archived = (int)$archived;
 
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{group_id}} = :group_id AND {{archived}} = :archived ORDER BY {{title}} LIMIT :limit';
         $stmt  = Database::getConnection($useConnection)->prepareCommon($query);

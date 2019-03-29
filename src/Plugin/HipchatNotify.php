@@ -9,7 +9,7 @@ use HipChat\HipChat;
 
 /**
  * Hipchat Plugin
- * 
+ *
  * @author James Inman <james@jamesinman.co.uk>
  */
 class HipchatNotify extends Plugin

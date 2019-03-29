@@ -84,7 +84,7 @@ class BuildTest extends \PHPUnit\Framework\TestCase
             $build->setSource('5');
         } catch (InvalidArgumentException $e) {
             self::assertEquals(
-                'Column "source" must be an integer.',
+                'Column "source" must be an int.',
                 $e->getMessage()
             );
         }

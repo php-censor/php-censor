@@ -5,7 +5,7 @@ namespace PHPCensor\Exception;
 class HttpException extends Exception
 {
     /**
-     * @var integer
+     * @var int
      */
     protected $errorCode = 500;
 
@@ -15,7 +15,7 @@ class HttpException extends Exception
     protected $statusMessage = 'Internal Server Error';
 
     /**
-     * @return integer
+     * @return int
      */
     public function getErrorCode()
     {

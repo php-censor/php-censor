@@ -54,7 +54,7 @@ class View
      * @param string      $file
      * @param string|null $path
      *
-     * @return boolean
+     * @return bool
      */
     public static function exists($file, $path = null)
     {
@@ -68,7 +68,7 @@ class View
     /**
      * @param string $key
      *
-     * @return boolean
+     * @return bool
      */
     public function __isset($key)
     {
@@ -112,18 +112,20 @@ class View
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     protected function loginIsDisabled()
     {
         $config      = Config::getInstance();
-        $disableAuth = (boolean)$config->get('php-censor.security.disable_auth', false);
+        $disableAuth = (bool)$config->get('php-censor.security.disable_auth', false);
 
         return $disableAuth;
     }
 
     /**
      * @return User|null
+     *
+     * @throws Exception\HttpException
      */
     protected function getUser()
     {

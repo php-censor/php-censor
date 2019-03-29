@@ -49,7 +49,7 @@ class BuildError extends BaseBuildError
     /**
      * Get the language string key for this error's severity level.
      *
-     * @param integer $severity
+     * @param int $severity
      *
      * @return string
      */
@@ -73,9 +73,9 @@ class BuildError extends BaseBuildError
     /**
      * @param string  $plugin
      * @param string  $file
-     * @param integer $lineStart
-     * @param integer $lineEnd
-     * @param integer $severity
+     * @param int $lineStart
+     * @param int $lineEnd
+     * @param int $severity
      * @param string  $message
      *
      * @return string

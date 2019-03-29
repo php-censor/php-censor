@@ -128,7 +128,7 @@ class PhpUnitResultJson extends PhpUnitResult
         $formattedTrace = [];
 
         if (!empty($event['trace'])) {
-            foreach ($event['trace'] as $step){
+            foreach ($event['trace'] as $step) {
                 $line             = str_replace($this->buildPath, '', $step['file']) . ':' . $step['line'];
                 $formattedTrace[] = $line;
             }

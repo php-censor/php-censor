@@ -185,11 +185,9 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
         $success   = $this->builder->executeCommand($cmd, $arguments, $directory);
         $output    = $this->builder->getLastOutput();
 
-        if (
-            $fileSystem->exists($this->buildLocation) &&
+        if ($fileSystem->exists($this->buildLocation) &&
             $options->getOption('coverage') &&
-            $allowPublicArtifacts
-        ) {
+            $allowPublicArtifacts) {
             $fileSystem->remove($this->buildBranchLocation);
             $fileSystem->mirror($this->buildLocation, $this->buildBranchLocation);
         }
@@ -251,7 +249,12 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
                 BuildError::SEVERITY_CRITICAL :
                 BuildError::SEVERITY_HIGH;
                 $this->build->reportError(
-                    $this->builder, self::pluginName(), $error['message'], $severity, $error['file'], $error['line']
+                    $this->builder,
+                    self::pluginName(),
+                    $error['message'],
+                    $severity,
+                    $error['file'],
+                    $error['line']
                 );
             }
             unlink($logFile);

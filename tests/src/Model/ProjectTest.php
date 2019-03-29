@@ -22,7 +22,7 @@ class ProjectTest extends \PHPUnit\Framework\TestCase
             $project->setArchived('true');
         } catch (InvalidArgumentException $e) {
             self::assertEquals(
-                'Column "archived" must be a boolean.',
+                'Column "archived" must be a bool.',
                 $e->getMessage()
             );
         }

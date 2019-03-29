@@ -9,7 +9,7 @@ use PHPCensor\Plugin;
 
 /**
  * Integration with Deployer: https://github.com/rebelinblue/deployer
- * 
+ *
  * @author Dan Cryer <dan@block8.co.uk>
  */
 class Deployer extends Plugin
@@ -70,7 +70,7 @@ class Deployer extends Plugin
             ]
         );
         
-        $status = (integer)$response->getStatusCode();
+        $status = (int)$response->getStatusCode();
         
         return (
             ($status >= 200 && $status < 300)

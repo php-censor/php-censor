@@ -218,13 +218,13 @@ $user = $this->getUser();
                         <i class="fa fa-angle-left pull-right"></i>
                     </a>
 
-                    <?php if (count($archived_projects)): ?>
+                    <?php if (count($archivedProjects)): ?>
                         <ul class="treeview-menu">
-                            <?php foreach($archived_projects as $archived_project): ?>
+                            <?php foreach ($archivedProjects as $archivedProject): ?>
                                 <li>
-                                    <a href="<?= APP_URL; ?>project/view/<?= $archived_project->getId(); ?>">
-                                        <i class="fa fa-<?= $archived_project->getIcon(); ?>"></i>
-                                        <span><?= $archived_project->getTitle(); ?></span>
+                                    <a href="<?= APP_URL; ?>project/view/<?= $archivedProject->getId(); ?>">
+                                        <i class="fa fa-<?= $archivedProject->getIcon(); ?>"></i>
+                                        <span><?= $archivedProject->getTitle(); ?></span>
                                     </a>
                                 </li>
                             <?php endforeach; ?>

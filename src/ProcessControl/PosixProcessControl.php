@@ -10,7 +10,7 @@ namespace PHPCensor\ProcessControl;
 class PosixProcessControl implements ProcessControlInterface
 {
     /**
-     * @param integer $pid
+     * @param int $pid
      *
      * @return bool
      */

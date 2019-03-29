@@ -2,6 +2,7 @@
 
 /vendor
 /public/assets/vendor
+/.php_cs.cache
 
 /app/config.yml
 /app/periodical.yml

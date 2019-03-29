@@ -81,7 +81,7 @@ class PharTest extends \PHPUnit\Framework\TestCase
                 foreach ($filenames as $filename) {
                     if (is_dir($directory . $filename)) {
                         @rmdir($directory . $filename);
-                    } else if (is_file($directory . $filename)) {
+                    } elseif (is_file($directory . $filename)) {
                         @unlink($directory . $filename);
                     }
                 }
