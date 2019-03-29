@@ -6,7 +6,8 @@ use PHPCensor\Builder;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 
-class ExamplePluginFull extends Plugin {
+class ExamplePluginFull extends Plugin
+{
     /**
      * @var array
      */
@@ -27,6 +28,5 @@ class ExamplePluginFull extends Plugin {
 
     public function execute()
     {
-
     }
 }

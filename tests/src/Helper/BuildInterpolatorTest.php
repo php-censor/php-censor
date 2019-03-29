@@ -45,4 +45,3 @@ class BuildInterpolatorTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($expectedOutput, $actualOutput);
     }
 }
-

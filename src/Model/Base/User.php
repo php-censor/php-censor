@@ -28,7 +28,7 @@ class User extends Model
      */
     public function getId()
     {
-        return (integer)$this->data['id'];
+        return (int)$this->data['id'];
     }
 
     /**
@@ -115,7 +115,7 @@ class User extends Model
      */
     public function getIsAdmin()
     {
-        return (boolean)$this->data['is_admin'];
+        return (bool)$this->data['is_admin'];
     }
 
     /**
@@ -130,11 +130,11 @@ class User extends Model
         $this->validateNotNull('is_admin', $value);
         $this->validateBoolean('is_admin', $value);
 
-        if ($this->data['is_admin'] === (integer)$value) {
+        if ($this->data['is_admin'] === (int)$value) {
             return false;
         }
 
-        $this->data['is_admin'] = (integer)$value;
+        $this->data['is_admin'] = (int)$value;
 
         return $this->setModified('is_admin');
     }
@@ -197,7 +197,7 @@ class User extends Model
      */
     public function getPerPage()
     {
-        return (integer)$this->data['per_page'];
+        return (int)$this->data['per_page'];
     }
 
     /**

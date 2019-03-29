@@ -8,7 +8,7 @@ use PHPCensor\Form\Input;
 class Checkbox extends Input
 {
     /**
-     * @var boolean
+     * @var bool
      */
     protected $checked;
 

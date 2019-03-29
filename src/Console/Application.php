@@ -110,15 +110,15 @@ LOGO;
 
         if (!empty($databaseSettings['port'])) {
             $phinxSettings['environments']['php-censor']['port'] =
-                (integer) $databaseSettings['port'];
+                (int)$databaseSettings['port'];
         }
 
-        if (! empty($databaseSettings['servers']['write'][0]['port'])) {
+        if (!empty($databaseSettings['servers']['write'][0]['port'])) {
             $phinxSettings['environments']['php-censor']['port'] =
-                (integer) $databaseSettings['servers']['write'][0]['port'];
+                (int)$databaseSettings['servers']['write'][0]['port'];
         }
 
-        if (! empty($databaseSettings["type"])
+        if (!empty($databaseSettings["type"])
             && $databaseSettings["type"] === "pgsql"
         ) {
             $phinxSettings['environments']['php-censor']['host'] .=

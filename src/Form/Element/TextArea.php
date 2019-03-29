@@ -7,12 +7,12 @@ use PHPCensor\View;
 class TextArea extends Text
 {
     /**
-     * @var integer
+     * @var int
      */
     protected $rows = 4;
 
     /**
-     * @return integer
+     * @return int
      */
     public function getRows()
     {
@@ -20,7 +20,7 @@ class TextArea extends Text
     }
 
     /**
-     * @param integer $rows
+     * @param int $rows
      */
     public function setRows($rows)
     {

@@ -8,6 +8,7 @@ use PHPCensor\Http\Request;
 use PHPCensor\Store\Factory;
 use PHPCensor\Model\User;
 use PHPCensor\Store\UserStore;
+use PHPCensor\Exception\HttpException;
 
 abstract class WebController extends Controller
 {
@@ -63,9 +64,9 @@ abstract class WebController extends Controller
                 $groups[]              = $thisGroup;
             }
 
-            $archivedProjects                = Factory::getStore('Project')->getAll(true);
-            $this->layout->archived_projects = $archivedProjects['items'];
-            $this->layout->groups            = $groups;
+            $archivedProjects               = Factory::getStore('Project')->getAll(true);
+            $this->layout->archivedProjects = $archivedProjects['items'];
+            $this->layout->groups           = $groups;
         }
     }
 
@@ -111,7 +112,7 @@ abstract class WebController extends Controller
     /**
      * Require that the currently logged in user is an administrator.
      *
-     * @throws ForbiddenException
+     * @throws HttpException
      */
     protected function requireAdmin()
     {
@@ -123,7 +124,11 @@ abstract class WebController extends Controller
     /**
      * Check if the currently logged in user is an administrator.
      *
-     * @return boolean
+     * @return bool
+     *
+     * @return bool
+     *
+     * @throws HttpException
      */
     protected function currentUserIsAdmin()
     {
@@ -137,6 +142,8 @@ abstract class WebController extends Controller
 
     /**
      * @return User|null
+     *
+     * @throws HttpException
      */
     protected function getUser()
     {

@@ -7,7 +7,7 @@ use PHPCensor\View;
 class Csrf extends Hidden
 {
     /**
-     * @return boolean
+     * @return bool
      */
     public function validate()
     {

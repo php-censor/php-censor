@@ -14,13 +14,11 @@ class ExamplePluginWithSingleOptionalArg extends Plugin
         return 'example_plugin_with_single_optional_arg';
     }
     
-    function __construct($optional = null)
+    public function __construct($optional = null)
     {
-
     }
 
     public function execute()
     {
-
     }
 }

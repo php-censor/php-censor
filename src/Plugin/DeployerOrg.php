@@ -97,7 +97,7 @@ class DeployerOrg extends \PHPCensor\Plugin
      */
     protected function getVerbosityOption($verbosity)
     {
-        $LOG_LEVEL_ENUM = [
+        $logLevelList = [
             'verbose'      =>'v',
             'very verbose' => 'vv',
             'debug'        => 'vvv',
@@ -106,7 +106,7 @@ class DeployerOrg extends \PHPCensor\Plugin
 
         $verbosity = strtolower(trim($verbosity));
         if ($verbosity !== 'normal') {
-            return '-' . $LOG_LEVEL_ENUM[$verbosity];
+            return '-' . $logLevelList[$verbosity];
         } else {
             return '';
         }

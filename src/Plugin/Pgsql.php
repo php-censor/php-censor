@@ -9,7 +9,7 @@ use PHPCensor\Plugin;
 
 /**
  * PgSQL Plugin - Provides access to a PgSQL database.
- * 
+ *
  * @author Dan Cryer <dan@block8.co.uk>
  */
 class Pgsql extends Plugin
@@ -56,7 +56,7 @@ class Pgsql extends Plugin
 
     /**
      * Connects to PgSQL and runs a specified set of queries.
-     * @return boolean
+     * @return bool
      */
     public function execute()
     {

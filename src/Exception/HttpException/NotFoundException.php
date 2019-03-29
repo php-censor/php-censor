@@ -7,7 +7,7 @@ use PHPCensor\Exception\HttpException;
 class NotFoundException extends HttpException
 {
     /**
-     * @var integer
+     * @var int
      */
     protected $errorCode = 404;
 

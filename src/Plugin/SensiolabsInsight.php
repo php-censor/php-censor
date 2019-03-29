@@ -95,7 +95,7 @@ class SensiolabsInsight extends Plugin
      *
      * @param $xmlString
      *
-     * @return integer
+     * @return int
      *
      * @throws \Exception
      */
@@ -161,9 +161,10 @@ class SensiolabsInsight extends Plugin
     }
 
     /**
-     * Returns a boolean indicating if the error count can be considered a success.
+     * Returns a bool indicating if the error count can be considered a success.
      *
      * @param int $errorCount
+     *
      * @return bool
      */
     protected function wasLastExecSuccessful($errorCount)
@@ -177,4 +178,3 @@ class SensiolabsInsight extends Plugin
         return $success;
     }
 }
-

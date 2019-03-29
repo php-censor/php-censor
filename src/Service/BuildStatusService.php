@@ -47,7 +47,7 @@ class BuildStatusService
      * @param string  $branch
      * @param Project $project
      * @param Build   $build
-     * @param boolean $isParent
+     * @param bool $isParent
      */
     public function __construct(
         $branch,
@@ -83,7 +83,7 @@ class BuildStatusService
     }
 
     /**
-     * @param boolean $isParent
+     * @param bool $isParent
      *
      * @throws \Exception
      */
@@ -127,7 +127,7 @@ class BuildStatusService
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isFinished()
     {
@@ -205,7 +205,7 @@ class BuildStatusService
      */
     public function getBuildUrl()
     {
-         return $this->url . 'build/view/' . $this->build->getId();
+        return $this->url . 'build/view/' . $this->build->getId();
     }
 
     /**

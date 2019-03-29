@@ -89,7 +89,7 @@ class PhpCpd extends Plugin implements ZeroConfigPluginInterface
      *
      * @param $xmlString
      *
-     * @return integer
+     * @return int
      *
      * @throws \Exception
      */

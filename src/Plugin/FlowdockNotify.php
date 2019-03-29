@@ -52,7 +52,6 @@ class FlowdockNotify extends Plugin
      */
     public function execute()
     {
-
         $message         = $this->builder->interpolate($this->message);
         $successfulBuild = $this->build->isSuccessful() ? 'Success' : 'Failed';
         $push            = new Push($this->apiKey);

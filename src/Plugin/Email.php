@@ -81,7 +81,7 @@ class Email extends Plugin
      * @param string $subject Email subject
      * @param string $body Email body
      *
-     * @return integer
+     * @return int
      */
     protected function sendEmail($toAddress, $ccList, $subject, $body)
     {

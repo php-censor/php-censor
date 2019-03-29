@@ -10,7 +10,7 @@ interface CommandExecutorInterface
      *
      * @param array $args
      *
-     * @return boolean Indicates success
+     * @return bool Indicates success
      */
     public function executeCommand($args = []);
 

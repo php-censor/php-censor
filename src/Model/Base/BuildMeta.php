@@ -22,7 +22,7 @@ class BuildMeta extends Model
      */
     public function getId()
     {
-        return (integer)$this->data['id'];
+        return (int)$this->data['id'];
     }
 
     /**
@@ -51,7 +51,7 @@ class BuildMeta extends Model
      */
     public function getBuildId()
     {
-        return (integer)$this->data['build_id'];
+        return (int)$this->data['build_id'];
     }
 
     /**

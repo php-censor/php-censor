@@ -71,7 +71,8 @@ class BuildLoggerTest extends \PHPUnit\Framework\TestCase
 
 
         $this->mockLogger
-            ->log(Argument::type('string'),
+            ->log(
+                Argument::type('string'),
                 Argument::type('string'),
                 Argument::withEntry('exception', $exception)
             )
@@ -80,4 +81,3 @@ class BuildLoggerTest extends \PHPUnit\Framework\TestCase
         $this->testedBuildLogger->logFailure($message, $exception);
     }
 }
-

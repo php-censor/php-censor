@@ -49,7 +49,7 @@ class Model
     /**
      * @param string $column
      *
-     * @return boolean
+     * @return bool
      */
     protected function setModified($column)
     {
@@ -79,8 +79,8 @@ class Model
      */
     protected function validateInt($name, $value)
     {
-        if (!is_integer($value) && !is_null($value)) {
-            throw new InvalidArgumentException('Column "' . $name . '" must be an integer.');
+        if (!is_int($value) && !is_null($value)) {
+            throw new InvalidArgumentException('Column "' . $name . '" must be an int.');
         }
     }
 
@@ -93,7 +93,7 @@ class Model
     protected function validateBoolean($name, $value)
     {
         if (!is_bool($value) && !is_null($value)) {
-            throw new InvalidArgumentException('Column "' . $name . '" must be a boolean.');
+            throw new InvalidArgumentException('Column "' . $name . '" must be a bool.');
         }
     }
 

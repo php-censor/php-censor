@@ -7,7 +7,7 @@ use PHPCensor\Security\Authentication\LoginPasswordProviderInterface;
 
 /**
  * Internal user provider
- * 
+ *
  * @author Adirelle <adirelle@gmail.com>
  */
 class Internal extends AbstractProvider implements LoginPasswordProviderInterface
@@ -16,7 +16,7 @@ class Internal extends AbstractProvider implements LoginPasswordProviderInterfac
      * @param User   $user
      * @param string $password
      *
-     * @return boolean
+     * @return bool
      */
     public function verifyPassword(User $user, $password)
     {

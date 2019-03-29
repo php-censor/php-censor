@@ -31,7 +31,7 @@ class UserService
      * @param string  $providerKey
      * @param array   $providerData
      * @param string  $password
-     * @param boolean $isAdmin
+     * @param bool $isAdmin
      *
      * @return User
      */
@@ -55,9 +55,9 @@ class UserService
      * @param string  $name
      * @param string  $emailAddress
      * @param string  $password
-     * @param boolean $isAdmin
+     * @param bool $isAdmin
      * @param string  $language
-     * @param integer $perPage
+     * @param int $perPage
      *
      * @return User
      */

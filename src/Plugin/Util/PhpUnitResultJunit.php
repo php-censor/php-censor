@@ -38,7 +38,7 @@ class PhpUnitResultJunit extends PhpUnitResult
     protected function getSeverity($testCase)
     {
         $severity = self::SEVERITY_PASS;
-        foreach($testCase as $child) {
+        foreach ($testCase as $child) {
             switch ($child->getName()) {
                 case 'failure':
                     $severity = self::SEVERITY_FAIL;
@@ -68,7 +68,7 @@ class PhpUnitResultJunit extends PhpUnitResult
         }
 
         return $severity;
-   }
+    }
 
     protected function buildMessage($testCase)
     {
@@ -90,7 +90,8 @@ class PhpUnitResultJunit extends PhpUnitResult
         return $msg;
     }
 
-    protected function getOutput($testCase) {
+    protected function getOutput($testCase)
+    {
         return (string)$testCase->{'system-out'};
     }
 
@@ -110,9 +111,10 @@ class PhpUnitResultJunit extends PhpUnitResult
         return $trace;
     }
 
-    private function getMessageTrace($testCase) {
+    private function getMessageTrace($testCase)
+    {
         $msg = '';
-        foreach($testCase as $child) {
+        foreach ($testCase as $child) {
             switch ($child->getName()) {
                 case 'system-out':
                 case 'system-err':

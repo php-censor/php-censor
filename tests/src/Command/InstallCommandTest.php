@@ -104,7 +104,7 @@ class InstallCommandTest extends \PHPUnit\Framework\TestCase
         ];
 
         if (!is_null($exclude)) {
-          unset($config[$exclude]);
+            unset($config[$exclude]);
         }
 
         return $config;

@@ -22,46 +22,45 @@ There are several ways of configuring build in *PHP Censor* project:
     Default config will look like this:
 
     ```yml
-    build_settings:
-      ignore:
-        - "vendor"
-    setup:
-      composer:
-        action: "install"
-    test:
-      technical_debt:
-        allowed_errors: -1
-      php_code_sniffer:
-        allowed_warnings: -1
-        allowed_errors: -1
-      php_mess_detector:
-        allowed_warnings: -1
-      php_docblock_checker:
-        allowed_warnings: -1
-      security_checker:
-        allowed_warnings: -1
-      php_parallel_lint:
-        allow_failures: true
-      php_loc:
-      php_cpd:
-      codeception:
-      php_unit:
+        build_settings:
+          ignore:
+            - "vendor"
+        setup:
+          composer:
+            action: "install"
+        test:
+          technical_debt:
+            allowed_errors: -1
+          php_code_sniffer:
+            allowed_warnings: -1
+            allowed_errors: -1
+          php_mess_detector:
+            allowed_warnings: -1
+          php_docblock_checker:
+            allowed_warnings: -1
+          security_checker:
+            allowed_warnings: -1
+          php_parallel_lint:
+            allow_failures: true
+          php_loc:
+          php_cpd:
+          codeception:
+          php_unit:
     ```
 
 2. Adding a config `.php-censor.yml` to the root of the project.
 
 3. Adding a config via web-interface.
 
-    By default a config from web-interface replaces a config from repository (`.php-censor.yml`). But if you uncheck the 
-    option "Replace the configuration from file with the configuration from the data base", configurations will be 
+    By default a config from web-interface replaces a config from repository (`.php-censor.yml`). But if you uncheck 
+    the option "Replace the configuration from file with the configuration from the data base", configurations will be 
     merged (the config from web-interface will have priority over the config from the repository). 
     
     Setting config via web-interface and merging it with config from the repo may be useful if you want to hide some
     secret data (passwords, keys) in case of using public repository. The most of the configuration can be stored as a 
     public file in the repo, and passwords and keys may be added via web-interface.   
 
-**Config added via web-interface has the highest priority.**
-
+**NOTE:** Config added via web-interface has the highest priority.
 
 Config file format
 ------------------
@@ -101,7 +100,7 @@ test:
     coverage: "tests/logs/coverage"
   php_mess_detector:
     priority_path: binary_path
-    binary_path:   /home/user/bin/
+    binary_path:   /home/user/sbin/
     binary_name:   phpmd-local
   php_code_sniffer:
     standard: "PSR2"
@@ -129,8 +128,66 @@ branch-dev:
     grunt:
       task: "build-dev"
 ```
+
+### Common build settings
+
+Section `build_settings` contents common build settings:
+
+* Option `verbose` enable/disable verbosity of plugins output (Default value: `verbose: true`).
+
+* Option `clone_depth: N` allows to clone repository with partial history (Git clone option `--depth=N`). Option 
+supports Git (GitHub, GitLab, BitBucket, Gogs) and Svn (Subversion) builds.
+
+    **ATTENTION!:** Option `clone_depth` should be set only from web-interface (Project edit page) because it should 
+    be knew before repository cloning. Also you should understand that some features or plugins with the option may 
+    work with unpredictable result.
+
+* Option `directory` sets default directory path for all plugins (It may be overloaded by the plugin option 
+`directory`).
+
+* Option `ignore` sets default ignore list for all plugins (It may be completed by the plugin option `ignore`). For 
+example config return ignore list: `vendor, tests, docs`:
+
+    ```yml
+    build_settings:
+      ignore:
+        - vendor
+        - tests
+    ...
+    test:
+      example_plugin:
+        ignore:
+          - ./vendor
+          - ./docs
+    ```
+
+* Option `priority_path` sets default searching binary priority path for all plugins (It may be overloaded by the 
+plugin option `priority_path`).
+
+* Option `binary_path` sets default binary path for all plugins (It may be overloaded by the plugin option 
+`priority_path`). For example: `binary_path: /usr/local/bin`.
+
+* Option `prefer_symlink` allows to use symlinks as a source build path. The option works only for local build source 
+(`LocalBuild`).
+
+* Also we have global options (Usually connection settings) for some plugins like: ([Campfire](plugins/campfire.md), 
+[Irc](plugins/irc.md), [Mysql](plugins/mysql.md), [Pgsql](plugins/pgsql.md) и [Sqlite](plugins/sqlite.md)). See 
+documentation of the plugins for more details.
+
+* Also we have options for configuring connection parameters for Svn (Subversion) project source type. For example:
+
+    ```yml
+    build_settings:
+      svn:
+        username: "username"
+        password: "password"
+    ```
+
+    **ATTENTION!:** Section `svn` should be set only from web-interface (Project edit page) because it should 
+    be knew before repository cloning.
+
 Build Stages
-------
+------------
 
 As mentioned earlier, PHP Censor is powered by plugins, there are several phases in which plugins can be run:
 

@@ -64,7 +64,7 @@ class InstallCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $configFromFile = (boolean)$input->getOption('config-from-file');
+        $configFromFile = (bool)$input->getOption('config-from-file');
 
         if (!$configFromFile && !$this->verifyNotInstalled($output)) {
             return;
@@ -99,8 +99,8 @@ class InstallCommand extends Command
         }
 
         $this->reloadConfig();
-        if (!$this->setupDatabase($output)){
-          return false;
+        if (!$this->setupDatabase($output)) {
+            return false;
         }
 
         $admin = $this->getAdminInformation($input, $output);
@@ -479,7 +479,7 @@ class InstallCommand extends Command
         $dns = $db['type'] . ':host=' . $db['servers']['write'][0]['host'];
 
         if (isset($db['servers']['write'][0]['port'])) {
-            $dns .= ';port=' . (integer)$db['servers']['write'][0]['port'];
+            $dns .= ';port=' . (int)$db['servers']['write'][0]['port'];
         }
 
         $dns .= ';dbname=' . $db['name'];
@@ -538,16 +538,14 @@ class InstallCommand extends Command
         $output->writeln('');
         $output->writeln(implode($outputMigration));
         if (0 == $status) {
-          $output->writeln('<info>OK</info>');
+            $output->writeln('<info>OK</info>');
 
-          return true;
+            return true;
         }
 
         $output->writeln('<error>Migration did not finish</error>');
 
         return false;
-
-
     }
 
     /**

@@ -14,7 +14,7 @@ class UnixProcessControl implements ProcessControlInterface
      *
      * @param int $pid
      *
-     * @return boolean
+     * @return bool
      */
     public function isRunning($pid)
     {

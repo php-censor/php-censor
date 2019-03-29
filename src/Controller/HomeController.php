@@ -37,7 +37,7 @@ class HomeController extends WebController
             ],
         ]);
 
-        foreach($widgetsConfig as $name => $params) {
+        foreach ($widgetsConfig as $name => $params) {
             $side = (isset($params['side']) && 'right' === $params['side'])
                 ? 'right'
                 : 'left';

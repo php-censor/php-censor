@@ -20,7 +20,7 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
     protected $skipMethods    = false;
     protected $skipSignatures = false;
     /**
-     * @var integer
+     * @var int
      */
     protected $allowedWarnings;
 
@@ -65,7 +65,6 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
             'phpdoc-checker',
             'phpdoc-checker.phar',
         ]);
-
     }
 
     /**
@@ -123,7 +122,6 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
 
         $errors = 0;
         if ($output && is_array($output)) {
-
             $errors = count($output);
             $this->builder->logWarning("Number of error : " . $errors);
 

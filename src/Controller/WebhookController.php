@@ -84,7 +84,7 @@ class WebhookController extends Controller
     /**
      * Wrapper for creating a new build.
      *
-     * @param integer $source
+     * @param int     $source
      * @param Project $project
      * @param string  $commitId
      * @param string  $branch
@@ -141,8 +141,7 @@ class WebhookController extends Controller
                 $duplicates = [];
                 foreach ($environmentNames as $environmentName) {
                     if (!in_array($environmentName, $ignoreEnvironments) ||
-                        ($tag && !in_array($tag, $ignoreTags, true))
-                    ) {
+                        ($tag && !in_array($tag, $ignoreTags, true))) {
                         // If not, create a new build job for it:
                         $build = $this->buildService->createBuild(
                             $project,
@@ -152,7 +151,7 @@ class WebhookController extends Controller
                             $tag,
                             $committer,
                             $commitMessage,
-                            (integer)$source,
+                            (int)$source,
                             0,
                             $extra
                         );
@@ -180,8 +179,7 @@ class WebhookController extends Controller
         } else {
             $environmentName = null;
             if (!in_array($environmentName, $ignoreEnvironments, true) ||
-                ($tag && !in_array($tag, $ignoreTags, true))
-            ) {
+                ($tag && !in_array($tag, $ignoreTags, true))) {
                 $build = $this->buildService->createBuild(
                     $project,
                     null,
@@ -190,7 +188,7 @@ class WebhookController extends Controller
                     $tag,
                     $committer,
                     $commitMessage,
-                    (integer)$source,
+                    (int)$source,
                     0,
                     $extra
                 );
@@ -208,8 +206,8 @@ class WebhookController extends Controller
     /**
      * Fetch a project and check its type.
      *
-     * @param integer $projectId    id or title of project
-     * @param array   $expectedType
+     * @param int    $projectId    id or title of project
+     * @param array  $expectedType
      *
      * @return Project
      *
@@ -222,7 +220,7 @@ class WebhookController extends Controller
         }
 
         if (is_numeric($projectId)) {
-            $project = $this->projectStore->getById((integer)$projectId);
+            $project = $this->projectStore->getById((int)$projectId);
         } else {
             $projects = $this->projectStore->getByTitle($projectId, 2);
             if ($projects['count'] < 1) {
@@ -459,7 +457,7 @@ class WebhookController extends Controller
         $commitsResponse = $client->get($commitsUrl, [
             'auth' => [$username, $appPassword],
         ]);
-        $httpStatus = (integer)$commitsResponse->getStatusCode();
+        $httpStatus = (int)$commitsResponse->getStatusCode();
 
         // Check we got a success response:
         if ($httpStatus < 200 || $httpStatus >= 300) {
@@ -659,8 +657,7 @@ class WebhookController extends Controller
     {
         // Github sends a payload when you close a pull request with a non-existent commit. We don't want this.
         if (array_key_exists('after', $payload) &&
-            $payload['after'] === '0000000000000000000000000000000000000000'
-        ) {
+            $payload['after'] === '0000000000000000000000000000000000000000') {
             return ['status' => 'ignored'];
         }
 
@@ -751,7 +748,7 @@ class WebhookController extends Controller
             'headers' => $headers,
             'query'   => $params,
         ]);
-        $status = (integer)$response->getStatusCode();
+        $status = (int)$response->getStatusCode();
 
         // Check we got a success response:
         if ($status < 200 || $status >= 300) {
@@ -803,7 +800,7 @@ class WebhookController extends Controller
     /**
      * Called by Gitlab Webhooks:
      *
-     * @param integer $projectId
+     * @param int $projectId
      *
      * @return array
      *

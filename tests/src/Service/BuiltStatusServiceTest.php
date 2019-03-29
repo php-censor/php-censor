@@ -104,8 +104,8 @@ class BuildStatusServiceTest extends \PHPUnit\Framework\TestCase
      * @param bool $setProject
      * @return Project
      */
-    protected function getProjectMock($prevBuildId = null, $setProject = true) {
-
+    protected function getProjectMock($prevBuildId = null, $setProject = true)
+    {
         $project = $this
             ->getMockBuilder('PHPCensor\Model\Project')
             ->setMethods(['getLatestBuild'])
@@ -128,7 +128,6 @@ class BuildStatusServiceTest extends \PHPUnit\Framework\TestCase
         }
 
         return $project;
-
     }
 
     /**

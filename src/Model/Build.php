@@ -384,10 +384,10 @@ class Build extends BaseBuild
      * @param Builder $builder
      * @param string  $plugin
      * @param string  $message
-     * @param integer $severity
+     * @param int $severity
      * @param string  $file
-     * @param integer $lineStart
-     * @param integer $lineEnd
+     * @param int $lineStart
+     * @param int $lineEnd
      */
     public function reportError(
         Builder $builder,
@@ -421,8 +421,12 @@ class Build extends BaseBuild
         $createDate = $this->getCreateDate();
         if (empty($this->buildDirectory)) {
             $this->buildDirectory = $this->getProjectId() . '/' . $this->getId() . '_' . substr(
-                md5(($this->getId() . '_' . ($createDate ? $createDate->format('Y-m-d H:i:s') : null))
-            ), 0, 8);
+                md5(
+                    ($this->getId() . '_' . ($createDate ? $createDate->format('Y-m-d H:i:s') : null))
+                ),
+                0,
+                8
+            );
         }
 
         return $this->buildDirectory;
@@ -440,8 +444,12 @@ class Build extends BaseBuild
         $createDate = $this->getCreateDate();
         if (empty($this->buildBranchDirectory)) {
             $this->buildBranchDirectory = $this->getProjectId() . '/' . $this->getBranch() . '_' . substr(
-                md5(($this->getBranch() . '_' . ($createDate ? $createDate->format('Y-m-d H:i:s') : null))
-            ), 0, 8);
+                md5(
+                    ($this->getBranch() . '_' . ($createDate ? $createDate->format('Y-m-d H:i:s') : null))
+                ),
+                0,
+                8
+            );
         }
 
         return $this->buildBranchDirectory;
@@ -465,7 +473,7 @@ class Build extends BaseBuild
     /**
      * Removes the build directory.
      *
-     * @param boolean $withArtifacts
+     * @param bool $withArtifacts
      */
     public function removeBuildDirectory($withArtifacts = false)
     {
@@ -494,14 +502,13 @@ class Build extends BaseBuild
                 $fileSystem->remove(PUBLIC_DIR . 'artifacts/phpunit/' . $buildDirectory);
             }
         } catch (\Exception $e) {
-
         }
     }
 
     /**
      * Get the number of seconds a build has been running for.
      *
-     * @return integer
+     * @return int
      */
     public function getDuration()
     {
@@ -553,7 +560,7 @@ class Build extends BaseBuild
      * @param Builder $builder
      * @param string  $buildPath
      *
-     * @return boolean
+     * @return bool
      */
     public function createWorkingCopy(Builder $builder, $buildPath)
     {
@@ -653,7 +660,7 @@ OUT;
             return (int)$this->getErrorsTotal();
         }
 
-        $key = 
+        $key =
             $plugin . ':' .
             ((null === $severity) ? 'null' : (int)$severity) . ':' .
             $isNew;

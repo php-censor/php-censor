@@ -38,7 +38,7 @@ abstract class ProcessControlTest extends \PHPUnit\Framework\TestCase
         self::assertTrue($this->isRunning());
 
         $status = proc_get_status($this->process);
-        return (integer)$status['pid'];
+        return (int)$status['pid'];
     }
 
     /** End the running process.
@@ -66,7 +66,7 @@ abstract class ProcessControlTest extends \PHPUnit\Framework\TestCase
             return false;
         }
         $status = proc_get_status($this->process);
-        return (boolean)$status['running'];
+        return (bool)$status['running'];
     }
 
     public function testIsRunning()

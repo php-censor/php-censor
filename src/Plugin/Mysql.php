@@ -72,7 +72,7 @@ class Mysql extends Plugin
 
     /**
     * Connects to MySQL and runs a specified set of queries.
-    * @return boolean
+    * @return bool
     */
     public function execute()
     {
@@ -101,7 +101,7 @@ class Mysql extends Plugin
     /**
      * @param array $query
      *
-     * @return boolean
+     * @return bool
      *
      * @throws \Exception
      */

@@ -190,12 +190,18 @@ class Builder implements LoggerAwareInterface
 
     /**
      * @return string The title of the project being built.
+     *
+     * @throws Exception\HttpException
      */
     public function getBuildProjectTitle()
     {
         return $this->build->getProject()->getTitle();
     }
 
+    /**
+     * @throws Exception\HttpException
+     * @throws Exception\InvalidArgumentException
+     */
     public function execute()
     {
         $this->build->setStatusRunning();
@@ -294,6 +300,10 @@ class Builder implements LoggerAwareInterface
         $this->store->save($this->build);
     }
 
+    /**
+     * @throws Exception\HttpException
+     * @throws Exception\InvalidArgumentException
+     */
     protected function setErrorTrend()
     {
         $this->build->setErrorsTotal($this->store->getErrorsCount($this->build->getId()));
@@ -306,14 +316,12 @@ class Builder implements LoggerAwareInterface
 
         if (isset($trend[1])) {
             $previousBuild = $this->store->getById($trend[1]['build_id']);
-            if (
-                $previousBuild &&
+            if ($previousBuild &&
                 !in_array(
                     $previousBuild->getStatus(),
                     [Build::STATUS_PENDING, Build::STATUS_RUNNING],
                     true
-                )
-            ) {
+                )) {
                 $this->build->setErrorsTotalPrevious((int)$trend[1]['count']);
             }
         }
@@ -324,7 +332,7 @@ class Builder implements LoggerAwareInterface
      *
      * @param array ...$params
      *
-     * @return boolean
+     * @return bool
      */
     public function executeCommand(...$params)
     {
@@ -344,7 +352,7 @@ class Builder implements LoggerAwareInterface
     /**
      * Specify whether exec output should be logged.
      *
-     * @param boolean $enableLog
+     * @param bool $enableLog
      */
     public function logExecOutput($enableLog = true)
     {
@@ -385,7 +393,7 @@ class Builder implements LoggerAwareInterface
      *
      * @throws \Exception
      *
-     * @return boolean
+     * @return bool
      */
     protected function setupBuild()
     {
@@ -425,14 +433,12 @@ class Builder implements LoggerAwareInterface
             ) . '/';
         }
 
-        if (
-            !empty($this->config['build_settings']['priority_path']) &&
+        if (!empty($this->config['build_settings']['priority_path']) &&
             in_array(
                 $this->config['build_settings']['priority_path'],
                 Plugin::AVAILABLE_PRIORITY_PATHS,
                 true
-            )
-        ) {
+            )) {
             $this->priorityPath = $this->config['build_settings']['priority_path'];
         }
 

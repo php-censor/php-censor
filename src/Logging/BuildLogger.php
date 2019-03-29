@@ -83,7 +83,7 @@ class BuildLogger implements LoggerAwareInterface
      * Add a failure-coloured message to the log.
      *
      * @param string     $message
-     * @param \Exception $exception The exception that caused the error. 
+     * @param \Exception $exception The exception that caused the error.
      */
     public function logFailure($message, \Exception $exception = null)
     {
@@ -109,10 +109,8 @@ class BuildLogger implements LoggerAwareInterface
      */
     public function logDebug($message)
     {
-        if (
-            (defined('DEBUG_MODE') && DEBUG_MODE) ||
-            ((boolean)$this->build->getExtra('debug'))
-        ) {
+        if ((defined('DEBUG_MODE') && DEBUG_MODE) ||
+            ((bool)$this->build->getExtra('debug'))) {
             $this->log("\033[0;36m" . $message . "\033[0m", LogLevel::DEBUG);
         }
     }

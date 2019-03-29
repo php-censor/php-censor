@@ -73,7 +73,6 @@ class Telegram extends \PHPCensor\Plugin
      */
     public function execute()
     {
-
         $message = $this->buildMessage();
         $client  = new Client();
         $url     = '/bot'. $this->apiKey . '/sendMessage';

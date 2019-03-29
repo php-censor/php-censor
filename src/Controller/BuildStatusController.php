@@ -196,7 +196,7 @@ class BuildStatusController extends WebController
     /**
      * View the public status page of a given project, if enabled.
      *
-     * @param integer $projectId
+     * @param int $projectId
      *
      * @return string
      *
@@ -225,7 +225,7 @@ class BuildStatusController extends WebController
     /**
      * Render latest builds for project as HTML table.
      *
-     * @param integer $projectId
+     * @param int $projectId
      *
      * @return array
      */

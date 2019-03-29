@@ -9,14 +9,14 @@ class Template
     /**
      * @var AntiXSS
      */
-    static protected $antiXss = null;
+    protected static $antiXss = null;
 
     /**
      * @param string $string
      *
      * @return string
      */
-    static public function clean($string)
+    public static function clean($string)
     {
         if (self::$antiXss === null) {
             self::$antiXss = new AntiXSS();

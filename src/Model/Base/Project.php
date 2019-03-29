@@ -189,11 +189,11 @@ class Project extends Model
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getDefaultBranchOnly()
     {
-        return (boolean)$this->data['default_branch_only'];
+        return (bool)$this->data['default_branch_only'];
     }
 
     /**
@@ -208,11 +208,11 @@ class Project extends Model
         $this->validateNotNull('default_branch_only', $value);
         $this->validateBoolean('default_branch_only', $value);
 
-        if ($this->data['default_branch_only'] === (integer)$value) {
+        if ($this->data['default_branch_only'] === (int)$value) {
             return false;
         }
 
-        $this->data['default_branch_only'] = (integer)$value;
+        $this->data['default_branch_only'] = (int)$value;
 
         return $this->setModified('default_branch_only');
     }
@@ -376,11 +376,11 @@ class Project extends Model
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getOverwriteBuildConfig()
     {
-        return (boolean)$this->data['overwrite_build_config'];
+        return (bool)$this->data['overwrite_build_config'];
     }
 
     /**
@@ -395,11 +395,11 @@ class Project extends Model
         $this->validateNotNull('overwrite_build_config', $value);
         $this->validateBoolean('overwrite_build_config', $value);
 
-        if ($this->data['overwrite_build_config'] === (integer)$value) {
+        if ($this->data['overwrite_build_config'] === (int)$value) {
             return false;
         }
 
-        $this->data['overwrite_build_config'] = (integer)$value;
+        $this->data['overwrite_build_config'] = (int)$value;
 
         return $this->setModified('overwrite_build_config');
     }
@@ -409,7 +409,7 @@ class Project extends Model
      */
     public function getAllowPublicStatus()
     {
-        return (boolean)$this->data['allow_public_status'];
+        return (bool)$this->data['allow_public_status'];
     }
 
     /**
@@ -424,11 +424,11 @@ class Project extends Model
         $this->validateNotNull('allow_public_status', $value);
         $this->validateBoolean('allow_public_status', $value);
 
-        if ($this->data['allow_public_status'] === (integer)$value) {
+        if ($this->data['allow_public_status'] === (int)$value) {
             return false;
         }
 
-        $this->data['allow_public_status'] = (integer)$value;
+        $this->data['allow_public_status'] = (int)$value;
 
         return $this->setModified('allow_public_status');
     }
@@ -438,7 +438,7 @@ class Project extends Model
      */
     public function getArchived()
     {
-        return (boolean)$this->data['archived'];
+        return (bool)$this->data['archived'];
     }
 
     /**
@@ -453,11 +453,11 @@ class Project extends Model
         $this->validateNotNull('archived', $value);
         $this->validateBoolean('archived', $value);
 
-        if ($this->data['archived'] === (integer)$value) {
+        if ($this->data['archived'] === (int)$value) {
             return false;
         }
 
-        $this->data['archived'] = (integer)$value;
+        $this->data['archived'] = (int)$value;
 
         return $this->setModified('archived');
     }
@@ -467,7 +467,7 @@ class Project extends Model
      */
     public function getGroupId()
     {
-        return (integer)$this->data['group_id'];
+        return (int)$this->data['group_id'];
     }
 
     /**

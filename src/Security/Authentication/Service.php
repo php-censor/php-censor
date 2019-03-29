@@ -14,7 +14,7 @@ class Service
     /**
      * @var Service
      */
-    static private $instance;
+    private static $instance;
 
     /**
      * Return the service singleton.

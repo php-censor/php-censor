@@ -27,7 +27,7 @@ class BuildErrorStore extends Store
     /**
      * Get a BuildError by primary key (Id)
      *
-     * @param integer $key
+     * @param int $key
      * @param string  $useConnection
      *
      * @return null|BuildError
@@ -40,7 +40,7 @@ class BuildErrorStore extends Store
     /**
      * Get a single BuildError by Id.
      *
-     * @param integer $id
+     * @param int $id
      * @param string  $useConnection
      *
      * @return null|BuildError
@@ -113,13 +113,13 @@ class BuildErrorStore extends Store
             $stmt->bindValue(':plugin', $plugin, \PDO::PARAM_STR);
         }
         if (null !== $severity) {
-            $stmt->bindValue(':severity', (integer)$severity, \PDO::PARAM_INT);
+            $stmt->bindValue(':severity', (int)$severity, \PDO::PARAM_INT);
         }
         if (null !== $limit) {
-            $stmt->bindValue(':limit', (integer)$limit, \PDO::PARAM_INT);
+            $stmt->bindValue(':limit', (int)$limit, \PDO::PARAM_INT);
         }
         if ($offset) {
-            $stmt->bindValue(':offset', (integer)$offset, \PDO::PARAM_INT);
+            $stmt->bindValue(':offset', (int)$offset, \PDO::PARAM_INT);
         }
 
         if ($stmt->execute()) {
@@ -177,21 +177,21 @@ class BuildErrorStore extends Store
         }
 
         if (null !== $severity) {
-            $stmt->bindValue(':severity', (integer)$severity, \PDO::PARAM_INT);
+            $stmt->bindValue(':severity', (int)$severity, \PDO::PARAM_INT);
         }
 
         if ($stmt->execute()) {
             $res = $stmt->fetch(\PDO::FETCH_ASSOC);
 
-            return (integer)$res['total'];
+            return (int)$res['total'];
         } else {
             return 0;
         }
     }
 
     /**
-     * @param integer $buildId
-     * @param integer $severity
+     * @param int $buildId
+     * @param int $severity
      * @param string  $isNew
      *
      * @return array
@@ -213,7 +213,7 @@ class BuildErrorStore extends Store
         $stmt = Database::getConnection('read')->prepareCommon($query);
         $stmt->bindValue(':build', $buildId);
         if (null !== $severity) {
-            $stmt->bindValue(':severity', (integer)$severity, \PDO::PARAM_INT);
+            $stmt->bindValue(':severity', (int)$severity, \PDO::PARAM_INT);
         }
 
         if ($stmt->execute()) {
@@ -231,7 +231,7 @@ class BuildErrorStore extends Store
     }
 
     /**
-     * @param integer $buildId
+     * @param int $buildId
      * @param string  $plugin
      * @param string  $isNew
      *
@@ -261,7 +261,7 @@ class BuildErrorStore extends Store
             $res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
             $map = function ($item) {
-                return (integer)$item['severity'];
+                return (int)$item['severity'];
             };
             $rtn = array_map($map, $res);
 
@@ -274,10 +274,10 @@ class BuildErrorStore extends Store
     /**
      * Check if a build error is new.
      *
-     * @param integer $projectId
+     * @param int $projectId
      * @param string  $hash
      *
-     * @return boolean
+     * @return bool
      */
     public function getIsNewError($projectId, $hash)
     {
@@ -294,7 +294,7 @@ class BuildErrorStore extends Store
         if ($stmt->execute()) {
             $res = $stmt->fetch(\PDO::FETCH_ASSOC);
 
-            return (0 === (integer)$res['total']);
+            return (0 === (int)$res['total']);
         }
 
         return true;

@@ -22,9 +22,9 @@ foreach($builds as $projectId => $projectEnvs):
         $failure         = null;
 
         // Get the most recent build status to determine the main block colour.
-        $last_build = $projectEnv['latest'][0];
-        $status = $last_build->getStatus();
-        switch($status) {
+        $lastBuild = $projectEnv['latest'][0];
+        $status    = $lastBuild->getStatus();
+        switch ($status) {
             case Build::STATUS_PENDING:
                 $backgroundClass = 'blue';
                 break;

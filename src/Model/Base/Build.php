@@ -84,7 +84,7 @@ class Build extends Model
      */
     public function getId()
     {
-        return (integer)$this->data['id'];
+        return (int)$this->data['id'];
     }
 
     /**
@@ -103,7 +103,7 @@ class Build extends Model
             return false;
         }
 
-        $this->data['id'] = (integer)$value;
+        $this->data['id'] = (int)$value;
 
         return $this->setModified('id');
     }
@@ -142,7 +142,7 @@ class Build extends Model
      */
     public function getProjectId()
     {
-        return (integer)$this->data['project_id'];
+        return (int)$this->data['project_id'];
     }
 
     /**
@@ -200,7 +200,7 @@ class Build extends Model
      */
     public function getStatus()
     {
-        return (integer)$this->data['status'];
+        return (int)$this->data['status'];
     }
 
     /**
@@ -575,7 +575,7 @@ class Build extends Model
      */
     public function getSource()
     {
-        return (integer)$this->data['source'];
+        return (int)$this->data['source'];
     }
 
     /**
@@ -609,7 +609,7 @@ class Build extends Model
      */
     public function getUserId()
     {
-        return (integer)$this->data['user_id'];
+        return (int)$this->data['user_id'];
     }
 
     /**
@@ -640,10 +640,8 @@ class Build extends Model
      */
     public function getErrorsTotal()
     {
-        if (
-            null === $this->data['errors_total'] &&
-            !in_array($this->getStatus(), [self::STATUS_PENDING, self::STATUS_RUNNING], true)
-        ) {
+        if (null === $this->data['errors_total'] &&
+            !in_array($this->getStatus(), [self::STATUS_PENDING, self::STATUS_RUNNING], true)) {
             /** @var BuildStore $store */
             $store = Factory::getStore('Build');
 
@@ -690,14 +688,12 @@ class Build extends Model
 
             if (isset($trend[1])) {
                 $previousBuild = $store->getById($trend[1]['build_id']);
-                if (
-                    $previousBuild &&
+                if ($previousBuild &&
                     !in_array(
                         $previousBuild->getStatus(),
                         [self::STATUS_PENDING, self::STATUS_RUNNING],
                         true
-                    )
-                ) {
+                    )) {
                     $this->setErrorsTotalPrevious((int)$trend[1]['count']);
                     $store->save($this);
                 }

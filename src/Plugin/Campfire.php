@@ -8,7 +8,7 @@ use PHPCensor\Plugin;
 
 /**
  * Campfire Plugin - Allows Campfire API actions. Strongly based on icecube (http://labs.mimmin.com/icecube)
- * 
+ *
  * @author André Cianfarani <acianfa@gmail.com>
  */
 class Campfire extends Plugin
@@ -65,7 +65,6 @@ class Campfire extends Plugin
         $this->leaveRoom($this->roomId);
 
         return $status;
-
     }
 
     /**
@@ -104,7 +103,6 @@ class Campfire extends Plugin
         }
 
         return $this->getPageByPost($page, ['message' => ['type' => $type, 'body' => $message]]);
-
     }
 
     /**

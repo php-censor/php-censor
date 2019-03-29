@@ -7,7 +7,7 @@ use PHPCensor\Exception\HttpException;
 class NotAuthorizedException extends HttpException
 {
     /**
-     * @var integer
+     * @var int
      */
     protected $errorCode = 401;
 
