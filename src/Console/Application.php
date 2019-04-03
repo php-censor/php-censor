@@ -118,9 +118,13 @@ LOGO;
                 (int)$databaseSettings['servers']['write'][0]['port'];
         }
 
-        if (!empty($databaseSettings["type"])
-            && $databaseSettings["type"] === "pgsql"
+        if (!empty($databaseSettings['type'])
+            && $databaseSettings['type'] === 'pgsql'
         ) {
+            if (!array_key_exists('pgsql-sslmode', $databaseSettings['servers']['write'][0])) {
+                $databaseSettings['servers']['write'][0]['pgsql-sslmode'] = 'prefer';
+            }
+
             $phinxSettings['environments']['php-censor']['host'] .=
                 ';sslmode=' . $databaseSettings['servers']['write'][0]['pgsql-sslmode'];
         }
