@@ -449,7 +449,7 @@ class InstallCommand extends Command
             ]
         ];
 
-        if ($dbType === "pgsql" && !empty($dbPgsqlSslmode)) {
+        if ($dbType === 'pgsql' && !empty($dbPgsqlSslmode)) {
             $dbServers[0]['pgsql-sslmode'] = $dbPgsqlSslmode;
         }
 
