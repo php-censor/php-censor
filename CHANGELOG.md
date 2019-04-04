@@ -5,6 +5,26 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [1.0.7 (Morty Smith)](https://github.com/php-censor/php-censor/tree/1.0.7) (2019-03-30)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/1.0.6...1.0.7)
+
+### Added
+
+- Optional port for queue (`Pheanstalk`) and fixed documentation about worker setting up. Issue 
+[#288](https://github.com/php-censor/php-censor/issues/288).
+
+### Fixed
+
+- Config path for PHPCodeSniffer config. Issue [#287](https://github.com/php-censor/php-censor/issues/287).
+- GitHub sources links for errors with only one line.
+
+### Changed
+
+- Improved code style.
+- Improved documentation (About configuring projects).
+
+
 ## [1.0.6 (Morty Smith)](https://github.com/php-censor/php-censor/tree/1.0.6) (2019-03-06)
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/1.0.5...1.0.6)
