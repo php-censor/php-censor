@@ -273,6 +273,9 @@ class Builder implements LoggerAwareInterface
             $this->buildLogger->logSuccess('BUILD SUCCESS!');
         }
 
+        // Flush errors to make them available to plugins in complete stage
+        $this->buildErrorWriter->flush();
+
         try {
             // Complete stage plugins are always run
             $this->currentStage = Build::STAGE_COMPLETE;
