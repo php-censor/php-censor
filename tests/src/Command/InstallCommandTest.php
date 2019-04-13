@@ -140,7 +140,7 @@ class InstallCommandTest extends \PHPUnit\Framework\TestCase
         $this->executeWithoutParam('--db-type', $dialog);
 
         // Check that specified arguments are correctly loaded.
-        self::assertEquals('testedvalue', $this->config['b8']['database']['type']);
+        self::assertEquals('testedvalue', $this->config['php-censor']['database']['type']);
     }
 
     public function testDatabaseHostConfig()
@@ -153,8 +153,8 @@ class InstallCommandTest extends \PHPUnit\Framework\TestCase
         $this->executeWithoutParam('--db-host', $dialog);
 
         // Check that specified arguments are correctly loaded.
-        self::assertEquals('testedvalue', $this->config['b8']['database']['servers']['read'][0]['host']);
-        self::assertEquals('testedvalue', $this->config['b8']['database']['servers']['write'][0]['host']);
+        self::assertEquals('testedvalue', $this->config['php-censor']['database']['servers']['read'][0]['host']);
+        self::assertEquals('testedvalue', $this->config['php-censor']['database']['servers']['write'][0]['host']);
     }
 
     public function testDatabasePortConfig()
@@ -167,8 +167,8 @@ class InstallCommandTest extends \PHPUnit\Framework\TestCase
         $this->executeWithoutParam('--db-port', $dialog);
 
         // Check that specified arguments are correctly loaded.
-        self::assertEquals(333, $this->config['b8']['database']['servers']['read'][0]['port']);
-        self::assertEquals(333, $this->config['b8']['database']['servers']['write'][0]['port']);
+        self::assertEquals(333, $this->config['php-censor']['database']['servers']['read'][0]['port']);
+        self::assertEquals(333, $this->config['php-censor']['database']['servers']['write'][0]['port']);
     }
 
     public function testDatabaseNameConfig()
@@ -181,7 +181,7 @@ class InstallCommandTest extends \PHPUnit\Framework\TestCase
         $this->executeWithoutParam('--db-name', $dialog);
 
         // Check that specified arguments are correctly loaded.
-        self::assertEquals('testedvalue', $this->config['b8']['database']['name']);
+        self::assertEquals('testedvalue', $this->config['php-censor']['database']['name']);
     }
 
     public function testDatabaseUserConfig()
@@ -194,7 +194,7 @@ class InstallCommandTest extends \PHPUnit\Framework\TestCase
         $this->executeWithoutParam('--db-user', $dialog);
 
         // Check that specified arguments are correctly loaded.
-        self::assertEquals('testedvalue', $this->config['b8']['database']['username']);
+        self::assertEquals('testedvalue', $this->config['php-censor']['database']['username']);
     }
 
     public function testDatabasePasswordConfig()
@@ -206,7 +206,7 @@ class InstallCommandTest extends \PHPUnit\Framework\TestCase
         $this->executeWithoutParam('--db-password', $dialog);
 
         // Check that specified arguments are correctly loaded.
-        self::assertEquals('testedvalue', $this->config['b8']['database']['password']);
+        self::assertEquals('testedvalue', $this->config['php-censor']['database']['password']);
     }
 
     public function testUrlConfig()

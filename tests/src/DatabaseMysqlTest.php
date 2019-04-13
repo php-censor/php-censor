@@ -92,7 +92,7 @@ class DatabaseMysqlTest extends \PHPUnit_Extensions_Database_TestCase
         parent::setUp();
 
         new Config([
-            'b8' => [
+            'php-censor' => [
                 'database' => [
                     'servers' => [
                         'read'  => [
@@ -134,13 +134,13 @@ class DatabaseMysqlTest extends \PHPUnit_Extensions_Database_TestCase
         self::assertEquals(MYSQL_USER, $readDetails['user']);
         self::assertEquals(MYSQL_PASSWORD, $readDetails['pass']);
 
-        self::assertEquals('mysql:host=localhost;dbname=b8_test', $readConnection->getDsn());
+        self::assertEquals('mysql:host=localhost;dbname=test_db', $readConnection->getDsn());
     }
 
     public function testGetWriteConnectionWithPort()
     {
         new Config([
-            'b8' => [
+            'php-censor' => [
                 'database' => [
                     'servers' => [
                         'read'  => [
@@ -171,7 +171,7 @@ class DatabaseMysqlTest extends \PHPUnit_Extensions_Database_TestCase
         self::assertInstanceOf('\PHPCensor\Database', $writeConnection);
         self::assertInstanceOf('\PHPCensor\Database', $readConnection);
 
-        self::assertEquals('mysql:host=localhost;port=3306;dbname=b8_test', $readConnection->getDsn());
+        self::assertEquals('mysql:host=localhost;port=3306;dbname=test_db', $readConnection->getDsn());
     }
 
     /**
@@ -180,7 +180,7 @@ class DatabaseMysqlTest extends \PHPUnit_Extensions_Database_TestCase
     public function testConnectionFailure()
     {
         new Config([
-            'b8' => [
+            'php-censor' => [
                 'database' => [
                     'servers' => [
                         'read'  => [
@@ -191,7 +191,7 @@ class DatabaseMysqlTest extends \PHPUnit_Extensions_Database_TestCase
                         ],
                     ],
                     'type'     => Database::MYSQL_TYPE,
-                    'name'     => 'b8_test_2',
+                    'name'     => 'test_db_2',
                     'username' => '',
                     'password' => '',
                 ],

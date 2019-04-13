@@ -92,7 +92,7 @@ class DatabasePostgresqlTest extends \PHPUnit_Extensions_Database_TestCase
         parent::setUp();
 
         new Config([
-            'b8' => [
+            'php-censor' => [
                 'database' => [
                     'servers' => [
                         'read'  => [
@@ -134,13 +134,13 @@ class DatabasePostgresqlTest extends \PHPUnit_Extensions_Database_TestCase
         self::assertEquals(POSTGRESQL_USER, $readDetails['user']);
         self::assertEquals(POSTGRESQL_PASSWORD, $readDetails['pass']);
 
-        self::assertEquals('pgsql:host=localhost;sslmode=prefer;dbname=b8_test', $readConnection->getDsn());
+        self::assertEquals('pgsql:host=localhost;sslmode=prefer;dbname=test_db', $readConnection->getDsn());
     }
 
     public function testGetWriteConnectionWithPort()
     {
         new Config([
-            'b8' => [
+            'php-censor' => [
                 'database' => [
                     'servers' => [
                         'read'  => [
@@ -171,7 +171,7 @@ class DatabasePostgresqlTest extends \PHPUnit_Extensions_Database_TestCase
         self::assertInstanceOf('\PHPCensor\Database', $writeConnection);
         self::assertInstanceOf('\PHPCensor\Database', $readConnection);
 
-        self::assertEquals('pgsql:host=localhost;sslmode=prefer;port=5432;dbname=b8_test', $readConnection->getDsn());
+        self::assertEquals('pgsql:host=localhost;sslmode=prefer;port=5432;dbname=test_db', $readConnection->getDsn());
     }
 
     /**
@@ -180,7 +180,7 @@ class DatabasePostgresqlTest extends \PHPUnit_Extensions_Database_TestCase
     public function testConnectionFailure()
     {
         new Config([
-            'b8' => [
+            'php-censor' => [
                 'database' => [
                     'servers' => [
                         'read'  => [
@@ -191,7 +191,7 @@ class DatabasePostgresqlTest extends \PHPUnit_Extensions_Database_TestCase
                         ],
                     ],
                     'type'     => Database::POSTGRESQL_TYPE,
-                    'name'     => 'b8_test_2',
+                    'name'     => 'test_db_2',
                     'username' => '',
                     'password' => '',
                 ],

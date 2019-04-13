@@ -129,7 +129,7 @@ class StoreMysqlTest extends \PHPUnit_Extensions_Database_TestCase
         parent::setUp();
 
         new Config([
-            'b8' => [
+            'php-censor' => [
                 'database' => [
                     'servers' => [
                         'read'  => [
