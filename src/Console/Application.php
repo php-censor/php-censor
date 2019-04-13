@@ -87,9 +87,6 @@ LOGO;
 
         $applicationConfig = Config::getInstance();
         $databaseSettings  = $applicationConfig->get('php-censor.database', []);
-        if (!$databaseSettings) {
-            $databaseSettings  = $applicationConfig->get('b8.database', []);
-        }
 
         $phinxSettings = [];
         if ($databaseSettings) {

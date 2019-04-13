@@ -66,9 +66,6 @@ class Database extends PDO
     {
         $config   = Config::getInstance();
         $settings = $config->get('php-censor.database', []);
-        if (!$settings) {
-            $settings = $config->get('b8.database', []);
-        }
 
         self::$servers['read']  = $settings['servers']['read'];
         self::$servers['write'] = $settings['servers']['write'];
