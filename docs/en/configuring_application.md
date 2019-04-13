@@ -7,7 +7,7 @@ One might need to also edit the file manually.
 There is `config.yml` example:
 
 ```yml
-b8:
+php-censor:
   database:
     servers:
       read:
@@ -22,7 +22,6 @@ b8:
     name:     php-censor-db
     username: php-censor-user
     password: php-censor-password
-php-censor:
   language: en
   per_page: 10
   url:      'http://php-censor.local'

@@ -263,7 +263,7 @@ cd /path/to/php-censor
 
 For Phar plugin tests set 'phar.readonly' setting to Off (0) in `php.ini` config. Otherwise tests will be skipped.  
 
-For database B8Framework tests create empty 'b8_test' database on 'localhost' with user/password: `root/<empty>` 
+For database tests create empty 'test_db' database on 'localhost' with user/password: `root/<empty>` 
 for MySQL and with user/password: `postgres/<empty>` for PostgreSQL (You can change default test user, password and 
 database name in `phpunit.xml` config constants). If connection failed tests will be skipped.
 

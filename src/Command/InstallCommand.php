@@ -91,9 +91,9 @@ class InstallCommand extends Command
             }
             $output->writeln('');
 
-            $conf                   = [];
-            $conf['b8']['database'] = $db;
-            $conf['php-censor']     = $this->getConfigInformation($input, $output);
+            $conf                           = [];
+            $conf['php-censor']             = $this->getConfigInformation($input, $output);
+            $conf['php-censor']['database'] = $db;
 
             $this->writeConfigFile($conf);
         }

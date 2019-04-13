@@ -14,10 +14,10 @@
     <php>
         <const name="MYSQL_USER" value="root" />
         <const name="MYSQL_PASSWORD" value="" />
-        <const name="MYSQL_DBNAME" value="b8_test" />
+        <const name="MYSQL_DBNAME" value="test_db" />
         <const name="POSTGRESQL_USER" value="postgres" />
         <const name="POSTGRESQL_PASSWORD" value="" />
-        <const name="POSTGRESQL_DBNAME" value="b8_test" />
+        <const name="POSTGRESQL_DBNAME" value="test_db" />
     </php>
     <testsuites>
         <testsuite name="PHP Common Test Suite">
