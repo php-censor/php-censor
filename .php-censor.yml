@@ -10,7 +10,7 @@ setup:
 test:
     php_unit:
         config:
-            - phpunit.xml
+            - phpunit.xml.dist
         coverage: true
 
     php_code_sniffer:
