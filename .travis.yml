@@ -25,7 +25,7 @@ before_script:
     - psql -c 'create database test_db;' -U postgres
 
 script:
-    - vendor/bin/phpunit --configuration phpunit.xml --coverage-clover=coverage.xml
+    - vendor/bin/phpunit --configuration phpunit.xml.dist --coverage-clover=coverage.xml
 
 after_success:
     - bash <(curl -s https://codecov.io/bash)
