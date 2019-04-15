@@ -12,11 +12,11 @@ class PhpUnitTest extends \PHPUnit\Framework\TestCase
     public function testSingleConfigFile()
     {
         $options = [
-            'config' => ROOT_DIR . 'phpunit.xml'
+            'config' => ROOT_DIR . 'phpunit.xml.dist'
         ];
 
         $mockPlugin = $this->getPluginBuilder($options)->setMethods(['runConfig'])->getMock();
-        $mockPlugin->expects($this->once())->method('runConfig')->with(null, ROOT_DIR . 'phpunit.xml');
+        $mockPlugin->expects($this->once())->method('runConfig')->with(null, ROOT_DIR . 'phpunit.xml.dist');
 
         $mockPlugin->execute();
     }
@@ -96,7 +96,7 @@ class PhpUnitTest extends \PHPUnit\Framework\TestCase
     public function testProcessResultsFromConfig()
     {
         $options = [
-            'config' => ROOT_DIR . 'phpunit.xml'
+            'config' => ROOT_DIR . 'phpunit.xml.dist'
         ];
 
         $mockPlugin = $this->getPluginBuilder($options)->setMethods(['processResults'])->getMock();
