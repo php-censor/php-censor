@@ -415,7 +415,6 @@ class Builder implements LoggerAwareInterface
 
         $this->interpolator->setupInterpolationVars(
             $this->build,
-            $this->buildPath,
             APP_URL
         );
 
