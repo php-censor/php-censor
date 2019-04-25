@@ -23,12 +23,11 @@ class BuildInterpolator
      * Sets the variables that will be used for interpolation.
      *
      * @param BaseBuild $build
-     * @param string    $buildPath
      * @param           $url
      *
      * @throws \Exception
      */
-    public function setupInterpolationVars(BaseBuild $build, $buildPath, $url)
+    public function setupInterpolationVars(BaseBuild $build, $url)
     {
         $this->interpolationVars = [];
 
@@ -42,10 +41,10 @@ class BuildInterpolator
         $this->interpolationVars['%COMMIT_URI%']     = $build->getCommitLink();
         $this->interpolationVars['%PROJECT%']        = $build->getProjectId();
         $this->interpolationVars['%PROJECT_TITLE%']  = $build->getProjectTitle();
-        $this->interpolationVars['%PROJECT_URI%']    = $url . "project/view/" . $build->getProjectId();
+        $this->interpolationVars['%PROJECT_URI%']    = $url . 'project/view/' . $build->getProjectId();
         $this->interpolationVars['%BUILD%']          = $build->getId();
-        $this->interpolationVars['%BUILD_PATH%']     = $buildPath;
-        $this->interpolationVars['%BUILD_URI%']      = $url . "build/view/" . $build->getId();
+        $this->interpolationVars['%BUILD_PATH%']     = $build->getBuildPath();
+        $this->interpolationVars['%BUILD_URI%']      = $url . 'build/view/' . $build->getId();
         $this->interpolationVars['%BRANCH%']         = $build->getBranch();
         $this->interpolationVars['%BRANCH_URI%']     = $build->getBranchLink();
         $this->interpolationVars['%ENVIRONMENT%']    = $build->getEnvironment();

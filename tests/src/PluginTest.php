@@ -92,7 +92,7 @@ class PluginTest extends \PHPUnit\Framework\TestCase
             ->willReturn('commit_hash');
 
         $interpolator = new BuildInterpolator();
-        $interpolator->setupInterpolationVars($this->build, $this->currentDir, 'http://php-censor.local/');
+        $interpolator->setupInterpolationVars($this->build, 'http://php-censor.local/');
 
         $this->builder
             ->method('interpolate')

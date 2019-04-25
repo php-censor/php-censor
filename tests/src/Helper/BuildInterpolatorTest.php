@@ -36,7 +36,6 @@ class BuildInterpolatorTest extends \PHPUnit\Framework\TestCase
 
         $this->testedInterpolator->setupInterpolationVars(
             $build,
-            "/buildpath/",
             "php-censor.local"
         );
 
