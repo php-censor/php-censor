@@ -5,6 +5,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [1.0.8 (Morty Smith)](https://github.com/php-censor/php-censor/tree/1.0.8) (2019-04-26)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/1.0.7...1.0.8)
+
+### Fixed
+
+- [CVE-2019-10910](https://symfony.com/cve-2019-10910) and  [CVE-2019-10912](https://symfony.com/cve-2019-10912) in 
+Symfony components (Updated components versions).
+
+### Changed
+
+- Renamed PHPUnit config (`phpunit.xml` -> `phpunit.xml.dist`).
+
+
 ## [1.0.7 (Morty Smith)](https://github.com/php-censor/php-censor/tree/1.0.7) (2019-03-30)
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/1.0.6...1.0.7)
