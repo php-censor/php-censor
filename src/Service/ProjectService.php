@@ -93,7 +93,7 @@ class ProjectService
         }
 
         if (array_key_exists('branch', $options)) {
-            $project->setBranch($options['branch']);
+            $project->setDefaultBranch($options['branch']);
         }
 
         if (array_key_exists('default_branch_only', $options)) {

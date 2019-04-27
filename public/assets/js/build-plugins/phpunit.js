@@ -65,14 +65,14 @@ var phpunitPlugin = ActiveBuild.UiPlugin.extend({
         var counts = {success: 0, failed: 0, error: 0, skipped: 0, todo: 0}, total = 0;
 
         for (var i in tests) {
-            var severity = tests[i].severity || (tests[i].pass ? 'success' : 'failed'),
-                label = ('success' == severity) ? 'success' : (
-                    ('error' == severity) ? 'danger' : 'warning'
-                );
-
+            var severity = tests[i].severity || (tests[i].pass ? 'success' : 'failed');
             if ('fail' === severity) {
                 severity = 'failed';
             }
+
+            var label = ('success' == severity) ? 'success' : (
+                ('error' == severity || 'failed' == severity) ? 'danger' : 'warning'
+            );
 
             var status        = $('<td><span class="label label-' + label + '">' + Lang.get(severity) + '</span></td>'),
                 content       = $('<td></td>'),

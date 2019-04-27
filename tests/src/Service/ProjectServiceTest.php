@@ -51,7 +51,7 @@ class ProjectServiceTest extends \PHPUnit\Framework\TestCase
         self::assertEquals('Test Project', $project->getTitle());
         self::assertEquals('github', $project->getType());
         self::assertEquals('php-censor/php-censor1', $project->getReference());
-        self::assertEquals('master', $project->getBranch());
+        self::assertEquals('master', $project->getDefaultBranch());
         self::assertEquals([], $project->getAccessInformation());
     }
 
@@ -266,7 +266,7 @@ class ProjectServiceTest extends \PHPUnit\Framework\TestCase
         self::assertEquals('private', $returnValue->getSshPrivateKey());
         self::assertEquals('public', $returnValue->getSshPublicKey());
         self::assertEquals('config', $returnValue->getBuildConfig());
-        self::assertEquals('testbranch', $returnValue->getBranch());
+        self::assertEquals('testbranch', $returnValue->getDefaultBranch());
         self::assertEquals(true, $returnValue->getAllowPublicStatus());
     }
 

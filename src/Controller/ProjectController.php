@@ -204,7 +204,7 @@ class ProjectController extends WebController
         }
 
         if (empty($branch)) {
-            $branch = $project->getBranch();
+            $branch = $project->getDefaultBranch();
         }
 
         $extra = null;

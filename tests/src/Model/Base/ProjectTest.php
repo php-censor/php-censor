@@ -18,7 +18,7 @@ class ProjectTest extends TestCase
             'id'                     => null,
             'title'                  => null,
             'reference'              => null,
-            'branch'                 => null,
+            'default_branch'         => null,
             'default_branch_only'    => 0,
             'ssh_private_key'        => null,
             'ssh_public_key'         => null,
@@ -74,21 +74,21 @@ class ProjectTest extends TestCase
     {
         $project = new Project();
 
-        self::assertEquals('master', $project->getBranch());
+        self::assertEquals('master', $project->getDefaultBranch());
 
         $project->setType('hg');
-        self::assertEquals('default', $project->getBranch());
+        self::assertEquals('default', $project->getDefaultBranch());
 
         $project->setType('svn');
-        self::assertEquals('trunk', $project->getBranch());
+        self::assertEquals('trunk', $project->getDefaultBranch());
 
         $project = new Project();
 
-        $result = $project->setBranch('branch');
+        $result = $project->setDefaultBranch('branch');
         self::assertEquals(true, $result);
-        self::assertEquals('branch', $project->getBranch());
+        self::assertEquals('branch', $project->getDefaultBranch());
 
-        $result = $project->setBranch('branch');
+        $result = $project->setDefaultBranch('branch');
         self::assertEquals(false, $result);
     }
 

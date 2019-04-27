@@ -33,7 +33,7 @@ class ProjectTest extends \PHPUnit\Framework\TestCase
         $project = new Project();
         $project->setType('git');
 
-        self::assertEquals('master', $project->getBranch());
+        self::assertEquals('master', $project->getDefaultBranch());
     }
 
     public function testExecute_TestGithubDefaultBranch()
@@ -41,7 +41,7 @@ class ProjectTest extends \PHPUnit\Framework\TestCase
         $project = new Project();
         $project->setType(Project::TYPE_GITHUB);
 
-        self::assertEquals('master', $project->getBranch());
+        self::assertEquals('master', $project->getDefaultBranch());
     }
 
     public function testExecute_TestGitlabDefaultBranch()
@@ -49,7 +49,7 @@ class ProjectTest extends \PHPUnit\Framework\TestCase
         $project = new Project();
         $project->setType(Project::TYPE_GITLAB);
 
-        self::assertEquals('master', $project->getBranch());
+        self::assertEquals('master', $project->getDefaultBranch());
     }
 
     public function testExecute_TestBitbucketDefaultBranch()
@@ -57,7 +57,7 @@ class ProjectTest extends \PHPUnit\Framework\TestCase
         $project = new Project();
         $project->setType(Project::TYPE_BITBUCKET);
 
-        self::assertEquals('master', $project->getBranch());
+        self::assertEquals('master', $project->getDefaultBranch());
     }
 
     public function testExecute_TestMercurialDefaultBranch()
@@ -65,7 +65,7 @@ class ProjectTest extends \PHPUnit\Framework\TestCase
         $project = new Project();
         $project->setType(Project::TYPE_HG);
 
-        self::assertEquals('default', $project->getBranch());
+        self::assertEquals('default', $project->getDefaultBranch());
     }
 
     public function testExecute_TestProjectAccessInformation()

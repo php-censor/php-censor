@@ -125,7 +125,7 @@ class WebhookController extends Controller
         }
 
         // Check if this branch is to be built.
-        if ($project->getDefaultBranchOnly() && ($branch !== $project->getBranch())) {
+        if ($project->getDefaultBranchOnly() && ($branch !== $project->getDefaultBranch())) {
             return [
                 'status'  => 'ignored',
                 'message' => 'The branch is not a branch by default. Build is allowed only for the branch by default.'
@@ -147,7 +147,7 @@ class WebhookController extends Controller
                             $project,
                             $environmentName,
                             $commitId,
-                            $project->getBranch(),
+                            $project->getDefaultBranch(),
                             $tag,
                             $committer,
                             $commitMessage,
@@ -254,7 +254,7 @@ class WebhookController extends Controller
             Project::TYPE_LOCAL,
             Project::TYPE_GIT,
         ]);
-        $branch        = $this->getParam('branch', $project->getBranch());
+        $branch        = $this->getParam('branch', $project->getDefaultBranch());
         $commit        = $this->getParam('commit');
         $commitMessage = $this->getParam('message');
         $committer     = $this->getParam('committer');
@@ -285,7 +285,7 @@ class WebhookController extends Controller
             Project::TYPE_LOCAL,
             Project::TYPE_HG,
         ]);
-        $branch        = $this->getParam('branch', $project->getBranch());
+        $branch        = $this->getParam('branch', $project->getDefaultBranch());
         $commit        = $this->getParam('commit');
         $commitMessage = $this->getParam('message');
         $committer     = $this->getParam('committer');
@@ -317,7 +317,7 @@ class WebhookController extends Controller
         $project       = $this->fetchProject($projectId, [
             Project::TYPE_SVN
         ]);
-        $branch        = $this->getParam('branch', $project->getBranch());
+        $branch        = $this->getParam('branch', $project->getDefaultBranch());
         $commit        = $this->getParam('commit');
         $commitMessage = $this->getParam('message');
         $committer     = $this->getParam('committer');
@@ -1024,7 +1024,7 @@ class WebhookController extends Controller
                     $project,
                     $environmentName,
                     '',
-                    $project->getBranch(),
+                    $project->getDefaultBranch(),
                     null,
                     null,
                     null,

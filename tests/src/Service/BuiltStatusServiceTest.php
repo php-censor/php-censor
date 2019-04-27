@@ -24,7 +24,7 @@ class BuildStatusServiceTest extends \PHPUnit\Framework\TestCase
     {
         $project = new Project();
         $project->setId(3);
-        $project->setBranch(self::BRANCH);
+        $project->setDefaultBranch(self::BRANCH);
         $project->setTitle('Test');
 
         $this->project = $project;
@@ -120,7 +120,7 @@ class BuildStatusServiceTest extends \PHPUnit\Framework\TestCase
         /* @var $project Project */
 
         $project->setId(3);
-        $project->setBranch(self::BRANCH);
+        $project->setDefaultBranch(self::BRANCH);
         $project->setTitle('Test');
 
         if ($setProject) {
