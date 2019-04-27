@@ -2,6 +2,8 @@
 
 namespace PHPCensor\Controller;
 
+use PHPCensor\Exception\HttpException;
+use PHPCensor\Exception\InvalidArgumentException;
 use PHPCensor\Http\Response;
 use PHPCensor\Http\Response\RedirectResponse;
 use PHPCensor\Exception\HttpException\NotFoundException;
@@ -200,17 +202,20 @@ class BuildStatusController extends WebController
      *
      * @return string
      *
+     * @throws HttpException
+     * @throws InvalidArgumentException
      * @throws NotFoundException
      */
     public function view($projectId)
     {
+        $branch  = $this->getParam('branch', null);
         $project = $this->projectStore->getById($projectId);
 
         if (empty($project) || !$project->getAllowPublicStatus()) {
             throw new NotFoundException('Project with id: ' . $projectId . ' not found');
         }
 
-        $builds = $this->getLatestBuilds($projectId);
+        $builds = $this->getLatestBuilds($projectId, $branch);
 
         if (count($builds)) {
             $this->view->latest = $builds[0];
@@ -223,17 +228,23 @@ class BuildStatusController extends WebController
     }
 
     /**
-     * Render latest builds for project as HTML table.
+     * @param int         $projectId
+     * @param string|null $branch
      *
-     * @param int $projectId
+     * @throws HttpException
+     * @throws InvalidArgumentException
      *
      * @return array
      */
-    protected function getLatestBuilds($projectId)
+    protected function getLatestBuilds($projectId, $branch = null)
     {
         $criteria = ['project_id' => $projectId];
-        $order    = ['id' => 'DESC'];
-        $builds   = $this->buildStore->getWhere($criteria, 10, 0, $order);
+        if ($branch) {
+            $criteria['branch'] = $branch;
+        }
+
+        $order  = ['id' => 'DESC'];
+        $builds = $this->buildStore->getWhere($criteria, 10, 0, $order);
 
         foreach ($builds['items'] as &$build) {
             $build = BuildFactory::getBuild($build);
