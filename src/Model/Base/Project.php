@@ -25,7 +25,7 @@ class Project extends Model
         'id'                     => null,
         'title'                  => null,
         'reference'              => null,
-        'branch'                 => null,
+        'default_branch'         => null,
         'default_branch_only'    => 0,
         'ssh_private_key'        => null,
         'ssh_public_key'         => null,
@@ -146,9 +146,9 @@ class Project extends Model
     /**
      * @return string
      */
-    public function getBranch()
+    public function getDefaultBranch()
     {
-        if (!$this->data['branch']) {
+        if (!$this->data['default_branch']) {
             $projectType = $this->getType();
             switch ($projectType) {
                 case 'hg':
@@ -163,7 +163,7 @@ class Project extends Model
 
             return $branch;
         } else {
-            return $this->data['branch'];
+            return $this->data['default_branch'];
         }
     }
 
@@ -174,18 +174,18 @@ class Project extends Model
      *
      * @throws InvalidArgumentException
      */
-    public function setBranch($value)
+    public function setDefaultBranch($value)
     {
-        $this->validateNotNull('branch', $value);
-        $this->validateString('branch', $value);
+        $this->validateNotNull('default_branch', $value);
+        $this->validateString('default_branch', $value);
 
-        if ($this->data['branch'] === $value) {
+        if ($this->data['default_branch'] === $value) {
             return false;
         }
 
-        $this->data['branch'] = $value;
+        $this->data['default_branch'] = $value;
 
-        return $this->setModified('branch');
+        return $this->setModified('default_branch');
     }
 
     /**

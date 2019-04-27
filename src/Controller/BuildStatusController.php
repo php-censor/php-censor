@@ -100,7 +100,7 @@ class BuildStatusController extends WebController
             $branchList = $this->buildStore->getBuildBranches($projectId);
 
             if (!$branchList) {
-                $branchList = [$project->getBranch()];
+                $branchList = [$project->getDefaultBranch()];
             }
 
             foreach ($branchList as $branch) {

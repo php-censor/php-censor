@@ -94,7 +94,7 @@ class BuildService
         if (!empty($branch)) {
             $build->setBranch($branch);
         } else {
-            $build->setBranch($project->getBranch());
+            $build->setBranch($project->getDefaultBranch());
         }
 
         if (!empty($tag)) {

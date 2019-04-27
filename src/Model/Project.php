@@ -235,7 +235,7 @@ class Project extends BaseProject
     {
         $environmentsNames = [];
         $environments      = $this->getEnvironmentsObjects();
-        $defaultBranch     = ($branch == $this->getBranch());
+        $defaultBranch     = ($branch == $this->getDefaultBranch());
         foreach ($environments['items'] as $environment) {
             /** @var Environment $environment */
             if ($defaultBranch || in_array($branch, $environment->getBranches())) {
