@@ -175,4 +175,4 @@ the another branch). Issue [#270](https://github.com/php-censor/php-censor/issue
 
 ## Other versions
 
-- [0.x change log](/docs/CHANGELOG_0.x.md)
+- [0.x Changelog](/docs/CHANGELOG_0.x.md)
