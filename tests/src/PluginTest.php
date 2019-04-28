@@ -182,20 +182,20 @@ class PluginTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($this->currentDir . 'relative/', $plugin->getDirectory());
 
         $options = [
-            'directory' => '%COMMIT%',
+            'directory' => '%COMMIT_ID%',
         ];
 
         $plugin = new TestPlugin($this->builder, $this->build, $options);
         self::assertEquals($this->currentDir . 'commit_hash/', $plugin->getDirectory());
 
         $options = [
-            'directory' => $absoluteRealPath . '%COMMIT%',
+            'directory' => $absoluteRealPath . '%COMMIT_ID%',
         ];
 
         $plugin = new TestPlugin($this->builder, $this->build, $options);
         self::assertEquals($absoluteRealPath . 'commit_hash/', $plugin->getDirectory());
 
-        $this->builder->directory = $this->builder->interpolate($absoluteRealPath . '%COMMIT%');
+        $this->builder->directory = $this->builder->interpolate($absoluteRealPath . '%COMMIT_ID%');
 
         $plugin = new TestPlugin($this->builder, $this->build, []);
         self::assertEquals($absoluteRealPath . 'commit_hash/', $plugin->getDirectory());
@@ -269,7 +269,7 @@ class PluginTest extends \PHPUnit\Framework\TestCase
 
         $options = [
             'priority_path' => 'binary_path',
-            'binary_path'   => '/option/%COMMIT%/bin',
+            'binary_path'   => '/option/%COMMIT_ID%/bin',
             'binary_name'   => 'example',
         ];
 
@@ -294,7 +294,7 @@ class PluginTest extends \PHPUnit\Framework\TestCase
         self::assertEquals(['example1', 'example2'], $plugin->getBinaryName());
 
         $absoluteRealPath          = rtrim(realpath(__DIR__ . '/../data/builds/build_x/'), '/\\') . '/';
-        $this->builder->binaryPath = $this->builder->interpolate($absoluteRealPath . '%COMMIT%/');
+        $this->builder->binaryPath = $this->builder->interpolate($absoluteRealPath . '%COMMIT_ID%/');
 
         $plugin = new TestPlugin($this->builder, $this->build, []);
         self::assertEquals($absoluteRealPath . 'commit_hash/', $plugin->getBinaryPath());

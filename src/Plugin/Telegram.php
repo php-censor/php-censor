@@ -48,10 +48,10 @@ class Telegram extends \PHPCensor\Plugin
         }
 
         $this->apiKey  = $options['api_key'];
-        $this->message = '[%ICON_BUILD%] [%PROJECT_TITLE%](%PROJECT_URI%)' .
-            ' - [Build #%BUILD%](%BUILD_URI%) has finished ' .
-            'for commit [%SHORT_COMMIT% (%COMMIT_EMAIL%)](%COMMIT_URI%) ' .
-            'on branch [%BRANCH%](%BRANCH_URI%)';
+        $this->message = '[%ICON_BUILD%] [%PROJECT_TITLE%](%PROJECT_LINK%)' .
+            ' - [Build #%BUILD_ID%](%BUILD_LINK%) has finished ' .
+            'for commit [%SHORT_COMMIT_ID% (%COMMITTER_EMAIL%)](%COMMIT_LINK%) ' .
+            'on branch [%BRANCH%](%BRANCH_LINK%)';
 
         if (isset($options['message'])) {
             $this->message = $options['message'];

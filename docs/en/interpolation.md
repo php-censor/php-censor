@@ -10,30 +10,30 @@ following syntax:
 
 Where `VARIABLE` can be one of the following:
 
-* **COMMIT** - The commit hash.
+* **COMMIT_ID** - The commit hash.
 
-* **SHORT_COMMIT** - The shortened version of the commit hash.
+* **SHORT_COMMIT_ID** - The shortened version of the commit hash.
 
-* **COMMIT_EMAIL** - The Email address of the committer.
+* **COMMITTER_EMAIL** - The Email address of the committer.
 
 * **COMMIT_MESSAGE** - The message written by the committer.
 
-* **COMMIT_URI** - The URL to the commit.
+* **COMMIT_LINK** - The URL to the commit.
 
 * **BRANCH** - The name of the branch.
 
-* **BRANCH_URI** - The URL to the branch.
+* **BRANCH_LINK** - The URL to the branch.
 
 * **ENVIRONMENT** - Build environment (See [environments](environments.md)).
 
-* **PROJECT** - The ID of the project.
+* **PROJECT_ID** - The ID of the project.
 
-* **BUILD** - The build number.
+* **BUILD_ID** - The build number.
 
 * **PROJECT_TITLE** - The name of the project.
 
-* **PROJECT_URL** - The URL to the project in PHP Censor.
+* **PROJECT_LINK** - The URL to the project in PHP Censor.
 
 * **BUILD_PATH** - The path to the build.
 
-* **BUILD_URI** - The URL to the build in PHP Censor.
+* **BUILD_LINK** - The URL to the build in PHP Censor.

@@ -573,7 +573,7 @@ PullRequest [#55](https://github.com/php-censor/php-censor/pull/55).
     deploy:
       deployer:
         webhook_url: "http://deployer.local/deploy/xxxxx"
-        reason:      "PHP Censor Build #%BUILD% - %COMMIT_MESSAGE%"
+        reason:      "PHP Censor Build #%BUILD_ID% - %COMMIT_MESSAGE%"
         update_only: true
     ```
 

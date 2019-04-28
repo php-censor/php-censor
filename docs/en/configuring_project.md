@@ -112,7 +112,7 @@ test:
 deploy:
   deployer:
     webhook_url: "http://deployer.local/deploy/QZaF1bMIUqbMFTmKDmgytUuykRN0cjCgW9SooTnwkIGETAYhDTTYoR8C431t"
-    reason:      "PHP Censor Build #%BUILD% - %COMMIT_MESSAGE%"
+    reason:      "PHP Censor Build #%BUILD_ID% - %COMMIT_MESSAGE%"
     update_only: true
 
 complete:
@@ -279,11 +279,11 @@ setup:
     shell:
         - |
             echo a long shell command, multiple lines
-            scriptPath=%PROJECT_BUILD_PATH%/../../hook-path/prepare-test5.sh
+            scriptPath=%BUILD_PATH%/../../hook-path/prepare-test5.sh
             if [ -f $scriptPath ]
             then
-                "$scriptPath" '%PROJECT%' '%PROJECT_TITLE%' # script can read its path from $scriptPath
-                mkdir ../outputs_to_keep/%COMMIT%
+                "$scriptPath" '%PROJECT_ID%' '%PROJECT_TITLE%' # script can read its path from $scriptPath
+                mkdir ../outputs_to_keep/%COMMIT_ID%
             fi
         - >
             echo this is a very long message I must write here, and it is much too long to allow good editing
