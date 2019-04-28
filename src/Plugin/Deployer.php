@@ -33,7 +33,7 @@ class Deployer extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        $this->reason = 'PHP Censor Build #%BUILD% - %COMMIT_MESSAGE%';
+        $this->reason = 'PHP Censor Build #%BUILD_ID% - %COMMIT_MESSAGE%';
         if (isset($options['webhook_url'])) {
             $this->webhookUrl = $options['webhook_url'];
         }
@@ -62,9 +62,9 @@ class Deployer extends Plugin
                 'form_params' => [
                     'reason'      => $this->builder->interpolate($this->reason),
                     'source'      => 'PHP Censor',
-                    'url'         => $this->builder->interpolate('%BUILD_URI%'),
+                    'url'         => $this->builder->interpolate('%BUILD_LINK%'),
                     'branch'      => $this->builder->interpolate('%BRANCH%'),
-                    'commit'      => $this->builder->interpolate('%COMMIT%'),
+                    'commit'      => $this->builder->interpolate('%COMMIT_ID%'),
                     'update_only' => $this->updateOnly,
                 ]
             ]

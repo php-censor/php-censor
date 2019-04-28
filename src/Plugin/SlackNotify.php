@@ -44,9 +44,9 @@ class SlackNotify extends Plugin
             if (isset($options['message'])) {
                 $this->message = $options['message'];
             } else {
-                $this->message = '<%PROJECT_URI%|%PROJECT_TITLE%> - <%BUILD_URI%|Build #%BUILD%> has finished ';
-                $this->message .= 'for commit <%COMMIT_URI%|%SHORT_COMMIT% (%COMMIT_EMAIL%)> ';
-                $this->message .= 'on branch <%BRANCH_URI%|%BRANCH%>';
+                $this->message = '<%PROJECT_LINK%|%PROJECT_TITLE%> - <%BUILD_LINK%|Build #%BUILD_ID%> has finished ';
+                $this->message .= 'for commit <%COMMIT_LINK%|%SHORT_COMMIT_ID% (%COMMITTER_EMAIL%)> ';
+                $this->message .= 'on branch <%BRANCH_LINK%|%BRANCH%>';
             }
 
             if (isset($options['room'])) {

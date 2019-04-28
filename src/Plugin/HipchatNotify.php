@@ -47,7 +47,7 @@ class HipchatNotify extends Plugin
             if (isset($options['message'])) {
                 $this->message = $options['message'];
             } else {
-                $this->message = '%PROJECT_TITLE% built at %BUILD_URI%';
+                $this->message = '%PROJECT_TITLE% built at %BUILD_LINK%';
             }
 
             if (isset($options['color'])) {

@@ -19,8 +19,8 @@ class FlowdockNotify extends Plugin
     protected $email;
     protected $message;
 
-    const MESSAGE_DEFAULT = 'Build %BUILD% has finished for commit <a href="%COMMIT_URI%">%SHORT_COMMIT%</a>
-                            (%COMMIT_EMAIL%)> on branch <a href="%BRANCH_URI%">%BRANCH%</a>';
+    const MESSAGE_DEFAULT = 'Build %BUILD_ID% has finished for commit <a href="%COMMIT_LINK%">%SHORT_COMMIT_ID%</a>
+                            (%COMMITTER_EMAIL%)> on branch <a href="%BRANCH_LINK%">%BRANCH%</a>';
 
     /**
      * @return string
