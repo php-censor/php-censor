@@ -842,24 +842,25 @@ class WebhookController extends Controller
 
             $results = [];
             $status  = 'failed';
-            foreach ($payload['commits'] as $commit) {
-                try {
-                    $branch                 = str_replace('refs/heads/', '', $payload['ref']);
-                    $committer              = $commit['author']['email'];
-                    $results[$commit['id']] = $this->createBuild(
-                        Build::SOURCE_WEBHOOK_PUSH,
-                        $project,
-                        $commit['id'],
-                        $branch,
-                        null,
-                        $committer,
-                        $commit['message']
-                    );
-                    $status = 'ok';
-                } catch (Exception $ex) {
-                    $results[$commit['id']] = ['status' => 'failed', 'error' => $ex->getMessage()];
-                }
+
+            $commit = end($payload['commits']);
+            try {
+                $branch                 = str_replace('refs/heads/', '', $payload['ref']);
+                $committer              = $commit['author']['email'];
+                $results[$commit['id']] = $this->createBuild(
+                    Build::SOURCE_WEBHOOK_PUSH,
+                    $project,
+                    $commit['id'],
+                    $branch,
+                    null,
+                    $committer,
+                    $commit['message']
+                );
+                $status = 'ok';
+            } catch (Exception $ex) {
+                $results[$commit['id']] = ['status' => 'failed', 'error' => $ex->getMessage()];
             }
+
             return ['status' => $status, 'commits' => $results];
         }
 
