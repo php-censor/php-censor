@@ -175,7 +175,7 @@ class BuildStore extends Store
     }
 
     /**
-     * @param int    $projectId
+     * @param int $projectId
      * @param string $branch
      *
      * @return null|Build
@@ -190,13 +190,11 @@ class BuildStore extends Store
         $stmt->bindValue(':project_id', $projectId);
         $stmt->bindValue(':branch', $branch);
 
-        if ($stmt->execute()) {
-            if ($data = $stmt->fetch(\PDO::FETCH_ASSOC)) {
-                return new Build($data);
-            }
-        } else {
-            return null;
+        if ($stmt->execute() && $data = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+            return new Build($data);
         }
+
+        return null;
     }
 
     /**

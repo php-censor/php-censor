@@ -7,6 +7,10 @@ use PHPCensor\Builder;
 use PHPCensor\Database;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
+use PHPCensor\Plugin\Util\BitbucketPluginResult;
+use PHPCensor\Store\BuildErrorStore;
+use PHPCensor\Store\BuildStore;
+use PHPCensor\Store\Factory;
 
 class Bitbucket extends Plugin
 {
@@ -102,13 +106,16 @@ class Bitbucket extends Plugin
 
     /**
      * @return bool
+     * @throws \Exception
      */
     public function execute()
     {
-        $plugins = $this->prepareResult();
+        $pullRequestId = $this->findPullRequestsByBranch();
+        $targetBranch = $this->getTargetBranchForPullRequest($pullRequestId);
+        $plugins = $this->prepareResult($targetBranch);
         $message = $this->reportGenerator($this->buildResultComparator($plugins));
         if (!empty($message)) {
-            $commentId = $this->createCommentInPullRequest($this->findPullRequestsByBranch(), $message);
+            $commentId = $this->createCommentInPullRequest($pullRequestId, $message);
 
             if ($this->createTaskIfFail) {
                 $this->createTaskForCommentInPullRequest($commentId, 'pls fix php-censor report');
@@ -148,6 +155,15 @@ class Bitbucket extends Plugin
         }
 
         return null;
+    }
+
+    protected function getTargetBranchForPullRequest($pullRequestId)
+    {
+        $endpoint = sprintf('/projects/%s/repos/%s/pull-requests/%d', $this->projectKey, $this->repositorySlug, $pullRequestId);
+        $response = $this->apiRequest($endpoint)->getBody();
+        $response = json_decode($response, true);
+
+        return $response['toRef']['displayId'];
     }
 
     /**
@@ -214,12 +230,17 @@ class Bitbucket extends Plugin
     }
 
     /**
-     * @return Util\Plugin[]
+     * @param string $targetBranch
+     * @return BitbucketPluginResult[]
+     * @throws \Exception
      */
-    protected function prepareResult()
+    protected function prepareResult($targetBranch)
     {
-        $masterBuildStats = $this->findBuildErrorStats($this->findLatestBuild('master'));
-        $currentBuildStats = $this->findBuildErrorStats($this->findLatestBuild($this->build->getBranch()));
+        /** @var BuildErrorStore $buildErrorStore */
+        $buildErrorStore = Factory::getStore('BuildError');
+
+        $masterBuildStats = $buildErrorStore->getErrorAmountPerPluginForBuild($this->findLatestBuild($targetBranch));
+        $currentBuildStats = $buildErrorStore->getErrorAmountPerPluginForBuild($this->findLatestBuild($this->build->getBranch()));
 
         if (empty($masterBuildStats) && empty($currentBuildStats)) {
             return [];
@@ -230,7 +251,7 @@ class Bitbucket extends Plugin
 
         $result = [];
         foreach ($plugins as $plugin) {
-            $result[] = new Util\Plugin(
+            $result[] = new BitbucketPluginResult(
                 $plugin,
                 isset($masterBuildStats[$plugin]) ? $masterBuildStats[$plugin] : 0,
                 isset($currentBuildStats[$plugin]) ? $currentBuildStats[$plugin] : 0
@@ -241,7 +262,7 @@ class Bitbucket extends Plugin
     }
 
     /**
-     * @param Util\Plugin[] $plugins
+     * @param Util\BitbucketPluginResult[] $plugins
      * @return array
      */
     protected function buildResultComparator(array $plugins)
@@ -263,25 +284,19 @@ class Bitbucket extends Plugin
         return $this->builder->interpolate($message);
     }
 
+    /**
+     * @param $branchName
+     * @return int
+     * @throws \Exception
+     */
     protected function findLatestBuild($branchName)
     {
-        $query = 'SELECT max(id) FROM build WHERE project_id = :id AND branch = :branch_name';
-        return $this->selectValue($query, [':id' => $this->getBuild()->getProjectId(), ':branch_name' => $branchName]);
-    }
+        /** @var BuildStore $buildStore */
+        $buildStore = Factory::getStore('Build');
 
-    protected function findBuildErrorStats($buildId)
-    {
-        $query = 'SELECT plugin, count(*) FROM build_error WHERE build_id = :id GROUP BY plugin';
-        $stmt = $this->pdo->prepare($query);
-        $stmt->execute([':id' => $buildId]);
-        return $stmt->fetchAll(\PDO::FETCH_KEY_PAIR);
-    }
+        $build = $buildStore->getLatestBuildByProjectAndBranch($this->getBuild()->getProjectId(), $branchName);
 
-    protected function selectValue($query, array $parameters)
-    {
-        $stmt = $this->pdo->prepare($query);
-        $stmt->execute($parameters);
-        return $stmt->fetchColumn();
+        return $build !== null ?: $build->getId();
     }
 
     protected function buildStatusRequest($endpoint, $method = 'get', array $jsonBody = null)
