@@ -12,7 +12,7 @@ use PHPCensor\Store\BuildErrorStore;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\Factory;
 
-class Bitbucket extends Plugin
+class BitbucketNotify extends Plugin
 {
     /** @var string */
     protected $url;
@@ -53,7 +53,7 @@ class Bitbucket extends Plugin
      */
     public static function pluginName()
     {
-        return 'bitbucket';
+        return 'bitbucket_notify';
     }
 
     /**
