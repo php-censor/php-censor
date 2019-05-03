@@ -2,7 +2,7 @@
 
 namespace PHPCensor\Plugin\Util;
 
-class BitbucketPluginResult
+class BitbucketNotifyPluginResult
 {
     /** @var string $plugin */
     protected $plugin;

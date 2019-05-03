@@ -7,7 +7,7 @@ use PHPCensor\Builder;
 use PHPCensor\Database;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
-use PHPCensor\Plugin\Util\BitbucketPluginResult;
+use PHPCensor\Plugin\Util\BitbucketNotifyPluginResult;
 use PHPCensor\Store\BuildErrorStore;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\Factory;
@@ -241,7 +241,7 @@ class BitbucketNotify extends Plugin
 
     /**
      * @param string $targetBranch
-     * @return BitbucketPluginResult[]
+     * @return BitbucketNotifyPluginResult[]
      * @throws \Exception
      */
     protected function prepareResult($targetBranch)
@@ -266,7 +266,7 @@ class BitbucketNotify extends Plugin
 
         $result = [];
         foreach ($plugins as $plugin) {
-            $result[] = new BitbucketPluginResult(
+            $result[] = new BitbucketNotifyPluginResult(
                 $plugin,
                 isset($targetBranchBuildStats[$plugin]) ? $targetBranchBuildStats[$plugin] : 0,
                 isset($currentBranchBuildStats[$plugin]) ? $currentBranchBuildStats[$plugin] : 0
@@ -277,7 +277,7 @@ class BitbucketNotify extends Plugin
     }
 
     /**
-     * @param Util\BitbucketPluginResult[] $plugins
+     * @param Util\BitbucketNotifyPluginResult[] $plugins
      * @return array
      */
     protected function buildResultComparator(array $plugins)
