@@ -321,5 +321,4 @@ class BuildErrorStore extends Store
         $stmt->execute();
         return $stmt->fetchAll(\PDO::FETCH_KEY_PAIR);
     }
-
 }

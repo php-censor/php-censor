@@ -81,7 +81,12 @@ class BitbucketPluginResult
 
     public function generateTaskDescription()
     {
-        return sprintf('pls fix %s because it has increased from %d to %d errors', $this->plugin, $this->left, $this->right);
+        return sprintf(
+            'pls fix %s because it has increased from %d to %d errors',
+            $this->plugin,
+            $this->left,
+            $this->right
+        );
     }
 
     public function __toString()

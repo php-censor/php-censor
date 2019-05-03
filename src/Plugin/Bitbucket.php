@@ -99,7 +99,13 @@ class Bitbucket extends Plugin
             }
         }
 
-        if (empty($this->url) || empty($this->message) || empty($this->token) || empty($this->projectKey) || empty($this->repositorySlug)) {
+        if (
+            empty($this->url) ||
+            empty($this->message) ||
+            empty($this->token) ||
+            empty($this->projectKey) ||
+            empty($this->repositorySlug)
+        ) {
             throw new \Exception('Please define the url for bitbucket plugin!');
         }
     }
@@ -159,7 +165,13 @@ class Bitbucket extends Plugin
 
     protected function getTargetBranchForPullRequest($pullRequestId)
     {
-        $endpoint = sprintf('/projects/%s/repos/%s/pull-requests/%d', $this->projectKey, $this->repositorySlug, $pullRequestId);
+        $endpoint = sprintf(
+            '/projects/%s/repos/%s/pull-requests/%d',
+            $this->projectKey,
+            $this->repositorySlug,
+            $pullRequestId
+        );
+
         $response = $this->apiRequest($endpoint)->getBody();
         $response = json_decode($response, true);
 
@@ -239,8 +251,13 @@ class Bitbucket extends Plugin
         /** @var BuildErrorStore $buildErrorStore */
         $buildErrorStore = Factory::getStore('BuildError');
 
-        $targetBranchBuildStats = $buildErrorStore->getErrorAmountPerPluginForBuild($this->findLatestBuild($targetBranch));
-        $currentBranchBuildStats = $buildErrorStore->getErrorAmountPerPluginForBuild($this->findLatestBuild($this->build->getBranch()));
+        $targetBranchBuildStats = $buildErrorStore->getErrorAmountPerPluginForBuild(
+            $this->findLatestBuild($targetBranch)
+        );
+
+        $currentBranchBuildStats = $buildErrorStore->getErrorAmountPerPluginForBuild(
+            $this->findLatestBuild($this->build->getBranch())
+        );
 
         if (empty($targetBranchBuildStats) && empty($currentBranchBuildStats)) {
             return [];
