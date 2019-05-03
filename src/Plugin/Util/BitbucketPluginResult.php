@@ -81,6 +81,10 @@ class BitbucketPluginResult
 
     public function generateTaskDescription()
     {
+        if (!$this->isDegraded()) {
+            return '';
+        }
+
         return sprintf(
             'pls fix %s because it has increased from %d to %d errors',
             $this->plugin,

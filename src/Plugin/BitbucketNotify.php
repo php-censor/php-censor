@@ -128,11 +128,10 @@ class BitbucketNotify extends Plugin
 
             if ($this->createTaskPerFail) {
                 foreach ($plugins as $plugin) {
-                    if (!$plugin->isDegraded()) {
-                        continue;
+                    $taskDescription = $plugin->generateTaskDescription();
+                    if (!empty($taskDescription)) {
+                        $this->createTaskForCommentInPullRequest($commentId, $taskDescription);
                     }
-
-                    $this->createTaskForCommentInPullRequest($commentId, $plugin->generateTaskDescription());
                 }
             }
         }
