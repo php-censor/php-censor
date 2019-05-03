@@ -1,4 +1,4 @@
-Plugin Bitbucket
+Plugin Bitbucket Notify
 =========================
 
 This plugin notify you in Bitbucket about the build status with comments, tasks and build info.
@@ -21,7 +21,7 @@ Configuration
 
 ```yaml
 complete:
-    bitbucket:
+    bitbucket_notify:
       url: "https://bitbucket.yourhost.de"
       token: "123456"
       project_key: "test"
