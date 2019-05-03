@@ -275,9 +275,10 @@ class BuildErrorStore extends Store
      * Check if a build error is new.
      *
      * @param int $projectId
-     * @param string  $hash
+     * @param string $hash
      *
      * @return bool
+     * @throws \Exception
      */
     public function getIsNewError($projectId, $hash)
     {
@@ -298,5 +299,26 @@ class BuildErrorStore extends Store
         }
 
         return true;
+    }
+
+    /**
+     * @param $buildId
+     * @return array
+     * @throws \Exception
+     */
+    public function getErrorAmountPerPluginForBuild($buildId)
+    {
+        $query = '
+            SELECT {{plugin}}, COUNT(*) AS {{amount}}
+            FROM {{' . $this->tableName . '}}
+            WHERE {{build_id}} = :build
+            GROUP BY {{plugin}}
+        ';
+
+        $stmt = Database::getConnection('read')->prepareCommon($query);
+        $stmt->bindValue(':build', $buildId);
+
+        $stmt->execute();
+        return $stmt->fetchAll(\PDO::FETCH_KEY_PAIR);
     }
 }
