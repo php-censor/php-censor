@@ -309,7 +309,7 @@ class BuildErrorStore extends Store
     public function getErrorAmountPerPluginForBuild($buildId)
     {
         $query = '
-            SELECT {{plugin}}, COUNT(*) {{amount}}
+            SELECT {{plugin}}, COUNT(*) AS {{amount}}
             FROM {{' . $this->tableName . '}}
             WHERE {{build_id}} = :build
             GROUP BY {{plugin}}
@@ -318,7 +318,7 @@ class BuildErrorStore extends Store
         $stmt = Database::getConnection('read')->prepareCommon($query);
         $stmt->bindValue(':build', $buildId);
 
-        $stmt->execute([':id' => $buildId]);
+        $stmt->execute();
         return $stmt->fetchAll(\PDO::FETCH_KEY_PAIR);
     }
 

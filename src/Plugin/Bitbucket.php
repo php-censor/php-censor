@@ -239,22 +239,22 @@ class Bitbucket extends Plugin
         /** @var BuildErrorStore $buildErrorStore */
         $buildErrorStore = Factory::getStore('BuildError');
 
-        $masterBuildStats = $buildErrorStore->getErrorAmountPerPluginForBuild($this->findLatestBuild($targetBranch));
-        $currentBuildStats = $buildErrorStore->getErrorAmountPerPluginForBuild($this->findLatestBuild($this->build->getBranch()));
+        $targetBranchBuildStats = $buildErrorStore->getErrorAmountPerPluginForBuild($this->findLatestBuild($targetBranch));
+        $currentBranchBuildStats = $buildErrorStore->getErrorAmountPerPluginForBuild($this->findLatestBuild($this->build->getBranch()));
 
-        if (empty($masterBuildStats) && empty($currentBuildStats)) {
+        if (empty($targetBranchBuildStats) && empty($currentBranchBuildStats)) {
             return [];
         }
 
-        $plugins = array_unique(array_merge(array_keys($masterBuildStats), array_keys($currentBuildStats)));
+        $plugins = array_unique(array_merge(array_keys($targetBranchBuildStats), array_keys($currentBranchBuildStats)));
         sort($plugins);
 
         $result = [];
         foreach ($plugins as $plugin) {
             $result[] = new BitbucketPluginResult(
                 $plugin,
-                isset($masterBuildStats[$plugin]) ? $masterBuildStats[$plugin] : 0,
-                isset($currentBuildStats[$plugin]) ? $currentBuildStats[$plugin] : 0
+                isset($targetBranchBuildStats[$plugin]) ? $targetBranchBuildStats[$plugin] : 0,
+                isset($currentBranchBuildStats[$plugin]) ? $currentBranchBuildStats[$plugin] : 0
             );
         }
 
@@ -267,7 +267,10 @@ class Bitbucket extends Plugin
      */
     protected function buildResultComparator(array $plugins)
     {
-        $maxPluginNameLength = max(array_map('strlen', array_keys($plugins)));
+        $maxPluginNameLength = 20;
+        if (!empty($plugins)) {
+            $maxPluginNameLength = max(array_map('strlen', array_keys($plugins)));
+        }
 
         $lines = [];
         foreach ($plugins as $plugin) {
@@ -279,7 +282,12 @@ class Bitbucket extends Plugin
 
     protected function reportGenerator(array $stats)
     {
-        $message = str_replace(['%STATS%'], [implode(PHP_EOL, $stats)], $this->message);
+        $statsString = trim(implode(PHP_EOL, $stats));
+        if (empty($stats)) {
+            $statsString = 'no changes between your branch and target branch';
+        }
+
+        $message = str_replace(['%STATS%'], [$statsString], $this->message);
 
         return $this->builder->interpolate($message);
     }
@@ -296,7 +304,7 @@ class Bitbucket extends Plugin
 
         $build = $buildStore->getLatestBuildByProjectAndBranch($this->getBuild()->getProjectId(), $branchName);
 
-        return $build !== null ?: $build->getId();
+        return $build !== null ? $build->getId() : null;
     }
 
     protected function buildStatusRequest($endpoint, $method = 'get', array $jsonBody = null)
