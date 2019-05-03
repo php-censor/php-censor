@@ -269,7 +269,7 @@ class Bitbucket extends Plugin
     {
         $maxPluginNameLength = 20;
         if (!empty($plugins)) {
-            $maxPluginNameLength = max(array_map('strlen', array_keys($plugins)));
+            $maxPluginNameLength = max(array_map('strlen', $plugins));
         }
 
         $lines = [];
