@@ -99,8 +99,7 @@ class Bitbucket extends Plugin
             }
         }
 
-        if (
-            empty($this->url) ||
+        if (empty($this->url) ||
             empty($this->message) ||
             empty($this->token) ||
             empty($this->projectKey) ||
