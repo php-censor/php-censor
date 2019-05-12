@@ -5,6 +5,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [1.0.9 (Morty Smith)](https://github.com/php-censor/php-censor/tree/1.0.9) (2019-05-12)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/1.0.8...1.0.9)
+
+### Fixed
+
+- Fixed warning on exception page when user don't loggin.
+
+### Changed
+
+- Improved default value of installation URL for support both http-protocols (`http` and `https`). Issue 
+[#303](https://github.com/php-censor/php-censor/issues/303).
+
+
 ## [1.0.8 (Morty Smith)](https://github.com/php-censor/php-censor/tree/1.0.8) (2019-04-26)
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/1.0.7...1.0.8)
