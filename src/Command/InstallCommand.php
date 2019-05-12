@@ -247,7 +247,7 @@ class InstallCommand extends Command
         if ($url = $input->getOption('url')) {
             $url = $urlValidator($url);
         } else {
-            $question = new Question('Enter your application URL (default: "http://php-censor.local"): ', 'http://php-censor.local');
+            $question = new Question('Enter your application URL (default: "//php-censor.local"): ', '//php-censor.local');
             $question->setValidator($urlValidator);
             $url = $helper->ask($input, $output, $question);
         }
