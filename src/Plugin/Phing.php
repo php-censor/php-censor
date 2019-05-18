@@ -158,7 +158,7 @@ class Phing extends Plugin
          * @ticket 748
          */
         if (!isset($this->properties['project.basedir'])) {
-            $this->properties['project.basedir'] = $this->getDirectory();
+            $this->properties['project.basedir'] = $this->directory;
         }
 
         $propertiesString = [];
@@ -200,7 +200,7 @@ class Phing extends Plugin
      */
     public function setPropertyFile($propertyFile)
     {
-        if (!file_exists($this->getDirectory() . '/' . $propertyFile)) {
+        if (!file_exists($this->directory . '/' . $propertyFile)) {
             throw new \Exception('Specified property file does not exist.');
         }
 
