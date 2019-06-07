@@ -19,7 +19,7 @@ var SummaryPlugin = ActiveBuild.UiPlugin.extend({
 
     register: function () {
         var self  = this;
-        var query = ActiveBuild.registerQuery('plugin-summary', 5, {key: 'plugin-summary'})
+        var query = ActiveBuild.registerQuery('plugin-summary', 5, {key: 'plugin-summary'});
 
         $(window).on('plugin-summary', function (data) {
             self.onUpdate(data);

@@ -2,7 +2,10 @@
 
 namespace PHPCensor;
 
+use Exception;
+use PDO;
 use PHPCensor\Exception\InvalidArgumentException;
+use RuntimeException;
 
 abstract class Store
 {
@@ -30,12 +33,12 @@ abstract class Store
     abstract public function getByPrimaryKey($key, $useConnection = 'read');
 
     /**
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function __construct()
     {
         if (empty($this->primaryKey)) {
-            throw new \RuntimeException('Save not implemented for this store.');
+            throw new RuntimeException('Save not implemented for this store.');
         }
     }
 
@@ -95,12 +98,12 @@ abstract class Store
 
         $stmt = Database::getConnection('read')->prepareCommon($countQuery);
         $stmt->execute($params);
-        $res = $stmt->fetch(\PDO::FETCH_ASSOC);
+        $res = $stmt->fetch(PDO::FETCH_ASSOC);
         $count = (int)$res['count'];
 
         $stmt = Database::getConnection('read')->prepareCommon($query);
         $stmt->execute($params);
-        $res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $rtn = [];
 
         foreach ($res as $data) {
@@ -141,7 +144,7 @@ abstract class Store
      *
      * @return Model|null
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function saveByUpdate(Model $obj, $saveAllColumns = false)
     {
@@ -186,7 +189,7 @@ abstract class Store
      *
      * @return Model|null
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function saveByInsert(Model $obj, $saveAllColumns = false)
     {

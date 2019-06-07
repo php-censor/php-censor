@@ -1,9 +1,10 @@
 <?php
 
 use PHPCensor\Helper\Lang;
+use PHPCensor\Model\User;
 
 /**
- * @var \PHPCensor\Model\User $user
+ * @var User $user
  */
 $user = $this->getUser();
 
@@ -198,7 +199,7 @@ $user = $this->getUser();
 
                         <?php if (count($group['projects'])): ?>
                         <ul class="treeview-menu">
-                            <?php foreach($group['projects'] as $project): ?>
+                            <?php foreach ($group['projects'] as $project): ?>
                             <li>
                                 <a href="<?= APP_URL; ?>project/view/<?= $project->getId(); ?>">
                                     <i class="fa fa-<?= $project->getIcon(); ?>"></i>

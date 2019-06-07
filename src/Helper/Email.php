@@ -2,8 +2,9 @@
 
 namespace PHPCensor\Helper;
 
-use PHPCensor\Config;
 use PHPCensor\Builder;
+use PHPCensor\Config;
+use Swift_Message;
 
 /**
  * Helper class for sending emails using email configuration.
@@ -127,7 +128,7 @@ class Email
         $factory = new MailerFactory($this->config->get('php-censor'));
         $mailer = $factory->getSwiftMailerFromConfig();
 
-        $message = \Swift_Message::newInstance($this->subject)
+        $message = Swift_Message::newInstance($this->subject)
             ->setFrom($this->getFrom())
             ->setTo($this->emailTo)
             ->setBody($this->body);

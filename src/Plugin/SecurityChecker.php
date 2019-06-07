@@ -5,8 +5,8 @@ namespace PHPCensor\Plugin;
 use PHPCensor;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
-use PHPCensor\Plugin;
 use PHPCensor\Model\BuildError;
+use PHPCensor\Plugin;
 use PHPCensor\ZeroConfigPluginInterface;
 use SensioLabs\Security\SecurityChecker as BaseSecurityChecker;
 

@@ -2,13 +2,14 @@
 
 namespace PHPCensor\Model\Build;
 
+use Exception;
 use GuzzleHttp\Client;
 use PHPCensor\Builder;
-use PHPCensor\Helper\Bitbucket;
 use PHPCensor\Config;
+use PHPCensor\Helper\Bitbucket;
+use PHPCensor\Helper\Diff;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
-use PHPCensor\Helper\Diff;
 
 /**
  * BitBucket Build Model
@@ -217,7 +218,7 @@ class BitbucketBuild extends GitBuild
                 unlink($diffFile);
                 $skipGitFinalization = true;
             }
-        } catch (\Exception $ex) {
+        } catch (Exception $ex) {
             $success = false;
         }
 

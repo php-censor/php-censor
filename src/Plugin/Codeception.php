@@ -2,12 +2,13 @@
 
 namespace PHPCensor\Plugin;
 
+use Exception;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
-use PHPCensor\Plugin\Util\TestResultParsers\Codeception as Parser;
 use PHPCensor\Plugin;
-use Symfony\Component\Yaml\Parser as YamlParser;
+use PHPCensor\Plugin\Util\TestResultParsers\Codeception as Parser;
 use PHPCensor\ZeroConfigPluginInterface;
+use Symfony\Component\Yaml\Parser as YamlParser;
 
 /**
  * Codeception Plugin - Enables full acceptance, unit, and functional testing.
@@ -115,7 +116,7 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
     public function execute()
     {
         if (empty($this->ymlConfigFile)) {
-            throw new \Exception("No configuration file found");
+            throw new Exception("No configuration file found");
         }
 
         // Run any config files first. This can be either a single value or an array.
@@ -126,7 +127,7 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
      * Run tests from a Codeception config file.
      *
      * @return bool|mixed
-     * @throws \Exception
+     * @throws Exception
      */
     protected function runConfigFile()
     {

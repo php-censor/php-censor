@@ -2,17 +2,21 @@
 
 namespace PHPCensor\Controller;
 
+use Exception;
+use PHPCensor\BuildFactory;
 use PHPCensor\Exception\HttpException;
+use PHPCensor\Exception\HttpException\NotFoundException;
 use PHPCensor\Exception\InvalidArgumentException;
 use PHPCensor\Http\Response;
 use PHPCensor\Http\Response\RedirectResponse;
-use PHPCensor\Exception\HttpException\NotFoundException;
-use PHPCensor\Store\Factory;
-use PHPCensor\BuildFactory;
-use PHPCensor\Model\Project;
 use PHPCensor\Model\Build;
+use PHPCensor\Model\Project;
 use PHPCensor\Service\BuildStatusService;
+use PHPCensor\Store\BuildStore;
+use PHPCensor\Store\Factory;
+use PHPCensor\Store\ProjectStore;
 use PHPCensor\WebController;
+use SimpleXMLElement;
 
 /**
  * Build Status Controller - Allows external access to build status information / images.
@@ -27,12 +31,12 @@ class BuildStatusController extends WebController
     public $layoutName = 'layoutPublic';
 
     /**
-     * @var \PHPCensor\Store\ProjectStore
+     * @var ProjectStore
      */
     protected $projectStore;
 
     /**
-     * @var \PHPCensor\Store\BuildStore
+     * @var BuildStore
      */
     protected $buildStore;
 
@@ -70,7 +74,7 @@ class BuildStatusController extends WebController
                     $status = 'failed';
                 }
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $status = 'error';
         }
 
@@ -84,13 +88,13 @@ class BuildStatusController extends WebController
      *
      * @return Response
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function ccxml($projectId)
     {
         /* @var Project $project */
         $project = $this->projectStore->getById($projectId);
-        $xml     = new \SimpleXMLElement('<Projects/>');
+        $xml     = new SimpleXMLElement('<Projects/>');
 
         if (!$project instanceof Project || !$project->getAllowPublicStatus()) {
             return $this->renderXml($xml);
@@ -112,19 +116,19 @@ class BuildStatusController extends WebController
                     }
                 }
             }
-        } catch (\Exception $e) {
-            $xml = new \SimpleXMLElement('<projects/>');
+        } catch (Exception $e) {
+            $xml = new SimpleXMLElement('<projects/>');
         }
 
         return $this->renderXml($xml);
     }
 
     /**
-     * @param \SimpleXMLElement $xml
+     * @param SimpleXMLElement $xml
      *
      * @return Response
      */
-    protected function renderXml(\SimpleXMLElement $xml = null)
+    protected function renderXml(SimpleXMLElement $xml = null)
     {
         $response = new Response();
 

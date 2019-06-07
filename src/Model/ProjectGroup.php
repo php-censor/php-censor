@@ -2,8 +2,8 @@
 
 namespace PHPCensor\Model;
 
-use PHPCensor\Store\Factory;
 use PHPCensor\Model\Base\ProjectGroup as BaseProjectGroup;
+use PHPCensor\Store\Factory;
 use PHPCensor\Store\ProjectStore;
 
 class ProjectGroup extends BaseProjectGroup

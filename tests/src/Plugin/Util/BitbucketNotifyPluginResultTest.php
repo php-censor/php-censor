@@ -101,10 +101,10 @@ class BitbucketNotifyPluginResultTest extends TestCase
      * @param array $input
      * @param array $expected
      */
-    public function testGenerateFormatedOutput(array $input, array $expected)
+    public function testGenerateFormattedOutput(array $input, array $expected)
     {
         $sut = new BitbucketNotifyPluginResult($input[0], $input[1], $input[2]);
-        $this->assertSame($expected['formattedOutput'], $sut->generateFormatedOutput(10));
+        $this->assertSame($expected['formattedOutput'], $sut->generateFormattedOutput(10));
     }
 
     /**

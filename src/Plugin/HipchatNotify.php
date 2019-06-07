@@ -2,10 +2,11 @@
 
 namespace PHPCensor\Plugin;
 
+use Exception;
+use HipChat\HipChat;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
-use HipChat\HipChat;
 
 /**
  * Hipchat Plugin
@@ -62,7 +63,7 @@ class HipchatNotify extends Plugin
                 $this->notify = false;
             }
         } else {
-            throw new \Exception('Please define room and authToken for hipchat_notify plugin.');
+            throw new Exception('Please define room and authToken for hipchat_notify plugin.');
         }
     }
 

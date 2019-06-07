@@ -2,6 +2,8 @@
 
 namespace PHPCensor\Form;
 
+use Closure;
+use Exception;
 use PHPCensor\View;
 
 class Input extends Element
@@ -108,7 +110,7 @@ class Input extends Element
      */
     public function setValidator($validator)
     {
-        if (is_callable($validator) || $validator instanceof \Closure) {
+        if (is_callable($validator) || $validator instanceof Closure) {
             $this->validator = $validator;
         }
 
@@ -156,7 +158,7 @@ class Input extends Element
         if (is_callable($validator)) {
             try {
                 call_user_func_array($validator, [$this->value]);
-            } catch (\Exception $ex) {
+            } catch (Exception $ex) {
                 $this->error = $ex->getMessage();
 
                 return false;

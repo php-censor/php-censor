@@ -4,20 +4,21 @@ namespace PHPCensor\Controller;
 
 use Exception;
 use GuzzleHttp\Client;
-use PHPCensor\Helper\Lang;
-use PHPCensor\Model\Build;
-use PHPCensor\Model\Project;
-use PHPCensor\Service\BuildService;
-use PHPCensor\Store\BuildStore;
-use PHPCensor\Store\ProjectStore;
-use PHPCensor\Controller;
 use PHPCensor\Config;
+use PHPCensor\Controller;
 use PHPCensor\Exception\HttpException\NotFoundException;
-use PHPCensor\Store\Factory;
+use PHPCensor\Exception\InvalidArgumentException;
+use PHPCensor\Helper\Lang;
 use PHPCensor\Http\Response;
+use PHPCensor\Model\Build;
 use PHPCensor\Model\Build\BitbucketBuild;
 use PHPCensor\Model\Build\BitbucketServerBuild;
 use PHPCensor\Model\Build\GithubBuild;
+use PHPCensor\Model\Project;
+use PHPCensor\Service\BuildService;
+use PHPCensor\Store\BuildStore;
+use PHPCensor\Store\Factory;
+use PHPCensor\Store\ProjectStore;
 
 /**
  * Webhook Controller - Processes webhook pings from BitBucket, Github, Gitlab, Gogs, etc.
@@ -168,10 +169,23 @@ class WebhookController extends Controller
                     if (empty($duplicates)) {
                         return ['status' => 'ok', 'builds' => $createdBuilds];
                     } else {
-                        return ['status' => 'ok', 'builds' => $createdBuilds, 'message' => sprintf('For this commit some builds already exists (%s)', implode(', ', $duplicates))];
+                        return [
+                            'status'  => 'ok',
+                            'builds'  => $createdBuilds,
+                            'message' => sprintf(
+                                'For this commit some builds already exists (%s)',
+                                implode(', ', $duplicates)
+                            )
+                        ];
                     }
                 } else {
-                    return ['status' => 'ignored', 'message' => sprintf('For this commit already created builds (%s)', implode(', ', $duplicates))];
+                    return [
+                        'status'  => 'ignored',
+                        'message' => sprintf(
+                            'For this commit already created builds (%s)',
+                            implode(', ', $duplicates)
+                        )
+                    ];
                 }
             } else {
                 return ['status' => 'ignored', 'message' => 'Branch not assigned to any environment'];
@@ -197,7 +211,10 @@ class WebhookController extends Controller
             } else {
                 return [
                     'status'  => 'ignored',
-                    'message' => sprintf('Duplicate of build #%d', array_search($environmentName, $ignoreEnvironments)),
+                    'message' => sprintf(
+                        'Duplicate of build #%d',
+                        array_search($environmentName, $ignoreEnvironments)
+                    ),
                 ];
             }
         }
@@ -953,7 +970,7 @@ class WebhookController extends Controller
      *
      * @return array
      *
-     * @throws \PHPCensor\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     protected function gogsPullRequest(Project $project, array $payload)
     {

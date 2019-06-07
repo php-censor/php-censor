@@ -1,9 +1,9 @@
 <?php
 
 use PHPCensor\Helper\Lang;
+use PHPCensor\Helper\Template;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
-use PHPCensor\Helper\Template;
 
 /**
  * @var Build $build
@@ -72,7 +72,7 @@ use PHPCensor\Helper\Template;
                             + <?php
                             $branches = $build->getExtra('branches');
                             if (!empty($branches)) {
-                                foreach($branches as $branch) {
+                                foreach ($branches as $branch) {
                                     ?><i class="fa fa-code-fork"></i> <?= $branch ?><?php
                                 }
                             } else {
@@ -212,10 +212,10 @@ use PHPCensor\Helper\Template;
                         <div class="btn-group">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                                 <?php if (!empty($isNew)) {
-                                    echo Lang::get($isNew);
-                                } else {
-                                    echo Lang::get('all_errors');
-                                } ?>&nbsp;&nbsp;<span class="caret"></span>
+                                echo Lang::get($isNew);
+                            } else {
+                                echo Lang::get('all_errors');
+                            } ?>&nbsp;&nbsp;<span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu" role="menu">
                                 <li>
@@ -223,7 +223,7 @@ use PHPCensor\Helper\Template;
                                 </li>
                                 <li class="divider"></li>
 
-                                <?php if(!empty($isNews)): ?>
+                                <?php if (!empty($isNews)): ?>
                                     <?php foreach ($isNews as $currentIsNew) : ?>
                                         <li <?= ($currentIsNew === $isNew) ? 'class="active"' : ''; ?>>
                                             <a href="<?= APP_URL; ?>build/view/<?= $build->getId(); ?>?is_new=<?= urlencode($currentIsNew); ?>&plugin=<?= urlencode($plugin); ?>&severity=<?= urlencode($severity); ?>#errors">
@@ -237,10 +237,10 @@ use PHPCensor\Helper\Template;
                         <div class="btn-group">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                                 <?php if (!empty($plugin)) {
-                                    echo Lang::get('plugin') . ': ' . Lang::get($plugin);
-                                } else {
-                                    echo Lang::get('all_plugins');
-                                } ?>&nbsp;&nbsp;<span class="caret"></span>
+                                echo Lang::get('plugin') . ': ' . Lang::get($plugin);
+                            } else {
+                                echo Lang::get('all_plugins');
+                            } ?>&nbsp;&nbsp;<span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu" role="menu">
                                 <li>
@@ -248,7 +248,7 @@ use PHPCensor\Helper\Template;
                                 </li>
                                 <li class="divider"></li>
 
-                                <?php if(!empty($plugins)): ?>
+                                <?php if (!empty($plugins)): ?>
                                     <?php foreach ($plugins as $currentPlugin) : ?>
                                         <li <?= ($currentPlugin === $plugin) ? 'class="active"' : ''; ?>>
                                             <a href="<?= APP_URL; ?>build/view/<?= $build->getId(); ?>?is_new=<?= urlencode($isNew); ?>&plugin=<?= urlencode($currentPlugin); ?>&severity=<?= urlencode($severity); ?>#errors">
@@ -262,10 +262,10 @@ use PHPCensor\Helper\Template;
                         <div class="btn-group">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                                 <?php if ('' !== $severity) {
-                                    echo Lang::get('severity') . ': ' . Lang::get(BuildError::getSeverityName($severity));
-                                } else {
-                                    echo Lang::get('all_severities');
-                                } ?>&nbsp;&nbsp;<span class="caret"></span>
+                                echo Lang::get('severity') . ': ' . Lang::get(BuildError::getSeverityName($severity));
+                            } else {
+                                echo Lang::get('all_severities');
+                            } ?>&nbsp;&nbsp;<span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu" role="menu">
                                 <li>
@@ -273,7 +273,7 @@ use PHPCensor\Helper\Template;
                                 </li>
                                 <li class="divider"></li>
 
-                                <?php if(!empty($severities)): ?>
+                                <?php if (!empty($severities)): ?>
                                     <?php foreach ($severities as $currentSeverity) : ?>
                                         <li <?= ($currentSeverity === $severity) ? 'class="active"' : ''; ?>>
                                             <a href="<?= APP_URL; ?>build/view/<?= $build->getId(); ?>?is_new=<?= urlencode($isNew); ?>&plugin=<?= urlencode($plugin); ?>&severity=<?= urlencode($currentSeverity); ?>#errors">
@@ -337,8 +337,8 @@ use PHPCensor\Helper\Template;
 
 <?php
 foreach ($uiPlugins as $uiPlugin) {
-    print '<script src="' . APP_URL . 'assets/js/build-plugins/' . $uiPlugin . '"></script>' . PHP_EOL;
-}
+                                print '<script src="' . APP_URL . 'assets/js/build-plugins/' . $uiPlugin . '"></script>' . PHP_EOL;
+                            }
 ?>
 
 <script>

@@ -2,12 +2,13 @@
 
 namespace PHPCensor\Controller;
 
-use PHPCensor\Store\Factory;
-use PHPCensor\View;
+use PHPCensor\Exception\HttpException;
 use PHPCensor\Http\Response;
-use PHPCensor\WebController;
 use PHPCensor\Store\BuildStore;
+use PHPCensor\Store\Factory;
 use PHPCensor\Store\ProjectStore;
+use PHPCensor\View;
+use PHPCensor\WebController;
 
 /**
  * Widget Build Errors Controller
@@ -53,7 +54,7 @@ class WidgetBuildErrorsController extends WebController
     /**
      * @return Response
      *
-     * @throws \PHPCensor\Exception\HttpException
+     * @throws HttpException
      */
     public function update()
     {
@@ -68,7 +69,7 @@ class WidgetBuildErrorsController extends WebController
      *
      * @return string
      *
-     * @throws \PHPCensor\Exception\HttpException
+     * @throws HttpException
      */
     protected function renderAllProjectsLatestBuilds($view)
     {

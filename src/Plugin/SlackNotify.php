@@ -2,12 +2,13 @@
 
 namespace PHPCensor\Plugin;
 
+use Exception;
+use Maknz\Slack\Attachment;
+use Maknz\Slack\AttachmentField;
+use Maknz\Slack\Client;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
-use Maknz\Slack\Client;
-use Maknz\Slack\Attachment;
-use Maknz\Slack\AttachmentField;
 
 /**
  * Slack Plugin
@@ -71,7 +72,7 @@ class SlackNotify extends Plugin
                 $this->icon = $options['icon'];
             }
         } else {
-            throw new \Exception('Please define the webhook_url for slack_notify plugin!');
+            throw new Exception('Please define the webhook_url for slack_notify plugin!');
         }
     }
 

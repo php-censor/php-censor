@@ -7,7 +7,7 @@ var phptalPlugin = ActiveBuild.UiPlugin.extend({
 
     register: function () {
         var self  = this;
-        var query = ActiveBuild.registerQuery('php_tal_lint-data', -1, {key: 'php_tal_lint-data'})
+        var query = ActiveBuild.registerQuery('php_tal_lint-data', -1, {key: 'php_tal_lint-data'});
 
         $(window).on('php_tal_lint-data', function (data) {
             self.onUpdate(data);

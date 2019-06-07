@@ -59,7 +59,6 @@ var Build = Class.extend({
                         $('body').removeClass('skin-blue skin-green skin-yellow');
                         $('body').addClass('skin-red');
                         break;
-
                 }
             }
         });
@@ -178,8 +177,7 @@ var Build = Class.extend({
         css: 'col-xs-12',
         box: false,
 
-        init: function () {
-        },
+        init: function () {},
 
         register: function () {
             var self = this;

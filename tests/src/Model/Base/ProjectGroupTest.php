@@ -2,6 +2,7 @@
 
 namespace Tests\PHPCensor\Model\Base;
 
+use DateTime;
 use PHPCensor\Model\Base\ProjectGroup;
 use PHPUnit\Framework\TestCase;
 
@@ -52,7 +53,7 @@ class ProjectGroupTest extends TestCase
         self::assertEquals(null, $projectGroup->getCreateDate());
 
         $projectGroup = new ProjectGroup();
-        $createDate   = new \DateTime();
+        $createDate   = new DateTime();
 
         $result = $projectGroup->setCreateDate($createDate);
         self::assertEquals(true, $result);

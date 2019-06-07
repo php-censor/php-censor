@@ -2,6 +2,7 @@
 
 namespace PHPCensor\Plugin;
 
+use Exception;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
@@ -120,12 +121,12 @@ class Phing extends Plugin
      * @param mixed $buildFile
      *
      * @return $this
-     * @throws \Exception
+     * @throws Exception
      */
     public function setBuildFile($buildFile)
     {
         if (!file_exists($this->directory . $buildFile)) {
-            throw new \Exception('Specified build file does not exist.');
+            throw new Exception('Specified build file does not exist.');
         }
 
         $this->buildFile = $buildFile;
@@ -196,12 +197,12 @@ class Phing extends Plugin
      * @param string $propertyFile
      *
      * @return $this
-     * @throws \Exception
+     * @throws Exception
      */
     public function setPropertyFile($propertyFile)
     {
         if (!file_exists($this->directory . '/' . $propertyFile)) {
-            throw new \Exception('Specified property file does not exist.');
+            throw new Exception('Specified property file does not exist.');
         }
 
         $this->propertyFile = $propertyFile;

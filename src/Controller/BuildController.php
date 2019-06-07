@@ -2,19 +2,22 @@
 
 namespace PHPCensor\Controller;
 
-use PHPCensor\Exception\HttpException\NotFoundException;
-use PHPCensor\Http\Response\JsonResponse;
 use JasonGrimes\Paginator;
 use PHPCensor\BuildFactory;
+use PHPCensor\Exception\HttpException\NotFoundException;
 use PHPCensor\Helper\AnsiConverter;
 use PHPCensor\Helper\Lang;
+use PHPCensor\Http\Response\JsonResponse;
 use PHPCensor\Http\Response\RedirectResponse;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\User;
 use PHPCensor\Service\BuildService;
-use PHPCensor\WebController;
-use PHPCensor\View;
+use PHPCensor\Store\BuildErrorStore;
+use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\Factory;
+use PHPCensor\Store\ProjectStore;
+use PHPCensor\View;
+use PHPCensor\WebController;
 
 /**
  * Build Controller - Allows users to run and view builds.
@@ -29,17 +32,17 @@ class BuildController extends WebController
     public $layoutName = 'layout';
 
     /**
-     * @var \PHPCensor\Store\BuildStore
+     * @var BuildStore
      */
     protected $buildStore;
 
     /**
-     * @var \PHPCensor\Store\ProjectStore
+     * @var ProjectStore
      */
     protected $projectStore;
 
     /**
-     * @var \PHPCensor\Service\BuildService
+     * @var BuildService
      */
     protected $buildService;
 
@@ -91,7 +94,7 @@ class BuildController extends WebController
             $page = $pages;
         }
 
-        /** @var \PHPCensor\Store\BuildErrorStore $errorStore */
+        /** @var BuildErrorStore $errorStore */
         $errorStore = Factory::getStore('BuildError');
 
         $this->view->uiPlugins = $this->getUiPlugins();
@@ -107,7 +110,15 @@ class BuildController extends WebController
 
         $this->view->page      = $page;
         $this->view->perPage   = $perPage;
-        $this->view->paginator = $this->getPaginatorHtml($buildId, $plugin, $severity, $isNew, $data['errors'], $perPage, $page);
+        $this->view->paginator = $this->getPaginatorHtml(
+            $buildId,
+            $plugin,
+            $severity,
+            $isNew,
+            $data['errors'],
+            $perPage,
+            $page
+        );
 
         $this->layout->title = Lang::get('build_n', $buildId);
         $this->layout->subtitle = $build->getProjectTitle();
@@ -193,12 +204,22 @@ class BuildController extends WebController
         $data                = [];
         $data['status']      = (int)$build->getStatus();
         $data['log']         = $this->cleanLog($build->getLog());
-        $data['create_date'] = !is_null($build->getCreateDate()) ? $build->getCreateDate()->format('Y-m-d H:i:s') : null;
-        $data['start_date']  = !is_null($build->getStartDate()) ? $build->getStartDate()->format('Y-m-d H:i:s') : null;
-        $data['finish_date'] = !is_null($build->getFinishDate()) ? $build->getFinishDate()->format('Y-m-d H:i:s') : null;
-        $data['duration']    = $build->getDuration();
 
-        /** @var \PHPCensor\Store\BuildErrorStore $errorStore */
+        $data['create_date'] = !is_null($build->getCreateDate())
+            ? $build->getCreateDate()->format('Y-m-d H:i:s')
+            : null;
+
+        $data['start_date'] = !is_null($build->getStartDate())
+            ? $build->getStartDate()->format('Y-m-d H:i:s')
+            : null;
+
+        $data['finish_date'] = !is_null($build->getFinishDate())
+            ? $build->getFinishDate()->format('Y-m-d H:i:s')
+            : null;
+
+        $data['duration'] = $build->getDuration();
+
+        /** @var BuildErrorStore $errorStore */
         $errorStore = Factory::getStore('BuildError');
         $errors     = $errorStore->getByBuildId($build->getId(), $perPage, $start, $plugin, $severity, $isNew);
 
@@ -242,8 +263,12 @@ class BuildController extends WebController
             $params['is_new'] = $isNew;
         }
 
-        $urlPattern = $urlPattern . '?' . str_replace('%28%3Anum%29', '(:num)', http_build_query(array_merge($params, ['page' => '(:num)']))) . '#errors';
-        $paginator  = new Paginator($total, $perPage, $page, $urlPattern);
+        $urlPattern = $urlPattern . '?' . str_replace(
+            '%28%3Anum%29',
+            '(:num)',
+            http_build_query(array_merge($params, ['page' => '(:num)']))
+        ) . '#errors';
+        $paginator = new Paginator($total, $perPage, $page, $urlPattern);
 
         $view->paginator = $paginator;
 
@@ -363,8 +388,24 @@ class BuildController extends WebController
             return $response;
         }
 
-        $data              = $this->getBuildData($build, $plugin, $severity, $isNew, (($page - 1) * $perPage), $perPage);
-        $data['paginator'] = $this->getPaginatorHtml($buildId, $plugin, $severity, $isNew, $data['errors'], $perPage, $page);
+        $data = $this->getBuildData(
+            $build,
+            $plugin,
+            $severity,
+            $isNew,
+            (($page - 1) * $perPage),
+            $perPage
+        );
+
+        $data['paginator'] = $this->getPaginatorHtml(
+            $buildId,
+            $plugin,
+            $severity,
+            $isNew,
+            $data['errors'],
+            $perPage,
+            $page
+        );
 
         $response->setContent($data);
 

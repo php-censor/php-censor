@@ -2,10 +2,11 @@
 
 namespace PHPCensor\Store;
 
-use PHPCensor\Store;
+use PDO;
 use PHPCensor\Database;
-use PHPCensor\Model\BuildMeta;
 use PHPCensor\Exception\HttpException;
+use PHPCensor\Model\BuildMeta;
+use PHPCensor\Store;
 
 class BuildMetaStore extends Store
 {
@@ -58,7 +59,7 @@ class BuildMetaStore extends Store
         $stmt->bindValue(':id', $id);
 
         if ($stmt->execute()) {
-            if ($data = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+            if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 return new BuildMeta($data);
             }
         }
@@ -90,7 +91,7 @@ class BuildMetaStore extends Store
         $stmt->bindValue(':meta_key', $key);
 
         if ($stmt->execute()) {
-            if ($data = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+            if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 return new BuildMeta($data);
             }
         }
@@ -118,10 +119,10 @@ class BuildMetaStore extends Store
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{build_id}} = :build_id LIMIT :limit';
         $stmt = Database::getConnection($useConnection)->prepareCommon($query);
         $stmt->bindValue(':build_id', $buildId);
-        $stmt->bindValue(':limit', (int)$limit, \PDO::PARAM_INT);
+        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
-            $res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+            $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             $map = function ($item) {
                 return new BuildMeta($item);
@@ -151,10 +152,10 @@ class BuildMetaStore extends Store
 
         $stmt = Database::getConnection('read')->prepareCommon($query);
 
-        $stmt->bindValue(':limit', $limit, \PDO::PARAM_INT);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
-            $res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+            $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             $map = function ($item) {
                 return new BuildMeta($item);

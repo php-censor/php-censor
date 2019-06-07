@@ -5,6 +5,7 @@ namespace PHPCensor\Plugin;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
+use RuntimeException;
 
 /**
  * Copy Build Plugin - Copies the entire build to another directory.
@@ -39,7 +40,7 @@ class CopyBuild extends Plugin
      * Copies files from the root of the build directory into the target folder
      *
      * @return bool
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function execute()
     {
@@ -52,7 +53,7 @@ class CopyBuild extends Plugin
         $this->wipeExistingDirectory();
 
         if (is_dir($this->directory)) {
-            throw new \RuntimeException(
+            throw new RuntimeException(
                 sprintf(
                     'Directory "%s" already exists! Use "wipe" option if you want to delete directory before copy.',
                     $this->directory
@@ -71,7 +72,7 @@ class CopyBuild extends Plugin
     /**
      * Wipe the destination directory if it already exists.
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     protected function wipeExistingDirectory()
     {
@@ -80,7 +81,7 @@ class CopyBuild extends Plugin
             $success = $this->builder->executeCommand($cmd, $this->builder->buildPath, $this->directory);
 
             if (!$success) {
-                throw new \RuntimeException(
+                throw new RuntimeException(
                     sprintf('Failed to wipe existing directory "%s" before copy!', $this->directory)
                 );
             }

@@ -2,8 +2,8 @@
 
 namespace PHPCensor\Model\Base;
 
-use PHPCensor\Model;
 use PHPCensor\Exception\InvalidArgumentException;
+use PHPCensor\Model;
 
 class BuildMeta extends Model
 {

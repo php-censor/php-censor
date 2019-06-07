@@ -93,7 +93,8 @@ var PHPCensor = {
 
 PHPCensor.init();
 
-function handleFailedAjax(xhr) {
+function handleFailedAjax(xhr)
+{
     PHPCensor.handleFailedAjax(xhr);
 }
 
@@ -129,7 +130,8 @@ if (!Function.prototype.bind) {
 /**
  * Used for delete buttons in the system, just to prevent accidental clicks.
  */
-function confirmDelete(url, reloadAfter) {
+function confirmDelete(url, reloadAfter)
+{
 
     var dialog = new PHPCensorConfirmDialog({
         title: Lang.get('confirm_title'),

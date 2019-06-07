@@ -2,10 +2,12 @@
 
 namespace PHPCensor\Plugin;
 
+use Exception;
 use PHPCensor;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
+use RuntimeException;
 
 /**
  * Sensiolabs Insight Plugin - Allows Sensiolabs Insight testing.
@@ -76,7 +78,7 @@ class SensiolabsInsight extends Plugin
     /**
      * Runs Sensiolabs Insights in a specified directory.
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function execute()
     {
@@ -97,7 +99,7 @@ class SensiolabsInsight extends Plugin
      *
      * @return int
      *
-     * @throws \Exception
+     * @throws Exception
      */
     protected function processReport($xmlString)
     {
@@ -105,7 +107,7 @@ class SensiolabsInsight extends Plugin
 
         if ($xml === false) {
             $this->builder->log($xmlString);
-            throw new \RuntimeException('Could not process PHPMD report XML.');
+            throw new RuntimeException('Could not process PHPMD report XML.');
         }
 
         $warnings = 0;

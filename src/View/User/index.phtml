@@ -8,7 +8,7 @@ $currentUser = $this->getUser();
 ?>
 <div class="clearfix"  style="margin-bottom: 20px;">
     <div class="pull-right btn-group">
-        <?php if($currentUser->getIsAdmin()): ?>
+        <?php if ($currentUser->getIsAdmin()): ?>
         <a class="btn btn-success" href="<?= APP_URL; ?>user/add"><?= Lang::get('add_user'); ?></a>
         <?php endif; ?>
     </div>
@@ -28,10 +28,9 @@ $currentUser = $this->getUser();
                     </tr>
                     </thead>
                     <tbody id="users">
-                    <?php foreach($users['items'] as $user): ?>
+                    <?php foreach ($users['items'] as $user): ?>
                         <?php
-                        switch($user->getIsAdmin())
-                        {
+                        switch ($user->getIsAdmin()) {
                             case 0:
                                 $cls = '';
                                 $status = Lang::get('no');
@@ -45,7 +44,7 @@ $currentUser = $this->getUser();
                         ?>
                         <tr class="<?= $cls; ?>">
                             <td>
-                                <?php if($currentUser->getIsAdmin() || $currentUser == $user): ?>
+                                <?php if ($currentUser->getIsAdmin() || $currentUser == $user): ?>
                                 <a href="<?= APP_URL; ?>user/edit/<?= $user->getId(); ?>"><?= $user->getEmail(); ?></a>
                                 <?php else: ?>
                                 <?= $user->getEmail(); ?>
@@ -55,7 +54,7 @@ $currentUser = $this->getUser();
                             <td><?= $status; ?></td>
                             <td>
                                 <div class="btn-group btn-group-right">
-                                    <?php if($currentUser->getIsAdmin() || $currentUser == $user): ?>
+                                    <?php if ($currentUser->getIsAdmin() || $currentUser == $user): ?>
                                     <a class="btn btn-default btn-sm"
                                         href="<?= APP_URL; ?>user/edit/<?= $user->getId(); ?>">
                                         <?= Lang::get('edit'); ?>
@@ -65,7 +64,7 @@ $currentUser = $this->getUser();
                                     </button>
                                     <?php endif; ?>
 
-                                    <?php if($currentUser->getIsAdmin()): ?>
+                                    <?php if ($currentUser->getIsAdmin()): ?>
                                     <ul class="dropdown-menu">
                                         <li><a href="<?= APP_URL; ?>user/delete/<?= $user->getId(); ?>"
                                             class="delete-user"><?= Lang::get('delete_user'); ?></a></li>

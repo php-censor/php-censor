@@ -2,16 +2,18 @@
 
 namespace PHPCensor\Plugin;
 
+use Exception;
+use GuzzleHttp\Client;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
-use GuzzleHttp\Client;
+use PHPCensor\Plugin;
 
 /**
  * Telegram Plugin
  *
  * @author LEXASOFT <lexasoft83@gmail.com>
  */
-class Telegram extends \PHPCensor\Plugin
+class Telegram extends Plugin
 {
     protected $apiKey;
     protected $message;
@@ -33,18 +35,18 @@ class Telegram extends \PHPCensor\Plugin
      * @param Builder $builder
      * @param Build   $build
      * @param array   $options
-     * @throws \Exception
+     * @throws Exception
      */
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
         parent::__construct($builder, $build, $options);
 
         if (empty($options['api_key'])) {
-            throw new \Exception("Not setting telegram api_key");
+            throw new Exception("Not setting telegram api_key");
         }
 
         if (empty($options['recipients'])) {
-            throw new \Exception("Not setting recipients");
+            throw new Exception("Not setting recipients");
         }
 
         $this->apiKey  = $options['api_key'];

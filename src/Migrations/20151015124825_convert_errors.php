@@ -1,19 +1,21 @@
 <?php
 
 use Phinx\Migration\AbstractMigration;
-use PHPCensor\Model\BuildMeta;
 use PHPCensor\Model\BuildError;
+use PHPCensor\Model\BuildMeta;
+use PHPCensor\Store\BuildErrorStore;
+use PHPCensor\Store\BuildMetaStore;
 use PHPCensor\Store\Factory;
 
 class ConvertErrors extends AbstractMigration
 {
     /**
-     * @var \PHPCensor\Store\BuildMetaStore
+     * @var BuildMetaStore
      */
     protected $metaStore;
 
     /**
-     * @var \PHPCensor\Store\BuildErrorStore
+     * @var BuildErrorStore
      */
     protected $errorStore;
 
@@ -28,7 +30,7 @@ class ConvertErrors extends AbstractMigration
             $data  = $this->metaStore->getErrorsForUpgrade(100);
             $count = count($data);
 
-            /** @var \PHPCensor\Model\BuildMeta $meta */
+            /** @var BuildMeta $meta */
             foreach ($data as $meta) {
                 switch ($meta->getMetaKey()) {
                     case 'phpmd-data':
@@ -66,7 +68,7 @@ class ConvertErrors extends AbstractMigration
                 $buildError = new BuildError();
                 $buildError->setBuildId($meta->getBuildId());
                 $buildError->setPlugin('php_mess_detector');
-                $buildError->setCreateDate(new \DateTime());
+                $buildError->setCreateDate(new DateTime());
                 $buildError->setFile($error['file']);
                 $buildError->setLineStart($error['line_start']);
                 $buildError->setLineEnd($error['line_end']);
@@ -87,7 +89,7 @@ class ConvertErrors extends AbstractMigration
                 $buildError = new BuildError();
                 $buildError->setBuildId($meta->getBuildId());
                 $buildError->setPlugin('php_code_sniffer');
-                $buildError->setCreateDate(new \DateTime());
+                $buildError->setCreateDate(new DateTime());
                 $buildError->setFile($error['file']);
                 $buildError->setLineStart($error['line']);
                 $buildError->setLineEnd($error['line']);
@@ -117,7 +119,7 @@ class ConvertErrors extends AbstractMigration
                 $buildError = new BuildError();
                 $buildError->setBuildId($meta->getBuildId());
                 $buildError->setPlugin('php_docblock_checker');
-                $buildError->setCreateDate(new \DateTime());
+                $buildError->setCreateDate(new DateTime());
                 $buildError->setFile($error['file']);
                 $buildError->setLineStart($error['line']);
                 $buildError->setLineEnd($error['line']);
@@ -148,7 +150,7 @@ class ConvertErrors extends AbstractMigration
                 $buildError = new BuildError();
                 $buildError->setBuildId($meta->getBuildId());
                 $buildError->setPlugin('php_cpd');
-                $buildError->setCreateDate(new \DateTime());
+                $buildError->setCreateDate(new DateTime());
                 $buildError->setFile($error['file']);
                 $buildError->setLineStart($error['line_start']);
                 $buildError->setLineEnd($error['line_end']);
@@ -169,7 +171,7 @@ class ConvertErrors extends AbstractMigration
                 $buildError = new BuildError();
                 $buildError->setBuildId($meta->getBuildId());
                 $buildError->setPlugin('technical_debt');
-                $buildError->setCreateDate(new \DateTime());
+                $buildError->setCreateDate(new DateTime());
                 $buildError->setFile($error['file']);
                 $buildError->setLineStart($error['line']);
                 $buildError->setSeverity(BuildError::SEVERITY_NORMAL);

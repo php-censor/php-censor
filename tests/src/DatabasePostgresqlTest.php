@@ -2,13 +2,20 @@
 
 namespace Tests\PHPCensor;
 
+use Exception;
+use PDO;
+use PDOException;
 use PHPCensor\Config;
 use PHPCensor\Database;
+use PHPUnit_Extensions_Database_DataSet_IDataSet;
+use PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection;
+use PHPUnit_Extensions_Database_DB_IDatabaseConnection;
+use PHPUnit_Extensions_Database_TestCase;
 
-class DatabasePostgresqlTest extends \PHPUnit_Extensions_Database_TestCase
+class DatabasePostgresqlTest extends PHPUnit_Extensions_Database_TestCase
 {
     /**
-     * @var \PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection|null
+     * @var PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection|null
      */
     protected $connection = null;
 
@@ -24,7 +31,7 @@ class DatabasePostgresqlTest extends \PHPUnit_Extensions_Database_TestCase
         if (extension_loaded('pgsql')) {
             if (null === $this->connection) {
                 try {
-                    $pdo = new \PDO(
+                    $pdo = new PDO(
                         'pgsql:host=localhost;dbname=' . POSTGRESQL_DBNAME,
                         POSTGRESQL_USER,
                         POSTGRESQL_PASSWORD
@@ -41,7 +48,7 @@ class DatabasePostgresqlTest extends \PHPUnit_Extensions_Database_TestCase
                             PRIMARY KEY ("id")
                         )
                     ');
-                } catch (\PDOException $ex) {
+                } catch (PDOException $ex) {
                     $this->connection = null;
                 }
             }
@@ -51,7 +58,7 @@ class DatabasePostgresqlTest extends \PHPUnit_Extensions_Database_TestCase
     }
 
     /**
-     * @return \PHPUnit_Extensions_Database_DB_IDatabaseConnection
+     * @return PHPUnit_Extensions_Database_DB_IDatabaseConnection
      */
     protected function getConnection()
     {
@@ -63,7 +70,7 @@ class DatabasePostgresqlTest extends \PHPUnit_Extensions_Database_TestCase
     }
 
     /**
-     * @return \PHPUnit_Extensions_Database_DataSet_IDataSet
+     * @return PHPUnit_Extensions_Database_DataSet_IDataSet
      */
     protected function getDataSet()
     {
@@ -175,7 +182,7 @@ class DatabasePostgresqlTest extends \PHPUnit_Extensions_Database_TestCase
     }
 
     /**
-     * @expectedException \Exception
+     * @expectedException Exception
      */
     public function testConnectionFailure()
     {
@@ -212,7 +219,7 @@ class DatabasePostgresqlTest extends \PHPUnit_Extensions_Database_TestCase
         $query->bindValue(':projectId', 1);
         $query->execute();
 
-        $data = $query->fetchAll(\PDO::FETCH_ASSOC);
+        $data = $query->fetchAll(PDO::FETCH_ASSOC);
 
         self::assertEquals(1, count($data));
         self::assertEquals([[

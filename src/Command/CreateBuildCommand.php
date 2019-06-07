@@ -2,6 +2,7 @@
 
 namespace PHPCensor\Command;
 
+use Exception;
 use PHPCensor\Exception\InvalidArgumentException;
 use PHPCensor\Model\Build;
 use PHPCensor\Service\BuildService;
@@ -78,7 +79,7 @@ class CreateBuildCommand extends Command
         try {
             $this->buildService->createBuild($project, $environment, $commitId, $branch, null, $ciEmail, $ciMessage, Build::SOURCE_MANUAL_CONSOLE);
             $output->writeln('Build Created');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $output->writeln('<error>Failed</error>');
             $output->writeln(sprintf('<error>%s</error>', $e->getMessage()));
         }

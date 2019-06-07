@@ -1,9 +1,9 @@
 <?php
 
 use Phinx\Migration\AbstractMigration;
-use PHPCensor\Store\Factory;
-use PHPCensor\Store\BuildStore;
 use PHPCensor\Model\Build;
+use PHPCensor\Store\BuildStore;
+use PHPCensor\Store\Factory;
 
 class AddedRequestBranchToBuild extends AbstractMigration
 {

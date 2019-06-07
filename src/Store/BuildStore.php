@@ -2,9 +2,11 @@
 
 namespace PHPCensor\Store;
 
+use Exception;
+use PDO;
 use PHPCensor\Database;
-use PHPCensor\Model\Build;
 use PHPCensor\Exception\HttpException;
+use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildMeta;
 use PHPCensor\Store;
 
@@ -62,7 +64,7 @@ class BuildStore extends Store
         $stmt->bindValue(':id', $id);
 
         if ($stmt->execute()) {
-            if ($data = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+            if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 return new Build($data);
             }
         }
@@ -90,10 +92,10 @@ class BuildStore extends Store
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{project_id}} = :project_id LIMIT :limit';
         $stmt = Database::getConnection($useConnection)->prepareCommon($query);
         $stmt->bindValue(':project_id', $projectId);
-        $stmt->bindValue(':limit', (int)$limit, \PDO::PARAM_INT);
+        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
-            $res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+            $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             $map = function ($item) {
                 return new Build($item);
@@ -128,10 +130,10 @@ class BuildStore extends Store
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{status}} = :status ORDER BY {{create_date}} ASC LIMIT :limit';
         $stmt = Database::getConnection($useConnection)->prepareCommon($query);
         $stmt->bindValue(':status', $status);
-        $stmt->bindValue(':limit', (int)$limit, \PDO::PARAM_INT);
+        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
-            $res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+            $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             $map = function ($item) {
                 return new Build($item);
@@ -157,11 +159,11 @@ class BuildStore extends Store
         $query = 'SELECT * FROM {{' . $this->tableName . '}} ORDER BY {{id}} DESC LIMIT :limit OFFSET :offset';
         $stmt  = Database::getConnection('read')->prepareCommon($query);
 
-        $stmt->bindValue(':limit', $limit, \PDO::PARAM_INT);
-        $stmt->bindValue(':offset', $offset, \PDO::PARAM_INT);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
-            $res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+            $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             $map = function ($item) {
                 return new Build($item);
@@ -180,7 +182,7 @@ class BuildStore extends Store
      *
      * @return null|Build
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function getLatestBuildByProjectAndBranch($projectId, $branch)
     {
@@ -190,7 +192,7 @@ class BuildStore extends Store
         $stmt->bindValue(':project_id', $projectId);
         $stmt->bindValue(':branch', $branch);
 
-        if ($stmt->execute() && $data = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+        if ($stmt->execute() && $data = $stmt->fetch(PDO::FETCH_ASSOC)) {
             return new Build($data);
         }
 
@@ -205,7 +207,7 @@ class BuildStore extends Store
      *
      * @return array
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function getLatestBuilds($projectId = null, $limit = 5)
     {
@@ -221,10 +223,10 @@ class BuildStore extends Store
             $stmt->bindValue(':pid', $projectId);
         }
 
-        $stmt->bindValue(':limit', $limit, \PDO::PARAM_INT);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
-            $res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+            $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             $map = function ($item) {
                 return new Build($item);
@@ -253,7 +255,7 @@ class BuildStore extends Store
         $stmt->bindValue(':status', $status);
 
         if ($stmt->execute()) {
-            if ($data = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+            if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 return new Build($data);
             }
         } else {
@@ -295,7 +297,7 @@ class BuildStore extends Store
         $stmt = Database::getConnection('read')->prepareCommon($query);
 
         if ($stmt->execute()) {
-            $res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+            $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             $projects = [];
             $latest   = [];
@@ -368,7 +370,7 @@ class BuildStore extends Store
         $stmt->bindValue(':commit_id', $commitId);
 
         if ($stmt->execute()) {
-            $res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+            $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             $map = function ($item) {
                 return new Build($item);
@@ -389,7 +391,7 @@ class BuildStore extends Store
      *
      * @return array
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function getBuildBranches($projectId)
     {
@@ -398,7 +400,7 @@ class BuildStore extends Store
         $stmt->bindValue(':project_id', $projectId);
 
         if ($stmt->execute()) {
-            $res = $stmt->fetchAll(\PDO::FETCH_COLUMN);
+            $res = $stmt->fetchAll(PDO::FETCH_COLUMN);
             return $res;
         } else {
             return [];
@@ -439,19 +441,19 @@ class BuildStore extends Store
         $query .= ' ORDER BY bm.id DESC LIMIT :numResults';
 
         $stmt = Database::getConnection('read')->prepareCommon($query);
-        $stmt->bindValue(':key', $key, \PDO::PARAM_STR);
-        $stmt->bindValue(':projectId', (int)$projectId, \PDO::PARAM_INT);
-        $stmt->bindValue(':buildId', (int)$buildId, \PDO::PARAM_INT);
-        $stmt->bindValue(':numResults', (int)$numResults, \PDO::PARAM_INT);
+        $stmt->bindValue(':key', $key, PDO::PARAM_STR);
+        $stmt->bindValue(':projectId', (int)$projectId, PDO::PARAM_INT);
+        $stmt->bindValue(':buildId', (int)$buildId, PDO::PARAM_INT);
+        $stmt->bindValue(':numResults', (int)$numResults, PDO::PARAM_INT);
 
         if (!is_null($branch)) {
-            $stmt->bindValue(':branch', $branch, \PDO::PARAM_STR);
+            $stmt->bindValue(':branch', $branch, PDO::PARAM_STR);
         }
 
         if ($stmt->execute()) {
-            $rtn = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+            $rtn = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            /** @var \PHPCensor\Store\BuildErrorStore $errorStore */
+            /** @var BuildErrorStore $errorStore */
             $errorStore = Factory::getStore('BuildError');
 
             $rtn = array_reverse($rtn);
@@ -524,10 +526,10 @@ class BuildStore extends Store
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{project_id}} = :project_id ORDER BY {{create_date}} DESC OFFSET :keep';
         $stmt = Database::getConnection('read')->prepareCommon($query);
         $stmt->bindValue(':project_id', $projectId);
-        $stmt->bindValue(':keep', (int)$keep, \PDO::PARAM_INT);
+        $stmt->bindValue(':keep', (int)$keep, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
-            $res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+            $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             $map = function ($item) {
                 return new Build($item);
@@ -547,7 +549,7 @@ class BuildStore extends Store
      *
      * @return int
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function getNewErrorsCount($buildId)
     {
@@ -558,7 +560,7 @@ class BuildStore extends Store
         $stmt->bindValue(':build_id', $buildId);
 
         if ($stmt->execute()) {
-            $res = $stmt->fetch(\PDO::FETCH_ASSOC);
+            $res = $stmt->fetch(PDO::FETCH_ASSOC);
 
             return (int)$res['total'];
         }
@@ -571,7 +573,7 @@ class BuildStore extends Store
      *
      * @return int
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function getErrorsCount($buildId)
     {
@@ -582,7 +584,7 @@ class BuildStore extends Store
         $stmt->bindValue(':build_id', $buildId);
 
         if ($stmt->execute()) {
-            $res = $stmt->fetch(\PDO::FETCH_ASSOC);
+            $res = $stmt->fetch(PDO::FETCH_ASSOC);
 
             return (int)$res['total'];
         }
@@ -597,7 +599,7 @@ class BuildStore extends Store
      *
      * @return array
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function getBuildErrorsTrend($buildId, $projectId, $branch)
     {
@@ -612,12 +614,12 @@ LIMIT 2';
 
         $stmt = Database::getConnection('read')->prepareCommon($query);
 
-        $stmt->bindValue(':build_id', $buildId, \PDO::PARAM_INT);
-        $stmt->bindValue(':project_id', $projectId, \PDO::PARAM_INT);
-        $stmt->bindValue(':branch', $branch, \PDO::PARAM_STR);
+        $stmt->bindValue(':build_id', $buildId, PDO::PARAM_INT);
+        $stmt->bindValue(':project_id', $projectId, PDO::PARAM_INT);
+        $stmt->bindValue(':branch', $branch, PDO::PARAM_STR);
 
         if ($stmt->execute()) {
-            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } else {
             return [];
         }

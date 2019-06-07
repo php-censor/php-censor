@@ -68,7 +68,7 @@ class BitbucketNotifyPluginResult
         return $this->right === $this->left;
     }
 
-    public function generateFormatedOutput($maxPluginNameLength)
+    public function generateFormattedOutput($maxPluginNameLength)
     {
         return trim(sprintf(
             "%s | %d\t=> %d\t%s",

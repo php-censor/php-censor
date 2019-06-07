@@ -17,7 +17,7 @@ abstract class LoggingCommand extends Command
     protected $logger;
 
     /**
-     * @param \Monolog\Logger $logger
+     * @param Logger $logger
      * @param string          $name
      */
     public function __construct(Logger $logger, $name = null)

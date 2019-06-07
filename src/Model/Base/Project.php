@@ -2,6 +2,8 @@
 
 namespace PHPCensor\Model\Base;
 
+use DateTime;
+use Exception;
 use PHPCensor\Exception\InvalidArgumentException;
 use PHPCensor\Model;
 
@@ -492,25 +494,25 @@ class Project extends Model
     }
 
     /**
-     * @return \DateTime|null
+     * @return DateTime|null
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function getCreateDate()
     {
         if ($this->data['create_date']) {
-            return new \DateTime($this->data['create_date']);
+            return new DateTime($this->data['create_date']);
         }
 
         return null;
     }
 
     /**
-     * @param \DateTime $value
+     * @param DateTime $value
      *
      * @return bool
      */
-    public function setCreateDate(\DateTime $value)
+    public function setCreateDate(DateTime $value)
     {
         $stringValue = $value->format('Y-m-d H:i:s');
 

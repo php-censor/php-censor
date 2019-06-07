@@ -11,7 +11,7 @@ use PHPCensor\Store\UserStore;
 class UserService
 {
     /**
-     * @var \PHPCensor\Store\UserStore
+     * @var UserStore
      */
     protected $store;
 

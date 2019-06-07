@@ -2,6 +2,8 @@
 
 namespace PHPCensor\Plugin\Util;
 
+use Exception;
+
 /**
  * Class PhpUnitResult parses the results for the PhpUnitV2 plugin
  *
@@ -20,7 +22,7 @@ class PhpUnitResultJson extends PhpUnitResult
      * Parse the results
      *
      * @return $this
-     * @throws \Exception If fails to parse the output
+     * @throws Exception If fails to parse the output
      */
     public function parse()
     {
@@ -68,7 +70,7 @@ class PhpUnitResultJson extends PhpUnitResult
      * @param $event
      *
      * @return string The severity flags
-     * @throws \Exception
+     * @throws Exception
      */
     protected function getSeverity($event)
     {
@@ -91,7 +93,7 @@ class PhpUnitResultJson extends PhpUnitResult
                 $severity = self::SEVERITY_PASS;
                 break;
             default:
-                throw new \Exception("Unexpected PHPUnit test status: {$status}");
+                throw new Exception("Unexpected PHPUnit test status: {$status}");
                 break;
         }
 

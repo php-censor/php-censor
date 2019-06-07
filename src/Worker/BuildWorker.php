@@ -2,16 +2,18 @@
 
 namespace PHPCensor\Worker;
 
-use Pheanstalk\Exception\ServerException;
-use PHPCensor\Service\BuildService;
-use PHPCensor\Store\Factory;
+use DateTime;
+use Exception;
 use Monolog\Logger;
+use Pheanstalk\Exception\ServerException;
 use Pheanstalk\Job;
 use Pheanstalk\Pheanstalk;
 use PHPCensor\Builder;
 use PHPCensor\BuildFactory;
 use PHPCensor\Logging\BuildDBLogHandler;
 use PHPCensor\Model\Build;
+use PHPCensor\Service\BuildService;
+use PHPCensor\Store\Factory;
 
 class BuildWorker
 {
@@ -32,7 +34,7 @@ class BuildWorker
     /**
      * The logger for builds to use.
      *
-     * @var \Monolog\Logger
+     * @var Logger
      */
     protected $logger;
 
@@ -49,7 +51,7 @@ class BuildWorker
     protected $queueTube;
 
     /**
-     * @var \Pheanstalk\Pheanstalk
+     * @var Pheanstalk
      */
     protected $pheanstalk;
 
@@ -150,7 +152,8 @@ class BuildWorker
             if (Build::STATUS_PENDING !== $build->getStatus()) {
                 $this->logger->warning(
                     sprintf(
-                        'Invalid build #%s status "%s" from the queue tube "%s". Build status should be "%s" (pending)!',
+                        'Invalid build #%s status "%s" from the queue tube "%s". ' .
+                        'Build status should be "%s" (pending)!',
                         $build->getId(),
                         $build->getStatus(),
                         $this->queueTube,
@@ -171,19 +174,18 @@ class BuildWorker
 
             try {
                 $builder->execute();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $builder->getBuildLogger()->log('');
                 $builder->getBuildLogger()->logFailure(
                     sprintf(
                         'BUILD FAILED! Exception: %s',
-                        $build->getId(),
                         $e->getMessage()
                     ),
                     $e
                 );
 
                 $build->setStatusFailed();
-                $build->setFinishDate(new \DateTime());
+                $build->setFinishDate(new DateTime());
 
                 $buildStore->save($build);
 

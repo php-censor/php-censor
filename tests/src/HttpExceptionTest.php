@@ -2,14 +2,16 @@
 
 namespace Tests\PHPCensor;
 
+use Exception;
 use PHPCensor\Exception\HttpException;
+use PHPUnit\Framework\TestCase;
 
-class HttpExceptionTest extends \PHPUnit\Framework\TestCase
+class HttpExceptionTest extends TestCase
 {
     public function testHttpExceptionIsException()
     {
         $ex = new HttpException();
-        self::assertTrue($ex instanceof \Exception);
+        self::assertTrue($ex instanceof Exception);
     }
 
     public function testHttpException()

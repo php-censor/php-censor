@@ -1,4 +1,9 @@
-<?php if (!($parent instanceof \PHPCensor\Form\Element\CheckboxGroup)): ?>
+<?php
+
+use PHPCensor\Form\Element\CheckboxGroup;
+
+?>
+<?php if (!($parent instanceof CheckboxGroup)): ?>
 <div class="control-group <?= $containerClass ?> <?= (isset($error) ? 'error' : ''); ?>">
     <div class="controls">
         <div class="checkbox">
@@ -13,7 +18,7 @@
             <?php if (isset($error)): ?>
                 <span class="help-block"><?= $error; ?></span>
             <?php endif; ?>
-            <?php if (!($parent instanceof \PHPCensor\Form\Element\CheckboxGroup)): ?>
+            <?php if (!($parent instanceof CheckboxGroup)): ?>
         </div>
     </div>
 </div>

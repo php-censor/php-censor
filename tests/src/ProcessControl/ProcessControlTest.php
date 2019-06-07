@@ -2,10 +2,13 @@
 
 namespace Tests\PHPCensor\ProcessControl;
 
+use PHPCensor\ProcessControl\ProcessControlInterface;
+use PHPUnit\Framework\TestCase;
+
 /**
  * Some helpers to
  */
-abstract class ProcessControlTest extends \PHPUnit\Framework\TestCase
+abstract class ProcessControlTest extends TestCase
 {
     /**
      * @var resource
@@ -18,7 +21,7 @@ abstract class ProcessControlTest extends \PHPUnit\Framework\TestCase
     protected $pipes;
 
     /**
-     * @var \PHPCensor\ProcessControl\ProcessControlInterface
+     * @var ProcessControlInterface
      */
     protected $object;
 

@@ -7,7 +7,7 @@ PHPCensor.widgets.allProjects = {
         });
     },
 
-    load: function() {
+    load: function () {
         $.ajax({
             url: APP_URL + 'widget-all-projects',
 

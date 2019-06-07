@@ -2,6 +2,8 @@
 
 namespace PHPCensor\Model\Base;
 
+use DateTime;
+use Exception;
 use PHPCensor\Exception\InvalidArgumentException;
 use PHPCensor\Model;
 use PHPCensor\Store\BuildStore;
@@ -352,25 +354,25 @@ class Build extends Model
     }
 
     /**
-     * @return \DateTime|null
+     * @return DateTime|null
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function getCreateDate()
     {
         if ($this->data['create_date']) {
-            return new \DateTime($this->data['create_date']);
+            return new DateTime($this->data['create_date']);
         }
 
         return null;
     }
 
     /**
-     * @param \DateTime $value
+     * @param DateTime $value
      *
      * @return bool
      */
-    public function setCreateDate(\DateTime $value)
+    public function setCreateDate(DateTime $value)
     {
         $stringValue = $value->format('Y-m-d H:i:s');
 
@@ -384,25 +386,25 @@ class Build extends Model
     }
 
     /**
-     * @return \DateTime|null
+     * @return DateTime|null
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function getStartDate()
     {
         if ($this->data['start_date']) {
-            return new \DateTime($this->data['start_date']);
+            return new DateTime($this->data['start_date']);
         }
 
         return null;
     }
 
     /**
-     * @param \DateTime $value
+     * @param DateTime $value
      *
      * @return bool
      */
-    public function setStartDate(\DateTime $value)
+    public function setStartDate(DateTime $value)
     {
         $stringValue = $value->format('Y-m-d H:i:s');
 
@@ -416,25 +418,25 @@ class Build extends Model
     }
 
     /**
-     * @return \DateTime|null
+     * @return DateTime|null
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function getFinishDate()
     {
         if ($this->data['finish_date']) {
-            return new \DateTime($this->data['finish_date']);
+            return new DateTime($this->data['finish_date']);
         }
 
         return null;
     }
 
     /**
-     * @param \DateTime $value
+     * @param DateTime $value
      *
      * @return bool
      */
-    public function setFinishDate(\DateTime $value)
+    public function setFinishDate(DateTime $value)
     {
         $stringValue = $value->format('Y-m-d H:i:s');
 
@@ -676,7 +678,7 @@ class Build extends Model
     /**
      * @return int|null
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function getErrorsTotalPrevious()
     {

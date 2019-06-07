@@ -7,7 +7,7 @@ PHPCensor.widgets.buildErrors = {
         });
     },
 
-    load: function() {
+    load: function () {
         $.ajax({
             url: APP_URL + 'widget-build-errors',
 

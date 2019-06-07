@@ -1,9 +1,9 @@
 <?php
 
 use PHPCensor\Helper\Lang;
+use PHPCensor\Helper\Template;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
-use PHPCensor\Helper\Template;
 
 /**
  * @var Build        $build
@@ -44,7 +44,7 @@ foreach ($errors as $error):
            if ($error->getLineStart() == $error->getLineEnd() || !$error->getLineEnd()) {
                echo $error->getLineStart();
            } else {
-               echo ($error->getLineStart() . ' - ' . $error->getLineEnd());
+               echo $error->getLineStart() . ' - ' . $error->getLineEnd();
            }
            ?>
            </a>

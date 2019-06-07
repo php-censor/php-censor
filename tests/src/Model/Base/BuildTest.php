@@ -2,6 +2,8 @@
 
 namespace Tests\PHPCensor\Model\Base;
 
+use DateTime;
+use PHPCensor\Exception\InvalidArgumentException;
 use PHPCensor\Model\Base\Build;
 use PHPUnit\Framework\TestCase;
 
@@ -53,7 +55,7 @@ class BuildTest extends TestCase
     }
 
     /**
-     * @throws \PHPCensor\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function testParentId()
     {
@@ -146,7 +148,7 @@ class BuildTest extends TestCase
         self::assertEquals(null, $build->getCreateDate());
 
         $build      = new Build();
-        $createDate = new \DateTime();
+        $createDate = new DateTime();
 
         $result = $build->setCreateDate($createDate);
         self::assertEquals(true, $result);
@@ -162,7 +164,7 @@ class BuildTest extends TestCase
         self::assertEquals(null, $build->getStartDate());
 
         $build      = new Build();
-        $createDate = new \DateTime();
+        $createDate = new DateTime();
 
         $result = $build->setStartDate($createDate);
         self::assertEquals(true, $result);
@@ -178,7 +180,7 @@ class BuildTest extends TestCase
         self::assertEquals(null, $build->getFinishDate());
 
         $build      = new Build();
-        $createDate = new \DateTime();
+        $createDate = new DateTime();
 
         $result = $build->setFinishDate($createDate);
         self::assertEquals(true, $result);

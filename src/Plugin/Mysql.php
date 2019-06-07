@@ -2,11 +2,12 @@
 
 namespace PHPCensor\Plugin;
 
+use Exception;
 use PDO;
 use PHPCensor\Builder;
+use PHPCensor\Database;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
-use PHPCensor\Database;
 
 /**
  * MySQL Plugin - Provides access to a MySQL database.
@@ -88,10 +89,10 @@ class Mysql extends Plugin
                     // SQL file execution
                     $this->executeFile($query['import']);
                 } else {
-                    throw new \Exception('Invalid command.');
+                    throw new Exception('Invalid command.');
                 }
             }
-        } catch (\Exception $ex) {
+        } catch (Exception $ex) {
             $this->builder->logFailure($ex->getMessage());
             return false;
         }
@@ -103,24 +104,24 @@ class Mysql extends Plugin
      *
      * @return bool
      *
-     * @throws \Exception
+     * @throws Exception
      */
     protected function executeFile(array $query)
     {
         if (!isset($query['file'])) {
-            throw new \Exception('Import statement must contain a \'file\' key');
+            throw new Exception('Import statement must contain a \'file\' key');
         }
 
         $importFile = $this->builder->buildPath . $this->builder->interpolate($query['file']);
         if (!is_readable($importFile)) {
-            throw new \Exception(sprintf('Cannot open SQL import file: %s', $importFile));
+            throw new Exception(sprintf('Cannot open SQL import file: %s', $importFile));
         }
 
         $database = isset($query['database']) ? $this->builder->interpolate($query['database']) : null;
 
         $importCommand = $this->getImportCommand($importFile, $database);
         if (!$this->builder->executeCommand($importCommand)) {
-            throw new \Exception('Unable to execute SQL file');
+            throw new Exception('Unable to execute SQL file');
         }
 
         return true;

@@ -2,8 +2,9 @@
 
 namespace PHPCensor\Model\Build;
 
-use PHPCensor\Model\Build;
+use Exception;
 use PHPCensor\Builder;
+use PHPCensor\Model\Build;
 
 /**
  * Mercurial Build Model
@@ -30,7 +31,7 @@ class HgBuild extends Build
      *
      * @return bool
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function createWorkingCopy(Builder $builder, $buildPath)
     {

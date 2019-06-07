@@ -4,13 +4,14 @@ namespace Tests\PHPCensor\Plugin\Option;
 
 use PHPCensor\Builder;
 use PHPCensor\Plugin\Option\PhpUnitOptions;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Unit test for the PHPUnitOptions parser
  *
  * @author Pablo Tejada <pablo@ptejada.com>
  */
-class PhpUnitOptionsTest extends \PHPUnit\Framework\TestCase
+class PhpUnitOptionsTest extends TestCase
 {
     public function validOptionsProvider()
     {

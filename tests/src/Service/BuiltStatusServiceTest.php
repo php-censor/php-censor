@@ -2,16 +2,18 @@
 
 namespace Tests\PHPCensor\Service;
 
+use DateTime;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\Project;
 use PHPCensor\Service\BuildStatusService;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Unit tests for the ProjectService class.
  *
  * @author Dan Cryer <dan@block8.co.uk>
  */
-class BuildStatusServiceTest extends \PHPUnit\Framework\TestCase
+class BuildStatusServiceTest extends TestCase
 {
     const BRANCH = 'master';
 
@@ -86,10 +88,10 @@ class BuildStatusServiceTest extends \PHPUnit\Framework\TestCase
         $build->setBranch(self::BRANCH);
         $build->setStatus($config[$configId]['status']);
         if ($config[$configId]['finishDateTime']) {
-            $build->setFinishDate(new \DateTime($config[$configId]['finishDateTime']));
+            $build->setFinishDate(new DateTime($config[$configId]['finishDateTime']));
         }
         if (!empty($config[$configId]['startedDate'])) {
-            $build->setStartDate(new \DateTime('2014-10-25 21:20:02'));
+            $build->setStartDate(new DateTime('2014-10-25 21:20:02'));
         }
 
         $project = $this->getProjectMock($config[$configId]['previousBuild'], $setProject);

@@ -2,6 +2,7 @@
 
 namespace PHPCensor\Helper;
 
+use Exception;
 use PHPCensor\Model\Build as BaseBuild;
 
 /**
@@ -25,7 +26,7 @@ class BuildInterpolator
      * @param BaseBuild $build
      * @param           $url
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function setupInterpolationVars(BaseBuild $build, $url)
     {
@@ -119,7 +120,7 @@ class BuildInterpolator
 
     /**
      * Replace every occurrence of the interpolation vars in the given string
-     * Example: "This is build %PHPCI_BUILD%" => "This is build 182"
+     * Example: "This is build %BUILD_ID%" => "This is build 182"
      *
      * @param string $input
      *

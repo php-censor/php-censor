@@ -2,15 +2,18 @@
 
 namespace Tests\PHPCensor\Service;
 
+use DateTime;
+use Exception;
 use PHPCensor\Model\Build;
 use PHPCensor\Service\BuildService;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Unit tests for the ProjectService class.
  *
  * @author Dan Cryer <dan@block8.co.uk>
  */
-class BuildServiceTest extends \PHPUnit\Framework\TestCase
+class BuildServiceTest extends TestCase
 {
 
     /**
@@ -19,12 +22,12 @@ class BuildServiceTest extends \PHPUnit\Framework\TestCase
     protected $testedService;
 
     /**
-     * @var \ $mockBuildStore
+     * @var $mockBuildStore
      */
     protected $mockBuildStore;
 
     /**
-     * @var \ $mockEnvironmentStore
+     * @var $mockEnvironmentStore
      */
     protected $mockEnvironmentStore;
 
@@ -138,7 +141,7 @@ class BuildServiceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testExecute_CreateDuplicateBuild()
     {
@@ -149,8 +152,8 @@ class BuildServiceTest extends \PHPUnit\Framework\TestCase
         $build->setStatusFailed();
         $build->setLog('Test');
         $build->setBranch('example_branch');
-        $build->setStartDate(new \DateTime());
-        $build->setFinishDate(new \DateTime());
+        $build->setStartDate(new DateTime());
+        $build->setFinishDate(new DateTime());
         $build->setCommitMessage('test');
         $build->setCommitterEmail('test@example.com');
         $build->setExtra(['item1' => 1001]);

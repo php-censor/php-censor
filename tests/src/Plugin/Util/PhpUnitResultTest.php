@@ -5,13 +5,15 @@ namespace Tests\PHPCensor\Plugin\Util;
 use PHPCensor\Plugin\Util\PhpUnitResult;
 use PHPCensor\Plugin\Util\PhpUnitResultJson;
 use PHPCensor\Plugin\Util\PhpUnitResultJunit;
+use PHPUnit\Framework\TestCase;
+use PHPUnit_Framework_ExpectationFailedException;
 
 /**
  * Class PhpUnitResultTest parses the results for the PhpUnitV2 plugin
  *
  * @author Pablo Tejada <pablo@ptejada.com>
  */
-class PhpUnitResultTest extends \PHPUnit\Framework\TestCase
+class PhpUnitResultTest extends TestCase
 {
     /**
      * Skipped test results
@@ -46,14 +48,14 @@ class PhpUnitResultTest extends \PHPUnit\Framework\TestCase
         self::assertEquals(PhpUnitResult::SEVERITY_SKIPPED, $output[5]['severity']);
         try {
             self::assertContains('Incomplete Test:', $output[5]['message']);
-        } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
+        } catch (PHPUnit_Framework_ExpectationFailedException $e) {
             self::$skipped[] = ['cls' => $resultClass, 'ex' => $e];
         }
 
         self::assertEquals(PhpUnitResult::SEVERITY_SKIPPED, $output[11]['severity']);
         try {
             self::assertContains('Skipped Test:', $output[11]['message']);
-        } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
+        } catch (PHPUnit_Framework_ExpectationFailedException $e) {
             self::$skipped[] = ['cls' => $resultClass, 'ex' => $e];
         }
     }

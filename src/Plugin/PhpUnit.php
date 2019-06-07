@@ -2,6 +2,7 @@
 
 namespace PHPCensor\Plugin;
 
+use Exception;
 use PHPCensor;
 use PHPCensor\Builder;
 use PHPCensor\Config;
@@ -142,7 +143,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
      *
      * @return bool|mixed
      *
-     * @throws \Exception
+     * @throws Exception
      */
     protected function runConfig($directory, $configFile, $logFormat)
     {
@@ -173,7 +174,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
             }
 
             if (!is_writable($this->buildLocation)) {
-                throw new \Exception(sprintf(
+                throw new Exception(sprintf(
                     'The location %s is not writable or does not exist.',
                     $this->buildLocation
                 ));
@@ -229,7 +230,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
      * @param string $logFile
      * @param string $logFormat
      *
-     * @throws \Exception If failed to parse the log file
+     * @throws Exception If failed to parse the log file
      */
     protected function processResults($logFile, $logFormat)
     {
@@ -259,7 +260,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
             }
             unlink($logFile);
         } else {
-            throw new \Exception('log output file does not exist: ' . $logFile);
+            throw new Exception('log output file does not exist: ' . $logFile);
         }
     }
 }

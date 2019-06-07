@@ -2,6 +2,8 @@
 
 namespace PHPCensor\Logging;
 
+use ErrorException;
+use Exception;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -57,14 +59,14 @@ class Handler
      * @param string  $file
      * @param int $line
      *
-     * @throws \ErrorException
+     * @throws ErrorException
      */
     public function handleError($level, $message, $file, $line)
     {
         if (error_reporting() & $level) {
             $exceptionLevel = isset($this->levels[$level]) ? $this->levels[$level] : $level;
 
-            throw new \ErrorException(
+            throw new ErrorException(
                 sprintf('%s: %s in %s line %d', $exceptionLevel, $message, $file, $line),
                 0,
                 $level,
@@ -75,7 +77,7 @@ class Handler
     }
 
     /**
-     * @throws \ErrorException
+     * @throws ErrorException
      */
     public function handleFatalError()
     {
@@ -83,7 +85,7 @@ class Handler
 
         try {
             if (($error = error_get_last()) !== null) {
-                $error = new \ErrorException(
+                $error = new ErrorException(
                     sprintf(
                         '%s: %s in %s line %d',
                         $fatalError['type'],
@@ -98,8 +100,8 @@ class Handler
                 );
                 $this->log($error);
             }
-        } catch (\Exception $e) {
-            $error = new \ErrorException(
+        } catch (Exception $e) {
+            $error = new ErrorException(
                 sprintf(
                     '%s: %s in %s line %d',
                     $fatalError['type'],

@@ -19,14 +19,14 @@ use PHPCensor\Helper\Lang;
         </tr>
         </thead>
         <tbody>
-            <?php foreach($groups as $group): ?>
+            <?php foreach ($groups as $group): ?>
             <tr>
                 <td><?= $group['title']; ?></td>
                 <td><?= count($group['projects']); ?></td>
                 <td>
                     <div class="btn-group btn-group-right">
                         <a class="btn btn-default btn-sm" href="<?= APP_URL; ?>group/edit/<?= $group['id']; ?>"><?= Lang::get('group_edit'); ?></a>
-                        <?php if($this->getUser()->getIsAdmin() && (!count($group['projects']))): ?>
+                        <?php if ($this->getUser()->getIsAdmin() && (!count($group['projects']))): ?>
                             <button class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
                                 <span class="caret"></span>
                             </button>

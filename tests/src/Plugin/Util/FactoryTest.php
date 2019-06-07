@@ -3,12 +3,14 @@
 namespace Tests\PHPCensor\Plugin\Util;
 
 use PHPCensor\Plugin\Util\Factory;
+use PHPUnit\Framework\TestCase;
+use stdClass;
 
-class FactoryTest extends \PHPUnit\Framework\TestCase
+class FactoryTest extends TestCase
 {
 
     /**
-     * @var \PHPCensor\Plugin\Util\Factory
+     * @var Factory
      */
     protected $testedFactory;
 
@@ -21,7 +23,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
         $this->testedFactory = new Factory();
 
         // Setup a resource that can be returned and asserted against
-        $this->expectedResource = new \stdClass();
+        $this->expectedResource = new stdClass();
         $resourceLink = $this->expectedResource;
         $this->resourceLoader = function () use (&$resourceLink) {
             return $resourceLink;
@@ -60,7 +62,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
         self::expectExceptionMessage('Unsatisfied dependency: requiredArgument');
 
         $pluginClass = $this->getFakePluginClassName('ExamplePluginWithSingleRequiredArg');
-        $plugin = $this->testedFactory->buildPlugin($pluginClass);
+        $this->testedFactory->buildPlugin($pluginClass);
     }
 
     public function testBuildPluginLoadsArgumentsBasedOnName()

@@ -2,6 +2,7 @@
 
 namespace Tests\PHPCensor\Model\Base;
 
+use DateTime;
 use PHPCensor\Model\Base\BuildError;
 use PHPUnit\Framework\TestCase;
 
@@ -131,7 +132,7 @@ class BuildErrorTest extends TestCase
         self::assertEquals(null, $buildError->getCreateDate());
 
         $buildError = new BuildError();
-        $createDate = new \DateTime();
+        $createDate = new DateTime();
 
         $result = $buildError->setCreateDate($createDate);
         self::assertEquals(true, $result);

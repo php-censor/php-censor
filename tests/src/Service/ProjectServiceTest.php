@@ -4,13 +4,14 @@ namespace Tests\PHPCensor\Service;
 
 use PHPCensor\Model\Project;
 use PHPCensor\Service\ProjectService;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Unit tests for the ProjectService class.
  *
  * @author Dan Cryer <dan@block8.co.uk>
  */
-class ProjectServiceTest extends \PHPUnit\Framework\TestCase
+class ProjectServiceTest extends TestCase
 {
 
     /**
@@ -19,7 +20,7 @@ class ProjectServiceTest extends \PHPUnit\Framework\TestCase
     protected $testedService;
 
     /**
-     * @var \ $mockProjectStore
+     * @var $mockProjectStore
      */
     protected $mockProjectStore;
 
@@ -258,7 +259,7 @@ class ProjectServiceTest extends \PHPUnit\Framework\TestCase
         $returnValue = $this->testedService->createProject(
             'Test Project',
             'github',
-            'block8/phpci',
+            'vendor/project',
             0,
             $options
         );
@@ -295,7 +296,7 @@ class ProjectServiceTest extends \PHPUnit\Framework\TestCase
             'build_config'    => 'config',
         ];
 
-        $returnValue = $this->testedService->updateProject($project, 'Test Project', 'github', 'block8/phpci', $options);
+        $returnValue = $this->testedService->updateProject($project, 'Test Project', 'github', 'vendor/project', $options);
 
         self::assertEquals(false, $returnValue->getAllowPublicStatus());
     }

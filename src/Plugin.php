@@ -2,6 +2,7 @@
 
 namespace PHPCensor;
 
+use Exception;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin\Codeception;
 
@@ -264,7 +265,7 @@ abstract class Plugin
      *
      * @return string
      *
-     * @throws \Exception when no binary has been found.
+     * @throws Exception when no binary has been found.
      */
     public function findBinary($binary)
     {

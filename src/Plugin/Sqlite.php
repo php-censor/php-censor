@@ -2,6 +2,7 @@
 
 namespace PHPCensor\Plugin;
 
+use Exception;
 use PDO;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
@@ -60,7 +61,7 @@ class Sqlite extends Plugin
             foreach ($this->queries as $query) {
                 $pdo->query($this->builder->interpolate($query));
             }
-        } catch (\Exception $ex) {
+        } catch (Exception $ex) {
             $this->builder->logFailure($ex->getMessage());
             return false;
         }

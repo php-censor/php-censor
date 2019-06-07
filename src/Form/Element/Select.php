@@ -2,8 +2,8 @@
 
 namespace PHPCensor\Form\Element;
 
-use PHPCensor\View;
 use PHPCensor\Form\Input;
+use PHPCensor\View;
 
 class Select extends Input
 {

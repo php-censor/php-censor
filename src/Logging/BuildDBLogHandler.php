@@ -2,9 +2,9 @@
 
 namespace PHPCensor\Logging;
 
-use PHPCensor\Store\Factory;
 use Monolog\Handler\AbstractProcessingHandler;
 use PHPCensor\Model\Build;
+use PHPCensor\Store\Factory;
 use Psr\Log\LogLevel;
 
 /**

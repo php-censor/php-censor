@@ -2,6 +2,7 @@
 
 namespace PHPCensor\Logging;
 
+use Exception;
 use PHPCensor\Model\Build;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
@@ -83,9 +84,9 @@ class BuildLogger implements LoggerAwareInterface
      * Add a failure-coloured message to the log.
      *
      * @param string     $message
-     * @param \Exception $exception The exception that caused the error.
+     * @param Exception $exception The exception that caused the error.
      */
-    public function logFailure($message, \Exception $exception = null)
+    public function logFailure($message, Exception $exception = null)
     {
         $level   = LogLevel::INFO;
         $context = [];

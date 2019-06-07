@@ -2,10 +2,11 @@
 
 namespace PHPCensor\Store;
 
+use PDO;
 use PHPCensor\Database;
 use PHPCensor\Exception\HttpException;
-use PHPCensor\Store;
 use PHPCensor\Model\ProjectGroup;
+use PHPCensor\Store;
 
 class ProjectGroupStore extends Store
 {
@@ -59,7 +60,7 @@ class ProjectGroupStore extends Store
         $stmt->bindValue(':id', $id);
 
         if ($stmt->execute()) {
-            if ($data = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+            if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 return new ProjectGroup($data);
             }
         }
@@ -89,7 +90,7 @@ class ProjectGroupStore extends Store
         $stmt->bindValue(':title', $title);
 
         if ($stmt->execute()) {
-            if ($data = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+            if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 return new ProjectGroup($data);
             }
         }

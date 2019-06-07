@@ -2,11 +2,13 @@
 
 namespace Tests\PHPCensor\Command;
 
+use PHPUnit\Framework\TestCase;
+use PHPUnit_Framework_MockObject_MockObject;
 use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Console\Helper\HelperSet;
+use Symfony\Component\Console\Tester\CommandTester;
 
-class InstallCommandTest extends \PHPUnit\Framework\TestCase
+class InstallCommandTest extends TestCase
 {
     public $config;
 
@@ -26,7 +28,7 @@ class InstallCommandTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return PHPUnit_Framework_MockObject_MockObject
      */
     protected function getHelperMock()
     {
@@ -38,7 +40,7 @@ class InstallCommandTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return PHPUnit_Framework_MockObject_MockObject
      */
     protected function getInstallCommandMock()
     {
@@ -110,7 +112,7 @@ class InstallCommandTest extends \PHPUnit\Framework\TestCase
         return $config;
     }
 
-    protected function executeWithoutParam($param = null, $dialog)
+    protected function executeWithoutParam($param, $dialog)
     {
         // Clean result variables.
         $this->admin  = [];

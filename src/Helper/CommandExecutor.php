@@ -408,7 +408,7 @@ class CommandExecutor implements CommandExecutorInterface
             if (in_array($k, self::$blacklistEnvVars)) {
                 continue;
             }
-            if (\is_string($v) && false !== $v = getenv($k)) {
+            if (is_string($v) && false !== $v = getenv($k)) {
                 $env[$k] = $v;
             }
         }
@@ -417,7 +417,7 @@ class CommandExecutor implements CommandExecutorInterface
             if (in_array($k, self::$blacklistEnvVars)) {
                 continue;
             }
-            if (\is_string($v)) {
+            if (is_string($v)) {
                 $env[$k] = $v;
             }
         }
@@ -427,7 +427,7 @@ class CommandExecutor implements CommandExecutorInterface
                 if (in_array($k, self::$blacklistEnvVars)) {
                     continue;
                 }
-                if (\is_string($v)) {
+                if (is_string($v)) {
                     $env[$k] = $v;
                 }
             }

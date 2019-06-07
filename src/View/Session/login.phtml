@@ -1,5 +1,9 @@
-<?php use PHPCensor\Helper\Lang; ?>
-<?php if($failed): ?>
+<?php
+
+use PHPCensor\Helper\Lang;
+
+?>
+<?php if ($failed): ?>
     <p class="alert alert-danger"><?= Lang::get('login_error'); ?></p>
 <?php endif; ?>
 <?= $form; ?>

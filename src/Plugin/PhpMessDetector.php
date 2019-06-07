@@ -2,6 +2,7 @@
 
 namespace PHPCensor\Plugin;
 
+use Exception;
 use PHPCensor;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
@@ -112,7 +113,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
      *
      * @return int
      *
-     * @throws \Exception
+     * @throws Exception
      */
     protected function processReport($xmlString)
     {
@@ -120,7 +121,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
 
         if (false === $xml) {
             $this->builder->log($xmlString);
-            throw new \Exception('Could not process PHPMD report XML.');
+            throw new Exception('Could not process PHPMD report XML.');
         }
 
         $warnings = 0;

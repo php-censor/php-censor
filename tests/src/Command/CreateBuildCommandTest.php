@@ -2,19 +2,22 @@
 
 namespace Tests\PHPCensor\Command;
 
+use PHPCensor\Command\CreateAdminCommand;
 use PHPCensor\Command\CreateBuildCommand;
+use PHPUnit\Framework\TestCase;
+use PHPUnit_Framework_MockObject_MockObject;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
-class CreateBuildCommandTest extends \PHPUnit\Framework\TestCase
+class CreateBuildCommandTest extends TestCase
 {
     /**
-     * @var \PHPCensor\Command\CreateAdminCommand|\PHPUnit_Framework_MockObject_MockObject
+     * @var CreateAdminCommand|PHPUnit_Framework_MockObject_MockObject
      */
     protected $command;
 
     /**
-     * @var \Symfony\Component\Console\Application|\PHPUnit_Framework_MockObject_MockObject
+     * @var Application|PHPUnit_Framework_MockObject_MockObject
      */
     protected $application;
 
@@ -67,11 +70,10 @@ class CreateBuildCommandTest extends \PHPUnit\Framework\TestCase
         $commandTester->execute(['projectId' => 1, '--branch' => 'master']);
     }
 
-    /**
-     * @expectedException \PHPCensor\Exception\InvalidArgumentException
-     */
     public function testExecuteWithUnknownProjectId()
     {
+        self::expectException('\PHPCensor\Exception\InvalidArgumentException');
+
         $commandTester = $this->getCommandTester();
         $commandTester->execute(['projectId' => 2]);
     }

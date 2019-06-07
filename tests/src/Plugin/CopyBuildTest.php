@@ -7,8 +7,9 @@ use PHPCensor\Helper\CommandExecutor;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin\CopyBuild;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class CopyBuildTest extends \PHPUnit\Framework\TestCase
+class CopyBuildTest extends TestCase
 {
     protected $buildPath;
 
