@@ -27,7 +27,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [#286](https://github.com/php-censor/php-censor/pull/286). Thanks to [@fejal](https://github.com/fejal).
 - PostgreSQL `SSLMODE` connection option. Pull request [#283](https://github.com/php-censor/php-censor/pull/283). 
 Thanks to [@mikebronner](https://github.com/mikebronner).
-- New build sources for rebuild from WEB and CLI with pointer to parent build. 
+- New build sources for rebuild from WEB and CLI with pointer to parent build. Issue 
 [#272](https://github.com/php-censor/php-censor/issues/272).
 - Some additional types for Github (Git type) and Bitbucket (Git and Hg types) webhooks. Issue 
 [#284](https://github.com/php-censor/php-censor/issues/284).
