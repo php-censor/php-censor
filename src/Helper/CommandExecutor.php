@@ -111,7 +111,12 @@ class CommandExecutor implements CommandExecutorInterface
             }
         }
 
-        $process = new Process($command, $this->buildPath);
+        $cwd = RUNTIME_DIR . 'builds';
+        if ($this->buildPath && file_exists($this->buildPath)) {
+            $cwd = $this->buildPath;
+        }
+
+        $process = new Process($command, $cwd);
         $process->setTimeout(86400);
 
         $env = $this->getDefaultEnv();
