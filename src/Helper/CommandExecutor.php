@@ -86,8 +86,14 @@ class CommandExecutor implements CommandExecutorInterface
             2 => ["pipe", "w"], // stderr
         ];
 
-        $pipes   = [];
-        $process = proc_open($command, $descriptorSpec, $pipes, $this->buildPath, null);
+        $pipes = [];
+
+        $cwd = RUNTIME_DIR . 'builds';
+        if ($this->buildPath && file_exists($this->buildPath)) {
+            $cwd = $this->buildPath;
+        }
+
+        $process = proc_open($command, $descriptorSpec, $pipes, $cwd, null);
 
         $lastOutput = '';
         $lastError  = '';
