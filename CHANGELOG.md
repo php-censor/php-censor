@@ -5,6 +5,24 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [1.1.1 (Birdperson)](https://github.com/php-censor/php-censor/tree/1.1.1) (2019-06-15)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/1.1.0...1.1.1)
+
+### Added
+
+- `FUNDING.yml` config for GitHub.
+
+### Fixed
+
+- Information about versions in `README.md` file.
+- Potential bug with `Symfony\Component\Process\Process::_construct` parameter `cwd`.
+
+### Changed
+
+- Updated dependencies.
+
+
 ## [1.1.0 (Birdperson)](https://github.com/php-censor/php-censor/tree/1.1.0) (2019-05-25)
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/1.0.10...1.1.0)
