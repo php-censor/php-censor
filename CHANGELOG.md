@@ -5,6 +5,23 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [1.0.11 (Morty Smith)](https://github.com/php-censor/php-censor/tree/1.0.11) (2019-06-15)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/1.0.10...1.0.11)
+
+### Added
+
+- `FUNDING.yml` config for GitHub.
+
+### Fixed
+
+- Potential bug with `proc_open` function parameter `cwd`.
+
+### Changed
+
+- Updated dependencies.
+
+
 ## [1.0.10 (Morty Smith)](https://github.com/php-censor/php-censor/tree/1.0.10) (2019-05-18)
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/1.0.9...1.0.10)
