@@ -7,7 +7,7 @@ PHPCensor.widgets.lastBuilds = {
         });
     },
 
-    load: function() {
+    load: function () {
         $.ajax({
             url: APP_URL + 'widget-last-builds',
 

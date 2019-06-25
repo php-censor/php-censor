@@ -1,48 +1,47 @@
 <?php
 
-/**
- * @var \PHPCensor\Model\Build[] $builds
- */
-
 use PHPCensor\Helper\Lang;
 use PHPCensor\Model\Build;
 
+/**
+ * @var Build[] $builds
+ */
+
 ?>
 
-<?php if(empty($builds) || !count($builds)): ?>
+<?php if (empty($builds) || !count($builds)): ?>
     <tr class="">
         <td colspan="10"><?= Lang::get('no_builds_yet'); ?></td>
     </tr>
 <?php endif; ?>
 
-<?php foreach($builds as $build): ?>
+<?php foreach ($builds as $build): ?>
 
 <?php
-switch($build->getStatus())
-{
+switch ($build->getStatus()) {
     case 0:
-        $cls = 'active';
-        $subcls = 'info';
-        $status = Lang::get('pending');
+        $cls      = 'active';
+        $subClass = 'info';
+        $status   = Lang::get('pending');
 
     break;
 
     case 1:
-        $cls = 'warning';
-        $subcls = 'warning';
-        $status = Lang::get('running');
+        $cls      = 'warning';
+        $subClass = 'warning';
+        $status   = Lang::get('running');
     break;
 
     case 2:
-        $cls = 'success';
-        $subcls = 'success';
-        $status = Lang::get('success');
+        $cls      = 'success';
+        $subClass = 'success';
+        $status   = Lang::get('success');
     break;
 
     case 3:
-        $cls = 'danger';
-        $subcls = 'danger';
-        $status = Lang::get('failed');
+        $cls      = 'danger';
+        $subClass = 'danger';
+        $status   = Lang::get('failed');
     break;
 }
 
@@ -50,7 +49,7 @@ $branches = $build->getExtra('branches');
 ?>
 <tr>
     <td><a href="<?= APP_URL ?>build/view/<?= $build->getId(); ?>">#<?= str_pad($build->getId(), 6, '0', STR_PAD_LEFT); ?></a></td>
-    <td><span class='label label-<?= $subcls ?>'><?= $status ?></span></td>
+    <td><span class='label label-<?= $subClass ?>'><?= $status ?></span></td>
     <td><?= $build->getCreateDate()->format('Y-m-d H:i:s'); ?></td>
     <td><?= $build->getSourceHumanize(); ?></td>
     <td class="hidden-md hidden-sm hidden-xs">
@@ -97,7 +96,7 @@ $branches = $build->getExtra('branches');
     </td>
     <td>
         <?= (int)$build->getErrorsTotal(); ?>
-        <?php if(!in_array($build->getStatus(),[Build::STATUS_PENDING, Build::STATUS_RUNNING], true)): ?>
+        <?php if (!in_array($build->getStatus(), [Build::STATUS_PENDING, Build::STATUS_RUNNING], true)): ?>
             <?php $trend = $build->getErrorsTrend(); ?>
             <?php if (1 === $trend): ?>
                 <i class="fa fa-arrow-down arrow_trend_positive"></i>
@@ -112,7 +111,7 @@ $branches = $build->getExtra('branches');
     <td>
         <div class="btn-group btn-group-right">
             <a class="btn btn-default btn-sm" href="<?= APP_URL; ?>build/view/<?= $build->getId(); ?>"><?= Lang::get('view'); ?></a>
-            <?php if($this->getUser()->getIsAdmin()): ?>
+            <?php if ($this->getUser()->getIsAdmin()): ?>
             <button class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
                 <span class="caret"></span>
             </button>

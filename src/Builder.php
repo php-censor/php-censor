@@ -2,12 +2,16 @@
 
 namespace PHPCensor;
 
+use DateTime;
+use Exception;
 use PHPCensor\Helper\BuildInterpolator;
 use PHPCensor\Helper\MailerFactory;
 use PHPCensor\Logging\BuildLogger;
 use PHPCensor\Model\Build;
+use PHPCensor\Plugin\Util\Executor;
 use PHPCensor\Plugin\Util\Factory as PluginFactory;
 use PHPCensor\Store\BuildErrorWriter;
+use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\Factory;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
@@ -54,7 +58,7 @@ class Builder implements LoggerAwareInterface
     protected $verbose = true;
 
     /**
-     * @var \PHPCensor\Model\Build
+     * @var Build
      */
     protected $build;
 
@@ -79,12 +83,12 @@ class Builder implements LoggerAwareInterface
     protected $interpolator;
 
     /**
-     * @var \PHPCensor\Store\BuildStore
+     * @var BuildStore
      */
     protected $store;
 
     /**
-     * @var \PHPCensor\Plugin\Util\Executor
+     * @var Executor
      */
     protected $pluginExecutor;
 
@@ -106,7 +110,7 @@ class Builder implements LoggerAwareInterface
     /**
      * Set up the builder.
      *
-     * @param \PHPCensor\Model\Build $build
+     * @param Build $build
      * @param LoggerInterface        $logger
      */
     public function __construct(Build $build, LoggerInterface $logger = null)
@@ -150,7 +154,7 @@ class Builder implements LoggerAwareInterface
      *
      * @param array $config
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function setConfig(array $config)
     {
@@ -205,7 +209,7 @@ class Builder implements LoggerAwareInterface
     public function execute()
     {
         $this->build->setStatusRunning();
-        $this->build->setStartDate(new \DateTime());
+        $this->build->setStartDate(new DateTime());
         $this->store->save($this->build);
         $this->build->sendStatusPostback();
 
@@ -238,7 +242,7 @@ class Builder implements LoggerAwareInterface
             } else {
                 $this->build->setStatusFailed();
             }
-        } catch (\Exception $ex) {
+        } catch (Exception $ex) {
             $success = false;
             $this->build->setStatusFailed();
             $this->buildLogger->logFailure('Exception: ' . $ex->getMessage(), $ex);
@@ -262,7 +266,7 @@ class Builder implements LoggerAwareInterface
                     $this->pluginExecutor->executePlugins($this->config, Build::STAGE_BROKEN);
                 }
             }
-        } catch (\Exception $ex) {
+        } catch (Exception $ex) {
             $this->buildLogger->logFailure('Exception: ' . $ex->getMessage(), $ex);
         }
 
@@ -280,13 +284,13 @@ class Builder implements LoggerAwareInterface
             // Complete stage plugins are always run
             $this->currentStage = Build::STAGE_COMPLETE;
             $this->pluginExecutor->executePlugins($this->config, Build::STAGE_COMPLETE);
-        } catch (\Exception $ex) {
+        } catch (Exception $ex) {
             $this->buildLogger->logFailure('Exception: ' . $ex->getMessage());
         }
 
         // Update the build in the database, ping any external services, etc.
         $this->build->sendStatusPostback();
-        $this->build->setFinishDate(new \DateTime());
+        $this->build->setFinishDate(new DateTime());
 
         $removeBuilds = (bool)Config::getInstance()->get('php-censor.build.remove_builds', true);
         if ($removeBuilds) {
@@ -371,7 +375,7 @@ class Builder implements LoggerAwareInterface
      * @param array        $binaryName
      * @return string
      *
-     * @throws \Exception when no binary has been found.
+     * @throws Exception when no binary has been found.
      */
     public function findBinary($binary, $priorityPath = 'local', $binaryPath = '', $binaryName = [])
     {
@@ -380,7 +384,7 @@ class Builder implements LoggerAwareInterface
 
     /**
      * Replace every occurrence of the interpolation vars in the given string
-     * Example: "This is build %PHPCI_BUILD%" => "This is build 182"
+     * Example: "This is build %BUILD_ID%" => "This is build 182"
      *
      * @param string $input
      *
@@ -394,7 +398,7 @@ class Builder implements LoggerAwareInterface
     /**
      * Set up a working copy of the project for building.
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @return bool
      */
@@ -408,7 +412,7 @@ class Builder implements LoggerAwareInterface
 
         // Create a working copy of the project:
         if (!$this->build->createWorkingCopy($this, $this->buildPath)) {
-            throw new \Exception('Could not create a working copy.');
+            throw new Exception('Could not create a working copy.');
         }
 
         chdir($this->buildPath);
@@ -507,9 +511,9 @@ class Builder implements LoggerAwareInterface
      * Add a failure-coloured message to the log.
      *
      * @param string     $message
-     * @param \Exception $exception The exception that caused the error.
+     * @param Exception $exception The exception that caused the error.
      */
-    public function logFailure($message, \Exception $exception = null)
+    public function logFailure($message, Exception $exception = null)
     {
         $this->buildLogger->logFailure($message, $exception);
     }

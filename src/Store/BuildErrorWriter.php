@@ -2,6 +2,7 @@
 
 namespace PHPCensor\Store;
 
+use DateTime;
 use PHPCensor\Config;
 use PHPCensor\Database;
 use PHPCensor\Model\BuildError;
@@ -62,7 +63,7 @@ class BuildErrorWriter
      * @param string    $file
      * @param int   $lineStart
      * @param int   $lineEnd
-     * @param \DateTime $createdDate
+     * @param DateTime $createdDate
      */
     public function write(
         $plugin,
@@ -74,7 +75,7 @@ class BuildErrorWriter
         $createdDate = null
     ) {
         if (is_null($createdDate)) {
-            $createdDate = new \DateTime();
+            $createdDate = new DateTime();
         }
 
         /** @var BuildErrorStore $errorStore */

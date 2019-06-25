@@ -2,6 +2,10 @@
 
 namespace PHPCensor\Helper;
 
+use Swift_Mailer;
+use Swift_MailTransport;
+use Swift_SmtpTransport;
+
 /**
  * Class MailerFactory helps to set up and configure a SwiftMailer object.
  */
@@ -27,7 +31,7 @@ class MailerFactory
 
     /**
      * Returns an instance of Swift_Mailer based on the config.s
-     * @return \Swift_Mailer
+     * @return Swift_Mailer
      */
     public function getSwiftMailerFromConfig()
     {
@@ -40,8 +44,8 @@ class MailerFactory
                 $encryptionType = null;
             }
 
-            /** @var \Swift_SmtpTransport $transport */
-            $transport = \Swift_SmtpTransport::newInstance(
+            /** @var Swift_SmtpTransport $transport */
+            $transport = Swift_SmtpTransport::newInstance(
                 $this->getMailConfig('smtp_address'),
                 $this->getMailConfig('smtp_port'),
                 $encryptionType
@@ -50,10 +54,10 @@ class MailerFactory
             $transport->setUsername($this->getMailConfig('smtp_username'));
             $transport->setPassword($this->getMailConfig('smtp_password'));
         } else {
-            $transport = \Swift_MailTransport::newInstance(null);
+            $transport = Swift_MailTransport::newInstance(null);
         }
 
-        return \Swift_Mailer::newInstance($transport);
+        return Swift_Mailer::newInstance($transport);
     }
 
     /**

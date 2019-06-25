@@ -6,13 +6,14 @@ use PHPCensor\Config;
 use PHPCensor\Exception\HttpException\ForbiddenException;
 use PHPCensor\Exception\HttpException\NotFoundException;
 use PHPCensor\Form;
-use PHPCensor\WebController;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Http\Response\RedirectResponse;
 use PHPCensor\Model\User;
 use PHPCensor\Service\UserService;
-use PHPCensor\View;
 use PHPCensor\Store\Factory;
+use PHPCensor\Store\UserStore;
+use PHPCensor\View;
+use PHPCensor\WebController;
 
 /**
  * User Controller - Allows an administrator to view, add, edit and delete users.
@@ -27,12 +28,12 @@ class UserController extends WebController
     public $layoutName = 'layout';
 
     /**
-     * @var \PHPCensor\Store\UserStore
+     * @var UserStore
      */
     protected $userStore;
 
     /**
-     * @var \PHPCensor\Service\UserService
+     * @var UserService
      */
     protected $userService;
 
@@ -195,7 +196,14 @@ class UserController extends WebController
         $password = $this->getParam('password', null);
         $isAdmin  = (bool)$this->getParam('is_admin', 0);
 
-        $this->userService->createUser($name, $email, 'internal', ['type' => 'internal'], $password, $isAdmin);
+        $this->userService->createUser(
+            $name,
+            $email,
+            'internal',
+            ['type' => 'internal'],
+            $password,
+            $isAdmin
+        );
 
         $response = new RedirectResponse();
         $response->setHeader('Location', APP_URL . 'user');

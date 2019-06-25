@@ -2,9 +2,13 @@
 
 namespace PHPCensor\Plugin\Util;
 
+use Closure;
+use DomainException;
 use PHPCensor\Exception\InvalidArgumentException;
 use PHPCensor\Plugin;
 use Pimple\Container;
+use ReflectionClass;
+use ReflectionParameter;
 
 /**
  * Plugin Factory - Loads Plugins and passes required dependencies.
@@ -72,13 +76,13 @@ class Factory
      * @param string     $className
      * @param array|null $options
      *
-     * @return \PHPCensor\Plugin
+     * @return Plugin
      */
     public function buildPlugin($className, $options = [])
     {
         $this->currentPluginOptions = $options;
 
-        $reflectedPlugin = new \ReflectionClass($className);
+        $reflectedPlugin = new ReflectionClass($className);
 
         $constructor = $reflectedPlugin->getConstructor();
 
@@ -121,7 +125,7 @@ class Factory
             );
         }
 
-        if (!($loader instanceof \Closure)) {
+        if (!($loader instanceof Closure)) {
             throw new InvalidArgumentException(
                 '$loader is expected to be a function'
             );
@@ -171,10 +175,10 @@ class Factory
     }
 
     /**
-     * @param \ReflectionParameter $param
+     * @param ReflectionParameter $param
      * @return null|string
      */
-    private function getParamType(\ReflectionParameter $param)
+    private function getParamType(ReflectionParameter $param)
     {
         $class = $param->getClass();
         if ($class) {
@@ -190,11 +194,11 @@ class Factory
 
     /**
      * @param $existingArgs
-     * @param \ReflectionParameter $param
+     * @param ReflectionParameter $param
      * @return array
-     * @throws \DomainException
+     * @throws DomainException
      */
-    private function addArgFromParam($existingArgs, \ReflectionParameter $param)
+    private function addArgFromParam($existingArgs, ReflectionParameter $param)
     {
         $name = $param->getName();
         $type = $this->getParamType($param);
@@ -205,7 +209,7 @@ class Factory
         } elseif ($arg === null && $param->isOptional()) {
             $existingArgs[] = $param->getDefaultValue();
         } else {
-            throw new \DomainException(
+            throw new DomainException(
                 "Unsatisfied dependency: " . $param->getName()
             );
         }

@@ -2,13 +2,15 @@
 
 namespace PHPCensor\Controller;
 
+use DateTime;
 use PHPCensor\Form;
-use PHPCensor\WebController;
+use PHPCensor\Helper\Lang;
 use PHPCensor\Http\Response\RedirectResponse;
 use PHPCensor\Model\ProjectGroup;
-use PHPCensor\Helper\Lang;
 use PHPCensor\Model\User;
 use PHPCensor\Store\Factory;
+use PHPCensor\Store\ProjectGroupStore;
+use PHPCensor\WebController;
 
 /**
  * Project Controller - Allows users to create, edit and view projects.
@@ -23,7 +25,7 @@ class GroupController extends WebController
     public $layoutName = 'layout';
 
     /**
-     * @var \PHPCensor\Store\ProjectGroupStore
+     * @var ProjectGroupStore
      */
     protected $groupStore;
 
@@ -83,7 +85,7 @@ class GroupController extends WebController
                 /** @var User $user */
                 $user = $this->getUser();
 
-                $group->setCreateDate(new \DateTime());
+                $group->setCreateDate(new DateTime());
                 $group->setUserId($user->getId());
             }
 

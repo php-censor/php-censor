@@ -3,10 +3,12 @@
 namespace PHPCensor\Plugin;
 
 use PHPCensor\Config;
-use PHPCensor\View;
+use PHPCensor\Exception\HttpException;
 use PHPCensor\Helper\Email as EmailHelper;
-use Psr\Log\LogLevel;
 use PHPCensor\Plugin;
+use PHPCensor\View;
+use Psr\Log\LogLevel;
+use RuntimeException;
 
 /**
  * Email Plugin - Provides simple email capability.
@@ -28,7 +30,7 @@ class Email extends Plugin
      *
      * @return bool
      *
-     * @throws \PHPCensor\Exception\HttpException
+     * @throws HttpException
      */
     public function execute()
     {
@@ -45,7 +47,7 @@ class Email extends Plugin
 
         try {
             $view = $this->getMailTemplate();
-        } catch (\RuntimeException $e) {
+        } catch (RuntimeException $e) {
             $this->builder->log(
                 sprintf('Unknown mail template "%s", falling back to default.', $this->options['template']),
                 LogLevel::WARNING

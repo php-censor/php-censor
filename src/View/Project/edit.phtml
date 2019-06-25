@@ -1,3 +1,8 @@
+<?php
+
+use PHPCensor\Helper\Lang;
+
+?>
 <script src="<?= APP_URL; ?>assets/vendor/codemirror/lib/codemirror.js"></script>
 <script src="<?= APP_URL; ?>assets/vendor/codemirror/mode/yaml/yaml.js"></script>
 <link href="<?= APP_URL; ?>assets/vendor/codemirror/lib/codemirror.css" rel="stylesheet" type="text/css" />
@@ -15,8 +20,6 @@
         });
     });
 </script>
-
-<?php use PHPCensor\Helper\Lang; ?>
 <div class="row">
 
     <div class="col-sm-8">
@@ -31,7 +34,7 @@
         </div>
     </div>
 
-    <?php if(!is_null($key)): ?>
+    <?php if (!is_null($key)): ?>
     <div class="col-sm-4">
         <div class="box">
             <div class="box-body">

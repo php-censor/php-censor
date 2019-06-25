@@ -2,8 +2,8 @@
 
 namespace PHPCensor\Helper;
 
-use PHPCensor\Config;
 use GuzzleHttp\Client;
+use PHPCensor\Config;
 
 /**
  * The Bitbucket Helper class provides some Bitbucket API call functionality.

@@ -2,9 +2,11 @@
 
 namespace Tests\PHPCensor\Helper;
 
+use Exception;
 use PHPCensor\Helper\CommandExecutor;
+use PHPUnit\Framework\TestCase;
 
-class CommandExecutorTest extends \PHPUnit\Framework\TestCase
+class CommandExecutorTest extends TestCase
 {
     /**
      * @var CommandExecutor
@@ -68,7 +70,7 @@ EOD;
     }
 
     /**
-     * @expectedException \Exception
+     * @expectedException Exception
      * @expectedMessageRegex WorldWidePeace
      */
     public function testFindBinary_ThrowsWhenNotFound()

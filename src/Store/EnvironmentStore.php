@@ -2,10 +2,12 @@
 
 namespace PHPCensor\Store;
 
+use Exception;
+use PDO;
 use PHPCensor\Database;
+use PHPCensor\Exception\HttpException;
 use PHPCensor\Model\Environment;
 use PHPCensor\Store;
-use PHPCensor\Exception\HttpException;
 
 class EnvironmentStore extends Store
 {
@@ -58,7 +60,7 @@ class EnvironmentStore extends Store
         $stmt->bindValue(':id', $id);
 
         if ($stmt->execute()) {
-            if ($data = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+            if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 return new Environment($data);
             }
         }
@@ -74,12 +76,12 @@ class EnvironmentStore extends Store
      *
      * @return array
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function getByProjectId($projectId, $useConnection = 'read')
     {
         if (is_null($projectId)) {
-            throw new \Exception('Value passed to ' . __FUNCTION__ . ' cannot be null.');
+            throw new Exception('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{project_id}} = :project_id';
@@ -88,7 +90,7 @@ class EnvironmentStore extends Store
         $stmt->bindValue(':project_id', $projectId);
 
         if ($stmt->execute()) {
-            $res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+            $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             $map = function ($item) {
                 return new Environment($item);

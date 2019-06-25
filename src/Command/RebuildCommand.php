@@ -2,16 +2,16 @@
 
 namespace PHPCensor\Command;
 
-use PHPCensor\Model\Build;
-use PHPCensor\Store\Factory;
 use Monolog\Logger;
+use PHPCensor\Model\Build;
 use PHPCensor\Service\BuildService;
+use PHPCensor\Store\BuildStore;
+use PHPCensor\Store\Factory;
+use PHPCensor\Store\ProjectStore;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use PHPCensor\Store\BuildStore;
-use PHPCensor\Store\ProjectStore;
 
 /**
  * Re-runs the last run build.
@@ -41,7 +41,7 @@ class RebuildCommand extends Command
     protected $sleep;
 
     /**
-     * @param \Monolog\Logger $logger
+     * @param Logger $logger
      * @param string $name
      */
     public function __construct(Logger $logger, $name = null)

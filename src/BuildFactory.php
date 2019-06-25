@@ -2,9 +2,9 @@
 
 namespace PHPCensor;
 
+use PHPCensor\Model\Build;
 use PHPCensor\Model\Project;
 use PHPCensor\Store\Factory;
-use PHPCensor\Model\Build;
 
 /**
  * BuildFactory - Takes in a generic "Build" and returns a type-specific build model.

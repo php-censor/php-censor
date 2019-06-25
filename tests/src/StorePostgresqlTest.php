@@ -2,17 +2,24 @@
 
 namespace Tests\PHPCensor;
 
+use PDO;
+use PDOException;
 use PHPCensor\Config;
 use PHPCensor\Database;
 use PHPCensor\Exception\InvalidArgumentException;
-use PHPCensor\Store\Factory;
 use PHPCensor\Model\Project;
 use PHPCensor\Model\ProjectGroup;
+use PHPCensor\Store\Factory;
+use PHPUnit_Extensions_Database_DataSet_IDataSet;
+use PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection;
+use PHPUnit_Extensions_Database_DB_IDatabaseConnection;
+use PHPUnit_Extensions_Database_TestCase;
+use RuntimeException;
 
-class StorePostgresqlTest extends \PHPUnit_Extensions_Database_TestCase
+class StorePostgresqlTest extends PHPUnit_Extensions_Database_TestCase
 {
     /**
-     * @var \PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection|null
+     * @var PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection|null
      */
     protected $connection = null;
 
@@ -28,7 +35,7 @@ class StorePostgresqlTest extends \PHPUnit_Extensions_Database_TestCase
         if (extension_loaded('pgsql')) {
             if (null === $this->connection) {
                 try {
-                    $pdo = new \PDO(
+                    $pdo = new PDO(
                         'pgsql:host=localhost;dbname=' . POSTGRESQL_DBNAME,
                         POSTGRESQL_USER,
                         POSTGRESQL_PASSWORD
@@ -45,7 +52,7 @@ class StorePostgresqlTest extends \PHPUnit_Extensions_Database_TestCase
                             PRIMARY KEY ("id")
                         )
                     ');
-                } catch (\PDOException $ex) {
+                } catch (PDOException $ex) {
                     $this->connection = null;
                 }
             }
@@ -55,7 +62,7 @@ class StorePostgresqlTest extends \PHPUnit_Extensions_Database_TestCase
     }
 
     /**
-     * @return \PHPUnit_Extensions_Database_DB_IDatabaseConnection
+     * @return PHPUnit_Extensions_Database_DB_IDatabaseConnection
      */
     protected function getConnection()
     {
@@ -67,7 +74,7 @@ class StorePostgresqlTest extends \PHPUnit_Extensions_Database_TestCase
     }
 
     /**
-     * @return \PHPUnit_Extensions_Database_DataSet_IDataSet
+     * @return PHPUnit_Extensions_Database_DataSet_IDataSet
      */
     protected function getDataSet()
     {
@@ -137,7 +144,7 @@ class StorePostgresqlTest extends \PHPUnit_Extensions_Database_TestCase
     }
 
     /**
-     * @expectedException \RuntimeException
+     * @expectedException RuntimeException
      */
     public function testConstruct()
     {
@@ -171,7 +178,7 @@ class StorePostgresqlTest extends \PHPUnit_Extensions_Database_TestCase
 
         try {
             $data = $testStore->getWhere([], '; SELECT', 0, ['id' => 'ASC']);
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             self::assertInstanceOf('\PDOException', $e);
         }
     }

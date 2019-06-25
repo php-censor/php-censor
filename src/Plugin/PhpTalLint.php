@@ -2,6 +2,7 @@
 
 namespace PHPCensor\Plugin;
 
+use DirectoryIterator;
 use PHPCensor;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
@@ -126,7 +127,7 @@ class PhpTalLint extends Plugin
     protected function lintDirectory($path)
     {
         $success = true;
-        $directory = new \DirectoryIterator($this->builder->buildPath . $path);
+        $directory = new DirectoryIterator($this->builder->buildPath . $path);
 
         foreach ($directory as $item) {
             if ($item->isDot()) {

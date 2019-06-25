@@ -2,6 +2,8 @@
 
 namespace PHPCensor\Plugin\Util;
 
+use Exception;
+
 /**
  * Class PhpUnitResult parses the results for the PhpUnitV2 plugin
  *
@@ -32,7 +34,7 @@ abstract class PhpUnitResult
      * Parse the results
      *
      * @return $this
-     * @throws \Exception If fails to parse the output
+     * @throws Exception If fails to parse the output
      */
     abstract public function parse();
 

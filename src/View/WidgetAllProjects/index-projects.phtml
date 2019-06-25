@@ -10,7 +10,7 @@ use PHPCensor\Model\Project;
  * @var Build     $lastBuild
  */
 
-foreach($projects as $project):
+foreach ($projects as $project):
     $statuses        = [];
     $failures        = 0;
     $backgroundClass = 'gray';
@@ -22,7 +22,7 @@ foreach($projects as $project):
         $lastBuild = $builds[$project->getId()][0];
         $status = $lastBuild->getStatus();
 
-        switch($status) {
+        switch ($status) {
             case Build::STATUS_PENDING:
                 $backgroundClass = 'blue';
                 break;
@@ -144,7 +144,7 @@ foreach($projects as $project):
                     }
                     echo '<a href="' . $link .'" class="small-box-footer-build small-box-footer ' . $class . '"><i class="fa ' . $icon . '"></i></a>';
                 }
-            } 
+            }
         ?>
         <div style="clear: both;"></div>
     </div>

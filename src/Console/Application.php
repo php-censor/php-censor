@@ -2,10 +2,16 @@
 
 namespace PHPCensor\Console;
 
+use Exception;
 use Monolog\Handler\HandlerInterface;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
+use Phinx\Config\Config as PhinxConfig;
+use Phinx\Console\Command\Create;
+use Phinx\Console\Command\Migrate;
+use Phinx\Console\Command\Rollback;
+use Phinx\Console\Command\Status;
 use PHPCensor\Command\CheckLocalizationCommand;
 use PHPCensor\Command\CreateAdminCommand;
 use PHPCensor\Command\CreateBuildCommand;
@@ -22,11 +28,6 @@ use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\Factory;
 use PHPCensor\Store\ProjectStore;
 use PHPCensor\Store\UserStore;
-use Phinx\Config\Config as PhinxConfig;
-use Phinx\Console\Command\Create;
-use Phinx\Console\Command\Migrate;
-use Phinx\Console\Command\Rollback;
-use Phinx\Console\Command\Status;
 use Symfony\Component\Console\Application as BaseApplication;
 
 /**
@@ -50,7 +51,7 @@ LOGO;
      * @param Config $applicationConfig
      *
      * @return Logger
-     * @throws \Exception
+     * @throws Exception
      */
     protected function initLogger(Config $applicationConfig)
     {
@@ -77,7 +78,7 @@ LOGO;
      * @param string $name
      * @param string $version
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function __construct($name = 'PHP Censor', $version = 'UNKNOWN')
     {

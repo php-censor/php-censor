@@ -7,6 +7,7 @@ use PHPCensor\Helper\BuildInterpolator;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 class TestPlugin extends Plugin
 {
@@ -59,7 +60,7 @@ class TestPlugin extends Plugin
     }
 }
 
-class PluginTest extends \PHPUnit\Framework\TestCase
+class PluginTest extends TestCase
 {
     /**
      * @var MockObject|Builder

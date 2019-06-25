@@ -2,13 +2,20 @@
 
 namespace Tests\PHPCensor;
 
+use PDO;
+use PDOException;
 use PHPCensor\Config;
 use PHPCensor\Database;
 use PHPCensor\Exception\InvalidArgumentException;
-use PHPCensor\Store\Factory;
 use PHPCensor\Model\Project;
 use PHPCensor\Model\ProjectGroup;
 use PHPCensor\Store;
+use PHPCensor\Store\Factory;
+use PHPUnit_Extensions_Database_DataSet_IDataSet;
+use PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection;
+use PHPUnit_Extensions_Database_DB_IDatabaseConnection;
+use PHPUnit_Extensions_Database_TestCase;
+use RuntimeException;
 
 class WrongStore extends Store
 {
@@ -22,10 +29,10 @@ class WrongStore extends Store
     }
 }
 
-class StoreMysqlTest extends \PHPUnit_Extensions_Database_TestCase
+class StoreMysqlTest extends PHPUnit_Extensions_Database_TestCase
 {
     /**
-     * @var \PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection|null
+     * @var PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection|null
      */
     protected $connection = null;
 
@@ -41,7 +48,7 @@ class StoreMysqlTest extends \PHPUnit_Extensions_Database_TestCase
         if (extension_loaded('mysqli')) {
             if (null === $this->connection) {
                 try {
-                    $pdo = new \PDO(
+                    $pdo = new PDO(
                         'mysql:host=localhost;dbname=' . MYSQL_DBNAME,
                         MYSQL_USER,
                         MYSQL_PASSWORD
@@ -58,7 +65,7 @@ class StoreMysqlTest extends \PHPUnit_Extensions_Database_TestCase
                             PRIMARY KEY (`id`)
                         ) ENGINE=InnoDB DEFAULT CHARSET=utf8
                     ');
-                } catch (\PDOException $ex) {
+                } catch (PDOException $ex) {
                     $this->connection = null;
                 }
             }
@@ -68,7 +75,7 @@ class StoreMysqlTest extends \PHPUnit_Extensions_Database_TestCase
     }
 
     /**
-     * @return \PHPUnit_Extensions_Database_DB_IDatabaseConnection
+     * @return PHPUnit_Extensions_Database_DB_IDatabaseConnection
      */
     protected function getConnection()
     {
@@ -80,7 +87,7 @@ class StoreMysqlTest extends \PHPUnit_Extensions_Database_TestCase
     }
 
     /**
-     * @return \PHPUnit_Extensions_Database_DataSet_IDataSet
+     * @return PHPUnit_Extensions_Database_DataSet_IDataSet
      */
     protected function getDataSet()
     {
@@ -150,7 +157,7 @@ class StoreMysqlTest extends \PHPUnit_Extensions_Database_TestCase
     }
 
     /**
-     * @expectedException \RuntimeException
+     * @expectedException RuntimeException
      */
     public function testConstruct()
     {
@@ -184,7 +191,7 @@ class StoreMysqlTest extends \PHPUnit_Extensions_Database_TestCase
 
         try {
             $data = $testStore->getWhere([], '; SELECT', 0, ['id' => 'ASC']);
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             self::assertInstanceOf('\PDOException', $e);
         }
     }

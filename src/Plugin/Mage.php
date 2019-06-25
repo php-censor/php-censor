@@ -5,9 +5,10 @@
 
 namespace PHPCensor\Plugin;
 
+use Exception;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
-use \PHPCensor\Plugin;
+use PHPCensor\Plugin;
 
 /**
  * Integrates PHPCensor with Mage: https://github.com/andres-montanez/Magallanes
@@ -61,7 +62,7 @@ class Mage extends Plugin
             $this->builder->log('########## MAGE LOG BEGIN ##########');
             $this->builder->log($this->getMageLog());
             $this->builder->log('########## MAGE LOG END ##########');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->builder->logFailure($e->getMessage());
         }
 
@@ -71,40 +72,40 @@ class Mage extends Plugin
     /**
      * Get mage log lines
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     protected function getMageLog()
     {
         $logsDir = $this->build->getBuildPath() . '/.mage/logs';
         if (!is_dir($logsDir)) {
-            throw new \Exception('Log directory not found');
+            throw new Exception('Log directory not found');
         }
 
         $list = scandir($logsDir);
         if ($list === false) {
-            throw new \Exception('Log dir read fail');
+            throw new Exception('Log dir read fail');
         }
 
         $list = array_filter($list, function ($name) {
             return preg_match('/^log-\d+-\d+\.log$/', $name);
         });
         if (empty($list)) {
-            throw new \Exception('Log dir filter fail');
+            throw new Exception('Log dir filter fail');
         }
 
         $res = sort($list);
         if ($res === false) {
-            throw new \Exception('Logs sort fail');
+            throw new Exception('Logs sort fail');
         }
 
         $lastLogFile = end($list);
         if ($lastLogFile === false) {
-            throw new \Exception('Get last Log name fail');
+            throw new Exception('Get last Log name fail');
         }
 
         $logContent = file_get_contents($logsDir . '/' . $lastLogFile);
         if ($logContent === false) {
-            throw new \Exception('Get last Log content fail');
+            throw new Exception('Get last Log content fail');
         }
 
         $lines = explode("\n", $logContent);

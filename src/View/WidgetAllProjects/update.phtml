@@ -110,7 +110,7 @@ if ($buildCount > 0) {
         <?= Lang::get('view_project'); ?> (<?= $counts; ?>) <i class="fa fa-arrow-circle-right"></i>
     </a>
 
-        <?php for ($idx=0; $idx < 5; $idx++) {
+    <?php for ($idx = 0; $idx < 5; $idx++) {
         if (empty($builds[$idx])) {
             echo '<span class="small-box-footer-build small-box-footer bg-gray"><i class="fa fa-minus"></i></span>';
         } else {

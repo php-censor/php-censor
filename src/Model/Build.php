@@ -2,16 +2,22 @@
 
 namespace PHPCensor\Model;
 
+use DateTime;
+use DirectoryIterator;
+use Exception;
 use PHPCensor\Builder;
+use PHPCensor\Exception\HttpException;
+use PHPCensor\Exception\InvalidArgumentException;
 use PHPCensor\Helper\Lang;
+use PHPCensor\Model\Base\Build as BaseBuild;
 use PHPCensor\Plugin\PhpParallelLint;
+use PHPCensor\Store\BuildErrorStore;
 use PHPCensor\Store\Factory;
 use PHPCensor\Store\ProjectStore;
-use PHPCensor\Store\BuildErrorStore;
+use ReflectionClass;
+use ReflectionException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Parser as YamlParser;
-use PHPCensor\Model\Base\Build as BaseBuild;
-use PHPCensor\Exception\InvalidArgumentException;
 
 /**
  * @author Dan Cryer <dan@block8.co.uk>
@@ -66,7 +72,7 @@ class Build extends BaseBuild
     /**
      * @return null|Project
      *
-     * @throws \PHPCensor\Exception\HttpException
+     * @throws HttpException
      */
     public function getProject()
     {
@@ -112,7 +118,7 @@ class Build extends BaseBuild
     /**
      * Get BuildError models by BuildId for this Build.
      *
-     * @return \PHPCensor\Model\BuildError[]
+     * @return BuildError[]
      */
     public function getBuildBuildErrors()
     {
@@ -122,7 +128,7 @@ class Build extends BaseBuild
     /**
      * Get BuildMeta models by BuildId for this Build.
      *
-     * @return \PHPCensor\Model\BuildMeta[]
+     * @return BuildMeta[]
      */
     public function getBuildBuildMetas()
     {
@@ -190,7 +196,7 @@ class Build extends BaseBuild
     /**
      * @return string
      *
-     * @throws \PHPCensor\Exception\HttpException
+     * @throws HttpException
      */
     public function getProjectTitle()
     {
@@ -224,7 +230,7 @@ class Build extends BaseBuild
      *
      * @return bool
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function handleConfigBeforeClone(Builder $builder)
     {
@@ -250,7 +256,7 @@ class Build extends BaseBuild
      *
      * @return bool
      *
-     * @throws \Exception
+     * @throws Exception
      */
     protected function handleConfig(Builder $builder, $buildPath)
     {
@@ -324,12 +330,12 @@ class Build extends BaseBuild
      *
      * @return array
      *
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     protected function getZeroConfigPlugins(Builder $builder)
     {
         $pluginDir = SRC_DIR . 'Plugin/';
-        $dir = new \DirectoryIterator($pluginDir);
+        $dir = new DirectoryIterator($pluginDir);
 
         $config = [
             'build_settings' => [
@@ -354,7 +360,7 @@ class Build extends BaseBuild
 
             $className = '\PHPCensor\Plugin\\' . $item->getBasename('.php');
 
-            $reflectedPlugin = new \ReflectionClass($className);
+            $reflectedPlugin = new ReflectionClass($className);
 
             if (!$reflectedPlugin->implementsInterface('\PHPCensor\ZeroConfigPluginInterface')) {
                 continue;
@@ -501,7 +507,7 @@ class Build extends BaseBuild
                 $fileSystem->remove(PUBLIC_DIR . 'artifacts/pdepend/' . $buildDirectory);
                 $fileSystem->remove(PUBLIC_DIR . 'artifacts/phpunit/' . $buildDirectory);
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
         }
     }
 
@@ -521,7 +527,7 @@ class Build extends BaseBuild
         $end = $this->getFinishDate();
 
         if (empty($end)) {
-            $end = new \DateTime();
+            $end = new DateTime();
         }
 
         return $end->getTimestamp() - $start->getTimestamp();
@@ -536,11 +542,11 @@ class Build extends BaseBuild
     {
         $start = $this->getStartDate();
         if (!$start) {
-            $start = new \DateTime();
+            $start = new DateTime();
         }
         $end = $this->getFinishDate();
         if (!$end) {
-            $end = new \DateTime();
+            $end = new DateTime();
         }
 
         $diff  = date_diff($start, $end);
@@ -572,7 +578,7 @@ class Build extends BaseBuild
      *
      * @return string
      *
-     * @throws \PHPCensor\Exception\HttpException
+     * @throws HttpException
      */
     protected function writeSshKey()
     {
@@ -652,7 +658,7 @@ OUT;
      *
      * @return int
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function getTotalErrorsCount($plugin = null, $severity = null, $isNew = null)
     {
@@ -684,7 +690,7 @@ OUT;
      * @return int
      *
      * @throws InvalidArgumentException
-     * @throws \PHPCensor\Exception\HttpException
+     * @throws HttpException
      */
     public function getErrorsTrend()
     {

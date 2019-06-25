@@ -9,7 +9,7 @@ var coveragePlugin = ActiveBuild.UiPlugin.extend({
 
     register: function () {
         var self  = this;
-        var query = ActiveBuild.registerQuery('php_unit-coverage', -1, {num_builds: 10, key: 'php_unit-coverage'})
+        var query = ActiveBuild.registerQuery('php_unit-coverage', -1, {num_builds: 10, key: 'php_unit-coverage'});
 
         $(window).on('php_unit-coverage', function (data) {
             self.onUpdate(data);
@@ -49,24 +49,24 @@ var coveragePlugin = ActiveBuild.UiPlugin.extend({
         self.chartData = {
             labels:   [],
             datasets: [
-                {
+            {
                     label:       Lang.get('classes'),
                     strokeColor: "#555299",
                     pointColor:  "#555299",
                     data:        []
-                },
+            },
                 {
                     label:       Lang.get('methods'),
                     strokeColor: "#00A65A",
                     pointColor:  "#00A65A",
                     data:        []
-                },
+            },
                 {
                     label:       Lang.get('lines'),
                     strokeColor: "#8AA4AF",
                     pointColor:  "#8AA4AF",
                     data:        []
-                }
+            }
             ]
         };
 

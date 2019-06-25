@@ -3,6 +3,7 @@
 namespace Tests\PHPCensor\Plugin\Util\Fake;
 
 use PHPCensor\Plugin;
+use stdClass;
 
 class ExamplePluginWithSingleTypedRequiredArg extends Plugin
 {
@@ -16,7 +17,7 @@ class ExamplePluginWithSingleTypedRequiredArg extends Plugin
 
     public $RequiredArgument;
 
-    public function __construct(\stdClass $requiredArgument)
+    public function __construct(stdClass $requiredArgument)
     {
         $this->RequiredArgument = $requiredArgument;
     }

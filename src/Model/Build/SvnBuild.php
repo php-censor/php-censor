@@ -2,8 +2,9 @@
 
 namespace PHPCensor\Model\Build;
 
-use PHPCensor\Model\Build;
+use Exception;
 use PHPCensor\Builder;
+use PHPCensor\Model\Build;
 
 /**
  * Remote Subversion Build Model
@@ -73,7 +74,7 @@ class SvnBuild extends Build
      *
      * @return bool
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function createWorkingCopy(Builder $builder, $buildPath)
     {

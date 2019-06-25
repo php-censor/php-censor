@@ -2,6 +2,7 @@
 
 namespace PHPCensor\Plugin;
 
+use Exception;
 use PDO;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
@@ -67,7 +68,7 @@ class Pgsql extends Plugin
             foreach ($this->options as $query) {
                 $pdo->query($this->builder->interpolate($query));
             }
-        } catch (\Exception $ex) {
+        } catch (Exception $ex) {
             $this->builder->logFailure($ex->getMessage());
             return false;
         }

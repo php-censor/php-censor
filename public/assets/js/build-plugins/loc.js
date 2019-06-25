@@ -9,7 +9,7 @@ var locPlugin = ActiveBuild.UiPlugin.extend({
 
     register: function () {
         var self  = this;
-        var query = ActiveBuild.registerQuery('php_loc-data', -1, {num_builds: 10, key: 'php_loc-data'})
+        var query = ActiveBuild.registerQuery('php_loc-data', -1, {num_builds: 10, key: 'php_loc-data'});
 
         $(window).on('php_loc-data', function (data) {
             self.onUpdate(data);
@@ -49,30 +49,30 @@ var locPlugin = ActiveBuild.UiPlugin.extend({
         self.chartData = {
             labels:   [],
             datasets: [
-                {
+            {
                     label:       Lang.get('lines'),
                     strokeColor: "#555299",
                     pointColor:  "#555299",
                     data:        []
-                },
+            },
                 {
                     label:       Lang.get('logical_lines'),
                     strokeColor: "#00A65A",
                     pointColor:  "#00A65A",
                     data:        []
-                },
+            },
                 {
                     label:       Lang.get('comment_lines'),
                     strokeColor: "#8AA4AF",
                     pointColor:  "#8AA4AF",
                     data:        []
-                },
+            },
                 {
                     label:       Lang.get('noncomment_lines'),
                     strokeColor: "#00A7D0",
                     pointColor:  "#00A7D0",
                     data:        []
-                }
+            }
             ]
         };
 

@@ -2,6 +2,8 @@
 
 namespace PHPCensor\ProcessControl;
 
+use Exception;
+
 /**
  * Construct an appropriate ProcessControl instance.
  *
@@ -36,7 +38,7 @@ class Factory
      *
      * @return ProcessControlInterface
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public static function createProcessControl()
     {
@@ -47,6 +49,6 @@ class Factory
                 return new UnixProcessControl();
         }
 
-        throw new \Exception("No ProcessControl implementation available.");
+        throw new Exception("No ProcessControl implementation available.");
     }
 }

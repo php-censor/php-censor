@@ -2,9 +2,10 @@
 
 namespace PHPCensor\Plugin;
 
+use Exception;
+use Phar as PHPPhar;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
-use Phar as PHPPhar;
 use PHPCensor\Plugin;
 
 /**
@@ -165,7 +166,7 @@ class Phar extends Plugin
             }
 
             $success = true;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->builder->logFailure('Phar Plugin Internal Error. Exception: ' . $e->getMessage());
         }
 

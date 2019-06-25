@@ -49,6 +49,7 @@
         "ext-openssl":   "*",
         "ext-PDO":       "*",
         "ext-json":      "*",
+        "ext-dom":       "*",
         "ext-libxml":    "*",
         "ext-SimpleXML": "*",
         "ext-curl":      "*",

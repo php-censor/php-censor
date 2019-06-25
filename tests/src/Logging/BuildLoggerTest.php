@@ -2,11 +2,13 @@
 
 namespace Tests\PHPCensor\Logging;
 
+use Exception;
 use PHPCensor\Logging\BuildLogger;
+use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Psr\Log\LogLevel;
 
-class BuildLoggerTest extends \PHPUnit\Framework\TestCase
+class BuildLoggerTest extends TestCase
 {
     /**
      * @var BuildLogger
@@ -67,7 +69,7 @@ class BuildLoggerTest extends \PHPUnit\Framework\TestCase
     {
         $message = "Testing";
 
-        $exception = new \Exception("Expected Exception");
+        $exception = new Exception("Expected Exception");
 
 
         $this->mockLogger

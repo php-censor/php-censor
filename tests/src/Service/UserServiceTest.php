@@ -4,13 +4,14 @@ namespace Tests\PHPCensor\Service;
 
 use PHPCensor\Model\User;
 use PHPCensor\Service\UserService;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Unit tests for the ProjectService class.
  *
  * @author Dan Cryer <dan@block8.co.uk>
  */
-class UserServiceTest extends \PHPUnit\Framework\TestCase
+class UserServiceTest extends TestCase
 {
 
     /**
@@ -19,7 +20,7 @@ class UserServiceTest extends \PHPUnit\Framework\TestCase
     protected $testedService;
 
     /**
-     * @var \ $mockBuildStore
+     * @var $mockBuildStore
      */
     protected $mockUserStore;
 

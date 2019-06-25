@@ -2,6 +2,7 @@
 
 namespace PHPCensor\Plugin;
 
+use Exception;
 use GuzzleHttp\Client;
 use PHPCensor\Builder;
 use PHPCensor\Database;
@@ -58,7 +59,7 @@ class BitbucketNotify extends Plugin
 
     /**
      * {@inheritdoc}
-     * @throws \Exception
+     * @throws Exception
      */
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
@@ -105,13 +106,13 @@ class BitbucketNotify extends Plugin
             empty($this->projectKey) ||
             empty($this->repositorySlug)
         ) {
-            throw new \Exception('Please define the url for bitbucket plugin!');
+            throw new Exception('Please define the url for bitbucket plugin!');
         }
     }
 
     /**
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
     public function execute()
     {
@@ -242,7 +243,7 @@ class BitbucketNotify extends Plugin
     /**
      * @param string $targetBranch
      * @return BitbucketNotifyPluginResult[]
-     * @throws \Exception
+     * @throws Exception
      */
     protected function prepareResult($targetBranch)
     {
@@ -289,7 +290,7 @@ class BitbucketNotify extends Plugin
 
         $lines = [];
         foreach ($plugins as $plugin) {
-            $lines[] = $plugin->generateFormatedOutput($maxPluginNameLength);
+            $lines[] = $plugin->generateFormattedOutput($maxPluginNameLength);
         }
 
         return $lines;
@@ -310,7 +311,7 @@ class BitbucketNotify extends Plugin
     /**
      * @param $branchName
      * @return int
-     * @throws \Exception
+     * @throws Exception
      */
     protected function findLatestBuild($branchName)
     {

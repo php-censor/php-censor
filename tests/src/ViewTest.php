@@ -2,9 +2,11 @@
 
 namespace Tests\PHPCensor;
 
+use Exception;
 use PHPCensor\View;
+use PHPUnit\Framework\TestCase;
 
-class ViewTest extends \PHPUnit\Framework\TestCase
+class ViewTest extends TestCase
 {
     public function testSimpleView()
     {
@@ -13,7 +15,7 @@ class ViewTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @expectedException \Exception
+     * @expectedException Exception
      */
     public function testInvalidView()
     {

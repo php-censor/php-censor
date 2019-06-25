@@ -2,12 +2,12 @@
 
 namespace PHPCensor\Command;
 
-use PHPCensor\Store\BuildStore;
-use PHPCensor\Store\Factory;
 use Monolog\Logger;
 use PHPCensor\BuildFactory;
 use PHPCensor\Logging\OutputLogHandler;
 use PHPCensor\Service\BuildService;
+use PHPCensor\Store\BuildStore;
+use PHPCensor\Store\Factory;
 use PHPCensor\Store\ProjectStore;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -29,7 +29,7 @@ class RebuildQueueCommand extends Command
     protected $logger;
 
     /**
-     * @param \Monolog\Logger $logger
+     * @param Logger $logger
      * @param string $name
      */
     public function __construct(Logger $logger, $name = null)

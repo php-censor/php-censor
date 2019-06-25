@@ -2,16 +2,18 @@
 
 namespace PHPCensor\Command;
 
+use DateTime;
+use Exception;
 use Monolog\Logger;
-use PHPCensor\Logging\BuildDBLogHandler;
-use PHPCensor\Service\BuildService;
-use PHPCensor\Store\BuildStore;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use PHPCensor\Store\Factory;
 use PHPCensor\Builder;
 use PHPCensor\BuildFactory;
+use PHPCensor\Logging\BuildDBLogHandler;
 use PHPCensor\Model\Build;
+use PHPCensor\Service\BuildService;
+use PHPCensor\Store\BuildStore;
+use PHPCensor\Store\Factory;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Run console command - Runs any pending builds.
@@ -88,19 +90,18 @@ class RunCommand extends LoggingCommand
 
             try {
                 $builder->execute();
-            } catch (\Exception $ex) {
+            } catch (Exception $e) {
                 $builder->getBuildLogger()->log('');
                 $builder->getBuildLogger()->logFailure(
                     sprintf(
                         'BUILD FAILED! Exception: %s',
-                        $build->getId(),
-                        $ex->getMessage()
+                        $e->getMessage()
                     ),
-                    $ex
+                    $e
                 );
 
                 $build->setStatusFailed();
-                $build->setFinishDate(new \DateTime());
+                $build->setFinishDate(new DateTime());
 
                 $buildStore->save($build);
 

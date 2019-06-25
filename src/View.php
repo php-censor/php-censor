@@ -2,9 +2,10 @@
 
 namespace PHPCensor;
 
-use PHPCensor\Store\Factory;
 use PHPCensor\Model\User;
+use PHPCensor\Store\Factory;
 use PHPCensor\Store\UserStore;
+use RuntimeException;
 
 class View
 {
@@ -30,7 +31,7 @@ class View
     public function __construct($file, $path = null)
     {
         if (!self::exists($file, $path)) {
-            throw new \RuntimeException('View file does not exist: ' . $file);
+            throw new RuntimeException('View file does not exist: ' . $file);
         }
 
         $this->viewFile = self::getViewFile($file, $path);

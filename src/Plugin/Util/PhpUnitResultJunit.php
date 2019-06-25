@@ -2,7 +2,10 @@
 
 namespace PHPCensor\Plugin\Util;
 
+use Exception;
 use PHPCensor\Helper\Xml;
+use RuntimeException;
+use SimpleXMLElement;
 
 /**
  * Class PhpUnitResultJunit parses the results for the PhpUnitV2 plugin
@@ -15,7 +18,7 @@ class PhpUnitResultJunit extends PhpUnitResult
      * Parse the results
      *
      * @return $this
-     * @throws \Exception If fails to parse the output
+     * @throws Exception If fails to parse the output
      */
     public function parse()
     {
@@ -133,14 +136,14 @@ class PhpUnitResultJunit extends PhpUnitResult
     }
 
     /**
-     * @return \SimpleXMLElement
+     * @return SimpleXMLElement
      */
     private function loadResultFile()
     {
         if (!file_exists($this->outputFile) || 0 === filesize($this->outputFile)) {
             $this->internalProblem('empty output file');
 
-            return new \SimpleXMLElement('<empty/>'); // new empty element
+            return new SimpleXMLElement('<empty/>'); // new empty element
         }
 
         return Xml::loadFromFile($this->outputFile);
@@ -151,6 +154,6 @@ class PhpUnitResultJunit extends PhpUnitResult
      */
     private function internalProblem($description)
     {
-        throw new \RuntimeException($description);
+        throw new RuntimeException($description);
     }
 }

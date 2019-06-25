@@ -3,8 +3,9 @@
 namespace Tests\PHPCensor\Helper;
 
 use PHPCensor\Helper\BuildInterpolator;
+use PHPUnit\Framework\TestCase;
 
-class BuildInterpolatorTest extends \PHPUnit\Framework\TestCase
+class BuildInterpolatorTest extends TestCase
 {
     /**
      * @var BuildInterpolator

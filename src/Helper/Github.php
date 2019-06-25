@@ -2,8 +2,8 @@
 
 namespace PHPCensor\Helper;
 
-use PHPCensor\Config;
 use GuzzleHttp\Client;
+use PHPCensor\Config;
 
 /**
  * The Github Helper class provides some Github API call functionality.

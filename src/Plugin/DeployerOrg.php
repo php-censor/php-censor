@@ -4,13 +4,14 @@ namespace PHPCensor\Plugin;
 
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
+use PHPCensor\Plugin;
 
 /**
  * Deployer plugin for PHPCensor: http://deployer.org
  *
  * @author Alexey Boyko <ket4yiit@gmail.com>
  */
-class DeployerOrg extends \PHPCensor\Plugin
+class DeployerOrg extends Plugin
 {
     protected $branch;
 

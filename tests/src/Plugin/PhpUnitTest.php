@@ -2,12 +2,15 @@
 
 namespace Tests\PHPCensor\Plugin;
 
+use PHPUnit\Framework\TestCase;
+use PHPUnit_Framework_MockObject_MockBuilder;
+
 /**
  * Unit test for the PHPUnit plugin.
  *
  * @author Pablo Tejada <pablo@ptejada.com>
  */
-class PhpUnitTest extends \PHPUnit\Framework\TestCase
+class PhpUnitTest extends TestCase
 {
     public function testSingleConfigFile()
     {
@@ -44,7 +47,7 @@ class PhpUnitTest extends \PHPUnit\Framework\TestCase
     /**
      * @param array $options
      *
-     * @return \PHPUnit_Framework_MockObject_MockBuilder
+     * @return PHPUnit_Framework_MockObject_MockBuilder
      */
     protected function getPluginBuilder($options = [])
     {

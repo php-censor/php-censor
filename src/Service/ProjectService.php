@@ -2,7 +2,8 @@
 
 namespace PHPCensor\Service;
 
-use PHPCensor\Model\Build;
+use DateTime;
+use Exception;
 use PHPCensor\Model\Project;
 use PHPCensor\Store\ProjectStore;
 use Symfony\Component\Filesystem\Filesystem;
@@ -13,7 +14,7 @@ use Symfony\Component\Filesystem\Filesystem;
 class ProjectService
 {
     /**
-     * @var \PHPCensor\Store\ProjectStore
+     * @var ProjectStore
      */
     protected $projectStore;
 
@@ -34,13 +35,13 @@ class ProjectService
      * @param int $userId
      * @param array   $options
      *
-     * @return \PHPCensor\Model\Project
+     * @return Project
      */
     public function createProject($title, $type, $reference, $userId, $options = [])
     {
         // Create base project and use updateProject() to set its properties:
         $project = new Project();
-        $project->setCreateDate(new \DateTime());
+        $project->setCreateDate(new DateTime());
         $project->setUserId((int)$userId);
 
         return $this->updateProject($project, $title, $type, $reference, $options);
@@ -55,7 +56,7 @@ class ProjectService
      * @param string $reference
      * @param array $options
      *
-     * @return \PHPCensor\Model\Project
+     * @return Project
      */
     public function updateProject(Project $project, $title, $type, $reference, $options = [])
     {
@@ -132,7 +133,7 @@ class ProjectService
             $fileSystem->remove(RUNTIME_DIR . 'builds/' . $project->getId());
             $fileSystem->remove(PUBLIC_DIR . 'artifacts/pdepend/' . $project->getId());
             $fileSystem->remove(PUBLIC_DIR . 'artifacts/phpunit/' . $project->getId());
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
         }
 
         return $this->projectStore->delete($project);

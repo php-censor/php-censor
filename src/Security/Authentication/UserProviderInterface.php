@@ -2,6 +2,7 @@
 
 namespace PHPCensor\Security\Authentication;
 
+use Exception;
 use PHPCensor\Model\User;
 
 /**
@@ -15,7 +16,7 @@ interface UserProviderInterface
     /**
      * Check if all software requirements are met (libraries, extensions, ...)
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function checkRequirements();
 

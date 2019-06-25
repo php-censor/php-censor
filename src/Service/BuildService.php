@@ -2,15 +2,18 @@
 
 namespace PHPCensor\Service;
 
+use DateInterval;
+use DateTime;
+use Exception;
 use Monolog\Logger;
-use PHPCensor\Config;
 use Pheanstalk\Pheanstalk;
 use Pheanstalk\PheanstalkInterface;
 use PHPCensor\BuildFactory;
+use PHPCensor\Config;
+use PHPCensor\Exception\HttpException;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\Project;
 use PHPCensor\Store\BuildStore;
-use PHPCensor\Store\Factory;
 use PHPCensor\Store\ProjectStore;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Exception\ParseException;
@@ -60,7 +63,7 @@ class BuildService
      * @param int     $userId
      * @param array|null  $extra
      *
-     * @return \PHPCensor\Model\Build
+     * @return Build
      */
     public function createBuild(
         Project $project,
@@ -75,7 +78,7 @@ class BuildService
         $extra = null
     ) {
         $build = new Build();
-        $build->setCreateDate(new \DateTime());
+        $build->setCreateDate(new DateTime());
         $build->setProjectId($project->getId());
         $build->setStatusPending();
         $build->setEnvironment($environment);
@@ -125,7 +128,7 @@ class BuildService
     /**
      * @param Logger $logger
      *
-     * @throws \PHPCensor\Exception\HttpException
+     * @throws HttpException
      */
     public function createPeriodicalBuilds(Logger $logger)
     {
@@ -174,11 +177,11 @@ class BuildService
                 continue;
             }
 
-            $date = new \DateTime('now');
+            $date = new DateTime('now');
 
             try {
-                $interval = new \DateInterval($projectConfig['interval']);
-            } catch (\Exception $e) {
+                $interval = new DateInterval($projectConfig['interval']);
+            } catch (Exception $e) {
                 $logger->error(
                     sprintf(
                         'Invalid datetime interval for project #%s! Exception: %s',
@@ -237,7 +240,7 @@ class BuildService
      *
      * @return Build
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function createDuplicateBuild(Build $originalBuild, $source)
     {
@@ -253,7 +256,7 @@ class BuildService
         $build->setEnvironment($originalBuild->getEnvironment());
         $build->setSource($source);
         $build->setUserId($originalBuild->getUserId());
-        $build->setCreateDate(new \DateTime());
+        $build->setCreateDate(new DateTime());
         $build->setStatusPending();
 
         /** @var Build $build */
@@ -272,7 +275,7 @@ class BuildService
     /**
      * @param int $projectId
      *
-     * @throws \PHPCensor\Exception\HttpException
+     * @throws HttpException
      */
     public function deleteOldByProject($projectId)
     {
@@ -310,7 +313,7 @@ class BuildService
                     $fileSystem->remove($projectPath);
                 }
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
         }
     }
 
@@ -362,7 +365,7 @@ class BuildService
                     PheanstalkInterface::DEFAULT_DELAY,
                     $config->get('php-censor.queue.lifetime', 600)
                 );
-            } catch (\Exception $ex) {
+            } catch (Exception $ex) {
                 $this->queueError = true;
             }
         }

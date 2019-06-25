@@ -2,13 +2,13 @@
 
 namespace PHPCensor\Plugin\Util;
 
-use PHPCensor\Store\Factory as StoreFactory;
 use Exception;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Logging\BuildLogger;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 use PHPCensor\Store\BuildStore;
+use PHPCensor\Store\Factory as StoreFactory;
 
 /**
  * Plugin Executor - Runs the configured plugins for a given build stage.
@@ -110,7 +110,7 @@ class Executor
      */
     protected function getBranchSpecificPlugins($config, $stage, $pluginsToExecute)
     {
-        /** @var \PHPCensor\Model\Build $build */
+        /** @var Build $build */
         $build        = $this->pluginFactory->getResourceFor('PHPCensor\Model\Build');
         $branch       = $build->getBranch();
         $branchConfig = $this->getBranchSpecificConfig($config, $branch);
@@ -155,7 +155,7 @@ class Executor
      * @param $plugins
      * @param $stage
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
     protected function doExecutePlugins(&$plugins, $stage)
     {
@@ -229,7 +229,7 @@ class Executor
             $obj = $this->pluginFactory->buildPlugin($class, (is_null($options) ? [] : $options));
 
             return $obj->execute();
-        } catch (\Exception $ex) {
+        } catch (Exception $ex) {
             $this->logger->logFailure('Exception: ' . $ex->getMessage(), $ex);
 
             return false;

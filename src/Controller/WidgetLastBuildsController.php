@@ -2,12 +2,12 @@
 
 namespace PHPCensor\Controller;
 
+use PHPCensor\BuildFactory;
+use PHPCensor\Http\Response;
+use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\Factory;
 use PHPCensor\View;
-use PHPCensor\Http\Response;
-use PHPCensor\BuildFactory;
 use PHPCensor\WebController;
-use PHPCensor\Store\BuildStore;
 
 /**
  * Widget Last Builds Controller

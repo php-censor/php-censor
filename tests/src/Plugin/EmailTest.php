@@ -7,13 +7,15 @@ use PHPCensor\Helper\BuildInterpolator;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 use PHPCensor\Plugin\Email as EmailPlugin;
+use PHPUnit\Framework\TestCase;
+use PHPUnit_Framework_MockObject_MockObject;
 
 /**
  * Unit test for the PHPUnit plugin.
  *
  * @author meadsteve
  */
-class EmailTest extends \PHPUnit\Framework\TestCase
+class EmailTest extends TestCase
 {
 
     /**
@@ -22,17 +24,17 @@ class EmailTest extends \PHPUnit\Framework\TestCase
     protected $testedEmailPlugin;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject $mockBuilder
+     * @var PHPUnit_Framework_MockObject_MockObject $mockBuilder
      */
     protected $mockBuilder;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject $mockBuild
+     * @var PHPUnit_Framework_MockObject_MockObject $mockBuild
      */
     protected $mockBuild;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject $mockProject
+     * @var PHPUnit_Framework_MockObject_MockObject $mockProject
      */
     protected $mockProject;
 

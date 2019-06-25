@@ -2,14 +2,15 @@
 
 namespace PHPCensor\Command;
 
+use Exception;
 use PHPCensor\Exception\InvalidArgumentException;
 use PHPCensor\Service\UserService;
 use PHPCensor\Store\UserStore;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Question\Question;
 
 /**
@@ -89,7 +90,7 @@ class CreateAdminCommand extends Command
             $userService->createUser($adminName, $adminEmail, 'internal', ['type' => 'internal'], $adminPassword, true);
 
             $output->writeln('<info>User account created!</info>');
-        } catch (\Exception $ex) {
+        } catch (Exception $ex) {
             $output->writeln('<error>PHP Censor failed to create your admin account!</error>');
             $output->writeln('<error>' . $ex->getMessage() . '</error>');
         }

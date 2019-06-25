@@ -2,11 +2,12 @@
 
 namespace PHPCensor\Model\Build;
 
+use Exception;
 use GuzzleHttp\Client;
 use PHPCensor\Builder;
+use PHPCensor\Config;
 use PHPCensor\Helper\Diff;
 use PHPCensor\Helper\Github;
-use PHPCensor\Config;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
 
@@ -247,7 +248,7 @@ class GithubBuild extends GitBuild
 
                 $success = $builder->executeCommand($cmd, $cloneTo, $this->getBranch(), $pullRequestId);
             }
-        } catch (\Exception $ex) {
+        } catch (Exception $ex) {
             $success = false;
         }
 

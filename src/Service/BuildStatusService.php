@@ -2,8 +2,9 @@
 
 namespace PHPCensor\Service;
 
-use PHPCensor\Model\Project;
+use Exception;
 use PHPCensor\Model\Build;
+use PHPCensor\Model\Project;
 
 /**
  * Class BuildStatusService
@@ -85,7 +86,7 @@ class BuildStatusService
     /**
      * @param bool $isParent
      *
-     * @throws \Exception
+     * @throws Exception
      */
     protected function loadParentBuild($isParent = true)
     {

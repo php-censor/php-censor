@@ -2,10 +2,13 @@
 
 namespace Tests\PHPCensor\Plugin\Util;
 
+use PHPCensor\Model\Build;
 use PHPCensor\Plugin\Util\Executor;
+use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use RuntimeException;
 
-class ExecutorTest extends \PHPUnit\Framework\TestCase
+class ExecutorTest extends TestCase
 {
     /**
      * @var Executor
@@ -69,7 +72,7 @@ class ExecutorTest extends \PHPUnit\Framework\TestCase
     {
         $options = [];
         $pluginName = 'PhpUnit';
-        $build = new \PHPCensor\Model\Build();
+        $build = new Build();
 
         $mockPlugin = $this->prophesize('PHPCensor\Plugin');
         $mockPlugin->execute()->shouldBeCalledTimes(1);
@@ -112,7 +115,7 @@ class ExecutorTest extends \PHPUnit\Framework\TestCase
         $options    = [];
         $pluginName = 'PhpUnit';
 
-        $expectedException = new \RuntimeException("Generic Error");
+        $expectedException = new RuntimeException("Generic Error");
 
         $mockPlugin = $this->prophesize('PHPCensor\Plugin');
         $mockPlugin->execute()->willThrow($expectedException);
@@ -129,7 +132,7 @@ class ExecutorTest extends \PHPUnit\Framework\TestCase
     {
         $phpUnitPluginOptions = [];
         $behatPluginOptions   = [];
-        $build                = new \PHPCensor\Model\Build();
+        $build                = new Build();
 
         $config = [
            'stageOne' => [

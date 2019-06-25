@@ -2,10 +2,12 @@
 
 namespace PHPCensor\Store;
 
+use Exception;
+use PDO;
 use PHPCensor\Database;
+use PHPCensor\Exception\HttpException;
 use PHPCensor\Model\Project;
 use PHPCensor\Store;
-use PHPCensor\Exception\HttpException;
 
 /**
  * @author Dan Cryer <dan@block8.co.uk>
@@ -61,7 +63,7 @@ class ProjectStore extends Store
         $stmt->bindValue(':id', $id);
 
         if ($stmt->execute()) {
-            if ($data = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+            if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 return new Project($data);
             }
         }
@@ -90,7 +92,7 @@ class ProjectStore extends Store
 
         $rtn = [];
         if ($stmt->execute()) {
-            while ($data = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+            while ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 $rtn[$data['id']] = new Project($data);
             }
         }
@@ -119,10 +121,10 @@ class ProjectStore extends Store
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{title}} = :title LIMIT :limit';
         $stmt = Database::getConnection($useConnection)->prepareCommon($query);
         $stmt->bindValue(':title', $title);
-        $stmt->bindValue(':limit', (int)$limit, \PDO::PARAM_INT);
+        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
-            $res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+            $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             $map = function ($item) {
                 return new Project($item);
@@ -151,7 +153,7 @@ class ProjectStore extends Store
         $stmt->bindValue(':pid', $projectId);
 
         if ($stmt->execute()) {
-            $res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+            $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             $map = function ($item) {
                 return $item['branch'];
@@ -181,7 +183,7 @@ class ProjectStore extends Store
         $stmt->bindValue(':archived', $archived);
 
         if ($stmt->execute()) {
-            $res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+            $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             $map = function ($item) {
                 return new Project($item);
@@ -207,12 +209,12 @@ class ProjectStore extends Store
      *
      * @return array
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function getByGroupId($groupId, $archived = false, $limit = 1000, $useConnection = 'read')
     {
         if (is_null($groupId)) {
-            throw new \Exception('Value passed to ' . __FUNCTION__ . ' cannot be null.');
+            throw new Exception('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
         $archived = (int)$archived;
 
@@ -221,10 +223,10 @@ class ProjectStore extends Store
 
         $stmt->bindValue(':group_id', $groupId);
         $stmt->bindValue(':archived', $archived);
-        $stmt->bindValue(':limit', (int)$limit, \PDO::PARAM_INT);
+        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
-            $res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+            $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             $map = function ($item) {
                 return new Project($item);

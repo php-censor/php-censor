@@ -2,15 +2,17 @@
 
 namespace PHPCensor\Controller;
 
-use PHPCensor\Model\Build;
-use PHPCensor\WebController;
-use PHPCensor\Store\Factory;
-use PHPCensor\View;
-use PHPCensor\Model\Project;
+use Exception;
+use PHPCensor\Exception\HttpException;
 use PHPCensor\Http\Response;
+use PHPCensor\Model\Build;
+use PHPCensor\Model\Project;
 use PHPCensor\Store\BuildStore;
-use PHPCensor\Store\ProjectStore;
+use PHPCensor\Store\Factory;
 use PHPCensor\Store\ProjectGroupStore;
+use PHPCensor\Store\ProjectStore;
+use PHPCensor\View;
+use PHPCensor\WebController;
 
 /**
  * Widget All Projects Controller
@@ -47,7 +49,7 @@ class WidgetAllProjectsController extends WebController
     /**
      * @return Response
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function index()
     {
@@ -66,7 +68,7 @@ class WidgetAllProjectsController extends WebController
      *
      * @return string
      *
-     * @throws \Exception
+     * @throws Exception
      */
     protected function getSummaryHtml($projects)
     {
@@ -109,7 +111,7 @@ class WidgetAllProjectsController extends WebController
      *
      * @return array
      *
-     * @throws \Exception
+     * @throws Exception
      */
     protected function getGroupInfo()
     {
@@ -134,7 +136,7 @@ class WidgetAllProjectsController extends WebController
      *
      * @return Response
      *
-     * @throws \PHPCensor\Exception\HttpException
+     * @throws HttpException
      */
     public function update($projectId)
     {

@@ -2,10 +2,11 @@
 
 namespace PHPCensor\Plugin;
 
-use PHPCensor\Builder;
-use PHPCensor\Model\Build;
+use Exception;
 use FlowdockClient\Api\Push\Push;
 use FlowdockClient\Api\Push\TeamInboxMessage;
+use PHPCensor\Builder;
+use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 
 /**
@@ -38,7 +39,7 @@ class FlowdockNotify extends Plugin
         parent::__construct($builder, $build, $options);
 
         if (!is_array($options) || !isset($options['api_key'])) {
-            throw new \Exception('Please define the api_key for Flowdock Notify plugin!');
+            throw new Exception('Please define the api_key for Flowdock Notify plugin!');
         }
         $this->apiKey  = trim($options['api_key']);
         $this->message = isset($options['message']) ? $options['message'] : self::MESSAGE_DEFAULT;
@@ -48,7 +49,7 @@ class FlowdockNotify extends Plugin
     /**
      * Run the Flowdock plugin.
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
     public function execute()
     {
@@ -65,7 +66,7 @@ class FlowdockNotify extends Plugin
             ->setContent($message);
 
         if (!$push->sendTeamInboxMessage($flowMessage, ['connect_timeout' => 5000, 'timeout' => 5000])) {
-            throw new \Exception(sprintf('Flowdock Failed: %s', $flowMessage->getResponseErrors()));
+            throw new Exception(sprintf('Flowdock Failed: %s', $flowMessage->getResponseErrors()));
         }
         return true;
     }

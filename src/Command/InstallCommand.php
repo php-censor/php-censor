@@ -2,24 +2,25 @@
 
 namespace PHPCensor\Command;
 
+use DateTime;
 use Exception;
 use PDO;
-
 use Pheanstalk\Pheanstalk;
 use PHPCensor\Config;
 use PHPCensor\Exception\InvalidArgumentException;
-use PHPCensor\Store\Factory;
 use PHPCensor\Model\ProjectGroup;
-use PHPCensor\Store\UserStore;
+use PHPCensor\Service\UserService;
+use PHPCensor\Store\Factory;
 use PHPCensor\Store\ProjectGroupStore;
+use PHPCensor\Store\UserStore;
+use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use PHPCensor\Service\UserService;
-use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Yaml\Dumper;
 
 /**
@@ -39,22 +40,69 @@ class InstallCommand extends Command
         $this
             ->setName('php-censor:install')
 
-            ->addOption('url', null, InputOption::VALUE_OPTIONAL, 'PHP Censor installation URL')
+            ->addOption(
+                'url',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'PHP Censor installation URL'
+            )
             ->addOption('db-type', null, InputOption::VALUE_OPTIONAL, 'Database type')
             ->addOption('db-host', null, InputOption::VALUE_OPTIONAL, 'Database host')
             ->addOption('db-port', null, InputOption::VALUE_OPTIONAL, 'Database port')
             ->addOption('db-name', null, InputOption::VALUE_OPTIONAL, 'Database name')
             ->addOption('db-user', null, InputOption::VALUE_OPTIONAL, 'Database user')
-            ->addOption('db-password', null, InputOption::VALUE_OPTIONAL, 'Database password')
-            ->addOption('db-pgsql-sslmode', null, InputOption::VALUE_OPTIONAL, 'Postgres SSLMODE option')
+            ->addOption(
+                'db-password',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Database password'
+            )
+            ->addOption(
+                'db-pgsql-sslmode',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Postgres SSLMODE option'
+            )
             ->addOption('admin-name', null, InputOption::VALUE_OPTIONAL, 'Admin name')
-            ->addOption('admin-password', null, InputOption::VALUE_OPTIONAL, 'Admin password')
+            ->addOption(
+                'admin-password',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Admin password'
+            )
             ->addOption('admin-email', null, InputOption::VALUE_OPTIONAL, 'Admin email')
-            ->addOption('queue-use', null, InputOption::VALUE_OPTIONAL, 'Don\'t ask for queue details', true)
-            ->addOption('queue-host', null, InputOption::VALUE_OPTIONAL, 'Beanstalkd queue server hostname')
-            ->addOption('queue-port', null, InputOption::VALUE_OPTIONAL, 'Beanstalkd queue server port')
-            ->addOption('queue-name', null, InputOption::VALUE_OPTIONAL, 'Beanstalkd queue name')
-            ->addOption('config-from-file', null, InputOption::VALUE_OPTIONAL, 'Take config from file and ignore options', false)
+            ->addOption(
+                'queue-use',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Don\'t ask for queue details',
+                true
+            )
+            ->addOption(
+                'queue-host',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Beanstalkd queue server hostname'
+            )
+            ->addOption(
+                'queue-port',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Beanstalkd queue server port'
+            )
+            ->addOption(
+                'queue-name',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Beanstalkd queue name'
+            )
+            ->addOption(
+                'config-from-file',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Take config from file and ignore options',
+                false
+            )
 
             ->setDescription('Install PHP Censor');
     }
@@ -120,7 +168,10 @@ class InstallCommand extends Command
             $content = file_get_contents($this->configPath);
 
             if (!empty($content)) {
-                $output->writeln('<error>The PHP Censor config file exists and is not empty. PHP Censor is already installed!</error>');
+                $output->writeln(
+                    '<error>The PHP Censor config file exists and is not empty. ' .
+                    'PHP Censor is already installed!</error>'
+                );
                 return false;
             }
         }
@@ -133,7 +184,7 @@ class InstallCommand extends Command
      *
      * @param  OutputInterface $output
      *
-     * @throws \Exception
+     * @throws Exception
      */
     protected function checkRequirements(OutputInterface $output)
     {
@@ -142,7 +193,9 @@ class InstallCommand extends Command
 
         if (!(version_compare(PHP_VERSION, '5.6.0') >= 0)) {
             $output->writeln('');
-            $output->writeln('<error>PHP Censor requires at least PHP 5.6.0! Installed PHP ' . PHP_VERSION . '</error>');
+            $output->writeln(
+                '<error>PHP Censor requires at least PHP 5.6.0! Installed PHP ' . PHP_VERSION . '</error>'
+            );
             $errors = true;
         }
 
@@ -161,13 +214,19 @@ class InstallCommand extends Command
         foreach ($requiredFunctions as $function) {
             if (!function_exists($function)) {
                 $output->writeln('');
-                $output->writeln('<error>PHP Censor needs to be able to call the ' . $function . '() function. Is it disabled in php.ini?</error>');
+                $output->writeln(
+                    '<error>PHP Censor needs to be able to call the ' . $function .
+                    '() function. Is it disabled in php.ini?</error>'
+                );
                 $errors = true;
             }
         }
 
         if ($errors) {
-            throw new Exception('PHP Censor cannot be installed, as not all requirements are met. Please review the errors above before continuing.');
+            throw new Exception(
+                'PHP Censor cannot be installed, as not all requirements are met. ' .
+                'Please review the errors above before continuing.'
+            );
         }
 
         $output->writeln('');
@@ -247,7 +306,10 @@ class InstallCommand extends Command
         if ($url = $input->getOption('url')) {
             $url = $urlValidator($url);
         } else {
-            $question = new Question('Enter your application URL (default: "//php-censor.local"): ', '//php-censor.local');
+            $question = new Question(
+                'Enter your application URL (default: "//php-censor.local"): ',
+                '//php-censor.local'
+            );
             $question->setValidator($urlValidator);
             $url = $helper->ask($input, $output, $question);
         }
@@ -369,13 +431,22 @@ class InstallCommand extends Command
                 return $skipQueueConfig;
             }
 
-            $questionQueue       = new Question('Enter your queue hostname (default: "localhost"): ', 'localhost');
+            $questionQueue = new Question(
+                'Enter your queue hostname (default: "localhost"): ',
+                'localhost'
+            );
             $queueConfig['host'] = $helper->ask($input, $output, $questionQueue);
 
-            $questionQueue       = new Question('Enter your queue port (default: ' . $queueConfig['port'] . '): ', $queueConfig['port']);
+            $questionQueue = new Question(
+                'Enter your queue port (default: ' . $queueConfig['port'] . '): ',
+                $queueConfig['port']
+            );
             $queueConfig['port'] = $helper->ask($input, $output, $questionQueue);
 
-            $questionName        = new Question('Enter your queue name (default: "php-censor-queue"): ', 'php-censor-queue');
+            $questionName = new Question(
+                'Enter your queue name (default: "php-censor-queue"): ',
+                'php-censor-queue'
+            );
             $queueConfig['name'] = $helper->ask($input, $output, $questionName);
         }
 
@@ -403,8 +474,11 @@ class InstallCommand extends Command
         }
 
         if (!$dbHost = $input->getOption('db-host')) {
-            $questionHost = new Question('Enter your database host (default: "localhost"): ', 'localhost');
-            $dbHost       = trim($helper->ask($input, $output, $questionHost));
+            $questionHost = new Question(
+                'Enter your database host (default: "localhost"): ',
+                'localhost'
+            );
+            $dbHost = trim($helper->ask($input, $output, $questionHost));
         }
 
         $defaultPort = 3306;
@@ -427,13 +501,19 @@ class InstallCommand extends Command
         }
 
         if (!$dbName = $input->getOption('db-name')) {
-            $questionDb = new Question('Enter your database name (default: "php-censor-db"): ', 'php-censor-db');
-            $dbName     = trim($helper->ask($input, $output, $questionDb));
+            $questionDb = new Question(
+                'Enter your database name (default: "php-censor-db"): ',
+                'php-censor-db'
+            );
+            $dbName = trim($helper->ask($input, $output, $questionDb));
         }
 
         if (!$dbUser = $input->getOption('db-user')) {
-            $questionUser = new Question('Enter your database user (default: "php-censor-user"): ', 'php-censor-user');
-            $dbUser       = trim($helper->ask($input, $output, $questionUser));
+            $questionUser = new Question(
+                'Enter your database user (default: "php-censor-user"): ',
+                'php-censor-user'
+            );
+            $dbUser = trim($helper->ask($input, $output, $questionUser));
         }
 
         if (!$dbPass = $input->getOption('db-password')) {
@@ -489,12 +569,12 @@ class InstallCommand extends Command
         }
 
         $pdoOptions = [
-            \PDO::ATTR_PERSISTENT         => false,
-            \PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
-            \PDO::ATTR_TIMEOUT            => 2,
+            PDO::ATTR_PERSISTENT => false,
+            PDO::ATTR_ERRMODE    => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_TIMEOUT    => 2,
         ];
         if ('mysql' === $db['type']) {
-            $pdoOptions[\PDO::MYSQL_ATTR_INIT_COMMAND] = "SET NAMES 'UTF8'";
+            $pdoOptions[PDO::MYSQL_ATTR_INIT_COMMAND] = "SET NAMES 'UTF8'";
         }
 
         try {
@@ -509,7 +589,10 @@ class InstallCommand extends Command
 
             return true;
         } catch (Exception $ex) {
-            $output->writeln('<error>PHP Censor could not connect to database with the details provided. Please try again.</error>');
+            $output->writeln(
+                '<error>PHP Censor could not connect to database with the details provided. ' .
+                'Please try again.</error>'
+            );
             $output->writeln('<error>' . $ex->getMessage() . '</error>');
         }
 
@@ -532,8 +615,11 @@ class InstallCommand extends Command
     {
         $output->write('Setting up your database...');
 
-        exec(ROOT_DIR . 'bin/console php-censor-migrations:migrate', $outputMigration, $status);
-
+        exec(
+            (ROOT_DIR . 'bin/console php-censor-migrations:migrate'),
+            $outputMigration,
+            $status
+        );
 
         $output->writeln('');
         $output->writeln(implode($outputMigration));
@@ -561,14 +647,21 @@ class InstallCommand extends Command
             $userStore = Factory::getStore('User');
             $adminUser = $userStore->getByEmail($admin['email']);
             if ($adminUser) {
-                throw new \RuntimeException('Admin account already exists!');
+                throw new RuntimeException('Admin account already exists!');
             }
 
             $userService = new UserService($userStore);
-            $userService->createUser($admin['name'], $admin['email'], 'internal', ['type' => 'internal'], $admin['password'], true);
+            $userService->createUser(
+                $admin['name'],
+                $admin['email'],
+                'internal',
+                ['type' => 'internal'],
+                $admin['password'],
+                true
+            );
 
             $output->writeln('<info>User account created!</info>');
-        } catch (\Exception $ex) {
+        } catch (Exception $ex) {
             $output->writeln('<error>PHP Censor failed to create your admin account!</error>');
             $output->writeln('<error>' . $ex->getMessage() . '</error>');
         }
@@ -584,18 +677,18 @@ class InstallCommand extends Command
             $projectGroupStore = Factory::getStore('ProjectGroup');
             $projectGroup      = $projectGroupStore->getByTitle('Projects');
             if ($projectGroup) {
-                throw new \RuntimeException('Default project group already exists!');
+                throw new RuntimeException('Default project group already exists!');
             }
 
             $group = new ProjectGroup();
             $group->setTitle('Projects');
-            $group->setCreateDate(new \DateTime());
+            $group->setCreateDate(new DateTime());
             $group->setUserId(0);
 
             Factory::getStore('ProjectGroup')->save($group);
 
             $output->writeln('<info>Default project group created!</info>');
-        } catch (\Exception $ex) {
+        } catch (Exception $ex) {
             $output->writeln('<error>PHP Censor failed to create default project group!</error>');
             $output->writeln('<error>' . $ex->getMessage() . '</error>');
         }

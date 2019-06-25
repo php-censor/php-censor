@@ -2,20 +2,23 @@
 
 namespace PHPCensor\Controller;
 
-use PHPCensor\Exception\HttpException\NotFoundException;
-use PHPCensor\Form;
+use Exception;
 use JasonGrimes\Paginator;
 use PHPCensor;
 use PHPCensor\BuildFactory;
+use PHPCensor\Exception\HttpException\NotFoundException;
+use PHPCensor\Form;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Helper\SshKey;
+use PHPCensor\Http\Response\RedirectResponse;
+use PHPCensor\Model\Build;
+use PHPCensor\Model\Project;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Service\ProjectService;
-use PHPCensor\Model\Build;
-use PHPCensor\Http\Response\RedirectResponse;
-use PHPCensor\View;
+use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\Factory;
-use PHPCensor\Model\Project;
+use PHPCensor\Store\ProjectStore;
+use PHPCensor\View;
 use PHPCensor\WebController;
 
 /**
@@ -31,22 +34,22 @@ class ProjectController extends WebController
     public $layoutName = 'layout';
 
     /**
-     * @var \PHPCensor\Store\ProjectStore
+     * @var ProjectStore
      */
     protected $projectStore;
 
     /**
-     * @var \PHPCensor\Service\ProjectService
+     * @var ProjectService
      */
     protected $projectService;
 
     /**
-     * @var \PHPCensor\Store\BuildStore
+     * @var BuildStore
      */
     protected $buildStore;
 
     /**
-     * @var \PHPCensor\Service\BuildService
+     * @var BuildService
      */
     protected $buildService;
 
@@ -74,7 +77,13 @@ class ProjectController extends WebController
         $environment  = $this->getParam('environment', '');
         $page         = (int)$this->getParam('page', 1);
         $perPage      = (int)$this->getParam('per_page', 10);
-        $builds       = $this->getLatestBuildsHtml($projectId, $branch, $environment, (($page - 1) * $perPage), $perPage);
+        $builds       = $this->getLatestBuildsHtml(
+            $projectId,
+            $branch,
+            $environment,
+            (($page - 1) * $perPage),
+            $perPage
+        );
 
         $response = new PHPCensor\Http\Response();
         $response->setContent($builds[0]);
@@ -123,7 +132,14 @@ class ProjectController extends WebController
         $this->view->environments = $project->getEnvironmentsNames();
         $this->view->page         = $page;
         $this->view->perPage      = $perPage;
-        $this->view->paginator    = $this->getPaginatorHtml($projectId, $branch, $environment, $builds[1], $perPage, $page);
+        $this->view->paginator    = $this->getPaginatorHtml(
+            $projectId,
+            $branch,
+            $environment,
+            $builds[1],
+            $perPage,
+            $page
+        );
 
         $this->layout->title    = $project->getTitle();
         $this->layout->subtitle = '';
@@ -161,8 +177,12 @@ class ProjectController extends WebController
             $params['environment'] = $environment;
         }
 
-        $urlPattern = $urlPattern . '?' . str_replace('%28%3Anum%29', '(:num)', http_build_query(array_merge($params, ['page' => '(:num)'])));
-        $paginator  = new Paginator($total, $perPage, $page, $urlPattern);
+        $urlPattern = $urlPattern . '?' . str_replace(
+            '%28%3Anum%29',
+            '(:num)',
+            http_build_query(array_merge($params, ['page' => '(:num)']))
+        );
+        $paginator = new Paginator($total, $perPage, $page, $urlPattern);
 
         $view->paginator = $paginator;
 
@@ -181,7 +201,7 @@ class ProjectController extends WebController
      */
     public function build($projectId)
     {
-        /* @var \PHPCensor\Model\Project $project */
+        /* @var Project $project */
         $project = $this->projectStore->getById($projectId);
         if (empty($project) || $project->getArchived()) {
             throw new NotFoundException(Lang::get('project_x_not_found', $projectId));
@@ -422,9 +442,11 @@ class ProjectController extends WebController
             if (isset($accessInfo['origin']) && $accessInfo['origin']) {
                 $values['reference'] = $accessInfo['origin'];
             } elseif (isset($accessInfo['domain']) && $accessInfo['domain']) {
-                $reference  = $accessInfo['user'] . '@' . $accessInfo['domain'] . ':' . ltrim($project->getReference(), '/') . '.git';
+                $reference = $accessInfo['user'] .
+                    '@' . $accessInfo['domain'] . ':' . ltrim($project->getReference(), '/') . '.git';
                 if (isset($accessInfo['port']) && $accessInfo['port']) {
-                    $reference = $accessInfo['user'] . '@' . $accessInfo['domain'] . ':' . $accessInfo['port'] . '/' . ltrim($project->getReference(), '/') . '.git';
+                    $reference = $accessInfo['user'] . '@' . $accessInfo['domain'] . ':' . $accessInfo['port'] . '/' .
+                        ltrim($project->getReference(), '/') . '.git';
                 }
 
                 $values['reference'] = $reference;
@@ -530,7 +552,11 @@ class ProjectController extends WebController
         $field->setValue(0);
         $form->addField($field);
 
-        $field = Form\Element\TextArea::create('ssh_private_key', Lang::get('project_private_key'), false);
+        $field = Form\Element\TextArea::create(
+            'ssh_private_key',
+            Lang::get('project_private_key'),
+            false
+        );
         $field->setClass('form-control')->setContainerClass('form-group');
         $field->setRows(6);
         $form->addField($field);
@@ -639,9 +665,9 @@ class ProjectController extends WebController
             ];
 
             if (in_array($type, $validators) && !preg_match($validators[$type]['regex'], $val)) {
-                throw new \Exception($validators[$type]['message']);
+                throw new Exception($validators[$type]['message']);
             } elseif (Project::TYPE_LOCAL === $type && !is_dir($val)) {
-                throw new \Exception(Lang::get('error_path'));
+                throw new Exception(Lang::get('error_path'));
             }
 
             return true;

@@ -2,11 +2,13 @@
 
 namespace PHPCensor\Command;
 
+use Exception;
 use Monolog\Logger;
 use Pheanstalk\Pheanstalk;
 use PHPCensor\Config;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Worker\BuildWorker;
+use RuntimeException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -55,7 +57,7 @@ class WorkerCommand extends LoggingCommand
      * @param InputInterface  $input
      * @param OutputInterface $output
      *
-     * @throws \Exception
+     * @throws Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -63,7 +65,7 @@ class WorkerCommand extends LoggingCommand
 
         $config = Config::getInstance()->get('php-censor.queue', []);
         if (empty($config['host']) || empty($config['name'])) {
-            throw new \RuntimeException(
+            throw new RuntimeException(
                 'The worker is not configured. You must set a host and queue in your config.yml file.'
             );
         }

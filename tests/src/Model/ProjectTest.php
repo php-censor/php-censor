@@ -3,15 +3,16 @@
 namespace Tests\PHPCensor\Model;
 
 use PHPCensor\Exception\InvalidArgumentException;
-use PHPCensor\Model\Project;
 use PHPCensor\Model;
+use PHPCensor\Model\Project;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Unit tests for the Project model class.
  *
  * @author Dan Cryer <dan@block8.co.uk>
  */
-class ProjectTest extends \PHPUnit\Framework\TestCase
+class ProjectTest extends TestCase
 {
     public function testExecute_TestIsAValidModel()
     {

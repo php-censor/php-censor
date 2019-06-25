@@ -3,23 +3,26 @@
 namespace Tests\PHPCensor\Command;
 
 use PHPCensor\Command\CreateAdminCommand;
+use PHPUnit\Framework\TestCase;
+use PHPUnit_Framework_MockObject_MockObject;
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Tester\CommandTester;
 
-class CreateAdminCommandTest extends \PHPUnit\Framework\TestCase
+class CreateAdminCommandTest extends TestCase
 {
     /**
-     * @var \PHPCensor\Command\CreateAdminCommand|\PHPUnit_Framework_MockObject_MockObject
+     * @var CreateAdminCommand|PHPUnit_Framework_MockObject_MockObject
      */
     protected $command;
 
     /**
-     * @var \Symfony\Component\Console\Application|\PHPUnit_Framework_MockObject_MockObject
+     * @var Application|PHPUnit_Framework_MockObject_MockObject
      */
     protected $application;
 
     /**
-     * @var \Symfony\Component\Console\Helper\QuestionHelper|\PHPUnit_Framework_MockObject_MockObject
+     * @var QuestionHelper|PHPUnit_Framework_MockObject_MockObject
      */
     protected $helper;
 

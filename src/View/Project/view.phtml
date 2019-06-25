@@ -1,19 +1,20 @@
 <?php
 
-/**
- * @var \JasonGrimes\Paginator $paginator
- */
-
+use JasonGrimes\Paginator;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Model\Project;
 
+/**
+ * @var Paginator $paginator
+ */
+
 ?>
 <script>
-    var PROJECT_ID     = <?= $project->getId(); ?>;
+    var PROJECT_ID          = <?= $project->getId(); ?>;
     var PROJECT_ENVIRONMENT = '<?= $environment; ?>';
-    var PROJECT_BRANCH = '<?= $branch; ?>';
-    var PER_PAGE       = <?= $perPage; ?>;
-    var PAGE           = <?= $page; ?>;
+    var PROJECT_BRANCH      = '<?= $branch; ?>';
+    var PER_PAGE            = <?= $perPage; ?>;
+    var PAGE                = <?= $page; ?>;
 </script>
 
 <div class="clearfix"  style="margin-bottom: 20px;">
@@ -84,7 +85,7 @@ use PHPCensor\Model\Project;
                 <li><a href="<?= APP_URL; ?>project/view/<?= $project->getId(); ?>"><?= Lang::get('all'); ?></a></li>
                 <li class="divider"></li>
 
-                <?php if(!empty($environments)): ?>
+                <?php if (!empty($environments)): ?>
                     <?php foreach ($environments as $currentEnvironment) : ?>
                         <li <?= ($currentEnvironment == $environment) ? 'class="active"' : ''; ?>>
                             <a href="<?= APP_URL; ?>project/view/<?= $project->getId(); ?>?environment=<?= urlencode($currentEnvironment); ?>">
@@ -187,7 +188,7 @@ use PHPCensor\Model\Project;
                 </div>
 
                 <div class="box-body">
-                    <?php switch($project->getType()) {
+                    <?php switch ($project->getType()) {
                         case Project::TYPE_GITHUB:
                             $url = APP_URL . 'webhook/github/' . $project->getId();
                             echo Lang::get('webhooks_help_github', $project->getReference());

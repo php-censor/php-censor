@@ -5,6 +5,7 @@ namespace PHPCensor\Plugin;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
+use SimpleXMLElement;
 
 /**
  * PHP Spec Plugin - Allows PHP Spec testing.
@@ -48,7 +49,7 @@ class PhpSpec extends Plugin
          * </testsuites
          */
 
-        $xml  = new \SimpleXMLElement($output);
+        $xml  = new SimpleXMLElement($output);
         $attr = $xml->attributes();
         $data = [
             'time'     => (float) $attr['time'],
@@ -60,7 +61,7 @@ class PhpSpec extends Plugin
         ];
 
         /**
-         * @var \SimpleXMLElement $group
+         * @var SimpleXMLElement $group
          */
         foreach ($xml->xpath('testsuite') as $group) {
             $attr  = $group->attributes();
@@ -76,7 +77,7 @@ class PhpSpec extends Plugin
             ];
 
             /**
-             * @var \SimpleXMLElement $child
+             * @var SimpleXMLElement $child
              */
             foreach ($group->xpath('testcase') as $child) {
                 $attr = $child->attributes();

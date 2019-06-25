@@ -7,6 +7,9 @@ use PHPCensor\Builder;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 use PHPCensor\ZeroConfigPluginInterface;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
+use SplFileInfo;
 
 /**
  * Technical Debt Plugin - Checks for existence of "TODO", "FIXME", etc.
@@ -169,13 +172,13 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
      */
     protected function getErrorList()
     {
-        $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($this->directory));
+        $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->directory));
 
         $this->builder->logDebug("Directory: " . $this->directory);
         $this->builder->logDebug("Ignored path: ".json_encode($this->ignore, true));
         $errorCount = 0;
 
-        /** @var \SplFileInfo $file */
+        /** @var SplFileInfo $file */
         foreach ($iterator as $file) {
             $filePath  = $file->getRealPath();
             $extension = $file->getExtension();

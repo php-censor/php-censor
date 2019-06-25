@@ -2,12 +2,12 @@
 
 namespace PHPCensor\Model;
 
-use PHPCensor\Store\Factory;
-use PHPCensor\Store\EnvironmentStore;
-use PHPCensor\Store\ProjectGroupStore;
-use Symfony\Component\Yaml\Parser as YamlParser;
-use Symfony\Component\Yaml\Dumper as YamlDumper;
 use PHPCensor\Model\Base\Project as BaseProject;
+use PHPCensor\Store\EnvironmentStore;
+use PHPCensor\Store\Factory;
+use PHPCensor\Store\ProjectGroupStore;
+use Symfony\Component\Yaml\Dumper as YamlDumper;
+use Symfony\Component\Yaml\Parser as YamlParser;
 
 /**
  * @author Dan Cryer <dan@block8.co.uk>
@@ -33,7 +33,7 @@ class Project extends BaseProject
     /**
      * Get Build models by ProjectId for this Project.
      *
-     * @return \PHPCensor\Model\Build[]
+     * @return Build[]
      */
     public function getProjectBuilds()
     {

@@ -2,6 +2,8 @@
 
 namespace PHPCensor\Helper;
 
+use Exception;
+
 interface CommandExecutorInterface
 {
     /**
@@ -30,7 +32,7 @@ interface CommandExecutorInterface
      * @param array        $binaryName
      * @return string
      *
-     * @throws \Exception when no binary has been found.
+     * @throws Exception when no binary has been found.
      */
     public function findBinary($binary, $priorityPath = 'local', $binaryPath = '', $binaryName = []);
 

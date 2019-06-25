@@ -3,14 +3,20 @@
 namespace PHPCensor\Controller;
 
 use PHPCensor\Config;
+use PHPCensor\Exception\HttpException;
+use PHPCensor\Form;
+use PHPCensor\Form\Element\Checkbox;
 use PHPCensor\Form\Element\Csrf;
+use PHPCensor\Form\Element\Password;
+use PHPCensor\Form\Element\Submit;
+use PHPCensor\Form\Element\Text;
 use PHPCensor\Helper\Email;
 use PHPCensor\Helper\Lang;
-use PHPCensor\WebController;
 use PHPCensor\Http\Response\RedirectResponse;
 use PHPCensor\Security\Authentication\Service;
-use PHPCensor\Store\UserStore;
 use PHPCensor\Store\Factory;
+use PHPCensor\Store\UserStore;
+use PHPCensor\WebController;
 
 /**
  * Session Controller - Handles user login / logout.
@@ -47,33 +53,33 @@ class SessionController extends WebController
 
     protected function loginForm($values)
     {
-        $form = new \PHPCensor\Form();
+        $form = new Form();
         $form->setMethod('POST');
         $form->setAction(APP_URL . 'session/login');
 
         $form->addField(new Csrf('login_form'));
 
-        $email = new \PHPCensor\Form\Element\Text('email');
+        $email = new Text('email');
         $email->setLabel(Lang::get('login'));
         $email->setRequired(true);
         $email->setContainerClass('form-group');
         $email->setClass('form-control');
         $form->addField($email);
 
-        $pwd = new \PHPCensor\Form\Element\Password('password');
+        $pwd = new Password('password');
         $pwd->setLabel(Lang::get('password'));
         $pwd->setRequired(true);
         $pwd->setContainerClass('form-group');
         $pwd->setClass('form-control');
         $form->addField($pwd);
 
-        $remember = \PHPCensor\Form\Element\Checkbox::create('remember_me', Lang::get('remember_me'), false);
+        $remember = Checkbox::create('remember_me', Lang::get('remember_me'), false);
         $remember->setContainerClass('form-group');
         $remember->setCheckedValue(1);
         $remember->setValue(0);
         $form->addField($remember);
 
-        $pwd = new \PHPCensor\Form\Element\Submit();
+        $pwd = new Submit();
         $pwd->setValue(Lang::get('log_in'));
         $pwd->setClass('btn-success');
         $form->addField($pwd);
@@ -203,7 +209,7 @@ class SessionController extends WebController
      *
      * @return string
      *
-     * @throws \PHPCensor\Exception\HttpException
+     * @throws HttpException
      */
     public function forgotPassword()
     {

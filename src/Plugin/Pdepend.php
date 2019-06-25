@@ -2,6 +2,7 @@
 
 namespace PHPCensor\Plugin;
 
+use Exception;
 use PHPCensor\Builder;
 use PHPCensor\Config;
 use PHPCensor\Model\Build;
@@ -97,7 +98,7 @@ class Pdepend extends Plugin
         }
 
         if (!is_writable($this->buildLocation)) {
-            throw new \Exception(sprintf(
+            throw new Exception(sprintf(
                 'The location %s is not writable or does not exist.',
                 $this->buildLocation
             ));

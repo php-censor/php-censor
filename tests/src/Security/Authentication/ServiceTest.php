@@ -3,8 +3,9 @@
 namespace Tests\PHPCensor\Security\Authentication;
 
 use PHPCensor\Security\Authentication\Service;
+use PHPUnit\Framework\TestCase;
 
-class ServiceTest extends \PHPUnit\Framework\TestCase
+class ServiceTest extends TestCase
 {
     public function testGetInstance()
     {

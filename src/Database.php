@@ -2,7 +2,12 @@
 
 namespace PHPCensor;
 
-class Database extends \PDO
+use Exception;
+use PDO;
+use PDOException;
+use PDOStatement;
+
+class Database extends PDO
 {
     const MYSQL_TYPE      = 'mysql';
     const POSTGRESQL_TYPE = 'pgsql';
@@ -81,7 +86,7 @@ class Database extends \PDO
      *
      * @return Database
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getConnection($type = 'read')
     {
@@ -118,13 +123,13 @@ class Database extends \PDO
                 self::$dsn[$type] .= ';dbname=' . self::$details['db'];
 
                 $pdoOptions = [
-                    \PDO::ATTR_PERSISTENT => false,
-                    \PDO::ATTR_ERRMODE    => \PDO::ERRMODE_EXCEPTION,
-                    \PDO::ATTR_TIMEOUT    => 2,
+                    PDO::ATTR_PERSISTENT => false,
+                    PDO::ATTR_ERRMODE    => PDO::ERRMODE_EXCEPTION,
+                    PDO::ATTR_TIMEOUT    => 2,
                 ];
 
                 if (self::MYSQL_TYPE === self::$details['driver']) {
-                    $pdoOptions[\PDO::MYSQL_ATTR_INIT_COMMAND] = "SET NAMES 'UTF8'";
+                    $pdoOptions[PDO::MYSQL_ATTR_INIT_COMMAND] = "SET NAMES 'UTF8'";
                 }
 
                 // Try to connect:
@@ -136,7 +141,7 @@ class Database extends \PDO
                         $pdoOptions
                     );
                     $connection->setType($type);
-                } catch (\PDOException $ex) {
+                } catch (PDOException $ex) {
                     $connection = false;
                 }
 
@@ -148,7 +153,7 @@ class Database extends \PDO
 
             // No connection? Oh dear.
             if (!$connection && $type === 'read') {
-                throw new \Exception('Could not connect to any ' . $type . ' servers.');
+                throw new Exception('Could not connect to any ' . $type . ' servers.');
             }
 
             self::$connections[$type] = $connection;
@@ -208,7 +213,7 @@ class Database extends \PDO
      * @param string $statement
      * @param array  $driverOptions
      *
-     * @return \PDOStatement
+     * @return PDOStatement
      */
     public function prepareCommon($statement, array $driverOptions = [])
     {

@@ -2,13 +2,14 @@
 
 namespace PHPCensor;
 
+use Exception;
 use PHPCensor\Exception\HttpException;
-use PHPCensor\Http\Response;
-use PHPCensor\Http\Response\RedirectResponse;
-use PHPCensor\Store\Factory;
 use PHPCensor\Exception\HttpException\NotFoundException;
 use PHPCensor\Http\Request;
+use PHPCensor\Http\Response;
+use PHPCensor\Http\Response\RedirectResponse;
 use PHPCensor\Http\Router;
+use PHPCensor\Store\Factory;
 
 /**
  * @author Dan Cryer <dan@block8.co.uk>
@@ -157,7 +158,7 @@ class Application
 
             $response->setResponseCode($ex->getErrorCode());
             $response->setContent($view->render());
-        } catch (\Exception $ex) {
+        } catch (Exception $ex) {
             $this->config->set('page_title', 'Error');
 
             $view = new View('exception');

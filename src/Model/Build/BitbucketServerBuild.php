@@ -2,6 +2,7 @@
 
 namespace PHPCensor\Model\Build;
 
+use Exception;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
 
@@ -129,7 +130,7 @@ class BitbucketServerBuild extends GitBuild
                 //unlink($diffFile);
                 $skipGitFinalization = true;
             }
-        } catch (\Exception $ex) {
+        } catch (Exception $ex) {
             $success = false;
         }
 
@@ -149,15 +150,14 @@ class BitbucketServerBuild extends GitBuild
      */
     protected function getPullRequestDiff(Builder $builder, $cloneTo, $targetBranch)
     {
-         $cmd = 'cd "%s" && git diff %s';
-
-         $success = $builder->executeCommand($cmd, $cloneTo, $targetBranch);
+        $cmd     = 'cd "%s" && git diff %s';
+        $success = $builder->executeCommand($cmd, $cloneTo, $targetBranch);
 
         if ($success) {
             return $builder->getLastOutput();
         }
 
-         throw new \Exception('Unable to create diff patch.');
+        throw new Exception('Unable to create diff patch.');
     }
 
     /**

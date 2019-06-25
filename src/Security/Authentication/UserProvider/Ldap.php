@@ -2,10 +2,10 @@
 
 namespace PHPCensor\Security\Authentication\UserProvider;
 
-use PHPCensor\Store\Factory;
 use PHPCensor\Model\User;
 use PHPCensor\Security\Authentication\LoginPasswordProviderInterface;
 use PHPCensor\Service\UserService;
+use PHPCensor\Store\Factory;
 use PHPCensor\Store\UserStore;
 
 /**

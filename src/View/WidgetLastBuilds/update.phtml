@@ -1,8 +1,8 @@
 <?php
 
 use PHPCensor\Helper\Lang;
-use PHPCensor\Model\Build;
 use PHPCensor\Helper\Template;
+use PHPCensor\Model\Build;
 
 /**
  * @var Build[] $builds
@@ -10,7 +10,7 @@ use PHPCensor\Helper\Template;
 
 ?>
 <ul class="timeline">
-    <?php $last = new \DateTime('-1 Year'); ?>
+    <?php $last = new DateTime('-1 Year'); ?>
 
     <?php
     foreach ($builds as $build):
@@ -84,7 +84,7 @@ use PHPCensor\Helper\Template;
                     &mdash;
                     <?= Lang::get('total_errors'); ?>:
                     <?= (int)$build->getErrorsTotal(); ?>
-                    <?php if(!in_array($build->getStatus(),[Build::STATUS_PENDING, Build::STATUS_RUNNING], true)): ?>
+                    <?php if (!in_array($build->getStatus(), [Build::STATUS_PENDING, Build::STATUS_RUNNING], true)): ?>
                         <?php $trend = $build->getErrorsTrend(); ?>
                         <?php if (1 === $trend): ?>
                             <i class="fa fa-arrow-down arrow_trend_positive"></i>
