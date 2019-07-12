@@ -93,8 +93,8 @@ class ProjectService
             $project->setArchived($options['archived']);
         }
 
-        if (array_key_exists('branch', $options)) {
-            $project->setDefaultBranch($options['branch']);
+        if (array_key_exists('default_branch', $options)) {
+            $project->setDefaultBranch($options['default_branch']);
         }
 
         if (array_key_exists('default_branch_only', $options)) {

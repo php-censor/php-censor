@@ -253,7 +253,7 @@ class ProjectServiceTest extends TestCase
             'ssh_public_key'      => 'public',
             'allow_public_status' => true,
             'build_config'        => 'config',
-            'branch'              => 'testbranch',
+            'default_branch'      => 'testbranch',
         ];
 
         $returnValue = $this->testedService->createProject(

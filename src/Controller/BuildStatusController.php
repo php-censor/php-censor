@@ -40,39 +40,25 @@ class BuildStatusController extends WebController
      */
     protected $buildStore;
 
-    public function init()
-    {
-        parent::init();
-
-        $this->buildStore   = Factory::getStore('Build');
-        $this->projectStore = Factory::getStore('Project');
-    }
-
     /**
      * Returns status of the last build
      *
-     * @param $projectId
+     * @param Project $project
+     * @param string  $branch
      *
      * @return string
      */
-    protected function getStatus($projectId)
+    protected function getStatus(Project $project, $branch)
     {
-        $status = null;
-        $branch = $this->getParam('branch', 'master');
-
+        $status = 'passing';
         try {
-            $project = $this->projectStore->getById($projectId);
-            $status = 'passing';
+            $build = $project->getLatestBuild($branch, [
+                Build::STATUS_SUCCESS,
+                Build::STATUS_FAILED,
+            ]);
 
-            if (isset($project) && $project instanceof Project) {
-                $build = $project->getLatestBuild($branch, [
-                    Build::STATUS_SUCCESS,
-                    Build::STATUS_FAILED,
-                ]);
-
-                if (isset($build) && $build instanceof Build && $build->getStatus() !== Build::STATUS_SUCCESS) {
-                    $status = 'failed';
-                }
+            if (isset($build) && $build instanceof Build && $build->getStatus() !== Build::STATUS_SUCCESS) {
+                $status = 'failed';
             }
         } catch (Exception $e) {
             $status = 'error';
@@ -82,45 +68,43 @@ class BuildStatusController extends WebController
     }
 
     /**
-     * Displays projects information in ccmenu format
+     * Returns coverage of the last build
      *
-     * @param $projectId
+     * @param Project $project
+     * @param string  $branch
+     * @param string  $type
      *
-     * @return Response
-     *
-     * @throws Exception
+     * @return string
      */
-    public function ccxml($projectId)
+    protected function getPhpunitCoverage(Project $project, $branch, $type = 'lines')
     {
-        /* @var Project $project */
-        $project = $this->projectStore->getById($projectId);
-        $xml     = new SimpleXMLElement('<Projects/>');
-
-        if (!$project instanceof Project || !$project->getAllowPublicStatus()) {
-            return $this->renderXml($xml);
+        $coverage = 0;
+        if (!in_array($type, ['classes', 'methods', 'lines'], true)) {
+            $type = 'lines';
         }
 
         try {
-            $branchList = $this->buildStore->getBuildBranches($projectId);
+            $build = $project->getLatestBuild($branch, [
+                Build::STATUS_SUCCESS,
+                Build::STATUS_FAILED,
+            ]);
 
-            if (!$branchList) {
-                $branchList = [$project->getDefaultBranch()];
-            }
+            if (isset($build) && $build instanceof Build) {
+                $coverageMeta = $this->buildStore->getMeta(
+                    'php_unit-coverage',
+                    $build->getProjectId(),
+                    $build->getId(),
+                    $build->getBranch()
+                );
 
-            foreach ($branchList as $branch) {
-                $buildStatusService = new BuildStatusService($branch, $project, $project->getLatestBuild($branch));
-                if ($attributes = $buildStatusService->toArray()) {
-                    $projectXml = $xml->addChild('Project');
-                    foreach ($attributes as $attributeKey => $attributeValue) {
-                        $projectXml->addAttribute($attributeKey, $attributeValue);
-                    }
+                if ($coverageMeta && isset($coverageMeta[0]['meta_value'][$type])) {
+                    $coverage = $coverageMeta[0]['meta_value'][$type];
                 }
             }
         } catch (Exception $e) {
-            $xml = new SimpleXMLElement('<projects/>');
         }
 
-        return $this->renderXml($xml);
+        return $coverage;
     }
 
     /**
@@ -139,17 +123,55 @@ class BuildStatusController extends WebController
     }
 
     /**
-     * Returns the appropriate build status image in SVG format for a given project.
+     * @param int    $projectId
+     * @param string $branch
+     *
+     * @throws HttpException
+     * @throws InvalidArgumentException
+     *
+     * @return array
+     */
+    protected function getLatestBuilds($projectId, $branch)
+    {
+        $criteria = [
+            'project_id' => $projectId,
+            'branch'     => $branch,
+        ];
+
+        $order  = ['id' => 'DESC'];
+        $builds = $this->buildStore->getWhere($criteria, 10, 0, $order);
+
+        foreach ($builds['items'] as &$build) {
+            $build = BuildFactory::getBuild($build);
+        }
+
+        return $builds['items'];
+    }
+
+    public function init()
+    {
+        parent::init();
+
+        $this->buildStore   = Factory::getStore('Build');
+        $this->projectStore = Factory::getStore('Project');
+    }
+
+    /**
+     * Returns the appropriate build PHPUnit coverage image in SVG format for a given project.
      *
      * @param $projectId
      *
      * @return Response
      */
-    public function image($projectId)
+    public function phpunitCoverageImage($projectId)
     {
+        $project = $this->projectStore->getById($projectId);
+
         // plastic|flat|flat-squared|social
-        $style = $this->getParam('style', 'flat');
-        $label = $this->getParam('label', 'build');
+        $style  = $this->getParam('style', 'flat');
+        $label  = $this->getParam('label', 'build');
+        $type   = $this->getParam('type', 'lines');
+        $branch = $this->getParam('branch', $project->getDefaultBranch());
 
         $optionalParams = [
             'logo'      => $this->getParam('logo'),
@@ -158,7 +180,62 @@ class BuildStatusController extends WebController
             'maxAge'    => $this->getParam('maxAge'),
         ];
 
-        $status = $this->getStatus($projectId);
+        $coverage = $this->getPhpunitCoverage($project, $branch, $type);
+        $imageUrl = sprintf(
+            'http://img.shields.io/badge/%s-%s-%s.svg?style=%s',
+            $label,
+            $coverage. '%25',
+            'green',
+            $style
+        );
+
+        foreach ($optionalParams as $paramName => $param) {
+            if ($param) {
+                $imageUrl .= '&' . $paramName . '=' . $param;
+            }
+        }
+
+        $cacheDir  = RUNTIME_DIR . 'status_cache/';
+        $cacheFile = $cacheDir . md5($imageUrl) . '.svg';
+        if (!is_file($cacheFile)) {
+            $image = file_get_contents($imageUrl);
+            file_put_contents($cacheFile, $image);
+        }
+
+        $image = file_get_contents($cacheFile);
+
+        $response = new Response();
+
+        $response->setHeader('Content-Type', 'image/svg+xml');
+        $response->setContent($image);
+
+        return $response;
+    }
+
+    /**
+     * Returns the appropriate build status image in SVG format for a given project.
+     *
+     * @param $projectId
+     *
+     * @return Response
+     */
+    public function image($projectId)
+    {
+        $project = $this->projectStore->getById($projectId);
+
+        // plastic|flat|flat-squared|social
+        $style  = $this->getParam('style', 'flat');
+        $label  = $this->getParam('label', 'build');
+        $branch = $this->getParam('branch', $project->getDefaultBranch());
+
+        $optionalParams = [
+            'logo'      => $this->getParam('logo'),
+            'logoWidth' => $this->getParam('logoWidth'),
+            'link'      => $this->getParam('link'),
+            'maxAge'    => $this->getParam('maxAge'),
+        ];
+
+        $status = $this->getStatus($project, $branch);
 
         if (is_null($status)) {
             $response = new RedirectResponse();
@@ -212,8 +289,8 @@ class BuildStatusController extends WebController
      */
     public function view($projectId)
     {
-        $branch  = $this->getParam('branch', null);
         $project = $this->projectStore->getById($projectId);
+        $branch  = $this->getParam('branch', $project->getDefaultBranch());
 
         if (empty($project) || !$project->getAllowPublicStatus()) {
             throw new NotFoundException('Project with id: ' . $projectId . ' not found');
@@ -232,28 +309,44 @@ class BuildStatusController extends WebController
     }
 
     /**
-     * @param int         $projectId
-     * @param string|null $branch
+     * Displays projects information in ccmenu format
      *
-     * @throws HttpException
-     * @throws InvalidArgumentException
+     * @param $projectId
      *
-     * @return array
+     * @return Response
+     *
+     * @throws Exception
      */
-    protected function getLatestBuilds($projectId, $branch = null)
+    public function ccxml($projectId)
     {
-        $criteria = ['project_id' => $projectId];
-        if ($branch) {
-            $criteria['branch'] = $branch;
+        /* @var Project $project */
+        $project = $this->projectStore->getById($projectId);
+        $xml     = new SimpleXMLElement('<Projects/>');
+
+        if (!$project instanceof Project || !$project->getAllowPublicStatus()) {
+            return $this->renderXml($xml);
         }
 
-        $order  = ['id' => 'DESC'];
-        $builds = $this->buildStore->getWhere($criteria, 10, 0, $order);
+        try {
+            $branchList = $this->buildStore->getBuildBranches($projectId);
 
-        foreach ($builds['items'] as &$build) {
-            $build = BuildFactory::getBuild($build);
+            if (!$branchList) {
+                $branchList = [$project->getDefaultBranch()];
+            }
+
+            foreach ($branchList as $branch) {
+                $buildStatusService = new BuildStatusService($branch, $project, $project->getLatestBuild($branch));
+                if ($attributes = $buildStatusService->toArray()) {
+                    $projectXml = $xml->addChild('Project');
+                    foreach ($attributes as $attributeKey => $attributeValue) {
+                        $projectXml->addAttribute($attributeKey, $attributeValue);
+                    }
+                }
+            }
+        } catch (Exception $e) {
+            $xml = new SimpleXMLElement('<projects/>');
         }
 
-        return $builds['items'];
+        return $this->renderXml($xml);
     }
 }

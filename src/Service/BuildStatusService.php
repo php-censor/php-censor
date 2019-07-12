@@ -57,8 +57,8 @@ class BuildStatusService
         $isParent = false
     ) {
         $this->project = $project;
-        $this->branch = $branch;
-        $this->build = $build;
+        $this->branch  = $branch;
+        $this->build   = $build;
         if ($this->build) {
             $this->loadParentBuild($isParent);
         }

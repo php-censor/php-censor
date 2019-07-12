@@ -23,7 +23,7 @@ class BuildTest extends TestCase
             'commit_id'             => null,
             'status'                => null,
             'log'                   => null,
-            'branch'                => 'master',
+            'branch'                => null,
             'tag'                   => null,
             'create_date'           => null,
             'start_date'            => null,

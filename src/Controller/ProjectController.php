@@ -20,6 +20,7 @@ use PHPCensor\Store\Factory;
 use PHPCensor\Store\ProjectStore;
 use PHPCensor\View;
 use PHPCensor\WebController;
+use PHPCensor\Helper\Branch;
 
 /**
  * Project Controller - Allows users to create, edit and view projects.
@@ -364,9 +365,9 @@ class ProjectController extends WebController
         $this->layout->title = Lang::get('add_project');
         $this->requireAdmin();
 
-        $method           = $this->request->getMethod();
-        $values           = $this->getParams();
-        $values['branch'] = '';
+        $method                   = $this->request->getMethod();
+        $values                   = $this->getParams();
+        $values['default_branch'] = null;
 
         if ($method !== 'POST') {
             $sshKey = new SshKey();
@@ -387,9 +388,10 @@ class ProjectController extends WebController
 
             return $view->render();
         } else {
-            $title     = $this->getParam('title', 'New Project');
-            $reference = $this->getParam('reference', null);
-            $type      = $this->getParam('type', null);
+            $type          = $this->getParam('type', null);
+            $title         = $this->getParam('title', 'New Project');
+            $reference     = $this->getParam('reference', null);
+            $defaultBranch = $this->getParam('default_branch', null);
 
             $options = [
                 'ssh_private_key'        => $this->getParam('ssh_private_key', null),
@@ -397,7 +399,7 @@ class ProjectController extends WebController
                 'overwrite_build_config' => (bool)$this->getParam('overwrite_build_config', true),
                 'build_config'           => $this->getParam('build_config', null),
                 'allow_public_status'    => (bool)$this->getParam('allow_public_status', false),
-                'branch'                 => $this->getParam('branch', null),
+                'default_branch'         => $defaultBranch ? $defaultBranch : Branch::getDefaultBranchName($type),
                 'default_branch_only'    => (bool)$this->getParam('default_branch_only', false),
                 'group'                  => (int)$this->getParam('group_id', null),
                 'environments'           => $this->getParam('environments', null),
@@ -469,9 +471,10 @@ class ProjectController extends WebController
             return $view->render();
         }
 
-        $title     = $this->getParam('title', Lang::get('new_project'));
-        $reference = $this->getParam('reference', null);
-        $type      = $this->getParam('type', null);
+        $title         = $this->getParam('title', Lang::get('new_project'));
+        $reference     = $this->getParam('reference', null);
+        $type          = $this->getParam('type', null);
+        $defaultBranch = $this->getParam('default_branch', null);
 
         $options = [
             'ssh_private_key'        => $this->getParam('ssh_private_key', null),
@@ -480,7 +483,7 @@ class ProjectController extends WebController
             'build_config'           => $this->getParam('build_config', null),
             'allow_public_status'    => (bool)$this->getParam('allow_public_status', false),
             'archived'               => (bool)$this->getParam('archived', false),
-            'branch'                 => $this->getParam('branch', null),
+            'default_branch'         => $defaultBranch ? $defaultBranch : Branch::getDefaultBranchName($type),
             'default_branch_only'    => (bool)$this->getParam('default_branch_only', false),
             'group'                  => (int)$this->getParam('group_id', null),
             'environments'           => $this->getParam('environments', null),
@@ -538,8 +541,8 @@ class ProjectController extends WebController
         $field->setClass('form-control')->setContainerClass('form-group');
         $form->addField($field);
 
-        $field = Form\Element\Text::create('branch', Lang::get('default_branch'), false);
-        $field->setClass('form-control')->setContainerClass('form-group')->setValue('');
+        $field = Form\Element\Text::create('default_branch', Lang::get('default_branch'), false);
+        $field->setClass('form-control')->setContainerClass('form-group');
         $form->addField($field);
 
         $field = Form\Element\Checkbox::create(
