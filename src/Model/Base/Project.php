@@ -5,7 +5,10 @@ namespace PHPCensor\Model\Base;
 use DateTime;
 use Exception;
 use PHPCensor\Exception\InvalidArgumentException;
+use PHPCensor\Helper\Branch;
 use PHPCensor\Model;
+use PHPCensor\Store\Factory;
+use PHPCensor\Store\ProjectStore;
 
 class Project extends Model
 {
@@ -147,26 +150,16 @@ class Project extends Model
 
     /**
      * @return string
+     *
+     * @throws InvalidArgumentException
      */
     public function getDefaultBranch()
     {
         if (!$this->data['default_branch']) {
-            $projectType = $this->getType();
-            switch ($projectType) {
-                case 'hg':
-                    $branch = 'default';
-                    break;
-                case 'svn':
-                    $branch = 'trunk';
-                    break;
-                default:
-                    $branch = 'master';
-            }
-
-            return $branch;
-        } else {
-            return $this->data['default_branch'];
+            return Branch::getDefaultBranchName($this->getType());
         }
+
+        return $this->data['default_branch'];
     }
 
     /**

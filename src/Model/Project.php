@@ -48,9 +48,12 @@ class Project extends BaseProject
      *
      * @return mixed|null
      */
-    public function getLatestBuild($branch = 'master', $status = null)
+    public function getLatestBuild($branch, $status = null)
     {
-        $criteria = ['branch' => $branch, 'project_id' => $this->getId()];
+        $criteria = [
+            'branch'     => $branch,
+            'project_id' => $this->getId()
+        ];
 
         if (isset($status)) {
             $criteria['status'] = $status;
@@ -77,11 +80,14 @@ class Project extends BaseProject
      *
      * @return mixed|null
      */
-    public function getPreviousBuild($branch = 'master')
+    public function getPreviousBuild($branch)
     {
-        $criteria = ['branch' => $branch, 'project_id' => $this->getId()];
-        $order    = ['id' => 'DESC'];
-        $builds   = Factory::getStore('Build')->getWhere($criteria, 1, 1, $order);
+        $criteria = [
+            'branch'     => $branch,
+            'project_id' => $this->getId()
+        ];
+        $order  = ['id' => 'DESC'];
+        $builds = Factory::getStore('Build')->getWhere($criteria, 1, 1, $order);
 
         if (is_array($builds['items']) && count($builds['items'])) {
             $previous = array_shift($builds['items']);

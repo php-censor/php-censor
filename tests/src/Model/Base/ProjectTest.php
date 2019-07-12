@@ -75,6 +75,9 @@ class ProjectTest extends TestCase
     {
         $project = new Project();
 
+        self::assertEquals(null, $project->getDefaultBranch());
+
+        $project->setType('github');
         self::assertEquals('master', $project->getDefaultBranch());
 
         $project->setType('hg');

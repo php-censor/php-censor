@@ -156,15 +156,15 @@ use PHPCensor\Model\Project;
 
                 <div class="box-body">
                     <span style="word-wrap: break-word;">
-                        <a href="<?= APP_URL . 'build-status/view/' . $project->getId() . '?branch=master'; ?>">
-                            <img src="<?= APP_URL . 'build-status/image/' . $project->getId() . '?branch=master&label=PHPCensor&style=flat-square'; ?>" />
+                        <a href="<?= APP_URL . 'build-status/view/' . $project->getId() . '?branch=' . $project->getDefaultBranch(); ?>">
+                            <img src="<?= APP_URL . 'build-status/image/' . $project->getId() . '?branch=' . $project->getDefaultBranch() . '&label=PHPCensor&style=flat-square'; ?>" />
                         </a>
 
                         <br /><br />
-                        <?= Lang::get('public_status_image'); ?>:<br /><strong><?= APP_URL . 'build-status/image/' . $project->getId() . '?branch=master&label=PHPCensor&style=flat-square'; ?></strong>
+                        <?= Lang::get('public_status_image'); ?>:<br /><strong><?= APP_URL . 'build-status/image/' . $project->getId() . '?branch=' . $project->getDefaultBranch() . '&label=PHPCensor&style=flat-square'; ?></strong>
 
                         <br /><br />
-                        <?= Lang::get('public_status_page'); ?>:<br /><strong><?= APP_URL . 'build-status/view/' . $project->getId() . '?branch=master'; ?></strong>
+                        <?= Lang::get('public_status_page'); ?>:<br /><strong><?= APP_URL . 'build-status/view/' . $project->getId() . '?branch=' . $project->getDefaultBranch(); ?></strong>
                     </span>
                 </div>
             </div>
