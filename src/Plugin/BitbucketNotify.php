@@ -10,6 +10,7 @@ use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 use PHPCensor\Plugin\Util\BitbucketNotifyPluginResult;
 use PHPCensor\Store\BuildErrorStore;
+use PHPCensor\Store\BuildMetaStore;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\Factory;
 
@@ -83,8 +84,16 @@ class BitbucketNotify extends Plugin
             $this->message .= '```' . PHP_EOL;
             $this->message .= '%BUILD_URI%?is_new=only_new#errors' . PHP_EOL . PHP_EOL;
 
-            $buildSettings = $this->getBuilder()->getConfig('build_settings');
-            if (isset($buildSettings['pdepend'])) {
+            $testSettings = $this->getBuilder()->getConfig('test');
+            if (isset($testSettings[PhpUnit::pluginName()])) {
+                $config = $this->getBuilder()->getSystemConfig('php-censor');
+                $censorUrl = $config['url'];
+                $buildDirectory = $this->getBuild()->getBuildBranchDirectory();
+
+                $this->message .= $censorUrl . '/artifacts/phpunit/' . $buildDirectory . '/index.html' . PHP_EOL;
+            }
+
+            if (isset($testSettings[Pdepend::pluginName()])) {
                 $config = $this->getBuilder()->getSystemConfig('php-censor');
                 $censorUrl = $config['url'];
 
@@ -254,9 +263,7 @@ class BitbucketNotify extends Plugin
             $this->findLatestBuild($targetBranch)
         );
 
-        $currentBranchBuildStats = $buildErrorStore->getErrorAmountPerPluginForBuild(
-            $this->findLatestBuild($this->build->getBranch())
-        );
+        $currentBranchBuildStats = $buildErrorStore->getErrorAmountPerPluginForBuild($this->build->getId());
 
         if (empty($targetBranchBuildStats) && empty($currentBranchBuildStats)) {
             return [];
@@ -274,7 +281,42 @@ class BitbucketNotify extends Plugin
             );
         }
 
+        $result[] = $this->getPhpUnitCoverage($targetBranch);
         return $result;
+    }
+
+    /**
+     * @param string $targetBranch
+     * @return BitbucketNotifyPluginResult
+     * @throws Exception
+     */
+    public function getPhpUnitCoverage($targetBranch)
+    {
+        /** @var BuildMetaStore $buildMetaStore */
+        $buildMetaStore = Factory::getStore('BuildMeta');
+        $latestTargeBuildId = $this->findLatestBuild($targetBranch);
+        $latestCurrentBuildId = $this->findLatestBuild($this->build->getBranch());
+
+        $targetBranchCoverage = [];
+        if (!is_null($latestTargeBuildId)) {
+            $targetMetaData = $buildMetaStore->getByKey(
+                $this->findLatestBuild($targetBranch),
+                PhpUnit::pluginName() . '-coverage'
+            );
+            $targetBranchCoverage = json_decode($targetMetaData->getMetaValue(), true);
+        }
+
+        $currentMetaData = $buildMetaStore->getByKey(
+            $this->build->getId(),
+            PhpUnit::pluginName() . '-coverage'
+        );
+        $currentBranchCoverage = json_decode($currentMetaData->getMetaValue(), true);
+
+        return new BitbucketNotifyPluginResult(
+            PhpUnit::pluginName() . '-coverage',
+            isset($targetBranchCoverage['lines']) ? $targetBranchCoverage['lines'] : 0,
+            isset($currentBranchCoverage['lines']) ? $currentBranchCoverage['lines'] : 0
+        );
     }
 
     /**
