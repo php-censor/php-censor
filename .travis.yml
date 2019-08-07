@@ -18,6 +18,7 @@ matrix:
 
 services:
     - mysql
+    - postgresql
 
 install:
     - composer selfupdate
