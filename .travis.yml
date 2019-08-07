@@ -16,6 +16,9 @@ php:
 matrix:
     fast_finish: true
 
+services:
+    - mysql
+
 install:
     - composer selfupdate
     - composer install
