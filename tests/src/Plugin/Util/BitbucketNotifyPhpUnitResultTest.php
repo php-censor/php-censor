@@ -69,7 +69,7 @@ class BitbucketNotifyPhpUnitResultTest extends TestCase
      * @param array $input
      * @param array $expected
      */
-    public function testFormating(array $input, array $expected)
+    public function testFormatting(array $input, array $expected)
     {
         $pluginResult = new BitbucketNotifyPhpUnitResult($input[0], $input[1], $input[2]);
         $this->assertEquals($expected['degraded'], $pluginResult->isDegraded());

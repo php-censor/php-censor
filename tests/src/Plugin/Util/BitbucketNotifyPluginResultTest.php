@@ -69,13 +69,7 @@ class BitbucketNotifyPluginResultTest extends TestCase
      * @param array $input
      * @param array $expected
      */
-    public function test__toString(array $input, array $expected)
-    {
-        $sut = new BitbucketNotifyPluginResult($input[0], $input[1], $input[2]);
-        $this->assertEquals($expected['string'], $sut->__toString());
-    }
-
-    public function testFormating(array $input, array $expected)
+    public function testFormatting(array $input, array $expected)
     {
         $pluginResult = new BitbucketNotifyPluginResult($input[0], $input[1], $input[2]);
         $this->assertEquals($expected['degraded'], $pluginResult->isDegraded());
