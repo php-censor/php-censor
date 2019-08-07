@@ -86,11 +86,16 @@ class BitbucketNotifyPluginResult
         }
 
         return sprintf(
-            'pls fix %s because it has increased from %d to %d errors',
+            $this->getTaskDescriptionMessage(),
             $this->plugin,
             $this->left,
             $this->right
         );
+    }
+
+    protected function getTaskDescriptionMessage()
+    {
+        return 'pls fix %s because it has increased from %d to %d errors';
     }
 
     public function __toString()
