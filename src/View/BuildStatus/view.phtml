@@ -14,19 +14,19 @@ if (!empty($latest)): ?>
     switch ($latest->getStatus()) {
         case 0:
             $statusClass = 'blue';
-            $statusText = 'Pending';
+            $statusText = Lang::get('pending');
             break;
         case 1:
             $statusClass = 'yellow';
-            $statusText = 'Running';
+            $statusText = Lang::get('running');
             break;
         case 2:
             $statusClass = 'green';
-            $statusText = 'Success';
+            $statusText = Lang::get('success');
             break;
         case 3:
             $statusClass = 'red';
-            $statusText = 'Failed';
+            $statusText = Lang::get('failed');
             break;
     }
 
@@ -87,23 +87,23 @@ if (!empty($latest)): ?>
             switch ($build->getStatus()) {
                 case 0:
                     $class  = 'info';
-                    $status = 'Pending';
+                    $status = Lang::get('pending');
 
                     break;
 
                 case 1:
                     $class  = 'warning';
-                    $status = 'Running';
+                    $status = Lang::get('running');
                     break;
 
                 case 2:
                     $class  = 'success';
-                    $status = 'Success';
+                    $status = Lang::get('success');
                     break;
 
                 case 3:
                     $class  = 'danger';
-                    $status = 'Failed';
+                    $status = Lang::get('failed');
                     break;
             }
             ?>
