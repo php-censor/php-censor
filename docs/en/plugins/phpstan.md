@@ -36,9 +36,3 @@ The following general options can also be used:
   `global` (Global PHP Censor 'vendor/bin' path) |
   `system` (OS System binaries path, /bin:/usr/bin etc.). 
   Default order: local -> global -> system)
-
-Warning
--------
-
-PHPStan requires PHP >= 7.1. You have to run it in environment with PHP 7.x but the actual code does not have to use
-PHP 7.x features. (Code written for PHP 5.6 and earlier can run on 7.x mostly unmodified.)
