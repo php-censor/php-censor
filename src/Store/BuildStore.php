@@ -517,15 +517,30 @@ class BuildStore extends Store
         return $q->rowCount();
     }
 
-    public function getOldByProject($projectId, $keep = 100)
+    /**
+     * Get old Builds by project.
+     *     - Get a batch of projects past the keep threshold.
+     *     - Reasonable batch size of 100.
+     *
+     * @param  int  $projectId
+     * @param  int  $keep
+     * @param  int  $batchSize
+     * @return array
+     */
+    public function getOldByProject($projectId, $keep = 100, $batchSize = 100)
     {
         if (is_null($projectId)) {
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
-        $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{project_id}} = :project_id ORDER BY {{create_date}} DESC LIMIT 1000000 OFFSET :keep';
+        $query = 'SELECT * FROM {{' . $this->tableName . '}} ' .
+            'WHERE {{project_id}} = :project_id ' .
+            'ORDER BY {{create_date}} DESC ' .
+            'LIMIT :batch_size OFFSET :keep';
+
         $stmt = Database::getConnection('read')->prepareCommon($query);
         $stmt->bindValue(':project_id', $projectId);
+        $stmt->bindValue(':batch_size', (int)$batchSize, PDO::PARAM_INT);
         $stmt->bindValue(':keep', (int)$keep, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
@@ -539,9 +554,9 @@ class BuildStore extends Store
             $count = count($rtn);
 
             return ['items' => $rtn, 'count' => $count];
-        } else {
-            return ['items' => [], 'count' => 0];
         }
+
+        return ['items' => [], 'count' => 0];
     }
 
     /**
