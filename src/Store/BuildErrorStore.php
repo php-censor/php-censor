@@ -327,7 +327,7 @@ class BuildErrorStore extends Store
     /**
      * Delete Errors for Build.
      *
-     * @param  int $obj
+     * @param  int $buildId
      * @return bool
      */
     public function deleteByBuildId(int $buildId)
