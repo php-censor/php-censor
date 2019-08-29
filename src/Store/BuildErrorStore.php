@@ -323,4 +323,26 @@ class BuildErrorStore extends Store
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
     }
+
+    /**
+     * Delete Errors for Build.
+     *
+     * @param  int $obj
+     * @return bool
+     * @throws InvalidArgumentException
+     */
+    public function deleteByBuildId(int $buildId)
+    {
+        $q = Database::getConnection('write')
+            ->prepareCommon(
+                sprintf(
+                    'DELETE FROM {{%s}} WHERE {{build_id}} = :build',
+                    $this->tableName
+                )
+            );
+        $q->bindValue(':build', $buildId);
+        $q->execute();
+
+        return true;
+    }
 }

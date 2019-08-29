@@ -126,6 +126,15 @@ class Build extends BaseBuild
     }
 
     /**
+     * Clean up Build Errors.
+     * @return bool
+     */
+    public function deleteBuildBuildErrors()
+    {
+        return Factory::getStore('BuildError')->deleteByBuildId($this->getId());
+    }
+
+    /**
      * Get BuildMeta models by BuildId for this Build.
      *
      * @return BuildMeta[]

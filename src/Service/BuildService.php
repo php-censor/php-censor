@@ -209,7 +209,7 @@ class BuildService
                         continue;
                     }
                 }
-                
+
                 $buildsCount++;
 
                 $this->createBuild(
@@ -281,10 +281,11 @@ class BuildService
     {
         $keepBuilds = (int)Config::getInstance()->get('php-censor.build.keep_builds', 100);
         $builds     = $this->buildStore->getOldByProject((int)$projectId, $keepBuilds);
-        
+
         /** @var Build $build */
         foreach ($builds['items'] as $build) {
             $build->removeBuildDirectory(true);
+            $build->deleteBuildBuildErrors();
             $this->buildStore->delete($build);
         }
     }
@@ -327,6 +328,7 @@ class BuildService
     public function deleteBuild(Build $build)
     {
         $build->removeBuildDirectory(true);
+        $build->deleteBuildBuildErrors();
 
         return $this->buildStore->delete($build);
     }
