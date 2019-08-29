@@ -209,7 +209,7 @@ class BuildService
                         continue;
                     }
                 }
-                
+
                 $buildsCount++;
 
                 $this->createBuild(
@@ -280,8 +280,9 @@ class BuildService
     public function deleteOldByProject($projectId)
     {
         $keepBuilds = (int)Config::getInstance()->get('php-censor.build.keep_builds', 100);
-        $builds     = $this->buildStore->getOldByProject((int)$projectId, $keepBuilds);
-        
+        $keepBatch  = (int)Config::getInstance()->get('php-censor.build.keep_builds_batchsize', 100);
+        $builds     = $this->buildStore->getOldByProject((int)$projectId, $keepBuilds, $keepBatch);
+
         /** @var Build $build */
         foreach ($builds['items'] as $build) {
             $build->removeBuildDirectory(true);
