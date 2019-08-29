@@ -329,7 +329,6 @@ class BuildErrorStore extends Store
      *
      * @param  int $obj
      * @return bool
-     * @throws InvalidArgumentException
      */
     public function deleteByBuildId(int $buildId)
     {
