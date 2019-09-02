@@ -130,7 +130,7 @@ cd ./php-censor.local
     --db-name=php-censor \
     --db-user=php-censor \
     --db-password=php-censor \
-    --db-port=null \
+    --db-port=default \ # Value 'default': 5432 for PostgreSQL and 3306 for MySQL
     --admin-name=admin \
     --admin-password=admin \
     --admin-email='admin@php-censor.local' \
