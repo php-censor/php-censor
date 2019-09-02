@@ -486,13 +486,18 @@ class InstallCommand extends Command
             $defaultPort = 5432;
         }
 
-        if (!$dbPort = (int)$input->getOption('db-port')) {
+        $dbPort = $input->getOption('db-port');
+        if (!$dbPort) {
             $questionPort = new Question(
                 'Enter your database port (default: ' . $defaultPort . '): ',
                 $defaultPort
             );
 
             $dbPort = (int)$helper->ask($input, $output, $questionPort);
+        } elseif ('default' === $dbPort) {
+            $dbPort = $defaultPort;
+        } else {
+            $dbPort = (int)$dbPort;
         }
 
         if ('pgsql' === $dbType) {
