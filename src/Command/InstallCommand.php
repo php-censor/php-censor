@@ -622,7 +622,7 @@ class InstallCommand extends Command
         );
 
         $output->writeln('');
-        $output->writeln(implode($outputMigration));
+        $output->writeln(implode(PHP_EOL, $outputMigration));
         if (0 == $status) {
             $output->writeln('<info>OK</info>');
 
