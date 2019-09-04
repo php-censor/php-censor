@@ -304,68 +304,68 @@ class CommandExecutor implements CommandExecutorInterface
             $this->logger->logDebug(sprintf('Looking for binary: %s, priority = %s', $bin, $priorityPath));
 
             if ('binary_path' === $priorityPath) {
-                if ($binaryPath = $this->findBinaryByPath($binaryPath, $bin)) {
-                    return $binaryPath;
+                if ($existedBinary = $this->findBinaryByPath($binaryPath, $bin)) {
+                    return $existedBinary;
                 }
 
-                if ($binaryLocal = $this->findBinaryLocal($composerBin, $bin)) {
-                    return $binaryLocal;
+                if ($existedBinary = $this->findBinaryLocal($composerBin, $bin)) {
+                    return $existedBinary;
                 }
 
-                if ($binaryGlobal = $this->findBinaryGlobal($bin)) {
-                    return $binaryGlobal;
+                if ($existedBinary = $this->findBinaryGlobal($bin)) {
+                    return $existedBinary;
                 }
 
-                if ($binarySystem = $this->findBinarySystem($bin)) {
-                    return $binarySystem;
+                if ($existedBinary = $this->findBinarySystem($bin)) {
+                    return $existedBinary;
                 }
             } elseif ('system' === $priorityPath) {
-                if ($binarySystem = $this->findBinarySystem($bin)) {
-                    return $binarySystem;
+                if ($existedBinary = $this->findBinarySystem($bin)) {
+                    return $existedBinary;
                 }
 
-                if ($binaryLocal = $this->findBinaryLocal($composerBin, $bin)) {
-                    return $binaryLocal;
+                if ($existedBinary = $this->findBinaryLocal($composerBin, $bin)) {
+                    return $existedBinary;
                 }
 
-                if ($binaryGlobal = $this->findBinaryGlobal($bin)) {
-                    return $binaryGlobal;
+                if ($existedBinary = $this->findBinaryGlobal($bin)) {
+                    return $existedBinary;
                 }
 
-                if ($binaryPath = $this->findBinaryByPath($binaryPath, $bin)) {
-                    return $binaryPath;
+                if ($existedBinary = $this->findBinaryByPath($binaryPath, $bin)) {
+                    return $existedBinary;
                 }
             } elseif ('global' === $priorityPath) {
-                if ($binaryGlobal = $this->findBinaryGlobal($bin)) {
-                    return $binaryGlobal;
+                if ($existedBinary = $this->findBinaryGlobal($bin)) {
+                    return $existedBinary;
                 }
 
-                if ($binaryLocal = $this->findBinaryLocal($composerBin, $bin)) {
-                    return $binaryLocal;
+                if ($existedBinary = $this->findBinaryLocal($composerBin, $bin)) {
+                    return $existedBinary;
                 }
 
-                if ($binarySystem = $this->findBinarySystem($bin)) {
-                    return $binarySystem;
+                if ($existedBinary = $this->findBinarySystem($bin)) {
+                    return $existedBinary;
                 }
 
-                if ($binaryPath = $this->findBinaryByPath($binaryPath, $bin)) {
-                    return $binaryPath;
+                if ($existedBinary = $this->findBinaryByPath($binaryPath, $bin)) {
+                    return $existedBinary;
                 }
             } else {
-                if ($binaryLocal = $this->findBinaryLocal($composerBin, $bin)) {
-                    return $binaryLocal;
+                if ($existedBinary = $this->findBinaryLocal($composerBin, $bin)) {
+                    return $existedBinary;
                 }
 
-                if ($binaryGlobal = $this->findBinaryGlobal($bin)) {
-                    return $binaryGlobal;
+                if ($existedBinary = $this->findBinaryGlobal($bin)) {
+                    return $existedBinary;
                 }
 
-                if ($binarySystem = $this->findBinarySystem($bin)) {
-                    return $binarySystem;
+                if ($existedBinary = $this->findBinarySystem($bin)) {
+                    return $existedBinary;
                 }
 
-                if ($binaryPath = $this->findBinaryByPath($binaryPath, $bin)) {
-                    return $binaryPath;
+                if ($existedBinary = $this->findBinaryByPath($binaryPath, $bin)) {
+                    return $existedBinary;
                 }
             }
         }
