@@ -34,7 +34,7 @@ class Behat extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        $this->executable = $this->findBinary('behat');
+        $this->executable = $this->findBinary(['behat', 'behat.phar']);
 
         $this->features = '';
 

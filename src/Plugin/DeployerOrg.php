@@ -29,7 +29,7 @@ class DeployerOrg extends \PHPCensor\Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        $this->executable = $this->builder->findBinary('dep');
+        $this->executable = $this->builder->findBinary(['dep', 'dep.phar']);
         $this->branch     = $this->build->getBranch();
     }
 

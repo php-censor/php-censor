@@ -30,7 +30,7 @@ class Psalm extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        $this->executable = $this->findBinary('psalm');
+        $this->executable = $this->findBinary(['psalm', 'psalm.phar']);
 
         if (isset($options['allowed_errors']) && \is_int($options['allowed_errors'])) {
             $this->allowedErrors = $options['allowed_errors'];
