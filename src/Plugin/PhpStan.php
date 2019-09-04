@@ -49,8 +49,9 @@ class PhpStan extends Plugin
         }
 
         $this->builder->executeCommand(
-            'cd "%s" && ' . $phpstan . ' analyze --error-format=json',
-            $this->builder->buildPath
+            'cd "%s" && ' . $phpstan . ' analyze --error-format=json "%s"',
+            $this->builder->buildPath,
+            $this->directory
         );
         $this->builder->logExecOutput(true);
 
