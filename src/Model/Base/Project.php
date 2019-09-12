@@ -150,15 +150,9 @@ class Project extends Model
 
     /**
      * @return string
-     *
-     * @throws InvalidArgumentException
      */
     public function getDefaultBranch()
     {
-        if (!$this->data['default_branch']) {
-            return Branch::getDefaultBranchName($this->getType());
-        }
-
         return $this->data['default_branch'];
     }
 

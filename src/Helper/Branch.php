@@ -11,8 +11,6 @@ class Branch
                 return 'default';
             case 'svn':
                 return 'trunk';
-            case null:
-                return null;
             default:
                 return 'master';
         }
