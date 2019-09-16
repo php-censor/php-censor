@@ -59,6 +59,10 @@ PHP Censor',
     'build_now' => 'Jetzt bauen',
     'edit_project' => 'Projekt bearbeiten',
     'delete_project' => 'Projekt löschen',
+    'project_groups' => 'Project Gruppen',
+    'build_now_debug' => 'Jetzt mit Debug bauen',
+    'delete_old_builds' => 'Alte Builds löschen',
+    'delete_all_builds' => 'Alle Builds löschen',
 
     // Project Summary:
     'no_builds_yet' => 'Bisher noch keine Builds!',
@@ -118,6 +122,7 @@ generiert. Um es zu verwenden, fügen Sie einfach den folgenden Public Key im Ab
 
     // View Project:
     'all_branches' => 'Alle Branches',
+    'all' => 'Alle',
     'builds' => 'Builds',
     'id' => 'ID',
     'date' => 'Datum',
@@ -129,6 +134,25 @@ generiert. Um es zu verwenden, fügen Sie einfach den folgenden Public Key im Ab
     'next_link' => 'Nächste &raquo;',
     'public_key' => 'Public Key',
     'delete_build' => 'Build löschen',
+    'build_source' => 'Build quelle',
+
+    'all_errors'   => 'Alle Fehler',
+    'only_new'     => 'Nur neue Fehler',
+    'only_old'     => 'Nur alte Fehler',
+    'new_errors'   => 'Neue Fehler',
+    'total_errors' => 'Fehler',
+
+    'source_unknown'                       => 'Unbekannt',
+    'source_manual_web'                    => 'Manuell (WebUI)',
+    'source_manual_console'                => 'Manuell (CLI)',
+    'source_manual_rebuild_web'            => 'Rebuild von %s (WebUI)',
+    'source_manual_rebuild_console'        => 'Rebuild von %s (CLI)',
+    'source_periodical'                    => 'Periodical',
+    'source_webhook_push'                  => 'Webhook (Push)',
+    'source_webhook_pull_request_created'  => 'Webhook (Created pull request)',
+    'source_webhook_pull_request_updated'  => 'Webhook (Updated pull request)',
+    'source_webhook_pull_request_approved' => 'Webhook (Approved pull request)',
+    'source_webhook_pull_request_merged'   => 'Webhook (Merged pull request)',
 
     'webhooks' => 'Webhooks',
     'webhooks_help_github' => 'Um für dieses Projekt automatisch einen Build zu starten, wenn neue Commits gepushed
@@ -277,22 +301,25 @@ generiert. Um es zu verwenden, fügen Sie einfach den folgenden Public Key im Ab
     'search' => 'Suchen &raquo;',
 
     // Summary plugin
-    'build-summary' => 'Zusammenfassung',
-    'stage' => 'Abschnitt',
-    'duration' => 'Dauer',
-    'plugin' => 'Plugin',
-    'stage_setup' => 'Vorbereitung',
-    'stage_test' => 'Test',
+    'build-summary'  => 'Zusammenfassung',
+    'stage'          => 'Abschnitt',
+    'duration'       => 'Dauer',
+    'plugin'         => 'Plugin',
+    'stage_setup'    => 'Vorbereitung',
+    'stage_test'     => 'Test',
     'stage_complete' => 'Vollständig',
-    'stage_success' => 'Erfolg',
-    'stage_failure' => 'Fehlschlag',
-    'stage_broken'  => 'Defekt',
-    'stage_fixed' => 'Behoben',
+    'stage_success'  => 'Erfolg',
+    'stage_failure'  => 'Fehlschlag',
+    'stage_broken'   => 'Defekt',
+    'stage_fixed'    => 'Behoben',
+    'seconds'        => 's',
+    'stage_deploy'   => 'Deploy',
+    'severity'       => 'Severity',
 
     // Update
-    'update_app' => 'Datenbank wird aktualisiert, um den Änderungen der Models zu entsprechen.',
-    'updating_app' => 'Aktualisiere PHP Censor-Datenbank:',
-    'not_installed' => 'PHP Censor scheint nicht installiert zu sein.',
+    'update_app'      => 'Datenbank wird aktualisiert, um den Änderungen der Models zu entsprechen.',
+    'updating_app'    => 'Aktualisiere PHP Censor-Datenbank:',
+    'not_installed'   => 'PHP Censor scheint nicht installiert zu sein.',
     'install_instead' => 'Bitte installieren Sie PHP Censor stattdessen via php-censor:install.',
 
     // Build Plugins:
