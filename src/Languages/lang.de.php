@@ -119,6 +119,7 @@ generiert. Um es zu verwenden, fügen Sie einfach den folgenden Public Key im Ab
     'error_github' => 'Repositoryname muss im Format "besitzer/repo" sein',
     'error_bitbucket' => 'Repositoryname muss im Format "besitzer/repo" sein',
     'error_path' => 'Der angegebene Pfad existiert nicht',
+    'error_yml_parse' => 'Fehler beim parsen von Yaml',
 
     // View Project:
     'all_branches' => 'Alle Branches',

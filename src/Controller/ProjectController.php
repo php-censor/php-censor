@@ -577,6 +577,7 @@ class ProjectController extends WebController
         $field = Form\Element\TextArea::create('build_config', Lang::get('build_config'), false);
         $field->setClass('form-control')->setContainerClass('form-group');
         $field->setRows(6);
+        $field->setValidator(new Form\Validator\Yaml());
         $form->addField($field);
 
         $field = Form\Element\TextArea::create('environments', Lang::get('environments_label'), false);

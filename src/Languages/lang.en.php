@@ -132,6 +132,7 @@ PHP Censor',
     'error_github' => 'Repository name must be in the format "owner/repo"',
     'error_bitbucket' => 'Repository name must be in the format "owner/repo"',
     'error_path' => 'The path you specified does not exist.',
+    'error_yml_parse' => 'Error in parsing Yaml',
 
     // View Project:
     'all_branches' => 'All Branches',
