@@ -58,7 +58,7 @@ class PhpCsFixer extends Plugin
             $this->args = $options['args'];
         }
 
-        $this->executable = $this->findBinary('php-cs-fixer');
+        $this->executable = $this->findBinary(['php-cs-fixer', 'php-cs-fixer.phar']);
 
         if (isset($options['verbose']) && $options['verbose']) {
             $this->args .= ' --verbose';

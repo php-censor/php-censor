@@ -31,7 +31,7 @@ class PhpCpd extends Plugin implements ZeroConfigPluginInterface
     {
         parent::__construct($builder, $build, $options);
 
-        $this->executable = $this->findBinary('phpcpd');
+        $this->executable = $this->findBinary(['phpcpd', 'phpcpd.phar']);
     }
 
     /**
