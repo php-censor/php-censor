@@ -79,7 +79,7 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
         if (isset($options['executable'])) {
             $this->executable = $options['executable'];
         } else {
-            $this->executable = $this->findBinary('codecept');
+            $this->executable = $this->findBinary(['codecept', 'codecept.phar']);
         }
     }
 

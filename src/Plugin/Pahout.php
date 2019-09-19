@@ -35,7 +35,7 @@ class Pahout extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        $this->executable = $this->findBinary('pahout');
+        $this->executable = $this->findBinary(['pahout', 'pahout.phar']);
 
         if (!empty($options['directory']) && \is_string($options['directory'])) {
             $this->directory = $options['directory'];

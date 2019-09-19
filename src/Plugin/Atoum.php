@@ -36,7 +36,7 @@ class Atoum extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        $this->executable = $this->findBinary('atoum');
+        $this->executable = $this->findBinary(['atoum', 'atoum.phar']);
 
         if (isset($options['args'])) {
             $this->args = $options['args'];

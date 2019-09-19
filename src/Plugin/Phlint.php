@@ -30,7 +30,7 @@ class Phlint extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        $this->executable = $this->findBinary('phlint');
+        $this->executable = $this->findBinary(['phlint', 'phlint.phar']);
 
         if (\array_key_exists('allowed_errors', $options) && \is_int($options['allowed_errors'])) {
             $this->allowedErrors = $options['allowed_errors'];

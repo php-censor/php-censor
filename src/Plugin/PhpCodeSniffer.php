@@ -82,7 +82,7 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
         $this->allowedWarnings = 0;
         $this->allowedErrors   = 0;
 
-        $this->executable = $this->findBinary('phpcs');
+        $this->executable = $this->findBinary(['phpcs', 'phpcs.phar']);
 
         if (isset($options['zero_config']) && $options['zero_config']) {
             $this->allowedWarnings = -1;
