@@ -8,7 +8,9 @@ class FixedBuildBranch extends AbstractMigration
     {
         $this
             ->table('build')
+
             ->changeColumn('branch', 'string', ['limit' => 250])
+
             ->save();
     }
 
@@ -16,7 +18,9 @@ class FixedBuildBranch extends AbstractMigration
     {
         $this
             ->table('build')
+
             ->changeColumn('branch', 'string', ['limit' => 250, 'default' => 'master'])
+
             ->save();
     }
 }

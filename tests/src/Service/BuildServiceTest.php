@@ -62,6 +62,7 @@ class BuildServiceTest extends TestCase
             ->will($this->returnValue($this->mockEnvironmentStore));
 
         $project->setType('github');
+        $project->setDefaultBranch('master');
         $project->setId(101);
 
         $returnValue = $this->testedService->createBuild($project, null);
@@ -122,6 +123,7 @@ class BuildServiceTest extends TestCase
             ->will($this->returnValue($this->mockEnvironmentStore));
 
         $project->setType('bitbucket');
+        $project->setDefaultBranch('master');
         $project->setId(101);
 
         $returnValue = $this->testedService->createBuild(
@@ -186,7 +188,7 @@ class BuildServiceTest extends TestCase
             ->will($this->returnValue(true));
 
         $mockProjectStore = $this->getMockBuilder('PHPCensor\Store\ProjectStore')->getMock();
-        
+
         $service = new BuildService($store, $mockProjectStore);
         $build = new Build();
 
