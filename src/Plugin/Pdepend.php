@@ -88,7 +88,7 @@ class Pdepend extends Plugin
     {
         $allowPublicArtifacts = (bool) Config::getInstance()->get(
             'php-censor.build.allow_public_artifacts',
-            true
+            false
         );
 
         $fileSystem = new Filesystem();
