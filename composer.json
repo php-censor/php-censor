@@ -111,7 +111,8 @@
         "phpunit/php-token-stream":          "~1.4.0",
         "phpdocumentor/reflection-docblock": "~2.0.0",
         "myclabs/deep-copy":                 "~1.7.0",
-        "symfony/polyfill":                  "~1.10.0"
+        "symfony/polyfill":                  "~1.10.0",
+        "symfony/form": "^3.4"
     },
     "require-dev": {
         "phpunit/dbunit":            "~2.0.0",

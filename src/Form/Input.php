@@ -5,6 +5,7 @@ namespace PHPCensor\Form;
 use Closure;
 use Exception;
 use PHPCensor\View;
+use Symfony\Component\Form\DataTransformerInterface;
 
 class Input extends Element
 {
@@ -38,6 +39,9 @@ class Input extends Element
      */
     protected $customError = false;
 
+    /** @var DataTransformerInterface */
+    protected $dataTransformator;
+
     /**
      * @param string  $name
      * @param string  $label
@@ -60,6 +64,10 @@ class Input extends Element
      */
     public function getValue()
     {
+        if (!empty($this->getDataTransformator())) {
+            return $this->getDataTransformator()->reverseTransform($this->value);
+        }
+
         return $this->value;
     }
 
@@ -70,7 +78,11 @@ class Input extends Element
      */
     public function setValue($value)
     {
-        $this->value = $value;
+        if (!empty($this->getDataTransformator())) {
+            $this->value = $this->getDataTransformator()->transform($this->value);
+        } else {
+            $this->value = $value;
+        }
 
         return $this;
     }
@@ -194,5 +206,21 @@ class Input extends Element
         $view->error    = $this->error;
         $view->pattern  = $this->pattern;
         $view->required = $this->required;
+    }
+
+    /**
+     * @return DataTransformerInterface
+     */
+    public function getDataTransformator()
+    {
+        return $this->dataTransformator;
+    }
+
+    /**
+     * @param DataTransformerInterface $dataTransformator
+     */
+    public function setDataTransformator($dataTransformator)
+    {
+        $this->dataTransformator = $dataTransformator;
     }
 }

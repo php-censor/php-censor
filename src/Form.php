@@ -66,4 +66,12 @@ class Form extends FieldSet
     {
         return $this->render();
     }
+
+    /**
+     * @return array
+     */
+    public function getData()
+    {
+
+    }
 }
