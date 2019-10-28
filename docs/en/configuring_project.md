@@ -198,30 +198,6 @@ The build goes through some stages. During each stage some plugins can be execut
 The completion of a separate plugin with errors does not always mean the failure of the entire stage, because you can use allow_failures option. This option allows to ignore the failures of a certain plugin in the building stage. (E. g.: allow_failures: true).
 Also it is possible to limit the number of the allowable failures and warninngs using allowed_errors and allowed_warnings options (E. g.: allowed_warnings: 2). The value -1 means an ulimited number. These options are not available for all plugins. The details can be found in [the documentation for a specific plugin] (README.md).
 
-There is also a priority_path option available to all plugins. It allows you to change the search order of the plugin executable file. Possible option values are:
-
-* `local` - In the first place search in the buid directory vendor/bin, then - in global, then - in system, then - in priority_path;
-
-* `global` - In the first place search in the directory vendor/bin *PHP Censor*,  then - in local, then - in system, then - in priority_path;
-
-* `sysmem` - In the first place search among the system utilities ( /bin, /usr/bin etc., use  which), then - in local, then - in global, then - in priority_path;
-
-* `binary_path` - First of all, look for the specific path specified in the binary_path option, then - in local, then - in global, then - in system;
-The binary_path option allows you to set a specific path to the directory with the executable plugin file. There is also a binary_name option which alows to set an alternative name for the executable file (a string or an array of strings).
-
-Example:
-````
-yaml
-    setup:
-      composer:
-        priority_path: binary_path
-        binary_path: /home/user/bin/
-        # Search will be by executable file name: composer-1.4, composer-local, composer, composer.phar
-        binary_name:
-          - composer-1.4
-          - composer-local
-        action: install
-````
 
 * `deploy` - The deploy that should be run after the build. Plugins running during this phase will contribute to the 
 success or failure of the build.
