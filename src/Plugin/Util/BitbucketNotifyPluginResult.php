@@ -4,6 +4,8 @@ namespace PHPCensor\Plugin\Util;
 
 class BitbucketNotifyPluginResult
 {
+    const DEFAULT_PLUGIN_OUTPUT_FORMAT = "%s | %d\t=> %d\t%s";
+
     /** @var string $plugin */
     protected $plugin;
 
@@ -13,11 +15,15 @@ class BitbucketNotifyPluginResult
     /** @var int $right */
     protected $right;
 
+    /** @var string $outputFormat */
+    protected $outputFormat;
+
     public function __construct($plugin, $left, $right)
     {
         $this->plugin = $plugin;
         $this->left = $left;
         $this->right = $right;
+        $this->outputFormat = self::DEFAULT_PLUGIN_OUTPUT_FORMAT;
     }
 
     public function getPlugin()
@@ -71,7 +77,7 @@ class BitbucketNotifyPluginResult
     public function generateFormattedOutput($maxPluginNameLength)
     {
         return trim(sprintf(
-            "%s | %d\t=> %d\t%s",
+            $this->outputFormat,
             str_pad($this->plugin, $maxPluginNameLength),
             $this->left,
             $this->right,
