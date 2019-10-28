@@ -296,13 +296,13 @@ class BitbucketNotify extends Plugin
         $buildMetaStore = Factory::getStore('BuildMeta');
         $latestTargeBuildId = $this->findLatestBuild($targetBranch);
         $latestCurrentBuildId = $this->findLatestBuild($this->build->getBranch());
+        $targetMetaData = $buildMetaStore->getByKey(
+            $this->findLatestBuild($targetBranch),
+            PhpUnit::pluginName() . '-coverage'
+        );
 
         $targetBranchCoverage = [];
-        if (!is_null($latestTargeBuildId)) {
-            $targetMetaData = $buildMetaStore->getByKey(
-                $this->findLatestBuild($targetBranch),
-                PhpUnit::pluginName() . '-coverage'
-            );
+        if (!is_null($latestTargeBuildId) && !is_null($targetMetaData)) {
             $targetBranchCoverage = json_decode($targetMetaData->getMetaValue(), true);
         }
 
