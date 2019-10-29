@@ -211,7 +211,12 @@ instance.
 
 * `broken` - Called upon failure of the `test` phase if the previous build of the branch was a success.
 
-The `ignore` section is merely an array of paths that should be ignored in all tests (where possible).
+Some plugins have restrictions on the stages in which they can be launched.
+For example, plugins
+[TechnicalDept](plugins/technical_dept.md), [PHPLoc](plugins/php_loc.md), [PHPCpd](plugins/php_cpd.md), 
+[PHPCodeSniffer](plugins/php_code_sniffer.md), [PHPMessDetector](plugins/php_mess_detector.md), 
+[PHPDocblockChecker](plugins/php_docblock_checker.md), [PHPParallelLint](plugins/php_parallel_lint.md), 
+[Codeception](plugins/codeception.md), [PhpUnit](plugins/php_unit.md) can only be launched at test stage. The plugin [Composer](plugins/composer.md), can only be launched at setup stage
 
 
 ### Redefining configuration for the specific branches.
