@@ -139,14 +139,14 @@ Section `build_settings` contents common build settings:
 supports Git (GitHub, GitLab, BitBucket, Gogs) and Svn (Subversion) builds.
 
     **ATTENTION!:** Option `clone_depth` should be set only from web-interface (Project edit page) because it should 
-    be knew before repository cloning. Also you should understand that some features or plugins with the option may 
+    be known before repository cloning. Also you should understand that some features or plugins with the option may 
     work with unpredictable result.
 
 * Option `directory` sets default directory path for all plugins (It may be overloaded by the plugin option 
 `directory`).
 
 * Option `ignore` sets default ignore list for all plugins (It may be completed by the plugin option `ignore`). For 
-example config return ignore list: `vendor, tests, docs`:
+example config returns ignore list: `vendor, tests, docs`:
 
     ```yml
     build_settings:
@@ -184,7 +184,7 @@ documentation of the plugins for more details.
     ```
 
     **ATTENTION!:** Section `svn` should be set only from web-interface (Project edit page) because it should 
-    be knew before repository cloning.
+    be known before repository cloning.
 
 Build Stages
 ------------
@@ -193,7 +193,7 @@ As mentioned earlier, PHP Censor is powered by plugins, there are several phases
 
 * `setup` - This phase is designed to initialise the build procedure.
 
-* `test` - The tests that should be run during the build. Plugins run during this phase will contribute to the success 
+* `test` - The tests that should be run during the build. Plugins running during this phase will contribute to the success 
 or failure of the build.
 
 There is also a priority_path option available to all plugins. It allows you to change the search order of the plugin executable file. Possible option values are:
@@ -238,12 +238,17 @@ instance.
 
 * `broken` - Called upon failure of the `test` phase if the previous build of the branch was a success.
 
-The `ignore` section is merely an array of paths that should be ignored in all tests (where possible).
+Some plugins have restrictions on the stages in which they can be launched.
+For example, plugins
+[TechnicalDept](plugins/technical_dept.md), [PHPLoc](plugins/php_loc.md), [PHPCpd](plugins/php_cpd.md), 
+[PHPCodeSniffer](plugins/php_code_sniffer.md), [PHPMessDetector](plugins/php_mess_detector.md), 
+[PHPDocblockChecker](plugins/php_docblock_checker.md), [PHPParallelLint](plugins/php_parallel_lint.md), 
+[Codeception](plugins/codeception.md), [PhpUnit](plugins/php_unit.md) can only be launched at test stage. The plugin [Composer](plugins/composer.md), can only be launched at setup stage
 
 
 ### Redefining configuration for the specific branches.
 
-The directive `branch-<branch-name>` (For example: `branch-feature-1` для ветки `feature-1`) **allows to redefine or
+The directive `branch-<branch-name>` (For example: `branch-feature-1` for the branch `feature-1`) **allows to redefine or
 to complete the main build configuration for the specific branches**.
 
 There is also a directive `branch-regex:<branch-name-regex>` **which allows to compare branches by regexp** 
