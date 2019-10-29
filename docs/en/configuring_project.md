@@ -196,6 +196,33 @@ As mentioned earlier, PHP Censor is powered by plugins, there are several phases
 * `test` - The tests that should be run during the build. Plugins run during this phase will contribute to the success 
 or failure of the build.
 
+There is also a priority_path option available to all plugins. It allows you to change the search order of the plugin executable file. Possible option values are:
+
+* `local` - In the first place search in the buid directory vendor/bin, then - in global, then - in system, then - in priority_path;
+
+* `global` - In the first place search in the directory vendor/bin *PHP Censor*,  then - in local, then - in system, then - in priority_path;
+
+* `system` - In the first place search among the system utilities ( /bin, /usr/bin etc., use  which), then - in local, then - in global, then - in priority_path;
+
+* `binary_path` - First of all, look for the specific path specified in the binary_path option, then - in local, then - in global, then - in system;
+
+The binary_path option allows you to set a specific path to the directory with the executable plugin file. There is also a binary_name option which alows to set an alternative name for the executable file (a string or an array of strings).
+
+Example:
+````
+yaml
+    setup:
+      composer:
+        priority_path: binary_path
+        binary_path: /home/user/bin/
+        # Search will be by executable file name: composer-1.4, composer-local, composer, composer.phar
+        binary_name:
+          - composer-1.4
+          - composer-local
+        action: install
+
+````
+
 * `deploy` - The deploy that should be run after the build. Plugins run during this phase will contribute to the 
 success or failure of the build.
 
