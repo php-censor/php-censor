@@ -11,9 +11,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ### Fixed
 
-- Fixed TravisCI config.
-- Fixed migrations output during installation. Issue [#315](https://github.com/php-censor/php-censor/issues/315).
-- Fixed `binary_path` option. Issue [#318](https://github.com/php-censor/php-censor/issues/318).
+- TravisCI config.
+- Migrations output during installation. Issue [#315](https://github.com/php-censor/php-censor/issues/315).
+- Option `binary_path`. Issue [#318](https://github.com/php-censor/php-censor/issues/318).
 
 ### Changed
 
