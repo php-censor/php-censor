@@ -196,20 +196,20 @@ As mentioned earlier, PHP Censor is powered by plugins, there are several phases
 * `test` - The tests that should be run during the build. Plugins run during this phase will contribute to the success 
 or failure of the build.
 
-* `deploy` - The deploy that should be run after the build. Plugins run during this phase will contribute to the 
-success or failure of the build.
+Search order of the executable file by default: local -> global -> system -> binary_path.
 
-* `complete` - Always called when the `test` phase completes, regardless of success or failure. **Note** that is you 
-do any DB stuff here, you will need to add the DB credentials to this section as well, as it runs in a separate 
-instance.
+* `deploy` - The stage of  the project deployment. Runs after the stage of testing, if the tests were successful. In this stage deployment plugins should be called ([Shell](plugins/shell.md), [Deployer](plugins/deployer.md), [Mage](plugins/mage.md) и etc.). This stage is very similar to test.
 
-* `success` - Called upon success of the `test` phase.
+* `complete` - Build completion stage. Always executes after the deploy (or after the test, in case deploy is missing), regardless of whether the buid was successful or failed. In this stage it is possible to send notifications, to clear a database, etc.
 
-* `failure` - Called upon failure of the `test` phase.
+* `success` - Successful Build Stage. Called only when the build completed successfully.
 
-* `fixed` - Called upon success of the `test` phase if the previous build of the branch was a failure.
+* `failure` - This stage is called only when the build failed.
 
-* `broken` - Called upon failure of the `test` phase if the previous build of the branch was a success.
+* `fixed` - Build recovery stage. Called only when the build completed successfully after a failed previous build.
+
+* `broken` - Build failure stage. Called only when the build failed after a successful previous build .
+
 
 The `ignore` section is merely an array of paths that should be ignored in all tests (where possible).
 
