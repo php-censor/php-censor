@@ -26,7 +26,7 @@ class PhpSpec extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        $this->executable = $this->findBinary(['phpspec', 'phpspec.php']);
+        $this->executable = $this->findBinary(['phpspec', 'phpspec.php', 'phpspec.phar']);
     }
 
     /**

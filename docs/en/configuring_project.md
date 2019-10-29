@@ -139,14 +139,14 @@ Section `build_settings` contents common build settings:
 supports Git (GitHub, GitLab, BitBucket, Gogs) and Svn (Subversion) builds.
 
     **ATTENTION!:** Option `clone_depth` should be set only from web-interface (Project edit page) because it should 
-    be knew before repository cloning. Also you should understand that some features or plugins with the option may 
+    be known before repository cloning. Also you should understand that some features or plugins with the option may 
     work with unpredictable result.
 
 * Option `directory` sets default directory path for all plugins (It may be overloaded by the plugin option 
 `directory`).
 
 * Option `ignore` sets default ignore list for all plugins (It may be completed by the plugin option `ignore`). For 
-example config return ignore list: `vendor, tests, docs`:
+example config returns ignore list: `vendor, tests, docs`:
 
     ```yml
     build_settings:
@@ -184,39 +184,70 @@ documentation of the plugins for more details.
     ```
 
     **ATTENTION!:** Section `svn` should be set only from web-interface (Project edit page) because it should 
-    be knew before repository cloning.
+    be known before repository cloning.
 
 Build Stages
 ------------
 
-As mentioned earlier, PHP Censor is powered by plugins, there are several phases in which plugins can be run:
+The build goes through some stages. During each stage some plugins can be executed.
 
-* `setup` - This phase is designed to initialise the build procedure.
+* `setup` - The stage of setting up the build (creating test database, setting dependencies, etc.).
 
-* `test` - The tests that should be run during the build. Plugins run during this phase will contribute to the success 
-or failure of the build.
+* `test` - The stage of testing. Runs after the setup stage if the setup was successful. In this stage all the main plugins and statistical code analyzers are executed.
 
-* `deploy` - The deploy that should be run after the build. Plugins run during this phase will contribute to the 
-success or failure of the build.
+There is also a priority_path option available to all plugins. It allows you to change the search order of the plugin executable file. Possible option values are:
 
-* `complete` - Always called when the `test` phase completes, regardless of success or failure. **Note** that is you 
-do any DB stuff here, you will need to add the DB credentials to this section as well, as it runs in a separate 
-instance.
+* `local` - In the first place search in the buid directory vendor/bin, then - in global, then - in system, then - in priority_path;
 
-* `success` - Called upon success of the `test` phase.
+* `global` - In the first place search in the directory vendor/bin *PHP Censor*,  then - in local, then - in system, then - in priority_path;
 
-* `failure` - Called upon failure of the `test` phase.
+* `system` - In the first place search among the system utilities ( /bin, /usr/bin etc., use  which), then - in local, then - in global, then - in priority_path;
 
-* `fixed` - Called upon success of the `test` phase if the previous build of the branch was a failure.
+* `binary_path` - First of all, look for the specific path specified in the binary_path option, then - in local, then - in global, then - in system;
 
-* `broken` - Called upon failure of the `test` phase if the previous build of the branch was a success.
+The binary_path option allows you to set a specific path to the directory with the executable plugin file. There is also a binary_name option which alows to set an alternative name for the executable file (a string or an array of strings).
 
-The `ignore` section is merely an array of paths that should be ignored in all tests (where possible).
+Example:
+````
+yaml
+    setup:
+      composer:
+        priority_path: binary_path
+        binary_path: /home/user/bin/
+        # Search will be by executable file name: composer-1.4, composer-local, composer, composer.phar
+        binary_name:
+          - composer-1.4
+          - composer-local
+        action: install
+
+````
+
+Search order of the executable file by default: local -> global -> system -> binary_path.
+
+* `deploy` - The stage of  the project deployment. Runs after the stage of testing, if the tests were successful. In this stage deployment plugins should be called ([Shell](plugins/shell.md), [Deployer](plugins/deployer.md), [Mage](plugins/mage.md) и etc.). This stage is very similar to test.
+
+* `complete` - Build completion stage. Always executes after the deploy (or after the test, in case deploy is missing), regardless of whether the buid was successful or failed. In this stage it is possible to send notifications, to clear a database, etc.
+
+* `success` - Successful Build Stage. Called only when the build completed successfully.
+
+* `failure` - This stage is called only when the build failed.
+
+* `fixed` - Build recovery stage. Called only when the build completed successfully after a failed previous build.
+
+* `broken` - Build failure stage. Called only when the build failed after a successful previous build .
+
+
+Some plugins have restrictions on the stages in which they can be launched.
+For example, plugins
+[TechnicalDept](plugins/technical_dept.md), [PHPLoc](plugins/php_loc.md), [PHPCpd](plugins/php_cpd.md), 
+[PHPCodeSniffer](plugins/php_code_sniffer.md), [PHPMessDetector](plugins/php_mess_detector.md), 
+[PHPDocblockChecker](plugins/php_docblock_checker.md), [PHPParallelLint](plugins/php_parallel_lint.md), 
+[Codeception](plugins/codeception.md), [PhpUnit](plugins/php_unit.md) can only be launched at test stage. The plugin [Composer](plugins/composer.md), can only be launched at setup stage
 
 
 ### Redefining configuration for the specific branches.
 
-The directive `branch-<branch-name>` (For example: `branch-feature-1` для ветки `feature-1`) **allows to redefine or
+The directive `branch-<branch-name>` (For example: `branch-feature-1` for the branch `feature-1`) **allows to redefine or
 to complete the main build configuration for the specific branches**.
 
 There is also a directive `branch-regex:<branch-name-regex>` **which allows to compare branches by regexp** 

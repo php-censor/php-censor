@@ -11,7 +11,7 @@
 </p>
    
    
-**PHP Censor** is a open source self-hosted continuous integration server for PHP projects 
+**PHP Censor** is an open source, self-hosted, continuous integration server for PHP projects 
 ([PHPCI](https://www.phptesting.org) fork). [Official twitter @php_censor](https://twitter.com/php_censor).
 
 Actual PHP Censor versions and release branches:
@@ -71,7 +71,7 @@ PHPMessDetector, PHPTalLint and TechnicalDebt;
 * Run through any combination of the other [supported plugins](docs/en/README.md#plugins), including Campfire, 
 CleanBuild, CopyBuild, Deployer, Env, Git, Grunt, Gulp, PackageBuild, Phar, Phing, Shell and Wipe;
 
-* Send notifications on Email, XMPP, Slack, IRC, Flowdock, HipChat and 
+* Send notifications to Email, XMPP, Slack, IRC, Flowdock, HipChat and 
 [Telegram](https://github.com/LEXASOFT/PHP-Censor-Telegram-Plugin);
 
 * Use your LDAP-server for authentication;
@@ -104,9 +104,9 @@ composer create-project \
 Or download [latest archive](https://github.com/php-censor/php-censor/releases/latest) from GitHub, unzip it and run 
 `composer install`.
 
-* Create empty database for application (MySQL/MariaDB or PostgreSQL);
+* Create an empty database for your application (MySQL/MariaDB or PostgreSQL);
 
-* Install Beanstalkd Queue (Optional, if you are going to use queue with Worker):
+* Install Beanstalkd Queue (Optional, if you are going to use a queue with Worker):
 
 ```bash
 # For Debian-based
@@ -130,7 +130,7 @@ cd ./php-censor.local
     --db-name=php-censor \
     --db-user=php-censor \
     --db-password=php-censor \
-    --db-port=null \
+    --db-port=default \ # Value 'default': 5432 for PostgreSQL and 3306 for MySQL
     --admin-name=admin \
     --admin-password=admin \
     --admin-email='admin@php-censor.local' \
@@ -154,7 +154,7 @@ PHP Censor directory. You'll need to set up rewrite rules to point all non-exist
 
 ## Installing via Docker
 
-If you want to install PHP Censor as Docker container, you can use 
+If you want to install PHP Censor as a Docker container, you can use 
 [php-censor/docker-php-censor](https://github.com/php-censor/docker-php-censor) project.
 
 ## Updating
@@ -165,14 +165,14 @@ If you want to install PHP Censor as Docker container, you can use
     cd /var/www/php-censor.local
     ```
 
-* Pull the latest code from repository by Git (If you want latest `master` branch):
+* Pull the latest code from the repository by Git (If you want the latest `master` branch):
 
     ```bash
     git checkout master
     git pull -r
     ```
 
-    Or pull latest version:
+    Or pull the latest version:
 
     ```bash
     git fetch
@@ -248,7 +248,7 @@ cd /path/to/php-censor
 ./bin/console php-censor-migrations:migrate
 ```
 
-Run to create new migration:
+Run to create a new migration:
 
 ```bash
 cd /path/to/php-censor
@@ -263,11 +263,11 @@ cd /path/to/php-censor
 ./vendor/bin/phpunit --configuration ./phpunit.xml.dist --coverage-html ./tests/runtime/coverage -vvv --colors=always
 ```
 
-For Phar plugin tests set 'phar.readonly' setting to Off (0) in `php.ini` config. Otherwise tests will be skipped.  
+For Phar plugin tests set 'phar.readonly' setting to Off (0) in `php.ini` config. Otherwise the tests will be skipped.  
 
-For database tests create empty 'test_db' database on 'localhost' with user/password: `root/<empty>` 
+For database tests create an empty 'test_db' database on 'localhost' with user/password: `root/<empty>` 
 for MySQL and with user/password: `postgres/<empty>` for PostgreSQL (You can change default test user, password and 
-database name in `phpunit.xml[.dist]` config constants). If connection failed tests will be skipped.
+database name in `phpunit.xml[.dist]` config constants). If connection failed the tests will be skipped.
 
 ## Documentation
 

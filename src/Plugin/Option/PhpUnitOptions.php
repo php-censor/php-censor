@@ -125,7 +125,7 @@ class PhpUnitOptions
             if (isset($this->options['coverage']) && $this->options['coverage']) {
                 $allowPublicArtifacts = (bool)Config::getInstance()->get(
                     'php-censor.build.allow_public_artifacts',
-                    true
+                    false
                 );
 
                 if ($allowPublicArtifacts) {

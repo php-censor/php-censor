@@ -18,7 +18,7 @@ class BitbucketNotifyPhpUnitResultTest extends TestCase
                     'improved' => false,
                     'degraded' => false,
                     'string' => 'test',
-                    'formattedOutput' => "test       | 0\t=> 0",
+                    'formattedOutput' => "test       | 0.00\t=> 0.00",
                     'taskDescription' => '',
                 ]
             ],
@@ -31,7 +31,7 @@ class BitbucketNotifyPhpUnitResultTest extends TestCase
                     'improved' => false,
                     'degraded' => false,
                     'string' => 'test',
-                    'formattedOutput' => "test       | 1\t=> 1\tpls improve me :-(",
+                    'formattedOutput' => "test       | 1.00\t=> 1.00\tpls improve me :-(",
                     'taskDescription' => '',
                 ]
             ],
@@ -44,7 +44,7 @@ class BitbucketNotifyPhpUnitResultTest extends TestCase
                     'improved' => true,
                     'degraded' => false,
                     'string' => 'test',
-                    'formattedOutput' => "test       | 0\t=> 1\tgreat success!",
+                    'formattedOutput' => "test       | 0.00\t=> 1.00\tgreat success!",
                     'taskDescription' => '',
                 ]
             ],
@@ -57,7 +57,7 @@ class BitbucketNotifyPhpUnitResultTest extends TestCase
                     'improved' => false,
                     'degraded' => true,
                     'string' => 'test',
-                    'formattedOutput' => "test       | 1\t=> 0\t!!!!! o_O",
+                    'formattedOutput' => "test       | 1.00\t=> 0.00\t!!!!! o_O",
                     'taskDescription' => 'pls fix test because the coverage has decreased from 1 to 0',
                 ]
             ],

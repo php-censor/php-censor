@@ -361,7 +361,7 @@ class InstallCommand extends Command
             'build' => [
                 'remove_builds'          => true,
                 'writer_buffer_size'     => 500,
-                'allow_public_artifacts' => true,
+                'allow_public_artifacts' => false,
                 'keep_builds'            => 100,
             ],
             'security' => [
@@ -486,13 +486,18 @@ class InstallCommand extends Command
             $defaultPort = 5432;
         }
 
-        if (!$dbPort = (int)$input->getOption('db-port')) {
+        $dbPort = $input->getOption('db-port');
+        if (!$dbPort) {
             $questionPort = new Question(
                 'Enter your database port (default: ' . $defaultPort . '): ',
                 $defaultPort
             );
 
             $dbPort = (int)$helper->ask($input, $output, $questionPort);
+        } elseif ('default' === $dbPort) {
+            $dbPort = $defaultPort;
+        } else {
+            $dbPort = (int)$dbPort;
         }
 
         if ('pgsql' === $dbType) {
@@ -622,7 +627,7 @@ class InstallCommand extends Command
         );
 
         $output->writeln('');
-        $output->writeln(implode($outputMigration));
+        $output->writeln(implode(PHP_EOL, $outputMigration));
         if (0 == $status) {
             $output->writeln('<info>OK</info>');
 
