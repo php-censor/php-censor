@@ -18,7 +18,7 @@ class Yaml implements ValidatorInterface
         try {
             $this->getParser()->parse($value);
         } catch (ParseException $e) {
-            throw new Exception(Lang::get('error_yml_parse'));
+            throw new Exception($e->getMessage());
         }
 
         return true;
