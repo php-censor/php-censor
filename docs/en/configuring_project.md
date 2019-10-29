@@ -189,12 +189,14 @@ documentation of the plugins for more details.
 Build Stages
 ------------
 
-As mentioned earlier, PHP Censor is powered by plugins, there are several phases in which plugins can be run:
+The build goes through some stages. During each stage some plugins can be executed.
 
-* `setup` - This phase is designed to initialise the build procedure.
+* `setup` - The stage of setting up the build (creating test database, setting dependencies, etc.).
 
-* `test` - The tests that should be run during the build. Plugins run during this phase will contribute to the success 
-or failure of the build.
+* `test` - The stage of testing. Runs after the setup stage if the setup was successful. In this stage all the main plugins and statistical code analyzers are executed.
+
+The completion of a separate plugin with errors does not always mean the failure of the entire stage, because you can use allow_failures option. This option allows to ignore the failures of a certain plugin in the building stage. (E. g.: allow_failures: true).
+Also it is possible to limit the number of the allowable failures and warninngs using allowed_errors and allowed_warnings options (E. g.: allowed_warnings: 2). The value -1 means an ulimited number. These options are not available for all plugins. The details can be found in [the documentation for a specific plugin] (README.md).
 
 * `deploy` - The deploy that should be run after the build. Plugins run during this phase will contribute to the 
 success or failure of the build.
