@@ -79,7 +79,7 @@ class Input extends Element
     public function setValue($value)
     {
         if (!empty($this->getDataTransformator())) {
-            $this->value = $this->getDataTransformator()->transform($this->value);
+            $this->value = $this->getDataTransformator()->transform($value);
         } else {
             $this->value = $value;
         }
@@ -154,12 +154,12 @@ class Input extends Element
      */
     public function validate()
     {
-        if ($this->getRequired() && empty($this->value)) {
+        if ($this->getRequired() && empty($this->getValue())) {
             $this->error = $this->getLabel() . ' is required.';
             return false;
         }
 
-        if ($this->getPattern() && !preg_match('/' . $this->getPattern() . '/', $this->value)) {
+        if ($this->getPattern() && !preg_match('/' . $this->getPattern() . '/', $this->getValue())) {
             $this->error = 'Invalid value entered.';
 
             return false;
@@ -169,7 +169,7 @@ class Input extends Element
 
         if (is_callable($validator)) {
             try {
-                call_user_func_array($validator, [$this->value]);
+                call_user_func_array($validator, [$this->getValue()]);
             } catch (Exception $ex) {
                 $this->error = $ex->getMessage();
 
