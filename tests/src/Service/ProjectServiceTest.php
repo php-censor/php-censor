@@ -52,7 +52,6 @@ class ProjectServiceTest extends TestCase
         self::assertEquals('Test Project', $project->getTitle());
         self::assertEquals('github', $project->getType());
         self::assertEquals('php-censor/php-censor1', $project->getReference());
-        self::assertEquals('master', $project->getDefaultBranch());
         self::assertEquals([], $project->getAccessInformation());
     }
 

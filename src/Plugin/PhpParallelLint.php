@@ -46,7 +46,7 @@ class PhpParallelLint extends Plugin implements ZeroConfigPluginInterface
         $this->extensions = 'php';
         $this->shortTag   = false;
 
-        $this->executable = $this->findBinary('parallel-lint');
+        $this->executable = $this->findBinary(['parallel-lint', 'parallel-lint.phar']);
 
         if (isset($options['shorttags'])) {
             $this->shortTag = $options['shorttags'];

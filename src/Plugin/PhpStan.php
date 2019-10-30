@@ -31,7 +31,7 @@ class PhpStan extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        $this->executable = $this->findBinary('phpstan');
+        $this->executable = $this->findBinary(['phpstan', 'phpstan.phar']);
 
         if (isset($options['allowed_errors']) && is_int($options['allowed_errors'])) {
             $this->allowedErrors = $options['allowed_errors'];
@@ -50,8 +50,9 @@ class PhpStan extends Plugin
         }
 
         $this->builder->executeCommand(
-            'cd "%s" && ' . $phpstan . ' analyze --error-format=json',
-            $this->builder->buildPath
+            'cd "%s" && ' . $phpstan . ' analyze --error-format=json "%s"',
+            $this->builder->buildPath,
+            $this->directory
         );
         $this->builder->logExecOutput(true);
 

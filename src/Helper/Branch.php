@@ -2,17 +2,18 @@
 
 namespace PHPCensor\Helper;
 
+use PHPCensor\Model\Project;
+
 class Branch
 {
     public static function getDefaultBranchName($projectType)
     {
         switch ($projectType) {
-            case 'hg':
+            case Project::TYPE_HG:
+            case Project::TYPE_BITBUCKET_HG:
                 return 'default';
-            case 'svn':
+            case Project::TYPE_SVN:
                 return 'trunk';
-            case null:
-                return null;
             default:
                 return 'master';
         }

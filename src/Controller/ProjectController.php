@@ -484,11 +484,14 @@ class ProjectController extends WebController
             'build_config'           => isset($formValues['build_config']) ? $formValues['build_config'] : null,
             'allow_public_status'    => (bool)$this->getParam('allow_public_status', false),
             'archived'               => (bool)$this->getParam('archived', false),
-            'default_branch'         => $defaultBranch ? $defaultBranch : Branch::getDefaultBranchName($type),
             'default_branch_only'    => (bool)$this->getParam('default_branch_only', false),
             'group'                  => (int)$this->getParam('group_id', null),
             'environments'           => isset($formValues['environments']) ? $formValues['environments'] : null,
         ];
+
+        if ($defaultBranch) {
+            $options['default_branch'] = $defaultBranch;
+        }
 
         $project = $this->projectService->updateProject($project, $title, $type, $reference, $options);
 
