@@ -77,17 +77,6 @@ class ProjectTest extends TestCase
 
         self::assertEquals(null, $project->getDefaultBranch());
 
-        $project->setType('github');
-        self::assertEquals('master', $project->getDefaultBranch());
-
-        $project->setType('hg');
-        self::assertEquals('default', $project->getDefaultBranch());
-
-        $project->setType('svn');
-        self::assertEquals('trunk', $project->getDefaultBranch());
-
-        $project = new Project();
-
         $result = $project->setDefaultBranch('branch');
         self::assertEquals(true, $result);
         self::assertEquals('branch', $project->getDefaultBranch());

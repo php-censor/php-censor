@@ -42,7 +42,7 @@ class PhpLoc extends Plugin implements ZeroConfigPluginInterface
     {
         parent::__construct($builder, $build, $options);
 
-        $this->executable = $this->findBinary('phploc');
+        $this->executable = $this->findBinary(['phploc', 'phploc.phar']);
     }
 
     /**

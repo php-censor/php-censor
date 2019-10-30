@@ -66,27 +66,27 @@ class Phan extends Plugin
         $cmd = 'find -L %s -type f -name "**.php"';
 
         foreach ($this->ignore as $ignore) {
-            $cmd .= ' | grep -v '.$ignore;
+            $cmd .= ' | grep -v '. $ignore;
         }
 
         $cmd .= ' > %s';
 
-        $this->builder->executeCommand($cmd, $this->directory, $this->location.'/phan.in');
+        $this->builder->executeCommand($cmd, $this->directory, $this->location . '/phan.in');
 
-        $phan = $this->findBinary('phan');
+        $phan = $this->findBinary(['phan', 'phan.phar']);
 
         // Launch Phan on PHP files with json output
         $cmd = $phan.' -f %s -i -m json -o %s';
 
-        $this->builder->executeCommand($cmd, $this->location.'/phan.in', $this->location.'/phan.out');
+        $this->builder->executeCommand($cmd, $this->location . '/phan.in', $this->location . '/phan.out');
 
-        $warningCount = $this->processReport(file_get_contents($this->location.'/phan.out'));
+        $warningCount = $this->processReport(file_get_contents($this->location . '/phan.out'));
 
         $this->build->storeMeta((self::pluginName() . '-warnings'), $warningCount);
 
         $success = true;
 
-        if ($this->allowedWarnings != -1 && $warningCount > $this->allowedWarnings) {
+        if ($this->allowedWarnings !== -1 && $warningCount > $this->allowedWarnings) {
             $success = false;
         }
 

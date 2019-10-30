@@ -38,7 +38,6 @@ class PhpUnitOptionsTest extends TestCase
                     'coverage' => '/path/to/coverage2/',
                 ],
                 [
-                    'coverage-html' => '/location',
                     'coverage-text' => null,
                 ],
             ],
@@ -51,7 +50,6 @@ class PhpUnitOptionsTest extends TestCase
                     ],
                 ],
                 [
-                    'coverage-html' => '/location',
                     'coverage-text' => null,
                 ],
             ],

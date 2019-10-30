@@ -29,46 +29,6 @@ class ProjectTest extends TestCase
         }
     }
 
-    public function testExecute_TestGitDefaultBranch()
-    {
-        $project = new Project();
-        $project->setType('git');
-
-        self::assertEquals('master', $project->getDefaultBranch());
-    }
-
-    public function testExecute_TestGithubDefaultBranch()
-    {
-        $project = new Project();
-        $project->setType(Project::TYPE_GITHUB);
-
-        self::assertEquals('master', $project->getDefaultBranch());
-    }
-
-    public function testExecute_TestGitlabDefaultBranch()
-    {
-        $project = new Project();
-        $project->setType(Project::TYPE_GITLAB);
-
-        self::assertEquals('master', $project->getDefaultBranch());
-    }
-
-    public function testExecute_TestBitbucketDefaultBranch()
-    {
-        $project = new Project();
-        $project->setType(Project::TYPE_BITBUCKET);
-
-        self::assertEquals('master', $project->getDefaultBranch());
-    }
-
-    public function testExecute_TestMercurialDefaultBranch()
-    {
-        $project = new Project();
-        $project->setType(Project::TYPE_HG);
-
-        self::assertEquals('default', $project->getDefaultBranch());
-    }
-
     public function testExecute_TestProjectAccessInformation()
     {
         $info = [

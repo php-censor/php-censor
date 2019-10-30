@@ -56,7 +56,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
             $this->allowedWarnings = (int)$options['allowed_warnings'];
         }
 
-        $this->executable = $this->findBinary('phpmd');
+        $this->executable = $this->findBinary(['phpmd', 'phpmd.phar']);
 
         foreach (['rules', 'suffixes'] as $key) {
             $this->overrideSetting($options, $key);

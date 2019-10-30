@@ -72,7 +72,7 @@ class Pdepend extends Plugin
         $this->pyramid   = 'pyramid.svg';
         $this->chart     = 'chart.svg';
 
-        $this->executable = $this->findBinary('pdepend');
+        $this->executable = $this->findBinary(['pdepend', 'pdepend.phar']);
 
         $this->buildDirectory       = $build->getBuildDirectory();
         $this->buildBranchDirectory = $build->getBuildBranchDirectory();
@@ -88,7 +88,7 @@ class Pdepend extends Plugin
     {
         $allowPublicArtifacts = (bool) Config::getInstance()->get(
             'php-censor.build.allow_public_artifacts',
-            true
+            false
         );
 
         $fileSystem = new Filesystem();
