@@ -5,6 +5,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [1.0.12 (Morty Smith)](https://github.com/php-censor/php-censor/tree/1.0.12) (2019-10-30)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/1.0.11...1.0.12)
+
+### Fixed
+
+- TravisCI config.
+- Migrations output during installation. Issue [#315](https://github.com/php-censor/php-censor/issues/315).
+- Option `binary_path`. Issue [#318](https://github.com/php-censor/php-censor/issues/318).
+
+### Changed
+
+- Updated dependencies.
+
+
 ## [1.0.11 (Morty Smith)](https://github.com/php-censor/php-censor/tree/1.0.11) (2019-06-15)
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/1.0.10...1.0.11)

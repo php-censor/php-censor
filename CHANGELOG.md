@@ -5,6 +5,23 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [1.1.2 (Birdperson)](https://github.com/php-censor/php-censor/tree/1.1.2) (2019-10-31)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/1.1.1...1.1.2)
+
+### Fixed
+
+- TravisCI config.
+- Migrations output during installation. Issue [#315](https://github.com/php-censor/php-censor/issues/315).
+- Option `binary_path`. Issue [#318](https://github.com/php-censor/php-censor/issues/318).
+- PHPStan plugin directory option. Issue [#311](https://github.com/php-censor/php-censor/issues/311).
+
+### Changed
+
+- Updated dependencies.
+- Improved default binaries list for plugins (`['phpunit']` -> `['phpunit', 'phpunit.phar']` etc.).
+
+
 ## [1.1.1 (Birdperson)](https://github.com/php-censor/php-censor/tree/1.1.1) (2019-06-15)
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/1.1.0...1.1.1)
