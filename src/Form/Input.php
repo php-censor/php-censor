@@ -4,8 +4,8 @@ namespace PHPCensor\Form;
 
 use Closure;
 use Exception;
+use PHPCensor\Form\DataTransformator\DataTransformerInterface;
 use PHPCensor\View;
-use Symfony\Component\Form\DataTransformerInterface;
 
 class Input extends Element
 {

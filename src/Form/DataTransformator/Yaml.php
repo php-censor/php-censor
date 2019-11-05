@@ -1,7 +1,7 @@
 <?php
 namespace PHPCensor\Form\DataTransformator;
 
-class Yaml implements DataTransformatorInterface
+class Yaml implements DataTransformerInterface
 {
 
     public function transform($value)

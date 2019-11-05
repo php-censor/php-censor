@@ -2,7 +2,7 @@
 
 namespace PHPCensor\Form\DataTransformator;
 
-interface DataTransformatorInterface
+interface DataTransformerInterface
 {
     /** transform when putting the data into a form */
     public function transform($value);
