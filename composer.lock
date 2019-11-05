@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fa1be4361655875115810792d3e4c7b3",
+    "content-hash": "fb1ebdb8d1e403ca9b1ce350eaf15691",
     "packages": [
         {
             "name": "behat/gherkin",
@@ -70,13 +70,14 @@
             "version": "v2.3.11",
             "source": {
                 "type": "git",
-                "url": "git@github.com:almasaeed2010/AdminLTE.git",
+                "url": "https://github.com/ColorlibHQ/AdminLTE.git",
                 "reference": "2be703222af2edcb87e562d3da2299e4352bff8a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/almasaeed2010/AdminLTE/zipball/2be703222af2edcb87e562d3da2299e4352bff8a",
-                "reference": "2be703222af2edcb87e562d3da2299e4352bff8a"
+                "url": "https://api.github.com/repos/ColorlibHQ/AdminLTE/zipball/2be703222af2edcb87e562d3da2299e4352bff8a",
+                "reference": "2be703222af2edcb87e562d3da2299e4352bff8a",
+                "shasum": null
             },
             "type": "bower-asset",
             "license": [
@@ -94,7 +95,8 @@
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/tomasAlabes/eve/zipball/93132d5d47a0ce31dbd1b75208b1d4c0e2ad81e8",
-                "reference": "93132d5d47a0ce31dbd1b75208b1d4c0e2ad81e8"
+                "reference": "93132d5d47a0ce31dbd1b75208b1d4c0e2ad81e8",
+                "shasum": null
             },
             "type": "bower-asset",
             "license": [
@@ -112,7 +114,8 @@
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/FortAwesome/Font-Awesome/zipball/a8386aae19e200ddb0f6845b5feeee5eb7013687",
-                "reference": "a8386aae19e200ddb0f6845b5feeee5eb7013687"
+                "reference": "a8386aae19e200ddb0f6845b5feeee5eb7013687",
+                "shasum": null
             },
             "type": "bower-asset",
             "license": [
@@ -126,13 +129,14 @@
             "version": "v2.0.1",
             "source": {
                 "type": "git",
-                "url": "git@github.com:driftyco/ionicons.git",
+                "url": "https://github.com/ionic-team/ionicons.git",
                 "reference": "ecb4b806831005c25b97ed9089fbb1d7dcc0879c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/driftyco/ionicons/zipball/ecb4b806831005c25b97ed9089fbb1d7dcc0879c",
-                "reference": "ecb4b806831005c25b97ed9089fbb1d7dcc0879c"
+                "url": "https://api.github.com/repos/ionic-team/ionicons/zipball/ecb4b806831005c25b97ed9089fbb1d7dcc0879c",
+                "reference": "ecb4b806831005c25b97ed9089fbb1d7dcc0879c",
+                "shasum": null
             },
             "type": "bower-asset",
             "license": [
@@ -150,7 +154,8 @@
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/DmitryBaranovskiy/raphael/zipball/6f9a07d8fb8f54c891450d3e28120ce57fe8d30b",
-                "reference": "6f9a07d8fb8f54c891450d3e28120ce57fe8d30b"
+                "reference": "6f9a07d8fb8f54c891450d3e28120ce57fe8d30b",
+                "shasum": null
             },
             "require": {
                 "bower-asset/eve-raphael": "0.5.0"
@@ -1634,7 +1639,9 @@
             "version": "5.23.0",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/codemirror/-/codemirror-5.23.0.tgz"
+                "url": "https://registry.npmjs.org/codemirror/-/codemirror-5.23.0.tgz",
+                "reference": null,
+                "shasum": null
             },
             "type": "npm-asset",
             "license": [
@@ -1646,7 +1653,9 @@
             "version": "1.0.3",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/sprintf-js/-/sprintf-js-1.0.3.tgz"
+                "url": "https://registry.npmjs.org/sprintf-js/-/sprintf-js-1.0.3.tgz",
+                "reference": null,
+                "shasum": null
             },
             "type": "npm-asset",
             "license": [
@@ -3661,16 +3670,16 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "3.2.3",
+            "version": "3.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "4842476c434e375f9d3182ff7b89059583aa8b27"
+                "reference": "65b12cdeaaa6cd276d4c3033a95b9b88b12701e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/4842476c434e375f9d3182ff7b89059583aa8b27",
-                "reference": "4842476c434e375f9d3182ff7b89059583aa8b27",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/65b12cdeaaa6cd276d4c3033a95b9b88b12701e7",
+                "reference": "65b12cdeaaa6cd276d4c3033a95b9b88b12701e7",
                 "shasum": ""
             },
             "require": {
@@ -3703,12 +3712,12 @@
                 }
             ],
             "description": "PHP_CodeSniffer tokenizes PHP, JavaScript and CSS files and detects violations of a defined set of coding standards.",
-            "homepage": "http://www.squizlabs.com/php-codesniffer",
+            "homepage": "https://github.com/squizlabs/PHP_CodeSniffer",
             "keywords": [
                 "phpcs",
                 "standards"
             ],
-            "time": "2018-02-20T21:35:23+00:00"
+            "time": "2019-10-28T04:36:32+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
