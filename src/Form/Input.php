@@ -4,6 +4,7 @@ namespace PHPCensor\Form;
 
 use Closure;
 use Exception;
+use PHPCensor\Form\DataTransformer\DataTransformerInterface;
 use PHPCensor\View;
 
 class Input extends Element
@@ -38,6 +39,9 @@ class Input extends Element
      */
     protected $customError = false;
 
+    /** @var DataTransformerInterface */
+    protected $dataTransformator;
+
     /**
      * @param string  $name
      * @param string  $label
@@ -60,6 +64,10 @@ class Input extends Element
      */
     public function getValue()
     {
+        if (!empty($this->getDataTransformator())) {
+            return $this->getDataTransformator()->reverseTransform($this->value);
+        }
+
         return $this->value;
     }
 
@@ -70,7 +78,11 @@ class Input extends Element
      */
     public function setValue($value)
     {
-        $this->value = $value;
+        if (!empty($this->getDataTransformator())) {
+            $this->value = $this->getDataTransformator()->transform($value);
+        } else {
+            $this->value = $value;
+        }
 
         return $this;
     }
@@ -142,12 +154,12 @@ class Input extends Element
      */
     public function validate()
     {
-        if ($this->getRequired() && empty($this->value)) {
+        if ($this->getRequired() && empty($this->getValue())) {
             $this->error = $this->getLabel() . ' is required.';
             return false;
         }
 
-        if ($this->getPattern() && !preg_match('/' . $this->getPattern() . '/', $this->value)) {
+        if ($this->getPattern() && !preg_match('/' . $this->getPattern() . '/', $this->getValue())) {
             $this->error = 'Invalid value entered.';
 
             return false;
@@ -157,7 +169,7 @@ class Input extends Element
 
         if (is_callable($validator)) {
             try {
-                call_user_func_array($validator, [$this->value]);
+                call_user_func_array($validator, [$this->getValue()]);
             } catch (Exception $ex) {
                 $this->error = $ex->getMessage();
 
@@ -194,5 +206,18 @@ class Input extends Element
         $view->error    = $this->error;
         $view->pattern  = $this->pattern;
         $view->required = $this->required;
+    }
+
+    /**
+     * @return DataTransformerInterface
+     */
+    public function getDataTransformator()
+    {
+        return $this->dataTransformator;
+    }
+
+    public function setDataTransformator(DataTransformerInterface $dataTransformator)
+    {
+        $this->dataTransformator = $dataTransformator;
     }
 }
