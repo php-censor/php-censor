@@ -4,7 +4,7 @@ namespace PHPCensor\Form;
 
 use Closure;
 use Exception;
-use PHPCensor\Form\DataTransformator\DataTransformerInterface;
+use PHPCensor\Form\DataTransformer\DataTransformerInterface;
 use PHPCensor\View;
 
 class Input extends Element

@@ -582,14 +582,14 @@ class ProjectController extends WebController
         $field->setClass('form-control')->setContainerClass('form-group');
         $field->setRows(6);
         $field->setValidator(new Form\Validator\Yaml());
-        $field->setDataTransformator(new Form\DataTransformator\Yaml());
+        $field->setDataTransformator(new Form\DataTransformer\Yaml());
         $form->addField($field);
 
         $field = Form\Element\TextArea::create('environments', Lang::get('environments_label'), false);
         $field->setClass('form-control')->setContainerClass('form-group');
         $field->setRows(6);
         $field->setValidator(new Form\Validator\Yaml());
-        $field->setDataTransformator(new Form\DataTransformator\Yaml());
+        $field->setDataTransformator(new Form\DataTransformer\Yaml());
         $form->addField($field);
 
         $field = Form\Element\Select::create('group_id', Lang::get('project_group'), true);

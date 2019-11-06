@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPCensor\Form\DataTransformator;
+namespace PHPCensor\Form\DataTransformer;
 
 interface DataTransformerInterface
 {
