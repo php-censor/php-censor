@@ -216,10 +216,7 @@ class Input extends Element
         return $this->dataTransformator;
     }
 
-    /**
-     * @param DataTransformerInterface $dataTransformator
-     */
-    public function setDataTransformator($dataTransformator)
+    public function setDataTransformator(DataTransformerInterface $dataTransformator)
     {
         $this->dataTransformator = $dataTransformator;
     }
