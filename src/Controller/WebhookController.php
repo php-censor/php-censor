@@ -394,26 +394,28 @@ class WebhookController extends Controller
         $results = [];
         $status  = 'failed';
         foreach ($payload['push']['changes'] as $commit) {
-            try {
-                $email = $commit['new']['target']['author']['raw'];
-                if (strpos($email, '>') !== false) {
-                    // In order not to loose email if it is RAW, w/o "<>" symbols
-                    $email = substr($email, 0, strpos($email, '>'));
-                    $email = substr($email, strpos($email, '<') + 1);
-                }
+            if (!empty($commit['new'])) {
+                try {
+                    $email = $commit['new']['target']['author']['raw'];
+                    if (strpos($email, '>') !== false) {
+                        // In order not to loose email if it is RAW, w/o "<>" symbols
+                        $email = substr($email, 0, strpos($email, '>'));
+                        $email = substr($email, strpos($email, '<') + 1);
+                    }
 
-                $results[$commit['new']['target']['hash']] = $this->createBuild(
-                    Build::SOURCE_WEBHOOK_PUSH,
-                    $project,
-                    $commit['new']['target']['hash'],
-                    $commit['new']['name'],
-                    null,
-                    $email,
-                    $commit['new']['target']['message']
-                );
-                $status = 'ok';
-            } catch (Exception $ex) {
-                $results[$commit['new']['target']['hash']] = ['status' => 'failed', 'error' => $ex->getMessage()];
+                    $results[$commit['new']['target']['hash']] = $this->createBuild(
+                        Build::SOURCE_WEBHOOK_PUSH,
+                        $project,
+                        $commit['new']['target']['hash'],
+                        $commit['new']['name'],
+                        null,
+                        $email,
+                        $commit['new']['target']['message']
+                    );
+                    $status = 'ok';
+                } catch (Exception $ex) {
+                    $results[$commit['new']['target']['hash']] = ['status' => 'failed', 'error' => $ex->getMessage()];
+                }
             }
         }
 
