@@ -18,22 +18,22 @@ Where `VARIABLE` can be one of the following:
 
 * **COMMIT_MESSAGE** - The message written by the committer.
 
-* **COMMIT_LINK** - The URL to the commit.
+* **COMMIT_URI** - The URL to the commit.
 
-* **BRANCH** - The name of the branch.
-
-* **BRANCH_LINK** - The URL to the branch.
-
-* **ENVIRONMENT** - Build environment (See [environments](environments.md)).
-
-* **PROJECT_ID** - The ID of the project.
-
-* **BUILD_ID** - The build number.
+* **PROJECT** - The ID of the project.
 
 * **PROJECT_TITLE** - The name of the project.
 
-* **PROJECT_LINK** - The URL to the project in PHP Censor.
+* **PROJECT_URI** - The URL to the project in PHP Censor.
+
+* **BUILD** - The build number.
 
 * **BUILD_PATH** - The path to the build.
 
-* **BUILD_LINK** - The URL to the build in PHP Censor.
+* **BUILD_URI** - The URL to the build in PHP Censor.
+
+* **BRANCH** - The name of the branch.
+
+* **BRANCH_URI** - The URL to the branch.
+
+* **ENVIRONMENT** - Build environment (See [environments](environments.md)).
