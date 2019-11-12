@@ -5,6 +5,22 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [1.0.13 (Morty Smith)](https://github.com/php-censor/php-censor/tree/1.0.13) (2019-11-12)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/1.0.12...1.0.13)
+
+### Fixed
+
+- PHPCodesniffer for installation on PHP 7.3 (PHPCodesniffer version updated to v3.5 from v3.2). Issue 
+[#334](https://github.com/php-censor/php-censor/issues/334). Pull 
+request [#335](https://github.com/php-censor/php-censor/pull/335). Thanks to [@xl32](https://github.com/xl32).
+- Bitbucket webhook for removing branch event. Issue [#337](https://github.com/php-censor/php-censor/issues/337).
+
+### Changed
+
+- Updated dependencies.
+
+
 ## [1.0.12 (Morty Smith)](https://github.com/php-censor/php-censor/tree/1.0.12) (2019-10-30)
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/1.0.11...1.0.12)
