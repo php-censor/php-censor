@@ -9,8 +9,6 @@ Configuration
 ### Options
 
 * **commands** [array, required] - The shell commands to run.
-* **command** [string, required] - **[DEPRECATED]** Option `command` is deprecated and will be deleted in version 2.0. 
-Use the option `commands` instead.
 * **execute_all** [bool, optional, default: false] - If is true all commands will be execute if one of the commands 
 failed.
 
