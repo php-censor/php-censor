@@ -30,7 +30,7 @@ class Shell extends Plugin
     {
         return 'shell';
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -38,10 +38,23 @@ class Shell extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
+        if (isset($options['commands']) && is_array($options['commands'])) {
+            $this->commands = $options['commands'];
+
+            return;
+        }
+
+        /** @deprecated Option "command" is deprecated and will be deleted in version 2.0. Use the option "commands" instead. */
         if (isset($options['command'])) {
-            // Keeping this for backwards compatibility, new projects should use interpolation vars.
+            $builder->logWarning(
+                '[DEPRECATED] Option "command" is deprecated and will be deleted in version 2.0. Use the option "commands" instead.'
+            );
+
+            /** @deprecated Variable "%buildpath%" is deprecated and will be deleted in version 2.0. Use the interpolation variable "%BUILD_PATH%" instead. */
             $options['command'] = str_replace("%buildpath%", $this->builder->buildPath, $options['command']);
+
             $this->commands = [$options['command']];
+
             return;
         }
 
@@ -52,7 +65,12 @@ class Shell extends Plugin
          *     - "cd /www"
          *     - "rm -f file.txt"
          */
+        /** @deprecated Commands list without option is deprecated and will be deleted in version 2.0. Use the option "commands" instead. */
         if (is_array($options)) {
+            $builder->logWarning(
+                '[DEPRECATED] Commands list without option is deprecated and will be deleted in version 2.0. Use the option "commands" instead.'
+            );
+
             $this->commands = $options;
         }
     }
