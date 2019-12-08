@@ -14,14 +14,11 @@ use PHPCensor\Plugin;
 class Shell extends Plugin
 {
     /**
-     * @var array
-     */
-    protected $args;
-
-    /**
      * @var string[] $commands The commands to be executed
      */
     protected $commands = [];
+
+    protected $executeAll = false;
 
     /**
      * @return string
@@ -37,6 +34,10 @@ class Shell extends Plugin
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
         parent::__construct($builder, $build, $options);
+
+        if (array_key_exists('execute_all', $options) && $options['execute_all']) {
+            $this->executeAll = true;
+        }
 
         if (isset($options['commands']) && is_array($options['commands'])) {
             $this->commands = $options['commands'];
@@ -82,14 +83,19 @@ class Shell extends Plugin
      */
     public function execute()
     {
+        $result = true;
         foreach ($this->commands as $command) {
             $command = $this->builder->interpolate($command);
 
             if (!$this->builder->executeCommand($command)) {
-                return false;
+                $result = false;
+
+                if (!$this->executeAll) {
+                    return $result;
+                }
             }
         }
 
-        return true;
+        return $result;
     }
 }
