@@ -78,16 +78,6 @@
         "jasongrimes/paginator":           "^1.0",
         "voku/anti-xss":                   "^4.1",
 
-        "phpunit/phpunit":                 "^7.5",
-        "phpmd/phpmd":                     "^2.6",
-        "sebastian/phpcpd":                "^4.1",
-        "squizlabs/php_codesniffer":       "^3.4",
-        "phploc/phploc":                   "^4.0",
-        "jakub-onderka/php-parallel-lint": "^1.0",
-        "sensiolabs/security-checker":     "^6.0",
-        "php-censor/phpdoc-checker":       "^2.0",
-        "codeception/codeception":         "^3.0",
-
         "npm-asset/sprintf-js":     "^1.0",
         "npm-asset/codemirror":     "^5.23",
         "bower-asset/admin-lte":    "^2.3",
@@ -95,15 +85,19 @@
         "bower-asset/ionicons":     "^2.0",
         "bower-asset/raphael":      "^2.2",
 
-        "alek13/slack": "^1.7.0",
-        "hipchat/hipchat-php": "^1.4",
-        "php-censor/flowdock-client": "^1.0",
-
         "oomphinc/composer-installers-extender": "^1.1"
     },
     "require-dev": {
-        "symfony/var-dumper":        "^4.2",
-        "friendsofphp/php-cs-fixer": "^2.15"
+        "phpunit/phpunit":                 "^7.5",
+        "squizlabs/php_codesniffer":       "^3.4",
+        "sebastian/phpcpd":                "^4.1",
+        "phploc/phploc":                   "^4.0",
+        "phpmd/phpmd":                     "^2.6",
+        "jakub-onderka/php-parallel-lint": "^1.0",
+        "sensiolabs/security-checker":     "^6.0",
+        "php-censor/phpdoc-checker":       "^2.0",
+        "friendsofphp/php-cs-fixer":       "^2.15",
+        "symfony/var-dumper":              "^4.2"
     },
     "extra": {
         "platform": {
