@@ -8,27 +8,23 @@ Configuration
 
 ### Options
 
-* **command** [string, required] - The shell command to run.
-
-```yaml
-setup:
-    shell:
-        command: "bin/console build"
-```
-
-You should understand, that in old configuration type, you can run only one command!
-
-#### New format of Configuration Options
+* **commands** [array, required] - The shell commands to run.
+* **command** [string, required] - **[DEPRECATED]** Option `command` is deprecated and will be deleted in version 2.0. 
+Use the option `commands` instead.
+* **execute_all** [bool, optional, default: false] - If is true all commands will be execute if one of the commands 
+failed.
 
 ```yaml
 setup:
    shell:
-       - "[ -d /www ]"
-       - "chmod u+x %BUILD_PATH%/bin/console"
-       - "%BUILD_PATH%/bin/console build"
+       execute_all: true
+       commands:
+           - "[ -d /www ]"
+           - "chmod u+x %BUILD_PATH%/bin/console"
+           - "%BUILD_PATH%/bin/console build"
 ```
 
-When a command fails, the remaining ones are not run.
+When a one of commands fails, the remaining ones are not run.
 
 #### Each new command forgets about what was before
 
@@ -37,13 +33,14 @@ So if you want cd to directory and then run script there, combine those two comm
 ```yaml
 setup:
     shell:
-        - "cd %BUILD_PATH% && php artisan migrate" # Laravel Migrations
+        commands:
+            - "cd %BUILD_PATH% && php artisan migrate"
 ```
 
 [See variables which you can use in shell commands](../interpolation.md)
 
 ### Additional Options
 
-The following general options can also be used: 
+The following general options can also be used:
 
 * **allow_failures** [bool, optional] - If true, allow the build to succeed even if this plugin fails.
