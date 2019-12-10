@@ -76,6 +76,7 @@ PHP Censor',
     'never_failed_build' => ' У этого проекта никогда не было проваленных сборок.',
     'view_project' => 'Обзор проекта',
     'projects_with_build_errors' => 'Ошибки сборки',
+    'no_build_errors' => 'Нет ошибок сборки',
 
     // Timeline:
     'latest_builds' => 'Последние сборки',
@@ -343,6 +344,7 @@ PHP Censor',
     'plugin'         => 'Плагин',
     'stage_setup'    => 'Установка',
     'stage_test'     => 'Тестирование',
+    'stage_deploy'   => 'Развертывание',
     'stage_complete' => 'Завершение',
     'stage_success'  => 'Успешное завершение',
     'stage_failure'  => 'Провал',
@@ -369,6 +371,9 @@ PHP Censor',
     'updating_app' => 'Обновление базы данных PHP Censor: ',
     'not_installed' => 'PHP Censor не может быть установлен.',
     'install_instead' => 'Пожалуйста, установите PHP Censor с помощью команды php-censor:install.',
+
+    // Create Build Command
+    'add_to_queue_failed' => 'Сборка успешно создана, но возникла проблема при добавлении сборки в очередь. Обычно такое происходит, когда PHP Censor пытается работать с несуществующим или остановленным сервером очередей Beanstalkd.',
 
     // Build Plugins:
     'passing_build' => 'Успех сборки',
