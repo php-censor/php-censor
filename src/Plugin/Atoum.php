@@ -72,12 +72,12 @@ class Atoum extends Plugin
 
         $output = $this->builder->getLastOutput();
 
-        if (count(preg_grep("/Success \(/", $output)) == 0) {
+        if (false === \strpos($output, "Success (")) {
             $status = false;
             $this->builder->log($output);
         }
 
-        if (count($output) == 0) {
+        if (!$output) {
             $status = false;
             $this->builder->log('No tests have been performed.');
         }
