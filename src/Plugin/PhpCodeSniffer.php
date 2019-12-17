@@ -148,8 +148,7 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
 
         $phpcs = $this->executable;
 
-        if ((!defined('DEBUG_MODE') || !DEBUG_MODE) &&
-            !(bool)$this->build->getExtra('debug')) {
+        if (!$this->build->isDebug()) {
             $this->builder->logExecOutput(false);
         }
 

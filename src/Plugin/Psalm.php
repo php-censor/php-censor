@@ -53,7 +53,7 @@ class Psalm extends Plugin
     {
         $psalm = $this->executable;
 
-        if ((!defined('DEBUG_MODE') || !DEBUG_MODE) && !(bool)$this->build->getExtra('debug')) {
+        if (!$this->build->isDebug()) {
             $this->builder->logExecOutput(false);
         }
 

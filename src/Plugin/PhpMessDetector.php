@@ -191,8 +191,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
             $suffixes = ' --suffixes ' . implode(',', $this->suffixes);
         }
 
-        if ((!defined('DEBUG_MODE') || !DEBUG_MODE) &&
-            !(bool)$this->build->getExtra('debug')) {
+        if (!$this->build->isDebug()) {
             $this->builder->logExecOutput(false);
         }
 

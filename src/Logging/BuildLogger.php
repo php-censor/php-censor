@@ -99,7 +99,7 @@ class BuildLogger implements LoggerAwareInterface
             $context['exception'] = $exception;
             $context['trace']     = $exception->getTrace();
         }
-    
+
         $this->log("\033[0;31m" . $message . "\033[0m", $level, $context);
     }
 
@@ -110,8 +110,7 @@ class BuildLogger implements LoggerAwareInterface
      */
     public function logDebug($message)
     {
-        if ((defined('DEBUG_MODE') && DEBUG_MODE) ||
-            ((bool)$this->build->getExtra('debug'))) {
+        if ($this->build->isDebug()) {
             $this->log("\033[0;36m" . $message . "\033[0m", LogLevel::DEBUG);
         }
     }
