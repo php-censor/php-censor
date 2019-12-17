@@ -767,4 +767,20 @@ class Build extends Model
 
         return $this->setModified('errors_new');
     }
+
+    /**
+     * @return bool
+     */
+    public function isDebug()
+    {
+        if (defined('DEBUG_MODE') && DEBUG_MODE) {
+            return true;
+        }
+
+        if ($this->getExtra('debug')) {
+            return true;
+        }
+
+        return false;
+    }
 }
