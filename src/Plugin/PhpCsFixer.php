@@ -85,7 +85,7 @@ class PhpCsFixer extends Plugin
                 $this->reportErrors = true;
             }
 
-            $this->allowedWarnings = isset($options['allowed_warnings']) ? (int) $options['allowed_warnings'] : 0;
+            $this->allowedWarnings = isset($options['allowed_warnings']) ? (int)$options['allowed_warnings'] : 0;
         }
     }
 

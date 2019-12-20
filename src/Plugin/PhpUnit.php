@@ -147,7 +147,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
      */
     protected function runConfig($directory, $configFile, $logFormat)
     {
-        $allowPublicArtifacts = (bool) Config::getInstance()->get(
+        $allowPublicArtifacts = (bool)Config::getInstance()->get(
             'php-censor.build.allow_public_artifacts',
             false
         );

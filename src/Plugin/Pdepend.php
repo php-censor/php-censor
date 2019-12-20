@@ -86,7 +86,7 @@ class Pdepend extends Plugin
      */
     public function execute()
     {
-        $allowPublicArtifacts = (bool) Config::getInstance()->get(
+        $allowPublicArtifacts = (bool)Config::getInstance()->get(
             'php-censor.build.allow_public_artifacts',
             false
         );

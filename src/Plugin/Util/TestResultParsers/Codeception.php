@@ -75,7 +75,7 @@ class Codeception implements ParserInterface
                 foreach ($testSuite->testcase as $testCase) {
                     $testResult = [
                         'suite'      => (string)$testSuite['name'],
-                        'file'       => str_replace($this->builder->buildPath, '/', (string) $testCase['file']),
+                        'file'       => str_replace($this->builder->buildPath, '/', (string)$testCase['file']),
                         'name'       => (string)$testCase['name'],
                         'feature'    => (string)$testCase['feature'],
                         'assertions' => (int)$testCase['assertions'],
@@ -83,7 +83,7 @@ class Codeception implements ParserInterface
                     ];
 
                     if (isset($testCase['class'])) {
-                        $testResult['class'] = (string) $testCase['class'];
+                        $testResult['class'] = (string)$testCase['class'];
                     }
 
                     // PHPUnit testcases does not have feature field. Use class::method instead
