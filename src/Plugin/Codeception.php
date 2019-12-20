@@ -61,7 +61,7 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
         }
 
         if (isset($options['args'])) {
-            $this->args = (string) $options['args'];
+            $this->args = (string)$options['args'];
         }
 
         /** @deprecated Option "path" is deprecated and will be deleted in version 2.0. Use the option "output_path" instead. */

@@ -49,20 +49,20 @@ class Composer extends Plugin implements ZeroConfigPluginInterface
         }
 
         if (array_key_exists('prefer_dist', $options)) {
-            $this->preferDist = (bool) $options['prefer_dist'];
+            $this->preferDist = (bool)$options['prefer_dist'];
         }
 
         if (array_key_exists('prefer_source', $options)) {
             $this->preferDist   = false;
-            $this->preferSource = (bool) $options['prefer_source'];
+            $this->preferSource = (bool)$options['prefer_source'];
         }
 
         if (array_key_exists('no_dev', $options)) {
-            $this->noDev = (bool) $options['no_dev'];
+            $this->noDev = (bool)$options['no_dev'];
         }
 
         if (array_key_exists('ignore_platform_reqs', $options)) {
-            $this->ignorePlatformReqs = (bool) $options['ignore_platform_reqs'];
+            $this->ignorePlatformReqs = (bool)$options['ignore_platform_reqs'];
         }
     }
 

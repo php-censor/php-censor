@@ -130,7 +130,7 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
         }
 
         if (array_key_exists('allowed_errors', $options) && $options['allowed_errors']) {
-            $this->allowedErrors = (int) $options['allowed_errors'];
+            $this->allowedErrors = (int)$options['allowed_errors'];
         }
     }
 

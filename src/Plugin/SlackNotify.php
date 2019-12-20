@@ -63,7 +63,7 @@ class SlackNotify extends Plugin
             }
 
             if (isset($options['show_status'])) {
-                $this->showStatus = (bool) $options['show_status'];
+                $this->showStatus = (bool)$options['show_status'];
             } else {
                 $this->showStatus = true;
             }

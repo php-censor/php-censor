@@ -106,7 +106,7 @@ class PhpCpd extends Plugin implements ZeroConfigPluginInterface
         $warnings = 0;
         foreach ($xml->duplication as $duplication) {
             foreach ($duplication->file as $file) {
-                $fileName = (string) $file['path'];
+                $fileName = (string)$file['path'];
                 $fileName = str_replace($this->builder->buildPath, '', $fileName);
 
                 $message = <<<CPD
@@ -123,8 +123,8 @@ CPD;
                     $message,
                     BuildError::SEVERITY_NORMAL,
                     $fileName,
-                    (int) $file['line'],
-                    (int) $file['line'] + (int) $duplication['lines']
+                    (int)$file['line'],
+                    (int)$file['line'] + (int)$duplication['lines']
                 );
             }
 

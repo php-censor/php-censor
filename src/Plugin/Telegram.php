@@ -66,7 +66,7 @@ class Telegram extends Plugin
             $this->recipients = $options['recipients'];
         }
 
-        $this->sendLog = isset($options['send_log']) && ((bool) $options['send_log'] !== false);
+        $this->sendLog = isset($options['send_log']) && ((bool)$options['send_log'] !== false);
     }
 
     /**

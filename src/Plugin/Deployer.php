@@ -25,7 +25,7 @@ class Deployer extends Plugin
     {
         return 'deployer';
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -42,7 +42,7 @@ class Deployer extends Plugin
             $this->reason = $options['reason'];
         }
 
-        $this->updateOnly = isset($options['update_only']) ? (bool) $options['update_only'] : true;
+        $this->updateOnly = isset($options['update_only']) ? (bool)$options['update_only'] : true;
     }
 
     /**
@@ -69,9 +69,9 @@ class Deployer extends Plugin
                 ]
             ]
         );
-        
+
         $status = (int)$response->getStatusCode();
-        
+
         return (
             ($status >= 200 && $status < 300)
                 ? true

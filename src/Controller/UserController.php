@@ -250,7 +250,7 @@ class UserController extends WebController
         // Only admins can promote/demote users.
         $isAdmin = $user->getIsAdmin();
         if ($currentUser->getIsAdmin()) {
-            $isAdmin = (bool) $this->getParam('is_admin', 0);
+            $isAdmin = (bool)$this->getParam('is_admin', 0);
         }
 
         $this->userService->updateUser($user, $name, $email, $password, $isAdmin);

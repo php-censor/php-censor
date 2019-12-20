@@ -68,7 +68,7 @@ class PhpLoc extends Plugin implements ZeroConfigPluginInterface
         if (preg_match_all('/\((LOC|CLOC|NCLOC|LLOC)\)\s+([0-9]+)/', $output, $matches)) {
             $data = [];
             foreach ($matches[1] as $k => $v) {
-                $data[$v] = (int) $matches[2][$k];
+                $data[$v] = (int)$matches[2][$k];
             }
 
             $this->build->storeMeta((self::pluginName() . '-data'), $data);
