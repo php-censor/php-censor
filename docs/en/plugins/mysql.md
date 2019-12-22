@@ -22,8 +22,6 @@ Configuration
 
 #### Plugin options
 
-
-
 ### Examples
 
 ```yaml
