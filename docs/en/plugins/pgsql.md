@@ -21,6 +21,8 @@ Configuration
 
 #### Plugin options
 
+* **queries** [array, optional, default: empty array] - Array of queries.
+
 ### Examples
 
 ```yaml
@@ -32,9 +34,11 @@ build_settings:
 
 setup:
     pgsql:
-        - "CREATE DATABASE my_app_test;"
+        queries:
+            - "CREATE DATABASE my_app_test;"
 
 complete:
     pgsql:
-        - "DROP DATABASE my_app_test;"
+        queries:
+            - "DROP DATABASE my_app_test;"
 ```
