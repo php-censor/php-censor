@@ -31,7 +31,7 @@ class Sqlite extends Plugin
     {
         return 'sqlite';
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -45,6 +45,8 @@ class Sqlite extends Plugin
             $sql        = $buildSettings['sqlite'];
             $this->path = $sql['path'];
         }
+
+        $this->queries = $options;
     }
 
     /**
