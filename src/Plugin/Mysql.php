@@ -108,6 +108,10 @@ class Mysql extends Plugin
 
         /** @deprecated Option "pass" is deprecated and will be deleted in version 2.0. Use the option "password" instead. */
         if (array_key_exists('pass', $buildSettings['mysql'])) {
+            $builder->logWarning(
+                '[DEPRECATED] Option "pass" is deprecated and will be deleted in version 2.0. Use the option "password" instead.'
+            );
+
             $this->password = $this->builder->interpolate($buildSettings['mysql']['pass']);
         }
     }
