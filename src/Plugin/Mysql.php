@@ -20,17 +20,37 @@ class Mysql extends Plugin
     /**
      * @var string
      */
-    protected $host;
+    protected $host = '127.0.0.1';
+
+    /**
+     * @var int
+     */
+    protected $port = 3306;
+
+    /**
+     * @var string|null
+     */
+    protected $dbName = null;
+
+    /**
+     * @var string|null
+     */
+    protected $charset = null;
+
+    /**
+     * @var array
+     */
+    protected $pdoOptions = [];
 
     /**
      * @var string
      */
-    protected $user;
+    protected $user = '';
 
     /**
      * @var string
      */
-    protected $pass;
+    protected $password = '';
 
     /**
      * @return string
@@ -47,11 +67,11 @@ class Mysql extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        $config = Database::getConnection('write')->getDetails();
-
-        $this->host =(defined('DB_HOST')) ? DB_HOST : null;
-        $this->user = $config['user'];
-        $this->pass = $config['pass'];
+        /** @deprecated Global database config usage is deprecated and will be deleted in version 2.0. Use the `build_settings.mysql` section of build config instead. */
+        $config         = Database::getConnection('write')->getDetails();
+        $this->host     = defined('DB_HOST') ? DB_HOST : $this->host;
+        $this->user     = $config['user'];
+        $this->password = $config['pass'];
 
         $buildSettings = $this->builder->getConfig('build_settings');
         if (!isset($buildSettings['mysql'])) {
@@ -62,12 +82,33 @@ class Mysql extends Plugin
             $this->host = $this->builder->interpolate($buildSettings['mysql']['host']);
         }
 
+        if (!empty($buildSettings['mysql']['port'])) {
+            $this->port = (int)$this->builder->interpolate($buildSettings['mysql']['port']);
+        }
+
+        if (!empty($buildSettings['mysql']['dbname'])) {
+            $this->dbName = $this->builder->interpolate($buildSettings['mysql']['dbname']);
+        }
+
+        if (!empty($buildSettings['mysql']['charset'])) {
+            $this->charset = $this->builder->interpolate($buildSettings['mysql']['charset']);
+        }
+
+        if (!empty($buildSettings['mysql']['options']) && \is_array($buildSettings['mysql']['options'])) {
+            $this->pdoOptions = $buildSettings['mysql']['options'];
+        }
+
         if (!empty($buildSettings['mysql']['user'])) {
             $this->user = $this->builder->interpolate($buildSettings['mysql']['user']);
         }
 
+        if (array_key_exists('password', $buildSettings['mysql'])) {
+            $this->password = $this->builder->interpolate($buildSettings['mysql']['password']);
+        }
+
+        /** @deprecated Option "pass" is deprecated and will be deleted in version 2.0. Use the option "password" instead. */
         if (array_key_exists('pass', $buildSettings['mysql'])) {
-            $this->pass = $buildSettings['mysql']['pass'];
+            $this->password = $this->builder->interpolate($buildSettings['mysql']['pass']);
         }
     }
 
@@ -78,8 +119,20 @@ class Mysql extends Plugin
     public function execute()
     {
         try {
-            $opts = [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION];
-            $pdo  = new PDO('mysql:host=' . $this->host, $this->user, $this->pass, $opts);
+            $pdoOptions = array_merge([
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+            ], $this->pdoOptions);
+            $dsn     = sprintf('mysql:host=%s;port=%s', $this->host, $this->port);
+
+            if (null !== $this->dbName) {
+                $dsn .= ';dbname=' . $this->dbName;
+            }
+
+            if (null !== $this->charset) {
+                $dsn .= ';charset=' . $this->charset;
+            }
+
+            $pdo = new PDO($dsn, $this->user, $this->password, $pdoOptions);
 
             foreach ($this->options as $query) {
                 if (!is_array($query)) {
@@ -153,7 +206,7 @@ class Mysql extends Plugin
             ':decomp_cmd'  => $decompressionCmd,
             ':host'        => escapeshellarg($this->host),
             ':user'        => escapeshellarg($this->user),
-            ':pass'        => (!$this->pass) ? '' : '-p' . escapeshellarg($this->pass),
+            ':pass'        => (!$this->password) ? '' : '-p' . escapeshellarg($this->password),
             ':database'    => ($database === null)? '': escapeshellarg($database),
         ];
 
