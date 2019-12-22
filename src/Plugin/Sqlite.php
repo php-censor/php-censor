@@ -23,7 +23,7 @@ class Sqlite extends Plugin
     /**
      * @var string
      */
-    protected $path;
+    protected $path = '';
 
     /**
      * @return string
@@ -32,7 +32,7 @@ class Sqlite extends Plugin
     {
         return 'sqlite';
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -45,6 +45,23 @@ class Sqlite extends Plugin
         if (isset($buildSettings['sqlite'])) {
             $sql        = $buildSettings['sqlite'];
             $this->path = $sql['path'];
+        }
+
+        if (!empty($this->options['queries']) && \is_array($this->options['queries'])) {
+            $this->queries = $this->options['queries'];
+        }
+
+        /** @deprecated Queries list without option is deprecated and will be deleted in version 2.0. Use the option "queries" instead. */
+        if (!$this->queries) {
+            $builder->logWarning(
+                '[DEPRECATED] Queries list without option is deprecated and will be deleted in version 2.0. Use the options "queries" instead.'
+            );
+
+            foreach ($this->options as $option) {
+                if (!\is_array($option)) {
+                    $this->queries[] = $this->builder->interpolate($option);
+                }
+            }
         }
     }
 
@@ -59,7 +76,7 @@ class Sqlite extends Plugin
             $pdo  = new PDO('sqlite:' . $this->path, $opts);
 
             foreach ($this->queries as $query) {
-                $pdo->query($this->builder->interpolate($query));
+                $pdo->query($query);
             }
         } catch (Exception $ex) {
             $this->builder->logFailure($ex->getMessage());
