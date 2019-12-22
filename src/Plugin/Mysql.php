@@ -53,6 +53,16 @@ class Mysql extends Plugin
     protected $password = '';
 
     /**
+     * @var array
+     */
+    protected $queries = [];
+
+    /**
+     * @var array
+     */
+    protected $imports = [];
+
+    /**
      * @return string
      */
     public static function pluginName()
@@ -69,7 +79,7 @@ class Mysql extends Plugin
 
         /** @deprecated Global database config usage is deprecated and will be deleted in version 2.0. Use the `build_settings.mysql` section of build config instead. */
         $config         = Database::getConnection('write')->getDetails();
-        $this->host     = defined('DB_HOST') ? DB_HOST : $this->host;
+        $this->host     = \defined('DB_HOST') ? DB_HOST : $this->host;
         $this->user     = $config['user'];
         $this->password = $config['pass'];
 
@@ -102,17 +112,38 @@ class Mysql extends Plugin
             $this->user = $this->builder->interpolate($buildSettings['mysql']['user']);
         }
 
-        if (array_key_exists('password', $buildSettings['mysql'])) {
+        if (\array_key_exists('password', $buildSettings['mysql'])) {
             $this->password = $this->builder->interpolate($buildSettings['mysql']['password']);
-        }
-
         /** @deprecated Option "pass" is deprecated and will be deleted in version 2.0. Use the option "password" instead. */
-        if (array_key_exists('pass', $buildSettings['mysql'])) {
+        } elseif (\array_key_exists('pass', $buildSettings['mysql'])) {
             $builder->logWarning(
                 '[DEPRECATED] Option "pass" is deprecated and will be deleted in version 2.0. Use the option "password" instead.'
             );
 
             $this->password = $this->builder->interpolate($buildSettings['mysql']['pass']);
+        }
+
+        if (!empty($this->options['queries']) && \is_array($this->options['queries'])) {
+            $this->queries = $this->options['queries'];
+        }
+
+        if (!empty($this->options['imports']) && \is_array($this->options['imports'])) {
+            $this->imports = $this->options['imports'];
+        }
+
+        /** @deprecated Queries/Imports list without option is deprecated and will be deleted in version 2.0. Use the options "queries" and "imports" instead. */
+        if (!$this->queries && !$this->imports) {
+            $builder->logWarning(
+                '[DEPRECATED] Queries/Imports list without option is deprecated and will be deleted in version 2.0. Use the options "queries" and "imports" instead.'
+            );
+
+            foreach ($this->options as $option) {
+                if (!\is_array($option)) {
+                    $this->queries[] = $this->builder->interpolate($option);
+                } elseif (isset($option['import'])) {
+                    $this->imports[] = $option['import'];
+                }
+            }
         }
     }
 
@@ -123,10 +154,10 @@ class Mysql extends Plugin
     public function execute()
     {
         try {
-            $pdoOptions = array_merge([
+            $pdoOptions = \array_merge([
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
             ], $this->pdoOptions);
-            $dsn     = sprintf('mysql:host=%s;port=%s', $this->host, $this->port);
+            $dsn     = \sprintf('mysql:host=%s;port=%s', $this->host, $this->port);
 
             if (null !== $this->dbName) {
                 $dsn .= ';dbname=' . $this->dbName;
@@ -138,16 +169,12 @@ class Mysql extends Plugin
 
             $pdo = new PDO($dsn, $this->user, $this->password, $pdoOptions);
 
-            foreach ($this->options as $query) {
-                if (!is_array($query)) {
-                    // Simple query
-                    $pdo->query($this->builder->interpolate($query));
-                } elseif (isset($query['import'])) {
-                    // SQL file execution
-                    $this->executeFile($query['import']);
-                } else {
-                    throw new Exception('Invalid command.');
-                }
+            foreach ($this->queries as $query) {
+                $pdo->query($query);
+            }
+
+            foreach ($this->imports as $import) {
+                $this->executeFile($import);
             }
         } catch (Exception $ex) {
             $this->builder->logFailure($ex->getMessage());

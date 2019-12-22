@@ -22,6 +22,9 @@ Configuration
 
 #### Plugin options
 
+* **queries** [array, optional, default: empty array] - Array of queries.
+* **imports** [array, optional, default: empty array] - Array of imports.
+
 ### Examples
 
 ```yaml
@@ -33,19 +36,20 @@ build_settings:
 
 setup:
     mysql:
-        - "CREATE DATABASE my_app_test;"
+        queries:
+            - "CREATE DATABASE my_app_test;"
 
 complete:
     mysql:
-        - "DROP DATABASE my_app_test;"
+        queries:
+            - "DROP DATABASE my_app_test;"
 ```
 
 Import SQL from file:
 ```yaml
 setup:
     mysql:
-        import-from-file:                   # This key name doesn't matter
-            import:
-                database: "foo"             # Database name
-                file:     "/path/dump.sql"  # Relative path in build folder
+        imports:
+            - database: "foo"             # Database name
+              file:     "path/dump.sql"  # Relative path in build folder
 ```
