@@ -5,6 +5,25 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [1.0.14 (Morty Smith)](https://github.com/php-censor/php-censor/tree/1.0.14) (2019-12-25)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/1.0.13...1.0.14)
+
+# Added
+
+- TravisCI configuration for `PHP 7.4`.
+
+### Fixed
+
+- Atoum plugin output.
+- Sqlite plugin queries option.
+
+### Changed
+
+- Updated dependencies (Fixed [CVE-2019-18889]( https://symfony.com/cve-2019-18889): Forbid 
+serializing AbstractAdapter and TagAwareAdapter instances in `symfony/cache:v3.4.34`).
+
+
 ## [1.0.13 (Morty Smith)](https://github.com/php-censor/php-censor/tree/1.0.13) (2019-11-12)
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/1.0.12...1.0.13)
