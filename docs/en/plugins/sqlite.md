@@ -11,6 +11,7 @@ Configuration
 #### Build Settings options
 
 * **path** [string] - SQLite database path.
+* **options** [array, optional] - Additional PDO connection options ('PDO::ATTR_*').
 
 #### Plugin options
 
