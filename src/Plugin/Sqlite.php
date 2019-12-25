@@ -26,6 +26,11 @@ class Sqlite extends Plugin
     protected $path = '';
 
     /**
+     * @var array
+     */
+    protected $pdoOptions = [];
+
+    /**
      * @return string
      */
     public static function pluginName()
@@ -45,6 +50,14 @@ class Sqlite extends Plugin
         if (isset($buildSettings['sqlite'])) {
             $sql        = $buildSettings['sqlite'];
             $this->path = $sql['path'];
+        }
+
+        if (!empty($buildSettings['sqlite']['path'])) {
+            $this->path = $buildSettings['sqlite']['path'];
+        }
+
+        if (!empty($buildSettings['sqlite']['options']) && \is_array($buildSettings['sqlite']['options'])) {
+            $this->pdoOptions = $buildSettings['sqlite']['options'];
         }
 
         if (!empty($this->options['queries']) && \is_array($this->options['queries'])) {
@@ -72,8 +85,11 @@ class Sqlite extends Plugin
     public function execute()
     {
         try {
-            $opts = [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION];
-            $pdo  = new PDO('sqlite:' . $this->path, $opts);
+            $pdoOptions = array_merge([
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+            ], $this->pdoOptions);
+
+            $pdo  = new PDO('sqlite:' . $this->path, $pdoOptions);
 
             foreach ($this->queries as $query) {
                 $pdo->query($query);
