@@ -191,7 +191,7 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
             foreach ($this->ignore as $ignore) {
                 $ignoreAbsolute = $this->builder->buildPath . $ignore;
 
-                if ('/' === $ignoreAbsolute{0}) {
+                if ('/' === $ignoreAbsolute[0]) {
                     if (0 === strpos($filePath, $ignoreAbsolute)) {
                         $ignored = true;
                         break;
