@@ -7,6 +7,7 @@ use PHPCensor\Builder;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
 use PHPCensor\Plugin;
+use PHPCensor\Plugin\Util\SymfonySecurityChecker;
 use PHPCensor\ZeroConfigPluginInterface;
 use SensioLabs\Security\SecurityChecker as BaseSecurityChecker;
 
@@ -64,8 +65,12 @@ class SecurityChecker extends Plugin implements ZeroConfigPluginInterface
 
     public function execute()
     {
+        if (!$this->binaryName) {
+            $checker = new BaseSecurityChecker();
+        } else {
+            $checker = new SymfonySecurityChecker($this);
+        }
         $success  = true;
-        $checker  = new BaseSecurityChecker();
         $result   = $checker->check($this->builder->buildPath . 'composer.lock');
         $warnings = json_decode((string)$result, true);
 
