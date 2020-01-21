@@ -343,16 +343,21 @@ class BuildService
             return;
         }
 
+        $jobData = [
+            'build_id' => $buildId,
+        ];
+
+        $this->addJobToQueue('php-censor.build', $jobData);
+    }
+
+    public function addJobToQueue($jobType, array $jobData, $priority = PheanstalkInterface::DEFAULT_PRIORITY)
+    {
         $config   = Config::getInstance();
         $settings = $config->get('php-censor.queue', []);
 
         if (!empty($settings['host']) && !empty($settings['name'])) {
+            $jobData['type'] = $jobType;
             try {
-                $jobData = [
-                    'type'     => 'php-censor.build',
-                    'build_id' => $build->getId(),
-                ];
-
                 $pheanstalk = new Pheanstalk(
                     $settings['host'],
                     $config->get('php-censor.queue.port', Pheanstalk::DEFAULT_PORT)
@@ -361,7 +366,7 @@ class BuildService
                 $pheanstalk->useTube($settings['name']);
                 $pheanstalk->put(
                     json_encode($jobData),
-                    PheanstalkInterface::DEFAULT_PRIORITY,
+                    $priority,
                     PheanstalkInterface::DEFAULT_DELAY,
                     $config->get('php-censor.queue.lifetime', 600)
                 );
