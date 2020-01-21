@@ -50,6 +50,12 @@ class WorkerCommand extends LoggingCommand
                 InputOption::VALUE_NONE,
                 'Allow worker run periodical work'
             )
+            ->addOption(
+                'stop-worker',
+                '',
+                InputOption::VALUE_NONE,
+                'Gracefully stop one worker'
+            )
             ->setDescription('Runs the PHP Censor build worker.');
     }
 
@@ -68,6 +74,12 @@ class WorkerCommand extends LoggingCommand
             throw new RuntimeException(
                 'The worker is not configured. You must set a host and queue in your config.yml file.'
             );
+        }
+        if ($input->getOption('stop-worker')) {
+            $jobData = ['build_id' => BuildWorker::JOB_ID_STOP];
+            $this->buildService->addJobToQueue(BuildWorker::JOB_TYPE, $jobData, 0 /* priority high */);
+
+            return;
         }
 
         (new BuildWorker(
