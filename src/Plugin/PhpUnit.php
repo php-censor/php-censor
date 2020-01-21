@@ -185,10 +185,12 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
         $cmd       = $this->executable . ' %s %s';
         $success   = $this->builder->executeCommand($cmd, $arguments, $directory);
         $output    = $this->builder->getLastOutput();
+        $covHtmlOk = false;
 
-        if ($fileSystem->exists($this->buildLocation) &&
+        if ($fileSystem->exists($this->buildLocation.'.index.html') &&
             $options->getOption('coverage') &&
             $allowPublicArtifacts) {
+            $covHtmlOk = true;
             $fileSystem->remove($this->buildBranchLocation);
             $fileSystem->mirror($this->buildLocation, $this->buildBranchLocation);
         }
@@ -210,10 +212,18 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
                 'lines'   => !empty($matches[3]) ? $matches[3] : '0.00',
             ]);
 
-            if ($allowPublicArtifacts) {
+            if ($covHtmlOk) {
                 $this->builder->logSuccess(
                     sprintf(
                         "\nPHPUnit successful build coverage report.\nYou can use coverage report for this build: %s\nOr coverage report for last build in the branch: %s",
+                        $config['url'] . '/artifacts/phpunit/' . $this->buildDirectory . '/index.html',
+                        $config['url'] . '/artifacts/phpunit/' . $this->buildBranchDirectory . '/index.html'
+                    )
+                );
+            } elseif ($allowPublicArtifacts) {
+                $this->builder->logFailure(
+                    sprintf(
+                        "\nPHPUnit could not build coverage report.\nmissing: %s\nlast of this branch: %s",
                         $config['url'] . '/artifacts/phpunit/' . $this->buildDirectory . '/index.html',
                         $config['url'] . '/artifacts/phpunit/' . $this->buildBranchDirectory . '/index.html'
                     )
