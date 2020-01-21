@@ -18,6 +18,7 @@ use PHPCensor\Store\Factory;
 class BuildWorker
 {
     const JOB_TYPE = 'php-censor.build';
+    const JOB_ID_STOP = '.php-censor.worker.stop';
 
     /**
      * If this variable changes to false, the worker will stop after the current build.
@@ -273,6 +274,11 @@ class BuildWorker
                     $this->queueTube
                 )
             );
+
+            return false;
+        }
+        if (self::JOB_ID_STOP === $jobData['build_id']) {
+            $this->stopWorker();
 
             return false;
         }
