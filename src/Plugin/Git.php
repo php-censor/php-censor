@@ -2,6 +2,8 @@
 
 namespace PHPCensor\Plugin;
 
+use PHPCensor\Builder;
+use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 
 /**
@@ -20,7 +22,17 @@ class Git extends Plugin
     {
         return 'git';
     }
-    
+
+    /**
+     * {@inheritdoc}
+     */
+    public function __construct(Builder $builder, Build $build, array $options = [])
+    {
+        parent::__construct($builder, $build, $options);
+
+        $this->actions = $options;
+    }
+
     /**
      * Run the Git plugin.
      * @return bool
