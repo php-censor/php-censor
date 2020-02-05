@@ -14,8 +14,6 @@ use PHPCensor\Plugin;
 class Grunt extends Plugin
 {
     protected $task;
-    protected $preferDist;
-
     protected $gruntfile;
 
     /**

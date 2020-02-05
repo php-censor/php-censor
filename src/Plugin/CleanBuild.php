@@ -14,7 +14,7 @@ use PHPCensor\Plugin;
  */
 class CleanBuild extends Plugin
 {
-    protected $remove;
+    protected $removeFiles;
 
     /**
      * @return string
@@ -31,7 +31,7 @@ class CleanBuild extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        $this->remove = isset($options['remove']) && is_array($options['remove']) ? $options['remove'] : [];
+        $this->removeFiles = isset($options['remove']) && is_array($options['remove']) ? $options['remove'] : [];
     }
 
     /**
@@ -41,12 +41,9 @@ class CleanBuild extends Plugin
     {
         $cmd = 'rm -Rf "%s"';
 
-        $this->builder->executeCommand($cmd, $this->builder->buildPath . 'composer.phar');
-        $this->builder->executeCommand($cmd, $this->builder->buildPath . 'composer.lock');
-
         $success = true;
 
-        foreach ($this->remove as $file) {
+        foreach ($this->removeFiles as $file) {
             $ok = $this->builder->executeCommand($cmd, $this->builder->buildPath . $file);
 
             if (!$ok) {

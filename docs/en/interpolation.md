@@ -37,3 +37,9 @@ Where `VARIABLE` can be one of the following:
 * **BUILD_PATH** - The path to the build.
 
 * **BUILD_LINK** - The URL to the build in PHP Censor.
+
+* **CURRENT_DATE** - Current date in format "Y-m-d".
+
+* **CURRENT_TIME** - Current time in format "H-i-s".
+
+* **CURRENT_DATETIME** - Current date and time in format "Y-m-d_H-i-s".
