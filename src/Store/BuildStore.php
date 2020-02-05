@@ -523,7 +523,7 @@ class BuildStore extends Store
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
-        $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{project_id}} = :project_id ORDER BY {{create_date}} DESC OFFSET :keep';
+        $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{project_id}} = :project_id ORDER BY {{create_date}} DESC LIMIT 1000000 OFFSET :keep';
         $stmt = Database::getConnection('read')->prepareCommon($query);
         $stmt->bindValue(':project_id', $projectId);
         $stmt->bindValue(':keep', (int)$keep, \PDO::PARAM_INT);
