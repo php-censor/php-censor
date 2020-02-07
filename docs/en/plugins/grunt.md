@@ -17,7 +17,6 @@ Configuration
 test:
     grunt:
         directory: "path to run grunt in"
-        grunt: "path to grunt executable"
         gruntfile: "gruntfile.js"
         task: "css"
 ```

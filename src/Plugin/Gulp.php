@@ -33,11 +33,6 @@ class Gulp extends Plugin
 
         $this->task = null;
 
-        // deprecated compatibility option
-        if (isset($options['gulp']) && !isset($options['executable'])) {
-            $options['executable'] = $options['gulp'];
-        }
-
         $this->executable = $this->findBinary('gulp');
 
         $this->gulpfile = 'gulpfile.js';

@@ -38,10 +38,6 @@ class Grunt extends Plugin
         if (isset($options['task'])) {
             $this->task = $options['task'];
         }
-        // deprecated compatibility option
-        if (isset($options['grunt']) && !isset($options['executable'])) {
-            $options['executable'] = $options['grunt'];
-        }
 
         $this->executable = $this->findBinary('grunt');
 
