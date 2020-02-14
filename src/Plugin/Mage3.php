@@ -18,7 +18,6 @@ use PHPCensor\Plugin;
  */
 class Mage3 extends Plugin
 {
-    protected $mageBin = 'mage';
     protected $mageEnv;
     protected $mageLogDir;
 
@@ -38,8 +37,22 @@ class Mage3 extends Plugin
         parent::__construct($builder, $build, $options);
 
         $config = $builder->getSystemConfig('mage3');
+        /** @deprecated Section "mage3" in the global application config is deprecated and will be deleted in version 2.0. Use the plugin option "binary_path" and "binary_name" instead. */
         if (!empty($config['bin'])) {
-            $this->mageBin = $config['bin'];
+            $this->builder->logWarning(
+                '[DEPRECATED] Section "mage3" in the global application config is deprecated and will be deleted in version 2.0. Use the plugin option "binary_path" and "binary_name" instead.'
+            );
+
+            $this->executable = $config['bin'];
+        /** @deprecated Option "bin" is deprecated and will be deleted in version 2.0. Use the option "binary_path" and "binary_name" instead. */
+        } elseif (isset($options['bin'])) {
+            $this->builder->logWarning(
+                '[DEPRECATED] Option "bin" is deprecated and will be deleted in version 2.0. Use the option "binary_path" and "binary_name" instead.'
+            );
+
+            $this->executable = $builder->interpolate($options['bin']);
+        } else {
+            $this->executable = $this->builder->findBinary(['mage', 'mage.phar']);
         }
 
         if (isset($options['env'])) {
@@ -61,7 +74,7 @@ class Mage3 extends Plugin
             return false;
         }
 
-        $result = $this->builder->executeCommand($this->mageBin . ' -n deploy ' . $this->mageEnv);
+        $result = $this->builder->executeCommand($this->executable . ' -n deploy ' . $this->mageEnv);
 
         try {
             $this->builder->log('########## MAGE LOG BEGIN ##########');
