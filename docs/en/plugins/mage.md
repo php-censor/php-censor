@@ -11,7 +11,6 @@ Mage must be installed locally in your project as it is not provided by PHP Cens
 ### Options
 
 * **env** [string, required] - The environment name.
-* **bin** [string, required] - The mage executable path
 
 ### Examples
 
@@ -19,5 +18,4 @@ Mage must be installed locally in your project as it is not provided by PHP Cens
 success:
     mage:
         env: production
-        bin: bin/mage
 ```
