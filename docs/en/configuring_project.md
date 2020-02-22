@@ -69,7 +69,7 @@ Config example:
 
 ```yml
 build_settings:
-  clone_depth: 1
+  clone_depth: 1 # only in web-interface
   priority_path: binary_path
   binary_path:   /home/user/bin/
   directory:     /home/project
