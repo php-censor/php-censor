@@ -9,7 +9,8 @@ Configuration
 
 ### Options
 
-* **action** [optional, string, update|install] - Action you wish Composer to run (default: 'install').
+* **action** [optional, string, update|install|...] - Action you wish Composer to run (default: 'install').
+Any composer command optionally with arguments is a valid action, like 'outdated --ansi'.
 * **prefer_dist** [optional, bool, true|false] - whether Composer should run with the `--prefer-dist` flag 
 (default: false).
 * **prefer_source** [optional, bool, true|false] - whether Composer should run with the `--prefer-source` flag 
