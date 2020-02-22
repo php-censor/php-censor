@@ -134,10 +134,14 @@ class PhpCsFixer extends Plugin
             if ($this->supportsUdiff) {
                 $this->args .= ' --diff-format udiff';
             }
+            if (!$this->build->isDebug()) {
+                $this->builder->logExecOutput(false); // do not show json output
+            }
         }
 
         $cmd     = $phpCsFixer . ' fix ' . $directory . ' %s';
         $success = $this->builder->executeCommand($cmd, $this->args);
+        $this->builder->logExecOutput(true);
         $output  = $this->builder->getLastOutput();
 
         if ($this->errors) {
