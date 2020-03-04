@@ -120,12 +120,12 @@ class PhpUnitTest extends TestCase
         $mockPlugin->execute();
     }
 
-    public function testAllowedCoverageWithPassingPercentage()
+    public function testRequiredCoverageWithPassingPercentage()
     {
         $options = [
             'config' => ROOT_DIR . 'phpunit.xml.dist',
             'coverage' => true,
-            'allowed_lines_coverage' => 60,
+            'required_lines_coverage' => 60,
         ];
 
         $mockPlugin = $this->getPluginBuilder($options)->setMethods(['extractCoverage'])->getMock();
@@ -137,12 +137,12 @@ class PhpUnitTest extends TestCase
         $this->assertTrue($mockPlugin->execute());
     }
 
-    public function testAllowedCoverageWithFailingPercentage()
+    public function testRequiredCoverageWithFailingPercentage()
     {
         $options = [
             'config' => ROOT_DIR . 'phpunit.xml.dist',
             'coverage' => true,
-            'allowed_lines_coverage' => 60,
+            'required_lines_coverage' => 60,
         ];
 
         $mockPlugin = $this->getPluginBuilder($options)->setMethods(['extractCoverage'])->getMock();

@@ -58,14 +58,14 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
 
     /**
      * Standard Constructor
-     * $options['config']                   Path to a PHPUnit XML configuration file.
-     * $options['run_from']                 The directory where the phpunit command will run from when using 'config'.
-     * $options['coverage']                 Value for the --coverage-html command line flag.
-     * $options['allowed_classes_coverage'] Optional allowed classes coverage percentage
-     * $options['allowed_methods_coverage'] Optional allowed methods coverage percentage
-     * $options['allowed_lines_coverage']   Optional allowed lines coverage percentage
-     * $options['directory']                Optional directory or list of directories to run PHPUnit on.
-     * $options['args']                     Command line args (in string format) to pass to PHP Unit
+     * $options['config']                       Path to a PHPUnit XML configuration file.
+     * $options['run_from']                     The directory where the phpunit command will run from when using 'config'.
+     * $options['coverage']                     Value for the --coverage-html command line flag.
+     * $options['required_classes_coverage']    Optional required classes coverage percentage
+     * $options['required_methods_coverage']    Optional required methods coverage percentage
+     * $options['required_lines_coverage']      Optional required lines coverage percentage
+     * $options['directory']                    Optional directory or list of directories to run PHPUnit on.
+     * $options['args']                         Command line args (in string format) to pass to PHP Unit
      *
      * @param Builder  $builder
      * @param Build    $build
@@ -216,7 +216,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
                 );
             }
 
-            return $this->checkAllowedCoverage($currentCoverage);
+            return $this->checkRequiredCoverage($currentCoverage);
         }
 
         return $success;
@@ -245,16 +245,16 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
     }
 
     /**
-     * Checks allowed test coverage
+     * Checks required test coverage
      *
      * @param array $coverage
      *
      * @return bool
      */
-    protected function checkAllowedCoverage($coverage)
+    protected function checkRequiredCoverage($coverage)
     {
         foreach ($coverage as $key => $currentValue) {
-            if ($allowedValue = $this->options->getOption(implode('_', ['allowed', $key, 'coverage']))) {
+            if ($allowedValue = $this->options->getOption(implode('_', ['required', $key, 'coverage']))) {
                 if (floatval($currentValue) < floatval($allowedValue)) {
                     return false;
                 }
