@@ -254,8 +254,8 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
     protected function checkRequiredCoverage($coverage)
     {
         foreach ($coverage as $key => $currentValue) {
-            if ($allowedValue = $this->options->getOption(implode('_', ['required', $key, 'coverage']))) {
-                if (floatval($currentValue) < floatval($allowedValue)) {
+            if ($requiredValue = $this->options->getOption(implode('_', ['required', $key, 'coverage']))) {
+                if (bccomp($requiredValue, $currentValue) === 1) {
                     return false;
                 }
             }

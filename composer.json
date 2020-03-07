@@ -53,6 +53,7 @@
         "ext-libxml":    "*",
         "ext-SimpleXML": "*",
         "ext-curl":      "*",
+        "ext-bcmath":    "*",
 
         "swiftmailer/swiftmailer":         "~5.4.0",
         "symfony/yaml":                    "~3.4.0",
