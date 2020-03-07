@@ -17,6 +17,9 @@ It's activated if you have phpunit.xml file in your build path, `tests/` subfold
 * **config** [string, optional] - Path to a PHP Unit XML configuration file.
 * **run_from** [string, optional] - When running PHPUnit with an XML config, the command is run from this directory
 * **coverage** [bool, optional] - Value for the `--coverage-html` command line flag.
+* **required_classes_coverage** [int|float, optional] - Value of the required percentage of classes coverage.
+* **required_methods_coverage** [int|float, optional] - Value of the required percentage of methods coverage.
+* **required_lines_coverage** [int|float, optional] - Value of the required percentage of lines coverage.
 
 #### Running Tests By Specifying Directory
 
@@ -38,6 +41,9 @@ test:
         directories:
             - "app/tests/"
         coverage: true
+        required_classes_coverage: 60
+        required_methods_coverage: 60
+        required_lines_coverage: 60
 ```
 
 Troubleshooting

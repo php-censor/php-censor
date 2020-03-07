@@ -58,11 +58,14 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
 
     /**
      * Standard Constructor
-     * $options['config']    Path to a PHPUnit XML configuration file.
-     * $options['run_from']  The directory where the phpunit command will run from when using 'config'.
-     * $options['coverage']  Value for the --coverage-html command line flag.
-     * $options['directory'] Optional directory or list of directories to run PHPUnit on.
-     * $options['args']      Command line args (in string format) to pass to PHP Unit
+     * $options['config']                       Path to a PHPUnit XML configuration file.
+     * $options['run_from']                     The directory where the phpunit command will run from when using 'config'.
+     * $options['coverage']                     Value for the --coverage-html command line flag.
+     * $options['required_classes_coverage']    Optional required classes coverage percentage
+     * $options['required_methods_coverage']    Optional required methods coverage percentage
+     * $options['required_lines_coverage']      Optional required lines coverage percentage
+     * $options['directory']                    Optional directory or list of directories to run PHPUnit on.
+     * $options['args']                         Command line args (in string format) to pass to PHP Unit
      *
      * @param Builder  $builder
      * @param Build    $build
@@ -97,6 +100,8 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
 
     /**
      * Runs PHP Unit tests in a specified directory, optionally using specified config file(s).
+     *
+     * @return bool
      */
     public function execute()
     {
@@ -198,17 +203,8 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
         $config = $this->builder->getSystemConfig('php-censor');
 
         if ($options->getOption('coverage')) {
-            preg_match(
-                '#Classes:[\s]*(.*?)%[^M]*?Methods:[\s]*(.*?)%[^L]*?Lines:[\s]*(.*?)\%#s',
-                $output,
-                $matches
-            );
-
-            $this->build->storeMeta((self::pluginName() . '-coverage'), [
-                'classes' => !empty($matches[1]) ? $matches[1] : '0.00',
-                'methods' => !empty($matches[2]) ? $matches[2] : '0.00',
-                'lines'   => !empty($matches[3]) ? $matches[3] : '0.00',
-            ]);
+            $currentCoverage = $this->extractCoverage($output);
+            $this->build->storeMeta((self::pluginName() . '-coverage'), $currentCoverage);
 
             if ($allowPublicArtifacts) {
                 $this->builder->logSuccess(
@@ -219,9 +215,53 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
                     )
                 );
             }
+
+            return $this->checkRequiredCoverage($currentCoverage);
         }
 
         return $success;
+    }
+
+    /**
+     * Extracts coverage from output
+     *
+     * @param string $output
+     *
+     * @return array
+     */
+    protected function extractCoverage($output)
+    {
+        preg_match(
+            '#Classes:[\s]*(.*?)%[^M]*?Methods:[\s]*(.*?)%[^L]*?Lines:[\s]*(.*?)\%#s',
+            $output,
+            $matches
+        );
+
+        return [
+            'classes' => !empty($matches[1]) ? $matches[1] : '0.00',
+            'methods' => !empty($matches[2]) ? $matches[2] : '0.00',
+            'lines'   => !empty($matches[3]) ? $matches[3] : '0.00',
+        ];
+    }
+
+    /**
+     * Checks required test coverage
+     *
+     * @param array $coverage
+     *
+     * @return bool
+     */
+    protected function checkRequiredCoverage($coverage)
+    {
+        foreach ($coverage as $key => $currentValue) {
+            if ($requiredValue = $this->options->getOption(implode('_', ['required', $key, 'coverage']))) {
+                if (bccomp($requiredValue, $currentValue) === 1) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     /**
