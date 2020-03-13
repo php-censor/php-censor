@@ -16,7 +16,8 @@ use PHPCensor\Plugin;
 class PhpTalLint extends Plugin
 {
     protected $recursive = true;
-    protected $suffixes;
+
+    protected $suffixes = ['zpt'];
 
     /**
      * @return string
@@ -27,19 +28,14 @@ class PhpTalLint extends Plugin
     }
 
     /**
-     * @var string The path to a file contain custom phptal_tales_ functions
+     * @var int
      */
-    protected $tales;
+    protected $allowedWarnings = 0;
 
     /**
      * @var int
      */
-    protected $allowedWarnings;
-
-    /**
-     * @var int
-     */
-    protected $allowedErrors;
+    protected $allowedErrors = 0;
 
     /**
      * @var array The results of the lint scan
@@ -53,10 +49,13 @@ class PhpTalLint extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        $this->suffixes = ['zpt'];
+        if (!empty($options['allowed_errors']) && is_int($options['allowed_errors'])) {
+            $this->allowedErrors = $options['allowed_errors'];
+        }
 
-        $this->allowedWarnings = 0;
-        $this->allowedErrors   = 0;
+        if (!empty($options['allowed_warnings']) && is_int($options['allowed_warnings'])) {
+            $this->allowedWarnings = $options['allowed_warnings'];
+        }
 
         if (isset($options['suffixes'])) {
             $this->suffixes = (array)$options['suffixes'];
@@ -87,11 +86,11 @@ class PhpTalLint extends Plugin
 
         $success = true;
 
-        if ($this->allowedWarnings != -1 && $warnings > $this->allowedWarnings) {
+        if ($this->allowedWarnings !== -1 && $warnings > $this->allowedWarnings) {
             $success = false;
         }
 
-        if ($this->allowedErrors != -1 && $errors > $this->allowedErrors) {
+        if ($this->allowedErrors !== -1 && $errors > $this->allowedErrors) {
             $success = false;
         }
 
@@ -155,16 +154,15 @@ class PhpTalLint extends Plugin
      */
     protected function lintFile($path)
     {
-        $success = true;
-
-        list($suffixes, $tales) = $this->getFlags();
+        $success  = true;
+        $suffixes = $this->getFlags();
 
         $lint = __DIR__ . '/';
         $lint .= 'vendor/phptal/phptal/';
         $lint .= 'tools/phptal_lint.php';
-        $cmd  = 'php ' . $lint . ' %s %s "%s"';
+        $cmd  = 'php ' . $lint . ' %s "%s"';
 
-        $this->builder->executeCommand($cmd, $suffixes, $tales, $this->builder->buildPath . $path);
+        $this->builder->executeCommand($cmd, $suffixes, $this->builder->buildPath . $path);
 
         $output = $this->builder->getLastOutput();
 
@@ -203,20 +201,16 @@ class PhpTalLint extends Plugin
 
     /**
      * Process options and produce an arguments string for PHPTAL Lint.
-     * @return array
+     *
+     * @return string
      */
     protected function getFlags()
     {
-        $tales = '';
-        if (!empty($this->tales)) {
-            $tales = ' -i ' . $this->builder->buildPath . $this->tales;
-        }
-
         $suffixes = '';
-        if (is_array($this->suffixes) && count($this->suffixes) > 0) {
-            $suffixes = ' -e ' . implode(',', $this->suffixes);
+        if (\is_array($this->suffixes) && \count($this->suffixes) > 0) {
+            $suffixes = ' -e ' . \implode(',', $this->suffixes);
         }
 
-        return [$suffixes, $tales];
+        return $suffixes;
     }
 }
