@@ -10,6 +10,12 @@ Configuration
 
 ### Options
 
+* **allowed_warnings** [int, optional] - Allow `n` warnings in a successful build (default: 0). Use -1 to allow 
+unlimited warnings.
+
+* **allowed_errors** [int, optional] - Allow `n` errors in a successful build (default: 0). Use -1 to allow unlimited 
+errors.
+
 * **suffixes** [array, optional] - list of file extensions to inspect. Defaults to `zpt`.
 
 ### Examples
