@@ -91,6 +91,8 @@ class SecurityChecker extends Plugin implements ZeroConfigPluginInterface
             if ($this->allowedWarnings != -1 && ($result->count() > $this->allowedWarnings)) {
                 $success = false;
             }
+        } elseif (null === $warnings && $result) {
+            $this->builder->logWarning('invalid json: '.$result);
         }
 
         return $success;
