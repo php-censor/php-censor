@@ -110,6 +110,9 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
         // Build command string:
         $cmd = $checkerCmd . ' --json --directory="%s"%s%s';
 
+        if (!$this->build->isDebug()) {
+            $this->builder->logExecOutput(false);
+        }
         // Run checker:
         $this->builder->executeCommand(
             $cmd,
@@ -117,6 +120,7 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
             $ignore,
             $add
         );
+        $this->builder->logExecOutput(true);
 
         $output = json_decode($this->builder->getLastOutput(), true);
 
