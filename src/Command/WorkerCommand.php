@@ -42,7 +42,7 @@ class WorkerCommand extends LoggingCommand
 
     protected function configure()
     {
-        $whenHints = 'soon=when next job done, done=when current jobs done, idle=when waiting for jobs';
+        $whenHints = 'soon=when next job done (default), done=when current jobs done, idle=when waiting for jobs';
         $this
             ->setName('php-censor:worker')
             ->addOption(
@@ -56,7 +56,7 @@ class WorkerCommand extends LoggingCommand
                 '',
                 InputOption::VALUE_OPTIONAL,
                 "Gracefully stop one worker ($whenHints)",
-                'soon'
+                false // default value is used when option not given
             )
             ->setDescription('Runs the PHP Censor build worker.');
     }
@@ -77,9 +77,10 @@ class WorkerCommand extends LoggingCommand
                 'The worker is not configured. You must set a host and queue in your config.yml file.'
             );
         }
-        if ($value = $input->getOption('stop-worker')) {
+        $value = $input->getOption('stop-worker');
+        if (false !== $value) {
             $priority = Pheanstalk::DEFAULT_PRIORITY;
-            if ('soon' === $value) {
+            if ('soon' === $value || null === $value) {
                 $priority /= 2; // high priority, stop soon
             } elseif ('done' === $value) {
                 // default priority, stop when current queued done
