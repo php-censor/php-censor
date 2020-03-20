@@ -74,7 +74,7 @@ class RebuildQueueCommand extends Command
             $build = BuildFactory::getBuild($build);
 
             $this->logger->addInfo('Added build #' . $build->getId() . ' to queue.');
-            $buildService->addBuildToQueue($build);
+            $buildService->addBuildToQueue($build); // default priority because no project is here
         }
     }
 }

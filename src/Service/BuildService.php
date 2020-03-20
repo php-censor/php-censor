@@ -267,7 +267,7 @@ class BuildService
         if (!empty($buildId)) {
             $build = BuildFactory::getBuild($build);
             $build->sendStatusPostback();
-            $this->addBuildToQueue($build);
+            $this->addBuildToQueue($build); // default priority because no project is initialized here
         }
 
         return $build;
