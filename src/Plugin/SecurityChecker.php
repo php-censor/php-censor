@@ -92,7 +92,7 @@ class SecurityChecker extends Plugin implements ZeroConfigPluginInterface
                 $success = false;
             }
         } elseif (null === $warnings && $result) {
-            $this->builder->logWarning('invalid json: '.$result);
+            throw new \RuntimeException('invalid json: '.$result);
         }
 
         return $success;
