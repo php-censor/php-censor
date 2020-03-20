@@ -120,7 +120,7 @@ class BuildService
         if (!empty($buildId)) {
             $build = BuildFactory::getBuild($build);
             $build->sendStatusPostback();
-            $this->addBuildToQueue($build);
+            $this->addBuildToQueue($build, $project->getRelativeBuildPriority());
         }
 
         return $build;
@@ -335,8 +335,9 @@ class BuildService
     /**
      * Takes a build and puts it into the queue to be run (if using a queue)
      * @param Build $build
+     * @param int   $relPriority priority in queue relative to default
      */
-    public function addBuildToQueue(Build $build)
+    public function addBuildToQueue(Build $build, $relPriority = 0)
     {
         $buildId = $build->getId();
 
