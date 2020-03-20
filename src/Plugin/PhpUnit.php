@@ -187,7 +187,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
         $output    = $this->builder->getLastOutput();
         $covHtmlOk = false;
 
-        if ($fileSystem->exists($this->buildLocation.'.index.html') &&
+        if ($fileSystem->exists($this->buildLocation.'/index.html') &&
             $options->getOption('coverage') &&
             $allowPublicArtifacts) {
             $covHtmlOk = true;
