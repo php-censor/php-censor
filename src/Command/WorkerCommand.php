@@ -76,8 +76,8 @@ class WorkerCommand extends LoggingCommand
             );
         }
         if ($input->getOption('stop-worker')) {
-            $jobData = ['build_id' => BuildWorker::JOB_ID_STOP];
-            $this->buildService->addJobToQueue(BuildWorker::JOB_TYPE, $jobData, 0 /* priority high */);
+            $jobData = [];
+            $this->buildService->addJobToQueue(BuildWorker::JOB_STOP, $jobData, 0 /* priority high */);
 
             return;
         }
