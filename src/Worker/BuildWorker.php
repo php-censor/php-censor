@@ -18,7 +18,7 @@ use PHPCensor\Store\Factory;
 class BuildWorker
 {
     const JOB_TYPE = 'php-censor.build';
-    const JOB_ID_STOP = '.php-censor.worker.stop';
+    const JOB_STOP = 'php-censor.stop-flag';
 
     /**
      * If this variable changes to false, the worker will stop after the current build.
@@ -265,7 +265,11 @@ class BuildWorker
             ? $jobData['type']
             : '';
 
-        if (self::JOB_TYPE !== $jobType) {
+        if (self::JOB_STOP === $jobType) {
+            $this->stopWorker(); // stop worker on next loop
+
+            return false;
+        } elseif (self::JOB_TYPE !== $jobType) {
             $this->logger->warning(
                 sprintf(
                     'Invalid job (#%s) type "%s" in the queue tube "%s"!',
@@ -274,11 +278,6 @@ class BuildWorker
                     $this->queueTube
                 )
             );
-
-            return false;
-        }
-        if (self::JOB_ID_STOP === $jobData['build_id']) {
-            $this->stopWorker();
 
             return false;
         }
