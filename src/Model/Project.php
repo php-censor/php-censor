@@ -270,4 +270,21 @@ class Project extends BaseProject
 
         return $branches;
     }
+
+    /**
+     * @return int
+     */
+    public function getRelativeBuildPriority()
+    {
+        $config = $this->getBuildConfig();
+        if ($config) {
+            $yamlParser  = new YamlParser();
+            $parsed = $yamlParser->parse($config);
+            if (isset($parsed['build_settings']['build_priority'])) {
+                return (int)$parsed['build_settings']['build_priority'];
+            }
+        }
+
+        return 0;
+    }
 }
