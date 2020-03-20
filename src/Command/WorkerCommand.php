@@ -42,6 +42,7 @@ class WorkerCommand extends LoggingCommand
 
     protected function configure()
     {
+        $whenHints = 'soon=when next job done, done=when current jobs done, idle=when waiting for jobs';
         $this
             ->setName('php-censor:worker')
             ->addOption(
@@ -53,8 +54,9 @@ class WorkerCommand extends LoggingCommand
             ->addOption(
                 'stop-worker',
                 '',
-                InputOption::VALUE_NONE,
-                'Gracefully stop one worker'
+                InputOption::VALUE_OPTIONAL,
+                "Gracefully stop one worker ($whenHints)",
+                'soon'
             )
             ->setDescription('Runs the PHP Censor build worker.');
     }
@@ -75,9 +77,20 @@ class WorkerCommand extends LoggingCommand
                 'The worker is not configured. You must set a host and queue in your config.yml file.'
             );
         }
-        if ($input->getOption('stop-worker')) {
+        if ($value = $input->getOption('stop-worker')) {
+            $priority = Pheanstalk::DEFAULT_PRIORITY;
+            if ('soon' === $value) {
+                $priority /= 2; // high priority, stop soon
+            } elseif ('done' === $value) {
+                // default priority, stop when current queued done
+            } elseif ('idle' === $value) {
+                $priority *= 2; // low priority, stop late
+            } else {
+                $msg = sprintf('Invalid value "%s" for --stop-worker, valid are soon, done and idle;', $value);
+                throw new \Symfony\Component\Console\Exception\InvalidArgumentException($msg);
+            }
             $jobData = [];
-            $this->buildService->addJobToQueue(BuildWorker::JOB_STOP, $jobData, 0 /* priority high */);
+            $this->buildService->addJobToQueue(BuildWorker::JOB_STOP, $jobData, $priority);
 
             return;
         }
