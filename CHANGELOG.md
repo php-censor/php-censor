@@ -9,8 +9,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/1.1.4...1.2.0)
 
-Added
------
+### Added
 
 - [PhpUnit] Badge for PhpUnit plugin coverage level (shields.io). 
 Issue [#306](https://github.com/php-censor/php-censor/issues/306).
@@ -33,15 +32,13 @@ Thanks to [@lugark](https://github.com/lugark).
 [#332](https://github.com/php-censor/php-censor/pull/332), [#336](https://github.com/php-censor/php-censor/pull/336). 
 Thanks to [@lugark](https://github.com/lugark).
 
-Fixed
------
+### Fixed
 
 - [PHPCodeSniffer] PHPCodeSniffer plugin dependencies for PHP `7.3`. Issue 
 [#334](https://github.com/php-censor/php-censor/issues/334). Pull request 
 [#335](https://github.com/php-censor/php-censor/pull/335). Thanks to [@xl32](https://github.com/xl32).
 
-Changed
--------
+### Changed
 
 - [PhpCsFixer, PhpDocblockChecker] Improved plugins output. Pull request 
 [#357](https://github.com/php-censor/php-censor/pull/357). Thanks to [@SimonHeimberg](https://github.com/SimonHeimberg).
