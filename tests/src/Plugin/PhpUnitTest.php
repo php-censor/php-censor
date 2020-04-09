@@ -2,6 +2,7 @@
 
 namespace Tests\PHPCensor\Plugin;
 
+use PHPCensor\Plugin\PhpUnit;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockBuilder;
 
@@ -123,12 +124,15 @@ class PhpUnitTest extends TestCase
     public function testRequiredCoverageWithPassingPercentage()
     {
         $options = [
-            'config' => ROOT_DIR . 'phpunit.xml.dist',
-            'coverage' => true,
+            'config'                  => ROOT_DIR . 'phpunit.xml.dist',
+            'coverage'                => true,
             'required_lines_coverage' => 60,
         ];
 
-        $mockPlugin = $this->getPluginBuilder($options)->setMethods(['extractCoverage'])->getMock();
+        /** @var PHPUnit_Framework_MockObject_MockBuilder|PhpUnit $mockPlugin */
+        $mockPlugin = $this->getPluginBuilder($options)
+            ->setMethods(['extractCoverage', 'processResults'])
+            ->getMock();
         $mockPlugin->expects($this->once())->method('extractCoverage')->willReturn([
             'classes' => '100.00',
             'methods' => '100.00',
@@ -140,12 +144,14 @@ class PhpUnitTest extends TestCase
     public function testRequiredCoverageWithFailingPercentage()
     {
         $options = [
-            'config' => ROOT_DIR . 'phpunit.xml.dist',
-            'coverage' => true,
+            'config'                  => ROOT_DIR . 'phpunit.xml.dist',
+            'coverage'                => true,
             'required_lines_coverage' => 60,
         ];
 
-        $mockPlugin = $this->getPluginBuilder($options)->setMethods(['extractCoverage'])->getMock();
+        $mockPlugin = $this->getPluginBuilder($options)
+            ->setMethods(['extractCoverage', 'processResults'])
+            ->getMock();
         $mockPlugin->expects($this->once())->method('extractCoverage')->willReturn([
             'classes' => '30.00',
             'methods' => '30.00',
