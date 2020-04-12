@@ -292,34 +292,11 @@ class InstallCommand extends Command
      */
     protected function getConfigInformation(InputInterface $input, OutputInterface $output)
     {
-        /** @var $helper QuestionHelper */
-        $helper = $this->getHelperSet()->get('question');
-
-        $urlValidator = function ($answer) {
-            if (!filter_var($answer, FILTER_VALIDATE_URL)) {
-                throw new Exception('Must be a valid URL.');
-            }
-
-            return rtrim($answer, '/');
-        };
-
-        if ($url = $input->getOption('url')) {
-            $url = $urlValidator($url);
-        } else {
-            $question = new Question(
-                'Enter your application URL (default: "//php-censor.local"): ',
-                '//php-censor.local'
-            );
-            $question->setValidator($urlValidator);
-            $url = $helper->ask($input, $output, $question);
-        }
-
         $queueConfig = $this->getQueueInformation($input, $output);
 
         return [
             'language' => 'en',
             'per_page' => 10,
-            'url'      => $url,
             'queue'    => $queueConfig,
             'log'      => [
                 'rotate'    => false,

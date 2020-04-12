@@ -4,7 +4,7 @@ namespace PHPCensor;
 
 use PHPCensor\Exception\HttpException;
 use PHPCensor\Exception\HttpException\ForbiddenException;
-use PHPCensor\Http\Request;
+use Symfony\Component\HttpFoundation\Request;
 use PHPCensor\Http\Response;
 use PHPCensor\Model\User;
 use PHPCensor\Store\Factory;

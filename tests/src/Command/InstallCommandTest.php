@@ -105,7 +105,7 @@ class InstallCommandTest extends TestCase
             '--queue-use'      => false,
         ];
 
-        if (!is_null($exclude)) {
+        if ($exclude && isset($config[$exclude])) {
             unset($config[$exclude]);
         }
 
@@ -216,12 +216,12 @@ class InstallCommandTest extends TestCase
         $dialog = $this->getHelperMock();
 
         // We specified an input value for hostname.
-        $dialog->expects($this->once())->method('ask')->willReturn('http://testedvalue.com');
+        $dialog->expects($this->never())->method('ask')->willReturn('http://testedvalue.com');
 
         $this->executeWithoutParam('--url', $dialog);
 
         // Check that specified arguments are correctly loaded.
-        self::assertEquals('http://testedvalue.com', $this->config['php-censor']['url']);
+        self::assertEquals(true, !isset($this->config['php-censor']['url']));
     }
 
     public function testAdminEmailConfig()

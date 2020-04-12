@@ -36,8 +36,4 @@ if (file_exists($configFile)) {
     $config->loadYaml($configFile);
 }
 
-if (!defined('APP_URL') && !empty($config)) {
-    define('APP_URL', $config->get('php-censor.url', '') . '/');
-}
-
 Lang::init($config);

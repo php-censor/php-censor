@@ -11,7 +11,7 @@ class WebhookControllerTest extends TestCase
     {
         $webController = new WebhookController(
             $this->prophesize('PHPCensor\Config')->reveal(),
-            $this->prophesize('PHPCensor\Http\Request')->reveal(),
+            $this->prophesize('Symfony\Component\HttpFoundation\Request')->reveal(),
             $this->prophesize('PHPCensor\Http\Response')->reveal()
         );
 

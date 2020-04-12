@@ -123,7 +123,6 @@ cd ./php-censor.local
 
 # Non-interactive installation
 ./bin/console php-censor:install \
-    --url='http://php-censor.local' \
     --db-type=pgsql \
     --db-host=localhost \
     --db-pgsql-sslmode=prefer \

@@ -5,6 +5,7 @@ namespace PHPCensor\Http;
 use PHPCensor\Application;
 use PHPCensor\Config;
 use PHPCensor\Exception\InvalidArgumentException;
+use Symfony\Component\HttpFoundation\Request;
 
 class Router
 {
@@ -59,7 +60,11 @@ class Router
     public function dispatch()
     {
         foreach ($this->routes as $route) {
-            $pathParts = $this->request->getPathParts();
+            $pathParts = \array_values(
+                \array_filter(
+                    \explode('/', $this->request->getPathInfo())
+                )
+            );
 
             //-------
             // Set up default values for everything:
