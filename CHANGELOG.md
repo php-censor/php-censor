@@ -50,6 +50,10 @@ Thanks to [@Dave13h](https://github.com/Dave13h).
 - Many database scheme issues (Added foreign keys, improved columns types etc.). Issue 
 [#365](https://github.com/php-censor/php-censor/issues/365).
 
+### Removed
+
+- Useless installation and configuration option `php-censor.url`.
+
 ### Changed
 
 - **[PhpCsFixer, PhpDocblockChecker]** Improved plugins output. Pull request 
