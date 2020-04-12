@@ -130,18 +130,16 @@ class Pdepend extends Plugin
             $fileSystem->mirror($this->buildLocation, $this->buildBranchLocation);
         }
 
-        $config = $this->builder->getSystemConfig('php-censor');
-
         if ($allowPublicArtifacts && $success) {
             $this->builder->logSuccess(
                 sprintf(
                     "\nPdepend successful build report.\nYou can use report for this build for inclusion in the readme.md file:\n%s,\n![Chart](%s \"Pdepend Chart\") and\n![Pyramid](%s \"Pdepend Pyramid\")\n\nOr report for last build in the branch:\n%s,\n![Chart](%s \"Pdepend Chart\") and\n![Pyramid](%s \"Pdepend Pyramid\")\n",
-                    $config['url'] . '/artifacts/pdepend/' . $this->buildDirectory . '/' . $this->summary,
-                    $config['url'] . '/artifacts/pdepend/' . $this->buildDirectory . '/' . $this->chart,
-                    $config['url'] . '/artifacts/pdepend/' . $this->buildDirectory . '/' . $this->pyramid,
-                    $config['url'] . '/artifacts/pdepend/' . $this->buildBranchDirectory . '/' . $this->summary,
-                    $config['url'] . '/artifacts/pdepend/' . $this->buildBranchDirectory . '/' . $this->chart,
-                    $config['url'] . '/artifacts/pdepend/' . $this->buildBranchDirectory . '/' . $this->pyramid
+                    APP_URL . 'artifacts/pdepend/' . $this->buildDirectory . '/' . $this->summary,
+                    APP_URL . 'artifacts/pdepend/' . $this->buildDirectory . '/' . $this->chart,
+                    APP_URL . 'artifacts/pdepend/' . $this->buildDirectory . '/' . $this->pyramid,
+                    APP_URL . 'artifacts/pdepend/' . $this->buildBranchDirectory . '/' . $this->summary,
+                    APP_URL . 'artifacts/pdepend/' . $this->buildBranchDirectory . '/' . $this->chart,
+                    APP_URL . 'artifacts/pdepend/' . $this->buildBranchDirectory . '/' . $this->pyramid
                 )
             );
         }

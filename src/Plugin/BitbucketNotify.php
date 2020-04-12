@@ -86,22 +86,17 @@ class BitbucketNotify extends Plugin
 
             $testSettings = $this->getBuilder()->getConfig('test');
             if (isset($testSettings[PhpUnit::pluginName()])) {
-                $config = $this->getBuilder()->getSystemConfig('php-censor');
-                $censorUrl = $config['url'];
                 $buildDirectory = $this->getBuild()->getBuildBranchDirectory();
 
-                $this->message .= $censorUrl . '/artifacts/phpunit/' . $buildDirectory . '/index.html' . PHP_EOL;
+                $this->message  .= APP_URL . 'artifacts/phpunit/' . $buildDirectory . '/index.html' . PHP_EOL;
             }
 
             if (isset($testSettings[Pdepend::pluginName()])) {
-                $config = $this->getBuilder()->getSystemConfig('php-censor');
-                $censorUrl = $config['url'];
-
                 $buildDirectory = $this->getBuild()->getBuildBranchDirectory();
 
-                $summary = $censorUrl . '/artifacts/pdepend/' . $buildDirectory . '/summary.xml';
-                $chart = $censorUrl . '/artifacts/pdepend/' . $buildDirectory . '/chart.svg';
-                $pyramid = $censorUrl . '/artifacts/pdepend/' . $buildDirectory . '/pyramid.svg';
+                $summary = APP_URL . 'artifacts/pdepend/' . $buildDirectory . '/summary.xml';
+                $chart   = APP_URL . 'artifacts/pdepend/' . $buildDirectory . '/chart.svg';
+                $pyramid = APP_URL . 'artifacts/pdepend/' . $buildDirectory . '/pyramid.svg';
 
                 $this->message .= sprintf('![Chart](%s "Pdepend Chart")', $chart);
                 $this->message .= sprintf('![Pyramid](%s "Pdepend Pyramid")', $pyramid) . PHP_EOL;

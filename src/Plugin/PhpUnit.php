@@ -202,8 +202,6 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
 
         $this->processResults($logFile, $logFormat);
 
-        $config = $this->builder->getSystemConfig('php-censor');
-
         if ($options->getOption('coverage')) {
             $currentCoverage = $this->extractCoverage($output);
             $this->build->storeMeta((self::pluginName() . '-coverage'), $currentCoverage);
@@ -212,16 +210,16 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
                 $this->builder->logSuccess(
                     sprintf(
                         "\nPHPUnit successful build coverage report.\nYou can use coverage report for this build: %s\nOr coverage report for last build in the branch: %s",
-                        $config['url'] . '/artifacts/phpunit/' . $this->buildDirectory . '/index.html',
-                        $config['url'] . '/artifacts/phpunit/' . $this->buildBranchDirectory . '/index.html'
+                        APP_URL . 'artifacts/phpunit/' . $this->buildDirectory . '/index.html',
+                        APP_URL . 'artifacts/phpunit/' . $this->buildBranchDirectory . '/index.html'
                     )
                 );
             } elseif ($allowPublicArtifacts) {
                 $this->builder->logFailure(
                     sprintf(
                         "\nPHPUnit could not build coverage report.\nmissing: %s\nlast of this branch: %s",
-                        $config['url'] . '/artifacts/phpunit/' . $this->buildDirectory . '/index.html',
-                        $config['url'] . '/artifacts/phpunit/' . $this->buildBranchDirectory . '/index.html'
+                        APP_URL . 'artifacts/phpunit/' . $this->buildDirectory . '/index.html',
+                        APP_URL . 'artifacts/phpunit/' . $this->buildBranchDirectory . '/index.html'
                     )
                 );
             }
