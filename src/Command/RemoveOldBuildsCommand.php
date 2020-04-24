@@ -10,11 +10,11 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Expire old builds.
+ * Remove old builds
  *
  * @author David Sloan <dave@d3r.com>
  */
-class ExpireOldBuildsCommand extends Command
+class RemoveOldBuildsCommand extends Command
 {
     /**
      * @var ProjectStore
@@ -47,8 +47,8 @@ class ExpireOldBuildsCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('php-censor:expire-old-builds')
-            ->setDescription('Expires Old Builds.');
+            ->setName('php-censor:remove-old-builds')
+            ->setDescription('Remove old builds.');
     }
 
     /**
