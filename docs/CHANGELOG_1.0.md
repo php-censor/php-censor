@@ -1,8 +1,23 @@
-Changelog 1.0
-=============
+# Change Log
+
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to 
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
+
+
+## [1.0.15 (Morty Smith)](https://github.com/php-censor/php-censor/tree/1.0.15) (2020-04-26)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/1.0.14...1.0.15)
+
+### Fixed
+
+- Old builds removing for MySQL.
+- [TechnicalDept] Replace curly braces with square brackets for `PHP 7.4` compatibility.
+- [Git] Option `actions`.
+
+### Changed
+
+- Updated dependencies.
 
 
 ## [1.0.14 (Morty Smith)](https://github.com/php-censor/php-censor/tree/1.0.14) (2019-12-25)
@@ -242,4 +257,4 @@ the another branch). Issue [#270](https://github.com/php-censor/php-censor/issue
 
 ## Other versions
 
-- [0.x Changelog](/docs/CHANGELOG_0.x.md)
+- [0.x change log](/docs/CHANGELOG_0.x.md)
