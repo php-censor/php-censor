@@ -11,8 +11,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ### Fixed
 
-- Old builds removing for MySQL.
-- [TechnicalDept] Replace curly braces with square brackets for `PHP 7.4` compatibility.
+- Old builds removing for MySQL. Pull request [#352](https://github.com/php-censor/php-censor/pull/352). Thanks to 
+[@garas](https://github.com/garas).
+- [TechnicalDept] Replace curly braces with square brackets for `PHP 7.4` compatibility. Pull request 
+[#351](https://github.com/php-censor/php-censor/pull/351). Thanks to [@benr77](https://github.com/benr77).
 - [Git] Option `actions`.
 
 ### Changed
