@@ -5,6 +5,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [1.1.5 (Birdperson)](https://github.com/php-censor/php-censor/tree/1.1.5) (2020-04-26)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/1.1.4...1.1.5)
+
+### Fixed
+
+- Old builds removing for MySQL.
+- [TechnicalDept] Replace curly braces with square brackets for `PHP 7.4` compatibility.
+- [Git] Option `actions`.
+
+### Changed
+
+- Updated dependencies.
+
+
 ## [1.1.4 (Birdperson)](https://github.com/php-censor/php-censor/tree/1.1.4) (2019-12-25)
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/1.1.3...1.1.4)
