@@ -78,6 +78,10 @@
         "jasongrimes/paginator":           "^1.0",
         "voku/anti-xss":                   "^4.1",
 
+        "maknz/slack":                "^1.7",
+        "hipchat/hipchat-php":        "^1.4",
+        "php-censor/flowdock-client": "^1.0",
+
         "npm-asset/sprintf-js":     "^1.0",
         "npm-asset/codemirror":     "^5.23",
         "bower-asset/admin-lte":    "^2.3",
