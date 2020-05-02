@@ -52,11 +52,11 @@ There are several ways of configuring build in *PHP Censor* project:
 
 3. Adding a config via web-interface.
 
-    By default a config from web-interface replaces a config from repository (`.php-censor.yml`). But if you uncheck 
+    By default, a config from web-interface replaces a config from repository (`.php-censor.yml`). But if you uncheck 
     the option "Replace the configuration from file with the configuration from the data base", configurations will be 
     merged (the config from web-interface will have priority over the config from the repository). 
     
-    Setting config via web-interface and merging it with config from the repo may be useful if you want to hide some
+    Setting config via web-interface and merging it with the config from the repo may be useful if you want to hide some
     secret data (passwords, keys) in case of using public repository. The most of the configuration can be stored as a 
     public file in the repo, and passwords and keys may be added via web-interface.   
 
@@ -168,7 +168,7 @@ plugin option `priority_path`).
 * Option `binary_path` sets default binary path for all plugins (It may be overloaded by the plugin option 
 `priority_path`). For example: `binary_path: /usr/local/bin`.
 
-* Option `prefer_symlink` allows to use symlinks as a source build path. The option works only for local build source 
+* Option `prefer_symlink` allows using symlinks as a source build path. The option works only for local build source 
 (`LocalBuild`).
 
 * Option `build_priority: N` builds of a project with a higher value (like 1500) are handled after builds of projects 
@@ -200,23 +200,37 @@ The build goes through some stages. During each stage some plugins can be execut
 
 * `setup` - The stage of setting up the build (creating test database, setting dependencies, etc.).
 
-* `test` - The stage of testing. Runs after the setup stage if the setup was successful. In this stage all the main plugins and statistical code analyzers are executed.
+* `test` - The stage of testing. Runs after the setup stage if the setup was successful. In this stage all the main 
+plugins and statistical code analyzers are executed.
 
-There is also a priority_path option available to all plugins. It allows you to change the search order of the plugin executable file. Possible option values are:
+    **One plugin failing don't mean always failing of all stage**. Option `allow_failures` (You may use it for all 
+plugins) allow you to ignore failing of one plugin in the build/stage status (For example: `allow_failures: true`).
 
-* `local` - In the first place search in the buid directory vendor/bin, then - in global, then - in system, then - in priority_path;
+    **Also you may limit quantity of allowed errors and warnings for one plugin**. Use options `allowed_errors` and 
+`allowed_warnings` for it (For example: `allowed_warnings: 2`). Value `-1` means that it is unlimited quantity. **This 
+options don't available for all plugins, see details in [plugins documentation](README.md).**
 
-* `global` - In the first place search in the directory vendor/bin *PHP Censor*,  then - in local, then - in system, then - in priority_path;
+    There is also a `priority_path` option available to all plugins. **It allows you to change the search order of the 
+plugin executable file**. Possible option values are:
 
-* `system` - In the first place search among the system utilities ( /bin, /usr/bin etc., use  which), then - in local, then - in global, then - in priority_path;
+    * `local` - In the first place search in the build directory `vendor/bin`, then - in `global`, then - in `system`, 
+then - in `priority_path`;
 
-* `binary_path` - First of all, look for the specific path specified in the binary_path option, then - in local, then - in global, then - in system;
+    * `global` - In the first place search in the directory `vendor/bin` *PHP Censor*,  then - in `local`, then - in 
+`system`, then - in `priority_path`;
+    
+    * `system` - In the first place search among the system utilities (`/bin`, `/usr/bin` etc., use `which`), then - 
+in `local`, then - in `global`, then - in `priority_path`;
+    
+    * `binary_path` - First of all, look for the specific path specified in the `binary_path` option, then - in `local`,
+then - in `global`, then - in `system`;
 
-The binary_path option allows you to set a specific path to the directory with the executable plugin file. There is also a binary_name option which alows to set an alternative name for the executable file (a string or an array of strings).
+    The `binary_path` option allows you to set a specific path to the directory with the executable plugin file. There 
+is also a `binary_name` option which allows to set an alternative name for the executable file (a string or an array 
+of strings).
 
-Example:
-````
-yaml
+    Example:
+    ```yaml
     setup:
       composer:
         priority_path: binary_path
@@ -226,14 +240,17 @@ yaml
           - composer-1.4
           - composer-local
         action: install
+    ```
+    
+    **Search order of the executable file by default**: local -> global -> system -> binary_path.
 
-````
+* `deploy` - The stage of  the project deployment. Runs after the stage of testing, if the tests were successful. In 
+this stage deployment plugins should be called ([Shell](plugins/shell.md), [Deployer](plugins/deployer.md), 
+[Mage](plugins/mage.md) и etc.). This stage is very similar to test.
 
-Search order of the executable file by default: local -> global -> system -> binary_path.
-
-* `deploy` - The stage of  the project deployment. Runs after the stage of testing, if the tests were successful. In this stage deployment plugins should be called ([Shell](plugins/shell.md), [Deployer](plugins/deployer.md), [Mage](plugins/mage.md) и etc.). This stage is very similar to test.
-
-* `complete` - Build completion stage. Always executes after the deploy (or after the test, in case deploy is missing), regardless of whether the buid was successful or failed. In this stage it is possible to send notifications, to clear a database, etc.
+* `complete` - Build completion stage. Always executes after the deploy (or after the test, in case deploy is missing), 
+regardless of whether the buid was successful or failed. In this stage it is possible to send notifications, to clear 
+a database, etc.
 
 * `success` - Successful Build Stage. Called only when the build completed successfully.
 
@@ -243,26 +260,27 @@ Search order of the executable file by default: local -> global -> system -> bin
 
 * `broken` - Build failure stage. Called only when the build failed after a successful previous build .
 
-
 Some plugins have restrictions on the stages in which they can be launched.
 For example, plugins
 [TechnicalDept](plugins/technical_dept.md), [PHPLoc](plugins/php_loc.md), [PHPCpd](plugins/php_cpd.md), 
 [PHPCodeSniffer](plugins/php_code_sniffer.md), [PHPMessDetector](plugins/php_mess_detector.md), 
 [PHPDocblockChecker](plugins/php_docblock_checker.md), [PHPParallelLint](plugins/php_parallel_lint.md), 
-[Codeception](plugins/codeception.md), [PhpUnit](plugins/php_unit.md) can only be launched at test stage. The plugin [Composer](plugins/composer.md), can only be launched at setup stage
-
+[Codeception](plugins/codeception.md), [PhpUnit](plugins/php_unit.md) can only be launched at test stage. The plugin 
+[Composer](plugins/composer.md), can only be launched at setup stage.
 
 ### Redefining configuration for the specific branches.
 
-The directive `branch-<branch-name>` (For example: `branch-feature-1` for the branch `feature-1`) **allows to redefine or
-to complete the main build configuration for the specific branches**.
+The directive `branch-<branch-name>` (For example: `branch-feature-1` for the branch `feature-1`) **allows to redefine 
+or to complete the main build configuration for the specific branches**.
 
 There is also a directive `branch-regex:<branch-name-regex>` **which allows to compare branches by regexp** 
 for the same purposes (For example: `branch-regex:^feature\-\d$` for the branches: `feature-1`, `feature-2` etc.).
 
-**If there are several directives `branch-regex:`/`branch-`, the first directive that matches up with the name of the branch will be used.**
+**If there are several directives `branch-regex:`/`branch-`, the first directive that matches up with the name of the 
+branch will be used.**
 
-The required parameter `run-option` allows to define, to redefine and to complete the configuration and can take different values:
+The required parameter `run-option` allows to define, to redefine and to complete the configuration and can take 
+different values:
 
 * `replace` - will cause the branch specific plugins to run and the default ones not.
 
@@ -309,7 +327,8 @@ Useful YAML features
 --------------------
 
 Some features of YAML could be very handy. Here is a demonstration of multi line strings, and of anchors and aliases.
-See more details on [symfonys yaml document](https://symfony.com/doc/current/components/yaml/yaml_format.html) on in the [specification](http://yaml.org/spec/1.0/#id2563922).
+See more details on [symfonys yaml document](https://symfony.com/doc/current/components/yaml/yaml_format.html) on in 
+the [specification](http://yaml.org/spec/1.0/#id2563922).
 
 ```yml
 setup:
