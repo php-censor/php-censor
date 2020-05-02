@@ -12,6 +12,7 @@ use RuntimeException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Exception\InvalidArgumentException;
 
 /**
  * Worker Command - Starts the BuildWorker, which pulls jobs from beanstalkd
@@ -42,6 +43,7 @@ class WorkerCommand extends LoggingCommand
 
     protected function configure()
     {
+        $whenHints = 'soon=when next job done (default), done=when current jobs done, idle=when waiting for jobs';
         $this
             ->setName('php-censor:worker')
             ->addOption(
@@ -49,6 +51,13 @@ class WorkerCommand extends LoggingCommand
                 'p',
                 InputOption::VALUE_NONE,
                 'Allow worker run periodical work'
+            )
+            ->addOption(
+                'stop-worker',
+                's',
+                InputOption::VALUE_OPTIONAL,
+                "Gracefully stop one worker ($whenHints)",
+                false // default value is used when option not given
             )
             ->setDescription('Runs the PHP Censor build worker.');
     }
@@ -68,6 +77,24 @@ class WorkerCommand extends LoggingCommand
             throw new RuntimeException(
                 'The worker is not configured. You must set a host and queue in your config.yml file.'
             );
+        }
+        $value = $input->getOption('stop-worker');
+        if (false !== $value) {
+            $priority = Pheanstalk::DEFAULT_PRIORITY;
+            if ('soon' === $value || null === $value) {
+                $priority /= 2; // high priority, stop soon
+            } elseif ('done' === $value) {
+                // default priority, stop when current queued done
+            } elseif ('idle' === $value) {
+                $priority *= 2; // low priority, stop late
+            } else {
+                $msg = sprintf('Invalid value "%s" for --stop-worker, valid are soon, done and idle;', $value);
+                throw new InvalidArgumentException($msg);
+            }
+            $jobData = [];
+            $this->buildService->addJobToQueue(BuildWorker::JOB_TYPE_STOP_FLAG, $jobData, $priority);
+
+            return;
         }
 
         (new BuildWorker(

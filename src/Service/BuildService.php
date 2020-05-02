@@ -15,6 +15,7 @@ use PHPCensor\Model\Build;
 use PHPCensor\Model\Project;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\ProjectStore;
+use PHPCensor\Worker\BuildWorker;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
@@ -209,7 +210,7 @@ class BuildService
                         continue;
                     }
                 }
-                
+
                 $buildsCount++;
 
                 $this->createBuild(
@@ -281,7 +282,7 @@ class BuildService
     {
         $keepBuilds = (int)Config::getInstance()->get('php-censor.build.keep_builds', 100);
         $builds     = $this->buildStore->getOldByProject((int)$projectId, $keepBuilds);
-        
+
         /** @var Build $build */
         foreach ($builds['items'] as $build) {
             $build->removeBuildDirectory(true);
@@ -343,16 +344,26 @@ class BuildService
             return;
         }
 
+        $jobData = [
+            'build_id' => $buildId,
+        ];
+
+        $this->addJobToQueue(BuildWorker::JOB_TYPE_BUILD, $jobData);
+    }
+
+    /**
+     * @param string $jobType
+     * @param array  $jobData
+     * @param int    $priority
+     */
+    public function addJobToQueue($jobType, array $jobData, $priority = PheanstalkInterface::DEFAULT_PRIORITY)
+    {
         $config   = Config::getInstance();
         $settings = $config->get('php-censor.queue', []);
 
         if (!empty($settings['host']) && !empty($settings['name'])) {
+            $jobData['type'] = $jobType;
             try {
-                $jobData = [
-                    'type'     => 'php-censor.build',
-                    'build_id' => $build->getId(),
-                ];
-
                 $pheanstalk = new Pheanstalk(
                     $settings['host'],
                     $config->get('php-censor.queue.port', Pheanstalk::DEFAULT_PORT)
@@ -361,7 +372,7 @@ class BuildService
                 $pheanstalk->useTube($settings['name']);
                 $pheanstalk->put(
                     json_encode($jobData),
-                    PheanstalkInterface::DEFAULT_PRIORITY,
+                    $priority,
                     PheanstalkInterface::DEFAULT_DELAY,
                     $config->get('php-censor.queue.lifetime', 600)
                 );
