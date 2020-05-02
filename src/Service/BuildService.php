@@ -15,6 +15,7 @@ use PHPCensor\Model\Build;
 use PHPCensor\Model\Project;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\ProjectStore;
+use PHPCensor\Worker\BuildWorker;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
@@ -209,7 +210,7 @@ class BuildService
                         continue;
                     }
                 }
-                
+
                 $buildsCount++;
 
                 $this->createBuild(
@@ -281,7 +282,7 @@ class BuildService
     {
         $keepBuilds = (int)Config::getInstance()->get('php-censor.build.keep_builds', 100);
         $builds     = $this->buildStore->getOldByProject((int)$projectId, $keepBuilds);
-        
+
         /** @var Build $build */
         foreach ($builds['items'] as $build) {
             $build->removeBuildDirectory(true);
@@ -347,9 +348,14 @@ class BuildService
             'build_id' => $buildId,
         ];
 
-        $this->addJobToQueue('php-censor.build', $jobData);
+        $this->addJobToQueue(BuildWorker::JOB_TYPE_BUILD, $jobData);
     }
 
+    /**
+     * @param string $jobType
+     * @param array  $jobData
+     * @param int    $priority
+     */
     public function addJobToQueue($jobType, array $jobData, $priority = PheanstalkInterface::DEFAULT_PRIORITY)
     {
         $config   = Config::getInstance();

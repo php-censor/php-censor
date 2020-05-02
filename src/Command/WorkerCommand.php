@@ -12,6 +12,7 @@ use RuntimeException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Exception\InvalidArgumentException;
 
 /**
  * Worker Command - Starts the BuildWorker, which pulls jobs from beanstalkd
@@ -53,7 +54,7 @@ class WorkerCommand extends LoggingCommand
             )
             ->addOption(
                 'stop-worker',
-                '',
+                's',
                 InputOption::VALUE_OPTIONAL,
                 "Gracefully stop one worker ($whenHints)",
                 false // default value is used when option not given
@@ -88,10 +89,10 @@ class WorkerCommand extends LoggingCommand
                 $priority *= 2; // low priority, stop late
             } else {
                 $msg = sprintf('Invalid value "%s" for --stop-worker, valid are soon, done and idle;', $value);
-                throw new \Symfony\Component\Console\Exception\InvalidArgumentException($msg);
+                throw new InvalidArgumentException($msg);
             }
             $jobData = [];
-            $this->buildService->addJobToQueue(BuildWorker::JOB_STOP, $jobData, $priority);
+            $this->buildService->addJobToQueue(BuildWorker::JOB_TYPE_STOP_FLAG, $jobData, $priority);
 
             return;
         }
