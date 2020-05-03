@@ -517,6 +517,14 @@ class BuildStore extends Store
         return $q->rowCount();
     }
 
+    /**
+     * @param int $projectId
+     * @param int $keep
+     *
+     * @return array
+     *
+     * @throws HttpException
+     */
     public function getOldByProject($projectId, $keep = 100)
     {
         if (is_null($projectId)) {
@@ -539,9 +547,9 @@ class BuildStore extends Store
             $count = count($rtn);
 
             return ['items' => $rtn, 'count' => $count];
-        } else {
-            return ['items' => [], 'count' => 0];
         }
+
+        return ['items' => [], 'count' => 0];
     }
 
     /**
@@ -620,8 +628,8 @@ LIMIT 2';
 
         if ($stmt->execute()) {
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } else {
-            return [];
         }
+
+        return [];
     }
 }
