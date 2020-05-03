@@ -274,17 +274,34 @@ class Project extends BaseProject
     /**
      * @return int
      */
-    public function getRelativeBuildPriority()
+    public function getBuildPriority()
     {
         $config = $this->getBuildConfig();
-        if ($config) {
-            $yamlParser  = new YamlParser();
-            $parsed = $yamlParser->parse($config);
-            if (isset($parsed['build_settings']['build_priority'])) {
-                return (int)$parsed['build_settings']['build_priority'];
-            }
+
+        if (!$config) {
+            return self::DEFAULT_BUILD_PRIORITY;
         }
 
-        return 0;
+        $yamlParser = new YamlParser();
+        $parsed     = $yamlParser->parse($config);
+
+        if (
+            !isset($parsed['build_settings']['build_priority']) ||
+            !(int)$parsed['build_settings']['build_priority']
+        ) {
+            return self::DEFAULT_BUILD_PRIORITY;
+        }
+
+        $priority = (int)$parsed['build_settings']['build_priority'];
+
+        if ($priority > self::MAX_BUILD_PRIORITY) {
+            return self::MAX_BUILD_PRIORITY;
+        }
+
+        if ($priority < self::MIN_BUILD_PRIORITY) {
+            return self::MIN_BUILD_PRIORITY;
+        }
+
+        return $priority;
     }
 }
