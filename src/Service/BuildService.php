@@ -118,9 +118,13 @@ class BuildService
         $buildId = $build->getId();
 
         if (!empty($buildId)) {
+            $project = $build->getProject();
             $build = BuildFactory::getBuild($build);
             $build->sendStatusPostback();
-            $this->addBuildToQueue($build);
+            $this->addBuildToQueue(
+                $build,
+                (null !== $project) ? $project->getBuildPriority() : Project::DEFAULT_BUILD_PRIORITY
+            );
         }
 
         return $build;
@@ -265,9 +269,13 @@ class BuildService
         $buildId = $build->getId();
 
         if (!empty($buildId)) {
-            $build = BuildFactory::getBuild($build);
+            $build   = BuildFactory::getBuild($build);
+            $project = $build->getProject();
             $build->sendStatusPostback();
-            $this->addBuildToQueue($build);
+            $this->addBuildToQueue(
+                $build,
+                (null !== $project) ? $project->getBuildPriority() : Project::DEFAULT_BUILD_PRIORITY
+            );
         }
 
         return $build;
@@ -335,8 +343,9 @@ class BuildService
     /**
      * Takes a build and puts it into the queue to be run (if using a queue)
      * @param Build $build
+     * @param int   $buildPriority priority in queue relative to default
      */
-    public function addBuildToQueue(Build $build)
+    public function addBuildToQueue(Build $build, $buildPriority = Project::DEFAULT_BUILD_PRIORITY)
     {
         $buildId = $build->getId();
 
@@ -348,15 +357,15 @@ class BuildService
             'build_id' => $buildId,
         ];
 
-        $this->addJobToQueue(BuildWorker::JOB_TYPE_BUILD, $jobData);
+        $this->addJobToQueue(BuildWorker::JOB_TYPE_BUILD, $jobData, ($buildPriority + Project::OFFSET_BETWEEN_BUILD_AND_QUEUE));
     }
 
     /**
      * @param string $jobType
      * @param array  $jobData
-     * @param int    $priority
+     * @param int    $queuePriority
      */
-    public function addJobToQueue($jobType, array $jobData, $priority = PheanstalkInterface::DEFAULT_PRIORITY)
+    public function addJobToQueue($jobType, array $jobData, $queuePriority = PheanstalkInterface::DEFAULT_PRIORITY)
     {
         $config   = Config::getInstance();
         $settings = $config->get('php-censor.queue', []);
@@ -372,7 +381,7 @@ class BuildService
                 $pheanstalk->useTube($settings['name']);
                 $pheanstalk->put(
                     json_encode($jobData),
-                    $priority,
+                    $queuePriority,
                     PheanstalkInterface::DEFAULT_DELAY,
                     $config->get('php-censor.queue.lifetime', 600)
                 );

@@ -5,10 +5,7 @@ namespace PHPCensor\Model\Base;
 use DateTime;
 use Exception;
 use PHPCensor\Exception\InvalidArgumentException;
-use PHPCensor\Helper\Branch;
 use PHPCensor\Model;
-use PHPCensor\Store\Factory;
-use PHPCensor\Store\ProjectStore;
 
 class Project extends Model
 {
@@ -22,6 +19,11 @@ class Project extends Model
     const TYPE_BITBUCKET_HG     = 'bitbucket-hg';
     const TYPE_BITBUCKET_SERVER = 'bitbucket-server';
     const TYPE_SVN              = 'svn';
+
+    const MIN_BUILD_PRIORITY             = 1;
+    const MAX_BUILD_PRIORITY             = 2000;
+    const DEFAULT_BUILD_PRIORITY         = 1000;
+    const OFFSET_BETWEEN_BUILD_AND_QUEUE = 24;
 
     /**
      * @var array

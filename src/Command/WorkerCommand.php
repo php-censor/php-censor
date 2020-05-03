@@ -21,6 +21,9 @@ use Symfony\Component\Console\Exception\InvalidArgumentException;
  */
 class WorkerCommand extends LoggingCommand
 {
+    const MIN_QUEUE_PRIORITY = 24;
+    const MAX_QUEUE_PRIORITY = 2025;
+
     /**
      * @var BuildService
      */
@@ -80,13 +83,12 @@ class WorkerCommand extends LoggingCommand
         }
         $value = $input->getOption('stop-worker');
         if (false !== $value) {
-            $priority = Pheanstalk::DEFAULT_PRIORITY;
             if ('soon' === $value || null === $value) {
-                $priority /= 2; // high priority, stop soon
+                $priority = self::MIN_QUEUE_PRIORITY; // high priority, stop soon
             } elseif ('done' === $value) {
-                // default priority, stop when current queued done
+                $priority = Pheanstalk::DEFAULT_PRIORITY;
             } elseif ('idle' === $value) {
-                $priority *= 2; // low priority, stop late
+                $priority = self::MAX_QUEUE_PRIORITY; // low priority, stop late
             } else {
                 $msg = sprintf('Invalid value "%s" for --stop-worker, valid are soon, done and idle;', $value);
                 throw new InvalidArgumentException($msg);

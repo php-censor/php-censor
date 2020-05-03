@@ -5,6 +5,7 @@ namespace PHPCensor\Command;
 use Monolog\Logger;
 use PHPCensor\BuildFactory;
 use PHPCensor\Logging\OutputLogHandler;
+use PHPCensor\Model\Project;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\Factory;
@@ -59,7 +60,7 @@ class RebuildQueueCommand extends Command
 
         /** @var BuildStore $buildStore */
         $buildStore = Factory::getStore('Build');
-        
+
         /** @var ProjectStore $projectStore */
         $projectStore = Factory::getStore('Project');
 
@@ -70,11 +71,15 @@ class RebuildQueueCommand extends Command
         $buildService = new BuildService($buildStore, $projectStore);
 
         while (count($result['items'])) {
-            $build = array_shift($result['items']);
-            $build = BuildFactory::getBuild($build);
+            $build   = array_shift($result['items']);
+            $build   = BuildFactory::getBuild($build);
+            $project = $build->getProject();
 
             $this->logger->addInfo('Added build #' . $build->getId() . ' to queue.');
-            $buildService->addBuildToQueue($build);
+            $buildService->addBuildToQueue(
+                $build,
+                (null !== $project) ? $project->getBuildPriority() : Project::DEFAULT_BUILD_PRIORITY
+            );
         }
     }
 }

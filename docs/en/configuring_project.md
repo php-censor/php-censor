@@ -60,7 +60,7 @@ There are several ways of configuring build in *PHP Censor* project:
     secret data (passwords, keys) in case of using public repository. The most of the configuration can be stored as a 
     public file in the repo, and passwords and keys may be added via web-interface.   
 
-**NOTE:** Config added via web-interface has the highest priority.
+    **NOTE:** Config added via web-interface has the highest priority.
 
 Config file format
 ------------------
@@ -73,6 +73,7 @@ build_settings:
   priority_path: binary_path
   binary_path:   /home/user/bin/
   directory:     /home/project
+  build_priority: 1 # only in web-interface
   ignore:
     - "vendor"
     - "tests"
@@ -169,6 +170,12 @@ plugin option `priority_path`).
 
 * Option `prefer_symlink` allows to use symlinks as a source build path. The option works only for local build source 
 (`LocalBuild`).
+
+* Option `build_priority: N` builds of a project with a higher value (like 1500) are handled after builds of projects 
+with lower values (like 2). Default value is 1000. Allowed values range: [1, 2000].
+
+    **ATTENTION!:** Option `build_priority` should be set only from web-interface (Project edit page) because it only 
+    has an effect before the repository is cloned.
 
 * Also we have global options (Usually connection settings) for some plugins like: ([Campfire](plugins/campfire.md), 
 [Irc](plugins/irc.md), [Mysql](plugins/mysql.md), [Pgsql](plugins/pgsql.md) и [Sqlite](plugins/sqlite.md)). See 
