@@ -81,9 +81,12 @@ LOGO;
      */
     public function __construct($name = 'PHP Censor', $version = 'UNKNOWN')
     {
-        $version = trim(file_get_contents(ROOT_DIR . 'VERSION.md'));
+        $realVersion = trim(file_get_contents(ROOT_DIR . 'VERSION.md'));
+        if (!$realVersion) {
+            $realVersion = $version;
+        }
 
-        parent::__construct($name, $version);
+        parent::__construct($name, $realVersion);
 
         $applicationConfig = Config::getInstance();
         $databaseSettings  = $applicationConfig->get('php-censor.database', []);
@@ -95,9 +98,9 @@ LOGO;
                     'migrations' => ROOT_DIR . 'src/Migrations',
                 ],
                 'environments' => [
-                    'default_migration_table' => 'migration',
-                    'default_database' => 'php-censor',
-                    'php-censor' => [
+                    'default_migration_table' => 'migrations',
+                    'default_database'        => 'php-censor',
+                    'php-censor'              => [
                         'adapter' => $databaseSettings['type'],
                         'host' => $databaseSettings['servers']['write'][0]['host'],
                         'name' => $databaseSettings['name'],
