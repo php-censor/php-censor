@@ -89,7 +89,7 @@
         "jakub-onderka/php-parallel-lint": "~0.9.0",
         "sensiolabs/security-checker":     "~5.0.0",
 
-        "maknz/slack":                "~1.7.0",
+        "alek13/slack":               "~1.7.0",
         "hipchat/hipchat-php":        "~1.4.0",
         "php-censor/flowdock-client": "~1.0.0",
 
