@@ -51,8 +51,10 @@ Thanks to [@Dave13h](https://github.com/Dave13h).
 - **[SecurityChecker]** Now you may use `symfony` binary for security check with option `binary_name` 
 (`symfony security:check`). Pull request [#358](https://github.com/php-censor/php-censor/pull/358). Thanks 
 to [@SimonHeimberg](https://github.com/SimonHeimberg).
-- **[PhpUnit]** Improved catching coverage output. Pull request [#355](https://github.com/php-censor/php-censor/pull/355). 
-Thanks to [@SimonHeimberg](https://github.com/SimonHeimberg).
+- **[PhpUnit]** Improved catching coverage output. Pull request 
+[#355](https://github.com/php-censor/php-censor/pull/355). Thanks to [@SimonHeimberg](https://github.com/SimonHeimberg).
+- **[SlackNotify]** Changed unsupported package `maknz/slack` for Slack integration to package `alek13/slack`. Pull 
+request [#364](https://github.com/php-censor/php-censor/pull/364). Thanks to [@alek13](https://github.com/alek13).
 - Improved code style, documentation and localizations. Pull requests 
 [#331](https://github.com/php-censor/php-censor/pull/331), [#330](https://github.com/php-censor/php-censor/pull/330), 
 [#329](https://github.com/php-censor/php-censor/pull/329), [#328](https://github.com/php-censor/php-censor/pull/328), 
