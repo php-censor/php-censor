@@ -14,7 +14,7 @@ class EnvironmentStore extends Store
     /**
      * @var string
      */
-    protected $tableName = 'environment';
+    protected $tableName = 'environments';
 
     /**
      * @var string
@@ -58,6 +58,35 @@ class EnvironmentStore extends Store
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{id}} = :id LIMIT 1';
         $stmt = Database::getConnection($useConnection)->prepareCommon($query);
         $stmt->bindValue(':id', $id);
+
+        if ($stmt->execute()) {
+            if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                return new Environment($data);
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Get a single Environment by Name.
+     *
+     * @param string $name
+     * @param string $useConnection
+     *
+     * @return null|Environment
+     *
+     * @throws HttpException
+     */
+    public function getByName($name, $useConnection = 'read')
+    {
+        if (is_null($name)) {
+            throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
+        }
+
+        $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{name}} = :name LIMIT 1';
+        $stmt = Database::getConnection($useConnection)->prepareCommon($query);
+        $stmt->bindValue(':name', $name);
 
         if ($stmt->execute()) {
             if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {

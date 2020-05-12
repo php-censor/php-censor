@@ -102,7 +102,9 @@ class ProjectService
         }
 
         if (array_key_exists('group', $options)) {
-            $project->setGroupId($options['group']);
+            $project->setGroupId((int)$options['group']);
+        } else {
+            $project->setGroupId(1);
         }
 
         $project = $this->processAccessInformation($project);

@@ -3,6 +3,8 @@
 use PHPCensor\Helper\Lang;
 use PHPCensor\Helper\Template;
 use PHPCensor\Model\Build;
+use PHPCensor\Store\EnvironmentStore;
+use PHPCensor\Store\Factory;
 
 if (!empty($latest)): ?>
 
@@ -150,8 +152,18 @@ if (!empty($latest)): ?>
                 </td>
                 <td>
                     <?php
-                    $environment = $build->getEnvironment();
-                    echo !empty($environment) ? $environment : '—' ;
+                        $environmentId = $build->getEnvironmentId();
+                        $environment   = null;
+                        if ($environmentId) {
+                            /** @var EnvironmentStore $environmentStore */
+                            $environmentStore  = Factory::getStore('Environment');
+                            $environmentObject = $environmentStore->getById($environmentId);
+                            if ($environmentObject) {
+                                $environment = $environmentObject->getName();
+                            }
+                        }
+
+                        echo !empty($environment) ? $environment : '—' ;
                     ?>
                 </td>
                 <td>

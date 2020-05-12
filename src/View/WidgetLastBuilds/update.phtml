@@ -3,6 +3,8 @@
 use PHPCensor\Helper\Lang;
 use PHPCensor\Helper\Template;
 use PHPCensor\Model\Build;
+use PHPCensor\Store\EnvironmentStore;
+use PHPCensor\Store\Factory;
 
 /**
  * @var Build[] $builds
@@ -14,8 +16,18 @@ use PHPCensor\Model\Build;
 
     <?php
     foreach ($builds as $build):
-        $environment = $build->getEnvironment();
-        $branches    = $build->getExtra('branches');
+        $environmentId = $build->getEnvironmentId();
+        $environment   = null;
+        if ($environmentId) {
+            /** @var EnvironmentStore $environmentStore */
+            $environmentStore  = Factory::getStore('Environment');
+            $environmentObject = $environmentStore->getById($environmentId);
+            if ($environmentObject) {
+                $environment = $environmentObject->getName();
+            }
+        }
+
+        $branches = $build->getExtra('branches');
 
         switch ($build->getStatus()) {
             case Build::STATUS_PENDING:

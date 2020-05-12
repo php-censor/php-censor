@@ -239,31 +239,31 @@ class Project extends BaseProject
      */
     public function getEnvironmentsNamesByBranch($branch)
     {
-        $environmentsNames = [];
+        $environmentsIds = [];
         $environments      = $this->getEnvironmentsObjects();
-        $defaultBranch     = ($branch == $this->getDefaultBranch());
+        $defaultBranch     = ($branch === $this->getDefaultBranch());
         foreach ($environments['items'] as $environment) {
             /** @var Environment $environment */
             if ($defaultBranch || in_array($branch, $environment->getBranches())) {
-                $environmentsNames[] = $environment->getName();
+                $environmentsIds[] = $environment->getId();
             }
         }
 
-        return $environmentsNames;
+        return $environmentsIds;
     }
 
     /**
-     * @param string $environmentName
+     * @param int $environmentId
      *
      * @return string[]
      */
-    public function getBranchesByEnvironment($environmentName)
+    public function getBranchesByEnvironment($environmentId)
     {
         $branches     = [];
         $environments = $this->getEnvironmentsObjects();
         foreach ($environments['items'] as $environment) {
             /** @var Environment $environment */
-            if ($environmentName == $environment->getName()) {
+            if ($environmentId == $environment->getId()) {
                 return $environment->getBranches();
             }
         }

@@ -19,7 +19,7 @@ class ProjectGroupTest extends TestCase
             'id'          => null,
             'title'       => null,
             'create_date' => null,
-            'user_id'     => 0,
+            'user_id'     => null,
         ], $projectGroup->getDataArray());
     }
 

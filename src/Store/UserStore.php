@@ -16,7 +16,7 @@ class UserStore extends Store
     /**
      * @var string
      */
-    protected $tableName  = 'user';
+    protected $tableName  = 'users';
 
     /**
      * @var string
