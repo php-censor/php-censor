@@ -120,7 +120,7 @@ class WebhookController extends Controller
         if ($builds['count']) {
             foreach ($builds['items'] as $build) {
                 /** @var Build $build */
-                $ignoreEnvironments[$build->getId()] = $build->getEnvironment();
+                $ignoreEnvironments[$build->getId()] = $build->getEnvironmentId();
                 $ignoreTags[$build->getId()]         = $build->getTag();
             }
         }
@@ -136,17 +136,17 @@ class WebhookController extends Controller
         $environments = $project->getEnvironmentsObjects();
         if ($environments['count']) {
             $createdBuilds    = [];
-            $environmentNames = $project->getEnvironmentsNamesByBranch($branch);
+            $environmentIds = $project->getEnvironmentsNamesByBranch($branch);
             // use base branch from project
-            if (!empty($environmentNames)) {
+            if (!empty($environmentIds)) {
                 $duplicates = [];
-                foreach ($environmentNames as $environmentName) {
-                    if (!in_array($environmentName, $ignoreEnvironments) ||
+                foreach ($environmentIds as $environmentId) {
+                    if (!in_array($environmentId, $ignoreEnvironments) ||
                         ($tag && !in_array($tag, $ignoreTags, true))) {
                         // If not, create a new build job for it:
                         $build = $this->buildService->createBuild(
                             $project,
-                            $environmentName,
+                            $environmentId,
                             $commitId,
                             $project->getDefaultBranch(),
                             $tag,
@@ -159,10 +159,10 @@ class WebhookController extends Controller
 
                         $createdBuilds[] = [
                             'id'          => $build->getID(),
-                            'environment' => $environmentName,
+                            'environment' => $environmentId,
                         ];
                     } else {
-                        $duplicates[] = array_search($environmentName, $ignoreEnvironments);
+                        $duplicates[] = \array_search($environmentId, $ignoreEnvironments);
                     }
                 }
                 if (!empty($createdBuilds)) {
@@ -191,8 +191,8 @@ class WebhookController extends Controller
                 return ['status' => 'ignored', 'message' => 'Branch not assigned to any environment'];
             }
         } else {
-            $environmentName = null;
-            if (!in_array($environmentName, $ignoreEnvironments, true) ||
+            $environmentId = null;
+            if (!in_array($environmentId, $ignoreEnvironments, true) ||
                 ($tag && !in_array($tag, $ignoreTags, true))) {
                 $build = $this->buildService->createBuild(
                     $project,
@@ -213,7 +213,7 @@ class WebhookController extends Controller
                     'status'  => 'ignored',
                     'message' => sprintf(
                         'Duplicate of build #%d',
-                        array_search($environmentName, $ignoreEnvironments)
+                        array_search($environmentId, $ignoreEnvironments)
                     ),
                 ];
             }
@@ -1018,7 +1018,7 @@ class WebhookController extends Controller
                     $branches[] = $headBranch;
                     $environment->setBranches($branches);
                     $store->save($environment);
-                    $envsUpdated[] = $environment->getName();
+                    $envsUpdated[] = $environment->getId();
                 }
             } else {
                 if (in_array($headBranch, $branches)) {
@@ -1026,23 +1026,23 @@ class WebhookController extends Controller
                     $branches = array_diff($branches, [$headBranch]);
                     $environment->setBranches($branches);
                     $store->save($environment);
-                    $envsUpdated[] = $environment->getName();
+                    $envsUpdated[] = $environment->getId();
                 }
             }
         }
 
         if ('closed' === $state && $pullRequest['merged']) {
             // update base branch environments
-            $environmentNames = $project->getEnvironmentsNamesByBranch($pullRequest['base_branch']);
-            $envsUpdated      = array_merge($envsUpdated, $environmentNames);
+            $environmentIds = $project->getEnvironmentsNamesByBranch($pullRequest['base_branch']);
+            $envsUpdated    = \array_merge($envsUpdated, $environmentIds);
         }
 
-        $envsUpdated = array_unique($envsUpdated);
+        $envsUpdated = \array_unique($envsUpdated);
         if (!empty($envsUpdated)) {
-            foreach ($envsUpdated as $environmentName) {
+            foreach ($envsUpdated as $environmentId) {
                 $this->buildService->createBuild(
                     $project,
-                    $environmentName,
+                    $environmentId,
                     '',
                     $project->getDefaultBranch(),
                     null,
@@ -1054,7 +1054,7 @@ class WebhookController extends Controller
                 );
             }
 
-            return ['status' => 'ok', 'message' => 'Branch environments updated ' . join(', ', $envsUpdated)];
+            return ['status' => 'ok', 'message' => 'Branch environments updated ' . \implode(', ', $envsUpdated)];
         }
 
         return ['status' => 'ignored', 'message' => 'Branch environments not changed'];

@@ -17,7 +17,7 @@ class ProjectStore extends Store
     /**
      * @var string
      */
-    protected $tableName  = 'project';
+    protected $tableName  = 'projects';
 
     /**
      * @var string
@@ -148,7 +148,7 @@ class ProjectStore extends Store
      */
     public function getKnownBranches($projectId)
     {
-        $query = 'SELECT DISTINCT {{branch}} from {{build}} WHERE {{project_id}} = :pid';
+        $query = 'SELECT DISTINCT {{branch}} from {{builds}} WHERE {{project_id}} = :pid';
         $stmt = Database::getConnection('read')->prepareCommon($query);
         $stmt->bindValue(':pid', $projectId);
 

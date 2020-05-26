@@ -13,7 +13,7 @@ class ProjectGroupStore extends Store
     /**
      * @var string
      */
-    protected $tableName  = 'project_group';
+    protected $tableName  = 'project_groups';
 
     /**
      * @var string

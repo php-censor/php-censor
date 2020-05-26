@@ -162,7 +162,7 @@ class GitBuild extends Build
         $commitId = $this->getCommitId();
         $chdir    = 'cd "%s"';
 
-        if (empty($this->getEnvironment()) && !empty($commitId)) {
+        if (empty($this->getEnvironmentId()) && !empty($commitId)) {
             $cmd     = $chdir . ' && git checkout %s --quiet';
             $success = $builder->executeCommand($cmd, $cloneTo, $commitId);
         }

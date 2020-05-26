@@ -4,6 +4,8 @@ namespace PHPCensor\Helper;
 
 use Exception;
 use PHPCensor\Model\Build as BaseBuild;
+use PHPCensor\Store\EnvironmentStore;
+use PHPCensor\Store\Factory;
 
 /**
  * The BuildInterpolator class replaces variables in a string with build-specific information.
@@ -45,7 +47,19 @@ class BuildInterpolator
         $this->interpolationVars['%BUILD_LINK%']      = $url . 'build/view/' . $build->getId();
         $this->interpolationVars['%BRANCH%']          = $build->getBranch();
         $this->interpolationVars['%BRANCH_LINK%']     = $build->getBranchLink();
-        $this->interpolationVars['%ENVIRONMENT%']     = $build->getEnvironment();
+
+        $environmentId = $build->getEnvironmentId();
+        $environment   = null;
+        if ($environmentId) {
+            /** @var EnvironmentStore $environmentStore */
+            $environmentStore  = Factory::getStore('Environment');
+            $environmentObject = $environmentStore->getById($environmentId);
+            if ($environmentObject) {
+                $environment = $environmentObject->getName();
+            }
+        }
+
+        $this->interpolationVars['%ENVIRONMENT%'] = $environment;
 
         putenv('PHP_CENSOR=1');
         putenv('PHP_CENSOR_COMMIT_ID=' . $this->interpolationVars['%COMMIT_ID%']);

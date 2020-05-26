@@ -688,7 +688,7 @@ class InstallCommand extends Command
             $group = new ProjectGroup();
             $group->setTitle('Projects');
             $group->setCreateDate(new DateTime());
-            $group->setUserId(0);
+            $group->setUserId(null);
 
             Factory::getStore('ProjectGroup')->save($group);
 

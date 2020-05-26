@@ -4,6 +4,8 @@ use PHPCensor\Helper\Lang;
 use PHPCensor\Helper\Template;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
+use PHPCensor\Store\EnvironmentStore;
+use PHPCensor\Store\Factory;
 
 /**
  * @var Build $build
@@ -57,7 +59,17 @@ use PHPCensor\Model\BuildError;
                         <th><?= Lang::get('environment'); ?></th>
                         <td style="text-align: right">
                             <?php
-                                $environment = $build->getEnvironment();
+                                $environmentId = $build->getEnvironmentId();
+                                $environment   = null;
+                                if ($environmentId) {
+                                    /** @var EnvironmentStore $environmentStore */
+                                    $environmentStore  = Factory::getStore('Environment');
+                                    $environmentObject = $environmentStore->getById($environmentId);
+                                    if ($environmentObject) {
+                                        $environment = $environmentObject->getName();
+                                    }
+                                }
+
                                 echo !empty($environment) ? ('<i class="fa fa-gear"> ' . $environment) : '—' ;
                             ?>
                         </td>

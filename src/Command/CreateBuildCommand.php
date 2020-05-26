@@ -6,6 +6,8 @@ use Exception;
 use PHPCensor\Exception\InvalidArgumentException;
 use PHPCensor\Model\Build;
 use PHPCensor\Service\BuildService;
+use PHPCensor\Store;
+use PHPCensor\Store\Factory;
 use PHPCensor\Store\ProjectStore;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -76,8 +78,28 @@ class CreateBuildCommand extends Command
             throw new InvalidArgumentException('Project does not exist: ' . $projectId);
         }
 
+        $environmentId = null;
+        if ($environment) {
+            /** @var Store\EnvironmentStore $environmentStore */
+            $environmentStore  = Factory::getStore('Environment');
+            $environmentObject = $environmentStore->getByName($environment);
+            if ($environmentObject) {
+                $environmentId = $environmentObject->getId();
+            }
+        }
+
         try {
-            $this->buildService->createBuild($project, $environment, $commitId, $branch, null, $ciEmail, $ciMessage, Build::SOURCE_MANUAL_CONSOLE);
+            $this->buildService->createBuild(
+                $project,
+                $environmentId,
+                $commitId,
+                $branch,
+                null,
+                $ciEmail,
+                $ciMessage,
+                Build::SOURCE_MANUAL_CONSOLE
+            );
+
             $output->writeln('Build Created');
         } catch (Exception $e) {
             $output->writeln('<error>Failed</error>');

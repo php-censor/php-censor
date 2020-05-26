@@ -19,7 +19,7 @@ use RuntimeException;
 
 class WrongStore extends Store
 {
-    protected $tableName  = 'project_group';
+    protected $tableName  = 'project_groups';
 
     protected $modelName  = '\PHPCensor\Model\ProjectGroup';
 
@@ -57,7 +57,7 @@ class StoreMysqlTest extends PHPUnit_Extensions_Database_TestCase
                     $this->connection = $this->createDefaultDBConnection($pdo, MYSQL_DBNAME);
 
                     $this->connection->getConnection()->query('
-                        CREATE TABLE IF NOT EXISTS `project_group` (
+                        CREATE TABLE IF NOT EXISTS `project_groups` (
                             `id`          int(11) NOT NULL AUTO_INCREMENT,
                             `title`       varchar(100) NOT NULL,
                             `create_date` datetime,
@@ -92,7 +92,7 @@ class StoreMysqlTest extends PHPUnit_Extensions_Database_TestCase
     protected function getDataSet()
     {
         return $this->createArrayDataSet([
-            'project_group' => [[
+            'project_groups' => [[
                 'id'          => 1,
                 'title'       => 'group 1',
                 'create_date' => null,
@@ -176,7 +176,7 @@ class StoreMysqlTest extends PHPUnit_Extensions_Database_TestCase
         self::assertEquals(5, $data['items'][1]->getId());
         self::assertEquals(4, $data['items'][2]->getId());
 
-        $data = $testStore->getWhere(['project_group.user_id' => 0], 100, 0, ['id' => 'ASC']);
+        $data = $testStore->getWhere(['project_groups.user_id' => 0], 100, 0, ['id' => 'ASC']);
         self::assertEquals(2, $data['count']);
         self::assertEquals(2, count($data['items']));
 

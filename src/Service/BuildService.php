@@ -54,7 +54,7 @@ class BuildService
 
     /**
      * @param Project     $project
-     * @param string      $environment
+     * @param int|null    $environmentId
      * @param string      $commitId
      * @param string|null $branch
      * @param string|null $tag
@@ -68,27 +68,27 @@ class BuildService
      */
     public function createBuild(
         Project $project,
-        $environment,
+        $environmentId = null,
         $commitId = '',
         $branch = null,
         $tag = null,
         $committerEmail = null,
         $commitMessage = null,
         $source = Build::SOURCE_UNKNOWN,
-        $userId = 0,
+        $userId = null,
         $extra = null
     ) {
         $build = new Build();
         $build->setCreateDate(new DateTime());
         $build->setProjectId($project->getId());
         $build->setStatusPending();
-        $build->setEnvironment($environment);
+        $build->setEnvironmentid($environmentId);
 
         if (!is_null($extra)) {
             $build->setExtra($extra);
         }
 
-        $branches = $project->getBranchesByEnvironment($environment);
+        $branches = $project->getBranchesByEnvironment($environmentId);
         $build->addExtraValue('branches', $branches);
 
         $build->setSource($source);
@@ -258,7 +258,7 @@ class BuildService
         $build->setCommitterEmail($originalBuild->getCommitterEmail());
         $build->setCommitMessage($originalBuild->getCommitMessage());
         $build->setExtra($originalBuild->getExtra());
-        $build->setEnvironment($originalBuild->getEnvironment());
+        $build->setEnvironmentId($originalBuild->getEnvironmentId());
         $build->setSource($source);
         $build->setUserId($originalBuild->getUserId());
         $build->setCreateDate(new DateTime());

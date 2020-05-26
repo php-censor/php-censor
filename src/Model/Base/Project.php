@@ -42,9 +42,9 @@ class Project extends Model
         'overwrite_build_config' => 1,
         'allow_public_status'    => 0,
         'archived'               => 0,
-        'group_id'               => 1,
+        'group_id'               => null,
         'create_date'            => null,
-        'user_id'                => 0,
+        'user_id'                => null,
     ];
 
     /**
@@ -454,15 +454,15 @@ class Project extends Model
     }
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getGroupId()
     {
-        return (int)$this->data['group_id'];
+        return $this->data['group_id'];
     }
 
     /**
-     * @param int $value
+     * @param int|null $value
      *
      * @return bool
      *
@@ -470,7 +470,6 @@ class Project extends Model
      */
     public function setGroupId($value)
     {
-        $this->validateNotNull('group_id', $value);
         $this->validateInt('group_id', $value);
 
         if ($this->data['group_id'] === $value) {
@@ -515,15 +514,15 @@ class Project extends Model
     }
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getUserId()
     {
-        return (int)$this->data['user_id'];
+        return $this->data['user_id'];
     }
 
     /**
-     * @param int $value
+     * @param int|null $value
      *
      * @return bool
      *
@@ -531,7 +530,6 @@ class Project extends Model
      */
     public function setUserId($value)
     {
-        $this->validateNotNull('user_id', $value);
         $this->validateInt('user_id', $value);
 
         if ($this->data['user_id'] === $value) {

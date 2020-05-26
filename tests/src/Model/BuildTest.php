@@ -29,7 +29,7 @@ class BuildTest extends TestCase
 
         self::assertEquals([
             'id'                    => null,
-            'parent_id'             => 0,
+            'parent_id'             => null,
             'project_id'            => 100,
             'commit_id'             => null,
             'status'                => null,
@@ -42,9 +42,9 @@ class BuildTest extends TestCase
             'committer_email'       => null,
             'commit_message'        => null,
             'extra'                 => null,
-            'environment'           => null,
+            'environment_id'        => null,
             'source'                => Build::SOURCE_UNKNOWN,
-            'user_id'               => 0,
+            'user_id'               => null,
             'errors_total'          => null,
             'errors_total_previous' => null,
             'errors_new'            => null,

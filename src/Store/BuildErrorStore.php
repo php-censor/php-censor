@@ -14,7 +14,7 @@ class BuildErrorStore extends Store
     /**
      * @var string
      */
-    protected $tableName = 'build_error';
+    protected $tableName = 'build_errors';
 
     /**
      * @var string
@@ -286,7 +286,7 @@ class BuildErrorStore extends Store
     {
         $query = '
             SELECT COUNT(*) AS {{total}} FROM {{' . $this->tableName . '}} AS be
-                LEFT JOIN {{build}} AS b ON be.build_id = b.id
+                LEFT JOIN {{builds}} AS b ON be.build_id = b.id
                 WHERE be.hash = :hash AND b.project_id = :project';
 
         $stmt = Database::getConnection('read')->prepareCommon($query);

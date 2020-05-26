@@ -21,6 +21,7 @@ use PHPCensor\Store\ProjectStore;
 use PHPCensor\View;
 use PHPCensor\WebController;
 use PHPCensor\Helper\Branch;
+use PHPCensor\Store\EnvironmentStore;
 
 /**
  * Project Controller - Allows users to create, edit and view projects.
@@ -235,11 +236,21 @@ class ProjectController extends WebController
             ];
         }
 
+        $environmentId = null;
+        if ($environment) {
+            /** @var EnvironmentStore $environmentStore */
+            $environmentStore  = Factory::getStore('Environment');
+            $environmentObject = $environmentStore->getByName($environment);
+            if ($environmentObject) {
+                $environmentId = $environmentObject->getId();
+            }
+        }
+
         /** @var PHPCensor\Model\User $user */
         $user  = $this->getUser();
         $build = $this->buildService->createBuild(
             $project,
-            $environment,
+            $environmentId,
             '',
             $branch,
             null,
@@ -334,7 +345,12 @@ class ProjectController extends WebController
         $criteria = ['project_id' => $projectId];
 
         if (!empty($environment)) {
-            $criteria['environment'] = $environment;
+            /** @var EnvironmentStore $environmentStore */
+            $environmentStore  = Factory::getStore('Environment');
+            $environmentObject = $environmentStore->getByName($environment);
+            if ($environmentObject) {
+                $criteria['environment_id'] = $environmentObject->getId();
+            }
         }
 
         if (!empty($branch)) {
@@ -401,7 +417,7 @@ class ProjectController extends WebController
                 'allow_public_status'    => (bool)$this->getParam('allow_public_status', false),
                 'default_branch'         => $defaultBranch ? $defaultBranch : Branch::getDefaultBranchName($type),
                 'default_branch_only'    => (bool)$this->getParam('default_branch_only', false),
-                'group'                  => (int)$this->getParam('group_id', null),
+                'group'                  => $this->getParam('group_id', null),
                 'environments'           => $this->getParam('environments', null),
             ];
 
@@ -485,7 +501,7 @@ class ProjectController extends WebController
             'allow_public_status'    => (bool)$this->getParam('allow_public_status', false),
             'archived'               => (bool)$this->getParam('archived', false),
             'default_branch_only'    => (bool)$this->getParam('default_branch_only', false),
-            'group'                  => (int)$this->getParam('group_id', null),
+            'group'                  => $this->getParam('group_id', null),
             'environments'           => isset($formValues['environments']) ? $formValues['environments'] : null,
         ];
 
@@ -593,7 +609,7 @@ class ProjectController extends WebController
         $form->addField($field);
 
         $field = Form\Element\Select::create('group_id', Lang::get('project_group'), true);
-        $field->setClass('form-control')->setContainerClass('form-group')->setValue(1);
+        $field->setClass('form-control')->setContainerClass('form-group')->setValue(null);
 
         $groups = [];
         $groupStore = Factory::getStore('ProjectGroup');

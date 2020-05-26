@@ -13,7 +13,7 @@ class BuildMetaStore extends Store
     /**
      * @var string
      */
-    protected $tableName  = 'build_meta';
+    protected $tableName  = 'build_metas';
 
     /**
      * @var string

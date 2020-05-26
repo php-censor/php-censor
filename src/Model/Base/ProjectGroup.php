@@ -16,7 +16,7 @@ class ProjectGroup extends Model
         'id'          => null,
         'title'       => null,
         'create_date' => null,
-        'user_id'     => 0,
+        'user_id'     => null,
     ];
 
     /**
@@ -110,15 +110,15 @@ class ProjectGroup extends Model
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getUserId()
     {
-        return (int)$this->data['user_id'];
+        return $this->data['user_id'];
     }
 
     /**
-     * @param int $value
+     * @param int|null $value
      *
      * @return bool
      *
@@ -126,7 +126,6 @@ class ProjectGroup extends Model
      */
     public function setUserId($value)
     {
-        $this->validateNotNull('user_id', $value);
         $this->validateInt('user_id', $value);
 
         if ($this->data['user_id'] === $value) {

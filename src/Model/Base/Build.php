@@ -33,7 +33,7 @@ class Build extends Model
      */
     protected $data = [
         'id'                    => null,
-        'parent_id'             => 0,
+        'parent_id'             => null,
         'project_id'            => null,
         'commit_id'             => null,
         'status'                => null,
@@ -46,9 +46,9 @@ class Build extends Model
         'committer_email'       => null,
         'commit_message'        => null,
         'extra'                 => null,
-        'environment'           => null,
+        'environment_id'        => null,
         'source'                => Build::SOURCE_UNKNOWN,
-        'user_id'               => 0,
+        'user_id'               => null,
         'errors_total'          => null,
         'errors_total_previous' => null,
         'errors_new'            => null,
@@ -115,11 +115,11 @@ class Build extends Model
      */
     public function getParentId()
     {
-        return (integer)$this->data['parent_id'];
+        return $this->data['parent_id'];
     }
 
     /**
-     * @param int $value
+     * @param int|null $value
      *
      * @return bool
      *
@@ -127,7 +127,6 @@ class Build extends Model
      */
     public function setParentId($value)
     {
-        $this->validateNotNull('parent_id', $value);
         $this->validateInt('parent_id', $value);
 
         if ($this->data['parent_id'] === $value) {
@@ -545,31 +544,31 @@ class Build extends Model
     }
 
     /**
-     * @return string
+     * @return int|null
      */
-    public function getEnvironment()
+    public function getEnvironmentId()
     {
-        return $this->data['environment'];
+        return $this->data['environment_id'];
     }
 
     /**
-     * @param string|null $value
+     * @param int|null $value
      *
      * @return bool
      *
      * @throws InvalidArgumentException
      */
-    public function setEnvironment($value)
+    public function setEnvironmentId($value)
     {
-        $this->validateString('environment', $value);
+        $this->validateInt('environment_id', $value);
 
-        if ($this->data['environment'] === $value) {
+        if ($this->data['environment_id'] === $value) {
             return false;
         }
 
-        $this->data['environment'] = $value;
+        $this->data['environment_id'] = $value;
 
-        return $this->setModified('environment');
+        return $this->setModified('environment_id');
     }
 
     /**
@@ -607,15 +606,15 @@ class Build extends Model
     }
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getUserId()
     {
-        return (int)$this->data['user_id'];
+        return $this->data['user_id'];
     }
 
     /**
-     * @param int $value
+     * @param int|null $value
      *
      * @return bool
      *
@@ -623,7 +622,6 @@ class Build extends Model
      */
     public function setUserId($value)
     {
-        $this->validateNotNull('user_id', $value);
         $this->validateInt('user_id', $value);
 
         if ($this->data['user_id'] === $value) {

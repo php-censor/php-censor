@@ -135,7 +135,7 @@ class BuildErrorWriter
             $insertValuesData['is_new' . $i]      = $error['is_new'];
         }
         $query = '
-            INSERT INTO {{build_error}} (
+            INSERT INTO {{build_errors}} (
                 {{build_id}},
                 {{plugin}},
                 {{file}},

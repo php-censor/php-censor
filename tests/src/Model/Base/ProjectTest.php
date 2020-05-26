@@ -29,9 +29,9 @@ class ProjectTest extends TestCase
             'overwrite_build_config' => 1,
             'allow_public_status'    => 0,
             'archived'               => 0,
-            'group_id'               => 1,
+            'group_id'               => null,
             'create_date'            => null,
-            'user_id'                => 0,
+            'user_id'                => null,
         ], $project->getDataArray());
     }
 

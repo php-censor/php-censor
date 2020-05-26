@@ -2,6 +2,8 @@
 
 use PHPCensor\Helper\Lang;
 use PHPCensor\Model\Build;
+use PHPCensor\Store\EnvironmentStore;
+use PHPCensor\Store\Factory;
 
 /**
  * @var Build[] $builds
@@ -87,7 +89,17 @@ $branches = $build->getExtra('branches');
     </td>
     <td>
         <?php
-            $environment = $build->getEnvironment();
+            $environmentId = $build->getEnvironmentId();
+            $environment   = null;
+            if ($environmentId) {
+                /** @var EnvironmentStore $environmentStore */
+                $environmentStore  = Factory::getStore('Environment');
+                $environmentObject = $environmentStore->getById($environmentId);
+                if ($environmentObject) {
+                    $environment = $environmentObject->getName();
+                }
+            }
+
             echo !empty($environment) ? $environment : '—' ;
         ?>
     </td>
