@@ -42,7 +42,7 @@ class Project extends Model
         'overwrite_build_config' => 1,
         'allow_public_status'    => 0,
         'archived'               => 0,
-        'group_id'               => null,
+        'group_id'               => 1,
         'create_date'            => null,
         'user_id'                => null,
     ];
