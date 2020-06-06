@@ -76,9 +76,11 @@ class WebhookNotify extends Plugin
 
 
         try {
-            $client = new Client([
+            $version   = trim(file_get_contents(ROOT_DIR . 'VERSION.md'));
+            $userAgent = 'PHP Censor/' . $version;
+            $client    = new Client([
                 'headers' => [
-                    'User-Agent' => 'PHP Censor/1.0'
+                    'User-Agent' => $userAgent,
                 ],
             ]);
             $client->request(

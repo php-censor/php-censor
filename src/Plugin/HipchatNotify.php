@@ -38,7 +38,8 @@ class HipchatNotify extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        $this->userAgent = "PHP Censor/1.0";
+        $version         = trim(file_get_contents(ROOT_DIR . 'VERSION.md'));
+        $this->userAgent = 'PHP Censor/' . $version;
         $this->cookie    = "php-censor-cookie";
 
         if (is_array($options) && isset($options['authToken']) && isset($options['room'])) {
