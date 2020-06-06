@@ -91,8 +91,9 @@ Plugins
 * [HipChat](plugins/hipchat_notify.md) - `hipchat_notify`
 * [IRC](plugins/irc.md) - `irc`
 * [Slack](plugins/slack_notify.md) - `slack_notify`
-* [XMPP](plugins/xmpp.md) - `xmpp`
 * [Telegram](plugins/telegram.md) - `telegram`
+* [Webhook](plugins/webhook_notify.md) - `webhook_notify`
+* [XMPP](plugins/xmpp.md) - `xmpp`
 
 #### Other
 
