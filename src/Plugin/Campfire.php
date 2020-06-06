@@ -38,7 +38,8 @@ class Campfire extends Plugin
         parent::__construct($builder, $build, $options);
 
         $this->message   = $options['message'];
-        $this->userAgent = "PHP Censor/1.0";
+        $version         = trim(file_get_contents(ROOT_DIR . 'VERSION.md'));
+        $this->userAgent = 'PHP Censor/' . $version;
         $this->cookie    = "php-censor-cookie";
 
         $buildSettings = $this->builder->getConfig('build_settings');
