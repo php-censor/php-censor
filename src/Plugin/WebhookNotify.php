@@ -17,11 +17,6 @@ use PHPCensor\Plugin;
  */
 class WebhookNotify extends Plugin
 {
-    const STATUS_PENDING = 0;
-    const STATUS_RUNNING = 1;
-    const STATUS_SUCCESS = 2;
-    const STATUS_FAILED  = 3;
-
     /**
      * @var string The URL to send the webhook to.
      */
