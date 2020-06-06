@@ -18,7 +18,7 @@ Send a message if the build fails:
 
 ```yaml
 failure:
-    webook_notify:
+    webhook_notify:
         url: "http://example.com/webhook-handler"
 ```
 
@@ -26,7 +26,7 @@ Send a message if the build is successful:
 
 ```yaml
 success:
-    webook_notify:
+    webhook_notify:
         url: "http://example.com/webhook-handler"
 ```
 
@@ -34,6 +34,6 @@ Send a message every time the build runs:
 
 ```yaml
 complete:
-    webook_notify:
+    webhook_notify:
         url: "http://example.com/webhook-handler"
 ```
