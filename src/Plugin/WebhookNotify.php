@@ -70,8 +70,8 @@ class WebhookNotify extends Plugin
             'commit_link'     => $this->build->getCommitLink(),
             'build_link'      => APP_URL . 'build/view/' . $this->build->getId(),
             'project_link'    => APP_URL . 'project/view/' . $this->build->getProjectId(),
-            'statusCode'      => $this->build->getStatus(),
-            'readableStatus'  => $this->getReadableStatus($this->build->getStatus()),
+            'status_code'     => $this->build->getStatus(),
+            'readable_status' => $this->getReadableStatus($this->build->getStatus()),
         ];
 
 
