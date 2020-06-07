@@ -26,6 +26,10 @@ Issue [#299](https://github.com/php-censor/php-censor/issues/299). Pull request
 [#308](https://github.com/php-censor/php-censor/pull/308), [#309](https://github.com/php-censor/php-censor/pull/309), 
 [#312](https://github.com/php-censor/php-censor/pull/312), [#323](https://github.com/php-censor/php-censor/pull/323). 
 Thanks to [@lugark](https://github.com/lugark).
+- **[WebhookNotify]** New 
+[WebhookNotify](https://github.com/php-censor/php-censor/blob/master/docs/en/plugins/webhook_notify.md) plugin. Issue 
+[#184](https://github.com/php-censor/php-censor/issues/184). Pull request 
+[#367](https://github.com/php-censor/php-censor/pull/367). Thanks to [@leewillis77](https://github.com/leewillis77).
 - Default value for DB port parameter during the installation (`3306` for MySQL and `5432` for PostgreSQL). Issue 
 [#316](https://github.com/php-censor/php-censor/issues/316).
 - Yaml project config validation for project edit web-interface. Pull requests 
@@ -43,6 +47,8 @@ Thanks to [@Dave13h](https://github.com/Dave13h).
 - **[PHPCodeSniffer]** PHPCodeSniffer plugin dependencies for PHP `7.3`. Issue 
 [#334](https://github.com/php-censor/php-censor/issues/334). Pull request 
 [#335](https://github.com/php-censor/php-censor/pull/335). Thanks to [@xl32](https://github.com/xl32).
+- Many database scheme issues (Added foreign keys, improved columns types etc.). Issue 
+[#365](https://github.com/php-censor/php-censor/issues/365).
 
 ### Changed
 
