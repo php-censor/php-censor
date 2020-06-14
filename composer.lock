@@ -106,7 +106,7 @@
             "version": "v4.7.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/FortAwesome/Font-Awesome.git",
+                "url": "git@github.com:FortAwesome/Font-Awesome.git",
                 "reference": "a8386aae19e200ddb0f6845b5feeee5eb7013687"
             },
             "dist": {
@@ -162,16 +162,16 @@
         },
         {
             "name": "cakephp/cache",
-            "version": "3.8.11",
+            "version": "3.8.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/cache.git",
-                "reference": "4c261d241f30cda8c6636cf8a22d01797a89009b"
+                "reference": "09b2a1c4929e134456d30c61d9dbf6e10ace8436"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/cache/zipball/4c261d241f30cda8c6636cf8a22d01797a89009b",
-                "reference": "4c261d241f30cda8c6636cf8a22d01797a89009b",
+                "url": "https://api.github.com/repos/cakephp/cache/zipball/09b2a1c4929e134456d30c61d9dbf6e10ace8436",
+                "reference": "09b2a1c4929e134456d30c61d9dbf6e10ace8436",
                 "shasum": ""
             },
             "require": {
@@ -202,11 +202,11 @@
                 "caching",
                 "cakephp"
             ],
-            "time": "2020-03-02T21:42:14+00:00"
+            "time": "2020-04-19T21:38:42+00:00"
         },
         {
             "name": "cakephp/collection",
-            "version": "3.8.11",
+            "version": "3.8.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/collection.git",
@@ -252,7 +252,7 @@
         },
         {
             "name": "cakephp/core",
-            "version": "3.8.11",
+            "version": "3.8.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/core.git",
@@ -302,16 +302,16 @@
         },
         {
             "name": "cakephp/database",
-            "version": "3.8.11",
+            "version": "3.8.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/database.git",
-                "reference": "100542d4364a6de674c37bb605ac2fce5a8cc0cd"
+                "reference": "489591545fd223d6cdbf022049f7c73ede0cb4fa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/database/zipball/100542d4364a6de674c37bb605ac2fce5a8cc0cd",
-                "reference": "100542d4364a6de674c37bb605ac2fce5a8cc0cd",
+                "url": "https://api.github.com/repos/cakephp/database/zipball/489591545fd223d6cdbf022049f7c73ede0cb4fa",
+                "reference": "489591545fd223d6cdbf022049f7c73ede0cb4fa",
                 "shasum": ""
             },
             "require": {
@@ -346,20 +346,20 @@
                 "database abstraction",
                 "pdo"
             ],
-            "time": "2020-02-04T11:23:19+00:00"
+            "time": "2020-04-13T01:41:15+00:00"
         },
         {
             "name": "cakephp/datasource",
-            "version": "3.8.11",
+            "version": "3.8.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/datasource.git",
-                "reference": "e2fff5bd4adb650d565c853fb25380657e2d1dbb"
+                "reference": "adc983f7c4d99c4361e3a8e4c0db7cdde26ee180"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/datasource/zipball/e2fff5bd4adb650d565c853fb25380657e2d1dbb",
-                "reference": "e2fff5bd4adb650d565c853fb25380657e2d1dbb",
+                "url": "https://api.github.com/repos/cakephp/datasource/zipball/adc983f7c4d99c4361e3a8e4c0db7cdde26ee180",
+                "reference": "adc983f7c4d99c4361e3a8e4c0db7cdde26ee180",
                 "shasum": ""
             },
             "require": {
@@ -396,11 +396,11 @@
                 "entity",
                 "query"
             ],
-            "time": "2019-11-20T00:00:46+00:00"
+            "time": "2020-04-14T14:22:40+00:00"
         },
         {
             "name": "cakephp/log",
-            "version": "3.8.11",
+            "version": "3.8.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/log.git",
@@ -445,7 +445,7 @@
         },
         {
             "name": "cakephp/utility",
-            "version": "3.8.11",
+            "version": "3.8.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/utility.git",
@@ -1341,54 +1341,6 @@
             "time": "2014-11-20T16:49:30+00:00"
         },
         {
-            "name": "jakub-onderka/php-parallel-lint",
-            "version": "v0.9.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/JakubOnderka/PHP-Parallel-Lint.git",
-                "reference": "2ead2e4043ab125bee9554f356e0a86742c2d4fa"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/JakubOnderka/PHP-Parallel-Lint/zipball/2ead2e4043ab125bee9554f356e0a86742c2d4fa",
-                "reference": "2ead2e4043ab125bee9554f356e0a86742c2d4fa",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3"
-            },
-            "require-dev": {
-                "jakub-onderka/php-console-highlighter": "~0.3",
-                "nette/tester": "~1.3"
-            },
-            "suggest": {
-                "jakub-onderka/php-console-highlighter": "Highlight syntax in code snippet"
-            },
-            "bin": [
-                "parallel-lint"
-            ],
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "./"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-2-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Jakub Onderka",
-                    "email": "jakub.onderka@gmail.com"
-                }
-            ],
-            "description": "This tool check syntax of PHP files about 20x faster than serial check.",
-            "homepage": "https://github.com/JakubOnderka/PHP-Parallel-Lint",
-            "abandoned": "php-parallel-lint/php-parallel-lint",
-            "time": "2015-12-15T10:42:16+00:00"
-        },
-        {
             "name": "jasongrimes/paginator",
             "version": "1.0.3",
             "source": {
@@ -1981,6 +1933,59 @@
                 "testing"
             ],
             "time": "2018-12-26T13:53:59+00:00"
+        },
+        {
+            "name": "php-parallel-lint/php-parallel-lint",
+            "version": "v1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-parallel-lint/PHP-Parallel-Lint.git",
+                "reference": "474f18bc6cc6aca61ca40bfab55139de614e51ca"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-parallel-lint/PHP-Parallel-Lint/zipball/474f18bc6cc6aca61ca40bfab55139de614e51ca",
+                "reference": "474f18bc6cc6aca61ca40bfab55139de614e51ca",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=5.4.0"
+            },
+            "replace": {
+                "grogy/php-parallel-lint": "*",
+                "jakub-onderka/php-parallel-lint": "*"
+            },
+            "require-dev": {
+                "nette/tester": "^1.3 || ^2.0",
+                "php-parallel-lint/php-console-highlighter": "~0.3",
+                "squizlabs/php_codesniffer": "~3.0"
+            },
+            "suggest": {
+                "php-parallel-lint/php-console-highlighter": "Highlight syntax in code snippet"
+            },
+            "bin": [
+                "parallel-lint"
+            ],
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "./"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Jakub Onderka",
+                    "email": "ahoj@jakubonderka.cz"
+                }
+            ],
+            "description": "This tool check syntax of PHP files about 20x faster than serial check.",
+            "homepage": "https://github.com/php-parallel-lint/PHP-Parallel-Lint",
+            "time": "2020-04-04T12:18:32+00:00"
         },
         {
             "name": "phpdocumentor/reflection-docblock",
@@ -2928,16 +2933,16 @@
         },
         {
             "name": "robmorgan/phinx",
-            "version": "0.11.6",
+            "version": "0.11.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/phinx.git",
-                "reference": "6bac1f51c8e35201ec281e842e6ae6dbe066212f"
+                "reference": "3cdde73e0c33c410e076108b3e1603fabb5b330d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/phinx/zipball/6bac1f51c8e35201ec281e842e6ae6dbe066212f",
-                "reference": "6bac1f51c8e35201ec281e842e6ae6dbe066212f",
+                "url": "https://api.github.com/repos/cakephp/phinx/zipball/3cdde73e0c33c410e076108b3e1603fabb5b330d",
+                "reference": "3cdde73e0c33c410e076108b3e1603fabb5b330d",
                 "shasum": ""
             },
             "require": {
@@ -2945,14 +2950,14 @@
                 "cakephp/database": "^3.7",
                 "php": ">=5.6",
                 "symfony/config": "^3.4|^4.0|^5.0",
-                "symfony/console": "^3.4|^4.0|^5.0"
+                "symfony/console": "^3.4|^4.0|^5.0",
+                "symfony/yaml": "^3.4|^4.0|^5.0"
             },
             "require-dev": {
                 "cakephp/cakephp-codesniffer": "^3.0",
                 "ext-json": "*",
                 "phpunit/phpunit": ">=5.7,<8.0",
-                "sebastian/comparator": ">=1.2.3",
-                "symfony/yaml": "^3.4|^4.0|^5.0"
+                "sebastian/comparator": ">=1.2.3"
             },
             "suggest": {
                 "ext-json": "Install if using JSON configuration format",
@@ -3004,7 +3009,7 @@
                 "migrations",
                 "phinx"
             ],
-            "time": "2020-04-06T16:36:00+00:00"
+            "time": "2020-05-09T13:59:05+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -3806,16 +3811,16 @@
         },
         {
             "name": "symfony/browser-kit",
-            "version": "v3.4.40",
+            "version": "v3.4.42",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/browser-kit.git",
-                "reference": "1c7bcd954ad1fc02354c4cfd3fcd1b0c95245367"
+                "reference": "1467e0c7cf0c5c2c08dc9b45ca0300ac3cd3a824"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/browser-kit/zipball/1c7bcd954ad1fc02354c4cfd3fcd1b0c95245367",
-                "reference": "1c7bcd954ad1fc02354c4cfd3fcd1b0c95245367",
+                "url": "https://api.github.com/repos/symfony/browser-kit/zipball/1467e0c7cf0c5c2c08dc9b45ca0300ac3cd3a824",
+                "reference": "1467e0c7cf0c5c2c08dc9b45ca0300ac3cd3a824",
                 "shasum": ""
             },
             "require": {
@@ -3873,20 +3878,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-03-15T09:38:08+00:00"
+            "time": "2020-04-27T06:55:12+00:00"
         },
         {
             "name": "symfony/cache",
-            "version": "v3.4.40",
+            "version": "v3.4.42",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/cache.git",
-                "reference": "c9f37a7efd9cb1ab66e42152f43dc50c33ca753c"
+                "reference": "42bd2c563c94eeda0639074e91774505ea557cce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/cache/zipball/c9f37a7efd9cb1ab66e42152f43dc50c33ca753c",
-                "reference": "c9f37a7efd9cb1ab66e42152f43dc50c33ca753c",
+                "url": "https://api.github.com/repos/symfony/cache/zipball/42bd2c563c94eeda0639074e91774505ea557cce",
+                "reference": "42bd2c563c94eeda0639074e91774505ea557cce",
                 "shasum": ""
             },
             "require": {
@@ -3905,9 +3910,9 @@
             },
             "require-dev": {
                 "cache/integration-tests": "dev-master",
-                "doctrine/cache": "~1.6",
-                "doctrine/dbal": "~2.4",
-                "predis/predis": "~1.0"
+                "doctrine/cache": "^1.6",
+                "doctrine/dbal": "^2.4|^3.0",
+                "predis/predis": "^1.0"
             },
             "type": "library",
             "extra": {
@@ -3957,20 +3962,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-04-23T21:50:38+00:00"
+            "time": "2020-06-09T14:07:03+00:00"
         },
         {
             "name": "symfony/config",
-            "version": "v3.4.40",
+            "version": "v3.4.42",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/config.git",
-                "reference": "3634991bea549e73c45a964c38f30ceeae6ed877"
+                "reference": "cd61db31cbd19cbe4ba9f6968f13c9076e1372ab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/config/zipball/3634991bea549e73c45a964c38f30ceeae6ed877",
-                "reference": "3634991bea549e73c45a964c38f30ceeae6ed877",
+                "url": "https://api.github.com/repos/symfony/config/zipball/cd61db31cbd19cbe4ba9f6968f13c9076e1372ab",
+                "reference": "cd61db31cbd19cbe4ba9f6968f13c9076e1372ab",
                 "shasum": ""
             },
             "require": {
@@ -4035,20 +4040,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-04-12T14:33:46+00:00"
+            "time": "2020-05-22T10:56:48+00:00"
         },
         {
             "name": "symfony/console",
-            "version": "v3.4.40",
+            "version": "v3.4.42",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "bf60d5e606cd595391c5f82bf6b570d9573fa120"
+                "reference": "bfe29ead7e7b1cc9ce74c6a40d06ad1f96fced13"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/bf60d5e606cd595391c5f82bf6b570d9573fa120",
-                "reference": "bf60d5e606cd595391c5f82bf6b570d9573fa120",
+                "url": "https://api.github.com/repos/symfony/console/zipball/bfe29ead7e7b1cc9ce74c6a40d06ad1f96fced13",
+                "reference": "bfe29ead7e7b1cc9ce74c6a40d06ad1f96fced13",
                 "shasum": ""
             },
             "require": {
@@ -4121,11 +4126,11 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-03-27T17:07:22+00:00"
+            "time": "2020-05-30T18:58:05+00:00"
         },
         {
             "name": "symfony/css-selector",
-            "version": "v3.4.40",
+            "version": "v3.4.42",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/css-selector.git",
@@ -4192,16 +4197,16 @@
         },
         {
             "name": "symfony/debug",
-            "version": "v3.4.40",
+            "version": "v3.4.42",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/debug.git",
-                "reference": "ce9f3b5e8e1c50f849fded59b3a1b6bc3562ec29"
+                "reference": "518c6a00d0872da30bd06aee3ea59a0a5cf54d6d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/debug/zipball/ce9f3b5e8e1c50f849fded59b3a1b6bc3562ec29",
-                "reference": "ce9f3b5e8e1c50f849fded59b3a1b6bc3562ec29",
+                "url": "https://api.github.com/repos/symfony/debug/zipball/518c6a00d0872da30bd06aee3ea59a0a5cf54d6d",
+                "reference": "518c6a00d0872da30bd06aee3ea59a0a5cf54d6d",
                 "shasum": ""
             },
             "require": {
@@ -4258,20 +4263,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-03-23T10:22:40+00:00"
+            "time": "2020-05-22T18:25:20+00:00"
         },
         {
             "name": "symfony/dependency-injection",
-            "version": "v3.4.40",
+            "version": "v3.4.42",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dependency-injection.git",
-                "reference": "d10ff5503b0b27711087eef4ac7835a752fe42fd"
+                "reference": "e39380b7104b0ec538a075ae919f00c7e5267bac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/d10ff5503b0b27711087eef4ac7835a752fe42fd",
-                "reference": "d10ff5503b0b27711087eef4ac7835a752fe42fd",
+                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/e39380b7104b0ec538a075ae919f00c7e5267bac",
+                "reference": "e39380b7104b0ec538a075ae919f00c7e5267bac",
                 "shasum": ""
             },
             "require": {
@@ -4343,20 +4348,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-04-13T09:33:40+00:00"
+            "time": "2020-05-30T21:06:01+00:00"
         },
         {
             "name": "symfony/dom-crawler",
-            "version": "v3.4.40",
+            "version": "v3.4.42",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dom-crawler.git",
-                "reference": "ceacdab4abf7695ef6bec77c8b7983e1544c6358"
+                "reference": "c3086a58a66b2a519c0b7ac80539a3727609ea9c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/ceacdab4abf7695ef6bec77c8b7983e1544c6358",
-                "reference": "ceacdab4abf7695ef6bec77c8b7983e1544c6358",
+                "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/c3086a58a66b2a519c0b7ac80539a3727609ea9c",
+                "reference": "c3086a58a66b2a519c0b7ac80539a3727609ea9c",
                 "shasum": ""
             },
             "require": {
@@ -4414,20 +4419,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-03-16T08:31:04+00:00"
+            "time": "2020-05-22T19:35:43+00:00"
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v3.4.40",
+            "version": "v3.4.42",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
-                "reference": "9d4e22943b73acc1ba50595b7de1a01fe9dbad48"
+                "reference": "14d978f8e8555f2de719c00eb65376be7d2e9081"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/9d4e22943b73acc1ba50595b7de1a01fe9dbad48",
-                "reference": "9d4e22943b73acc1ba50595b7de1a01fe9dbad48",
+                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/14d978f8e8555f2de719c00eb65376be7d2e9081",
+                "reference": "14d978f8e8555f2de719c00eb65376be7d2e9081",
                 "shasum": ""
             },
             "require": {
@@ -4491,20 +4496,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-03-15T09:38:08+00:00"
+            "time": "2020-05-05T15:06:23+00:00"
         },
         {
             "name": "symfony/filesystem",
-            "version": "v3.4.40",
+            "version": "v3.4.42",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
-                "reference": "78a93e5606a19d0fb490afc3c4a9b7ecd86e1515"
+                "reference": "0f625d0cb1e59c8c4ba61abb170125175218ff10"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/78a93e5606a19d0fb490afc3c4a9b7ecd86e1515",
-                "reference": "78a93e5606a19d0fb490afc3c4a9b7ecd86e1515",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/0f625d0cb1e59c8c4ba61abb170125175218ff10",
+                "reference": "0f625d0cb1e59c8c4ba61abb170125175218ff10",
                 "shasum": ""
             },
             "require": {
@@ -4555,11 +4560,11 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-04-12T16:54:01+00:00"
+            "time": "2020-05-30T17:48:24+00:00"
         },
         {
             "name": "symfony/finder",
-            "version": "v3.4.40",
+            "version": "v3.4.42",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
@@ -4604,20 +4609,34 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "https://symfony.com",
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2020-02-14T07:34:21+00:00"
         },
         {
             "name": "symfony/intl",
-            "version": "v3.4.40",
+            "version": "v3.4.42",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/intl.git",
-                "reference": "1346a5be35df869344078b89be1581138cb9745f"
+                "reference": "41ff65c5afbf3f214e6eda687d2ca79b26c255b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/intl/zipball/1346a5be35df869344078b89be1581138cb9745f",
-                "reference": "1346a5be35df869344078b89be1581138cb9745f",
+                "url": "https://api.github.com/repos/symfony/intl/zipball/41ff65c5afbf3f214e6eda687d2ca79b26c255b4",
+                "reference": "41ff65c5afbf3f214e6eda687d2ca79b26c255b4",
                 "shasum": ""
             },
             "require": {
@@ -4693,20 +4712,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-04-12T14:33:46+00:00"
+            "time": "2020-05-30T18:58:05+00:00"
         },
         {
             "name": "symfony/options-resolver",
-            "version": "v3.4.40",
+            "version": "v3.4.42",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/options-resolver.git",
-                "reference": "79701529391f802604ec92080364d617f029974b"
+                "reference": "3b9fe6db7fe3694307d182dd73983584af77d5fd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/79701529391f802604ec92080364d617f029974b",
-                "reference": "79701529391f802604ec92080364d617f029974b",
+                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/3b9fe6db7fe3694307d182dd73983584af77d5fd",
+                "reference": "3b9fe6db7fe3694307d182dd73983584af77d5fd",
                 "shasum": ""
             },
             "require": {
@@ -4761,7 +4780,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-04-06T08:30:32+00:00"
+            "time": "2020-05-21T13:02:25+00:00"
         },
         {
             "name": "symfony/polyfill",
@@ -4867,16 +4886,16 @@
         },
         {
             "name": "symfony/process",
-            "version": "v3.4.40",
+            "version": "v3.4.42",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
-                "reference": "f5104c9dcbc2cfad45d01d5150c1da9836967271"
+                "reference": "8a895f0c92a7c4b10db95139bcff71bdf66d4d21"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/f5104c9dcbc2cfad45d01d5150c1da9836967271",
-                "reference": "f5104c9dcbc2cfad45d01d5150c1da9836967271",
+                "url": "https://api.github.com/repos/symfony/process/zipball/8a895f0c92a7c4b10db95139bcff71bdf66d4d21",
+                "reference": "8a895f0c92a7c4b10db95139bcff71bdf66d4d21",
                 "shasum": ""
             },
             "require": {
@@ -4926,11 +4945,11 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-04-12T14:33:46+00:00"
+            "time": "2020-05-23T17:05:51+00:00"
         },
         {
             "name": "symfony/stopwatch",
-            "version": "v3.4.40",
+            "version": "v3.4.42",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/stopwatch.git",
@@ -4993,16 +5012,16 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v3.4.40",
+            "version": "v3.4.42",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "8fef49ac1357f4e05c997a1f139467ccb186bffa"
+                "reference": "7233ac2bfdde24d672f5305f2b3f6b5d741ef8eb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/8fef49ac1357f4e05c997a1f139467ccb186bffa",
-                "reference": "8fef49ac1357f4e05c997a1f139467ccb186bffa",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/7233ac2bfdde24d672f5305f2b3f6b5d741ef8eb",
+                "reference": "7233ac2bfdde24d672f5305f2b3f6b5d741ef8eb",
                 "shasum": ""
             },
             "require": {
@@ -5062,7 +5081,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-04-24T10:16:04+00:00"
+            "time": "2020-05-11T07:51:54+00:00"
         },
         {
             "name": "theseer/fdomdocument",
@@ -5296,16 +5315,16 @@
         },
         {
             "name": "composer/xdebug-handler",
-            "version": "1.4.1",
+            "version": "1.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/xdebug-handler.git",
-                "reference": "1ab9842d69e64fb3a01be6b656501032d1b78cb7"
+                "reference": "fa2aaf99e2087f013a14f7432c1cd2dd7d8f1f51"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/xdebug-handler/zipball/1ab9842d69e64fb3a01be6b656501032d1b78cb7",
-                "reference": "1ab9842d69e64fb3a01be6b656501032d1b78cb7",
+                "url": "https://api.github.com/repos/composer/xdebug-handler/zipball/fa2aaf99e2087f013a14f7432c1cd2dd7d8f1f51",
+                "reference": "fa2aaf99e2087f013a14f7432c1cd2dd7d8f1f51",
                 "shasum": ""
             },
             "require": {
@@ -5340,9 +5359,17 @@
                 {
                     "url": "https://packagist.com",
                     "type": "custom"
+                },
+                {
+                    "url": "https://github.com/composer",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/composer/composer",
+                    "type": "tidelift"
                 }
             ],
-            "time": "2020-03-01T12:26:26+00:00"
+            "time": "2020-06-04T11:16:35+00:00"
         },
         {
             "name": "friendsofphp/php-cs-fixer",
@@ -5542,16 +5569,16 @@
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v3.4.40",
+            "version": "v3.4.42",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "13c03169ae485fc7f1a5143256622ce1bd3c77eb"
+                "reference": "7a947d1b5e81583759a3a927f1761b95bddc5f1b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/13c03169ae485fc7f1a5143256622ce1bd3c77eb",
-                "reference": "13c03169ae485fc7f1a5143256622ce1bd3c77eb",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/7a947d1b5e81583759a3a927f1761b95bddc5f1b",
+                "reference": "7a947d1b5e81583759a3a927f1761b95bddc5f1b",
                 "shasum": ""
             },
             "require": {
@@ -5621,7 +5648,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-03-17T22:27:36+00:00"
+            "time": "2020-05-23T12:00:17+00:00"
         }
     ],
     "aliases": [],
