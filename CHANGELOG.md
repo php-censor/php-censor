@@ -5,6 +5,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [1.1.6 (Birdperson)](https://github.com/php-censor/php-censor/tree/1.1.6) (2020-06-14)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/1.1.5...1.1.6)
+
+### Fixed
+
+- Deprecation error on PHP 7.4 by Phinx (Phinx version upgraded from version 0.10 to 0.11). Issue 
+[#363](https://github.com/php-censor/php-censor/issues/363).
+
+### Changed
+
+- Updated dependencies.
+- Improved change log markup.
+
+
 ## [1.1.5 (Birdperson)](https://github.com/php-censor/php-censor/tree/1.1.5) (2020-04-26)
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/1.1.4...1.1.5)
