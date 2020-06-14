@@ -266,28 +266,11 @@ class Build extends BaseBuild
 
         $repositoryConfig     = $this->getZeroConfigPlugins($builder);
         $repositoryConfigFrom = '<empty config>';
+
         if (file_exists($buildPath . '/.php-censor.yml')) {
             $repositoryConfigFrom = '.php-censor.yml';
             $repositoryConfig = $yamlParser->parse(
                 file_get_contents($buildPath . '/.php-censor.yml')
-            );
-        } elseif (file_exists($buildPath . '/.phpci.yml')) {
-            $builder->logWarning(
-                '[DEPRECATED] Config file name ".phpci.yml" is deprecated and will be deleted in version 2.0. Use a config file name ".php-censor.yml" instead.'
-            );
-
-            $repositoryConfigFrom = '.phpci.yml';
-            $repositoryConfig = $yamlParser->parse(
-                file_get_contents($buildPath . '/.phpci.yml')
-            );
-        } elseif (file_exists($buildPath . '/phpci.yml')) {
-            $builder->logWarning(
-                '[DEPRECATED] Config file name "phpci.yml" is deprecated and will be deleted in version 2.0. Use a config file name ".php-censor.yml" instead.'
-            );
-
-            $repositoryConfigFrom = 'phpci.yml';
-            $repositoryConfig = $yamlParser->parse(
-                file_get_contents($buildPath . '/phpci.yml')
             );
         }
 

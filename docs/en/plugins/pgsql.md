@@ -15,8 +15,6 @@ Configuration
 * **dbname** [string, optional] - PostgreSQL database name.
 * **options** [array, optional] - Additional PDO connection options ('PDO::ATTR_*').
 * **user** [string] - PostgreSQL username.
-* **pass** [string] - **[DEPRECATED]** Option `pass` is deprecated and will be deleted in version 2.0. Use the option 
-`password` instead.
 * **password** [string] - PostgreSQL password.
 
 #### Plugin options

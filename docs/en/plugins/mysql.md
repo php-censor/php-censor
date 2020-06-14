@@ -16,8 +16,6 @@ Configuration
 * **charset** [string, optional] - MySQL charset ('UTF8' for example).
 * **options** [array, optional] - Additional PDO connection options ('PDO::ATTR_*').
 * **user** [string] - MySQL username.
-* **pass** [string] - **[DEPRECATED]** Option `pass` is deprecated and will be deleted in version 2.0. Use the option 
-`password` instead.
 * **password** [string] - MySQL password.
 
 #### Plugin options

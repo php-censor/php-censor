@@ -24,7 +24,6 @@ php-censor:
     password: php-censor-password
   language: en
   per_page: 10
-  url:      'http://php-censor.local'
   email_settings:
     from_address:    'PHP Censor <no-reply@php-censor.local>'
     smtp_address:    null
@@ -33,11 +32,10 @@ php-censor:
     smtp_password:   null
     smtp_encryption: false
   queue:
-    use_queue: true
-    host:      localhost
-    port:      11300
-    name:      php-censor-queue
-    lifetime:  600
+    host:     localhost
+    port:     11300
+    name:     php-censor-queue
+    lifetime: 600
   log:
     rotate:    true
     max_files: 10

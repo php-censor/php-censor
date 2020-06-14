@@ -35,24 +35,7 @@ class Mage extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        $config = $builder->getSystemConfig('mage');
-        /** @deprecated Section "mage" in the global application config is deprecated and will be deleted in version 2.0. Use the plugin option "binary_path" and "binary_name" instead. */
-        if (!empty($config['bin'])) {
-            $this->builder->logWarning(
-                '[DEPRECATED] Section "mage" in the global application config is deprecated and will be deleted in version 2.0. Use the plugin option "binary_path" and "binary_name" instead.'
-            );
-
-            $this->executable = $config['bin'];
-        /** @deprecated Option "bin" is deprecated and will be deleted in version 2.0. Use the option "binary_path" and "binary_name" instead. */
-        } elseif (isset($options['bin'])) {
-            $this->builder->logWarning(
-                '[DEPRECATED] Option "bin" is deprecated and will be deleted in version 2.0. Use the option "binary_path" and "binary_name" instead.'
-            );
-
-            $this->executable = $builder->interpolate($options['bin']);
-        } else {
-            $this->executable = $this->builder->findBinary(['mage', 'mage.phar']);
-        }
+        $this->executable = $this->builder->findBinary(['mage', 'mage.phar']);
 
         if (isset($options['env'])) {
             $this->mageEnv = $builder->interpolate($options['env']);

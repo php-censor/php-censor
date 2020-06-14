@@ -38,21 +38,8 @@ class Grunt extends Plugin
         if (isset($options['task'])) {
             $this->task = $options['task'];
         }
-        // deprecated compatibility option
-        if (isset($options['grunt']) && !isset($options['executable'])) {
-            $options['executable'] = $options['grunt'];
-        }
 
-        /** @deprecated Option "grunt" is deprecated and will be deleted in version 2.0. Use the option "binary_path" and "binary_name" instead. */
-        if (isset($options['grunt'])) {
-            $this->builder->logWarning(
-                '[DEPRECATED] Option "grunt" is deprecated and will be deleted in version 2.0. Use the option "binary_path" and "binary_name" instead.'
-            );
-
-            $this->executable = $options['grunt'];
-        } else {
-            $this->executable = $this->findBinary('grunt');
-        }
+        $this->executable = $this->findBinary('grunt');
 
         if (isset($options['gruntfile'])) {
             $this->gruntfile = $options['gruntfile'];

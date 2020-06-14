@@ -175,17 +175,6 @@ abstract class Plugin
             return $this->builder->directory;
         }
 
-        /** @deprecated Option "path" is deprecated and will be deleted in version 2.0. Use the option "directory" instead. */
-        if (!empty($this->options['path']) &&
-            empty($this->options['directory']) &&
-            Codeception::pluginName() !== static::pluginName()) {
-            $this->builder->logWarning(
-                '[DEPRECATED] Option "path" is deprecated and will be deleted in version 2.0. Use the option "directory" instead.'
-            );
-
-            $this->options['directory'] = $this->options['path'];
-        }
-
         $directory = '';
         if (!empty($this->options['directory'])) {
             $optionDirectory = $this->builder->interpolate($this->options['directory']);

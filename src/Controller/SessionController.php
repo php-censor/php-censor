@@ -100,7 +100,7 @@ class SessionController extends WebController
                 $_SESSION['php-censor-user-id'] = $user->getId();
 
                 $response = new RedirectResponse();
-                $response->setHeader('Location', $this->getLoginRedirect());
+                $response->setHeader('Location', APP_URL);
 
                 return $response;
             }
@@ -167,7 +167,7 @@ class SessionController extends WebController
                     }
 
                     $response = new RedirectResponse();
-                    $response->setHeader('Location', $this->getLoginRedirect());
+                    $response->setHeader('Location', APP_URL);
 
                     return $response;
                 }
@@ -270,21 +270,5 @@ class SessionController extends WebController
         $this->view->key = $key;
 
         return $this->view->render();
-    }
-
-    /**
-     * Get the URL the user was trying to go to prior to being asked to log in.
-     * @return string
-     */
-    protected function getLoginRedirect()
-    {
-        $rtn = APP_URL;
-
-        if (!empty($_SESSION['php-censor-login-redirect'])) {
-            $rtn .= $_SESSION['php-censor-login-redirect'];
-            $_SESSION['php-censor-login-redirect'] = null;
-        }
-
-        return $rtn;
     }
 }

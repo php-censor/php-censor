@@ -40,29 +40,13 @@ class PackageBuild extends Plugin
     */
     public function execute()
     {
-        $path  = $this->builder->buildPath;
-        $build = $this->build;
+        $path = $this->builder->buildPath;
 
         if ($this->directory === $path) {
             return false;
         }
 
-        /** @deprecated Variables: "%build.commit%", "%build.id%", "%build.branch%", "%project.title%", "%date%"
-         * and "%time%" is deprecated and will be deleted in version 2.0. Use the variables "%COMMIT_ID%",
-         * "%BUILD_ID%", "%BRANCH%", "%PROJECT_TITLE%", "%CURRENT_DATE%", "CURRENT_TIME" instead.
-         */
-        $filename = str_replace('%build.commit%', $build->getCommitId(), $this->filename);
-        $filename = str_replace('%build.id%', $build->getId(), $filename);
-        $filename = str_replace('%build.branch%', $build->getBranch(), $filename);
-        $filename = str_replace('%project.title%', $build->getProject()->getTitle(), $filename);
-        $filename = str_replace('%date%', date('Y-m-d'), $filename);
-        $filename = str_replace('%time%', date('Hi'), $filename);
-
-        $this->builder->logWarning(
-            '[DEPRECATED] Variables: "%build.commit%", "%build.id%", "%build.branch%", "%project.title%", "%date%" and "%time%" is deprecated and will be deleted in version 2.0. Use the variables "%COMMIT_ID%", "%BUILD_ID%", "%BRANCH%", "%PROJECT_TITLE%", "%CURRENT_DATE%", "CURRENT_TIME" instead.'
-        );
-
-        $filename = preg_replace('/([^a-zA-Z0-9_-]+)/', '', $filename);
+        $filename = preg_replace('/([^a-zA-Z0-9_-]+)/', '', $this->filename);
 
         if (!is_array($this->format)) {
             $this->format = [$this->format];

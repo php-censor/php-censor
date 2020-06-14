@@ -169,13 +169,6 @@ class PluginTest extends TestCase
         self::assertEquals($this->currentDir . 'relative/', $plugin->getDirectory());
 
         $options = [
-            'path' => 'relative',
-        ];
-
-        $plugin = new TestPlugin($this->builder, $this->build, $options);
-        self::assertEquals($this->currentDir . 'relative/', $plugin->getDirectory());
-
-        $options = [
             'directory' => '%BUILD_PATH%/relative/',
         ];
 
@@ -207,16 +200,6 @@ class PluginTest extends TestCase
 
         $plugin = new TestPlugin($this->builder, $this->build, $options);
         self::assertEquals($absoluteRealPath . 'docs/', $plugin->getDirectory());
-    }
-
-    public function testPath()
-    {
-        $options = [
-            'path' => 'relative',
-        ];
-
-        $plugin = new TestPlugin($this->builder, $this->build, $options);
-        self::assertEquals($this->currentDir . 'relative/', $plugin->getDirectory());
     }
 
     public function testIgnore()

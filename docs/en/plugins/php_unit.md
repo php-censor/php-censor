@@ -23,8 +23,6 @@ It's activated if you have phpunit.xml file in your build path, `tests/` subfold
 
 #### Running Tests By Specifying Directory
 
-* **directory** - **[DEPRECATED]** Option `directory` is deprecated and will be deleted in version 2.0. Use the option 
-`directories` instead.
 * **directories** - Optional - The directories (array) to run PHPUnit on.
 
 Both modes accept:

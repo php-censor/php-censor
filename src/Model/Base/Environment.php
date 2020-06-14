@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PHPCensor\Model\Base;
 
 use PHPCensor\Exception\InvalidArgumentException;
@@ -29,14 +31,9 @@ class Environment extends Model
      * @param int $value
      *
      * @return bool
-     *
-     * @throws InvalidArgumentException
      */
-    public function setId($value)
+    public function setId(int $value)
     {
-        $this->validateNotNull('id', $value);
-        $this->validateInt('id', $value);
-
         if ($this->data['id'] === $value) {
             return false;
         }
@@ -58,14 +55,9 @@ class Environment extends Model
      * @param int $value
      *
      * @return bool
-     *
-     * @throws InvalidArgumentException
      */
-    public function setProjectId($value)
+    public function setProjectId(int $value)
     {
-        $this->validateNotNull('project_id', $value);
-        $this->validateInt('project_id', $value);
-
         if ($this->data['project_id'] === $value) {
             return false;
         }
@@ -87,14 +79,9 @@ class Environment extends Model
      * @param string $value
      *
      * @return bool
-     *
-     * @throws InvalidArgumentException
      */
-    public function setName($value)
+    public function setName(string $value)
     {
-        $this->validateNotNull('name', $value);
-        $this->validateString('name', $value);
-
         if ($this->data['name'] === $value) {
             return false;
         }
@@ -121,13 +108,9 @@ class Environment extends Model
      * @param array $value
      *
      * @return bool
-     *
-     * @throws InvalidArgumentException
      */
     public function setBranches(array $value)
     {
-        $this->validateNotNull('branches', $value);
-
         $branches = implode("\n", $value);
         if ($this->data['branches'] === $branches) {
             return false;

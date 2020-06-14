@@ -44,7 +44,7 @@ More [screenshots](docs/en/screenshots.md).
 
 * Unix-like OS (**Windows isn't supported**);
 
-* PHP 5.6+ (with OpenSSL support and enabled functions: `exec()`, `shell_exec()` and `proc_open()`);
+* PHP 7.1+ (with OpenSSL support and enabled functions: `exec()`, `shell_exec()` and `proc_open()`);
 
 * Web-server (Nginx or Apache2);
 
@@ -123,7 +123,6 @@ cd ./php-censor.local
 
 # Non-interactive installation
 ./bin/console php-censor:install \
-    --url='http://php-censor.local' \
     --db-type=pgsql \
     --db-host=localhost \
     --db-pgsql-sslmode=prefer \
@@ -134,7 +133,6 @@ cd ./php-censor.local
     --admin-name=admin \
     --admin-password=admin \
     --admin-email='admin@php-censor.local' \
-    --queue-use=1 \
     --queue-host=localhost \
     --queue-port=11300 \
     --queue-name=php-censor

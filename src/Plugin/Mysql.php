@@ -77,12 +77,6 @@ class Mysql extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        /** @deprecated Global database config usage is deprecated and will be deleted in version 2.0. Use the `build_settings.mysql` section of build config instead. */
-        $config         = Database::getConnection('write')->getDetails();
-        $this->host     = \defined('DB_HOST') ? DB_HOST : $this->host;
-        $this->user     = $config['user'];
-        $this->password = $config['pass'];
-
         $buildSettings = $this->builder->getConfig('build_settings');
         if (!isset($buildSettings['mysql'])) {
             return;
@@ -114,13 +108,6 @@ class Mysql extends Plugin
 
         if (\array_key_exists('password', $buildSettings['mysql'])) {
             $this->password = $this->builder->interpolate($buildSettings['mysql']['password']);
-        /** @deprecated Option "pass" is deprecated and will be deleted in version 2.0. Use the option "password" instead. */
-        } elseif (\array_key_exists('pass', $buildSettings['mysql'])) {
-            $builder->logWarning(
-                '[DEPRECATED] Option "pass" is deprecated and will be deleted in version 2.0. Use the option "password" instead.'
-            );
-
-            $this->password = $this->builder->interpolate($buildSettings['mysql']['pass']);
         }
 
         if (!empty($this->options['queries']) && \is_array($this->options['queries'])) {
@@ -129,21 +116,6 @@ class Mysql extends Plugin
 
         if (!empty($this->options['imports']) && \is_array($this->options['imports'])) {
             $this->imports = $this->options['imports'];
-        }
-
-        /** @deprecated Queries/Imports list without option is deprecated and will be deleted in version 2.0. Use the options "queries" and "imports" instead. */
-        if (!$this->queries && !$this->imports) {
-            $builder->logWarning(
-                '[DEPRECATED] Queries/Imports list without option is deprecated and will be deleted in version 2.0. Use the options "queries" and "imports" instead.'
-            );
-
-            foreach ($this->options as $option) {
-                if (!\is_array($option)) {
-                    $this->queries[] = $this->builder->interpolate($option);
-                } elseif (isset($option['import'])) {
-                    $this->imports[] = $option['import'];
-                }
-            }
         }
     }
 

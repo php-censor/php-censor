@@ -89,30 +89,10 @@ class Pgsql extends Plugin
 
         if (array_key_exists('password', $buildSettings['pgsql'])) {
             $this->password = $this->builder->interpolate($buildSettings['pgsql']['password']);
-        /** @deprecated Option "pass" is deprecated and will be deleted in version 2.0. Use the option "password" instead. */
-        } elseif (array_key_exists('pass', $buildSettings['pgsql'])) {
-            $builder->logWarning(
-                '[DEPRECATED] Option "pass" is deprecated and will be deleted in version 2.0. Use the option "password" instead.'
-            );
-
-            $this->password = $this->builder->interpolate($buildSettings['pgsql']['pass']);
         }
 
         if (!empty($this->options['queries']) && \is_array($this->options['queries'])) {
             $this->queries = $this->options['queries'];
-        }
-
-        /** @deprecated Queries list without option is deprecated and will be deleted in version 2.0. Use the option "queries" instead. */
-        if (!$this->queries) {
-            $builder->logWarning(
-                '[DEPRECATED] Queries list without option is deprecated and will be deleted in version 2.0. Use the options "queries" instead.'
-            );
-
-            foreach ($this->options as $option) {
-                if (!\is_array($option)) {
-                    $this->queries[] = $this->builder->interpolate($option);
-                }
-            }
         }
     }
 

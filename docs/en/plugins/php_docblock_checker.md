@@ -8,8 +8,6 @@ Configuration
 
 ### Options
 
-* **path** - **[DEPRECATED]** Option `path` is deprecated and will be deleted in version 2.0. Use the option 
-`directory` instead.
 * **skip_methods** - Optional - Tells the checker to ignore methods that don't have a docblock.
 * **skip_classes** - Optional - Tells the checker to ignore classes that don't have a docblock.
 * **skip_signatures** - Optional - Tells the checker to ignore check docblocks against method signatures.

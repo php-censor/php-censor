@@ -17,9 +17,7 @@ use PHPCensor\Command\CreateAdminCommand;
 use PHPCensor\Command\CreateBuildCommand;
 use PHPCensor\Command\InstallCommand;
 use PHPCensor\Command\RemoveOldBuildsCommand;
-use PHPCensor\Command\RebuildCommand;
 use PHPCensor\Command\RebuildQueueCommand;
-use PHPCensor\Command\RunCommand;
 use PHPCensor\Command\WorkerCommand;
 use PHPCensor\Config;
 use PHPCensor\Logging\AnsiFormatter;
@@ -83,15 +81,15 @@ LOGO;
      */
     public function __construct($name = 'PHP Censor', $version = 'UNKNOWN')
     {
-        $version = trim(file_get_contents(ROOT_DIR . 'VERSION.md'));
+        $realVersion = trim(file_get_contents(ROOT_DIR . 'VERSION.md'));
+        if (!$realVersion) {
+            $realVersion = $version;
+        }
 
-        parent::__construct($name, $version);
+        parent::__construct($name, $realVersion);
 
         $applicationConfig = Config::getInstance();
         $databaseSettings  = $applicationConfig->get('php-censor.database', []);
-        if (!$databaseSettings) {
-            $databaseSettings  = $applicationConfig->get('b8.database', []);
-        }
 
         $phinxSettings = [];
         if ($databaseSettings) {
@@ -100,9 +98,9 @@ LOGO;
                     'migrations' => ROOT_DIR . 'src/Migrations',
                 ],
                 'environments' => [
-                    'default_migration_table' => 'migration',
-                    'default_database' => 'php-censor',
-                    'php-censor' => [
+                    'default_migration_table' => 'migrations',
+                    'default_database'        => 'php-censor',
+                    'php-censor'              => [
                         'adapter' => $databaseSettings['type'],
                         'host' => $databaseSettings['servers']['write'][0]['host'],
                         'name' => $databaseSettings['name'],
@@ -169,13 +167,11 @@ LOGO;
         $buildService = new BuildService($buildStore, $projectStore);
         $logger       = $this->initLogger($applicationConfig);
 
-        $this->add(new RebuildCommand($logger));
         $this->add(new InstallCommand());
         $this->add(new CreateAdminCommand($userStore));
         $this->add(new CreateBuildCommand($projectStore, $buildService));
         $this->add(new RemoveOldBuildsCommand($projectStore, $buildService));
         $this->add(new WorkerCommand($logger, $buildService));
-        $this->add(new RunCommand($logger, $buildService));
         $this->add(new RebuildQueueCommand($logger));
         $this->add(new CheckLocalizationCommand());
     }

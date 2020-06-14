@@ -44,36 +44,6 @@ class Shell extends Plugin
 
             return;
         }
-
-        /** @deprecated Option "command" is deprecated and will be deleted in version 2.0. Use the option "commands" instead. */
-        if (isset($options['command'])) {
-            $builder->logWarning(
-                '[DEPRECATED] Option "command" is deprecated and will be deleted in version 2.0. Use the option "commands" instead.'
-            );
-
-            /** @deprecated Variable "%buildpath%" is deprecated and will be deleted in version 2.0. Use the interpolation variable "%BUILD_PATH%" instead. */
-            $options['command'] = str_replace("%buildpath%", $this->builder->buildPath, $options['command']);
-
-            $this->commands = [$options['command']];
-
-            return;
-        }
-
-        /*
-         * Support the new syntax:
-         *
-         * shell:
-         *     - "cd /www"
-         *     - "rm -f file.txt"
-         */
-        /** @deprecated Commands list without option is deprecated and will be deleted in version 2.0. Use the option "commands" instead. */
-        if (is_array($options)) {
-            $builder->logWarning(
-                '[DEPRECATED] Commands list without option is deprecated and will be deleted in version 2.0. Use the option "commands" instead.'
-            );
-
-            $this->commands = $options;
-        }
     }
 
     /**

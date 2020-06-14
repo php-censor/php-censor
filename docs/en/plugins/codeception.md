@@ -14,8 +14,6 @@ configuration file paths and name. By default this is called `codeception.yml` a
 made on line 132 regarding the value of `--xml` being the next argument which will not be correct if the user provides 
 arguments using this config param, you must specify `report.xml` before any user input arguments to satisfy the report 
 processing on line 146.
-* **path** - **[DEPRECATED]** Option `path` is deprecated and will be deleted in version 2.0. Use the option 
-`output_path` instead.
 * **output_path** - Optional - The path from the root of your project to the root of the 
   codeception `_output` directory.
 
