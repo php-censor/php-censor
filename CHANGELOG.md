@@ -5,9 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
-## [1.2.0 (Summer Smith)](https://github.com/php-censor/php-censor/tree/1.2.0) (2019-xx-xx)
+## [1.2.0 (Summer Smith)](https://github.com/php-censor/php-censor/tree/1.2.0) (2020-06-15)
 
-[Full Changelog](https://github.com/php-censor/php-censor/compare/1.1.4...1.2.0)
+[Full Changelog](https://github.com/php-censor/php-censor/compare/1.1.6...1.2.0)
 
 ### Added
 
