@@ -74,10 +74,10 @@ and [@SimonHeimberg](https://github.com/SimonHeimberg).
     - **[PackageBuild]** Special variables for plugin PackageBuild (`%build.commit%`, `%build.id%`, `%build.branch%`, 
     `%project.title%`, `%date%` and `%time%`) are deprecated and will be deleted in version 2.0. Use interpolated 
     variables instead (`%COMMIT_ID%`, `%BUILD_ID%`, `%BRANCH%`, `%PROJECT_TITLE%`, `%CURRENT_DATE%`, `CURRENT_TIME`).
-    - **[Shell]** Option `command` and commands list without any named option for plugin Shell are deprecated and will be 
-    deleted in version 2.0. Use option `commands` instead.
-    - **[MySQL and PostgreSQL]** Options `pass` for plugins MySQL and PostgreSQL is deprecated will be deleted in version 
-    2.0. Use option `password` instead.
+    - **[Shell]** Option `command` and commands list without any named option for plugin Shell are deprecated and will 
+    be deleted in version 2.0. Use option `commands` instead.
+    - **[MySQL and PostgreSQL]** Options `pass` for plugins MySQL and PostgreSQL is deprecated will be deleted in 
+    version 2.0. Use option `password` instead.
     - **[MySQL, PostgreSQL, SQLite]** Queries list without option for plugins MySQL, PostgreSQL and SQLite is deprecated 
     and will be deleted in version 2.0. Use the options `queries` instead.
     - **[MySQL]** Imports list without option for MySQL plugin is deprecated and will be deleted in version 2.0. Use 
