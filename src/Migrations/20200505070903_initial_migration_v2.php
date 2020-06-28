@@ -18,7 +18,7 @@ class InitialMigrationV2 extends AbstractMigration
 
     private function isNewInstallationUp(): bool
     {
-        $isNewInstallation = !$this->hasTable('build');
+        $isNewInstallation = !$this->hasTable('builds');
         if (!$isNewInstallation && !$this->getLatestV1Migration()) {
             throw new \RuntimeException(
                 'You should upgrade your PHP Censor to latest 1.2 release before you can upgrade it to release 2.0'
