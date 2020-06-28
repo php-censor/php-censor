@@ -18,14 +18,15 @@ class InitialMigrationV2 extends AbstractMigration
 
     private function isNewInstallationUp(): bool
     {
-        $isNewInstallation = !$this->hasTable('builds');
-        if (!$isNewInstallation && !$this->getLatestV1Migration()) {
+        $isIssetBuild  = !$this->hasTable('build');
+        $isIssetBuilds = !$this->hasTable('builds');
+        if ($isIssetBuild || (!$isIssetBuilds && !$this->getLatestV1Migration())) {
             throw new \RuntimeException(
                 'You should upgrade your PHP Censor to latest 1.2 release before you can upgrade it to release 2.0'
             );
         }
 
-        return $isNewInstallation;
+        return $isIssetBuilds;
     }
 
     private function isNewInstallationDown(): bool
