@@ -90,26 +90,28 @@ LOGO;
 
         $applicationConfig = Config::getInstance();
         $databaseSettings  = $applicationConfig->get('php-censor.database', []);
-
-        $phinxSettings = [];
-        if ($databaseSettings) {
-            $phinxSettings = [
-                'paths' => [
-                    'migrations' => ROOT_DIR . 'src/Migrations',
-                ],
-                'environments' => [
-                    'default_migration_table' => 'migrations',
-                    'default_database'        => 'php-censor',
-                    'php-censor'              => [
-                        'adapter' => $databaseSettings['type'],
-                        'host' => $databaseSettings['servers']['write'][0]['host'],
-                        'name' => $databaseSettings['name'],
-                        'user' => $databaseSettings['username'],
-                        'pass' => $databaseSettings['password'],
-                    ],
-                ],
-            ];
+        if (!$databaseSettings) {
+            throw new \RuntimeException(
+                'Missing database settings in application config "config.yml" (Section: "php-censor.database")'
+            );
         }
+
+        $phinxSettings = [
+            'paths' => [
+                'migrations' => ROOT_DIR . 'src/Migrations',
+            ],
+            'environments' => [
+                'default_migration_table' => 'migrations',
+                'default_database'        => 'php-censor',
+                'php-censor'              => [
+                    'adapter' => $databaseSettings['type'],
+                    'host' => $databaseSettings['servers']['write'][0]['host'],
+                    'name' => $databaseSettings['name'],
+                    'user' => $databaseSettings['username'],
+                    'pass' => $databaseSettings['password'],
+                ],
+            ],
+        ];
 
         if (!empty($databaseSettings['port'])) {
             $phinxSettings['environments']['php-censor']['port'] =
