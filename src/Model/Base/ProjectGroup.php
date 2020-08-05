@@ -114,7 +114,7 @@ class ProjectGroup extends Model
      */
     public function getUserId()
     {
-        return $this->data['user_id'];
+        return (null !== $this->data['user_id']) ? (int)$this->data['user_id'] : null;
     }
 
     /**

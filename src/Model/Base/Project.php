@@ -454,15 +454,15 @@ class Project extends Model
     }
 
     /**
-     * @return int|null
+     * @return int
      */
     public function getGroupId()
     {
-        return $this->data['group_id'];
+        return (int)$this->data['group_id'];
     }
 
     /**
-     * @param int|null $value
+     * @param int $value
      *
      * @return bool
      *
@@ -471,6 +471,7 @@ class Project extends Model
     public function setGroupId($value)
     {
         $this->validateInt('group_id', $value);
+        $this->validateNotNull('group_id', $value);
 
         if ($this->data['group_id'] === $value) {
             return false;
@@ -518,7 +519,7 @@ class Project extends Model
      */
     public function getUserId()
     {
-        return $this->data['user_id'];
+        return (null !== $this->data['user_id']) ? (int)$this->data['user_id'] : null;
     }
 
     /**
