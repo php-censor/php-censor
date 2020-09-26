@@ -401,7 +401,7 @@ class Project extends Model
      */
     public function getGroupId()
     {
-        return $this->data['group_id'];
+        return (int)$this->data['group_id'];
     }
 
     /**
@@ -457,7 +457,7 @@ class Project extends Model
      */
     public function getUserId()
     {
-        return $this->data['user_id'];
+        return (null !== $this->data['user_id']) ? (int)$this->data['user_id'] : null;
     }
 
     /**

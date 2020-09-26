@@ -11,7 +11,7 @@ use PHPCensor\Plugin;
  *
  * @author Alexandre Russo <dev.github@ange7.com>
  */
-class XMPP extends Plugin
+class Xmpp extends Plugin
 {
 
     /**

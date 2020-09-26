@@ -108,11 +108,11 @@ class Build extends Model
     }
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getParentId()
     {
-        return $this->data['parent_id'];
+        return (null !== $this->data['parent_id']) ? (int)$this->data['parent_id'] : null;
     }
 
     /**
@@ -504,7 +504,7 @@ class Build extends Model
      */
     public function getEnvironmentId()
     {
-        return $this->data['environment_id'];
+        return (null !== $this->data['environment_id']) ? (int)$this->data['environment_id'] : null;
     }
 
     /**
@@ -562,7 +562,7 @@ class Build extends Model
      */
     public function getUserId()
     {
-        return $this->data['user_id'];
+        return (null !== $this->data['user_id']) ? (int)$this->data['user_id'] : null;
     }
 
     /**
