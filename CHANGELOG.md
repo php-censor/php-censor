@@ -5,6 +5,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [1.2.1 (Summer Smith)](https://github.com/php-censor/php-censor/tree/1.2.1) (2020-09-26)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/1.2.0...1.2.1)
+
+### Fixed
+
+- Fixed types for MySQL and rebuild. Issue [#372](https://github.com/php-censor/php-censor/issues/372).
+- **[Xmpp]** Fixed Xmpp class name.
+
+
 ## [1.2.0 (Summer Smith)](https://github.com/php-censor/php-censor/tree/1.2.0) (2020-06-15)
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/1.1.6...1.2.0)
