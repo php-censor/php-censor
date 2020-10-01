@@ -9,7 +9,8 @@ return [
     'login_error' => 'Email ou senha incorretos',
     'forgotten_password_link' => 'Esqueceu sua senha?',
     'reset_emailed' => 'Nós enviamos um e-mail com um link para redefinir a sua senha.',
-    'reset_header' => '<strong>Não se preocupe!</strong><br>Basta digitar o seu endereço de e-mail abaixo e nós lhe enviaremos um e-mail com um link para redefinir sua senha.',
+    'reset_header' => '<strong>Não se preocupe!</strong><br>Basta digitar o seu endereço de e-mail abaixo e nós lhe
+                        enviaremos um e-mail com um link para redefinir sua senha.',
     'reset_email_address' => 'Digite seu endereço de e-mail:',
     'reset_send_email' => 'Solicitar nova senha',
     'reset_enter_password' => 'Por favor, entre uma nova senha',
@@ -81,7 +82,9 @@ PHP Censor',
     'new_project' => 'Novo Projeto',
     'project_x_not_found' => 'Projeto com ID %d não existe.',
     'project_details' => 'Detalhes do Projeto',
-    'public_key_help' => 'Para tornar mais fácil começar, geramos um par de chaves SSH para você usar neste projeto. Para usá-lo, basta adicionar a seguinte chave pública na seção "deploy keys" no provedor onde hospeda seu código.',
+    'public_key_help' => 'Para tornar mais fácil começar, geramos um par de chaves SSH para você usar neste projeto.
+                        Para usá-lo, basta adicionar a seguinte chave pública na seção "deploy keys" no provedor
+                        onde hospeda seu código.',
     'select_repository_type' => 'Selecione o tipo de repositório...',
     'github' => 'GitHub',
     'bitbucket' => 'Bitbucket',
@@ -108,7 +111,8 @@ PHP Censor',
 
     'error_hg' => 'URL para repositórios Mercurial deve começar com http:// ou https://',
     'error_git' => 'URL para repositórios GIT deve começar com git://, http:// ou https://',
-    'error_gitlab' => 'Nome para repositórios GitLab devem seguir o formato "usuario@dominio.tld:dono/repositorio.git"',
+    'error_gitlab' => 'Nome para repositórios GitLab devem seguir o formato
+                    "usuario@dominio.tld:dono/repositorio.git"',
     'error_github' => 'Nome para repositórios GitHub devem seguir o formato "dono/repositorio"',
     'error_bitbucket' => 'Nome para repositórios Bitbucket devem seguir o formato "dono/repositorio"',
     'error_path' => 'O caminho de diretório informado não existe.',
@@ -129,18 +133,21 @@ PHP Censor',
 
     'webhooks' => 'Webhooks',
     'webhooks_help_github' => 'Para compilar este projeto automaticamente quando novas alterações são feitas, adicione
-                                a URL abaixo como um novo "Webhook" na seção <a href="https://github.com/%s/settings/hooks">Webhooks
-                                and Services</a> do seu repositório no GitHub.',
+                                a URL abaixo como um novo "Webhook" na seção
+                                <a href="https://github.com/%s/settings/hooks">Webhooks e Serviços</a> do seu
+                                repositório no GitHub.',
 
     'webhooks_help_gitlab' => 'Para compilar este projeto automaticamente quando novas alterações são feitas, adicione
-                                a URL abaixo como um novo "WebHook URL" na seção Web Hooks do seu repositório no GitLab.',
+                                a URL abaixo como um novo "WebHook URL" na seção Web Hooks do seu repositório no
+                                GitLab.',
 
     'webhooks_help_gogs' => 'Para compilar este projeto automaticamente quando novas alterações são feitas, adicione
                                 a URL abaixo como um novo "WebHook URL" na seção Web Hooks do seu repositório no Gogs.',
 
-    'webhooks_help_bitbucket' => 'Para compilar este projeto automaticamente quando novas alterações são feitas, adicione
-                                a URL abaixo como um novo serviço "POST" na seção <a href="https://bitbucket.org/%s/admin/services">
-                                Services</a> do seu repositório no Bitbucket.',
+    'webhooks_help_bitbucket' => 'Para compilar este projeto automaticamente quando novas alterações são feitas,
+                                adicione a URL abaixo como um novo serviço "POST" na seção
+                                <a href="https://bitbucket.org/%s/admin/services">Serviços</a> do seu repositório no
+                                Bitbucket.',
 
     // View Build
     'errors' => 'Erros',
@@ -221,9 +228,10 @@ PHP Censor',
 
     // Settings:
     'settings_saved' => 'Suas configurações foram salvas.',
-    'settings_check_perms' => 'Suas configurações não puderam ser salvas, verifique as permissões do seu arquivo config.yml.',
-    'settings_cannot_write' => 'PHP Censor não pode escrever o arquivo config.yml, as configurações não serão salvas corretamente
-                                até que isso seja resolvido.',
+    'settings_check_perms' => 'Suas configurações não puderam ser salvas, verifique as permissões do seu arquivo
+                            config.yml.',
+    'settings_cannot_write' => 'PHP Censor não pode escrever o arquivo config.yml, as configurações não serão salvas
+                            corretamente  até que isso seja resolvido.',
     'settings_github_linked' => 'Sua conta do GitHub foi vinculada.',
     'settings_github_not_linked' => 'Sua conta do GitHub não pode ser vinculada.',
     'build_settings' => 'Configurações de Compilação',
@@ -232,12 +240,13 @@ PHP Censor',
                             PHP Censor acesse a sua conta.',
     'github_linked' => 'PHP Censor foi vinculado a sua conta do GitHub.',
     'github_where_to_find' => 'Onde encontrar...',
-    'github_where_help' => 'Se você é dono da aplicação que você gostaria de usar, você pode encontrar essa informação na
-                            <a href="https://github.com/settings/applications">área de configurações da sua aplicação</a>.',
+    'github_where_help' => 'Se você é dono da aplicação que você gostaria de usar, você pode encontrar essa informação
+                        na <a href="https://github.com/settings/applications">área de configurações da sua
+                        aplicação</a>.',
 
     'email_settings' => 'Configurações de Email',
-    'email_settings_help' => 'Antes que o PHP Censor possa enviar e-mails de estado,
-                                você deve configurar os dados do seu SMTP abaixo.',
+    'email_settings_help' => 'Antes que o PHP Censor possa enviar e-mails com atualizações de estado, você deve
+                            configurar os dados do seu SMTP abaixo.',
 
     'application_id' => 'ID da Aplicação',
     'application_secret' => 'Segredo da Aplicação',
