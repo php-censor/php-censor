@@ -178,7 +178,8 @@ abstract class Plugin
         /** @deprecated Option "path" is deprecated and will be deleted in version 2.0. Use the option "directory" instead. */
         if (!empty($this->options['path']) &&
             empty($this->options['directory']) &&
-            Codeception::pluginName() !== static::pluginName()) {
+            Codeception::pluginName() !== static::pluginName()
+        ) {
             $this->builder->logWarning(
                 '[DEPRECATED] Option "path" is deprecated and will be deleted in version 2.0. Use the option "directory" instead.'
             );

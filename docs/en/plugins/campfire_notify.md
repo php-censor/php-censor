@@ -1,5 +1,5 @@
-Plugin Campfire
-===============
+Plugin Campfire Notify
+======================
 
 This plugin joins a [Campfire](https://campfirenow.com/) room and sends a user-defined message, for example a 
 "Build Succeeded" message.
@@ -18,12 +18,12 @@ Configuration
 
 ```yaml
 build_settings:
-    campfire:
+    campfire_notify:
         authToken: "campfire auth token"
         roomId:    "campfire room ID"
         url:       "campfire URL"
         
 success:
-    campfire:
+    campfire_notify:
         message: "Build succeeded!"
 ```

@@ -11,7 +11,7 @@ use PHPCensor\Plugin;
  *
  * @author Alexandre Russo <dev.github@ange7.com>
  */
-class Xmpp extends Plugin
+class XmppNotify extends Plugin
 {
 
     /**
@@ -54,7 +54,7 @@ class Xmpp extends Plugin
      */
     public static function pluginName()
     {
-        return 'xmpp';
+        return 'xmpp_notify';
     }
 
     /**

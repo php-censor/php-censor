@@ -15,14 +15,14 @@ use RuntimeException;
  *
  * @author Steve Brazier <meadsteve@gmail.com>
  */
-class Email extends Plugin
+class EmailNotify extends Plugin
 {
     /**
      * @return string
      */
     public static function pluginName()
     {
-        return 'email';
+        return 'email_notify';
     }
 
     /**

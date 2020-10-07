@@ -177,8 +177,8 @@ with lower values (like 2). Default value is 1000. Allowed values range: [1, 200
     **ATTENTION!:** Option `build_priority` should be set only from web-interface (Project edit page) because it only 
     has an effect before the repository is cloned.
 
-* Also we have global options (Usually connection settings) for some plugins like: ([Campfire](plugins/campfire.md), 
-[Irc](plugins/irc.md), [Mysql](plugins/mysql.md), [Pgsql](plugins/pgsql.md) и [Sqlite](plugins/sqlite.md)). See 
+* Also we have global options (Usually connection settings) for some plugins like: ([Campfire](plugins/campfire_notify.md), 
+[Irc](plugins/irc_notify.md), [Mysql](plugins/mysql.md), [Pgsql](plugins/pgsql.md) и [Sqlite](plugins/sqlite.md)). See 
 documentation of the plugins for more details.
 
 * Also we have options for configuring connection parameters for Svn (Subversion) project source type. For example:
@@ -349,8 +349,8 @@ setup:
         - echo a short command ...
 
 branch-master:
-    complete: &xmpp
-        xmpp:
+    complete: &xmpp_notify
+        xmpp_notify:
             username: &userName "login@gmail.com"
             password: &password "AZERTY123"
             recipients:
@@ -359,14 +359,14 @@ branch-master:
             alias: "build infos for project"
             date_format: "%d/%m/%Y"
     broken:
-        xmpp:
+        xmpp_notify:
             username: *userName
             password: *password
             recipients:
                 - "build-alters-infos@jabber.org"
             server: *xmppServer
 branch-bugfix1.9:
-    complete: *xmpp
+    complete: *xmpp_notify
 branch-bugfix2.0:
-    complete: *xmpp
+    complete: *xmpp_notify
 ```

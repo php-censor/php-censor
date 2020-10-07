@@ -36,7 +36,7 @@ class Lang
     /**
      * Get a specific string from the language file.
      *
-     * @param array  ...$params
+     * @param mixed ...$params
      *
      * @return string
      */
