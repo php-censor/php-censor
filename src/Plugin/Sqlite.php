@@ -89,7 +89,7 @@ class Sqlite extends Plugin
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
             ], $this->pdoOptions);
 
-            $pdo  = new PDO('sqlite:' . $this->path, $pdoOptions);
+            $pdo  = new PDO(('sqlite:' . $this->path), null, null, $pdoOptions);
 
             foreach ($this->queries as $query) {
                 $pdo->query($query);
