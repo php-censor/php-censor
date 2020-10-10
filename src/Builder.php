@@ -419,7 +419,8 @@ class Builder implements LoggerAwareInterface
 
         $this->interpolator->setupInterpolationVars(
             $this->build,
-            APP_URL
+            APP_URL,
+            \trim(\file_get_contents(ROOT_DIR . 'VERSION.md'))
         );
 
         // Does the project's .php-censor.yml request verbose mode?
