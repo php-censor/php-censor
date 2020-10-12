@@ -11,7 +11,7 @@ use PHPCensor\Plugin;
  *
  * @author Dan Cryer <dan@block8.co.uk>
  */
-class Irc extends Plugin
+class IrcNotify extends Plugin
 {
     protected $message;
     protected $server;
@@ -24,9 +24,9 @@ class Irc extends Plugin
      */
     public static function pluginName()
     {
-        return 'irc';
+        return 'irc_notify';
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -37,8 +37,8 @@ class Irc extends Plugin
         $this->message = $options['message'];
         $buildSettings = $this->builder->getConfig('build_settings');
 
-        if (isset($buildSettings['irc'])) {
-            $irc = $buildSettings['irc'];
+        if (isset($buildSettings['irc_notify'])) {
+            $irc = $buildSettings['irc_notify'];
 
             $this->server = $irc['server'];
             $this->port   = $irc['port'];

@@ -12,7 +12,7 @@ use PHPCensor\Plugin;
  *
  * @author André Cianfarani <acianfa@gmail.com>
  */
-class Campfire extends Plugin
+class CampfireNotify extends Plugin
 {
     protected $url;
     protected $authToken;
@@ -27,7 +27,7 @@ class Campfire extends Plugin
      */
     public static function pluginName()
     {
-        return 'campfire';
+        return 'campfire_notify';
     }
 
     /**
@@ -44,8 +44,8 @@ class Campfire extends Plugin
 
         $buildSettings = $this->builder->getConfig('build_settings');
 
-        if (isset($buildSettings['campfire'])) {
-            $campfire        = $buildSettings['campfire'];
+        if (isset($buildSettings['campfire_notify'])) {
+            $campfire        = $buildSettings['campfire_notify'];
             $this->url       = $campfire['url'];
             $this->authToken = $campfire['authToken'];
             $this->roomId    = $campfire['roomId'];

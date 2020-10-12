@@ -13,7 +13,7 @@ use PHPCensor\Plugin;
  *
  * @author LEXASOFT <lexasoft83@gmail.com>
  */
-class Telegram extends Plugin
+class TelegramNotify extends Plugin
 {
     protected $apiKey;
     protected $message;
@@ -26,7 +26,7 @@ class Telegram extends Plugin
      */
     public static function pluginName()
     {
-        return 'telegram';
+        return 'telegram_notify';
     }
 
     /**
@@ -127,7 +127,7 @@ class Telegram extends Plugin
             $firstRow = mb_substr($bm, 0, $pos);
 
             //skip long outputs
-            if (in_array($firstRow, ['slack_notify', 'php_loc', 'telegram'])) {
+            if (in_array($firstRow, ['slack_notify', 'php_loc', 'telegram_notify'])) {
                 continue;
             }
 

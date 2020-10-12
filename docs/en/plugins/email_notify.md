@@ -1,5 +1,5 @@
-Plugin Email
-============
+Plugin Email Notify
+===================
 
 Sends a build status email.
 
@@ -25,7 +25,7 @@ Send an email to the committer as well as one@exameple.com if a build fails:
 
 ```yaml
 failure:
-    email:
+    email_notify:
         committer: true
         default_mailto_address: one@example.com
 ```
@@ -34,6 +34,6 @@ Send an email to one@example.com every time a build is run:
 
 ```yaml
 complete:
-    email:
+    email_notify:
         default_mailto_address: one@example.com
 ```
