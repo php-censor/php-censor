@@ -30,7 +30,7 @@ class HipchatNotify extends Plugin
     {
         return 'hipchat_notify';
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -38,7 +38,7 @@ class HipchatNotify extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        $version         = trim(file_get_contents(ROOT_DIR . 'VERSION.md'));
+        $version         = $this->builder->interpolate('%SYSTEM_VERSION%');
         $this->userAgent = 'PHP Censor/' . $version;
         $this->cookie    = "php-censor-cookie";
 

@@ -417,10 +417,13 @@ class Builder implements LoggerAwareInterface
 
         chdir($this->buildPath);
 
+        $version = (string)\trim(\file_get_contents(ROOT_DIR . 'VERSION.md'));
+        $version = !empty($version) ? $version : '0.0.0 (UNKNOWN)';
+
         $this->interpolator->setupInterpolationVars(
             $this->build,
             APP_URL,
-            \trim(\file_get_contents(ROOT_DIR . 'VERSION.md'))
+            $version
         );
 
         // Does the project's .php-censor.yml request verbose mode?

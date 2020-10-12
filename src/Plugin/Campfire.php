@@ -29,7 +29,7 @@ class Campfire extends Plugin
     {
         return 'campfire';
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -38,7 +38,7 @@ class Campfire extends Plugin
         parent::__construct($builder, $build, $options);
 
         $this->message   = $options['message'];
-        $version         = trim(file_get_contents(ROOT_DIR . 'VERSION.md'));
+        $version         = $this->builder->interpolate('%SYSTEM_VERSION%');
         $this->userAgent = 'PHP Censor/' . $version;
         $this->cookie    = "php-censor-cookie";
 
