@@ -76,7 +76,7 @@ class WebhookNotify extends Plugin
 
 
         try {
-            $version   = $this->builder->interpolate('%APP_VERSION%');
+            $version   = $this->builder->interpolate('%SYSTEM_VERSION%');
             $userAgent = 'PHP Censor/' . $version;
             $client    = new Client([
                 'headers' => [

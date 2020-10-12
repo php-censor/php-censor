@@ -60,8 +60,8 @@ class BuildInterpolator
             }
         }
 
-        $this->interpolationVars['%ENVIRONMENT%'] = $environment;
-        $this->interpolationVars['%APP_VERSION%'] = $applicationVersion;
+        $this->interpolationVars['%ENVIRONMENT%']    = $environment;
+        $this->interpolationVars['%SYSTEM_VERSION%'] = $applicationVersion;
 
         putenv('PHP_CENSOR=1');
         putenv('PHP_CENSOR_COMMIT_ID=' . $this->interpolationVars['%COMMIT_ID%']);
@@ -78,7 +78,7 @@ class BuildInterpolator
         putenv('PHP_CENSOR_BRANCH=' . $this->interpolationVars['%BRANCH%']);
         putenv('PHP_CENSOR_BRANCH_LINK=' . $this->interpolationVars['%BRANCH_LINK%']);
         putenv('PHP_CENSOR_ENVIRONMENT=' . $this->interpolationVars['%ENVIRONMENT%']);
-        putenv('PHP_CENSOR_APP_VERSION=' . $this->interpolationVars['%APP_VERSION%']);
+        putenv('PHP_CENSOR_SYSTEM_VERSION=' . $this->interpolationVars['%SYSTEM_VERSION%']);
 
         /** @deprecated The variables are deprecated and will be deleted in version 2.0. Use the variables '%COMMIT_ID%', '%SHORT_COMMIT_ID%' etc. instead. */
         $this->interpolationVars['%COMMIT%']       = $this->interpolationVars['%COMMIT_ID%'];
