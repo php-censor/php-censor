@@ -285,27 +285,27 @@ PHP Censor',
     'save_user' => 'Save User',
 
     // Settings:
-    'settings_saved' => 'Your settings have been saved.',
-    'settings_check_perms' => 'Your settings could not be saved, check the permissions of your config.yml file.',
-    'settings_cannot_write' => 'PHP Censor cannot write to your config.yml file, settings may not be saved properly
-                                until this is rectified.',
-    'settings_github_linked' => 'Your GitHub account has been linked.',
-    'settings_github_not_linked' => 'Your GitHub account could not be linked.',
-    'build_settings' => 'Build Settings',
-    'github_application' => 'GitHub Application',
-    'github_sign_in' => 'Before you can start using GitHub, you need to <a href="%s">sign in</a> and grant
-                            PHP Censor access to your account.',
-    'github_app_linked' => 'PHP Censor is successfully linked to GitHub account.',
-    'github_where_to_find' => 'Where to find these...',
-    'github_where_help' => 'If you own the application you would like to use, you can find this information within your
-                            <a href="https://github.com/settings/applications">applications</a> settings area.',
+    'settings_saved' => 'Tetapan anda telah disimpan.',
+    'settings_check_perms' => 'Tetapan anda tidak dapat disimpan, periksa kebenaran fail config.yml anda.',
+    'settings_cannot_write' => 'Sensor PHP tidak dapat menulis ke fail config.yml anda, tetapan mungkin tidak disimpan dengan betul
+                                sehingga ini diperbaiki. ',
+    'settings_github_linked' => 'Akaun GitHub anda telah dipautkan.',
+    'settings_github_not_linked' => 'Akaun GitHub anda tidak dapat dihubungkan.',
+    'build_settings' => 'Tetapan Binaan',
+    'github_application' => 'Aplikasi GitHub',
+    'github_sign_in' => 'Sebelum mula menggunakan GitHub, anda perlu <a href="%s"> log masuk </a> dan memberikan
+                            Akses Sensor PHP ke akaun anda. ',
+    'github_app_linked' => 'Sensor PHP berjaya dihubungkan ke akaun GitHub.',
+    'github_where_to_find' => 'Di mana hendak mencari ini ...',
+    'github_where_help' => 'Sekiranya anda memiliki aplikasi yang ingin anda gunakan, anda boleh mendapatkan maklumat ini di dalam
+                            <a href="https://github.com/settings/applications"> aplikasi </a> kawasan tetapan. ',
 
-    'email_settings' => 'Email Settings',
-    'email_settings_help' => 'Before PHP Censor can send build status emails,
-                                you need to configure your SMTP settings below.',
+    'email_settings' => 'Tetapan E-mel',
+    'email_settings_help' => 'Sebelum PHP Censor dapat menghantar e-mel status binaan,
+                                anda perlu mengkonfigurasi tetapan SMTP anda di bawah. ',
 
-    'application_id' => 'Application ID',
-    'application_secret' => 'Application Secret',
+    'application_id' => 'ID Aplikasi',
+    'application_secret' => 'Rahsia Aplikasi',
 
     'smtp_server' => 'SMTP Server',
     'smtp_port' => 'SMTP Port',
@@ -326,10 +326,10 @@ PHP Censor',
     '3_hours' => '3 Hours',
 
     // Plugins
-    'cannot_update_composer' => 'PHP Censor cannot update composer.json for you as it is not writable.',
-    'x_has_been_removed' => '%s has been removed.',
-    'x_has_been_added' => '%s has been added to composer.json for you and will be installed next time
-                            you run composer update.',
+    'cannot_update_composer' => 'Sensor PHP tidak dapat mengemas kini komposer.json untuk anda kerana ia tidak boleh ditulis.',
+    'x_has_been_removed' => '%s telah dikeluarkan.',
+    'x_has_been_added' => '%s telah ditambahkan ke composer.json untuk anda dan akan dipasang pada masa akan datang
+                            anda menjalankan kemas kini komposer. ',
     'enabled_plugins' => 'Enabled Plugins',
     'provided_by_package' => 'Provided By Package',
     'installed_packages' => 'Installed Packages',
@@ -373,10 +373,10 @@ PHP Censor',
     'finished'       => 'Finished',
 
     // Update
-    'update_app' => 'Update the database to reflect modified models.',
+    'update_app' => 'Update pangkalan data untuk menggambarkan model yang diubah.',
     'updating_app' => 'Updating PHP Censor database: ',
-    'not_installed' => 'PHP Censor does not appear to be installed.',
-    'install_instead' => 'Please install PHP Censor via php-censor:install instead.',
+    'not_installed' => 'Sensor PHP nampaknya tidak diinstall.',
+    'install_instead' => 'Sila pasang Sensor PHP melalui sensor php:Install sebaliknya.',
 
     // Create Build Command
     'add_to_queue_failed' => 'Build created successfully, but failed to add to build queue. This usually happens
