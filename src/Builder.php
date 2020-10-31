@@ -410,12 +410,13 @@ class Builder implements LoggerAwareInterface
 
         $this->build->handleConfigBeforeClone($this);
 
+        $workingCopySuccess = true;
         // Create a working copy of the project:
         if (!$this->build->createWorkingCopy($this, $this->buildPath)) {
-            throw new Exception('Could not create a working copy.');
+            $workingCopySuccess = false;
         }
 
-        chdir($this->buildPath);
+        \chdir($this->buildPath);
 
         $this->interpolator->setupInterpolationVars(
             $this->build,
@@ -461,6 +462,10 @@ class Builder implements LoggerAwareInterface
         ) . '/';
 
         $this->buildLogger->logSuccess(sprintf('Working copy created: %s', $this->buildPath));
+
+        if (!$workingCopySuccess) {
+            throw new Exception('Could not create a working copy.');
+        }
 
         return true;
     }
