@@ -22,7 +22,7 @@ services:
     - postgresql
 
 install:
-    - composer selfupdate
+    - composer self-update --2
     - composer install
 
 before_script:
