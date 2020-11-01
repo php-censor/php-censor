@@ -67,8 +67,13 @@ class SensiolabsInsight extends Plugin
         if (array_key_exists('project_uuid', $options)) {
             $this->projectUuid = $options['project_uuid'];
         }
-        
+
+        /** @deprecated Option "executable" is deprecated and will be deleted in version 2.0. Use the option "binary_path" and "binary_name" instead. */
         if (array_key_exists('executable', $options)) {
+            $this->builder->logWarning(
+                '[DEPRECATED] Option "executable" is deprecated and will be deleted in version 2.0. Use the option "binary_path" and "binary_name" instead.'
+            );
+
             $this->executable = $this->builder->interpolate($options['executable']);
         } else {
             $this->executable = $this->findBinary('insight');
