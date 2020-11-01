@@ -33,11 +33,6 @@ class Gulp extends Plugin
 
         $this->task = null;
 
-        // deprecated compatibility option
-        if (isset($options['gulp']) && !isset($options['executable'])) {
-            $options['executable'] = $options['gulp'];
-        }
-
         /** @deprecated Option "gulp" is deprecated and will be deleted in version 2.0. Use the option "binary_path" and "binary_name" instead. */
         if (isset($options['gulp'])) {
             $this->builder->logWarning(

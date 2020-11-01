@@ -6,16 +6,15 @@ Connects to a given SQLite DB and runs a list of queries.
 Configuration
 -------------
 
-### Options
-
-#### Build Settings options
-
-* **path** [string] - SQLite database path.
-* **options** [array, optional] - Additional PDO connection options ('PDO::ATTR_*').
-
 #### Plugin options
 
 * **queries** [array, optional, default: empty array] - Array of queries.
+
+#### Build Settings options
+
+* **sqlite** - All child properties are required.
+    * **path** [string] - SQLite database path.
+    * **options** [array, optional] - Additional PDO connection options ('PDO::ATTR_*').
 
 ### Examples
 

@@ -18,7 +18,7 @@ class CampfireNotify extends Plugin
     protected $authToken;
     protected $userAgent;
     protected $cookie;
-    protected $verbose;
+    protected $verbose = false;
     protected $roomId;
     protected $message;
 
@@ -42,6 +42,10 @@ class CampfireNotify extends Plugin
         $this->userAgent = 'PHP Censor/' . $version;
         $this->cookie    = "php-censor-cookie";
 
+        if (isset($options['verbose']) && $options['verbose']) {
+            $this->verbose = true;
+        }
+
         $buildSettings = $this->builder->getConfig('build_settings');
 
         if (isset($buildSettings['campfire_notify'])) {
@@ -60,10 +64,20 @@ class CampfireNotify extends Plugin
      */
     public function execute()
     {
-        $url = APP_URL . "build/view/" . $this->build->getId();
-        $message = str_replace("%buildurl%", $url, $this->message);
+        /** @deprecated Variable "%buildurl%" is deprecated and will be deleted in version 2.0. Use the variable "%BUILD_LINK%" instead. */
+        if (false !== \strpos($this->message, '%buildurl%')) {
+            $this->builder->logWarning(
+                '[DEPRECATED] Variable "%buildurl%" is deprecated and will be deleted in version 2.0. Use the variable "%BUILD_LINK%" instead.'
+            );
+        }
+
+        $this->message = \str_replace("%buildurl%", "%BUILD_LINK%", $this->message);
+        $this->message = $this->builder->interpolate($this->message);
+
         $this->joinRoom($this->roomId);
-        $status = $this->speak($message, $this->roomId);
+
+        $status = $this->speak($this->message, $this->roomId);
+
         $this->leaveRoom($this->roomId);
 
         return $status;
@@ -118,31 +132,31 @@ class CampfireNotify extends Plugin
         $url = $this->url . $page;
         // The new API allows JSON, so we can pass
         // PHP data structures instead of old school POST
-        $json = json_encode($data);
+        $json = \json_encode($data);
 
         // cURL init & config
-        $handle = curl_init();
-        curl_setopt($handle, CURLOPT_URL, $url);
-        curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($handle, CURLOPT_POST, 1);
-        curl_setopt($handle, CURLOPT_USERAGENT, $this->userAgent);
-        curl_setopt($handle, CURLOPT_VERBOSE, $this->verbose);
-        curl_setopt($handle, CURLOPT_FOLLOWLOCATION, 1);
-        curl_setopt($handle, CURLOPT_USERPWD, $this->authToken . ':x');
-        curl_setopt($handle, CURLOPT_HTTPHEADER, ["Content-type: application/json"]);
-        curl_setopt($handle, CURLOPT_COOKIEFILE, $this->cookie);
+        $handle = \curl_init();
+        \curl_setopt($handle, CURLOPT_URL, $url);
+        \curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
+        \curl_setopt($handle, CURLOPT_POST, 1);
+        \curl_setopt($handle, CURLOPT_USERAGENT, $this->userAgent);
+        \curl_setopt($handle, CURLOPT_VERBOSE, $this->verbose);
+        \curl_setopt($handle, CURLOPT_FOLLOWLOCATION, 1);
+        \curl_setopt($handle, CURLOPT_USERPWD, $this->authToken . ':x');
+        \curl_setopt($handle, CURLOPT_HTTPHEADER, ["Content-type: application/json"]);
+        \curl_setopt($handle, CURLOPT_COOKIEFILE, $this->cookie);
 
-        curl_setopt($handle, CURLOPT_POSTFIELDS, $json);
-        $output = curl_exec($handle);
+        \curl_setopt($handle, CURLOPT_POSTFIELDS, $json);
+        $output = \curl_exec($handle);
 
-        curl_close($handle);
+        \curl_close($handle);
 
         // We tend to get one space with an otherwise blank response
-        $output = trim($output);
+        $output = \trim($output);
 
-        if (strlen($output)) {
+        if (\strlen($output)) {
             /* Responses are JSON. Decode it to a data structure */
-            return json_decode($output);
+            return \json_decode($output);
         }
 
         // Simple 200 OK response (such as for joining a room)
