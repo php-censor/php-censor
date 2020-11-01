@@ -64,12 +64,19 @@ class CampfireNotify extends Plugin
      */
     public function execute()
     {
-        $url     = APP_URL . "build/view/" . $this->build->getId();
-        $message = \str_replace("%buildurl%", $url, $this->message);
+        /** @deprecated Variable "%buildurl%" is deprecated and will be deleted in version 2.0. Use the variable "%BUILD_LINK%" instead. */
+        if (false !== \strpos($this->message, '%buildurl%')) {
+            $this->builder->logWarning(
+                '[DEPRECATED] Variable "%buildurl%" is deprecated and will be deleted in version 2.0. Use the variable "%BUILD_LINK%" instead.'
+            );
+        }
+
+        $this->message = \str_replace("%buildurl%", "%BUILD_LINK%", $this->message);
+        $this->message = $this->builder->interpolate($this->message);
 
         $this->joinRoom($this->roomId);
 
-        $status = $this->speak($message, $this->roomId);
+        $status = $this->speak($this->message, $this->roomId);
 
         $this->leaveRoom($this->roomId);
 
