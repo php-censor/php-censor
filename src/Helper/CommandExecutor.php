@@ -101,7 +101,7 @@ class CommandExecutor implements CommandExecutorInterface
 
         $command = call_user_func_array('sprintf', $args);
 
-        $this->logger->logDebug('Command: ' . $command);
+        $this->logger->log('Shell command: ' . $command);
 
         $withNoExit = '';
         foreach (self::$noExitCommands as $nec) {
