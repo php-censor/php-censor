@@ -7,12 +7,17 @@ This plugin joins a [Campfire](https://campfirenow.com/) room and sends a user-d
 Configuration
 -------------
 
-### Options
+### Build Settings options
 
-* **authToken** [string, required] - Your Campfire user authentication token.
+* **campfire_notify** - All child properties are required
+    * **authToken** [string, required] - Your Campfire user authentication token.
+    * **roomId** [string, required] - Your Campfire room ID number.
+    * **url** [string, required] - Your Campfire chat room URL.
+
+### Plugin options
+
 * **message** [string, required] - The message to send to the room.
-* **roomId** [string, required] - Your Campfire room ID number.
-* **url** [string, required] - Your Campfire chat room URL.
+* **verbose** [boolean, optional] - Whether to run in verbose mode (default: false).
 
 ### Examples
 
@@ -22,8 +27,9 @@ build_settings:
         authToken: "campfire auth token"
         roomId:    "campfire room ID"
         url:       "campfire URL"
-        
+
 success:
     campfire_notify:
+        verbose: true
         message: "Build succeeded!"
 ```
