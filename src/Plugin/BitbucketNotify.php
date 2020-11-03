@@ -72,7 +72,7 @@ class BitbucketNotify extends Plugin
         $this->message = isset($options['message']) ? $options['message'] : '';
         $this->token = $options['token'];
         $this->projectKey = $options['project_key'];
-        $this->repositorySlug = $options['repository_lug'];
+        $this->repositorySlug = $options['repository_slug'];
         $this->createTaskPerFail = $options['create_task_per_fail'];
         $this->createTaskIfFail = $options['create_task_if_fail'];
         $this->updateBuild = $options['update_build'];
@@ -82,7 +82,7 @@ class BitbucketNotify extends Plugin
             $this->message .= '```' . PHP_EOL;
             $this->message .= '%STATS%' . PHP_EOL;
             $this->message .= '```' . PHP_EOL;
-            $this->message .= '%BUILD_URI%?is_new=only_new#errors' . PHP_EOL . PHP_EOL;
+            $this->message .= '%BUILD_LINK%?is_new=only_new#errors' . PHP_EOL . PHP_EOL;
 
             $testSettings = $this->getBuilder()->getConfig('test');
             if (isset($testSettings[PhpUnit::pluginName()])) {
