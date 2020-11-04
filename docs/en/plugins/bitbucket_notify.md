@@ -9,7 +9,9 @@ Configuration
 ### Options
 
 * **url** [string, required] - URL to Bitbucket.
-* **token** [string, required] - $URL/plugins/servlet/access-tokens/manage Your API token.
+* **token** [string, required] - **[DEPRECATED]** Option "token" is deprecated and will be deleted in version 2.0. Use 
+the option "auth_token" instead.
+* **auth_token** [string, required] - $URL/plugins/servlet/access-tokens/manage Your API token.
 * **project_key** [string, required] - Your Project Key ($URL/projects/$PROJECT_KEY/repos/$REPOSITORY_SLUG/).
 * **repository_slug** [string, required] - Your Repository Slug ($URL/projects/$PROJECT_KEY/repos/$REPOSITORY_SLUG/).
 * **create_task_per_fail** [bool, optional] - Create a task per "failed" plugin.
@@ -23,7 +25,7 @@ Configuration
 complete:
     bitbucket_notify:
       url: "https://bitbucket.yourhost.de"
-      token: "123456"
+      auth_token: "123456"
       project_key: "test"
       repository_slug: "test-service"
       create_task_per_fail: true
