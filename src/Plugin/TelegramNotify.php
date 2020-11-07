@@ -15,7 +15,7 @@ use PHPCensor\Plugin;
  */
 class TelegramNotify extends Plugin
 {
-    protected $apiKey;
+    protected $authToken;
     protected $message;
     protected $buildMsg;
     protected $recipients;
@@ -41,15 +41,25 @@ class TelegramNotify extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        if (empty($options['api_key'])) {
-            throw new Exception("Not setting telegram api_key");
+        if (empty($options['auth_token']) && empty($options['api_key'])) {
+            throw new Exception("Not setting telegram 'auth_token'");
         }
 
         if (empty($options['recipients'])) {
             throw new Exception("Not setting recipients");
         }
 
-        $this->apiKey  = $options['api_key'];
+        if (\array_key_exists('auth_token', $options)) {
+            $this->authToken = $options['auth_token'];
+            /** @deprecated Option "api_key" is deprecated and will be deleted in version 2.0. Use the option "auth_token" instead. */
+        } elseif (\array_key_exists('api_key', $options)) {
+            $builder->logWarning(
+                '[DEPRECATED] Option "api_key" is deprecated and will be deleted in version 2.0. Use the option "auth_token" instead.'
+            );
+
+            $this->authToken = $options['api_key'];
+        }
+
         $this->message = '[%ICON_BUILD%] [%PROJECT_TITLE%](%PROJECT_LINK%)' .
             ' - [Build #%BUILD_ID%](%BUILD_LINK%) has finished ' .
             'for commit [%SHORT_COMMIT_ID% (%COMMITTER_EMAIL%)](%COMMIT_LINK%) ' .
@@ -77,7 +87,7 @@ class TelegramNotify extends Plugin
     {
         $message = $this->buildMessage();
         $client  = new Client();
-        $url     = '/bot'. $this->apiKey . '/sendMessage';
+        $url     = '/bot'. $this->authToken . '/sendMessage';
 
         foreach ($this->recipients as $chatId) {
             $params = [

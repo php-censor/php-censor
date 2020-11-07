@@ -20,7 +20,7 @@ class BitbucketNotify extends Plugin
     protected $url;
 
     /** @var string */
-    protected $token;
+    protected $authToken;
 
     /** @var string */
     protected $projectKey;
@@ -67,15 +67,26 @@ class BitbucketNotify extends Plugin
         parent::__construct($builder, $build, $options);
 
         $this->pdo = Database::getConnection('read');
-        $this->httpClient = new Client();
-        $this->url = trim($options['url']);
-        $this->message = isset($options['message']) ? $options['message'] : '';
-        $this->token = $options['token'];
-        $this->projectKey = $options['project_key'];
-        $this->repositorySlug = $options['repository_lug'];
+
+        $this->httpClient        = new Client();
+        $this->url               = \trim($options['url']);
+        $this->message           = isset($options['message']) ? $options['message'] : '';
+        $this->projectKey        = $options['project_key'];
+        $this->repositorySlug    = $options['repository_lug'];
         $this->createTaskPerFail = $options['create_task_per_fail'];
-        $this->createTaskIfFail = $options['create_task_if_fail'];
-        $this->updateBuild = $options['update_build'];
+        $this->createTaskIfFail  = $options['create_task_if_fail'];
+        $this->updateBuild       = $options['update_build'];
+
+        if (\array_key_exists('auth_token', $options)) {
+            $this->authToken = $options['auth_token'];
+            /** @deprecated Option "token" is deprecated and will be deleted in version 2.0. Use the option "auth_token" instead. */
+        } elseif (\array_key_exists('token', $options)) {
+            $builder->logWarning(
+                '[DEPRECATED] Option "token" is deprecated and will be deleted in version 2.0. Use the option "auth_token" instead.'
+            );
+
+            $this->authToken = $options['token'];
+        }
 
         if (empty($this->message)) {
             $this->message = '## PHP CENSOR Report' . PHP_EOL;
@@ -111,7 +122,7 @@ class BitbucketNotify extends Plugin
 
         if (empty($this->url) ||
             empty($this->message) ||
-            empty($this->token) ||
+            empty($this->authToken) ||
             empty($this->projectKey) ||
             empty($this->repositorySlug)
         ) {
@@ -381,7 +392,7 @@ class BitbucketNotify extends Plugin
 
     protected function request($endpoint, $method = 'get', array $jsonBody = null)
     {
-        $options = ['headers' => ['Authorization' => 'Bearer ' . $this->token]];
+        $options = ['headers' => ['Authorization' => 'Bearer ' . $this->authToken]];
         $jsonBody !== null && $options['json'] = $jsonBody;
         return $this->httpClient->request($method, $endpoint, $options);
     }
