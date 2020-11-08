@@ -5,6 +5,26 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [1.2.2 (Summer Smith)](https://github.com/php-censor/php-censor/tree/1.2.2) (2020-11-08)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/1.2.1...1.2.2)
+
+### Fixed
+
+- **[SQLite]** PDO initialization. Issue [#377](https://github.com/php-censor/php-censor/issues/377).
+- **[BitbucketNotify]** Parameter `repository_lug` -> `repository_slug`. Issue 
+[#395](https://github.com/php-censor/php-censor/issues/395).
+- Installation with Composer version 2. Issue [#391](https://github.com/php-censor/php-censor/issues/391).
+- Case when working directory creation failed interpolation variables don't initialize. Issue 
+[#382](https://github.com/php-censor/php-censor/issues/382).
+- Case when comments on Github/Bitbucket failed all plugin fail too. Issue 
+[#383](https://github.com/php-censor/php-censor/issues/383).
+
+### Changed
+
+- Improved TravisCI config.
+
+
 ## [1.2.1 (Summer Smith)](https://github.com/php-censor/php-censor/tree/1.2.1) (2020-09-26)
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/1.2.0...1.2.1)
