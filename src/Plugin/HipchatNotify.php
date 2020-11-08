@@ -30,7 +30,7 @@ class HipchatNotify extends Plugin
     {
         return 'hipchat_notify';
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -38,33 +38,43 @@ class HipchatNotify extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        $version         = trim(file_get_contents(ROOT_DIR . 'VERSION.md'));
+        $version         = $this->builder->interpolate('%SYSTEM_VERSION%');
         $this->userAgent = 'PHP Censor/' . $version;
         $this->cookie    = "php-censor-cookie";
 
-        if (is_array($options) && isset($options['authToken']) && isset($options['room'])) {
-            $this->authToken = $options['authToken'];
-            $this->room = $options['room'];
-
-            if (isset($options['message'])) {
-                $this->message = $options['message'];
-            } else {
-                $this->message = '%PROJECT_TITLE% built at %BUILD_LINK%';
-            }
-
-            if (isset($options['color'])) {
-                $this->color = $options['color'];
-            } else {
-                $this->color = 'yellow';
-            }
-
-            if (isset($options['notify'])) {
-                $this->notify = $options['notify'];
-            } else {
-                $this->notify = false;
-            }
-        } else {
+        if (!\is_array($options) || !isset($options['room']) || (!isset($options['authToken']) && !isset($options['auth_token']))) {
             throw new Exception('Please define room and authToken for hipchat_notify plugin.');
+        }
+
+        if (\array_key_exists('auth_token', $options)) {
+            $this->authToken = $options['auth_token'];
+            /** @deprecated Option "authToken" is deprecated and will be deleted in version 2.0. Use the option "auth_token" instead. */
+        } elseif (\array_key_exists('authToken', $options)) {
+            $builder->logWarning(
+                '[DEPRECATED] Option "authToken" is deprecated and will be deleted in version 2.0. Use the option "auth_token" instead.'
+            );
+
+            $this->authToken = $options['authToken'];
+        }
+
+        $this->room = $options['room'];
+
+        if (isset($options['message'])) {
+            $this->message = $options['message'];
+        } else {
+            $this->message = '%PROJECT_TITLE% built at %BUILD_LINK%';
+        }
+
+        if (isset($options['color'])) {
+            $this->color = $options['color'];
+        } else {
+            $this->color = 'yellow';
+        }
+
+        if (isset($options['notify'])) {
+            $this->notify = $options['notify'];
+        } else {
+            $this->notify = false;
         }
     }
 

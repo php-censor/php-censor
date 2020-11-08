@@ -81,15 +81,6 @@
         "maknz/slack":                "^1.7",
         "hipchat/hipchat-php":        "^1.4",
         "php-censor/flowdock-client": "^1.0",
-
-        "npm-asset/sprintf-js":     "^1.0",
-        "npm-asset/codemirror":     "^5.23",
-        "bower-asset/admin-lte":    "^2.3",
-        "bower-asset/font-awesome": "^4.7",
-        "bower-asset/ionicons":     "^2.0",
-        "bower-asset/raphael":      "^2.2",
-
-        "oomphinc/composer-installers-extender": "^1.1"
     },
     "require-dev": {
         "phpunit/phpunit":                     "^7.5",
@@ -106,16 +97,6 @@
     "extra": {
         "platform": {
             "php": "7.1.*"
-        },
-        "installer-types": [
-            "bower-asset",
-            "npm-asset"
-        ],
-        "installer-paths": {
-            "public/assets/vendor/{$name}/": [
-                "type:bower-asset",
-                "type:npm-asset"
-            ]
         }
     },
 

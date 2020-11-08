@@ -37,7 +37,8 @@ class BuildInterpolatorTest extends TestCase
 
         $this->testedInterpolator->setupInterpolationVars(
             $build,
-            "php-censor.local"
+            'php-censor.local',
+            '1.0.0'
         );
 
         $actualOutput = $this->testedInterpolator->interpolate($string);

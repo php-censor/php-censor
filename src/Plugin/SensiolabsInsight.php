@@ -24,7 +24,7 @@ class SensiolabsInsight extends Plugin
     /**
      * @var string
      */
-    protected $apiToken;
+    protected $authToken;
 
     /**
      * @var string
@@ -60,15 +60,27 @@ class SensiolabsInsight extends Plugin
             $this->userUuid = $options['user_uuid'];
         }
 
-        if (array_key_exists('api_token', $options)) {
-            $this->apiToken = $options['api_token'];
+        if (\array_key_exists('auth_token', $options)) {
+            $this->authToken = $options['auth_token'];
+            /** @deprecated Option "api_token" is deprecated and will be deleted in version 2.0. Use the option "auth_token" instead. */
+        } elseif (\array_key_exists('api_token', $options)) {
+            $builder->logWarning(
+                '[DEPRECATED] Option "api_token" is deprecated and will be deleted in version 2.0. Use the option "auth_token" instead.'
+            );
+
+            $this->authToken = $options['api_token'];
         }
 
         if (array_key_exists('project_uuid', $options)) {
             $this->projectUuid = $options['project_uuid'];
         }
-        
+
+        /** @deprecated Option "executable" is deprecated and will be deleted in version 2.0. Use the option "binary_path" and "binary_name" instead. */
         if (array_key_exists('executable', $options)) {
+            $this->builder->logWarning(
+                '[DEPRECATED] Option "executable" is deprecated and will be deleted in version 2.0. Use the option "binary_path" and "binary_name" instead.'
+            );
+
             $this->executable = $this->builder->interpolate($options['executable']);
         } else {
             $this->executable = $this->findBinary('insight');
@@ -147,7 +159,7 @@ class SensiolabsInsight extends Plugin
             $cmd,
             $this->build->getBranch(),
             $this->projectUuid,
-            $this->apiToken,
+            $this->authToken,
             $this->userUuid
         );
 
@@ -157,7 +169,7 @@ class SensiolabsInsight extends Plugin
         $this->builder->executeCommand(
             $cmd,
             $this->projectUuid,
-            $this->apiToken,
+            $this->authToken,
             $this->userUuid
         );
     }

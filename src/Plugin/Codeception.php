@@ -68,7 +68,12 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
             array_unshift($this->outputPath, $options['output_path']);
         }
 
+        /** @deprecated Option "executable" is deprecated and will be deleted in version 2.0. Use the option "binary_path" and "binary_name" instead. */
         if (isset($options['executable'])) {
+            $this->builder->logWarning(
+                '[DEPRECATED] Option "executable" is deprecated and will be deleted in version 2.0. Use the option "binary_path" and "binary_name" instead.'
+            );
+
             $this->executable = $options['executable'];
         } else {
             $this->executable = $this->findBinary(['codecept', 'codecept.phar']);

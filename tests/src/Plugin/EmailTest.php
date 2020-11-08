@@ -6,7 +6,7 @@ use PHPCensor\Config;
 use PHPCensor\Helper\BuildInterpolator;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
-use PHPCensor\Plugin\Email as EmailPlugin;
+use PHPCensor\Plugin\EmailNotify as EmailPlugin;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
 
@@ -135,7 +135,7 @@ class EmailTest extends TestCase
         $self = $this;
 
         $this->testedEmailPlugin = $this
-            ->getMockBuilder('\PHPCensor\Plugin\Email')
+            ->getMockBuilder('\PHPCensor\Plugin\EmailNotify')
             ->setMethods(['sendEmail'])
             ->setConstructorArgs([$this->mockBuilder, $this->mockBuild, $arrOptions])
             ->getMock();

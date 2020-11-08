@@ -11,7 +11,9 @@ Configuration
 * **allowed_warnings** [int, optional] - Allow `n` warnings in a successful build (default: 0). 
   Use -1 to allow unlimited warnings.
 * **user_uuid** [string, required] - https://insight.sensiolabs.com/account Your user.
-* **api_token** [string, required] - https://insight.sensiolabs.com/account Your password (API token).
+* **api_token** [string, required] - **[DEPRECATED]** Option "api_token" is deprecated and will be deleted in version 
+2.0. Use the option "auth_token" instead.
+* **auth_token** [string, required] - https://insight.sensiolabs.com/account Your password (API token).
 * **project_uuid** [string, required] - Your Project UUID.
 
 ### Examples
@@ -21,6 +23,6 @@ test:
     sensiolabs_insight:
         allow_failures: true
         user_uuid:      'xxx-xxx-xxx-xxx-xxx'
-        api_token:      'xxxx'
+        auth_token:     'xxxx'
         project_uuid:   'xxx-xxx-xxx-xxx-xxx'
 ```

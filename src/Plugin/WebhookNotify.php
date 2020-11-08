@@ -68,15 +68,15 @@ class WebhookNotify extends Plugin
             'committer_email' => $this->build->getCommitterEmail(),
             'commit_message'  => $this->build->getCommitMessage(),
             'commit_link'     => $this->build->getCommitLink(),
-            'build_link'      => APP_URL . 'build/view/' . $this->build->getId(),
-            'project_link'    => APP_URL . 'project/view/' . $this->build->getProjectId(),
+            'build_link'      => $this->builder->interpolate('%BUILD_LINK%'),
+            'project_link'    => $this->builder->interpolate('%PROJECT_LINK%'),
             'status_code'     => $this->build->getStatus(),
             'readable_status' => $this->getReadableStatus($this->build->getStatus()),
         ];
 
 
         try {
-            $version   = trim(file_get_contents(ROOT_DIR . 'VERSION.md'));
+            $version   = $this->builder->interpolate('%SYSTEM_VERSION%');
             $userAgent = 'PHP Censor/' . $version;
             $client    = new Client([
                 'headers' => [

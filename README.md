@@ -232,7 +232,7 @@ test:
   php_cpd:
     allow_failures: true
 complete:
-  email:
+  email_notify:
     default_mailto_address: admin@php-censor.local
 ```
 

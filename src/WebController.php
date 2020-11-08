@@ -51,7 +51,11 @@ abstract class WebController extends Controller
 
             $this->layout->title      = 'PHP Censor';
             $this->layout->breadcrumb = [];
-            $this->layout->version    = trim(file_get_contents(ROOT_DIR . 'VERSION.md'));
+
+            $version = (string)\trim(\file_get_contents(ROOT_DIR . 'VERSION.md'));
+            $version = !empty($version) ? $version : '0.0.0 (UNKNOWN)';
+
+            $this->layout->version = $version;
 
             $groups = [];
             $groupStore = Factory::getStore('ProjectGroup');

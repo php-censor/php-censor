@@ -26,6 +26,8 @@ Where `VARIABLE` can be one of the following:
 
 * **ENVIRONMENT** - Build environment (See [environments](environments.md)).
 
+* **SYSTEM_VERSION** - Version of PHP Censor application.
+
 * **PROJECT_ID** - The ID of the project.
 
 * **BUILD_ID** - The build number.
