@@ -80,7 +80,7 @@
 
         "maknz/slack":                "^1.7",
         "hipchat/hipchat-php":        "^1.4",
-        "php-censor/flowdock-client": "^1.0",
+        "php-censor/flowdock-client": "^1.0"
     },
     "require-dev": {
         "phpunit/phpunit":                     "^7.5",
