@@ -153,7 +153,7 @@ class WebhookController extends Controller
                             $committer,
                             $commitMessage,
                             (int)$source,
-                            0,
+                            null,
                             $extra
                         );
 
@@ -203,7 +203,7 @@ class WebhookController extends Controller
                     $committer,
                     $commitMessage,
                     (int)$source,
-                    0,
+                    null,
                     $extra
                 );
 
@@ -1049,7 +1049,7 @@ class WebhookController extends Controller
                     null,
                     null,
                     Build::SOURCE_WEBHOOK_PUSH,
-                    0,
+                    null,
                     null
                 );
             }

@@ -92,6 +92,10 @@ class BuildService
         $build->addExtraValue('branches', $branches);
 
         $build->setSource($source);
+
+        if (!$userId) {
+            $userId = null;
+        }
         $build->setUserId($userId);
         $build->setCommitId((string)$commitId);
 
