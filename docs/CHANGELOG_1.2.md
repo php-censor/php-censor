@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [1.2.3 (Summer Smith)](https://github.com/php-censor/php-censor/tree/1.2.3) (2020-11-12)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/1.2.2...1.2.3)
+
+### Fixed
+
+- Creating builds from webhook. Issue [#396](https://github.com/php-censor/php-censor/issues/396).
+
+
 ## [1.2.2 (Summer Smith)](https://github.com/php-censor/php-censor/tree/1.2.2) (2020-11-08)
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/1.2.1...1.2.2)
