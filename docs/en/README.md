@@ -55,7 +55,7 @@ Plugins
 * [PDepend](plugins/pdepend.md) - `pdepend`
 * [Phan](plugins/phan.md) - `phan`
 * [Psalm](plugins/psalm.md) - `psalm`
-* [PHPStan](plugins/phpstan.md) - `phpstan`
+* [PHPStan](plugins/php_stan.md) - `php_stan`
 * [Pahout](plugins/pahout.md) - `pahout`
 * [Phlint](plugins/phlint.md) - `phlint`
 * [PHP Code Sniffer](plugins/php_code_sniffer.md) - `php_code_sniffer`

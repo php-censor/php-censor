@@ -163,14 +163,22 @@ class Executor
 
         foreach ($plugins as $plugin => $options) {
             /**
-             * @deprecated Plugins names "campfire", "telegram", "xmpp", "email" and "irc" are deprecated and will be
+             * @deprecated Plugins names "campfire", "telegram", "xmpp", "email", "irc" and "phpstan" are deprecated and will be
              * deleted in version 2.0. Use the names "campfire_notify", "telegram_notify", "xmpp_notify",
-             * "email_notify" and "irc_notify" instead.
+             * "email_notify", "irc_notify" and "php_stan" instead.
              */
             $realPluginName          = $plugin;
-            $deprecatedNotifyPlugins = ['campfire', 'telegram', 'xmpp', 'email', 'irc'];
-            if (\in_array(\strtolower($realPluginName), $deprecatedNotifyPlugins, true)) {
-                $realPluginName .= '_notify';
+            $deprecatedNotifyPlugins = [
+                'campfire' => 'campfire_notify',
+                'telegram '=> 'telegram_notify',
+                'xmpp'     => 'xmpp_notify',
+                'email'    => 'email_notify',
+                'irc'      => 'irc_notify',
+                'phpstan'  => 'php_stan',
+            ];
+
+            if (\array_key_exists(\strtolower($realPluginName), $deprecatedNotifyPlugins)) {
+                $realPluginName = $deprecatedNotifyPlugins[\strtolower($realPluginName)];
 
                 $this->logger->logWarning(
                     '[DEPRECATED] Plugins name "' . $plugin . '" is deprecated and will be deleted in version 2.0. Use the name "' . $realPluginName . '" instead.'
