@@ -148,7 +148,7 @@ class ProjectStore extends Store
      */
     public function getKnownBranches($projectId)
     {
-        $query = 'SELECT DISTINCT {{branch}} from {{builds}} WHERE {{project_id}} = :pid';
+        $query = 'SELECT {{branch}}, COUNT(1) AS {{count}} from {{builds}} WHERE {{project_id}} = :pid GROUP BY {{branch}} ORDER BY {{count}} DESC';
         $stmt = Database::getConnection('read')->prepareCommon($query);
         $stmt->bindValue(':pid', $projectId);
 
