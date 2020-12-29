@@ -30,6 +30,7 @@ Using PHP Censor
 * [Periodical builds](periodical_builds.md)
 * [Console commands](commands.md)
 * [CCMenu/CCTray integration](ccmenu.md)
+* [Known issues and workarounds](workarounds.md)
 
 Plugins
 -------
