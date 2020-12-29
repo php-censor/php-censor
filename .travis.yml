@@ -29,7 +29,7 @@ install:
     - composer install
 
 script:
-    - vendor/bin/phpunit --configuration phpunit.xml.dist --coverage-clover=coverage.xml
+    -  php -d 'xdebug.mode=coverage' vendor/bin/phpunit --configuration phpunit.xml.dist --coverage-clover=coverage.xml
 
 after_success:
     - bash <(curl -s https://codecov.io/bash)

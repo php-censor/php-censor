@@ -5,6 +5,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [1.2.4 (Summer Smith)](https://github.com/php-censor/php-censor/tree/1.2.4) (2020-12-28)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/1.2.3...1.2.4)
+
+### Fixed
+
+- **[PhpLoc]** Error with XDebug 3+. Issue [#400](https://github.com/php-censor/php-censor/issues/400).
+- **[PhpUnit]** Plugin status when used coverage. Issue [#399](https://github.com/php-censor/php-censor/issues/399).
+
+
 ## [1.2.3 (Summer Smith)](https://github.com/php-censor/php-censor/tree/1.2.3) (2020-11-12)
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/1.2.2...1.2.3)

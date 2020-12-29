@@ -188,7 +188,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
 
         $arguments = $this->builder->interpolate($options->buildArgumentString());
         $cmd       = $this->executable . ' %s %s';
-        $success   = $this->builder->executeCommand($cmd, $arguments, $directory);
+        $success   = $this->executePhpUnitCommand($cmd, $arguments, $directory);
         $output    = $this->builder->getLastOutput();
         $covHtmlOk = false;
 
@@ -202,6 +202,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
 
         $this->processResults($logFile, $logFormat);
 
+        $coverageSuccess = true;
         if ($options->getOption('coverage')) {
             $currentCoverage = $this->extractCoverage($output);
             $this->build->storeMeta((self::pluginName() . '-coverage'), $currentCoverage);
@@ -224,10 +225,10 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
                 );
             }
 
-            return $this->checkRequiredCoverage($currentCoverage);
+            $coverageSuccess = $this->checkRequiredCoverage($currentCoverage);
         }
 
-        return $success;
+        return $success && $coverageSuccess;
     }
 
     /**
@@ -250,6 +251,18 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
             'methods' => !empty($matches[2]) ? $matches[2] : '0.00',
             'lines'   => !empty($matches[3]) ? $matches[3] : '0.00',
         ];
+    }
+
+    /**
+     * @param string $cmd
+     * @param string $arguments
+     * @param string $directory
+     *
+     * @return bool
+     */
+    protected function executePhpUnitCommand($cmd, $arguments, $directory)
+    {
+        return $this->builder->executeCommand($cmd, $arguments, $directory);
     }
 
     /**

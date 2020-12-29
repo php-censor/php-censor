@@ -43,14 +43,14 @@ class PhpStan extends Plugin
      */
     public function execute()
     {
-        $phpstan = $this->executable;
+        $phpStan = $this->executable;
 
         if (!$this->build->isDebug()) {
             $this->builder->logExecOutput(false);
         }
 
         $this->builder->executeCommand(
-            'cd "%s" && ' . $phpstan . ' analyze --error-format=json "%s"',
+            'cd "%s" && ' . $phpStan . ' analyze --error-format=json "%s"',
             $this->builder->buildPath,
             $this->directory
         );
@@ -117,7 +117,7 @@ class PhpStan extends Plugin
      */
     public static function pluginName()
     {
-        return 'phpstan';
+        return 'php_stan';
     }
 
     /**

@@ -129,16 +129,32 @@ class PhpUnitTest extends TestCase
             'required_lines_coverage' => 60,
         ];
 
-        /** @var PHPUnit_Framework_MockObject_MockBuilder|PhpUnit $mockPlugin */
-        $mockPlugin = $this->getPluginBuilder($options)
-            ->setMethods(['extractCoverage', 'processResults'])
-            ->getMock();
+        $mockPlugin = $this->getPluginBuilder($options)->setMethods(['extractCoverage', 'executePhpUnitCommand'])->getMock();
+        $mockPlugin->expects($this->once())->method('executePhpUnitCommand')->willReturn(true);
         $mockPlugin->expects($this->once())->method('extractCoverage')->willReturn([
             'classes' => '100.00',
             'methods' => '100.00',
             'lines'   => '100.00',
         ]);
         $this->assertTrue($mockPlugin->execute());
+    }
+
+    public function testRequiredCoverageWithPassingPercentage2()
+    {
+        $options = [
+            'config' => ROOT_DIR . 'phpunit.xml.dist',
+            'coverage' => true,
+            'required_lines_coverage' => 60,
+        ];
+
+        $mockPlugin = $this->getPluginBuilder($options)->setMethods(['extractCoverage', 'executePhpUnitCommand'])->getMock();
+        $mockPlugin->expects($this->once())->method('executePhpUnitCommand')->willReturn(false);
+        $mockPlugin->expects($this->once())->method('extractCoverage')->willReturn([
+            'classes' => '100.00',
+            'methods' => '100.00',
+            'lines'   => '100.00',
+        ]);
+        $this->assertFalse($mockPlugin->execute());
     }
 
     public function testRequiredCoverageWithFailingPercentage()

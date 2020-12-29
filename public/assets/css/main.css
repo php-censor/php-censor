@@ -645,3 +645,8 @@ h6,
 .arrow_trend_negative {
     color: #dd4b39;
 }
+
+.dropdown-menu {
+    max-height: 1000%;
+    overflow: auto;
+}

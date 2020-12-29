@@ -7,7 +7,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [2.0.0 (Rick Sanchez)](https://github.com/php-censor/php-censor/tree/2.0.0) (2019-xx-xx)
 
-[Full Changelog](https://github.com/php-censor/php-censor/compare/1.2.0...2.0.0)
+[Full Changelog](https://github.com/php-censor/php-censor/compare/1.3.0...2.0.0)
 
 ### Changed
 
@@ -42,3 +42,4 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 - [1.0 Changelog](/docs/CHANGELOG_1.0.md)
 - [1.1 Changelog](/docs/CHANGELOG_1.1.md)
 - [1.2 Changelog](/docs/CHANGELOG_1.2.md)
+- [1.3 Changelog](/docs/CHANGELOG_1.3.md)
