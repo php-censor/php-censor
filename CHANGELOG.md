@@ -15,7 +15,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ### Removed
 
-- **Deprecatins from versions 1.x**:
+- **Deprecations from versions 1.x**:
     - Cronjob worker: "php-censor:run-builds" (Use daemon worker instead: "php-censor:worker").
     - Project configs "phpci.yml" and ".phpci.yml" (use ".php-censor.yml" instead).
     - "PHPCI_*" interpolation and env variables (Use "PHP_CENSOR_*" instead).
