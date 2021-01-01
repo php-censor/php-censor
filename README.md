@@ -16,12 +16,13 @@
 
 Actual PHP Censor versions and release branches:
 
-| Version            | Branch            | Status                            | Minimal PHP Version |
-| :----------------- | :-------------    | :-------------------------------- | :------------------ |
-| `1.0`              | `release-1.0`     | Last stable version               | `5.6`               |
-| `1.1`              | `release-1.1`     | Current stable version            | `5.6`               |
-| `1.2`              | `master`          | Future stable minor version (WIP) | `5.6`               |
-| `2.0`              | `pre-release-2.0` | Future stable major version (WIP) | `7.1`               |
+| Version            | Branch        | Status                            | Minimal PHP Version |
+| :----------------- | :------------ | :-------------------------------- | :------------------ |
+| `1.0`              | `release-1.0` | Old stable version (Unsupported)  | `5.6`               |
+| `1.1`              | `release-1.1` | Old stable version (Unsupported)  | `5.6`               |
+| `1.2`              | `release-1.2` | Old stable version (Unsupported)  | `5.6`               |
+| `1.3`              | `release-1.3` | Current stable version            | `5.6`               |
+| `2.0`              | `master`      | Future stable major version (WIP) | `7.1`               |
 
 [![Dashboard](docs/screenshots/dashboard.png)](docs/screenshots/dashboard.png)
 
