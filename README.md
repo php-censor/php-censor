@@ -18,11 +18,11 @@ PHP Censor versions:
 
 | Version            | Branch        | Status                              | Minimal PHP Version |
 | :----------------: | :-----------: | :---------------------------------: | :-----------------: |
-| `1.0`              | `release-1.0` | Old version (Unsupported)           | `5.6`               |
-| `1.1`              | `release-1.1` | Old version (Unsupported)           | `5.6`               |
-| `1.2`              | `release-1.2` | Old version (Unsupported)           | `5.6`               |
-| `1.3`              | `release-1.3` | Current stable version (Only fixes) | `5.6`               |
-| `2.0`              | `master`      | Future stable major version (WIP)   | `7.1`               |
+| `1.0`              | `release-1.0` | Old version (Unsupported)           | `>=5.6, <8.0`       |
+| `1.1`              | `release-1.1` | Old version (Unsupported)           | `>=5.6, <8.0`       |
+| `1.2`              | `release-1.2` | Old version (Unsupported)           | `>=5.6, <8.0`       |
+| `1.3`              | `release-1.3` | Current stable version (Only fixes) | `>=5.6, <8.0`       |
+| `2.0`              | `master`      | Future stable major version (WIP)   | `>=7.4`             |
 
 [![Dashboard](docs/screenshots/dashboard.png)](docs/screenshots/dashboard.png)
 
