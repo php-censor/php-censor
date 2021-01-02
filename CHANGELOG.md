@@ -11,7 +11,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ### Changed
 
-- **Minimal PHP version increased to 7.1 (from 5.6)**.
+- **Minimal PHP version increased to 7.4 (from 5.6)**.
 
 ### Removed
 

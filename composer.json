@@ -71,7 +71,7 @@
         "psr/log":                         "^1.1",
         "monolog/monolog":                 "^2.2",
         "pimple/pimple":                   "^3.3",
-        "robmorgan/phinx":                 "~0.11.0",
+        "robmorgan/phinx":                 "~0.12.0",
         "sensiolabs/ansi-to-html":         "^1.2",
         "pda/pheanstalk":                  "^4.0",
         "guzzlehttp/guzzle":               "^6.5",
