@@ -6,10 +6,13 @@ use PHPCensor\Model\Build;
 use PHPCensor\Plugin\Util\Executor;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use RuntimeException;
 
 class ExecutorTest extends TestCase
 {
+    use ProphecyTrait;
+
     /**
      * @var Executor
      */
@@ -21,7 +24,7 @@ class ExecutorTest extends TestCase
 
     protected $mockStore;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->mockBuildLogger = $this->prophesize('\PHPCensor\Logging\BuildLogger');

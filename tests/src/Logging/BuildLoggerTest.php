@@ -6,10 +6,13 @@ use Exception;
 use PHPCensor\Logging\BuildLogger;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Log\LogLevel;
 
 class BuildLoggerTest extends TestCase
 {
+    use ProphecyTrait;
+
     /**
      * @var BuildLogger
      */
@@ -19,7 +22,7 @@ class BuildLoggerTest extends TestCase
 
     protected $mockBuild;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->mockLogger = $this->prophesize('\Psr\Log\LoggerInterface');

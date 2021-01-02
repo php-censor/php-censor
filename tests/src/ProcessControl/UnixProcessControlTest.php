@@ -6,7 +6,7 @@ use PHPCensor\ProcessControl\UnixProcessControl;
 
 class UnixProcessControlTest extends ProcessControlTest
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new UnixProcessControl();
     }

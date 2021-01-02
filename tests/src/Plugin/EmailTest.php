@@ -7,8 +7,8 @@ use PHPCensor\Helper\BuildInterpolator;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 use PHPCensor\Plugin\EmailNotify as EmailPlugin;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_MockObject_MockObject;
 
 /**
  * Unit test for the PHPUnit plugin.
@@ -24,17 +24,17 @@ class EmailTest extends TestCase
     protected $testedEmailPlugin;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject $mockBuilder
+     * @var MockObject
      */
     protected $mockBuilder;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject $mockBuild
+     * @var MockObject
      */
     protected $mockBuild;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject $mockProject
+     * @var MockObject
      */
     protected $mockProject;
 
@@ -53,7 +53,7 @@ class EmailTest extends TestCase
      */
     public $mailDelivered;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->message       = [];
         $this->mailDelivered = true;
@@ -267,8 +267,8 @@ class EmailTest extends TestCase
 
         $this->testedEmailPlugin->execute();
 
-        self::assertContains('Test-Project', $this->message['subject']);
-        self::assertContains('Test-Project', $this->message['body']);
+        self::assertStringContainsString('Test-Project', $this->message['subject']);
+        self::assertStringContainsString('Test-Project', $this->message['body']);
     }
 
     public function testMailFailingBuildHaveProjectName()
@@ -282,8 +282,8 @@ class EmailTest extends TestCase
 
         $this->testedEmailPlugin->execute();
 
-        self::assertContains('Test-Project', $this->message['subject']);
-        self::assertContains('Test-Project', $this->message['body']);
+        self::assertStringContainsString('Test-Project', $this->message['subject']);
+        self::assertStringContainsString('Test-Project', $this->message['body']);
     }
 
     public function testMailSuccessfulBuildHaveStatus()
@@ -299,8 +299,8 @@ class EmailTest extends TestCase
 
         $this->testedEmailPlugin->execute();
 
-        self::assertContains('Passing', $this->message['subject']);
-        self::assertContains('success', $this->message['body']);
+        self::assertStringContainsString('Passing', $this->message['subject']);
+        self::assertStringContainsString('success', $this->message['body']);
     }
 
     public function testMailFailingBuildHaveStatus()
@@ -317,8 +317,8 @@ class EmailTest extends TestCase
 
         $this->testedEmailPlugin->execute();
 
-        self::assertContains('Failing', $this->message['subject']);
-        self::assertContains('failed', $this->message['body']);
+        self::assertStringContainsString('Failing', $this->message['subject']);
+        self::assertStringContainsString('failed', $this->message['body']);
     }
 
     public function testMailDeliverySuccess()

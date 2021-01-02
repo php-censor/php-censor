@@ -5,15 +5,18 @@ namespace Tests\PHPCensor\Helper;
 use Exception;
 use PHPCensor\Helper\CommandExecutor;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 class CommandExecutorTest extends TestCase
 {
+    use ProphecyTrait;
+
     /**
      * @var CommandExecutor
      */
     protected $testedExecutor;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -50,12 +53,10 @@ class CommandExecutorTest extends TestCase
         self::assertFalse($returnValue);
     }
 
-    /**
-     * @expectedException Exception
-     * @expectedMessageRegex WorldWidePeace
-     */
     public function testFindBinary_ThrowsWhenNotFound()
     {
+        self::expectException(Exception::class);
+
         $thisFileName = "WorldWidePeace";
         $this->testedExecutor->findBinary($thisFileName);
     }

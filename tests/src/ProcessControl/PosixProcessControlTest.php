@@ -6,7 +6,7 @@ use PHPCensor\ProcessControl\PosixProcessControl;
 
 class PosixProcessControlTest extends UnixProcessControlTest
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new PosixProcessControl();
     }

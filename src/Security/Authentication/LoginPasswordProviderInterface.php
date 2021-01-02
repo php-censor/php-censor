@@ -19,5 +19,5 @@ interface LoginPasswordProviderInterface extends UserProviderInterface
      *
      * @return bool
      */
-    public function verifyPassword(User $user, $password);
+    public function verifyPassword(User $user, string $password): bool;
 }

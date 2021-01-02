@@ -21,7 +21,7 @@ class Ldap extends AbstractProvider implements LoginPasswordProviderInterface
      *
      * @return bool
      */
-    public function verifyPassword(User $user, $password)
+    public function verifyPassword(User $user, string $password): bool
     {
         if (isset($this->config['data'])) {
             $ldapData   = $this->config['data'];
@@ -70,7 +70,7 @@ class Ldap extends AbstractProvider implements LoginPasswordProviderInterface
      *
      * @return User
      */
-    public function provisionUser($identifier)
+    public function provisionUser(?string $identifier): ?User
     {
         /** @var UserStore $user */
         $user        = Factory::getStore('User');

@@ -77,7 +77,7 @@ class PluginTest extends TestCase
      */
     private $currentDir;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->currentDir = rtrim(realpath(__DIR__ . '/../data/builds/build_x/'), '/\\') . '/';
 

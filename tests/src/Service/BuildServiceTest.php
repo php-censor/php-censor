@@ -31,7 +31,7 @@ class BuildServiceTest extends TestCase
      */
     protected $mockEnvironmentStore;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->mockBuildStore = $this->getMockBuilder('PHPCensor\Store\BuildStore')->getMock();
         $this->mockBuildStore

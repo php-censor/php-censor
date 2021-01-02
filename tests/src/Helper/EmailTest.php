@@ -4,13 +4,13 @@ namespace Tests\PHPCensor\Helper;
 
 use PHPCensor\Config;
 use PHPCensor\Helper\Email;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_MockObject_MockObject;
 
 class EmailTest extends TestCase
 {
     /**
-     * @var Config | PHPUnit_Framework_MockObject_MockObject
+     * @var Config|MockObject
      */
     private $config;
 
@@ -19,7 +19,7 @@ class EmailTest extends TestCase
      */
     private $email;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

@@ -22,7 +22,7 @@ class BuildStatusServiceTest extends TestCase
 
     protected $timezone;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $project = new Project();
         $project->setId(3);
@@ -35,7 +35,7 @@ class BuildStatusServiceTest extends TestCase
         date_default_timezone_set('UTC');
     }
 
-    public function tearDown()
+    protected function tearDown() : void
     {
         date_default_timezone_set($this->timezone);
     }

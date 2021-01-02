@@ -24,7 +24,7 @@ class ProjectServiceTest extends TestCase
      */
     protected $mockProjectStore;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->mockProjectStore = $this
             ->getMockBuilder('PHPCensor\Store\ProjectStore')

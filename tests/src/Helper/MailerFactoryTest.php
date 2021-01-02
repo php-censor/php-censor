@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  */
 class MailerFactoryTest extends TestCase
 {
-    public function setUp()
+    protected function setUp(): void
     {
     }
 
