@@ -11,7 +11,6 @@ Configuration
 
 | Field | Required? | Description |
 |-------|-----------|-------------|
-| `authToken`  | Yes | **[DEPRECATED]** Option "authToken" is deprecated and will be deleted in version 2.0. Use the option "auth_token" instead. |
 | `auth_token` | Yes | Your HipChat API authentication token (v1) |
 | `room`       | Yes | Your Hipchat room name or ID number. This can also be an array of room names or numbers, and the message will be sent to all rooms. |
 | `message`    | No  | The message to send to the room. Default - `%PROJECT_TITLE% built at %BUILD_LINK%` |

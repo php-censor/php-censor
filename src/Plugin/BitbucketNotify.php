@@ -79,13 +79,6 @@ class BitbucketNotify extends Plugin
 
         if (\array_key_exists('auth_token', $options)) {
             $this->authToken = $options['auth_token'];
-            /** @deprecated Option "token" is deprecated and will be deleted in version 2.0. Use the option "auth_token" instead. */
-        } elseif (\array_key_exists('token', $options)) {
-            $builder->logWarning(
-                '[DEPRECATED] Option "token" is deprecated and will be deleted in version 2.0. Use the option "auth_token" instead.'
-            );
-
-            $this->authToken = $options['token'];
         }
 
         if (empty($this->message)) {

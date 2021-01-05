@@ -48,13 +48,6 @@ class HipchatNotify extends Plugin
 
         if (\array_key_exists('auth_token', $options)) {
             $this->authToken = $options['auth_token'];
-            /** @deprecated Option "authToken" is deprecated and will be deleted in version 2.0. Use the option "auth_token" instead. */
-        } elseif (\array_key_exists('authToken', $options)) {
-            $builder->logWarning(
-                '[DEPRECATED] Option "authToken" is deprecated and will be deleted in version 2.0. Use the option "auth_token" instead.'
-            );
-
-            $this->authToken = $options['authToken'];
         }
 
         $this->room = $options['room'];

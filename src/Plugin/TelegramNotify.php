@@ -51,13 +51,6 @@ class TelegramNotify extends Plugin
 
         if (\array_key_exists('auth_token', $options)) {
             $this->authToken = $options['auth_token'];
-            /** @deprecated Option "api_key" is deprecated and will be deleted in version 2.0. Use the option "auth_token" instead. */
-        } elseif (\array_key_exists('api_key', $options)) {
-            $builder->logWarning(
-                '[DEPRECATED] Option "api_key" is deprecated and will be deleted in version 2.0. Use the option "auth_token" instead.'
-            );
-
-            $this->authToken = $options['api_key'];
         }
 
         $this->message = '[%ICON_BUILD%] [%PROJECT_TITLE%](%PROJECT_LINK%)' .

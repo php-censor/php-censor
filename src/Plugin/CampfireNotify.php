@@ -54,24 +54,10 @@ class CampfireNotify extends Plugin
 
             if (\array_key_exists('auth_token', $campfire)) {
                 $this->authToken = $campfire['auth_token'];
-                /** @deprecated Option "authToken" is deprecated and will be deleted in version 2.0. Use the option "auth_token" instead. */
-            } elseif (\array_key_exists('authToken', $campfire)) {
-                $builder->logWarning(
-                    '[DEPRECATED] Option "authToken" is deprecated and will be deleted in version 2.0. Use the option "auth_token" instead.'
-                );
-
-                $this->authToken = $campfire['authToken'];
             }
 
             if (\array_key_exists('room', $campfire)) {
                 $this->room = $campfire['room'];
-                /** @deprecated Option "roomId" is deprecated and will be deleted in version 2.0. Use the option "room" instead. */
-            } elseif (\array_key_exists('roomId', $campfire)) {
-                $builder->logWarning(
-                    '[DEPRECATED] Option "roomId" is deprecated and will be deleted in version 2.0. Use the option "room" instead.'
-                );
-
-                $this->room = $campfire['roomId'];
             }
         } else {
             throw new Exception('No connection parameters given for Campfire plugin');
@@ -84,14 +70,6 @@ class CampfireNotify extends Plugin
      */
     public function execute()
     {
-        /** @deprecated Variable "%buildurl%" is deprecated and will be deleted in version 2.0. Use the variable "%BUILD_LINK%" instead. */
-        if (false !== \strpos($this->message, '%buildurl%')) {
-            $this->builder->logWarning(
-                '[DEPRECATED] Variable "%buildurl%" is deprecated and will be deleted in version 2.0. Use the variable "%BUILD_LINK%" instead.'
-            );
-        }
-
-        $this->message = \str_replace("%buildurl%", "%BUILD_LINK%", $this->message);
         $this->message = $this->builder->interpolate($this->message);
 
         $this->joinRoom($this->room);

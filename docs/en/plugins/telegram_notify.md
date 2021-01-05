@@ -5,8 +5,6 @@ Telegram plugin for PHP Censor.
 
 ### Options
 
-* **api_key** [string, required] - **[DEPRECATED]** Option "api_key" is deprecated and will be deleted in version 2.0. 
-Use the option "auth_token" instead.
 * **auth_token** [string, required] - API token.
 * **recipients** [array, required] - Recipients.
 * **message** [string, optional] - Message.
