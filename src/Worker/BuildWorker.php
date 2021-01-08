@@ -81,7 +81,7 @@ class BuildWorker
         $this->buildService = $buildService;
 
         $this->queueTube  = $queueTube;
-        $this->pheanstalk = new Pheanstalk($queueHost, $queuePort);
+        $this->pheanstalk = Pheanstalk::create($queueHost, $queuePort);
 
         $this->lastPeriodical    = 0;
         $this->canPeriodicalWork = $canPeriodicalWork;
@@ -210,7 +210,7 @@ class BuildWorker
     {
         try {
             $this->pheanstalk->delete($job);
-        } catch (ServerException $e) {
+        } catch (Exception $e) {
             $this->logger->warning($e->getMessage());
         }
     }
@@ -222,7 +222,7 @@ class BuildWorker
     {
         try {
             $peekedJob = $this->pheanstalk->peekReady($this->queueTube);
-        } catch (ServerException $e) {
+        } catch (Exception $e) {
             return true;
         }
 

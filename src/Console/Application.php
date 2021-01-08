@@ -84,7 +84,7 @@ LOGO;
         $version = (string)\trim(\file_get_contents(ROOT_DIR . 'VERSION.md'));
         $version = !empty($version) ? $version : '0.0.0 (UNKNOWN)';
 
-        parent::__construct($name, $realVersion);
+        parent::__construct($name, $version);
 
         $applicationConfig   = Config::getInstance();
         $oldDatabaseSettings = $applicationConfig->get('b8.database', []);

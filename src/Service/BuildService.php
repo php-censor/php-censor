@@ -377,7 +377,7 @@ class BuildService
         if (!empty($settings['host']) && !empty($settings['name'])) {
             $jobData['type'] = $jobType;
             try {
-                $pheanstalk = new Pheanstalk(
+                $pheanstalk = Pheanstalk::create(
                     $settings['host'],
                     $config->get('php-censor.queue.port', PheanstalkInterface::DEFAULT_PORT)
                 );
