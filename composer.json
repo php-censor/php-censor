@@ -57,7 +57,6 @@
 
         "swiftmailer/swiftmailer":         "^6.2",
         "symfony/yaml":                    "^4.4",
-        "symfony/http-foundation":         "^4.4",
         "symfony/console":                 "^4.4",
         "symfony/finder":                  "^4.4",
         "symfony/dom-crawler":             "^4.4",
