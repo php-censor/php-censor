@@ -128,7 +128,8 @@ class Email
         $factory = new MailerFactory($this->config->get('php-censor'));
         $mailer = $factory->getSwiftMailerFromConfig();
 
-        $message = Swift_Message::newInstance($this->subject)
+        $message = new Swift_Message($this->subject);
+        $message
             ->setFrom($this->getFrom())
             ->setTo($this->emailTo)
             ->setBody($this->body);
