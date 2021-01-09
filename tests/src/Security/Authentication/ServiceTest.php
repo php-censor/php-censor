@@ -2,11 +2,16 @@
 
 namespace Tests\PHPCensor\Security\Authentication;
 
+use PHPCensor\Model\User;
 use PHPCensor\Security\Authentication\Service;
+use PHPCensor\Security\Authentication\UserProvider\AbstractProvider;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 class ServiceTest extends TestCase
 {
+    use ProphecyTrait;
+
     public function testGetInstance()
     {
         self::assertInstanceOf('\PHPCensor\Security\Authentication\Service', Service::getInstance());
@@ -22,11 +27,11 @@ class ServiceTest extends TestCase
     public function testBuildAnyProvider()
     {
         $config   = ['type' => '\Tests\PHPCensor\Security\Authentication\DummyProvider'];
-        $provider = Service::buildProvider("test", $config);
+        $provider = Service::buildProvider('test', $config);
 
         self::assertInstanceOf('\Tests\PHPCensor\Security\Authentication\DummyProvider', $provider);
-        self::assertEquals('test', $provider->key);
-        self::assertEquals($config, $provider->config);
+        self::assertEquals('test', $provider->getKey());
+        self::assertEquals($config, $provider->getConfig());
     }
 
     public function testGetProviders()
@@ -52,13 +57,14 @@ class ServiceTest extends TestCase
     }
 }
 
-class DummyProvider
+class DummyProvider extends AbstractProvider
 {
-    public $key;
-    public $config;
-    public function __construct($key, array $config)
+    public function checkRequirements()
     {
-        $this->key = $key;
-        $this->config = $config;
+    }
+
+    public function provisionUser(?string $identifier): ?User
+    {
+        return null;
     }
 }

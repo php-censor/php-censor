@@ -67,7 +67,7 @@ class BuildDBLogHandler extends AbstractProcessingHandler
      * Write a log entry to the build log.
      * @param array $record
      */
-    protected function write(array $record)
+    protected function write(array $record): void
     {
         $message = (string)$record['message'];
         $message = str_replace(['\/', '//'], '/', $message);

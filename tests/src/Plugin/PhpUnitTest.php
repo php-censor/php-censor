@@ -129,7 +129,7 @@ class PhpUnitTest extends TestCase
             'required_lines_coverage' => 60,
         ];
 
-        $mockPlugin = $this->getPluginBuilder($options)->setMethods(['extractCoverage', 'executePhpUnitCommand'])->getMock();
+        $mockPlugin = $this->getPluginBuilder($options)->setMethods(['extractCoverage', 'executePhpUnitCommand', 'processResults'])->getMock();
         $mockPlugin->expects($this->once())->method('executePhpUnitCommand')->willReturn(true);
         $mockPlugin->expects($this->once())->method('extractCoverage')->willReturn([
             'classes' => '100.00',
@@ -147,7 +147,7 @@ class PhpUnitTest extends TestCase
             'required_lines_coverage' => 60,
         ];
 
-        $mockPlugin = $this->getPluginBuilder($options)->setMethods(['extractCoverage', 'executePhpUnitCommand'])->getMock();
+        $mockPlugin = $this->getPluginBuilder($options)->setMethods(['extractCoverage', 'executePhpUnitCommand', 'processResults'])->getMock();
         $mockPlugin->expects($this->once())->method('executePhpUnitCommand')->willReturn(false);
         $mockPlugin->expects($this->once())->method('extractCoverage')->willReturn([
             'classes' => '100.00',

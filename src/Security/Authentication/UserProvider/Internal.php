@@ -18,7 +18,7 @@ class Internal extends AbstractProvider implements LoginPasswordProviderInterfac
      *
      * @return bool
      */
-    public function verifyPassword(User $user, $password)
+    public function verifyPassword(User $user, string $password): bool
     {
         return password_verify($password, $user->getHash());
     }
@@ -33,7 +33,7 @@ class Internal extends AbstractProvider implements LoginPasswordProviderInterfac
      *
      * @return null
      */
-    public function provisionUser($identifier)
+    public function provisionUser(?string $identifier): ?User
     {
         return null;
     }

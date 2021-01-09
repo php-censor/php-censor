@@ -36,8 +36,8 @@ class PhpUnitResultTest extends TestCase
         $errors = $parser->getErrors();
 
         self::assertEquals(7, $parser->getFailures());
-        self::assertInternalType('array', $output);
-        self::assertInternalType('array', $errors);
+        self::assertIsArray($output);
+        self::assertIsArray($errors);
         self::assertNotEmpty($output);
         self::assertNotEmpty($errors);
 
@@ -51,7 +51,7 @@ class PhpUnitResultTest extends TestCase
         self::assertEquals(PhpUnitResult::SEVERITY_SKIPPED, $output[5]['severity']);
 
         try {
-            self::assertContains('Incomplete Test:', $output[5]['message']);
+            self::assertStringContainsString('Incomplete Test:', $output[5]['message']);
         } catch (ExpectationFailedException $e) {
             self::$skipped[] = ['cls' => $resultClass, 'ex' => $e];
         }
@@ -59,7 +59,7 @@ class PhpUnitResultTest extends TestCase
         self::assertEquals(PhpUnitResult::SEVERITY_SKIPPED, $output[11]['severity']);
 
         try {
-            self::assertContains('Skipped Test:', $output[11]['message']);
+            self::assertStringContainsString('Skipped Test:', $output[11]['message']);
         } catch (ExpectationFailedException $e) {
             self::$skipped[] = ['cls' => $resultClass, 'ex' => $e];
         }

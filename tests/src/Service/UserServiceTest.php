@@ -24,7 +24,7 @@ class UserServiceTest extends TestCase
      */
     protected $mockUserStore;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->mockUserStore = $this->getMockBuilder('PHPCensor\Store\UserStore')->getMock();
         $this->mockUserStore->expects($this->any())

@@ -35,7 +35,7 @@ class OutputLogHandler extends AbstractProcessingHandler
      * Write a log entry to the terminal.
      * @param array $record
      */
-    protected function write(array $record)
+    protected function write(array $record): void
     {
         $this->output->write((string)$record['formatted']);
     }

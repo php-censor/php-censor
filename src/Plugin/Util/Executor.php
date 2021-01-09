@@ -162,42 +162,19 @@ class Executor
         $success = true;
 
         foreach ($plugins as $plugin => $options) {
-            /**
-             * @deprecated Plugins names "campfire", "telegram", "xmpp", "email", "irc" and "phpstan" are deprecated and will be
-             * deleted in version 2.0. Use the names "campfire_notify", "telegram_notify", "xmpp_notify",
-             * "email_notify", "irc_notify" and "php_stan" instead.
-             */
-            $realPluginName          = $plugin;
-            $deprecatedNotifyPlugins = [
-                'campfire' => 'campfire_notify',
-                'telegram '=> 'telegram_notify',
-                'xmpp'     => 'xmpp_notify',
-                'email'    => 'email_notify',
-                'irc'      => 'irc_notify',
-                'phpstan'  => 'php_stan',
-            ];
-
-            if (\array_key_exists(\strtolower($realPluginName), $deprecatedNotifyPlugins)) {
-                $realPluginName = $deprecatedNotifyPlugins[\strtolower($realPluginName)];
-
-                $this->logger->logWarning(
-                    '[DEPRECATED] Plugins name "' . $plugin . '" is deprecated and will be deleted in version 2.0. Use the name "' . $realPluginName . '" instead.'
-                );
-            }
-
             $this->logger->log('');
             $this->logger->logSuccess(
-                sprintf('RUNNING PLUGIN: %s', Lang::get($realPluginName)) . ' (' .
+                sprintf('RUNNING PLUGIN: %s', Lang::get($plugin)) . ' (' .
                 'Stage' . ': ' . ucfirst($stage) . ')'
             );
 
-            $this->setPluginStatus($stage, $realPluginName, Plugin::STATUS_RUNNING);
+            $this->setPluginStatus($stage, $plugin, Plugin::STATUS_RUNNING);
 
             // Try and execute it
-            if ($this->executePlugin($realPluginName, $options)) {
+            if ($this->executePlugin($plugin, $options)) {
                 // Execution was successful
                 $this->logger->logSuccess('PLUGIN: SUCCESS');
-                $this->setPluginStatus($stage, $realPluginName, Plugin::STATUS_SUCCESS);
+                $this->setPluginStatus($stage, $plugin, Plugin::STATUS_SUCCESS);
             } else {
                 $status = Plugin::STATUS_FAILED;
 
@@ -205,7 +182,7 @@ class Executor
                     $this->logger->logFailure('PLUGIN: FAILED');
                     // If we're in the "setup" stage, execution should not continue after
                     // a plugin has failed:
-                    throw new Exception('Plugin failed: ' . $realPluginName);
+                    throw new Exception('Plugin failed: ' . $plugin);
                 } elseif ($stage === Build::STAGE_DEPLOY) {
                     $this->logger->logFailure('PLUGIN: FAILED');
                     $success = false;
@@ -222,7 +199,7 @@ class Executor
                     }
                 }
 
-                $this->setPluginStatus($stage, $realPluginName, $status);
+                $this->setPluginStatus($stage, $plugin, $status);
             }
         }
 

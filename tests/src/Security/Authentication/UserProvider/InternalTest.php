@@ -13,7 +13,7 @@ class InternalTest extends TestCase
      */
     protected $provider;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->provider = new Internal('internal', [
             'type' => 'internal',
@@ -36,11 +36,6 @@ class InternalTest extends TestCase
         $user->setHash(password_hash($password, PASSWORD_DEFAULT));
 
         self::assertFalse($this->provider->verifyPassword($user, 'bar'));
-    }
-
-    public function testCheckRequirements()
-    {
-        $this->provider->checkRequirements();
     }
 
     public function testProvisionUser()

@@ -10,7 +10,7 @@ class PharTest extends TestCase
 {
     protected $directories = [];
 
-    protected function tearDown()
+    protected function tearDown() : void
     {
         $this->cleanSource();
     }
@@ -146,8 +146,8 @@ class PharTest extends TestCase
         PHPPhar::loadPhar($plugin->getBuilder()->buildPath . 'build.phar');
         self::assertFileEquals($plugin->getBuilder()->buildPath . 'one.php', 'phar://build.phar/one.php');
         self::assertFileEquals($plugin->getBuilder()->buildPath . 'two.php', 'phar://build.phar/two.php');
-        self::assertFileNotExists('phar://build.phar/config/config.ini');
-        self::assertFileNotExists('phar://build.phar/views/index.phtml');
+        self::assertFileDoesNotExist('phar://build.phar/config/config.ini');
+        self::assertFileDoesNotExist('phar://build.phar/views/index.phtml');
     }
 
     public function testExecuteRegExp()
@@ -162,7 +162,7 @@ class PharTest extends TestCase
         PHPPhar::loadPhar($plugin->getBuilder()->buildPath . 'build.phar');
         self::assertFileEquals($plugin->getBuilder()->buildPath . 'one.php', 'phar://build.phar/one.php');
         self::assertFileEquals($plugin->getBuilder()->buildPath . 'two.php', 'phar://build.phar/two.php');
-        self::assertFileNotExists('phar://build.phar/config/config.ini');
+        self::assertFileDoesNotExist('phar://build.phar/config/config.ini');
         self::assertFileEquals(
             $plugin->getBuilder()->buildPath . 'views/index.phtml',
             'phar://build.phar/views/index.phtml'

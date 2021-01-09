@@ -7,7 +7,7 @@ use DateTime;
 use Exception;
 use Monolog\Logger;
 use Pheanstalk\Pheanstalk;
-use Pheanstalk\PheanstalkInterface;
+use Pheanstalk\Contract\PheanstalkInterface;
 use PHPCensor\BuildFactory;
 use PHPCensor\Config;
 use PHPCensor\Exception\HttpException;
@@ -377,9 +377,9 @@ class BuildService
         if (!empty($settings['host']) && !empty($settings['name'])) {
             $jobData['type'] = $jobType;
             try {
-                $pheanstalk = new Pheanstalk(
+                $pheanstalk = Pheanstalk::create(
                     $settings['host'],
-                    $config->get('php-censor.queue.port', Pheanstalk::DEFAULT_PORT)
+                    $config->get('php-censor.queue.port', PheanstalkInterface::DEFAULT_PORT)
                 );
 
                 $pheanstalk->useTube($settings['name']);

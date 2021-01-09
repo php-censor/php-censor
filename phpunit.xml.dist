@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     backupGlobals="false"
     backupStaticAttributes="false"
     convertErrorsToExceptions="true"
@@ -9,19 +9,20 @@
     processIsolation="false"
     stopOnFailure="false"
     bootstrap="./tests/bootstrap.php"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
 >
+    <coverage processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">./src</directory>
+        </include>
+        <exclude>
+            <directory suffix=".php">./src/Migrations</directory>
+            <directory suffix=".php">./src/Languages</directory>
+        </exclude>
+    </coverage>
     <testsuites>
         <testsuite name="PHP Common Test Suite">
             <directory suffix="Test.php">./tests/src</directory>
         </testsuite>
     </testsuites>
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./src</directory>
-            <exclude>
-                <directory suffix=".php">./src/Migrations</directory>
-                <directory suffix=".php">./src/Languages</directory>
-            </exclude>
-        </whitelist>
-    </filter>
 </phpunit>

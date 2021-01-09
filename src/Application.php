@@ -3,17 +3,12 @@
 namespace PHPCensor;
 
 use Exception;
-use Monolog\Handler\HandlerInterface;
-use Monolog\Handler\RotatingFileHandler;
-use Monolog\Handler\StreamHandler;
-use Monolog\Logger;
 use PHPCensor\Exception\HttpException;
 use PHPCensor\Exception\HttpException\NotFoundException;
-use Symfony\Component\HttpFoundation\Request;
+use PHPCensor\Http\Request;
 use PHPCensor\Http\Response;
 use PHPCensor\Http\Response\RedirectResponse;
 use PHPCensor\Http\Router;
-use PHPCensor\Logging\Handler;
 use PHPCensor\Store\Factory;
 
 /**
@@ -47,49 +42,23 @@ class Application
     protected $router;
 
     /**
-     * @var Logger
-     */
-    protected $logger;
-
-    /**
-     * @param Config $applicationConfig
+     * @param Config $config
      *
      * @param Request|null $request
      */
-    public function __construct(Config $applicationConfig, Request $request = null)
+    public function __construct(Config $config, Request $request = null)
     {
-        $this->config = $applicationConfig;
+        $this->config = $config;
 
-        if (null === $request) {
-            $request = Request::createFromGlobals();
-        }
-
-        $this->request = $request;
-        if (!\defined('APP_URL')) {
-            \define('APP_URL', $this->request->getSchemeAndHttpHost() . '/');
-        }
-
-        $this->router  = new Router($this, $this->request, $this->config);
-
-        $this->initLogger();
-        $this->init();
-    }
-
-    protected function initLogger()
-    {
-        $rotate   = (bool)$this->config->get('php-censor.log.rotate', false);
-        $maxFiles = (int)$this->config->get('php-censor.log.max_files', 0);
-
-        /** @var HandlerInterface[] $loggerHandlers */
-        $loggerHandlers = [];
-        if ($rotate) {
-            $loggerHandlers[] = new RotatingFileHandler(RUNTIME_DIR . 'web.log', $maxFiles, Logger::DEBUG);
+        if (!is_null($request)) {
+            $this->request = $request;
         } else {
-            $loggerHandlers[] = new StreamHandler(RUNTIME_DIR . 'web.log', Logger::DEBUG);
+            $this->request = new Request();
         }
 
-        $this->logger = new Logger('php-censor', $loggerHandlers);
-        Handler::register($this->logger);
+        $this->router = new Router($this, $this->request, $this->config);
+
+        $this->init();
     }
 
     /**
@@ -97,6 +66,7 @@ class Application
      */
     public function init()
     {
+        $request =& $this->request;
         $route   = '/:controller/:action';
         $opts    = ['controller' => 'Home', 'action' => 'index'];
 
@@ -114,17 +84,17 @@ class Application
         };
 
         $skipAuth = [$this, 'shouldSkipAuth'];
-        $isAjaxRequest = $this->request->isXmlHttpRequest();
 
         // Handler for the route we're about to register, checks for a valid session where necessary:
-        $routeHandler = function ($route, Response &$response) use ($isAjaxRequest, $validateSession, $skipAuth) {
+        $routeHandler = function (&$route, Response &$response) use (&$request, $validateSession, $skipAuth) {
             $skipValidation = in_array($route['controller'], ['session', 'webhook', 'build-status']);
 
             if (!$skipValidation && !$validateSession() && (!is_callable($skipAuth) || !$skipAuth())) {
-                if ($isAjaxRequest) {
+                if ($request->isAjax()) {
                     $response->setResponseCode(401);
                     $response->setContent('');
                 } else {
+                    $_SESSION['php-censor-login-redirect'] = substr($request->getPath(), 1);
                     $response = new RedirectResponse($response);
                     $response->setHeader('Location', APP_URL . 'session/login');
                 }

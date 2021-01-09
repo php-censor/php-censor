@@ -27,5 +27,5 @@ interface UserProviderInterface
      *
      * @return User|null The new user or null if the provider does not know the user.
      */
-    public function provisionUser($identifier);
+    public function provisionUser(?string $identifier): ?User;
 }

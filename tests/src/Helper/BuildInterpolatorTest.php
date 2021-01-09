@@ -4,15 +4,18 @@ namespace Tests\PHPCensor\Helper;
 
 use PHPCensor\Helper\BuildInterpolator;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 class BuildInterpolatorTest extends TestCase
 {
+    use ProphecyTrait;
+
     /**
      * @var BuildInterpolator
      */
     protected $testedInterpolator;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setup();
         $this->testedInterpolator = new BuildInterpolator();

@@ -14,11 +14,10 @@ class ViewTest extends TestCase
         self::assertTrue($view->render() == 'Hello');
     }
 
-    /**
-     * @expectedException Exception
-     */
     public function testInvalidView()
     {
+        self::expectException(Exception::class);
+
         new View('dogs', ROOT_DIR . 'tests/data/View/');
     }
 

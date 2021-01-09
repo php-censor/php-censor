@@ -4,24 +4,24 @@ namespace Tests\PHPCensor\Command;
 
 use PHPCensor\Command\CreateAdminCommand;
 use PHPCensor\Command\CreateBuildCommand;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_MockObject_MockObject;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
 class CreateBuildCommandTest extends TestCase
 {
     /**
-     * @var CreateAdminCommand|PHPUnit_Framework_MockObject_MockObject
+     * @var CreateAdminCommand|MockObject
      */
     protected $command;
 
     /**
-     * @var Application|PHPUnit_Framework_MockObject_MockObject
+     * @var Application|MockObject
      */
     protected $application;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -68,6 +68,8 @@ class CreateBuildCommandTest extends TestCase
         $commandTester->execute(['projectId' => 1]);
         $commandTester->execute(['projectId' => 1, '--commit' => '92c8c6e']);
         $commandTester->execute(['projectId' => 1, '--branch' => 'master']);
+
+        self::assertTrue(true);
     }
 
     public function testExecuteWithUnknownProjectId()

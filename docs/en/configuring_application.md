@@ -24,13 +24,14 @@ php-censor:
     password: php-censor-password
   language: en
   per_page: 10
+  url:      'http://php-censor.local'
   email_settings:
     from_address:    'PHP Censor <no-reply@php-censor.local>'
     smtp_address:    null
     smtp_port:       null
     smtp_username:   null
     smtp_password:   null
-    smtp_encryption: false
+    smtp_encryption: null # null | 'tls'| 'ssl'
   queue:
     host:     localhost
     port:     11300

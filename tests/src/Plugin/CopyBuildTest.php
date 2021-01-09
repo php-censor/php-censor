@@ -15,7 +15,7 @@ class CopyBuildTest extends TestCase
 
     protected $directories = [];
 
-    protected function tearDown()
+    protected function tearDown() : void
     {
         parent::tearDown();
 
@@ -40,8 +40,8 @@ class CopyBuildTest extends TestCase
             }
         }
     }
-    
-    protected function setUp()
+
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -86,14 +86,14 @@ class CopyBuildTest extends TestCase
             ->getMockBuilder('PHPCensor\Logging\BuildLogger')
             ->disableOriginalConstructor()
             ->getMock();
-        
+
         $executor = new CommandExecutor($buildLogger, '');
 
         $builder
             ->expects($this->any())
             ->method('interpolate')
             ->willReturnArgument(0);
-        
+
         $builder
             ->expects($this->any())
             ->method('executeCommand')

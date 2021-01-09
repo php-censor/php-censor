@@ -11,13 +11,13 @@ class FormInputTest extends TestCase
     /** @var Input $inputElement */
     private $inputElement;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->inputElement = Input::create('test', 'Test');
     }
 
-    public function tearDown()
+    protected function tearDown() : void
     {
         $this->inputElement = null;
         parent::tearDown();

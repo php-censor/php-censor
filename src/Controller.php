@@ -2,7 +2,7 @@
 
 namespace PHPCensor;
 
-use Symfony\Component\HttpFoundation\Request;
+use PHPCensor\Http\Request;
 use PHPCensor\Http\Response;
 
 abstract class Controller
@@ -70,7 +70,7 @@ abstract class Controller
      */
     public function getParams()
     {
-        return $this->request->request->all() + $this->request->query->all();
+        return $this->request->getParams();
     }
 
     /**
@@ -83,6 +83,27 @@ abstract class Controller
      */
     public function getParam($key, $default = null)
     {
-        return $this->request->get($key, $default);
+        return $this->request->getParam($key, $default);
+    }
+
+    /**
+     * Change the value of an incoming request parameter.
+     *
+     * @param string $key
+     * @param mixed  $value
+     */
+    public function setParam($key, $value)
+    {
+        $this->request->setParam($key, $value);
+    }
+
+    /**
+     * Remove an incoming request parameter.
+     *
+     * @param string $key
+     */
+    public function unsetParam($key)
+    {
+        $this->request->unsetParam($key);
     }
 }

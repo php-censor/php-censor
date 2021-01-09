@@ -5,6 +5,9 @@ namespace Tests\PHPCensor\Plugin\Util;
 use PHPCensor\Plugin\Util\Factory;
 use PHPUnit\Framework\TestCase;
 use stdClass;
+use Tests\PHPCensor\Plugin\Util\Fake\ExamplePluginFull;
+use Tests\PHPCensor\Plugin\Util\Fake\ExamplePluginWithSingleRequiredArg;
+use Tests\PHPCensor\Plugin\Util\Fake\ExamplePluginWithSingleTypedRequiredArg;
 
 class FactoryTest extends TestCase
 {
@@ -18,7 +21,7 @@ class FactoryTest extends TestCase
 
     protected $resourceLoader;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->testedFactory = new Factory();
 
@@ -30,7 +33,7 @@ class FactoryTest extends TestCase
         };
     }
 
-    protected function tearDown()
+    protected function tearDown() : void
     {
         // Nothing to do.
     }
@@ -124,7 +127,7 @@ class FactoryTest extends TestCase
             $expectedArgs
         );
 
-        self::assertInternalType('array', $plugin->options);
+        self::assertIsArray($plugin->options);
         self::assertArrayHasKey('thing', $plugin->options);
     }
 

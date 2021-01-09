@@ -10,11 +10,7 @@ Configuration
 ### Build Settings options
 
 * **campfire_notify** - All child properties are required
-    * **authToken** [string, required] - **[DEPRECATED]** Option "authToken" is deprecated and will be deleted in version 
-2.0. Use the option "auth_token" instead.
     * **auth_token** [string, required] - Your Campfire user authentication token.
-    * **roomId** [string, required] - **[DEPRECATED]** Option "roomId" is deprecated and will be deleted in version 
-2.0. Use the option "room" instead.
     * **room** [string, required] - Your Campfire room ID number.
     * **url** [string, required] - Your Campfire chat room URL.
 
