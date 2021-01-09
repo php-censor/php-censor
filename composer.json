@@ -98,11 +98,5 @@
         "platform": {
             "php": "7.4.*"
         }
-    },
-    "repositories": [
-        {
-            "type": "composer",
-            "url":  "https://asset-packagist.org"
-        }
-    ]
+    }
 }
