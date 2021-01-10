@@ -184,10 +184,10 @@ class InstallCommand extends Command
         $output->writeln('Checking requirements...');
         $errors = false;
 
-        if (!(version_compare(PHP_VERSION, '7.1.0') >= 0)) {
+        if (!(version_compare(PHP_VERSION, '7.4.0') >= 0)) {
             $output->writeln('');
             $output->writeln(
-                '<error>PHP Censor requires at least PHP 7.1.0! Installed PHP ' . PHP_VERSION . '</error>');
+                '<error>PHP Censor requires at least PHP 7.4.0! Installed PHP ' . PHP_VERSION . '</error>');
             $errors = true;
         }
 
