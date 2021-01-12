@@ -51,36 +51,45 @@ class PhpCpd extends Plugin implements ZeroConfigPluginInterface
      */
     public function execute()
     {
-        $ignore = '';
-        if (is_array($this->ignore)) {
+        $ignore              = '';
+        $ignoreForNewVersion = '';
+        if (\is_array($this->ignore)) {
             foreach ($this->ignore as $item) {
-                $item = rtrim($item, '/');
-                if (is_file($this->builder->buildPath . $item)) {
-                    $ignoredFile     = explode('/', $item);
-                    $filesToIgnore[] = array_pop($ignoredFile);
+                $ignoreForNewVersion .= \sprintf(' --exclude="%s"', $item);
+
+                $item = \rtrim($item, '/');
+                if (\is_file($this->builder->buildPath . $item)) {
+                    $ignoredFile     = \explode('/', $item);
+                    $filesToIgnore[] = \array_pop($ignoredFile);
                 } else {
-                    $ignore .= sprintf(' --exclude="%s"', $item);
+                    $ignore .= \sprintf(' --exclude="%s"', $item);
                 }
             }
         }
 
         if (isset($filesToIgnore)) {
-            $filesToIgnore = sprintf(' --names-exclude="%s"', implode(',', $filesToIgnore));
+            $filesToIgnore = \sprintf(' --names-exclude="%s"', \implode(',', $filesToIgnore));
             $ignore        = $ignore . $filesToIgnore;
         }
 
-        $phpcpd = $this->executable;
+        $phpcpd   = $this->executable;
+        $lastLine = \exec(
+            \sprintf('cd "%s" && ' . $phpcpd . ' %s "%s" --version', $this->builder->buildPath, $ignore, $this->directory)
+        );
+        if (false !== \strpos($lastLine, '--names-exclude')) {
+            $ignore = $ignoreForNewVersion;
+        }
 
-        $tmpFileName = tempnam(sys_get_temp_dir(), (self::pluginName() . '_'));
+        $tmpFileName = \tempnam(\sys_get_temp_dir(), (self::pluginName() . '_'));
 
         $cmd     = 'cd "%s" && ' . $phpcpd . ' --log-pmd "%s" %s "%s"';
         $success = $this->builder->executeCommand($cmd, $this->builder->buildPath, $tmpFileName, $ignore, $this->directory);
 
-        $errorCount = $this->processReport(file_get_contents($tmpFileName));
+        $errorCount = $this->processReport(\file_get_contents($tmpFileName));
 
         $this->build->storeMeta((self::pluginName() . '-warnings'), $errorCount);
 
-        unlink($tmpFileName);
+        \unlink($tmpFileName);
 
         return $success;
     }
