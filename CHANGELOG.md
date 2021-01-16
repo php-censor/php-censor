@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 - Added `.phpunit.result.cache` file to `.gitignore`.
 - Improved `CHANGELOG.md`.
+- Improved `.php-censor.yml` config.
 
 
 ## [1.3.0 (Jerry Smith)](https://github.com/php-censor/php-censor/tree/1.3.0) (2021-01-02)
