@@ -5,6 +5,22 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [1.3.1 (Jerry Smith)](https://github.com/php-censor/php-censor/tree/1.3.1) (2021-01-17)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/1.3.0...1.3.1)
+
+### Fixed
+
+- **[PhpCpd]** Param "--names-exclude" for plugin PhpCpd (version 6+). Issue 
+[#401](https://github.com/php-censor/php-censor/issues/#401).
+
+### Changed
+
+- Added `.phpunit.result.cache` file to `.gitignore`.
+- Improved `CHANGELOG.md`.
+- Improved `.php-censor.yml` config.
+
+
 ## [1.3.0 (Jerry Smith)](https://github.com/php-censor/php-censor/tree/1.3.0) (2021-01-02)
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/1.2.4...1.3.0)
