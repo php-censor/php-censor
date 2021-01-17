@@ -33,7 +33,6 @@ into your `config.yml` file like:
 ```yml
 php-censor:
   queue:
-    use_queue: true
     host:      localhost
     port:      11300
     name:      php-censor-queue
@@ -46,13 +45,13 @@ Running the PHP Censor worker
 ### By Systemd
 
 You can use systemd to run the worker. Configuration for the unit is almost the same as supervisord's configuration.
-Just copy this config to `/etc/systemd/system/php-censor.service` with right permissions, enable 
-`systemctl enable php-censor.service` and run it by `systemctl start php-censor.service`. If you want to start more 
-than one worker, just create more unit files with different name and repeat previous steps.
+Just copy this config to `/etc/systemd/system/php-censor@.service` with right permissions, enable 
+`systemctl enable php-censor@1.service` and run it by `systemctl start php-censor@1.service`. If you want to start more 
+than one worker, just create more services by template like: `php-censor@2.service`, `php-censor@3.service` etc.
 
 ```
 [Unit]
-Description=PHPCensor Worker
+Description=PHPCensor Worker %I
 After=network.target
 
 [Service]
@@ -70,7 +69,7 @@ Group=php-censor
 WantedBy=multi-user.target
 ```
 
-And check that it works properly by `systemctl status php-censor.service`
+Check that it works properly by `systemctl status php-censor@1.service`
 
 ### By Supervisord
 
