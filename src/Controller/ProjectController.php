@@ -410,8 +410,8 @@ class ProjectController extends WebController
             $defaultBranch = $this->getParam('default_branch', null);
 
             $options = [
-                'ssh_private_key'        => $this->getParam('ssh_private_key', null),
-                'ssh_public_key'         => $this->getParam('ssh_public_key', null),
+                'ssh_private_key'        => \str_replace("\r", "", $this->getParam('ssh_private_key', null)),
+                'ssh_public_key'         => \str_replace("\r", "", $this->getParam('ssh_public_key', null)),
                 'overwrite_build_config' => (bool)$this->getParam('overwrite_build_config', true),
                 'build_config'           => $this->getParam('build_config', null),
                 'allow_public_status'    => (bool)$this->getParam('allow_public_status', false),
@@ -494,8 +494,8 @@ class ProjectController extends WebController
         $formValues    = $form->getValues();
 
         $options = [
-            'ssh_private_key'        => $this->getParam('ssh_private_key', null),
-            'ssh_public_key'         => $this->getParam('ssh_public_key', null),
+            'ssh_private_key'        => \str_replace("\r", "", $this->getParam('ssh_private_key', null)),
+            'ssh_public_key'         => \str_replace("\r", "", $this->getParam('ssh_public_key', null)),
             'overwrite_build_config' => (bool)$this->getParam('overwrite_build_config', false),
             'build_config'           => isset($formValues['build_config']) ? $formValues['build_config'] : null,
             'allow_public_status'    => (bool)$this->getParam('allow_public_status', false),
