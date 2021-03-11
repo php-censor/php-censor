@@ -180,10 +180,13 @@ class Factory
      */
     private function getParamType(ReflectionParameter $param)
     {
-        $class = $param->getClass();
+        $class = $param->getType() && !$param->getType()->isBuiltin()
+            ? new ReflectionClass($param->getType()->getName())
+            : null;
+
         if ($class) {
             return $class->getName();
-        } elseif ($param->isArray()) {
+        } elseif ($param->getType() && $param->getType()->getName() === 'array') {
             return self::TYPE_ARRAY;
         } elseif (is_callable($param)) {
             return self::TYPE_CALLABLE;
