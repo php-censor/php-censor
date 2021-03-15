@@ -7,9 +7,7 @@ use PHPCensor\Builder;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
 use PHPCensor\Plugin;
-use PHPCensor\Plugin\Util\SymfonySecurityChecker;
 use PHPCensor\ZeroConfigPluginInterface;
-use SensioLabs\Security\SecurityChecker as BaseSecurityChecker;
 
 /**
  * SensioLabs Security Checker Plugin
@@ -22,6 +20,19 @@ class SecurityChecker extends Plugin implements ZeroConfigPluginInterface
      * @var int
      */
     protected $allowedWarnings;
+
+    /**
+     * @var string
+     */
+    protected $binaryType = 'symfony';
+
+    /**
+     * @var string[]
+     */
+    protected $allowedBinaryTypes = [
+        'symfony',
+        'local-php-security-checker',
+    ];
 
     /**
      * @return string
@@ -44,8 +55,11 @@ class SecurityChecker extends Plugin implements ZeroConfigPluginInterface
             $this->allowedWarnings = -1;
         }
 
-        if (array_key_exists('allowed_warnings', $options)) {
-            $this->allowedWarnings = (int)$options['allowed_warnings'];
+        if (
+            \array_key_exists('binary_type', $options) &&
+            \in_array((string)$options['binary_type'], $this->allowedBinaryTypes, true)
+        ) {
+            $this->binaryType = (string)$options['binary_type'];
         }
     }
 
@@ -65,14 +79,32 @@ class SecurityChecker extends Plugin implements ZeroConfigPluginInterface
 
     public function execute()
     {
-        if (!$this->binaryName) {
-            $checker = new BaseSecurityChecker();
-        } else {
-            $checker = new SymfonySecurityChecker($this);
+        $composerLockFile = $this->builder->buildPath . 'composer.lock';
+        if (!\is_file($composerLockFile)) {
+            throw new \RuntimeException('Lock file does not exist.');
         }
+
+        if ('symfony' === $this->binaryType) {
+            $cmd = '%s check:security --format=json --dir=%s';
+            $executable = $this->findBinary('symfony');
+        } else {
+            $cmd = '%s --format=json --path="%s"';
+            $executable = $this->findBinary('local-php-security-checker');
+        }
+
+        $builder = $this->getBuilder();
+        if (!$this->getBuild()->isDebug()) {
+            $builder->logExecOutput(false);
+        }
+
+        // works with dir, composer.lock, composer.json
+        $builder->executeCommand($cmd, $executable, $composerLockFile);
+
+        $builder->logExecOutput(true);
+
         $success  = true;
-        $result   = $checker->check($this->builder->buildPath . 'composer.lock');
-        $warnings = json_decode((string)$result, true);
+        $result   = (string)$builder->getLastOutput();
+        $warnings = \json_decode($result, true);
 
         if ($warnings) {
             foreach ($warnings as $library => $warning) {
@@ -88,7 +120,7 @@ class SecurityChecker extends Plugin implements ZeroConfigPluginInterface
                 }
             }
 
-            if ($this->allowedWarnings != -1 && ($result->count() > $this->allowedWarnings)) {
+            if ($this->allowedWarnings != -1 && (\count($warnings) > $this->allowedWarnings)) {
                 $success = false;
             }
         } elseif (null === $warnings && $result) {
