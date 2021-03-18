@@ -87,7 +87,6 @@
         "php-censor/phpdoc-checker":       "^1.0",
         "phploc/phploc":                   "~4.0.0",
         "jakub-onderka/php-parallel-lint": "~0.9.0",
-        "sensiolabs/security-checker":     "~5.0.0",
 
         "alek13/slack":               "^1.7.0",
         "hipchat/hipchat-php":        "~1.4.0",

@@ -337,7 +337,7 @@ class Builder implements LoggerAwareInterface
     /**
      * Used by this class, and plugins, to execute shell commands.
      *
-     * @param array ...$params
+     * @param string ...$params
      *
      * @return bool
      */
