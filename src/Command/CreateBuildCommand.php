@@ -82,7 +82,7 @@ class CreateBuildCommand extends Command
         if ($environment) {
             /** @var Store\EnvironmentStore $environmentStore */
             $environmentStore  = Factory::getStore('Environment');
-            $environmentObject = $environmentStore->getByName($environment);
+            $environmentObject = $environmentStore->getByNameAndProjectId($environment, $project->getId());
             if ($environmentObject) {
                 $environmentId = $environmentObject->getId();
             }

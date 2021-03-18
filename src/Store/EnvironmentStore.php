@@ -72,21 +72,23 @@ class EnvironmentStore extends Store
      * Get a single Environment by Name.
      *
      * @param string $name
+     * @param int    $projectId
      * @param string $useConnection
      *
      * @return null|Environment
      *
      * @throws HttpException
      */
-    public function getByName($name, $useConnection = 'read')
+    public function getByNameAndProjectId($name, $projectId, $useConnection = 'read')
     {
         if (is_null($name)) {
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
-        $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{name}} = :name LIMIT 1';
+        $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{name}} = :name AND {{project_id}} = :project_id LIMIT 1';
         $stmt = Database::getConnection($useConnection)->prepareCommon($query);
         $stmt->bindValue(':name', $name);
+        $stmt->bindValue(':project_id', $projectId);
 
         if ($stmt->execute()) {
             if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
