@@ -240,7 +240,7 @@ class ProjectController extends WebController
         if ($environment) {
             /** @var EnvironmentStore $environmentStore */
             $environmentStore  = Factory::getStore('Environment');
-            $environmentObject = $environmentStore->getByName($environment);
+            $environmentObject = $environmentStore->getByNameAndProjectId($environment, $project->getId());
             if ($environmentObject) {
                 $environmentId = $environmentObject->getId();
             }
@@ -347,7 +347,7 @@ class ProjectController extends WebController
         if (!empty($environment)) {
             /** @var EnvironmentStore $environmentStore */
             $environmentStore  = Factory::getStore('Environment');
-            $environmentObject = $environmentStore->getByName($environment);
+            $environmentObject = $environmentStore->getByNameAndProjectId($environment, $projectId);
             if ($environmentObject) {
                 $criteria['environment_id'] = $environmentObject->getId();
             }

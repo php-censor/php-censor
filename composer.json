@@ -89,7 +89,6 @@
         "phploc/phploc":                       "^7.0",
         "phpmd/phpmd":                         "^2.9",
         "php-parallel-lint/php-parallel-lint": "^1.2",
-        "sensiolabs/security-checker":         "^6.0",
         "php-censor/phpdoc-checker":           "^2.0",
         "friendsofphp/php-cs-fixer":           "^2.17",
         "symfony/var-dumper":                  "^4.4"
