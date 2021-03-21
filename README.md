@@ -21,8 +21,8 @@ PHP Censor versions:
 | `1.0` (Morty Smith)  | `1.0.16` | `release-1.0` | Old version (**UNSUPPORTED**)       | `>=5.6, <8.0`       |
 | `1.1` (Birdperson)   | `1.1.6`  | `release-1.1` | Old version (**UNSUPPORTED**)       | `>=5.6, <8.0`       |
 | `1.2` (Summer Smith) | `1.2.4`  | `release-1.2` | Old version (**UNSUPPORTED**)       | `>=5.6, <8.0`       |
-| `1.3` (Jerry Smith)  | `1.3.0`  | `release-1.3` | Old stable version (**ONLY FIXES**) | `>=5.6, <8.0`       |
-| `2.0` (Rick Sanchez) | `2.0.0`  | `release-2.0` | Current stable version              | `>=7.4`             |
+| `1.3` (Jerry Smith)  | `1.3.2`  | `release-1.3` | Old stable version (**ONLY FIXES**) | `>=5.6, <8.0`       |
+| `2.0` (Rick Sanchez) | `2.0.2`  | `release-2.0` | Current stable version              | `>=7.4`             |
 | `2.1`                | WIP      | `master`      | Feature minor version (WIP)         | `>=7.4`             |
 
 [![Dashboard](docs/screenshots/dashboard.png)](docs/screenshots/dashboard.png)
