@@ -5,6 +5,32 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [2.0.2 (Rick Sanchez)](https://github.com/php-censor/php-censor/tree/2.0.2) (2021-03-21)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/2.0.1...2.0.2)
+
+### Fixed
+
+- SSH keys generating (Removed unwanted symbols). Issue [#403](https://github.com/php-censor/php-censor/issues/#403).
+- Environments (Case when you may get environment from another project). Issue
+[#405](https://github.com/php-censor/php-censor/issues/#405).
+- Localizations for "Notify" plugins.
+- Deprecations from PHP 8.0. Pull request [#404](https://github.com/php-censor/php-censor/pull/404). Thanks to 
+[@ismaail](https://github.com/ismaail).
+
+### Changed
+
+- **[SecurityChecker]** Reimplement the plugin because package `sensiolabs/security-checker` was archived/abandoned
+(See [README](https://github.com/sensiolabs/security-checker#sensiolabs-security-checker)). Now plugin uses `symfony`
+binary (Symfony CLI) or `fabpot/local-php-security-checker` tool for working. See
+[documentation](https://github.com/php-censor/php-censor/blob/release-1.3/docs/en/plugins/security_checker.md).
+
+### Removed
+
+- Useless empty doc file about cronjob.
+- Useless empty ru doc pages.
+
+
 ## [2.0.1 (Rick Sanchez)](https://github.com/php-censor/php-censor/tree/2.0.1) (2021-01-17)
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/2.0.0...2.0.1)
