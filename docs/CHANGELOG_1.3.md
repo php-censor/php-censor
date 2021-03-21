@@ -13,15 +13,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 - SSH keys generating (Removed unwanted symbols). Issue [#403](https://github.com/php-censor/php-censor/issues/#403).
 - Environments (Case when you may get environment from another project). Issue
-  [#405](https://github.com/php-censor/php-censor/issues/#405).
+[#405](https://github.com/php-censor/php-censor/issues/#405).
 - Localizations for "Notify" plugins.
 
 ### Changed
 
 - **[SecurityChecker]** Reimplement the plugin because package `sensiolabs/security-checker` was archived/abandoned
-  (See [README](https://github.com/sensiolabs/security-checker#sensiolabs-security-checker)). Now plugin uses `symfony`
-  binary (Symfony CLI) or `fabpot/local-php-security-checker` tool for working. See
-  [documentation](https://github.com/php-censor/php-censor/blob/release-1.3/docs/en/plugins/security_checker.md).
+(See [README](https://github.com/sensiolabs/security-checker#sensiolabs-security-checker)). Now plugin uses `symfony`
+binary (Symfony CLI) or `fabpot/local-php-security-checker` tool for working. See
+[documentation](https://github.com/php-censor/php-censor/blob/release-1.3/docs/en/plugins/security_checker.md).
 
 
 ## [1.3.1 (Jerry Smith)](https://github.com/php-censor/php-censor/tree/1.3.1) (2021-01-17)
