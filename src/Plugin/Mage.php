@@ -51,7 +51,7 @@ class Mage extends Plugin
 
             $this->executable = $builder->interpolate($options['bin']);
         } else {
-            $this->executable = $this->builder->findBinary(['mage', 'mage.phar']);
+            $this->executable = $this->findBinary(['mage', 'mage.phar']);
         }
 
         if (isset($options['env'])) {
