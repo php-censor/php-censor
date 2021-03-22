@@ -30,7 +30,7 @@ class DeployerOrg extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        $this->executable = $this->builder->findBinary(['dep', 'dep.phar']);
+        $this->executable = $this->findBinary(['dep', 'dep.phar']);
         $this->branch     = $this->build->getBranch();
     }
 

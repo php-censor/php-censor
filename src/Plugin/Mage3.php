@@ -36,7 +36,7 @@ class Mage3 extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        $this->executable = $this->builder->findBinary(['mage', 'mage.phar']);
+        $this->executable = $this->findBinary(['mage', 'mage.phar']);
 
         if (isset($options['env'])) {
             $this->mageEnv = $builder->interpolate($options['env']);
