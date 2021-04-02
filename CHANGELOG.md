@@ -51,7 +51,7 @@ binary (Symfony CLI) or `fabpot/local-php-security-checker` tool for working. Se
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/1.3.0...2.0.0)
 
-### [How tp upgrade from v1 to v2](/docs/UPGRADE_2.0.md)
+### [How to upgrade from v1 to v2](/docs/UPGRADE_2.0.md)
 
 ### Changed
 
