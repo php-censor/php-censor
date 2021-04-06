@@ -17,6 +17,7 @@ use PHPCensor\Model\Build\GithubBuild;
 use PHPCensor\Model\Project;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Store\BuildStore;
+use PHPCensor\Store\EnvironmentStore;
 use PHPCensor\Store\Factory;
 use PHPCensor\Store\ProjectStore;
 
@@ -106,7 +107,8 @@ class WebhookController extends Controller
         $tag,
         $committer,
         $commitMessage,
-        array $extra = null
+        array $extra = null,
+        $environment = null
     ) {
         if ($project->getArchived()) {
             throw new NotFoundException(Lang::get('project_x_not_found', $project->getId()));
@@ -135,36 +137,38 @@ class WebhookController extends Controller
 
         $environments = $project->getEnvironmentsObjects();
         if ($environments['count']) {
-            $createdBuilds    = [];
-            $environmentIds = $project->getEnvironmentsNamesByBranch($branch);
-            // use base branch from project
-            if (!empty($environmentIds)) {
-                $duplicates = [];
-                foreach ($environmentIds as $environmentId) {
-                    if (!in_array($environmentId, $ignoreEnvironments) ||
-                        ($tag && !in_array($tag, $ignoreTags, true))) {
-                        // If not, create a new build job for it:
-                        $build = $this->buildService->createBuild(
-                            $project,
-                            $environmentId,
-                            $commitId,
-                            $project->getDefaultBranch(),
-                            $tag,
-                            $committer,
-                            $commitMessage,
-                            (int)$source,
-                            null,
-                            $extra
-                        );
+            $createdBuilds = [];
 
-                        $createdBuilds[] = [
-                            'id'          => $build->getID(),
-                            'environment' => $environmentId,
-                        ];
-                    } else {
-                        $duplicates[] = \array_search($environmentId, $ignoreEnvironments);
-                    }
+            /** @var EnvironmentStore $environmentStore */
+            $environmentStore  = Factory::getStore('Environment');
+            $environmentObject = $environmentStore->getByNameAndProjectId($environment, $project->getId());
+            if ($environment && $environmentObject) {
+                if (
+                    !in_array($environmentObject->getId(), $ignoreEnvironments) ||
+                    ($tag && !in_array($tag, $ignoreTags, true))
+                ) {
+                    // If not, create a new build job for it:
+                    $build = $this->buildService->createBuild(
+                        $project,
+                        $environmentObject->getId(),
+                        $commitId,
+                        $project->getDefaultBranch(),
+                        $tag,
+                        $committer,
+                        $commitMessage,
+                        (int)$source,
+                        null,
+                        $extra
+                    );
+
+                    $createdBuilds[] = [
+                        'id'          => $build->getID(),
+                        'environment' => $environmentObject->getId(),
+                    ];
+                } else {
+                    $duplicates[] = \array_search($environmentObject->getId(), $ignoreEnvironments);
                 }
+
                 if (!empty($createdBuilds)) {
                     if (empty($duplicates)) {
                         return ['status' => 'ok', 'builds' => $createdBuilds];
@@ -188,7 +192,63 @@ class WebhookController extends Controller
                     ];
                 }
             } else {
-                return ['status' => 'ignored', 'message' => 'Branch not assigned to any environment'];
+                $environmentIds = $project->getEnvironmentsNamesByBranch($branch);
+                // use base branch from project
+                if (!empty($environmentIds)) {
+                    $duplicates = [];
+                    foreach ($environmentIds as $environmentId) {
+                        if (
+                            !in_array($environmentId, $ignoreEnvironments) ||
+                            ($tag && !in_array($tag, $ignoreTags, true))
+                        ) {
+                            // If not, create a new build job for it:
+                            $build = $this->buildService->createBuild(
+                                $project,
+                                $environmentId,
+                                $commitId,
+                                $project->getDefaultBranch(),
+                                $tag,
+                                $committer,
+                                $commitMessage,
+                                (int)$source,
+                                null,
+                                $extra
+                            );
+
+                            $createdBuilds[] = [
+                                'id'          => $build->getID(),
+                                'environment' => $environmentId,
+                            ];
+                        } else {
+                            $duplicates[] = \array_search($environmentId, $ignoreEnvironments);
+                        }
+                    }
+
+                    if (!empty($createdBuilds)) {
+                        if (empty($duplicates)) {
+                            return ['status' => 'ok', 'builds' => $createdBuilds];
+                        } else {
+                            return [
+                                'status'  => 'ok',
+                                'builds'  => $createdBuilds,
+                                'message' => sprintf(
+                                    'For this commit some builds already exists (%s)',
+                                    implode(', ', $duplicates)
+                                )
+                            ];
+                        }
+                    } else {
+                        return [
+                            'status'  => 'ignored',
+                            'message' => sprintf(
+                                'For this commit already created builds (%s)',
+                                implode(', ', $duplicates)
+                            )
+                        ];
+                    }
+                } else {
+                    return ['status' => 'ignored', 'message' => 'Branch not assigned to any environment'];
+                }
             }
         } else {
             $environmentId = null;
@@ -272,6 +332,7 @@ class WebhookController extends Controller
             Project::TYPE_GIT,
         ]);
         $branch        = $this->getParam('branch', $project->getDefaultBranch());
+        $environment   = $this->getParam('environment');
         $commit        = $this->getParam('commit');
         $commitMessage = $this->getParam('message');
         $committer     = $this->getParam('committer');
@@ -283,7 +344,9 @@ class WebhookController extends Controller
             $branch,
             null,
             $committer,
-            $commitMessage
+            $commitMessage,
+            null,
+            $environment
         );
     }
 
