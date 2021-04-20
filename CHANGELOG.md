@@ -5,6 +5,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [2.0.3 (Rick Sanchez)](https://github.com/php-censor/php-censor/tree/2.0.3) (2021-04-20)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/2.0.2...2.0.3)
+
+### Fixed
+
+- **[Mage, Mage3, DeployerOrg]** Options `binary_path`, `priority_path` for Mage/Mage3/DeployerOrg plugins.
+  Pull request [#406](https://github.com/php-censor/php-censor/pull/406). Thanks to [@gnomii](https://github.com/gnomii).
+
+
 ## [2.0.2 (Rick Sanchez)](https://github.com/php-censor/php-censor/tree/2.0.2) (2021-03-21)
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/2.0.1...2.0.2)
