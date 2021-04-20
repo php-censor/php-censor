@@ -29,8 +29,9 @@ test:
     php_parallel_lint:
         allow_failures: true
 
-#    security_checker:
-#        allow_failures: false
+    security_checker:
+        binary_type:    symfony
+        allow_failures: false
 
 complete:
     email_notify:
