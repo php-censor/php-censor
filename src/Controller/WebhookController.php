@@ -5,8 +5,10 @@ namespace PHPCensor\Controller;
 use Exception;
 use GuzzleHttp\Client;
 use PHPCensor\Controller;
+use PHPCensor\Exception\HttpException\ForbiddenException;
 use PHPCensor\Exception\HttpException\NotFoundException;
 use PHPCensor\Exception\InvalidArgumentException;
+use PHPCensor\Exception\RuntimeException;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Http\Response;
 use PHPCensor\Model\Build;
@@ -292,7 +294,7 @@ class WebhookController extends Controller
     protected function fetchProject($projectId, array $expectedType)
     {
         if (empty($projectId)) {
-            throw new Exception('Project does not exist: ' . $projectId);
+            throw new NotFoundException('Project does not exist: ' . $projectId);
         }
 
         if (is_numeric($projectId)) {
@@ -300,16 +302,16 @@ class WebhookController extends Controller
         } else {
             $projects = $this->projectStore->getByTitle($projectId, 2);
             if ($projects['count'] < 1) {
-                throw new Exception('Project does not found: ' . $projectId);
+                throw new NotFoundException('Project does not found: ' . $projectId);
             }
             if ($projects['count'] > 1) {
-                throw new Exception('Project id is ambiguous: ' . $projectId);
+                throw new NotFoundException('Project id is ambiguous: ' . $projectId);
             }
             $project = reset($projects['items']);
         }
 
         if (!in_array($project->getType(), $expectedType, true)) {
-            throw new Exception('Wrong project type: ' . $project->getType());
+            throw new NotFoundException('Wrong project type: ' . $project->getType());
         }
 
         return $project;
@@ -529,7 +531,7 @@ class WebhookController extends Controller
         $appPassword = $this->configuration->get('php-censor.bitbucket.app_password');
 
         if (empty($username) || empty($appPassword)) {
-            throw new Exception('Please provide Username and App Password of your Bitbucket account.');
+            throw new ForbiddenException('Please provide Username and App Password of your Bitbucket account.');
         }
 
         $commitsUrl = $payload['pullrequest']['links']['commits']['href'];
@@ -542,7 +544,7 @@ class WebhookController extends Controller
 
         // Check we got a success response:
         if ($httpStatus < 200 || $httpStatus >= 300) {
-            throw new Exception('Could not get commits, failed API request.');
+            throw new RuntimeException('Could not get commits, failed API request.');
         }
 
         $results = [];
@@ -833,7 +835,7 @@ class WebhookController extends Controller
 
         // Check we got a success response:
         if ($status < 200 || $status >= 300) {
-            throw new Exception('Could not get commits, failed API request.');
+            throw new RuntimeException('Could not get commits, failed API request.');
         }
 
         $results = [];

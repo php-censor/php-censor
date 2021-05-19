@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace PHPCensor\Command\Action;
 
 use PHPCensor\Exception\InvalidArgumentException;
+use PHPCensor\Exception\RuntimeException;
 use PHPCensor\Service\UserService;
 use PHPCensor\Store\UserStore;
 use Symfony\Component\Console\Helper\QuestionHelper;
@@ -82,7 +83,7 @@ class CreateAdmin
         try {
             $adminUser = $this->userStore->getByEmail($adminDetails['email']);
             if ($adminUser) {
-                throw new \RuntimeException('Admin account already exists!');
+                throw new RuntimeException('Admin account already exists!');
             }
 
             $userService = new UserService($this->userStore);

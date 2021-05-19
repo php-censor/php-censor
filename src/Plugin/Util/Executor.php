@@ -3,6 +3,7 @@
 namespace PHPCensor\Plugin\Util;
 
 use Exception;
+use PHPCensor\Exception\RuntimeException;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Logging\BuildLogger;
 use PHPCensor\Model\Build;
@@ -182,7 +183,7 @@ class Executor
                     $this->logger->logFailure('PLUGIN: FAILED');
                     // If we're in the "setup" stage, execution should not continue after
                     // a plugin has failed:
-                    throw new Exception('Plugin failed: ' . $plugin);
+                    throw new RuntimeException('Plugin failed: ' . $plugin);
                 } elseif ($stage === Build::STAGE_DEPLOY) {
                     $this->logger->logFailure('PLUGIN: FAILED');
                     $success = false;

@@ -5,6 +5,7 @@ namespace PHPCensor\Plugin;
 use Exception;
 use GuzzleHttp\Client;
 use PHPCensor\Builder;
+use PHPCensor\Exception\InvalidArgumentException;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 
@@ -42,11 +43,11 @@ class TelegramNotify extends Plugin
         parent::__construct($builder, $build, $options);
 
         if (empty($options['auth_token']) && empty($options['api_key'])) {
-            throw new Exception("Not setting telegram 'auth_token'");
+            throw new InvalidArgumentException("Not setting telegram 'auth_token'");
         }
 
         if (empty($options['recipients'])) {
-            throw new Exception("Not setting recipients");
+            throw new InvalidArgumentException("Not setting recipients");
         }
 
         if (\array_key_exists('auth_token', $options)) {

@@ -8,6 +8,7 @@ use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
 use PHPCensor\Plugin;
 use PHPCensor\ZeroConfigPluginInterface;
+use PHPCensor\Exception\RuntimeException;
 
 /**
  * SensioLabs Security Checker Plugin
@@ -81,7 +82,7 @@ class SecurityChecker extends Plugin implements ZeroConfigPluginInterface
     {
         $composerLockFile = $this->builder->buildPath . 'composer.lock';
         if (!\is_file($composerLockFile)) {
-            throw new \RuntimeException('Lock file does not exist.');
+            throw new RuntimeException('Lock file does not exist.');
         }
 
         if ('symfony' === $this->binaryType) {
@@ -124,7 +125,7 @@ class SecurityChecker extends Plugin implements ZeroConfigPluginInterface
                 $success = false;
             }
         } elseif (null === $warnings && $result) {
-            throw new \RuntimeException('invalid json: '.$result);
+            throw new RuntimeException('invalid json: '.$result);
         }
 
         return $success;

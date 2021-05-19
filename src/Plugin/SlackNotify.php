@@ -7,6 +7,7 @@ use Maknz\Slack\Attachment;
 use Maknz\Slack\AttachmentField;
 use Maknz\Slack\Client;
 use PHPCensor\Builder;
+use PHPCensor\Exception\InvalidArgumentException;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 
@@ -72,7 +73,7 @@ class SlackNotify extends Plugin
                 $this->icon = $options['icon'];
             }
         } else {
-            throw new Exception('Please define the webhook_url for slack_notify plugin!');
+            throw new InvalidArgumentException('Please define the webhook_url for slack_notify plugin!');
         }
     }
 

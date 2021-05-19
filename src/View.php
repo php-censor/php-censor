@@ -2,10 +2,10 @@
 
 namespace PHPCensor;
 
+use PHPCensor\Exception\RuntimeException;
 use PHPCensor\Model\User;
 use PHPCensor\Store\Factory;
 use PHPCensor\Store\UserStore;
-use RuntimeException;
 
 class View
 {

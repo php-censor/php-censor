@@ -23,6 +23,7 @@ use PHPCensor\Command\RebuildQueueCommand;
 use PHPCensor\Command\WorkerCommand;
 use PHPCensor\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
+use PHPCensor\Exception\InvalidArgumentException;
 use PHPCensor\Logging\AnsiFormatter;
 use PHPCensor\Logging\Handler;
 use PHPCensor\Service\BuildService;
@@ -99,7 +100,7 @@ LOGO;
         $oldDatabaseSettings = $applicationConfig->get('b8.database', []);
         $databaseSettings    = $applicationConfig->get('php-censor.database', []);
         if ($oldDatabaseSettings && !$databaseSettings) {
-            throw new \RuntimeException(
+            throw new InvalidArgumentException(
                 'Missing database settings in application config "config.yml" (Section: "php-censor.database")'
             );
         }

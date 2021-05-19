@@ -11,11 +11,11 @@ use Pheanstalk\Pheanstalk;
 use PHPCensor\Command\Action\CreateAdmin;
 use PHPCensor\Configuration;
 use PHPCensor\Exception\InvalidArgumentException;
+use PHPCensor\Exception\RuntimeException;
 use PHPCensor\Model\ProjectGroup;
 use PHPCensor\Store\Factory;
 use PHPCensor\Store\ProjectGroupStore;
 use PHPCensor\Store\UserStore;
-use RuntimeException;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -207,7 +207,7 @@ class InstallCommand extends Command
         }
 
         if ($errors) {
-            throw new Exception(
+            throw new RuntimeException(
                 'PHP Censor cannot be installed, as not all requirements are met. ' .
                 'Please review the errors above before continuing.'
             );
@@ -262,7 +262,7 @@ class InstallCommand extends Command
 
         $urlValidator = function ($answer) {
             if (!\filter_var($answer, FILTER_VALIDATE_URL)) {
-                throw new Exception('Must be a valid URL.');
+                throw new InvalidArgumentException('Must be a valid URL.');
             }
 
             return \rtrim($answer, '/');

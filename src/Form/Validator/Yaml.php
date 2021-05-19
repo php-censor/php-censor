@@ -2,7 +2,7 @@
 
 namespace PHPCensor\Form\Validator;
 
-use Exception;
+use PHPCensor\Exception\RuntimeException;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Parser;
 
@@ -16,7 +16,7 @@ class Yaml implements ValidatorInterface
         try {
             $this->getParser()->parse($value);
         } catch (ParseException $e) {
-            throw new Exception($e->getMessage());
+            throw new RuntimeException($e->getMessage());
         }
 
         return true;

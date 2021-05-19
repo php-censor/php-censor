@@ -4,6 +4,7 @@ namespace PHPCensor\Model\Build;
 
 use Exception;
 use PHPCensor\Builder;
+use PHPCensor\Exception\RuntimeException;
 use PHPCensor\Model\Build;
 
 class BitbucketServerBuild extends GitBuild
@@ -115,13 +116,13 @@ class BitbucketServerBuild extends GitBuild
         try {
             if (in_array($this->getSource(), Build::$pullRequestSources, true)) {
                 $diff = $this->getPullRequestDiff($builder, $cloneTo, $extra['remote_branch']);
-                
+
                 $diffFile = $this->writeDiff($builder->buildPath, $diff);
 
                 $cmd = 'cd "%s" && git checkout -b php-censor/' . $this->getId();
 
                 $success = $builder->executeCommand($cmd, $cloneTo);
-                
+
                 if ($success) {
                     $applyCmd = 'git apply "%s"';
                     $success  = $builder->executeCommand($applyCmd, $diffFile);
@@ -140,7 +141,7 @@ class BitbucketServerBuild extends GitBuild
 
         return $success;
     }
-    
+
     /**
      * Create request patch with diff
      *
@@ -157,7 +158,7 @@ class BitbucketServerBuild extends GitBuild
             return $builder->getLastOutput();
         }
 
-        throw new Exception('Unable to create diff patch.');
+        throw new RuntimeException('Unable to create diff patch.');
     }
 
     /**

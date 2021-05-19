@@ -13,7 +13,7 @@ use PHPCensor\Plugin\Util\PhpUnitResultJson;
 use PHPCensor\Plugin\Util\PhpUnitResultJunit;
 use PHPCensor\ZeroConfigPluginInterface;
 use Symfony\Component\Filesystem\Filesystem;
-use PHPCensor\Configuration;
+use PHPCensor\Exception\RuntimeException;
 
 /**
  * PHP Unit Plugin - A rewrite of the original PHP Unit plugin
@@ -179,7 +179,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
             }
 
             if (!is_writable($this->buildLocation)) {
-                throw new Exception(sprintf(
+                throw new RuntimeException(sprintf(
                     'The location %s is not writable or does not exist.',
                     $this->buildLocation
                 ));
@@ -321,7 +321,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
             }
             unlink($logFile);
         } else {
-            throw new Exception('log output file does not exist: ' . $logFile);
+            throw new RuntimeException('log output file does not exist: ' . $logFile);
         }
     }
 }

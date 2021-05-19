@@ -4,6 +4,7 @@ namespace PHPCensor;
 
 use DateTime;
 use Exception;
+use PHPCensor\Exception\RuntimeException;
 use PHPCensor\Helper\BuildInterpolator;
 use PHPCensor\Helper\MailerFactory;
 use PHPCensor\Logging\BuildLogger;
@@ -156,8 +157,6 @@ class Builder
      * Set the config array, as read from .php-censor.yml
      *
      * @param array $config
-     *
-     * @throws Exception
      */
     public function setConfig(array $config)
     {
@@ -461,7 +460,7 @@ class Builder
         $this->buildLogger->logSuccess(sprintf('Working copy created: %s', $this->buildPath));
 
         if (!$workingCopySuccess) {
-            throw new Exception('Could not create a working copy.');
+            throw new RuntimeException('Could not create a working copy.');
         }
 
         return true;

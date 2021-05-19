@@ -3,6 +3,7 @@
 use Phinx\Db\Adapter\MysqlAdapter;
 use Phinx\Migration\AbstractMigration;
 use PHPCensor\Model\Build;
+use PHPCensor\Exception\RuntimeException;
 
 class InitialMigrationV2 extends AbstractMigration
 {
@@ -27,7 +28,7 @@ class InitialMigrationV2 extends AbstractMigration
         }
 
         if ($isIssetBuild || ($isIssetBuilds && !$this->getLatestV1Migration())) {
-            throw new \RuntimeException(
+            throw new RuntimeException(
                 'You should upgrade your PHP Censor to latest 1.3 release before you can upgrade it to release 2.0'
             );
         }

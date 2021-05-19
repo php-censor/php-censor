@@ -213,7 +213,7 @@ class ProjectStore extends Store
     public function getByGroupId($groupId, $archived = false, $limit = 1000, $useConnection = 'read')
     {
         if (is_null($groupId)) {
-            throw new Exception('Value passed to ' . __FUNCTION__ . ' cannot be null.');
+            throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
         $archived = (int)$archived;
 

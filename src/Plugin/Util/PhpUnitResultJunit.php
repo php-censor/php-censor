@@ -3,8 +3,8 @@
 namespace PHPCensor\Plugin\Util;
 
 use Exception;
+use PHPCensor\Exception\RuntimeException;
 use PHPCensor\Helper\Xml;
-use RuntimeException;
 use SimpleXMLElement;
 
 /**

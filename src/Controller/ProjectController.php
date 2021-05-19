@@ -22,6 +22,7 @@ use PHPCensor\View;
 use PHPCensor\WebController;
 use PHPCensor\Helper\Branch;
 use PHPCensor\Store\EnvironmentStore;
+use PHPCensor\Exception\RuntimeException;
 
 /**
  * Project Controller - Allows users to create, edit and view projects.
@@ -692,9 +693,9 @@ class ProjectController extends WebController
             ];
 
             if (in_array($type, $validators) && !preg_match($validators[$type]['regex'], $val)) {
-                throw new Exception($validators[$type]['message']);
+                throw new RuntimeException($validators[$type]['message']);
             } elseif (Project::TYPE_LOCAL === $type && !is_dir($val)) {
-                throw new Exception(Lang::get('error_path'));
+                throw new RuntimeException(Lang::get('error_path'));
             }
 
             return true;

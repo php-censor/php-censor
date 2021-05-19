@@ -5,6 +5,7 @@ namespace PHPCensor\Plugin;
 use Exception;
 use GuzzleHttp\Client;
 use PHPCensor\Builder;
+use PHPCensor\Exception\InvalidArgumentException;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 use PHPCensor\Plugin\Util\BitbucketNotifyPluginResult;
@@ -106,7 +107,7 @@ class BitbucketNotify extends Plugin
             empty($this->projectKey) ||
             empty($this->repositorySlug)
         ) {
-            throw new Exception('Please define the url for bitbucket plugin!');
+            throw new InvalidArgumentException('Please define the url for bitbucket plugin!');
         }
     }
 

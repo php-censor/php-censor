@@ -5,6 +5,7 @@ namespace PHPCensor\Plugin;
 use Exception;
 use HipChat\HipChat;
 use PHPCensor\Builder;
+use PHPCensor\Exception\InvalidArgumentException;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 
@@ -43,7 +44,7 @@ class HipchatNotify extends Plugin
         $this->cookie    = "php-censor-cookie";
 
         if (!\is_array($options) || !isset($options['room']) || (!isset($options['authToken']) && !isset($options['auth_token']))) {
-            throw new Exception('Please define room and authToken for hipchat_notify plugin.');
+            throw new InvalidArgumentException('Please define room and authToken for hipchat_notify plugin.');
         }
 
         if (\array_key_exists('auth_token', $options)) {

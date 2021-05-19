@@ -3,6 +3,7 @@
 namespace PHPCensor\Plugin\Util;
 
 use Exception;
+use PHPCensor\Exception\RuntimeException;
 
 /**
  * Class PhpUnitResult parses the results for the PhpUnitV2 plugin
@@ -93,7 +94,7 @@ class PhpUnitResultJson extends PhpUnitResult
                 $severity = self::SEVERITY_PASS;
                 break;
             default:
-                throw new Exception("Unexpected PHPUnit test status: {$status}");
+                throw new RuntimeException("Unexpected PHPUnit test status: {$status}");
                 break;
         }
 

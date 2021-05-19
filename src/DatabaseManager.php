@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace PHPCensor;
 
 use PHPCensor\Common\Exception\Exception;
+use PHPCensor\Exception\RuntimeException;
 
 class DatabaseManager
 {
@@ -84,7 +85,7 @@ class DatabaseManager
 
             // No connection? Oh dear.
             if (!$connection && $type === 'read') {
-                throw new Exception('Could not connect to any ' . $type . ' servers.');
+                throw new RuntimeException('Could not connect to any ' . $type . ' servers.');
             }
 
             $this->connections[$type] = $connection;

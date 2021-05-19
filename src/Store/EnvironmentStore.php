@@ -111,7 +111,7 @@ class EnvironmentStore extends Store
     public function getByProjectId($projectId, $useConnection = 'read')
     {
         if (is_null($projectId)) {
-            throw new Exception('Value passed to ' . __FUNCTION__ . ' cannot be null.');
+            throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{project_id}} = :project_id';
