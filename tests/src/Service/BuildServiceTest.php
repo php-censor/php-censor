@@ -5,6 +5,7 @@ namespace Tests\PHPCensor\Service;
 use DateTime;
 use Exception;
 use PHPCensor\ConfigurationInterface;
+use PHPCensor\DatabaseManager;
 use PHPCensor\Model\Build;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Store\BuildStore;
@@ -24,24 +25,39 @@ class BuildServiceTest extends TestCase
 
     protected ConfigurationInterface $configuration;
 
+    protected DatabaseManager $databaseManager;
+
     protected EnvironmentStore $mockEnvironmentStore;
 
     protected function setUp(): void
     {
-        $this->configuration  = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
-        $this->mockBuildStore = $this->getMockBuilder('PHPCensor\Store\BuildStore')->getMock();
+        $this->configuration   = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
+        $this->databaseManager = $this
+            ->getMockBuilder('PHPCensor\DatabaseManager')
+            ->setConstructorArgs([$this->configuration])
+            ->getMock();
+        $this->mockBuildStore = $this
+            ->getMockBuilder('PHPCensor\Store\BuildStore')
+            ->setConstructorArgs([$this->databaseManager])
+            ->getMock();
         $this->mockBuildStore
             ->expects($this->any())
             ->method('save')
             ->will($this->returnArgument(0));
 
-        $this->mockEnvironmentStore = $this->getMockBuilder('PHPCensor\Store\EnvironmentStore')->getMock();
+        $this->mockEnvironmentStore = $this
+            ->getMockBuilder('PHPCensor\Store\EnvironmentStore')
+            ->setConstructorArgs([$this->databaseManager])
+            ->getMock();
         $this->mockEnvironmentStore
             ->expects($this->any())
             ->method('getByProjectId')
             ->will($this->returnValue(['items' => [], 'count' => 0]));
 
-        $mockProjectStore = $this->getMockBuilder('PHPCensor\Store\ProjectStore')->getMock();
+        $mockProjectStore = $this
+            ->getMockBuilder('PHPCensor\Store\ProjectStore')
+            ->setConstructorArgs([$this->databaseManager])
+            ->getMock();
 
         $this->testedService = new BuildService($this->configuration, $this->mockBuildStore, $mockProjectStore);
     }
@@ -178,12 +194,18 @@ class BuildServiceTest extends TestCase
 
     public function testExecute_DeleteBuild()
     {
-        $store = $this->getMockBuilder('PHPCensor\Store\BuildStore')->getMock();
+        $store = $this
+            ->getMockBuilder('PHPCensor\Store\BuildStore')
+            ->setConstructorArgs([$this->databaseManager])
+            ->getMock();
         $store->expects($this->once())
             ->method('delete')
             ->will($this->returnValue(true));
 
-        $mockProjectStore = $this->getMockBuilder('PHPCensor\Store\ProjectStore')->getMock();
+        $mockProjectStore = $this
+            ->getMockBuilder('PHPCensor\Store\ProjectStore')
+            ->setConstructorArgs([$this->databaseManager])
+            ->getMock();
 
         $service = new BuildService($this->configuration, $store, $mockProjectStore);
         $build = new Build();

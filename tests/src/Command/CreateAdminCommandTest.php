@@ -4,6 +4,7 @@ namespace Tests\PHPCensor\Command;
 
 use PHPCensor\Command\CreateAdminCommand;
 use PHPCensor\ConfigurationInterface;
+use PHPCensor\DatabaseManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -30,20 +31,29 @@ class CreateAdminCommandTest extends TestCase
 
     protected ConfigurationInterface $configuration;
 
+    protected DatabaseManager $databaseManager;
+
     protected LoggerInterface $logger;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->configuration = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
-        $this->logger        = $this->getMockBuilder('Psr\Log\LoggerInterface')->getMock();
-        $userStoreMock       = $this->getMockBuilder('PHPCensor\\Store\\UserStore')->getMock();
+        $this->configuration   = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
+        $this->databaseManager = $this
+            ->getMockBuilder('PHPCensor\DatabaseManager')
+            ->setConstructorArgs([$this->configuration])
+            ->getMock();
+        $this->logger  = $this->getMockBuilder('Psr\Log\LoggerInterface')->getMock();
+        $userStoreMock = $this
+            ->getMockBuilder('PHPCensor\Store\UserStore')
+            ->setConstructorArgs([$this->databaseManager])
+            ->getMock();
 
-        $this->command = new CreateAdminCommand($this->configuration, $this->logger, $userStoreMock);
+        $this->command = new CreateAdminCommand($this->configuration, $this->databaseManager, $this->logger, $userStoreMock);
 
         $this->helper = $this
-            ->getMockBuilder('Symfony\\Component\\Console\\Helper\\QuestionHelper')
+            ->getMockBuilder('Symfony\Component\Console\Helper\QuestionHelper')
             ->setMethods(['ask'])
             ->getMock();
 

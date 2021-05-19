@@ -2,6 +2,8 @@
 
 namespace Tests\PHPCensor\Service;
 
+use PHPCensor\ConfigurationInterface;
+use PHPCensor\DatabaseManager;
 use PHPCensor\Model\User;
 use PHPCensor\Service\UserService;
 use PHPUnit\Framework\TestCase;
@@ -24,12 +26,26 @@ class UserServiceTest extends TestCase
      */
     protected $mockUserStore;
 
+    protected ConfigurationInterface $configuration;
+
+    protected DatabaseManager $databaseManager;
+
     protected function setUp(): void
     {
-        $this->mockUserStore = $this->getMockBuilder('PHPCensor\Store\UserStore')->getMock();
-        $this->mockUserStore->expects($this->any())
-                               ->method('save')
-                               ->will($this->returnArgument(0));
+        $this->configuration   = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
+        $this->databaseManager = $this
+            ->getMockBuilder('PHPCensor\DatabaseManager')
+            ->setConstructorArgs([$this->configuration])
+            ->getMock();
+
+        $this->mockUserStore = $this
+            ->getMockBuilder('PHPCensor\Store\UserStore')
+            ->setConstructorArgs([$this->databaseManager])
+            ->getMock();
+        $this->mockUserStore
+            ->expects($this->any())
+            ->method('save')
+            ->will($this->returnArgument(0));
 
         $this->testedService = new UserService($this->mockUserStore);
     }

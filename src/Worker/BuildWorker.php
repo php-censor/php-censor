@@ -12,6 +12,7 @@ use Pheanstalk\Pheanstalk;
 use PHPCensor\Builder;
 use PHPCensor\BuildFactory;
 use PHPCensor\ConfigurationInterface;
+use PHPCensor\DatabaseManager;
 use PHPCensor\Logging\BuildDBLogHandler;
 use PHPCensor\Model\Build;
 use PHPCensor\Service\BuildService;
@@ -39,6 +40,8 @@ class BuildWorker
 
     private ConfigurationInterface $configuration;
 
+    private DatabaseManager $databaseManager;
+
     /**
      * beanstalkd queue to watch
      */
@@ -50,6 +53,7 @@ class BuildWorker
 
     public function __construct(
         ConfigurationInterface $configuration,
+        DatabaseManager $databaseManager,
         LoggerInterface $logger,
         BuildService $buildService,
         string $queueHost,
@@ -57,9 +61,10 @@ class BuildWorker
         string $queueTube,
         bool $canPeriodicalWork
     ) {
-        $this->logger        = $logger;
-        $this->buildService  = $buildService;
-        $this->configuration = $configuration;
+        $this->logger          = $logger;
+        $this->buildService    = $buildService;
+        $this->configuration   = $configuration;
+        $this->databaseManager = $databaseManager;
 
         $this->queueTube  = $queueTube;
         $this->pheanstalk = Pheanstalk::create($queueHost, $queuePort);
@@ -152,7 +157,12 @@ class BuildWorker
             $buildDbLog = new BuildDBLogHandler($build, Logger::DEBUG);
             $this->logger->pushHandler($buildDbLog);
 
-            $builder = new Builder($this->configuration, $build, $this->logger);
+            $builder = new Builder(
+                $this->configuration,
+                $this->databaseManager,
+                $build,
+                $this->logger
+            );
 
             try {
                 $builder->execute();

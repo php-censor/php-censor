@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace PHPCensor\Command;
 
 use PHPCensor\ConfigurationInterface;
+use PHPCensor\DatabaseManager;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Store\ProjectStore;
 use Psr\Log\LoggerInterface;
@@ -27,12 +28,13 @@ class RemoveOldBuildsCommand extends Command
 
     public function __construct(
         ConfigurationInterface $configuration,
+        DatabaseManager $databaseManager,
         LoggerInterface $logger,
         ProjectStore $projectStore,
         BuildService $buildService,
         ?string $name = null
     ) {
-        parent::__construct($configuration, $logger, $name);
+        parent::__construct($configuration, $databaseManager, $logger, $name);
 
         $this->projectStore = $projectStore;
         $this->buildService = $buildService;

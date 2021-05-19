@@ -72,11 +72,6 @@ class Builder
     protected $config = [];
 
     /**
-     * @var string
-     */
-    protected $lastOutput;
-
-    /**
      * @var BuildInterpolator
      */
     protected $interpolator;
@@ -108,16 +103,17 @@ class Builder
 
     private ConfigurationInterface $configuration;
 
-    /**
-     * Set up the builder.
-     *
-     * @param ConfigurationInterface $configuration
-     * @param Build                  $build
-     * @param LoggerInterface        $logger
-     */
-    public function __construct(ConfigurationInterface $configuration, Build $build, LoggerInterface $logger = null)
-    {
+    private DatabaseManager $databaseManager;
+
+    public function __construct(
+        ConfigurationInterface $configuration,
+        DatabaseManager $databaseManager,
+        Build $build,
+        LoggerInterface $logger = null
+    ) {
         $this->configuration = $configuration;
+        $this->databaseManager = $databaseManager;
+
         $this->build         = $build;
         $this->store         = Factory::getStore('Build');
 
@@ -133,7 +129,12 @@ class Builder
         );
 
         $this->interpolator     = new BuildInterpolator();
-        $this->buildErrorWriter = new BuildErrorWriter($this->configuration, $this->build->getProjectId(), $this->build->getId());
+        $this->buildErrorWriter = new BuildErrorWriter(
+            $this->configuration,
+            $this->databaseManager,
+            $this->build->getProjectId(),
+            $this->build->getId()
+        );
     }
 
     public function getBuildLogger(): BuildLogger

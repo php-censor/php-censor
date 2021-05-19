@@ -7,6 +7,7 @@ namespace PHPCensor\Command;
 use Monolog\Handler\AbstractHandler;
 use Monolog\Logger;
 use PHPCensor\ConfigurationInterface;
+use PHPCensor\DatabaseManager;
 use PHPCensor\Logging\OutputLogHandler;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
@@ -24,17 +25,21 @@ abstract class Command extends BaseCommand
 {
     protected ConfigurationInterface $configuration;
 
+    protected DatabaseManager $databaseManager;
+
     protected LoggerInterface $logger;
 
     public function __construct(
         ConfigurationInterface $configuration,
+        DatabaseManager $databaseManager,
         LoggerInterface $logger,
         ?string $name = null
     ) {
         parent::__construct($name);
 
-        $this->configuration = $configuration;
-        $this->logger        = $logger;
+        $this->configuration   = $configuration;
+        $this->databaseManager = $databaseManager;
+        $this->logger          = $logger;
     }
 
     protected function configureLogging(OutputInterface $output)

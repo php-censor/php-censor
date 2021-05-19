@@ -2,6 +2,8 @@
 
 namespace Tests\PHPCensor\Service;
 
+use PHPCensor\ConfigurationInterface;
+use PHPCensor\DatabaseManager;
 use PHPCensor\Model\Project;
 use PHPCensor\Service\ProjectService;
 use PHPUnit\Framework\TestCase;
@@ -13,7 +15,6 @@ use PHPUnit\Framework\TestCase;
  */
 class ProjectServiceTest extends TestCase
 {
-
     /**
      * @var ProjectService $testedService
      */
@@ -24,10 +25,21 @@ class ProjectServiceTest extends TestCase
      */
     protected $mockProjectStore;
 
+    protected ConfigurationInterface $configuration;
+
+    protected DatabaseManager $databaseManager;
+
     protected function setUp(): void
     {
+        $this->configuration   = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
+        $this->databaseManager = $this
+            ->getMockBuilder('PHPCensor\DatabaseManager')
+            ->setConstructorArgs([$this->configuration])
+            ->getMock();
+
         $this->mockProjectStore = $this
             ->getMockBuilder('PHPCensor\Store\ProjectStore')
+            ->setConstructorArgs([$this->databaseManager])
             ->getMock();
 
         $this->mockProjectStore
@@ -302,7 +314,10 @@ class ProjectServiceTest extends TestCase
 
     public function testExecuteDeleteProject()
     {
-        $store = $this->getMockBuilder('PHPCensor\Store\ProjectStore')->getMock();
+        $store = $this
+            ->getMockBuilder('PHPCensor\Store\ProjectStore')
+            ->setConstructorArgs([$this->databaseManager])
+            ->getMock();
         $store->expects($this->once())
             ->method('delete')
             ->will($this->returnValue(true));

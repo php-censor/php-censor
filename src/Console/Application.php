@@ -22,6 +22,7 @@ use PHPCensor\Command\RemoveOldBuildsCommand;
 use PHPCensor\Command\RebuildQueueCommand;
 use PHPCensor\Command\WorkerCommand;
 use PHPCensor\ConfigurationInterface;
+use PHPCensor\DatabaseManager;
 use PHPCensor\Logging\AnsiFormatter;
 use PHPCensor\Logging\Handler;
 use PHPCensor\Service\BuildService;
@@ -86,6 +87,7 @@ LOGO;
      */
     public function __construct(
         ConfigurationInterface $applicationConfig,
+        DatabaseManager $databaseManager,
         string $name = 'PHP Censor',
         string $version = 'UNKNOWN'
     ) {
@@ -178,13 +180,13 @@ LOGO;
         $buildService = new BuildService($applicationConfig, $buildStore, $projectStore);
         $logger       = $this->initLogger($applicationConfig);
 
-        $this->add(new InstallCommand($applicationConfig, $logger));
-        $this->add(new CreateAdminCommand($applicationConfig, $logger, $userStore));
-        $this->add(new CreateBuildCommand($applicationConfig, $logger, $projectStore, $buildService));
-        $this->add(new RemoveOldBuildsCommand($applicationConfig, $logger, $projectStore, $buildService));
-        $this->add(new WorkerCommand($applicationConfig, $logger, $buildService));
-        $this->add(new RebuildQueueCommand($applicationConfig, $logger));
-        $this->add(new CheckLocalizationCommand($applicationConfig, $logger));
+        $this->add(new InstallCommand($applicationConfig, $databaseManager, $logger));
+        $this->add(new CreateAdminCommand($applicationConfig, $databaseManager, $logger, $userStore));
+        $this->add(new CreateBuildCommand($applicationConfig, $databaseManager, $logger, $projectStore, $buildService));
+        $this->add(new RemoveOldBuildsCommand($applicationConfig, $databaseManager, $logger, $projectStore, $buildService));
+        $this->add(new WorkerCommand($applicationConfig, $databaseManager, $logger, $buildService));
+        $this->add(new RebuildQueueCommand($applicationConfig, $databaseManager, $logger));
+        $this->add(new CheckLocalizationCommand($applicationConfig, $databaseManager, $logger));
     }
 
     public function getHelp(): string

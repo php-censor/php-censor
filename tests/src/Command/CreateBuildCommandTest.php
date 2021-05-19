@@ -5,6 +5,7 @@ namespace Tests\PHPCensor\Command;
 use PHPCensor\Command\CreateAdminCommand;
 use PHPCensor\Command\CreateBuildCommand;
 use PHPCensor\ConfigurationInterface;
+use PHPCensor\DatabaseManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -25,17 +26,25 @@ class CreateBuildCommandTest extends TestCase
 
     protected ConfigurationInterface $configuration;
 
+    protected DatabaseManager $databaseManager;
+
     protected LoggerInterface $logger;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->configuration  = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
-        $this->logger         = $this->getMockBuilder('Psr\Log\LoggerInterface')->getMock();
-        $projectMock          = $this->getMockBuilder('PHPCensor\\Model\\Project')->getMock();
+        $this->configuration   = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
+        $this->databaseManager = $this
+            ->getMockBuilder('PHPCensor\DatabaseManager')
+            ->setConstructorArgs([$this->configuration])
+            ->getMock();
+        $this->logger          = $this->getMockBuilder('Psr\Log\LoggerInterface')->getMock();
+        $projectMock           = $this->getMockBuilder('PHPCensor\Model\Project')->getMock();
 
-        $projectStoreMock = $this->getMockBuilder('PHPCensor\\Store\\ProjectStore')
+        $projectStoreMock = $this
+            ->getMockBuilder('PHPCensor\Store\ProjectStore')
+            ->setConstructorArgs([$this->databaseManager])
             ->getMock();
         $projectStoreMock->method('getById')
             ->will($this->returnValueMap([
@@ -43,7 +52,7 @@ class CreateBuildCommandTest extends TestCase
                 [2, 'read', null],
             ]));
 
-        $buildServiceMock = $this->getMockBuilder('PHPCensor\\Service\\BuildService')
+        $buildServiceMock = $this->getMockBuilder('PHPCensor\Service\BuildService')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -54,7 +63,7 @@ class CreateBuildCommandTest extends TestCase
                 [$projectMock, null, 'master', null, null, null]
             );
 
-        $this->command = new CreateBuildCommand($this->configuration, $this->logger, $projectStoreMock, $buildServiceMock);
+        $this->command = new CreateBuildCommand($this->configuration, $this->databaseManager, $this->logger, $projectStoreMock, $buildServiceMock);
 
         $this->application = new Application();
     }

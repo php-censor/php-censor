@@ -2,6 +2,7 @@
 
 namespace Tests\PHPCensor\Plugin;
 
+use PHPCensor\Store\Factory;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -17,7 +18,11 @@ class PhpUnitTest extends TestCase
             'config' => ROOT_DIR . 'phpunit.xml.dist'
         ];
 
-        $mockPlugin = $this->getPluginBuilder($options)->setMethods(['runConfig'])->getMock();
+        $mockPlugin = $this
+            ->getPluginBuilder($options)
+            ->setMethods(['runConfig'])
+            ->getMock();
+
         $mockPlugin->expects($this->once())->method('runConfig')->with(null, ROOT_DIR . 'phpunit.xml.dist');
 
         $mockPlugin->execute();
@@ -54,7 +59,13 @@ class PhpUnitTest extends TestCase
             ->setMethods(['addRecord'])
             ->getMock();
 
-        $mockConfiguration = $this->getMockBuilder('\PHPCensor\ConfigurationInterface')->getMock();
+        $mockConfiguration   = $this->getMockBuilder('\PHPCensor\ConfigurationInterface')->getMock();
+        $mockDatabaseManager = $this
+            ->getMockBuilder('\PHPCensor\DatabaseManager')
+            ->setConstructorArgs([$mockConfiguration])
+            ->getMock();
+
+        Factory::$databaseManager = $mockDatabaseManager;
 
         $mockBuild = $this->getMockBuilder('\PHPCensor\Model\Build')->getMock();
 
@@ -67,7 +78,7 @@ class PhpUnitTest extends TestCase
             ->willReturn(1);
 
         $mockBuilder       = $this->getMockBuilder('\PHPCensor\Builder')
-            ->setConstructorArgs([$mockConfiguration, $mockBuild, $loggerMock])
+            ->setConstructorArgs([$mockConfiguration, $mockDatabaseManager, $mockBuild, $loggerMock])
             ->setMethods(['executeCommand'])->getMock();
 
         return $this->getMockBuilder('PHPCensor\Plugin\PhpUnit')->setConstructorArgs(

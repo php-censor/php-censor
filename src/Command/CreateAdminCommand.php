@@ -6,15 +6,13 @@ namespace PHPCensor\Command;
 
 use PHPCensor\Command\Action\CreateAdmin;
 use PHPCensor\ConfigurationInterface;
-use PHPCensor\Exception\InvalidArgumentException;
-use PHPCensor\Service\UserService;
+use PHPCensor\DatabaseManager;
 use PHPCensor\Store\UserStore;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\Question;
 
 /**
  * @package    PHP Censor
@@ -29,11 +27,12 @@ class CreateAdminCommand extends Command
 
     public function __construct(
         ConfigurationInterface $configuration,
+        DatabaseManager $databaseManager,
         LoggerInterface $logger,
         UserStore $userStore,
         ?string $name = null
     ) {
-        parent::__construct($configuration, $logger, $name);
+        parent::__construct($configuration, $databaseManager, $logger, $name);
 
         $this->userStore = $userStore;
     }

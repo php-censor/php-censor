@@ -4,7 +4,6 @@ namespace PHPCensor\Store;
 
 use Exception;
 use PDO;
-use PHPCensor\Database;
 use PHPCensor\Exception\HttpException;
 use PHPCensor\Model\BuildError;
 use PHPCensor\Store;
@@ -56,7 +55,7 @@ class BuildErrorStore extends Store
         }
 
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{id}} = :id LIMIT 1';
-        $stmt = Database::getConnection($useConnection)->prepareCommon($query);
+        $stmt = $this->databaseManager->getConnection($useConnection)->prepare($query);
         $stmt->bindValue(':id', $id);
 
         if ($stmt->execute()) {
@@ -109,7 +108,7 @@ class BuildErrorStore extends Store
         if ($offset) {
             $query .= ' OFFSET :offset';
         }
-        $stmt = Database::getConnection()->prepareCommon($query);
+        $stmt = $this->databaseManager->getConnection()->prepare($query);
         $stmt->bindValue(':build_id', $buildId);
         if ($plugin) {
             $stmt->bindValue(':plugin', $plugin, PDO::PARAM_STR);
@@ -170,7 +169,7 @@ class BuildErrorStore extends Store
             $query .= ' AND {{is_new}} = false';
         }
 
-        $stmt = Database::getConnection('read')->prepareCommon($query);
+        $stmt = $this->databaseManager->getConnection('read')->prepare($query);
 
         $stmt->bindValue(':build', $buildId, PDO::PARAM_INT);
 
@@ -212,7 +211,7 @@ class BuildErrorStore extends Store
             $query .= ' AND {{is_new}} = false';
         }
 
-        $stmt = Database::getConnection('read')->prepareCommon($query);
+        $stmt = $this->databaseManager->getConnection('read')->prepare($query);
         $stmt->bindValue(':build', $buildId);
         if (null !== $severity) {
             $stmt->bindValue(':severity', (int)$severity, PDO::PARAM_INT);
@@ -253,7 +252,7 @@ class BuildErrorStore extends Store
             $query .= ' AND {{is_new}} = false';
         }
 
-        $stmt = Database::getConnection('read')->prepareCommon($query);
+        $stmt = $this->databaseManager->getConnection('read')->prepare($query);
         $stmt->bindValue(':build', $buildId);
         if ($plugin) {
             $stmt->bindValue(':plugin', $plugin);
@@ -289,7 +288,8 @@ class BuildErrorStore extends Store
                 LEFT JOIN {{builds}} AS b ON be.build_id = b.id
                 WHERE be.hash = :hash AND b.project_id = :project';
 
-        $stmt = Database::getConnection('read')->prepareCommon($query);
+
+        $stmt = $this->databaseManager->getConnection('read')->prepare($query);
 
         $stmt->bindValue(':project', $projectId);
         $stmt->bindValue(':hash', $hash);
@@ -317,7 +317,7 @@ class BuildErrorStore extends Store
             GROUP BY {{plugin}}
         ';
 
-        $stmt = Database::getConnection('read')->prepareCommon($query);
+        $stmt = $this->databaseManager->getConnection('read')->prepare($query);
         $stmt->bindValue(':build', $buildId);
 
         $stmt->execute();

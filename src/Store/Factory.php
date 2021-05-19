@@ -2,6 +2,7 @@
 
 namespace PHPCensor\Store;
 
+use PHPCensor\DatabaseManager;
 use PHPCensor\Store;
 
 class Factory
@@ -9,14 +10,16 @@ class Factory
     /**
      * @var Factory
      */
-    protected static $instance;
+    private static $instance;
+
+    public static DatabaseManager $databaseManager;
 
     /**
      * A collection of the stores currently loaded by the factory.
      *
      * @var Store[]
      */
-    protected $loadedStores = [];
+    private array $loadedStores = [];
 
     /**
      * @return Factory
@@ -41,10 +44,6 @@ class Factory
         return $factory->loadStore($storeName);
     }
 
-    protected function __construct()
-    {
-    }
-
     /**
      * @param string $store
      *
@@ -54,7 +53,7 @@ class Factory
     {
         if (!isset($this->loadedStores[$store])) {
             $class = 'PHPCensor\\Store\\' . $store . 'Store';
-            $obj   = new $class();
+            $obj   = new $class(self::$databaseManager);
 
             $this->loadedStores[$store] = $obj;
         }

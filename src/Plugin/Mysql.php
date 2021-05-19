@@ -5,7 +5,6 @@ namespace PHPCensor\Plugin;
 use Exception;
 use PDO;
 use PHPCensor\Builder;
-use PHPCensor\Database;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 

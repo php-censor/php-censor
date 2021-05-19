@@ -3,11 +3,13 @@
 
 use PHPCensor\ConfigurationInterface;
 use PHPCensor\Console\Application;
+use PHPCensor\DatabaseManager;
 
 error_reporting(-1);
 ini_set('display_errors', 1);
 
 /** @var $configuration ConfigurationInterface */
+/** @var $databaseManager DatabaseManager */
 require_once(dirname(__DIR__) . '/bootstrap.php');
 
-(new Application($configuration))->run();
+(new Application($configuration, $databaseManager))->run();

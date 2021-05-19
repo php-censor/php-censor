@@ -7,6 +7,7 @@ namespace PHPCensor\Command;
 use Exception;
 use Pheanstalk\Pheanstalk;
 use PHPCensor\ConfigurationInterface;
+use PHPCensor\DatabaseManager;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Worker\BuildWorker;
 use Psr\Log\LoggerInterface;
@@ -32,11 +33,12 @@ class WorkerCommand extends Command
 
     public function __construct(
         ConfigurationInterface $configuration,
+        DatabaseManager $databaseManager,
         LoggerInterface $logger,
         BuildService $buildService,
         ?string $name = null
     ) {
-        parent::__construct($configuration, $logger, $name);
+        parent::__construct($configuration, $databaseManager, $logger, $name);
 
         $this->buildService = $buildService;
     }
@@ -98,6 +100,7 @@ class WorkerCommand extends Command
 
         (new BuildWorker(
             $this->configuration,
+            $this->databaseManager,
             $this->logger,
             $this->buildService,
             $config['host'],

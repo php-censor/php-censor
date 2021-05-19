@@ -26,11 +26,11 @@ class DatabaseManager
     /**
      * @param string $type
      *
-     * @return \PDO
+     * @return DatabaseConnection
      *
      * @throws Exception
      */
-    public function getConnection(string $type = 'read'): \PDO
+    public function getConnection(string $type = 'read'): DatabaseConnection
     {
         if (null === $this->connections[$type]) {
             $servers = (array)$this->configuration->get("php-censor.database.servers.{$type}", []);

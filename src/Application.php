@@ -16,39 +16,25 @@ use PHPCensor\Store\Factory;
  */
 class Application
 {
-    /**
-     * @var array|null
-     */
-    protected ?array $route;
+    private ?array $route;
 
-    /**
-     * @var Controller|WebController
-     */
-    protected Controller $controller;
+    private Controller $controller;
 
-    /**
-     * @var Request
-     */
-    protected Request $request;
+    private Request $request;
 
-    /**
-     * @var ConfigurationInterface
-     */
-    protected ConfigurationInterface $config;
+    private ConfigurationInterface $configuration;
 
-    /**
-     * @var Router
-     */
-    protected Router $router;
+    private DatabaseManager $databaseManager;
 
-    /**
-     * @param ConfigurationInterface $config
-     *
-     * @param Request|null $request
-     */
-    public function __construct(ConfigurationInterface $config, Request $request = null)
-    {
-        $this->config = $config;
+    private Router $router;
+
+    public function __construct(
+        ConfigurationInterface $configuration,
+        DatabaseManager $databaseManager,
+        ?Request $request = null
+    ) {
+        $this->configuration   = $configuration;
+        $this->databaseManager = $databaseManager;
 
         $this->request = new Request();
         if (!is_null($request)) {
@@ -178,7 +164,7 @@ class Application
     protected function loadController($class)
     {
         /** @var Controller $controller */
-        $controller = new $class($this->config, $this->request);
+        $controller = new $class($this->configuration, $this->request);
 
         $controller->init();
 
@@ -192,8 +178,8 @@ class Application
      */
     protected function shouldSkipAuth(): bool
     {
-        $disableAuth   = (bool)$this->config->get('php-censor.security.disable_auth', false);
-        $defaultUserId = (int)$this->config->get('php-censor.security.default_user_id', 1);
+        $disableAuth   = (bool)$this->configuration->get('php-censor.security.disable_auth', false);
+        $defaultUserId = (int)$this->configuration->get('php-censor.security.default_user_id', 1);
 
         if ($disableAuth && $defaultUserId) {
             $user = Factory::getStore('User')->getByPrimaryKey($defaultUserId);

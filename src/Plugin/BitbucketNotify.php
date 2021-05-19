@@ -5,7 +5,6 @@ namespace PHPCensor\Plugin;
 use Exception;
 use GuzzleHttp\Client;
 use PHPCensor\Builder;
-use PHPCensor\Database;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 use PHPCensor\Plugin\Util\BitbucketNotifyPluginResult;
@@ -46,11 +45,6 @@ class BitbucketNotify extends Plugin
     protected $httpClient;
 
     /**
-     * @var Database
-     */
-    protected $pdo;
-
-    /**
      * @return string
      */
     public static function pluginName()
@@ -65,8 +59,6 @@ class BitbucketNotify extends Plugin
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
         parent::__construct($builder, $build, $options);
-
-        $this->pdo = Database::getConnection('read');
 
         $this->httpClient        = new Client();
         $this->url               = \trim($options['url']);

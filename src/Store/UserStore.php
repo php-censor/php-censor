@@ -3,7 +3,6 @@
 namespace PHPCensor\Store;
 
 use PDO;
-use PHPCensor\Database;
 use PHPCensor\Exception\HttpException;
 use PHPCensor\Model\User;
 use PHPCensor\Store;
@@ -58,7 +57,7 @@ class UserStore extends Store
         }
 
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{id}} = :id LIMIT 1';
-        $stmt = Database::getConnection($useConnection)->prepareCommon($query);
+        $stmt  = $this->databaseManager->getConnection($useConnection)->prepare($query);
         $stmt->bindValue(':id', $id);
 
         if ($stmt->execute()) {
@@ -86,7 +85,7 @@ class UserStore extends Store
         }
 
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{email}} = :email LIMIT 1';
-        $stmt  = Database::getConnection()->prepareCommon($query);
+        $stmt  = $this->databaseManager->getConnection('read')->prepare($query);
 
         $stmt->bindValue(':email', $email);
 
@@ -115,7 +114,7 @@ class UserStore extends Store
         }
 
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{email}} = :value OR {{name}} = :value LIMIT 1';
-        $stmt  = Database::getConnection()->prepareCommon($query);
+        $stmt  = $this->databaseManager->getConnection('read')->prepare($query);
         $stmt->bindValue(':value', $emailOrName);
 
         if ($stmt->execute()) {
@@ -143,7 +142,7 @@ class UserStore extends Store
         }
 
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{remember_key}} = :remember_key LIMIT 1';
-        $stmt  = Database::getConnection()->prepareCommon($query);
+        $stmt  = $this->databaseManager->getConnection('read')->prepare($query);
         $stmt->bindValue(':remember_key', $rememberKey);
 
         if ($stmt->execute()) {
@@ -173,7 +172,7 @@ class UserStore extends Store
         }
 
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{name}} = :name LIMIT :limit';
-        $stmt = Database::getConnection($useConnection)->prepareCommon($query);
+        $stmt  = $this->databaseManager->getConnection($useConnection)->prepare($query);
         $stmt->bindValue(':name', $name);
         $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
 

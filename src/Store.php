@@ -24,22 +24,20 @@ abstract class Store
      */
     protected $primaryKey = null;
 
-    /**
-     * @param string $key
-     * @param string $useConnection
-     *
-     * @return Model|null
-     */
+    protected DatabaseManager $databaseManager;
+
     abstract public function getByPrimaryKey($key, $useConnection = 'read');
 
     /**
      * @throws RuntimeException
      */
-    public function __construct()
+    public function __construct(DatabaseManager $databaseManager)
     {
         if (empty($this->primaryKey)) {
             throw new RuntimeException('Save not implemented for this store.');
         }
+
+        $this->databaseManager = $databaseManager;
     }
 
     /**
@@ -96,12 +94,12 @@ abstract class Store
             $query .= ' OFFSET ' . $offset;
         }
 
-        $stmt = Database::getConnection('read')->prepareCommon($countQuery);
+        $stmt = $this->databaseManager->getConnection('read')->prepare($countQuery);
         $stmt->execute($params);
         $res = $stmt->fetch(PDO::FETCH_ASSOC);
         $count = (int)$res['count'];
 
-        $stmt = Database::getConnection('read')->prepareCommon($query);
+        $stmt = $this->databaseManager->getConnection('read')->prepare($query);
         $stmt->execute($params);
         $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $rtn = [];
@@ -166,7 +164,7 @@ abstract class Store
                 implode(', ', $updates),
                 $this->primaryKey
             );
-            $q  = Database::getConnection('write')->prepareCommon($qs);
+            $q  = $this->databaseManager->getConnection('write')->prepare($qs);
 
             foreach ($updateParams as $updateParam) {
                 $q->bindValue(':' . $updateParam[0], $updateParam[1]);
@@ -213,10 +211,10 @@ abstract class Store
                 implode(', ', $cols),
                 implode(', ', $values)
             );
-            $q = Database::getConnection('write')->prepareCommon($qs);
+            $q = $this->databaseManager->getConnection('write')->prepare($qs);
 
             if ($q->execute($qParams)) {
-                $id  = Database::getConnection('write')->lastInsertIdExtended($this->tableName);
+                $id  = $this->databaseManager->getConnection('write')->lastInsertId($this->tableName);
                 $rtn = $this->getByPrimaryKey($id, 'write');
             }
         }
@@ -239,9 +237,9 @@ abstract class Store
 
         $data = $obj->getDataArray();
 
-        $q = Database::getConnection('write')
-            ->prepareCommon(
-                sprintf(
+        $q = $this->databaseManager->getConnection('write')
+            ->prepare(
+                \sprintf(
                     'DELETE FROM {{%s}} WHERE {{%s}} = :primaryKey',
                     $this->tableName,
                     $this->primaryKey

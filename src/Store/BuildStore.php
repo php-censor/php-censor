@@ -4,7 +4,6 @@ namespace PHPCensor\Store;
 
 use Exception;
 use PDO;
-use PHPCensor\Database;
 use PHPCensor\Exception\HttpException;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildMeta;
@@ -60,7 +59,7 @@ class BuildStore extends Store
         }
 
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{id}} = :id LIMIT 1';
-        $stmt = Database::getConnection($useConnection)->prepareCommon($query);
+        $stmt  = $this->databaseManager->getConnection($useConnection)->prepare($query);
         $stmt->bindValue(':id', $id);
 
         if ($stmt->execute()) {
@@ -90,7 +89,7 @@ class BuildStore extends Store
         }
 
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{project_id}} = :project_id LIMIT :limit';
-        $stmt = Database::getConnection($useConnection)->prepareCommon($query);
+        $stmt  = $this->databaseManager->getConnection($useConnection)->prepare($query);
         $stmt->bindValue(':project_id', $projectId);
         $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
 
@@ -128,7 +127,7 @@ class BuildStore extends Store
         }
 
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{status}} = :status ORDER BY {{create_date}} ASC LIMIT :limit';
-        $stmt = Database::getConnection($useConnection)->prepareCommon($query);
+        $stmt  = $this->databaseManager->getConnection($useConnection)->prepare($query);
         $stmt->bindValue(':status', $status);
         $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
 
@@ -157,7 +156,7 @@ class BuildStore extends Store
     public function getBuilds($limit = 5, $offset = 0)
     {
         $query = 'SELECT * FROM {{' . $this->tableName . '}} ORDER BY {{id}} DESC LIMIT :limit OFFSET :offset';
-        $stmt  = Database::getConnection('read')->prepareCommon($query);
+        $stmt  = $this->databaseManager->getConnection('read')->prepare($query);
 
         $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
         $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
@@ -187,7 +186,7 @@ class BuildStore extends Store
     public function getLatestBuildByProjectAndBranch($projectId, $branch)
     {
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{project_id}} = :project_id AND {{branch}} = :branch ORDER BY {{id}} DESC';
-        $stmt  = Database::getConnection('read')->prepareCommon($query);
+        $stmt  = $this->databaseManager->getConnection('read')->prepare($query);
 
         $stmt->bindValue(':project_id', $projectId);
         $stmt->bindValue(':branch', $branch);
@@ -217,7 +216,7 @@ class BuildStore extends Store
             $query = 'SELECT * FROM {{' . $this->tableName . '}} ORDER BY {{id}} DESC LIMIT :limit';
         }
 
-        $stmt = Database::getConnection('read')->prepareCommon($query);
+        $stmt = $this->databaseManager->getConnection('read')->prepare($query);
 
         if (!is_null($projectId)) {
             $stmt->bindValue(':pid', $projectId);
@@ -250,7 +249,7 @@ class BuildStore extends Store
     public function getLastBuildByStatus($projectId = null, $status = Build::STATUS_SUCCESS)
     {
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{project_id}} = :pid AND {{status}} = :status ORDER BY {{id}} DESC LIMIT 1';
-        $stmt = Database::getConnection('read')->prepareCommon($query);
+        $stmt  = $this->databaseManager->getConnection('read')->prepare($query);
         $stmt->bindValue(':pid', $projectId);
         $stmt->bindValue(':status', $status);
 
@@ -294,7 +293,7 @@ class BuildStore extends Store
             LIMIT 10000
         ';
 
-        $stmt = Database::getConnection('read')->prepareCommon($query);
+        $stmt = $this->databaseManager->getConnection('read')->prepare($query);
 
         if ($stmt->execute()) {
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -364,7 +363,7 @@ class BuildStore extends Store
     public function getByProjectAndCommit($projectId, $commitId)
     {
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{project_id}} = :project_id AND {{commit_id}} = :commit_id';
-        $stmt  = Database::getConnection('read')->prepareCommon($query);
+        $stmt  = $this->databaseManager->getConnection('read')->prepare($query);
 
         $stmt->bindValue(':project_id', $projectId);
         $stmt->bindValue(':commit_id', $commitId);
@@ -396,7 +395,7 @@ class BuildStore extends Store
     public function getBuildBranches($projectId)
     {
         $query = 'SELECT DISTINCT {{branch}} FROM {{' . $this->tableName . '}} WHERE {{project_id}} = :project_id';
-        $stmt = Database::getConnection('read')->prepareCommon($query);
+        $stmt  = $this->databaseManager->getConnection('read')->prepare($query);
         $stmt->bindValue(':project_id', $projectId);
 
         if ($stmt->execute()) {
@@ -440,7 +439,7 @@ class BuildStore extends Store
 
         $query .= ' ORDER BY bm.id DESC LIMIT :numResults';
 
-        $stmt = Database::getConnection('read')->prepareCommon($query);
+        $stmt = $this->databaseManager->getConnection('read')->prepare($query);
         $stmt->bindValue(':key', $key, PDO::PARAM_STR);
         $stmt->bindValue(':projectId', (int)$projectId, PDO::PARAM_INT);
         $stmt->bindValue(':buildId', (int)$buildId, PDO::PARAM_INT);
@@ -507,8 +506,8 @@ class BuildStore extends Store
 
     public function deleteAllByProject($projectId)
     {
-        $q = Database::getConnection('write')
-            ->prepareCommon(
+        $q = $this->databaseManager->getConnection('write')
+            ->prepare(
                 'DELETE FROM {{' . $this->tableName . '}} WHERE {{project_id}} = :project_id'
             );
         $q->bindValue(':project_id', $projectId);
@@ -532,7 +531,7 @@ class BuildStore extends Store
         }
 
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{project_id}} = :project_id ORDER BY {{create_date}} DESC LIMIT 1000000 OFFSET :keep';
-        $stmt = Database::getConnection('read')->prepareCommon($query);
+        $stmt  = $this->databaseManager->getConnection('read')->prepare($query);
         $stmt->bindValue(':project_id', $projectId);
         $stmt->bindValue(':keep', (int)$keep, PDO::PARAM_INT);
 
@@ -563,7 +562,7 @@ class BuildStore extends Store
     {
         $query = 'SELECT COUNT(*) AS {{total}} FROM {{build_errors}} WHERE {{build_id}} = :build_id AND {{is_new}} = true';
 
-        $stmt = Database::getConnection('read')->prepareCommon($query);
+        $stmt = $this->databaseManager->getConnection('read')->prepare($query);
 
         $stmt->bindValue(':build_id', $buildId);
 
@@ -587,7 +586,7 @@ class BuildStore extends Store
     {
         $query = 'SELECT COUNT(*) AS {{total}} FROM {{build_errors}} WHERE {{build_id}} = :build_id';
 
-        $stmt = Database::getConnection('read')->prepareCommon($query);
+        $stmt = $this->databaseManager->getConnection('read')->prepare($query);
 
         $stmt->bindValue(':build_id', $buildId);
 
@@ -620,7 +619,7 @@ GROUP BY b.id
 order BY b.id DESC
 LIMIT 2';
 
-        $stmt = Database::getConnection('read')->prepareCommon($query);
+        $stmt = $this->databaseManager->getConnection('read')->prepare($query);
 
         $stmt->bindValue(':build_id', $buildId, PDO::PARAM_INT);
         $stmt->bindValue(':project_id', $projectId, PDO::PARAM_INT);

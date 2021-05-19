@@ -4,7 +4,6 @@ namespace PHPCensor\Store;
 
 use Exception;
 use PDO;
-use PHPCensor\Database;
 use PHPCensor\Exception\HttpException;
 use PHPCensor\Model\Project;
 use PHPCensor\Store;
@@ -59,7 +58,7 @@ class ProjectStore extends Store
         }
 
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{id}} = :id LIMIT 1';
-        $stmt = Database::getConnection($useConnection)->prepareCommon($query);
+        $stmt  = $this->databaseManager->getConnection($useConnection)->prepare($query);
         $stmt->bindValue(':id', $id);
 
         if ($stmt->execute()) {
@@ -88,7 +87,7 @@ class ProjectStore extends Store
         }
 
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{id}} IN ('.implode(', ', array_map('intval', $values)).')';
-        $stmt = Database::getConnection($useConnection)->prepareCommon($query);
+        $stmt  = $this->databaseManager->getConnection($useConnection)->prepare($query);
 
         $rtn = [];
         if ($stmt->execute()) {
@@ -119,7 +118,7 @@ class ProjectStore extends Store
 
 
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{title}} = :title LIMIT :limit';
-        $stmt = Database::getConnection($useConnection)->prepareCommon($query);
+        $stmt  = $this->databaseManager->getConnection($useConnection)->prepare($query);
         $stmt->bindValue(':title', $title);
         $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
 
@@ -149,7 +148,7 @@ class ProjectStore extends Store
     public function getKnownBranches($projectId)
     {
         $query = 'SELECT {{branch}}, COUNT(1) AS {{count}} from {{builds}} WHERE {{project_id}} = :pid GROUP BY {{branch}} ORDER BY {{count}} DESC';
-        $stmt = Database::getConnection('read')->prepareCommon($query);
+        $stmt  = $this->databaseManager->getConnection('read')->prepare($query);
         $stmt->bindValue(':pid', $projectId);
 
         if ($stmt->execute()) {
@@ -178,7 +177,7 @@ class ProjectStore extends Store
         $archived = (int)$archived;
 
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{archived}} = :archived ORDER BY {{title}} ASC';
-        $stmt  = Database::getConnection('read')->prepareCommon($query);
+        $stmt  = $this->databaseManager->getConnection('read')->prepare($query);
 
         $stmt->bindValue(':archived', $archived);
 
@@ -219,7 +218,7 @@ class ProjectStore extends Store
         $archived = (int)$archived;
 
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{group_id}} = :group_id AND {{archived}} = :archived ORDER BY {{title}} LIMIT :limit';
-        $stmt  = Database::getConnection($useConnection)->prepareCommon($query);
+        $stmt  = $this->databaseManager->getConnection($useConnection)->prepare($query);
 
         $stmt->bindValue(':group_id', $groupId);
         $stmt->bindValue(':archived', $archived);

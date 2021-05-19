@@ -6,7 +6,7 @@ namespace PHPCensor\Store;
 
 use DateTime;
 use PHPCensor\ConfigurationInterface;
-use PHPCensor\Database;
+use PHPCensor\DatabaseManager;
 use PHPCensor\Model\BuildError;
 
 /**
@@ -29,6 +29,8 @@ class BuildErrorWriter
      */
     private array $errors = [];
 
+    private DatabaseManager $databaseManager;
+
     /**
      * @see https://stackoverflow.com/questions/40361164/pdoexception-sqlstatehy000-general-error-7-number-of-parameters-must-be-bet
      */
@@ -36,6 +38,7 @@ class BuildErrorWriter
 
     public function __construct(
         ConfigurationInterface $configuration,
+        DatabaseManager $databaseManager,
         int $projectId,
         int $buildId
     ) {
@@ -43,6 +46,8 @@ class BuildErrorWriter
 
         $this->projectId = $projectId;
         $this->buildId   = $buildId;
+
+        $this->databaseManager = $databaseManager;
     }
 
     /**
@@ -148,7 +153,7 @@ class BuildErrorWriter
             )
             VALUES ' . join(', ', $insertValuesPlaceholders) . '
         ';
-        $stmt = Database::getConnection('write')->prepareCommon($query);
+        $stmt = $this->databaseManager->getConnection('write')->prepare($query);
         $stmt->execute($insertValuesData);
 
         $this->errors = [];
