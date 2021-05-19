@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Console;
 
 use Exception;
@@ -30,9 +32,10 @@ use PHPCensor\Store\UserStore;
 use Symfony\Component\Console\Application as BaseApplication;
 
 /**
- * Class Application
+ * @package    PHP Censor
+ * @subpackage Application
  *
- * @package PHPCensor\Console
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Application extends BaseApplication
 {

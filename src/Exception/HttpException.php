@@ -1,39 +1,34 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Exception;
 
+use PHPCensor\Common\Exception\Exception;
+
+/**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
+ */
 class HttpException extends Exception
 {
-    /**
-     * @var int
-     */
-    protected $errorCode = 500;
+    protected int $errorCode = 500;
 
-    /**
-     * @var string
-     */
-    protected $statusMessage = 'Internal Server Error';
+    protected string $statusMessage = 'Internal Server Error';
 
-    /**
-     * @return int
-     */
-    public function getErrorCode()
+    public function getErrorCode(): int
     {
         return $this->errorCode;
     }
 
-    /**
-     * @return string
-     */
-    public function getStatusMessage()
+    public function getStatusMessage(): string
     {
         return $this->statusMessage;
     }
 
-    /**
-     * @return string
-     */
-    public function getHttpHeader()
+    public function getHttpHeader(): string
     {
         return 'HTTP/1.1 ' . $this->errorCode . ' ' . $this->statusMessage;
     }

@@ -1,18 +1,20 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Exception\HttpException;
 
 use PHPCensor\Exception\HttpException;
 
+/**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
+ */
 class NotAuthorizedException extends HttpException
 {
-    /**
-     * @var int
-     */
-    protected $errorCode = 401;
+    protected int $errorCode = 401;
 
-    /**
-     * @var string
-     */
-    protected $statusMessage = 'Not Authorized';
+    protected string  $statusMessage = 'Not Authorized';
 }

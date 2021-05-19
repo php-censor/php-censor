@@ -1,10 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace PHPCensor\Model\Base;
 
-use PHPCensor\Exception\InvalidArgumentException;
 use PHPCensor\Model;
 
 class User extends Model
