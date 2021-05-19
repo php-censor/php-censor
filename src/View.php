@@ -113,17 +113,6 @@ class View
     }
 
     /**
-     * @return bool
-     */
-    protected function loginIsDisabled()
-    {
-        $config      = Config::getInstance();
-        $disableAuth = (bool)$config->get('php-censor.security.disable_auth', false);
-
-        return $disableAuth;
-    }
-
-    /**
      * @return User|null
      *
      * @throws Exception\HttpException

@@ -3,8 +3,10 @@
 namespace Tests\PHPCensor\Command;
 
 use PHPCensor\Command\CreateAdminCommand;
+use PHPCensor\ConfigurationInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -26,13 +28,19 @@ class CreateAdminCommandTest extends TestCase
      */
     protected $helper;
 
+    protected ConfigurationInterface $configuration;
+
+    protected LoggerInterface $logger;
+
     protected function setUp(): void
     {
         parent::setUp();
 
-        $userStoreMock = $this->getMockBuilder('PHPCensor\\Store\\UserStore')->getMock();
+        $this->configuration = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
+        $this->logger        = $this->getMockBuilder('Psr\Log\LoggerInterface')->getMock();
+        $userStoreMock       = $this->getMockBuilder('PHPCensor\\Store\\UserStore')->getMock();
 
-        $this->command = new CreateAdminCommand($userStoreMock);
+        $this->command = new CreateAdminCommand($this->configuration, $this->logger, $userStoreMock);
 
         $this->helper = $this
             ->getMockBuilder('Symfony\\Component\\Console\\Helper\\QuestionHelper')

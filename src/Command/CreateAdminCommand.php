@@ -1,12 +1,15 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Command;
 
-use Exception;
+use PHPCensor\Command\Action\CreateAdmin;
+use PHPCensor\ConfigurationInterface;
 use PHPCensor\Exception\InvalidArgumentException;
 use PHPCensor\Service\UserService;
 use PHPCensor\Store\UserStore;
-use Symfony\Component\Console\Command\Command;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -14,23 +17,23 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 
 /**
- * Create admin command - creates an admin user
+ * @package    PHP Censor
+ * @subpackage Application
  *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  * @author Wogan May (@woganmay)
  */
 class CreateAdminCommand extends Command
 {
-    /**
-     * @var UserStore
-     */
-    protected $userStore;
+    protected UserStore $userStore;
 
-    /**
-     * @param UserStore $userStore
-     */
-    public function __construct(UserStore $userStore)
-    {
-        parent::__construct();
+    public function __construct(
+        ConfigurationInterface $configuration,
+        LoggerInterface $logger,
+        UserStore $userStore,
+        ?string $name = null
+    ) {
+        parent::__construct($configuration, $logger, $name);
 
         $this->userStore = $userStore;
     }
@@ -47,52 +50,20 @@ class CreateAdminCommand extends Command
             ->setDescription('Create an admin user');
     }
 
-    /**
-     * Creates an admin user in the existing database
-     *
-     * {@inheritDoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        /** @var $helper QuestionHelper */
-        $helper = $this->getHelperSet()->get('question');
+        /** @var $questionHelper QuestionHelper */
+        $questionHelper = $this->getHelperSet()->get('question');
 
-        // Function to validate email address.
-        $mailValidator = function ($answer) {
-            if (!filter_var($answer, FILTER_VALIDATE_EMAIL)) {
-                throw new InvalidArgumentException('Must be a valid email address.');
-            }
+        $createAdmin = new CreateAdmin(
+            $questionHelper,
+            $input,
+            $output,
+            $this->userStore
+        );
 
-            return $answer;
-        };
-
-        if ($adminEmail = $input->getOption('admin-email')) {
-            $adminEmail = $mailValidator($adminEmail);
-        } else {
-            $questionEmail = new Question('Admin email: ');
-            $adminEmail    = $helper->ask($input, $output, $questionEmail);
-        }
-
-        if (!$adminName = $input->getOption('admin-name')) {
-            $questionName = new Question('Admin name: ');
-            $adminName    = $helper->ask($input, $output, $questionName);
-        }
-
-        if (!$adminPassword = $input->getOption('admin-password')) {
-            $questionPassword = new Question('Admin password: ');
-            $questionPassword->setHidden(true);
-            $questionPassword->setHiddenFallback(false);
-            $adminPassword = $helper->ask($input, $output, $questionPassword);
-        }
-
-        try {
-            $userService = new UserService($this->userStore);
-            $userService->createUser($adminName, $adminEmail, 'internal', ['type' => 'internal'], $adminPassword, true);
-
-            $output->writeln('<info>User account created!</info>');
-        } catch (Exception $ex) {
-            $output->writeln('<error>PHP Censor failed to create your admin account!</error>');
-            $output->writeln('<error>' . $ex->getMessage() . '</error>');
-        }
+        $createAdmin->create(
+            $createAdmin->process()
+        );
     }
 }

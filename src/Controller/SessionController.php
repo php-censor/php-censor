@@ -2,7 +2,6 @@
 
 namespace PHPCensor\Controller;
 
-use PHPCensor\Config;
 use PHPCensor\Exception\HttpException;
 use PHPCensor\Form;
 use PHPCensor\Form\Element\Checkbox;
@@ -48,7 +47,7 @@ class SessionController extends WebController
         parent::init();
 
         $this->userStore      = Factory::getStore('User');
-        $this->authentication = Service::getInstance();
+        $this->authentication = new Service($this->configuration);
     }
 
     protected function loginForm($values)
@@ -225,7 +224,7 @@ class SessionController extends WebController
             $key     = md5(date('Y-m-d') . $user->getHash());
             $message = Lang::get('reset_email_body', $user->getName(), APP_URL, $user->getId(), $key);
 
-            $email = new Email(Config::getInstance());
+            $email = new Email($this->configuration);
             $email->setEmailTo($user->getEmail(), $user->getName());
             $email->setSubject(Lang::get('reset_email_title', $user->getName()));
             $email->setBody($message);

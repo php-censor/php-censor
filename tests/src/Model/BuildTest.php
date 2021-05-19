@@ -152,7 +152,10 @@ class BuildTest extends TestCase
         $project->setType(Project::TYPE_GOGS);
         $project->setReference('https://gogs.repository/the-vendor/the-project.git');
 
+        $configuration = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
+
         $stub = $this->getMockBuilder(GogsBuild::class)
+            ->setConstructorArgs([$configuration])
             ->setMethods(['getProject', 'getCommitId', 'getBranch'])
             ->getMock();
 

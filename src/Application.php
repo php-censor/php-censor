@@ -17,46 +17,45 @@ use PHPCensor\Store\Factory;
 class Application
 {
     /**
-     * @var array
+     * @var array|null
      */
-    protected $route;
+    protected ?array $route;
 
     /**
      * @var Controller|WebController
      */
-    protected $controller;
+    protected Controller $controller;
 
     /**
      * @var Request
      */
-    protected $request;
+    protected Request $request;
 
     /**
-     * @var Config
+     * @var ConfigurationInterface
      */
-    protected $config;
+    protected ConfigurationInterface $config;
 
     /**
      * @var Router
      */
-    protected $router;
+    protected Router $router;
 
     /**
-     * @param Config $config
+     * @param ConfigurationInterface $config
      *
      * @param Request|null $request
      */
-    public function __construct(Config $config, Request $request = null)
+    public function __construct(ConfigurationInterface $config, Request $request = null)
     {
         $this->config = $config;
 
+        $this->request = new Request();
         if (!is_null($request)) {
             $this->request = $request;
-        } else {
-            $this->request = new Request();
         }
 
-        $this->router = new Router($this, $this->request, $this->config);
+        $this->router = new Router($this, $this->request);
 
         $this->init();
     }
@@ -149,8 +148,6 @@ class Application
         try {
             $response = $this->handleRequestInner();
         } catch (HttpException $ex) {
-            $this->config->set('page_title', 'Error');
-
             $view = new View('exception');
             $view->exception = $ex;
 
@@ -159,8 +156,6 @@ class Application
             $response->setResponseCode($ex->getErrorCode());
             $response->setContent($view->render());
         } catch (Exception $ex) {
-            $this->config->set('page_title', 'Error');
-
             $view = new View('exception');
             $view->exception = $ex;
 
@@ -195,11 +190,10 @@ class Application
      *
      * @return bool
      */
-    protected function shouldSkipAuth()
+    protected function shouldSkipAuth(): bool
     {
-        $config        = Config::getInstance();
-        $disableAuth   = (bool)$config->get('php-censor.security.disable_auth', false);
-        $defaultUserId = (int)$config->get('php-censor.security.default_user_id', 1);
+        $disableAuth   = (bool)$this->config->get('php-censor.security.disable_auth', false);
+        $defaultUserId = (int)$this->config->get('php-censor.security.default_user_id', 1);
 
         if ($disableAuth && $defaultUserId) {
             $user = Factory::getStore('User')->getByPrimaryKey($defaultUserId);

@@ -4,6 +4,7 @@ namespace PHPCensor\Model\Build;
 
 use Exception;
 use PHPCensor\Builder;
+use PHPCensor\ConfigurationInterface;
 use PHPCensor\Model\Build;
 use Psr\Log\LogLevel;
 
@@ -14,6 +15,17 @@ use Psr\Log\LogLevel;
  */
 class GitBuild extends Build
 {
+    protected ConfigurationInterface $configuration;
+
+    public function __construct(
+        ConfigurationInterface $configuration,
+        array $initialData = []
+    ) {
+        parent::__construct($initialData);
+
+        $this->configuration = $configuration;
+    }
+
     /**
      * Get the URL to be used to clone this remote repository.
      *

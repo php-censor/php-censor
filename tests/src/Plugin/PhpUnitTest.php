@@ -2,9 +2,7 @@
 
 namespace Tests\PHPCensor\Plugin;
 
-use PHPCensor\Plugin\PhpUnit;
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_MockObject_MockBuilder;
 
 /**
  * Unit test for the PHPUnit plugin.
@@ -48,7 +46,6 @@ class PhpUnitTest extends TestCase
     /**
      * @param array $options
      *
-     * @return PHPUnit_Framework_MockObject_MockBuilder
      */
     protected function getPluginBuilder($options = [])
     {
@@ -57,9 +54,20 @@ class PhpUnitTest extends TestCase
             ->setMethods(['addRecord'])
             ->getMock();
 
-        $mockBuild   = $this->getMockBuilder('\PHPCensor\Model\Build')->getMock();
-        $mockBuilder = $this->getMockBuilder('\PHPCensor\Builder')
-            ->setConstructorArgs([$mockBuild, $loggerMock])
+        $mockConfiguration = $this->getMockBuilder('\PHPCensor\ConfigurationInterface')->getMock();
+
+        $mockBuild = $this->getMockBuilder('\PHPCensor\Model\Build')->getMock();
+
+        $mockBuild
+            ->method('getId')
+            ->willReturn(1);
+
+        $mockBuild
+            ->method('getProjectId')
+            ->willReturn(1);
+
+        $mockBuilder       = $this->getMockBuilder('\PHPCensor\Builder')
+            ->setConstructorArgs([$mockConfiguration, $mockBuild, $loggerMock])
             ->setMethods(['executeCommand'])->getMock();
 
         return $this->getMockBuilder('PHPCensor\Plugin\PhpUnit')->setConstructorArgs(

@@ -2,7 +2,7 @@
 
 namespace Tests\PHPCensor\Plugin;
 
-use PHPCensor\Config;
+use PHPCensor\Configuration;
 use PHPCensor\Helper\BuildInterpolator;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
@@ -59,7 +59,7 @@ class EmailTest extends TestCase
         $this->mailDelivered = true;
         $self                = $this;
 
-        new Config();
+        new Configuration('');
 
         $this->mockProject = $this
             ->getMockBuilder('\PHPCensor\Model\Project')

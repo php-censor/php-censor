@@ -2,7 +2,7 @@
 
 namespace PHPCensor\Helper;
 
-use PHPCensor\Config;
+use PHPCensor\ConfigurationInterface;
 use PHPCensor\Store\Factory;
 use PHPCensor\Store\UserStore;
 
@@ -113,10 +113,10 @@ class Lang
     /**
      * Initialise the Language helper, try load the language file for the user's browser or the configured default.
      *
-     * @param Config $config
-     * @param string $languageForce
+     * @param ConfigurationInterface $config
+     * @param string                 $languageForce
      */
-    public static function init(Config $config, $languageForce = null)
+    public static function init(ConfigurationInterface $config, $languageForce = null)
     {
         self::$defaultStrings = self::loadLanguage(self::DEFAULT_LANGUAGE);
         self::loadAvailableLanguages();

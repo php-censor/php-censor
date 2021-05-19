@@ -1,43 +1,40 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Command;
 
+use PHPCensor\ConfigurationInterface;
 use PHPCensor\Service\BuildService;
-use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\ProjectStore;
-use Symfony\Component\Console\Command\Command;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use PHPCensor\Exception\HttpException;
 
 /**
- * Remove old builds
+ * @package    PHP Censor
+ * @subpackage Application
  *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  * @author David Sloan <dave@d3r.com>
  */
 class RemoveOldBuildsCommand extends Command
 {
-    /**
-     * @var ProjectStore
-     */
-    protected $projectStore;
+    protected ProjectStore $projectStore;
 
-    /**
-     * @var BuildService
-     */
-    protected $buildService;
+    protected BuildService $buildService;
 
-    /**
-     * @param ProjectStore $projectStore
-     * @param BuildService $buildService
-     */
-    public function __construct(ProjectStore $projectStore, BuildService $buildService)
-    {
-        parent::__construct();
+    public function __construct(
+        ConfigurationInterface $configuration,
+        LoggerInterface $logger,
+        ProjectStore $projectStore,
+        BuildService $buildService,
+        ?string $name = null
+    ) {
+        parent::__construct($configuration, $logger, $name);
 
-        /** @var ProjectStore $projectStore */
         $this->projectStore = $projectStore;
-
-        /** @var BuildStore $buildStore */
         $this->buildService = $buildService;
     }
 
@@ -52,11 +49,13 @@ class RemoveOldBuildsCommand extends Command
     }
 
     /**
-    * Loops through projects.
-    *
-    * @param InputInterface  $input
-    * @param OutputInterface $output
-    */
+     * Loops through projects.
+     *
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     *
+     * @throws HttpException
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $projects = $this->projectStore->getAll();

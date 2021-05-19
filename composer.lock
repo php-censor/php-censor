@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3ee10151a1e6af40476ea0e3035893be",
+    "content-hash": "dd218b940a7209cfbb51dbfe3a08f7c2",
     "packages": [
         {
             "name": "cakephp/core",
@@ -882,6 +882,73 @@
                 "source": "https://github.com/pheanstalk/pheanstalk/tree/v4.0.3"
             },
             "time": "2020-09-22T07:17:48+00:00"
+        },
+        {
+            "name": "php-censor/common",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-censor/common.git",
+                "reference": "6b36aa2e5e95a18aab130611e209f81f48a3ae28"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-censor/common/zipball/6b36aa2e5e95a18aab130611e209f81f48a3ae28",
+                "reference": "6b36aa2e5e95a18aab130611e209f81f48a3ae28",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=7.4.0",
+                "psr/container": "^1.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.16",
+                "infection/infection": "^0.12",
+                "phpunit/phpunit": "^7.5",
+                "vimeo/psalm": "^3.16"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "platform": {
+                    "php": "7.4.*"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PHPCensor\\Common\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Dmitry Khomutov",
+                    "email": "poisoncorpsee@gmail.com",
+                    "homepage": "http://corpsee.com",
+                    "role": "PHP Censor developer"
+                }
+            ],
+            "description": "PHP Censor Common Library",
+            "homepage": "https://php-censor.info",
+            "keywords": [
+                "ci",
+                "ci-server",
+                "continuous integration",
+                "open-source",
+                "php",
+                "php-censor",
+                "self-hosted",
+                "testing"
+            ],
+            "support": {
+                "issues": "https://github.com/php-censor/common/issues",
+                "source": "https://github.com/php-censor/common"
+            },
+            "time": "2021-04-25T06:46:27+00:00"
         },
         {
             "name": "php-censor/flowdock-client",
@@ -6926,7 +6993,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "php-censor/common": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

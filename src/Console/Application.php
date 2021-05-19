@@ -19,7 +19,7 @@ use PHPCensor\Command\InstallCommand;
 use PHPCensor\Command\RemoveOldBuildsCommand;
 use PHPCensor\Command\RebuildQueueCommand;
 use PHPCensor\Command\WorkerCommand;
-use PHPCensor\Config;
+use PHPCensor\ConfigurationInterface;
 use PHPCensor\Logging\AnsiFormatter;
 use PHPCensor\Logging\Handler;
 use PHPCensor\Service\BuildService;
@@ -47,12 +47,13 @@ class Application extends BaseApplication
 LOGO;
 
     /**
-     * @param Config $applicationConfig
+     * @param ConfigurationInterface $applicationConfig
      *
      * @return Logger
+     *
      * @throws Exception
      */
-    protected function initLogger(Config $applicationConfig)
+    protected function initLogger(ConfigurationInterface $applicationConfig): Logger
     {
         $rotate   = (bool)$applicationConfig->get('php-censor.log.rotate', false);
         $maxFiles = (int)$applicationConfig->get('php-censor.log.max_files', 0);
@@ -74,19 +75,22 @@ LOGO;
     }
 
     /**
-     * @param string $name
-     * @param string $version
+     * @param ConfigurationInterface $applicationConfig
+     * @param string                 $name
+     * @param string                 $version
      *
      * @throws Exception
      */
-    public function __construct($name = 'PHP Censor', $version = 'UNKNOWN')
-    {
-        $version = (string)\trim(\file_get_contents(ROOT_DIR . 'VERSION.md'));
+    public function __construct(
+        ConfigurationInterface $applicationConfig,
+        string $name = 'PHP Censor',
+        string $version = 'UNKNOWN'
+    ) {
+        $version = \trim(\file_get_contents(ROOT_DIR . 'VERSION.md'));
         $version = !empty($version) ? $version : '0.0.0 (UNKNOWN)';
 
         parent::__construct($name, $version);
 
-        $applicationConfig   = Config::getInstance();
         $oldDatabaseSettings = $applicationConfig->get('b8.database', []);
         $databaseSettings    = $applicationConfig->get('php-censor.database', []);
         if ($oldDatabaseSettings && !$databaseSettings) {
@@ -128,7 +132,7 @@ LOGO;
         if (!empty($databaseSettings['type'])
             && $databaseSettings['type'] === 'pgsql'
         ) {
-            if (!array_key_exists('pgsql-sslmode', $databaseSettings['servers']['write'][0])) {
+            if (!\array_key_exists('pgsql-sslmode', $databaseSettings['servers']['write'][0])) {
                 $databaseSettings['servers']['write'][0]['pgsql-sslmode'] = 'prefer';
             }
 
@@ -168,24 +172,19 @@ LOGO;
         /** @var BuildStore $buildStore */
         $buildStore   = Factory::getStore('Build');
 
-        $buildService = new BuildService($buildStore, $projectStore);
+        $buildService = new BuildService($applicationConfig, $buildStore, $projectStore);
         $logger       = $this->initLogger($applicationConfig);
 
-        $this->add(new InstallCommand());
-        $this->add(new CreateAdminCommand($userStore));
-        $this->add(new CreateBuildCommand($projectStore, $buildService));
-        $this->add(new RemoveOldBuildsCommand($projectStore, $buildService));
-        $this->add(new WorkerCommand($logger, $buildService));
-        $this->add(new RebuildQueueCommand($logger));
-        $this->add(new CheckLocalizationCommand());
+        $this->add(new InstallCommand($applicationConfig, $logger));
+        $this->add(new CreateAdminCommand($applicationConfig, $logger, $userStore));
+        $this->add(new CreateBuildCommand($applicationConfig, $logger, $projectStore, $buildService));
+        $this->add(new RemoveOldBuildsCommand($applicationConfig, $logger, $projectStore, $buildService));
+        $this->add(new WorkerCommand($applicationConfig, $logger, $buildService));
+        $this->add(new RebuildQueueCommand($applicationConfig, $logger));
+        $this->add(new CheckLocalizationCommand($applicationConfig, $logger));
     }
 
-    /**
-     * Returns help.
-     *
-     * @return string
-     */
-    public function getHelp()
+    public function getHelp(): string
     {
         return self::LOGO . parent::getHelp();
     }
@@ -195,8 +194,8 @@ LOGO;
      *
      * @return string The long application version
      */
-    public function getLongVersion()
+    public function getLongVersion(): string
     {
-        return sprintf('<info>%s</info> v%s', $this->getName(), $this->getVersion());
+        return \sprintf('<info>%s</info> v%s', $this->getName(), $this->getVersion());
     }
 }

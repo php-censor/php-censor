@@ -5,7 +5,6 @@ namespace PHPCensor\Controller;
 use JasonGrimes\Paginator;
 use PHPCensor\BuildFactory;
 use PHPCensor\Exception\HttpException\NotFoundException;
-use PHPCensor\Helper\AnsiConverter;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Http\Response\JsonResponse;
 use PHPCensor\Http\Response\RedirectResponse;
@@ -18,6 +17,7 @@ use PHPCensor\Store\Factory;
 use PHPCensor\Store\ProjectStore;
 use PHPCensor\View;
 use PHPCensor\WebController;
+use SensioLabs\AnsiConverter\AnsiToHtmlConverter;
 
 /**
  * Build Controller - Allows users to run and view builds.
@@ -53,7 +53,7 @@ class BuildController extends WebController
         $this->buildStore   = Factory::getStore('Build');
         $this->projectStore = Factory::getStore('Project');
 
-        $this->buildService = new BuildService($this->buildStore, $this->projectStore);
+        $this->buildService = new BuildService($this->configuration, $this->buildStore, $this->projectStore);
     }
 
     /**
@@ -76,7 +76,7 @@ class BuildController extends WebController
             $severity = null;
         }
 
-        $build = BuildFactory::getBuildById($buildId);
+        $build = BuildFactory::getBuildById($this->configuration, (int)$buildId);
 
         if (!$build) {
             throw new NotFoundException(Lang::get('build_x_not_found', $buildId));
@@ -84,7 +84,7 @@ class BuildController extends WebController
 
         /** @var User $user */
         $user    = $this->getUser();
-        $perPage = $user->getFinalPerPage();
+        $perPage = $user->getFinalPerPage($this->configuration);
         $data    = $this->getBuildData($build, $plugin, $severity, $isNew, (($page - 1) * $perPage), $perPage);
         $pages   = ($data['errors'] === 0)
             ? 1
@@ -285,7 +285,7 @@ class BuildController extends WebController
      */
     public function rebuild($buildId)
     {
-        $copy    = BuildFactory::getBuildById($buildId);
+        $copy    = BuildFactory::getBuildById($this->configuration, (int)$buildId);
         $project = Factory::getStore('Project')->getByPrimaryKey($copy->getProjectId());
 
         if (!$copy || $project->getArchived()) {
@@ -319,7 +319,7 @@ class BuildController extends WebController
     {
         $this->requireAdmin();
 
-        $build = BuildFactory::getBuildById($buildId);
+        $build = BuildFactory::getBuildById($this->configuration, (int)$buildId);
 
         if (!$build) {
             throw new NotFoundException(Lang::get('build_x_not_found', $buildId));
@@ -338,7 +338,9 @@ class BuildController extends WebController
     */
     protected function cleanLog($log)
     {
-        return AnsiConverter::convert($log);
+        $converter = new AnsiToHtmlConverter(null, false);
+
+        return $converter->convert($log);
     }
 
     /**
@@ -379,7 +381,7 @@ class BuildController extends WebController
         }
 
         $response = new JsonResponse();
-        $build = BuildFactory::getBuildById($buildId);
+        $build = BuildFactory::getBuildById($this->configuration, (int)$buildId);
 
         if (!$build) {
             $response->setResponseCode(404);
@@ -414,7 +416,7 @@ class BuildController extends WebController
 
     public function ajaxMeta($buildId)
     {
-        $build     = BuildFactory::getBuildById($buildId);
+        $build     = BuildFactory::getBuildById($this->configuration, (int)$buildId);
         $key       = $this->getParam('key', null);
         $numBuilds = $this->getParam('num_builds', 1);
         $data      = null;

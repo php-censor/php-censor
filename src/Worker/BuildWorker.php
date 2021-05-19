@@ -1,19 +1,22 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Worker;
 
 use DateTime;
 use Exception;
 use Monolog\Logger;
-use Pheanstalk\Exception\ServerException;
 use Pheanstalk\Job;
 use Pheanstalk\Pheanstalk;
 use PHPCensor\Builder;
 use PHPCensor\BuildFactory;
+use PHPCensor\ConfigurationInterface;
 use PHPCensor\Logging\BuildDBLogHandler;
 use PHPCensor\Model\Build;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Store\Factory;
+use Psr\Log\LoggerInterface;
 
 class BuildWorker
 {
@@ -22,63 +25,41 @@ class BuildWorker
 
     /**
      * If this variable changes to false, the worker will stop after the current build.
-     *
-     * @var bool
      */
-    protected $canRun = true;
+    private bool $canRun = true;
 
-    /**
-     * @var bool
-     */
-    protected $canPeriodicalWork;
+    private bool $canPeriodicalWork;
 
     /**
      * The logger for builds to use.
-     *
-     * @var Logger
      */
-    protected $logger;
+    private LoggerInterface $logger;
 
-    /**
-     * @var BuildService
-     */
-    protected $buildService;
+    private BuildService $buildService;
+
+    private ConfigurationInterface $configuration;
 
     /**
      * beanstalkd queue to watch
-     *
-     * @var string
      */
-    protected $queueTube;
+    private string $queueTube;
 
-    /**
-     * @var Pheanstalk
-     */
-    protected $pheanstalk;
+    private Pheanstalk $pheanstalk;
 
-    /**
-     * @var int
-     */
-    protected $lastPeriodical;
+    private int $lastPeriodical;
 
-    /**
-     * @param Logger       $logger
-     * @param BuildService $buildService,
-     * @param string       $queueHost
-     * @param int          $queuePort
-     * @param string       $queueTube
-     * @param bool         $canPeriodicalWork
-     */
     public function __construct(
-        Logger $logger,
+        ConfigurationInterface $configuration,
+        LoggerInterface $logger,
         BuildService $buildService,
-        $queueHost,
-        $queuePort,
-        $queueTube,
-        $canPeriodicalWork
+        string $queueHost,
+        int $queuePort,
+        string $queueTube,
+        bool $canPeriodicalWork
     ) {
-        $this->logger       = $logger;
-        $this->buildService = $buildService;
+        $this->logger        = $logger;
+        $this->buildService  = $buildService;
+        $this->configuration = $configuration;
 
         $this->queueTube  = $queueTube;
         $this->pheanstalk = Pheanstalk::create($queueHost, $queuePort);
@@ -134,7 +115,7 @@ class BuildWorker
                 )
             );
 
-            $build = BuildFactory::getBuildById($jobData['build_id']);
+            $build = BuildFactory::getBuildById($this->configuration, (int)$jobData['build_id']);
 
             if (!$build) {
                 $this->logger->warning(
@@ -171,7 +152,7 @@ class BuildWorker
             $buildDbLog = new BuildDBLogHandler($build, Logger::DEBUG);
             $this->logger->pushHandler($buildDbLog);
 
-            $builder = new Builder($build, $this->logger);
+            $builder = new Builder($this->configuration, $build, $this->logger);
 
             try {
                 $builder->execute();

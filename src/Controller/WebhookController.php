@@ -4,7 +4,6 @@ namespace PHPCensor\Controller;
 
 use Exception;
 use GuzzleHttp\Client;
-use PHPCensor\Config;
 use PHPCensor\Controller;
 use PHPCensor\Exception\HttpException\NotFoundException;
 use PHPCensor\Exception\InvalidArgumentException;
@@ -55,7 +54,7 @@ class WebhookController extends Controller
         $this->buildStore   = Factory::getStore('Build');
         $this->projectStore = Factory::getStore('Project');
 
-        $this->buildService = new BuildService($this->buildStore, $this->projectStore);
+        $this->buildService = new BuildService($this->configuration, $this->buildStore, $this->projectStore);
     }
 
     /**
@@ -526,8 +525,8 @@ class WebhookController extends Controller
             ];
         }
 
-        $username    = Config::getInstance()->get('php-censor.bitbucket.username');
-        $appPassword = Config::getInstance()->get('php-censor.bitbucket.app_password');
+        $username    = $this->configuration->get('php-censor.bitbucket.username');
+        $appPassword = $this->configuration->get('php-censor.bitbucket.app_password');
 
         if (empty($username) || empty($appPassword)) {
             throw new Exception('Please provide Username and App Password of your Bitbucket account.');
@@ -810,7 +809,7 @@ class WebhookController extends Controller
         }
 
         $headers = [];
-        $token   = Config::getInstance()->get('php-censor.github.token');
+        $token   = $this->configuration->get('php-censor.github.token');
 
         if (!empty($token)) {
             $headers['Authorization'] = 'token ' . $token;
@@ -819,7 +818,7 @@ class WebhookController extends Controller
         $url = $payload['pull_request']['commits_url'];
 
         //for large pull requests, allow grabbing more then the default number of commits
-        $customPerPage = Config::getInstance()->get('php-censor.github.per_page');
+        $customPerPage = $this->configuration->get('php-censor.github.per_page');
         $params        = [];
         if ($customPerPage) {
             $params['per_page'] = $customPerPage;

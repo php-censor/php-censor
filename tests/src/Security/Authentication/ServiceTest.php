@@ -2,6 +2,7 @@
 
 namespace Tests\PHPCensor\Security\Authentication;
 
+use PHPCensor\ConfigurationInterface;
 use PHPCensor\Model\User;
 use PHPCensor\Security\Authentication\Service;
 use PHPCensor\Security\Authentication\UserProvider\AbstractProvider;
@@ -12,9 +13,13 @@ class ServiceTest extends TestCase
 {
     use ProphecyTrait;
 
-    public function testGetInstance()
+    protected ConfigurationInterface $configuration;
+
+    protected function setUp(): void
     {
-        self::assertInstanceOf('\PHPCensor\Security\Authentication\Service', Service::getInstance());
+        parent::setUp();
+
+        $this->configuration = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
     }
 
     public function testBuildBuiltinProvider()
@@ -40,7 +45,7 @@ class ServiceTest extends TestCase
         $b         = $this->prophesize('\PHPCensor\Security\Authentication\UserProviderInterface')->reveal();
         $providers = ['a' => $a, 'b' => $b];
 
-        $service = new Service($providers);
+        $service = new Service($this->configuration, $providers);
 
         self::assertEquals($providers, $service->getProviders());
     }
@@ -51,7 +56,7 @@ class ServiceTest extends TestCase
         $b         = $this->prophesize('\PHPCensor\Security\Authentication\LoginPasswordProviderInterface')->reveal();
         $providers = ['a' => $a, 'b' => $b];
 
-        $service = new Service($providers);
+        $service = new Service($this->configuration, $providers);
 
         self::assertEquals(['b' => $b], $service->getLoginPasswordProviders());
     }

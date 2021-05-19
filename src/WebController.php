@@ -33,10 +33,10 @@ abstract class WebController extends Controller
     public $layout = null;
 
     /**
-     * @param Config  $config
+     * @param ConfigurationInterface $config
      * @param Request $request
      */
-    public function __construct(Config $config, Request $request)
+    public function __construct(ConfigurationInterface $config, Request $request)
     {
         parent::__construct($config, $request);
 
@@ -55,7 +55,8 @@ abstract class WebController extends Controller
             $version = (string)\trim(\file_get_contents(ROOT_DIR . 'VERSION.md'));
             $version = !empty($version) ? $version : '0.0.0 (UNKNOWN)';
 
-            $this->layout->version = $version;
+            $this->layout->version         = $version;
+            $this->layout->isLoginDisabled = (bool)$this->configuration->get('php-censor.security.disable_auth', false);
 
             $groups = [];
             $groupStore = Factory::getStore('ProjectGroup');

@@ -2,7 +2,7 @@
 
 namespace PHPCensor\Plugin;
 
-use PHPCensor\Config;
+use PHPCensor\Configuration;
 use PHPCensor\Exception\HttpException;
 use PHPCensor\Helper\Email as EmailHelper;
 use PHPCensor\Plugin;
@@ -87,7 +87,7 @@ class EmailNotify extends Plugin
      */
     protected function sendEmail($toAddress, $ccList, $subject, $body)
     {
-        $email = new EmailHelper(Config::getInstance());
+        $email = new EmailHelper($this->builder->getConfiguration());
 
         $email->setEmailTo($toAddress, $toAddress);
         $email->setSubject($subject);

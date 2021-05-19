@@ -4,7 +4,7 @@ namespace PHPCensor\Plugin;
 
 use Exception;
 use PHPCensor\Builder;
-use PHPCensor\Config;
+use PHPCensor\Configuration;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 use Symfony\Component\Filesystem\Filesystem;
@@ -86,7 +86,7 @@ class Pdepend extends Plugin
      */
     public function execute()
     {
-        $allowPublicArtifacts = (bool)Config::getInstance()->get(
+        $allowPublicArtifacts = (bool)$this->builder->getConfiguration()->get(
             'php-censor.build.allow_public_artifacts',
             false
         );

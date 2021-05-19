@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Store;
 
 use DateTime;
-use PHPCensor\Config;
+use PHPCensor\ConfigurationInterface;
 use PHPCensor\Database;
 use PHPCensor\Model\BuildError;
 
@@ -15,32 +17,29 @@ class BuildErrorWriter
     /**
      * @var int
      */
-    protected $buildId;
+    private int $buildId;
 
     /**
      * @var int
      */
-    protected $projectId;
+    private int $projectId;
 
     /**
      * @var array
      */
-    protected $errors = [];
+    private array $errors = [];
 
     /**
-     * @var int
-     *
      * @see https://stackoverflow.com/questions/40361164/pdoexception-sqlstatehy000-general-error-7-number-of-parameters-must-be-bet
      */
-    protected $bufferSize;
+    private int $bufferSize;
 
-    /**
-     * @param int $projectId
-     * @param int $buildId
-     */
-    public function __construct($projectId, $buildId)
-    {
-        $this->bufferSize = (int)Config::getInstance()->get('php-censor.build.writer_buffer_size', 500);
+    public function __construct(
+        ConfigurationInterface $configuration,
+        int $projectId,
+        int $buildId
+    ) {
+        $this->bufferSize = (int)$configuration->get('php-censor.build.writer_buffer_size', 500);
 
         $this->projectId = $projectId;
         $this->buildId   = $buildId;

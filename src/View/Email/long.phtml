@@ -1,12 +1,15 @@
 <?php
 
-use PHPCensor\Helper\AnsiConverter;
 use PHPCensor\Helper\Template;
+use SensioLabs\AnsiConverter\AnsiToHtmlConverter;
 
 ?>
 <p style="margin: 10px; background: #fafafa">
     <?= Template::clean($build->getCommitMessage()); ?>
 </p>
 <pre class="ansi_color_bg_black ansi_color_fg_white" style="padding: 4px">
-    <?= AnsiConverter::convert($build->getLog()); ?>
+    <?php
+        $converter = new AnsiToHtmlConverter(null, false);
+        echo $converter->convert($build->getLog());
+    ?>
 </pre>

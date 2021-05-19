@@ -3,13 +3,20 @@
 namespace PHPCensor\Helper;
 
 use GuzzleHttp\Client;
-use PHPCensor\Config;
+use PHPCensor\ConfigurationInterface;
 
 /**
  * The Bitbucket Helper class provides some Bitbucket API call functionality.
  */
 class Bitbucket
 {
+    private ConfigurationInterface $configuration;
+
+    public function __construct(ConfigurationInterface $configuration)
+    {
+        $this->configuration = $configuration;
+    }
+
     /**
      * Create a comment on a specific file (and commit) in a Bitbucket Pull Request.
      *
@@ -24,8 +31,8 @@ class Bitbucket
      */
     public function createPullRequestComment($repo, $pullId, $commitId, $file, $line, $comment)
     {
-        $username = Config::getInstance()->get('php-censor.bitbucket.username');
-        $appPassword = Config::getInstance()->get('php-censor.bitbucket.app_password');
+        $username    = $this->configuration->get('php-censor.bitbucket.username');
+        $appPassword = $this->configuration->get('php-censor.bitbucket.app_password');
 
         if (empty($username) || empty($appPassword)) {
             return;
@@ -65,8 +72,8 @@ class Bitbucket
      */
     public function createCommitComment($repo, $commitId, $file, $line, $comment)
     {
-        $username = Config::getInstance()->get('php-censor.bitbucket.username');
-        $appPassword = Config::getInstance()->get('php-censor.bitbucket.app_password');
+        $username    = $this->configuration->get('php-censor.bitbucket.username');
+        $appPassword = $this->configuration->get('php-censor.bitbucket.app_password');
 
         if (empty($username) || empty($appPassword)) {
             return;
@@ -102,8 +109,8 @@ class Bitbucket
      */
     public function getPullRequestDiff($repo, $pullRequestId)
     {
-        $username    = Config::getInstance()->get('php-censor.bitbucket.username');
-        $appPassword = Config::getInstance()->get('php-censor.bitbucket.app_password');
+        $username    = $this->configuration->get('php-censor.bitbucket.username');
+        $appPassword = $this->configuration->get('php-censor.bitbucket.app_password');
 
         if (empty($username) || empty($appPassword)) {
             return;

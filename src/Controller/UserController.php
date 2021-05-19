@@ -2,7 +2,6 @@
 
 namespace PHPCensor\Controller;
 
-use PHPCensor\Config;
 use PHPCensor\Exception\HttpException\ForbiddenException;
 use PHPCensor\Exception\HttpException\NotFoundException;
 use PHPCensor\Form;
@@ -130,7 +129,7 @@ class UserController extends WebController
         $language->setRequired(true);
         $language->setOptions(
             array_merge(
-                [null => Lang::get('default') . ' (' . Config::getInstance()->get('php-censor.language') .  ')'],
+                [null => Lang::get('default') . ' (' . $this->configuration->get('php-censor.language') .  ')'],
                 Lang::getLanguageOptions()
             )
         );
@@ -143,7 +142,7 @@ class UserController extends WebController
         $perPage->setLabel(Lang::get('per_page'));
         $perPage->setRequired(true);
         $perPage->setOptions([
-            null => Lang::get('default') . ' (' . Config::getInstance()->get('php-censor.per_page') .  ')',
+            null => Lang::get('default') . ' (' . $this->configuration->get('php-censor.per_page') .  ')',
             10    => 10,
             25    => 25,
             50    => 50,

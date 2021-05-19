@@ -1,8 +1,11 @@
 <?php
 
-session_start();
+use PHPCensor\ConfigurationInterface;
 
+\session_start();
+
+/** @var $configuration ConfigurationInterface */
 require_once(dirname(__DIR__) . '/bootstrap.php');
 
-$fc = new PHPCensor\Application($config, new PHPCensor\Http\Request());
+$fc = new PHPCensor\Application($configuration, new PHPCensor\Http\Request());
 print $fc->handleRequest();

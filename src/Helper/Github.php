@@ -3,13 +3,20 @@
 namespace PHPCensor\Helper;
 
 use GuzzleHttp\Client;
-use PHPCensor\Config;
+use PHPCensor\ConfigurationInterface;
 
 /**
  * The Github Helper class provides some Github API call functionality.
  */
 class Github
 {
+    private ConfigurationInterface $configuration;
+
+    public function __construct(ConfigurationInterface $configuration)
+    {
+        $this->configuration = $configuration;
+    }
+
     /**
      * Create a comment on a specific file (and commit) in a Github Pull Request.
      * @param $repo
@@ -22,7 +29,7 @@ class Github
      */
     public function createPullRequestComment($repo, $pullId, $commitId, $file, $line, $comment)
     {
-        $token = Config::getInstance()->get('php-censor.github.token');
+        $token = $this->configuration->get('php-censor.github.token');
 
         if (!$token) {
             return null;
@@ -58,7 +65,7 @@ class Github
      */
     public function createCommitComment($repo, $commitId, $file, $line, $comment)
     {
-        $token = Config::getInstance()->get('php-censor.github.token');
+        $token = $this->configuration->get('php-censor.github.token');
 
         if (!$token) {
             return null;

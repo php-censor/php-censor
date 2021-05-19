@@ -4,8 +4,10 @@ namespace Tests\PHPCensor\Command;
 
 use PHPCensor\Command\CreateAdminCommand;
 use PHPCensor\Command\CreateBuildCommand;
+use PHPCensor\ConfigurationInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -21,11 +23,17 @@ class CreateBuildCommandTest extends TestCase
      */
     protected $application;
 
+    protected ConfigurationInterface $configuration;
+
+    protected LoggerInterface $logger;
+
     protected function setUp(): void
     {
         parent::setUp();
 
-        $projectMock = $this->getMockBuilder('PHPCensor\\Model\\Project')->getMock();
+        $this->configuration  = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
+        $this->logger         = $this->getMockBuilder('Psr\Log\LoggerInterface')->getMock();
+        $projectMock          = $this->getMockBuilder('PHPCensor\\Model\\Project')->getMock();
 
         $projectStoreMock = $this->getMockBuilder('PHPCensor\\Store\\ProjectStore')
             ->getMock();
@@ -46,7 +54,7 @@ class CreateBuildCommandTest extends TestCase
                 [$projectMock, null, 'master', null, null, null]
             );
 
-        $this->command = new CreateBuildCommand($projectStoreMock, $buildServiceMock);
+        $this->command = new CreateBuildCommand($this->configuration, $this->logger, $projectStoreMock, $buildServiceMock);
 
         $this->application = new Application();
     }

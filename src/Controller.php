@@ -10,20 +10,20 @@ abstract class Controller
     /**
      * @var Request
      */
-    protected $request;
+    protected Request $request;
 
     /**
-     * @var Config
+     * @var ConfigurationInterface
      */
-    protected $config;
+    protected ConfigurationInterface $configuration;
 
     /**
-     * @param Config  $config
+     * @param ConfigurationInterface $config
      * @param Request $request
      */
-    public function __construct(Config $config, Request $request)
+    public function __construct(ConfigurationInterface $config, Request $request)
     {
-        $this->config   = $config;
+        $this->configuration   = $config;
         $this->request  = $request;
     }
 

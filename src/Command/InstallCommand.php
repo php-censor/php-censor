@@ -1,39 +1,38 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Command;
 
 use DateTime;
 use Exception;
 use PDO;
 use Pheanstalk\Pheanstalk;
-use PHPCensor\Config;
+use PHPCensor\Command\Action\CreateAdmin;
+use PHPCensor\Configuration;
 use PHPCensor\Exception\InvalidArgumentException;
 use PHPCensor\Model\ProjectGroup;
-use PHPCensor\Service\UserService;
 use PHPCensor\Store\Factory;
 use PHPCensor\Store\ProjectGroupStore;
 use PHPCensor\Store\UserStore;
 use RuntimeException;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Yaml\Dumper;
 
 /**
- * Install console command - Installs PHP Censor
+ * @package    PHP Censor
+ * @subpackage Application
  *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  * @author Dan Cryer <dan@block8.co.uk>
  */
 class InstallCommand extends Command
 {
-    /**
-     * @var string
-     */
-    protected $configPath = APP_DIR . 'config.yml';
+    protected string $configPath = APP_DIR . 'config.yml';
 
     protected function configure()
     {
@@ -100,9 +99,6 @@ class InstallCommand extends Command
             ->setDescription('Install PHP Censor');
     }
 
-    /**
-     * Installs PHP Censor
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $configFromFile = (bool)$input->getOption('config-from-file');
@@ -145,26 +141,22 @@ class InstallCommand extends Command
         }
 
         $admin = $this->getAdminInformation($input, $output);
-        $this->createAdminUser($admin, $output);
+        $this->createAdminUser($admin, $input, $output);
 
         $this->createDefaultGroup($output);
     }
 
-    /**
-     * @param OutputInterface $output
-     *
-     * @return bool
-     */
-    protected function verifyNotInstalled(OutputInterface $output)
+    private function verifyNotInstalled(OutputInterface $output): bool
     {
-        if (file_exists($this->configPath)) {
-            $content = file_get_contents($this->configPath);
+        if (\file_exists($this->configPath)) {
+            $content = \file_get_contents($this->configPath);
 
             if (!empty($content)) {
                 $output->writeln(
                     '<error>The PHP Censor config file exists and is not empty. ' .
                     'PHP Censor is already installed!</error>'
                 );
+
                 return false;
             }
         }
@@ -179,12 +171,12 @@ class InstallCommand extends Command
      *
      * @throws Exception
      */
-    protected function checkRequirements(OutputInterface $output)
+    private function checkRequirements(OutputInterface $output)
     {
         $output->writeln('Checking requirements...');
         $errors = false;
 
-        if (!(version_compare(PHP_VERSION, '7.4.0') >= 0)) {
+        if (!(\version_compare(PHP_VERSION, '7.4.0') >= 0)) {
             $output->writeln('');
             $output->writeln(
                 '<error>PHP Censor requires at least PHP 7.4.0! Installed PHP ' . PHP_VERSION . '</error>');
@@ -194,7 +186,7 @@ class InstallCommand extends Command
         $requiredExtensions = ['PDO', 'xml', 'json', 'curl', 'openssl'];
 
         foreach ($requiredExtensions as $extension) {
-            if (!extension_loaded($extension)) {
+            if (!\extension_loaded($extension)) {
                 $output->writeln('');
                 $output->writeln('<error>Extension required: ' . $extension . '</error>');
                 $errors = true;
@@ -204,7 +196,7 @@ class InstallCommand extends Command
         $requiredFunctions = ['exec', 'shell_exec', 'proc_open'];
 
         foreach ($requiredFunctions as $function) {
-            if (!function_exists($function)) {
+            if (!\function_exists($function)) {
                 $output->writeln('');
                 $output->writeln(
                     '<error>PHP Censor needs to be able to call the ' . $function .
@@ -230,48 +222,27 @@ class InstallCommand extends Command
      *
      * @param InputInterface $input
      * @param OutputInterface $output
+     *
      * @return array
+     *
+     * @throws InvalidArgumentException
      */
-    protected function getAdminInformation(InputInterface $input, OutputInterface $output)
+    private function getAdminInformation(InputInterface $input, OutputInterface $output): array
     {
-        $admin = [];
+        /** @var $questionHelper QuestionHelper */
+        $questionHelper = $this->getHelperSet()->get('question');
 
-        /** @var $helper QuestionHelper */
-        $helper = $this->getHelperSet()->get('question');
+        /** @var UserStore $userStore */
+        $userStore = Factory::getStore('User');
 
-        // Function to validate email address.
-        $mailValidator = function ($answer) {
-            if (!filter_var($answer, FILTER_VALIDATE_EMAIL)) {
-                throw new InvalidArgumentException('Must be a valid email address.');
-            }
+        $createAdmin = new CreateAdmin(
+            $questionHelper,
+            $input,
+            $output,
+            $userStore
+        );
 
-            return $answer;
-        };
-
-        if ($adminEmail = $input->getOption('admin-email')) {
-            $adminEmail = $mailValidator($adminEmail);
-        } else {
-            $questionEmail = new Question('Admin email: ');
-            $adminEmail    = $helper->ask($input, $output, $questionEmail);
-        }
-
-        if (!$adminName = $input->getOption('admin-name')) {
-            $questionName = new Question('Admin name: ');
-            $adminName    = $helper->ask($input, $output, $questionName);
-        }
-
-        if (!$adminPassword = $input->getOption('admin-password')) {
-            $questionPassword = new Question('Admin password: ');
-            $questionPassword->setHidden(true);
-            $questionPassword->setHiddenFallback(false);
-            $adminPassword = $helper->ask($input, $output, $questionPassword);
-        }
-
-        $admin['email']    = $adminEmail;
-        $admin['name']     = $adminName;
-        $admin['password'] = $adminPassword;
-
-        return $admin;
+        return $createAdmin->process();
     }
 
     /**
@@ -281,18 +252,20 @@ class InstallCommand extends Command
      * @param OutputInterface $output
      *
      * @return array
+     *
+     * @throws Exception
      */
-    protected function getConfigInformation(InputInterface $input, OutputInterface $output)
+    private function getConfigInformation(InputInterface $input, OutputInterface $output): array
     {
         /** @var $helper QuestionHelper */
         $helper = $this->getHelperSet()->get('question');
 
         $urlValidator = function ($answer) {
-            if (!filter_var($answer, FILTER_VALIDATE_URL)) {
+            if (!\filter_var($answer, FILTER_VALIDATE_URL)) {
                 throw new Exception('Must be a valid URL.');
             }
 
-            return rtrim($answer, '/');
+            return \rtrim($answer, '/');
         };
 
         if ($url = $input->getOption('url')) {
@@ -384,7 +357,7 @@ class InstallCommand extends Command
      *
      * @return array
      */
-    protected function getQueueInformation(InputInterface $input, OutputInterface $output)
+    private function getQueueInformation(InputInterface $input, OutputInterface $output): array
     {
         $queueConfig = [
             'host'     => null,
@@ -433,7 +406,7 @@ class InstallCommand extends Command
      *
      * @return array
      */
-    protected function getDatabaseInformation(InputInterface $input, OutputInterface $output)
+    private function getDatabaseInformation(InputInterface $input, OutputInterface $output): array
     {
         $db = [];
 
@@ -442,7 +415,7 @@ class InstallCommand extends Command
 
         if (!$dbType = $input->getOption('db-type')) {
             $questionType = new Question('Enter your database type ("mysql" or "pgsql"): ');
-            $dbType       = trim(strtolower($helper->ask($input, $output, $questionType)));
+            $dbType       = \trim(\strtolower($helper->ask($input, $output, $questionType)));
         }
 
         if (!$dbHost = $input->getOption('db-host')) {
@@ -450,7 +423,7 @@ class InstallCommand extends Command
                 'Enter your database host (default: "localhost"): ',
                 'localhost'
             );
-            $dbHost = trim($helper->ask($input, $output, $questionHost));
+            $dbHost = \trim($helper->ask($input, $output, $questionHost));
         }
 
         $defaultPort = 3306;
@@ -474,10 +447,10 @@ class InstallCommand extends Command
 
         if (
             $dbType === 'pgsql'
-            && !$dbPgsqlSslmode = $input->getOption('db-pgsql-sslmode')
+            && !$dbPgsqlSslMode = $input->getOption('db-pgsql-sslmode')
         ) {
-            $questionSslmode = new Question('Enter your database connection\'s SSL mode (default: prefer): ', 'prefer');
-            $dbPgsqlSslmode  = $helper->ask($input, $output, $questionSslmode);
+            $questionSslMode = new Question('Enter your database connection\'s SSL mode (default: prefer): ', 'prefer');
+            $dbPgsqlSslMode  = $helper->ask($input, $output, $questionSslMode);
         }
 
         if (!$dbName = $input->getOption('db-name')) {
@@ -485,7 +458,7 @@ class InstallCommand extends Command
                 'Enter your database name (default: "php-censor-db"): ',
                 'php-censor-db'
             );
-            $dbName = trim($helper->ask($input, $output, $questionDb));
+            $dbName = \trim($helper->ask($input, $output, $questionDb));
         }
 
         if (!$dbUser = $input->getOption('db-user')) {
@@ -493,7 +466,7 @@ class InstallCommand extends Command
                 'Enter your database user (default: "php-censor-user"): ',
                 'php-censor-user'
             );
-            $dbUser = trim($helper->ask($input, $output, $questionUser));
+            $dbUser = \trim($helper->ask($input, $output, $questionUser));
         }
 
         if (!$dbPass = $input->getOption('db-password')) {
@@ -509,8 +482,8 @@ class InstallCommand extends Command
             ]
         ];
 
-        if ($dbType === 'pgsql' && !empty($dbPgsqlSslmode)) {
-            $dbServers[0]['pgsql-sslmode'] = $dbPgsqlSslmode;
+        if ($dbType === 'pgsql' && !empty($dbPgsqlSslMode)) {
+            $dbServers[0]['pgsql-sslmode'] = $dbPgsqlSslMode;
         }
 
         $dbServers[0]['port'] = $dbPort;
@@ -534,7 +507,7 @@ class InstallCommand extends Command
      *
      * @return bool
      */
-    protected function verifyDatabaseDetails(array $db, OutputInterface $output)
+    private function verifyDatabaseDetails(array $db, OutputInterface $output): bool
     {
         $dns = $db['type'] . ':host=' . $db['servers']['write'][0]['host'];
 
@@ -568,7 +541,7 @@ class InstallCommand extends Command
             unset($pdo);
 
             return true;
-        } catch (Exception $ex) {
+        } catch (\Throwable $ex) {
             $output->writeln(
                 '<error>PHP Censor could not connect to database with the details provided. ' .
                 'Please try again.</error>'
@@ -583,7 +556,7 @@ class InstallCommand extends Command
      * Write the config.yml file.
      * @param array $config
      */
-    protected function writeConfigFile(array $config)
+    private function writeConfigFile(array $config): void
     {
         $dumper = new Dumper();
         $yaml   = $dumper->dump($config, 4);
@@ -591,18 +564,18 @@ class InstallCommand extends Command
         file_put_contents($this->configPath, $yaml);
     }
 
-    protected function setupDatabase(OutputInterface $output)
+    private function setupDatabase(OutputInterface $output): bool
     {
         $output->write('Setting up your database...');
 
-        exec(
+        \exec(
             (ROOT_DIR . 'bin/console php-censor-migrations:migrate'),
             $outputMigration,
             $status
         );
 
         $output->writeln('');
-        $output->writeln(implode(PHP_EOL, $outputMigration));
+        $output->writeln(\implode(PHP_EOL, $outputMigration));
         if (0 == $status) {
             $output->writeln('<info>OK</info>');
 
@@ -616,41 +589,29 @@ class InstallCommand extends Command
 
     /**
      * Create admin user using information loaded before.
-     *
-     * @param array $admin
-     * @param OutputInterface $output
      */
-    protected function createAdminUser($admin, $output)
+    protected function createAdminUser(array $admin, InputInterface $input, OutputInterface $output): void
     {
-        try {
-            /** @var UserStore $userStore */
-            $userStore = Factory::getStore('User');
-            $adminUser = $userStore->getByEmail($admin['email']);
-            if ($adminUser) {
-                throw new RuntimeException('Admin account already exists!');
-            }
+        /** @var $questionHelper QuestionHelper */
+        $questionHelper = $this->getHelperSet()->get('question');
 
-            $userService = new UserService($userStore);
-            $userService->createUser(
-                $admin['name'],
-                $admin['email'],
-                'internal',
-                ['type' => 'internal'],
-                $admin['password'],
-                true
-            );
+        /** @var UserStore $userStore */
+        $userStore = Factory::getStore('User');
 
-            $output->writeln('<info>User account created!</info>');
-        } catch (Exception $ex) {
-            $output->writeln('<error>PHP Censor failed to create your admin account!</error>');
-            $output->writeln('<error>' . $ex->getMessage() . '</error>');
-        }
+        $createAdmin = new CreateAdmin(
+            $questionHelper,
+            $input,
+            $output,
+            $userStore
+        );
+
+        $createAdmin->create($admin);
     }
 
     /**
      * @param OutputInterface $output
      */
-    protected function createDefaultGroup($output)
+    protected function createDefaultGroup(OutputInterface $output): void
     {
         try {
             /** @var ProjectGroupStore $projectGroupStore */
@@ -668,18 +629,16 @@ class InstallCommand extends Command
             Factory::getStore('ProjectGroup')->save($group);
 
             $output->writeln('<info>Default project group created!</info>');
-        } catch (Exception $ex) {
+        } catch (\Throwable $ex) {
             $output->writeln('<error>PHP Censor failed to create default project group!</error>');
             $output->writeln('<error>' . $ex->getMessage() . '</error>');
         }
     }
 
-    protected function reloadConfig()
+    protected function reloadConfig(): void
     {
-        $config = Config::getInstance();
-
-        if (file_exists($this->configPath)) {
-            $config->loadYaml($this->configPath);
+        if (\file_exists($this->configPath)) {
+            $config = new Configuration($this->configPath);
         }
     }
 }

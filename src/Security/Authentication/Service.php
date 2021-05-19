@@ -2,7 +2,8 @@
 
 namespace PHPCensor\Security\Authentication;
 
-use PHPCensor\Config;
+use PHPCensor\Configuration;
+use PHPCensor\ConfigurationInterface;
 
 /**
  * Authentication facade.
@@ -12,19 +13,16 @@ use PHPCensor\Config;
 class Service
 {
     /**
-     * @var Service
-     */
-    private static $instance;
-
-    /**
-     * Return the service singleton.
+     * The table of providers.
      *
-     * @return Service
+     * @var array
      */
-    public static function getInstance()
+    private array $providers;
+
+    public function __construct(ConfigurationInterface $configuration, array $providers = [])
     {
-        if (self::$instance === null) {
-            $config = Config::getInstance()->get(
+        if (!$providers) {
+            $config = $configuration->get(
                 'php-censor.security.auth_providers',
                 [
                     'internal' => [
@@ -37,10 +35,9 @@ class Service
             foreach ($config as $key => $providerConfig) {
                 $providers[$key] = self::buildProvider($key, $providerConfig);
             }
-            self::$instance = new self($providers);
         }
 
-        return self::$instance;
+        $this->providers = $providers;
     }
 
     /**
@@ -59,23 +56,6 @@ class Service
         }
 
         return new $class($key, $config);
-    }
-
-    /**
-     * The table of providers.
-     *
-     * @var array
-     */
-    private $providers;
-
-    /**
-     * Initialize the service.
-     *
-     * @param array $providers
-     */
-    public function __construct(array $providers)
-    {
-        $this->providers = $providers;
     }
 
     /**

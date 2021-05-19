@@ -2,7 +2,7 @@
 
 namespace PHPCensor\Model;
 
-use PHPCensor\Config;
+use PHPCensor\ConfigurationInterface;
 use PHPCensor\Model\Base\User as BaseUser;
 
 /**
@@ -10,16 +10,13 @@ use PHPCensor\Model\Base\User as BaseUser;
  */
 class User extends BaseUser
 {
-    /**
-     * @return int
-     */
-    public function getFinalPerPage()
+    public function getFinalPerPage(ConfigurationInterface $configuration): int
     {
         $perPage = $this->getPerPage();
         if ($perPage) {
             return $perPage;
         }
 
-        return (int)Config::getInstance()->get('php-censor.per_page', 10);
+        return (int)$configuration->get('php-censor.per_page', 10);
     }
 }

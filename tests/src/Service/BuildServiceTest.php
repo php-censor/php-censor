@@ -4,8 +4,11 @@ namespace Tests\PHPCensor\Service;
 
 use DateTime;
 use Exception;
+use PHPCensor\ConfigurationInterface;
 use PHPCensor\Model\Build;
 use PHPCensor\Service\BuildService;
+use PHPCensor\Store\BuildStore;
+use PHPCensor\Store\EnvironmentStore;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -15,24 +18,17 @@ use PHPUnit\Framework\TestCase;
  */
 class BuildServiceTest extends TestCase
 {
+    protected BuildService $testedService;
 
-    /**
-     * @var BuildService $testedService
-     */
-    protected $testedService;
+    protected BuildStore $mockBuildStore;
 
-    /**
-     * @var $mockBuildStore
-     */
-    protected $mockBuildStore;
+    protected ConfigurationInterface $configuration;
 
-    /**
-     * @var $mockEnvironmentStore
-     */
-    protected $mockEnvironmentStore;
+    protected EnvironmentStore $mockEnvironmentStore;
 
     protected function setUp(): void
     {
+        $this->configuration  = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
         $this->mockBuildStore = $this->getMockBuilder('PHPCensor\Store\BuildStore')->getMock();
         $this->mockBuildStore
             ->expects($this->any())
@@ -47,7 +43,7 @@ class BuildServiceTest extends TestCase
 
         $mockProjectStore = $this->getMockBuilder('PHPCensor\Store\ProjectStore')->getMock();
 
-        $this->testedService = new BuildService($this->mockBuildStore, $mockProjectStore);
+        $this->testedService = new BuildService($this->configuration, $this->mockBuildStore, $mockProjectStore);
     }
 
     public function testExecute_CreateBasicBuild()
@@ -189,7 +185,7 @@ class BuildServiceTest extends TestCase
 
         $mockProjectStore = $this->getMockBuilder('PHPCensor\Store\ProjectStore')->getMock();
 
-        $service = new BuildService($store, $mockProjectStore);
+        $service = new BuildService($this->configuration, $store, $mockProjectStore);
         $build = new Build();
 
         self::assertEquals(true, $service->deleteBuild($build));

@@ -2,7 +2,6 @@
 
 namespace PHPCensor\Controller;
 
-use PHPCensor\Config;
 use PHPCensor\Helper\Lang;
 use PHPCensor\WebController;
 
@@ -28,7 +27,7 @@ class HomeController extends WebController
             'right' => [],
         ];
 
-        $widgetsConfig = Config::getInstance()->get('php-censor.dashboard_widgets', [
+        $widgetsConfig = $this->configuration->get('php-censor.dashboard_widgets', [
             'all_projects' => [
                 'side' => 'left',
             ],

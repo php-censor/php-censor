@@ -14,13 +14,14 @@ use PHPCensor\Store\Factory;
 class BuildFactory
 {
     /**
-     * @param int $buildId
+     * @param ConfigurationInterface $configuration
+     * @param int                    $buildId
      *
      * @return Build|null
      *
      * @throws Exception\HttpException
      */
-    public static function getBuildById($buildId)
+    public static function getBuildById(ConfigurationInterface $configuration, int $buildId): ?Build
     {
         $build = Factory::getStore('Build')->getById($buildId);
 
@@ -28,20 +29,23 @@ class BuildFactory
             return null;
         }
 
-        return self::getBuild($build);
+        return self::getBuild($configuration, $build);
     }
 
     /**
      * Takes a generic build and returns a type-specific build model.
      *
-     * @param Build $build The build from which to get a more specific build type.
+     * @param ConfigurationInterface $configuration
+     * @param Build                  $build
      *
      * @return Build
      *
      * @throws Exception\HttpException
      */
-    public static function getBuild(Build $build)
-    {
+    public static function getBuild(
+        ConfigurationInterface $configuration,
+        Build $build
+    ): Build {
         $project = $build->getProject();
 
         if (!empty($project)) {
@@ -81,7 +85,7 @@ class BuildFactory
             }
 
             $class = '\\PHPCensor\\Model\\Build\\' . $type;
-            $build = new $class($build->getDataArray());
+            $build = new $class($configuration, $build->getDataArray());
         }
 
         return $build;

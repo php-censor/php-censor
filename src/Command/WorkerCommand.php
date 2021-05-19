@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Command;
 
 use Exception;
-use Monolog\Logger;
 use Pheanstalk\Pheanstalk;
-use PHPCensor\Config;
+use PHPCensor\ConfigurationInterface;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Worker\BuildWorker;
+use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -15,31 +17,26 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 
 /**
- * Worker Command - Starts the BuildWorker, which pulls jobs from beanstalkd
+ * @package    PHP Censor
+ * @subpackage Application
  *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  * @author Dan Cryer <dan@block8.co.uk>
  */
-class WorkerCommand extends LoggingCommand
+class WorkerCommand extends Command
 {
     const MIN_QUEUE_PRIORITY = 24;
     const MAX_QUEUE_PRIORITY = 2025;
 
-    /**
-     * @var BuildService
-     */
-    protected $buildService;
+    protected BuildService $buildService;
 
-    /**
-     * @param Logger       $logger
-     * @param BuildService $buildService
-     * @param string       $name
-     */
     public function __construct(
-        Logger $logger,
+        ConfigurationInterface $configuration,
+        LoggerInterface $logger,
         BuildService $buildService,
-        $name = null
+        ?string $name = null
     ) {
-        parent::__construct($logger, $name);
+        parent::__construct($configuration, $logger, $name);
 
         $this->buildService = $buildService;
     }
@@ -75,7 +72,7 @@ class WorkerCommand extends LoggingCommand
     {
         parent::execute($input, $output);
 
-        $config = Config::getInstance()->get('php-censor.queue', []);
+        $config = $this->configuration->get('php-censor.queue', []);
         if (empty($config['host']) || empty($config['name'])) {
             throw new RuntimeException(
                 'The worker is not configured. You must set a host and queue in your config.yml file.'
@@ -90,7 +87,7 @@ class WorkerCommand extends LoggingCommand
             } elseif ('idle' === $value) {
                 $priority = self::MAX_QUEUE_PRIORITY; // low priority, stop late
             } else {
-                $msg = sprintf('Invalid value "%s" for --stop-worker, valid are soon, done and idle;', $value);
+                $msg = \sprintf('Invalid value "%s" for --stop-worker, valid are soon, done and idle;', $value);
                 throw new InvalidArgumentException($msg);
             }
             $jobData = [];
@@ -100,10 +97,11 @@ class WorkerCommand extends LoggingCommand
         }
 
         (new BuildWorker(
+            $this->configuration,
             $this->logger,
             $this->buildService,
             $config['host'],
-            Config::getInstance()->get('php-censor.queue.port', Pheanstalk::DEFAULT_PORT),
+            $this->configuration->get('php-censor.queue.port', Pheanstalk::DEFAULT_PORT),
             $config['name'],
             ($input->hasOption('periodical-work') && $input->getOption('periodical-work'))
         ))

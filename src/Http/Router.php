@@ -3,7 +3,6 @@
 namespace PHPCensor\Http;
 
 use PHPCensor\Application;
-use PHPCensor\Config;
 use PHPCensor\Exception\InvalidArgumentException;
 
 class Router
@@ -11,28 +10,22 @@ class Router
     /**
      * @var Request;
      */
-    protected $request;
-
-    /**
-     * @var Config;
-     */
-    protected $config;
+    protected Request $request;
 
     /**
      * @var Application
      */
-    protected $application;
+    protected Application $application;
 
     /**
      * @var array
      */
     protected $routes = [['route' => '/:controller/:action', 'callback' => null, 'defaults' => []]];
 
-    public function __construct(Application $application, Request $request, Config $config)
+    public function __construct(Application $application, Request $request)
     {
         $this->application = $application;
         $this->request     = $request;
-        $this->config      = $config;
     }
 
     public function clearRoutes()

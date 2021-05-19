@@ -17,10 +17,9 @@ class Database extends PDO
      */
     protected $type = 'read';
 
-    /**
-     * @var bool
-     */
-    protected static $initialised = false;
+    protected static bool $initialised = false;
+
+    public static ConfigurationInterface $configuration;
 
     /**
      * @var array
@@ -64,8 +63,7 @@ class Database extends PDO
 
     protected static function init()
     {
-        $config   = Config::getInstance();
-        $settings = $config->get('php-censor.database', []);
+        $settings = self::$configuration->get('php-censor.database', []);
 
         self::$servers['read']  = $settings['servers']['read'];
         self::$servers['write'] = $settings['servers']['write'];

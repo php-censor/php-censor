@@ -1,58 +1,31 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Logging;
 
-use Exception;
 use PHPCensor\Model\Build;
-use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 
-/**
- * Class BuildLogger
- */
-class BuildLogger implements LoggerAwareInterface
+class BuildLogger
 {
-    /**
-     * @var LoggerInterface
-     */
-    protected $logger;
+    private LoggerInterface $logger;
 
-    /**
-     * @var Build
-     */
-    protected $build;
+    private Build $build;
 
-    /**
-     * @param LoggerInterface $logger
-     * @param Build           $build
-     */
     public function __construct(LoggerInterface $logger, Build $build)
     {
         $this->logger = $logger;
         $this->build  = $build;
     }
 
-    /**
-     * Add an entry to the build log.
-     *
-     * @param string|string[] $message
-     * @param string          $level
-     * @param mixed[]         $context
-     */
-    public function log($message, $level = LogLevel::INFO, $context = [])
+    public function log($message, string $level = LogLevel::INFO, array $context = []): void
     {
-        // Skip if no logger has been loaded.
-        if (!$this->logger) {
-            return;
-        }
-
-        if (!is_array($message)) {
+        if (!\is_array($message)) {
             $message = [$message];
         }
 
-        // The build is added to the context so the logger can use
-        // details from it if required.
         $context['build'] = $this->build->getId();
 
         foreach ($message as $item) {
@@ -60,39 +33,21 @@ class BuildLogger implements LoggerAwareInterface
         }
     }
 
-    /**
-     * Add a warning-coloured message to the log.
-     *
-     * @param string $message
-     */
-    public function logWarning($message)
+    public function logWarning(string $message): void
     {
         $this->log("\033[0;31m" . $message . "\033[0m");
     }
 
-    /**
-     * Add a success-coloured message to the log.
-     *
-     * @param string $message
-     */
-    public function logSuccess($message)
+    public function logSuccess(string $message): void
     {
         $this->log("\033[0;32m" . $message . "\033[0m");
     }
 
-    /**
-     * Add a failure-coloured message to the log.
-     *
-     * @param string     $message
-     * @param Exception $exception The exception that caused the error.
-     */
-    public function logFailure($message, Exception $exception = null)
+    public function logFailure(string $message, ?\Throwable $exception = null): void
     {
         $level   = LogLevel::INFO;
         $context = [];
 
-        // The psr3 log interface stipulates that exceptions should be passed
-        // as the exception key in the context array.
         if ($exception) {
             $level = LogLevel::ERROR;
 
@@ -103,25 +58,10 @@ class BuildLogger implements LoggerAwareInterface
         $this->log("\033[0;31m" . $message . "\033[0m", $level, $context);
     }
 
-    /**
-     * Add a debug-coloured message to the log.
-     *
-     * @param string $message
-     */
-    public function logDebug($message)
+    public function logDebug(string $message): void
     {
         if ($this->build->isDebug()) {
             $this->log("\033[0;36m" . $message . "\033[0m", LogLevel::DEBUG);
         }
-    }
-
-    /**
-     * Sets a logger instance on the object
-     *
-     * @param LoggerInterface $logger
-     */
-    public function setLogger(LoggerInterface $logger)
-    {
-        $this->logger = $logger;
     }
 }

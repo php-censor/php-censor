@@ -13,14 +13,13 @@ use PHPCensor\Plugin\Util\Factory as PluginFactory;
 use PHPCensor\Store\BuildErrorWriter;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\Factory;
-use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 
 /**
  * @author Dan Cryer <dan@block8.co.uk>
  */
-class Builder implements LoggerAwareInterface
+class Builder
 {
     /**
      * @var string
@@ -107,16 +106,20 @@ class Builder implements LoggerAwareInterface
      */
     private $buildErrorWriter;
 
+    private ConfigurationInterface $configuration;
+
     /**
      * Set up the builder.
      *
-     * @param Build $build
+     * @param ConfigurationInterface $configuration
+     * @param Build                  $build
      * @param LoggerInterface        $logger
      */
-    public function __construct(Build $build, LoggerInterface $logger = null)
+    public function __construct(ConfigurationInterface $configuration, Build $build, LoggerInterface $logger = null)
     {
-        $this->build = $build;
-        $this->store = Factory::getStore('Build');
+        $this->configuration = $configuration;
+        $this->build         = $build;
+        $this->store         = Factory::getStore('Build');
 
         $this->buildLogger    = new BuildLogger($logger, $build);
         $pluginFactory        = $this->buildPluginFactory($build);
@@ -130,21 +133,20 @@ class Builder implements LoggerAwareInterface
         );
 
         $this->interpolator     = new BuildInterpolator();
-        $this->buildErrorWriter = new BuildErrorWriter($this->build->getProjectId(), $this->build->getId());
+        $this->buildErrorWriter = new BuildErrorWriter($this->configuration, $this->build->getProjectId(), $this->build->getId());
     }
 
-    /**
-     * @return BuildLogger
-     */
-    public function getBuildLogger()
+    public function getBuildLogger(): BuildLogger
     {
         return $this->buildLogger;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getCurrentStage()
+    public function getConfiguration(): ConfigurationInterface
+    {
+        return $this->configuration;
+    }
+
+    public function getCurrentStage(): ?string
     {
         return $this->currentStage;
     }
@@ -189,17 +191,7 @@ class Builder implements LoggerAwareInterface
      */
     public function getSystemConfig($key)
     {
-        return Config::getInstance()->get($key);
-    }
-
-    /**
-     * @return string The title of the project being built.
-     *
-     * @throws Exception\HttpException
-     */
-    public function getBuildProjectTitle()
-    {
-        return $this->build->getProject()->getTitle();
+        return $this->configuration->get($key);
     }
 
     /**
@@ -292,7 +284,7 @@ class Builder implements LoggerAwareInterface
         $this->build->sendStatusPostback();
         $this->build->setFinishDate(new DateTime());
 
-        $removeBuilds = (bool)Config::getInstance()->get('php-censor.build.remove_builds', true);
+        $removeBuilds = (bool)$this->configuration->get('php-censor.build.remove_builds', true);
         if ($removeBuilds) {
             // Clean up:
             $this->buildLogger->log('');
@@ -474,65 +466,27 @@ class Builder implements LoggerAwareInterface
         return true;
     }
 
-    /**
-     * Sets a logger instance on the object
-     *
-     * @param LoggerInterface $logger
-     */
-    public function setLogger(LoggerInterface $logger)
-    {
-        $this->buildLogger->setLogger($logger);
-    }
-
-    /**
-     * Write to the build log.
-     *
-     * @param string $message
-     * @param string $level
-     * @param array  $context
-     */
-    public function log($message, $level = LogLevel::INFO, $context = [])
+    public function log(string $message, string $level = LogLevel::INFO, array $context = []): void
     {
         $this->buildLogger->log($message, $level, $context);
     }
 
-    /**
-     * Add a warning-coloured message to the log.
-     *
-     * @param string $message
-     */
-    public function logWarning($message)
+    public function logWarning(string $message): void
     {
         $this->buildLogger->logWarning($message);
     }
 
-    /**
-     * Add a success-coloured message to the log.
-     *
-     * @param string $message
-     */
-    public function logSuccess($message)
+    public function logSuccess(string $message): void
     {
         $this->buildLogger->logSuccess($message);
     }
 
-    /**
-     * Add a failure-coloured message to the log.
-     *
-     * @param string     $message
-     * @param Exception $exception The exception that caused the error.
-     */
-    public function logFailure($message, Exception $exception = null)
+    public function logFailure(string $message, ?\Throwable $exception = null): void
     {
         $this->buildLogger->logFailure($message, $exception);
     }
 
-    /**
-     * Add a debug-coloured message to the log.
-     *
-     * @param string $message
-     */
-    public function logDebug($message)
+    public function logDebug(string $message): void
     {
         $this->buildLogger->logDebug($message);
     }

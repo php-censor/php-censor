@@ -65,7 +65,7 @@ class ProjectController extends WebController
         $this->buildStore     = Factory::getStore('Build');
         $this->projectStore   = Factory::getStore('Project');
         $this->projectService = new ProjectService($this->projectStore);
-        $this->buildService   = new BuildService($this->buildStore, $this->projectStore);
+        $this->buildService   = new BuildService($this->configuration, $this->buildStore, $this->projectStore);
     }
 
     /**
@@ -115,7 +115,7 @@ class ProjectController extends WebController
 
         /** @var PHPCensor\Model\User $user */
         $user    = $this->getUser();
-        $perPage = $user->getFinalPerPage();
+        $perPage = $user->getFinalPerPage($this->configuration);
         $builds  = $this->getLatestBuildsHtml($projectId, $branch, $environment, (($page - 1) * $perPage), $perPage);
         $pages   = ($builds[1] === 0)
             ? 1
@@ -362,7 +362,7 @@ class ProjectController extends WebController
         $view   = new View('Project/ajax-builds');
 
         foreach ($builds['items'] as &$build) {
-            $build = BuildFactory::getBuild($build);
+            $build = BuildFactory::getBuild($this->configuration, $build);
         }
 
         $view->builds = $builds['items'];
@@ -386,7 +386,7 @@ class ProjectController extends WebController
         $values['default_branch'] = null;
 
         if ($method !== 'POST') {
-            $sshKey = new SshKey();
+            $sshKey = new SshKey($this->configuration);
             $key    = $sshKey->generate();
 
             $values['ssh_private_key'] = $key['ssh_private_key'];

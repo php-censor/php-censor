@@ -5,7 +5,7 @@ namespace PHPCensor\Model\Build;
 use Exception;
 use GuzzleHttp\Client;
 use PHPCensor\Builder;
-use PHPCensor\Config;
+use PHPCensor\Configuration;
 use PHPCensor\Helper\Diff;
 use PHPCensor\Helper\Github;
 use PHPCensor\Model\Build;
@@ -100,12 +100,12 @@ class GithubBuild extends GitBuild
             return false;
         }
 
-        $token = Config::getInstance()->get('php-censor.github.token');
+        $token = $this->configuration->get('php-censor.github.token');
         if (empty($token) || empty($this->data['id'])) {
             return false;
         }
 
-        $allowStatusCommit = (bool)Config::getInstance()->get(
+        $allowStatusCommit = (bool)$this->configuration->get(
             'php-censor.github.status.commit',
             false
         );
@@ -134,7 +134,7 @@ class GithubBuild extends GitBuild
                 break;
         }
 
-        $phpCensorUrl = Config::getInstance()->get('php-censor.url');
+        $phpCensorUrl = $this->configuration->get('php-censor.url');
 
         $url    = '/repos/' . $project->getReference() . '/statuses/' . $this->getCommitId();
         $client = new Client([
@@ -274,12 +274,12 @@ class GithubBuild extends GitBuild
         parent::reportError($builder, $plugin, $message, $severity, $file, $lineStart, $lineEnd);
 
         try {
-            $allowCommentCommit = (bool)Config::getInstance()->get(
+            $allowCommentCommit = (bool)$this->configuration->get(
                 'php-censor.github.comments.commit',
                 false
             );
 
-            $allowCommentPullRequest = (bool)Config::getInstance()->get(
+            $allowCommentPullRequest = (bool)$this->configuration->get(
                 'php-censor.github.comments.pull_request',
                 false
             );
@@ -289,7 +289,7 @@ class GithubBuild extends GitBuild
                     $diffLineNumber = $this->getDiffLineNumber($builder, $file, $lineStart);
 
                     if (!is_null($diffLineNumber)) {
-                        $helper = new Github();
+                        $helper = new Github($this->configuration);
 
                         $repo     = $this->getProject()->getReference();
                         $prNumber = $this->getExtra('pull_request_number');

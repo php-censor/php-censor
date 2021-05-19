@@ -1,11 +1,13 @@
 #!/usr/bin/env php
 <?php
 
+use PHPCensor\ConfigurationInterface;
 use PHPCensor\Console\Application;
 
 error_reporting(-1);
 ini_set('display_errors', 1);
 
+/** @var $configuration ConfigurationInterface */
 require_once(dirname(__DIR__) . '/bootstrap.php');
 
-(new Application())->run();
+(new Application($configuration))->run();
