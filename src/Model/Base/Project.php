@@ -30,7 +30,7 @@ class Project extends Model
     /**
      * @var array
      */
-    protected $data = [
+    protected array $data = [
         'id'                     => null,
         'title'                  => null,
         'reference'              => null,

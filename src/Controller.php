@@ -12,19 +12,18 @@ abstract class Controller
      */
     protected Request $request;
 
-    /**
-     * @var ConfigurationInterface
-     */
     protected ConfigurationInterface $configuration;
 
-    /**
-     * @param ConfigurationInterface $config
-     * @param Request $request
-     */
-    public function __construct(ConfigurationInterface $config, Request $request)
-    {
-        $this->configuration   = $config;
-        $this->request  = $request;
+    protected StoreRegistry $storeRegistry;
+
+    public function __construct(
+        ConfigurationInterface $configuration,
+        StoreRegistry $storeRegistry,
+        Request $request
+    ) {
+        $this->configuration = $configuration;
+        $this->storeRegistry = $storeRegistry;
+        $this->request       = $request;
     }
 
     /**

@@ -8,6 +8,7 @@ use DateTime;
 use PHPCensor\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Model\BuildError;
+use PHPCensor\StoreRegistry;
 
 /**
  * Class BuildErrorWriter
@@ -31,6 +32,8 @@ class BuildErrorWriter
 
     private DatabaseManager $databaseManager;
 
+    private StoreRegistry $storeRegistry;
+
     /**
      * @see https://stackoverflow.com/questions/40361164/pdoexception-sqlstatehy000-general-error-7-number-of-parameters-must-be-bet
      */
@@ -39,6 +42,7 @@ class BuildErrorWriter
     public function __construct(
         ConfigurationInterface $configuration,
         DatabaseManager $databaseManager,
+        StoreRegistry $storeRegistry,
         int $projectId,
         int $buildId
     ) {
@@ -48,6 +52,7 @@ class BuildErrorWriter
         $this->buildId   = $buildId;
 
         $this->databaseManager = $databaseManager;
+        $this->storeRegistry   = $storeRegistry;
     }
 
     /**
@@ -83,7 +88,7 @@ class BuildErrorWriter
         }
 
         /** @var BuildErrorStore $errorStore */
-        $errorStore = Factory::getStore('BuildError');
+        $errorStore = $this->storeRegistry->get('BuildError');
         $hash       = BuildError::generateHash($plugin, $file, $lineStart, $lineEnd, $severity, $message);
 
         $this->errors[] = [

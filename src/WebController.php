@@ -7,7 +7,6 @@ use PHPCensor\Exception\HttpException\ForbiddenException;
 use PHPCensor\Http\Request;
 use PHPCensor\Http\Response;
 use PHPCensor\Model\User;
-use PHPCensor\Store\Factory;
 use PHPCensor\Store\UserStore;
 
 abstract class WebController extends Controller
@@ -32,13 +31,12 @@ abstract class WebController extends Controller
      */
     public $layout = null;
 
-    /**
-     * @param ConfigurationInterface $config
-     * @param Request $request
-     */
-    public function __construct(ConfigurationInterface $config, Request $request)
-    {
-        parent::__construct($config, $request);
+    public function __construct(
+        ConfigurationInterface $configuration,
+        StoreRegistry $storeRegistry,
+        Request $request
+    ) {
+        parent::__construct($configuration, $storeRegistry, $request);
 
         $class           = explode('\\', get_class($this));
         $this->className = substr(array_pop($class), 0, -10);
@@ -58,20 +56,21 @@ abstract class WebController extends Controller
             $this->layout->version         = $version;
             $this->layout->isLoginDisabled = (bool)$this->configuration->get('php-censor.security.disable_auth', false);
 
-            $groups = [];
-            $groupStore = Factory::getStore('ProjectGroup');
-            $groupList = $groupStore->getWhere([], 100, 0, ['title' => 'ASC']);
+            $groups     = [];
+            $groupStore = $this->storeRegistry->get('ProjectGroup');
+            $groupList  = $groupStore->getWhere([], 100, 0, ['title' => 'ASC']);
 
             foreach ($groupList['items'] as $group) {
                 $thisGroup             = ['title' => $group->getTitle()];
-                $projects              = Factory::getStore('Project')->getByGroupId($group->getId(), false);
+                $projects              = $this->storeRegistry->get('Project')->getByGroupId($group->getId(), false);
                 $thisGroup['projects'] = $projects['items'];
                 $groups[]              = $thisGroup;
             }
 
-            $archivedProjects               = Factory::getStore('Project')->getAll(true);
+            $archivedProjects               = $this->storeRegistry->get('Project')->getAll(true);
             $this->layout->archivedProjects = $archivedProjects['items'];
             $this->layout->groups           = $groups;
+            $this->layout->user             = $this->getUser();
         }
     }
 
@@ -157,7 +156,7 @@ abstract class WebController extends Controller
         }
 
         /** @var UserStore $userStore */
-        $userStore = Factory::getStore('User');
+        $userStore = $this->storeRegistry->get('User');
 
         return $userStore->getById($_SESSION['php-censor-user-id']);
     }

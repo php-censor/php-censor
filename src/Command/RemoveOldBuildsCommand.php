@@ -8,6 +8,7 @@ use PHPCensor\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Store\ProjectStore;
+use PHPCensor\StoreRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -29,12 +30,13 @@ class RemoveOldBuildsCommand extends Command
     public function __construct(
         ConfigurationInterface $configuration,
         DatabaseManager $databaseManager,
+        StoreRegistry $storeRegistry,
         LoggerInterface $logger,
         ProjectStore $projectStore,
         BuildService $buildService,
         ?string $name = null
     ) {
-        parent::__construct($configuration, $databaseManager, $logger, $name);
+        parent::__construct($configuration, $databaseManager, $storeRegistry, $logger, $name);
 
         $this->projectStore = $projectStore;
         $this->buildService = $buildService;

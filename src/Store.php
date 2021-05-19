@@ -26,18 +26,23 @@ abstract class Store
 
     protected DatabaseManager $databaseManager;
 
+    protected StoreRegistry $storeRegistry;
+
     abstract public function getByPrimaryKey($key, $useConnection = 'read');
 
     /**
      * @throws RuntimeException
      */
-    public function __construct(DatabaseManager $databaseManager)
-    {
+    public function __construct(
+        DatabaseManager $databaseManager,
+        StoreRegistry $storeRegistry
+    ) {
         if (empty($this->primaryKey)) {
             throw new RuntimeException('Save not implemented for this store.');
         }
 
         $this->databaseManager = $databaseManager;
+        $this->storeRegistry   = $storeRegistry;
     }
 
     /**

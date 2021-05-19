@@ -13,7 +13,6 @@ use PHPCensor\Configuration;
 use PHPCensor\Exception\InvalidArgumentException;
 use PHPCensor\Exception\RuntimeException;
 use PHPCensor\Model\ProjectGroup;
-use PHPCensor\Store\Factory;
 use PHPCensor\Store\ProjectGroupStore;
 use PHPCensor\Store\UserStore;
 use Symfony\Component\Console\Helper\QuestionHelper;
@@ -233,7 +232,7 @@ class InstallCommand extends Command
         $questionHelper = $this->getHelperSet()->get('question');
 
         /** @var UserStore $userStore */
-        $userStore = Factory::getStore('User');
+        $userStore = $this->storeRegistry->get('User');
 
         $createAdmin = new CreateAdmin(
             $questionHelper,
@@ -596,7 +595,7 @@ class InstallCommand extends Command
         $questionHelper = $this->getHelperSet()->get('question');
 
         /** @var UserStore $userStore */
-        $userStore = Factory::getStore('User');
+        $userStore = $this->storeRegistry->get('User');
 
         $createAdmin = new CreateAdmin(
             $questionHelper,
@@ -615,18 +614,18 @@ class InstallCommand extends Command
     {
         try {
             /** @var ProjectGroupStore $projectGroupStore */
-            $projectGroupStore = Factory::getStore('ProjectGroup');
+            $projectGroupStore = $this->storeRegistry->get('ProjectGroup');
             $projectGroup      = $projectGroupStore->getByTitle('Projects');
             if ($projectGroup) {
                 throw new RuntimeException('Default project group already exists!');
             }
 
-            $group = new ProjectGroup();
+            $group = new ProjectGroup($this->storeRegistry);
             $group->setTitle('Projects');
             $group->setCreateDate(new DateTime());
             $group->setUserId(null);
 
-            Factory::getStore('ProjectGroup')->save($group);
+            $this->storeRegistry->get('ProjectGroup')->save($group);
 
             $output->writeln('<info>Default project group created!</info>');
         } catch (\Throwable $ex) {

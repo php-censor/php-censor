@@ -9,7 +9,8 @@ use PHPCensor\Http\Request;
 use PHPCensor\Http\Response;
 use PHPCensor\Http\Response\RedirectResponse;
 use PHPCensor\Http\Router;
-use PHPCensor\Store\Factory;
+use PHPCensor\Model\User;
+use PHPCensor\Store\UserStore;
 
 /**
  * @author Dan Cryer <dan@block8.co.uk>
@@ -26,15 +27,19 @@ class Application
 
     private DatabaseManager $databaseManager;
 
+    private StoreRegistry $storeRegistry;
+
     private Router $router;
 
     public function __construct(
         ConfigurationInterface $configuration,
         DatabaseManager $databaseManager,
+        StoreRegistry $storeRegistry,
         ?Request $request = null
     ) {
         $this->configuration   = $configuration;
         $this->databaseManager = $databaseManager;
+        $this->storeRegistry   = $storeRegistry;
 
         $this->request = new Request();
         if (!is_null($request)) {
@@ -58,7 +63,7 @@ class Application
         // Inlined as a closure to fix "using $this when not in object context" on 5.3
         $validateSession = function () {
             if (!empty($_SESSION['php-censor-user-id'])) {
-                $user = Factory::getStore('User')->getByPrimaryKey($_SESSION['php-censor-user-id']);
+                $user = $this->storeRegistry->get('User')->getByPrimaryKey($_SESSION['php-censor-user-id']);
 
                 if ($user) {
                     return true;
@@ -125,6 +130,23 @@ class Application
     }
 
     /**
+     * @return User|null
+     *
+     * @throws HttpException
+     */
+    private function getUser()
+    {
+        if (empty($_SESSION['php-censor-user-id'])) {
+            return null;
+        }
+
+        /** @var UserStore $userStore */
+        $userStore = $this->storeRegistry->get('User');
+
+        return $userStore->getById($_SESSION['php-censor-user-id']);
+    }
+
+    /**
      * Handle an incoming web request.
      *
      * @return Response
@@ -136,6 +158,7 @@ class Application
         } catch (HttpException $ex) {
             $view = new View('exception');
             $view->exception = $ex;
+            $view->user      = $this->getUser();
 
             $response = new Response();
 
@@ -182,7 +205,7 @@ class Application
         $defaultUserId = (int)$this->configuration->get('php-censor.security.default_user_id', 1);
 
         if ($disableAuth && $defaultUserId) {
-            $user = Factory::getStore('User')->getByPrimaryKey($defaultUserId);
+            $user = $this->storeRegistry->get('User')->getByPrimaryKey($defaultUserId);
 
             if ($user) {
                 return true;

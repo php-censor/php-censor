@@ -59,7 +59,7 @@ class BuildMetaStore extends Store
 
         if ($stmt->execute()) {
             if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                return new BuildMeta($data);
+                return new BuildMeta($this->storeRegistry, $data);
             }
         }
 
@@ -91,7 +91,7 @@ class BuildMetaStore extends Store
 
         if ($stmt->execute()) {
             if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                return new BuildMeta($data);
+                return new BuildMeta($this->storeRegistry, $data);
             }
         }
 
@@ -124,7 +124,7 @@ class BuildMetaStore extends Store
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             $map = function ($item) {
-                return new BuildMeta($item);
+                return new BuildMeta($this->storeRegistry, $item);
             };
             $rtn = array_map($map, $res);
 
@@ -157,7 +157,7 @@ class BuildMetaStore extends Store
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             $map = function ($item) {
-                return new BuildMeta($item);
+                return new BuildMeta($this->storeRegistry, $item);
             };
             $rtn = array_map($map, $res);
 

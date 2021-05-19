@@ -13,7 +13,6 @@ use PHPCensor\Plugin\Util\Executor;
 use PHPCensor\Plugin\Util\Factory as PluginFactory;
 use PHPCensor\Store\BuildErrorWriter;
 use PHPCensor\Store\BuildStore;
-use PHPCensor\Store\Factory;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 
@@ -106,21 +105,33 @@ class Builder
 
     private DatabaseManager $databaseManager;
 
+    private StoreRegistry $storeRegistry;
+
     public function __construct(
         ConfigurationInterface $configuration,
         DatabaseManager $databaseManager,
+        StoreRegistry $storeRegistry,
         Build $build,
         LoggerInterface $logger = null
     ) {
-        $this->configuration = $configuration;
+        $this->configuration   = $configuration;
         $this->databaseManager = $databaseManager;
+        $this->storeRegistry   = $storeRegistry;
 
-        $this->build         = $build;
-        $this->store         = Factory::getStore('Build');
+        $this->build = $build;
+        $this->store = $this->storeRegistry->get('Build');
 
         $this->buildLogger    = new BuildLogger($logger, $build);
         $pluginFactory        = $this->buildPluginFactory($build);
-        $this->pluginExecutor = new Plugin\Util\Executor($pluginFactory, $this->buildLogger);
+
+        /** @var BuildStore $buildStore */
+        $buildStore           = $this->storeRegistry->get('Build');
+        $this->pluginExecutor = new Plugin\Util\Executor(
+            $this->storeRegistry,
+            $pluginFactory,
+            $this->buildLogger,
+            $buildStore
+        );
 
         $executorClass         = 'PHPCensor\Helper\CommandExecutor';
         $this->commandExecutor = new $executorClass(
@@ -129,10 +140,11 @@ class Builder
             $this->verbose
         );
 
-        $this->interpolator     = new BuildInterpolator();
+        $this->interpolator     = new BuildInterpolator($this->storeRegistry);
         $this->buildErrorWriter = new BuildErrorWriter(
             $this->configuration,
             $this->databaseManager,
+            $this->storeRegistry,
             $this->build->getProjectId(),
             $this->build->getId()
         );

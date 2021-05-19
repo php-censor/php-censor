@@ -60,7 +60,7 @@ class BuildErrorStore extends Store
 
         if ($stmt->execute()) {
             if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                return new BuildError($data);
+                return new BuildError($this->storeRegistry, $data);
             }
         }
 
@@ -127,7 +127,7 @@ class BuildErrorStore extends Store
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             $map = function ($item) {
-                return new BuildError($item);
+                return new BuildError($this->storeRegistry, $item);
             };
             $rtn = array_map($map, $res);
 

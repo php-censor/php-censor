@@ -9,7 +9,6 @@ use PHPCensor\Helper\Lang;
 use PHPCensor\Http\Response\RedirectResponse;
 use PHPCensor\Model\User;
 use PHPCensor\Service\UserService;
-use PHPCensor\Store\Factory;
 use PHPCensor\Store\UserStore;
 use PHPCensor\View;
 use PHPCensor\WebController;
@@ -43,8 +42,8 @@ class UserController extends WebController
     {
         parent::init();
 
-        $this->userStore = Factory::getStore('User');
-        $this->userService = new UserService($this->userStore);
+        $this->userStore   = $this->storeRegistry->get('User');
+        $this->userService = new UserService($this->storeRegistry, $this->userStore);
     }
 
     /**
@@ -52,9 +51,11 @@ class UserController extends WebController
     */
     public function index()
     {
-        $users               = $this->userStore->getWhere([], 1000, 0, ['email' => 'ASC']);
-        $this->view->users   = $users;
-        $this->layout->title = Lang::get('manage_users');
+        $users                   = $this->userStore->getWhere([], 1000, 0, ['email' => 'ASC']);
+        $this->view->currentUser = $this->getUser();
+        $this->view->users       = $users;
+
+        $this->layout->title     = Lang::get('manage_users');
 
         return $this->view->render();
     }

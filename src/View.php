@@ -4,7 +4,6 @@ namespace PHPCensor;
 
 use PHPCensor\Exception\RuntimeException;
 use PHPCensor\Model\User;
-use PHPCensor\Store\Factory;
 use PHPCensor\Store\UserStore;
 
 class View
@@ -110,22 +109,5 @@ class View
         ob_end_clean();
 
         return $html;
-    }
-
-    /**
-     * @return User|null
-     *
-     * @throws Exception\HttpException
-     */
-    protected function getUser()
-    {
-        if (empty($_SESSION['php-censor-user-id'])) {
-            return null;
-        }
-
-        /** @var UserStore $userStore */
-        $userStore = Factory::getStore('User');
-
-        return $userStore->getById($_SESSION['php-censor-user-id']);
     }
 }

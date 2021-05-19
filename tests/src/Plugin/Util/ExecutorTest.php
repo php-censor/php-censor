@@ -4,6 +4,7 @@ namespace Tests\PHPCensor\Plugin\Util;
 
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin\Util\Executor;
+use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -24,13 +25,27 @@ class ExecutorTest extends TestCase
 
     protected $mockStore;
 
+    protected StoreRegistry $storeRegistry;
+
     protected function setUp(): void
     {
         parent::setUp();
+
+        $configuration   = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
+        $databaseManager = $this
+            ->getMockBuilder('PHPCensor\DatabaseManager')
+            ->setConstructorArgs([$configuration])
+            ->getMock();
+        $this->storeRegistry = $this
+            ->getMockBuilder('PHPCensor\StoreRegistry')
+            ->setConstructorArgs([$databaseManager])
+            ->getMock();
+
         $this->mockBuildLogger = $this->prophesize('\PHPCensor\Logging\BuildLogger');
         $this->mockFactory = $this->prophesize('\PHPCensor\Plugin\Util\Factory');
         $this->mockStore = $this->prophesize('\PHPCensor\Store\BuildStore');
         $this->testedExecutor = new Executor(
+            $this->storeRegistry,
             $this->mockFactory->reveal(),
             $this->mockBuildLogger->reveal(),
             $this->mockStore->reveal()
@@ -75,7 +90,7 @@ class ExecutorTest extends TestCase
     {
         $options = [];
         $pluginName = 'PhpUnit';
-        $build = new Build();
+        $build = new Build($this->storeRegistry);
 
         $mockPlugin = $this->prophesize('PHPCensor\Plugin');
         $mockPlugin->execute()->shouldBeCalledTimes(1);
@@ -135,7 +150,7 @@ class ExecutorTest extends TestCase
     {
         $phpUnitPluginOptions = [];
         $behatPluginOptions   = [];
-        $build                = new Build();
+        $build                = new Build($this->storeRegistry);
 
         $config = [
            'stageOne' => [

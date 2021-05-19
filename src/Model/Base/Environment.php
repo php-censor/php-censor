@@ -11,7 +11,7 @@ class Environment extends Model
     /**
      * @var array
      */
-    protected $data = [
+    protected array $data = [
         'id'         => null,
         'project_id' => null,
         'name'       => null,

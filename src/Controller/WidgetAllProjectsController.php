@@ -8,7 +8,6 @@ use PHPCensor\Http\Response;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\Project;
 use PHPCensor\Store\BuildStore;
-use PHPCensor\Store\Factory;
 use PHPCensor\Store\ProjectGroupStore;
 use PHPCensor\Store\ProjectStore;
 use PHPCensor\View;
@@ -41,9 +40,9 @@ class WidgetAllProjectsController extends WebController
     {
         parent::init();
 
-        $this->buildStore   = Factory::getStore('Build');
-        $this->projectStore = Factory::getStore('Project');
-        $this->groupStore   = Factory::getStore('ProjectGroup');
+        $this->buildStore   = $this->storeRegistry->get('Build');
+        $this->projectStore = $this->storeRegistry->get('Project');
+        $this->groupStore   = $this->storeRegistry->get('ProjectGroup');
     }
 
     /**

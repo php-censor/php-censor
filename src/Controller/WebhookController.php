@@ -19,7 +19,6 @@ use PHPCensor\Model\Project;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\EnvironmentStore;
-use PHPCensor\Store\Factory;
 use PHPCensor\Store\ProjectStore;
 
 /**
@@ -53,10 +52,15 @@ class WebhookController extends Controller
      */
     public function init()
     {
-        $this->buildStore   = Factory::getStore('Build');
-        $this->projectStore = Factory::getStore('Project');
+        $this->buildStore   = $this->storeRegistry->get('Build');
+        $this->projectStore = $this->storeRegistry->get('Project');
 
-        $this->buildService = new BuildService($this->configuration, $this->buildStore, $this->projectStore);
+        $this->buildService = new BuildService(
+            $this->configuration,
+            $this->storeRegistry,
+            $this->buildStore,
+            $this->projectStore
+        );
     }
 
     /**
@@ -141,7 +145,7 @@ class WebhookController extends Controller
             $createdBuilds = [];
 
             /** @var EnvironmentStore $environmentStore */
-            $environmentStore  = Factory::getStore('Environment');
+            $environmentStore  = $this->storeRegistry->get('Environment');
             $environmentObject = $environmentStore->getByNameAndProjectId($environment, $project->getId());
             if ($environment && $environmentObject) {
                 if (
@@ -1073,7 +1077,7 @@ class WebhookController extends Controller
 
         $envsUpdated = [];
         $envObjects  = $project->getEnvironmentsObjects();
-        $store       = Factory::getStore('Environment');
+        $store       = $this->storeRegistry->get('Environment');
         foreach ($envObjects['items'] as $environment) {
             $branches = $environment->getBranches();
             if (in_array($environment->getName(), $envs)) {

@@ -60,7 +60,7 @@ class EnvironmentStore extends Store
 
         if ($stmt->execute()) {
             if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                return new Environment($data);
+                return new Environment($this->storeRegistry, $data);
             }
         }
 
@@ -91,7 +91,7 @@ class EnvironmentStore extends Store
 
         if ($stmt->execute()) {
             if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                return new Environment($data);
+                return new Environment($this->storeRegistry, $data);
             }
         }
 
@@ -123,7 +123,7 @@ class EnvironmentStore extends Store
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             $map = function ($item) {
-                return new Environment($item);
+                return new Environment($this->storeRegistry, $item);
             };
             $rtn = array_map($map, $res);
 

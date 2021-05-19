@@ -3,13 +3,29 @@
 namespace Tests\PHPCensor\Model\Base;
 
 use PHPCensor\Model\Base\BuildMeta;
+use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 
 class BuildMetaTest extends TestCase
 {
+    protected StoreRegistry $storeRegistry;
+
+    protected function setUp(): void
+    {
+        $configuration   = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
+        $databaseManager = $this
+            ->getMockBuilder('PHPCensor\DatabaseManager')
+            ->setConstructorArgs([$configuration])
+            ->getMock();
+        $this->storeRegistry = $this
+            ->getMockBuilder('PHPCensor\StoreRegistry')
+            ->setConstructorArgs([$databaseManager])
+            ->getMock();
+    }
+
     public function testConstruct()
     {
-        $buildMeta = new BuildMeta();
+        $buildMeta = new BuildMeta($this->storeRegistry);
 
         self::assertInstanceOf('PHPCensor\Model', $buildMeta);
         self::assertInstanceOf('PHPCensor\Model\Base\BuildMeta', $buildMeta);
@@ -24,7 +40,7 @@ class BuildMetaTest extends TestCase
 
     public function testId()
     {
-        $buildMeta = new BuildMeta();
+        $buildMeta = new BuildMeta($this->storeRegistry);
 
         $result = $buildMeta->setId(100);
         self::assertEquals(true, $result);
@@ -36,7 +52,7 @@ class BuildMetaTest extends TestCase
 
     public function testBuildId()
     {
-        $buildMeta = new BuildMeta();
+        $buildMeta = new BuildMeta($this->storeRegistry);
 
         $result = $buildMeta->setBuildId(200);
         self::assertEquals(true, $result);
@@ -48,7 +64,7 @@ class BuildMetaTest extends TestCase
 
     public function testMetaKey()
     {
-        $buildMeta = new BuildMeta();
+        $buildMeta = new BuildMeta($this->storeRegistry);
 
         $result = $buildMeta->setMetaKey('key');
         self::assertEquals(true, $result);
@@ -60,7 +76,7 @@ class BuildMetaTest extends TestCase
 
     public function testMetaValue()
     {
-        $buildMeta = new BuildMeta();
+        $buildMeta = new BuildMeta($this->storeRegistry);
 
         $result = $buildMeta->setMetaValue('value');
         self::assertEquals(true, $result);

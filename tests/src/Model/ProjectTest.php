@@ -5,6 +5,7 @@ namespace Tests\PHPCensor\Model;
 use PHPCensor\Exception\InvalidArgumentException;
 use PHPCensor\Model;
 use PHPCensor\Model\Project;
+use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -14,9 +15,24 @@ use PHPUnit\Framework\TestCase;
  */
 class ProjectTest extends TestCase
 {
+    protected StoreRegistry $storeRegistry;
+
+    protected function setUp(): void
+    {
+        $configuration   = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
+        $databaseManager = $this
+            ->getMockBuilder('PHPCensor\DatabaseManager')
+            ->setConstructorArgs([$configuration])
+            ->getMock();
+        $this->storeRegistry = $this
+            ->getMockBuilder('PHPCensor\StoreRegistry')
+            ->setConstructorArgs([$databaseManager])
+            ->getMock();
+    }
+
     public function testExecute_TestIsAValidModel()
     {
-        $project = new Project();
+        $project = new Project($this->storeRegistry);
         self::assertTrue($project instanceof Model);
 
         try {
@@ -36,7 +52,7 @@ class ProjectTest extends TestCase
             'item2' => 2,
         ];
 
-        $project = new Project();
+        $project = new Project($this->storeRegistry);
         $project->setAccessInformation($info);
 
         self::assertEquals('Item One', $project->getAccessInformation('item1'));

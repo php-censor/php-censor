@@ -8,7 +8,6 @@ use PHPCensor\Helper\Lang;
 use PHPCensor\Http\Response\RedirectResponse;
 use PHPCensor\Model\ProjectGroup;
 use PHPCensor\Model\User;
-use PHPCensor\Store\Factory;
 use PHPCensor\Store\ProjectGroupStore;
 use PHPCensor\WebController;
 
@@ -33,7 +32,7 @@ class GroupController extends WebController
     {
         parent::init();
 
-        $this->groupStore = Factory::getStore('ProjectGroup');
+        $this->groupStore = $this->storeRegistry->get('ProjectGroup');
     }
 
     /**
@@ -51,8 +50,8 @@ class GroupController extends WebController
                 'title' => $group->getTitle(),
                 'id'    => $group->getId(),
             ];
-            $projectsActive   = Factory::getStore('Project')->getByGroupId($group->getId(), false);
-            $projectsArchived = Factory::getStore('Project')->getByGroupId($group->getId(), true);
+            $projectsActive   = $this->storeRegistry->get('Project')->getByGroupId($group->getId(), false);
+            $projectsArchived = $this->storeRegistry->get('Project')->getByGroupId($group->getId(), true);
 
             $thisGroup['projects'] = array_merge($projectsActive['items'], $projectsArchived['items']);
             $groups[]              = $thisGroup;
@@ -60,6 +59,7 @@ class GroupController extends WebController
 
         $this->layout->title = Lang::get('group_projects');
         $this->view->groups  = $groups;
+        $this->view->user    = $this->getUser();
     }
 
     /**
@@ -76,7 +76,7 @@ class GroupController extends WebController
         if (!is_null($groupId)) {
             $group = $this->groupStore->getById($groupId);
         } else {
-            $group = new ProjectGroup();
+            $group = new ProjectGroup($this->storeRegistry);
         }
 
         if ($this->request->getMethod() == 'POST') {

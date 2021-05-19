@@ -3,7 +3,7 @@
 use PHPCensor\Configuration;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Helper\Lang;
-use PHPCensor\Store\Factory;
+use PHPCensor\StoreRegistry;
 
 const ROOT_DIR    = __DIR__ . '/';
 const SRC_DIR     = ROOT_DIR . 'src/';
@@ -16,9 +16,8 @@ require_once(ROOT_DIR . 'vendor/autoload.php');
 $configurationPath = APP_DIR . 'config.yml';
 $configuration   = new Configuration($configurationPath);
 $databaseManager = new DatabaseManager($configuration);
-
-Factory::$databaseManager = $databaseManager;
+$storeRegistry   = new StoreRegistry($databaseManager);
 
 \define('APP_URL', $configuration->get('php-censor.url', '') . '/');
 
-Lang::init($configuration);
+Lang::init($configuration, $storeRegistry);

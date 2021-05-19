@@ -13,7 +13,6 @@ use PHPCensor\Model\Build;
 use PHPCensor\Model\Project;
 use PHPCensor\Service\BuildStatusService;
 use PHPCensor\Store\BuildStore;
-use PHPCensor\Store\Factory;
 use PHPCensor\Store\ProjectStore;
 use PHPCensor\WebController;
 use SimpleXMLElement;
@@ -152,8 +151,8 @@ class BuildStatusController extends WebController
     {
         parent::init();
 
-        $this->buildStore   = Factory::getStore('Build');
-        $this->projectStore = Factory::getStore('Project');
+        $this->buildStore   = $this->storeRegistry->get('Build');
+        $this->projectStore = $this->storeRegistry->get('Project');
     }
 
     /**
@@ -302,8 +301,9 @@ class BuildStatusController extends WebController
             $this->view->latest = $builds[0];
         }
 
-        $this->view->builds  = $builds;
-        $this->view->project = $project;
+        $this->view->builds           = $builds;
+        $this->view->project          = $project;
+        $this->view->environmentStore = $this->storeRegistry->get('Environment');
 
         return $this->view->render();
     }

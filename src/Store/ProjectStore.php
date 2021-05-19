@@ -63,7 +63,7 @@ class ProjectStore extends Store
 
         if ($stmt->execute()) {
             if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                return new Project($data);
+                return new Project($this->storeRegistry, $data);
             }
         }
 
@@ -92,7 +92,7 @@ class ProjectStore extends Store
         $rtn = [];
         if ($stmt->execute()) {
             while ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                $rtn[$data['id']] = new Project($data);
+                $rtn[$data['id']] = new Project($this->storeRegistry, $data);
             }
         }
 
@@ -126,7 +126,7 @@ class ProjectStore extends Store
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             $map = function ($item) {
-                return new Project($item);
+                return new Project($this->storeRegistry, $item);
             };
             $rtn = array_map($map, $res);
 
@@ -185,7 +185,7 @@ class ProjectStore extends Store
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             $map = function ($item) {
-                return new Project($item);
+                return new Project($this->storeRegistry, $item);
             };
             $rtn = array_map($map, $res);
 
@@ -228,7 +228,7 @@ class ProjectStore extends Store
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             $map = function ($item) {
-                return new Project($item);
+                return new Project($this->storeRegistry, $item);
             };
             $rtn = array_map($map, $res);
 

@@ -8,7 +8,6 @@ use PHPCensor\BuildFactory;
 use PHPCensor\Model\Project;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Store\BuildStore;
-use PHPCensor\Store\Factory;
 use PHPCensor\Store\ProjectStore;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -32,16 +31,21 @@ class RebuildQueueCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         /** @var BuildStore $buildStore */
-        $buildStore = Factory::getStore('Build');
+        $buildStore = $this->storeRegistry->get('Build');
 
         /** @var ProjectStore $projectStore */
-        $projectStore = Factory::getStore('Project');
+        $projectStore = $this->storeRegistry->get('Project');
 
         $result = $buildStore->getByStatus(0);
 
         $this->logger->info(\sprintf('Found %d builds', \count($result['items'])));
 
-        $buildService = new BuildService($this->configuration, $buildStore, $projectStore);
+        $buildService = new BuildService(
+            $this->configuration,
+            $this->storeRegistry,
+            $buildStore,
+            $projectStore
+        );
 
         while (\count($result['items'])) {
             $build   = \array_shift($result['items']);

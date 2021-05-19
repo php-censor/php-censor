@@ -11,7 +11,7 @@ class User extends Model
     /**
      * @var array
      */
-    protected $data = [
+    protected array $data = [
         'id'            => null,
         'email'         => null,
         'hash'          => null,

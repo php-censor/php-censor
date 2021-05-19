@@ -6,6 +6,7 @@ use Exception;
 use PHPCensor\Builder;
 use PHPCensor\ConfigurationInterface;
 use PHPCensor\Model\Build;
+use PHPCensor\StoreRegistry;
 use Psr\Log\LogLevel;
 
 /**
@@ -19,9 +20,10 @@ class GitBuild extends Build
 
     public function __construct(
         ConfigurationInterface $configuration,
+        StoreRegistry $storeRegistry,
         array $initialData = []
     ) {
-        parent::__construct($initialData);
+        parent::__construct($storeRegistry, $initialData);
 
         $this->configuration = $configuration;
     }

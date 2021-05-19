@@ -3,7 +3,6 @@
 namespace PHPCensor\Model;
 
 use PHPCensor\Model\Base\ProjectGroup as BaseProjectGroup;
-use PHPCensor\Store\Factory;
 use PHPCensor\Store\ProjectStore;
 
 class ProjectGroup extends BaseProjectGroup
@@ -14,7 +13,7 @@ class ProjectGroup extends BaseProjectGroup
     public function getGroupProjects()
     {
         /** @var ProjectStore $projectStore */
-        $projectStore = Factory::getStore('Project');
+        $projectStore = $this->storeRegistry->get('Project');
 
         return $projectStore->getByGroupId($this->getId(), false);
     }

@@ -5,13 +5,14 @@ declare(strict_types = 1);
 namespace PHPCensor\Command;
 
 use Exception;
+use Monolog\Logger;
 use Pheanstalk\Pheanstalk;
 use PHPCensor\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Exception\RuntimeException;
 use PHPCensor\Service\BuildService;
+use PHPCensor\StoreRegistry;
 use PHPCensor\Worker\BuildWorker;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -34,11 +35,12 @@ class WorkerCommand extends Command
     public function __construct(
         ConfigurationInterface $configuration,
         DatabaseManager $databaseManager,
-        LoggerInterface $logger,
+        StoreRegistry $storeRegistry,
+        Logger $logger,
         BuildService $buildService,
         ?string $name = null
     ) {
-        parent::__construct($configuration, $databaseManager, $logger, $name);
+        parent::__construct($configuration, $databaseManager, $storeRegistry, $logger, $name);
 
         $this->buildService = $buildService;
     }
@@ -101,6 +103,7 @@ class WorkerCommand extends Command
         (new BuildWorker(
             $this->configuration,
             $this->databaseManager,
+            $this->storeRegistry,
             $this->logger,
             $this->buildService,
             $config['host'],

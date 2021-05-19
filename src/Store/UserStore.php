@@ -62,7 +62,7 @@ class UserStore extends Store
 
         if ($stmt->execute()) {
             if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                return new User($data);
+                return new User($this->storeRegistry, $data);
             }
         }
 
@@ -91,7 +91,7 @@ class UserStore extends Store
 
         if ($stmt->execute()) {
             if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                return new User($data);
+                return new User($this->storeRegistry, $data);
             }
         }
 
@@ -119,7 +119,7 @@ class UserStore extends Store
 
         if ($stmt->execute()) {
             if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                return new User($data);
+                return new User($this->storeRegistry, $data);
             }
         }
 
@@ -147,7 +147,7 @@ class UserStore extends Store
 
         if ($stmt->execute()) {
             if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                return new User($data);
+                return new User($this->storeRegistry, $data);
             }
         }
 
@@ -180,7 +180,7 @@ class UserStore extends Store
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             $map = function ($item) {
-                return new User($item);
+                return new User($this->storeRegistry, $item);
             };
             $rtn = array_map($map, $res);
 

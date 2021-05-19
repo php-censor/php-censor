@@ -13,7 +13,6 @@ use PHPCensor\Helper\Email;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Http\Response\RedirectResponse;
 use PHPCensor\Security\Authentication\Service;
-use PHPCensor\Store\Factory;
 use PHPCensor\Store\UserStore;
 use PHPCensor\WebController;
 
@@ -46,8 +45,8 @@ class SessionController extends WebController
     {
         parent::init();
 
-        $this->userStore      = Factory::getStore('User');
-        $this->authentication = new Service($this->configuration);
+        $this->userStore      = $this->storeRegistry->get('User');
+        $this->authentication = new Service($this->configuration, $this->storeRegistry);
     }
 
     protected function loginForm($values)

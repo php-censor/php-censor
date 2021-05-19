@@ -12,7 +12,6 @@ use PHPCensor\Plugin\Util\BitbucketNotifyPluginResult;
 use PHPCensor\Store\BuildErrorStore;
 use PHPCensor\Store\BuildMetaStore;
 use PHPCensor\Store\BuildStore;
-use PHPCensor\Store\Factory;
 
 class BitbucketNotify extends Plugin
 {
@@ -249,7 +248,7 @@ class BitbucketNotify extends Plugin
     protected function prepareResult($targetBranch)
     {
         /** @var BuildErrorStore $buildErrorStore */
-        $buildErrorStore = Factory::getStore('BuildError');
+        $buildErrorStore = $this->storeRegistry->get('BuildError');
 
         $targetBranchBuildStats = $buildErrorStore->getErrorAmountPerPluginForBuild(
             $this->findLatestBuild($targetBranch)
@@ -285,8 +284,8 @@ class BitbucketNotify extends Plugin
     public function getPhpUnitCoverage($targetBranch)
     {
         /** @var BuildMetaStore $buildMetaStore */
-        $buildMetaStore = Factory::getStore('BuildMeta');
-        $latestTargeBuildId = $this->findLatestBuild($targetBranch);
+        $buildMetaStore       = $this->storeRegistry->get('BuildMeta');
+        $latestTargetBuildId  = $this->findLatestBuild($targetBranch);
         $latestCurrentBuildId = $this->findLatestBuild($this->build->getBranch());
 
         $targetMetaData = $buildMetaStore->getByKey(
@@ -299,7 +298,7 @@ class BitbucketNotify extends Plugin
         );
 
         $targetBranchCoverage = [];
-        if (!is_null($latestTargeBuildId) && !is_null($targetMetaData)) {
+        if (!is_null($latestTargetBuildId) && !is_null($targetMetaData)) {
             $targetBranchCoverage = json_decode($targetMetaData->getMetaValue(), true);
         }
 
@@ -354,7 +353,7 @@ class BitbucketNotify extends Plugin
     protected function findLatestBuild($branchName)
     {
         /** @var BuildStore $buildStore */
-        $buildStore = Factory::getStore('Build');
+        $buildStore = $this->storeRegistry->get('Build');
 
         $build = $buildStore->getLatestBuildByProjectAndBranch($this->getBuild()->getProjectId(), $branchName);
 

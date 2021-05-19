@@ -3,8 +3,9 @@
 namespace PHPCensor\Logging;
 
 use Monolog\Handler\AbstractProcessingHandler;
+use Monolog\Logger;
 use PHPCensor\Model\Build;
-use PHPCensor\Store\Factory;
+use PHPCensor\Store\BuildStore;
 use Psr\Log\LogLevel;
 
 /**
@@ -15,7 +16,9 @@ class BuildDBLogHandler extends AbstractProcessingHandler
     /**
      * @var Build
      */
-    protected $build;
+    protected Build $build;
+
+    protected BuildStore $buildStore;
 
     protected $logValue;
 
@@ -29,18 +32,17 @@ class BuildDBLogHandler extends AbstractProcessingHandler
      */
     protected $flushDelay = 1;
 
-    /**
-     * @param Build $build
-     * @param bool $level
-     * @param bool $bubble
-     */
     public function __construct(
+        BuildStore $buildStore,
         Build $build,
-        $level = LogLevel::INFO,
-        $bubble = true
+        $level = Logger::INFO,
+        bool $bubble = true
     ) {
         parent::__construct($level, $bubble);
-        $this->build = $build;
+
+        $this->build      = $build;
+        $this->buildStore = $buildStore;
+
         // We want to add to any existing saved log information.
         $this->logValue = $build->getLog();
     }
@@ -59,7 +61,7 @@ class BuildDBLogHandler extends AbstractProcessingHandler
     protected function flushData()
     {
         $this->build->setLog($this->logValue);
-        Factory::getStore('Build')->save($this->build);
+        $this->buildStore->save($this->build);
         $this->flushTimestamp = time();
     }
 

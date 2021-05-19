@@ -64,7 +64,7 @@ class BuildStore extends Store
 
         if ($stmt->execute()) {
             if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                return new Build($data);
+                return new Build($this->storeRegistry, $data);
             }
         }
 
@@ -97,7 +97,7 @@ class BuildStore extends Store
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             $map = function ($item) {
-                return new Build($item);
+                return new Build($this->storeRegistry, $item);
             };
             $rtn = array_map($map, $res);
 
@@ -135,7 +135,7 @@ class BuildStore extends Store
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             $map = function ($item) {
-                return new Build($item);
+                return new Build($this->storeRegistry, $item);
             };
             $rtn = array_map($map, $res);
 
@@ -165,7 +165,7 @@ class BuildStore extends Store
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             $map = function ($item) {
-                return new Build($item);
+                return new Build($this->storeRegistry, $item);
             };
             $rtn = array_map($map, $res);
 
@@ -192,7 +192,7 @@ class BuildStore extends Store
         $stmt->bindValue(':branch', $branch);
 
         if ($stmt->execute() && $data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            return new Build($data);
+            return new Build($this->storeRegistry, $data);
         }
 
         return null;
@@ -228,7 +228,7 @@ class BuildStore extends Store
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             $map = function ($item) {
-                return new Build($item);
+                return new Build($this->storeRegistry, $item);
             };
             $rtn = array_map($map, $res);
 
@@ -255,7 +255,7 @@ class BuildStore extends Store
 
         if ($stmt->execute()) {
             if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                return new Build($data);
+                return new Build($this->storeRegistry, $data);
             }
         } else {
             return [];
@@ -315,24 +315,24 @@ class BuildStore extends Store
                 }
                 $build = null;
                 if (count($projects[$projectId][$environment]['latest']) < $limitByProject) {
-                    $build = new Build($item);
+                    $build = new Build($this->storeRegistry, $item);
                     $projects[$projectId][$environment]['latest'][] = $build;
                 }
                 if (count($latest) < $limitAll) {
                     if (is_null($build)) {
-                        $build = new Build($item);
+                        $build = new Build($this->storeRegistry, $item);
                     }
                     $latest[] = $build;
                 }
                 if (empty($projects[$projectId][$environment]['success']) && Build::STATUS_SUCCESS === $item['status']) {
                     if (is_null($build)) {
-                        $build = new Build($item);
+                        $build = new Build($this->storeRegistry, $item);
                     }
                     $projects[$projectId][$environment]['success'] = $build;
                 }
                 if (empty($projects[$projectId][$environment]['failed']) && Build::STATUS_FAILED === $item['status']) {
                     if (is_null($build)) {
-                        $build = new Build($item);
+                        $build = new Build($this->storeRegistry, $item);
                     }
                     $projects[$projectId][$environment]['failed'] = $build;
                 }
@@ -372,7 +372,7 @@ class BuildStore extends Store
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             $map = function ($item) {
-                return new Build($item);
+                return new Build($this->storeRegistry, $item);
             };
 
             $rtn = array_map($map, $res);
@@ -453,7 +453,7 @@ class BuildStore extends Store
             $rtn = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             /** @var BuildErrorStore $errorStore */
-            $errorStore = Factory::getStore('BuildError');
+            $errorStore = $this->storeRegistry->get('BuildError');
 
             $rtn = array_reverse($rtn);
             $rtn = array_map(function ($item) use ($key, $errorStore, $buildId) {
@@ -492,10 +492,10 @@ class BuildStore extends Store
     public function setMeta($buildId, $key, $value)
     {
         /** @var BuildMetaStore $store */
-        $store = Factory::getStore('BuildMeta');
+        $store = $this->storeRegistry->get('BuildMeta');
         $meta  = $store->getByKey($buildId, $key);
         if (is_null($meta)) {
-            $meta = new BuildMeta();
+            $meta = new BuildMeta($this->storeRegistry);
             $meta->setBuildId($buildId);
             $meta->setMetaKey($key);
         }
@@ -539,7 +539,7 @@ class BuildStore extends Store
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             $map = function ($item) {
-                return new Build($item);
+                return new Build($this->storeRegistry, $item);
             };
             $rtn = array_map($map, $res);
 

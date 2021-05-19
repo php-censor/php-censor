@@ -1,6 +1,12 @@
 <?php
 
 use PHPCensor\Helper\Lang;
+use PHPCensor\Model\User;
+
+/**
+ * @var array $groups
+ * @var User  $user
+ */
 
 ?>
 <div class="clearfix"  style="margin-bottom: 20px;">
@@ -26,7 +32,7 @@ use PHPCensor\Helper\Lang;
                 <td>
                     <div class="btn-group btn-group-right">
                         <a class="btn btn-default btn-sm" href="<?= APP_URL; ?>group/edit/<?= $group['id']; ?>"><?= Lang::get('group_edit'); ?></a>
-                        <?php if ($this->getUser()->getIsAdmin() && (!count($group['projects']))): ?>
+                        <?php if ($user->getIsAdmin() && (!count($group['projects']))): ?>
                             <button class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
                                 <span class="caret"></span>
                             </button>

@@ -3,9 +3,11 @@
 use JasonGrimes\Paginator;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Model\Project;
+use PHPCensor\Model\User;
 
 /**
  * @var Paginator $paginator
+ * @var User      $user
  */
 
 ?>
@@ -22,11 +24,11 @@ use PHPCensor\Model\Project;
         <?= Lang::get('edit_project'); ?>
     </a>
 
-    <?php if ($this->getUser()->getIsAdmin()): ?>
+    <?php if ($user->getIsAdmin()): ?>
         <a class="btn btn-danger" id="delete-project">
             <?= Lang::get('delete_project'); ?>
         </a>
-    
+
         <a class="btn btn-danger" id="delete-old-builds">
             <?= Lang::get('delete_old_builds'); ?>
         </a>
@@ -39,7 +41,7 @@ use PHPCensor\Model\Project;
     <?php $buildUrl = APP_URL . 'project/build/' . $project->getId(); ?>
     <div class="pull-right btn-group">
         <?php if (!$project->getArchived()): ?>
-            <?php if ($this->getUser()->getIsAdmin()): ?>
+            <?php if ($user->getIsAdmin()): ?>
                 <?php if (!empty($environment)): ?>
                     <a class="btn btn-warning" href="<?= $buildUrl . '?' . http_build_query(['type' => 'environment', 'id' => $environment, 'debug' => 1]); ?>">
                         <?= Lang::get('build_now_debug'); ?>

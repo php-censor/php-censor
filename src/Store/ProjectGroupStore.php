@@ -60,7 +60,7 @@ class ProjectGroupStore extends Store
 
         if ($stmt->execute()) {
             if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                return new ProjectGroup($data);
+                return new ProjectGroup($this->storeRegistry, $data);
             }
         }
 
@@ -90,7 +90,7 @@ class ProjectGroupStore extends Store
 
         if ($stmt->execute()) {
             if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                return new ProjectGroup($data);
+                return new ProjectGroup($this->storeRegistry, $data);
             }
         }
 

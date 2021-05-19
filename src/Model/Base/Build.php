@@ -9,7 +9,6 @@ use Exception;
 use PHPCensor\Exception\InvalidArgumentException;
 use PHPCensor\Model;
 use PHPCensor\Store\BuildStore;
-use PHPCensor\Store\Factory;
 
 class Build extends Model
 {
@@ -33,7 +32,7 @@ class Build extends Model
     /**
      * @var array
      */
-    protected $data = [
+    protected array $data = [
         'id'                    => null,
         'parent_id'             => null,
         'project_id'            => null,
@@ -591,7 +590,7 @@ class Build extends Model
         if (null === $this->data['errors_total'] &&
             !in_array($this->getStatus(), [self::STATUS_PENDING, self::STATUS_RUNNING], true)) {
             /** @var BuildStore $store */
-            $store = Factory::getStore('Build');
+            $store = $this->storeRegistry->get('Build');
 
             $this->setErrorsTotal($store->getErrorsCount($this->getId()));
             $store->save($this);
@@ -625,7 +624,7 @@ class Build extends Model
     {
         if (null === $this->data['errors_total_previous']) {
             /** @var BuildStore $store */
-            $store = Factory::getStore('Build');
+            $store = $this->storeRegistry->get('Build');
 
             $trend = $store->getBuildErrorsTrend($this->getId(), $this->getProjectId(), $this->getBranch());
 
@@ -671,7 +670,7 @@ class Build extends Model
     {
         if (null === $this->data['errors_new']) {
             /** @var BuildStore $errorStore */
-            $store = Factory::getStore('Build');
+            $store = $this->storeRegistry->get('Build');
 
             $this->setErrorsNew(
                 (int)$store->getNewErrorsCount($this->getId())

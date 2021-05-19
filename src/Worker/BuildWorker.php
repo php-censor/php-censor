@@ -16,8 +16,8 @@ use PHPCensor\DatabaseManager;
 use PHPCensor\Logging\BuildDBLogHandler;
 use PHPCensor\Model\Build;
 use PHPCensor\Service\BuildService;
-use PHPCensor\Store\Factory;
-use Psr\Log\LoggerInterface;
+use PHPCensor\Store\BuildStore;
+use PHPCensor\StoreRegistry;
 
 class BuildWorker
 {
@@ -34,13 +34,15 @@ class BuildWorker
     /**
      * The logger for builds to use.
      */
-    private LoggerInterface $logger;
+    private Logger $logger;
 
     private BuildService $buildService;
 
     private ConfigurationInterface $configuration;
 
     private DatabaseManager $databaseManager;
+
+    private StoreRegistry $storeRegistry;
 
     /**
      * beanstalkd queue to watch
@@ -54,7 +56,8 @@ class BuildWorker
     public function __construct(
         ConfigurationInterface $configuration,
         DatabaseManager $databaseManager,
-        LoggerInterface $logger,
+        StoreRegistry $storeRegistry,
+        Logger $logger,
         BuildService $buildService,
         string $queueHost,
         int $queuePort,
@@ -65,6 +68,7 @@ class BuildWorker
         $this->buildService    = $buildService;
         $this->configuration   = $configuration;
         $this->databaseManager = $databaseManager;
+        $this->storeRegistry   = $storeRegistry;
 
         $this->queueTube  = $queueTube;
         $this->pheanstalk = Pheanstalk::create($queueHost, $queuePort);
@@ -89,7 +93,7 @@ class BuildWorker
     {
         $this->pheanstalk->watchOnly($this->queueTube);
 
-        $buildStore = Factory::getStore('Build');
+        $buildStore = $this->storeRegistry->get('Build');
 
         while ($this->canRun) {
             if ($this->canPeriodicalWork &&
@@ -120,7 +124,11 @@ class BuildWorker
                 )
             );
 
-            $build = BuildFactory::getBuildById($this->configuration, (int)$jobData['build_id']);
+            $build = BuildFactory::getBuildById(
+                $this->configuration,
+                $this->storeRegistry,
+                (int)$jobData['build_id']
+            );
 
             if (!$build) {
                 $this->logger->warning(
@@ -153,13 +161,17 @@ class BuildWorker
                 continue;
             }
 
+            /** @var BuildStore $buildStore */
+            $buildStore = $this->storeRegistry->get('Build');
+
             // Logging relevant to this build should be stored against the build itself.
-            $buildDbLog = new BuildDBLogHandler($build, Logger::DEBUG);
+            $buildDbLog = new BuildDBLogHandler($buildStore, $build, Logger::DEBUG);
             $this->logger->pushHandler($buildDbLog);
 
             $builder = new Builder(
                 $this->configuration,
                 $this->databaseManager,
+                $this->storeRegistry,
                 $build,
                 $this->logger
             );

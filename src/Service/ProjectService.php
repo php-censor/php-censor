@@ -6,6 +6,7 @@ use DateTime;
 use Exception;
 use PHPCensor\Model\Project;
 use PHPCensor\Store\ProjectStore;
+use PHPCensor\StoreRegistry;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -13,17 +14,16 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 class ProjectService
 {
-    /**
-     * @var ProjectStore
-     */
-    protected $projectStore;
+    private ProjectStore $projectStore;
 
-    /**
-     * @param ProjectStore $projectStore
-     */
-    public function __construct(ProjectStore $projectStore)
-    {
-        $this->projectStore = $projectStore;
+    private StoreRegistry $storeRegistry;
+
+    public function __construct(
+        StoreRegistry $storeRegistry,
+        ProjectStore $projectStore
+    ) {
+        $this->storeRegistry = $storeRegistry;
+        $this->projectStore  = $projectStore;
     }
 
     /**
@@ -40,7 +40,7 @@ class ProjectService
     public function createProject($title, $type, $reference, $userId, $options = [])
     {
         // Create base project and use updateProject() to set its properties:
-        $project = new Project();
+        $project = new Project($this->storeRegistry);
         $project->setCreateDate(new DateTime());
         $project->setUserId((int)$userId);
 

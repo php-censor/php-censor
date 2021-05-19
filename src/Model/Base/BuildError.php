@@ -18,7 +18,7 @@ class BuildError extends Model
     /**
      * @var array
      */
-    protected $data = [
+    protected array $data = [
         'id'          => null,
         'build_id'    => null,
         'plugin'      => null,

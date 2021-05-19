@@ -5,7 +5,6 @@ namespace PHPCensor\Controller;
 use PHPCensor\BuildFactory;
 use PHPCensor\Http\Response;
 use PHPCensor\Store\BuildStore;
-use PHPCensor\Store\Factory;
 use PHPCensor\View;
 use PHPCensor\WebController;
 
@@ -26,7 +25,7 @@ class WidgetLastBuildsController extends WebController
     {
         parent::init();
 
-        $this->buildStore = Factory::getStore('Build');
+        $this->buildStore = $this->storeRegistry->get('Build');
     }
 
     /**
@@ -62,7 +61,8 @@ class WidgetLastBuildsController extends WebController
             $build = BuildFactory::getBuild($this->configuration, $build);
         }
 
-        $this->view->builds = $builds;
+        $this->view->builds           = $builds;
+        $this->view->environmentStore = $this->storeRegistry->get('Environment');
 
         $response = new Response();
         $response->setContent($this->view->render());

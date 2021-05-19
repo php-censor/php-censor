@@ -28,9 +28,9 @@ use PHPCensor\Logging\AnsiFormatter;
 use PHPCensor\Logging\Handler;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Store\BuildStore;
-use PHPCensor\Store\Factory;
 use PHPCensor\Store\ProjectStore;
 use PHPCensor\Store\UserStore;
+use PHPCensor\StoreRegistry;
 use Symfony\Component\Console\Application as BaseApplication;
 
 /**
@@ -50,6 +50,12 @@ class Application extends BaseApplication
 
 
 LOGO;
+
+    private ConfigurationInterface $configuration;
+
+    private DatabaseManager $databaseManager;
+
+    private StoreRegistry $storeRegistry;
 
     /**
      * @param ConfigurationInterface $applicationConfig
@@ -80,15 +86,16 @@ LOGO;
     }
 
     /**
-     * @param ConfigurationInterface $applicationConfig
+     * @param ConfigurationInterface $configuration
      * @param string                 $name
      * @param string                 $version
      *
      * @throws Exception
      */
     public function __construct(
-        ConfigurationInterface $applicationConfig,
+        ConfigurationInterface $configuration,
         DatabaseManager $databaseManager,
+        StoreRegistry $storeRegistry,
         string $name = 'PHP Censor',
         string $version = 'UNKNOWN'
     ) {
@@ -97,8 +104,12 @@ LOGO;
 
         parent::__construct($name, $version);
 
-        $oldDatabaseSettings = $applicationConfig->get('b8.database', []);
-        $databaseSettings    = $applicationConfig->get('php-censor.database', []);
+        $this->configuration   = $configuration;
+        $this->databaseManager = $databaseManager;
+        $this->storeRegistry   = $storeRegistry;
+
+        $oldDatabaseSettings = $this->configuration->get('b8.database', []);
+        $databaseSettings    = $this->configuration->get('php-censor.database', []);
         if ($oldDatabaseSettings && !$databaseSettings) {
             throw new InvalidArgumentException(
                 'Missing database settings in application config "config.yml" (Section: "php-censor.database")'
@@ -170,24 +181,29 @@ LOGO;
         );
 
         /** @var UserStore $userStore */
-        $userStore = Factory::getStore('User');
+        $userStore = $this->storeRegistry->get('User');
 
         /** @var ProjectStore $projectStore */
-        $projectStore = Factory::getStore('Project');
+        $projectStore = $this->storeRegistry->get('Project');
 
         /** @var BuildStore $buildStore */
-        $buildStore   = Factory::getStore('Build');
+        $buildStore = $this->storeRegistry->get('Build');
 
-        $buildService = new BuildService($applicationConfig, $buildStore, $projectStore);
-        $logger       = $this->initLogger($applicationConfig);
+        $buildService = new BuildService(
+            $this->configuration,
+            $this->storeRegistry,
+            $buildStore,
+            $projectStore
+        );
+        $logger = $this->initLogger($this->configuration);
 
-        $this->add(new InstallCommand($applicationConfig, $databaseManager, $logger));
-        $this->add(new CreateAdminCommand($applicationConfig, $databaseManager, $logger, $userStore));
-        $this->add(new CreateBuildCommand($applicationConfig, $databaseManager, $logger, $projectStore, $buildService));
-        $this->add(new RemoveOldBuildsCommand($applicationConfig, $databaseManager, $logger, $projectStore, $buildService));
-        $this->add(new WorkerCommand($applicationConfig, $databaseManager, $logger, $buildService));
-        $this->add(new RebuildQueueCommand($applicationConfig, $databaseManager, $logger));
-        $this->add(new CheckLocalizationCommand($applicationConfig, $databaseManager, $logger));
+        $this->add(new InstallCommand($this->configuration, $this->databaseManager, $this->storeRegistry, $logger));
+        $this->add(new CreateAdminCommand($this->configuration, $this->databaseManager, $this->storeRegistry, $logger, $userStore));
+        $this->add(new CreateBuildCommand($this->configuration, $this->databaseManager, $this->storeRegistry, $logger, $projectStore, $buildService));
+        $this->add(new RemoveOldBuildsCommand($this->configuration, $this->databaseManager, $this->storeRegistry, $logger, $projectStore, $buildService));
+        $this->add(new WorkerCommand($this->configuration, $this->databaseManager, $this->storeRegistry, $logger, $buildService));
+        $this->add(new RebuildQueueCommand($this->configuration, $this->databaseManager, $this->storeRegistry, $logger));
+        $this->add(new CheckLocalizationCommand($this->configuration, $this->databaseManager, $this->storeRegistry, $logger));
     }
 
     public function getHelp(): string

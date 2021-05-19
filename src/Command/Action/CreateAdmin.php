@@ -8,6 +8,7 @@ use PHPCensor\Exception\InvalidArgumentException;
 use PHPCensor\Exception\RuntimeException;
 use PHPCensor\Service\UserService;
 use PHPCensor\Store\UserStore;
+use PHPCensor\StoreRegistry;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -27,18 +28,22 @@ class CreateAdmin
 
     private OutputInterface $output;
 
+    private StoreRegistry $storeRegistry;
+
     private UserStore $userStore;
 
     public function __construct(
         QuestionHelper $questionHelper,
         InputInterface $input,
         OutputInterface $output,
+        StoreRegistry $storeRegistry,
         UserStore $userStore
     ) {
         $this->questionHelper = $questionHelper;
         $this->input          = $input;
         $this->output         = $output;
         $this->userStore      = $userStore;
+        $this->storeRegistry  = $storeRegistry;
     }
 
     public function process(): array
@@ -86,7 +91,7 @@ class CreateAdmin
                 throw new RuntimeException('Admin account already exists!');
             }
 
-            $userService = new UserService($this->userStore);
+            $userService = new UserService($this->storeRegistry, $this->userStore);
 
             $userService->createUser(
                 $adminDetails['name'],

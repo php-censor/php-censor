@@ -9,7 +9,7 @@ use PHPCensor\Logging\BuildLogger;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 use PHPCensor\Store\BuildStore;
-use PHPCensor\Store\Factory as StoreFactory;
+use PHPCensor\StoreRegistry;
 
 /**
  * Plugin Executor - Runs the configured plugins for a given build stage.
@@ -31,15 +31,18 @@ class Executor
      */
     protected $store;
 
-    /**
-     * @param Factory $pluginFactory
-     * @param BuildLogger $logger
-     */
-    public function __construct(Factory $pluginFactory, BuildLogger $logger, BuildStore $store = null)
-    {
+    protected StoreRegistry $storeRegistry;
+
+    public function __construct(
+        StoreRegistry $storeRegistry,
+        Factory $pluginFactory,
+        BuildLogger $logger,
+        BuildStore $store = null
+    ) {
+        $this->storeRegistry = $storeRegistry;
         $this->pluginFactory = $pluginFactory;
-        $this->logger = $logger;
-        $this->store = $store ?: StoreFactory::getStore('Build');
+        $this->logger        = $logger;
+        $this->store         = $store;
     }
 
     /**
@@ -228,6 +231,7 @@ class Executor
         try {
             // Build and run it
             $obj = $this->pluginFactory->buildPlugin($class, (is_null($options) ? [] : $options));
+            $obj->setStoreRegistry($this->storeRegistry);
 
             return $obj->execute();
         } catch (Exception $ex) {

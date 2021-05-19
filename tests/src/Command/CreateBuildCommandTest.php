@@ -39,12 +39,20 @@ class CreateBuildCommandTest extends TestCase
             ->getMockBuilder('PHPCensor\DatabaseManager')
             ->setConstructorArgs([$this->configuration])
             ->getMock();
+        $storeRegistry = $this
+            ->getMockBuilder('PHPCensor\StoreRegistry')
+            ->setConstructorArgs([$this->databaseManager])
+            ->getMock();
+
         $this->logger          = $this->getMockBuilder('Psr\Log\LoggerInterface')->getMock();
-        $projectMock           = $this->getMockBuilder('PHPCensor\Model\Project')->getMock();
+        $projectMock           = $this
+            ->getMockBuilder('PHPCensor\Model\Project')
+            ->setConstructorArgs([$storeRegistry])
+            ->getMock();
 
         $projectStoreMock = $this
             ->getMockBuilder('PHPCensor\Store\ProjectStore')
-            ->setConstructorArgs([$this->databaseManager])
+            ->setConstructorArgs([$this->databaseManager, $storeRegistry])
             ->getMock();
         $projectStoreMock->method('getById')
             ->will($this->returnValueMap([
@@ -63,7 +71,7 @@ class CreateBuildCommandTest extends TestCase
                 [$projectMock, null, 'master', null, null, null]
             );
 
-        $this->command = new CreateBuildCommand($this->configuration, $this->databaseManager, $this->logger, $projectStoreMock, $buildServiceMock);
+        $this->command = new CreateBuildCommand($this->configuration, $this->databaseManager, $storeRegistry, $this->logger, $projectStoreMock, $buildServiceMock);
 
         $this->application = new Application();
     }

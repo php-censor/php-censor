@@ -2,8 +2,8 @@
 
 namespace PHPCensor\Security\Authentication;
 
-use PHPCensor\Configuration;
 use PHPCensor\ConfigurationInterface;
+use PHPCensor\StoreRegistry;
 
 /**
  * Authentication facade.
@@ -19,8 +19,11 @@ class Service
      */
     private array $providers;
 
-    public function __construct(ConfigurationInterface $configuration, array $providers = [])
-    {
+    public function __construct(
+        ConfigurationInterface $configuration,
+        StoreRegistry $storeRegistry,
+        array $providers = []
+    ) {
         if (!$providers) {
             $config = $configuration->get(
                 'php-censor.security.auth_providers',
@@ -33,29 +36,21 @@ class Service
 
             $providers = [];
             foreach ($config as $key => $providerConfig) {
-                $providers[$key] = self::buildProvider($key, $providerConfig);
+                $providers[$key] = self::buildProvider($storeRegistry, $key, $providerConfig);
             }
         }
 
         $this->providers = $providers;
     }
 
-    /**
-     * Create a provider from a given configuration.
-     *
-     * @param string       $key
-     * @param string|array $config
-     *
-     * @return UserProviderInterface
-     */
-    public static function buildProvider($key, $config)
+    public static function buildProvider(StoreRegistry $storeRegistry, string $key, array $config): UserProviderInterface
     {
         $class = ucfirst($config['type']);
         if (class_exists('\\PHPCensor\\Security\\Authentication\\UserProvider\\' . $class)) {
             $class = '\\PHPCensor\\Security\\Authentication\\UserProvider\\' . $class;
         }
 
-        return new $class($key, $config);
+        return new $class($storeRegistry, $key, $config);
     }
 
     /**

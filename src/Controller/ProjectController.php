@@ -2,7 +2,6 @@
 
 namespace PHPCensor\Controller;
 
-use Exception;
 use JasonGrimes\Paginator;
 use PHPCensor;
 use PHPCensor\BuildFactory;
@@ -16,7 +15,6 @@ use PHPCensor\Model\Project;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Service\ProjectService;
 use PHPCensor\Store\BuildStore;
-use PHPCensor\Store\Factory;
 use PHPCensor\Store\ProjectStore;
 use PHPCensor\View;
 use PHPCensor\WebController;
@@ -63,10 +61,15 @@ class ProjectController extends WebController
     {
         parent::init();
 
-        $this->buildStore     = Factory::getStore('Build');
-        $this->projectStore   = Factory::getStore('Project');
-        $this->projectService = new ProjectService($this->projectStore);
-        $this->buildService   = new BuildService($this->configuration, $this->buildStore, $this->projectStore);
+        $this->buildStore     = $this->storeRegistry->get('Build');
+        $this->projectStore   = $this->storeRegistry->get('Project');
+        $this->projectService = new ProjectService($this->storeRegistry, $this->projectStore);
+        $this->buildService   = new BuildService(
+            $this->configuration,
+            $this->storeRegistry,
+            $this->buildStore,
+            $this->projectStore
+        );
     }
 
     /**
@@ -143,6 +146,7 @@ class ProjectController extends WebController
             $perPage,
             $page
         );
+        $this->view->user = $this->getUser();
 
         $this->layout->title    = $project->getTitle();
         $this->layout->subtitle = '';
@@ -240,7 +244,7 @@ class ProjectController extends WebController
         $environmentId = null;
         if ($environment) {
             /** @var EnvironmentStore $environmentStore */
-            $environmentStore  = Factory::getStore('Environment');
+            $environmentStore  = $this->storeRegistry->get('Environment');
             $environmentObject = $environmentStore->getByNameAndProjectId($environment, $project->getId());
             if ($environmentObject) {
                 $environmentId = $environmentObject->getId();
@@ -347,7 +351,7 @@ class ProjectController extends WebController
 
         if (!empty($environment)) {
             /** @var EnvironmentStore $environmentStore */
-            $environmentStore  = Factory::getStore('Environment');
+            $environmentStore  = $this->storeRegistry->get('Environment');
             $environmentObject = $environmentStore->getByNameAndProjectId($environment, $projectId);
             if ($environmentObject) {
                 $criteria['environment_id'] = $environmentObject->getId();
@@ -366,7 +370,9 @@ class ProjectController extends WebController
             $build = BuildFactory::getBuild($this->configuration, $build);
         }
 
-        $view->builds = $builds['items'];
+        $view->builds           = $builds['items'];
+        $view->environmentStore = $this->storeRegistry->get('Environment');
+        $view->user             = $this->getUser();
 
         return [
             $view->render(),
@@ -612,9 +618,9 @@ class ProjectController extends WebController
         $field = Form\Element\Select::create('group_id', Lang::get('project_group'), true);
         $field->setClass('form-control')->setContainerClass('form-group')->setValue(null);
 
-        $groups = [];
-        $groupStore = Factory::getStore('ProjectGroup');
-        $groupList = $groupStore->getWhere([], 100, 0, ['title' => 'ASC']);
+        $groups     = [];
+        $groupStore = $this->storeRegistry->get('ProjectGroup');
+        $groupList  = $groupStore->getWhere([], 100, 0, ['title' => 'ASC']);
 
         foreach ($groupList['items'] as $group) {
             $groups[$group->getId()] = $group->getTitle();

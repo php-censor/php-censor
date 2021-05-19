@@ -7,6 +7,12 @@ namespace PHPCensor;
 use PHPCensor\Common\Exception\Exception;
 use PHPCensor\Exception\RuntimeException;
 
+/**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
+ */
 class DatabaseManager
 {
     const MYSQL_TYPE      = 'mysql';
@@ -92,13 +98,5 @@ class DatabaseManager
         }
 
         return $this->connections[$type];
-    }
-
-    public function resetConnections(): void
-    {
-        $this->connections = [
-            'read'  => null,
-            'write' => null
-        ];
     }
 }

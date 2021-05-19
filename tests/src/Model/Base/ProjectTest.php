@@ -4,13 +4,29 @@ namespace Tests\PHPCensor\Model\Base;
 
 use DateTime;
 use PHPCensor\Model\Base\Project;
+use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 
 class ProjectTest extends TestCase
 {
+    protected StoreRegistry $storeRegistry;
+
+    protected function setUp(): void
+    {
+        $configuration   = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
+        $databaseManager = $this
+            ->getMockBuilder('PHPCensor\DatabaseManager')
+            ->setConstructorArgs([$configuration])
+            ->getMock();
+        $this->storeRegistry = $this
+            ->getMockBuilder('PHPCensor\StoreRegistry')
+            ->setConstructorArgs([$databaseManager])
+            ->getMock();
+    }
+
     public function testConstruct()
     {
-        $project = new Project();
+        $project = new Project($this->storeRegistry);
 
         self::assertInstanceOf('PHPCensor\Model', $project);
         self::assertInstanceOf('PHPCensor\Model\Base\Project', $project);
@@ -37,7 +53,7 @@ class ProjectTest extends TestCase
 
     public function testId()
     {
-        $project = new Project();
+        $project = new Project($this->storeRegistry);
 
         $result = $project->setId(100);
         self::assertEquals(true, $result);
@@ -49,7 +65,7 @@ class ProjectTest extends TestCase
 
     public function testTitle()
     {
-        $project = new Project();
+        $project = new Project($this->storeRegistry);
 
         $result = $project->setTitle('title');
         self::assertEquals(true, $result);
@@ -61,7 +77,7 @@ class ProjectTest extends TestCase
 
     public function testReference()
     {
-        $project = new Project();
+        $project = new Project($this->storeRegistry);
 
         $result = $project->setReference('git://reference');
         self::assertEquals(true, $result);
@@ -73,7 +89,7 @@ class ProjectTest extends TestCase
 
     public function testBranch()
     {
-        $project = new Project();
+        $project = new Project($this->storeRegistry);
 
         self::assertEquals(null, $project->getDefaultBranch());
 
@@ -87,7 +103,7 @@ class ProjectTest extends TestCase
 
     public function testDefaultBranchOnly()
     {
-        $project = new Project();
+        $project = new Project($this->storeRegistry);
 
         $result = $project->setDefaultBranchOnly(true);
         self::assertEquals(true, $result);
@@ -99,7 +115,7 @@ class ProjectTest extends TestCase
 
     public function testSshPrivateKey()
     {
-        $project = new Project();
+        $project = new Project($this->storeRegistry);
 
         $result = $project->setSshPrivateKey('private-key');
         self::assertEquals(true, $result);
@@ -111,7 +127,7 @@ class ProjectTest extends TestCase
 
     public function testSshPublicKey()
     {
-        $project = new Project();
+        $project = new Project($this->storeRegistry);
 
         $result = $project->setSshPublicKey('public-key');
         self::assertEquals(true, $result);
@@ -123,7 +139,7 @@ class ProjectTest extends TestCase
 
     public function testType()
     {
-        $project = new Project();
+        $project = new Project($this->storeRegistry);
 
         $result = $project->setType('git');
         self::assertEquals(true, $result);
@@ -138,7 +154,7 @@ class ProjectTest extends TestCase
 
     public function testAccessInformation()
     {
-        $project = new Project();
+        $project = new Project($this->storeRegistry);
 
         $result = $project->setAccessInformation(['key-1' => 'value-1', 'key-2' => 'value-2']);
         self::assertEquals(true, $result);
@@ -152,7 +168,7 @@ class ProjectTest extends TestCase
 
     public function testBuildConfig()
     {
-        $project = new Project();
+        $project = new Project($this->storeRegistry);
 
         $result = $project->setBuildConfig('config');
         self::assertEquals(true, $result);
@@ -164,7 +180,7 @@ class ProjectTest extends TestCase
 
     public function testOverwriteBuildConfig()
     {
-        $project = new Project();
+        $project = new Project($this->storeRegistry);
 
         $result = $project->setOverwriteBuildConfig(false);
         self::assertEquals(true, $result);
@@ -176,7 +192,7 @@ class ProjectTest extends TestCase
 
     public function testAllowPublicStatus()
     {
-        $project = new Project();
+        $project = new Project($this->storeRegistry);
 
         $result = $project->setAllowPublicStatus(true);
         self::assertEquals(true, $result);
@@ -188,7 +204,7 @@ class ProjectTest extends TestCase
 
     public function testArchived()
     {
-        $project = new Project();
+        $project = new Project($this->storeRegistry);
 
         $result = $project->setArchived(true);
         self::assertEquals(true, $result);
@@ -200,7 +216,7 @@ class ProjectTest extends TestCase
 
     public function testGroupId()
     {
-        $project = new Project();
+        $project = new Project($this->storeRegistry);
 
         $result = $project->setGroupId(200);
         self::assertEquals(true, $result);
@@ -212,10 +228,10 @@ class ProjectTest extends TestCase
 
     public function testCreateDate()
     {
-        $project = new Project();
+        $project = new Project($this->storeRegistry);
         self::assertEquals(null, $project->getCreateDate());
 
-        $project    = new Project();
+        $project    = new Project($this->storeRegistry);
         $createDate = new DateTime();
 
         $result = $project->setCreateDate($createDate);
@@ -228,7 +244,7 @@ class ProjectTest extends TestCase
 
     public function testUserId()
     {
-        $project = new Project();
+        $project = new Project($this->storeRegistry);
 
         $result = $project->setUserId(300);
         self::assertEquals(true, $result);

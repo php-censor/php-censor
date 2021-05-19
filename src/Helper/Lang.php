@@ -3,8 +3,8 @@
 namespace PHPCensor\Helper;
 
 use PHPCensor\ConfigurationInterface;
-use PHPCensor\Store\Factory;
 use PHPCensor\Store\UserStore;
+use PHPCensor\StoreRegistry;
 
 /**
  * Languages Helper Class - Handles loading strings files and the strings within them.
@@ -112,12 +112,12 @@ class Lang
 
     /**
      * Initialise the Language helper, try load the language file for the user's browser or the configured default.
-     *
-     * @param ConfigurationInterface $config
-     * @param string                 $languageForce
      */
-    public static function init(ConfigurationInterface $config, $languageForce = null)
-    {
+    public static function init(
+        ConfigurationInterface $config,
+        StoreRegistry $storeRegistry,
+        ?string $languageForce = null
+    ) {
         self::$defaultStrings = self::loadLanguage(self::DEFAULT_LANGUAGE);
         self::loadAvailableLanguages();
 
@@ -128,7 +128,7 @@ class Lang
         $user = null;
         if (!empty($_SESSION['php-censor-user-id'])) {
             /** @var UserStore $userStore */
-            $userStore = Factory::getStore('User');
+            $userStore = $storeRegistry->get('User');
             $user      = $userStore->getById($_SESSION['php-censor-user-id']);
         }
 

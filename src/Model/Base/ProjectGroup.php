@@ -13,7 +13,7 @@ class ProjectGroup extends Model
     /**
      * @var array
      */
-    protected $data = [
+    protected array $data = [
         'id'          => null,
         'title'       => null,
         'create_date' => null,

@@ -44,13 +44,17 @@ class CreateAdminCommandTest extends TestCase
             ->getMockBuilder('PHPCensor\DatabaseManager')
             ->setConstructorArgs([$this->configuration])
             ->getMock();
+        $storeRegistry = $this
+            ->getMockBuilder('PHPCensor\StoreRegistry')
+            ->setConstructorArgs([$this->databaseManager])
+            ->getMock();
         $this->logger  = $this->getMockBuilder('Psr\Log\LoggerInterface')->getMock();
         $userStoreMock = $this
             ->getMockBuilder('PHPCensor\Store\UserStore')
-            ->setConstructorArgs([$this->databaseManager])
+            ->setConstructorArgs([$this->databaseManager, $storeRegistry])
             ->getMock();
 
-        $this->command = new CreateAdminCommand($this->configuration, $this->databaseManager, $this->logger, $userStoreMock);
+        $this->command = new CreateAdminCommand($this->configuration, $this->databaseManager, $storeRegistry, $this->logger, $userStoreMock);
 
         $this->helper = $this
             ->getMockBuilder('Symfony\Component\Console\Helper\QuestionHelper')

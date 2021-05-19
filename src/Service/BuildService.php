@@ -15,6 +15,7 @@ use PHPCensor\Model\Build;
 use PHPCensor\Model\Project;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\ProjectStore;
+use PHPCensor\StoreRegistry;
 use PHPCensor\Worker\BuildWorker;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Exception\ParseException;
@@ -31,14 +32,18 @@ class BuildService
 
     private ConfigurationInterface $configuration;
 
+    private StoreRegistry $storeRegistry;
+
     public bool $queueError = false;
 
     public function __construct(
         ConfigurationInterface $configuration,
+        StoreRegistry $storeRegistry,
         BuildStore $buildStore,
         ProjectStore $projectStore
     ) {
         $this->configuration = $configuration;
+        $this->storeRegistry = $storeRegistry;
         $this->buildStore    = $buildStore;
         $this->projectStore  = $projectStore;
     }
@@ -69,7 +74,7 @@ class BuildService
         $userId = null,
         $extra = null
     ) {
-        $build = new Build();
+        $build = new Build($this->storeRegistry);
         $build->setCreateDate(new DateTime());
         $build->setProjectId($project->getId());
         $build->setStatusPending();
@@ -244,7 +249,7 @@ class BuildService
      */
     public function createDuplicateBuild(Build $originalBuild, $source)
     {
-        $build = new Build();
+        $build = new Build($this->storeRegistry);
         $build->setParentId($originalBuild->getId());
         $build->setProjectId($originalBuild->getProjectId());
         $build->setCommitId($originalBuild->getCommitId());

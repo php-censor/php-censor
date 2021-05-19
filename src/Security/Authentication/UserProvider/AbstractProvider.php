@@ -3,6 +3,7 @@
 namespace PHPCensor\Security\Authentication\UserProvider;
 
 use PHPCensor\Security\Authentication\UserProviderInterface;
+use PHPCensor\StoreRegistry;
 
 /**
  * Abstract user provider.
@@ -21,16 +22,16 @@ abstract class AbstractProvider implements UserProviderInterface
      */
     protected array $config;
 
-    /**
-     * AbstractProvider constructor
-     *
-     * @param string $key
-     * @param array  $config
-     */
-    public function __construct(string $key, array $config)
-    {
-        $this->key    = $key;
-        $this->config = $config;
+    protected StoreRegistry $storeRegistry;
+
+    public function __construct(
+        StoreRegistry $storeRegistry,
+        string $key,
+        array $config
+    ) {
+        $this->key           = $key;
+        $this->config        = $config;
+        $this->storeRegistry = $storeRegistry;
     }
 
     /**

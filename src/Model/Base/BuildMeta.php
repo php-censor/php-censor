@@ -11,7 +11,7 @@ class BuildMeta extends Model
     /**
      * @var array
      */
-    protected $data = [
+    protected array $data = [
         'id'         => null,
         'build_id'   => null,
         'meta_key'   => null,

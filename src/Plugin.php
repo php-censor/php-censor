@@ -73,6 +73,8 @@ abstract class Plugin
      */
     protected $binaryName = [];
 
+    protected ?StoreRegistry $storeRegistry = null;
+
     /**
      * @param Builder $builder
      * @param Build   $build
@@ -296,5 +298,10 @@ abstract class Plugin
     public static function pluginName()
     {
         return '';
+    }
+
+    public function setStoreRegistry(StoreRegistry $storeRegistry)
+    {
+        $this->storeRegistry = $storeRegistry;
     }
 }
