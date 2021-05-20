@@ -5,7 +5,6 @@ namespace PHPCensor\Model\Build;
 use Exception;
 use GuzzleHttp\Client;
 use PHPCensor\Builder;
-use PHPCensor\Configuration;
 use PHPCensor\Helper\Diff;
 use PHPCensor\Helper\Github;
 use PHPCensor\Model\Build;
@@ -308,8 +307,6 @@ class GithubBuild extends GitBuild
                 }
             }
         } catch (\Throwable $e) {
-            $builder->getBuildLogger()->logFailure('Exception: ' . $e->getMessage(), $e);
-        } catch (\Exception $e) {
             $builder->getBuildLogger()->logFailure('Exception: ' . $e->getMessage(), $e);
         }
     }

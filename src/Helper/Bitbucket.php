@@ -4,6 +4,7 @@ namespace PHPCensor\Helper;
 
 use GuzzleHttp\Client;
 use PHPCensor\ConfigurationInterface;
+use PHPCensor\Model\Build;
 
 /**
  * The Bitbucket Helper class provides some Bitbucket API call functionality.
@@ -123,5 +124,21 @@ class Bitbucket
         $response = $client->get($url, ['auth' => [$username, $appPassword]]);
 
         return (string)$response->getBody();
+    }
+
+    public function getFileLinkTemplate(Build $build): string
+    {
+        $reference = $build->getProject()->getReference();
+        if (\in_array($build->getSource(), Build::$pullRequestSources, true)) {
+            $reference = $build->getExtra('remote_reference');
+        }
+
+        $link = 'https://bitbucket.org/' . $reference . '/';
+
+        $link .= 'src/' . $build->getCommitId() . '/';
+        $link .= '{FILE}';
+        $link .= '#{BASEFILE}-{LINE}';
+
+        return $link;
     }
 }

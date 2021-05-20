@@ -167,12 +167,10 @@ class SensiolabsInsight extends Plugin
      */
     protected function wasLastExecSuccessful($errorCount)
     {
-        $success = true;
-
         if ($this->allowedWarnings !== -1 && $errorCount > $this->allowedWarnings) {
-            $success = false;
-            return $success;
+            return false;
         }
-        return $success;
+
+        return true;
     }
 }

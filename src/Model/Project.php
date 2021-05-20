@@ -135,9 +135,7 @@ class Project extends BaseProject
      */
     protected function getEnvironmentStore()
     {
-        /** @var EnvironmentStore $store */
-        $store = $this->storeRegistry->get('Environment');
-        return $store;
+        return $this->storeRegistry->get('Environment');
     }
 
     /**
@@ -188,9 +186,8 @@ class Project extends BaseProject
         }
 
         $yamlDumper = new YamlDumper();
-        $value      = $yamlDumper->dump($environmentsConfig, 10, 0, true, false);
 
-        return $value;
+        return $yamlDumper->dump($environmentsConfig, 10, 0);
     }
 
     /**

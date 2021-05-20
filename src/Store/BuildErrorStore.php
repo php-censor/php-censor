@@ -223,9 +223,7 @@ class BuildErrorStore extends Store
             $map = function ($item) {
                 return $item['plugin'];
             };
-            $rtn = array_map($map, $res);
-
-            return $rtn;
+            return array_map($map, $res);
         } else {
             return [];
         }
@@ -264,9 +262,8 @@ class BuildErrorStore extends Store
             $map = function ($item) {
                 return (int)$item['severity'];
             };
-            $rtn = array_map($map, $res);
 
-            return $rtn;
+            return array_map($map, $res);
         } else {
             return [];
         }

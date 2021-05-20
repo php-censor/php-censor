@@ -87,7 +87,7 @@ class PhpUnitResultJunit extends PhpUnitResult
         }
         if ('' === $msg) {
             $msg = $testCase['class'].'::'.$testCase['name'];
-        };
+        }
         $testCase['_tracePos'] = $tracePos; // will be converted to string
 
         return $msg;

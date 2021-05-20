@@ -93,8 +93,6 @@ class BuildWorker
     {
         $this->pheanstalk->watchOnly($this->queueTube);
 
-        $buildStore = $this->storeRegistry->get('Build');
-
         while ($this->canRun) {
             if ($this->canPeriodicalWork &&
                 $this->canRunPeriodicalWork()) {
@@ -224,7 +222,7 @@ class BuildWorker
     protected function canForceRewindLoop()
     {
         try {
-            $peekedJob = $this->pheanstalk->peekReady($this->queueTube);
+            $this->pheanstalk->peekReady($this->queueTube);
         } catch (Exception $e) {
             return true;
         }

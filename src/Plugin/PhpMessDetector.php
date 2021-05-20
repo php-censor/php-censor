@@ -218,12 +218,10 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
      */
     protected function wasLastExecSuccessful($errorCount)
     {
-        $success = true;
-
         if (-1 != $this->allowedWarnings && $errorCount > $this->allowedWarnings) {
-            $success = false;
-            return $success;
+            return false;
         }
-        return $success;
+
+        return true;
     }
 }

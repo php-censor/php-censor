@@ -76,7 +76,7 @@ class Application
         $skipAuth = [$this, 'shouldSkipAuth'];
 
         // Handler for the route we're about to register, checks for a valid session where necessary:
-        $routeHandler = function (&$route, Response &$response) use (&$request, $validateSession, $skipAuth) {
+        $routeHandler = function ($route, Response &$response) use (&$request, $validateSession, $skipAuth) {
             $skipValidation = in_array($route['controller'], ['session', 'webhook', 'build-status']);
 
             if (!$skipValidation && !$validateSession() && (!is_callable($skipAuth) || !$skipAuth())) {
@@ -274,8 +274,7 @@ class Application
     {
         $string = str_replace('-', ' ', $string);
         $string = ucwords($string);
-        $string = str_replace(' ', '', $string);
 
-        return $string;
+        return str_replace(' ', '', $string);
     }
 }

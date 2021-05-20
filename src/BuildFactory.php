@@ -91,7 +91,7 @@ class BuildFactory
 
             $class = '\\PHPCensor\\Model\\Build\\' . $type;
 
-            if ($class instanceof Build\GitBuild) {
+            if ($class instanceof Build\GitBuild || $class instanceof Build\HgBuild) {
                 $build = new $class($configuration, $storeRegistry, $build->getDataArray());
             } else {
                 $build = new $class($configuration, $build->getDataArray());

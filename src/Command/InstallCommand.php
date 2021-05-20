@@ -134,7 +134,8 @@ class InstallCommand extends Command
             $this->writeConfigFile($conf);
         }
 
-        $this->reloadConfig();
+        $this->configuration = new Configuration($this->configPath);
+
         if (!$this->setupDatabase($output)) {
             return false;
         }
@@ -177,8 +178,7 @@ class InstallCommand extends Command
 
         if (!(\version_compare(PHP_VERSION, '7.4.0') >= 0)) {
             $output->writeln('');
-            $output->writeln(
-                '<error>PHP Censor requires at least PHP 7.4.0! Installed PHP ' . PHP_VERSION . '</error>');
+            $output->writeln('<error>PHP Censor requires at least PHP 7.4.0! Installed PHP ' . PHP_VERSION . '</error>');
             $errors = true;
         }
 
@@ -631,13 +631,6 @@ class InstallCommand extends Command
         } catch (\Throwable $ex) {
             $output->writeln('<error>PHP Censor failed to create default project group!</error>');
             $output->writeln('<error>' . $ex->getMessage() . '</error>');
-        }
-    }
-
-    protected function reloadConfig(): void
-    {
-        if (\file_exists($this->configPath)) {
-            $config = new Configuration($this->configPath);
         }
     }
 }

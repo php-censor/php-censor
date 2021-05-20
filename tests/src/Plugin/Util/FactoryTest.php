@@ -2,6 +2,7 @@
 
 namespace Tests\PHPCensor\Plugin\Util;
 
+use PHPCensor\Exception\RuntimeException;
 use PHPCensor\Plugin\Util\Factory;
 use PHPUnit\Framework\TestCase;
 use stdClass;
@@ -61,7 +62,7 @@ class FactoryTest extends TestCase
 
     public function testBuildPluginThrowsExceptionIfMissingResourcesForRequiredArg()
     {
-        self::expectException('\DomainException');
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Unsatisfied dependency: requiredArgument');
 
         $pluginClass = $this->getFakePluginClassName('ExamplePluginWithSingleRequiredArg');

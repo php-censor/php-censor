@@ -2,7 +2,6 @@
 
 namespace PHPCensor\Plugin;
 
-use PHPCensor\Configuration;
 use PHPCensor\Exception\HttpException;
 use PHPCensor\Helper\Email as EmailHelper;
 use PHPCensor\Plugin;

@@ -97,9 +97,8 @@ class BuildInterpolator
     {
         $input = str_replace('%CURRENT_DATE%', \date('Y-m-d'), $input);
         $input = str_replace('%CURRENT_TIME%', \date('H-i-s'), $input);
-        $input = str_replace('%CURRENT_DATETIME%', \date('Y-m-d_H-i-s'), $input);
 
-        return $input;
+        return str_replace('%CURRENT_DATETIME%', \date('Y-m-d_H-i-s'), $input);
     }
 
     /**

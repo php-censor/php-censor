@@ -3,8 +3,6 @@
 namespace PHPCensor;
 
 use PHPCensor\Exception\RuntimeException;
-use PHPCensor\Model\User;
-use PHPCensor\Store\UserStore;
 
 class View
 {
@@ -45,9 +43,8 @@ class View
     protected static function getViewFile($file, $path = null)
     {
         $viewPath = is_null($path) ? (SRC_DIR . 'View/') : $path;
-        $fullPath = $viewPath . $file . '.' . static::$extension;
 
-        return $fullPath;
+        return $viewPath . $file . '.' . static::$extension;
     }
 
     /**

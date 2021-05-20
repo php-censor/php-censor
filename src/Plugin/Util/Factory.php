@@ -16,11 +16,8 @@ use ReflectionParameter;
  */
 class Factory
 {
-    const TYPE_ARRAY       = "array";
-    const TYPE_CALLABLE    = "callable";
-    const INTERFACE_PLUGIN = '\PHPCensor\Plugin';
-
-    private $currentPluginOptions;
+    const TYPE_ARRAY    = "array";
+    const TYPE_CALLABLE = "callable";
 
     /**
      * @var Container
@@ -40,37 +37,6 @@ class Factory
     }
 
     /**
-     * Trys to get a function from the file path specified. If the
-     * file returns a function then $this will be passed to it.
-     * This enables the config file to call any public methods.
-     *
-     * @param $configPath
-     * @return bool - true if the function exists else false.
-     */
-    public function addConfigFromFile($configPath)
-    {
-        // The file is expected to return a function which can
-        // act on the pluginFactory to register any resources needed.
-        if (file_exists($configPath)) {
-            $configFunction = require($configPath);
-            if (is_callable($configFunction)) {
-                $configFunction($this);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Get most recently used factory options.
-     * @return mixed
-     */
-    public function getLastOptions()
-    {
-        return $this->currentPluginOptions;
-    }
-
-    /**
      * Builds an instance of plugin of class $className. $options will
      * be passed along with any resources registered with the factory.
      *
@@ -81,8 +47,6 @@ class Factory
      */
     public function buildPlugin($className, $options = [])
     {
-        $this->currentPluginOptions = $options;
-
         $reflectedPlugin = new ReflectionClass($className);
 
         $constructor = $reflectedPlugin->getConstructor();

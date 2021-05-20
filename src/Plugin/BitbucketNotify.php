@@ -286,7 +286,6 @@ class BitbucketNotify extends Plugin
         /** @var BuildMetaStore $buildMetaStore */
         $buildMetaStore       = $this->storeRegistry->get('BuildMeta');
         $latestTargetBuildId  = $this->findLatestBuild($targetBranch);
-        $latestCurrentBuildId = $this->findLatestBuild($this->build->getBranch());
 
         $targetMetaData = $buildMetaStore->getByKey(
             $this->findLatestBuild($targetBranch),

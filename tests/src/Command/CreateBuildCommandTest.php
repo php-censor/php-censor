@@ -79,11 +79,9 @@ class CreateBuildCommandTest extends TestCase
     protected function getCommandTester()
     {
         $this->application->add($this->command);
-
         $command = $this->application->find('php-censor:create-build');
-        $commandTester = new CommandTester($command);
 
-        return $commandTester;
+        return new CommandTester($command);
     }
 
     public function testExecute()

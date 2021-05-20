@@ -2,7 +2,6 @@
 
 namespace Tests\PHPCensor\Plugin;
 
-use PHPCensor\Configuration;
 use PHPCensor\Helper\BuildInterpolator;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;

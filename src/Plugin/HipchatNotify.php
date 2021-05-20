@@ -2,7 +2,6 @@
 
 namespace PHPCensor\Plugin;
 
-use Exception;
 use HipChat\HipChat;
 use PHPCensor\Builder;
 use PHPCensor\Exception\InvalidArgumentException;

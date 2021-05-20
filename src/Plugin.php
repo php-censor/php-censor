@@ -4,7 +4,6 @@ namespace PHPCensor;
 
 use Exception;
 use PHPCensor\Model\Build;
-use PHPCensor\Plugin\Codeception;
 
 /**
  * @author Dan Cryer <dan@block8.co.uk>

@@ -157,9 +157,8 @@ class ProjectStore extends Store
             $map = function ($item) {
                 return $item['branch'];
             };
-            $rtn = array_map($map, $res);
 
-            return $rtn;
+            return array_map($map, $res);
         } else {
             return [];
         }

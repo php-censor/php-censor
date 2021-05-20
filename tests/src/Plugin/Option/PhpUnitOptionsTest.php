@@ -122,7 +122,7 @@ class PhpUnitOptionsTest extends TestCase
         self::assertEquals('/path/to/run/from', $options->getRunFrom());
         self::assertEquals('subTest', $options->getTestsPath());
         self::assertNull($options->getOption('random'));
-        self::assertEmpty($options->getDirectories($builder));
+        self::assertEmpty($options->getDirectories());
         self::assertEmpty($options->getConfigFiles());
 
         $files = $options->getConfigFiles(ROOT_DIR);

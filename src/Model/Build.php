@@ -35,7 +35,7 @@ class Build extends BaseBuild
     /**
      * @var array
      */
-    public static $pullRequestSources = [
+    public static array $pullRequestSources = [
         self::SOURCE_WEBHOOK_PULL_REQUEST_CREATED,
         self::SOURCE_WEBHOOK_PULL_REQUEST_UPDATED,
         self::SOURCE_WEBHOOK_PULL_REQUEST_APPROVED,
@@ -45,7 +45,7 @@ class Build extends BaseBuild
     /**
      * @var array
      */
-    public static $webhookSources = [
+    public static array $webhookSources = [
         self::SOURCE_WEBHOOK_PUSH,
         self::SOURCE_WEBHOOK_PULL_REQUEST_CREATED,
         self::SOURCE_WEBHOOK_PULL_REQUEST_UPDATED,
@@ -263,7 +263,7 @@ class Build extends BaseBuild
         $overwriteBuildConfig = $this->getProject()->getOverwriteBuildConfig();
         $buildConfig          = $builder->getConfig();
 
-        $repositoryConfig     = $this->getZeroConfigPlugins($builder);
+        $repositoryConfig     = $this->getZeroConfigPlugins();
         $repositoryConfigFrom = '<empty config>';
 
         if (file_exists($buildPath . '/.php-censor.yml')) {
@@ -308,13 +308,11 @@ class Build extends BaseBuild
     /**
      * Get an array of plugins to run if there's no .php-censor.yml file.
      *
-     * @param Builder $builder
-     *
      * @return array
      *
      * @throws ReflectionException
      */
-    protected function getZeroConfigPlugins(Builder $builder)
+    protected function getZeroConfigPlugins()
     {
         $pluginDir = SRC_DIR . 'Plugin/';
         $dir = new DirectoryIterator($pluginDir);

@@ -2,9 +2,7 @@
 
 namespace PHPCensor\Plugin;
 
-use Exception;
 use PHPCensor\Builder;
-use PHPCensor\Configuration;
 use PHPCensor\Exception\RuntimeException;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;

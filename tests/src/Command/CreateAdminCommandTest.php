@@ -71,9 +71,8 @@ class CreateAdminCommandTest extends TestCase
     {
         $this->application->getHelperSet()->set($this->helper, 'question');
         $this->application->add($this->command);
-        $commandTester = new CommandTester($this->command);
 
-        return $commandTester;
+        return new CommandTester($this->command);
     }
 
     public function testExecute()

@@ -88,8 +88,6 @@ class PhpUnitResultJson extends PhpUnitResult
                 }
                 break;
             case 'pass':
-                $severity = self::SEVERITY_PASS;
-                break;
             case 'warning':
                 $severity = self::SEVERITY_PASS;
                 break;

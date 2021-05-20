@@ -67,7 +67,7 @@ class BuildTest extends TestCase
         ], $build->getDataArray());
 
         try {
-            $build = new Build($this->storeRegistry, [
+            new Build($this->storeRegistry, [
                 'project_id' => 101,
                 'branch'     => 'dev',
                 'unknown'    => 'unknown',

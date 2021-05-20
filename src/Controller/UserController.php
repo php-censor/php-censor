@@ -220,7 +220,7 @@ class UserController extends WebController
         $method = $this->request->getMethod();
         $user   = $this->userStore->getById($userId);
 
-        if (!$currentUser->getIsAdmin() && $currentUser != $user) {
+        if (!$currentUser->getIsAdmin() && $currentUser !== $user) {
             throw new ForbiddenException('You do not have permission to do that.');
         }
 

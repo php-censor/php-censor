@@ -112,8 +112,7 @@ class Mage3 extends Plugin
 
         $lines = explode("\n", $logContent);
         $lines = array_map('trim', $lines);
-        $lines = array_filter($lines);
 
-        return $lines;
+        return array_filter($lines);
     }
 }

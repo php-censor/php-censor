@@ -151,8 +151,7 @@ abstract class Store
      */
     public function saveByUpdate(Model $obj, $saveAllColumns = false)
     {
-        $rtn = null;
-        $data = $obj->getDataArray();
+        $data     = $obj->getDataArray();
         $modified = ($saveAllColumns) ? array_keys($data) : $obj->getModified();
 
         $updates      = [];

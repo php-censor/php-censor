@@ -73,7 +73,7 @@ class BuildController extends WebController
         $plugin = $this->getParam('plugin', '');
         $isNew  = $this->getParam('is_new', '');
 
-        $severity = $this->getParam('severity', null);
+        $severity = $this->getParam('severity');
         if (null !== $severity && '' !== $severity) {
             $severity = (int)$severity;
         } else {
@@ -388,10 +388,10 @@ class BuildController extends WebController
     {
         $page    = (int)$this->getParam('page', 1);
         $perPage = (int)$this->getParam('per_page', 10);
-        $plugin  = $this->getParam('plugin', null);
-        $isNew   = $this->getParam('is_new', null);
+        $plugin  = $this->getParam('plugin');
+        $isNew   = $this->getParam('is_new');
 
-        $severity = $this->getParam('severity', null);
+        $severity = $this->getParam('severity');
         if (null !== $severity && '' !== $severity) {
             $severity = (int)$severity;
         } else {
@@ -444,7 +444,7 @@ class BuildController extends WebController
             (int)$buildId
         );
 
-        $key       = $this->getParam('key', null);
+        $key       = $this->getParam('key');
         $numBuilds = $this->getParam('num_builds', 1);
         $data      = null;
 

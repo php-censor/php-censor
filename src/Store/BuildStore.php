@@ -167,9 +167,8 @@ class BuildStore extends Store
             $map = function ($item) {
                 return new Build($this->storeRegistry, $item);
             };
-            $rtn = array_map($map, $res);
 
-            return $rtn;
+            return array_map($map, $res);
         } else {
             return [];
         }
@@ -230,9 +229,7 @@ class BuildStore extends Store
             $map = function ($item) {
                 return new Build($this->storeRegistry, $item);
             };
-            $rtn = array_map($map, $res);
-
-            return $rtn;
+            return array_map($map, $res);
         } else {
             return [];
         }
@@ -399,8 +396,7 @@ class BuildStore extends Store
         $stmt->bindValue(':project_id', $projectId);
 
         if ($stmt->execute()) {
-            $res = $stmt->fetchAll(PDO::FETCH_COLUMN);
-            return $res;
+            return $stmt->fetchAll(PDO::FETCH_COLUMN);
         } else {
             return [];
         }

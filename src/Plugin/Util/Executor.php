@@ -143,9 +143,6 @@ class Executor
 
             // Run branch-specific plugins after standard plugins:
             case 'after':
-                array_push($pluginsToExecute, $plugins);
-                break;
-
             default:
                 array_push($pluginsToExecute, $plugins);
                 break;

@@ -174,22 +174,13 @@ class BitbucketBuild extends GitBuild
     /**
      * Get a template to use for generating links to files.
      *
-     * @return string|null
+     * @return string
      */
     public function getFileLinkTemplate()
     {
-        $reference = $this->getProject()->getReference();
+        $bitbucket = new Bitbucket($this->configuration);
 
-        if (in_array($this->getSource(), Build::$pullRequestSources, true)) {
-            $reference = $this->getExtra('remote_reference');
-        }
-
-        $link = 'https://bitbucket.org/' . $reference . '/';
-        $link .= 'src/' . $this->getCommitId() . '/';
-        $link .= '{FILE}';
-        $link .= '#{BASEFILE}-{LINE}';
-
-        return $link;
+        return $bitbucket->getFileLinkTemplate($this);
     }
 
     /**
@@ -296,8 +287,6 @@ class BitbucketBuild extends GitBuild
                 }
             }
         } catch (\Throwable $e) {
-            $builder->getBuildLogger()->logFailure('Exception: ' . $e->getMessage(), $e);
-        } catch (\Exception $e) {
             $builder->getBuildLogger()->logFailure('Exception: ' . $e->getMessage(), $e);
         }
     }

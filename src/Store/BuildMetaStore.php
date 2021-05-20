@@ -159,9 +159,8 @@ class BuildMetaStore extends Store
             $map = function ($item) {
                 return new BuildMeta($this->storeRegistry, $item);
             };
-            $rtn = array_map($map, $res);
 
-            return $rtn;
+            return array_map($map, $res);
         } else {
             return [];
         }

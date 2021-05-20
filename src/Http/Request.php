@@ -44,9 +44,8 @@ class Request
 
         // Also cut out the query string:
         $path = explode('?', $path);
-        $path = array_shift($path);
 
-        return $path;
+        return array_shift($path);
     }
 
     /**

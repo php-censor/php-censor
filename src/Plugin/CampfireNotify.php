@@ -2,7 +2,6 @@
 
 namespace PHPCensor\Plugin;
 
-use Exception;
 use PHPCensor\Builder;
 use PHPCensor\Exception\InvalidArgumentException;
 use PHPCensor\Model\Build;
