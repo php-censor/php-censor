@@ -123,8 +123,8 @@ var warningsPlugin = ActiveBuild.UiPlugin.extend({
 
                 self.chartData.datasets.push({
                     label:       self.keys[key],
-                    strokeColor: color,
-                    pointColor:  color,
+                    borderColor: color,
+                    color:  color,
                     data:        []
                 });
 
@@ -151,14 +151,20 @@ var warningsPlugin = ActiveBuild.UiPlugin.extend({
             $('#build-warnings-chart').show();
 
             var ctx                = $("#build-warnings-linechart").get(0).getContext("2d");
-            var buildWarningsChart = new Chart(ctx);
 
-            Chart.defaults.global.responsive = true;
-
-            buildWarningsChart.Line(self.chartData, {
-                datasetFill: false,
-                multiTooltipTemplate: "<%=datasetLabel%>: <%= value %>"
+            if (window.buildWarningsChart != undefined) {
+                window.buildWarningsChart.destroy();
+            }
+            window.buildWarningsChart = new Chart(ctx, {
+                type: 'line',
+                data: self.chartData,
+                options: {
+                    datasetFill: false,
+                    multiTooltipTemplate: "<%=datasetLabel%>: <%= value %>"
+                }
             });
+
+            Chart.defaults.responsive = true;
         }
     }
 });

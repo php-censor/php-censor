@@ -51,20 +51,20 @@ var coveragePlugin = ActiveBuild.UiPlugin.extend({
             datasets: [
             {
                     label:       Lang.get('classes'),
-                    strokeColor: "#555299",
-                    pointColor:  "#555299",
+                    borderColor: "#555299",
+                    color:  "#555299",
                     data:        []
             },
                 {
                     label:       Lang.get('methods'),
-                    strokeColor: "#00A65A",
-                    pointColor:  "#00A65A",
+                    borderColor: "#00A65A",
+                    color:  "#00A65A",
                     data:        []
             },
                 {
                     label:       Lang.get('lines'),
-                    strokeColor: "#8AA4AF",
-                    pointColor:  "#8AA4AF",
+                    borderColor: "#8AA4AF",
+                    color:  "#8AA4AF",
                     data:        []
             }
             ]
@@ -87,20 +87,25 @@ var coveragePlugin = ActiveBuild.UiPlugin.extend({
             $('#build-php_unit-coverage-chart').show();
 
             var ctx = $("#php_unit-coverage-chart").get(0).getContext("2d");
-            var chart = new Chart(ctx, {
-                responsive: true
+
+            if (window.chart != undefined) {
+                window.chart.destroy();
+            }
+            window.chart = new Chart(ctx, {
+                responsive: true,
+                type: 'line',
+                data: self.chartData,
+                options: {
+                    scaleOverride :       true,
+                    scaleSteps :          10,
+                    scaleStepWidth :      10,
+                    scaleStartValue :     0,
+                    datasetFill:          false,
+                    multiTooltipTemplate: "<%=datasetLabel%>: <%= value %>"
+                }
             });
 
-            Chart.defaults.global.responsive = true;
-
-            chart.Line(self.chartData, {
-                scaleOverride :       true,
-                scaleSteps :          10,
-                scaleStepWidth :      10,
-                scaleStartValue :     0,
-                datasetFill:          false,
-                multiTooltipTemplate: "<%=datasetLabel%>: <%= value %>"
-            });
+            Chart.defaults.responsive = true;
         }
     }
 });
