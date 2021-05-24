@@ -51,26 +51,26 @@ var locPlugin = ActiveBuild.UiPlugin.extend({
             datasets: [
             {
                     label:       Lang.get('lines'),
-                    strokeColor: "#555299",
-                    pointColor:  "#555299",
+                    borderColor: "#555299",
+                    color:  "#555299",
                     data:        []
             },
                 {
                     label:       Lang.get('logical_lines'),
-                    strokeColor: "#00A65A",
-                    pointColor:  "#00A65A",
+                    borderColor: "#00A65A",
+                    color:  "#00A65A",
                     data:        []
             },
                 {
                     label:       Lang.get('comment_lines'),
-                    strokeColor: "#8AA4AF",
-                    pointColor:  "#8AA4AF",
+                    borderColor: "#8AA4AF",
+                    color:  "#8AA4AF",
                     data:        []
             },
                 {
                     label:       Lang.get('noncomment_lines'),
-                    strokeColor: "#00A7D0",
-                    pointColor:  "#00A7D0",
+                    borderColor: "#00A7D0",
+                    color:  "#00A7D0",
                     data:        []
             }
             ]
@@ -94,14 +94,21 @@ var locPlugin = ActiveBuild.UiPlugin.extend({
             $('#build-lines-chart').show();
 
             var ctx = $("#php_loc-data-chart").get(0).getContext("2d");
-            var phpLocChart = new Chart(ctx, {"responsive": true});
 
-            Chart.defaults.global.responsive = true;
-
-            phpLocChart.Line(self.chartData, {
-                datasetFill:          false,
-                multiTooltipTemplate: "<%=datasetLabel%>: <%= value %>"
+            if (window.phpLocChart != undefined) {
+                window.phpLocChart.destroy();
+            }
+            window.phpLocChart = new Chart(ctx, {
+                responsive: true,
+                type: 'line',
+                data: self.chartData,
+                options: {
+                    datasetFill:          false,
+                    multiTooltipTemplate: "<%=datasetLabel%>: <%= value %>"
+                }
             });
+
+            Chart.defaults.responsive = true;
         }
     }
 });
