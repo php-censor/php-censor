@@ -2,7 +2,7 @@
 
 namespace Tests\PHPCensor\Plugin\Util;
 
-use PHPCensor\Exception\RuntimeException;
+use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Plugin\Util\Factory;
 use PHPUnit\Framework\TestCase;
 use stdClass;
@@ -41,14 +41,14 @@ class FactoryTest extends TestCase
 
     public function testRegisterResourceThrowsExceptionWithoutTypeAndName()
     {
-        self::expectException('\PHPCensor\Exception\InvalidArgumentException');
+        self::expectException('\PHPCensor\Common\Exception\InvalidArgumentException');
         self::expectExceptionMessage('Type or Name must be specified');
         $this->testedFactory->registerResource($this->resourceLoader, null, null);
     }
 
     public function testRegisterResourceThrowsExceptionIfLoaderIsntFunction()
     {
-        self::expectException('\PHPCensor\Exception\InvalidArgumentException');
+        self::expectException('\PHPCensor\Common\Exception\InvalidArgumentException');
         self::expectExceptionMessage('$loader is expected to be a function');
         $this->testedFactory->registerResource(["dummy"], "TestName", "TestClass");
     }

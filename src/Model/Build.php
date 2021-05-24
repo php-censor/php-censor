@@ -7,7 +7,7 @@ use DirectoryIterator;
 use Exception;
 use PHPCensor\Builder;
 use PHPCensor\Exception\HttpException;
-use PHPCensor\Exception\InvalidArgumentException;
+use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Model\Base\Build as BaseBuild;
 use PHPCensor\Plugin\PhpParallelLint;

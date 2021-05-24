@@ -9,7 +9,7 @@ use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
 use PHPCensor\Plugin;
 use PHPCensor\ZeroConfigPluginInterface;
-use PHPCensor\Exception\RuntimeException;
+use PHPCensor\Common\Exception\RuntimeException;
 
 /**
  * PHP Code Sniffer Plugin - Allows PHP Code Sniffer testing.

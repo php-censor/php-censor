@@ -3,7 +3,7 @@
 use Phinx\Db\Adapter\MysqlAdapter;
 use Phinx\Migration\AbstractMigration;
 use PHPCensor\Model\Build;
-use PHPCensor\Exception\RuntimeException;
+use PHPCensor\Common\Exception\RuntimeException;
 
 class InitialMigrationV2 extends AbstractMigration
 {

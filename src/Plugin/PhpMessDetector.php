@@ -8,7 +8,7 @@ use PHPCensor\Builder;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 use PHPCensor\ZeroConfigPluginInterface;
-use PHPCensor\Exception\RuntimeException;
+use PHPCensor\Common\Exception\RuntimeException;
 
 /**
  * PHP Mess Detector Plugin - Allows PHP Mess Detector testing.

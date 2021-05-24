@@ -97,7 +97,7 @@ class CreateBuildCommandTest extends TestCase
 
     public function testExecuteWithUnknownProjectId()
     {
-        self::expectException('\PHPCensor\Exception\InvalidArgumentException');
+        self::expectException('\PHPCensor\Common\Exception\InvalidArgumentException');
 
         $commandTester = $this->getCommandTester();
         $commandTester->execute(['projectId' => 2]);

@@ -2,7 +2,7 @@
 
 namespace Tests\PHPCensor;
 
-use PHPCensor\Exception\RuntimeException;
+use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Form;
 use PHPUnit\Framework\TestCase;
 

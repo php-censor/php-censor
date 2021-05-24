@@ -2,7 +2,7 @@
 
 namespace PHPCensor;
 
-use PHPCensor\Exception\RuntimeException;
+use PHPCensor\Common\Exception\RuntimeException;
 
 class View
 {

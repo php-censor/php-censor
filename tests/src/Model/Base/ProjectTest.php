@@ -148,7 +148,7 @@ class ProjectTest extends TestCase
         $result = $project->setType('git');
         self::assertEquals(false, $result);
 
-        self::expectException('\PHPCensor\Exception\InvalidArgumentException');
+        self::expectException('\PHPCensor\Common\Exception\InvalidArgumentException');
         $project->setType('invalid-type');
     }
 

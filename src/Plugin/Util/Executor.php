@@ -3,7 +3,7 @@
 namespace PHPCensor\Plugin\Util;
 
 use Exception;
-use PHPCensor\Exception\RuntimeException;
+use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Logging\BuildLogger;
 use PHPCensor\Model\Build;

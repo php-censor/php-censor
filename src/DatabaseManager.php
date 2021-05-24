@@ -5,7 +5,7 @@ declare(strict_types = 1);
 namespace PHPCensor;
 
 use PHPCensor\Common\Exception\Exception;
-use PHPCensor\Exception\RuntimeException;
+use PHPCensor\Common\Exception\RuntimeException;
 
 /**
  * @package    PHP Censor

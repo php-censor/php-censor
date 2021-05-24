@@ -3,7 +3,7 @@
 namespace PHPCensor\Http;
 
 use PHPCensor\Application;
-use PHPCensor\Exception\InvalidArgumentException;
+use PHPCensor\Common\Exception\InvalidArgumentException;
 
 class Router
 {

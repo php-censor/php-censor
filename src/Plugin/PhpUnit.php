@@ -13,7 +13,7 @@ use PHPCensor\Plugin\Util\PhpUnitResultJson;
 use PHPCensor\Plugin\Util\PhpUnitResultJunit;
 use PHPCensor\ZeroConfigPluginInterface;
 use Symfony\Component\Filesystem\Filesystem;
-use PHPCensor\Exception\RuntimeException;
+use PHPCensor\Common\Exception\RuntimeException;
 
 /**
  * PHP Unit Plugin - A rewrite of the original PHP Unit plugin

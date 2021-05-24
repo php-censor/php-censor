@@ -20,7 +20,7 @@ use PHPCensor\View;
 use PHPCensor\WebController;
 use PHPCensor\Helper\Branch;
 use PHPCensor\Store\EnvironmentStore;
-use PHPCensor\Exception\RuntimeException;
+use PHPCensor\Common\Exception\RuntimeException;
 
 /**
  * Project Controller - Allows users to create, edit and view projects.

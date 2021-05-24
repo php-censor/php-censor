@@ -6,7 +6,7 @@ namespace PHPCensor\Command;
 
 use PHPCensor\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
-use PHPCensor\Exception\InvalidArgumentException;
+use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Model\Build;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Store;

@@ -4,8 +4,8 @@ namespace PHPCensor\Plugin\Util;
 
 use Closure;
 use DomainException;
-use PHPCensor\Exception\InvalidArgumentException;
-use PHPCensor\Exception\RuntimeException;
+use PHPCensor\Common\Exception\InvalidArgumentException;
+use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Plugin;
 use Pimple\Container;
 use ReflectionClass;

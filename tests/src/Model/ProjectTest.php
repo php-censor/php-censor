@@ -2,7 +2,7 @@
 
 namespace Tests\PHPCensor\Model;
 
-use PHPCensor\Exception\InvalidArgumentException;
+use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Model;
 use PHPCensor\Model\Project;
 use PHPCensor\StoreRegistry;

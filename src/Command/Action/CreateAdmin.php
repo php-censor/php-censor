@@ -4,8 +4,8 @@ declare(strict_types = 1);
 
 namespace PHPCensor\Command\Action;
 
-use PHPCensor\Exception\InvalidArgumentException;
-use PHPCensor\Exception\RuntimeException;
+use PHPCensor\Common\Exception\InvalidArgumentException;
+use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Service\UserService;
 use PHPCensor\Store\UserStore;
 use PHPCensor\StoreRegistry;

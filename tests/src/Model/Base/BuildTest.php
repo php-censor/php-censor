@@ -3,7 +3,7 @@
 namespace Tests\PHPCensor\Model\Base;
 
 use DateTime;
-use PHPCensor\Exception\InvalidArgumentException;
+use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Model\Base\Build;
 use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
@@ -118,7 +118,7 @@ class BuildTest extends TestCase
         $build->setStatusFailed();
         self::assertEquals(Build::STATUS_FAILED, $build->getStatus());
 
-        self::expectException('\PHPCensor\Exception\InvalidArgumentException');
+        self::expectException('\PHPCensor\Common\Exception\InvalidArgumentException');
         $build->setStatus(10);
     }
 
@@ -267,7 +267,7 @@ class BuildTest extends TestCase
         $result = $build->setSource(Build::SOURCE_WEBHOOK_PULL_REQUEST_CREATED);
         self::assertEquals(false, $result);
 
-        self::expectException('\PHPCensor\Exception\InvalidArgumentException');
+        self::expectException('\PHPCensor\Common\Exception\InvalidArgumentException');
         $build->setSource(20);
     }
 

@@ -3,7 +3,7 @@
 namespace PHPCensor\Plugin\Util;
 
 use Exception;
-use PHPCensor\Exception\RuntimeException;
+use PHPCensor\Common\Exception\RuntimeException;
 
 /**
  * Class PhpUnitResult parses the results for the PhpUnitV2 plugin

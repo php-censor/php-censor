@@ -2,7 +2,7 @@
 
 namespace Tests\PHPCensor\Model;
 
-use PHPCensor\Exception\InvalidArgumentException;
+use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\Build\GogsBuild;
 use PHPCensor\Model\Project;

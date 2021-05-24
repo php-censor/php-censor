@@ -9,14 +9,14 @@ use Monolog\Logger;
 use Pheanstalk\Pheanstalk;
 use PHPCensor\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
-use PHPCensor\Exception\RuntimeException;
+use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Service\BuildService;
 use PHPCensor\StoreRegistry;
 use PHPCensor\Worker\BuildWorker;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Exception\InvalidArgumentException;
+use PHPCensor\Common\Exception\InvalidArgumentException;
 
 /**
  * @package    PHP Censor

@@ -4,8 +4,8 @@ namespace PHPCensor;
 
 use Exception;
 use PDO;
-use PHPCensor\Exception\InvalidArgumentException;
-use PHPCensor\Exception\RuntimeException;
+use PHPCensor\Common\Exception\InvalidArgumentException;
+use PHPCensor\Common\Exception\RuntimeException;
 
 abstract class Store
 {

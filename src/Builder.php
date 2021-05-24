@@ -4,7 +4,7 @@ namespace PHPCensor;
 
 use DateTime;
 use Exception;
-use PHPCensor\Exception\RuntimeException;
+use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Helper\BuildInterpolator;
 use PHPCensor\Helper\MailerFactory;
 use PHPCensor\Logging\BuildLogger;
@@ -206,10 +206,6 @@ class Builder
         return $this->configuration->get($key);
     }
 
-    /**
-     * @throws Exception\HttpException
-     * @throws Exception\InvalidArgumentException
-     */
     public function execute()
     {
         $this->build->setStatusRunning();
@@ -311,10 +307,6 @@ class Builder
         $this->store->save($this->build);
     }
 
-    /**
-     * @throws Exception\HttpException
-     * @throws Exception\InvalidArgumentException
-     */
     protected function setErrorTrend()
     {
         $this->build->setErrorsTotal($this->store->getErrorsCount($this->build->getId()));

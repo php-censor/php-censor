@@ -6,7 +6,7 @@ use Maknz\Slack\Attachment;
 use Maknz\Slack\AttachmentField;
 use Maknz\Slack\Client;
 use PHPCensor\Builder;
-use PHPCensor\Exception\InvalidArgumentException;
+use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 

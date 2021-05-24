@@ -2,7 +2,7 @@
 
 namespace Tests\PHPCensor\Plugin\Util;
 
-use PHPCensor\Exception\RuntimeException;
+use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin\Util\Executor;
 use PHPCensor\StoreRegistry;

@@ -4,7 +4,7 @@ namespace PHPCensor\Model\Build;
 
 use Exception;
 use PHPCensor\Builder;
-use PHPCensor\Exception\RuntimeException;
+use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Model\Build;
 
 class BitbucketServerBuild extends GitBuild

@@ -4,7 +4,7 @@ namespace PHPCensor\Plugin;
 
 use Exception;
 use PHPCensor\Builder;
-use PHPCensor\Exception\InvalidArgumentException;
+use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 use PHPCensor\Plugin\Util\TestResultParsers\Codeception as Parser;

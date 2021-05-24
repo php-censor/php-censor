@@ -6,8 +6,8 @@ use Exception;
 use FlowdockClient\Api\Push\Push;
 use FlowdockClient\Api\Push\TeamInboxMessage;
 use PHPCensor\Builder;
-use PHPCensor\Exception\InvalidArgumentException;
-use PHPCensor\Exception\RuntimeException;
+use PHPCensor\Common\Exception\InvalidArgumentException;
+use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 

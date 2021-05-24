@@ -7,7 +7,7 @@ use PHPCensor;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
-use PHPCensor\Exception\RuntimeException;
+use PHPCensor\Common\Exception\RuntimeException;
 
 /**
  * Sensiolabs Insight Plugin - Allows Sensiolabs Insight testing.

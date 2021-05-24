@@ -7,7 +7,7 @@ use PHPCensor\Helper\Email as EmailHelper;
 use PHPCensor\Plugin;
 use PHPCensor\View;
 use Psr\Log\LogLevel;
-use RuntimeException;
+use PHPCensor\Common\Exception\RuntimeException;
 
 /**
  * Email Plugin - Provides simple email capability.

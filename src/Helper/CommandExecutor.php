@@ -2,7 +2,7 @@
 
 namespace PHPCensor\Helper;
 
-use PHPCensor\Exception\RuntimeException;
+use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Logging\BuildLogger;
 use Symfony\Component\Process\Process;
 

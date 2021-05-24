@@ -23,7 +23,7 @@ use PHPCensor\Command\RebuildQueueCommand;
 use PHPCensor\Command\WorkerCommand;
 use PHPCensor\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
-use PHPCensor\Exception\InvalidArgumentException;
+use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Logging\AnsiFormatter;
 use PHPCensor\Logging\Handler;
 use PHPCensor\Service\BuildService;
