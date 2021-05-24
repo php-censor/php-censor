@@ -55,6 +55,10 @@ class SecurityChecker extends Plugin implements ZeroConfigPluginInterface
             $this->allowedWarnings = -1;
         }
 
+        if (\array_key_exists('allowed_warnings', $options)) {
+            $this->allowedWarnings = (int)$options['allowed_warnings'];
+        }
+
         if (
             \array_key_exists('binary_type', $options) &&
             \in_array((string)$options['binary_type'], $this->allowedBinaryTypes, true)
