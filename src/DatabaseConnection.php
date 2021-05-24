@@ -12,16 +12,18 @@ namespace PHPCensor;
  */
 class DatabaseConnection
 {
-    private \PDO $pdoConnection;
+    private ?\PDO $pdoConnection = null;
+
+    private string $dsn;
+
+    private ?string $username;
+
+    private ?string $password;
+
+    private ?array $options;
 
     private string $sequencePattern;
 
-    /**
-     * @param string      $dsn
-     * @param string|null $username
-     * @param string|null $password
-     * @param array|null  $options
-     */
     public function __construct(
         string $dsn,
         ?string $username = null,
@@ -30,21 +32,36 @@ class DatabaseConnection
         string $sequencePattern = '%s_id_seq'
     ) {
         $this->sequencePattern = $sequencePattern;
-        $this->pdoConnection   = new \PDO($dsn, $username, $password, $options);
+
+        $this->dsn      = $dsn;
+        $this->username = $username;
+        $this->password = $password;
+        $this->options  = $options;
     }
 
     public function getPdo(): \PDO
     {
+        if (null === $this->pdoConnection) {
+            $this->pdoConnection = new \PDO($this->dsn, $this->username, $this->password, $this->options);
+        }
+
         return $this->pdoConnection;
+    }
+
+    public function setPdo(\PDO $pdoConnection): self
+    {
+        $this->pdoConnection = $pdoConnection;
+
+        return $this;
     }
 
     public function quoteNames(string $query): string
     {
-        $driver  = $this->pdoConnection->getAttribute(\PDO::ATTR_DRIVER_NAME);
+        $driver  = $this->getPdo()->getAttribute(\PDO::ATTR_DRIVER_NAME);
         $pattern = '\1';
         if (DatabaseManager::MYSQL_TYPE === $driver) {
             $pattern = '`\1`';
-        } elseif (DatabaseManager::MYSQL_TYPE === $driver) {
+        } elseif (DatabaseManager::POSTGRESQL_TYPE === $driver) {
             $pattern = '"\1"';
         }
 
@@ -53,11 +70,11 @@ class DatabaseConnection
 
     public function lastInsertId(string $tableName): int
     {
-        if (DatabaseManager::POSTGRESQL_TYPE === $this->pdoConnection->getAttribute(\PDO::ATTR_DRIVER_NAME)) {
-            return (int)$this->pdoConnection->lastInsertId(\sprintf("\"{$this->sequencePattern}\"", $tableName));
+        if (DatabaseManager::POSTGRESQL_TYPE === $this->getPdo()->getAttribute(\PDO::ATTR_DRIVER_NAME)) {
+            return (int)$this->getPdo()->lastInsertId(\sprintf("\"{$this->sequencePattern}\"", $tableName));
         }
 
-        return (int)$this->pdoConnection->lastInsertId();
+        return (int)$this->getPdo()->lastInsertId();
     }
 
     /**
@@ -68,7 +85,7 @@ class DatabaseConnection
      */
     public function prepare(string $query, array $options = [])
     {
-        return $this->pdoConnection->prepare($this->quoteNames($query), $options);
+        return $this->getPdo()->prepare($this->quoteNames($query), $options);
     }
 
     /**
@@ -78,7 +95,7 @@ class DatabaseConnection
      */
     public function exec(string $statement)
     {
-        return $this->pdoConnection->exec($statement);
+        return $this->getPdo()->exec($this->quoteNames($statement));
     }
 
     /**
@@ -88,26 +105,26 @@ class DatabaseConnection
      */
     public function query(string $statement)
     {
-        return $this->pdoConnection->query($statement);
+        return $this->getPdo()->query($this->quoteNames($statement));
     }
 
     public function beginTransaction(): bool
     {
-        return $this->pdoConnection->beginTransaction();
+        return $this->getPdo()->beginTransaction();
     }
 
     public function commit(): bool
     {
-        return $this->pdoConnection->commit();
+        return $this->getPdo()->commit();
     }
 
     public function rollBack(): bool
     {
-        return $this->pdoConnection->rollBack();
+        return $this->getPdo()->rollBack();
     }
 
     public function inTransaction(): bool
     {
-        return $this->pdoConnection->inTransaction();
+        return $this->getPdo()->inTransaction();
     }
 }

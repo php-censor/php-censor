@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Tests\PHPCensor;
 
-use Exception;
+use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\View;
 use PHPUnit\Framework\TestCase;
 
@@ -16,7 +18,7 @@ class ViewTest extends TestCase
 
     public function testInvalidView()
     {
-        self::expectException(Exception::class);
+        self::expectException(RuntimeException::class);
 
         new View('dogs', ROOT_DIR . 'tests/data/View/');
     }
