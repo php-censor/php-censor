@@ -98,7 +98,9 @@ class BuildStatusServiceTest extends TestCase
         $build = new Build($this->storeRegistry);
         $build->setId($config[$configId]['id']);
         $build->setBranch(self::BRANCH);
+
         $build->setStatus($config[$configId]['status']);
+
         if ($config[$configId]['finishDateTime']) {
             $build->setFinishDate(new DateTime($config[$configId]['finishDateTime']));
         }

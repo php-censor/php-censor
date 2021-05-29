@@ -114,8 +114,7 @@ class Executor
      */
     protected function getBranchSpecificPlugins($config, $stage, $pluginsToExecute)
     {
-        /** @var Build $build */
-        $build        = $this->pluginFactory->getResourceFor('PHPCensor\Model\Build');
+        $build        = $this->pluginFactory->getBuild();
         $branch       = $build->getBranch();
         $branchConfig = $this->getBranchSpecificConfig($config, $branch);
         if (!$branchConfig) {
@@ -271,9 +270,9 @@ class Executor
      */
     private function getBuildSummary()
     {
-        /** @var Build $build */
-        $build = $this->pluginFactory->getResourceFor('PHPCensor\Model\Build');
+        $build = $this->pluginFactory->getBuild();
         $metas = $this->store->getMeta('plugin-summary', $build->getProjectId(), $build->getId());
+
         return isset($metas[0]['meta_value']) ? $metas[0]['meta_value'] : [];
     }
 
@@ -284,8 +283,7 @@ class Executor
      */
     private function setBuildSummary($summary)
     {
-        /** @var Build $build */
-        $build = $this->pluginFactory->getResourceFor('PHPCensor\Model\Build');
+        $build = $this->pluginFactory->getBuild();
         $this->store->setMeta($build->getId(), 'plugin-summary', json_encode($summary));
     }
 }

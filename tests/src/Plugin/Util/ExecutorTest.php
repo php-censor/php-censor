@@ -97,7 +97,7 @@ class ExecutorTest extends TestCase
         $mockPlugin->execute()->shouldBeCalledTimes(1);
 
         $this->mockFactory->buildPlugin(Argument::any(), Argument::any())->willReturn($mockPlugin->reveal());
-        $this->mockFactory->getResourceFor('PHPCensor\Model\Build')->willReturn($build);
+        $this->mockFactory->getBuild()->willReturn($build);
 
         $this->testedExecutor->executePlugin($pluginName, $options);
     }
@@ -172,7 +172,7 @@ class ExecutorTest extends TestCase
         $this->mockFactory
             ->buildPlugin($pluginNamespace . 'PhpUnit', $phpUnitPluginOptions)
             ->willReturn($mockPhpUnitPlugin->reveal());
-        $this->mockFactory->getResourceFor('PHPCensor\Model\Build')->willReturn($build);
+        $this->mockFactory->getBuild()->willReturn($build);
 
         $mockBehatPlugin = $this->prophesize('PHPCensor\Plugin');
         $mockBehatPlugin->setStoreRegistry($this->storeRegistry)->shouldBeCalledTimes(1);

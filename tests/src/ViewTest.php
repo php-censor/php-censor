@@ -29,6 +29,7 @@ class ViewTest extends TestCase
         $view->who = 'World';
 
         self::assertTrue(isset($view->who));
+        self::assertEquals('World', $view->who);
         self::assertFalse(isset($view->what));
         self::assertTrue($view->render() == 'Hello World');
     }

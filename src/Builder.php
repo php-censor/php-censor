@@ -504,42 +504,7 @@ class Builder
      */
     private function buildPluginFactory(Build $build)
     {
-        $pluginFactory = new PluginFactory();
-
-        $self = $this;
-        $pluginFactory->registerResource(
-            function () use ($self) {
-                return $self;
-            },
-            null,
-            'PHPCensor\Builder'
-        );
-
-        $pluginFactory->registerResource(
-            function () use ($build) {
-                return $build;
-            },
-            null,
-            'PHPCensor\Model\Build'
-        );
-
-        $logger = $this->logger;
-        $pluginFactory->registerResource(
-            function () use ($logger) {
-                return $logger;
-            },
-            null,
-            'Psr\Log\LoggerInterface'
-        );
-
-        $pluginFactory->registerResource(
-            function () use ($self) {
-                $factory = new MailerFactory($self->getSystemConfig('php-censor'));
-                return $factory->getSwiftMailerFromConfig();
-            },
-            null,
-            'Swift_Mailer'
-        );
+        $pluginFactory = new PluginFactory($this, $build);
 
         return $pluginFactory;
     }

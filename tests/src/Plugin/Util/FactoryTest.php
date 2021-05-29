@@ -1,172 +1,65 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Tests\PHPCensor\Plugin\Util;
 
-use PHPCensor\Common\Exception\RuntimeException;
+use PHPCensor\Builder;
+use PHPCensor\Model\Build;
+use PHPCensor\Plugin\PhpUnit;
 use PHPCensor\Plugin\Util\Factory;
 use PHPUnit\Framework\TestCase;
-use stdClass;
-use Tests\PHPCensor\Plugin\Util\Fake\ExamplePluginFull;
-use Tests\PHPCensor\Plugin\Util\Fake\ExamplePluginWithSingleRequiredArg;
-use Tests\PHPCensor\Plugin\Util\Fake\ExamplePluginWithSingleTypedRequiredArg;
 
 class FactoryTest extends TestCase
 {
-
-    /**
-     * @var Factory
-     */
-    protected $testedFactory;
-
-    protected $expectedResource;
-
-    protected $resourceLoader;
-
-    protected function setUp(): void
+    public function testConstructor()
     {
-        $this->testedFactory = new Factory();
+        $builder = $this
+            ->getMockBuilder(Builder::class)
+            ->disableOriginalConstructor()
+            ->getMock();
 
-        // Setup a resource that can be returned and asserted against
-        $this->expectedResource = new stdClass();
-        $resourceLink = $this->expectedResource;
-        $this->resourceLoader = function () use (&$resourceLink) {
-            return $resourceLink;
-        };
+        $build = $this
+            ->getMockBuilder(Build::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $factory = new Factory($builder, $build);
+
+        self::assertInstanceOf(Factory::class, $factory);
     }
 
-    protected function tearDown() : void
+    public function testGetBuild()
     {
-        // Nothing to do.
+        $builder = $this
+            ->getMockBuilder(Builder::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $build = $this
+            ->getMockBuilder(Build::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $factory = new Factory($builder, $build);
+
+        self::assertInstanceOf(Build::class, $factory->getBuild());
     }
 
-    public function testRegisterResourceThrowsExceptionWithoutTypeAndName()
+    public function testBuildPlugin()
     {
-        self::expectException('\PHPCensor\Common\Exception\InvalidArgumentException');
-        self::expectExceptionMessage('Type or Name must be specified');
-        $this->testedFactory->registerResource($this->resourceLoader, null, null);
-    }
+        $builder = $this
+            ->getMockBuilder(Builder::class)
+            ->disableOriginalConstructor()
+            ->getMock();
 
-    public function testRegisterResourceThrowsExceptionIfLoaderIsntFunction()
-    {
-        self::expectException('\PHPCensor\Common\Exception\InvalidArgumentException');
-        self::expectExceptionMessage('$loader is expected to be a function');
-        $this->testedFactory->registerResource(["dummy"], "TestName", "TestClass");
-    }
+        $build = $this
+            ->getMockBuilder(Build::class)
+            ->disableOriginalConstructor()
+            ->getMock();
 
-    public function testBuildPluginWorksWithSingleOptionalArgConstructor()
-    {
-        $pluginClass = $this->getFakePluginClassName('ExamplePluginWithSingleOptionalArg');
-        $plugin = $this->testedFactory->buildPlugin($pluginClass);
-        self::assertInstanceOf($pluginClass, $plugin);
-    }
+        $factory = new Factory($builder, $build);
 
-    public function testBuildPluginThrowsExceptionIfMissingResourcesForRequiredArg()
-    {
-        self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Unsatisfied dependency: requiredArgument');
-
-        $pluginClass = $this->getFakePluginClassName('ExamplePluginWithSingleRequiredArg');
-        $this->testedFactory->buildPlugin($pluginClass);
-    }
-
-    public function testBuildPluginLoadsArgumentsBasedOnName()
-    {
-        $pluginClass = $this->getFakePluginClassName('ExamplePluginWithSingleRequiredArg');
-
-        $this->testedFactory->registerResource(
-            $this->resourceLoader,
-            "requiredArgument"
-        );
-
-        /** @var ExamplePluginWithSingleRequiredArg $plugin */
-        $plugin = $this->testedFactory->buildPlugin($pluginClass);
-
-        self::assertEquals($this->expectedResource, $plugin->RequiredArgument);
-    }
-
-    public function testBuildPluginLoadsArgumentsBasedOnType()
-    {
-        $pluginClass = $this->getFakePluginClassName('ExamplePluginWithSingleTypedRequiredArg');
-
-        $this->testedFactory->registerResource(
-            $this->resourceLoader,
-            null,
-            "stdClass"
-        );
-
-        /** @var ExamplePluginWithSingleTypedRequiredArg $plugin */
-        $plugin = $this->testedFactory->buildPlugin($pluginClass);
-
-        self::assertEquals($this->expectedResource, $plugin->RequiredArgument);
-    }
-
-    public function testBuildPluginLoadsFullExample()
-    {
-        $pluginClass = $this->getFakePluginClassName('ExamplePluginFull');
-
-        $this->registerBuildAndBuilder();
-
-        /** @var ExamplePluginFull $plugin */
-        $plugin = $this->testedFactory->buildPlugin($pluginClass);
-
-        self::assertInstanceOf($pluginClass, $plugin);
-    }
-
-    public function testBuildPluginLoadsFullExampleWithOptions()
-    {
-        $pluginClass = $this->getFakePluginClassName('ExamplePluginFull');
-
-        $expectedArgs = [
-            'thing' => "stuff"
-        ];
-
-        $this->registerBuildAndBuilder();
-
-        /** @var ExamplePluginFull $plugin */
-        $plugin = $this->testedFactory->buildPlugin(
-            $pluginClass,
-            $expectedArgs
-        );
-
-        self::assertIsArray($plugin->options);
-        self::assertArrayHasKey('thing', $plugin->options);
-    }
-
-    /**
-     * Registers mocked Builder and Build classes so that realistic plugins
-     * can be tested.
-     */
-    private function registerBuildAndBuilder()
-    {
-        $self = $this;
-
-        $this->testedFactory->registerResource(
-            function () use ($self) {
-                return $self
-                    ->getMockBuilder('PHPCensor\Builder')
-                    ->disableOriginalConstructor()
-                    ->getMock();
-            },
-            null,
-            'PHPCensor\\Builder'
-        );
-
-        $this->testedFactory->registerResource(
-            function () use ($self) {
-                return $self
-                    ->getMockBuilder('PHPCensor\Model\Build')
-                    ->disableOriginalConstructor()
-                    ->getMock();
-            },
-            null,
-            'PHPCensor\\Model\\Build'
-        );
-    }
-
-    protected function getFakePluginClassName($pluginName)
-    {
-        $pluginNamespace = '\\Tests\\PHPCensor\\Plugin\\Util\\Fake\\';
-
-        return $pluginNamespace . $pluginName;
+        self::assertInstanceOf(PhpUnit::class, $factory->buildPlugin(PhpUnit::class, []));
     }
 }
