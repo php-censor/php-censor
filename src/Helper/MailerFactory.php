@@ -68,14 +68,12 @@ class MailerFactory
             return $this->emailConfig[$configName];
         } else {
             switch ($configName) {
-                case 'smtp_address':
-                    return '';
                 case 'default_mailto_address':
+                case 'smtp_encryption':
                     return null;
                 case 'smtp_port':
                     return '25';
-                case 'smtp_encryption':
-                    return null;
+                case 'smtp_address':
                 default:
                     return '';
             }

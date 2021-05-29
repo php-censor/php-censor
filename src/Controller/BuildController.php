@@ -5,7 +5,6 @@ namespace PHPCensor\Controller;
 use JasonGrimes\Paginator;
 use PHPCensor\BuildFactory;
 use PHPCensor\Exception\HttpException\NotFoundException;
-use PHPCensor\Helper\AnsiConverter;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Http\Response\JsonResponse;
 use PHPCensor\Http\Response\RedirectResponse;
@@ -14,10 +13,10 @@ use PHPCensor\Model\User;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Store\BuildErrorStore;
 use PHPCensor\Store\BuildStore;
-use PHPCensor\Store\Factory;
 use PHPCensor\Store\ProjectStore;
 use PHPCensor\View;
 use PHPCensor\WebController;
+use SensioLabs\AnsiConverter\AnsiToHtmlConverter;
 
 /**
  * Build Controller - Allows users to run and view builds.
@@ -50,10 +49,15 @@ class BuildController extends WebController
     {
         parent::init();
 
-        $this->buildStore   = Factory::getStore('Build');
-        $this->projectStore = Factory::getStore('Project');
+        $this->buildStore   = $this->storeRegistry->get('Build');
+        $this->projectStore = $this->storeRegistry->get('Project');
 
-        $this->buildService = new BuildService($this->buildStore, $this->projectStore);
+        $this->buildService = new BuildService(
+            $this->configuration,
+            $this->storeRegistry,
+            $this->buildStore,
+            $this->projectStore
+        );
     }
 
     /**
@@ -69,14 +73,18 @@ class BuildController extends WebController
         $plugin = $this->getParam('plugin', '');
         $isNew  = $this->getParam('is_new', '');
 
-        $severity = $this->getParam('severity', null);
+        $severity = $this->getParam('severity');
         if (null !== $severity && '' !== $severity) {
             $severity = (int)$severity;
         } else {
             $severity = null;
         }
 
-        $build = BuildFactory::getBuildById($buildId);
+        $build = BuildFactory::getBuildById(
+            $this->configuration,
+            $this->storeRegistry,
+            (int)$buildId
+        );
 
         if (!$build) {
             throw new NotFoundException(Lang::get('build_x_not_found', $buildId));
@@ -84,7 +92,7 @@ class BuildController extends WebController
 
         /** @var User $user */
         $user    = $this->getUser();
-        $perPage = $user->getFinalPerPage();
+        $perPage = $user->getFinalPerPage($this->configuration);
         $data    = $this->getBuildData($build, $plugin, $severity, $isNew, (($page - 1) * $perPage), $perPage);
         $pages   = ($data['errors'] === 0)
             ? 1
@@ -95,11 +103,12 @@ class BuildController extends WebController
         }
 
         /** @var BuildErrorStore $errorStore */
-        $errorStore = Factory::getStore('BuildError');
+        $errorStore = $this->storeRegistry->get('BuildError');
 
-        $this->view->uiPlugins = $this->getUiPlugins();
-        $this->view->build     = $build;
-        $this->view->data      = $data;
+        $this->view->uiPlugins   = $this->getUiPlugins();
+        $this->view->build       = $build;
+        $this->view->data        = $data;
+        $this->view->environment = $this->storeRegistry->get('Environment')->getById((int)$build->getEnvironmentId());
 
         $this->view->plugin     = urldecode($plugin);
         $this->view->plugins    = $errorStore->getKnownPlugins($buildId, $severity, $isNew);
@@ -149,7 +158,7 @@ class BuildController extends WebController
         $delete     = Lang::get('delete_build');
         $deleteLink = APP_URL . 'build/delete/' . $build->getId();
 
-        $project = Factory::getStore('Project')->getByPrimaryKey($build->getProjectId());
+        $project = $this->storeRegistry->get('Project')->getByPrimaryKey($build->getProjectId());
 
         $actions = '';
         if (!$project->getArchived()) {
@@ -220,7 +229,7 @@ class BuildController extends WebController
         $data['duration'] = $build->getDuration();
 
         /** @var BuildErrorStore $errorStore */
-        $errorStore = Factory::getStore('BuildError');
+        $errorStore = $this->storeRegistry->get('BuildError');
         $errors     = $errorStore->getByBuildId($build->getId(), $perPage, $start, $plugin, $severity, $isNew);
 
         $errorView         = new View('Build/errors');
@@ -285,8 +294,13 @@ class BuildController extends WebController
      */
     public function rebuild($buildId)
     {
-        $copy    = BuildFactory::getBuildById($buildId);
-        $project = Factory::getStore('Project')->getByPrimaryKey($copy->getProjectId());
+        $copy = BuildFactory::getBuildById(
+            $this->configuration,
+            $this->storeRegistry,
+            (int)$buildId
+        );
+
+        $project = $this->storeRegistry->get('Project')->getByPrimaryKey($copy->getProjectId());
 
         if (!$copy || $project->getArchived()) {
             throw new NotFoundException(Lang::get('build_x_not_found', $buildId));
@@ -319,7 +333,11 @@ class BuildController extends WebController
     {
         $this->requireAdmin();
 
-        $build = BuildFactory::getBuildById($buildId);
+        $build = BuildFactory::getBuildById(
+            $this->configuration,
+            $this->storeRegistry,
+            (int)$buildId
+        );
 
         if (!$build) {
             throw new NotFoundException(Lang::get('build_x_not_found', $buildId));
@@ -338,7 +356,9 @@ class BuildController extends WebController
     */
     protected function cleanLog($log)
     {
-        return AnsiConverter::convert($log);
+        $converter = new AnsiToHtmlConverter(null, false);
+
+        return $converter->convert($log);
     }
 
     /**
@@ -368,10 +388,10 @@ class BuildController extends WebController
     {
         $page    = (int)$this->getParam('page', 1);
         $perPage = (int)$this->getParam('per_page', 10);
-        $plugin  = $this->getParam('plugin', null);
-        $isNew   = $this->getParam('is_new', null);
+        $plugin  = $this->getParam('plugin');
+        $isNew   = $this->getParam('is_new');
 
-        $severity = $this->getParam('severity', null);
+        $severity = $this->getParam('severity');
         if (null !== $severity && '' !== $severity) {
             $severity = (int)$severity;
         } else {
@@ -379,7 +399,11 @@ class BuildController extends WebController
         }
 
         $response = new JsonResponse();
-        $build = BuildFactory::getBuildById($buildId);
+        $build = BuildFactory::getBuildById(
+            $this->configuration,
+            $this->storeRegistry,
+            (int)$buildId
+        );
 
         if (!$build) {
             $response->setResponseCode(404);
@@ -414,8 +438,13 @@ class BuildController extends WebController
 
     public function ajaxMeta($buildId)
     {
-        $build     = BuildFactory::getBuildById($buildId);
-        $key       = $this->getParam('key', null);
+        $build = BuildFactory::getBuildById(
+            $this->configuration,
+            $this->storeRegistry,
+            (int)$buildId
+        );
+
+        $key       = $this->getParam('key');
         $numBuilds = $this->getParam('num_builds', 1);
         $data      = null;
 

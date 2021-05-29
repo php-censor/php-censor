@@ -4,7 +4,6 @@ namespace PHPCensor;
 
 use PHPCensor\Model\Build;
 use PHPCensor\Model\Project;
-use PHPCensor\Store\Factory;
 
 /**
  * BuildFactory - Takes in a generic "Build" and returns a type-specific build model.
@@ -14,34 +13,44 @@ use PHPCensor\Store\Factory;
 class BuildFactory
 {
     /**
-     * @param int $buildId
+     * @param ConfigurationInterface $configuration
+     * @param StoreRegistry          $storeRegistry
+     * @param int                    $buildId
      *
      * @return Build|null
      *
      * @throws Exception\HttpException
      */
-    public static function getBuildById($buildId)
-    {
-        $build = Factory::getStore('Build')->getById($buildId);
+    public static function getBuildById(
+        ConfigurationInterface $configuration,
+        StoreRegistry $storeRegistry,
+        int $buildId
+    ): ?Build {
+        $build = $storeRegistry->get('Build')->getById($buildId);
 
         if (empty($build)) {
             return null;
         }
 
-        return self::getBuild($build);
+        return self::getBuild($configuration, $storeRegistry, $build);
     }
 
     /**
      * Takes a generic build and returns a type-specific build model.
      *
-     * @param Build $build The build from which to get a more specific build type.
+     * @param ConfigurationInterface $configuration
+     * @param StoreRegistry          $storeRegistry
+     * @param Build                  $build
      *
      * @return Build
      *
      * @throws Exception\HttpException
      */
-    public static function getBuild(Build $build)
-    {
+    public static function getBuild(
+        ConfigurationInterface $configuration,
+        StoreRegistry $storeRegistry,
+        Build $build
+    ): Build {
         $project = $build->getProject();
 
         if (!empty($project)) {
@@ -81,7 +90,7 @@ class BuildFactory
             }
 
             $class = '\\PHPCensor\\Model\\Build\\' . $type;
-            $build = new $class($build->getDataArray());
+            $build = new $class($configuration, $storeRegistry, $build->getDataArray());
         }
 
         return $build;

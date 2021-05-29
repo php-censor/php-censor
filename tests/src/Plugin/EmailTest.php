@@ -2,11 +2,11 @@
 
 namespace Tests\PHPCensor\Plugin;
 
-use PHPCensor\Config;
 use PHPCensor\Helper\BuildInterpolator;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 use PHPCensor\Plugin\EmailNotify as EmailPlugin;
+use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -53,13 +53,23 @@ class EmailTest extends TestCase
      */
     public $mailDelivered;
 
+    protected StoreRegistry $storeRegistry;
+
     protected function setUp(): void
     {
         $this->message       = [];
         $this->mailDelivered = true;
         $self                = $this;
 
-        new Config();
+        $configuration   = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
+        $databaseManager = $this
+            ->getMockBuilder('PHPCensor\DatabaseManager')
+            ->setConstructorArgs([$configuration])
+            ->getMock();
+        $this->storeRegistry = $this
+            ->getMockBuilder('PHPCensor\StoreRegistry')
+            ->setConstructorArgs([$databaseManager])
+            ->getMock();
 
         $this->mockProject = $this
             ->getMockBuilder('\PHPCensor\Model\Project')
@@ -106,7 +116,7 @@ class EmailTest extends TestCase
 
         $this->mockBuilder->buildPath = "/";
 
-        $interpolator = new BuildInterpolator();
+        $interpolator = new BuildInterpolator($this->storeRegistry);
         $this->mockBuilder->expects($this->any())
             ->method('interpolate')
             ->will($this->returnCallback(function () use ($self, $interpolator) {

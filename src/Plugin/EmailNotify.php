@@ -2,13 +2,12 @@
 
 namespace PHPCensor\Plugin;
 
-use PHPCensor\Config;
 use PHPCensor\Exception\HttpException;
 use PHPCensor\Helper\Email as EmailHelper;
 use PHPCensor\Plugin;
 use PHPCensor\View;
 use Psr\Log\LogLevel;
-use RuntimeException;
+use PHPCensor\Common\Exception\RuntimeException;
 
 /**
  * Email Plugin - Provides simple email capability.
@@ -87,7 +86,7 @@ class EmailNotify extends Plugin
      */
     protected function sendEmail($toAddress, $ccList, $subject, $body)
     {
-        $email = new EmailHelper(Config::getInstance());
+        $email = new EmailHelper($this->builder->getConfiguration());
 
         $email->setEmailTo($toAddress, $toAddress);
         $email->setSubject($subject);

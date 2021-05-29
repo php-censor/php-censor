@@ -3,9 +3,9 @@
 namespace PHPCensor\Plugin;
 
 use PHPCensor\Builder;
+use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
-use RuntimeException;
 
 /**
  * Copy Build Plugin - Copies the entire build to another directory.
@@ -63,7 +63,7 @@ class CopyBuild extends Plugin
 
         $cmd     = 'cd "%s" && mkdir -p "%s" && cp -R %s/. "%s"';
         $success = $this->builder->executeCommand($cmd, $buildPath, $this->directory, rtrim($buildPath, '/'), $this->directory);
-        
+
         $this->deleteIgnoredFiles();
 
         return $success;

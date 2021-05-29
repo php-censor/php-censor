@@ -7,6 +7,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use PHPCensor\Builder;
 use PHPCensor\Exception\HttpException;
+use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 
@@ -40,11 +41,11 @@ class WebhookNotify extends Plugin
         parent::__construct($builder, $build, $options);
 
         if (!is_array($options)) {
-            throw new Exception('Please configure the options for the webhook_notify plugin!');
+            throw new InvalidArgumentException('Please configure the options for the webhook_notify plugin!');
         }
 
         if (!isset($options['url'])) {
-            throw new Exception('Please define the url for webhook_notify plugin!');
+            throw new InvalidArgumentException('Please define the url for webhook_notify plugin!');
         }
         $this->url = trim($options['url']);
     }

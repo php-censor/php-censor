@@ -1,12 +1,11 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace PHPCensor\Model\Base;
 
 use DateTime;
 use Exception;
-use PHPCensor\Exception\InvalidArgumentException;
 use PHPCensor\Model;
 
 class BuildError extends Model
@@ -19,7 +18,7 @@ class BuildError extends Model
     /**
      * @var array
      */
-    protected $data = [
+    protected array $data = [
         'id'          => null,
         'build_id'    => null,
         'plugin'      => null,

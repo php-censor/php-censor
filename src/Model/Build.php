@@ -7,12 +7,11 @@ use DirectoryIterator;
 use Exception;
 use PHPCensor\Builder;
 use PHPCensor\Exception\HttpException;
-use PHPCensor\Exception\InvalidArgumentException;
+use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Model\Base\Build as BaseBuild;
 use PHPCensor\Plugin\PhpParallelLint;
 use PHPCensor\Store\BuildErrorStore;
-use PHPCensor\Store\Factory;
 use PHPCensor\Store\ProjectStore;
 use ReflectionClass;
 use ReflectionException;
@@ -36,7 +35,7 @@ class Build extends BaseBuild
     /**
      * @var array
      */
-    public static $pullRequestSources = [
+    public static array $pullRequestSources = [
         self::SOURCE_WEBHOOK_PULL_REQUEST_CREATED,
         self::SOURCE_WEBHOOK_PULL_REQUEST_UPDATED,
         self::SOURCE_WEBHOOK_PULL_REQUEST_APPROVED,
@@ -46,7 +45,7 @@ class Build extends BaseBuild
     /**
      * @var array
      */
-    public static $webhookSources = [
+    public static array $webhookSources = [
         self::SOURCE_WEBHOOK_PUSH,
         self::SOURCE_WEBHOOK_PULL_REQUEST_CREATED,
         self::SOURCE_WEBHOOK_PULL_REQUEST_UPDATED,
@@ -82,7 +81,7 @@ class Build extends BaseBuild
         }
 
         /** @var ProjectStore $projectStore */
-        $projectStore = Factory::getStore('Project');
+        $projectStore = $this->storeRegistry->get('Project');
 
         return $projectStore->getById($projectId);
     }
@@ -122,7 +121,7 @@ class Build extends BaseBuild
      */
     public function getBuildBuildErrors()
     {
-        return Factory::getStore('BuildError')->getByBuildId($this->getId());
+        return $this->storeRegistry->get('BuildError')->getByBuildId($this->getId());
     }
 
     /**
@@ -132,7 +131,7 @@ class Build extends BaseBuild
      */
     public function getBuildBuildMetas()
     {
-        return Factory::getStore('BuildMeta')->getByBuildId($this->getId());
+        return $this->storeRegistry->get('BuildMeta')->getByBuildId($this->getId());
     }
 
     /**
@@ -214,7 +213,7 @@ class Build extends BaseBuild
     {
         $value = json_encode($value);
 
-        Factory::getStore('Build')->setMeta($this->getId(), $key, $value);
+        $this->storeRegistry->get('Build')->setMeta($this->getId(), $key, $value);
     }
 
     /**
@@ -264,7 +263,7 @@ class Build extends BaseBuild
         $overwriteBuildConfig = $this->getProject()->getOverwriteBuildConfig();
         $buildConfig          = $builder->getConfig();
 
-        $repositoryConfig     = $this->getZeroConfigPlugins($builder);
+        $repositoryConfig     = $this->getZeroConfigPlugins();
         $repositoryConfigFrom = '<empty config>';
 
         if (file_exists($buildPath . '/.php-censor.yml')) {
@@ -309,13 +308,11 @@ class Build extends BaseBuild
     /**
      * Get an array of plugins to run if there's no .php-censor.yml file.
      *
-     * @param Builder $builder
-     *
      * @return array
      *
      * @throws ReflectionException
      */
-    protected function getZeroConfigPlugins(Builder $builder)
+    protected function getZeroConfigPlugins()
     {
         $pluginDir = SRC_DIR . 'Plugin/';
         $dir = new DirectoryIterator($pluginDir);
@@ -656,7 +653,7 @@ OUT;
 
         if (!isset($this->totalErrorsCount[$key])) {
             /** @var BuildErrorStore $store */
-            $store = Factory::getStore('BuildError');
+            $store = $this->storeRegistry->get('BuildError');
 
             $this->totalErrorsCount[$key] = (int)$store->getErrorTotalForBuild(
                 $this->getId(),

@@ -5,7 +5,6 @@ namespace PHPCensor\Model\Build;
 use Exception;
 use GuzzleHttp\Client;
 use PHPCensor\Builder;
-use PHPCensor\Config;
 use PHPCensor\Helper\Bitbucket;
 use PHPCensor\Helper\Diff;
 use PHPCensor\Model\Build;
@@ -87,14 +86,14 @@ class BitbucketBuild extends GitBuild
             return false;
         }
 
-        $username    = Config::getInstance()->get('php-censor.bitbucket.username');
-        $appPassword = Config::getInstance()->get('php-censor.bitbucket.app_password');
+        $username    = $this->configuration->get('php-censor.bitbucket.username');
+        $appPassword = $this->configuration->get('php-censor.bitbucket.app_password');
 
         if (empty($username) || empty($appPassword) || empty($this->data['id'])) {
             return false;
         }
 
-        $allowStatusCommit = (bool)Config::getInstance()->get(
+        $allowStatusCommit = (bool)$this->configuration->get(
             'php-censor.bitbucket.status.commit',
             false
         );
@@ -123,7 +122,7 @@ class BitbucketBuild extends GitBuild
                 break;
         }
 
-        $phpCensorUrl = Config::getInstance()->get('php-censor.url');
+        $phpCensorUrl = $this->configuration->get('php-censor.url');
 
         $url = sprintf(
             '/2.0/repositories/%s/commit/%s/statuses/build',
@@ -151,7 +150,7 @@ class BitbucketBuild extends GitBuild
             ],
         ]);
 
-        $status = (int)$response->getStatusCode();
+        $status = $response->getStatusCode();
 
         return ($status >= 200 && $status < 300);
     }
@@ -175,22 +174,13 @@ class BitbucketBuild extends GitBuild
     /**
      * Get a template to use for generating links to files.
      *
-     * @return string|null
+     * @return string
      */
     public function getFileLinkTemplate()
     {
-        $reference = $this->getProject()->getReference();
+        $bitbucket = new Bitbucket($this->configuration);
 
-        if (in_array($this->getSource(), Build::$pullRequestSources, true)) {
-            $reference = $this->getExtra('remote_reference');
-        }
-
-        $link = 'https://bitbucket.org/' . $reference . '/';
-        $link .= 'src/' . $this->getCommitId() . '/';
-        $link .= '{FILE}';
-        $link .= '#{BASEFILE}-{LINE}';
-
-        return $link;
+        return $bitbucket->getFileLinkTemplate($this);
     }
 
     /**
@@ -203,7 +193,7 @@ class BitbucketBuild extends GitBuild
 
         try {
             if (in_array($this->getSource(), Build::$pullRequestSources, true)) {
-                $helper = new Bitbucket();
+                $helper = new Bitbucket($this->configuration);
                 $diff = $helper->getPullRequestDiff(
                     $this->getProject()->getReference(),
                     $this->getExtra('pull_request_number')
@@ -263,12 +253,12 @@ class BitbucketBuild extends GitBuild
         parent::reportError($builder, $plugin, $message, $severity, $file, $lineStart, $lineEnd);
 
         try {
-            $allowCommentCommit = (bool)Config::getInstance()->get(
+            $allowCommentCommit = (bool)$this->configuration->get(
                 'php-censor.bitbucket.comments.commit',
                 false
             );
 
-            $allowCommentPullRequest = (bool)Config::getInstance()->get(
+            $allowCommentPullRequest = (bool)$this->configuration->get(
                 'php-censor.bitbucket.comments.pull_request',
                 false
             );
@@ -278,7 +268,7 @@ class BitbucketBuild extends GitBuild
                     $diffLineNumber = $this->getDiffLineNumber($builder, $file, $lineStart);
 
                     if (!is_null($diffLineNumber)) {
-                        $helper = new Bitbucket();
+                        $helper = new Bitbucket($this->configuration);
 
                         $repo     = $this->getProject()->getReference();
                         $prNumber = $this->getExtra('pull_request_number');
@@ -297,8 +287,6 @@ class BitbucketBuild extends GitBuild
                 }
             }
         } catch (\Throwable $e) {
-            $builder->getBuildLogger()->logFailure('Exception: ' . $e->getMessage(), $e);
-        } catch (\Exception $e) {
             $builder->getBuildLogger()->logFailure('Exception: ' . $e->getMessage(), $e);
         }
     }

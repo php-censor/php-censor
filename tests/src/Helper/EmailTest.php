@@ -2,7 +2,7 @@
 
 namespace Tests\PHPCensor\Helper;
 
-use PHPCensor\Config;
+use PHPCensor\ConfigurationInterface;
 use PHPCensor\Helper\Email;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -23,7 +23,7 @@ class EmailTest extends TestCase
     {
         parent::setUp();
 
-        $this->config = $this->createMock(Config::class);
+        $this->config = $this->createMock(ConfigurationInterface::class);
         $this->email  = new Email($this->config);
     }
 

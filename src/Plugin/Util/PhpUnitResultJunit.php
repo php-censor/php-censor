@@ -3,8 +3,8 @@
 namespace PHPCensor\Plugin\Util;
 
 use Exception;
+use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Helper\Xml;
-use RuntimeException;
 use SimpleXMLElement;
 
 /**
@@ -87,7 +87,7 @@ class PhpUnitResultJunit extends PhpUnitResult
         }
         if ('' === $msg) {
             $msg = $testCase['class'].'::'.$testCase['name'];
-        };
+        }
         $testCase['_tracePos'] = $tracePos; // will be converted to string
 
         return $msg;

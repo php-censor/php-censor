@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Logging;
 
 use Monolog\Handler\AbstractProcessingHandler;
@@ -18,13 +20,13 @@ class OutputLogHandler extends AbstractProcessingHandler
 
     /**
      * @param OutputInterface $output
-     * @param bool|string $level
-     * @param bool $bubble
+     * @param int|string      $level
+     * @param bool            $bubble
      */
     public function __construct(
         OutputInterface $output,
         $level = LogLevel::INFO,
-        $bubble = true
+        bool $bubble = true
     ) {
         parent::__construct($level, $bubble);
 
@@ -33,6 +35,7 @@ class OutputLogHandler extends AbstractProcessingHandler
 
     /**
      * Write a log entry to the terminal.
+     *
      * @param array $record
      */
     protected function write(array $record): void

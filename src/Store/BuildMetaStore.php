@@ -3,7 +3,6 @@
 namespace PHPCensor\Store;
 
 use PDO;
-use PHPCensor\Database;
 use PHPCensor\Exception\HttpException;
 use PHPCensor\Model\BuildMeta;
 use PHPCensor\Store;
@@ -55,12 +54,12 @@ class BuildMetaStore extends Store
         }
 
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{id}} = :id LIMIT 1';
-        $stmt = Database::getConnection($useConnection)->prepareCommon($query);
+        $stmt  = $this->databaseManager->getConnection($useConnection)->prepare($query);
         $stmt->bindValue(':id', $id);
 
         if ($stmt->execute()) {
             if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                return new BuildMeta($data);
+                return new BuildMeta($this->storeRegistry, $data);
             }
         }
 
@@ -86,13 +85,13 @@ class BuildMetaStore extends Store
         }
 
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{build_id}} = :build_id AND {{meta_key}} = :meta_key LIMIT 1';
-        $stmt = Database::getConnection()->prepareCommon($query);
+        $stmt  = $this->databaseManager->getConnection('read')->prepare($query);
         $stmt->bindValue(':build_id', $buildId);
         $stmt->bindValue(':meta_key', $key);
 
         if ($stmt->execute()) {
             if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                return new BuildMeta($data);
+                return new BuildMeta($this->storeRegistry, $data);
             }
         }
 
@@ -117,7 +116,7 @@ class BuildMetaStore extends Store
         }
 
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{build_id}} = :build_id LIMIT :limit';
-        $stmt = Database::getConnection($useConnection)->prepareCommon($query);
+        $stmt = $this->databaseManager->getConnection($useConnection)->prepare($query);
         $stmt->bindValue(':build_id', $buildId);
         $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
 
@@ -125,7 +124,7 @@ class BuildMetaStore extends Store
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             $map = function ($item) {
-                return new BuildMeta($item);
+                return new BuildMeta($this->storeRegistry, $item);
             };
             $rtn = array_map($map, $res);
 
@@ -150,7 +149,7 @@ class BuildMetaStore extends Store
                     WHERE {{meta_key}} IN (\'phpmd-data\', \'phpcs-data\', \'phpdoccheck-data\', \'technical_debt-data\')
                     ORDER BY {{id}} ASC LIMIT :limit';
 
-        $stmt = Database::getConnection('read')->prepareCommon($query);
+        $stmt = $this->databaseManager->getConnection('read')->prepare($query);
 
         $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
 
@@ -158,11 +157,10 @@ class BuildMetaStore extends Store
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             $map = function ($item) {
-                return new BuildMeta($item);
+                return new BuildMeta($this->storeRegistry, $item);
             };
-            $rtn = array_map($map, $res);
 
-            return $rtn;
+            return array_map($map, $res);
         } else {
             return [];
         }

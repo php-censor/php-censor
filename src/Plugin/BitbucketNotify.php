@@ -5,14 +5,13 @@ namespace PHPCensor\Plugin;
 use Exception;
 use GuzzleHttp\Client;
 use PHPCensor\Builder;
-use PHPCensor\Database;
+use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 use PHPCensor\Plugin\Util\BitbucketNotifyPluginResult;
 use PHPCensor\Store\BuildErrorStore;
 use PHPCensor\Store\BuildMetaStore;
 use PHPCensor\Store\BuildStore;
-use PHPCensor\Store\Factory;
 
 class BitbucketNotify extends Plugin
 {
@@ -46,11 +45,6 @@ class BitbucketNotify extends Plugin
     protected $httpClient;
 
     /**
-     * @var Database
-     */
-    protected $pdo;
-
-    /**
      * @return string
      */
     public static function pluginName()
@@ -65,8 +59,6 @@ class BitbucketNotify extends Plugin
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
         parent::__construct($builder, $build, $options);
-
-        $this->pdo = Database::getConnection('read');
 
         $this->httpClient        = new Client();
         $this->url               = \trim($options['url']);
@@ -114,7 +106,7 @@ class BitbucketNotify extends Plugin
             empty($this->projectKey) ||
             empty($this->repositorySlug)
         ) {
-            throw new Exception('Please define the url for bitbucket plugin!');
+            throw new InvalidArgumentException('Please define the url for bitbucket plugin!');
         }
     }
 
@@ -256,7 +248,7 @@ class BitbucketNotify extends Plugin
     protected function prepareResult($targetBranch)
     {
         /** @var BuildErrorStore $buildErrorStore */
-        $buildErrorStore = Factory::getStore('BuildError');
+        $buildErrorStore = $this->storeRegistry->get('BuildError');
 
         $targetBranchBuildStats = $buildErrorStore->getErrorAmountPerPluginForBuild(
             $this->findLatestBuild($targetBranch)
@@ -292,9 +284,8 @@ class BitbucketNotify extends Plugin
     public function getPhpUnitCoverage($targetBranch)
     {
         /** @var BuildMetaStore $buildMetaStore */
-        $buildMetaStore = Factory::getStore('BuildMeta');
-        $latestTargeBuildId = $this->findLatestBuild($targetBranch);
-        $latestCurrentBuildId = $this->findLatestBuild($this->build->getBranch());
+        $buildMetaStore       = $this->storeRegistry->get('BuildMeta');
+        $latestTargetBuildId  = $this->findLatestBuild($targetBranch);
 
         $targetMetaData = $buildMetaStore->getByKey(
             $this->findLatestBuild($targetBranch),
@@ -306,7 +297,7 @@ class BitbucketNotify extends Plugin
         );
 
         $targetBranchCoverage = [];
-        if (!is_null($latestTargeBuildId) && !is_null($targetMetaData)) {
+        if (!is_null($latestTargetBuildId) && !is_null($targetMetaData)) {
             $targetBranchCoverage = json_decode($targetMetaData->getMetaValue(), true);
         }
 
@@ -361,7 +352,7 @@ class BitbucketNotify extends Plugin
     protected function findLatestBuild($branchName)
     {
         /** @var BuildStore $buildStore */
-        $buildStore = Factory::getStore('Build');
+        $buildStore = $this->storeRegistry->get('Build');
 
         $build = $buildStore->getLatestBuildByProjectAndBranch($this->getBuild()->getProjectId(), $branchName);
 

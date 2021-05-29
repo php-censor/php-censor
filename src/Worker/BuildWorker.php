@@ -1,19 +1,23 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Worker;
 
 use DateTime;
 use Exception;
 use Monolog\Logger;
-use Pheanstalk\Exception\ServerException;
 use Pheanstalk\Job;
 use Pheanstalk\Pheanstalk;
 use PHPCensor\Builder;
 use PHPCensor\BuildFactory;
+use PHPCensor\ConfigurationInterface;
+use PHPCensor\DatabaseManager;
 use PHPCensor\Logging\BuildDBLogHandler;
 use PHPCensor\Model\Build;
 use PHPCensor\Service\BuildService;
-use PHPCensor\Store\Factory;
+use PHPCensor\Store\BuildStore;
+use PHPCensor\StoreRegistry;
 
 class BuildWorker
 {
@@ -22,63 +26,49 @@ class BuildWorker
 
     /**
      * If this variable changes to false, the worker will stop after the current build.
-     *
-     * @var bool
      */
-    protected $canRun = true;
+    private bool $canRun = true;
 
-    /**
-     * @var bool
-     */
-    protected $canPeriodicalWork;
+    private bool $canPeriodicalWork;
 
     /**
      * The logger for builds to use.
-     *
-     * @var Logger
      */
-    protected $logger;
+    private Logger $logger;
 
-    /**
-     * @var BuildService
-     */
-    protected $buildService;
+    private BuildService $buildService;
+
+    private ConfigurationInterface $configuration;
+
+    private DatabaseManager $databaseManager;
+
+    private StoreRegistry $storeRegistry;
 
     /**
      * beanstalkd queue to watch
-     *
-     * @var string
      */
-    protected $queueTube;
+    private string $queueTube;
 
-    /**
-     * @var Pheanstalk
-     */
-    protected $pheanstalk;
+    private Pheanstalk $pheanstalk;
 
-    /**
-     * @var int
-     */
-    protected $lastPeriodical;
+    private int $lastPeriodical;
 
-    /**
-     * @param Logger       $logger
-     * @param BuildService $buildService,
-     * @param string       $queueHost
-     * @param int          $queuePort
-     * @param string       $queueTube
-     * @param bool         $canPeriodicalWork
-     */
     public function __construct(
+        ConfigurationInterface $configuration,
+        DatabaseManager $databaseManager,
+        StoreRegistry $storeRegistry,
         Logger $logger,
         BuildService $buildService,
-        $queueHost,
-        $queuePort,
-        $queueTube,
-        $canPeriodicalWork
+        string $queueHost,
+        int $queuePort,
+        string $queueTube,
+        bool $canPeriodicalWork
     ) {
-        $this->logger       = $logger;
-        $this->buildService = $buildService;
+        $this->logger          = $logger;
+        $this->buildService    = $buildService;
+        $this->configuration   = $configuration;
+        $this->databaseManager = $databaseManager;
+        $this->storeRegistry   = $storeRegistry;
 
         $this->queueTube  = $queueTube;
         $this->pheanstalk = Pheanstalk::create($queueHost, $queuePort);
@@ -102,8 +92,6 @@ class BuildWorker
     protected function runWorker()
     {
         $this->pheanstalk->watchOnly($this->queueTube);
-
-        $buildStore = Factory::getStore('Build');
 
         while ($this->canRun) {
             if ($this->canPeriodicalWork &&
@@ -134,7 +122,11 @@ class BuildWorker
                 )
             );
 
-            $build = BuildFactory::getBuildById($jobData['build_id']);
+            $build = BuildFactory::getBuildById(
+                $this->configuration,
+                $this->storeRegistry,
+                (int)$jobData['build_id']
+            );
 
             if (!$build) {
                 $this->logger->warning(
@@ -167,11 +159,20 @@ class BuildWorker
                 continue;
             }
 
+            /** @var BuildStore $buildStore */
+            $buildStore = $this->storeRegistry->get('Build');
+
             // Logging relevant to this build should be stored against the build itself.
-            $buildDbLog = new BuildDBLogHandler($build, Logger::DEBUG);
+            $buildDbLog = new BuildDBLogHandler($buildStore, $build, Logger::DEBUG);
             $this->logger->pushHandler($buildDbLog);
 
-            $builder = new Builder($build, $this->logger);
+            $builder = new Builder(
+                $this->configuration,
+                $this->databaseManager,
+                $this->storeRegistry,
+                $build,
+                $this->logger
+            );
 
             try {
                 $builder->execute();
@@ -221,7 +222,7 @@ class BuildWorker
     protected function canForceRewindLoop()
     {
         try {
-            $peekedJob = $this->pheanstalk->peekReady($this->queueTube);
+            $this->pheanstalk->peekReady($this->queueTube);
         } catch (Exception $e) {
             return true;
         }

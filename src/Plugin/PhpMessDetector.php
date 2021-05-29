@@ -8,6 +8,7 @@ use PHPCensor\Builder;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 use PHPCensor\ZeroConfigPluginInterface;
+use PHPCensor\Common\Exception\RuntimeException;
 
 /**
  * PHP Mess Detector Plugin - Allows PHP Mess Detector testing.
@@ -121,7 +122,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
 
         if (false === $xml) {
             $this->builder->log($xmlString);
-            throw new Exception('Could not process PHPMD report XML.');
+            throw new RuntimeException('Could not process PHPMD report XML.');
         }
 
         $warnings = 0;
@@ -217,12 +218,10 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
      */
     protected function wasLastExecSuccessful($errorCount)
     {
-        $success = true;
-
         if (-1 != $this->allowedWarnings && $errorCount > $this->allowedWarnings) {
-            $success = false;
-            return $success;
+            return false;
         }
-        return $success;
+
+        return true;
     }
 }

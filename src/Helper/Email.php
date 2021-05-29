@@ -3,7 +3,7 @@
 namespace PHPCensor\Helper;
 
 use PHPCensor\Builder;
-use PHPCensor\Config;
+use PHPCensor\ConfigurationInterface;
 use Swift_Message;
 
 /**
@@ -21,9 +21,9 @@ class Email
     protected $config;
 
     /**
-     * @param Config $config
+     * @param ConfigurationInterface $config
      */
-    public function __construct(Config $config)
+    public function __construct(ConfigurationInterface $config)
     {
         $this->config = $config;
     }

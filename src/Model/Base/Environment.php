@@ -1,10 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace PHPCensor\Model\Base;
 
-use PHPCensor\Exception\InvalidArgumentException;
 use PHPCensor\Model;
 
 class Environment extends Model
@@ -12,7 +11,7 @@ class Environment extends Model
     /**
      * @var array
      */
-    protected $data = [
+    protected array $data = [
         'id'         => null,
         'project_id' => null,
         'name'       => null,

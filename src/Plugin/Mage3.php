@@ -7,6 +7,7 @@ namespace PHPCensor\Plugin;
 
 use Exception;
 use PHPCensor\Builder;
+use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 
@@ -79,40 +80,39 @@ class Mage3 extends Plugin
     {
         $logsDir = $this->build->getBuildPath() . (!empty($this->mageLogDir) ? '/' . $this->mageLogDir : '');
         if (!is_dir($logsDir)) {
-            throw new Exception('Log directory not found');
+            throw new RuntimeException('Log directory not found');
         }
 
         $list = scandir($logsDir);
         if ($list === false) {
-            throw new Exception('Log dir read fail');
+            throw new RuntimeException('Log dir read fail');
         }
 
         $list = array_filter($list, function ($name) {
             return preg_match('/^\d+_\d+\.log$/', $name);
         });
         if (empty($list)) {
-            throw new Exception('Log dir filter fail');
+            throw new RuntimeException('Log dir filter fail');
         }
 
         $res = sort($list);
         if ($res === false) {
-            throw new Exception('Logs sort fail');
+            throw new RuntimeException('Logs sort fail');
         }
 
         $lastLogFile = end($list);
         if ($lastLogFile === false) {
-            throw new Exception('Get last Log name fail');
+            throw new RuntimeException('Get last Log name fail');
         }
 
         $logContent = file_get_contents($logsDir . '/' . $lastLogFile);
         if ($logContent === false) {
-            throw new Exception('Get last Log content fail');
+            throw new RuntimeException('Get last Log content fail');
         }
 
         $lines = explode("\n", $logContent);
         $lines = array_map('trim', $lines);
-        $lines = array_filter($lines);
 
-        return $lines;
+        return array_filter($lines);
     }
 }

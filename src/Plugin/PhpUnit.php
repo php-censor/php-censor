@@ -5,7 +5,6 @@ namespace PHPCensor\Plugin;
 use Exception;
 use PHPCensor;
 use PHPCensor\Builder;
-use PHPCensor\Config;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
 use PHPCensor\Plugin;
@@ -14,6 +13,7 @@ use PHPCensor\Plugin\Util\PhpUnitResultJson;
 use PHPCensor\Plugin\Util\PhpUnitResultJunit;
 use PHPCensor\ZeroConfigPluginInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use PHPCensor\Common\Exception\RuntimeException;
 
 /**
  * PHP Unit Plugin - A rewrite of the original PHP Unit plugin
@@ -81,7 +81,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
         $this->buildLocation       = PUBLIC_DIR . 'artifacts/phpunit/' . $this->buildDirectory;
         $this->buildBranchLocation = PUBLIC_DIR . 'artifacts/phpunit/' . $this->buildBranchDirectory;
 
-        $this->options = new PhpUnitOptions($options, $this->buildLocation);
+        $this->options = new PhpUnitOptions($this->builder->getConfiguration(), $options, $this->buildLocation);
 
         $this->executable = $this->findBinary(['phpunit', 'phpunit.phar']);
     }
@@ -152,7 +152,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
      */
     protected function runConfig($directory, $configFile, $logFormat)
     {
-        $allowPublicArtifacts = (bool)Config::getInstance()->get(
+        $allowPublicArtifacts = (bool)$this->builder->getConfiguration()->get(
             'php-censor.build.allow_public_artifacts',
             false
         );
@@ -179,7 +179,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
             }
 
             if (!is_writable($this->buildLocation)) {
-                throw new Exception(sprintf(
+                throw new RuntimeException(sprintf(
                     'The location %s is not writable or does not exist.',
                     $this->buildLocation
                 ));
@@ -321,7 +321,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
             }
             unlink($logFile);
         } else {
-            throw new Exception('log output file does not exist: ' . $logFile);
+            throw new RuntimeException('log output file does not exist: ' . $logFile);
         }
     }
 }

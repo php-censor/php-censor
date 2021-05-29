@@ -2,7 +2,7 @@
 
 namespace PHPCensor\Model\Build;
 
-use PHPCensor\Model\Build;
+use PHPCensor\Helper\Bitbucket;
 
 /**
  * BitbucketHgBuild Build Model
@@ -77,17 +77,8 @@ class BitbucketHgBuild extends HgBuild
      */
     public function getFileLinkTemplate()
     {
-        $reference = $this->getProject()->getReference();
+        $bitbucket = new Bitbucket($this->configuration);
 
-        if (in_array($this->getSource(), Build::$pullRequestSources, true)) {
-            $reference = $this->getExtra('remote_reference');
-        }
-
-        $link = 'https://bitbucket.org/' . $reference . '/';
-        $link .= 'src/' . $this->getCommitId() . '/';
-        $link .= '{FILE}';
-        $link .= '#{BASEFILE}-{LINE}';
-
-        return $link;
+        return $bitbucket->getFileLinkTemplate($this);
     }
 }

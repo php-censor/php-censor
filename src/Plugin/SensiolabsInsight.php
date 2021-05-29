@@ -7,7 +7,7 @@ use PHPCensor;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
-use RuntimeException;
+use PHPCensor\Common\Exception\RuntimeException;
 
 /**
  * Sensiolabs Insight Plugin - Allows Sensiolabs Insight testing.
@@ -167,12 +167,10 @@ class SensiolabsInsight extends Plugin
      */
     protected function wasLastExecSuccessful($errorCount)
     {
-        $success = true;
-
         if ($this->allowedWarnings !== -1 && $errorCount > $this->allowedWarnings) {
-            $success = false;
-            return $success;
+            return false;
         }
-        return $success;
+
+        return true;
     }
 }

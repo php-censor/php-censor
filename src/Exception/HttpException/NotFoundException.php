@@ -1,18 +1,20 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Exception\HttpException;
 
 use PHPCensor\Exception\HttpException;
 
+/**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
+ */
 class NotFoundException extends HttpException
 {
-    /**
-     * @var int
-     */
-    protected $errorCode = 404;
+    protected int $errorCode = 404;
 
-    /**
-     * @var string
-     */
-    protected $statusMessage = 'Not Found';
+    protected string $statusMessage = 'Not Found';
 }

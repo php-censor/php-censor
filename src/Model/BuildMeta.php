@@ -4,7 +4,6 @@ namespace PHPCensor\Model;
 
 use PHPCensor\Model\Base\BuildMeta as BaseBuildMeta;
 use PHPCensor\Store\BuildStore;
-use PHPCensor\Store\Factory;
 
 class BuildMeta extends BaseBuildMeta
 {
@@ -19,7 +18,7 @@ class BuildMeta extends BaseBuildMeta
         }
 
         /** @var BuildStore $buildStore */
-        $buildStore = Factory::getStore('Build');
+        $buildStore = $this->storeRegistry->get('Build');
 
         return $buildStore->getById($buildId);
     }

@@ -25,7 +25,9 @@ class FormInputTest extends TestCase
 
     public function testValidatorSetterGetterSuccess()
     {
-        $validator = function ($value) { echo $value;};
+        $validator = function ($value) {
+            echo $value;
+        };
         $this->inputElement->setValidator($validator);
         $this->assertEquals($validator, $this->inputElement->getValidator());
     }

@@ -1,56 +1,42 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace PHPCensor;
 
 class Model
 {
-    /**
-     * @var array
-     */
-    protected $data = [];
+    protected array $data = [];
 
-    /**
-     * @var array
-     */
-    protected $modified = [];
+    protected array $modified = [];
 
-    /**
-     * @param array $initialData
-     */
-    public function __construct(array $initialData = [])
-    {
-        if (is_array($initialData)) {
+    protected StoreRegistry $storeRegistry;
+
+    public function __construct(
+        StoreRegistry $storeRegistry,
+        array $initialData = []
+    ) {
+        if (\is_array($initialData)) {
             foreach ($initialData as $index => $item) {
-                if (array_key_exists($index, $this->data)) {
+                if (\array_key_exists($index, $this->data)) {
                     $this->data[$index] = $item;
                 }
             }
         }
+
+        $this->storeRegistry = $storeRegistry;
     }
 
-    /**
-     * @return array
-     */
     public function getDataArray(): array
     {
         return $this->data;
     }
 
-    /**
-     * @return array
-     */
     public function getModified(): array
     {
         return $this->modified;
     }
 
-    /**
-     * @param string $column
-     *
-     * @return bool
-     */
     protected function setModified(string $column): bool
     {
         $this->modified[$column] = $column;

@@ -2,10 +2,11 @@
 
 namespace Tests\PHPCensor\Model;
 
-use PHPCensor\Exception\InvalidArgumentException;
+use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\Build\GogsBuild;
 use PHPCensor\Model\Project;
+use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -15,14 +16,29 @@ use PHPUnit\Framework\TestCase;
  */
 class BuildTest extends TestCase
 {
+    protected StoreRegistry $storeRegistry;
+
+    protected function setUp(): void
+    {
+        $configuration   = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
+        $databaseManager = $this
+            ->getMockBuilder('PHPCensor\DatabaseManager')
+            ->setConstructorArgs([$configuration])
+            ->getMock();
+        $this->storeRegistry = $this
+            ->getMockBuilder('PHPCensor\StoreRegistry')
+            ->setConstructorArgs([$databaseManager])
+            ->getMock();
+    }
+
     public function testConstruct()
     {
-        $build = new Build();
+        $build = new Build($this->storeRegistry);
 
         self::assertInstanceOf('PHPCensor\Model', $build);
         self::assertInstanceOf('PHPCensor\Model\Build', $build);
 
-        $build = new Build([
+        $build = new Build($this->storeRegistry, [
             'project_id' => 100,
             'branch'     => 'master',
         ]);
@@ -51,7 +67,7 @@ class BuildTest extends TestCase
         ], $build->getDataArray());
 
         try {
-            $build = new Build([
+            new Build($this->storeRegistry, [
                 'project_id' => 101,
                 'branch'     => 'dev',
                 'unknown'    => 'unknown',
@@ -63,7 +79,7 @@ class BuildTest extends TestCase
             );
         }
 
-        $build = new Build();
+        $build = new Build($this->storeRegistry);
         $build->setLog('log');
         self::assertEquals('log', $build->getLog());
 
@@ -103,7 +119,7 @@ class BuildTest extends TestCase
 
     public function testExecute_TestBaseBuildDefaults()
     {
-        $build = new Build();
+        $build = new Build($this->storeRegistry);
         self::assertEquals('#', $build->getCommitLink());
         self::assertEquals('#', $build->getBranchLink());
         self::assertEquals(null, $build->getFileLinkTemplate());
@@ -111,7 +127,7 @@ class BuildTest extends TestCase
 
     public function testExecute_TestIsSuccessful()
     {
-        $build = new Build();
+        $build = new Build($this->storeRegistry);
         $build->setStatusPending();
         self::assertFalse($build->isSuccessful());
 
@@ -132,7 +148,7 @@ class BuildTest extends TestCase
             'item2' => 2,
         ];
 
-        $build = new Build();
+        $build = new Build($this->storeRegistry);
         $build->setExtra($info);
 
         self::assertEquals('Item One', $build->getExtra('item1'));
@@ -148,11 +164,14 @@ class BuildTest extends TestCase
 
     public function testGogsBuildLinks()
     {
-        $project = new Project();
+        $project = new Project($this->storeRegistry);
         $project->setType(Project::TYPE_GOGS);
         $project->setReference('https://gogs.repository/the-vendor/the-project.git');
 
+        $configuration = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
+
         $stub = $this->getMockBuilder(GogsBuild::class)
+            ->setConstructorArgs([$configuration, $this->storeRegistry])
             ->setMethods(['getProject', 'getCommitId', 'getBranch'])
             ->getMock();
 

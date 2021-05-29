@@ -4,6 +4,7 @@ namespace PHPCensor\Plugin;
 
 use Exception;
 use PHPCensor\Builder;
+use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 use PHPCensor\Plugin\Util\TestResultParsers\Codeception as Parser;
@@ -103,7 +104,7 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
     public function execute()
     {
         if (empty($this->ymlConfigFile)) {
-            throw new Exception("No configuration file found");
+            throw new InvalidArgumentException("No configuration file found");
         }
 
         // Run any config files first. This can be either a single value or an array.

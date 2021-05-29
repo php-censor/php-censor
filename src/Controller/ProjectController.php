@@ -2,7 +2,6 @@
 
 namespace PHPCensor\Controller;
 
-use Exception;
 use JasonGrimes\Paginator;
 use PHPCensor;
 use PHPCensor\BuildFactory;
@@ -16,12 +15,12 @@ use PHPCensor\Model\Project;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Service\ProjectService;
 use PHPCensor\Store\BuildStore;
-use PHPCensor\Store\Factory;
 use PHPCensor\Store\ProjectStore;
 use PHPCensor\View;
 use PHPCensor\WebController;
 use PHPCensor\Helper\Branch;
 use PHPCensor\Store\EnvironmentStore;
+use PHPCensor\Common\Exception\RuntimeException;
 
 /**
  * Project Controller - Allows users to create, edit and view projects.
@@ -62,10 +61,15 @@ class ProjectController extends WebController
     {
         parent::init();
 
-        $this->buildStore     = Factory::getStore('Build');
-        $this->projectStore   = Factory::getStore('Project');
-        $this->projectService = new ProjectService($this->projectStore);
-        $this->buildService   = new BuildService($this->buildStore, $this->projectStore);
+        $this->buildStore     = $this->storeRegistry->get('Build');
+        $this->projectStore   = $this->storeRegistry->get('Project');
+        $this->projectService = new ProjectService($this->storeRegistry, $this->projectStore);
+        $this->buildService   = new BuildService(
+            $this->configuration,
+            $this->storeRegistry,
+            $this->buildStore,
+            $this->projectStore
+        );
     }
 
     /**
@@ -115,7 +119,7 @@ class ProjectController extends WebController
 
         /** @var PHPCensor\Model\User $user */
         $user    = $this->getUser();
-        $perPage = $user->getFinalPerPage();
+        $perPage = $user->getFinalPerPage($this->configuration);
         $builds  = $this->getLatestBuildsHtml($projectId, $branch, $environment, (($page - 1) * $perPage), $perPage);
         $pages   = ($builds[1] === 0)
             ? 1
@@ -142,6 +146,7 @@ class ProjectController extends WebController
             $perPage,
             $page
         );
+        $this->view->user = $this->getUser();
 
         $this->layout->title    = $project->getTitle();
         $this->layout->subtitle = '';
@@ -239,7 +244,7 @@ class ProjectController extends WebController
         $environmentId = null;
         if ($environment) {
             /** @var EnvironmentStore $environmentStore */
-            $environmentStore  = Factory::getStore('Environment');
+            $environmentStore  = $this->storeRegistry->get('Environment');
             $environmentObject = $environmentStore->getByNameAndProjectId($environment, $project->getId());
             if ($environmentObject) {
                 $environmentId = $environmentObject->getId();
@@ -346,7 +351,7 @@ class ProjectController extends WebController
 
         if (!empty($environment)) {
             /** @var EnvironmentStore $environmentStore */
-            $environmentStore  = Factory::getStore('Environment');
+            $environmentStore  = $this->storeRegistry->get('Environment');
             $environmentObject = $environmentStore->getByNameAndProjectId($environment, $projectId);
             if ($environmentObject) {
                 $criteria['environment_id'] = $environmentObject->getId();
@@ -362,10 +367,12 @@ class ProjectController extends WebController
         $view   = new View('Project/ajax-builds');
 
         foreach ($builds['items'] as &$build) {
-            $build = BuildFactory::getBuild($build);
+            $build = BuildFactory::getBuild($this->configuration, $this->storeRegistry, $build);
         }
 
-        $view->builds = $builds['items'];
+        $view->builds           = $builds['items'];
+        $view->environmentStore = $this->storeRegistry->get('Environment');
+        $view->user             = $this->getUser();
 
         return [
             $view->render(),
@@ -386,7 +393,7 @@ class ProjectController extends WebController
         $values['default_branch'] = null;
 
         if ($method !== 'POST') {
-            $sshKey = new SshKey();
+            $sshKey = new SshKey($this->configuration);
             $key    = $sshKey->generate();
 
             $values['ssh_private_key'] = $key['ssh_private_key'];
@@ -611,9 +618,9 @@ class ProjectController extends WebController
         $field = Form\Element\Select::create('group_id', Lang::get('project_group'), true);
         $field->setClass('form-control')->setContainerClass('form-group')->setValue(null);
 
-        $groups = [];
-        $groupStore = Factory::getStore('ProjectGroup');
-        $groupList = $groupStore->getWhere([], 100, 0, ['title' => 'ASC']);
+        $groups     = [];
+        $groupStore = $this->storeRegistry->get('ProjectGroup');
+        $groupList  = $groupStore->getWhere([], 100, 0, ['title' => 'ASC']);
 
         foreach ($groupList['items'] as $group) {
             $groups[$group->getId()] = $group->getTitle();
@@ -692,9 +699,9 @@ class ProjectController extends WebController
             ];
 
             if (in_array($type, $validators) && !preg_match($validators[$type]['regex'], $val)) {
-                throw new Exception($validators[$type]['message']);
+                throw new RuntimeException($validators[$type]['message']);
             } elseif (Project::TYPE_LOCAL === $type && !is_dir($val)) {
-                throw new Exception(Lang::get('error_path'));
+                throw new RuntimeException(Lang::get('error_path'));
             }
 
             return true;

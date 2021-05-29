@@ -4,10 +4,11 @@ namespace PHPCensor\Controller;
 
 use Exception;
 use GuzzleHttp\Client;
-use PHPCensor\Config;
 use PHPCensor\Controller;
+use PHPCensor\Exception\HttpException\ForbiddenException;
 use PHPCensor\Exception\HttpException\NotFoundException;
-use PHPCensor\Exception\InvalidArgumentException;
+use PHPCensor\Common\Exception\InvalidArgumentException;
+use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Http\Response;
 use PHPCensor\Model\Build;
@@ -18,7 +19,6 @@ use PHPCensor\Model\Project;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\EnvironmentStore;
-use PHPCensor\Store\Factory;
 use PHPCensor\Store\ProjectStore;
 
 /**
@@ -52,10 +52,15 @@ class WebhookController extends Controller
      */
     public function init()
     {
-        $this->buildStore   = Factory::getStore('Build');
-        $this->projectStore = Factory::getStore('Project');
+        $this->buildStore   = $this->storeRegistry->get('Build');
+        $this->projectStore = $this->storeRegistry->get('Project');
 
-        $this->buildService = new BuildService($this->buildStore, $this->projectStore);
+        $this->buildService = new BuildService(
+            $this->configuration,
+            $this->storeRegistry,
+            $this->buildStore,
+            $this->projectStore
+        );
     }
 
     /**
@@ -140,7 +145,7 @@ class WebhookController extends Controller
             $createdBuilds = [];
 
             /** @var EnvironmentStore $environmentStore */
-            $environmentStore  = Factory::getStore('Environment');
+            $environmentStore  = $this->storeRegistry->get('Environment');
             $environmentObject = $environmentStore->getByNameAndProjectId($environment, $project->getId());
             if ($environment && $environmentObject) {
                 if (
@@ -293,7 +298,7 @@ class WebhookController extends Controller
     protected function fetchProject($projectId, array $expectedType)
     {
         if (empty($projectId)) {
-            throw new Exception('Project does not exist: ' . $projectId);
+            throw new NotFoundException('Project does not exist: ' . $projectId);
         }
 
         if (is_numeric($projectId)) {
@@ -301,16 +306,16 @@ class WebhookController extends Controller
         } else {
             $projects = $this->projectStore->getByTitle($projectId, 2);
             if ($projects['count'] < 1) {
-                throw new Exception('Project does not found: ' . $projectId);
+                throw new NotFoundException('Project does not found: ' . $projectId);
             }
             if ($projects['count'] > 1) {
-                throw new Exception('Project id is ambiguous: ' . $projectId);
+                throw new NotFoundException('Project id is ambiguous: ' . $projectId);
             }
             $project = reset($projects['items']);
         }
 
         if (!in_array($project->getType(), $expectedType, true)) {
-            throw new Exception('Wrong project type: ' . $project->getType());
+            throw new NotFoundException('Wrong project type: ' . $project->getType());
         }
 
         return $project;
@@ -526,11 +531,11 @@ class WebhookController extends Controller
             ];
         }
 
-        $username    = Config::getInstance()->get('php-censor.bitbucket.username');
-        $appPassword = Config::getInstance()->get('php-censor.bitbucket.app_password');
+        $username    = $this->configuration->get('php-censor.bitbucket.username');
+        $appPassword = $this->configuration->get('php-censor.bitbucket.app_password');
 
         if (empty($username) || empty($appPassword)) {
-            throw new Exception('Please provide Username and App Password of your Bitbucket account.');
+            throw new ForbiddenException('Please provide Username and App Password of your Bitbucket account.');
         }
 
         $commitsUrl = $payload['pullrequest']['links']['commits']['href'];
@@ -543,7 +548,7 @@ class WebhookController extends Controller
 
         // Check we got a success response:
         if ($httpStatus < 200 || $httpStatus >= 300) {
-            throw new Exception('Could not get commits, failed API request.');
+            throw new RuntimeException('Could not get commits, failed API request.');
         }
 
         $results = [];
@@ -810,7 +815,7 @@ class WebhookController extends Controller
         }
 
         $headers = [];
-        $token   = Config::getInstance()->get('php-censor.github.token');
+        $token   = $this->configuration->get('php-censor.github.token');
 
         if (!empty($token)) {
             $headers['Authorization'] = 'token ' . $token;
@@ -819,7 +824,7 @@ class WebhookController extends Controller
         $url = $payload['pull_request']['commits_url'];
 
         //for large pull requests, allow grabbing more then the default number of commits
-        $customPerPage = Config::getInstance()->get('php-censor.github.per_page');
+        $customPerPage = $this->configuration->get('php-censor.github.per_page');
         $params        = [];
         if ($customPerPage) {
             $params['per_page'] = $customPerPage;
@@ -834,7 +839,7 @@ class WebhookController extends Controller
 
         // Check we got a success response:
         if ($status < 200 || $status >= 300) {
-            throw new Exception('Could not get commits, failed API request.');
+            throw new RuntimeException('Could not get commits, failed API request.');
         }
 
         $results = [];
@@ -1072,7 +1077,7 @@ class WebhookController extends Controller
 
         $envsUpdated = [];
         $envObjects  = $project->getEnvironmentsObjects();
-        $store       = Factory::getStore('Environment');
+        $store       = $this->storeRegistry->get('Environment');
         foreach ($envObjects['items'] as $environment) {
             $branches = $environment->getBranches();
             if (in_array($environment->getName(), $envs)) {

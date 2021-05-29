@@ -4,8 +4,8 @@ namespace PHPCensor;
 
 use Exception;
 use PDO;
-use PHPCensor\Exception\InvalidArgumentException;
-use RuntimeException;
+use PHPCensor\Common\Exception\InvalidArgumentException;
+use PHPCensor\Common\Exception\RuntimeException;
 
 abstract class Store
 {
@@ -24,22 +24,25 @@ abstract class Store
      */
     protected $primaryKey = null;
 
-    /**
-     * @param string $key
-     * @param string $useConnection
-     *
-     * @return Model|null
-     */
+    protected DatabaseManager $databaseManager;
+
+    protected StoreRegistry $storeRegistry;
+
     abstract public function getByPrimaryKey($key, $useConnection = 'read');
 
     /**
      * @throws RuntimeException
      */
-    public function __construct()
-    {
+    public function __construct(
+        DatabaseManager $databaseManager,
+        StoreRegistry $storeRegistry
+    ) {
         if (empty($this->primaryKey)) {
             throw new RuntimeException('Save not implemented for this store.');
         }
+
+        $this->databaseManager = $databaseManager;
+        $this->storeRegistry   = $storeRegistry;
     }
 
     /**
@@ -96,18 +99,18 @@ abstract class Store
             $query .= ' OFFSET ' . $offset;
         }
 
-        $stmt = Database::getConnection('read')->prepareCommon($countQuery);
+        $stmt = $this->databaseManager->getConnection('read')->prepare($countQuery);
         $stmt->execute($params);
         $res = $stmt->fetch(PDO::FETCH_ASSOC);
         $count = (int)$res['count'];
 
-        $stmt = Database::getConnection('read')->prepareCommon($query);
+        $stmt = $this->databaseManager->getConnection('read')->prepare($query);
         $stmt->execute($params);
         $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $rtn = [];
 
         foreach ($res as $data) {
-            $rtn[] = new $this->modelName($data);
+            $rtn[] = new $this->modelName($this->storeRegistry, $data);
         }
 
         return ['items' => $rtn, 'count' => $count];
@@ -148,8 +151,7 @@ abstract class Store
      */
     public function saveByUpdate(Model $obj, $saveAllColumns = false)
     {
-        $rtn = null;
-        $data = $obj->getDataArray();
+        $data     = $obj->getDataArray();
         $modified = ($saveAllColumns) ? array_keys($data) : $obj->getModified();
 
         $updates      = [];
@@ -166,7 +168,7 @@ abstract class Store
                 implode(', ', $updates),
                 $this->primaryKey
             );
-            $q  = Database::getConnection('write')->prepareCommon($qs);
+            $q  = $this->databaseManager->getConnection('write')->prepare($qs);
 
             foreach ($updateParams as $updateParam) {
                 $q->bindValue(':' . $updateParam[0], $updateParam[1]);
@@ -213,10 +215,10 @@ abstract class Store
                 implode(', ', $cols),
                 implode(', ', $values)
             );
-            $q = Database::getConnection('write')->prepareCommon($qs);
+            $q = $this->databaseManager->getConnection('write')->prepare($qs);
 
             if ($q->execute($qParams)) {
-                $id  = Database::getConnection('write')->lastInsertIdExtended($this->tableName);
+                $id  = $this->databaseManager->getConnection('write')->lastInsertId($this->tableName);
                 $rtn = $this->getByPrimaryKey($id, 'write');
             }
         }
@@ -239,9 +241,9 @@ abstract class Store
 
         $data = $obj->getDataArray();
 
-        $q = Database::getConnection('write')
-            ->prepareCommon(
-                sprintf(
+        $q = $this->databaseManager->getConnection('write')
+            ->prepare(
+                \sprintf(
                     'DELETE FROM {{%s}} WHERE {{%s}} = :primaryKey',
                     $this->tableName,
                     $this->primaryKey

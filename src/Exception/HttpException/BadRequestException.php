@@ -1,18 +1,20 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Exception\HttpException;
 
 use PHPCensor\Exception\HttpException;
 
+/**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
+ */
 class BadRequestException extends HttpException
 {
-    /**
-     * @var int
-     */
-    protected $errorCode = 400;
+    protected int $errorCode = 400;
 
-    /**
-     * @var string
-     */
-    protected $statusMessage = 'Bad Request';
+    protected string $statusMessage = 'Bad Request';
 }

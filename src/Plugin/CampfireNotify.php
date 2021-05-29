@@ -2,8 +2,8 @@
 
 namespace PHPCensor\Plugin;
 
-use Exception;
 use PHPCensor\Builder;
+use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 
@@ -60,7 +60,7 @@ class CampfireNotify extends Plugin
                 $this->room = $campfire['room'];
             }
         } else {
-            throw new Exception('No connection parameters given for Campfire plugin');
+            throw new InvalidArgumentException('No connection parameters given for Campfire plugin');
         }
     }
 

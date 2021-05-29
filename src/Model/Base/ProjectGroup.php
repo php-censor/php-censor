@@ -1,12 +1,11 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace PHPCensor\Model\Base;
 
 use DateTime;
 use Exception;
-use PHPCensor\Exception\InvalidArgumentException;
 use PHPCensor\Model;
 
 class ProjectGroup extends Model
@@ -14,7 +13,7 @@ class ProjectGroup extends Model
     /**
      * @var array
      */
-    protected $data = [
+    protected array $data = [
         'id'          => null,
         'title'       => null,
         'create_date' => null,

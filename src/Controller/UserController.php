@@ -2,7 +2,6 @@
 
 namespace PHPCensor\Controller;
 
-use PHPCensor\Config;
 use PHPCensor\Exception\HttpException\ForbiddenException;
 use PHPCensor\Exception\HttpException\NotFoundException;
 use PHPCensor\Form;
@@ -10,7 +9,6 @@ use PHPCensor\Helper\Lang;
 use PHPCensor\Http\Response\RedirectResponse;
 use PHPCensor\Model\User;
 use PHPCensor\Service\UserService;
-use PHPCensor\Store\Factory;
 use PHPCensor\Store\UserStore;
 use PHPCensor\View;
 use PHPCensor\WebController;
@@ -44,8 +42,8 @@ class UserController extends WebController
     {
         parent::init();
 
-        $this->userStore = Factory::getStore('User');
-        $this->userService = new UserService($this->userStore);
+        $this->userStore   = $this->storeRegistry->get('User');
+        $this->userService = new UserService($this->storeRegistry, $this->userStore);
     }
 
     /**
@@ -53,9 +51,11 @@ class UserController extends WebController
     */
     public function index()
     {
-        $users               = $this->userStore->getWhere([], 1000, 0, ['email' => 'ASC']);
-        $this->view->users   = $users;
-        $this->layout->title = Lang::get('manage_users');
+        $users                   = $this->userStore->getWhere([], 1000, 0, ['email' => 'ASC']);
+        $this->view->currentUser = $this->getUser();
+        $this->view->users       = $users;
+
+        $this->layout->title     = Lang::get('manage_users');
 
         return $this->view->render();
     }
@@ -130,7 +130,7 @@ class UserController extends WebController
         $language->setRequired(true);
         $language->setOptions(
             array_merge(
-                [null => Lang::get('default') . ' (' . Config::getInstance()->get('php-censor.language') .  ')'],
+                [null => Lang::get('default') . ' (' . $this->configuration->get('php-censor.language') .  ')'],
                 Lang::getLanguageOptions()
             )
         );
@@ -143,7 +143,7 @@ class UserController extends WebController
         $perPage->setLabel(Lang::get('per_page'));
         $perPage->setRequired(true);
         $perPage->setOptions([
-            null => Lang::get('default') . ' (' . Config::getInstance()->get('php-censor.per_page') .  ')',
+            null => Lang::get('default') . ' (' . $this->configuration->get('php-censor.per_page') .  ')',
             10    => 10,
             25    => 25,
             50    => 50,
@@ -220,7 +220,7 @@ class UserController extends WebController
         $method = $this->request->getMethod();
         $user   = $this->userStore->getById($userId);
 
-        if (!$currentUser->getIsAdmin() && $currentUser != $user) {
+        if (!$currentUser->getIsAdmin() && $currentUser !== $user) {
             throw new ForbiddenException('You do not have permission to do that.');
         }
 

@@ -4,7 +4,6 @@ namespace PHPCensor\Store;
 
 use Exception;
 use PDO;
-use PHPCensor\Database;
 use PHPCensor\Exception\HttpException;
 use PHPCensor\Model\Project;
 use PHPCensor\Store;
@@ -59,12 +58,12 @@ class ProjectStore extends Store
         }
 
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{id}} = :id LIMIT 1';
-        $stmt = Database::getConnection($useConnection)->prepareCommon($query);
+        $stmt  = $this->databaseManager->getConnection($useConnection)->prepare($query);
         $stmt->bindValue(':id', $id);
 
         if ($stmt->execute()) {
             if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                return new Project($data);
+                return new Project($this->storeRegistry, $data);
             }
         }
 
@@ -88,12 +87,12 @@ class ProjectStore extends Store
         }
 
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{id}} IN ('.implode(', ', array_map('intval', $values)).')';
-        $stmt = Database::getConnection($useConnection)->prepareCommon($query);
+        $stmt  = $this->databaseManager->getConnection($useConnection)->prepare($query);
 
         $rtn = [];
         if ($stmt->execute()) {
             while ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                $rtn[$data['id']] = new Project($data);
+                $rtn[$data['id']] = new Project($this->storeRegistry, $data);
             }
         }
 
@@ -119,7 +118,7 @@ class ProjectStore extends Store
 
 
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{title}} = :title LIMIT :limit';
-        $stmt = Database::getConnection($useConnection)->prepareCommon($query);
+        $stmt  = $this->databaseManager->getConnection($useConnection)->prepare($query);
         $stmt->bindValue(':title', $title);
         $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
 
@@ -127,7 +126,7 @@ class ProjectStore extends Store
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             $map = function ($item) {
-                return new Project($item);
+                return new Project($this->storeRegistry, $item);
             };
             $rtn = array_map($map, $res);
 
@@ -149,7 +148,7 @@ class ProjectStore extends Store
     public function getKnownBranches($projectId)
     {
         $query = 'SELECT {{branch}}, COUNT(1) AS {{count}} from {{builds}} WHERE {{project_id}} = :pid GROUP BY {{branch}} ORDER BY {{count}} DESC';
-        $stmt = Database::getConnection('read')->prepareCommon($query);
+        $stmt  = $this->databaseManager->getConnection('read')->prepare($query);
         $stmt->bindValue(':pid', $projectId);
 
         if ($stmt->execute()) {
@@ -158,9 +157,8 @@ class ProjectStore extends Store
             $map = function ($item) {
                 return $item['branch'];
             };
-            $rtn = array_map($map, $res);
 
-            return $rtn;
+            return array_map($map, $res);
         } else {
             return [];
         }
@@ -178,7 +176,7 @@ class ProjectStore extends Store
         $archived = (int)$archived;
 
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{archived}} = :archived ORDER BY {{title}} ASC';
-        $stmt  = Database::getConnection('read')->prepareCommon($query);
+        $stmt  = $this->databaseManager->getConnection('read')->prepare($query);
 
         $stmt->bindValue(':archived', $archived);
 
@@ -186,7 +184,7 @@ class ProjectStore extends Store
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             $map = function ($item) {
-                return new Project($item);
+                return new Project($this->storeRegistry, $item);
             };
             $rtn = array_map($map, $res);
 
@@ -214,12 +212,12 @@ class ProjectStore extends Store
     public function getByGroupId($groupId, $archived = false, $limit = 1000, $useConnection = 'read')
     {
         if (is_null($groupId)) {
-            throw new Exception('Value passed to ' . __FUNCTION__ . ' cannot be null.');
+            throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
         $archived = (int)$archived;
 
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{group_id}} = :group_id AND {{archived}} = :archived ORDER BY {{title}} LIMIT :limit';
-        $stmt  = Database::getConnection($useConnection)->prepareCommon($query);
+        $stmt  = $this->databaseManager->getConnection($useConnection)->prepare($query);
 
         $stmt->bindValue(':group_id', $groupId);
         $stmt->bindValue(':archived', $archived);
@@ -229,7 +227,7 @@ class ProjectStore extends Store
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             $map = function ($item) {
-                return new Project($item);
+                return new Project($this->storeRegistry, $item);
             };
             $rtn = array_map($map, $res);
 

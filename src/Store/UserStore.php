@@ -3,7 +3,6 @@
 namespace PHPCensor\Store;
 
 use PDO;
-use PHPCensor\Database;
 use PHPCensor\Exception\HttpException;
 use PHPCensor\Model\User;
 use PHPCensor\Store;
@@ -58,12 +57,12 @@ class UserStore extends Store
         }
 
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{id}} = :id LIMIT 1';
-        $stmt = Database::getConnection($useConnection)->prepareCommon($query);
+        $stmt  = $this->databaseManager->getConnection($useConnection)->prepare($query);
         $stmt->bindValue(':id', $id);
 
         if ($stmt->execute()) {
             if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                return new User($data);
+                return new User($this->storeRegistry, $data);
             }
         }
 
@@ -86,13 +85,13 @@ class UserStore extends Store
         }
 
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{email}} = :email LIMIT 1';
-        $stmt  = Database::getConnection()->prepareCommon($query);
+        $stmt  = $this->databaseManager->getConnection('read')->prepare($query);
 
         $stmt->bindValue(':email', $email);
 
         if ($stmt->execute()) {
             if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                return new User($data);
+                return new User($this->storeRegistry, $data);
             }
         }
 
@@ -115,12 +114,12 @@ class UserStore extends Store
         }
 
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{email}} = :value OR {{name}} = :value LIMIT 1';
-        $stmt  = Database::getConnection()->prepareCommon($query);
+        $stmt  = $this->databaseManager->getConnection('read')->prepare($query);
         $stmt->bindValue(':value', $emailOrName);
 
         if ($stmt->execute()) {
             if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                return new User($data);
+                return new User($this->storeRegistry, $data);
             }
         }
 
@@ -143,12 +142,12 @@ class UserStore extends Store
         }
 
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{remember_key}} = :remember_key LIMIT 1';
-        $stmt  = Database::getConnection()->prepareCommon($query);
+        $stmt  = $this->databaseManager->getConnection('read')->prepare($query);
         $stmt->bindValue(':remember_key', $rememberKey);
 
         if ($stmt->execute()) {
             if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                return new User($data);
+                return new User($this->storeRegistry, $data);
             }
         }
 
@@ -173,7 +172,7 @@ class UserStore extends Store
         }
 
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{name}} = :name LIMIT :limit';
-        $stmt = Database::getConnection($useConnection)->prepareCommon($query);
+        $stmt  = $this->databaseManager->getConnection($useConnection)->prepare($query);
         $stmt->bindValue(':name', $name);
         $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
 
@@ -181,7 +180,7 @@ class UserStore extends Store
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             $map = function ($item) {
-                return new User($item);
+                return new User($this->storeRegistry, $item);
             };
             $rtn = array_map($map, $res);
 

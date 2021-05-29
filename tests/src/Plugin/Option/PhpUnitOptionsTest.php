@@ -3,6 +3,7 @@
 namespace Tests\PHPCensor\Plugin\Option;
 
 use PHPCensor\Builder;
+use PHPCensor\ConfigurationInterface;
 use PHPCensor\Plugin\Option\PhpUnitOptions;
 use PHPUnit\Framework\TestCase;
 
@@ -97,13 +98,18 @@ class PhpUnitOptionsTest extends TestCase
      */
     public function testCommandArguments($rawOptions, $parsedArguments)
     {
-        $options = new PhpUnitOptions($rawOptions, '/location');
+        $configuration = $this->createMock(ConfigurationInterface::class);
+
+        $options = new PhpUnitOptions($configuration, $rawOptions, '/location');
         self::assertSame($parsedArguments, $options->getCommandArguments());
     }
 
     public function testGetters()
     {
+        $configuration = $this->createMock(ConfigurationInterface::class);
+
         $options = new PhpUnitOptions(
+            $configuration,
             [
                 'run_from' => '/path/to/run/from',
                 'path'     => 'subTest',
@@ -116,7 +122,7 @@ class PhpUnitOptionsTest extends TestCase
         self::assertEquals('/path/to/run/from', $options->getRunFrom());
         self::assertEquals('subTest', $options->getTestsPath());
         self::assertNull($options->getOption('random'));
-        self::assertEmpty($options->getDirectories($builder));
+        self::assertEmpty($options->getDirectories());
         self::assertEmpty($options->getConfigFiles());
 
         $files = $options->getConfigFiles(ROOT_DIR);

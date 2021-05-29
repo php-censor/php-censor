@@ -4,7 +4,6 @@ namespace PHPCensor\Model;
 
 use PHPCensor\Model\Base\BuildError as BaseBuildError;
 use PHPCensor\Store\BuildStore;
-use PHPCensor\Store\Factory;
 
 class BuildError extends BaseBuildError
 {
@@ -19,7 +18,7 @@ class BuildError extends BaseBuildError
         }
 
         /** @var BuildStore $buildStore */
-        $buildStore = Factory::getStore('Build');
+        $buildStore = $this->storeRegistry->get('Build');
 
         return $buildStore->getById($buildId);
     }

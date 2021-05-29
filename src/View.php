@@ -2,10 +2,7 @@
 
 namespace PHPCensor;
 
-use PHPCensor\Model\User;
-use PHPCensor\Store\Factory;
-use PHPCensor\Store\UserStore;
-use RuntimeException;
+use PHPCensor\Common\Exception\RuntimeException;
 
 class View
 {
@@ -46,9 +43,8 @@ class View
     protected static function getViewFile($file, $path = null)
     {
         $viewPath = is_null($path) ? (SRC_DIR . 'View/') : $path;
-        $fullPath = $viewPath . $file . '.' . static::$extension;
 
-        return $fullPath;
+        return $viewPath . $file . '.' . static::$extension;
     }
 
     /**
@@ -110,33 +106,5 @@ class View
         ob_end_clean();
 
         return $html;
-    }
-
-    /**
-     * @return bool
-     */
-    protected function loginIsDisabled()
-    {
-        $config      = Config::getInstance();
-        $disableAuth = (bool)$config->get('php-censor.security.disable_auth', false);
-
-        return $disableAuth;
-    }
-
-    /**
-     * @return User|null
-     *
-     * @throws Exception\HttpException
-     */
-    protected function getUser()
-    {
-        if (empty($_SESSION['php-censor-user-id'])) {
-            return null;
-        }
-
-        /** @var UserStore $userStore */
-        $userStore = Factory::getStore('User');
-
-        return $userStore->getById($_SESSION['php-censor-user-id']);
     }
 }

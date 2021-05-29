@@ -6,6 +6,8 @@ use PHPCensor\Builder;
 use PHPCensor\Helper\BuildInterpolator;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
+use PHPCensor\Store\BuildStore;
+use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -77,12 +79,30 @@ class PluginTest extends TestCase
      */
     private $currentDir;
 
+    private StoreRegistry $storeRegistry;
+
     protected function setUp(): void
     {
         $this->currentDir = rtrim(realpath(__DIR__ . '/../data/builds/build_x/'), '/\\') . '/';
 
         $this->builder = $this->createMock(Builder::class);
         $this->build   = $this->createMock(Build::class);
+
+        $configuration   = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
+        $databaseManager = $this
+            ->getMockBuilder('PHPCensor\DatabaseManager')
+            ->setConstructorArgs([$configuration])
+            ->getMock();
+        $this->storeRegistry = $this
+            ->getMockBuilder('PHPCensor\StoreRegistry')
+            ->setConstructorArgs([$databaseManager])
+            ->getMock();
+
+        $buildStore = new BuildStore($databaseManager, $this->storeRegistry);
+
+        $this->storeRegistry
+            ->method('get')
+            ->willReturn($buildStore);
 
         $this->build
             ->method('getBuildPath')
@@ -92,7 +112,7 @@ class PluginTest extends TestCase
             ->method('getCommitId')
             ->willReturn('commit_hash');
 
-        $interpolator = new BuildInterpolator();
+        $interpolator = new BuildInterpolator($this->storeRegistry);
         $interpolator->setupInterpolationVars($this->build, 'http://php-censor.local/', '1.0.0');
 
         $this->builder

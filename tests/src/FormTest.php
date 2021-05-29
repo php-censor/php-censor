@@ -2,7 +2,7 @@
 
 namespace Tests\PHPCensor;
 
-use Exception;
+use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Form;
 use PHPUnit\Framework\TestCase;
 
@@ -85,7 +85,7 @@ class FormTest extends TestCase
 
         $f->setValidator(function ($item) {
             if ($item != 'input-value') {
-                throw new Exception('Invalid input value.');
+                throw new RuntimeException('Invalid input value.');
             }
         });
 

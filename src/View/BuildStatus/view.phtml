@@ -4,7 +4,10 @@ use PHPCensor\Helper\Lang;
 use PHPCensor\Helper\Template;
 use PHPCensor\Model\Build;
 use PHPCensor\Store\EnvironmentStore;
-use PHPCensor\Store\Factory;
+
+/**
+ * @var EnvironmentStore $environmentStore
+ */
 
 if (!empty($latest)): ?>
 
@@ -155,8 +158,6 @@ if (!empty($latest)): ?>
                         $environmentId = $build->getEnvironmentId();
                         $environment   = null;
                         if ($environmentId) {
-                            /** @var EnvironmentStore $environmentStore */
-                            $environmentStore  = Factory::getStore('Environment');
                             $environmentObject = $environmentStore->getById($environmentId);
                             if ($environmentObject) {
                                 $environment = $environmentObject->getName();

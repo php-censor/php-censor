@@ -4,13 +4,29 @@ namespace Tests\PHPCensor\Model\Base;
 
 use DateTime;
 use PHPCensor\Model\Base\ProjectGroup;
+use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 
 class ProjectGroupTest extends TestCase
 {
+    protected StoreRegistry $storeRegistry;
+
+    protected function setUp(): void
+    {
+        $configuration   = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
+        $databaseManager = $this
+            ->getMockBuilder('PHPCensor\DatabaseManager')
+            ->setConstructorArgs([$configuration])
+            ->getMock();
+        $this->storeRegistry = $this
+            ->getMockBuilder('PHPCensor\StoreRegistry')
+            ->setConstructorArgs([$databaseManager])
+            ->getMock();
+    }
+
     public function testConstruct()
     {
-        $projectGroup = new ProjectGroup();
+        $projectGroup = new ProjectGroup($this->storeRegistry);
 
         self::assertInstanceOf('PHPCensor\Model', $projectGroup);
         self::assertInstanceOf('PHPCensor\Model\Base\ProjectGroup', $projectGroup);
@@ -25,7 +41,7 @@ class ProjectGroupTest extends TestCase
 
     public function testId()
     {
-        $projectGroup = new ProjectGroup();
+        $projectGroup = new ProjectGroup($this->storeRegistry);
 
         $result = $projectGroup->setId(100);
         self::assertEquals(true, $result);
@@ -37,7 +53,7 @@ class ProjectGroupTest extends TestCase
 
     public function testTitle()
     {
-        $projectGroup = new ProjectGroup();
+        $projectGroup = new ProjectGroup($this->storeRegistry);
 
         $result = $projectGroup->setTitle('title');
         self::assertEquals(true, $result);
@@ -49,10 +65,10 @@ class ProjectGroupTest extends TestCase
 
     public function testCreateDate()
     {
-        $projectGroup = new ProjectGroup();
+        $projectGroup = new ProjectGroup($this->storeRegistry);
         self::assertEquals(null, $projectGroup->getCreateDate());
 
-        $projectGroup = new ProjectGroup();
+        $projectGroup = new ProjectGroup($this->storeRegistry);
         $createDate   = new DateTime();
 
         $result = $projectGroup->setCreateDate($createDate);
@@ -65,7 +81,7 @@ class ProjectGroupTest extends TestCase
 
     public function testUserId()
     {
-        $projectGroup = new ProjectGroup();
+        $projectGroup = new ProjectGroup($this->storeRegistry);
 
         $result = $projectGroup->setUserId(200);
         self::assertEquals(true, $result);

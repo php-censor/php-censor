@@ -2,9 +2,8 @@
 
 namespace PHPCensor\Plugin;
 
-use Exception;
 use PHPCensor\Builder;
-use PHPCensor\Config;
+use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 use Symfony\Component\Filesystem\Filesystem;
@@ -86,7 +85,7 @@ class Pdepend extends Plugin
      */
     public function execute()
     {
-        $allowPublicArtifacts = (bool)Config::getInstance()->get(
+        $allowPublicArtifacts = (bool)$this->builder->getConfiguration()->get(
             'php-censor.build.allow_public_artifacts',
             false
         );
@@ -98,7 +97,7 @@ class Pdepend extends Plugin
         }
 
         if (!is_writable($this->buildLocation)) {
-            throw new Exception(sprintf(
+            throw new RuntimeException(sprintf(
                 'The location %s is not writable or does not exist.',
                 $this->buildLocation
             ));

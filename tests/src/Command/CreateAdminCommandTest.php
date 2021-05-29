@@ -3,8 +3,11 @@
 namespace Tests\PHPCensor\Command;
 
 use PHPCensor\Command\CreateAdminCommand;
+use PHPCensor\ConfigurationInterface;
+use PHPCensor\DatabaseManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -26,16 +29,35 @@ class CreateAdminCommandTest extends TestCase
      */
     protected $helper;
 
+    protected ConfigurationInterface $configuration;
+
+    protected DatabaseManager $databaseManager;
+
+    protected LoggerInterface $logger;
+
     protected function setUp(): void
     {
         parent::setUp();
 
-        $userStoreMock = $this->getMockBuilder('PHPCensor\\Store\\UserStore')->getMock();
+        $this->configuration   = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
+        $this->databaseManager = $this
+            ->getMockBuilder('PHPCensor\DatabaseManager')
+            ->setConstructorArgs([$this->configuration])
+            ->getMock();
+        $storeRegistry = $this
+            ->getMockBuilder('PHPCensor\StoreRegistry')
+            ->setConstructorArgs([$this->databaseManager])
+            ->getMock();
+        $this->logger  = $this->getMockBuilder('Psr\Log\LoggerInterface')->getMock();
+        $userStoreMock = $this
+            ->getMockBuilder('PHPCensor\Store\UserStore')
+            ->setConstructorArgs([$this->databaseManager, $storeRegistry])
+            ->getMock();
 
-        $this->command = new CreateAdminCommand($userStoreMock);
+        $this->command = new CreateAdminCommand($this->configuration, $this->databaseManager, $storeRegistry, $this->logger, $userStoreMock);
 
         $this->helper = $this
-            ->getMockBuilder('Symfony\\Component\\Console\\Helper\\QuestionHelper')
+            ->getMockBuilder('Symfony\Component\Console\Helper\QuestionHelper')
             ->setMethods(['ask'])
             ->getMock();
 
@@ -49,9 +71,8 @@ class CreateAdminCommandTest extends TestCase
     {
         $this->application->getHelperSet()->set($this->helper, 'question');
         $this->application->add($this->command);
-        $commandTester = new CommandTester($this->command);
 
-        return $commandTester;
+        return new CommandTester($this->command);
     }
 
     public function testExecute()

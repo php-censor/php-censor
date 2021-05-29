@@ -5,7 +5,7 @@ namespace PHPCensor\Helper;
 use Exception;
 use PHPCensor\Model\Build as BaseBuild;
 use PHPCensor\Store\EnvironmentStore;
-use PHPCensor\Store\Factory;
+use PHPCensor\StoreRegistry;
 
 /**
  * The BuildInterpolator class replaces variables in a string with build-specific information.
@@ -20,7 +20,14 @@ class BuildInterpolator
      *
      * @see setupInterpolationVars()
      */
-    protected $interpolationVars = [];
+    private array $interpolationVars = [];
+
+    private StoreRegistry $storeRegistry;
+
+    public function __construct(StoreRegistry $storeRegistry)
+    {
+        $this->storeRegistry = $storeRegistry;
+    }
 
     /**
      * Sets the variables that will be used for interpolation.
@@ -53,7 +60,7 @@ class BuildInterpolator
         $environment   = null;
         if ($environmentId) {
             /** @var EnvironmentStore $environmentStore */
-            $environmentStore  = Factory::getStore('Environment');
+            $environmentStore  = $this->storeRegistry->get('Environment');
             $environmentObject = $environmentStore->getById($environmentId);
             if ($environmentObject) {
                 $environment = $environmentObject->getName();
@@ -90,9 +97,8 @@ class BuildInterpolator
     {
         $input = str_replace('%CURRENT_DATE%', \date('Y-m-d'), $input);
         $input = str_replace('%CURRENT_TIME%', \date('H-i-s'), $input);
-        $input = str_replace('%CURRENT_DATETIME%', \date('Y-m-d_H-i-s'), $input);
 
-        return $input;
+        return str_replace('%CURRENT_DATETIME%', \date('Y-m-d_H-i-s'), $input);
     }
 
     /**

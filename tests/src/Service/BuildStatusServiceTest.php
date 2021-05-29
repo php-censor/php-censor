@@ -6,6 +6,7 @@ use DateTime;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\Project;
 use PHPCensor\Service\BuildStatusService;
+use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -17,14 +18,25 @@ class BuildStatusServiceTest extends TestCase
 {
     const BRANCH = 'master';
 
-    /** @var  Project */
-    protected $project;
+    protected Project $project;
 
-    protected $timezone;
+    protected string $timezone;
+
+    protected StoreRegistry $storeRegistry;
 
     protected function setUp(): void
     {
-        $project = new Project();
+        $configuration   = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
+        $databaseManager = $this
+            ->getMockBuilder('PHPCensor\DatabaseManager')
+            ->setConstructorArgs([$configuration])
+            ->getMock();
+        $this->storeRegistry = $this
+            ->getMockBuilder('PHPCensor\StoreRegistry')
+            ->setConstructorArgs([$databaseManager])
+            ->getMock();
+
+        $project = new Project($this->storeRegistry);
         $project->setId(3);
         $project->setDefaultBranch(self::BRANCH);
         $project->setTitle('Test');
@@ -83,10 +95,12 @@ class BuildStatusServiceTest extends TestCase
             ]
         ];
 
-        $build = new Build();
+        $build = new Build($this->storeRegistry);
         $build->setId($config[$configId]['id']);
         $build->setBranch(self::BRANCH);
+
         $build->setStatus($config[$configId]['status']);
+
         if ($config[$configId]['finishDateTime']) {
             $build->setFinishDate(new DateTime($config[$configId]['finishDateTime']));
         }
@@ -110,6 +124,7 @@ class BuildStatusServiceTest extends TestCase
     {
         $project = $this
             ->getMockBuilder('PHPCensor\Model\Project')
+            ->setConstructorArgs([$this->storeRegistry])
             ->setMethods(['getLatestBuild'])
             ->getMock();
 

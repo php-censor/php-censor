@@ -2,8 +2,7 @@
 
 namespace PHPCensor\Plugin\Option;
 
-use PHPCensor\Builder;
-use PHPCensor\Config;
+use PHPCensor\ConfigurationInterface;
 
 /**
  * Class PhpUnitOptions validates and parse the option for the PhpUnitV2 plugin
@@ -12,29 +11,24 @@ use PHPCensor\Config;
  */
 class PhpUnitOptions
 {
-    /**
-     * @var array
-     */
-    protected $options;
+    protected array $options;
+
+    protected string $location;
+
+    protected array $arguments = [];
+
+    protected ConfigurationInterface $configuration;
 
     /**
-     * @var string
+     * @param ConfigurationInterface $configuration
+     * @param array                  $options
+     * @param string                 $location
      */
-    protected $location;
-
-    /**
-     * @var array
-     */
-    protected $arguments = [];
-
-    /**
-     * @param array  $options
-     * @param string $location
-     */
-    public function __construct($options, $location)
+    public function __construct(ConfigurationInterface $configuration, array $options, string $location)
     {
-        $this->options  = $options;
-        $this->location = $location;
+        $this->configuration = $configuration;
+        $this->options       = $options;
+        $this->location      = $location;
     }
 
     /**
@@ -123,7 +117,7 @@ class PhpUnitOptions
              * Handles command aliases outside of the args option
              */
             if (isset($this->options['coverage']) && $this->options['coverage']) {
-                $allowPublicArtifacts = (bool)Config::getInstance()->get(
+                $allowPublicArtifacts = (bool)$this->configuration->get(
                     'php-censor.build.allow_public_artifacts',
                     false
                 );

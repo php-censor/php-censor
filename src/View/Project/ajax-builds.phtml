@@ -2,11 +2,13 @@
 
 use PHPCensor\Helper\Lang;
 use PHPCensor\Model\Build;
+use PHPCensor\Model\User;
 use PHPCensor\Store\EnvironmentStore;
-use PHPCensor\Store\Factory;
 
 /**
- * @var Build[] $builds
+ * @var Build[]          $builds
+ * @var EnvironmentStore $environmentStore
+ * @var User             $user
  */
 
 ?>
@@ -92,8 +94,6 @@ $branches = $build->getExtra('branches');
             $environmentId = $build->getEnvironmentId();
             $environment   = null;
             if ($environmentId) {
-                /** @var EnvironmentStore $environmentStore */
-                $environmentStore  = Factory::getStore('Environment');
                 $environmentObject = $environmentStore->getById($environmentId);
                 if ($environmentObject) {
                     $environment = $environmentObject->getName();
@@ -123,7 +123,7 @@ $branches = $build->getExtra('branches');
     <td>
         <div class="btn-group btn-group-right">
             <a class="btn btn-default btn-sm" href="<?= APP_URL; ?>build/view/<?= $build->getId(); ?>"><?= Lang::get('view'); ?></a>
-            <?php if ($this->getUser()->getIsAdmin()): ?>
+            <?php if ($user->getIsAdmin()): ?>
             <button class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
                 <span class="caret"></span>
             </button>

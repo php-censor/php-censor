@@ -3,15 +3,31 @@
 namespace Tests\PHPCensor\Model\Base;
 
 use DateTime;
-use PHPCensor\Exception\InvalidArgumentException;
+use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Model\Base\Build;
+use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 
 class BuildTest extends TestCase
 {
+    protected StoreRegistry $storeRegistry;
+
+    protected function setUp(): void
+    {
+        $configuration   = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
+        $databaseManager = $this
+            ->getMockBuilder('PHPCensor\DatabaseManager')
+            ->setConstructorArgs([$configuration])
+            ->getMock();
+        $this->storeRegistry = $this
+            ->getMockBuilder('PHPCensor\StoreRegistry')
+            ->setConstructorArgs([$databaseManager])
+            ->getMock();
+    }
+
     public function testConstruct()
     {
-        $build = new Build();
+        $build = new Build($this->storeRegistry);
 
         self::assertInstanceOf('PHPCensor\Model', $build);
         self::assertInstanceOf('PHPCensor\Model\Base\Build', $build);
@@ -42,7 +58,7 @@ class BuildTest extends TestCase
 
     public function testId()
     {
-        $build = new Build();
+        $build = new Build($this->storeRegistry);
 
         $result = $build->setId(100);
         self::assertEquals(true, $result);
@@ -59,7 +75,7 @@ class BuildTest extends TestCase
      */
     public function testParentId()
     {
-        $build = new Build();
+        $build = new Build($this->storeRegistry);
 
         self::assertEquals(0, $build->getParentId());
 
@@ -73,7 +89,7 @@ class BuildTest extends TestCase
 
     public function testProjectId()
     {
-        $build = new Build();
+        $build = new Build($this->storeRegistry);
 
         $result = $build->setProjectId(200);
         self::assertEquals(true, $result);
@@ -85,7 +101,7 @@ class BuildTest extends TestCase
 
     public function testCommitId()
     {
-        $build = new Build();
+        $build = new Build($this->storeRegistry);
 
         $result = $build->setCommitId('commit');
         self::assertEquals(true, $result);
@@ -97,18 +113,18 @@ class BuildTest extends TestCase
 
     public function testStatus()
     {
-        $build = new Build();
+        $build = new Build($this->storeRegistry);
 
         $build->setStatusFailed();
         self::assertEquals(Build::STATUS_FAILED, $build->getStatus());
 
-        self::expectException('\PHPCensor\Exception\InvalidArgumentException');
+        self::expectException('\PHPCensor\Common\Exception\InvalidArgumentException');
         $build->setStatus(10);
     }
 
     public function testLog()
     {
-        $build = new Build();
+        $build = new Build($this->storeRegistry);
 
         $result = $build->setLog('log');
         self::assertEquals(true, $result);
@@ -120,7 +136,7 @@ class BuildTest extends TestCase
 
     public function testBranch()
     {
-        $build = new Build();
+        $build = new Build($this->storeRegistry);
 
         $result = $build->setBranch('branch');
         self::assertEquals(true, $result);
@@ -132,7 +148,7 @@ class BuildTest extends TestCase
 
     public function testTag()
     {
-        $build = new Build();
+        $build = new Build($this->storeRegistry);
 
         $result = $build->setTag('tag');
         self::assertEquals(true, $result);
@@ -144,10 +160,10 @@ class BuildTest extends TestCase
 
     public function testCreateDate()
     {
-        $build = new Build();
+        $build = new Build($this->storeRegistry);
         self::assertEquals(null, $build->getCreateDate());
 
-        $build      = new Build();
+        $build      = new Build($this->storeRegistry);
         $createDate = new DateTime();
 
         $result = $build->setCreateDate($createDate);
@@ -160,10 +176,10 @@ class BuildTest extends TestCase
 
     public function testStartDate()
     {
-        $build = new Build();
+        $build = new Build($this->storeRegistry);
         self::assertEquals(null, $build->getStartDate());
 
-        $build      = new Build();
+        $build      = new Build($this->storeRegistry);
         $createDate = new DateTime();
 
         $result = $build->setStartDate($createDate);
@@ -176,10 +192,10 @@ class BuildTest extends TestCase
 
     public function testFinishDate()
     {
-        $build = new Build();
+        $build = new Build($this->storeRegistry);
         self::assertEquals(null, $build->getFinishDate());
 
-        $build      = new Build();
+        $build      = new Build($this->storeRegistry);
         $createDate = new DateTime();
 
         $result = $build->setFinishDate($createDate);
@@ -192,7 +208,7 @@ class BuildTest extends TestCase
 
     public function testCommitterEmail()
     {
-        $build = new Build();
+        $build = new Build($this->storeRegistry);
 
         $result = $build->setCommitterEmail('email@email.com');
         self::assertEquals(true, $result);
@@ -204,7 +220,7 @@ class BuildTest extends TestCase
 
     public function testCommitMessage()
     {
-        $build = new Build();
+        $build = new Build($this->storeRegistry);
 
         $result = $build->setCommitMessage('message');
         self::assertEquals(true, $result);
@@ -216,7 +232,7 @@ class BuildTest extends TestCase
 
     public function testExtra()
     {
-        $build = new Build();
+        $build = new Build($this->storeRegistry);
 
         $result = $build->setExtra(['key-1' => 'value-1', 'key-2' => 'value-2']);
         self::assertEquals(true, $result);
@@ -230,7 +246,7 @@ class BuildTest extends TestCase
 
     public function testEnvironment()
     {
-        $build = new Build();
+        $build = new Build($this->storeRegistry);
 
         $result = $build->setEnvironmentId(22);
         self::assertEquals(true, $result);
@@ -242,7 +258,7 @@ class BuildTest extends TestCase
 
     public function testSource()
     {
-        $build = new Build();
+        $build = new Build($this->storeRegistry);
 
         $result = $build->setSource(Build::SOURCE_WEBHOOK_PULL_REQUEST_CREATED);
         self::assertEquals(true, $result);
@@ -251,13 +267,13 @@ class BuildTest extends TestCase
         $result = $build->setSource(Build::SOURCE_WEBHOOK_PULL_REQUEST_CREATED);
         self::assertEquals(false, $result);
 
-        self::expectException('\PHPCensor\Exception\InvalidArgumentException');
+        self::expectException('\PHPCensor\Common\Exception\InvalidArgumentException');
         $build->setSource(20);
     }
 
     public function testUserId()
     {
-        $build = new Build();
+        $build = new Build($this->storeRegistry);
 
         $result = $build->setUserId(300);
         self::assertEquals(true, $result);

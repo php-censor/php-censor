@@ -1,52 +1,51 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Command;
 
-use Exception;
-use PHPCensor\Exception\InvalidArgumentException;
+use PHPCensor\ConfigurationInterface;
+use PHPCensor\DatabaseManager;
+use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Model\Build;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Store;
-use PHPCensor\Store\Factory;
 use PHPCensor\Store\ProjectStore;
-use Symfony\Component\Console\Command\Command;
+use PHPCensor\StoreRegistry;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Create build command - creates a build for a project
+ * @package    PHP Censor
+ * @subpackage Application
  *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  * @author Jérémy DECOOL (@jdecool)
  */
 class CreateBuildCommand extends Command
 {
-    /**
-     * @var ProjectStore
-     */
-    protected $projectStore;
+    protected ProjectStore $projectStore;
 
-    /**
-     * @var BuildService
-     */
-    protected $buildService;
+    protected BuildService $buildService;
 
-    /**
-     * @param ProjectStore $projectStore
-     * @param BuildService $buildService
-     */
-    public function __construct(ProjectStore $projectStore, BuildService $buildService)
-    {
-        parent::__construct();
+    public function __construct(
+        ConfigurationInterface $configuration,
+        DatabaseManager $databaseManager,
+        StoreRegistry $storeRegistry,
+        LoggerInterface $logger,
+        ProjectStore $projectStore,
+        BuildService $buildService,
+        ?string $name = null
+    ) {
+        parent::__construct($configuration, $databaseManager, $storeRegistry, $logger, $name);
 
         $this->projectStore = $projectStore;
         $this->buildService = $buildService;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function configure()
     {
         $this
@@ -61,9 +60,6 @@ class CreateBuildCommand extends Command
             ->setDescription('Create a build for a project');
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $projectId   = $input->getArgument('projectId');
@@ -81,7 +77,7 @@ class CreateBuildCommand extends Command
         $environmentId = null;
         if ($environment) {
             /** @var Store\EnvironmentStore $environmentStore */
-            $environmentStore  = Factory::getStore('Environment');
+            $environmentStore  = $this->storeRegistry->get('Environment');
             $environmentObject = $environmentStore->getByNameAndProjectId($environment, $project->getId());
             if ($environmentObject) {
                 $environmentId = $environmentObject->getId();
@@ -101,7 +97,7 @@ class CreateBuildCommand extends Command
             );
 
             $output->writeln('Build Created');
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             $output->writeln('<error>Failed</error>');
             $output->writeln(sprintf('<error>%s</error>', $e->getMessage()));
         }

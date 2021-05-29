@@ -3,12 +3,13 @@
 namespace PHPCensor\Plugin\Util;
 
 use Exception;
+use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Logging\BuildLogger;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 use PHPCensor\Store\BuildStore;
-use PHPCensor\Store\Factory as StoreFactory;
+use PHPCensor\StoreRegistry;
 
 /**
  * Plugin Executor - Runs the configured plugins for a given build stage.
@@ -30,15 +31,18 @@ class Executor
      */
     protected $store;
 
-    /**
-     * @param Factory $pluginFactory
-     * @param BuildLogger $logger
-     */
-    public function __construct(Factory $pluginFactory, BuildLogger $logger, BuildStore $store = null)
-    {
+    protected StoreRegistry $storeRegistry;
+
+    public function __construct(
+        StoreRegistry $storeRegistry,
+        Factory $pluginFactory,
+        BuildLogger $logger,
+        BuildStore $store = null
+    ) {
+        $this->storeRegistry = $storeRegistry;
         $this->pluginFactory = $pluginFactory;
-        $this->logger = $logger;
-        $this->store = $store ?: StoreFactory::getStore('Build');
+        $this->logger        = $logger;
+        $this->store         = $store;
     }
 
     /**
@@ -110,8 +114,7 @@ class Executor
      */
     protected function getBranchSpecificPlugins($config, $stage, $pluginsToExecute)
     {
-        /** @var Build $build */
-        $build        = $this->pluginFactory->getResourceFor('PHPCensor\Model\Build');
+        $build        = $this->pluginFactory->getBuild();
         $branch       = $build->getBranch();
         $branchConfig = $this->getBranchSpecificConfig($config, $branch);
         if (!$branchConfig) {
@@ -139,9 +142,6 @@ class Executor
 
             // Run branch-specific plugins after standard plugins:
             case 'after':
-                array_push($pluginsToExecute, $plugins);
-                break;
-
             default:
                 array_push($pluginsToExecute, $plugins);
                 break;
@@ -182,7 +182,7 @@ class Executor
                     $this->logger->logFailure('PLUGIN: FAILED');
                     // If we're in the "setup" stage, execution should not continue after
                     // a plugin has failed:
-                    throw new Exception('Plugin failed: ' . $plugin);
+                    throw new RuntimeException('Plugin failed: ' . $plugin);
                 } elseif ($stage === Build::STAGE_DEPLOY) {
                     $this->logger->logFailure('PLUGIN: FAILED');
                     $success = false;
@@ -227,6 +227,7 @@ class Executor
         try {
             // Build and run it
             $obj = $this->pluginFactory->buildPlugin($class, (is_null($options) ? [] : $options));
+            $obj->setStoreRegistry($this->storeRegistry);
 
             return $obj->execute();
         } catch (Exception $ex) {
@@ -269,9 +270,9 @@ class Executor
      */
     private function getBuildSummary()
     {
-        /** @var Build $build */
-        $build = $this->pluginFactory->getResourceFor('PHPCensor\Model\Build');
+        $build = $this->pluginFactory->getBuild();
         $metas = $this->store->getMeta('plugin-summary', $build->getProjectId(), $build->getId());
+
         return isset($metas[0]['meta_value']) ? $metas[0]['meta_value'] : [];
     }
 
@@ -282,8 +283,7 @@ class Executor
      */
     private function setBuildSummary($summary)
     {
-        /** @var Build $build */
-        $build = $this->pluginFactory->getResourceFor('PHPCensor\Model\Build');
+        $build = $this->pluginFactory->getBuild();
         $this->store->setMeta($build->getId(), 'plugin-summary', json_encode($summary));
     }
 }

@@ -81,12 +81,12 @@ class Handler
      */
     public function handleFatalError()
     {
-        $fatalError = error_get_last();
+        $fatalError = \error_get_last();
 
         try {
-            if (($error = error_get_last()) !== null) {
+            if (\error_get_last() !== null) {
                 $error = new ErrorException(
-                    sprintf(
+                    \sprintf(
                         '%s: %s in %s line %d',
                         $fatalError['type'],
                         $fatalError['message'],

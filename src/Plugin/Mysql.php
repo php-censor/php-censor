@@ -5,7 +5,8 @@ namespace PHPCensor\Plugin;
 use Exception;
 use PDO;
 use PHPCensor\Builder;
-use PHPCensor\Database;
+use PHPCensor\Common\Exception\InvalidArgumentException;
+use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 
@@ -165,19 +166,19 @@ class Mysql extends Plugin
     protected function executeFile(array $query)
     {
         if (!isset($query['file'])) {
-            throw new Exception('Import statement must contain a \'file\' key');
+            throw new InvalidArgumentException('Import statement must contain a \'file\' key');
         }
 
         $importFile = $this->builder->buildPath . $this->builder->interpolate($query['file']);
         if (!is_readable($importFile)) {
-            throw new Exception(sprintf('Cannot open SQL import file: %s', $importFile));
+            throw new RuntimeException(sprintf('Cannot open SQL import file: %s', $importFile));
         }
 
         $database = isset($query['database']) ? $this->builder->interpolate($query['database']) : null;
 
         $importCommand = $this->getImportCommand($importFile, $database);
         if (!$this->builder->executeCommand($importCommand)) {
-            throw new Exception('Unable to execute SQL file');
+            throw new RuntimeException('Unable to execute SQL file');
         }
 
         return true;

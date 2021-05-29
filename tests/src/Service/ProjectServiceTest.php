@@ -2,8 +2,11 @@
 
 namespace Tests\PHPCensor\Service;
 
+use PHPCensor\ConfigurationInterface;
+use PHPCensor\DatabaseManager;
 use PHPCensor\Model\Project;
 use PHPCensor\Service\ProjectService;
+use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -13,7 +16,6 @@ use PHPUnit\Framework\TestCase;
  */
 class ProjectServiceTest extends TestCase
 {
-
     /**
      * @var ProjectService $testedService
      */
@@ -24,10 +26,27 @@ class ProjectServiceTest extends TestCase
      */
     protected $mockProjectStore;
 
+    protected ConfigurationInterface $configuration;
+
+    protected DatabaseManager $databaseManager;
+
+    protected StoreRegistry $storeRegistry;
+
     protected function setUp(): void
     {
+        $this->configuration   = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
+        $this->databaseManager = $this
+            ->getMockBuilder('PHPCensor\DatabaseManager')
+            ->setConstructorArgs([$this->configuration])
+            ->getMock();
+        $this->storeRegistry = $this
+            ->getMockBuilder('PHPCensor\StoreRegistry')
+            ->setConstructorArgs([$this->databaseManager])
+            ->getMock();
+
         $this->mockProjectStore = $this
             ->getMockBuilder('PHPCensor\Store\ProjectStore')
+            ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])
             ->getMock();
 
         $this->mockProjectStore
@@ -37,7 +56,7 @@ class ProjectServiceTest extends TestCase
                 $this->returnArgument(0)
             );
 
-        $this->testedService = new ProjectService($this->mockProjectStore);
+        $this->testedService = new ProjectService($this->storeRegistry, $this->mockProjectStore);
     }
 
     public function testExecuteCreateGithubProject()
@@ -272,7 +291,7 @@ class ProjectServiceTest extends TestCase
 
     public function testExecuteUpdateExistingProject()
     {
-        $project = new Project();
+        $project = new Project($this->storeRegistry);
         $project->setTitle('Before Title');
         $project->setReference('Before Reference');
         $project->setType('github');
@@ -286,7 +305,7 @@ class ProjectServiceTest extends TestCase
 
     public function testExecuteEmptyPublicStatus()
     {
-        $project = new Project();
+        $project = new Project($this->storeRegistry);
         $project->setAllowPublicStatus(true);
 
         $options = [
@@ -302,13 +321,16 @@ class ProjectServiceTest extends TestCase
 
     public function testExecuteDeleteProject()
     {
-        $store = $this->getMockBuilder('PHPCensor\Store\ProjectStore')->getMock();
+        $store = $this
+            ->getMockBuilder('PHPCensor\Store\ProjectStore')
+            ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])
+            ->getMock();
         $store->expects($this->once())
             ->method('delete')
             ->will($this->returnValue(true));
 
-        $service = new ProjectService($store);
-        $project = new Project();
+        $service = new ProjectService($this->storeRegistry, $store);
+        $project = new Project($this->storeRegistry);
 
         self::assertEquals(true, $service->deleteProject($project));
     }

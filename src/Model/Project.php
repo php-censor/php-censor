@@ -4,7 +4,6 @@ namespace PHPCensor\Model;
 
 use PHPCensor\Model\Base\Project as BaseProject;
 use PHPCensor\Store\EnvironmentStore;
-use PHPCensor\Store\Factory;
 use PHPCensor\Store\ProjectGroupStore;
 use Symfony\Component\Yaml\Dumper as YamlDumper;
 use Symfony\Component\Yaml\Parser as YamlParser;
@@ -25,7 +24,7 @@ class Project extends BaseProject
         }
 
         /** @var ProjectGroupStore $groupStore */
-        $groupStore = Factory::getStore('ProjectGroup');
+        $groupStore = $this->storeRegistry->get('ProjectGroup');
 
         return $groupStore->getById($groupId);
     }
@@ -37,7 +36,7 @@ class Project extends BaseProject
      */
     public function getProjectBuilds()
     {
-        return Factory::getStore('Build')->getByProjectId($this->getId());
+        return $this->storeRegistry->get('Build')->getByProjectId($this->getId());
     }
 
     /**
@@ -60,7 +59,7 @@ class Project extends BaseProject
         }
 
         $order  = ['id' => 'DESC'];
-        $builds = Factory::getStore('Build')->getWhere($criteria, 1, 0, $order);
+        $builds = $this->storeRegistry->get('Build')->getWhere($criteria, 1, 0, $order);
 
         if (is_array($builds['items']) && count($builds['items'])) {
             $latest = array_shift($builds['items']);
@@ -87,7 +86,7 @@ class Project extends BaseProject
             'project_id' => $this->getId()
         ];
         $order  = ['id' => 'DESC'];
-        $builds = Factory::getStore('Build')->getWhere($criteria, 1, 1, $order);
+        $builds = $this->storeRegistry->get('Build')->getWhere($criteria, 1, 1, $order);
 
         if (is_array($builds['items']) && count($builds['items'])) {
             $previous = array_shift($builds['items']);
@@ -136,9 +135,7 @@ class Project extends BaseProject
      */
     protected function getEnvironmentStore()
     {
-        /** @var EnvironmentStore $store */
-        $store = Factory::getStore('Environment');
-        return $store;
+        return $this->storeRegistry->get('Environment');
     }
 
     /**
@@ -189,9 +186,8 @@ class Project extends BaseProject
         }
 
         $yamlDumper = new YamlDumper();
-        $value      = $yamlDumper->dump($environmentsConfig, 10, 0, true, false);
 
-        return $value;
+        return $yamlDumper->dump($environmentsConfig, 10, 0);
     }
 
     /**
@@ -223,7 +219,7 @@ class Project extends BaseProject
         if (!empty($environmentsNames)) {
             // add
             foreach ($environmentsNames as $environmentName) {
-                $environment = new Environment();
+                $environment = new Environment($this->storeRegistry);
                 $environment->setProjectId($this->getId());
                 $environment->setName($environmentName);
                 $environment->setBranches(!empty($environmentsConfig[$environment->getName()]) ? $environmentsConfig[$environment->getName()] : []);

@@ -3,7 +3,6 @@
 namespace PHPCensor\Store;
 
 use PDO;
-use PHPCensor\Database;
 use PHPCensor\Exception\HttpException;
 use PHPCensor\Model\ProjectGroup;
 use PHPCensor\Store;
@@ -55,13 +54,13 @@ class ProjectGroupStore extends Store
         }
 
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{id}} = :id LIMIT 1';
-        $stmt  = Database::getConnection($useConnection)->prepareCommon($query);
+        $stmt  = $this->databaseManager->getConnection($useConnection)->prepare($query);
 
         $stmt->bindValue(':id', $id);
 
         if ($stmt->execute()) {
             if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                return new ProjectGroup($data);
+                return new ProjectGroup($this->storeRegistry, $data);
             }
         }
 
@@ -85,13 +84,13 @@ class ProjectGroupStore extends Store
         }
 
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{title}} = :title LIMIT 1';
-        $stmt  = Database::getConnection($useConnection)->prepareCommon($query);
+        $stmt  = $this->databaseManager->getConnection($useConnection)->prepare($query);
 
         $stmt->bindValue(':title', $title);
 
         if ($stmt->execute()) {
             if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                return new ProjectGroup($data);
+                return new ProjectGroup($this->storeRegistry, $data);
             }
         }
 

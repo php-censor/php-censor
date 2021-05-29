@@ -9,54 +9,44 @@ use PHPCensor\Http\Request;
 use PHPCensor\Http\Response;
 use PHPCensor\Http\Response\RedirectResponse;
 use PHPCensor\Http\Router;
-use PHPCensor\Store\Factory;
+use PHPCensor\Model\User;
+use PHPCensor\Store\UserStore;
 
 /**
  * @author Dan Cryer <dan@block8.co.uk>
  */
 class Application
 {
-    /**
-     * @var array
-     */
-    protected $route;
+    private ?array $route;
 
-    /**
-     * @var Controller|WebController
-     */
-    protected $controller;
+    private Controller $controller;
 
-    /**
-     * @var Request
-     */
-    protected $request;
+    private Request $request;
 
-    /**
-     * @var Config
-     */
-    protected $config;
+    private ConfigurationInterface $configuration;
 
-    /**
-     * @var Router
-     */
-    protected $router;
+    private DatabaseManager $databaseManager;
 
-    /**
-     * @param Config $config
-     *
-     * @param Request|null $request
-     */
-    public function __construct(Config $config, Request $request = null)
-    {
-        $this->config = $config;
+    private StoreRegistry $storeRegistry;
 
+    private Router $router;
+
+    public function __construct(
+        ConfigurationInterface $configuration,
+        DatabaseManager $databaseManager,
+        StoreRegistry $storeRegistry,
+        ?Request $request = null
+    ) {
+        $this->configuration   = $configuration;
+        $this->databaseManager = $databaseManager;
+        $this->storeRegistry   = $storeRegistry;
+
+        $this->request = new Request();
         if (!is_null($request)) {
             $this->request = $request;
-        } else {
-            $this->request = new Request();
         }
 
-        $this->router = new Router($this, $this->request, $this->config);
+        $this->router = new Router($this, $this->request);
 
         $this->init();
     }
@@ -73,7 +63,7 @@ class Application
         // Inlined as a closure to fix "using $this when not in object context" on 5.3
         $validateSession = function () {
             if (!empty($_SESSION['php-censor-user-id'])) {
-                $user = Factory::getStore('User')->getByPrimaryKey($_SESSION['php-censor-user-id']);
+                $user = $this->storeRegistry->get('User')->getByPrimaryKey($_SESSION['php-censor-user-id']);
 
                 if ($user) {
                     return true;
@@ -86,7 +76,7 @@ class Application
         $skipAuth = [$this, 'shouldSkipAuth'];
 
         // Handler for the route we're about to register, checks for a valid session where necessary:
-        $routeHandler = function (&$route, Response &$response) use (&$request, $validateSession, $skipAuth) {
+        $routeHandler = function ($route, Response &$response) use (&$request, $validateSession, $skipAuth) {
             $skipValidation = in_array($route['controller'], ['session', 'webhook', 'build-status']);
 
             if (!$skipValidation && !$validateSession() && (!is_callable($skipAuth) || !$skipAuth())) {
@@ -140,6 +130,23 @@ class Application
     }
 
     /**
+     * @return User|null
+     *
+     * @throws HttpException
+     */
+    private function getUser()
+    {
+        if (empty($_SESSION['php-censor-user-id'])) {
+            return null;
+        }
+
+        /** @var UserStore $userStore */
+        $userStore = $this->storeRegistry->get('User');
+
+        return $userStore->getById($_SESSION['php-censor-user-id']);
+    }
+
+    /**
      * Handle an incoming web request.
      *
      * @return Response
@@ -149,18 +156,15 @@ class Application
         try {
             $response = $this->handleRequestInner();
         } catch (HttpException $ex) {
-            $this->config->set('page_title', 'Error');
-
             $view = new View('exception');
             $view->exception = $ex;
+            $view->user      = $this->getUser();
 
             $response = new Response();
 
             $response->setResponseCode($ex->getErrorCode());
             $response->setContent($view->render());
         } catch (Exception $ex) {
-            $this->config->set('page_title', 'Error');
-
             $view = new View('exception');
             $view->exception = $ex;
 
@@ -183,7 +187,7 @@ class Application
     protected function loadController($class)
     {
         /** @var Controller $controller */
-        $controller = new $class($this->config, $this->request);
+        $controller = new $class($this->configuration, $this->storeRegistry, $this->request);
 
         $controller->init();
 
@@ -195,14 +199,13 @@ class Application
      *
      * @return bool
      */
-    protected function shouldSkipAuth()
+    protected function shouldSkipAuth(): bool
     {
-        $config        = Config::getInstance();
-        $disableAuth   = (bool)$config->get('php-censor.security.disable_auth', false);
-        $defaultUserId = (int)$config->get('php-censor.security.default_user_id', 1);
+        $disableAuth   = (bool)$this->configuration->get('php-censor.security.disable_auth', false);
+        $defaultUserId = (int)$this->configuration->get('php-censor.security.default_user_id', 1);
 
         if ($disableAuth && $defaultUserId) {
-            $user = Factory::getStore('User')->getByPrimaryKey($defaultUserId);
+            $user = $this->storeRegistry->get('User')->getByPrimaryKey($defaultUserId);
 
             if ($user) {
                 return true;
@@ -271,8 +274,7 @@ class Application
     {
         $string = str_replace('-', ' ', $string);
         $string = ucwords($string);
-        $string = str_replace(' ', '', $string);
 
-        return $string;
+        return str_replace(' ', '', $string);
     }
 }

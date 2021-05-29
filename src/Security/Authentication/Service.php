@@ -2,7 +2,8 @@
 
 namespace PHPCensor\Security\Authentication;
 
-use PHPCensor\Config;
+use PHPCensor\ConfigurationInterface;
+use PHPCensor\StoreRegistry;
 
 /**
  * Authentication facade.
@@ -12,19 +13,19 @@ use PHPCensor\Config;
 class Service
 {
     /**
-     * @var Service
-     */
-    private static $instance;
-
-    /**
-     * Return the service singleton.
+     * The table of providers.
      *
-     * @return Service
+     * @var array
      */
-    public static function getInstance()
-    {
-        if (self::$instance === null) {
-            $config = Config::getInstance()->get(
+    private array $providers;
+
+    public function __construct(
+        ConfigurationInterface $configuration,
+        StoreRegistry $storeRegistry,
+        array $providers = []
+    ) {
+        if (!$providers) {
+            $config = $configuration->get(
                 'php-censor.security.auth_providers',
                 [
                     'internal' => [
@@ -35,47 +36,21 @@ class Service
 
             $providers = [];
             foreach ($config as $key => $providerConfig) {
-                $providers[$key] = self::buildProvider($key, $providerConfig);
+                $providers[$key] = self::buildProvider($storeRegistry, $key, $providerConfig);
             }
-            self::$instance = new self($providers);
         }
 
-        return self::$instance;
+        $this->providers = $providers;
     }
 
-    /**
-     * Create a provider from a given configuration.
-     *
-     * @param string       $key
-     * @param string|array $config
-     *
-     * @return UserProviderInterface
-     */
-    public static function buildProvider($key, $config)
+    public static function buildProvider(StoreRegistry $storeRegistry, string $key, array $config): UserProviderInterface
     {
         $class = ucfirst($config['type']);
         if (class_exists('\\PHPCensor\\Security\\Authentication\\UserProvider\\' . $class)) {
             $class = '\\PHPCensor\\Security\\Authentication\\UserProvider\\' . $class;
         }
 
-        return new $class($key, $config);
-    }
-
-    /**
-     * The table of providers.
-     *
-     * @var array
-     */
-    private $providers;
-
-    /**
-     * Initialize the service.
-     *
-     * @param array $providers
-     */
-    public function __construct(array $providers)
-    {
-        $this->providers = $providers;
+        return new $class($storeRegistry, $key, $config);
     }
 
     /**

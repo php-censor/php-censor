@@ -6,6 +6,8 @@ use Exception;
 use FlowdockClient\Api\Push\Push;
 use FlowdockClient\Api\Push\TeamInboxMessage;
 use PHPCensor\Builder;
+use PHPCensor\Common\Exception\InvalidArgumentException;
+use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 
@@ -39,7 +41,7 @@ class FlowdockNotify extends Plugin
         parent::__construct($builder, $build, $options);
 
         if (!is_array($options) || (!isset($options['api_key']) && !isset($options['auth_token']))) {
-            throw new Exception('Please define the "auth_token" for Flowdock Notify plugin!');
+            throw new InvalidArgumentException('Please define the "auth_token" for Flowdock Notify plugin!');
         }
 
         if (\array_key_exists('auth_token', $options)) {
@@ -70,7 +72,7 @@ class FlowdockNotify extends Plugin
             ->setContent($message);
 
         if (!$push->sendTeamInboxMessage($flowMessage, ['connect_timeout' => 5000, 'timeout' => 5000])) {
-            throw new Exception(sprintf('Flowdock Failed: %s', $flowMessage->getResponseErrors()));
+            throw new RuntimeException(sprintf('Flowdock Failed: %s', $flowMessage->getResponseErrors()));
         }
         return true;
     }

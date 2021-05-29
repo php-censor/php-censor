@@ -2,8 +2,11 @@
 
 namespace Tests\PHPCensor\Service;
 
+use PHPCensor\ConfigurationInterface;
+use PHPCensor\DatabaseManager;
 use PHPCensor\Model\User;
 use PHPCensor\Service\UserService;
+use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -24,14 +27,34 @@ class UserServiceTest extends TestCase
      */
     protected $mockUserStore;
 
+    protected ConfigurationInterface $configuration;
+
+    protected DatabaseManager $databaseManager;
+
+    protected StoreRegistry $storeRegistry;
+
     protected function setUp(): void
     {
-        $this->mockUserStore = $this->getMockBuilder('PHPCensor\Store\UserStore')->getMock();
-        $this->mockUserStore->expects($this->any())
-                               ->method('save')
-                               ->will($this->returnArgument(0));
+        $this->configuration   = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
+        $this->databaseManager = $this
+            ->getMockBuilder('PHPCensor\DatabaseManager')
+            ->setConstructorArgs([$this->configuration])
+            ->getMock();
+        $this->storeRegistry = $this
+            ->getMockBuilder('PHPCensor\StoreRegistry')
+            ->setConstructorArgs([$this->databaseManager])
+            ->getMock();
 
-        $this->testedService = new UserService($this->mockUserStore);
+        $this->mockUserStore = $this
+            ->getMockBuilder('PHPCensor\Store\UserStore')
+            ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])
+            ->getMock();
+        $this->mockUserStore
+            ->expects($this->any())
+            ->method('save')
+            ->will($this->returnArgument(0));
+
+        $this->testedService = new UserService($this->storeRegistry, $this->mockUserStore);
     }
 
     public function testExecute_CreateNonAdminUser()
@@ -67,7 +90,7 @@ class UserServiceTest extends TestCase
 
     public function testExecute_RevokeAdminStatus()
     {
-        $user = new User();
+        $user = new User($this->storeRegistry);
         $user->setEmail('test@example.com');
         $user->setName('Test');
         $user->setIsAdmin(true);
@@ -78,7 +101,7 @@ class UserServiceTest extends TestCase
 
     public function testExecute_GrantAdminStatus()
     {
-        $user = new User();
+        $user = new User($this->storeRegistry);
         $user->setEmail('test@example.com');
         $user->setName('Test');
         $user->setIsAdmin(false);
@@ -89,7 +112,7 @@ class UserServiceTest extends TestCase
 
     public function testExecute_ChangesPasswordIfNotEmpty()
     {
-        $user = new User();
+        $user = new User($this->storeRegistry);
         $user->setHash(password_hash('testing', PASSWORD_DEFAULT));
 
         $user = $this->testedService->updateUser($user, 'Test', 'test@example.com', 'newpassword', false);
@@ -99,7 +122,7 @@ class UserServiceTest extends TestCase
 
     public function testExecute_DoesNotChangePasswordIfEmpty()
     {
-        $user = new User();
+        $user = new User($this->storeRegistry);
         $user->setHash(password_hash('testing', PASSWORD_DEFAULT));
 
         $user = $this->testedService->updateUser($user, 'Test', 'test@example.com', '', false);

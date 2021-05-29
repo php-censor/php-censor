@@ -5,7 +5,6 @@ namespace PHPCensor\Controller;
 use PHPCensor\Exception\HttpException;
 use PHPCensor\Http\Response;
 use PHPCensor\Store\BuildStore;
-use PHPCensor\Store\Factory;
 use PHPCensor\Store\ProjectStore;
 use PHPCensor\View;
 use PHPCensor\WebController;
@@ -32,8 +31,8 @@ class WidgetBuildErrorsController extends WebController
     {
         parent::init();
 
-        $this->buildStore   = Factory::getStore('Build');
-        $this->projectStore = Factory::getStore('Project');
+        $this->buildStore   = $this->storeRegistry->get('Build');
+        $this->projectStore = $this->storeRegistry->get('Project');
     }
 
     /**

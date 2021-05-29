@@ -3,13 +3,29 @@
 namespace Tests\PHPCensor\Model\Base;
 
 use PHPCensor\Model\Base\Environment;
+use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 
 class EnvironmentTest extends TestCase
 {
+    protected StoreRegistry $storeRegistry;
+
+    protected function setUp(): void
+    {
+        $configuration   = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
+        $databaseManager = $this
+            ->getMockBuilder('PHPCensor\DatabaseManager')
+            ->setConstructorArgs([$configuration])
+            ->getMock();
+        $this->storeRegistry = $this
+            ->getMockBuilder('PHPCensor\StoreRegistry')
+            ->setConstructorArgs([$databaseManager])
+            ->getMock();
+    }
+
     public function testConstruct()
     {
-        $environment = new Environment();
+        $environment = new Environment($this->storeRegistry);
 
         self::assertInstanceOf('PHPCensor\Model', $environment);
         self::assertInstanceOf('PHPCensor\Model\Base\Environment', $environment);
@@ -24,7 +40,7 @@ class EnvironmentTest extends TestCase
 
     public function testId()
     {
-        $environment = new Environment();
+        $environment = new Environment($this->storeRegistry);
 
         $result = $environment->setId(100);
         self::assertEquals(true, $result);
@@ -36,7 +52,7 @@ class EnvironmentTest extends TestCase
 
     public function testProjectId()
     {
-        $environment = new Environment();
+        $environment = new Environment($this->storeRegistry);
 
         $result = $environment->setProjectId(200);
         self::assertEquals(true, $result);
@@ -48,7 +64,7 @@ class EnvironmentTest extends TestCase
 
     public function testName()
     {
-        $environment = new Environment();
+        $environment = new Environment($this->storeRegistry);
 
         $result = $environment->setName('name');
         self::assertEquals(true, $result);
@@ -60,7 +76,7 @@ class EnvironmentTest extends TestCase
 
     public function testBranches()
     {
-        $environment = new Environment();
+        $environment = new Environment($this->storeRegistry);
 
         $result = $environment->setBranches(['branch-1', 'branch-2']);
         self::assertEquals(true, $result);
