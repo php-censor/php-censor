@@ -141,7 +141,7 @@ class BuildStatusController extends WebController
         $builds = $this->buildStore->getWhere($criteria, 10, 0, $order);
 
         foreach ($builds['items'] as &$build) {
-            $build = BuildFactory::getBuild($this->configuration, $build);
+            $build = BuildFactory::getBuild($this->configuration, $this->storeRegistry, $build);
         }
 
         return $builds['items'];

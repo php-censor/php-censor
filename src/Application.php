@@ -187,7 +187,7 @@ class Application
     protected function loadController($class)
     {
         /** @var Controller $controller */
-        $controller = new $class($this->configuration, $this->request);
+        $controller = new $class($this->configuration, $this->storeRegistry, $this->request);
 
         $controller->init();
 

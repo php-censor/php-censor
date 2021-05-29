@@ -36,7 +36,7 @@ class WidgetLastBuildsController extends WebController
         $builds = $this->buildStore->getLatestBuilds(null, 10);
 
         foreach ($builds as &$build) {
-            $build = BuildFactory::getBuild($this->configuration, $build);
+            $build = BuildFactory::getBuild($this->configuration, $this->storeRegistry, $build);
         }
 
         $view = new View('WidgetLastBuilds/update');
@@ -58,7 +58,7 @@ class WidgetLastBuildsController extends WebController
         $builds = $this->buildStore->getLatestBuilds(null, 10);
 
         foreach ($builds as &$build) {
-            $build = BuildFactory::getBuild($this->configuration, $build);
+            $build = BuildFactory::getBuild($this->configuration, $this->storeRegistry, $build);
         }
 
         $this->view->builds           = $builds;

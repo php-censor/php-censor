@@ -107,7 +107,7 @@ class WorkerCommand extends Command
             $this->logger,
             $this->buildService,
             $config['host'],
-            $this->configuration->get('php-censor.queue.port', Pheanstalk::DEFAULT_PORT),
+            (int)$this->configuration->get('php-censor.queue.port', Pheanstalk::DEFAULT_PORT),
             $config['name'],
             ($input->hasOption('periodical-work') && $input->getOption('periodical-work'))
         ))

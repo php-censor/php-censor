@@ -367,7 +367,7 @@ class ProjectController extends WebController
         $view   = new View('Project/ajax-builds');
 
         foreach ($builds['items'] as &$build) {
-            $build = BuildFactory::getBuild($this->configuration, $build);
+            $build = BuildFactory::getBuild($this->configuration, $this->storeRegistry, $build);
         }
 
         $view->builds           = $builds['items'];

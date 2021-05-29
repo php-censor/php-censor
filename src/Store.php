@@ -110,7 +110,7 @@ abstract class Store
         $rtn = [];
 
         foreach ($res as $data) {
-            $rtn[] = new $this->modelName($data);
+            $rtn[] = new $this->modelName($this->storeRegistry, $data);
         }
 
         return ['items' => $rtn, 'count' => $count];

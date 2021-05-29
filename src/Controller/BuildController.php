@@ -108,7 +108,7 @@ class BuildController extends WebController
         $this->view->uiPlugins   = $this->getUiPlugins();
         $this->view->build       = $build;
         $this->view->data        = $data;
-        $this->view->environment = $this->storeRegistry->get('Environment')->getById($build->getEnvironmentId());
+        $this->view->environment = $this->storeRegistry->get('Environment')->getById((int)$build->getEnvironmentId());
 
         $this->view->plugin     = urldecode($plugin);
         $this->view->plugins    = $errorStore->getKnownPlugins($buildId, $severity, $isNew);

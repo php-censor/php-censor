@@ -119,7 +119,7 @@ class BuildService
 
         if (!empty($buildId)) {
             $project = $build->getProject();
-            $build = BuildFactory::getBuild($this->configuration, $build);
+            $build = BuildFactory::getBuild($this->configuration, $this->storeRegistry, $build);
             $build->sendStatusPostback();
             $this->addBuildToQueue(
                 $build,
@@ -269,7 +269,7 @@ class BuildService
         $buildId = $build->getId();
 
         if (!empty($buildId)) {
-            $build   = BuildFactory::getBuild($this->configuration, $build);
+            $build   = BuildFactory::getBuild($this->configuration, $this->storeRegistry, $build);
             $project = $build->getProject();
             $build->sendStatusPostback();
             $this->addBuildToQueue(

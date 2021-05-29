@@ -49,7 +49,7 @@ class RebuildQueueCommand extends Command
 
         while (\count($result['items'])) {
             $build   = \array_shift($result['items']);
-            $build   = BuildFactory::getBuild($this->configuration, $build);
+            $build   = BuildFactory::getBuild($this->configuration, $this->storeRegistry, $build);
             $project = $build->getProject();
 
             $this->logger->info('Added build #' . $build->getId() . ' to queue.');
