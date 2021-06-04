@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Store;
 
 use Exception;
@@ -10,24 +12,19 @@ use PHPCensor\Model\BuildMeta;
 use PHPCensor\Store;
 
 /**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class BuildStore extends Store
 {
-    /**
-     * @var string
-     */
-    protected $tableName  = 'builds';
+    protected string $tableName  = 'builds';
 
-    /**
-     * @var string
-     */
-    protected $modelName  = '\PHPCensor\Model\Build';
+    protected ?string $modelName  = '\PHPCensor\Model\Build';
 
-    /**
-     * @var string
-     */
-    protected $primaryKey = 'id';
+    protected ?string $primaryKey = 'id';
 
     /**
      * Get a Build by primary key (Id)
@@ -37,7 +34,7 @@ class BuildStore extends Store
      *
      * @return null|Build
      */
-    public function getByPrimaryKey($key, $useConnection = 'read')
+    public function getByPrimaryKey($key, string $useConnection = 'read'): ?Build
     {
         return $this->getById($key, $useConnection);
     }

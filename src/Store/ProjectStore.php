@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Store;
 
 use Exception;
@@ -9,24 +11,19 @@ use PHPCensor\Model\Project;
 use PHPCensor\Store;
 
 /**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class ProjectStore extends Store
 {
-    /**
-     * @var string
-     */
-    protected $tableName  = 'projects';
+    protected string $tableName  = 'projects';
 
-    /**
-     * @var string
-     */
-    protected $modelName  = '\PHPCensor\Model\Project';
+    protected ?string $modelName  = '\PHPCensor\Model\Project';
 
-    /**
-     * @var string
-     */
-    protected $primaryKey = 'id';
+    protected ?string $primaryKey = 'id';
 
     /**
      * Get a Project by primary key (Id)
@@ -36,7 +33,7 @@ class ProjectStore extends Store
      *
      * @return Project|null
      */
-    public function getByPrimaryKey($key, $useConnection = 'read')
+    public function getByPrimaryKey($key, string $useConnection = 'read'): ?Project
     {
         return $this->getById($key, $useConnection);
     }

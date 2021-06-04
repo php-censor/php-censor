@@ -1,15 +1,20 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor;
 
 use PHPCensor\Http\Request;
 use PHPCensor\Http\Response;
 
+/**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
+ */
 abstract class Controller
 {
-    /**
-     * @var Request
-     */
     protected Request $request;
 
     protected ConfigurationInterface $configuration;
@@ -29,20 +34,15 @@ abstract class Controller
     /**
      * Initialise the controller.
      */
-    abstract public function init();
+    abstract public function init(): void;
 
-    /**
-     * @param string $name
-     *
-     * @return bool
-     */
-    public function hasAction($name)
+    public function hasAction(string $name): bool
     {
-        if (method_exists($this, $name)) {
+        if (\method_exists($this, $name)) {
             return true;
         }
 
-        if (method_exists($this, '__call')) {
+        if (\method_exists($this, '__call')) {
             return true;
         }
 
@@ -57,9 +57,9 @@ abstract class Controller
      *
      * @return Response
      */
-    public function handleAction($action, $actionParams)
+    public function handleAction(string $action, array $actionParams): Response
     {
-        return call_user_func_array([$this, $action], $actionParams);
+        return \call_user_func_array([$this, $action], $actionParams);
     }
 
     /**
@@ -67,7 +67,7 @@ abstract class Controller
      *
      * @return array
      */
-    public function getParams()
+    public function getParams(): array
     {
         return $this->request->getParams();
     }
@@ -80,7 +80,7 @@ abstract class Controller
      *
      * @return mixed
      */
-    public function getParam($key, $default = null)
+    public function getParam(string $key, $default = null)
     {
         return $this->request->getParam($key, $default);
     }
@@ -91,7 +91,7 @@ abstract class Controller
      * @param string $key
      * @param mixed  $value
      */
-    public function setParam($key, $value)
+    public function setParam(string $key, $value)
     {
         $this->request->setParam($key, $value);
     }
@@ -101,7 +101,7 @@ abstract class Controller
      *
      * @param string $key
      */
-    public function unsetParam($key)
+    public function unsetParam(string $key): void
     {
         $this->request->unsetParam($key);
     }

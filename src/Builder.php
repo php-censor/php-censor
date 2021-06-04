@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor;
 
 use DateTime;
 use Exception;
 use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Helper\BuildInterpolator;
-use PHPCensor\Helper\MailerFactory;
+use PHPCensor\Helper\CommandExecutorInterface;
 use PHPCensor\Logging\BuildLogger;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin\Util\Executor;
@@ -17,89 +19,48 @@ use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 
 /**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Builder
 {
-    /**
-     * @var string
-     */
-    public $buildPath;
+    public string $buildPath = '';
 
     /**
      * @var string[]
      */
-    public $ignore = [];
+    public array $ignore = [];
 
-    /**
-     * @var string[]
-     */
-    public $binaryPath = '';
+    public string $binaryPath = '';
 
-    /**
-     * @var string[]
-     */
-    public $priorityPath = 'local';
+    public string $priorityPath = 'local';
 
-    /**
-     * @var string
-     */
-    public $directory;
+    public string $directory = '';
 
-    /**
-     * @var string|null
-     */
-    protected $currentStage = null;
+    protected ?string $currentStage = null;
 
-    /**
-     * @var bool
-     */
-    protected $verbose = true;
+    protected bool $verbose = true;
 
-    /**
-     * @var Build
-     */
-    protected $build;
+    protected Build $build;
 
-    /**
-     * @var LoggerInterface
-     */
-    protected $logger;
+    protected LoggerInterface $logger;
 
-    /**
-     * @var array
-     */
-    protected $config = [];
+    protected array $config = [];
 
-    /**
-     * @var BuildInterpolator
-     */
-    protected $interpolator;
+    protected BuildInterpolator $interpolator;
 
-    /**
-     * @var BuildStore
-     */
-    protected $store;
+    protected BuildStore $store;
 
-    /**
-     * @var Executor
-     */
-    protected $pluginExecutor;
+    protected Executor $pluginExecutor;
 
-    /**
-     * @var Helper\CommandExecutorInterface
-     */
-    protected $commandExecutor;
+    protected CommandExecutorInterface $commandExecutor;
 
-    /**
-     * @var Logging\BuildLogger
-     */
-    protected $buildLogger;
+    protected BuildLogger $buildLogger;
 
-    /**
-     * @var BuildErrorWriter
-     */
-    private $buildErrorWriter;
+    private BuildErrorWriter $buildErrorWriter;
 
     private ConfigurationInterface $configuration;
 
@@ -119,13 +80,14 @@ class Builder
         $this->storeRegistry   = $storeRegistry;
 
         $this->build = $build;
-        $this->store = $this->storeRegistry->get('Build');
+
+        /** @var BuildStore $buildStore */
+        $buildStore  = $this->storeRegistry->get('Build');
+        $this->store = $buildStore;
 
         $this->buildLogger    = new BuildLogger($logger, $build);
         $pluginFactory        = $this->buildPluginFactory($build);
 
-        /** @var BuildStore $buildStore */
-        $buildStore           = $this->storeRegistry->get('Build');
         $this->pluginExecutor = new Plugin\Util\Executor(
             $this->storeRegistry,
             $pluginFactory,
@@ -170,7 +132,7 @@ class Builder
      *
      * @param array $config
      */
-    public function setConfig(array $config)
+    public function setConfig(array $config): void
     {
         $this->config = $config;
     }
@@ -178,11 +140,11 @@ class Builder
     /**
      * Access a variable from the .php-censor.yml file.
      *
-     * @param string $key
+     * @param string|null $key
      *
      * @return mixed
      */
-    public function getConfig($key = null)
+    public function getConfig(?string $key = null)
     {
         $value = null;
         if (null === $key) {
@@ -201,12 +163,12 @@ class Builder
      *
      * @return mixed
      */
-    public function getSystemConfig($key)
+    public function getSystemConfig(string $key)
     {
         return $this->configuration->get($key);
     }
 
-    public function execute()
+    public function execute(): void
     {
         $this->build->setStatusRunning();
         $this->build->setStartDate(new DateTime());
@@ -307,7 +269,7 @@ class Builder
         $this->store->save($this->build);
     }
 
-    protected function setErrorTrend()
+    protected function setErrorTrend(): void
     {
         $this->build->setErrorsTotal($this->store->getErrorsCount($this->build->getId()));
 
@@ -333,11 +295,11 @@ class Builder
     /**
      * Used by this class, and plugins, to execute shell commands.
      *
-     * @param string ...$params
+     * @param ...$params
      *
      * @return bool
      */
-    public function executeCommand(...$params)
+    public function executeCommand(...$params): bool
     {
         return $this->commandExecutor->executeCommand($params);
     }
@@ -347,7 +309,7 @@ class Builder
      *
      * @return string
      */
-    public function getLastOutput()
+    public function getLastOutput(): string
     {
         return $this->commandExecutor->getLastOutput();
     }
@@ -357,7 +319,7 @@ class Builder
      *
      * @param bool $enableLog
      */
-    public function logExecOutput($enableLog = true)
+    public function logExecOutput(bool $enableLog = true): void
     {
         $this->commandExecutor->logExecOutput = $enableLog;
     }
@@ -369,11 +331,12 @@ class Builder
      * @param string       $priorityPath
      * @param string       $binaryPath
      * @param array        $binaryName
+     *
      * @return string
      *
      * @throws Exception when no binary has been found.
      */
-    public function findBinary($binary, $priorityPath = 'local', $binaryPath = '', $binaryName = [])
+    public function findBinary($binary, string $priorityPath = 'local', string $binaryPath = '', array $binaryName = []): string
     {
         return $this->commandExecutor->findBinary($binary, $priorityPath, $binaryPath, $binaryName);
     }
@@ -386,7 +349,7 @@ class Builder
      *
      * @return string
      */
-    public function interpolate($input)
+    public function interpolate(string $input): string
     {
         return $this->interpolator->interpolate($input);
     }
@@ -398,9 +361,9 @@ class Builder
      *
      * @return bool
      */
-    protected function setupBuild()
+    protected function setupBuild(): bool
     {
-        $this->buildPath = $this->build->getBuildPath();
+        $this->buildPath = (string)$this->build->getBuildPath();
 
         $this->commandExecutor->setBuildPath($this->buildPath);
 
@@ -434,14 +397,14 @@ class Builder
         }
 
         if (!empty($this->config['build_settings']['binary_path'])) {
-            $this->binaryPath = rtrim(
+            $this->binaryPath = \rtrim(
                 $this->interpolate($this->config['build_settings']['binary_path']),
                 '/\\'
             ) . '/';
         }
 
         if (!empty($this->config['build_settings']['priority_path']) &&
-            in_array(
+            \in_array(
                 $this->config['build_settings']['priority_path'],
                 Plugin::AVAILABLE_PRIORITY_PATHS,
                 true
@@ -456,12 +419,12 @@ class Builder
             $directory = $this->config['build_settings']['directory'];
         }
 
-        $this->directory = rtrim(
+        $this->directory = \rtrim(
             $this->interpolate($directory),
             '/\\'
         ) . '/';
 
-        $this->buildLogger->logSuccess(sprintf('Working copy created: %s', $this->buildPath));
+        $this->buildLogger->logSuccess(\sprintf('Working copy created: %s', $this->buildPath));
 
         if (!$workingCopySuccess) {
             throw new RuntimeException('Could not create a working copy.');
@@ -502,17 +465,12 @@ class Builder
      *
      * @return PluginFactory
      */
-    private function buildPluginFactory(Build $build)
+    private function buildPluginFactory(Build $build): PluginFactory
     {
-        $pluginFactory = new PluginFactory($this, $build);
-
-        return $pluginFactory;
+        return new PluginFactory($this, $build);
     }
 
-    /**
-     * @return BuildErrorWriter
-     */
-    public function getBuildErrorWriter()
+    public function getBuildErrorWriter(): BuildErrorWriter
     {
         return $this->buildErrorWriter;
     }

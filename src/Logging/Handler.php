@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Logging;
 
 use ErrorException;
@@ -7,14 +9,14 @@ use Exception;
 use Psr\Log\LoggerInterface;
 
 /**
- * Base Log Handler
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Handler
 {
-    /**
-     * @var array
-     */
-    protected $levels = [
+    protected array $levels = [
         E_WARNING           => 'Warning',
         E_NOTICE            => 'Notice',
         E_USER_ERROR        => 'User Error',
@@ -26,48 +28,38 @@ class Handler
         E_USER_DEPRECATED   => 'User Deprecated',
     ];
 
-    /**
-     * @var LoggerInterface
-     */
-    protected $logger;
+    protected ?LoggerInterface $logger;
 
-    /**
-     * @param LoggerInterface $logger
-     */
-    public function __construct(LoggerInterface $logger = null)
+    public function __construct(?LoggerInterface $logger = null)
     {
         $this->logger = $logger;
     }
 
-    /**
-     * Register a new log handler.
-     * @param LoggerInterface $logger
-     */
-    public static function register(LoggerInterface $logger = null)
+    public static function register(?LoggerInterface $logger = null): void
     {
         $handler = new static($logger);
 
-        set_error_handler([$handler, 'handleError']);
-        register_shutdown_function([$handler, 'handleFatalError']);
+        \set_error_handler([$handler, 'handleError']);
+        \register_shutdown_function([$handler, 'handleFatalError']);
 
-        set_exception_handler([$handler, 'handleException']);
+        \set_exception_handler([$handler, 'handleException']);
     }
 
     /**
-     * @param int $level
+     * @param int     $level
      * @param string  $message
      * @param string  $file
-     * @param int $line
+     * @param int     $line
      *
      * @throws ErrorException
      */
-    public function handleError($level, $message, $file, $line)
+    public function handleError(int $level, string $message, string $file, int $line): void
     {
-        if (error_reporting() & $level) {
-            $exceptionLevel = isset($this->levels[$level]) ? $this->levels[$level] : $level;
+        if (\error_reporting() & $level) {
+            $exceptionLevel = $this->levels[$level] ?? $level;
 
             throw new ErrorException(
-                sprintf('%s: %s in %s line %d', $exceptionLevel, $message, $file, $line),
+                \sprintf('%s: %s in %s line %d', $exceptionLevel, $message, $file, $line),
                 0,
                 $level,
                 $file,
@@ -76,10 +68,7 @@ class Handler
         }
     }
 
-    /**
-     * @throws ErrorException
-     */
-    public function handleFatalError()
+    public function handleFatalError(): void
     {
         $fatalError = \error_get_last();
 
@@ -118,24 +107,17 @@ class Handler
         }
     }
 
-    /**
-     * @param $exception
-     */
-    public function handleException($exception)
+    public function handleException(\Throwable $exception): void
     {
         $this->log($exception);
     }
 
-    /**
-     * Write to the build log.
-     * @param $exception
-     */
-    protected function log($exception)
+    protected function log(\Throwable $exception): void
     {
         if (null !== $this->logger) {
-            $message = sprintf(
+            $message = \sprintf(
                 '%s: %s (uncaught exception) at %s line %s',
-                get_class($exception),
+                \get_class($exception),
                 $exception->getMessage(),
                 $exception->getFile(),
                 $exception->getLine()

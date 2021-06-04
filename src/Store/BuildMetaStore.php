@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Store;
 
 use PDO;
@@ -7,22 +9,19 @@ use PHPCensor\Exception\HttpException;
 use PHPCensor\Model\BuildMeta;
 use PHPCensor\Store;
 
+/**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
+ */
 class BuildMetaStore extends Store
 {
-    /**
-     * @var string
-     */
-    protected $tableName  = 'build_metas';
+    protected string $tableName  = 'build_metas';
 
-    /**
-     * @var string
-     */
-    protected $modelName  = '\PHPCensor\Model\BuildMeta';
+    protected ?string $modelName  = '\PHPCensor\Model\BuildMeta';
 
-    /**
-     * @var string
-     */
-    protected $primaryKey = 'id';
+    protected ?string $primaryKey = 'id';
 
     /**
      * Get a BuildMeta by primary key (Id)
@@ -32,7 +31,7 @@ class BuildMetaStore extends Store
      *
      * @return null|BuildMeta
      */
-    public function getByPrimaryKey($key, $useConnection = 'read')
+    public function getByPrimaryKey($key, string $useConnection = 'read'): ?BuildMeta
     {
         return $this->getById($key, $useConnection);
     }

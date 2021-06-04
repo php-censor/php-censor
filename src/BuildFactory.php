@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor;
 
 use PHPCensor\Model\Build;
@@ -8,7 +10,11 @@ use PHPCensor\Model\Project;
 /**
  * BuildFactory - Takes in a generic "Build" and returns a type-specific build model.
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class BuildFactory
 {
@@ -19,6 +25,7 @@ class BuildFactory
      *
      * @return Build|null
      *
+     * @throws Common\Exception\RuntimeException
      * @throws Exception\HttpException
      */
     public static function getBuildById(

@@ -6,6 +6,12 @@ namespace PHPCensor\Logging;
 
 use Monolog\Formatter\LineFormatter;
 
+/**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
+ */
 class AnsiFormatter extends LineFormatter
 {
     /**

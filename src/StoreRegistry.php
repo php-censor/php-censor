@@ -28,6 +28,13 @@ class StoreRegistry
         $this->databaseManager = $databaseManager;
     }
 
+    /**
+     * @param string $storeName
+     *
+     * @return Store|null
+     *
+     * @throws RuntimeException
+     */
     public function get(string $storeName): ?Store
     {
         if (!isset($this->loadedStores[$storeName])) {

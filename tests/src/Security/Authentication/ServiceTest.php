@@ -75,7 +75,7 @@ class ServiceTest extends TestCase
 
 class DummyProvider extends AbstractProvider
 {
-    public function checkRequirements()
+    public function checkRequirements(): void
     {
     }
 

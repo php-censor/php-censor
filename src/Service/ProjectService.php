@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Service;
 
 use DateTime;
@@ -11,6 +13,11 @@ use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * The project service handles the creation, modification and deletion of projects.
+ *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class ProjectService
 {

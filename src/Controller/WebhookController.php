@@ -22,35 +22,27 @@ use PHPCensor\Store\EnvironmentStore;
 use PHPCensor\Store\ProjectStore;
 
 /**
- * Webhook Controller - Processes webhook pings from BitBucket, Github, Gitlab, Gogs, etc.
+ * @package    PHP Censor
+ * @subpackage Application
  *
  * @author Dan Cryer <dan@block8.co.uk>
  * @author Sami Tikka <stikka@iki.fi>
  * @author Alex Russell <alex@clevercherry.com>
  * @author Guillaume Perréal <adirelle@gmail.com>
- *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class WebhookController extends Controller
 {
-    /**
-     * @var BuildStore
-     */
-    protected $buildStore;
+    protected BuildStore $buildStore;
 
-    /**
-     * @var ProjectStore
-     */
-    protected $projectStore;
+    protected ProjectStore $projectStore;
 
-    /**
-     * @var BuildService
-     */
-    protected $buildService;
+    protected BuildService $buildService;
 
     /**
      * Initialise the controller, set up stores and services.
      */
-    public function init()
+    public function init(): void
     {
         $this->buildStore   = $this->storeRegistry->get('Build');
         $this->projectStore = $this->storeRegistry->get('Project');
@@ -71,7 +63,7 @@ class WebhookController extends Controller
      *
      * @return Response
      */
-    public function handleAction($action, $actionParams)
+    public function handleAction(string $action, array $actionParams): Response
     {
         $response = new Response\JsonResponse();
         try {

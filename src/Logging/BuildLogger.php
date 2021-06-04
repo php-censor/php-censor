@@ -8,6 +8,12 @@ use PHPCensor\Model\Build;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 
+/**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
+ */
 class BuildLogger
 {
     private LoggerInterface $logger;

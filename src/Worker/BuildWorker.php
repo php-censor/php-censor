@@ -19,10 +19,16 @@ use PHPCensor\Service\BuildService;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\StoreRegistry;
 
+/**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
+ */
 class BuildWorker
 {
-    const JOB_TYPE_BUILD     = 'php-censor.build';
-    const JOB_TYPE_STOP_FLAG = 'php-censor.stop-flag';
+    public const JOB_TYPE_BUILD     = 'php-censor.build';
+    public const JOB_TYPE_STOP_FLAG = 'php-censor.stop-flag';
 
     /**
      * If this variable changes to false, the worker will stop after the current build.
@@ -77,19 +83,19 @@ class BuildWorker
         $this->canPeriodicalWork = $canPeriodicalWork;
     }
 
-    public function stopWorker()
+    public function stopWorker(): void
     {
         $this->canRun = false;
     }
 
-    public function startWorker()
+    public function startWorker(): void
     {
         $this->canRun = true;
 
         $this->runWorker();
     }
 
-    protected function runWorker()
+    protected function runWorker(): void
     {
         $this->pheanstalk->watchOnly($this->queueTube);
 
@@ -100,13 +106,13 @@ class BuildWorker
             }
 
             if ($this->canForceRewindLoop()) {
-                sleep(1);
+                \sleep(1);
 
                 continue;
             }
 
             $job     = $this->pheanstalk->reserve();
-            $jobData = json_decode($job->getData(), true);
+            $jobData = \json_decode($job->getData(), true);
 
             if (!$this->verifyJob($job)) {
                 $this->deleteJob($job);
@@ -115,7 +121,7 @@ class BuildWorker
             }
 
             $this->logger->notice(
-                sprintf(
+                \sprintf(
                     'Received build #%s from the queue tube "%s".',
                     $jobData['build_id'],
                     $this->queueTube
@@ -130,7 +136,7 @@ class BuildWorker
 
             if (!$build) {
                 $this->logger->warning(
-                    sprintf(
+                    \sprintf(
                         'Build #%s from the queue tube "%s" does not exist in the database!',
                         $jobData['build_id'],
                         $this->queueTube
@@ -144,7 +150,7 @@ class BuildWorker
 
             if (Build::STATUS_PENDING !== $build->getStatus()) {
                 $this->logger->warning(
-                    sprintf(
+                    \sprintf(
                         'Invalid build #%s status "%s" from the queue tube "%s". ' .
                         'Build status should be "%s" (pending)!',
                         $build->getId(),
@@ -179,7 +185,7 @@ class BuildWorker
             } catch (Exception $e) {
                 $builder->getBuildLogger()->log('');
                 $builder->getBuildLogger()->logFailure(
-                    sprintf(
+                    \sprintf(
                         'BUILD FAILED! Exception: %s',
                         $e->getMessage()
                     ),
@@ -204,10 +210,7 @@ class BuildWorker
         }
     }
 
-    /**
-     * @param Job $job
-     */
-    protected function deleteJob(Job $job)
+    protected function deleteJob(Job $job): void
     {
         try {
             $this->pheanstalk->delete($job);
@@ -216,13 +219,10 @@ class BuildWorker
         }
     }
 
-    /**
-     * @return bool
-     */
-    protected function canForceRewindLoop()
+    protected function canForceRewindLoop(): bool
     {
         try {
-            $this->pheanstalk->peekReady($this->queueTube);
+            $this->pheanstalk->peekReady();
         } catch (Exception $e) {
             return true;
         }
@@ -230,12 +230,9 @@ class BuildWorker
         return false;
     }
 
-    /**
-     * @return bool
-     */
-    protected function canRunPeriodicalWork()
+    protected function canRunPeriodicalWork(): bool
     {
-        $currentTime = time();
+        $currentTime = \time();
         if (($this->lastPeriodical + 60) > $currentTime) {
             return false;
         }
@@ -245,18 +242,13 @@ class BuildWorker
         return true;
     }
 
-    /**
-     * @param Job $job
-     *
-     * @return bool
-     */
-    protected function verifyJob(Job $job)
+    protected function verifyJob(Job $job): bool
     {
-        $jobData = json_decode($job->getData(), true);
+        $jobData = \json_decode($job->getData(), true);
 
-        if (empty($jobData) || !is_array($jobData)) {
+        if (empty($jobData) || !\is_array($jobData)) {
             $this->logger->warning(
-                sprintf('Empty job (#%s) from the queue tube "%s"!', $job->getId(), $this->queueTube)
+                \sprintf('Empty job (#%s) from the queue tube "%s"!', $job->getId(), $this->queueTube)
             );
 
             return false;
@@ -272,7 +264,7 @@ class BuildWorker
             return false;
         } elseif (self::JOB_TYPE_BUILD !== $jobType) {
             $this->logger->warning(
-                sprintf(
+                \sprintf(
                     'Invalid job (#%s) type "%s" in the queue tube "%s"!',
                     $job->getId(),
                     $jobType,

@@ -1,14 +1,18 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Security\Authentication;
 
 use PHPCensor\ConfigurationInterface;
 use PHPCensor\StoreRegistry;
 
 /**
- * Authentication facade.
+ * @package    PHP Censor
+ * @subpackage Application
  *
  * @author Adirelle <adirelle@gmail.com>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Service
 {
@@ -58,7 +62,7 @@ class Service
      *
      * @return UserProviderInterface[]
      */
-    public function getProviders()
+    public function getProviders(): array
     {
         return $this->providers;
     }
@@ -68,7 +72,7 @@ class Service
      *
      * @return LoginPasswordProviderInterface[]
      */
-    public function getLoginPasswordProviders()
+    public function getLoginPasswordProviders(): array
     {
         $providers = [];
         foreach ($this->providers as $key => $provider) {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Store;
 
 use Exception;
@@ -8,32 +10,29 @@ use PHPCensor\Exception\HttpException;
 use PHPCensor\Model\BuildError;
 use PHPCensor\Store;
 
+/**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
+ */
 class BuildErrorStore extends Store
 {
-    /**
-     * @var string
-     */
-    protected $tableName = 'build_errors';
+    protected string $tableName = 'build_errors';
+
+    protected ?string $modelName = '\PHPCensor\Model\BuildError';
+
+    protected ?string $primaryKey = 'id';
 
     /**
-     * @var string
-     */
-    protected $modelName = '\PHPCensor\Model\BuildError';
-
-    /**
-     * @var string
-     */
-    protected $primaryKey = 'id';
-
-    /**
-     * Get a BuildError by primary key (Id)
+     * @param mixed  $key
+     * @param string $useConnection
      *
-     * @param int $key
-     * @param string  $useConnection
+     * @return BuildError|null
      *
-     * @return null|BuildError
+     * @throws HttpException
      */
-    public function getByPrimaryKey($key, $useConnection = 'read')
+    public function getByPrimaryKey($key, string $useConnection = 'read'): ?BuildError
     {
         return $this->getById($key, $useConnection);
     }

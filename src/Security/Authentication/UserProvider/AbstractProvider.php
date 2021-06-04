@@ -1,14 +1,18 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Security\Authentication\UserProvider;
 
 use PHPCensor\Security\Authentication\UserProviderInterface;
 use PHPCensor\StoreRegistry;
 
 /**
- * Abstract user provider.
+ * @package    PHP Censor
+ * @subpackage Application
  *
  * @author Adirelle <adirelle@gmail.com>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 abstract class AbstractProvider implements UserProviderInterface
 {

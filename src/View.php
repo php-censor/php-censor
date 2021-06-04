@@ -1,31 +1,32 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor;
 
 use PHPCensor\Common\Exception\RuntimeException;
 
+/**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
+ */
 class View
 {
-    /**
-     * @var array
-     */
-    protected $data = [];
+    protected array $data = [];
 
-    /**
-     * @var string
-     */
-    protected $viewFile;
+    protected string $viewFile;
 
-    /**
-     * @var string
-     */
-    protected static $extension = 'phtml';
+    protected static string $extension = 'phtml';
 
     /**
      * @param string      $file
      * @param string|null $path
+     *
+     * @throws RuntimeException
      */
-    public function __construct($file, $path = null)
+    public function __construct(string $file, ?string $path = null)
     {
         if (!self::exists($file, $path)) {
             throw new RuntimeException('View file does not exist: ' . $file);
@@ -34,26 +35,14 @@ class View
         $this->viewFile = self::getViewFile($file, $path);
     }
 
-    /**
-     * @param string      $file
-     * @param string|null $path
-     *
-     * @return string
-     */
-    protected static function getViewFile($file, $path = null)
+    protected static function getViewFile(string $file, ?string $path = null): string
     {
         $viewPath = is_null($path) ? (SRC_DIR . 'View/') : $path;
 
         return $viewPath . $file . '.' . static::$extension;
     }
 
-    /**
-     * @param string      $file
-     * @param string|null $path
-     *
-     * @return bool
-     */
-    public static function exists($file, $path = null)
+    public static function exists(string $file, ?string $path = null): bool
     {
         if (!file_exists(self::getViewFile($file, $path))) {
             return false;
@@ -62,12 +51,7 @@ class View
         return true;
     }
 
-    /**
-     * @param string $key
-     *
-     * @return bool
-     */
-    public function __isset($key)
+    public function __isset(string $key): bool
     {
         return isset($this->data[$key]);
     }
@@ -77,7 +61,7 @@ class View
      *
      * @return mixed
      */
-    public function __get($key)
+    public function __get(string $key)
     {
         return $this->data[$key];
     }
@@ -86,24 +70,21 @@ class View
      * @param string $key
      * @param mixed  $value
      */
-    public function __set($key, $value)
+    public function __set(string $key, $value): void
     {
         $this->data[$key] = $value;
     }
 
-    /**
-     * @return string
-     */
-    public function render()
+    public function render(): string
     {
-        extract($this->data);
+        \extract($this->data);
 
-        ob_start();
+        \ob_start();
 
         require($this->viewFile);
 
-        $html = ob_get_contents();
-        ob_end_clean();
+        $html = \ob_get_contents();
+        \ob_end_clean();
 
         return $html;
     }

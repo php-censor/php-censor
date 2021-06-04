@@ -19,33 +19,23 @@ use PHPCensor\WebController;
 use SensioLabs\AnsiConverter\AnsiToHtmlConverter;
 
 /**
- * Build Controller - Allows users to run and view builds.
+ * @package    PHP Censor
+ * @subpackage Application
  *
  * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class BuildController extends WebController
 {
-    /**
-     * @var string
-     */
-    public $layoutName = 'layout';
+    public string $layoutName = 'layout';
 
-    /**
-     * @var BuildStore
-     */
-    protected $buildStore;
+    protected BuildStore $buildStore;
 
-    /**
-     * @var ProjectStore
-     */
-    protected $projectStore;
+    protected ProjectStore $projectStore;
 
-    /**
-     * @var BuildService
-     */
-    protected $buildService;
+    protected BuildService $buildService;
 
-    public function init()
+    public function init(): void
     {
         parent::init();
 

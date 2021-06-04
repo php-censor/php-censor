@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor;
 
 use PHPCensor\Exception\HttpException;
@@ -9,27 +11,21 @@ use PHPCensor\Http\Response;
 use PHPCensor\Model\User;
 use PHPCensor\Store\UserStore;
 
+/**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
+ */
 abstract class WebController extends Controller
 {
-    /**
-     * @var string
-     */
-    protected $className;
+    protected string $className;
 
-    /**
-     * @var View
-     */
-    protected $view = null;
+    protected ?View $view = null;
 
-    /**
-     * @var string
-     */
-    public $layoutName = '';
+    public string $layoutName = '';
 
-    /**
-     * @var View
-     */
-    public $layout = null;
+    public ?View $layout = null;
 
     public function __construct(
         ConfigurationInterface $configuration,
@@ -38,11 +34,11 @@ abstract class WebController extends Controller
     ) {
         parent::__construct($configuration, $storeRegistry, $request);
 
-        $class           = explode('\\', get_class($this));
-        $this->className = substr(array_pop($class), 0, -10);
+        $class           = \explode('\\', \get_class($this));
+        $this->className = \substr(\array_pop($class), 0, -10);
     }
 
-    public function init()
+    public function init(): void
     {
         if (!empty($this->layoutName)) {
             $this->layout = new View($this->layoutName);
@@ -81,8 +77,10 @@ abstract class WebController extends Controller
      * @param array  $actionParams
      *
      * @return Response
+     *
+     * @throws Common\Exception\RuntimeException
      */
-    public function handleAction($action, $actionParams)
+    public function handleAction(string $action, array $actionParams): Response
     {
         if (View::exists($this->className . '/' . $action)) {
             $this->view = new View($this->className . '/' . $action);
@@ -118,7 +116,7 @@ abstract class WebController extends Controller
      *
      * @throws HttpException
      */
-    protected function requireAdmin()
+    protected function requireAdmin(): void
     {
         if (!$this->currentUserIsAdmin()) {
             throw new ForbiddenException('You do not have permission to do that.');
@@ -130,11 +128,9 @@ abstract class WebController extends Controller
      *
      * @return bool
      *
-     * @return bool
-     *
      * @throws HttpException
      */
-    protected function currentUserIsAdmin()
+    protected function currentUserIsAdmin(): bool
     {
         $user = $this->getUser();
         if (!$user) {
@@ -147,9 +143,10 @@ abstract class WebController extends Controller
     /**
      * @return User|null
      *
+     * @throws Common\Exception\RuntimeException
      * @throws HttpException
      */
-    protected function getUser()
+    protected function getUser(): ?User
     {
         if (empty($_SESSION['php-censor-user-id'])) {
             return null;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor;
 
 use Exception;
@@ -7,28 +9,25 @@ use PDO;
 use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Common\Exception\RuntimeException;
 
+/**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
+ */
 abstract class Store
 {
-    /**
-     * @var string
-     */
-    protected $modelName = null;
+    protected ?string $modelName = null;
 
-    /**
-     * @var string
-     */
-    protected $tableName = '';
+    protected string $tableName = '';
 
-    /**
-     * @var string
-     */
-    protected $primaryKey = null;
+    protected ?string $primaryKey = null;
 
     protected DatabaseManager $databaseManager;
 
     protected StoreRegistry $storeRegistry;
 
-    abstract public function getByPrimaryKey($key, $useConnection = 'read');
+    abstract public function getByPrimaryKey($key, string $useConnection = 'read'): ?Model;
 
     /**
      * @throws RuntimeException
@@ -54,15 +53,16 @@ abstract class Store
      *
      * @return array
      *
+     * @throws Common\Exception\Exception
      * @throws InvalidArgumentException
      */
     public function getWhere(
-        $where = [],
-        $limit = 25,
-        $offset = 0,
-        $order = [],
-        $whereType = 'AND'
-    ) {
+        array $where = [],
+        int $limit = 25,
+        int $offset = 0,
+        array $order = [],
+        string $whereType = 'AND'
+    ): array {
         $query      = 'SELECT * FROM {{' . $this->tableName . '}}';
         $countQuery = 'SELECT COUNT(*) AS {{count}} FROM {{' . $this->tableName . '}}';
 
@@ -120,11 +120,11 @@ abstract class Store
      * @param Model $obj
      * @param bool  $saveAllColumns
      *
-     * @throws InvalidArgumentException
-     *
      * @return Model|null
+     *
+     * @throws InvalidArgumentException
      */
-    public function save(Model $obj, $saveAllColumns = false)
+    public function save(Model $obj, bool $saveAllColumns = false): ?Model
     {
         if (!($obj instanceof $this->modelName)) {
             throw new InvalidArgumentException(get_class($obj) . ' is an invalid model type for this store.');
@@ -149,7 +149,7 @@ abstract class Store
      *
      * @throws Exception
      */
-    public function saveByUpdate(Model $obj, $saveAllColumns = false)
+    public function saveByUpdate(Model $obj, bool $saveAllColumns = false): ?Model
     {
         $data     = $obj->getDataArray();
         $modified = ($saveAllColumns) ? array_keys($data) : $obj->getModified();
@@ -193,7 +193,7 @@ abstract class Store
      *
      * @throws Exception
      */
-    public function saveByInsert(Model $obj, $saveAllColumns = false)
+    public function saveByInsert(Model $obj, bool $saveAllColumns = false): ?Model
     {
         $rtn      = null;
         $data     = $obj->getDataArray();
@@ -231,9 +231,10 @@ abstract class Store
      *
      * @return bool
      *
+     * @throws Common\Exception\Exception
      * @throws InvalidArgumentException
      */
-    public function delete(Model $obj)
+    public function delete(Model $obj): bool
     {
         if (!($obj instanceof $this->modelName)) {
             throw new InvalidArgumentException(get_class($obj) . ' is an invalid model type for this store.');
@@ -262,7 +263,7 @@ abstract class Store
      *
      * @throws InvalidArgumentException
      */
-    protected function fieldCheck($field)
+    protected function fieldCheck(string $field): string
     {
         if (empty($field)) {
             throw new InvalidArgumentException('You cannot have an empty field name.');

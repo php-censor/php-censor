@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Store;
 
 use Exception;
@@ -8,22 +10,19 @@ use PHPCensor\Exception\HttpException;
 use PHPCensor\Model\Environment;
 use PHPCensor\Store;
 
+/**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
+ */
 class EnvironmentStore extends Store
 {
-    /**
-     * @var string
-     */
-    protected $tableName = 'environments';
+    protected string $tableName = 'environments';
 
-    /**
-     * @var string
-     */
-    protected $modelName = '\PHPCensor\Model\Environment';
+    protected ?string $modelName = '\PHPCensor\Model\Environment';
 
-    /**
-     * @var string
-     */
-    protected $primaryKey = 'id';
+    protected ?string $primaryKey = 'id';
 
     /**
      * Get a Environment by primary key (Id)
@@ -33,7 +32,7 @@ class EnvironmentStore extends Store
      *
      * @return null|Environment
      */
-    public function getByPrimaryKey($key, $useConnection = 'read')
+    public function getByPrimaryKey($key, string $useConnection = 'read'): ?Environment
     {
         return $this->getById($key, $useConnection);
     }

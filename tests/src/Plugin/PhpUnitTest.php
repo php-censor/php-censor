@@ -2,6 +2,7 @@
 
 namespace Tests\PHPCensor\Plugin;
 
+use PHPCensor\Store\BuildStore;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -68,9 +69,15 @@ class PhpUnitTest extends TestCase
             ->setConstructorArgs([$mockDatabaseManager])
             ->getMock();
 
+        $buildStore = $this
+            ->getMockBuilder(BuildStore::class)
+            ->setConstructorArgs([$mockDatabaseManager, $storeRegistry])
+            ->getMock();
+
         $storeRegistry
             ->method('get')
-            ->willReturn(null);
+            ->with('Build')
+            ->willReturn($buildStore);
 
         $mockBuild = $this
             ->getMockBuilder('\PHPCensor\Model\Build')
