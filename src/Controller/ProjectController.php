@@ -23,41 +23,28 @@ use PHPCensor\Store\EnvironmentStore;
 use PHPCensor\Common\Exception\RuntimeException;
 
 /**
- * Project Controller - Allows users to create, edit and view projects.
+ * @package    PHP Censor
+ * @subpackage Application
  *
  * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class ProjectController extends WebController
 {
-    /**
-     * @var string
-     */
-    public $layoutName = 'layout';
+    public string $layoutName = 'layout';
 
-    /**
-     * @var ProjectStore
-     */
-    protected $projectStore;
+    protected ProjectStore $projectStore;
 
-    /**
-     * @var ProjectService
-     */
-    protected $projectService;
+    protected ProjectService $projectService;
 
-    /**
-     * @var BuildStore
-     */
-    protected $buildStore;
+    protected BuildStore $buildStore;
 
-    /**
-     * @var BuildService
-     */
-    protected $buildService;
+    protected BuildService $buildService;
 
     /**
      * Initialise the controller, set up stores and services.
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
 

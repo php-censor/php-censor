@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Service;
 
 use Exception;
@@ -7,39 +9,24 @@ use PHPCensor\Model\Build;
 use PHPCensor\Model\Project;
 
 /**
- * Class BuildStatusService
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class BuildStatusService
 {
-    /**
-     * @var BuildStatusService
-     */
-    protected $prevService = null;
+    private ?BuildStatusService $prevService = null;
 
-    /**
-     * @var Project
-     */
-    protected $project;
+    private Project $project;
 
-    /**
-     * @var string
-     */
-    protected $branch;
+    private string $branch;
 
-    /**
-     * @var Build
-     */
-    protected $build;
+    private Build $build;
 
-    /**
-     * @var  string
-     */
-    protected $url;
+    private string $url;
 
-    /**
-     * @var array
-     */
-    protected $finishedStatusIds = [
+    private array $finishedStatusIds = [
         Build::STATUS_SUCCESS,
         Build::STATUS_FAILED,
     ];

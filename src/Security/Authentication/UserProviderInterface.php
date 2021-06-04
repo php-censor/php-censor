@@ -1,14 +1,18 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Security\Authentication;
 
 use Exception;
 use PHPCensor\Model\User;
 
 /**
- * User provider interface.
+ * @package    PHP Censor
+ * @subpackage Application
  *
  * @author Adirelle <adirelle@gmail.com>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 interface UserProviderInterface
 {
@@ -18,12 +22,12 @@ interface UserProviderInterface
      *
      * @throws Exception
      */
-    public function checkRequirements();
+    public function checkRequirements(): void;
 
     /**
      * Provision an new user for the given identifier.
      *
-     * @param string $identifier The user identifier.
+     * @param string|null $identifier The user identifier.
      *
      * @return User|null The new user or null if the provider does not know the user.
      */

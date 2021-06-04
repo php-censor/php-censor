@@ -14,31 +14,24 @@ use PHPCensor\View;
 use PHPCensor\WebController;
 
 /**
- * User Controller - Allows an administrator to view, add, edit and delete users.
+ * @package    PHP Censor
+ * @subpackage Application
  *
  * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class UserController extends WebController
 {
-    /**
-     * @var string
-     */
-    public $layoutName = 'layout';
+    public string $layoutName = 'layout';
 
-    /**
-     * @var UserStore
-     */
-    protected $userStore;
+    protected UserStore $userStore;
 
-    /**
-     * @var UserService
-     */
-    protected $userService;
+    protected UserService $userService;
 
     /**
      * Initialise the controller, set up stores and services.
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
 

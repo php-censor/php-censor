@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor;
 
 use Exception;
@@ -13,7 +15,11 @@ use PHPCensor\Model\User;
 use PHPCensor\Store\UserStore;
 
 /**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Application
 {
@@ -25,24 +31,20 @@ class Application
 
     private ConfigurationInterface $configuration;
 
-    private DatabaseManager $databaseManager;
-
     private StoreRegistry $storeRegistry;
 
     private Router $router;
 
     public function __construct(
         ConfigurationInterface $configuration,
-        DatabaseManager $databaseManager,
         StoreRegistry $storeRegistry,
         ?Request $request = null
     ) {
         $this->configuration   = $configuration;
-        $this->databaseManager = $databaseManager;
         $this->storeRegistry   = $storeRegistry;
 
         $this->request = new Request();
-        if (!is_null($request)) {
+        if (!\is_null($request)) {
             $this->request = $request;
         }
 
@@ -54,7 +56,7 @@ class Application
     /**
      * Initialise Application - Handles session verification, routing, etc.
      */
-    public function init()
+    public function init(): void
     {
         $request =& $this->request;
         $route   = '/:controller/:action';
@@ -104,7 +106,7 @@ class Application
      *
      * @throws NotFoundException
      */
-    protected function handleRequestInner()
+    protected function handleRequestInner(): Response
     {
         $this->route = $this->router->dispatch();
 
@@ -132,9 +134,10 @@ class Application
     /**
      * @return User|null
      *
+     * @throws Common\Exception\RuntimeException
      * @throws HttpException
      */
-    private function getUser()
+    private function getUser(): ?User
     {
         if (empty($_SESSION['php-censor-user-id'])) {
             return null;
@@ -150,8 +153,11 @@ class Application
      * Handle an incoming web request.
      *
      * @return Response
+     *
+     * @throws Common\Exception\RuntimeException
+     * @throws HttpException
      */
-    public function handleRequest()
+    public function handleRequest(): Response
     {
         try {
             $response = $this->handleRequestInner();
@@ -184,7 +190,7 @@ class Application
      *
      * @return Controller
      */
-    protected function loadController($class)
+    protected function loadController(string $class): Controller
     {
         /** @var Controller $controller */
         $controller = new $class($this->configuration, $this->storeRegistry, $this->request);
@@ -198,6 +204,8 @@ class Application
      * Check whether we should skip auth (because it is disabled)
      *
      * @return bool
+     *
+     * @throws Common\Exception\RuntimeException
      */
     protected function shouldSkipAuth(): bool
     {
@@ -215,10 +223,7 @@ class Application
         return false;
     }
 
-    /**
-     * @return Controller
-     */
-    public function getController()
+    public function getController(): Controller
     {
         if (empty($this->controller)) {
             $controllerClass  = $this->getControllerClass($this->route);
@@ -228,22 +233,12 @@ class Application
         return $this->controller;
     }
 
-    /**
-     * @param array $route
-     *
-     * @return bool
-     */
-    protected function controllerExists($route)
+    protected function controllerExists(array $route): bool
     {
-        return class_exists($this->getControllerClass($route));
+        return \class_exists($this->getControllerClass($route));
     }
 
-    /**
-     * @param array $route
-     *
-     * @return string
-     */
-    protected function getControllerClass($route)
+    protected function getControllerClass(array $route): string
     {
         $namespace  = $this->toPhpName($route['namespace']);
         $controller = $this->toPhpName($route['controller']);
@@ -251,12 +246,7 @@ class Application
         return 'PHPCensor\\' . $namespace . '\\' . $controller . 'Controller';
     }
 
-    /**
-     * @param array $route
-     *
-     * @return bool
-     */
-    public function isValidRoute(array $route)
+    public function isValidRoute(array $route): bool
     {
         if ($this->controllerExists($route)) {
             return true;
@@ -265,16 +255,11 @@ class Application
         return false;
     }
 
-    /**
-     * @param string $string
-     *
-     * @return string
-     */
-    protected function toPhpName($string)
+    protected function toPhpName(string $string): string
     {
-        $string = str_replace('-', ' ', $string);
-        $string = ucwords($string);
+        $string = \str_replace('-', ' ', $string);
+        $string = \ucwords($string);
 
-        return str_replace(' ', '', $string);
+        return \str_replace(' ', '', $string);
     }
 }

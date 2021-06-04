@@ -3,13 +3,16 @@
 use PHPCensor\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
 use PHPCensor\StoreRegistry;
+use PHPCensor\Application;
+use PHPCensor\Http\Request;
 
 \session_start();
 
 /** @var $configuration ConfigurationInterface */
 /** @var $databaseManager DatabaseManager */
 /** @var $storeRegistry StoreRegistry */
-require_once(dirname(__DIR__) . '/bootstrap.php');
+require_once(\dirname(__DIR__) . '/bootstrap.php');
 
-$fc = new PHPCensor\Application($configuration, $databaseManager, $storeRegistry, new PHPCensor\Http\Request());
-print $fc->handleRequest();
+$application = new Application($configuration, $storeRegistry, new Request());
+
+echo $application->handleRequest();

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Service;
 
 use PHPCensor\Model\User;
@@ -8,12 +10,17 @@ use PHPCensor\StoreRegistry;
 
 /**
  * The user service handles the creation, modification and deletion of users.
+ *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class UserService
 {
-    protected UserStore $store;
+    private UserStore $store;
 
-    protected StoreRegistry $storeRegistry;
+    private StoreRegistry $storeRegistry;
 
     public function __construct(
         StoreRegistry $storeRegistry,

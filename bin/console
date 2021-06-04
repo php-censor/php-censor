@@ -6,12 +6,12 @@ use PHPCensor\Console\Application;
 use PHPCensor\DatabaseManager;
 use PHPCensor\StoreRegistry;
 
-error_reporting(-1);
-ini_set('display_errors', 1);
+\error_reporting(-1);
+\ini_set('display_errors', 1);
 
 /** @var $configuration ConfigurationInterface */
 /** @var $databaseManager DatabaseManager */
 /** @var $storeRegistry StoreRegistry */
-require_once(dirname(__DIR__) . '/bootstrap.php');
+require_once(\dirname(__DIR__) . '/bootstrap.php');
 
 (new Application($configuration, $databaseManager, $storeRegistry))->run();

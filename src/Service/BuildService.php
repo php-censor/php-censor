@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Service;
 
 use DateInterval;
@@ -23,6 +25,11 @@ use Symfony\Component\Yaml\Yaml;
 
 /**
  * The build service handles the creation, duplication and deletion of builds.
+ *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class BuildService
 {

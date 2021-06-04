@@ -18,26 +18,19 @@ use PHPCensor\WebController;
 use SimpleXMLElement;
 
 /**
- * Build Status Controller - Allows external access to build status information / images.
+ * @package    PHP Censor
+ * @subpackage Application
  *
  * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class BuildStatusController extends WebController
 {
-    /**
-     * @var string
-     */
-    public $layoutName = 'layoutPublic';
+    public string $layoutName = 'layoutPublic';
 
-    /**
-     * @var ProjectStore
-     */
-    protected $projectStore;
+    protected ProjectStore $projectStore;
 
-    /**
-     * @var BuildStore
-     */
-    protected $buildStore;
+    protected BuildStore $buildStore;
 
     /**
      * Returns status of the last build
@@ -147,7 +140,7 @@ class BuildStatusController extends WebController
         return $builds['items'];
     }
 
-    public function init()
+    public function init(): void
     {
         parent::init();
 

@@ -10,22 +10,24 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Class OutputLogHandler outputs the build log to the terminal.
+ *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class OutputLogHandler extends AbstractProcessingHandler
 {
-    /**
-     * @var OutputInterface
-     */
-    protected $output;
+    protected OutputInterface $output;
 
     /**
      * @param OutputInterface $output
-     * @param int|string      $level
+     * @param string          $level
      * @param bool            $bubble
      */
     public function __construct(
         OutputInterface $output,
-        $level = LogLevel::INFO,
+        string $level = LogLevel::INFO,
         bool $bubble = true
     ) {
         parent::__construct($level, $bubble);

@@ -9,19 +9,19 @@ use PHPCensor\View;
 use PHPCensor\WebController;
 
 /**
- * Widget Last Builds Controller
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class WidgetLastBuildsController extends WebController
 {
-    /**
-     * @var BuildStore
-     */
-    protected $buildStore;
+    protected BuildStore $buildStore;
 
     /**
      * Initialise the controller, set up stores and services.
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
 

@@ -14,29 +14,23 @@ use PHPCensor\View;
 use PHPCensor\WebController;
 
 /**
- * Widget All Projects Controller
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class WidgetAllProjectsController extends WebController
 {
-    /**
-     * @var BuildStore
-     */
-    protected $buildStore;
+    protected BuildStore $buildStore;
 
-    /**
-     * @var ProjectStore
-     */
-    protected $projectStore;
+    protected ProjectStore $projectStore;
 
-    /**
-     * @var ProjectGroupStore
-     */
-    protected $groupStore;
+    protected ProjectGroupStore $groupStore;
 
     /**
      * Initialise the controller, set up stores and services.
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
 

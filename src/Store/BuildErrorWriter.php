@@ -11,7 +11,10 @@ use PHPCensor\Model\BuildError;
 use PHPCensor\StoreRegistry;
 
 /**
- * Class BuildErrorWriter
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class BuildErrorWriter
 {

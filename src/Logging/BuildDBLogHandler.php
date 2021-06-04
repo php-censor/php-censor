@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Logging;
 
 use Monolog\Handler\AbstractProcessingHandler;
@@ -9,6 +11,11 @@ use PHPCensor\Store\BuildStore;
 
 /**
  * Class BuildDBLogHandler writes the build log to the database.
+ *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class BuildDBLogHandler extends AbstractProcessingHandler
 {
@@ -19,22 +26,22 @@ class BuildDBLogHandler extends AbstractProcessingHandler
 
     protected BuildStore $buildStore;
 
-    protected $logValue;
+    protected string $logValue;
 
     /**
      * @var int last flush timestamp
      */
-    protected $flushTimestamp = 0;
+    protected int $flushTimestamp = 0;
 
     /**
      * @var int flush delay, seconds
      */
-    protected $flushDelay = 1;
+    protected int $flushDelay = 1;
 
     public function __construct(
         BuildStore $buildStore,
         Build $build,
-        $level = Logger::INFO,
+        int $level = Logger::INFO,
         bool $bubble = true
     ) {
         parent::__construct($level, $bubble);
@@ -46,9 +53,6 @@ class BuildDBLogHandler extends AbstractProcessingHandler
         $this->logValue = $build->getLog();
     }
 
-    /**
-     * Destructor
-     */
     public function __destruct()
     {
         $this->flushData();
@@ -57,27 +61,29 @@ class BuildDBLogHandler extends AbstractProcessingHandler
     /**
      * Flush buffered data
      */
-    protected function flushData()
+    protected function flushData(): void
     {
         $this->build->setLog($this->logValue);
         $this->buildStore->save($this->build);
-        $this->flushTimestamp = time();
+
+        $this->flushTimestamp = \time();
     }
 
     /**
      * Write a log entry to the build log.
+     *
      * @param array $record
      */
     protected function write(array $record): void
     {
         $message = (string)$record['message'];
-        $message = str_replace(['\/', '//'], '/', $message);
-        $message = str_replace($this->build->getBuildPath(), '<BUILD_PATH>/', $message);
-        $message = str_replace(ROOT_DIR, '<PHP_CENSOR_PATH>/', $message);
+        $message = \str_replace(['\/', '//'], '/', $message);
+        $message = \str_replace($this->build->getBuildPath(), '<BUILD_PATH>/', $message);
+        $message = \str_replace(ROOT_DIR, '<PHP_CENSOR_PATH>/', $message);
 
         $this->logValue .= $message . PHP_EOL;
 
-        if ($this->flushTimestamp < (time() - $this->flushDelay)) {
+        if ($this->flushTimestamp < (\time() - $this->flushDelay)) {
             $this->flushData();
         }
     }

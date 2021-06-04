@@ -17,31 +17,24 @@ use PHPCensor\Store\UserStore;
 use PHPCensor\WebController;
 
 /**
- * Session Controller - Handles user login / logout.
+ * @package    PHP Censor
+ * @subpackage Application
  *
  * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class SessionController extends WebController
 {
-    /**
-     * @var string
-     */
-    public $layoutName = 'layoutSession';
+    public string $layoutName = 'layoutSession';
 
-    /**
-     * @var UserStore
-     */
-    protected $userStore;
+    protected UserStore $userStore;
 
-    /**
-     * @var Service
-     */
-    protected $authentication;
+    protected Service $authentication;
 
     /**
      * Initialise the controller, set up stores and services.
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
 

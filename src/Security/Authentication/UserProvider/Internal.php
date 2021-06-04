@@ -1,14 +1,18 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Security\Authentication\UserProvider;
 
 use PHPCensor\Model\User;
 use PHPCensor\Security\Authentication\LoginPasswordProviderInterface;
 
 /**
- * Internal user provider
+ * @package    PHP Censor
+ * @subpackage Application
  *
  * @author Adirelle <adirelle@gmail.com>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Internal extends AbstractProvider implements LoginPasswordProviderInterface
 {
@@ -23,15 +27,15 @@ class Internal extends AbstractProvider implements LoginPasswordProviderInterfac
         return password_verify($password, $user->getHash());
     }
 
-    public function checkRequirements()
+    public function checkRequirements(): void
     {
         // Always fine
     }
 
     /**
-     * @param string $identifier
+     * @param string|null $identifier
      *
-     * @return null
+     * @return User|null
      */
     public function provisionUser(?string $identifier): ?User
     {

@@ -85,13 +85,6 @@ LOGO;
         return $logger;
     }
 
-    /**
-     * @param ConfigurationInterface $configuration
-     * @param string                 $name
-     * @param string                 $version
-     *
-     * @throws Exception
-     */
     public function __construct(
         ConfigurationInterface $configuration,
         DatabaseManager $databaseManager,

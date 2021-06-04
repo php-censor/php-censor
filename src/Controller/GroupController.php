@@ -12,23 +12,19 @@ use PHPCensor\Store\ProjectGroupStore;
 use PHPCensor\WebController;
 
 /**
- * Project Controller - Allows users to create, edit and view projects.
+ * @package    PHP Censor
+ * @subpackage Application
  *
  * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class GroupController extends WebController
 {
-    /**
-     * @var string
-     */
-    public $layoutName = 'layout';
+    public string $layoutName = 'layout';
 
-    /**
-     * @var ProjectGroupStore
-     */
-    protected $groupStore;
+    protected ProjectGroupStore $groupStore;
 
-    public function init()
+    public function init(): void
     {
         parent::init();
 
