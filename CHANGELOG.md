@@ -5,6 +5,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [1.3.4 (Jerry Smith)](https://github.com/php-censor/php-censor/tree/1.3.4) (2021-06-12)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/1.3.3...1.3.4)
+
+### Fixed
+
+- **[PhpStan]** Option `directories` and `directory`. 
+Issue [#408](https://github.com/php-censor/php-censor/issues/#408). Pull request 
+[#409](https://github.com/php-censor/php-censor/pull/409). Thanks to [@StudioMaX](https://github.com/StudioMaX).
+- **[SecurityChecker]** Option `allowed_warnings`.
+- Security issue with old Chart.js version (Chart.js upgraded from version `1.1.1` to `3.3.0`).
+
+
 ## [1.3.3 (Jerry Smith)](https://github.com/php-censor/php-censor/tree/1.3.3) (2021-04-20)
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/1.3.2...1.3.3)
