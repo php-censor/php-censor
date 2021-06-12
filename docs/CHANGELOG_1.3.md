@@ -12,8 +12,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ### Fixed
 
 - **[PhpStan]** Option `directories` and `directory`.
-  Issue [#408](https://github.com/php-censor/php-censor/issues/#408). Pull request
-  [#409](https://github.com/php-censor/php-censor/pull/409). Thanks to [@StudioMaX](https://github.com/StudioMaX).
+Issue [#408](https://github.com/php-censor/php-censor/issues/#408). Pull request
+[#409](https://github.com/php-censor/php-censor/pull/409). Thanks to [@StudioMaX](https://github.com/StudioMaX).
 - **[SecurityChecker]** Option `allowed_warnings`.
 - Security issue with old Chart.js version (Chart.js upgraded from version `1.1.1` to `3.3.0`).
 
