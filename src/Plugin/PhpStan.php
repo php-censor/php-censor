@@ -19,6 +19,7 @@ class PhpStan extends Plugin
 {
     /** @var string[] */
     protected $directories = [];
+
     /** @var int */
     protected $allowedErrors = 0;
 
@@ -35,18 +36,18 @@ class PhpStan extends Plugin
 
         $this->executable = $this->findBinary(['phpstan', 'phpstan.phar']);
 
-        if (!empty($options['directories']) && is_array($options['directories'])) {
+        if (!empty($options['directories']) && \is_array($options['directories'])) {
             $this->directories = $options['directories'];
-        } elseif (!empty($options['directory']) && is_string($options['directory'])) {
-            /** @deprecated Option "directory" is deprecated. Use the option "directories" instead. */
-            $this->directories = explode(' ', $options['directory']);
+        } elseif (!empty($options['directory']) && \is_string($options['directory'])) {
+            /** @deprecated Option "directory" as space-separated list is deprecated. Use the option "directories" instead. */
+            $this->directories = \explode(' ', $options['directory']);
 
             $this->builder->logWarning(
-                '[DEPRECATED] Option "directory" is deprecated. Use the option "directories" instead.'
+                '[DEPRECATED] Option "directory" as space-separated list is deprecated. Use the option "directories" instead.'
             );
         }
 
-        if (isset($options['allowed_errors']) && is_int($options['allowed_errors'])) {
+        if (isset($options['allowed_errors']) && \is_int($options['allowed_errors'])) {
             $this->allowedErrors = $options['allowed_errors'];
         }
     }
