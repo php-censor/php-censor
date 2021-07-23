@@ -43,7 +43,7 @@ class UserService
      *
      * @return User
      */
-    public function createUser($name, $email, $providerKey, $providerData, $password, $isAdmin = false)
+    public function createUser(string $name, string $email, string $providerKey, array $providerData, string $password, bool $isAdmin = false): ?User
     {
         $user = new User($this->storeRegistry);
         $user->setName($name);
@@ -69,7 +69,7 @@ class UserService
      *
      * @return User
      */
-    public function updateUser(User $user, $name, $emailAddress, $password = null, $isAdmin = null, $language = null, $perPage = null)
+    public function updateUser(User $user, string $name, string $emailAddress, ?string $password = null, ?bool $isAdmin = null, ?string $language = null, ?int $perPage = null): ?User
     {
         $user->setName($name);
         $user->setEmail($emailAddress);
@@ -95,7 +95,7 @@ class UserService
      *
      * @return bool
      */
-    public function deleteUser(User $user)
+    public function deleteUser(User $user): bool
     {
         return $this->store->delete($user);
     }

@@ -37,15 +37,15 @@ class ProjectService
     /**
      * Create a new project model and use the project store to save it.
      *
-     * @param string  $title
-     * @param string  $type
-     * @param string  $reference
-     * @param int $userId
-     * @param array   $options
+     * @param string $title
+     * @param string $type
+     * @param string $reference
+     * @param int    $userId
+     * @param array  $options
      *
      * @return Project
      */
-    public function createProject($title, $type, $reference, $userId, $options = [])
+    public function createProject(string $title, string $type, string $reference, int $userId, array $options = []): Project
     {
         // Create base project and use updateProject() to set its properties:
         $project = new Project($this->storeRegistry);
@@ -66,7 +66,7 @@ class ProjectService
      *
      * @return Project
      */
-    public function updateProject(Project $project, $title, $type, $reference, $options = [])
+    public function updateProject(Project $project, string $title, string $type, string $reference, array $options = []): Project
     {
         // Set basic properties:
         $project->setTitle($title);
@@ -135,7 +135,7 @@ class ProjectService
      *
      * @return bool
      */
-    public function deleteProject(Project $project)
+    public function deleteProject(Project $project): bool
     {
         try {
             $fileSystem = new Filesystem();
@@ -156,7 +156,7 @@ class ProjectService
      *
      * @return Project
      */
-    protected function processAccessInformation(Project $project)
+    protected function processAccessInformation(Project $project): Project
     {
         $reference = $project->getReference();
 

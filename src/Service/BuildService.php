@@ -64,24 +64,24 @@ class BuildService
      * @param string|null $tag
      * @param string|null $committerEmail
      * @param string|null $commitMessage
-     * @param int     $source
-     * @param int     $userId
+     * @param int         $source
+     * @param int         $userId
      * @param array|null  $extra
      *
      * @return Build
      */
     public function createBuild(
         Project $project,
-        $environmentId = null,
-        $commitId = '',
-        $branch = null,
-        $tag = null,
-        $committerEmail = null,
-        $commitMessage = null,
-        $source = Build::SOURCE_UNKNOWN,
-        $userId = null,
-        $extra = null
-    ) {
+        ?int $environmentId = null,
+        string $commitId = '',
+        ?string $branch = null,
+        ?string $tag = null,
+        ?string $committerEmail = null,
+        ?string $commitMessage = null,
+        int $source = Build::SOURCE_UNKNOWN,
+        int $userId = null,
+        ?array $extra = null
+    ): Build {
         $build = new Build($this->storeRegistry);
         $build->setCreateDate(new DateTime());
         $build->setProjectId($project->getId());
@@ -143,7 +143,7 @@ class BuildService
      *
      * @throws HttpException
      */
-    public function createPeriodicalBuilds(Logger $logger)
+    public function createPeriodicalBuilds(Logger $logger): void
     {
         $periodicalConfig = null;
         if (\file_exists(APP_DIR . 'periodical.yml')) {
@@ -255,7 +255,7 @@ class BuildService
      *
      * @throws Exception
      */
-    public function createDuplicateBuild(Build $originalBuild, $source)
+    public function createDuplicateBuild(Build $originalBuild, int $source): Build
     {
         $build = new Build($this->storeRegistry);
         $build->setParentId($originalBuild->getId());
@@ -294,7 +294,7 @@ class BuildService
      *
      * @throws HttpException
      */
-    public function deleteOldByProject($projectId)
+    public function deleteOldByProject(int $projectId): void
     {
         $keepBuilds = (int)$this->configuration->get('php-censor.build.keep_builds', 100);
         $builds     = $this->buildStore->getOldByProject((int)$projectId, $keepBuilds);
@@ -309,7 +309,7 @@ class BuildService
     /**
      * @param int $projectId
      */
-    public function deleteAllByProject($projectId)
+    public function deleteAllByProject(int $projectId): void
     {
         $this->buildStore->deleteAllByProject((int)$projectId);
 
@@ -341,7 +341,7 @@ class BuildService
      *
      * @return bool
      */
-    public function deleteBuild(Build $build)
+    public function deleteBuild(Build $build): bool
     {
         $build->removeBuildDirectory(true);
 
@@ -350,10 +350,11 @@ class BuildService
 
     /**
      * Takes a build and puts it into the queue to be run (if using a queue)
+     *
      * @param Build $build
      * @param int   $buildPriority priority in queue relative to default
      */
-    public function addBuildToQueue(Build $build, $buildPriority = Project::DEFAULT_BUILD_PRIORITY)
+    public function addBuildToQueue(Build $build, int $buildPriority = Project::DEFAULT_BUILD_PRIORITY): void
     {
         $buildId = $build->getId();
 
@@ -373,7 +374,7 @@ class BuildService
      * @param array  $jobData
      * @param int    $queuePriority
      */
-    public function addJobToQueue($jobType, array $jobData, $queuePriority = PheanstalkInterface::DEFAULT_PRIORITY)
+    public function addJobToQueue(string $jobType, array $jobData, int $queuePriority = PheanstalkInterface::DEFAULT_PRIORITY): void
     {
         $settings = $this->configuration->get('php-censor.queue', []);
         if (!empty($settings['host']) && !empty($settings['name'])) {
