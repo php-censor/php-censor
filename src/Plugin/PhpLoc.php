@@ -51,13 +51,13 @@ class PhpLoc extends Plugin implements ZeroConfigPluginInterface
     public function execute()
     {
         $ignore = '';
-        if (is_array($this->ignore)) {
+        if (\is_array($this->ignore)) {
             $map = function ($item) {
-                return sprintf(' --exclude="%s"', $item);
+                return \sprintf(' --exclude="%s"', $item);
             };
 
-            $ignore = array_map($map, $this->ignore);
-            $ignore = implode('', $ignore);
+            $ignore = \array_map($map, $this->ignore);
+            $ignore = \implode('', $ignore);
         }
 
         $phploc = $this->executable;
@@ -65,7 +65,7 @@ class PhpLoc extends Plugin implements ZeroConfigPluginInterface
         $success = $this->builder->executeCommand('cd "%s" && php -d xdebug.mode=0 -d error_reporting=0 ' . $phploc . ' %s %s', $this->builder->buildPath, $ignore, $this->directory);
         $output  = $this->builder->getLastOutput();
 
-        if (preg_match_all('/\((LOC|CLOC|NCLOC|LLOC)\)\s+([0-9]+)/', $output, $matches)) {
+        if (\preg_match_all('/\((LOC|CLOC|NCLOC|LLOC)\)\s+([0-9]+)/', $output, $matches)) {
             $data = [];
             foreach ($matches[1] as $k => $v) {
                 $data[$v] = (int)$matches[2][$k];

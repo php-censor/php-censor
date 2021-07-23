@@ -52,9 +52,9 @@ class CopyBuild extends Plugin
 
         $this->wipeExistingDirectory();
 
-        if (is_dir($this->directory)) {
+        if (\is_dir($this->directory)) {
             throw new RuntimeException(
-                sprintf(
+                \sprintf(
                     'Directory "%s" already exists! Use "wipe" option if you want to delete directory before copy.',
                     $this->directory
                 )
@@ -62,7 +62,7 @@ class CopyBuild extends Plugin
         }
 
         $cmd     = 'cd "%s" && mkdir -p "%s" && cp -R %s/. "%s"';
-        $success = $this->builder->executeCommand($cmd, $buildPath, $this->directory, rtrim($buildPath, '/'), $this->directory);
+        $success = $this->builder->executeCommand($cmd, $buildPath, $this->directory, \rtrim($buildPath, '/'), $this->directory);
 
         $this->deleteIgnoredFiles();
 
@@ -76,17 +76,17 @@ class CopyBuild extends Plugin
      */
     protected function wipeExistingDirectory()
     {
-        if ($this->wipe === true && $this->directory !== '/' && is_dir($this->directory)) {
+        if ($this->wipe === true && $this->directory !== '/' && \is_dir($this->directory)) {
             $cmd = 'cd "%s" && rm -Rf "%s"';
             $success = $this->builder->executeCommand($cmd, $this->builder->buildPath, $this->directory);
 
             if (!$success) {
                 throw new RuntimeException(
-                    sprintf('Failed to wipe existing directory "%s" before copy!', $this->directory)
+                    \sprintf('Failed to wipe existing directory "%s" before copy!', $this->directory)
                 );
             }
 
-            clearstatcache();
+            \clearstatcache();
         }
     }
 

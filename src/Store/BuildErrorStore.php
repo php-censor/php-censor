@@ -49,7 +49,7 @@ class BuildErrorStore extends Store
      */
     public function getById($id, $useConnection = 'read')
     {
-        if (is_null($id)) {
+        if (\is_null($id)) {
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
@@ -82,7 +82,7 @@ class BuildErrorStore extends Store
      */
     public function getByBuildId($buildId, $limit = null, $offset = 0, $plugin = null, $severity = null, $isNew = null)
     {
-        if (is_null($buildId)) {
+        if (\is_null($buildId)) {
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
@@ -128,9 +128,9 @@ class BuildErrorStore extends Store
             $map = function ($item) {
                 return new BuildError($this->storeRegistry, $item);
             };
-            $rtn = array_map($map, $res);
+            $rtn = \array_map($map, $res);
 
-            $count = count($rtn);
+            $count = \count($rtn);
 
             return ['items' => $rtn, 'count' => $count];
         } else {
@@ -222,7 +222,7 @@ class BuildErrorStore extends Store
             $map = function ($item) {
                 return $item['plugin'];
             };
-            return array_map($map, $res);
+            return \array_map($map, $res);
         } else {
             return [];
         }
@@ -262,7 +262,7 @@ class BuildErrorStore extends Store
                 return (int)$item['severity'];
             };
 
-            return array_map($map, $res);
+            return \array_map($map, $res);
         } else {
             return [];
         }

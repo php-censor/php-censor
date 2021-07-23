@@ -30,7 +30,7 @@ class Csrf extends Hidden
         parent::onPreRender($view);
 
         $this->setValue(
-            rtrim(strtr(base64_encode(random_bytes(32)), '+/', '-_'), '=')
+            \rtrim(\strtr(\base64_encode(\random_bytes(32)), '+/', '-_'), '=')
         );
 
         $view->value = $this->getValue();

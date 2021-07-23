@@ -72,7 +72,7 @@ class Sqlite extends Plugin
     public function execute()
     {
         try {
-            $pdoOptions = array_merge([
+            $pdoOptions = \array_merge([
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
             ], $this->pdoOptions);
 

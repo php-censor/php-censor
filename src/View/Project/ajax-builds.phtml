@@ -13,7 +13,7 @@ use PHPCensor\Store\EnvironmentStore;
 
 ?>
 
-<?php if (empty($builds) || !count($builds)): ?>
+<?php if (empty($builds) || !\count($builds)): ?>
     <tr class="">
         <td colspan="10"><?= Lang::get('no_builds_yet'); ?></td>
     </tr>
@@ -59,7 +59,7 @@ $branches = $build->getExtra('branches');
     <td class="hidden-md hidden-sm hidden-xs">
         <?php
             if (!empty($build->getCommitId())) {
-                print sprintf(
+                print \sprintf(
                     '<a href="%s">%s %s</a>',
                     $build->getCommitLink(),
                     substr($build->getCommitId(), 0, 7),
@@ -71,7 +71,7 @@ $branches = $build->getExtra('branches');
         ?>
     </td>
     <td>
-        <?php if (in_array($build->getSource(), Build::$pullRequestSources, true)): ?>
+        <?php if (\in_array($build->getSource(), Build::$pullRequestSources, true)): ?>
             <a href="<?= $build->getRemoteBranchLink(); ?>">
                 <i class="fa fa-code-fork"></i>
                 <?= $build->getRemoteBranch(); ?> :
@@ -81,7 +81,7 @@ $branches = $build->getExtra('branches');
             <i class="fa fa-code-fork"></i>
             <?= $build->getBranch(); ?>
         </a>
-        <?= $branches ? ' + '.implode(', ', $branches) : ''; ?>
+        <?= $branches ? ' + ' . \implode(', ', $branches) : ''; ?>
         <?php if ($tag = $build->getTag()): ?> /
              <a href="<?= $build->getTagLink(); ?>">
                 <i class="fa fa-tag"></i>
@@ -108,7 +108,7 @@ $branches = $build->getExtra('branches');
     </td>
     <td>
         <?= (int)$build->getErrorsTotal(); ?>
-        <?php if (!in_array($build->getStatus(), [Build::STATUS_PENDING, Build::STATUS_RUNNING], true)): ?>
+        <?php if (!\in_array($build->getStatus(), [Build::STATUS_PENDING, Build::STATUS_RUNNING], true)): ?>
             <?php $trend = $build->getErrorsTrend(); ?>
             <?php if (1 === $trend): ?>
                 <i class="fa fa-arrow-down arrow_trend_positive"></i>

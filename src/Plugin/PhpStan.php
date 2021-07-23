@@ -66,7 +66,7 @@ class PhpStan extends Plugin
         $this->builder->executeCommand(
             'cd "%s" && ' . $phpStan . ' analyze --error-format=json %s',
             $this->builder->buildPath,
-            implode(' ', $this->directories)
+            \implode(' ', $this->directories)
         );
         $this->builder->logExecOutput(true);
 
@@ -82,18 +82,18 @@ class PhpStan extends Plugin
 
             foreach ($files as $file => $payload) {
                 if (0 < $payload['errors']) {
-                    $file = str_replace($this->build->getBuildPath(), '', $file);
-                    $len = strlen($file);
+                    $file = \str_replace($this->build->getBuildPath(), '', $file);
+                    $len = \strlen($file);
                     $out = '';
-                    $filename = (false !== strpos($file, ' (')) ? strstr($file, ' (', true) : $file;
+                    $filename = (false !== \strpos($file, ' (')) ? \strstr($file, ' (', true) : $file;
 
                     foreach ($payload['messages'] as $message) {
-                        if (strlen($message['message']) > $len) {
-                            $len = strlen($message['message']);
+                        if (\strlen($message['message']) > $len) {
+                            $len = \strlen($message['message']);
                         }
-                        $out .= vsprintf(' %d%s %s' . PHP_EOL, [
+                        $out .= \vsprintf(' %d%s %s' . PHP_EOL, [
                             $message['line'],
-                            str_repeat(' ', 6 - strlen($message['line'])),
+                            \str_repeat(' ', 6 - \strlen($message['line'])),
                             $message['message']
                         ]);
 
@@ -106,9 +106,9 @@ class PhpStan extends Plugin
                             $message['line']
                         );
                     }
-                    $separator = str_repeat('-', 6) . ' ' . str_repeat('-', $len + 2) . PHP_EOL;
+                    $separator = \str_repeat('-', 6) . ' ' . \str_repeat('-', $len + 2) . PHP_EOL;
 
-                    $this->builder->logFailure(vsprintf('%s Line   %s' . PHP_EOL . '%s', [
+                    $this->builder->logFailure(\vsprintf('%s Line   %s' . PHP_EOL . '%s', [
                         $separator,
                         $file,
                         $separator . $out . $separator
@@ -120,7 +120,7 @@ class PhpStan extends Plugin
         if ($success) {
             $this->builder->logSuccess('[OK] No errors');
         } else {
-            $this->builder->log(sprintf('[ERROR] Found %d errors', $total_errors));
+            $this->builder->log(\sprintf('[ERROR] Found %d errors', $total_errors));
         }
 
         return $success;
@@ -151,12 +151,12 @@ class PhpStan extends Plugin
      */
     protected function processReport($output)
     {
-        $data = json_decode(trim($output), true);
+        $data = \json_decode(\trim($output), true);
 
         $totalErrors = 0;
         $files        = [];
 
-        if (!empty($data) && is_array($data) && (0 < $data['totals']['file_errors'])) {
+        if (!empty($data) && \is_array($data) && (0 < $data['totals']['file_errors'])) {
             $totalErrors = $data['totals']['file_errors'];
             $files = $data['files'];
         }

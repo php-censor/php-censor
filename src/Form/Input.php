@@ -122,7 +122,7 @@ class Input extends Element
      */
     public function setValidator($validator)
     {
-        if (is_callable($validator) || $validator instanceof Closure) {
+        if (\is_callable($validator) || $validator instanceof Closure) {
             $this->validator = $validator;
         }
 
@@ -159,7 +159,7 @@ class Input extends Element
             return false;
         }
 
-        if ($this->getPattern() && !preg_match('/' . $this->getPattern() . '/', $this->getValue())) {
+        if ($this->getPattern() && !\preg_match('/' . $this->getPattern() . '/', $this->getValue())) {
             $this->error = 'Invalid value entered.';
 
             return false;
@@ -167,9 +167,9 @@ class Input extends Element
 
         $validator = $this->getValidator();
 
-        if (is_callable($validator)) {
+        if (\is_callable($validator)) {
             try {
-                call_user_func_array($validator, [$this->getValue()]);
+                \call_user_func_array($validator, [$this->getValue()]);
             } catch (Exception $ex) {
                 $this->error = $ex->getMessage();
 

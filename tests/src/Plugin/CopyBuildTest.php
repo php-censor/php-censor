@@ -29,14 +29,14 @@ class CopyBuildTest extends TestCase
                 ];
 
                 foreach ($filenames as $filename) {
-                    if (is_dir($directory . $filename)) {
-                        @rmdir($directory . $filename);
-                    } elseif (is_file($directory . $filename)) {
-                        @unlink($directory . $filename);
+                    if (\is_dir($directory . $filename)) {
+                        @\rmdir($directory . $filename);
+                    } elseif (\is_file($directory . $filename)) {
+                        @\unlink($directory . $filename);
                     }
                 }
 
-                @rmdir($directory);
+                @\rmdir($directory);
             }
         }
     }
@@ -47,14 +47,14 @@ class CopyBuildTest extends TestCase
 
         $directory = $this->buildTemp();
 
-        mkdir($directory);
+        \mkdir($directory);
 
-        file_put_contents($directory . 'one.php', '');
-        file_put_contents($directory . '.two.yml', '');
+        \file_put_contents($directory . 'one.php', '');
+        \file_put_contents($directory . '.two.yml', '');
 
-        mkdir($directory . 'tree');
+        \mkdir($directory . 'tree');
 
-        file_put_contents($directory . 'tree/four.php', '');
+        \file_put_contents($directory . 'tree/four.php', '');
 
         $this->directories[] = $directory;
         $this->buildPath     = $directory;
@@ -62,8 +62,8 @@ class CopyBuildTest extends TestCase
 
     protected function buildTemp()
     {
-        $directory = tempnam(ROOT_DIR . 'tests/runtime/', 'copy_build_test_');
-        @unlink($directory);
+        $directory = \tempnam(ROOT_DIR . 'tests/runtime/', 'copy_build_test_');
+        @\unlink($directory);
 
         return $directory . '/';
     }
@@ -98,7 +98,7 @@ class CopyBuildTest extends TestCase
             ->expects($this->any())
             ->method('executeCommand')
             ->willReturnCallback(function () use ($executor) {
-                $args = func_get_args();
+                $args = \func_get_args();
 
                 return $executor->executeCommand($args);
             });
@@ -120,16 +120,16 @@ class CopyBuildTest extends TestCase
 
         self::assertTrue($plugin->execute());
 
-        self::assertTrue(file_exists($directory));
-        self::assertTrue(is_dir($directory));
+        self::assertTrue(\file_exists($directory));
+        self::assertTrue(\is_dir($directory));
 
-        self::assertTrue(file_exists($directory . '/one.php'));
-        self::assertTrue(file_exists($directory . '.two.yml'));
+        self::assertTrue(\file_exists($directory . '/one.php'));
+        self::assertTrue(\file_exists($directory . '.two.yml'));
 
-        self::assertTrue(file_exists($directory . '/tree'));
-        self::assertTrue(is_dir($directory . '/tree'));
+        self::assertTrue(\file_exists($directory . '/tree'));
+        self::assertTrue(\is_dir($directory . '/tree'));
 
-        self::assertTrue(file_exists($directory . '/tree/four.php'));
+        self::assertTrue(\file_exists($directory . '/tree/four.php'));
     }
 
     public function testExecuteRelative()
@@ -143,15 +143,15 @@ class CopyBuildTest extends TestCase
 
         self::assertTrue($plugin->execute());
 
-        self::assertTrue(file_exists(realpath($this->buildPath . '/../copy_build_test_relative')));
-        self::assertTrue(is_dir(realpath($this->buildPath . '/../copy_build_test_relative')));
+        self::assertTrue(\file_exists(\realpath($this->buildPath . '/../copy_build_test_relative')));
+        self::assertTrue(\is_dir(\realpath($this->buildPath . '/../copy_build_test_relative')));
 
-        self::assertTrue(file_exists(realpath($this->buildPath . '/../copy_build_test_relative/one.php')));
-        self::assertTrue(file_exists(realpath($this->buildPath . '/../copy_build_test_relative/.two.yml')));
+        self::assertTrue(\file_exists(\realpath($this->buildPath . '/../copy_build_test_relative/one.php')));
+        self::assertTrue(\file_exists(\realpath($this->buildPath . '/../copy_build_test_relative/.two.yml')));
 
-        self::assertTrue(file_exists(realpath($this->buildPath . '/../copy_build_test_relative/tree')));
-        self::assertTrue(is_dir(realpath($this->buildPath . '/../copy_build_test_relative/tree')));
+        self::assertTrue(\file_exists(\realpath($this->buildPath . '/../copy_build_test_relative/tree')));
+        self::assertTrue(\is_dir(\realpath($this->buildPath . '/../copy_build_test_relative/tree')));
 
-        self::assertTrue(file_exists(realpath($this->buildPath . '/../copy_build_test_relative/tree/four.php')));
+        self::assertTrue(\file_exists(\realpath($this->buildPath . '/../copy_build_test_relative/tree/four.php')));
     }
 }

@@ -46,9 +46,9 @@ class PackageBuild extends Plugin
             return false;
         }
 
-        $filename = preg_replace('/([^a-zA-Z0-9_-]+)/', '', $this->filename);
+        $filename = \preg_replace('/([^a-zA-Z0-9_-]+)/', '', $this->filename);
 
-        if (!is_array($this->format)) {
+        if (!\is_array($this->format)) {
             $this->format = [$this->format];
         }
 

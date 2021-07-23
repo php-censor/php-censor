@@ -78,9 +78,9 @@ class XmppNotify extends Plugin
          * Set recipients list
          */
         if (!empty($options['recipients'])) {
-            if (is_string($options['recipients'])) {
+            if (\is_string($options['recipients'])) {
                 $this->recipients = [$options['recipients']];
-            } elseif (is_array($options['recipients'])) {
+            } elseif (\is_array($options['recipients'])) {
                 $this->recipients = $options['recipients'];
             }
         }
@@ -112,9 +112,9 @@ class XmppNotify extends Plugin
      */
     public function findConfigFile()
     {
-        if (file_exists($this->builder->buildPath . '.sendxmpprc')) {
-            if (md5(file_get_contents($this->builder->buildPath . '.sendxmpprc'))
-                !== md5($this->getConfigFormat())) {
+        if (\file_exists($this->builder->buildPath . '.sendxmpprc')) {
+            if (\md5(\file_get_contents($this->builder->buildPath . '.sendxmpprc'))
+                !== \md5($this->getConfigFormat())) {
                 return null;
             }
 
@@ -134,7 +134,7 @@ class XmppNotify extends Plugin
         /*
          * Without recipients we can't send notification
          */
-        if (!is_array($this->recipients) || count($this->recipients) == 0) {
+        if (!\is_array($this->recipients) || \count($this->recipients) == 0) {
             return false;
         }
 
@@ -142,9 +142,9 @@ class XmppNotify extends Plugin
          * Try to build conf file
          */
         $configFile = $this->builder->buildPath . '.sendxmpprc';
-        if (is_null($this->findConfigFile())) {
-            file_put_contents($configFile, $this->getConfigFormat());
-            chmod($configFile, 0600);
+        if (\is_null($this->findConfigFile())) {
+            \file_put_contents($configFile, $this->getConfigFormat());
+            \chmod($configFile, 0600);
         }
 
         /*
@@ -164,7 +164,7 @@ class XmppNotify extends Plugin
          * Send XMPP notification for all recipients
          */
         $cmd        = $sendxmpp . "%s -f %s -m %s %s";
-        $recipients = implode(' ', $this->recipients);
+        $recipients = \implode(' ', $this->recipients);
 
         $success = $this->builder->executeCommand($cmd, $tls, $configFile, $messageFile, $recipients);
 
@@ -190,8 +190,8 @@ class XmppNotify extends Plugin
             $message = "✘ [" . $this->build->getProjectTitle() . "] Build #" . $this->build->getId() . " failure";
         }
 
-        $message .= ' (' . strftime($this->dateFormat) . ')';
+        $message .= ' (' . \strftime($this->dateFormat) . ')';
 
-        return file_put_contents($messageFile, $message);
+        return \file_put_contents($messageFile, $message);
     }
 }

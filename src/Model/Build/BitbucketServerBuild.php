@@ -93,7 +93,7 @@ class BitbucketServerBuild extends GitBuild
     {
         $reference = $this->getProject()->getReference();
 
-        if (in_array($this->getSource(), Build::$pullRequestSources, true)) {
+        if (\in_array($this->getSource(), Build::$pullRequestSources, true)) {
             $reference = $this->getExtra('remote_reference');
         }
 
@@ -114,7 +114,7 @@ class BitbucketServerBuild extends GitBuild
         $skipGitFinalization = false;
 
         try {
-            if (in_array($this->getSource(), Build::$pullRequestSources, true)) {
+            if (\in_array($this->getSource(), Build::$pullRequestSources, true)) {
                 $diff = $this->getPullRequestDiff($builder, $cloneTo, $extra['remote_branch']);
 
                 $diffFile = $this->writeDiff($builder->buildPath, $diff);
@@ -128,7 +128,6 @@ class BitbucketServerBuild extends GitBuild
                     $success  = $builder->executeCommand($applyCmd, $diffFile);
                 }
 
-                //unlink($diffFile);
                 $skipGitFinalization = true;
             }
         } catch (Exception $ex) {
@@ -171,11 +170,11 @@ class BitbucketServerBuild extends GitBuild
      */
     protected function writeDiff($cloneTo, $diff)
     {
-        $filePath = dirname($cloneTo . '/temp');
+        $filePath = \dirname($cloneTo . '/temp');
         $diffFile = $filePath . '.patch';
 
-        file_put_contents($diffFile, $diff);
-        chmod($diffFile, 0600);
+        \file_put_contents($diffFile, $diff);
+        \chmod($diffFile, 0600);
 
         return $diffFile;
     }

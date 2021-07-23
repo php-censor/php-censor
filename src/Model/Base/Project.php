@@ -250,9 +250,9 @@ class Project extends Model
      */
     public function setType(string $value)
     {
-        if (!in_array($value, static::$allowedTypes, true)) {
+        if (!\in_array($value, static::$allowedTypes, true)) {
             throw new InvalidArgumentException(
-                'Column "type" must be one of: ' . join(', ', static::$allowedTypes) . '.'
+                'Column "type" must be one of: ' . \join(', ', static::$allowedTypes) . '.'
             );
         }
 
@@ -272,9 +272,9 @@ class Project extends Model
      */
     public function getAccessInformation($key = null)
     {
-        $data              = json_decode($this->data['access_information'], true);
+        $data              = \json_decode($this->data['access_information'], true);
         $accessInformation = null;
-        if (is_null($key)) {
+        if (\is_null($key)) {
             $accessInformation = $data;
         } elseif (isset($data[$key])) {
             $accessInformation = $data[$key];
@@ -290,7 +290,7 @@ class Project extends Model
      */
     public function setAccessInformation(array $value)
     {
-        $accessInformation = json_encode($value);
+        $accessInformation = \json_encode($value);
         if ($this->data['access_information'] === $accessInformation) {
             return false;
         }

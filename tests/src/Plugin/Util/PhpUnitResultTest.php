@@ -73,11 +73,11 @@ class PhpUnitResultTest extends TestCase
         if (self::$skipped) {
             $msg = "Skipped result tests:\n";
             foreach (self::$skipped as $skip) {
-                $exMsg = strstr((string)$skip['ex'], "\n", true);
+                $exMsg = \strstr((string)$skip['ex'], "\n", true);
                 if (false === $exMsg) {
                     $exMsg = (string)$skip['ex'];
                 }
-                $msg .= sprintf(" * %s: %s \n", $skip['cls'], $exMsg);
+                $msg .= \sprintf(" * %s: %s \n", $skip['cls'], $exMsg);
             }
             $this->markTestSkipped($msg);
         }

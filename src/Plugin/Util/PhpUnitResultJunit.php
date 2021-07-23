@@ -100,13 +100,13 @@ class PhpUnitResultJunit extends PhpUnitResult
 
     protected function buildTrace($testCase)
     {
-        if (!is_int($testCase['_tracePos'])) {
+        if (!\is_int($testCase['_tracePos'])) {
             $this->buildMessage($testCase);
         }
 
         if ($testCase['_tracePos'] >= 0) {
-            $stackStr = substr($this->getMessageTrace($testCase), (int)$testCase['_tracePos'] + 2, -1);
-            $trace = explode("\n", str_replace($this->buildPath, '.', $stackStr));
+            $stackStr = \substr($this->getMessageTrace($testCase), (int)$testCase['_tracePos'] + 2, -1);
+            $trace = \explode("\n", \str_replace($this->buildPath, '.', $stackStr));
         } else {
             $trace = array();
         }
@@ -140,7 +140,7 @@ class PhpUnitResultJunit extends PhpUnitResult
      */
     private function loadResultFile()
     {
-        if (!file_exists($this->outputFile) || 0 === filesize($this->outputFile)) {
+        if (!\file_exists($this->outputFile) || 0 === \filesize($this->outputFile)) {
             $this->internalProblem('empty output file');
 
             return new SimpleXMLElement('<empty/>'); // new empty element

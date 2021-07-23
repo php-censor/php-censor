@@ -61,7 +61,7 @@ class BitbucketHgBuild extends HgBuild
      */
     protected function getCloneUrl()
     {
-        $key = trim($this->getProject()->getSshPrivateKey());
+        $key = \trim($this->getProject()->getSshPrivateKey());
 
         if (!empty($key)) {
             return 'ssh://hg@bitbucket.org/' . $this->getProject()->getReference();

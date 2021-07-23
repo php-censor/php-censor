@@ -33,7 +33,7 @@ class Phlint extends Plugin
 
         $this->executable = $this->findBinary(['phlint', 'phlint.phar']);
 
-        if (array_key_exists('allowed_errors', $options) && is_int($options['allowed_errors'])) {
+        if (\array_key_exists('allowed_errors', $options) && \is_int($options['allowed_errors'])) {
             $this->allowedErrors = $options['allowed_errors'];
         }
     }
@@ -54,8 +54,8 @@ class Phlint extends Plugin
 
         $errors = $this->processReport($this->builder->getLastOutput());
 
-        if (0 < count($errors)) {
-            if (-1 !== $this->allowedErrors && count($errors) > $this->allowedErrors) {
+        if (0 < \count($errors)) {
+            if (-1 !== $this->allowedErrors && \count($errors) > $this->allowedErrors) {
                 $success = false;
             }
 
@@ -88,19 +88,19 @@ class Phlint extends Plugin
      */
     protected function processReport($output)
     {
-        $data = explode(chr(226), preg_replace('#\\x1b[[][^A-Za-z\n]*[A-Za-z]#', '', trim($output)));
-        array_pop($data);
-        array_shift($data);
+        $data = \explode(\chr(226), \preg_replace('#\\x1b[[][^A-Za-z\n]*[A-Za-z]#', '', \trim($output)));
+        \array_pop($data);
+        \array_shift($data);
 
         $errors = [];
 
-        if (0 < count($data)) {
+        if (0 < \count($data)) {
             foreach ($data as $error) {
-                $error   = explode(PHP_EOL, $error);
-                $header  = substr(trim(array_shift($error)), 3);
-                $file    = strstr(substr(strstr($header, 'in '), 3), ':', true);
-                $line    = substr(strrchr($header, ':'), 1);
-                $message = ltrim($error[0]) . PHP_EOL . ltrim($error[1]);
+                $error   = \explode(PHP_EOL, $error);
+                $header  = \substr(\trim(\array_shift($error)), 3);
+                $file    = \strstr(\substr(\strstr($header, 'in '), 3), ':', true);
+                $line    = \substr(\strrchr($header, ':'), 1);
+                $message = \ltrim($error[0]) . PHP_EOL . \ltrim($error[1]);
 
                 $errors[] = [
                     'message'   => $message,

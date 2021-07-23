@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Controller;
 
 use JasonGrimes\Paginator;
 use PHPCensor\BuildFactory;
 use PHPCensor\Exception\HttpException\NotFoundException;
 use PHPCensor\Helper\Lang;
+use PHPCensor\Http\Response;
 use PHPCensor\Http\Response\JsonResponse;
 use PHPCensor\Http\Response\RedirectResponse;
 use PHPCensor\Model\Build;
@@ -56,8 +59,10 @@ class BuildController extends WebController
      * @param int $buildId
      *
      * @throws NotFoundException
+     * @throws \PHPCensor\Common\Exception\RuntimeException
+     * @throws \PHPCensor\Exception\HttpException
      */
-    public function view($buildId)
+    public function view(int $buildId): void
     {
         $page   = (int)$this->getParam('page', 1);
         $plugin = $this->getParam('plugin', '');
@@ -167,9 +172,10 @@ class BuildController extends WebController
 
     /**
      * Returns an array of the JS plugins to include.
+     *
      * @return array
      */
-    protected function getUiPlugins()
+    protected function getUiPlugins(): array
     {
         $rtn  = [];
         $path = PUBLIC_DIR . 'assets/js/build-plugins/';
@@ -189,30 +195,40 @@ class BuildController extends WebController
     /**
      * Get build data from database and json encode it.
      *
-     * @param Build   $build
-     * @param string  $plugin
+     * @param Build $build
+     * @param string $plugin
      * @param int $severity
-     * @param string  $isNew
+     * @param string $isNew
      * @param int $start
      * @param int $perPage
      *
      * @return array
+     *
+     * @throws \PHPCensor\Common\Exception\InvalidArgumentException
+     * @throws \PHPCensor\Common\Exception\RuntimeException
+     * @throws \PHPCensor\Exception\HttpException
      */
-    protected function getBuildData(Build $build, $plugin, $severity, $isNew, $start = 0, $perPage = 10)
-    {
+    protected function getBuildData(
+        Build $build,
+        string $plugin,
+        int $severity,
+        string $isNew,
+        int $start = 0,
+        int $perPage = 10
+    ): array {
         $data                = [];
         $data['status']      = (int)$build->getStatus();
         $data['log']         = $this->cleanLog($build->getLog());
 
-        $data['create_date'] = !is_null($build->getCreateDate())
+        $data['create_date'] = !\is_null($build->getCreateDate())
             ? $build->getCreateDate()->format('Y-m-d H:i:s')
             : null;
 
-        $data['start_date'] = !is_null($build->getStartDate())
+        $data['start_date'] = !\is_null($build->getStartDate())
             ? $build->getStartDate()->format('Y-m-d H:i:s')
             : null;
 
-        $data['finish_date'] = !is_null($build->getFinishDate())
+        $data['finish_date'] = !\is_null($build->getFinishDate())
             ? $build->getFinishDate()->format('Y-m-d H:i:s')
             : null;
 
@@ -244,8 +260,15 @@ class BuildController extends WebController
      *
      * @return string
      */
-    protected function getPaginatorHtml($buildId, $plugin, $severity, $isNew, $total, $perPage, $page)
-    {
+    protected function getPaginatorHtml(
+        int $buildId,
+        string $plugin,
+        int $severity,
+        string $isNew,
+        int $total,
+        int $perPage,
+        int $page
+    ): string {
         $view = new View('pagination');
 
         $urlPattern = APP_URL . 'build/view/' . $buildId;
@@ -262,10 +285,10 @@ class BuildController extends WebController
             $params['is_new'] = $isNew;
         }
 
-        $urlPattern = $urlPattern . '?' . str_replace(
+        $urlPattern = $urlPattern . '?' . \str_replace(
             '%28%3Anum%29',
             '(:num)',
-            http_build_query(array_merge($params, ['page' => '(:num)']))
+            \http_build_query(\array_merge($params, ['page' => '(:num)']))
         ) . '#errors';
         $paginator = new Paginator($total, $perPage, $page, $urlPattern);
 
@@ -277,12 +300,15 @@ class BuildController extends WebController
     /**
      * Create a build using an existing build as a template:
      *
-     * @param $buildId
+     * @param int $buildId
      *
-     * @return RedirectResponse
+     * @return Response
+     *
      * @throws NotFoundException
+     * @throws \PHPCensor\Common\Exception\RuntimeException
+     * @throws \PHPCensor\Exception\HttpException
      */
-    public function rebuild($buildId)
+    public function rebuild(int $buildId): Response
     {
         $copy = BuildFactory::getBuildById(
             $this->configuration,
@@ -317,9 +343,17 @@ class BuildController extends WebController
     }
 
     /**
-    * Delete a build.
-    */
-    public function delete($buildId)
+     * Delete a build.
+     *
+     * @param int $buildId
+     *
+     * @return Response
+     *
+     * @throws NotFoundException
+     * @throws \PHPCensor\Common\Exception\RuntimeException
+     * @throws \PHPCensor\Exception\HttpException
+     */
+    public function delete(int $buildId): Response
     {
         $this->requireAdmin();
 
@@ -342,9 +376,13 @@ class BuildController extends WebController
     }
 
     /**
-    * Parse log for unix colours and replace with HTML.
-    */
-    protected function cleanLog($log)
+     * Parse log for unix colours and replace with HTML.
+     *
+     * @param string $log
+     *
+     * @return string
+     */
+    protected function cleanLog(string $log): string
     {
         $converter = new AnsiToHtmlConverter(null, false);
 
@@ -354,11 +392,11 @@ class BuildController extends WebController
     /**
      * Formats a list of builds into rows suitable for the dropdowns in the header bar.
      *
-     * @param $builds
+     * @param array $builds
      *
      * @return array
      */
-    protected function formatBuilds($builds)
+    protected function formatBuilds(array $builds): array
     {
         $rtn = ['count' => $builds['count'], 'items' => []];
 
@@ -370,11 +408,11 @@ class BuildController extends WebController
             $rtn['items'][$build->getId()]['header_row'] = $header->render();
         }
 
-        ksort($rtn['items']);
+        \ksort($rtn['items']);
         return $rtn;
     }
 
-    public function ajaxData($buildId)
+    public function ajaxData(int $buildId): Response
     {
         $page    = (int)$this->getParam('page', 1);
         $perPage = (int)$this->getParam('per_page', 10);
@@ -426,7 +464,7 @@ class BuildController extends WebController
         return $response;
     }
 
-    public function ajaxMeta($buildId)
+    public function ajaxMeta(int $buildId): Response
     {
         $build = BuildFactory::getBuildById(
             $this->configuration,
@@ -448,7 +486,7 @@ class BuildController extends WebController
         return $response;
     }
 
-    public function ajaxQueue()
+    public function ajaxQueue(): Response
     {
         $rtn = [
             'pending' => $this->formatBuilds($this->buildStore->getByStatus(Build::STATUS_PENDING)),

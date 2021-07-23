@@ -40,7 +40,7 @@ class FlowdockNotify extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        if (!is_array($options) || (!isset($options['api_key']) && !isset($options['auth_token']))) {
+        if (!\is_array($options) || (!isset($options['api_key']) && !isset($options['auth_token']))) {
             throw new InvalidArgumentException('Please define the "auth_token" for Flowdock Notify plugin!');
         }
 
@@ -72,7 +72,7 @@ class FlowdockNotify extends Plugin
             ->setContent($message);
 
         if (!$push->sendTeamInboxMessage($flowMessage, ['connect_timeout' => 5000, 'timeout' => 5000])) {
-            throw new RuntimeException(sprintf('Flowdock Failed: %s', $flowMessage->getResponseErrors()));
+            throw new RuntimeException(\sprintf('Flowdock Failed: %s', $flowMessage->getResponseErrors()));
         }
         return true;
     }

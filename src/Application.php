@@ -79,14 +79,14 @@ class Application
 
         // Handler for the route we're about to register, checks for a valid session where necessary:
         $routeHandler = function ($route, Response &$response) use (&$request, $validateSession, $skipAuth) {
-            $skipValidation = in_array($route['controller'], ['session', 'webhook', 'build-status']);
+            $skipValidation = \in_array($route['controller'], ['session', 'webhook', 'build-status']);
 
-            if (!$skipValidation && !$validateSession() && (!is_callable($skipAuth) || !$skipAuth())) {
+            if (!$skipValidation && !$validateSession() && (!\is_callable($skipAuth) || !$skipAuth())) {
                 if ($request->isAjax()) {
                     $response->setResponseCode(401);
                     $response->setContent('');
                 } else {
-                    $_SESSION['php-censor-login-redirect'] = substr($request->getPath(), 1);
+                    $_SESSION['php-censor-login-redirect'] = \substr($request->getPath(), 1);
                     $response = new RedirectResponse($response);
                     $response->setHeader('Location', APP_URL . 'session/login');
                 }

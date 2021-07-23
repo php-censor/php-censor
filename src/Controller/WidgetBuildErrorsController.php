@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Controller;
 
 use PHPCensor\Exception\HttpException;
@@ -35,7 +37,7 @@ class WidgetBuildErrorsController extends WebController
     /**
     * Display dashboard.
     */
-    public function index()
+    public function index(): Response
     {
         $view = new View('WidgetBuildErrors/update');
 
@@ -52,7 +54,7 @@ class WidgetBuildErrorsController extends WebController
      *
      * @throws HttpException
      */
-    public function update()
+    public function update(): Response
     {
         $response = new Response();
         $response->setContent($this->renderAllProjectsLatestBuilds($this->view));
@@ -67,13 +69,13 @@ class WidgetBuildErrorsController extends WebController
      *
      * @throws HttpException
      */
-    protected function renderAllProjectsLatestBuilds($view)
+    protected function renderAllProjectsLatestBuilds(View $view): string
     {
         $builds = $this->buildStore->getAllProjectsLatestBuilds();
 
         if (!empty($builds['projects'])) {
             $view->builds = $builds['projects'];
-            $projects     = $this->projectStore->getByIds(array_keys($builds['projects']));
+            $projects     = $this->projectStore->getByIds(\array_keys($builds['projects']));
 
             $viewProjects = [];
             foreach ($projects as $id => $project) {

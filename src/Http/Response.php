@@ -8,7 +8,7 @@ class Response
 
     public function __construct(Response $createFrom = null)
     {
-        if (!is_null($createFrom)) {
+        if (!\is_null($createFrom)) {
             $this->data = $createFrom->getData();
         }
     }

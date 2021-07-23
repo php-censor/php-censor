@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Controller;
 
 use PHPCensor\Exception\HttpException\ForbiddenException;
 use PHPCensor\Exception\HttpException\NotFoundException;
 use PHPCensor\Form;
 use PHPCensor\Helper\Lang;
+use PHPCensor\Http\Response;
 use PHPCensor\Http\Response\RedirectResponse;
 use PHPCensor\Model\User;
 use PHPCensor\Service\UserService;
@@ -42,7 +45,7 @@ class UserController extends WebController
     /**
     * View user list.
     */
-    public function index()
+    public function index(): string
     {
         $users                   = $this->userStore->getWhere([], 1000, 0, ['email' => 'ASC']);
         $this->view->currentUser = $this->getUser();
@@ -55,9 +58,13 @@ class UserController extends WebController
 
     /**
      * Allows the user to edit their profile.
+     *
      * @return string
+     *
+     * @throws \PHPCensor\Common\Exception\RuntimeException
+     * @throws \PHPCensor\Exception\HttpException
      */
-    public function profile()
+    public function profile(): string
     {
         /** @var User $user */
         $user = $this->getUser();
@@ -122,7 +129,7 @@ class UserController extends WebController
         $language->setLabel(Lang::get('language'));
         $language->setRequired(true);
         $language->setOptions(
-            array_merge(
+            \array_merge(
                 [null => Lang::get('default') . ' (' . $this->configuration->get('php-censor.language') .  ')'],
                 Lang::getLanguageOptions()
             )
@@ -156,8 +163,12 @@ class UserController extends WebController
     }
 
     /**
-    * Add a user - handles both form and processing.
-    */
+     * Add a user - handles both form and processing.
+     *
+     * @return string|Response
+     *
+     * @throws \PHPCensor\Exception\HttpException
+     */
     public function add()
     {
         $this->requireAdmin();
@@ -200,13 +211,23 @@ class UserController extends WebController
 
         $response = new RedirectResponse();
         $response->setHeader('Location', APP_URL . 'user');
+
         return $response;
     }
 
     /**
-    * Edit a user - handles both form and processing.
-    */
-    public function edit($userId)
+     * Edit a user - handles both form and processing.
+     *
+     * @param int $userId
+     *
+     * @return string|Response
+     *
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws \PHPCensor\Common\Exception\RuntimeException
+     * @throws \PHPCensor\Exception\HttpException
+     */
+    public function edit(int $userId)
     {
         $currentUser = $this->getUser();
 
@@ -224,7 +245,7 @@ class UserController extends WebController
         $this->layout->title = $user->getName();
         $this->layout->subtitle = Lang::get('edit_user');
 
-        $values = array_merge($user->getDataArray(), $this->getParams());
+        $values = \array_merge($user->getDataArray(), $this->getParams());
         $form = $this->userForm($values, 'edit/' . $userId);
 
         if ($method != 'POST' || ($method == 'POST' && !$form->validate())) {
@@ -250,13 +271,22 @@ class UserController extends WebController
 
         $response = new RedirectResponse();
         $response->setHeader('Location', APP_URL . 'user');
+
         return $response;
     }
 
     /**
-    * Create user add / edit form.
-    */
-    protected function userForm($values, $type = 'add')
+     * Create user add / edit form.
+     *
+     * @param array $values
+     * @param string $type
+     *
+     * @return Form
+     *
+     * @throws \PHPCensor\Common\Exception\RuntimeException
+     * @throws \PHPCensor\Exception\HttpException
+     */
+    protected function userForm(array $values, string $type = 'add'): Form
     {
         $currentUser = $this->getUser();
 
@@ -315,9 +345,16 @@ class UserController extends WebController
     }
 
     /**
-    * Delete a user.
-    */
-    public function delete($userId)
+     * Delete a user.
+     *
+     * @param int $userId
+     *
+     * @return Response
+     *
+     * @throws NotFoundException
+     * @throws \PHPCensor\Exception\HttpException
+     */
+    public function delete(int $userId): Response
     {
         $this->requireAdmin();
 
@@ -331,6 +368,7 @@ class UserController extends WebController
 
         $response = new RedirectResponse();
         $response->setHeader('Location', APP_URL . 'user');
+
         return $response;
     }
 }

@@ -4,7 +4,7 @@
  * @var array $widgets
  */
 
-$allWidgets = array_merge(array_keys($widgets['left']), array_keys($widgets['right']));
+$allWidgets = \array_merge(\array_keys($widgets['left']), \array_keys($widgets['right']));
 foreach ($allWidgets as $widget) {
     ?><script src="<?= APP_URL ?>assets/js/dashboard-widgets/<?= $widget ?>.js" type="text/javascript"></script><?php
 }

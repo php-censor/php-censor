@@ -22,7 +22,7 @@ class MailerFactory
      */
     public function __construct($config = [])
     {
-        if (!is_array($config)) {
+        if (!\is_array($config)) {
             $config = [];
         }
 

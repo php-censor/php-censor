@@ -17,9 +17,9 @@ class JsonResponse extends Response
     protected function flushBody()
     {
         if (isset($this->data['body'])) {
-            return json_encode($this->data['body']);
+            return \json_encode($this->data['body']);
         }
 
-        return json_encode(null);
+        return \json_encode(null);
     }
 }

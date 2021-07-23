@@ -117,7 +117,7 @@ class PhpCpd extends Plugin implements ZeroConfigPluginInterface
         foreach ($xml->duplication as $duplication) {
             foreach ($duplication->file as $file) {
                 $fileName = (string)$file['path'];
-                $fileName = str_replace($this->builder->buildPath, '', $fileName);
+                $fileName = \str_replace($this->builder->buildPath, '', $fileName);
 
                 $message = <<<CPD
 Copy and paste detected:

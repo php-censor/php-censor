@@ -51,17 +51,17 @@ foreach ($builds as $projectId => $projectEnvs):
                     break;
                 case Build::STATUS_SUCCESS:
                     $statuses[] = 'ok';
-                    $success = is_null($success) && !is_null($build->getFinishDate()) ? $build->getFinishDate()->format('Y-m-d H:i:s') : $success;
+                    $success = \is_null($success) && !\is_null($build->getFinishDate()) ? $build->getFinishDate()->format('Y-m-d H:i:s') : $success;
                     break;
                 case Build::STATUS_FAILED:
                     $failures++;
                     $statuses[] = 'failed';
-                    $failure = is_null($failure) && !is_null($build->getFinishDate()) ? $build->getFinishDate()->format('Y-m-d H:i:s') : $failure;
+                    $failure = \is_null($failure) && !\is_null($build->getFinishDate()) ? $build->getFinishDate()->format('Y-m-d H:i:s') : $failure;
                     break;
             }
         }
 
-        $buildCount = count($projectEnv['latest']);
+        $buildCount = \count($projectEnv['latest']);
         $lastSuccess = $projectEnv['success'];
         $lastFailure = $projectEnv['failed'];
         $message = Lang::get('no_builds_yet');
@@ -70,7 +70,7 @@ foreach ($builds as $projectId => $projectEnvs):
             if ($failures > 0) {
                 $message = Lang::get('x_of_x_failed', $failures, $buildCount);
 
-                if (!is_null($lastSuccess) && !is_null($lastSuccess->getFinishDate())) {
+                if (!\is_null($lastSuccess) && !\is_null($lastSuccess->getFinishDate())) {
                     $message .= Lang::get('last_successful_build', $lastSuccess->getFinishDate()->format('Y-m-d H:i:s'));
                 } else {
                     $message .= Lang::get('never_built_successfully');
@@ -78,7 +78,7 @@ foreach ($builds as $projectId => $projectEnvs):
             } else {
                 $message = Lang::get('all_builds_passed', $buildCount);
 
-                if (!is_null($lastFailure) && !is_null($lastFailure->getFinishDate())) {
+                if (!\is_null($lastFailure) && !\is_null($lastFailure->getFinishDate())) {
                     $message .= Lang::get('last_failed_build', $lastFailure->getFinishDate()->format('Y-m-d H:i:s'));
                 } else {
                     $message .= Lang::get('never_failed_build');

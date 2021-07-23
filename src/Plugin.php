@@ -95,21 +95,21 @@ abstract class Plugin
 
         // Plugin option overwrite builder options for priority_path and binary_path
         if (!empty($options['priority_path']) &&
-            in_array($options['priority_path'], self::AVAILABLE_PRIORITY_PATHS, true)) {
+            \in_array($options['priority_path'], self::AVAILABLE_PRIORITY_PATHS, true)) {
             $this->priorityPath = $options['priority_path'];
         } else {
             $this->priorityPath = $this->builder->priorityPath;
         }
 
         if (!empty($options['binary_name'])) {
-            if (is_array($options['binary_name'])) {
+            if (\is_array($options['binary_name'])) {
                 $this->binaryName = $options['binary_name'];
             } else {
                 $this->binaryName = [(string)$options['binary_name']];
             }
         }
 
-        $this->builder->logDebug('Plugin options: ' . json_encode($options));
+        $this->builder->logDebug('Plugin options: ' . \json_encode($options));
     }
 
     /**
@@ -125,15 +125,15 @@ abstract class Plugin
             $normalizedPath = $this->build->getBuildPath() . $normalizedPath;
         }
 
-        $realPath = realpath($normalizedPath);
+        $realPath = \realpath($normalizedPath);
 
         return (false !== $realPath)
-            ? rtrim($realPath, '/\\') . '/'
-            : rtrim(
-                str_replace(
+            ? \rtrim($realPath, '/\\') . '/'
+            : \rtrim(
+                \str_replace(
                     '//',
                     '/',
-                    str_replace('/./', '/', $normalizedPath)
+                    \str_replace('/./', '/', $normalizedPath)
                 ),
                 '/\\'
             ) . '/';
@@ -157,15 +157,15 @@ abstract class Plugin
             $binaryPath = $this->builder->binaryPath;
         }
 
-        $realPath = realpath($binaryPath);
+        $realPath = \realpath($binaryPath);
 
         return (false !== $realPath)
-            ? rtrim($realPath, '/\\') . '/'
-            : rtrim(
-                str_replace(
+            ? \rtrim($realPath, '/\\') . '/'
+            : \rtrim(
+                \str_replace(
                     '//',
                     '/',
-                    str_replace('/./', '/', $binaryPath)
+                    \str_replace('/./', '/', $binaryPath)
                 ),
                 '/\\'
             ) . '/';
@@ -176,7 +176,7 @@ abstract class Plugin
      */
     protected function normalizeDirectory()
     {
-        if (!empty($this->options['directory']) && is_array($this->options['directory'])) {
+        if (!empty($this->options['directory']) && \is_array($this->options['directory'])) {
             return $this->builder->directory;
         }
 
@@ -184,7 +184,7 @@ abstract class Plugin
         if (!empty($this->options['directory'])) {
             $optionDirectory = $this->builder->interpolate($this->options['directory']);
 
-            if ('/' !== substr($optionDirectory, 0, 1)) {
+            if ('/' !== \substr($optionDirectory, 0, 1)) {
                 $directory = $this->build->getBuildPath();
             }
 
@@ -193,15 +193,15 @@ abstract class Plugin
             $directory = $this->builder->directory;
         }
 
-        $realPath = realpath($directory);
+        $realPath = \realpath($directory);
 
         $finalDirectory = (false !== $realPath)
-            ? rtrim($realPath, '/\\') . '/'
-            : rtrim(
-                str_replace(
+            ? \rtrim($realPath, '/\\') . '/'
+            : \rtrim(
+                \str_replace(
                     '//',
                     '/',
-                    str_replace('/./', '/', $directory)
+                    \str_replace('/./', '/', $directory)
                 ),
                 '/\\'
             ) . '/';
@@ -219,37 +219,37 @@ abstract class Plugin
         $ignore = $this->builder->ignore;
 
         if (!empty($this->options['ignore'])) {
-            $ignore = array_merge($ignore, $this->options['ignore']);
+            $ignore = \array_merge($ignore, $this->options['ignore']);
         }
 
         $baseDirectory = $this->builder->buildPath;
 
-        array_walk($ignore, function (&$value) use ($baseDirectory) {
+        \array_walk($ignore, function (&$value) use ($baseDirectory) {
             $value = $this->builder->interpolate($value);
 
-            if ('/' !== substr($value, 0, 1)) {
+            if ('/' !== \substr($value, 0, 1)) {
                 $value = $baseDirectory . $value;
             }
 
-            clearstatcache(true);
-            $realPath = realpath($value);
+            \clearstatcache(true);
+            $realPath = \realpath($value);
 
             $value = (false !== $realPath)
                 ? $realPath
                 : $value;
 
-            $value = str_replace("/./", '/', $value);
-            $value = rtrim(
-                str_replace(
+            $value = \str_replace("/./", '/', $value);
+            $value = \rtrim(
+                \str_replace(
                     '//',
                     '/',
-                    str_replace($baseDirectory, '', $value)
+                    \str_replace($baseDirectory, '', $value)
                 ),
                 '/\\'
             );
         });
 
-        return array_unique($ignore);
+        return \array_unique($ignore);
     }
 
     /**

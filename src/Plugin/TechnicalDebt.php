@@ -96,10 +96,10 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
         $string     = '';
         $fileNumber = 0;
         foreach ($this->errorPerFile as $oneLine) {
-            $fileNumber += strlen($oneLine);
-            $string     .= str_pad($oneLine, 60, ' ', STR_PAD_RIGHT);
-            $string     .= str_pad($fileNumber, 4, ' ', STR_PAD_LEFT);
-            $string     .= "/" . $this->numberOfAnalysedFile . " (" . floor($fileNumber * 100 / $this->numberOfAnalysedFile) . " %)\n";
+            $fileNumber += \strlen($oneLine);
+            $string     .= \str_pad($oneLine, 60, ' ', STR_PAD_RIGHT);
+            $string     .= \str_pad($fileNumber, 4, ' ', STR_PAD_LEFT);
+            $string     .= "/" . $this->numberOfAnalysedFile . " (" . \floor($fileNumber * 100 / $this->numberOfAnalysedFile) . " %)\n";
         }
         $string .= "Checked {$fileNumber} files\n";
 
@@ -117,11 +117,11 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
         $this->allowedErrors = 0;
         $this->searches      = ['TODO', 'FIXME', 'TO DO', 'FIX ME'];
 
-        if (!empty($options['suffixes']) && is_array($options['suffixes'])) {
+        if (!empty($options['suffixes']) && \is_array($options['suffixes'])) {
             $this->suffixes = $options['suffixes'];
         }
 
-        if (!empty($options['searches']) && is_array($options['searches'])) {
+        if (!empty($options['searches']) && \is_array($options['searches'])) {
             $this->searches = $options['searches'];
         }
 
@@ -129,7 +129,7 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
             $this->allowedErrors = -1;
         }
 
-        if (array_key_exists('allowed_errors', $options) && $options['allowed_errors']) {
+        if (\array_key_exists('allowed_errors', $options) && $options['allowed_errors']) {
             $this->allowedErrors = (int)$options['allowed_errors'];
         }
     }
@@ -154,7 +154,7 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
         $success    = true;
         $errorCount = $this->getErrorList();
 
-        $this->builder->log($this->returnResult() . "Found $errorCount instances of " . implode(', ', $this->searches));
+        $this->builder->log($this->returnResult() . "Found $errorCount instances of " . \implode(', ', $this->searches));
 
         $this->build->storeMeta((self::pluginName() . '-warnings'), $errorCount);
 
@@ -175,7 +175,7 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
         $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->directory));
 
         $this->builder->logDebug("Directory: " . $this->directory);
-        $this->builder->logDebug("Ignored path: ".json_encode($this->ignore, true));
+        $this->builder->logDebug("Ignored path: " . \json_encode($this->ignore, true));
         $errorCount = 0;
 
         /** @var SplFileInfo $file */
@@ -195,7 +195,7 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
                 $ignoreAbsolute = $this->builder->buildPath . $ignore;
 
                 if ('/' === $ignoreAbsolute[0]) {
-                    if (0 === strpos($filePath, $ignoreAbsolute)) {
+                    if (0 === \strpos($filePath, $ignoreAbsolute)) {
                         $ignored = true;
                         break;
                     }
@@ -203,15 +203,15 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
             }
 
             if (!$ignored) {
-                $handle      = fopen($filePath, "r");
+                $handle      = \fopen($filePath, "r");
                 $lineNumber  = 1;
                 $errorInFile = false;
-                while (false === feof($handle)) {
-                    $line = fgets($handle);
+                while (false === \feof($handle)) {
+                    $line = \fgets($handle);
 
                     foreach ($this->searches as $search) {
-                        if ($technicalDebtLine = trim(strstr($line, $search))) {
-                            $fileName = str_replace($this->directory, '', $filePath);
+                        if ($technicalDebtLine = \trim(\strstr($line, $search))) {
+                            $fileName = \str_replace($this->directory, '', $filePath);
 
                             $this->build->reportError(
                                 $this->builder,
@@ -228,7 +228,7 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
                     }
                     $lineNumber++;
                 }
-                fclose($handle);
+                \fclose($handle);
 
                 if ($errorInFile === true) {
                     $this->buildLogString('X');

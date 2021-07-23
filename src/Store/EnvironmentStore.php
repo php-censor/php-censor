@@ -49,7 +49,7 @@ class EnvironmentStore extends Store
      */
     public function getById($id, $useConnection = 'read')
     {
-        if (is_null($id)) {
+        if (\is_null($id)) {
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
@@ -79,7 +79,7 @@ class EnvironmentStore extends Store
      */
     public function getByNameAndProjectId($name, $projectId, $useConnection = 'read')
     {
-        if (is_null($name)) {
+        if (\is_null($name)) {
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
@@ -109,7 +109,7 @@ class EnvironmentStore extends Store
      */
     public function getByProjectId($projectId, $useConnection = 'read')
     {
-        if (is_null($projectId)) {
+        if (\is_null($projectId)) {
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
@@ -124,9 +124,9 @@ class EnvironmentStore extends Store
             $map = function ($item) {
                 return new Environment($this->storeRegistry, $item);
             };
-            $rtn = array_map($map, $res);
+            $rtn = \array_map($map, $res);
 
-            $count = count($rtn);
+            $count = \count($rtn);
 
             return ['items' => $rtn, 'count' => $count];
         } else {

@@ -81,7 +81,7 @@ class Ldap extends AbstractProvider implements LoginPasswordProviderInterface
         $user        = $this->storeRegistry->get('User');
         $userService = new UserService($this->storeRegistry, $user);
 
-        $parts    = explode("@", $identifier);
+        $parts    = \explode("@", $identifier);
         $username = $parts[0];
 
         return $userService->createUser($username, $identifier, $this->key, $this->config, '', false);

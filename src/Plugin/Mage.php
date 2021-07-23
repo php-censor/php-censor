@@ -74,40 +74,40 @@ class Mage extends Plugin
     protected function getMageLog()
     {
         $logsDir = $this->build->getBuildPath() . '/.mage/logs';
-        if (!is_dir($logsDir)) {
+        if (!\is_dir($logsDir)) {
             throw new RuntimeException('Log directory not found');
         }
 
-        $list = scandir($logsDir);
+        $list = \scandir($logsDir);
         if ($list === false) {
             throw new RuntimeException('Log dir read fail');
         }
 
-        $list = array_filter($list, function ($name) {
-            return preg_match('/^log-\d+-\d+\.log$/', $name);
+        $list = \array_filter($list, function ($name) {
+            return \preg_match('/^log-\d+-\d+\.log$/', $name);
         });
         if (empty($list)) {
             throw new RuntimeException('Log dir filter fail');
         }
 
-        $res = sort($list);
+        $res = \sort($list);
         if ($res === false) {
             throw new RuntimeException('Logs sort fail');
         }
 
-        $lastLogFile = end($list);
+        $lastLogFile = \end($list);
         if ($lastLogFile === false) {
             throw new RuntimeException('Get last Log name fail');
         }
 
-        $logContent = file_get_contents($logsDir . '/' . $lastLogFile);
+        $logContent = \file_get_contents($logsDir . '/' . $lastLogFile);
         if ($logContent === false) {
             throw new RuntimeException('Get last Log content fail');
         }
 
-        $lines = explode("\n", $logContent);
-        $lines = array_map('trim', $lines);
+        $lines = \explode("\n", $logContent);
+        $lines = \array_map('trim', $lines);
 
-        return array_filter($lines);
+        return \array_filter($lines);
     }
 }

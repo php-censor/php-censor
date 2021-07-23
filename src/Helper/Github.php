@@ -35,7 +35,7 @@ class Github
             return null;
         }
 
-        $url = '/repos/' . strtolower($repo) . '/pulls/' . $pullId . '/comments';
+        $url = '/repos/' . \strtolower($repo) . '/pulls/' . $pullId . '/comments';
 
         $params = [
             'body'      => $comment,
@@ -47,7 +47,7 @@ class Github
         $client = new Client();
         $client->post(('https://api.github.com' . $url), [
             'headers' => [
-                'Authorization' => 'Basic ' . base64_encode($token . ':x-oauth-basic'),
+                'Authorization' => 'Basic ' . \base64_encode($token . ':x-oauth-basic'),
                 'Content-Type'  => 'application/x-www-form-urlencoded'
             ],
             'json' => $params,
@@ -71,7 +71,7 @@ class Github
             return null;
         }
 
-        $url = '/repos/' . strtolower($repo) . '/commits/' . $commitId . '/comments';
+        $url = '/repos/' . \strtolower($repo) . '/commits/' . $commitId . '/comments';
 
         $params = [
             'body'     => $comment,
@@ -82,7 +82,7 @@ class Github
         $client = new Client();
         $client->post(('https://api.github.com' . $url), [
             'headers' => [
-                'Authorization' => 'Basic ' . base64_encode($token . ':x-oauth-basic'),
+                'Authorization' => 'Basic ' . \base64_encode($token . ':x-oauth-basic'),
                 'Content-Type'  => 'application/x-www-form-urlencoded'
             ],
             'json' => $params,

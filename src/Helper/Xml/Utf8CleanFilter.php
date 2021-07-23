@@ -18,11 +18,11 @@ class Utf8CleanFilter extends php_user_filter
      */
     public function filter($in, $out, &$consumed, $closing)
     {
-        while ($bucket = stream_bucket_make_writeable($in)) {
-            $bucket->data = preg_replace(self::PATTERN, '', $bucket->data);
+        while ($bucket = \stream_bucket_make_writeable($in)) {
+            $bucket->data = \preg_replace(self::PATTERN, '', $bucket->data);
             $consumed     += $bucket->datalen;
 
-            stream_bucket_append($out, $bucket);
+            \stream_bucket_append($out, $bucket);
         }
 
         return PSFS_PASS_ON;

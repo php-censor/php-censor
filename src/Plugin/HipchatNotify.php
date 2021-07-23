@@ -81,7 +81,7 @@ class HipchatNotify extends Plugin
         $message = $this->builder->interpolate($this->message);
 
         $result = true;
-        if (is_array($this->room)) {
+        if (\is_array($this->room)) {
             foreach ($this->room as $room) {
                 if (!$hipChat->message_room($room, 'PHP Censor', $message, $this->notify, $this->color)) {
                     $result = false;

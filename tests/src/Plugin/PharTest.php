@@ -41,8 +41,8 @@ class PharTest extends TestCase
 
     protected function buildTemp()
     {
-        $directory = tempnam(ROOT_DIR . 'tests/runtime/', 'phar_test_');
-        @unlink($directory);
+        $directory = \tempnam(ROOT_DIR . 'tests/runtime/', 'phar_test_');
+        @\unlink($directory);
 
         return $directory . '/';
     }
@@ -51,13 +51,13 @@ class PharTest extends TestCase
     {
         $directory = $this->buildTemp();
 
-        mkdir($directory);
-        file_put_contents($directory . 'one.php', '<?= "one";');
-        file_put_contents($directory . 'two.php', '<?= "two";');
-        mkdir($directory . 'config');
-        file_put_contents($directory . 'config/config.ini', '[config]');
-        mkdir($directory . 'views');
-        file_put_contents($directory . 'views/index.phtml', '<?= "hello";');
+        \mkdir($directory);
+        \file_put_contents($directory . 'one.php', '<?= "one";');
+        \file_put_contents($directory . 'two.php', '<?= "two";');
+        \mkdir($directory . 'config');
+        \file_put_contents($directory . 'config/config.ini', '[config]');
+        \mkdir($directory . 'views');
+        \file_put_contents($directory . 'views/index.phtml', '<?= "hello";');
 
         $this->directories[] = $directory;
 
@@ -80,21 +80,21 @@ class PharTest extends TestCase
                 ];
 
                 foreach ($filenames as $filename) {
-                    if (is_dir($directory . $filename)) {
-                        @rmdir($directory . $filename);
-                    } elseif (is_file($directory . $filename)) {
-                        @unlink($directory . $filename);
+                    if (\is_dir($directory . $filename)) {
+                        @\rmdir($directory . $filename);
+                    } elseif (\is_file($directory . $filename)) {
+                        @\unlink($directory . $filename);
                     }
                 }
 
-                @rmdir($directory);
+                @\rmdir($directory);
             }
         }
     }
 
     protected function checkReadonly()
     {
-        if (ini_get('phar.readonly')) {
+        if (\ini_get('phar.readonly')) {
             $this->markTestSkipped('Test skipped because phar writing disabled in php.ini.');
         }
     }
@@ -181,13 +181,13 @@ STUB;
 
         $plugin = $this->getPlugin(['stub' => 'stub.php']);
 
-        file_put_contents($plugin->getBuilder()->buildPath . 'stub.php', $content);
+        \file_put_contents($plugin->getBuilder()->buildPath . 'stub.php', $content);
 
         self::assertTrue($plugin->execute());
 
         self::assertFileExists($plugin->getBuilder()->buildPath . 'build.phar');
         $phar = new PHPPhar($plugin->getBuilder()->buildPath . 'build.phar');
-        self::assertEquals($content, trim($phar->getStub())); // + trim because PHP adds newline char
+        self::assertEquals($content, \trim($phar->getStub())); // + trim because PHP adds newline char
     }
 
     public function testExecuteUnknownDirectory()

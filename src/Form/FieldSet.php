@@ -22,7 +22,7 @@ class FieldSet extends Element
                 $fieldName = $field->getName();
 
                 if (empty($fieldName)) {
-                    $rtn = array_merge($rtn, $field->getValues());
+                    $rtn = \array_merge($rtn, $field->getValues());
                 } else {
                     $rtn[$fieldName] = $field->getValues();
                 }

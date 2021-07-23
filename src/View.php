@@ -37,14 +37,14 @@ class View
 
     protected static function getViewFile(string $file, ?string $path = null): string
     {
-        $viewPath = is_null($path) ? (SRC_DIR . 'View/') : $path;
+        $viewPath = \is_null($path) ? (SRC_DIR . 'View/') : $path;
 
         return $viewPath . $file . '.' . static::$extension;
     }
 
     public static function exists(string $file, ?string $path = null): bool
     {
-        if (!file_exists(self::getViewFile($file, $path))) {
+        if (!\file_exists(self::getViewFile($file, $path))) {
             return false;
         }
 

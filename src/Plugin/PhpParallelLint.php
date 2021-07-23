@@ -56,8 +56,8 @@ class PhpParallelLint extends Plugin implements ZeroConfigPluginInterface
             // Only use if this is a comma delimited list
             $pattern = '/^([a-z]+)(,\ *[a-z]*)*$/';
 
-            if (preg_match($pattern, $options['extensions'])) {
-                $this->extensions = str_replace(' ', '', $options['extensions']);
+            if (\preg_match($pattern, $options['extensions'])) {
+                $this->extensions = \str_replace(' ', '', $options['extensions']);
             }
         }
     }
@@ -95,8 +95,8 @@ class PhpParallelLint extends Plugin implements ZeroConfigPluginInterface
         $output = $this->builder->getLastOutput();
 
         $matches = [];
-        if (preg_match_all('/Parse error\:/', $output, $matches)) {
-            $this->build->storeMeta((self::pluginName() . '-errors'), count($matches[0]));
+        if (\preg_match_all('/Parse error\:/', $output, $matches)) {
+            $this->build->storeMeta((self::pluginName() . '-errors'), \count($matches[0]));
         }
 
         return $success;
@@ -110,10 +110,10 @@ class PhpParallelLint extends Plugin implements ZeroConfigPluginInterface
     {
         $ignoreFlags = [];
         foreach ($this->ignore as $ignoreDir) {
-            $ignoreFlags[] = sprintf(' --exclude "%s"', $this->builder->buildPath . $ignoreDir);
+            $ignoreFlags[] = \sprintf(' --exclude "%s"', $this->builder->buildPath . $ignoreDir);
         }
 
-        $ignore = implode(' ', $ignoreFlags);
+        $ignore = \implode(' ', $ignoreFlags);
 
         return [$ignore];
     }

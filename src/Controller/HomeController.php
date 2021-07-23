@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Controller;
 
 use PHPCensor\Helper\Lang;
@@ -18,7 +20,7 @@ class HomeController extends WebController
     /**
     * Display dashboard:
     */
-    public function index()
+    public function index(): string
     {
         $this->layout->title = Lang::get('dashboard');
 

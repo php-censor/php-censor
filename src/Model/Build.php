@@ -92,7 +92,7 @@ class Build extends BaseBuild
      */
     public function addExtraValue($name, $value)
     {
-        $extra = json_decode($this->data['extra'], true);
+        $extra = \json_decode($this->data['extra'], true);
         if ($extra === false) {
             $extra = [];
         }
@@ -211,7 +211,7 @@ class Build extends BaseBuild
      */
     public function storeMeta($key, $value)
     {
-        $value = json_encode($value);
+        $value = \json_encode($value);
 
         $this->storeRegistry->get('Build')->setMeta($this->getId(), $key, $value);
     }
@@ -239,8 +239,8 @@ class Build extends BaseBuild
             $yamlParser  = new YamlParser();
             $buildConfig = $yamlParser->parse($buildConfig);
 
-            if ($buildConfig && is_array($buildConfig)) {
-                $builder->logDebug('Config before repository clone (DB): ' . json_encode($buildConfig));
+            if ($buildConfig && \is_array($buildConfig)) {
+                $builder->logDebug('Config before repository clone (DB): ' . \json_encode($buildConfig));
 
                 $builder->setConfig($buildConfig);
             }
@@ -266,10 +266,10 @@ class Build extends BaseBuild
         $repositoryConfig     = $this->getZeroConfigPlugins();
         $repositoryConfigFrom = '<empty config>';
 
-        if (file_exists($buildPath . '/.php-censor.yml')) {
+        if (\file_exists($buildPath . '/.php-censor.yml')) {
             $repositoryConfigFrom = '.php-censor.yml';
             $repositoryConfig = $yamlParser->parse(
-                file_get_contents($buildPath . '/.php-censor.yml')
+                \file_get_contents($buildPath . '/.php-censor.yml')
             );
         }
 
@@ -282,22 +282,22 @@ class Build extends BaseBuild
 
         if (!$buildConfig) {
             $builder->logDebug(
-                sprintf('Build config from repository (%s)', $repositoryConfigFrom)
+                \sprintf('Build config from repository (%s)', $repositoryConfigFrom)
             );
 
             $buildConfig = $repositoryConfig;
         } elseif ($buildConfig && !$overwriteBuildConfig) {
             $builder->logDebug(
-                sprintf('Build config from project (DB) + config from repository (%s)', $repositoryConfigFrom)
+                \sprintf('Build config from project (DB) + config from repository (%s)', $repositoryConfigFrom)
             );
 
-            $buildConfig = array_replace_recursive($repositoryConfig, $buildConfig);
+            $buildConfig = \array_replace_recursive($repositoryConfig, $buildConfig);
         } elseif ($buildConfig) {
             $builder->logDebug('Build config from project (DB)');
         }
 
-        if ($buildConfig && is_array($buildConfig)) {
-            $builder->logDebug('Final config: ' . json_encode($buildConfig));
+        if ($buildConfig && \is_array($buildConfig)) {
+            $builder->logDebug('Final config: ' . \json_encode($buildConfig));
 
             $builder->setConfig($buildConfig);
         }
@@ -407,7 +407,7 @@ class Build extends BaseBuild
         $createDate = $this->getCreateDate();
         if (empty($this->buildDirectory)) {
             $this->buildDirectory = $this->getProjectId() . '/' . $this->getId() . '_' . substr(
-                md5(
+                \md5(
                     ($this->getId() . '_' . ($createDate ? $createDate->format('Y-m-d H:i:s') : null))
                 ),
                 0,
@@ -430,7 +430,7 @@ class Build extends BaseBuild
         $createDate = $this->getCreateDate();
         if (empty($this->buildBranchDirectory)) {
             $this->buildBranchDirectory = $this->getProjectId() . '/' . $this->getBranch() . '_' . substr(
-                md5(
+                \md5(
                     ($this->getBranch() . '_' . ($createDate ? $createDate->format('Y-m-d H:i:s') : null))
                 ),
                 0,
@@ -450,8 +450,8 @@ class Build extends BaseBuild
             return null;
         }
 
-        return rtrim(
-            realpath(RUNTIME_DIR . 'builds'),
+        return \rtrim(
+            \realpath(RUNTIME_DIR . 'builds'),
             '/\\'
         ) . '/' . $this->getBuildDirectory() . '/';
     }
@@ -465,18 +465,18 @@ class Build extends BaseBuild
     {
         // Get the path and remove the trailing slash as this may prompt PHP
         // to see this as a directory even if it's a link.
-        $buildPath = rtrim($this->getBuildPath(), '/');
+        $buildPath = \rtrim($this->getBuildPath(), '/');
 
-        if (!$buildPath || !is_dir($buildPath)) {
+        if (!$buildPath || !\is_dir($buildPath)) {
             return;
         }
 
         try {
             $fileSystem = new Filesystem();
 
-            if (is_link($buildPath)) {
+            if (\is_link($buildPath)) {
                 // Remove the symlink without using recursive.
-                exec(sprintf('rm "%s"', $buildPath));
+                \exec(\sprintf('rm "%s"', $buildPath));
             } else {
                 $fileSystem->remove($buildPath);
             }
@@ -529,7 +529,7 @@ class Build extends BaseBuild
             $end = new DateTime();
         }
 
-        $diff  = date_diff($start, $end);
+        $diff  = \date_diff($start, $end);
         $parts = [];
         foreach (['y', 'm', 'd', 'h', 'i', 's'] as $timePart) {
             if ($diff->{$timePart} != 0) {
@@ -537,7 +537,7 @@ class Build extends BaseBuild
             }
         }
 
-        return implode(" ", $parts);
+        return \implode(" ", $parts);
     }
 
     /**
@@ -562,9 +562,9 @@ class Build extends BaseBuild
      */
     protected function writeSshKey()
     {
-        $tempKeyFile = tempnam(sys_get_temp_dir(), 'key_');
+        $tempKeyFile = \tempnam(\sys_get_temp_dir(), 'key_');
 
-        file_put_contents($tempKeyFile, $this->getProject()->getSshPrivateKey());
+        \file_put_contents($tempKeyFile, $this->getProject()->getSshPrivateKey());
 
         return $tempKeyFile;
     }
@@ -586,10 +586,10 @@ class Build extends BaseBuild
 ssh {$sshFlags} -o IdentityFile={$keyFile} $*
 
 OUT;
-        $tempShFile = tempnam(sys_get_temp_dir(), 'sh_');
+        $tempShFile = \tempnam(\sys_get_temp_dir(), 'sh_');
 
-        file_put_contents($tempShFile, $script);
-        shell_exec('chmod +x "' . $tempShFile . '"');
+        \file_put_contents($tempShFile, $script);
+        \shell_exec('chmod +x "' . $tempShFile . '"');
 
         return $tempShFile;
     }

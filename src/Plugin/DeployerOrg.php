@@ -105,7 +105,7 @@ class DeployerOrg extends Plugin
             'quiet'        => 'q'
         ];
 
-        $verbosity = strtolower(trim($verbosity));
+        $verbosity = \strtolower(\trim($verbosity));
         if ($verbosity !== 'normal') {
             return '-' . $logLevelList[$verbosity];
         } else {
@@ -141,6 +141,6 @@ class DeployerOrg extends Plugin
             $options[] = '--file=' . $config['file'];
         }
 
-        return implode(' ', $options);
+        return \implode(' ', $options);
     }
 }

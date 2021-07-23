@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Controller;
 
 use JasonGrimes\Paginator;
@@ -21,6 +23,7 @@ use PHPCensor\WebController;
 use PHPCensor\Helper\Branch;
 use PHPCensor\Store\EnvironmentStore;
 use PHPCensor\Common\Exception\RuntimeException;
+use PHPCensor\Http\Response;
 
 /**
  * @package    PHP Censor
@@ -62,9 +65,9 @@ class ProjectController extends WebController
     /**
      * @param int $projectId
      *
-     * @return PHPCensor\Http\Response
+     * @return Response
      */
-    public function ajaxBuilds($projectId)
+    public function ajaxBuilds(int $projectId): Response
     {
         $branch       = $this->getParam('branch', '');
         $environment  = $this->getParam('environment', '');
@@ -78,7 +81,7 @@ class ProjectController extends WebController
             $perPage
         );
 
-        $response = new PHPCensor\Http\Response();
+        $response = new Response();
         $response->setContent($builds[0]);
 
         return $response;
@@ -89,11 +92,13 @@ class ProjectController extends WebController
      *
      * @param int $projectId
      *
-     * @throws NotFoundException
-     *
      * @return string
+     *
+     * @throws NotFoundException
+     * @throws PHPCensor\Exception\HttpException
+     * @throws RuntimeException
      */
-    public function view($projectId)
+    public function view(int $projectId): string
     {
         $branch      = $this->getParam('branch', '');
         $environment = $this->getParam('environment', '');
@@ -157,8 +162,14 @@ class ProjectController extends WebController
      *
      * @return string
      */
-    protected function getPaginatorHtml($projectId, $branch, $environment, $total, $perPage, $page)
-    {
+    protected function getPaginatorHtml(
+        int $projectId,
+        string $branch,
+        string $environment,
+        int $total,
+        int $perPage,
+        int $page
+    ): string {
         $view = new View('pagination');
 
         $urlPattern = APP_URL . 'project/view/' . $projectId;
@@ -171,10 +182,10 @@ class ProjectController extends WebController
             $params['environment'] = $environment;
         }
 
-        $urlPattern = $urlPattern . '?' . str_replace(
+        $urlPattern = $urlPattern . '?' . \str_replace(
             '%28%3Anum%29',
             '(:num)',
-            http_build_query(array_merge($params, ['page' => '(:num)']))
+            \http_build_query(\array_merge($params, ['page' => '(:num)']))
         );
         $paginator = new Paginator($total, $perPage, $page, $urlPattern);
 
@@ -446,7 +457,7 @@ class ProjectController extends WebController
         $values                 = $project->getDataArray();
         $values['environments'] = $project->getEnvironments();
 
-        if (in_array($values['type'], [
+        if (\in_array($values['type'], [
             Project::TYPE_GITHUB,
             Project::TYPE_GITLAB
         ], true)) {
@@ -455,10 +466,10 @@ class ProjectController extends WebController
                 $values['reference'] = $accessInfo['origin'];
             } elseif (isset($accessInfo['domain']) && $accessInfo['domain']) {
                 $reference = $accessInfo['user'] .
-                    '@' . $accessInfo['domain'] . ':' . ltrim($project->getReference(), '/') . '.git';
+                    '@' . $accessInfo['domain'] . ':' . \ltrim($project->getReference(), '/') . '.git';
                 if (isset($accessInfo['port']) && $accessInfo['port']) {
                     $reference = $accessInfo['user'] . '@' . $accessInfo['domain'] . ':' . $accessInfo['port'] . '/' .
-                        ltrim($project->getReference(), '/') . '.git';
+                        \ltrim($project->getReference(), '/') . '.git';
                 }
 
                 $values['reference'] = $reference;
@@ -538,7 +549,7 @@ class ProjectController extends WebController
             Project::TYPE_SVN              => 'Svn (Subversion)',
         ];
 
-        $sourcesPattern = sprintf('^(%s)', implode('|', Project::$allowedTypes));
+        $sourcesPattern = \sprintf('^(%s)', \implode('|', Project::$allowedTypes));
 
         $field = Form\Element\Select::create('type', Lang::get('where_hosted'), true);
         $field->setPattern($sourcesPattern);
@@ -685,9 +696,9 @@ class ProjectController extends WebController
                 ],
             ];
 
-            if (in_array($type, $validators) && !preg_match($validators[$type]['regex'], $val)) {
+            if (\in_array($type, $validators) && !\preg_match($validators[$type]['regex'], $val)) {
                 throw new RuntimeException($validators[$type]['message']);
-            } elseif (Project::TYPE_LOCAL === $type && !is_dir($val)) {
+            } elseif (Project::TYPE_LOCAL === $type && !\is_dir($val)) {
                 throw new RuntimeException(Lang::get('error_path'));
             }
 

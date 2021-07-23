@@ -31,7 +31,7 @@ class CleanBuild extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        $this->removeFiles = isset($options['remove']) && is_array($options['remove']) ? $options['remove'] : [];
+        $this->removeFiles = isset($options['remove']) && \is_array($options['remove']) ? $options['remove'] : [];
     }
 
     /**

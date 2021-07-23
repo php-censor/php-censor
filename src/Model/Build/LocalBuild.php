@@ -26,12 +26,12 @@ class LocalBuild extends Build
     public function createWorkingCopy(Builder $builder, $buildPath)
     {
         $reference  = $this->getProject()->getReference();
-        $reference  = substr($reference, -1) == '/' ? substr($reference, 0, -1) : $reference;
-        $buildPath  = substr($buildPath, 0, -1);
+        $reference  = \substr($reference, -1) == '/' ? \substr($reference, 0, -1) : $reference;
+        $buildPath  = \substr($buildPath, 0, -1);
 
         // If there's a /config file in the reference directory, it is probably a bare repository
         // which we'll extract into our build path directly.
-        if (is_file($reference . '/config') &&
+        if (\is_file($reference . '/config') &&
             true === $this->handleBareRepository($builder, $reference, $buildPath)) {
             return $this->handleConfig($builder, $buildPath);
         }
@@ -88,13 +88,13 @@ class LocalBuild extends Build
      */
     protected function handleSymlink(Builder $builder, $reference, $buildPath)
     {
-        if (is_link($buildPath) && is_file($buildPath)) {
-            unlink($buildPath);
+        if (\is_link($buildPath) && \is_file($buildPath)) {
+            \unlink($buildPath);
         }
 
-        $builder->log(sprintf('Symlinking: %s to %s', $reference, $buildPath));
+        $builder->log(\sprintf('Symlinking: %s to %s', $reference, $buildPath));
 
-        if (!symlink($reference, $buildPath)) {
+        if (!\symlink($reference, $buildPath)) {
             $builder->logFailure('Failed to symlink.');
             return false;
         }

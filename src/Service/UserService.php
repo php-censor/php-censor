@@ -74,10 +74,10 @@ class UserService
         $user->setEmail($emailAddress);
 
         if (!empty($password)) {
-            $user->setHash(password_hash($password, PASSWORD_DEFAULT));
+            $user->setHash(\password_hash($password, PASSWORD_DEFAULT));
         }
 
-        if (!is_null($isAdmin)) {
+        if (!\is_null($isAdmin)) {
             $user->setIsAdmin($isAdmin);
         }
 

@@ -42,11 +42,11 @@ class Router
      */
     public function register($route, $options = [], $callback = null)
     {
-        if (!is_callable($callback)) {
+        if (!\is_callable($callback)) {
             throw new InvalidArgumentException('$callback must be callable.');
         }
 
-        array_unshift($this->routes, ['route' => $route, 'callback' => $callback, 'defaults' => $options]);
+        \array_unshift($this->routes, ['route' => $route, 'callback' => $callback, 'defaults' => $options]);
     }
 
     public function dispatch()
@@ -61,34 +61,34 @@ class Router
             $thisController = null;
             $thisAction     = null;
 
-            if (array_key_exists('namespace', $route['defaults'])) {
+            if (\array_key_exists('namespace', $route['defaults'])) {
                 $thisNamespace = $route['defaults']['namespace'];
             }
 
-            if (array_key_exists('controller', $route['defaults'])) {
+            if (\array_key_exists('controller', $route['defaults'])) {
                 $thisController = $route['defaults']['controller'];
             }
 
-            if (array_key_exists('action', $route['defaults'])) {
+            if (\array_key_exists('action', $route['defaults'])) {
                 $thisAction = $route['defaults']['action'];
             }
 
-            $routeParts = array_filter(explode('/', $route['route']));
+            $routeParts = \array_filter(\explode('/', $route['route']));
             $routeMatches = true;
 
-            while (count($routeParts)) {
-                $routePart = array_shift($routeParts);
-                $pathPart = array_shift($pathParts);
+            while (\count($routeParts)) {
+                $routePart = \array_shift($routeParts);
+                $pathPart = \array_shift($pathParts);
 
                 switch ($routePart) {
                     case ':namespace':
-                        $thisNamespace = !is_null($pathPart) ? $pathPart : $thisNamespace;
+                        $thisNamespace = !\is_null($pathPart) ? $pathPart : $thisNamespace;
                         break;
                     case ':controller':
-                        $thisController = !is_null($pathPart) ? $pathPart : $thisController;
+                        $thisController = !\is_null($pathPart) ? $pathPart : $thisController;
                         break;
                     case ':action':
-                        $thisAction = !is_null($pathPart) ? $pathPart : $thisAction;
+                        $thisAction = !\is_null($pathPart) ? $pathPart : $thisAction;
                         break;
                     default:
                         if ($routePart != $pathPart) {
@@ -96,7 +96,7 @@ class Router
                         }
                 }
 
-                if (!$routeMatches || !count($pathParts)) {
+                if (!$routeMatches || !\count($pathParts)) {
                     break;
                 }
             }

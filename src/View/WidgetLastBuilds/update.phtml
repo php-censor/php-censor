@@ -94,7 +94,7 @@ use PHPCensor\Store\EnvironmentStore;
                     &mdash;
                     <?= Lang::get('total_errors'); ?>:
                     <?= (int)$build->getErrorsTotal(); ?>
-                    <?php if (!in_array($build->getStatus(), [Build::STATUS_PENDING, Build::STATUS_RUNNING], true)): ?>
+                    <?php if (!\in_array($build->getStatus(), [Build::STATUS_PENDING, Build::STATUS_RUNNING], true)): ?>
                         <?php $trend = $build->getErrorsTrend(); ?>
                         <?php if (1 === $trend): ?>
                             <i class="fa fa-arrow-down arrow_trend_positive"></i>
@@ -112,7 +112,7 @@ use PHPCensor\Store\EnvironmentStore;
 
                 <div class="timeline-body">
                     <p>
-                    <?php if (in_array($build->getSource(), Build::$pullRequestSources, true)): ?>
+                    <?php if (\in_array($build->getSource(), Build::$pullRequestSources, true)): ?>
                         <a href="<?= $build->getRemoteBranchLink(); ?>">
                             <i class="fa fa-code-fork"></i>
                             <?= $build->getRemoteBranch(); ?> :
@@ -123,7 +123,7 @@ use PHPCensor\Store\EnvironmentStore;
                         <i class="fa fa-code-fork"></i>
                         <?= $build->getBranch(); ?>
                     </a>
-                    <?= $branches ? ' + '.implode(', ', $branches) : ''; ?>
+                    <?= $branches ? ' + ' . \implode(', ', $branches) : ''; ?>
                     <?php if ($tag = $build->getTag()): ?> /
                         <a href="<?= $build->getTagLink(); ?>">
                             <i class="fa fa-tag"></i>
@@ -133,7 +133,7 @@ use PHPCensor\Store\EnvironmentStore;
                     <?php
                         if (!empty($build->getCommitId())) {
                             echo ' &mdash; ';
-                            echo sprintf(
+                            echo \sprintf(
                                 '<a href="%s">%s %s</a>',
                                 $build->getCommitLink(),
                                 substr($build->getCommitId(), 0, 7),

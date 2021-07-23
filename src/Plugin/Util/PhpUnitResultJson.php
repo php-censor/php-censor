@@ -27,14 +27,14 @@ class PhpUnitResultJson extends PhpUnitResult
      */
     public function parse()
     {
-        $rawResults = file_get_contents($this->outputFile);
+        $rawResults = \file_get_contents($this->outputFile);
 
         $events = [];
         if ($rawResults && $rawResults[0] == '{') {
-            $fixedJson = '[' . str_replace('}{', '},{', $rawResults) . ']';
-            $events    = json_decode($fixedJson, true);
+            $fixedJson = '[' . \str_replace('}{', '},{', $rawResults) . ']';
+            $events    = \json_decode($fixedJson, true);
         } elseif ($rawResults) {
-            $events = json_decode($rawResults, true);
+            $events = \json_decode($rawResults, true);
         }
 
         // Reset the parsing variables
@@ -81,7 +81,7 @@ class PhpUnitResultJson extends PhpUnitResult
                 $severity = self::SEVERITY_FAIL;
                 break;
             case 'error':
-                if (strpos($event['message'], 'Skipped') === 0 || strpos($event['message'], 'Incomplete') === 0) {
+                if (\strpos($event['message'], 'Skipped') === 0 || \strpos($event['message'], 'Incomplete') === 0) {
                     $severity = self::SEVERITY_SKIPPED;
                 } else {
                     $severity = self::SEVERITY_ERROR;
@@ -130,7 +130,7 @@ class PhpUnitResultJson extends PhpUnitResult
 
         if (!empty($event['trace'])) {
             foreach ($event['trace'] as $step) {
-                $line             = str_replace($this->buildPath, '', $step['file']) . ':' . $step['line'];
+                $line             = \str_replace($this->buildPath, '', $step['file']) . ':' . $step['line'];
                 $formattedTrace[] = $line;
             }
         }
@@ -153,11 +153,11 @@ class PhpUnitResultJson extends PhpUnitResult
                 'line' => '',
             ];
         }
-        $firstTrace = end($event['trace']);
-        reset($event['trace']);
+        $firstTrace = \end($event['trace']);
+        \reset($event['trace']);
 
         return [
-            'file' => str_replace($this->buildPath, '', $firstTrace['file']),
+            'file' => \str_replace($this->buildPath, '', $firstTrace['file']),
             'line' => $firstTrace['line']
         ];
     }

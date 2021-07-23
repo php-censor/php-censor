@@ -66,7 +66,7 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
         }
 
         if (isset($options['output_path'])) {
-            array_unshift($this->outputPath, $options['output_path']);
+            \array_unshift($this->outputPath, $options['output_path']);
         }
 
         $this->executable = $this->findBinary(['codecept', 'codecept.phar']);
@@ -77,7 +77,7 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
      */
     public static function canExecuteOnStage($stage, Build $build)
     {
-        return (Build::STAGE_TEST === $stage && !is_null(self::findConfigFile($build->getBuildPath())));
+        return (Build::STAGE_TEST === $stage && !\is_null(self::findConfigFile($build->getBuildPath())));
     }
 
     /**
@@ -87,11 +87,11 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
      */
     public static function findConfigFile($buildPath)
     {
-        if (file_exists($buildPath . 'codeception.yml')) {
+        if (\file_exists($buildPath . 'codeception.yml')) {
             return $buildPath . 'codeception.yml';
         }
 
-        if (file_exists($buildPath . 'codeception.dist.yml')) {
+        if (\file_exists($buildPath . 'codeception.dist.yml')) {
             return $buildPath . 'codeception.dist.yml';
         }
 
@@ -122,7 +122,7 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
         $codeception = $this->executable;
 
         if (!$codeception) {
-            $this->builder->logFailure(sprintf('Could not find "%s" binary', 'codecept'));
+            $this->builder->logFailure(\sprintf('Could not find "%s" binary', 'codecept'));
 
             return false;
         }
@@ -135,24 +135,24 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
         }
 
         $parser = new YamlParser();
-        $yaml   = file_get_contents($this->ymlConfigFile);
+        $yaml   = \file_get_contents($this->ymlConfigFile);
         $config = (array)$parser->parse($yaml);
 
         $trueReportXmlPath = null;
         if ($config && isset($config['paths']['log'])) {
-            $trueReportXmlPath = rtrim($config['paths']['log'], '/\\') . '/';
+            $trueReportXmlPath = \rtrim($config['paths']['log'], '/\\') . '/';
         }
 
-        if (!file_exists($trueReportXmlPath . 'report.xml')) {
+        if (!\file_exists($trueReportXmlPath . 'report.xml')) {
             foreach ($this->outputPath as $outputPath) {
-                $trueReportXmlPath = rtrim($outputPath, '/\\') . '/';
-                if (file_exists($trueReportXmlPath . 'report.xml')) {
+                $trueReportXmlPath = \rtrim($outputPath, '/\\') . '/';
+                if (\file_exists($trueReportXmlPath . 'report.xml')) {
                     break;
                 }
             }
         }
 
-        if (!file_exists($trueReportXmlPath . 'report.xml')) {
+        if (!\file_exists($trueReportXmlPath . 'report.xml')) {
             $this->builder->logFailure('"report.xml" file can not be found in configured "output_path!"');
 
             return false;
@@ -169,7 +169,7 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
 
         // NOTE: Codeception does not use stderr, so failure can only be detected
         // through tests
-        $success = $success && (intval($meta['failures']) < 1);
+        $success = $success && (\intval($meta['failures']) < 1);
 
         $this->build->storeMeta((self::pluginName() . '-meta'), $meta);
         $this->build->storeMeta((self::pluginName() . '-data'), $output);
