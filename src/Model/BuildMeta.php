@@ -5,6 +5,13 @@ namespace PHPCensor\Model;
 use PHPCensor\Model\Base\BuildMeta as BaseBuildMeta;
 use PHPCensor\Store\BuildStore;
 
+/**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
+ */
 class BuildMeta extends BaseBuildMeta
 {
     /**

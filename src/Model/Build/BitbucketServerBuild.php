@@ -7,6 +7,12 @@ use PHPCensor\Builder;
 use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Model\Build;
 
+/**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
+ */
 class BitbucketServerBuild extends GitBuild
 {
     /**

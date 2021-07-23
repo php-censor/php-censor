@@ -9,7 +9,11 @@ use PHPCensor\Plugin;
 /**
  * XMPP Notification - Send notification for successful or failure build
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Alexandre Russo <dev.github@ange7.com>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class XmppNotify extends Plugin
 {

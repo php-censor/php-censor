@@ -11,7 +11,11 @@ use PHPCensor\Plugin;
 /**
  * Phing Plugin - Provides access to Phing functionality.
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Pavel Pavlov <ppavlov@alera.ru>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Phing extends Plugin
 {

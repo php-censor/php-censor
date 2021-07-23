@@ -6,7 +6,11 @@ use PHPCensor\ConfigurationInterface;
 use PHPCensor\Model\Base\User as BaseUser;
 
 /**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class User extends BaseUser
 {

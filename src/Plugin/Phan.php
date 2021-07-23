@@ -11,6 +11,11 @@ use PHPCensor\Plugin;
 
 /**
  * Launch Phan.
+ *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Phan extends Plugin
 {

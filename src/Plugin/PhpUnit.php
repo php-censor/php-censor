@@ -18,8 +18,12 @@ use PHPCensor\Common\Exception\RuntimeException;
 /**
  * PHP Unit Plugin - A rewrite of the original PHP Unit plugin
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Dan Cryer <dan@block8.co.uk>
  * @author Pablo Tejada <pablo@ptejada.com>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class PhpUnit extends Plugin implements ZeroConfigPluginInterface
 {

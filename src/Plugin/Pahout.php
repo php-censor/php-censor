@@ -10,8 +10,12 @@ use PHPCensor\Model\BuildError;
 use PHPCensor\Plugin;
 
 /**
- * A pair programming partner for writing better PHP.
- * https://github.com/wata727/pahout
+ * A pair programming partner for writing better PHP. https://github.com/wata727/pahout
+ *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Pahout extends Plugin
 {

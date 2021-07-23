@@ -8,6 +8,11 @@ use Symfony\Component\Process\Process;
 
 /**
  * Handles running system commands with variables.
+ *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class CommandExecutor implements CommandExecutorInterface
 {

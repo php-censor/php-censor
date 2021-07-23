@@ -12,7 +12,11 @@ use PHPCensor\Plugin;
 /**
  * Telegram Plugin
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author LEXASOFT <lexasoft83@gmail.com>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class TelegramNotify extends Plugin
 {

@@ -7,6 +7,11 @@ use PHPCensor\ConfigurationInterface;
 
 /**
  * The Github Helper class provides some Github API call functionality.
+ *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Github
 {

@@ -9,6 +9,13 @@ use Exception;
 use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Model;
 
+/**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
+ */
 class Project extends Model
 {
     const TYPE_LOCAL            = 'local';

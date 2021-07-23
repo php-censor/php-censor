@@ -8,6 +8,13 @@ use DateTime;
 use Exception;
 use PHPCensor\Model;
 
+/**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
+ */
 class BuildError extends Model
 {
     const SEVERITY_CRITICAL = 0;

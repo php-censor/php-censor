@@ -4,6 +4,12 @@ namespace PHPCensor\Helper;
 
 use Exception;
 
+/**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
+ */
 interface CommandExecutorInterface
 {
     /**

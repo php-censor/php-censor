@@ -13,6 +13,7 @@ use PHPCensor\Common\Exception\RuntimeException;
  * @package    PHP Censor
  * @subpackage Application
  *
+ * @author Dan Cryer <dan@block8.co.uk>
  * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 abstract class Store

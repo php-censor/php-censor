@@ -7,7 +7,11 @@ use PHPCensor\Plugin;
 /**
  * Environment variable plugin
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Steve Kamerman <stevekamerman@gmail.com>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Env extends Plugin
 {

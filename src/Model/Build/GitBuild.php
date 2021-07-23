@@ -12,7 +12,11 @@ use Psr\Log\LogLevel;
 /**
  * Remote Git Build Model
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class GitBuild extends Build
 {

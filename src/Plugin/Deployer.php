@@ -10,7 +10,11 @@ use PHPCensor\Plugin;
 /**
  * Integration with Deployer: https://github.com/rebelinblue/deployer
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Deployer extends Plugin
 {

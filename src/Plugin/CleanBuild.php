@@ -10,7 +10,11 @@ use PHPCensor\Plugin;
  * Clean build removes Composer related files and allows users to clean up their build directory.
  * Useful as a precursor to copy_build.
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class CleanBuild extends Plugin
 {

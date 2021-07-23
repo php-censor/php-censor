@@ -11,6 +11,11 @@ use PHPCensor\Plugin;
 
 /**
  * A static analysis tool for finding errors in PHP applications https://getpsalm.org
+ *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Psalm extends Plugin
 {

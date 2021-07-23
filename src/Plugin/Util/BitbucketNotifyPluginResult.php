@@ -2,6 +2,12 @@
 
 namespace PHPCensor\Plugin\Util;
 
+/**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
+ */
 class BitbucketNotifyPluginResult
 {
     const DEFAULT_PLUGIN_OUTPUT_FORMAT = "%s | %d\t=> %d\t%s";

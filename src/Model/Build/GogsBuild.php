@@ -4,6 +4,11 @@ namespace PHPCensor\Model\Build;
 
 /**
  * GogsBuild Build Model
+ *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class GogsBuild extends GitBuild
 {

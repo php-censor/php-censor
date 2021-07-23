@@ -13,7 +13,11 @@ use PHPCensor\Common\Exception\RuntimeException;
 /**
  * PHP Mess Detector Plugin - Allows PHP Mess Detector testing.
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
 {

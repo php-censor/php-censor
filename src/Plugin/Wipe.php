@@ -9,7 +9,11 @@ use PHPCensor\Plugin;
 /**
  * Wipe Plugin - Wipes a folder
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Claus Due <claus@namelesscoder.net>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Wipe extends Plugin
 {

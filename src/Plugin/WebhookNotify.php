@@ -14,7 +14,11 @@ use PHPCensor\Plugin;
 /**
  * Webhook notify Plugin
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Lee Willis (Ademti Software) : https://www.ademti-software.co.uk
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class WebhookNotify extends Plugin
 {

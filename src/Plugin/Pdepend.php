@@ -11,7 +11,11 @@ use Symfony\Component\Filesystem\Filesystem;
 /**
  * Pdepend Plugin - Allows Pdepend report
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Johan van der Heide <info@japaveh.nl>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Pdepend extends Plugin
 {

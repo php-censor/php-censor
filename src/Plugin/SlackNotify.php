@@ -13,7 +13,11 @@ use PHPCensor\Plugin;
 /**
  * Slack Plugin
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Stephen Ball <phpci@stephen.rebelinblue.com>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class SlackNotify extends Plugin
 {

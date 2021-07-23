@@ -7,7 +7,11 @@ use PHPCensor\ConfigurationInterface;
 /**
  * Class PhpUnitOptions validates and parse the option for the PhpUnitV2 plugin
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Pablo Tejada <pablo@ptejada.com>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class PhpUnitOptions
 {

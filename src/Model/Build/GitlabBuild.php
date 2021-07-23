@@ -5,7 +5,11 @@ namespace PHPCensor\Model\Build;
 /**
  * Gitlab Build Model
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author André Cianfarani <a.cianfarani@c2is.fr>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class GitlabBuild extends GitBuild
 {

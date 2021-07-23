@@ -10,7 +10,11 @@ use PHPCensor\Plugin;
 /**
  * Copy Build Plugin - Copies the entire build to another directory.
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class CopyBuild extends Plugin
 {

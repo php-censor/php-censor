@@ -14,7 +14,11 @@ use PHPCensor\Common\Exception\RuntimeException;
 /**
  * PHP Code Sniffer Plugin - Allows PHP Code Sniffer testing.
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
 {

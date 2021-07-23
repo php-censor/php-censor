@@ -12,7 +12,11 @@ use PHPCensor\Common\Exception\RuntimeException;
 /**
  * Email Plugin - Provides simple email capability.
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Steve Brazier <meadsteve@gmail.com>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class EmailNotify extends Plugin
 {

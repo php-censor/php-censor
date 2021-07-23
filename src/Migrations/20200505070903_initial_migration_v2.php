@@ -5,6 +5,12 @@ use Phinx\Migration\AbstractMigration;
 use PHPCensor\Model\Build;
 use PHPCensor\Common\Exception\RuntimeException;
 
+/**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
+ */
 class InitialMigrationV2 extends AbstractMigration
 {
     private const LATEST_V1_MIGRATION_NAME = 'FixedPhpStanPluginName';

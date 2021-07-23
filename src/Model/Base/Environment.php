@@ -6,6 +6,12 @@ namespace PHPCensor\Model\Base;
 
 use PHPCensor\Model;
 
+/**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
+ */
 class Environment extends Model
 {
     /**

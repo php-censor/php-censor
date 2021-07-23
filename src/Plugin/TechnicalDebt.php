@@ -14,7 +14,11 @@ use SplFileInfo;
 /**
  * Technical Debt Plugin - Checks for existence of "TODO", "FIXME", etc.
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author James Inman <james@jamesinman.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
 {

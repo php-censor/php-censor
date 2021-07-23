@@ -10,7 +10,11 @@ use PHPCensor\Plugin;
 /**
  * Campfire Plugin - Allows Campfire API actions. Strongly based on icecube (http://labs.mimmin.com/icecube)
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author André Cianfarani <acianfa@gmail.com>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class CampfireNotify extends Plugin
 {

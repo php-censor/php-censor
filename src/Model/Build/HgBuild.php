@@ -11,7 +11,11 @@ use PHPCensor\StoreRegistry;
 /**
  * Mercurial Build Model
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Pavel Gopanenko <pavelgopanenko@gmail.com>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class HgBuild extends Build
 {

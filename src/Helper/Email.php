@@ -8,6 +8,11 @@ use Swift_Message;
 
 /**
  * Helper class for sending emails using email configuration.
+ *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Email
 {

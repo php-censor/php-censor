@@ -11,7 +11,11 @@ use PHPCensor\Plugin;
 /**
  * PHPTAL Lint Plugin - Provides access to PHPTAL lint functionality.
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Stephen Ball <phpci@stephen.rebelinblue.com>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class PhpTalLint extends Plugin
 {

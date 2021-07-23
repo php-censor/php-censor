@@ -8,6 +8,11 @@ use Swift_SmtpTransport;
 
 /**
  * Class MailerFactory helps to set up and configure a SwiftMailer object.
+ *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class MailerFactory
 {

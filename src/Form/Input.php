@@ -7,6 +7,13 @@ use Exception;
 use PHPCensor\Form\DataTransformer\DataTransformerInterface;
 use PHPCensor\View;
 
+/**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
+ */
 class Input extends Element
 {
     /**

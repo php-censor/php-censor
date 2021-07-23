@@ -13,6 +13,12 @@ use PHPCensor\Store\BuildErrorStore;
 use PHPCensor\Store\BuildMetaStore;
 use PHPCensor\Store\BuildStore;
 
+/**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
+ */
 class BitbucketNotify extends Plugin
 {
     /** @var string */

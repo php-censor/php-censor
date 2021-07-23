@@ -14,7 +14,11 @@ use PHPCensor\Plugin;
 /**
  * Flowdock Plugin
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Petr Cervenka <petr@nanosolutions.io>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class FlowdockNotify extends Plugin
 {

@@ -8,7 +8,11 @@ use PHPCensor\Helper\Xml;
 /**
  * Class Codeception
  *
- * @author  Adam Cooper <adam@networkpie.co.uk>
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Adam Cooper <adam@networkpie.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Codeception implements ParserInterface
 {

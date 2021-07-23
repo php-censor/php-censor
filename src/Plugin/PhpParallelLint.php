@@ -10,7 +10,11 @@ use PHPCensor\ZeroConfigPluginInterface;
 /**
  * Php Parallel Lint Plugin - Provides access to PHP lint functionality.
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Vaclav Makes <vaclav@makes.cz>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class PhpParallelLint extends Plugin implements ZeroConfigPluginInterface
 {

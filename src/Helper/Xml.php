@@ -7,6 +7,12 @@ use Exception;
 use LibXMLError;
 use SimpleXMLElement;
 
+/**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
+ */
 class Xml
 {
     /**

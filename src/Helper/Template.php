@@ -4,6 +4,12 @@ namespace PHPCensor\Helper;
 
 use voku\helper\AntiXSS;
 
+/**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
+ */
 class Template
 {
     /**

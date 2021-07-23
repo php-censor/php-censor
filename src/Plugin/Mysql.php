@@ -13,8 +13,12 @@ use PHPCensor\Plugin;
 /**
  * MySQL Plugin - Provides access to a MySQL database.
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Dan Cryer <dan@block8.co.uk>
  * @author Steve Kamerman <stevekamerman@gmail.com>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Mysql extends Plugin
 {

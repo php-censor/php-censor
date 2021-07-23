@@ -9,7 +9,11 @@ use PHPCensor\Plugin;
 /**
  * Create a ZIP or TAR.GZ archive of the entire build.
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class PackageBuild extends Plugin
 {

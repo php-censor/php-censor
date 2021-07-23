@@ -9,7 +9,11 @@ use PHPCensor\Model\Build;
 /**
  * Local Build Model
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class LocalBuild extends Build
 {

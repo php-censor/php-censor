@@ -12,7 +12,11 @@ use PHPCensor\ZeroConfigPluginInterface;
 /**
  * PHP Docblock Checker Plugin - Checks your PHP files for appropriate uses of Docblocks
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
 {

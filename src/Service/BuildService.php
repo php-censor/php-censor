@@ -29,6 +29,7 @@ use Symfony\Component\Yaml\Yaml;
  * @package    PHP Censor
  * @subpackage Application
  *
+ * @author Dan Cryer <dan@block8.co.uk>
  * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class BuildService

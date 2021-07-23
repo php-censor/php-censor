@@ -13,6 +13,9 @@ use PHPCensor\Common\Exception\RuntimeException;
 /**
  * SensioLabs Security Checker Plugin
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class SecurityChecker extends Plugin implements ZeroConfigPluginInterface

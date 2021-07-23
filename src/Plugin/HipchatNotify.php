@@ -11,7 +11,11 @@ use PHPCensor\Plugin;
 /**
  * Hipchat Plugin
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author James Inman <james@jamesinman.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class HipchatNotify extends Plugin
 {

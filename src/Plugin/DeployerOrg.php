@@ -9,7 +9,11 @@ use PHPCensor\Plugin;
 /**
  * Deployer plugin for PHPCensor: http://deployer.org
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Alexey Boyko <ket4yiit@gmail.com>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class DeployerOrg extends Plugin
 {

@@ -9,7 +9,11 @@ use PHPCensor\Plugin;
 /**
  * Shell Plugin - Allows execute shell commands.
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Kinn Coelho Julião <kinncj@gmail.com>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Shell extends Plugin
 {

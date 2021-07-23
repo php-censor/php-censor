@@ -10,6 +10,11 @@ use PHPCensor\Plugin;
 
 /**
  * Phar Plugin
+ *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Phar extends Plugin
 {

@@ -1,7 +1,4 @@
 <?php
-/**
- * PHPCensor - Continuous Integration for PHP
- */
 
 namespace PHPCensor\Plugin;
 
@@ -14,8 +11,10 @@ use PHPCensor\Plugin;
 /**
  * Integrates PHPCensor with Mage: https://github.com/andres-montanez/Magallanes
  *
- * @package      PHPCensor
- * @subpackage   Plugins
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Mage extends Plugin
 {

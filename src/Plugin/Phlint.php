@@ -14,6 +14,11 @@ use PHPCensor\Plugin;
  * issues. It focuses on how the code works rather than how the code looks. Phlint is designed from the start to do
  * deep semantic analysis rather than doing only shallow or stylistic analysis.
  * https://gitlab.com/phlint/phlint
+ *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Phlint extends Plugin
 {

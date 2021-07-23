@@ -8,6 +8,11 @@ use PHPCensor\Plugin;
 
 /**
  * Atoum plugin, runs Atoum tests within a project.
+ *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Atoum extends Plugin
 {

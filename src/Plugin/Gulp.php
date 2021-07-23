@@ -9,7 +9,11 @@ use PHPCensor\Plugin;
 /**
  * Gulp Plugin - Provides access to gulp functionality.
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Dirk Heilig <dirk@heilig-online.com>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Gulp extends Plugin
 {

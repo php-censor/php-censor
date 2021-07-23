@@ -4,6 +4,13 @@ namespace PHPCensor\Http\Response;
 
 use PHPCensor\Http\Response;
 
+/**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
+ */
 class JsonResponse extends Response
 {
     public function __construct(Response $createFrom = null)

@@ -12,7 +12,11 @@ use PHPCensor\Common\Exception\RuntimeException;
 /**
  * Sensiolabs Insight Plugin - Allows Sensiolabs Insight testing.
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Eugen Ganshorn <eugen@ganshorn.eu>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class SensiolabsInsight extends Plugin
 {

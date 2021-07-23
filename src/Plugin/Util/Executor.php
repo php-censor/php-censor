@@ -13,6 +13,11 @@ use PHPCensor\StoreRegistry;
 
 /**
  * Plugin Executor - Runs the configured plugins for a given build stage.
+ *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Executor
 {

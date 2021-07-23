@@ -8,6 +8,11 @@ use PHPCensor\StoreRegistry;
 
 /**
  * Languages Helper Class - Handles loading strings files and the strings within them.
+ *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Lang
 {

@@ -9,7 +9,11 @@ use PHPCensor\Model\Build;
 /**
  * Remote Subversion Build Model
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Nadir Dzhilkibaev <imam.sharif@gmail.com>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class SvnBuild extends Build
 {

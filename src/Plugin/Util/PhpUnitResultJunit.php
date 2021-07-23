@@ -10,7 +10,11 @@ use SimpleXMLElement;
 /**
  * Class PhpUnitResultJunit parses the results for the PhpUnitV2 plugin
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Simon Heimberg <simon.heimberg@heimberg-ea.ch>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class PhpUnitResultJunit extends PhpUnitResult
 {

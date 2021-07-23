@@ -11,7 +11,11 @@ use PHPCensor\Plugin;
 /**
  * PgSQL Plugin - Provides access to a PgSQL database.
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Pgsql extends Plugin
 {

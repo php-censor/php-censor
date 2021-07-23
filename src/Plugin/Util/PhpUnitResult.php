@@ -7,7 +7,11 @@ use Exception;
 /**
  * Class PhpUnitResult parses the results for the PhpUnitV2 plugin
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Pablo Tejada <pablo@ptejada.com>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 abstract class PhpUnitResult
 {

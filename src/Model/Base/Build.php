@@ -10,6 +10,13 @@ use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Model;
 use PHPCensor\Store\BuildStore;
 
+/**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
+ */
 class Build extends Model
 {
     const STATUS_PENDING = 0;

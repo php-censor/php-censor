@@ -4,6 +4,11 @@ namespace PHPCensor\Helper;
 
 /**
  * Provides some basic diff processing functionality.
+ *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Diff
 {

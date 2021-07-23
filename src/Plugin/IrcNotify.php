@@ -9,7 +9,11 @@ use PHPCensor\Plugin;
 /**
  * IRC Plugin - Sends a notification to an IRC channel
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class IrcNotify extends Plugin
 {

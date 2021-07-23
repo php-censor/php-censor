@@ -13,7 +13,11 @@ use PHPCensor\Model\BuildError;
 /**
  * Github Build Model
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class GithubBuild extends GitBuild
 {

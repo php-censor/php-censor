@@ -11,7 +11,11 @@ use PHPCensor\ZeroConfigPluginInterface;
 /**
  * PHP Loc - Allows PHP Copy / Lines of Code testing.
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Johan van der Heide <info@japaveh.nl>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class PhpLoc extends Plugin implements ZeroConfigPluginInterface
 {

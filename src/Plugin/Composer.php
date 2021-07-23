@@ -11,7 +11,11 @@ use PHPCensor\ZeroConfigPluginInterface;
 /**
  * Composer Plugin - Provides access to Composer functionality.
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Composer extends Plugin implements ZeroConfigPluginInterface
 {

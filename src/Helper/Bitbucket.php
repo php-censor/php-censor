@@ -8,6 +8,11 @@ use PHPCensor\Model\Build;
 
 /**
  * The Bitbucket Helper class provides some Bitbucket API call functionality.
+ *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Bitbucket
 {

@@ -7,7 +7,11 @@ use PHPCensor\Helper\Bitbucket;
 /**
  * BitbucketHgBuild Build Model
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Artem Bochkov <artem.v.bochkov@gmail.com>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class BitbucketHgBuild extends HgBuild
 {

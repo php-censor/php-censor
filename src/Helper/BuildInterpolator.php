@@ -9,6 +9,11 @@ use PHPCensor\StoreRegistry;
 
 /**
  * The BuildInterpolator class replaces variables in a string with build-specific information.
+ *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class BuildInterpolator
 {

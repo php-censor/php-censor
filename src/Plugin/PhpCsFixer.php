@@ -15,7 +15,11 @@ use SebastianBergmann\Diff\Parser;
 /**
  * PHP CS Fixer - Works with the PHP Coding Standards Fixer for testing coding standards.
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Gabriel Baker <gabriel@autonomicpilot.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class PhpCsFixer extends Plugin
 {
