@@ -16,9 +16,6 @@ use PHPCensor\Model;
  */
 class ProjectGroup extends Model
 {
-    /**
-     * @var array
-     */
     protected array $data = [
         'id'          => null,
         'title'       => null,

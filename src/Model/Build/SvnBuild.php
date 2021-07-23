@@ -17,7 +17,7 @@ use PHPCensor\Model\Build;
  */
 class SvnBuild extends Build
 {
-    protected $svnCommand = 'svn export -q --non-interactive ';
+    protected string $svnCommand = 'svn export -q --non-interactive ';
 
     /**
      * Get the URL to be used to clone this remote repository.

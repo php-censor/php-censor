@@ -36,9 +36,6 @@ class Build extends Model
     const SOURCE_MANUAL_REBUILD_WEB            = 9;
     const SOURCE_MANUAL_REBUILD_CONSOLE        = 10;
 
-    /**
-     * @var array
-     */
     protected array $data = [
         'id'                    => null,
         'parent_id'             => null,
@@ -62,20 +59,14 @@ class Build extends Model
         'errors_new'            => null,
     ];
 
-    /**
-     * @var array
-     */
-    protected $allowedStatuses = [
+    protected array $allowedStatuses = [
         self::STATUS_PENDING,
         self::STATUS_RUNNING,
         self::STATUS_SUCCESS,
         self::STATUS_FAILED,
     ];
 
-    /**
-     * @var array
-     */
-    protected $allowedSources = [
+    protected array $allowedSources = [
         self::SOURCE_UNKNOWN,
         self::SOURCE_MANUAL_WEB,
         self::SOURCE_MANUAL_CONSOLE,

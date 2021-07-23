@@ -15,9 +15,6 @@ use PHPCensor\Model;
  */
 class User extends Model
 {
-    /**
-     * @var array
-     */
     protected array $data = [
         'id'            => null,
         'email'         => null,

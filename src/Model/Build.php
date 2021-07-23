@@ -57,20 +57,11 @@ class Build extends BaseBuild
         self::SOURCE_WEBHOOK_PULL_REQUEST_MERGED,
     ];
 
-    /**
-     * @var array
-     */
-    protected $totalErrorsCount = [];
+    protected array $totalErrorsCount = [];
 
-    /**
-     * @var string
-     */
-    protected $buildDirectory;
+    protected string $buildDirectory;
 
-    /**
-     * @var string
-     */
-    protected $buildBranchDirectory;
+    protected string $buildBranchDirectory;
 
     /**
      * @return null|Project

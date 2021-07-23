@@ -15,9 +15,6 @@ use PHPCensor\Model;
  */
 class BuildMeta extends Model
 {
-    /**
-     * @var array
-     */
     protected array $data = [
         'id'         => null,
         'build_id'   => null,

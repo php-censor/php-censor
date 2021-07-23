@@ -22,9 +22,6 @@ class BuildError extends Model
     const SEVERITY_NORMAL   = 2;
     const SEVERITY_LOW      = 3;
 
-    /**
-     * @var array
-     */
     protected array $data = [
         'id'          => null,
         'build_id'    => null,

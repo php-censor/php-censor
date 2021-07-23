@@ -21,10 +21,7 @@ use PHPCensor\Model\BuildError;
  */
 class GithubBuild extends GitBuild
 {
-    /**
-     * @var array
-     */
-    public static $pullrequestTriggersToSources = [
+    public static array $pullrequestTriggersToSources = [
         'opened'      => Build::SOURCE_WEBHOOK_PULL_REQUEST_CREATED,
         'synchronize' => Build::SOURCE_WEBHOOK_PULL_REQUEST_UPDATED,
         'reopened'    => Build::SOURCE_WEBHOOK_PULL_REQUEST_UPDATED,

@@ -15,10 +15,7 @@ use PHPCensor\Model\Build;
  */
 class BitbucketServerBuild extends GitBuild
 {
-    /**
-     * @var array
-     */
-    public static $pullrequestTriggersToSources = [
+    public static array $pullrequestTriggersToSources = [
         'pr:opened'   => Build::SOURCE_WEBHOOK_PULL_REQUEST_CREATED,
         'pr:updated'  => Build::SOURCE_WEBHOOK_PULL_REQUEST_UPDATED,
         'pr:approved' => Build::SOURCE_WEBHOOK_PULL_REQUEST_APPROVED,

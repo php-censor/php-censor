@@ -14,9 +14,6 @@ use PHPCensor\Model;
  */
 class Environment extends Model
 {
-    /**
-     * @var array
-     */
     protected array $data = [
         'id'         => null,
         'project_id' => null,

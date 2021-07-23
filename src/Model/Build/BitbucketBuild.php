@@ -21,10 +21,7 @@ use PHPCensor\Model\BuildError;
  */
 class BitbucketBuild extends GitBuild
 {
-    /**
-     * @var array
-     */
-    public static $pullrequestTriggersToSources = [
+    public static array $pullrequestTriggersToSources = [
         'pullrequest:created'   => Build::SOURCE_WEBHOOK_PULL_REQUEST_CREATED,
         'pullrequest:updated'   => Build::SOURCE_WEBHOOK_PULL_REQUEST_UPDATED,
         'pullrequest:approved'  => Build::SOURCE_WEBHOOK_PULL_REQUEST_APPROVED,
