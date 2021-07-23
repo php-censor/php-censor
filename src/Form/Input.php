@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Form;
 
 use Closure;
@@ -16,15 +18,9 @@ use PHPCensor\View;
  */
 class Input extends Element
 {
-    /**
-     * @var bool
-     */
-    protected $required = false;
+    protected bool $required = false;
 
-    /**
-     * @var string
-     */
-    protected $pattern;
+    protected string $pattern = '';
 
     /**
      * @var callable
@@ -36,29 +32,16 @@ class Input extends Element
      */
     protected $value;
 
-    /**
-     * @var string
-     */
-    protected $error;
+    protected string $error = '';
 
-    /**
-     * @var bool
-     */
-    protected $customError = false;
+    protected bool $customError = false;
 
-    /** @var DataTransformerInterface */
-    protected $dataTransformator;
+    protected ?DataTransformerInterface $dataTransformer = null;
 
-    /**
-     * @param string  $name
-     * @param string  $label
-     * @param bool $required
-     *
-     * @return static
-     */
-    public static function create($name, $label, $required = false)
+    public static function create(string $name, string $label, bool $required = false): self
     {
         $el = new static();
+
         $el->setName($name);
         $el->setLabel($label);
         $el->setRequired($required);
@@ -71,8 +54,8 @@ class Input extends Element
      */
     public function getValue()
     {
-        if (!empty($this->getDataTransformator())) {
-            return $this->getDataTransformator()->reverseTransform($this->value);
+        if (!empty($this->getDataTransformer())) {
+            return $this->getDataTransformer()->reverseTransform($this->value);
         }
 
         return $this->value;
@@ -83,10 +66,10 @@ class Input extends Element
      *
      * @return $this
      */
-    public function setValue($value)
+    public function setValue($value): self
     {
-        if (!empty($this->getDataTransformator())) {
-            $this->value = $this->getDataTransformator()->transform($value);
+        if (!empty($this->getDataTransformer())) {
+            $this->value = $this->getDataTransformer()->transform($value);
         } else {
             $this->value = $value;
         }
@@ -94,22 +77,14 @@ class Input extends Element
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function getRequired()
+    public function getRequired(): bool
     {
         return $this->required;
     }
 
-    /**
-     * @param bool $required
-     *
-     * @return $this
-     */
-    public function setRequired($required)
+    public function setRequired(bool $required): self
     {
-        $this->required = (bool)$required;
+        $this->required = $required;
 
         return $this;
     }
@@ -122,12 +97,7 @@ class Input extends Element
         return $this->validator;
     }
 
-    /**
-     * @param callable $validator
-     *
-     * @return $this
-     */
-    public function setValidator($validator)
+    public function setValidator($validator): self
     {
         if (\is_callable($validator) || $validator instanceof Closure) {
             $this->validator = $validator;
@@ -136,37 +106,26 @@ class Input extends Element
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getPattern()
+    public function getPattern(): string
     {
         return $this->pattern;
     }
 
-    /**
-     * @param string $pattern
-     *
-     * @return $this
-     */
-    public function setPattern($pattern)
+    public function setPattern(string $pattern): self
     {
         $this->pattern = $pattern;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function validate()
+    public function validate(): bool
     {
         if ($this->getRequired() && empty($this->getValue())) {
             $this->error = $this->getLabel() . ' is required.';
             return false;
         }
 
-        if ($this->getPattern() && !\preg_match('/' . $this->getPattern() . '/', $this->getValue())) {
+        if ($this->getPattern() && !\preg_match('/' . $this->getPattern() . '/', (string)$this->getValue())) {
             $this->error = 'Invalid value entered.';
 
             return false;
@@ -191,12 +150,7 @@ class Input extends Element
         return true;
     }
 
-    /**
-     * @param string $message
-     *
-     * @return $this
-     */
-    public function setError($message)
+    public function setError(string $message): self
     {
         $this->customError = true;
         $this->error       = $message;
@@ -207,7 +161,7 @@ class Input extends Element
     /**
      * @param View $view
      */
-    protected function onPreRender(View &$view)
+    protected function onPreRender(View &$view): void
     {
         $view->value    = $this->getValue();
         $view->error    = $this->error;
@@ -215,16 +169,15 @@ class Input extends Element
         $view->required = $this->required;
     }
 
-    /**
-     * @return DataTransformerInterface
-     */
-    public function getDataTransformator()
+    public function getDataTransformer(): ?DataTransformerInterface
     {
-        return $this->dataTransformator;
+        return $this->dataTransformer;
     }
 
-    public function setDataTransformator(DataTransformerInterface $dataTransformator)
+    public function setDataTransformer(DataTransformerInterface $dataTransformer): self
     {
-        $this->dataTransformator = $dataTransformator;
+        $this->dataTransformer = $dataTransformer;
+
+        return $this;
     }
 }

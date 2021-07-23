@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Form\Validator;
 
 /**
@@ -10,5 +12,5 @@ namespace PHPCensor\Form\Validator;
  */
 interface ValidatorInterface
 {
-    public function __invoke($value);
+    public function __invoke($value): bool;
 }

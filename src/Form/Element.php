@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Form;
 
 use PHPCensor\View;
@@ -13,166 +15,95 @@ use PHPCensor\View;
  */
 abstract class Element
 {
-    /**
-     * @var string
-     */
-    protected $name;
+    protected string $name = '';
 
-    /**
-     * @var string
-     */
-    protected $id;
+    protected string $id = '';
 
-    /**
-     * @var string
-     */
-    protected $label;
+    protected string $label = '';
 
-    /**
-     * @var string
-     */
-    protected $class;
+    protected string $class = '';
 
-    /**
-     * @var string
-     */
-    protected $containerClass;
+    protected string $containerClass = '';
 
-    /**
-     * @var Element
-     */
-    protected $parent;
+    protected ?Element $parent = null;
 
-    /**
-     * @param string|null $name
-     */
-    public function __construct($name = null)
+    public function __construct(?string $name = null)
     {
         if (!\is_null($name)) {
             $this->setName($name);
         }
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return $this
-     */
-    public function setName($name)
+    public function setName(string $name): self
     {
         $this->name = \strtolower(\preg_replace('/([^a-zA-Z0-9_\-%])/', '', $name));
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getId()
+    public function getId(): string
     {
         return !$this->id
             ? ('element-' . $this->name)
             : $this->id;
     }
 
-    /**
-     * @param string $id
-     *
-     * @return $this
-     */
-    public function setId($id)
+    public function setId(string $id): self
     {
         $this->id = $id;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getLabel()
+    public function getLabel(): string
     {
         return $this->label;
     }
 
-    /**
-     * @param string $label
-     *
-     * @return $this
-     */
-    public function setLabel($label)
+    public function setLabel(string $label): self
     {
         $this->label = $label;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getClass()
+    public function getClass(): string
     {
         return $this->class;
     }
 
-    /**
-     * @param string $class
-     *
-     * @return $this
-     */
-    public function setClass($class)
+    public function setClass(string $class): self
     {
         $this->class = $class;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getContainerClass()
+    public function getContainerClass(): string
     {
         return $this->containerClass;
     }
 
-    /**
-     * @param string $class
-     *
-     * @return $this
-     */
-    public function setContainerClass($class)
+    public function setContainerClass(string $class): self
     {
         $this->containerClass = $class;
 
         return $this;
     }
 
-    /**
-     * @param Element $parent
-     *
-     * @return $this
-     */
-    public function setParent(Element $parent)
+    public function setParent(Element $parent): self
     {
         $this->parent = $parent;
 
         return $this;
     }
 
-    /**
-     * @param string $viewFile
-     *
-     * @return string
-     */
-    public function render($viewFile = null)
+    public function render(?string $viewFile = null): string
     {
         if (\is_null($viewFile)) {
             $class    = \explode('\\', \get_called_class());
@@ -196,5 +127,5 @@ abstract class Element
     /**
      * @param View $view
      */
-    abstract protected function onPreRender(View &$view);
+    abstract protected function onPreRender(View &$view): void;
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Form\Element;
 
 use PHPCensor\View;
@@ -13,10 +15,7 @@ use PHPCensor\View;
  */
 class Csrf extends Hidden
 {
-    /**
-     * @return bool
-     */
-    public function validate()
+    public function validate(): bool
     {
         $sessionToken = isset($_SESSION['csrf_tokens'][$this->getName()])
             ? $_SESSION['csrf_tokens'][$this->getName()]
@@ -29,10 +28,7 @@ class Csrf extends Hidden
         return true;
     }
 
-    /**
-     * @param View $view
-     */
-    protected function onPreRender(View &$view)
+    protected function onPreRender(View &$view): void
     {
         parent::onPreRender($view);
 

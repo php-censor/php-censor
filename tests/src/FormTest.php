@@ -92,7 +92,7 @@ class FormTest extends TestCase
         self::assertTrue($f->validate());
 
         $f->setValue('fail');
-        $f->setPattern(null);
+        $f->setPattern('');
 
         self::assertFalse($f->validate());
     }
