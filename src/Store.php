@@ -28,7 +28,7 @@ abstract class Store
 
     protected StoreRegistry $storeRegistry;
 
-    abstract public function getByPrimaryKey($key, string $useConnection = 'read'): ?Model;
+    abstract public function getByPrimaryKey(int $key, string $useConnection = 'read'): ?Model;
 
     /**
      * @throws RuntimeException

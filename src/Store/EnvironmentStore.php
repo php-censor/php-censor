@@ -27,12 +27,12 @@ class EnvironmentStore extends Store
     /**
      * Get a Environment by primary key (Id)
      *
-     * @param int $key
-     * @param string  $useConnection
+     * @param int    $key
+     * @param string $useConnection
      *
      * @return null|Environment
      */
-    public function getByPrimaryKey($key, string $useConnection = 'read'): ?Environment
+    public function getByPrimaryKey(int $key, string $useConnection = 'read'): ?Environment
     {
         return $this->getById($key, $useConnection);
     }
@@ -40,14 +40,14 @@ class EnvironmentStore extends Store
     /**
      * Get a single Environment by Id.
      *
-     * @param int $id
-     * @param string  $useConnection
+     * @param int    $id
+     * @param string $useConnection
      *
      * @return null|Environment
      *
      * @throws HttpException
      */
-    public function getById($id, $useConnection = 'read')
+    public function getById(int $id, string $useConnection = 'read'): ?Environment
     {
         if (\is_null($id)) {
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
@@ -77,7 +77,7 @@ class EnvironmentStore extends Store
      *
      * @throws HttpException
      */
-    public function getByNameAndProjectId($name, $projectId, $useConnection = 'read')
+    public function getByNameAndProjectId(string $name, int $projectId, string $useConnection = 'read'): ?Environment
     {
         if (\is_null($name)) {
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
@@ -107,7 +107,7 @@ class EnvironmentStore extends Store
      *
      * @throws Exception
      */
-    public function getByProjectId($projectId, $useConnection = 'read')
+    public function getByProjectId(int $projectId, string $useConnection = 'read'): array
     {
         if (\is_null($projectId)) {
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');

@@ -59,9 +59,6 @@ class BuildErrorWriter
         $this->storeRegistry   = $storeRegistry;
     }
 
-    /**
-     * Destructor
-     */
     public function __destruct()
     {
         $this->flush();
@@ -70,23 +67,23 @@ class BuildErrorWriter
     /**
      * Write error
      *
-     * @param string    $plugin
-     * @param string    $message
-     * @param int   $severity
-     * @param string    $file
-     * @param int   $lineStart
-     * @param int   $lineEnd
-     * @param DateTime $createdDate
+     * @param string        $plugin
+     * @param string        $message
+     * @param int           $severity
+     * @param string|null   $file
+     * @param int|null      $lineStart
+     * @param int|null      $lineEnd
+     * @param DateTime|null $createdDate
      */
     public function write(
-        $plugin,
-        $message,
-        $severity,
-        $file = null,
-        $lineStart = null,
-        $lineEnd = null,
-        $createdDate = null
-    ) {
+        string $plugin,
+        string $message,
+        int $severity,
+        ?string $file = null,
+        ?int $lineStart = null,
+        ?int $lineEnd = null,
+        ?DateTime $createdDate = null
+    ): void {
         if (\is_null($createdDate)) {
             $createdDate = new DateTime();
         }
@@ -115,7 +112,7 @@ class BuildErrorWriter
     /**
      * Flush buffer
      */
-    public function flush()
+    public function flush(): void
     {
         if (empty($this->errors)) {
             return;

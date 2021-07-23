@@ -26,12 +26,12 @@ class ProjectGroupStore extends Store
     /**
      * Get a ProjectGroup by primary key (Id)
      *
-     * @param int $key
-     * @param string  $useConnection
+     * @param int    $key
+     * @param string $useConnection
      *
      * @return null|ProjectGroup
      */
-    public function getByPrimaryKey($key, string $useConnection = 'read'): ?ProjectGroup
+    public function getByPrimaryKey(int $key, string $useConnection = 'read'): ?ProjectGroup
     {
         return $this->getById($key, $useConnection);
     }
@@ -39,14 +39,14 @@ class ProjectGroupStore extends Store
     /**
      * Get a single ProjectGroup by Id.
      *
-     * @param int $id
-     * @param string  $useConnection
+     * @param int    $id
+     * @param string $useConnection
      *
      * @return ProjectGroup|null
      *
      * @throws HttpException
      */
-    public function getById($id, $useConnection = 'read')
+    public function getById(int $id, string $useConnection = 'read'): ?ProjectGroup
     {
         if (\is_null($id)) {
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
@@ -69,14 +69,14 @@ class ProjectGroupStore extends Store
     /**
      * Get a single ProjectGroup by title.
      *
-     * @param int $title
-     * @param string  $useConnection
+     * @param string $title
+     * @param string $useConnection
      *
      * @return ProjectGroup|null
      *
      * @throws HttpException
      */
-    public function getByTitle($title, $useConnection = 'read')
+    public function getByTitle(string $title, string $useConnection = 'read'): ?ProjectGroup
     {
         if (\is_null($title)) {
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');

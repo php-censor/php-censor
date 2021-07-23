@@ -26,14 +26,14 @@ class BuildErrorStore extends Store
     protected ?string $primaryKey = 'id';
 
     /**
-     * @param mixed  $key
+     * @param int    $key
      * @param string $useConnection
      *
      * @return BuildError|null
      *
      * @throws HttpException
      */
-    public function getByPrimaryKey($key, string $useConnection = 'read'): ?BuildError
+    public function getByPrimaryKey(int $key, string $useConnection = 'read'): ?BuildError
     {
         return $this->getById($key, $useConnection);
     }
@@ -41,14 +41,14 @@ class BuildErrorStore extends Store
     /**
      * Get a single BuildError by Id.
      *
-     * @param int $id
-     * @param string  $useConnection
+     * @param int    $id
+     * @param string $useConnection
      *
      * @return null|BuildError
      *
      * @throws HttpException
      */
-    public function getById($id, $useConnection = 'read')
+    public function getById(int $id, string $useConnection = 'read'): ?BuildError
     {
         if (\is_null($id)) {
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
@@ -81,7 +81,7 @@ class BuildErrorStore extends Store
      *
      * @throws HttpException
      */
-    public function getByBuildId($buildId, $limit = null, $offset = 0, $plugin = null, $severity = null, $isNew = null)
+    public function getByBuildId(int $buildId, ?int $limit = null, int $offset = 0, ?string $plugin = null, ?int $severity = null, ?string $isNew = null): array
     {
         if (\is_null($buildId)) {
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
@@ -151,7 +151,7 @@ class BuildErrorStore extends Store
      *
      * @throws Exception
      */
-    public function getErrorTotalForBuild($buildId, $plugin = null, $severity = null, $isNew = null)
+    public function getErrorTotalForBuild(int $buildId, ?string $plugin = null, ?int $severity = null, ?string $isNew = null): int
     {
         $query = 'SELECT COUNT(*) AS {{total}} FROM {{' . $this->tableName . '}} WHERE {{build_id}} = :build';
 
@@ -191,13 +191,13 @@ class BuildErrorStore extends Store
     }
 
     /**
-     * @param int $buildId
-     * @param int $severity
-     * @param string  $isNew
+     * @param int         $buildId
+     * @param int|null    $severity
+     * @param string|null $isNew
      *
      * @return array
      */
-    public function getKnownPlugins($buildId, $severity = null, $isNew = '')
+    public function getKnownPlugins(int $buildId, ?int $severity = null, ?string $isNew = null): array
     {
         $query = 'SELECT DISTINCT {{plugin}} from {{' . $this->tableName . '}} WHERE {{build_id}} = :build';
 
@@ -230,13 +230,13 @@ class BuildErrorStore extends Store
     }
 
     /**
-     * @param int $buildId
-     * @param string  $plugin
-     * @param string  $isNew
+     * @param int         $buildId
+     * @param string|null $plugin
+     * @param string|null $isNew
      *
      * @return array
      */
-    public function getKnownSeverities($buildId, $plugin = '', $isNew = '')
+    public function getKnownSeverities(int $buildId, ?string $plugin = null, ?string $isNew = null): array
     {
         $query = 'SELECT DISTINCT {{severity}} FROM {{' . $this->tableName . '}} WHERE {{build_id}} = :build';
 
@@ -278,7 +278,7 @@ class BuildErrorStore extends Store
      * @return bool
      * @throws Exception
      */
-    public function getIsNewError($projectId, $hash)
+    public function getIsNewError(int $projectId, string $hash): bool
     {
         $query = '
             SELECT COUNT(*) AS {{total}} FROM {{' . $this->tableName . '}} AS be
@@ -301,11 +301,13 @@ class BuildErrorStore extends Store
     }
 
     /**
-     * @param $buildId
+     * @param int $buildId
+     *
      * @return array
+     *
      * @throws Exception
      */
-    public function getErrorAmountPerPluginForBuild($buildId)
+    public function getErrorAmountPerPluginForBuild(int $buildId): array
     {
         $query = '
             SELECT {{plugin}}, COUNT(*) AS {{amount}}

@@ -27,12 +27,12 @@ class UserStore extends Store
     /**
      * Get a User by primary key (Id)
      *
-     * @param int $key
-     * @param string  $useConnection
+     * @param int    $key
+     * @param string $useConnection
      *
      * @return null|User
      */
-    public function getByPrimaryKey($key, string $useConnection = 'read'): ?User
+    public function getByPrimaryKey(int $key, string $useConnection = 'read'): ?User
     {
         return $this->getById($key, $useConnection);
     }
@@ -40,14 +40,14 @@ class UserStore extends Store
     /**
      * Get a single User by Id.
      *
-     * @param int $id
-     * @param string  $useConnection
+     * @param int    $id
+     * @param string $useConnection
      *
      * @return null|User
      *
      * @throws HttpException
      */
-    public function getById($id, $useConnection = 'read')
+    public function getById(int $id, string $useConnection = 'read'): ?User
     {
         if (\is_null($id)) {
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
@@ -73,9 +73,9 @@ class UserStore extends Store
      *
      * @throws HttpException
      *
-     * @return User
+     * @return User|null
      */
-    public function getByEmail($email)
+    public function getByEmail(string $email): ?User
     {
         if (\is_null($email)) {
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
@@ -104,7 +104,7 @@ class UserStore extends Store
      *
      * @return User
      */
-    public function getByEmailOrName($emailOrName)
+    public function getByEmailOrName(string $emailOrName): ?User
     {
         if (\is_null($emailOrName)) {
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
@@ -132,7 +132,7 @@ class UserStore extends Store
      *
      * @return User
      */
-    public function getByRememberKey($rememberKey)
+    public function getByRememberKey(string $rememberKey): ?User
     {
         if (\is_null($rememberKey)) {
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
@@ -162,7 +162,7 @@ class UserStore extends Store
      *
      * @throws HttpException
      */
-    public function getByName($name, $limit = 1000, $useConnection = 'read')
+    public function getByName(string $name, int $limit = 1000, string $useConnection = 'read'): array
     {
         if (\is_null($name)) {
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
