@@ -382,7 +382,7 @@ class BuildService
             try {
                 $pheanstalk = Pheanstalk::create(
                     $settings['host'],
-                    $this->configuration->get('php-censor.queue.port', PheanstalkInterface::DEFAULT_PORT)
+                    (int)$this->configuration->get('php-censor.queue.port', PheanstalkInterface::DEFAULT_PORT)
                 );
 
                 $pheanstalk->useTube($settings['name']);

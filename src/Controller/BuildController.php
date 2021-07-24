@@ -211,14 +211,14 @@ class BuildController extends WebController
     protected function getBuildData(
         Build $build,
         string $plugin,
-        int $severity,
+        ?int $severity,
         string $isNew,
         int $start = 0,
         int $perPage = 10
     ): array {
         $data                = [];
         $data['status']      = (int)$build->getStatus();
-        $data['log']         = $this->cleanLog($build->getLog());
+        $data['log']         = $this->cleanLog((string)$build->getLog());
 
         $data['create_date'] = !\is_null($build->getCreateDate())
             ? $build->getCreateDate()->format('Y-m-d H:i:s')
@@ -263,7 +263,7 @@ class BuildController extends WebController
     protected function getPaginatorHtml(
         int $buildId,
         string $plugin,
-        int $severity,
+        ?int $severity,
         string $isNew,
         int $total,
         int $perPage,
@@ -473,7 +473,7 @@ class BuildController extends WebController
         );
 
         $key       = $this->getParam('key');
-        $numBuilds = $this->getParam('num_builds', 1);
+        $numBuilds = (int)$this->getParam('num_builds', 1);
         $data      = null;
 
         if ($key && $build) {

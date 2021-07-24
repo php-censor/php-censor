@@ -55,7 +55,7 @@ class Input extends Element
     public function getValue()
     {
         if (!empty($this->getDataTransformer())) {
-            return $this->getDataTransformer()->reverseTransform($this->value);
+            return $this->getDataTransformer()->reverseTransform((string)$this->value);
         }
 
         return $this->value;

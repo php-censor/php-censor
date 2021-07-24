@@ -108,14 +108,19 @@ class Router
                 }
             }
 
-            $thisArgs = $pathParts;
+            foreach ($pathParts as &$pathPart) {
+                if (\is_numeric($pathPart)) {
+                    $pathPart = (int)$pathPart;
+                }
+            }
+            unset($pathPart);
 
             if ($routeMatches) {
                 $route = [
                     'namespace'  => $thisNamespace,
                     'controller' => $thisController,
                     'action'     => $thisAction,
-                    'args'       => $thisArgs,
+                    'args'       => $pathParts,
                     'callback'   => $route['callback']
                 ];
 

@@ -56,9 +56,9 @@ abstract class Controller
      * @param string $action
      * @param array  $actionParams
      *
-     * @return Response
+     * @return Response|string
      */
-    public function handleAction(string $action, array $actionParams): Response
+    public function handleAction(string $action, array $actionParams)
     {
         return \call_user_func_array([$this, $action], $actionParams);
     }

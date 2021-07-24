@@ -6,8 +6,8 @@
     <div class="controls">
         <input id="<?= $id; ?>" type="<?= $type; ?>" class="<?= $class; ?>"
             name="<?= $name; ?>"
-            <?= isset($value) ? ' value="' . $value . '"' : '' ?>
-            <?= isset($pattern) ? ' pattern="' . $pattern . '"' : '' ?>
+            <?= !empty($value) ? ' value="' . $value . '"' : '' ?>
+            <?= !empty($pattern) ? ' pattern="' . $pattern . '"' : '' ?>
             <?= $required ? ' required' : '' ?>
         >
         <?php if (isset($error)): ?>

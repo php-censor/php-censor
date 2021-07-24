@@ -149,7 +149,7 @@ class SessionController extends WebController
                     $_SESSION['php-censor-user-id'] = $user->getId();
 
                     if ($rememberMe) {
-                        $rememberKey = \md5(\microtime(true));
+                        $rememberKey = \md5((string)\microtime(true));
 
                         $user->setRememberKey($rememberKey);
                         $this->userStore->save($user);
@@ -158,9 +158,9 @@ class SessionController extends WebController
                             'remember_key',
                             $rememberKey,
                             (\time() + 60 * 60 * 24 * 30),
-                            null,
-                            null,
-                            null,
+                            '',
+                            '',
+                            false,
                             true
                         );
                     }

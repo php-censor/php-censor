@@ -251,9 +251,9 @@ class BuildStore extends Store
             if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 return new Build($this->storeRegistry, $data);
             }
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     /**
