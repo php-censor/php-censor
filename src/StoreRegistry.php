@@ -31,11 +31,11 @@ class StoreRegistry
     /**
      * @param string $storeName
      *
-     * @return Store|null
+     * @return Store
      *
      * @throws RuntimeException
      */
-    public function get(string $storeName): ?Store
+    public function get(string $storeName): Store
     {
         if (!isset($this->loadedStores[$storeName])) {
             try {

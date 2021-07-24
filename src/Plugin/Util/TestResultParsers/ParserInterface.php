@@ -2,6 +2,13 @@
 
 namespace PHPCensor\Plugin\Util\TestResultParsers;
 
+/**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Adam Cooper <adam@networkpie.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
+ */
 interface ParserInterface
 {
     /**

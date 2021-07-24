@@ -11,7 +11,11 @@ use PHPCensor\Plugin;
 /**
  * PHP Lint Plugin - Provides access to PHP lint functionality.
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Lint extends Plugin
 {
@@ -37,20 +41,20 @@ class Lint extends Plugin
             $this->directory,
         ];
 
-        if (!empty($options['directories']) && is_array($options['directories'])) {
+        if (!empty($options['directories']) && \is_array($options['directories'])) {
             foreach ($options['directories'] as $index => $directory) {
-                $relativePath = preg_replace(
+                $relativePath = \preg_replace(
                     '#^(\./|/)?(.*)$#',
                     '$2',
                     $options['directories'][$index]
                 );
-                $relativePath = rtrim($relativePath, "\//");
+                $relativePath = \rtrim($relativePath, "\//");
 
                 $this->directories[] = $this->builder->buildPath . $relativePath . '/';
             }
         }
 
-        if (array_key_exists('recursive', $options)) {
+        if (\array_key_exists('recursive', $options)) {
             $this->recursive = $options['recursive'];
         }
     }
@@ -113,7 +117,7 @@ class Lint extends Plugin
 
             $itemPath = $path . $item->getFilename();
 
-            if (in_array($itemPath, $this->ignore)) {
+            if (\in_array($itemPath, $this->ignore)) {
                 continue;
             }
 

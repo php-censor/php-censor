@@ -10,6 +10,13 @@ use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Model;
 use PHPCensor\Store\BuildStore;
 
+/**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
+ */
 class Build extends Model
 {
     const STATUS_PENDING = 0;
@@ -29,9 +36,6 @@ class Build extends Model
     const SOURCE_MANUAL_REBUILD_WEB            = 9;
     const SOURCE_MANUAL_REBUILD_CONSOLE        = 10;
 
-    /**
-     * @var array
-     */
     protected array $data = [
         'id'                    => null,
         'parent_id'             => null,
@@ -55,20 +59,14 @@ class Build extends Model
         'errors_new'            => null,
     ];
 
-    /**
-     * @var array
-     */
-    protected $allowedStatuses = [
+    protected array $allowedStatuses = [
         self::STATUS_PENDING,
         self::STATUS_RUNNING,
         self::STATUS_SUCCESS,
         self::STATUS_FAILED,
     ];
 
-    /**
-     * @var array
-     */
-    protected $allowedSources = [
+    protected array $allowedSources = [
         self::SOURCE_UNKNOWN,
         self::SOURCE_MANUAL_WEB,
         self::SOURCE_MANUAL_CONSOLE,
@@ -195,9 +193,9 @@ class Build extends Model
      */
     public function setStatus(int $value)
     {
-        if (!in_array($value, $this->allowedStatuses, true)) {
+        if (!\in_array($value, $this->allowedStatuses, true)) {
             throw new InvalidArgumentException(
-                'Column "status" must be one of: ' . join(', ', $this->allowedStatuses) . '.'
+                'Column "status" must be one of: ' . \join(', ', $this->allowedStatuses) . '.'
             );
         }
 
@@ -469,9 +467,9 @@ class Build extends Model
      */
     public function getExtra($key = null)
     {
-        $data  = json_decode($this->data['extra'], true);
+        $data  = \json_decode($this->data['extra'], true);
         $extra = null;
-        if (is_null($key)) {
+        if (\is_null($key)) {
             $extra = $data;
         } elseif (isset($data[$key])) {
             $extra = $data[$key];
@@ -488,7 +486,7 @@ class Build extends Model
      */
     public function setExtra(array $value)
     {
-        $extra = json_encode($value);
+        $extra = \json_encode($value);
         if ($this->data['extra'] === $extra) {
             return false;
         }
@@ -541,9 +539,9 @@ class Build extends Model
      */
     public function setSource(?int $value)
     {
-        if (!in_array($value, $this->allowedSources, true)) {
+        if (!\in_array($value, $this->allowedSources, true)) {
             throw new InvalidArgumentException(
-                'Column "source" must be one of: ' . join(', ', $this->allowedSources) . '.'
+                'Column "source" must be one of: ' . \join(', ', $this->allowedSources) . '.'
             );
         }
 
@@ -588,7 +586,7 @@ class Build extends Model
     public function getErrorsTotal()
     {
         if (null === $this->data['errors_total'] &&
-            !in_array($this->getStatus(), [self::STATUS_PENDING, self::STATUS_RUNNING], true)) {
+            !\in_array($this->getStatus(), [self::STATUS_PENDING, self::STATUS_RUNNING], true)) {
             /** @var BuildStore $store */
             $store = $this->storeRegistry->get('Build');
 
@@ -631,7 +629,7 @@ class Build extends Model
             if (isset($trend[1])) {
                 $previousBuild = $store->getById($trend[1]['build_id']);
                 if ($previousBuild &&
-                    !in_array(
+                    !\in_array(
                         $previousBuild->getStatus(),
                         [self::STATUS_PENDING, self::STATUS_RUNNING],
                         true
@@ -703,7 +701,7 @@ class Build extends Model
      */
     public function isDebug()
     {
-        if (defined('DEBUG_MODE') && DEBUG_MODE) {
+        if (\defined('DEBUG_MODE') && DEBUG_MODE) {
             return true;
         }
 

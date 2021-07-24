@@ -12,7 +12,11 @@ use PHPCensor\ZeroConfigPluginInterface;
 /**
  * PHP Docblock Checker Plugin - Checks your PHP files for appropriate uses of Docblocks
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
 {
@@ -45,19 +49,19 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
             $this->allowedWarnings = -1;
         }
 
-        if (array_key_exists('skip_classes', $options)) {
+        if (\array_key_exists('skip_classes', $options)) {
             $this->skipClasses = true;
         }
 
-        if (array_key_exists('skip_methods', $options)) {
+        if (\array_key_exists('skip_methods', $options)) {
             $this->skipMethods = true;
         }
 
-        if (array_key_exists('skip_signatures', $options)) {
+        if (\array_key_exists('skip_signatures', $options)) {
             $this->skipSignatures = true;
         }
 
-        if (array_key_exists('allowed_warnings', $options)) {
+        if (\array_key_exists('allowed_warnings', $options)) {
             $this->allowedWarnings = (int)$options['allowed_warnings'];
         }
 
@@ -89,8 +93,8 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
 
         // Build ignore string:
         $ignore = '';
-        if (is_array($this->ignore)) {
-            $ignore = sprintf(' --exclude="%s"', implode(',', $this->ignore));
+        if (\is_array($this->ignore)) {
+            $ignore = \sprintf(' --exclude="%s"', \implode(',', $this->ignore));
         }
 
         // Are we skipping any checks?
@@ -122,11 +126,11 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
         );
         $this->builder->logExecOutput(true);
 
-        $output = json_decode($this->builder->getLastOutput(), true);
+        $output = \json_decode($this->builder->getLastOutput(), true);
 
         $errors = 0;
-        if ($output && is_array($output)) {
-            $errors = count($output);
+        if ($output && \is_array($output)) {
+            $errors = \count($output);
             $this->builder->logWarning("Number of error : " . $errors);
 
             $this->reportErrors($output);

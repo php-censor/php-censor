@@ -14,7 +14,11 @@ use PHPCensor\Plugin;
 /**
  * Webhook notify Plugin
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Lee Willis (Ademti Software) : https://www.ademti-software.co.uk
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class WebhookNotify extends Plugin
 {
@@ -40,14 +44,14 @@ class WebhookNotify extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        if (!is_array($options)) {
+        if (!\is_array($options)) {
             throw new InvalidArgumentException('Please configure the options for the webhook_notify plugin!');
         }
 
         if (!isset($options['url'])) {
             throw new InvalidArgumentException('Please define the url for webhook_notify plugin!');
         }
-        $this->url = trim($options['url']);
+        $this->url = \trim($options['url']);
     }
 
     /**
@@ -112,6 +116,6 @@ class WebhookNotify extends Plugin
                 return 'Failed';
                 break;
         }
-        return sprintf('Unknown (%d)', $statusId);
+        return \sprintf('Unknown (%d)', $statusId);
     }
 }

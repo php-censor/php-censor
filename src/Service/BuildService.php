@@ -29,6 +29,7 @@ use Symfony\Component\Yaml\Yaml;
  * @package    PHP Censor
  * @subpackage Application
  *
+ * @author Dan Cryer <dan@block8.co.uk>
  * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class BuildService
@@ -63,31 +64,31 @@ class BuildService
      * @param string|null $tag
      * @param string|null $committerEmail
      * @param string|null $commitMessage
-     * @param int     $source
-     * @param int     $userId
+     * @param int         $source
+     * @param int         $userId
      * @param array|null  $extra
      *
      * @return Build
      */
     public function createBuild(
         Project $project,
-        $environmentId = null,
-        $commitId = '',
-        $branch = null,
-        $tag = null,
-        $committerEmail = null,
-        $commitMessage = null,
-        $source = Build::SOURCE_UNKNOWN,
-        $userId = null,
-        $extra = null
-    ) {
+        ?int $environmentId = null,
+        string $commitId = '',
+        ?string $branch = null,
+        ?string $tag = null,
+        ?string $committerEmail = null,
+        ?string $commitMessage = null,
+        int $source = Build::SOURCE_UNKNOWN,
+        int $userId = null,
+        ?array $extra = null
+    ): Build {
         $build = new Build($this->storeRegistry);
         $build->setCreateDate(new DateTime());
         $build->setProjectId($project->getId());
         $build->setStatusPending();
         $build->setEnvironmentid($environmentId);
 
-        if (!is_null($extra)) {
+        if (!\is_null($extra)) {
             $build->setExtra($extra);
         }
 
@@ -142,17 +143,17 @@ class BuildService
      *
      * @throws HttpException
      */
-    public function createPeriodicalBuilds(Logger $logger)
+    public function createPeriodicalBuilds(Logger $logger): void
     {
         $periodicalConfig = null;
-        if (file_exists(APP_DIR . 'periodical.yml')) {
+        if (\file_exists(APP_DIR . 'periodical.yml')) {
             try {
                 $periodicalConfig = (new Yaml())->parse(
-                    file_get_contents(APP_DIR . 'periodical.yml')
+                    \file_get_contents(APP_DIR . 'periodical.yml')
                 );
             } catch (ParseException $e) {
                 $logger->error(
-                    sprintf(
+                    \sprintf(
                         'Invalid periodical builds config ("app/periodical.yml")! Exception: %s',
                         $e->getMessage()
                     ),
@@ -165,7 +166,7 @@ class BuildService
 
         if (empty($periodicalConfig) ||
             empty($periodicalConfig['projects']) ||
-            !is_array($periodicalConfig['projects'])) {
+            !\is_array($periodicalConfig['projects'])) {
             $logger->warning('Empty periodical builds config ("app/periodical.yml")!');
 
             return;
@@ -178,9 +179,9 @@ class BuildService
             if (!$project ||
                 empty($projectConfig['interval']) ||
                 empty($projectConfig['branches']) ||
-                !is_array($projectConfig['branches'])) {
+                !\is_array($projectConfig['branches'])) {
                 $logger->warning(
-                    sprintf(
+                    \sprintf(
                         'Invalid/empty section for project #%s ("app/periodical.yml")!',
                         $projectId
                     )
@@ -195,7 +196,7 @@ class BuildService
                 $interval = new DateInterval($projectConfig['interval']);
             } catch (Exception $e) {
                 $logger->error(
-                    sprintf(
+                    \sprintf(
                         'Invalid datetime interval for project #%s! Exception: %s',
                         $projectId,
                         $e->getMessage()
@@ -238,10 +239,10 @@ class BuildService
         }
 
         $logger->notice(
-            sprintf(
+            \sprintf(
                 'Created %d periodical builds for %d projects.',
                 $buildsCount,
-                count($periodicalConfig['projects'])
+                \count($periodicalConfig['projects'])
             )
         );
     }
@@ -254,7 +255,7 @@ class BuildService
      *
      * @throws Exception
      */
-    public function createDuplicateBuild(Build $originalBuild, $source)
+    public function createDuplicateBuild(Build $originalBuild, int $source): Build
     {
         $build = new Build($this->storeRegistry);
         $build->setParentId($originalBuild->getId());
@@ -293,7 +294,7 @@ class BuildService
      *
      * @throws HttpException
      */
-    public function deleteOldByProject($projectId)
+    public function deleteOldByProject(int $projectId): void
     {
         $keepBuilds = (int)$this->configuration->get('php-censor.build.keep_builds', 100);
         $builds     = $this->buildStore->getOldByProject((int)$projectId, $keepBuilds);
@@ -308,7 +309,7 @@ class BuildService
     /**
      * @param int $projectId
      */
-    public function deleteAllByProject($projectId)
+    public function deleteAllByProject(int $projectId): void
     {
         $this->buildStore->deleteAllByProject((int)$projectId);
 
@@ -322,9 +323,9 @@ class BuildService
             $fileSystem = new Filesystem();
 
             foreach ($projectPaths as $projectPath) {
-                if (is_link($projectPath)) {
+                if (\is_link($projectPath)) {
                     // Remove the symlink without using recursive.
-                    exec(sprintf('rm "%s"', $projectPath));
+                    \exec(\sprintf('rm "%s"', $projectPath));
                 } else {
                     $fileSystem->remove($projectPath);
                 }
@@ -340,7 +341,7 @@ class BuildService
      *
      * @return bool
      */
-    public function deleteBuild(Build $build)
+    public function deleteBuild(Build $build): bool
     {
         $build->removeBuildDirectory(true);
 
@@ -349,10 +350,11 @@ class BuildService
 
     /**
      * Takes a build and puts it into the queue to be run (if using a queue)
+     *
      * @param Build $build
      * @param int   $buildPriority priority in queue relative to default
      */
-    public function addBuildToQueue(Build $build, $buildPriority = Project::DEFAULT_BUILD_PRIORITY)
+    public function addBuildToQueue(Build $build, int $buildPriority = Project::DEFAULT_BUILD_PRIORITY): void
     {
         $buildId = $build->getId();
 
@@ -372,7 +374,7 @@ class BuildService
      * @param array  $jobData
      * @param int    $queuePriority
      */
-    public function addJobToQueue($jobType, array $jobData, $queuePriority = PheanstalkInterface::DEFAULT_PRIORITY)
+    public function addJobToQueue(string $jobType, array $jobData, int $queuePriority = PheanstalkInterface::DEFAULT_PRIORITY): void
     {
         $settings = $this->configuration->get('php-censor.queue', []);
         if (!empty($settings['host']) && !empty($settings['name'])) {
@@ -380,12 +382,12 @@ class BuildService
             try {
                 $pheanstalk = Pheanstalk::create(
                     $settings['host'],
-                    $this->configuration->get('php-censor.queue.port', PheanstalkInterface::DEFAULT_PORT)
+                    (int)$this->configuration->get('php-censor.queue.port', PheanstalkInterface::DEFAULT_PORT)
                 );
 
                 $pheanstalk->useTube($settings['name']);
                 $pheanstalk->put(
-                    json_encode($jobData),
+                    \json_encode($jobData),
                     $queuePriority,
                     PheanstalkInterface::DEFAULT_DELAY,
                     $this->configuration->get('php-censor.queue.lifetime', 600)

@@ -5,7 +5,11 @@ namespace PHPCensor\Model\Build;
 /**
  * Gitlab Build Model
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author André Cianfarani <a.cianfarani@c2is.fr>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class GitlabBuild extends GitBuild
 {
@@ -38,7 +42,7 @@ class GitlabBuild extends GitBuild
      */
     public function getFileLinkTemplate()
     {
-        return sprintf(
+        return \sprintf(
             '//%s/%s/blob/%s/{FILE}#L{LINE}',
             $this->getProject()->getAccessInformation('domain'),
             $this->getProject()->getReference(),
@@ -51,7 +55,7 @@ class GitlabBuild extends GitBuild
     */
     protected function getCloneUrl()
     {
-        $key = trim($this->getProject()->getSshPrivateKey());
+        $key = \trim($this->getProject()->getSshPrivateKey());
 
         $user   = $this->getProject()->getAccessInformation('user');
         $domain = $this->getProject()->getAccessInformation('domain');

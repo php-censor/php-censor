@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Controller;
 
 use DateTime;
 use PHPCensor\Form;
 use PHPCensor\Helper\Lang;
+use PHPCensor\Http\Response;
 use PHPCensor\Http\Response\RedirectResponse;
 use PHPCensor\Model\ProjectGroup;
 use PHPCensor\Model\User;
@@ -34,7 +37,7 @@ class GroupController extends WebController
     /**
      * List project groups.
      */
-    public function index()
+    public function index(): void
     {
         $this->requireAdmin();
 
@@ -49,7 +52,7 @@ class GroupController extends WebController
             $projectsActive   = $this->storeRegistry->get('Project')->getByGroupId($group->getId(), false);
             $projectsArchived = $this->storeRegistry->get('Project')->getByGroupId($group->getId(), true);
 
-            $thisGroup['projects'] = array_merge($projectsActive['items'], $projectsArchived['items']);
+            $thisGroup['projects'] = \array_merge($projectsActive['items'], $projectsArchived['items']);
             $groups[]              = $thisGroup;
         }
 
@@ -61,15 +64,19 @@ class GroupController extends WebController
     /**
      * Add or edit a project group.
      *
-     * @param null $groupId
+     * @param int|null $groupId
      *
-     * @return RedirectResponse
+     * @return Response
+     *
+     * @throws \PHPCensor\Common\Exception\InvalidArgumentException
+     * @throws \PHPCensor\Common\Exception\RuntimeException
+     * @throws \PHPCensor\Exception\HttpException
      */
-    public function edit($groupId = null)
+    public function edit(?int $groupId = null)
     {
         $this->requireAdmin();
 
-        if (!is_null($groupId)) {
+        if (!\is_null($groupId)) {
             $group = $this->groupStore->getById($groupId);
         } else {
             $group = new ProjectGroup($this->storeRegistry);
@@ -77,7 +84,7 @@ class GroupController extends WebController
 
         if ($this->request->getMethod() == 'POST') {
             $group->setTitle($this->getParam('title'));
-            if (is_null($groupId)) {
+            if (\is_null($groupId)) {
                 /** @var User $user */
                 $user = $this->getUser();
 
@@ -96,7 +103,7 @@ class GroupController extends WebController
         $form = new Form();
 
         $form->setMethod('POST');
-        $form->setAction(APP_URL . 'group/edit' . (!is_null($groupId) ? '/' . $groupId : ''));
+        $form->setAction(APP_URL . 'group/edit' . (!\is_null($groupId) ? '/' . $groupId : ''));
 
         $form->addField(new Form\Element\Csrf('group_form'));
 
@@ -118,10 +125,16 @@ class GroupController extends WebController
 
     /**
      * Delete a project group.
-     * @param $groupId
-     * @return RedirectResponse
+     *
+     * @param int $groupId
+     *
+     * @return Response
+     *
+     * @throws \PHPCensor\Common\Exception\Exception
+     * @throws \PHPCensor\Common\Exception\InvalidArgumentException
+     * @throws \PHPCensor\Exception\HttpException
      */
-    public function delete($groupId)
+    public function delete(int $groupId): Response
     {
         $this->requireAdmin();
         $group = $this->groupStore->getById($groupId);
@@ -129,6 +142,7 @@ class GroupController extends WebController
         $this->groupStore->delete($group);
         $response = new RedirectResponse();
         $response->setHeader('Location', APP_URL.'group');
+
         return $response;
     }
 }

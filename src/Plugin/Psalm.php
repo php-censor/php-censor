@@ -11,6 +11,11 @@ use PHPCensor\Plugin;
 
 /**
  * A static analysis tool for finding errors in PHP applications https://getpsalm.org
+ *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Psalm extends Plugin
 {
@@ -33,13 +38,13 @@ class Psalm extends Plugin
 
         $this->executable = $this->findBinary(['psalm', 'psalm.phar']);
 
-        if (isset($options['allowed_errors']) && is_int($options['allowed_errors'])) {
+        if (isset($options['allowed_errors']) && \is_int($options['allowed_errors'])) {
             $this->allowedErrors = $options['allowed_errors'];
         } else {
             $this->allowedErrors   = 0;
         }
 
-        if (isset($options['allowed_warnings']) && is_int($options['allowed_warnings'])) {
+        if (isset($options['allowed_warnings']) && \is_int($options['allowed_warnings'])) {
             $this->allowedWarnings = $options['allowed_warnings'];
         } else {
             $this->allowedWarnings = 0;
@@ -65,8 +70,8 @@ class Psalm extends Plugin
 
         list($errors, $infos) = $this->processReport($this->builder->getLastOutput());
 
-        if (0 < count($errors)) {
-            if (-1 !== $this->allowedErrors && count($errors) > $this->allowedErrors) {
+        if (0 < \count($errors)) {
+            if (-1 !== $this->allowedErrors && \count($errors) > $this->allowedErrors) {
                 $success = false;
             }
 
@@ -85,8 +90,8 @@ class Psalm extends Plugin
             }
         }
 
-        if (0 < count($infos)) {
-            if (-1 !== $this->allowedWarnings && count($infos) > $this->allowedWarnings) {
+        if (0 < \count($infos)) {
+            if (-1 !== $this->allowedWarnings && \count($infos) > $this->allowedWarnings) {
                 $success = false;
             }
 
@@ -126,19 +131,19 @@ class Psalm extends Plugin
      */
     protected function processReport($output)
     {
-        $data = json_decode(trim($output), true);
+        $data = \json_decode(\trim($output), true);
 
         $errors = [];
         $infos  = [];
 
-        if (!empty($data) && is_array($data)) {
+        if (!empty($data) && \is_array($data)) {
             foreach ($data as $value) {
-                if (!in_array($value['severity'], ['error','info'])) {
+                if (!\in_array($value['severity'], ['error','info'])) {
                     continue;
                 }
 
                 ${$value['severity'].'s'}[] = [
-                    'full_message' => vsprintf('%s - %s:%d:%d - %s' . PHP_EOL . '%s', [
+                    'full_message' => \vsprintf('%s - %s:%d:%d - %s' . PHP_EOL . '%s', [
                         $value['type'],
                         $value['file_name'],
                         $value['line_from'],

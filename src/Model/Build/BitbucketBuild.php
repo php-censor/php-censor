@@ -13,14 +13,15 @@ use PHPCensor\Model\BuildError;
 /**
  * BitBucket Build Model
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class BitbucketBuild extends GitBuild
 {
-    /**
-     * @var array
-     */
-    public static $pullrequestTriggersToSources = [
+    public static array $pullrequestTriggersToSources = [
         'pullrequest:created'   => Build::SOURCE_WEBHOOK_PULL_REQUEST_CREATED,
         'pullrequest:updated'   => Build::SOURCE_WEBHOOK_PULL_REQUEST_UPDATED,
         'pullrequest:approved'  => Build::SOURCE_WEBHOOK_PULL_REQUEST_APPROVED,
@@ -77,7 +78,7 @@ class BitbucketBuild extends GitBuild
      */
     public function sendStatusPostback()
     {
-        if (!in_array($this->getSource(), Build::$webhookSources, true)) {
+        if (!\in_array($this->getSource(), Build::$webhookSources, true)) {
             return false;
         }
 
@@ -124,9 +125,9 @@ class BitbucketBuild extends GitBuild
 
         $phpCensorUrl = $this->configuration->get('php-censor.url');
 
-        $url = sprintf(
+        $url = \sprintf(
             '/2.0/repositories/%s/commit/%s/statuses/build',
-            (in_array($this->getSource(), Build::$pullRequestSources, true)
+            (\in_array($this->getSource(), Build::$pullRequestSources, true)
                 ? $this->getExtra('remote_reference')
                 : $project->getReference()),
             $this->getCommitId()
@@ -162,7 +163,7 @@ class BitbucketBuild extends GitBuild
      */
     protected function getCloneUrl()
     {
-        $key = trim($this->getProject()->getSshPrivateKey());
+        $key = \trim($this->getProject()->getSshPrivateKey());
 
         if (!empty($key)) {
             return 'git@bitbucket.org:' . $this->getProject()->getReference() . '.git';
@@ -192,7 +193,7 @@ class BitbucketBuild extends GitBuild
         $skipGitFinalization = false;
 
         try {
-            if (in_array($this->getSource(), Build::$pullRequestSources, true)) {
+            if (\in_array($this->getSource(), Build::$pullRequestSources, true)) {
                 $helper = new Bitbucket($this->configuration);
                 $diff = $helper->getPullRequestDiff(
                     $this->getProject()->getReference(),
@@ -205,7 +206,7 @@ class BitbucketBuild extends GitBuild
 
                 $success = $builder->executeCommand($cmd, $cloneTo, $diffFile);
 
-                unlink($diffFile);
+                \unlink($diffFile);
                 $skipGitFinalization = true;
             }
         } catch (Exception $ex) {
@@ -229,11 +230,11 @@ class BitbucketBuild extends GitBuild
      */
     protected function writeDiff($cloneTo, $diff)
     {
-        $filePath = dirname($cloneTo . '/temp');
+        $filePath = \dirname($cloneTo . '/temp');
         $diffFile = $filePath . '.patch';
 
-        file_put_contents($diffFile, $diff);
-        chmod($diffFile, 0600);
+        \file_put_contents($diffFile, $diff);
+        \chmod($diffFile, 0600);
 
         return $diffFile;
     }
@@ -267,7 +268,7 @@ class BitbucketBuild extends GitBuild
                 if ($file) {
                     $diffLineNumber = $this->getDiffLineNumber($builder, $file, $lineStart);
 
-                    if (!is_null($diffLineNumber)) {
+                    if (!\is_null($diffLineNumber)) {
                         $helper = new Bitbucket($this->configuration);
 
                         $repo     = $this->getProject()->getReference();

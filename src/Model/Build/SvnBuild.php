@@ -9,11 +9,15 @@ use PHPCensor\Model\Build;
 /**
  * Remote Subversion Build Model
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Nadir Dzhilkibaev <imam.sharif@gmail.com>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class SvnBuild extends Build
 {
-    protected $svnCommand = 'svn export -q --non-interactive ';
+    protected string $svnCommand = 'svn export -q --non-interactive ';
 
     /**
      * Get the URL to be used to clone this remote repository.
@@ -22,15 +26,15 @@ class SvnBuild extends Build
      */
     protected function getCloneUrl()
     {
-        $url    = rtrim($this->getProject()->getReference(), '/') . '/';
-        $branch = ltrim($this->getBranch(), '/');
+        $url    = \rtrim($this->getProject()->getReference(), '/') . '/';
+        $branch = \ltrim($this->getBranch(), '/');
 
         // For empty default branch or default branch name like "/trunk" or "trunk" (-> "trunk")
         if (empty($branch) || $branch == 'trunk') {
             $url .= 'trunk';
         // For default branch with standard default branch directory ("branches") like "/branch-1" or "branch-1"
         // (-> "branches/branch-1")
-        } elseif (false === strpos($branch, '/')) {
+        } elseif (false === \strpos($branch, '/')) {
             $url .= 'branches/' . $branch;
         // For default branch with non-standard branch directory like "/branch/branch-1" or "branch/branch-1"
         // (-> "branch/branch-1")
@@ -52,14 +56,14 @@ class SvnBuild extends Build
 
         $buildSettings = $builder->getConfig('build_settings');
         if ($buildSettings) {
-            if (isset($buildSettings['svn']) && is_array($buildSettings['svn'])) {
+            if (isset($buildSettings['svn']) && \is_array($buildSettings['svn'])) {
                 foreach ($buildSettings['svn'] as $key => $value) {
                     $cmd .= " --${key} ${value} ";
                 }
             }
 
             if (isset($buildSettings['clone_depth']) && 0 < (int)$buildSettings['clone_depth']) {
-                $cmd .= ' --depth ' . intval($buildSettings['clone_depth']) . ' ';
+                $cmd .= ' --depth ' . \intval($buildSettings['clone_depth']) . ' ';
             }
         }
 
@@ -137,8 +141,8 @@ class SvnBuild extends Build
         $success = $builder->executeCommand($cmd, $this->getCloneUrl(), $cloneTo);
 
         // Remove the key file and svn wrapper:
-        unlink($keyFile);
-        unlink($sshWrapper);
+        \unlink($keyFile);
+        \unlink($sshWrapper);
 
         return $success;
     }

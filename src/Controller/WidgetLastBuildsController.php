@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Controller;
 
 use PHPCensor\BuildFactory;
@@ -31,7 +33,7 @@ class WidgetLastBuildsController extends WebController
     /**
     * Display dashboard.
     */
-    public function index()
+    public function index(): Response
     {
         $builds = $this->buildStore->getLatestBuilds(null, 10);
 
@@ -53,7 +55,7 @@ class WidgetLastBuildsController extends WebController
     /**
      * @return Response
      */
-    public function update()
+    public function update(): Response
     {
         $builds = $this->buildStore->getLatestBuilds(null, 10);
 

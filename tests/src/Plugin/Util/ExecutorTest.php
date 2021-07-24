@@ -125,7 +125,7 @@ class ExecutorTest extends TestCase
         $options    = [];
         $pluginName = 'DOESNTEXIST';
 
-        $this->mockBuildLogger->logFailure(sprintf('Plugin does not exist: %s', $pluginName))->shouldBeCalledTimes(1);
+        $this->mockBuildLogger->logFailure(\sprintf('Plugin does not exist: %s', $pluginName))->shouldBeCalledTimes(1);
 
         $this->testedExecutor->executePlugin($pluginName, $options);
     }

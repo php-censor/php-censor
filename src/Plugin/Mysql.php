@@ -13,8 +13,12 @@ use PHPCensor\Plugin;
 /**
  * MySQL Plugin - Provides access to a MySQL database.
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Dan Cryer <dan@block8.co.uk>
  * @author Steve Kamerman <stevekamerman@gmail.com>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Mysql extends Plugin
 {
@@ -170,8 +174,8 @@ class Mysql extends Plugin
         }
 
         $importFile = $this->builder->buildPath . $this->builder->interpolate($query['file']);
-        if (!is_readable($importFile)) {
-            throw new RuntimeException(sprintf('Cannot open SQL import file: %s', $importFile));
+        if (!\is_readable($importFile)) {
+            throw new RuntimeException(\sprintf('Cannot open SQL import file: %s', $importFile));
         }
 
         $database = isset($query['database']) ? $this->builder->interpolate($query['database']) : null;
@@ -199,19 +203,19 @@ class Mysql extends Plugin
             'gz'  => '| gzip --decompress',
         ];
 
-        $extension        = strtolower(pathinfo($importFile, PATHINFO_EXTENSION));
+        $extension        = \strtolower(\pathinfo($importFile, PATHINFO_EXTENSION));
         $decompressionCmd = '';
-        if (array_key_exists($extension, $decompression)) {
+        if (\array_key_exists($extension, $decompression)) {
             $decompressionCmd = $decompression[$extension];
         }
 
         $args = [
-            ':import_file' => escapeshellarg($importFile),
+            ':import_file' => \escapeshellarg($importFile),
             ':decomp_cmd'  => $decompressionCmd,
-            ':host'        => escapeshellarg($this->host),
-            ':user'        => escapeshellarg($this->user),
-            ':pass'        => (!$this->password) ? '' : '-p' . escapeshellarg($this->password),
-            ':database'    => ($database === null)? '': escapeshellarg($database),
+            ':host'        => \escapeshellarg($this->host),
+            ':user'        => \escapeshellarg($this->user),
+            ':pass'        => (!$this->password) ? '' : '-p' . \escapeshellarg($this->password),
+            ':database'    => ($database === null)? '': \escapeshellarg($database),
         ];
 
         return strtr('cat :import_file :decomp_cmd | mysql -h:host -u:user :pass :database', $args);

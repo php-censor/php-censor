@@ -1,16 +1,25 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Form\Element;
 
 use PHPCensor\Form\Input;
 use PHPCensor\View;
 
+/**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
+ */
 class Checkbox extends Input
 {
     /**
      * @var bool
      */
-    protected $checked;
+    protected bool $checked = false;
 
     /**
      * @var mixed
@@ -28,36 +37,42 @@ class Checkbox extends Input
     /**
      * @param mixed $value
      */
-    public function setCheckedValue($value)
+    public function setCheckedValue($value): self
     {
         $this->checkedValue = $value;
+
+        return $this;
     }
 
     /**
      * @param mixed $value
      */
-    public function setValue($value)
+    public function setValue($value): self
     {
         if (is_bool($value) && $value === true) {
             $this->value   = $this->getCheckedValue();
             $this->checked = true;
-            return;
+
+            return $this;
         }
 
         if ($value == $this->getCheckedValue()) {
             $this->value   = $this->getCheckedValue();
             $this->checked = true;
-            return;
+
+            return $this;
         }
 
         $this->value   = $value;
         $this->checked = false;
+
+        return $this;
     }
 
     /**
      * @param View $view
      */
-    public function onPreRender(View &$view)
+    protected function onPreRender(View &$view): void
     {
         parent::onPreRender($view);
 

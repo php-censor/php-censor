@@ -6,11 +6,14 @@ namespace PHPCensor\Model\Base;
 
 use PHPCensor\Model;
 
+/**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
+ */
 class Environment extends Model
 {
-    /**
-     * @var array
-     */
     protected array $data = [
         'id'         => null,
         'project_id' => null,
@@ -95,10 +98,10 @@ class Environment extends Model
      */
     public function getBranches()
     {
-        return array_filter(
-            array_map(
+        return \array_filter(
+            \array_map(
                 'trim',
-                explode("\n", $this->data['branches'])
+                \explode("\n", $this->data['branches'])
             )
         );
     }
@@ -110,7 +113,7 @@ class Environment extends Model
      */
     public function setBranches(array $value)
     {
-        $branches = implode("\n", $value);
+        $branches = \implode("\n", $value);
         if ($this->data['branches'] === $branches) {
             return false;
         }

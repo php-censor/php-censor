@@ -11,7 +11,11 @@ use Symfony\Component\Filesystem\Filesystem;
 /**
  * Pdepend Plugin - Allows Pdepend report
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Johan van der Heide <info@japaveh.nl>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Pdepend extends Plugin
 {
@@ -93,11 +97,11 @@ class Pdepend extends Plugin
         $fileSystem = new Filesystem();
 
         if (!$fileSystem->exists($this->buildLocation)) {
-            $fileSystem->mkdir($this->buildLocation, (0777 & ~umask()));
+            $fileSystem->mkdir($this->buildLocation, (0777 & ~\umask()));
         }
 
-        if (!is_writable($this->buildLocation)) {
-            throw new RuntimeException(sprintf(
+        if (!\is_writable($this->buildLocation)) {
+            throw new RuntimeException(\sprintf(
                 'The location %s is not writable or does not exist.',
                 $this->buildLocation
             ));
@@ -107,8 +111,8 @@ class Pdepend extends Plugin
         $cmd     = 'cd "%s" && ' . $pdepend . ' --summary-xml="%s" --jdepend-chart="%s" --overview-pyramid="%s" %s "%s"';
 
         $ignore = '';
-        if (count($this->ignore)) {
-            $ignore = sprintf(' --ignore="%s"', implode(',', $this->ignore));
+        if (\count($this->ignore)) {
+            $ignore = \sprintf(' --ignore="%s"', \implode(',', $this->ignore));
         }
 
         $success = $this->builder->executeCommand(
@@ -124,14 +128,14 @@ class Pdepend extends Plugin
         if (!$allowPublicArtifacts) {
             $fileSystem->remove($this->buildLocation);
         }
-        if ($allowPublicArtifacts && file_exists($this->buildLocation)) {
+        if ($allowPublicArtifacts && \file_exists($this->buildLocation)) {
             $fileSystem->remove($this->buildBranchLocation);
             $fileSystem->mirror($this->buildLocation, $this->buildBranchLocation);
         }
 
         if ($allowPublicArtifacts && $success) {
             $this->builder->logSuccess(
-                sprintf(
+                \sprintf(
                     "\nPdepend successful build report.\nYou can use report for this build for inclusion in the readme.md file:\n%s,\n![Chart](%s \"Pdepend Chart\") and\n![Pyramid](%s \"Pdepend Pyramid\")\n\nOr report for last build in the branch:\n%s,\n![Chart](%s \"Pdepend Chart\") and\n![Pyramid](%s \"Pdepend Pyramid\")\n",
                     APP_URL . 'artifacts/pdepend/' . $this->buildDirectory . '/' . $this->summary,
                     APP_URL . 'artifacts/pdepend/' . $this->buildDirectory . '/' . $this->chart,

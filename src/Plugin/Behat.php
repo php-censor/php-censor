@@ -10,7 +10,11 @@ use PHPCensor\Plugin;
 /**
  * Behat BDD Plugin
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Behat extends Plugin
 {
@@ -49,7 +53,7 @@ class Behat extends Plugin
     public function execute()
     {
         if (!$this->executable) {
-            $this->builder->logFailure(sprintf('Could not find %s', 'behat'));
+            $this->builder->logFailure(\sprintf('Could not find %s', 'behat'));
 
             return false;
         }
@@ -73,30 +77,30 @@ class Behat extends Plugin
     {
         $output = $this->builder->getLastOutput();
 
-        $parts = explode('---', $output);
+        $parts = \explode('---', $output);
 
-        if (count($parts) <= 1) {
+        if (\count($parts) <= 1) {
             return [0, []];
         }
 
-        $lines = explode(PHP_EOL, $parts[1]);
+        $lines = \explode(PHP_EOL, $parts[1]);
 
         $storeFailures = false;
         $data          = [];
 
         foreach ($lines as $line) {
-            $line = trim($line);
+            $line = \trim($line);
             if ('Failed scenarios:' == $line) {
                 $storeFailures = true;
                 continue;
             }
 
-            if (strpos($line, ':') === false) {
+            if (\strpos($line, ':') === false) {
                 $storeFailures = false;
             }
 
             if ($storeFailures) {
-                $lineParts = explode(':', $line);
+                $lineParts = \explode(':', $line);
                 $data[]    = [
                     'file' => $lineParts[0],
                     'line' => $lineParts[1],
@@ -113,7 +117,7 @@ class Behat extends Plugin
             }
         }
 
-        $errorCount = count($data);
+        $errorCount = \count($data);
 
         return [$errorCount, $data];
     }

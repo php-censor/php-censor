@@ -13,7 +13,11 @@ use PHPCensor\Common\Exception\RuntimeException;
 /**
  * PHP Mess Detector Plugin - Allows PHP Mess Detector testing.
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
 {
@@ -53,7 +57,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
             $this->allowedWarnings = -1;
         }
 
-        if (array_key_exists('allowed_warnings', $options)) {
+        if (\array_key_exists('allowed_warnings', $options)) {
             $this->allowedWarnings = (int)$options['allowed_warnings'];
         }
 
@@ -89,7 +93,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
 
         $this->executePhpMd($phpmdBinaryPath);
 
-        $errorCount = $this->processReport(trim($this->builder->getLastOutput()));
+        $errorCount = $this->processReport(\trim($this->builder->getLastOutput()));
         $this->build->storeMeta((self::pluginName() . '-warnings'), $errorCount);
 
         return $this->wasLastExecSuccessful($errorCount);
@@ -102,7 +106,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
      */
     protected function overrideSetting($options, $key)
     {
-        if (isset($options[$key]) && is_array($options[$key])) {
+        if (isset($options[$key]) && \is_array($options[$key])) {
             $this->{$key} = $options[$key];
         }
     }
@@ -129,7 +133,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
 
         foreach ($xml->file as $file) {
             $fileName = (string)$file['name'];
-            $fileName = str_replace($this->builder->buildPath, '', $fileName);
+            $fileName = \str_replace($this->builder->buildPath, '', $fileName);
 
             foreach ($file->violation as $violation) {
                 $warnings++;
@@ -155,13 +159,13 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
      */
     protected function tryAndProcessRules()
     {
-        if (!empty($this->rules) && !is_array($this->rules)) {
+        if (!empty($this->rules) && !\is_array($this->rules)) {
             $this->builder->logFailure('The "rules" option must be an array.');
             return false;
         }
 
         foreach ($this->rules as &$rule) {
-            if (strpos($rule, '/') !== false) {
+            if (\strpos($rule, '/') !== false) {
                 $rule = $this->builder->buildPath . $rule;
             }
         }
@@ -178,18 +182,18 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
         $cmd = 'cd "%s" && ' . $binaryPath . ' "%s" xml %s %s %s';
 
         $ignore = '';
-        if (is_array($this->ignore) && count($this->ignore) > 0) {
+        if (\is_array($this->ignore) && \count($this->ignore) > 0) {
             $ignoreArray = [];
             foreach ($this->ignore as $ignoreItem) {
                 $ignoreArray[] = /*$this->builder->buildPath .*/ $ignoreItem;
             }
 
-            $ignore = sprintf(' --exclude "%s"', implode(',', $ignoreArray));
+            $ignore = \sprintf(' --exclude "%s"', \implode(',', $ignoreArray));
         }
 
         $suffixes = '';
-        if (is_array($this->suffixes) && count($this->suffixes) > 0) {
-            $suffixes = ' --suffixes ' . implode(',', $this->suffixes);
+        if (\is_array($this->suffixes) && \count($this->suffixes) > 0) {
+            $suffixes = ' --suffixes ' . \implode(',', $this->suffixes);
         }
 
         if (!$this->build->isDebug()) {
@@ -201,7 +205,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
             $cmd,
             $this->builder->buildPath,
             $this->directory,
-            implode(',', $this->rules),
+            \implode(',', $this->rules),
             $ignore,
             $suffixes
         );

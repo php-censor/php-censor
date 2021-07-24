@@ -18,7 +18,7 @@ class ConfigurationTest extends TestCase
 
     public function testYamlConfig()
     {
-        $configuration = new Configuration(dirname(__DIR__) . '/data/configuration.yml');
+        $configuration = new Configuration(\dirname(__DIR__) . '/data/configuration.yml');
 
         self::assertEquals(['test' => 'test'], $configuration->all());
     }

@@ -1,57 +1,45 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor;
 
 use PHPCensor\Form\FieldSet;
 
+/**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
+ */
 class Form extends FieldSet
 {
-    /**
-     * @var string
-     */
-    protected $action = '';
+    protected string $action = '';
 
-    /**
-     * @var string
-     */
-    protected $method = 'POST';
+    protected string $method = 'POST';
 
-    /**
-     * @return string
-     */
-    public function getAction()
+    public function getAction(): string
     {
         return $this->action;
     }
 
-    /**
-     * @param string $action
-     */
-    public function setAction($action)
+    public function setAction(string $action): void
     {
         $this->action = $action;
     }
 
-    /**
-     * @return string
-     */
-    public function getMethod()
+    public function getMethod(): string
     {
         return $this->method;
     }
 
-    /**
-     * @param string $method
-     */
-    public function setMethod($method)
+    public function setMethod(string $method): void
     {
         $this->method = $method;
     }
 
-    /**
-     * @param View $view
-     */
-    protected function onPreRender(View &$view)
+    protected function onPreRender(View &$view): void
     {
         $view->action = $this->getAction();
         $view->method = $this->getMethod();
@@ -59,10 +47,7 @@ class Form extends FieldSet
         parent::onPreRender($view);
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->render();
     }

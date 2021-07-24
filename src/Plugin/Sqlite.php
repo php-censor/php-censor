@@ -11,6 +11,9 @@ use PHPCensor\Plugin;
 /**
  * SQLite Plugin — Provides access to a SQLite database.
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Sqlite extends Plugin
@@ -72,7 +75,7 @@ class Sqlite extends Plugin
     public function execute()
     {
         try {
-            $pdoOptions = array_merge([
+            $pdoOptions = \array_merge([
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
             ], $this->pdoOptions);
 

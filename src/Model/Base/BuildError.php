@@ -8,6 +8,13 @@ use DateTime;
 use Exception;
 use PHPCensor\Model;
 
+/**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
+ */
 class BuildError extends Model
 {
     const SEVERITY_CRITICAL = 0;
@@ -15,9 +22,6 @@ class BuildError extends Model
     const SEVERITY_NORMAL   = 2;
     const SEVERITY_LOW      = 3;
 
-    /**
-     * @var array
-     */
     protected array $data = [
         'id'          => null,
         'build_id'    => null,

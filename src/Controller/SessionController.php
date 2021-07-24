@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Controller;
 
 use PHPCensor\Exception\HttpException;
@@ -11,6 +13,7 @@ use PHPCensor\Form\Element\Submit;
 use PHPCensor\Form\Element\Text;
 use PHPCensor\Helper\Email;
 use PHPCensor\Helper\Lang;
+use PHPCensor\Http\Response;
 use PHPCensor\Http\Response\RedirectResponse;
 use PHPCensor\Security\Authentication\Service;
 use PHPCensor\Store\UserStore;
@@ -42,7 +45,7 @@ class SessionController extends WebController
         $this->authentication = new Service($this->configuration, $this->storeRegistry);
     }
 
-    protected function loginForm($values)
+    protected function loginForm(array $values): Form
     {
         $form = new Form();
         $form->setMethod('POST');
@@ -82,6 +85,11 @@ class SessionController extends WebController
 
     /**
      * Handles user login (form and processing)
+     *
+     * @return string|Response
+     *
+     * @throws HttpException
+     * @throws \PHPCensor\Common\Exception\InvalidArgumentException
      */
     public function login()
     {
@@ -141,18 +149,18 @@ class SessionController extends WebController
                     $_SESSION['php-censor-user-id'] = $user->getId();
 
                     if ($rememberMe) {
-                        $rememberKey = md5(microtime(true));
+                        $rememberKey = \md5((string)\microtime(true));
 
                         $user->setRememberKey($rememberKey);
                         $this->userStore->save($user);
 
-                        setcookie(
+                        \setcookie(
                             'remember_key',
                             $rememberKey,
-                            (time() + 60 * 60 * 24 * 30),
-                            null,
-                            null,
-                            null,
+                            (\time() + 60 * 60 * 24 * 30),
+                            '',
+                            '',
+                            false,
                             true
                         );
                     }
@@ -172,18 +180,18 @@ class SessionController extends WebController
     }
 
     /**
-    * Handles user logout.
-    */
-    public function logout()
+     * Handles user logout.
+     */
+    public function logout(): Response
     {
         unset($_SESSION['php-censor-user-id']);
 
-        session_destroy();
+        \session_destroy();
 
-        setcookie(
+        \setcookie(
             'remember_key',
             null,
-            (time() - 1),
+            (\time() - 1),
             null,
             null,
             null,
@@ -192,6 +200,7 @@ class SessionController extends WebController
 
         $response = new RedirectResponse();
         $response->setHeader('Location', APP_URL);
+
         return $response;
     }
 
@@ -202,7 +211,7 @@ class SessionController extends WebController
      *
      * @throws HttpException
      */
-    public function forgotPassword()
+    public function forgotPassword(): string
     {
         if ($this->request->getMethod() == 'POST') {
             $email = $this->getParam('email', null);
@@ -213,7 +222,7 @@ class SessionController extends WebController
                 return $this->view->render();
             }
 
-            $key     = md5(date('Y-m-d') . $user->getHash());
+            $key     = \md5(\date('Y-m-d') . $user->getHash());
             $message = Lang::get('reset_email_body', $user->getName(), APP_URL, $user->getId(), $key);
 
             $email = new Email($this->configuration);
@@ -230,14 +239,19 @@ class SessionController extends WebController
 
     /**
      * Allows the user to change their password after a password reset email.
-     * @param $userId
-     * @param $key
-     * @return string
+     *
+     * @param int $userId
+     * @param string $key
+     *
+     * @return string|Response
+     *
+     * @throws HttpException
+     * @throws \PHPCensor\Common\Exception\InvalidArgumentException
      */
-    public function resetPassword($userId, $key)
+    public function resetPassword(int $userId, string $key)
     {
         $user = $this->userStore->getById($userId);
-        $userKey = md5(date('Y-m-d') . $user->getHash());
+        $userKey = \md5(\date('Y-m-d') . $user->getHash());
 
         if (empty($user) || $key != $userKey) {
             $this->view->error = Lang::get('reset_invalid');
@@ -245,7 +259,7 @@ class SessionController extends WebController
         }
 
         if ($this->request->getMethod() == 'POST') {
-            $hash = password_hash($this->getParam('password'), PASSWORD_DEFAULT);
+            $hash = \password_hash($this->getParam('password'), PASSWORD_DEFAULT);
             $user->setHash($hash);
 
             $this->userStore->save($user);
@@ -254,6 +268,7 @@ class SessionController extends WebController
 
             $response = new RedirectResponse();
             $response->setHeader('Location', APP_URL);
+
             return $response;
         }
 
@@ -265,9 +280,10 @@ class SessionController extends WebController
 
     /**
      * Get the URL the user was trying to go to prior to being asked to log in.
+     *
      * @return string
      */
-    protected function getLoginRedirect()
+    protected function getLoginRedirect(): string
     {
         $rtn = APP_URL;
 

@@ -9,7 +9,11 @@ use PHPCensor\Plugin;
 /**
  * Wipe Plugin - Wipes a folder
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Claus Due <claus@namelesscoder.net>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Wipe extends Plugin
 {
@@ -40,7 +44,7 @@ class Wipe extends Plugin
             return true;
         }
 
-        if (is_dir($this->directory)) {
+        if (\is_dir($this->directory)) {
             $cmd = 'rm -Rf "%s"';
 
             return $this->builder->executeCommand($cmd, $this->directory);

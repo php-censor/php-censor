@@ -13,6 +13,7 @@ use PHPCensor\Store;
  * @package    PHP Censor
  * @subpackage Application
  *
+ * @author Dan Cryer <dan@block8.co.uk>
  * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class BuildMetaStore extends Store
@@ -26,12 +27,12 @@ class BuildMetaStore extends Store
     /**
      * Get a BuildMeta by primary key (Id)
      *
-     * @param int $key
-     * @param string  $useConnection
+     * @param int    $key
+     * @param string $useConnection
      *
      * @return null|BuildMeta
      */
-    public function getByPrimaryKey($key, string $useConnection = 'read'): ?BuildMeta
+    public function getByPrimaryKey(int $key, string $useConnection = 'read'): ?BuildMeta
     {
         return $this->getById($key, $useConnection);
     }
@@ -39,16 +40,16 @@ class BuildMetaStore extends Store
     /**
      * Get a single BuildMeta by Id.
      *
-     * @param int $id
-     * @param string  $useConnection
+     * @param int    $id
+     * @param string $useConnection
      *
      * @return null|BuildMeta
      *
      * @throws HttpException
      */
-    public function getById($id, $useConnection = 'read')
+    public function getById(int $id, string $useConnection = 'read'): ?BuildMeta
     {
-        if (is_null($id)) {
+        if (\is_null($id)) {
             throw new HttpException('id passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
@@ -73,9 +74,9 @@ class BuildMetaStore extends Store
      *
      * @throws HttpException
      */
-    public function getByKey($buildId, $key)
+    public function getByKey(int $buildId, string $key): ?BuildMeta
     {
-        if (is_null($buildId)) {
+        if (\is_null($buildId)) {
             throw new HttpException('buildId passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
@@ -108,9 +109,9 @@ class BuildMetaStore extends Store
      *
      * @throws HttpException
      */
-    public function getByBuildId($buildId, $limit = 1000, $useConnection = 'read')
+    public function getByBuildId(int $buildId, int $limit = 1000, string $useConnection = 'read'): array
     {
-        if (is_null($buildId)) {
+        if (\is_null($buildId)) {
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
@@ -125,9 +126,9 @@ class BuildMetaStore extends Store
             $map = function ($item) {
                 return new BuildMeta($this->storeRegistry, $item);
             };
-            $rtn = array_map($map, $res);
+            $rtn = \array_map($map, $res);
 
-            $count = count($rtn);
+            $count = \count($rtn);
 
             return ['items' => $rtn, 'count' => $count];
         } else {
@@ -142,7 +143,7 @@ class BuildMetaStore extends Store
      *
      * @return array
      */
-    public function getErrorsForUpgrade($limit)
+    public function getErrorsForUpgrade(int $limit): array
     {
         $query = 'SELECT * FROM {{' . $this->tableName . '}}
                     WHERE {{meta_key}} IN (\'phpmd-data\', \'phpcs-data\', \'phpdoccheck-data\', \'technical_debt-data\')
@@ -159,7 +160,7 @@ class BuildMetaStore extends Store
                 return new BuildMeta($this->storeRegistry, $item);
             };
 
-            return array_map($map, $res);
+            return \array_map($map, $res);
         } else {
             return [];
         }

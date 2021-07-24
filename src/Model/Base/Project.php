@@ -9,6 +9,13 @@ use Exception;
 use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Model;
 
+/**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
+ */
 class Project extends Model
 {
     const TYPE_LOCAL            = 'local';
@@ -27,9 +34,6 @@ class Project extends Model
     const DEFAULT_BUILD_PRIORITY         = 1000;
     const OFFSET_BETWEEN_BUILD_AND_QUEUE = 24;
 
-    /**
-     * @var array
-     */
     protected array $data = [
         'id'                     => null,
         'title'                  => null,
@@ -49,10 +53,7 @@ class Project extends Model
         'user_id'                => null,
     ];
 
-    /**
-     * @var array
-     */
-    public static $allowedTypes = [
+    public static array $allowedTypes = [
         self::TYPE_LOCAL,
         self::TYPE_GIT,
         self::TYPE_GITHUB,
@@ -250,9 +251,9 @@ class Project extends Model
      */
     public function setType(string $value)
     {
-        if (!in_array($value, static::$allowedTypes, true)) {
+        if (!\in_array($value, static::$allowedTypes, true)) {
             throw new InvalidArgumentException(
-                'Column "type" must be one of: ' . join(', ', static::$allowedTypes) . '.'
+                'Column "type" must be one of: ' . \join(', ', static::$allowedTypes) . '.'
             );
         }
 
@@ -272,9 +273,9 @@ class Project extends Model
      */
     public function getAccessInformation($key = null)
     {
-        $data              = json_decode($this->data['access_information'], true);
+        $data              = \json_decode($this->data['access_information'], true);
         $accessInformation = null;
-        if (is_null($key)) {
+        if (\is_null($key)) {
             $accessInformation = $data;
         } elseif (isset($data[$key])) {
             $accessInformation = $data[$key];
@@ -290,7 +291,7 @@ class Project extends Model
      */
     public function setAccessInformation(array $value)
     {
-        $accessInformation = json_encode($value);
+        $accessInformation = \json_encode($value);
         if ($this->data['access_information'] === $accessInformation) {
             return false;
         }

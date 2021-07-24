@@ -11,7 +11,11 @@ use PHPCensor\ZeroConfigPluginInterface;
 /**
  * Composer Plugin - Provides access to Composer functionality.
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Composer extends Plugin implements ZeroConfigPluginInterface
 {
@@ -44,24 +48,24 @@ class Composer extends Plugin implements ZeroConfigPluginInterface
 
         $this->executable = $this->findBinary(['composer', 'composer.phar']);
 
-        if (array_key_exists('action', $options)) {
+        if (\array_key_exists('action', $options)) {
             $this->action = $options['action'];
         }
 
-        if (array_key_exists('prefer_dist', $options)) {
+        if (\array_key_exists('prefer_dist', $options)) {
             $this->preferDist = (bool)$options['prefer_dist'];
         }
 
-        if (array_key_exists('prefer_source', $options)) {
+        if (\array_key_exists('prefer_source', $options)) {
             $this->preferDist   = false;
             $this->preferSource = (bool)$options['prefer_source'];
         }
 
-        if (array_key_exists('no_dev', $options)) {
+        if (\array_key_exists('no_dev', $options)) {
             $this->noDev = (bool)$options['no_dev'];
         }
 
-        if (array_key_exists('ignore_platform_reqs', $options)) {
+        if (\array_key_exists('ignore_platform_reqs', $options)) {
             $this->ignorePlatformReqs = (bool)$options['ignore_platform_reqs'];
         }
     }
@@ -73,7 +77,7 @@ class Composer extends Plugin implements ZeroConfigPluginInterface
     {
         $path = $build->getBuildPath() . '/composer.json';
 
-        if (file_exists($path) && Build::STAGE_SETUP == $stage) {
+        if (\file_exists($path) && Build::STAGE_SETUP == $stage) {
             return true;
         }
 

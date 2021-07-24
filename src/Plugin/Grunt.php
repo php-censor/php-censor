@@ -9,7 +9,11 @@ use PHPCensor\Plugin;
 /**
  * Grunt Plugin - Provides access to grunt functionality.
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Tobias Tom <t.tom@succont.de>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Grunt extends Plugin
 {

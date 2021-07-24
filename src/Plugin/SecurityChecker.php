@@ -13,6 +13,9 @@ use PHPCensor\Common\Exception\RuntimeException;
 /**
  * SensioLabs Security Checker Plugin
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class SecurityChecker extends Plugin implements ZeroConfigPluginInterface
@@ -75,7 +78,7 @@ class SecurityChecker extends Plugin implements ZeroConfigPluginInterface
     {
         $path = $build->getBuildPath() . 'composer.lock';
 
-        if (file_exists($path) && $stage === Build::STAGE_TEST) {
+        if (\file_exists($path) && $stage === Build::STAGE_TEST) {
             return true;
         }
 

@@ -10,8 +10,12 @@ use PHPCensor\Model\BuildError;
 use PHPCensor\Plugin;
 
 /**
- * A pair programming partner for writing better PHP.
- * https://github.com/wata727/pahout
+ * A pair programming partner for writing better PHP. https://github.com/wata727/pahout
+ *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Pahout extends Plugin
 {
@@ -38,13 +42,13 @@ class Pahout extends Plugin
 
         $this->executable = $this->findBinary(['pahout', 'pahout.phar']);
 
-        if (!empty($options['directory']) && is_string($options['directory'])) {
+        if (!empty($options['directory']) && \is_string($options['directory'])) {
             $this->directory = $options['directory'];
         } else {
             $this->directory = './src';
         }
 
-        if (isset($options['allowed_warnings']) && is_int($options['allowed_warnings'])) {
+        if (isset($options['allowed_warnings']) && \is_int($options['allowed_warnings'])) {
             $this->allowedWarnings = $options['allowed_warnings'];
         } else {
             $this->allowedWarnings = -1;
@@ -74,8 +78,8 @@ class Pahout extends Plugin
 
         list($files, $hints) = $this->processReport($this->builder->getLastOutput());
 
-        if (0 < count($hints)) {
-            if (-1 !== $this->allowedWarnings && count($hints) > $this->allowedWarnings) {
+        if (0 < \count($hints)) {
+            if (-1 !== $this->allowedWarnings && \count($hints) > $this->allowedWarnings) {
                 $success = false;
             }
 
@@ -97,7 +101,7 @@ class Pahout extends Plugin
             $this->builder->logSuccess('Awesome! There is nothing from me to teach you!');
         }
 
-        $this->builder->log(sprintf('%d files checked, %d hints detected.', count($files), count($hints)));
+        $this->builder->log(\sprintf('%d files checked, %d hints detected.', \count($files), \count($hints)));
 
         return $success;
     }
@@ -126,17 +130,17 @@ class Pahout extends Plugin
      */
     protected function processReport($output)
     {
-        $data = json_decode(trim($output), true);
+        $data = \json_decode(\trim($output), true);
 
         $hints = [];
         $files = [];
 
-        if (!empty($data) && is_array($data) && isset($data['hints'])) {
+        if (!empty($data) && \is_array($data) && isset($data['hints'])) {
             $files = $data['files'];
 
             foreach ($data['hints'] as $hint) {
                 $hints[] = [
-                    'full_message' => vsprintf('%s:%d' . PHP_EOL . self::TAB . '%s: %s [%s]', [
+                    'full_message' => \vsprintf('%s:%d' . PHP_EOL . self::TAB . '%s: %s [%s]', [
                         $hint['filename'],
                         $hint['lineno'],
                         $hint['type'],

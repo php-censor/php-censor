@@ -91,7 +91,7 @@ class Handler
             }
         } catch (Exception $e) {
             $error = new ErrorException(
-                sprintf(
+                \sprintf(
                     '%s: %s in %s line %d',
                     $fatalError['type'],
                     $fatalError['message'],

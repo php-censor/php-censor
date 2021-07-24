@@ -7,7 +7,11 @@ use PHPCensor\Helper\Bitbucket;
 /**
  * BitbucketHgBuild Build Model
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Artem Bochkov <artem.v.bochkov@gmail.com>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class BitbucketHgBuild extends HgBuild
 {
@@ -61,7 +65,7 @@ class BitbucketHgBuild extends HgBuild
      */
     protected function getCloneUrl()
     {
-        $key = trim($this->getProject()->getSshPrivateKey());
+        $key = \trim($this->getProject()->getSshPrivateKey());
 
         if (!empty($key)) {
             return 'ssh://hg@bitbucket.org/' . $this->getProject()->getReference();

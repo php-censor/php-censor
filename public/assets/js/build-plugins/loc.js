@@ -50,28 +50,28 @@ var locPlugin = ActiveBuild.UiPlugin.extend({
             labels:   [],
             datasets: [
             {
-                    label:       Lang.get('lines'),
-                    borderColor: "#555299",
-                    color:  "#555299",
-                    data:        []
+                    label:           Lang.get('lines'),
+                    borderColor:     "#555299",
+                    backgroundColor: "#555299",
+                    data:            []
             },
                 {
-                    label:       Lang.get('logical_lines'),
-                    borderColor: "#00A65A",
-                    color:  "#00A65A",
-                    data:        []
+                    label:           Lang.get('logical_lines'),
+                    borderColor:     "#00A65A",
+                    backgroundColor: "#00A65A",
+                    data:            []
             },
                 {
-                    label:       Lang.get('comment_lines'),
-                    borderColor: "#8AA4AF",
-                    color:  "#8AA4AF",
-                    data:        []
+                    label:           Lang.get('comment_lines'),
+                    borderColor:     "#8AA4AF",
+                    backgroundColor: "#8AA4AF",
+                    data:            []
             },
                 {
-                    label:       Lang.get('noncomment_lines'),
-                    borderColor: "#00A7D0",
-                    color:  "#00A7D0",
-                    data:        []
+                    label:           Lang.get('noncomment_lines'),
+                    borderColor:     "#00A7D0",
+                    backgroundColor: "#00A7D0",
+                    data:            []
             }
             ]
         };

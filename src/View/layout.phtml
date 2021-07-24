@@ -45,10 +45,10 @@ use PHPCensor\Model\User;
         var APP_URL = '<?= APP_URL; ?>';
         var LANGUAGE = '<?= Lang::getLanguage(); ?>';
 
-        <?php if (defined('JSON_UNESCAPED_UNICODE')): ?>
-            var STRINGS = <?= json_encode(Lang::getStrings(), JSON_UNESCAPED_UNICODE); ?>;
+        <?php if (\defined('JSON_UNESCAPED_UNICODE')): ?>
+            var STRINGS = <?= \json_encode(Lang::getStrings(), JSON_UNESCAPED_UNICODE); ?>;
         <?php else: ?>
-            var STRINGS = <?= json_encode(Lang::getStrings()); ?>;
+            var STRINGS = <?= \json_encode(Lang::getStrings()); ?>;
         <?php endif; ?>
     </script>
 
@@ -152,7 +152,7 @@ use PHPCensor\Model\User;
 
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu">
-                <li<?= (array_key_exists('archived', $_GET) ? '' : ' class="active"'); ?>>
+                <li<?= (\array_key_exists('archived', $_GET) ? '' : ' class="active"'); ?>>
                     <a href="<?= APP_URL; ?>">
                         <i class="fa fa-dashboard"></i> <span><?= Lang::get('dashboard'); ?></span>
                     </a>
@@ -193,7 +193,7 @@ use PHPCensor\Model\User;
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
 
-                        <?php if (count($group['projects'])): ?>
+                        <?php if (\count($group['projects'])): ?>
                         <ul class="treeview-menu">
                             <?php foreach ($group['projects'] as $project): ?>
                             <li>
@@ -215,7 +215,7 @@ use PHPCensor\Model\User;
                         <i class="fa fa-angle-left pull-right"></i>
                     </a>
 
-                    <?php if (count($archivedProjects)): ?>
+                    <?php if (\count($archivedProjects)): ?>
                         <ul class="treeview-menu">
                             <?php foreach ($archivedProjects as $archivedProject): ?>
                                 <li>

@@ -8,11 +8,14 @@ use DateTime;
 use Exception;
 use PHPCensor\Model;
 
+/**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
+ */
 class ProjectGroup extends Model
 {
-    /**
-     * @var array
-     */
     protected array $data = [
         'id'          => null,
         'title'       => null,

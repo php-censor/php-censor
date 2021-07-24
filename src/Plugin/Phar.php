@@ -10,6 +10,11 @@ use PHPCensor\Plugin;
 
 /**
  * Phar Plugin
+ *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Phar extends Plugin
 {
@@ -143,7 +148,7 @@ class Phar extends Plugin
         $content  = '';
         $filename = $this->getStub();
         if ($filename) {
-            $content = file_get_contents($this->builder->buildPath . $this->getStub());
+            $content = \file_get_contents($this->builder->buildPath . $this->getStub());
         }
         return $content;
     }

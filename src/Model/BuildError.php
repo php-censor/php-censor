@@ -5,6 +5,13 @@ namespace PHPCensor\Model;
 use PHPCensor\Model\Base\BuildError as BaseBuildError;
 use PHPCensor\Store\BuildStore;
 
+/**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
+ */
 class BuildError extends BaseBuildError
 {
     /**
@@ -81,7 +88,7 @@ class BuildError extends BaseBuildError
      */
     public static function generateHash($plugin, $file, $lineStart, $lineEnd, $severity, $message)
     {
-        return md5($plugin . $file . $lineStart . $lineEnd . $severity . $message);
+        return \md5($plugin . $file . $lineStart . $lineEnd . $severity . $message);
     }
 
     /**

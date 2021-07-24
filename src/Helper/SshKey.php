@@ -6,6 +6,11 @@ use PHPCensor\ConfigurationInterface;
 
 /**
  * Helper class for dealing with SSH keys.
+ *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class SshKey
 {

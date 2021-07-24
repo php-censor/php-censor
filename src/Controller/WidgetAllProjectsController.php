@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Controller;
 
 use Exception;
@@ -44,7 +46,7 @@ class WidgetAllProjectsController extends WebController
      *
      * @throws Exception
      */
-    public function index()
+    public function index(): Response
     {
         $this->view->groups = $this->getGroupInfo();
 
@@ -63,7 +65,7 @@ class WidgetAllProjectsController extends WebController
      *
      * @throws Exception
      */
-    protected function getSummaryHtml($projects)
+    protected function getSummaryHtml(array $projects): string
     {
         $summaryBuilds = [];
         $successes     = [];
@@ -106,7 +108,7 @@ class WidgetAllProjectsController extends WebController
      *
      * @throws Exception
      */
-    protected function getGroupInfo()
+    protected function getGroupInfo(): array
     {
         $rtn    = [];
         $groups = $this->groupStore->getWhere([], 100, 0, ['title' => 'ASC']);
@@ -131,7 +133,7 @@ class WidgetAllProjectsController extends WebController
      *
      * @throws HttpException
      */
-    public function update($projectId)
+    public function update(int $projectId): Response
     {
         $count = $this->buildStore->getWhere(
             ['project_id' => $projectId],

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Controller;
 
 use Exception;
@@ -40,7 +42,7 @@ class BuildStatusController extends WebController
      *
      * @return string
      */
-    protected function getStatus(Project $project, $branch)
+    protected function getStatus(Project $project, string $branch): string
     {
         $status = 'passing';
         try {
@@ -68,10 +70,10 @@ class BuildStatusController extends WebController
      *
      * @return string
      */
-    protected function getPhpunitCoverage(Project $project, $branch, $type = 'lines')
+    protected function getPhpunitCoverage(Project $project, string $branch, string $type = 'lines')
     {
         $coverage = 0;
-        if (!in_array($type, ['classes', 'methods', 'lines'], true)) {
+        if (!\in_array($type, ['classes', 'methods', 'lines'], true)) {
             $type = 'lines';
         }
 
@@ -100,11 +102,11 @@ class BuildStatusController extends WebController
     }
 
     /**
-     * @param SimpleXMLElement $xml
+     * @param SimpleXMLElement|null $xml
      *
      * @return Response
      */
-    protected function renderXml(SimpleXMLElement $xml = null)
+    protected function renderXml(?SimpleXMLElement $xml = null): Response
     {
         $response = new Response();
 
@@ -123,7 +125,7 @@ class BuildStatusController extends WebController
      *
      * @return array
      */
-    protected function getLatestBuilds($projectId, $branch)
+    protected function getLatestBuilds(int $projectId, string $branch): array
     {
         $criteria = [
             'project_id' => $projectId,
@@ -151,11 +153,13 @@ class BuildStatusController extends WebController
     /**
      * Returns the appropriate build PHPUnit coverage image in SVG format for a given project.
      *
-     * @param $projectId
+     * @param int $projectId
      *
      * @return Response
+     *
+     * @throws HttpException
      */
-    public function phpunitCoverageImage($projectId)
+    public function phpunitCoverageImage(int $projectId): Response
     {
         $project = $this->projectStore->getById($projectId);
 
@@ -173,7 +177,7 @@ class BuildStatusController extends WebController
         ];
 
         $coverage = $this->getPhpunitCoverage($project, $branch, $type);
-        $imageUrl = sprintf(
+        $imageUrl = \sprintf(
             'http://img.shields.io/badge/%s-%s-%s.svg?style=%s',
             $label,
             $coverage. '%25',
@@ -188,13 +192,13 @@ class BuildStatusController extends WebController
         }
 
         $cacheDir  = RUNTIME_DIR . 'status_cache/';
-        $cacheFile = $cacheDir . md5($imageUrl) . '.svg';
-        if (!is_file($cacheFile)) {
-            $image = file_get_contents($imageUrl);
-            file_put_contents($cacheFile, $image);
+        $cacheFile = $cacheDir . \md5($imageUrl) . '.svg';
+        if (!\is_file($cacheFile)) {
+            $image = \file_get_contents($imageUrl);
+            \file_put_contents($cacheFile, $image);
         }
 
-        $image = file_get_contents($cacheFile);
+        $image = \file_get_contents($cacheFile);
 
         $response = new Response();
 
@@ -207,11 +211,13 @@ class BuildStatusController extends WebController
     /**
      * Returns the appropriate build status image in SVG format for a given project.
      *
-     * @param $projectId
+     * @param int $projectId
      *
      * @return Response
+     *
+     * @throws HttpException
      */
-    public function image($projectId)
+    public function image(int $projectId): Response
     {
         $project = $this->projectStore->getById($projectId);
 
@@ -229,7 +235,7 @@ class BuildStatusController extends WebController
 
         $status = $this->getStatus($project, $branch);
 
-        if (is_null($status)) {
+        if (\is_null($status)) {
             $response = new RedirectResponse();
             $response->setHeader('Location', '/');
 
@@ -237,7 +243,7 @@ class BuildStatusController extends WebController
         }
 
         $color    = ($status == 'passing') ? 'green' : 'red';
-        $imageUrl = sprintf(
+        $imageUrl = \sprintf(
             'http://img.shields.io/badge/%s-%s-%s.svg?style=%s',
             $label,
             $status,
@@ -252,13 +258,13 @@ class BuildStatusController extends WebController
         }
 
         $cacheDir  = RUNTIME_DIR . 'status_cache/';
-        $cacheFile = $cacheDir . md5($imageUrl) . '.svg';
-        if (!is_file($cacheFile)) {
-            $image = file_get_contents($imageUrl);
-            file_put_contents($cacheFile, $image);
+        $cacheFile = $cacheDir . \md5($imageUrl) . '.svg';
+        if (!\is_file($cacheFile)) {
+            $image = \file_get_contents($imageUrl);
+            \file_put_contents($cacheFile, $image);
         }
 
-        $image = file_get_contents($cacheFile);
+        $image = \file_get_contents($cacheFile);
 
         $response = new Response();
 
@@ -278,8 +284,9 @@ class BuildStatusController extends WebController
      * @throws HttpException
      * @throws InvalidArgumentException
      * @throws NotFoundException
+     * @throws \PHPCensor\Common\Exception\RuntimeException
      */
-    public function view($projectId)
+    public function view(int $projectId): string
     {
         $project = $this->projectStore->getById($projectId);
         $branch  = $this->getParam('branch', $project->getDefaultBranch());
@@ -290,7 +297,7 @@ class BuildStatusController extends WebController
 
         $builds = $this->getLatestBuilds($projectId, $branch);
 
-        if (count($builds)) {
+        if (\count($builds)) {
             $this->view->latest = $builds[0];
         }
 
@@ -304,13 +311,13 @@ class BuildStatusController extends WebController
     /**
      * Displays projects information in ccmenu format
      *
-     * @param $projectId
+     * @param int $projectId
      *
      * @return Response
      *
      * @throws Exception
      */
-    public function ccxml($projectId)
+    public function ccxml(int $projectId): Response
     {
         /* @var Project $project */
         $project = $this->projectStore->getById($projectId);

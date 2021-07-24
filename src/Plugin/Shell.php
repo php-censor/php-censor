@@ -9,7 +9,11 @@ use PHPCensor\Plugin;
 /**
  * Shell Plugin - Allows execute shell commands.
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Kinn Coelho Julião <kinncj@gmail.com>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Shell extends Plugin
 {
@@ -35,11 +39,11 @@ class Shell extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        if (array_key_exists('execute_all', $options) && $options['execute_all']) {
+        if (\array_key_exists('execute_all', $options) && $options['execute_all']) {
             $this->executeAll = true;
         }
 
-        if (isset($options['commands']) && is_array($options['commands'])) {
+        if (isset($options['commands']) && \is_array($options['commands'])) {
             $this->commands = $options['commands'];
 
             return;

@@ -12,7 +12,11 @@ use PHPCensor\Plugin;
 /**
  * Telegram Plugin
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author LEXASOFT <lexasoft83@gmail.com>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class TelegramNotify extends Plugin
 {
@@ -64,9 +68,9 @@ class TelegramNotify extends Plugin
         }
 
         $this->recipients = [];
-        if (is_string($options['recipients'])) {
+        if (\is_string($options['recipients'])) {
             $this->recipients = [$options['recipients']];
-        } elseif (is_array($options['recipients'])) {
+        } elseif (\is_array($options['recipients'])) {
             $this->recipients = $options['recipients'];
         }
 
@@ -123,22 +127,22 @@ class TelegramNotify extends Plugin
         $this->buildMsg = '';
         $buildIcon      = $this->build->isSuccessful() ? '✅' : '❌';
         $buildLog       = $this->build->getLog();
-        $buildLog       = str_replace(['[0;32m', '[0;31m', '[0m', '/[0m'], '', $buildLog);
-        $buildMessages  = explode('RUNNING PLUGIN: ', $buildLog);
+        $buildLog       = \str_replace(['[0;32m', '[0;31m', '[0m', '/[0m'], '', $buildLog);
+        $buildMessages  = \explode('RUNNING PLUGIN: ', $buildLog);
 
         foreach ($buildMessages as $bm) {
-            $pos      = mb_strpos($bm, "\n");
-            $firstRow = mb_substr($bm, 0, $pos);
+            $pos      = \mb_strpos($bm, "\n");
+            $firstRow = \mb_substr($bm, 0, $pos);
 
             //skip long outputs
-            if (in_array($firstRow, ['slack_notify', 'php_loc', 'telegram_notify'])) {
+            if (\in_array($firstRow, ['slack_notify', 'php_loc', 'telegram_notify'])) {
                 continue;
             }
 
             $this->buildMsg .= '*RUNNING PLUGIN: ' . $firstRow . "*\n";
-            $this->buildMsg .= $firstRow == 'composer' ? '' : ('```' . mb_substr($bm, $pos) . '```');
+            $this->buildMsg .= $firstRow == 'composer' ? '' : ('```' . \mb_substr($bm, $pos) . '```');
         }
 
-        return $this->builder->interpolate(str_replace(['%ICON_BUILD%'], [$buildIcon], $this->message));
+        return $this->builder->interpolate(\str_replace(['%ICON_BUILD%'], [$buildIcon], $this->message));
     }
 }

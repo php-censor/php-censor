@@ -31,7 +31,7 @@ class YamlValidatorTest extends TestCase
     public function testYamlValidatorSuccess($value)
     {
         $validator = new Yaml();
-        $result = call_user_func_array($validator, [$value]);
+        $result = \call_user_func_array($validator, [$value]);
         $this->assertTrue($result);
     }
 
@@ -42,6 +42,6 @@ class YamlValidatorTest extends TestCase
     {
         $this->expectException('Exception');
         $validator = new Yaml();
-        call_user_func_array($validator, [$value]);
+        \call_user_func_array($validator, [$value]);
     }
 }

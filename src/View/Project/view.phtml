@@ -43,26 +43,26 @@ use PHPCensor\Model\User;
         <?php if (!$project->getArchived()): ?>
             <?php if ($user->getIsAdmin()): ?>
                 <?php if (!empty($environment)): ?>
-                    <a class="btn btn-warning" href="<?= $buildUrl . '?' . http_build_query(['type' => 'environment', 'id' => $environment, 'debug' => 1]); ?>">
+                    <a class="btn btn-warning" href="<?= $buildUrl . '?' . \http_build_query(['type' => 'environment', 'id' => $environment, 'debug' => 1]); ?>">
                         <?= Lang::get('build_now_debug'); ?>
                     </a>
                 <?php elseif (!empty($branch)): ?>
-                    <a class="btn btn-warning" href="<?= $buildUrl . '?' . http_build_query(['type' => 'branch', 'id' => $branch, 'debug' => 1]); ?>">
+                    <a class="btn btn-warning" href="<?= $buildUrl . '?' . \http_build_query(['type' => 'branch', 'id' => $branch, 'debug' => 1]); ?>">
                         <?= Lang::get('build_now_debug'); ?>
                     </a>
                 <?php else: ?>
-                    <a class="btn btn-warning" href="<?= $buildUrl . '?' . http_build_query(['debug' => 1]); ?>">
+                    <a class="btn btn-warning" href="<?= $buildUrl . '?' . \http_build_query(['debug' => 1]); ?>">
                         <?= Lang::get('build_now_debug'); ?>
                     </a>
                 <?php endif; ?>
             <?php endif; ?>
 
             <?php if (!empty($environment)): ?>
-                <a class="btn btn-success" href="<?= $buildUrl . '?' . http_build_query(['type' => 'environment', 'id' => $environment]); ?>">
+                <a class="btn btn-success" href="<?= $buildUrl . '?' . \http_build_query(['type' => 'environment', 'id' => $environment]); ?>">
                     <?= Lang::get('build_now'); ?>
                 </a>
             <?php elseif (!empty($branch)): ?>
-                <a class="btn btn-success" href="<?= $buildUrl . '?' . http_build_query(['type' => 'branch', 'id' => $branch]); ?>">
+                <a class="btn btn-success" href="<?= $buildUrl . '?' . \http_build_query(['type' => 'branch', 'id' => $branch]); ?>">
                     <?= Lang::get('build_now'); ?>
                 </a>
             <?php else: ?>
@@ -172,7 +172,7 @@ use PHPCensor\Model\User;
             </div>
         <?php endif; ?>
 
-        <?php if (in_array($project->getType(), [
+        <?php if (\in_array($project->getType(), [
             Project::TYPE_GITHUB,
             Project::TYPE_GITLAB,
             Project::TYPE_BITBUCKET,

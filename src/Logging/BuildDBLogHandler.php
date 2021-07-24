@@ -50,7 +50,7 @@ class BuildDBLogHandler extends AbstractProcessingHandler
         $this->buildStore = $buildStore;
 
         // We want to add to any existing saved log information.
-        $this->logValue = $build->getLog();
+        $this->logValue = (string)$build->getLog();
     }
 
     public function __destruct()

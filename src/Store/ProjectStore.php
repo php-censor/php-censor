@@ -28,12 +28,12 @@ class ProjectStore extends Store
     /**
      * Get a Project by primary key (Id)
      *
-     * @param int $key
-     * @param string  $useConnection
+     * @param int    $key
+     * @param string $useConnection
      *
      * @return Project|null
      */
-    public function getByPrimaryKey($key, string $useConnection = 'read'): ?Project
+    public function getByPrimaryKey(int $key, string $useConnection = 'read'): ?Project
     {
         return $this->getById($key, $useConnection);
     }
@@ -41,16 +41,16 @@ class ProjectStore extends Store
     /**
      * Get a single Project by Id.
      *
-     * @param int $id
-     * @param string  $useConnection
+     * @param int    $id
+     * @param string $useConnection
      *
      * @return Project|null
      *
      * @throws HttpException
      */
-    public function getById($id, $useConnection = 'read')
+    public function getById(int $id, string $useConnection = 'read'): ?Project
     {
-        if (is_null($id)) {
+        if (\is_null($id)) {
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
@@ -77,13 +77,13 @@ class ProjectStore extends Store
      *
      * @return Project[]
      */
-    public function getByIds($values, $useConnection = 'read')
+    public function getByIds(array $values, string $useConnection = 'read'): array
     {
         if (empty($values)) {
             throw new HttpException('Values passed to ' . __FUNCTION__ . ' cannot be empty.');
         }
 
-        $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{id}} IN ('.implode(', ', array_map('intval', $values)).')';
+        $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{id}} IN (' . \implode(', ', \array_map('intval', $values)).')';
         $stmt  = $this->databaseManager->getConnection($useConnection)->prepare($query);
 
         $rtn = [];
@@ -107,12 +107,11 @@ class ProjectStore extends Store
      *
      * @throws HttpException
      */
-    public function getByTitle($title, $limit = 1000, $useConnection = 'read')
+    public function getByTitle(string $title, int $limit = 1000, string $useConnection = 'read'): array
     {
-        if (is_null($title)) {
+        if (\is_null($title)) {
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
-
 
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{title}} = :title LIMIT :limit';
         $stmt  = $this->databaseManager->getConnection($useConnection)->prepare($query);
@@ -125,9 +124,9 @@ class ProjectStore extends Store
             $map = function ($item) {
                 return new Project($this->storeRegistry, $item);
             };
-            $rtn = array_map($map, $res);
+            $rtn = \array_map($map, $res);
 
-            $count = count($rtn);
+            $count = \count($rtn);
 
             return ['items' => $rtn, 'count' => $count];
         } else {
@@ -142,7 +141,7 @@ class ProjectStore extends Store
      *
      * @return array
      */
-    public function getKnownBranches($projectId)
+    public function getKnownBranches(int $projectId): array
     {
         $query = 'SELECT {{branch}}, COUNT(1) AS {{count}} from {{builds}} WHERE {{project_id}} = :pid GROUP BY {{branch}} ORDER BY {{count}} DESC';
         $stmt  = $this->databaseManager->getConnection('read')->prepare($query);
@@ -155,7 +154,7 @@ class ProjectStore extends Store
                 return $item['branch'];
             };
 
-            return array_map($map, $res);
+            return \array_map($map, $res);
         } else {
             return [];
         }
@@ -168,7 +167,7 @@ class ProjectStore extends Store
      *
      * @return array
      */
-    public function getAll($archived = false)
+    public function getAll(bool $archived = false): array
     {
         $archived = (int)$archived;
 
@@ -183,9 +182,9 @@ class ProjectStore extends Store
             $map = function ($item) {
                 return new Project($this->storeRegistry, $item);
             };
-            $rtn = array_map($map, $res);
+            $rtn = \array_map($map, $res);
 
-            $count = count($rtn);
+            $count = \count($rtn);
 
 
             return ['items' => $rtn, 'count' => $count];
@@ -206,9 +205,9 @@ class ProjectStore extends Store
      *
      * @throws Exception
      */
-    public function getByGroupId($groupId, $archived = false, $limit = 1000, $useConnection = 'read')
+    public function getByGroupId(int $groupId, bool $archived = false, int $limit = 1000, string $useConnection = 'read'): array
     {
-        if (is_null($groupId)) {
+        if (\is_null($groupId)) {
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
         $archived = (int)$archived;
@@ -226,9 +225,9 @@ class ProjectStore extends Store
             $map = function ($item) {
                 return new Project($this->storeRegistry, $item);
             };
-            $rtn = array_map($map, $res);
+            $rtn = \array_map($map, $res);
 
-            $count = count($rtn);
+            $count = \count($rtn);
 
             return ['items' => $rtn, 'count' => $count];
         } else {

@@ -1,20 +1,26 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Form;
 
 use PHPCensor\View;
 
+/**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
+ */
 class FieldSet extends Element
 {
     /**
      * @var Element[]
      */
-    protected $children = [];
+    protected array $children = [];
 
-    /**
-     * @return array
-     */
-    public function getValues()
+    public function getValues(): array
     {
         $rtn = [];
         foreach ($this->children as $field) {
@@ -22,7 +28,7 @@ class FieldSet extends Element
                 $fieldName = $field->getName();
 
                 if (empty($fieldName)) {
-                    $rtn = array_merge($rtn, $field->getValues());
+                    $rtn = \array_merge($rtn, $field->getValues());
                 } else {
                     $rtn[$fieldName] = $field->getValues();
                 }
@@ -36,10 +42,7 @@ class FieldSet extends Element
         return $rtn;
     }
 
-    /**
-     * @param array $values
-     */
-    public function setValues(array $values)
+    public function setValues(array $values): self
     {
         foreach ($this->children as $field) {
             if ($field instanceof FieldSet) {
@@ -58,21 +61,19 @@ class FieldSet extends Element
                 }
             }
         }
+
+        return $this;
     }
 
-    /**
-     * @param Element $field
-     */
-    public function addField(Element $field)
+    public function addField(Element $field): self
     {
         $this->children[$field->getName()] = $field;
         $field->setParent($this);
+
+        return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function validate()
+    public function validate(): bool
     {
         $rtn = true;
 
@@ -88,7 +89,7 @@ class FieldSet extends Element
     /**
      * @param View $view
      */
-    protected function onPreRender(View &$view)
+    protected function onPreRender(View &$view): void
     {
         $rendered = [];
         foreach ($this->children as $child) {
@@ -98,20 +99,12 @@ class FieldSet extends Element
         $view->children = $rendered;
     }
 
-    /**
-     * @return Element[]
-     */
-    public function getChildren()
+    public function getChildren(): array
     {
         return $this->children;
     }
 
-    /**
-     * @param string $fieldName
-     *
-     * @return Element
-     */
-    public function getChild($fieldName)
+    public function getChild(string $fieldName): Element
     {
         return $this->children[$fieldName];
     }

@@ -9,7 +9,11 @@ use PHPCensor\Plugin;
 /**
  * IRC Plugin - Sends a notification to an IRC channel
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class IrcNotify extends Plugin
 {
@@ -63,8 +67,8 @@ class IrcNotify extends Plugin
             $this->port = 6667;
         }
 
-        $sock = fsockopen($this->server, $this->port);
-        stream_set_timeout($sock, 1);
+        $sock = \fsockopen($this->server, $this->port);
+        \stream_set_timeout($sock, 1);
 
         $connectCommands = [
             'USER ' . $this->nick . ' 0 * :' . $this->nick,
@@ -74,7 +78,7 @@ class IrcNotify extends Plugin
         $this->executeIrcCommand($sock, 'JOIN ' . $this->room);
         $this->executeIrcCommand($sock, 'PRIVMSG ' . $this->room . ' :' . $msg);
 
-        fclose($sock);
+        \fclose($sock);
 
         return true;
     }
@@ -87,22 +91,22 @@ class IrcNotify extends Plugin
     private function executeIrcCommands($socket, array $commands)
     {
         foreach ($commands as $command) {
-            fputs($socket, $command . "\n");
+            \fputs($socket, $command . "\n");
         }
 
         $pingBack = false;
 
         // almost all servers expect pingback!
-        while ($response = fgets($socket)) {
+        while ($response = \fgets($socket)) {
             $matches = [];
-            if (preg_match('/^PING \\:([A-Z0-9]+)/', $response, $matches)) {
+            if (\preg_match('/^PING \\:([A-Z0-9]+)/', $response, $matches)) {
                 $pingBack = $matches[1];
             }
         }
 
         if ($pingBack) {
             $command = 'PONG :' . $pingBack . "\n";
-            fputs($socket, $command);
+            \fputs($socket, $command);
         }
     }
 

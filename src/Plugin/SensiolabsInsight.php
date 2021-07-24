@@ -12,7 +12,11 @@ use PHPCensor\Common\Exception\RuntimeException;
 /**
  * Sensiolabs Insight Plugin - Allows Sensiolabs Insight testing.
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Eugen Ganshorn <eugen@ganshorn.eu>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class SensiolabsInsight extends Plugin
 {
@@ -52,11 +56,11 @@ class SensiolabsInsight extends Plugin
         parent::__construct($builder, $build, $options);
 
         $this->allowedWarnings = 0;
-        if (array_key_exists('allowed_warnings', $options)) {
+        if (\array_key_exists('allowed_warnings', $options)) {
             $this->allowedWarnings = (int)$options['allowed_warnings'];
         }
 
-        if (array_key_exists('user_uuid', $options)) {
+        if (\array_key_exists('user_uuid', $options)) {
             $this->userUuid = $options['user_uuid'];
         }
 
@@ -64,7 +68,7 @@ class SensiolabsInsight extends Plugin
             $this->authToken = $options['auth_token'];
         }
 
-        if (array_key_exists('project_uuid', $options)) {
+        if (\array_key_exists('project_uuid', $options)) {
             $this->projectUuid = $options['project_uuid'];
         }
 
@@ -82,7 +86,7 @@ class SensiolabsInsight extends Plugin
 
         $this->executeSensiolabsInsight($insightBinaryPath);
 
-        $errorCount = $this->processReport(trim($this->builder->getLastOutput()));
+        $errorCount = $this->processReport(\trim($this->builder->getLastOutput()));
         $this->build->storeMeta((self::pluginName() . '-warnings'), $errorCount);
 
         return $this->wasLastExecSuccessful($errorCount);
@@ -110,7 +114,7 @@ class SensiolabsInsight extends Plugin
 
         foreach ($xml->file as $file) {
             $fileName = (string)$file['name'];
-            $fileName = str_replace($this->builder->buildPath, '', $fileName);
+            $fileName = \str_replace($this->builder->buildPath, '', $fileName);
 
             foreach ($file->violation as $violation) {
                 $warnings++;

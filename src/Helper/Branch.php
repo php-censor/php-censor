@@ -4,6 +4,12 @@ namespace PHPCensor\Helper;
 
 use PHPCensor\Model\Project;
 
+/**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
+ */
 class Branch
 {
     public static function getDefaultBranchName($projectType)

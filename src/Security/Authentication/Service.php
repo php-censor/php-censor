@@ -49,8 +49,8 @@ class Service
 
     public static function buildProvider(StoreRegistry $storeRegistry, string $key, array $config): UserProviderInterface
     {
-        $class = ucfirst($config['type']);
-        if (class_exists('\\PHPCensor\\Security\\Authentication\\UserProvider\\' . $class)) {
+        $class = \ucfirst($config['type']);
+        if (\class_exists('\\PHPCensor\\Security\\Authentication\\UserProvider\\' . $class)) {
             $class = '\\PHPCensor\\Security\\Authentication\\UserProvider\\' . $class;
         }
 

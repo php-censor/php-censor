@@ -11,7 +11,11 @@ use PHPCensor\Plugin;
 /**
  * Phing Plugin - Provides access to Phing functionality.
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Pavel Pavlov <ppavlov@alera.ru>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Phing extends Plugin
 {
@@ -76,7 +80,7 @@ class Phing extends Plugin
         $cmd[] = $this->targetsToString();
         $cmd[] = '2>&1';
 
-        return $this->builder->executeCommand(implode(' ', $cmd), $this->directory, $this->targets);
+        return $this->builder->executeCommand(\implode(' ', $cmd), $this->directory, $this->targets);
     }
 
     /**
@@ -93,7 +97,7 @@ class Phing extends Plugin
      */
     private function targetsToString()
     {
-        return implode(' ', $this->targets);
+        return \implode(' ', $this->targets);
     }
 
     /**
@@ -126,7 +130,7 @@ class Phing extends Plugin
      */
     public function setBuildFile($buildFile)
     {
-        if (!file_exists($this->directory . $buildFile)) {
+        if (!\file_exists($this->directory . $buildFile)) {
             throw new RuntimeException('Specified build file does not exist.');
         }
 
@@ -169,7 +173,7 @@ class Phing extends Plugin
             $propertiesString[] = '-D' . $name . '="' . $value . '"';
         }
 
-        return implode(' ', $propertiesString);
+        return \implode(' ', $propertiesString);
     }
 
     /**
@@ -202,7 +206,7 @@ class Phing extends Plugin
      */
     public function setPropertyFile($propertyFile)
     {
-        if (!file_exists($this->directory . '/' . $propertyFile)) {
+        if (!\file_exists($this->directory . '/' . $propertyFile)) {
             throw new RuntimeException('Specified property file does not exist.');
         }
 

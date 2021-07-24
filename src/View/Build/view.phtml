@@ -37,7 +37,7 @@ use PHPCensor\Model\Environment;
                     <tr>
                         <th><?= Lang::get('branch'); ?></th>
                         <td style="text-align: right">
-                            <?php if (in_array($build->getSource(), Build::$pullRequestSources, true)): ?>
+                            <?php if (\in_array($build->getSource(), Build::$pullRequestSources, true)): ?>
                                 <a href="<?= $build->getRemoteBranchLink(); ?>">
                                     <i class="fa fa-code-fork"></i>
                                     <?= $build->getRemoteBranch(); ?> :
@@ -327,7 +327,7 @@ use PHPCensor\Model\Environment;
     var BUILD_IS_NEW   = '<?= $isNew; ?>';
 
     var ActiveBuild = new Build(<?= $build->getId(); ?>);
-    ActiveBuild.setupBuild(<?= json_encode($data); ?>, <?= json_encode($build->getFileLinkTemplate()); ?>);
+    ActiveBuild.setupBuild(<?= \json_encode($data); ?>, <?= \json_encode($build->getFileLinkTemplate()); ?>);
 
     var url = document.location.toString();
     if (url.match('#')) {

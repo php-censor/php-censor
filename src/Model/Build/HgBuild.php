@@ -11,7 +11,11 @@ use PHPCensor\StoreRegistry;
 /**
  * Mercurial Build Model
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Pavel Gopanenko <pavelgopanenko@gmail.com>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class HgBuild extends Build
 {
@@ -49,7 +53,7 @@ class HgBuild extends Build
      */
     public function createWorkingCopy(Builder $builder, $buildPath)
     {
-        $key = trim($this->getProject()->getSshPrivateKey());
+        $key = \trim($this->getProject()->getSshPrivateKey());
 
         if (!empty($key)) {
             $success = $this->cloneBySsh($builder, $buildPath);
@@ -100,7 +104,7 @@ class HgBuild extends Build
         }
 
         // Remove the key file:
-        unlink($keyFile);
+        \unlink($keyFile);
 
         return $success;
     }

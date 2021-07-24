@@ -2,6 +2,13 @@
 
 namespace PHPCensor\Http;
 
+/**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
+ */
 class Request
 {
     /**
@@ -22,7 +29,7 @@ class Request
         $this->parseInput();
 
         $this->data['path']  = $this->getRequestPath();
-        $this->data['parts'] = array_values(array_filter(explode('/', $this->data['path'])));
+        $this->data['parts'] = \array_values(\array_filter(\explode('/', $this->data['path'])));
     }
 
     protected function getRequestPath()
@@ -35,17 +42,17 @@ class Request
         }
 
         if ($_SERVER['SCRIPT_NAME'] != $_SERVER['REQUEST_URI']) {
-            $scriptPath = str_replace('/index.php', '', $_SERVER['SCRIPT_NAME']);
-            $path = str_replace($scriptPath, '', $path);
+            $scriptPath = \str_replace('/index.php', '', $_SERVER['SCRIPT_NAME']);
+            $path = \str_replace($scriptPath, '', $path);
         }
 
         // Remove index.php from the URL if it is present:
-        $path = str_replace(['/index.php', 'index.php'], '', $path);
+        $path = \str_replace(['/index.php', 'index.php'], '', $path);
 
         // Also cut out the query string:
-        $path = explode('?', $path);
+        $path = \explode('?', $path);
 
-        return array_shift($path);
+        return \array_shift($path);
     }
 
     /**
@@ -55,17 +62,17 @@ class Request
     {
         $params = $_REQUEST;
 
-        if (!isset($_SERVER['REQUEST_METHOD']) || in_array($_SERVER['REQUEST_METHOD'], ['PUT', 'DELETE'])) {
-            $vars = file_get_contents('php://input');
+        if (!isset($_SERVER['REQUEST_METHOD']) || \in_array($_SERVER['REQUEST_METHOD'], ['PUT', 'DELETE'])) {
+            $vars = \file_get_contents('php://input');
 
-            if (!is_string($vars) || strlen(trim($vars)) === 0) {
+            if (!\is_string($vars) || \strlen(\trim($vars)) === 0) {
                 $vars = '';
             }
 
             $inputData = [];
-            parse_str($vars, $inputData);
+            \parse_str($vars, $inputData);
 
-            $params = array_merge($params, $inputData);
+            $params = \array_merge($params, $inputData);
         }
 
         $this->setParams($params);
@@ -105,7 +112,7 @@ class Request
      */
     public function setParams(array $params)
     {
-        $this->params = array_merge($this->params, $params);
+        $this->params = \array_merge($this->params, $params);
     }
 
     /**
@@ -137,7 +144,7 @@ class Request
             return false;
         }
 
-        if (strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+        if (\strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
             return true;
         }
 

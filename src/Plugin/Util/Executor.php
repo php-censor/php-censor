@@ -13,6 +13,11 @@ use PHPCensor\StoreRegistry;
 
 /**
  * Plugin Executor - Runs the configured plugins for a given build stage.
+ *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Executor
 {
@@ -59,7 +64,7 @@ class Executor
         $pluginsToExecute = [];
 
         // If we have global plugins to execute for this stage, add them to the list to be executed:
-        if (array_key_exists($stage, $config) && is_array($config[$stage])) {
+        if (\array_key_exists($stage, $config) && \is_array($config[$stage])) {
             $pluginsToExecute[] = $config[$stage];
         }
 
@@ -82,17 +87,17 @@ class Executor
      */
     public function getBranchSpecificConfig($config, $branch)
     {
-        $configSections = array_keys($config);
+        $configSections = \array_keys($config);
 
         foreach ($configSections as $configSection) {
-            if (0 === strpos($configSection, 'branch-')) {
+            if (0 === \strpos($configSection, 'branch-')) {
                 if ($configSection === ('branch-' . $branch)) {
                     return $config[$configSection];
                 }
 
-                if (0 === strpos($configSection, 'branch-regex:')) {
-                    $pattern = '#' . substr($configSection, 13) . '#u';
-                    preg_match($pattern, $branch, $matches);
+                if (0 === \strpos($configSection, 'branch-regex:')) {
+                    $pattern = '#' . \substr($configSection, 13) . '#u';
+                    \preg_match($pattern, $branch, $matches);
                     if (!empty($matches[0])) {
                         return $config[$configSection];
                     }
@@ -137,13 +142,13 @@ class Executor
 
             // Run branch-specific plugins before standard plugins:
             case 'before':
-                array_unshift($pluginsToExecute, $plugins);
+                \array_unshift($pluginsToExecute, $plugins);
                 break;
 
             // Run branch-specific plugins after standard plugins:
             case 'after':
             default:
-                array_push($pluginsToExecute, $plugins);
+                \array_push($pluginsToExecute, $plugins);
                 break;
         }
 
@@ -164,8 +169,8 @@ class Executor
         foreach ($plugins as $plugin => $options) {
             $this->logger->log('');
             $this->logger->logSuccess(
-                sprintf('RUNNING PLUGIN: %s', Lang::get($plugin)) . ' (' .
-                'Stage' . ': ' . ucfirst($stage) . ')'
+                \sprintf('RUNNING PLUGIN: %s', Lang::get($plugin)) . ' (' .
+                'Stage' . ': ' . \ucfirst($stage) . ')'
             );
 
             $this->setPluginStatus($stage, $plugin, Plugin::STATUS_RUNNING);
@@ -212,13 +217,13 @@ class Executor
     public function executePlugin($plugin, $options)
     {
         $class = $plugin;
-        if (!class_exists($class)) {
-            $class = str_replace('_', ' ', $plugin);
-            $class = ucwords($class);
-            $class = 'PHPCensor\\Plugin\\' . str_replace(' ', '', $class);
+        if (!\class_exists($class)) {
+            $class = \str_replace('_', ' ', $plugin);
+            $class = \ucwords($class);
+            $class = 'PHPCensor\\Plugin\\' . \str_replace(' ', '', $class);
 
-            if (!class_exists($class)) {
-                $this->logger->logFailure(sprintf('Plugin does not exist: %s', $plugin));
+            if (!\class_exists($class)) {
+                $this->logger->logFailure(\sprintf('Plugin does not exist: %s', $plugin));
 
                 return false;
             }
@@ -226,7 +231,7 @@ class Executor
 
         try {
             // Build and run it
-            $obj = $this->pluginFactory->buildPlugin($class, (is_null($options) ? [] : $options));
+            $obj = $this->pluginFactory->buildPlugin($class, (\is_null($options) ? [] : $options));
             $obj->setStoreRegistry($this->storeRegistry);
 
             return $obj->execute();
@@ -255,9 +260,9 @@ class Executor
         $summary[$stage][$plugin]['status'] = $status;
 
         if ($status === Plugin::STATUS_RUNNING) {
-            $summary[$stage][$plugin]['started'] = time();
+            $summary[$stage][$plugin]['started'] = \time();
         } elseif ($status >= Plugin::STATUS_SUCCESS) {
-            $summary[$stage][$plugin]['ended'] = time();
+            $summary[$stage][$plugin]['ended'] = \time();
         }
 
         $this->setBuildSummary($summary);
@@ -284,6 +289,6 @@ class Executor
     private function setBuildSummary($summary)
     {
         $build = $this->pluginFactory->getBuild();
-        $this->store->setMeta($build->getId(), 'plugin-summary', json_encode($summary));
+        $this->store->setMeta($build->getId(), 'plugin-summary', \json_encode($summary));
     }
 }

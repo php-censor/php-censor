@@ -1,36 +1,35 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Form\Element;
 
 use PHPCensor\View;
 
+/**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
+ */
 class TextArea extends Text
 {
-    /**
-     * @var int
-     */
-    protected $rows = 4;
+    protected int $rows = 4;
 
-    /**
-     * @return int
-     */
-    public function getRows()
+    public function getRows(): int
     {
         return $this->rows;
     }
 
-    /**
-     * @param int $rows
-     */
-    public function setRows($rows)
+    public function setRows(int $rows): self
     {
         $this->rows = $rows;
+
+        return $this;
     }
 
-    /**
-     * @param View $view
-     */
-    protected function onPreRender(View &$view)
+    protected function onPreRender(View &$view): void
     {
         parent::onPreRender($view);
 

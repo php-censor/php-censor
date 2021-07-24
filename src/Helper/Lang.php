@@ -8,6 +8,11 @@ use PHPCensor\StoreRegistry;
 
 /**
  * Languages Helper Class - Handles loading strings files and the strings within them.
+ *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Lang
 {
@@ -43,12 +48,12 @@ class Lang
     public static function get(...$params)
     {
         $string = $params[0];
-        if (array_key_exists($string, self::$strings)) {
+        if (\array_key_exists($string, self::$strings)) {
             $params[0] = self::$strings[$string];
-            return call_user_func_array('sprintf', $params);
-        } elseif (self::DEFAULT_LANGUAGE !== self::$language && array_key_exists($string, self::$defaultStrings)) {
+            return \call_user_func_array('sprintf', $params);
+        } elseif (self::DEFAULT_LANGUAGE !== self::$language && \array_key_exists($string, self::$defaultStrings)) {
             $params[0] = self::$defaultStrings[$string];
-            return call_user_func_array('sprintf', $params);
+            return \call_user_func_array('sprintf', $params);
         }
 
         return $string;
@@ -73,7 +78,7 @@ class Lang
      */
     public static function setLanguage($language)
     {
-        if (in_array($language, self::$languages)) {
+        if (\in_array($language, self::$languages)) {
             self::$language = $language;
             self::$strings  = self::loadLanguage();
             return true;
@@ -161,12 +166,12 @@ class Lang
 
         $langFile = SRC_DIR . 'Languages/lang.' . $language . '.php';
 
-        if (!file_exists($langFile)) {
+        if (!\file_exists($langFile)) {
             return null;
         }
 
         $strings = include($langFile);
-        if (is_null($strings) || !is_array($strings) || !count($strings)) {
+        if (\is_null($strings) || !\is_array($strings) || !\count($strings)) {
             return null;
         }
 
@@ -179,8 +184,8 @@ class Lang
     protected static function loadAvailableLanguages()
     {
         $matches = [];
-        foreach (glob(SRC_DIR . 'Languages/lang.*.php') as $file) {
-            if (preg_match('/lang\.([a-z]{2}\-?[a-z]*)\.php/', $file, $matches)) {
+        foreach (\glob(SRC_DIR . 'Languages/lang.*.php') as $file) {
+            if (\preg_match('/lang\.([a-z]{2}\-?[a-z]*)\.php/', $file, $matches)) {
                 self::$languages[] = $matches[1];
             }
         }

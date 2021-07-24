@@ -12,7 +12,11 @@ use PHPCensor\Common\Exception\RuntimeException;
 /**
  * Email Plugin - Provides simple email capability.
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Steve Brazier <meadsteve@gmail.com>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class EmailNotify extends Plugin
 {
@@ -37,7 +41,7 @@ class EmailNotify extends Plugin
 
         // Without some email addresses in the yml file then we
         // can't do anything.
-        if (count($addresses) == 0) {
+        if (\count($addresses) == 0) {
             return false;
         }
 
@@ -48,7 +52,7 @@ class EmailNotify extends Plugin
             $view = $this->getMailTemplate();
         } catch (RuntimeException $e) {
             $this->builder->log(
-                sprintf('Unknown mail template "%s", falling back to default.', $this->options['template']),
+                \sprintf('Unknown mail template "%s", falling back to default.', $this->options['template']),
                 LogLevel::WARNING
             );
             $view = $this->getDefaultMailTemplate();
@@ -65,13 +69,13 @@ class EmailNotify extends Plugin
 
         $sendFailures = $this->sendSeparateEmails(
             $addresses,
-            sprintf("PHP Censor - %s - %s", $projectName, $buildStatus),
+            \sprintf("PHP Censor - %s - %s", $projectName, $buildStatus),
             $body
         );
 
         // This is a success if we've not failed to send anything.
-        $this->builder->log(sprintf('%d emails sent.', (count($addresses) - $sendFailures)));
-        $this->builder->log(sprintf('%d emails failed to send.', $sendFailures));
+        $this->builder->log(\sprintf('%d emails sent.', (\count($addresses) - $sendFailures)));
+        $this->builder->log(\sprintf('%d emails failed to send.', $sendFailures));
 
         return ($sendFailures === 0);
     }
@@ -93,7 +97,7 @@ class EmailNotify extends Plugin
         $email->setBody($body);
         $email->setHtml(true);
 
-        if (is_array($ccList) && count($ccList)) {
+        if (\is_array($ccList) && \count($ccList)) {
             foreach ($ccList as $address) {
                 $email->addCc($address, $address);
             }
@@ -137,8 +141,8 @@ class EmailNotify extends Plugin
         $addresses = [];
         $committer = $this->build->getCommitterEmail();
 
-        $this->builder->logDebug(sprintf("Committer email: '%s'", $committer));
-        $this->builder->logDebug(sprintf(
+        $this->builder->logDebug(\sprintf("Committer email: '%s'", $committer));
+        $this->builder->logDebug(\sprintf(
             "Committer option: '%s'",
             (!empty($this->options['committer']) && $this->options['committer']) ? 'true' : 'false'
         ));
@@ -149,18 +153,18 @@ class EmailNotify extends Plugin
             }
         }
 
-        $this->builder->logDebug(sprintf(
+        $this->builder->logDebug(\sprintf(
             "Addresses option: '%s'",
-            (!empty($this->options['addresses']) && is_array($this->options['addresses'])) ? implode(', ', $this->options['addresses']) : 'false'
+            (!empty($this->options['addresses']) && \is_array($this->options['addresses'])) ? \implode(', ', $this->options['addresses']) : 'false'
         ));
 
-        if (!empty($this->options['addresses']) && is_array($this->options['addresses'])) {
+        if (!empty($this->options['addresses']) && \is_array($this->options['addresses'])) {
             foreach ($this->options['addresses'] as $address) {
                 $addresses[] = $address;
             }
         }
 
-        $this->builder->logDebug(sprintf(
+        $this->builder->logDebug(\sprintf(
             "Default mailTo option: '%s'",
             !empty($this->options['default_mailto_address']) ? $this->options['default_mailto_address'] : 'false'
         ));
@@ -169,7 +173,7 @@ class EmailNotify extends Plugin
             $addresses[] = $this->options['default_mailto_address'];
         }
 
-        return array_unique($addresses);
+        return \array_unique($addresses);
     }
 
     /**

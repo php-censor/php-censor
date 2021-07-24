@@ -6,11 +6,15 @@ namespace PHPCensor\Model\Base;
 
 use PHPCensor\Model;
 
+/**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
+ */
 class User extends Model
 {
-    /**
-     * @var array
-     */
     protected array $data = [
         'id'            => null,
         'email'         => null,
@@ -223,9 +227,9 @@ class User extends Model
      */
     public function getProviderData($key = null)
     {
-        $data         = json_decode($this->data['provider_data'], true);
+        $data         = \json_decode($this->data['provider_data'], true);
         $providerData = null;
-        if (is_null($key)) {
+        if (\is_null($key)) {
             $providerData = $data;
         } elseif (isset($data[$key])) {
             $providerData = $data[$key];
@@ -241,7 +245,7 @@ class User extends Model
      */
     public function setProviderData(array $value)
     {
-        $providerData = json_encode($value);
+        $providerData = \json_encode($value);
         if ($this->data['provider_data'] === $providerData) {
             return false;
         }

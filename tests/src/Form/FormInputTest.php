@@ -46,7 +46,7 @@ class FormInputTest extends TestCase
 
     public function testGetValueWithDatatransformer()
     {
-        $this->inputElement->setDataTransformator(new Yaml());
+        $this->inputElement->setDataTransformer(new Yaml());
         $this->inputElement->setValue("key\t=>\tvalue");
         $this->assertEquals('key    =>    value', $this->inputElement->getValue());
     }

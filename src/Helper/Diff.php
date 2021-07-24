@@ -4,6 +4,11 @@ namespace PHPCensor\Helper;
 
 /**
  * Provides some basic diff processing functionality.
+ *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Diff
 {
@@ -20,13 +25,13 @@ class Diff
 
         $rtn = [];
 
-        $diffLines = explode(PHP_EOL, $diff);
+        $diffLines = \explode(PHP_EOL, $diff);
 
-        while (count($diffLines)) {
-            $line = array_shift($diffLines);
+        while (\count($diffLines)) {
+            $line = \array_shift($diffLines);
 
-            if (substr($line, 0, 2) == '@@') {
-                array_unshift($diffLines, $line);
+            if (\substr($line, 0, 2) == '@@') {
+                \array_unshift($diffLines, $line);
                 break;
             }
         }
@@ -35,7 +40,7 @@ class Diff
         $position = 0;
 
         foreach ($diffLines as $diffLine) {
-            if (preg_match('/@@\s+\-[0-9]+\,[0-9]+\s+\+([0-9]+)\,([0-9]+)/', $diffLine, $matches)) {
+            if (\preg_match('/@@\s+\-[0-9]+\,[0-9]+\s+\+([0-9]+)\,([0-9]+)/', $diffLine, $matches)) {
                 $lineNumber = (int)$matches[1] - 1;
             }
 

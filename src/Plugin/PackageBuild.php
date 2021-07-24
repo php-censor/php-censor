@@ -9,7 +9,11 @@ use PHPCensor\Plugin;
 /**
  * Create a ZIP or TAR.GZ archive of the entire build.
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class PackageBuild extends Plugin
 {
@@ -46,9 +50,9 @@ class PackageBuild extends Plugin
             return false;
         }
 
-        $filename = preg_replace('/([^a-zA-Z0-9_-]+)/', '', $this->filename);
+        $filename = \preg_replace('/([^a-zA-Z0-9_-]+)/', '', $this->filename);
 
-        if (!is_array($this->format)) {
+        if (!\is_array($this->format)) {
             $this->format = [$this->format];
         }
 

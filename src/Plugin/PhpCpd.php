@@ -13,7 +13,11 @@ use PHPCensor\ZeroConfigPluginInterface;
 /**
  * PHP Copy / Paste Detector - Allows PHP Copy / Paste Detector testing.
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class PhpCpd extends Plugin implements ZeroConfigPluginInterface
 {
@@ -117,7 +121,7 @@ class PhpCpd extends Plugin implements ZeroConfigPluginInterface
         foreach ($xml->duplication as $duplication) {
             foreach ($duplication->file as $file) {
                 $fileName = (string)$file['path'];
-                $fileName = str_replace($this->builder->buildPath, '', $fileName);
+                $fileName = \str_replace($this->builder->buildPath, '', $fileName);
 
                 $message = <<<CPD
 Copy and paste detected:

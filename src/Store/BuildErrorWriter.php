@@ -14,6 +14,7 @@ use PHPCensor\StoreRegistry;
  * @package    PHP Censor
  * @subpackage Application
  *
+ * @author Dan Cryer <dan@block8.co.uk>
  * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class BuildErrorWriter
@@ -58,9 +59,6 @@ class BuildErrorWriter
         $this->storeRegistry   = $storeRegistry;
     }
 
-    /**
-     * Destructor
-     */
     public function __destruct()
     {
         $this->flush();
@@ -69,24 +67,24 @@ class BuildErrorWriter
     /**
      * Write error
      *
-     * @param string    $plugin
-     * @param string    $message
-     * @param int   $severity
-     * @param string    $file
-     * @param int   $lineStart
-     * @param int   $lineEnd
-     * @param DateTime $createdDate
+     * @param string        $plugin
+     * @param string        $message
+     * @param int           $severity
+     * @param string|null   $file
+     * @param int|null      $lineStart
+     * @param int|null      $lineEnd
+     * @param DateTime|null $createdDate
      */
     public function write(
-        $plugin,
-        $message,
-        $severity,
-        $file = null,
-        $lineStart = null,
-        $lineEnd = null,
-        $createdDate = null
-    ) {
-        if (is_null($createdDate)) {
+        string $plugin,
+        string $message,
+        int $severity,
+        ?string $file = null,
+        ?int $lineStart = null,
+        ?int $lineEnd = null,
+        ?DateTime $createdDate = null
+    ): void {
+        if (\is_null($createdDate)) {
             $createdDate = new DateTime();
         }
 
@@ -98,15 +96,15 @@ class BuildErrorWriter
             'plugin'      => (string)$plugin,
             'message'     => (string)$message,
             'severity'    => (int)$severity,
-            'file'        => !is_null($file) ? (string)$file : null,
-            'line_start'  => !is_null($lineStart) ? (int)$lineStart : null,
-            'line_end'    => !is_null($lineEnd) ? (int)$lineEnd : null,
+            'file'        => !\is_null($file) ? (string)$file : null,
+            'line_start'  => !\is_null($lineStart) ? (int)$lineStart : null,
+            'line_end'    => !\is_null($lineEnd) ? (int)$lineEnd : null,
             'create_date' => $createdDate->format('Y-m-d H:i:s'),
             'hash'        => $hash,
             'is_new'      => $errorStore->getIsNewError($this->projectId, $hash) ? 1 : 0,
         ];
 
-        if (count($this->errors) >= $this->bufferSize) {
+        if (\count($this->errors) >= $this->bufferSize) {
             $this->flush();
         }
     }
@@ -114,7 +112,7 @@ class BuildErrorWriter
     /**
      * Flush buffer
      */
-    public function flush()
+    public function flush(): void
     {
         if (empty($this->errors)) {
             return;

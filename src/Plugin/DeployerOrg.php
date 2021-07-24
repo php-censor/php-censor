@@ -9,7 +9,11 @@ use PHPCensor\Plugin;
 /**
  * Deployer plugin for PHPCensor: http://deployer.org
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Alexey Boyko <ket4yiit@gmail.com>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class DeployerOrg extends Plugin
 {
@@ -105,7 +109,7 @@ class DeployerOrg extends Plugin
             'quiet'        => 'q'
         ];
 
-        $verbosity = strtolower(trim($verbosity));
+        $verbosity = \strtolower(\trim($verbosity));
         if ($verbosity !== 'normal') {
             return '-' . $logLevelList[$verbosity];
         } else {
@@ -141,6 +145,6 @@ class DeployerOrg extends Plugin
             $options[] = '--file=' . $config['file'];
         }
 
-        return implode(' ', $options);
+        return \implode(' ', $options);
     }
 }

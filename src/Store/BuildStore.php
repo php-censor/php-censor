@@ -29,12 +29,12 @@ class BuildStore extends Store
     /**
      * Get a Build by primary key (Id)
      *
-     * @param int $key
-     * @param string  $useConnection
+     * @param int    $key
+     * @param string $useConnection
      *
      * @return null|Build
      */
-    public function getByPrimaryKey($key, string $useConnection = 'read'): ?Build
+    public function getByPrimaryKey(int $key, string $useConnection = 'read'): ?Build
     {
         return $this->getById($key, $useConnection);
     }
@@ -42,16 +42,16 @@ class BuildStore extends Store
     /**
      * Get a single Build by Id.
      *
-     * @param int $id
-     * @param string  $useConnection
+     * @param int    $id
+     * @param string $useConnection
      *
      * @return Build|null
      *
      * @throws HttpException
      */
-    public function getById($id, $useConnection = 'read')
+    public function getById(int $id, string $useConnection = 'read'): ?Build
     {
-        if (is_null($id)) {
+        if (\is_null($id)) {
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
@@ -79,9 +79,9 @@ class BuildStore extends Store
      *
      * @throws HttpException
      */
-    public function getByProjectId($projectId, $limit = 1000, $useConnection = 'read')
+    public function getByProjectId(int $projectId, int $limit = 1000, string $useConnection = 'read'): array
     {
-        if (is_null($projectId)) {
+        if (\is_null($projectId)) {
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
@@ -96,9 +96,9 @@ class BuildStore extends Store
             $map = function ($item) {
                 return new Build($this->storeRegistry, $item);
             };
-            $rtn = array_map($map, $res);
+            $rtn = \array_map($map, $res);
 
-            $count = count($rtn);
+            $count = \count($rtn);
 
             return ['items' => $rtn, 'count' => $count];
         } else {
@@ -117,9 +117,9 @@ class BuildStore extends Store
      *
      * @throws HttpException
      */
-    public function getByStatus($status, $limit = 1000, $useConnection = 'read')
+    public function getByStatus(int $status, int $limit = 1000, string $useConnection = 'read'): array
     {
-        if (is_null($status)) {
+        if (\is_null($status)) {
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
@@ -134,9 +134,9 @@ class BuildStore extends Store
             $map = function ($item) {
                 return new Build($this->storeRegistry, $item);
             };
-            $rtn = array_map($map, $res);
+            $rtn = \array_map($map, $res);
 
-            $count = count($rtn);
+            $count = \count($rtn);
 
             return ['items' => $rtn, 'count' => $count];
         } else {
@@ -150,7 +150,7 @@ class BuildStore extends Store
      *
      * @return array
      */
-    public function getBuilds($limit = 5, $offset = 0)
+    public function getBuilds(int $limit = 5, int $offset = 0): array
     {
         $query = 'SELECT * FROM {{' . $this->tableName . '}} ORDER BY {{id}} DESC LIMIT :limit OFFSET :offset';
         $stmt  = $this->databaseManager->getConnection('read')->prepare($query);
@@ -165,7 +165,7 @@ class BuildStore extends Store
                 return new Build($this->storeRegistry, $item);
             };
 
-            return array_map($map, $res);
+            return \array_map($map, $res);
         } else {
             return [];
         }
@@ -179,7 +179,7 @@ class BuildStore extends Store
      *
      * @throws Exception
      */
-    public function getLatestBuildByProjectAndBranch($projectId, $branch)
+    public function getLatestBuildByProjectAndBranch(int $projectId, string $branch): ?Build
     {
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{project_id}} = :project_id AND {{branch}} = :branch ORDER BY {{id}} DESC';
         $stmt  = $this->databaseManager->getConnection('read')->prepare($query);
@@ -197,16 +197,16 @@ class BuildStore extends Store
     /**
      * Return an array of the latest builds for a given project.
      *
-     * @param int $projectId
-     * @param int $limit
+     * @param int|null $projectId
+     * @param int      $limit
      *
      * @return array
      *
      * @throws Exception
      */
-    public function getLatestBuilds($projectId = null, $limit = 5)
+    public function getLatestBuilds(?int $projectId = null, int $limit = 5): array
     {
-        if (!is_null($projectId)) {
+        if (!\is_null($projectId)) {
             $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{project_id}} = :pid ORDER BY {{id}} DESC LIMIT :limit';
         } else {
             $query = 'SELECT * FROM {{' . $this->tableName . '}} ORDER BY {{id}} DESC LIMIT :limit';
@@ -214,7 +214,7 @@ class BuildStore extends Store
 
         $stmt = $this->databaseManager->getConnection('read')->prepare($query);
 
-        if (!is_null($projectId)) {
+        if (!\is_null($projectId)) {
             $stmt->bindValue(':pid', $projectId);
         }
 
@@ -226,7 +226,7 @@ class BuildStore extends Store
             $map = function ($item) {
                 return new Build($this->storeRegistry, $item);
             };
-            return array_map($map, $res);
+            return \array_map($map, $res);
         } else {
             return [];
         }
@@ -238,9 +238,9 @@ class BuildStore extends Store
      * @param int|null $projectId
      * @param int      $status
      *
-     * @return array|Build
+     * @return Build|null
      */
-    public function getLastBuildByStatus($projectId = null, $status = Build::STATUS_SUCCESS)
+    public function getLastBuildByStatus(?int $projectId = null, int $status = Build::STATUS_SUCCESS): ?Build
     {
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{project_id}} = :pid AND {{status}} = :status ORDER BY {{id}} DESC LIMIT 1';
         $stmt  = $this->databaseManager->getConnection('read')->prepare($query);
@@ -251,9 +251,9 @@ class BuildStore extends Store
             if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 return new Build($this->storeRegistry, $data);
             }
-        } else {
-            return [];
         }
+
+        return null;
     }
 
     /**
@@ -264,7 +264,7 @@ class BuildStore extends Store
      *
      * @return array
      */
-    public function getAllProjectsLatestBuilds($limitByProject = 5, $limitAll = 10)
+    public function getAllProjectsLatestBuilds(int $limitByProject = 5, int $limitAll = 10): array
     {
         // don't fetch log field - contain many data
         $query = '
@@ -308,24 +308,24 @@ class BuildStore extends Store
                     ];
                 }
                 $build = null;
-                if (count($projects[$projectId][$environment]['latest']) < $limitByProject) {
+                if (\count($projects[$projectId][$environment]['latest']) < $limitByProject) {
                     $build = new Build($this->storeRegistry, $item);
                     $projects[$projectId][$environment]['latest'][] = $build;
                 }
-                if (count($latest) < $limitAll) {
-                    if (is_null($build)) {
+                if (\count($latest) < $limitAll) {
+                    if (\is_null($build)) {
                         $build = new Build($this->storeRegistry, $item);
                     }
                     $latest[] = $build;
                 }
                 if (empty($projects[$projectId][$environment]['success']) && Build::STATUS_SUCCESS === $item['status']) {
-                    if (is_null($build)) {
+                    if (\is_null($build)) {
                         $build = new Build($this->storeRegistry, $item);
                     }
                     $projects[$projectId][$environment]['success'] = $build;
                 }
                 if (empty($projects[$projectId][$environment]['failed']) && Build::STATUS_FAILED === $item['status']) {
-                    if (is_null($build)) {
+                    if (\is_null($build)) {
                         $build = new Build($this->storeRegistry, $item);
                     }
                     $projects[$projectId][$environment]['failed'] = $build;
@@ -333,12 +333,12 @@ class BuildStore extends Store
             }
 
             foreach ($projects as $idx => $project) {
-                $projects[$idx] = array_filter($project, function ($val) {
+                $projects[$idx] = \array_filter($project, function ($val) {
                     return ($val['latest'][0]->getStatus() != Build::STATUS_SUCCESS);
                 });
             }
 
-            $projects = array_filter($projects);
+            $projects = \array_filter($projects);
 
             return ['projects' => $projects, 'latest' => $latest];
         } else {
@@ -354,7 +354,7 @@ class BuildStore extends Store
      *
      * @return array
      */
-    public function getByProjectAndCommit($projectId, $commitId)
+    public function getByProjectAndCommit(int $projectId, string $commitId): array
     {
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{project_id}} = :project_id AND {{commit_id}} = :commit_id';
         $stmt  = $this->databaseManager->getConnection('read')->prepare($query);
@@ -369,9 +369,9 @@ class BuildStore extends Store
                 return new Build($this->storeRegistry, $item);
             };
 
-            $rtn = array_map($map, $res);
+            $rtn = \array_map($map, $res);
 
-            return ['items' => $rtn, 'count' => count($rtn)];
+            return ['items' => $rtn, 'count' => \count($rtn)];
         } else {
             return ['items' => [], 'count' => 0];
         }
@@ -386,7 +386,7 @@ class BuildStore extends Store
      *
      * @throws Exception
      */
-    public function getBuildBranches($projectId)
+    public function getBuildBranches(int $projectId): array
     {
         $query = 'SELECT DISTINCT {{branch}} FROM {{' . $this->tableName . '}} WHERE {{project_id}} = :project_id';
         $stmt  = $this->databaseManager->getConnection('read')->prepare($query);
@@ -410,7 +410,7 @@ class BuildStore extends Store
      *
      * @return array|null
      */
-    public function getMeta($key, $projectId, $buildId = null, $branch = null, $numResults = 1)
+    public function getMeta(string $key, int $projectId, ?int $buildId = null, ?string $branch = null, int $numResults = 1): ?array
     {
         $query = 'SELECT bm.build_id, bm.meta_key, bm.meta_value
                     FROM {{build_metas}} AS {{bm}}
@@ -426,7 +426,7 @@ class BuildStore extends Store
         }
 
         // Include specific branch information if required:
-        if (!is_null($branch)) {
+        if (!\is_null($branch)) {
             $query .= ' AND b.branch = :branch ';
         }
 
@@ -438,7 +438,7 @@ class BuildStore extends Store
         $stmt->bindValue(':buildId', (int)$buildId, PDO::PARAM_INT);
         $stmt->bindValue(':numResults', (int)$numResults, PDO::PARAM_INT);
 
-        if (!is_null($branch)) {
+        if (!\is_null($branch)) {
             $stmt->bindValue(':branch', $branch, PDO::PARAM_STR);
         }
 
@@ -448,9 +448,9 @@ class BuildStore extends Store
             /** @var BuildErrorStore $errorStore */
             $errorStore = $this->storeRegistry->get('BuildError');
 
-            $rtn = array_reverse($rtn);
-            $rtn = array_map(function ($item) use ($key, $errorStore, $buildId) {
-                $item['meta_value'] = json_decode($item['meta_value'], true);
+            $rtn = \array_reverse($rtn);
+            $rtn = \array_map(function ($item) use ($key, $errorStore, $buildId) {
+                $item['meta_value'] = \json_decode($item['meta_value'], true);
                 if ('plugin-summary' === $key) {
                     foreach ($item['meta_value'] as $stage => $stageData) {
                         foreach ($stageData as $plugin => $pluginData) {
@@ -465,7 +465,7 @@ class BuildStore extends Store
                 return $item;
             }, $rtn);
 
-            if (!count($rtn)) {
+            if (!\count($rtn)) {
                 return null;
             } else {
                 return $rtn;
@@ -482,12 +482,12 @@ class BuildStore extends Store
      * @param string  $key
      * @param string  $value
      */
-    public function setMeta($buildId, $key, $value)
+    public function setMeta(int $buildId, string $key, string $value): void
     {
         /** @var BuildMetaStore $store */
         $store = $this->storeRegistry->get('BuildMeta');
         $meta  = $store->getByKey($buildId, $key);
-        if (is_null($meta)) {
+        if (\is_null($meta)) {
             $meta = new BuildMeta($this->storeRegistry);
             $meta->setBuildId($buildId);
             $meta->setMetaKey($key);
@@ -497,7 +497,7 @@ class BuildStore extends Store
         $store->save($meta);
     }
 
-    public function deleteAllByProject($projectId)
+    public function deleteAllByProject(int $projectId): int
     {
         $q = $this->databaseManager->getConnection('write')
             ->prepare(
@@ -517,9 +517,9 @@ class BuildStore extends Store
      *
      * @throws HttpException
      */
-    public function getOldByProject($projectId, $keep = 100)
+    public function getOldByProject(int $projectId, int $keep = 100): array
     {
-        if (is_null($projectId)) {
+        if (\is_null($projectId)) {
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
@@ -534,9 +534,9 @@ class BuildStore extends Store
             $map = function ($item) {
                 return new Build($this->storeRegistry, $item);
             };
-            $rtn = array_map($map, $res);
+            $rtn = \array_map($map, $res);
 
-            $count = count($rtn);
+            $count = \count($rtn);
 
             return ['items' => $rtn, 'count' => $count];
         }
@@ -551,7 +551,7 @@ class BuildStore extends Store
      *
      * @throws Exception
      */
-    public function getNewErrorsCount($buildId)
+    public function getNewErrorsCount(int $buildId): int
     {
         $query = 'SELECT COUNT(*) AS {{total}} FROM {{build_errors}} WHERE {{build_id}} = :build_id AND {{is_new}} = true';
 
@@ -575,7 +575,7 @@ class BuildStore extends Store
      *
      * @throws Exception
      */
-    public function getErrorsCount($buildId)
+    public function getErrorsCount(int $buildId): int
     {
         $query = 'SELECT COUNT(*) AS {{total}} FROM {{build_errors}} WHERE {{build_id}} = :build_id';
 
@@ -601,7 +601,7 @@ class BuildStore extends Store
      *
      * @throws Exception
      */
-    public function getBuildErrorsTrend($buildId, $projectId, $branch)
+    public function getBuildErrorsTrend(int $buildId, int $projectId, string $branch): array
     {
         $query = '
 SELECT b.id AS {{build_id}}, count(be.id) AS {{count}} FROM {{' . $this->tableName . '}} AS b

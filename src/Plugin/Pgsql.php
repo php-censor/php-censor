@@ -11,7 +11,11 @@ use PHPCensor\Plugin;
 /**
  * PgSQL Plugin - Provides access to a PgSQL database.
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class Pgsql extends Plugin
 {
@@ -87,7 +91,7 @@ class Pgsql extends Plugin
             $this->user = $this->builder->interpolate($buildSettings['pgsql']['user']);
         }
 
-        if (array_key_exists('password', $buildSettings['pgsql'])) {
+        if (\array_key_exists('password', $buildSettings['pgsql'])) {
             $this->password = $this->builder->interpolate($buildSettings['pgsql']['password']);
         }
 
@@ -103,10 +107,10 @@ class Pgsql extends Plugin
     public function execute()
     {
         try {
-            $pdoOptions = array_merge([
+            $pdoOptions = \array_merge([
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
             ], $this->pdoOptions);
-            $dsn     = sprintf('pgsql:host=%s;port=%s', $this->host, $this->port);
+            $dsn     = \sprintf('pgsql:host=%s;port=%s', $this->host, $this->port);
 
             if (null !== $this->dbName) {
                 $dsn .= ';dbname=' . $this->dbName;

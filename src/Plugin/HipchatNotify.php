@@ -11,7 +11,11 @@ use PHPCensor\Plugin;
 /**
  * Hipchat Plugin
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author James Inman <james@jamesinman.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class HipchatNotify extends Plugin
 {
@@ -81,7 +85,7 @@ class HipchatNotify extends Plugin
         $message = $this->builder->interpolate($this->message);
 
         $result = true;
-        if (is_array($this->room)) {
+        if (\is_array($this->room)) {
             foreach ($this->room as $room) {
                 if (!$hipChat->message_room($room, 'PHP Censor', $message, $this->notify, $this->color)) {
                     $result = false;

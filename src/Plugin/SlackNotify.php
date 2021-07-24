@@ -13,7 +13,11 @@ use PHPCensor\Plugin;
 /**
  * Slack Plugin
  *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
  * @author Stephen Ball <phpci@stephen.rebelinblue.com>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class SlackNotify extends Plugin
 {
@@ -39,8 +43,8 @@ class SlackNotify extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        if (is_array($options) && isset($options['webhook_url'])) {
-            $this->webHook = trim($options['webhook_url']);
+        if (\is_array($options) && isset($options['webhook_url'])) {
+            $this->webHook = \trim($options['webhook_url']);
 
             if (isset($options['message'])) {
                 $this->message = $options['message'];

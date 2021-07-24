@@ -8,6 +8,11 @@ use Symfony\Component\Process\Process;
 
 /**
  * Handles running system commands with variables.
+ *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class CommandExecutor implements CommandExecutorInterface
 {
@@ -97,22 +102,22 @@ class CommandExecutor implements CommandExecutorInterface
     {
         $this->lastOutput = [];
 
-        $this->logger->logDebug('Args: ' . json_encode($args));
+        $this->logger->logDebug('Args: ' . \json_encode($args));
 
-        $command = call_user_func_array('sprintf', $args);
+        $command = \call_user_func_array('sprintf', $args);
 
         $this->logger->log('Shell command: ' . $command);
 
         $withNoExit = '';
         foreach (self::$noExitCommands as $nec) {
-            if (preg_match("/\b{$nec}\b/", $command)) {
+            if (\preg_match("/\b{$nec}\b/", $command)) {
                 $withNoExit = $nec;
                 break;
             }
         }
 
         $cwd = RUNTIME_DIR . 'builds';
-        if ($this->buildPath && file_exists($this->buildPath)) {
+        if ($this->buildPath && \file_exists($this->buildPath)) {
             $cwd = $this->buildPath;
         }
 
@@ -126,13 +131,13 @@ class CommandExecutor implements CommandExecutorInterface
 
             $this->logger->logDebug("Assuming command '{$withNoExit}' does not exit properly");
             do {
-                sleep(15);
+                \sleep(15);
                 $response = [];
-                exec("ps auxww | grep '{$withNoExit}' | grep -v grep", $response);
-                $response = array_filter(
+                \exec("ps auxww | grep '{$withNoExit}' | grep -v grep", $response);
+                $response = \array_filter(
                     $response,
                     function ($a) {
-                        return strpos($a, $this->buildPath) !== false;
+                        return \strpos($a, $this->buildPath) !== false;
                     }
                 );
             } while (!empty($response));
@@ -147,7 +152,7 @@ class CommandExecutor implements CommandExecutorInterface
         $lastOutput = $this->replaceIllegalCharacters($process->getOutput());
         $lastError  = $this->replaceIllegalCharacters($process->getErrorOutput());
 
-        $this->lastOutput = array_filter(explode(PHP_EOL, $lastOutput));
+        $this->lastOutput = \array_filter(\explode(PHP_EOL, $lastOutput));
         $this->lastError  = $lastError;
 
         $shouldOutput = ($this->logExecOutput && ($this->verbose || 0 !== $status));
@@ -177,12 +182,12 @@ class CommandExecutor implements CommandExecutorInterface
      */
     public function replaceIllegalCharacters($utf8String)
     {
-        mb_substitute_character(0xFFFD); // is '�'
-        $legalUtf8String = mb_convert_encoding($utf8String, 'utf8', 'utf8');
+        \mb_substitute_character(0xFFFD); // is '�'
+        $legalUtf8String = \mb_convert_encoding($utf8String, 'utf8', 'utf8');
         $regexp          = '/[\x00-\x08\x10\x0B\x0C\x0E-\x19\x7F]' .
             '|[^\x{0}-\x{ffff}]/u'; // more than 3 byte UTF-8 sequences (unsupported in mysql)
 
-        return preg_replace($regexp, '�', $legalUtf8String);
+        return \preg_replace($regexp, '�', $legalUtf8String);
     }
 
     /**
@@ -192,7 +197,7 @@ class CommandExecutor implements CommandExecutorInterface
      */
     public function getLastOutput()
     {
-        return implode(PHP_EOL, $this->lastOutput);
+        return \implode(PHP_EOL, $this->lastOutput);
     }
 
     /**
@@ -213,8 +218,8 @@ class CommandExecutor implements CommandExecutorInterface
      */
     protected function findBinaryByPath($binaryPath, $binary)
     {
-        if (is_dir($binaryPath) && is_file($binaryPath . '/' . $binary)) {
-            $this->logger->logDebug(sprintf('Found in %s (binary_path): %s', $binaryPath, $binary));
+        if (\is_dir($binaryPath) && \is_file($binaryPath . '/' . $binary)) {
+            $this->logger->logDebug(\sprintf('Found in %s (binary_path): %s', $binaryPath, $binary));
 
             return $binaryPath . '/' . $binary;
         }
@@ -230,8 +235,8 @@ class CommandExecutor implements CommandExecutorInterface
      */
     protected function findBinaryLocal($composerBin, $binary)
     {
-        if (is_dir($composerBin) && is_file($composerBin . '/' . $binary)) {
-            $this->logger->logDebug(sprintf('Found in %s (local): %s', $composerBin, $binary));
+        if (\is_dir($composerBin) && \is_file($composerBin . '/' . $binary)) {
+            $this->logger->logDebug(\sprintf('Found in %s (local): %s', $composerBin, $binary));
 
             return $composerBin . '/' . $binary;
         }
@@ -246,8 +251,8 @@ class CommandExecutor implements CommandExecutorInterface
      */
     protected function findBinaryGlobal($binary)
     {
-        if (is_file($this->rootDir . 'vendor/bin/' . $binary)) {
-            $this->logger->logDebug(sprintf('Found in %s (global): %s', 'vendor/bin', $binary));
+        if (\is_file($this->rootDir . 'vendor/bin/' . $binary)) {
+            $this->logger->logDebug(\sprintf('Found in %s (global): %s', 'vendor/bin', $binary));
 
             return $this->rootDir . 'vendor/bin/' . $binary;
         }
@@ -264,9 +269,9 @@ class CommandExecutor implements CommandExecutorInterface
      */
     protected function findBinarySystem($binary)
     {
-        $tempBinary = trim(shell_exec('which ' . $binary));
-        if (is_file($tempBinary)) {
-            $this->logger->logDebug(sprintf('Found in %s (system): %s', '', $binary));
+        $tempBinary = \trim(\shell_exec('which ' . $binary));
+        if (\is_file($tempBinary)) {
+            $this->logger->logDebug(\sprintf('Found in %s (system): %s', '', $binary));
 
             return $tempBinary;
         }
@@ -281,16 +286,16 @@ class CommandExecutor implements CommandExecutorInterface
     {
         $composerBin = $this->getComposerBinDir($this->buildPath);
 
-        if (is_string($binary)) {
+        if (\is_string($binary)) {
             $binary = [$binary];
         }
 
         if ($binaryName) {
-            array_unshift($binary, ...$binaryName);
+            \array_unshift($binary, ...$binaryName);
         }
 
         foreach ($binary as $bin) {
-            $this->logger->logDebug(sprintf('Looking for binary: %s, priority = %s', $bin, $priorityPath));
+            $this->logger->logDebug(\sprintf('Looking for binary: %s, priority = %s', $bin, $priorityPath));
 
             if ('binary_path' === $priorityPath) {
                 if ($existedBinary = $this->findBinaryByPath($binaryPath, $bin)) {
@@ -359,7 +364,7 @@ class CommandExecutor implements CommandExecutorInterface
             }
         }
 
-        throw new RuntimeException(sprintf('Could not find %s', implode('/', $binary)));
+        throw new RuntimeException(\sprintf('Could not find %s', \implode('/', $binary)));
     }
 
     /**
@@ -372,14 +377,14 @@ class CommandExecutor implements CommandExecutorInterface
      */
     public function getComposerBinDir($path)
     {
-        if (is_dir($path)) {
+        if (\is_dir($path)) {
             $composer = $path . '/composer.json';
-            if (is_file($composer)) {
-                $json = json_decode(file_get_contents($composer));
+            if (\is_file($composer)) {
+                $json = \json_decode(\file_get_contents($composer));
 
                 if (isset($json->config->{"bin-dir"})) {
                     return $path . '/' . $json->config->{"bin-dir"};
-                } elseif (is_dir($path . '/vendor/bin')) {
+                } elseif (\is_dir($path . '/vendor/bin')) {
                     return $path . '/vendor/bin';
                 }
             }
@@ -405,41 +410,41 @@ class CommandExecutor implements CommandExecutorInterface
         $env = array();
 
         foreach ($_SERVER as $k => $v) {
-            if (in_array($k, self::$blacklistEnvVars)) {
+            if (\in_array($k, self::$blacklistEnvVars)) {
                 continue;
             }
-            if (is_string($v) && false !== $v = getenv($k)) {
+            if (\is_string($v) && false !== $v = \getenv($k)) {
                 $env[$k] = $v;
             }
         }
 
         foreach ($_ENV as $k => $v) {
-            if (in_array($k, self::$blacklistEnvVars)) {
+            if (\in_array($k, self::$blacklistEnvVars)) {
                 continue;
             }
-            if (is_string($v)) {
+            if (\is_string($v)) {
                 $env[$k] = $v;
             }
         }
 
         if (PHP_MAJOR_VERSION >= 7 && PHP_MINOR_VERSION >= 1) {
-            foreach (getenv() as $k => $v) {
-                if (in_array($k, self::$blacklistEnvVars)) {
+            foreach (\getenv() as $k => $v) {
+                if (\in_array($k, self::$blacklistEnvVars)) {
                     continue;
                 }
-                if (is_string($v)) {
+                if (\is_string($v)) {
                     $env[$k] = $v;
                 }
             }
         } else {
             $output = [];
-            exec('env', $output);
+            \exec('env', $output);
             foreach ($output as $o) {
-                $keyval = explode('=', $o, 2);
-                if (count($keyval) < 2 || empty($keyval[1])) {
+                $keyval = \explode('=', $o, 2);
+                if (\count($keyval) < 2 || empty($keyval[1])) {
                     continue;
                 }
-                if (in_array($keyval[0], self::$blacklistEnvVars)) {
+                if (\in_array($keyval[0], self::$blacklistEnvVars)) {
                     continue;
                 }
                 $env[$keyval[0]] = $keyval[1];

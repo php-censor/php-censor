@@ -6,11 +6,15 @@ namespace PHPCensor\Model\Base;
 
 use PHPCensor\Model;
 
+/**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
+ */
 class BuildMeta extends Model
 {
-    /**
-     * @var array
-     */
     protected array $data = [
         'id'         => null,
         'build_id'   => null,

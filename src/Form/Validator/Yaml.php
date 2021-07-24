@@ -1,17 +1,24 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PHPCensor\Form\Validator;
 
 use PHPCensor\Common\Exception\RuntimeException;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Parser;
 
+/**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
+ */
 class Yaml implements ValidatorInterface
 {
-    /** @var Parser */
-    protected $parser;
+    protected ?Parser $parser = null;
 
-    public function __invoke($value)
+    public function __invoke($value): bool
     {
         try {
             $this->getParser()->parse($value);
@@ -22,7 +29,7 @@ class Yaml implements ValidatorInterface
         return true;
     }
 
-    public function getParser()
+    public function getParser(): Parser
     {
         if (!$this->parser) {
             $this->parser = new Parser();

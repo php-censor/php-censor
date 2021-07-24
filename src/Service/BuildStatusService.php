@@ -7,11 +7,13 @@ namespace PHPCensor\Service;
 use Exception;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\Project;
+use function GuzzleHttp\Psr7\str;
 
 /**
  * @package    PHP Censor
  * @subpackage Application
  *
+ * @author Dan Cryer <dan@block8.co.uk>
  * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class BuildStatusService
@@ -35,13 +37,13 @@ class BuildStatusService
      * @param string  $branch
      * @param Project $project
      * @param Build   $build
-     * @param bool $isParent
+     * @param bool    $isParent
      */
     public function __construct(
-        $branch,
+        string $branch,
         Project $project,
-        Build $build = null,
-        $isParent = false
+        ?Build $build = null,
+        bool $isParent = false
     ) {
         $this->project = $project;
         $this->branch  = $branch;
@@ -49,7 +51,7 @@ class BuildStatusService
         if ($this->build) {
             $this->loadParentBuild($isParent);
         }
-        if (defined('APP_URL')) {
+        if (\defined('APP_URL')) {
             $this->setUrl(APP_URL);
         }
     }
@@ -57,7 +59,7 @@ class BuildStatusService
     /**
      * @param string $url
      */
-    public function setUrl($url)
+    public function setUrl(string $url): void
     {
         $this->url = $url;
     }
@@ -65,7 +67,7 @@ class BuildStatusService
     /**
      * @return Build
      */
-    public function getBuild()
+    public function getBuild(): Build
     {
         return $this->build;
     }
@@ -75,7 +77,7 @@ class BuildStatusService
      *
      * @throws Exception
      */
-    protected function loadParentBuild($isParent = true)
+    protected function loadParentBuild(bool $isParent = true): void
     {
         if ($isParent === false && !$this->isFinished()) {
             $lastFinishedBuild = $this->project->getLatestBuild($this->branch, $this->finishedStatusIds);
@@ -94,9 +96,9 @@ class BuildStatusService
     /**
      * @return string
      */
-    public function getActivity()
+    public function getActivity(): string
     {
-        if (in_array($this->build->getStatus(), $this->finishedStatusIds)) {
+        if (\in_array($this->build->getStatus(), $this->finishedStatusIds)) {
             return 'Sleeping';
         } elseif ($this->build->getStatus() == Build::STATUS_PENDING) {
             return 'Pending';
@@ -109,7 +111,7 @@ class BuildStatusService
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->project->getTitle() . ' / ' . $this->branch;
     }
@@ -117,47 +119,51 @@ class BuildStatusService
     /**
      * @return bool
      */
-    public function isFinished()
+    public function isFinished(): bool
     {
-        if (in_array($this->build->getStatus(), $this->finishedStatusIds)) {
+        if (\in_array($this->build->getStatus(), $this->finishedStatusIds)) {
             return true;
         }
+
         return false;
     }
 
     /**
      * @return null|Build
      */
-    public function getFinishedBuildInfo()
+    public function getFinishedBuildInfo(): ?Build
     {
         if ($this->isFinished()) {
             return $this->build;
         } elseif ($this->prevService) {
             return $this->prevService->getBuild();
         }
+
         return null;
     }
 
     /**
-     * @return int|string
+     * @return string
      */
-    public function getLastBuildLabel()
+    public function getLastBuildLabel(): string
     {
         if ($buildInfo = $this->getFinishedBuildInfo()) {
-            return $buildInfo->getId();
+            return (string)$buildInfo->getId();
         }
+
         return '';
     }
 
     /**
      * @return string
      */
-    public function getLastBuildTime()
+    public function getLastBuildTime(): string
     {
         $dateFormat = 'Y-m-d\\TH:i:sO';
         if ($buildInfo = $this->getFinishedBuildInfo()) {
             return ($buildInfo->getFinishDate()) ? $buildInfo->getFinishDate()->format($dateFormat) : '';
         }
+
         return '';
     }
 
@@ -166,7 +172,7 @@ class BuildStatusService
      *
      * @return string
      */
-    public function getBuildStatus(Build $build)
+    public function getBuildStatus(Build $build): string
     {
         switch ($build->getStatus()) {
             case Build::STATUS_SUCCESS:
@@ -174,24 +180,26 @@ class BuildStatusService
             case Build::STATUS_FAILED:
                 return 'Failure';
         }
+
         return 'Unknown';
     }
 
     /**
      * @return string
      */
-    public function getLastBuildStatus()
+    public function getLastBuildStatus(): string
     {
         if ($build = $this->getFinishedBuildInfo()) {
             return $this->getBuildStatus($build);
         }
+
         return '';
     }
 
     /**
      * @return string
      */
-    public function getBuildUrl()
+    public function getBuildUrl(): string
     {
         return $this->url . 'build/view/' . $this->build->getId();
     }
@@ -199,11 +207,12 @@ class BuildStatusService
     /**
      * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         if (!$this->build) {
             return [];
         }
+
         return [
             'name'            => $this->getName(),
             'activity'        => $this->getActivity(),

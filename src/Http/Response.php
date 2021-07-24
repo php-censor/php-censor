@@ -2,13 +2,20 @@
 
 namespace PHPCensor\Http;
 
+/**
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dan Cryer <dan@block8.co.uk>
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
+ */
 class Response
 {
     protected $data = [];
 
     public function __construct(Response $createFrom = null)
     {
-        if (!is_null($createFrom)) {
+        if (!\is_null($createFrom)) {
             $this->data = $createFrom->getData();
         }
     }

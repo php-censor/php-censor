@@ -560,7 +560,7 @@ class InstallCommand extends Command
         $dumper = new Dumper();
         $yaml   = $dumper->dump($config, 4);
 
-        file_put_contents($this->configPath, $yaml);
+        \file_put_contents($this->configPath, $yaml);
     }
 
     private function setupDatabase(OutputInterface $output): bool

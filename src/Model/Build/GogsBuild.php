@@ -4,6 +4,11 @@ namespace PHPCensor\Model\Build;
 
 /**
  * GogsBuild Build Model
+ *
+ * @package    PHP Censor
+ * @subpackage Application
+ *
+ * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
 class GogsBuild extends GitBuild
 {
@@ -14,7 +19,7 @@ class GogsBuild extends GitBuild
      */
     protected function getCleanedReferenceForLink()
     {
-        return preg_replace('/\.git$/i', '', $this->getProject()->getReference());
+        return \preg_replace('/\.git$/i', '', $this->getProject()->getReference());
     }
 
     /**
@@ -44,7 +49,7 @@ class GogsBuild extends GitBuild
      */
     public function getFileLinkTemplate()
     {
-        return sprintf(
+        return \sprintf(
             '%s/src/%s/{FILE}#L{LINE}',
             $this->getCleanedReferenceForLink(),
             $this->getCommitId()
