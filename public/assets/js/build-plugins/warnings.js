@@ -122,10 +122,10 @@ var warningsPlugin = ActiveBuild.UiPlugin.extend({
                 var color = colors.shift();
 
                 self.chartData.datasets.push({
-                    label:       self.keys[key],
-                    borderColor: color,
-                    color:  color,
-                    data:        []
+                    label:           self.keys[key],
+                    borderColor:     color,
+                    backgroundColor: color,
+                    data:            []
                 });
 
                 for (var build in self.data) {

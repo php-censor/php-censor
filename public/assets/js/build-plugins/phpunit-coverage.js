@@ -50,22 +50,22 @@ var coveragePlugin = ActiveBuild.UiPlugin.extend({
             labels:   [],
             datasets: [
             {
-                    label:       Lang.get('classes'),
-                    borderColor: "#555299",
-                    color:  "#555299",
-                    data:        []
+                    label:           Lang.get('classes'),
+                    borderColor:     "#555299",
+                    backgroundColor: "#555299",
+                    data:            []
             },
                 {
-                    label:       Lang.get('methods'),
-                    borderColor: "#00A65A",
-                    color:  "#00A65A",
-                    data:        []
+                    label:           Lang.get('methods'),
+                    borderColor:     "#00A65A",
+                    backgroundColor: "#00A65A",
+                    data:            []
             },
                 {
-                    label:       Lang.get('lines'),
-                    borderColor: "#8AA4AF",
-                    color:  "#8AA4AF",
-                    data:        []
+                    label:           Lang.get('lines'),
+                    borderColor:     "#8AA4AF",
+                    backgroundColor: "#8AA4AF",
+                    data:            []
             }
             ]
         };
