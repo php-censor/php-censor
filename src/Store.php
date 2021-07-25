@@ -178,7 +178,7 @@ abstract class Store
             $q->bindValue(':primaryKey', $data[$this->primaryKey]);
             $q->execute();
 
-            $rtn = $this->getByPrimaryKey($data[$this->primaryKey], 'write');
+            $rtn = $this->getByPrimaryKey((int)$data[$this->primaryKey], 'write');
         } else {
             $rtn = $obj;
         }
