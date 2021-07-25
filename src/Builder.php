@@ -280,7 +280,7 @@ class Builder
         );
 
         if (isset($trend[1])) {
-            $previousBuild = $this->store->getById($trend[1]['build_id']);
+            $previousBuild = $this->store->getById((int)$trend[1]['build_id']);
             if ($previousBuild &&
                 !\in_array(
                     $previousBuild->getStatus(),

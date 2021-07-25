@@ -627,7 +627,7 @@ class Build extends Model
             $trend = $store->getBuildErrorsTrend($this->getId(), $this->getProjectId(), $this->getBranch());
 
             if (isset($trend[1])) {
-                $previousBuild = $store->getById($trend[1]['build_id']);
+                $previousBuild = $store->getById((int)$trend[1]['build_id']);
                 if ($previousBuild &&
                     !\in_array(
                         $previousBuild->getStatus(),

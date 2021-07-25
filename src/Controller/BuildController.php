@@ -153,7 +153,7 @@ class BuildController extends WebController
         $delete     = Lang::get('delete_build');
         $deleteLink = APP_URL . 'build/delete/' . $build->getId();
 
-        $project = $this->storeRegistry->get('Project')->getByPrimaryKey($build->getProjectId());
+        $project = $this->storeRegistry->get('Project')->getByPrimaryKey((int)$build->getProjectId());
 
         $actions = '';
         if (!$project->getArchived()) {
@@ -316,7 +316,7 @@ class BuildController extends WebController
             (int)$buildId
         );
 
-        $project = $this->storeRegistry->get('Project')->getByPrimaryKey($copy->getProjectId());
+        $project = $this->storeRegistry->get('Project')->getByPrimaryKey((int)$copy->getProjectId());
 
         if (!$copy || $project->getArchived()) {
             throw new NotFoundException(Lang::get('build_x_not_found', $buildId));

@@ -65,7 +65,7 @@ class Application
         // Inlined as a closure to fix "using $this when not in object context" on 5.3
         $validateSession = function () {
             if (!empty($_SESSION['php-censor-user-id'])) {
-                $user = $this->storeRegistry->get('User')->getByPrimaryKey($_SESSION['php-censor-user-id']);
+                $user = $this->storeRegistry->get('User')->getByPrimaryKey((int)$_SESSION['php-censor-user-id']);
 
                 if ($user) {
                     return true;
