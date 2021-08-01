@@ -272,7 +272,7 @@ class Project extends Model
      */
     public function getAccessInformation($key = null)
     {
-        $data              = json_decode($this->data['access_information'], true);
+        $data              = \json_decode((string)$this->data['access_information'], true);
         $accessInformation = null;
         if (is_null($key)) {
             $accessInformation = $data;
@@ -290,7 +290,7 @@ class Project extends Model
      */
     public function setAccessInformation(array $value)
     {
-        $accessInformation = json_encode($value);
+        $accessInformation = \json_encode($value);
         if ($this->data['access_information'] === $accessInformation) {
             return false;
         }
