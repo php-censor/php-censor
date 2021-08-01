@@ -2,7 +2,7 @@ Upgrade from v1 to v2
 =====================
 
 1. [Upgrade your PHP Censor installation to latest v1 release](https://github.com/php-censor/php-censor/blob/release-1.3/README.md#updating) 
-(`1.3.0`).
+(`1.3.*`).
 2. If you use [cronjob worker](https://github.com/php-censor/php-censor/blob/release-1.3/docs/en/workers/cron.md), you 
 should migrate to [daemon worker](en/workers/worker.md).
 3. Fix all deprecations from v1 on your installation:
