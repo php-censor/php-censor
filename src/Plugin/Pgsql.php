@@ -99,7 +99,9 @@ class Pgsql extends Plugin
         }
 
         if (!empty($this->options['queries']) && \is_array($this->options['queries'])) {
-            $this->queries = $this->options['queries'];
+            foreach ($this->options['queries'] as $query) {
+                $this->queries[] = $this->builder->interpolate($query);
+            }
         }
 
         /** @deprecated Queries list without option is deprecated and will be deleted in version 2.0. Use the option "queries" instead. */
