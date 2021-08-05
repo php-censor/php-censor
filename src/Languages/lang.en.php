@@ -347,6 +347,7 @@ PHP Censor',
     // Summary plugin
     'build-summary'  => 'Summary',
     'stage'          => 'Stage',
+    'step'           => 'Step',
     'duration'       => 'Duration',
     'seconds'        => 'sec.',
     'plugin'         => 'Plugin',
