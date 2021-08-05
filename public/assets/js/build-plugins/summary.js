@@ -35,6 +35,7 @@ var SummaryPlugin = ActiveBuild.UiPlugin.extend({
             '<table class="table table-hover" id="plugin-summary">' +
             '<thead><tr>' +
             '<th>' + Lang.get('stage') + '</th>' +
+            '<th>' + Lang.get('step') + '</th>' +
             '<th>' + Lang.get('plugin') + '</th>' +
             '<th>' + Lang.get('status') + '</th>' +
             '<th class="text-right">' + Lang.get('duration') + ' (' + Lang.get('seconds') + ')</th>' +
@@ -54,9 +55,10 @@ var SummaryPlugin = ActiveBuild.UiPlugin.extend({
         tbody.empty();
 
         for (var stage in summary) {
-            for (var plugin in summary[stage]) {
-                var data     = summary[stage][plugin],
-                    duration = data.started ? ((data.ended || Math.floor(Date.now() / 1000)) - data.started) : '-';
+            for (var step in summary[stage]) {
+                var data     = summary[stage][step],
+                    duration = data.started ? ((data.ended || Math.floor(Date.now() / 1000)) - data.started) : '-',
+                    plugin = (typeof data.plugin === "undefined" ? step : data.plugin);
 
                 var pluginName = Lang.get(plugin);
                 if (0 < data.errors) {
@@ -65,6 +67,7 @@ var SummaryPlugin = ActiveBuild.UiPlugin.extend({
                 tbody.append(
                     '<tr>' +
                     '<td>' + Lang.get('stage_' + stage) + '</td>' +
+                    '<td>' + step + '</td>' +
                     '<td>' + pluginName + '</td>' +
                     '<td><span  class="label label-' + this.statusClasses[data.status] + '">' +
                     this.statusLabels[data.status] +
