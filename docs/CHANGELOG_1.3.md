@@ -5,6 +5,23 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [1.3.5 (Jerry Smith)](https://github.com/php-censor/php-censor/tree/1.3.5) (2021-08-22)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/1.3.4...1.3.5)
+
+### Fixed
+
+- **[PhpCsFixer]** Support for version 3.0+. Pull request [#414](https://github.com/php-censor/php-censor/pull/414).
+  Thanks to [@StudioMaX](https://github.com/StudioMaX).
+- **[Mysql, Pgsql, Sqlite]** Variables interpolation for queries. Pull requests
+  [#415](https://github.com/php-censor/php-censor/pull/415), [#416](https://github.com/php-censor/php-censor/pull/416).
+  Thanks to [@KieranFYI](https://github.com/KieranFYI).
+
+### Removed
+
+- Useless TravisCI and CodeCov configs.
+
+
 ## [1.3.4 (Jerry Smith)](https://github.com/php-censor/php-censor/tree/1.3.4) (2021-06-12)
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/1.3.3...1.3.4)
@@ -12,8 +29,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ### Fixed
 
 - **[PhpStan]** Option `directories` and `directory`.
-Issue [#408](https://github.com/php-censor/php-censor/issues/#408). Pull request
-[#409](https://github.com/php-censor/php-censor/pull/409). Thanks to [@StudioMaX](https://github.com/StudioMaX).
+  Issue [#408](https://github.com/php-censor/php-censor/issues/#408). Pull request
+  [#409](https://github.com/php-censor/php-censor/pull/409). Thanks to [@StudioMaX](https://github.com/StudioMaX).
 - **[SecurityChecker]** Option `allowed_warnings`.
 - Security issue with old Chart.js version (Chart.js upgraded from version `1.1.1` to `3.3.0`).
 
@@ -36,15 +53,15 @@ Issue [#408](https://github.com/php-censor/php-censor/issues/#408). Pull request
 
 - SSH keys generating (Removed unwanted symbols). Issue [#403](https://github.com/php-censor/php-censor/issues/#403).
 - Environments (Case when you may get environment from another project). Issue
-[#405](https://github.com/php-censor/php-censor/issues/#405).
+  [#405](https://github.com/php-censor/php-censor/issues/#405).
 - Localizations for "Notify" plugins.
 
 ### Changed
 
 - **[SecurityChecker]** Reimplement the plugin because package `sensiolabs/security-checker` was archived/abandoned
-(See [README](https://github.com/sensiolabs/security-checker#sensiolabs-security-checker)). Now plugin uses `symfony`
-binary (Symfony CLI) or `fabpot/local-php-security-checker` tool for working. See
-[documentation](https://github.com/php-censor/php-censor/blob/release-1.3/docs/en/plugins/security_checker.md).
+  (See [README](https://github.com/sensiolabs/security-checker#sensiolabs-security-checker)). Now plugin uses `symfony`
+  binary (Symfony CLI) or `fabpot/local-php-security-checker` tool for working. See
+  [documentation](https://github.com/php-censor/php-censor/blob/release-1.3/docs/en/plugins/security_checker.md).
 
 
 ## [1.3.1 (Jerry Smith)](https://github.com/php-censor/php-censor/tree/1.3.1) (2021-01-17)

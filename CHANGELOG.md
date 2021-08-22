@@ -5,6 +5,24 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [2.0.5 (Rick Sanchez)](https://github.com/php-censor/php-censor/tree/2.0.5) (2021-08-22)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/2.0.4...2.0.5)
+
+### Fixed
+
+- Bug with wrong type when field "access_information" is empty (null).
+- **[PhpCsFixer]** Support for version 3.0+. Pull request [#414](https://github.com/php-censor/php-censor/pull/414).
+  Thanks to [@StudioMaX](https://github.com/StudioMaX).
+- **[Mysql, Pgsql, Sqlite]** Variables interpolation for queries. Pull requests
+  [#415](https://github.com/php-censor/php-censor/pull/415), [#416](https://github.com/php-censor/php-censor/pull/416).
+  Thanks to [@KieranFYI](https://github.com/KieranFYI).
+
+### Removed
+
+- Useless TravisCI and CodeCov configs.
+
+
 ## [2.0.4 (Rick Sanchez)](https://github.com/php-censor/php-censor/tree/2.0.4) (2021-06-12)
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/2.0.3...2.0.4)
