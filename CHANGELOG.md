@@ -5,6 +5,23 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [1.3.5 (Jerry Smith)](https://github.com/php-censor/php-censor/tree/1.3.5) (2021-08-22)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/1.3.4...1.3.5)
+
+### Fixed
+
+- **[PhpCsFixer]** Support for version 3.0+. Pull request [#414](https://github.com/php-censor/php-censor/pull/414). 
+Thanks to [@StudioMaX](https://github.com/StudioMaX).
+- **[Mysql, Pgsql, Sqlite]** Variables interpolation for queries. Pull requests 
+[#415](https://github.com/php-censor/php-censor/pull/415), [#416](https://github.com/php-censor/php-censor/pull/416). 
+Thanks to [@KieranFYI](https://github.com/KieranFYI).
+
+### Removed
+
+- Useless TravisCI and CodeCov configs.
+
+
 ## [1.3.4 (Jerry Smith)](https://github.com/php-censor/php-censor/tree/1.3.4) (2021-06-12)
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/1.3.3...1.3.4)
