@@ -26,10 +26,7 @@ class PhpCsFixer extends Plugin
     protected $args = '';
 
     protected $config  = false;
-    protected $configs = [
-        '.php_cs',
-        '.php_cs.dist',
-    ];
+    protected $configs = [];
 
     protected $errors       = false;
     protected $reportErrors = false;
@@ -43,6 +40,11 @@ class PhpCsFixer extends Plugin
      * @var bool
      */
     protected $supportsUdiff = false;
+
+    /**
+     * @var string|null
+     */
+    protected $version;
 
     /**
      * @return string
@@ -98,15 +100,39 @@ class PhpCsFixer extends Plugin
      * Run PHP CS Fixer.
      *
      * @return bool
+     *
+     * @throws Exception
      */
     public function execute()
     {
+        $phpCsFixer = $this->executable;
+
+        // Determine the version of PHP CS Fixer
+        $cmd     = $phpCsFixer . ' --version';
+        $success = $this->builder->executeCommand($cmd);
+        $output  = $this->builder->getLastOutput();
+        $matches = [];
+        if (!\preg_match('/(\d+\.\d+\.\d+)/', $output, $matches)) {
+            throw new Exception('Unable to determine the version of the PHP Coding Standards Fixer.');
+        }
+
+        $this->version = $matches[1];
+        // Appeared in PHP CS Fixer 2.8.0 and used by default since 3.0.0
+        // https://github.com/FriendsOfPHP/PHP-CS-Fixer/blob/2.19/CHANGELOG.md#changelog-for-v280
+        $this->supportsUdiff = \version_compare($this->version, '2.8.0', '>=')
+            && \version_compare($this->version, '3.0.0', '<');
+
         $directory = '';
         if (!empty($this->directory)) {
             $directory = $this->directory;
         }
 
         if (!$this->config) {
+            if (\version_compare($this->version, '3.0.0', '>=')) {
+                $this->configs = ['.php-cs-fixer.php', '.php-cs-fixer.dist.php'];
+            } else {
+                $this->configs = ['.php_cs', '.php_cs.dist'];
+            }
             foreach ($this->configs as $config) {
                 if (\file_exists($this->builder->buildPath . $config)) {
                     $this->config = true;
@@ -118,22 +144,6 @@ class PhpCsFixer extends Plugin
 
         if (!$this->config && !$directory) {
             $directory = '.';
-        }
-
-        $phpCsFixer = $this->executable;
-
-        // Determine the version of PHP CS Fixer
-        $cmd = $phpCsFixer . ' --version';
-
-        $this->builder->executeCommand($cmd);
-
-        $output  = $this->builder->getLastOutput();
-        $matches = [];
-        if (\preg_match('/(\d+\.\d+\.\d+)/', $output, $matches)) {
-            $version = $matches[1];
-            // Appeared in PHP CS Fixer 2.8.0
-            // https://github.com/FriendsOfPHP/PHP-CS-Fixer/blob/2.12/CHANGELOG.md#changelog-for-v280
-            $this->supportsUdiff = \version_compare($version, '2.8.0', '>=');
         }
 
         if ($this->errors) {

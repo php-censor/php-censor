@@ -10,11 +10,12 @@ Configuration
 
 * **verbose** [bool, optional] - Whether to run in verbose mode (default: false).
 * **diff** [bool, optional] - Whether to run with the `--diff` flag enabled (default: false).
-* **rules** [string, optional] - Fixer rules (default: `@PSR2`).
+* **rules** [string, optional] - Fixer rules (default for 3.x: `@PSR12`; for 2.x: `@PSR2`). Cannot be used simultaneously with the `config` option.
 * **args** [string, optional] - Command line args (in string format) to pass to PHP 
   Coding Standards Fixer (default: ``).
-* **config** [string, optional] - Special config file (default: `%BUILD_PATH%./.php_cs` 
-  or `%BUILD_PATH%./.php_cs.dist`).
+* **config** [string, optional] - Special config file (
+  default for 3.x: `%BUILD_PATH%./.php-cs-fixer.php` or `%BUILD_PATH%./.php-cs-fixer.dist.php`;
+  for 2.x: `%BUILD_PATH%./.php_cs` or `%BUILD_PATH%./.php_cs.dist`). Cannot be used simultaneously with the `rules` option.
 * **errors** [bool, optional] - Not fix files, but get the number of files with problem (default: false).
 * **report_errors** [bool, optional] - With **errors**, get the list of files in "Errors" tab (default: false).
 
@@ -24,7 +25,7 @@ Configuration
 test:
     php_cs_fixer:
         directory: "./my/dir/path" # == "%BUILD_PATH%/my/dir/path"
-        args:      "--rules=@PSR2 --diff --verbose"
+        args:      "--rules=@PSR12 --diff --verbose"
 ```
 
 ```yaml
@@ -33,7 +34,7 @@ test:
         directory: "%BUILD_PATH%/my/dir/path"
         verbose:   true
         diff:      true
-        rules:     "@PSR2"
+        rules:     "@PSR12"
 ```
 
 ```yaml

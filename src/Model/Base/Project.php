@@ -273,7 +273,7 @@ class Project extends Model
      */
     public function getAccessInformation($key = null)
     {
-        $data              = \json_decode($this->data['access_information'], true);
+        $data              = \json_decode((string)$this->data['access_information'], true);
         $accessInformation = null;
         if (\is_null($key)) {
             $accessInformation = $data;
