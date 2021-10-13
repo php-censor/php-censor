@@ -7,7 +7,7 @@ You can create periodical builds for your projects. For starting use periodical 
 
 Periodical builds config example:
 
-```yaml
+```yml
 projects:
     1:                    # Project id
         branches:         # Branch list for periodical build

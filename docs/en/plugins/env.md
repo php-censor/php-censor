@@ -10,7 +10,7 @@ None.
 
 ### Examples
 
-```yaml
+```yml
 setup:
     env:
         APPLICATION_ENV: "development"

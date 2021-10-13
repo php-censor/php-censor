@@ -14,7 +14,7 @@ Use the option `commands` instead.
 * **execute_all** [bool, optional, default: false] - If is true all commands will be execute if one of the commands 
 failed.
 
-```yaml
+```yml
 setup:
    shell:
        execute_all: true
@@ -30,7 +30,7 @@ When a one of commands fails, the remaining ones are not run.
 
 So if you want cd to directory and then run script there, combine those two commands into one like:
 
-```yaml
+```yml
 setup:
     shell:
         commands:

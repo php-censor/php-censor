@@ -21,7 +21,7 @@ the option "auth_token" instead.
 
 ### Examples
 
-```yaml
+```yml
 complete:
     bitbucket_notify:
       url: "https://bitbucket.yourhost.de"

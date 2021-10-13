@@ -33,7 +33,7 @@ Both modes accept:
 ### Examples
 
 Specify config file and test directory:
-```yaml
+```yml
 test:
     php_unit:
         config:

@@ -27,7 +27,7 @@ Configuration
 
 ### Examples
 
-```yaml
+```yml
 complete:
     xmpp_notify:
         username: "login@gmail.com"

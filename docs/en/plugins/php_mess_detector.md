@@ -19,7 +19,7 @@ details on the rules. (default: ['codesize', 'unusedcode', 'naming']).
 
 ### Examples
 
-```yaml
+```yml
 test:
     php_mess_detector:
         directory: 'app'
