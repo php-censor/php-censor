@@ -80,7 +80,7 @@
         "sebastian/diff":                  "^1.0 || ^2.0 || ^3.0",
 
         "phpunit/phpunit":                 "~5.7.0",
-        "codeception/codeception":         "~2.3.0",
+        "codeception/codeception":         "^3.0.0",
         "phpmd/phpmd":                     "~2.6.0",
         "sebastian/phpcpd":                "~2.0.0",
         "squizlabs/php_codesniffer":       "~3.5.0",
