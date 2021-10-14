@@ -15,7 +15,7 @@ Configuration
 
 ### Example
 
-```yaml
+```yml
 test:
     gulp:
         directory: "/path/to/run/gulp/from"

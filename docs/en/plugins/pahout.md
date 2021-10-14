@@ -14,7 +14,7 @@ Configuration
   
 ### Examples
 
-```yaml
+```yml
 test:
   pahout: ~
 ```

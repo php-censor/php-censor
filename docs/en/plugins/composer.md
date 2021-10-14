@@ -21,7 +21,7 @@ flag (default: false).
 
 ### Examples
 
-```yaml
+```yml
 setup:
     composer:
         directory: "my/composer/dir"

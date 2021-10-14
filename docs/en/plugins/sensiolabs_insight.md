@@ -18,7 +18,7 @@ Configuration
 
 ### Examples
 
-```yaml
+```yml
 test:
     sensiolabs_insight:
         allow_failures: true

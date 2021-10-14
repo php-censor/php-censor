@@ -230,7 +230,7 @@ is also a `binary_name` option which allows to set an alternative name for the e
 of strings).
 
     Example:
-    ```yaml
+    ```yml
     setup:
       composer:
         priority_path: binary_path

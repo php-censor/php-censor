@@ -25,7 +25,7 @@ Configuration
 
 ### Examples
 
-```yaml
+```yml
 build_settings:
     campfire_notify:
         auth_token: "campfire auth token"

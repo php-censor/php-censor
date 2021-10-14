@@ -27,7 +27,7 @@ Configuration
 Simple example where PHPCS will run on app directory, but ignore the views folder, and use PSR-1 and PSR-2 rules for 
 validation:
 
-```yaml
+```yml
 test:
     php_code_sniffer:
         directory: "app"
@@ -37,7 +37,7 @@ test:
 ```
 
 For use with an existing project:
-```yaml
+```yml
 test:
     php_code_sniffer:
         standard:         "./phpcs.xml"

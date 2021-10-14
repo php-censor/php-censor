@@ -8,7 +8,7 @@ Configuration
 
 ### Examples
 
-```yaml
+```yml
 complete:
     git:
         master:           <-- branch

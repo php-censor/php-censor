@@ -24,7 +24,7 @@ Configuration
 
 ### Examples
 
-```yaml
+```yml
 build_settings:
     pgsql:
         host:     'localhost'

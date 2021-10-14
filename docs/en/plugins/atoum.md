@@ -13,7 +13,7 @@ Configuration
 Atom binary).
 
 ### Examples
-```yaml
+```yml
 test:
     atoum:
         args: "command line arguments go here"

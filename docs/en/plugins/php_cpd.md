@@ -13,7 +13,7 @@ Configuration
 
 ### Examples
 
-```yaml
+```yml
 test:
     php_cpd:
         directory: "app"

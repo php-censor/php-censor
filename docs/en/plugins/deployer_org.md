@@ -29,7 +29,7 @@ specified
 Sample configuration
 --------------------
 
-```yaml
+```yml
 deploy:
     deployer_org:
         development: # branch name
