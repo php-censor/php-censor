@@ -26,6 +26,10 @@ Or download [latest archive](https://github.com/php-censor/php-censor/releases/l
 ```bash
 # For Debian-based
 aptitude install beanstalkd
+# Check if the service is running:
+/etc/init.d/beanstalkd status
+# If it's not running, start it:
+/etc/init.d/beanstalkd start
 ```
 
 * Install PHP Censor itself:
