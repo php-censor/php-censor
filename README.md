@@ -71,7 +71,7 @@ PHPMessDetector, PHPTalLint and TechnicalDebt;
 CleanBuild, CopyBuild, Deployer, Env, Git, Grunt, Gulp, PackageBuild, Phar, Phing, Shell and Wipe;
 
 * Send notifications to Email, XMPP, Slack, IRC, Flowdock, HipChat and 
-[Telegram](https://github.com/LEXASOFT/PHP-Censor-Telegram-Plugin);
+[Telegram](docs/en/plugins/telegram_notify.md);
 
 * Use your LDAP-server for authentication;
 
