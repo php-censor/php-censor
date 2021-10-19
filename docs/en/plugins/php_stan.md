@@ -18,7 +18,7 @@ Configuration
   
 ### Examples
 
-```yaml
+```yml
 test:
   php_stan:
     directories:

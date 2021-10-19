@@ -14,7 +14,7 @@ to true).
 
 ### Examples
 
-```yaml
+```yml
 test:
     lint:
         directory: "single path to lint files"

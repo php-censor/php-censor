@@ -12,7 +12,7 @@ See additional options below.
 
 ### Examples
 
-```yaml
+```yml
 test:
     pdepend:
         directory: "src"

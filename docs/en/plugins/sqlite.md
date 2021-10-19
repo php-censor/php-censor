@@ -18,7 +18,7 @@ Configuration
 
 ### Examples
 
-```yaml
+```yml
 build_settings:
     sqlite:
         path: '/path/to/sqlite.sqlite'

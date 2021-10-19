@@ -15,7 +15,7 @@ Configuration
 
 ### Examples
 
-```yaml
+```yml
 setup:
     phing:
         build_file: 'build.xml'

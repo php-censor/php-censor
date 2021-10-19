@@ -12,7 +12,7 @@ Configuration
 
 ### Examples
 
-```yaml
+```yml
 test:
     behat:
         executable: "path to behat binary"

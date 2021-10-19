@@ -12,7 +12,7 @@ Configuration
 
 ### Example
 
-```yaml
+```yml
 complete:
     wipe:
         directory: "/path/to/directory"

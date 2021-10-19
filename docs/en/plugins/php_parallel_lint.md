@@ -13,7 +13,7 @@ See additional options below.
 
 ### Examples
 
-```yaml
+```yml
 test:
     php_parallel_lint:
         directory: "app"

@@ -15,7 +15,7 @@ Configuration
 
 ### Examples
 
-```yaml
+```yml
 test:
     phar:
         directory: /path/to/directory

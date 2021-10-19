@@ -21,14 +21,14 @@ Configuration
 
 ### Examples
 
-```yaml
+```yml
 test:
     php_cs_fixer:
         directory: "./my/dir/path" # == "%BUILD_PATH%/my/dir/path"
         args:      "--rules=@PSR12 --diff --verbose"
 ```
 
-```yaml
+```yml
 test:
     php_cs_fixer:
         directory: "%BUILD_PATH%/my/dir/path"
@@ -37,7 +37,7 @@ test:
         rules:     "@PSR12"
 ```
 
-```yaml
+```yml
 test:
     php_cs_fixer:
         config: "./my/dir/.php_cs.special"

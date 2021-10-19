@@ -15,7 +15,7 @@ See additional options below.
 Run PHPLoc against the app directory only. This will prevent inclusion of code from 3rd party libraries that are 
 included outside of the app directory.
 
-```yaml
+```yml
 test:
     php_loc:
         directory: "app"

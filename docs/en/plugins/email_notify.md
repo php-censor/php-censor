@@ -23,7 +23,7 @@ See [Adding PHP Censor Support to Your Projects](../configuring_project.md) for 
 
 Send an email to the committer as well as one@exameple.com if a build fails:
 
-```yaml
+```yml
 failure:
     email_notify:
         committer: true
@@ -32,7 +32,7 @@ failure:
 
 Send an email to one@example.com every time a build is run:
 
-```yaml
+```yml
 complete:
     email_notify:
         default_mailto_address: one@example.com

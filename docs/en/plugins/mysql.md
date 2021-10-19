@@ -26,7 +26,7 @@ Configuration
 
 ### Examples
 
-```yaml
+```yml
 build_settings:
     mysql:
         host:     'localhost'
@@ -45,7 +45,7 @@ complete:
 ```
 
 Import SQL from file:
-```yaml
+```yml
 setup:
     mysql:
         imports:

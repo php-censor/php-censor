@@ -24,7 +24,7 @@ WebHook setup |
 
 Send a message if the build fails:
 
-```yaml
+```yml
 failure:
     slack_notify:
         webhook_url: "https://hooks.slack.com/services/R212T827A/G983UY31U/aIp0yuW9u0iTqwAMOEwTg"
@@ -37,7 +37,7 @@ failure:
 
 Send a message if the build is successful:
 
-```yaml
+```yml
 success:
     slack_notify:
         webhook_url: "https://hooks.slack.com/services/R212T827A/G983UY31U/aIp0yuW9u0iTqwAMOEwTg"
@@ -50,7 +50,7 @@ success:
 
 Send a message every time the build runs:
 
-```yaml
+```yml
 complete:
     slack_notify:
         webhook_url: "https://hooks.slack.com/services/R212T827A/G983UY31U/aIp0yuW9u0iTqwAMOEwTg"
