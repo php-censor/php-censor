@@ -33,7 +33,7 @@ processing on line 146.
 
 ### Examples
 
-```yaml
+```yml
 tests:
     codeception:
         config: "codeception.yml"
@@ -42,7 +42,7 @@ tests:
 
 Or
 
-```yaml
+```yml
 tests:
     codeception:
         config: "subdir1/subdir2"

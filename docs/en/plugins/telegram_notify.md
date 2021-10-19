@@ -15,7 +15,7 @@ Add to project
 
 In the PHP Censor Project config section add the Telegram trigger
 
-```yaml
+```yml
 complete:
     telegram_notify:
         auth_token: "<YOUR_BOT_TOKEN_HERE>"

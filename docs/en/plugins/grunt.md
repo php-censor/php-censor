@@ -13,7 +13,7 @@ Configuration
 
 ### Example
 
-```yaml
+```yml
 test:
     grunt:
         directory: "path to run grunt in"

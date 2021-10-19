@@ -13,7 +13,7 @@ Configuration
 
 ### Examples
 
-```yaml
+```yml
 test:
     phan:
         allowed_warnings: 10

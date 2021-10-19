@@ -20,7 +20,7 @@ errors.
 
 ### Examples
 
-```yaml
+```yml
 test:
     php_tal_lint:
         directory: "app"

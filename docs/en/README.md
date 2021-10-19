@@ -4,11 +4,11 @@ PHP Censor Documentation
 Getting Started
 ---------------
 
-* [Installing PHP Censor](../../README.md#installing)
+* [Installing PHP Censor](installing.md)
     * [Adding a virtual host](virtual_host.md)
     * [Run builds using a worker](workers/worker.md)
 * [Adding PHP Censor support to your projects](configuring_project.md)
-* [Updating PHP Censor](../../README.md#updating)
+* [Updating PHP Censor](updating.md)
 * [Configuring PHP Censor](configuring_application.md)
 
 Using PHP Censor
@@ -34,14 +34,12 @@ Using PHP Censor
 Plugins
 -------
 
-### Internal Plugins
-
-#### Dependencies
+### Dependencies
 
 * [Composer](plugins/composer.md) - `composer`
 * [Security Checker](plugins/security_checker.md) - SensioLabs Security Checker Plugin (`security_checker`).
 
-#### Tests
+### Tests
 
 * [Atoum](plugins/atoum.md) - `atoum`
 * [Behat](plugins/behat.md) - `behat`
@@ -49,7 +47,7 @@ Plugins
 * [PHP Unit](plugins/php_unit.md) - `php_unit`
 * [PHP Spec](plugins/php_spec.md) - `php_spec`
 
-#### Code Style
+### Code Style
 
 * [Lint](plugins/lint.md) - `lint`
 * [PDepend](plugins/pdepend.md) - `pdepend`
@@ -69,13 +67,13 @@ Plugins
 * [Technical Debt](plugins/technical_debt.md) - `technical_debt`
 * [SensioLabs Insight](plugins/sensiolabs_insight.md) - `sensiolabs_insight`
 
-#### Databases
+### Databases
 
 * [MySQL](plugins/mysql.md) - `mysql`
 * [PostgreSQL](plugins/pgsql.md) - `pgsql`
 * [SQLite](plugins/sqlite.md) - `sqlite`
 
-#### Deployment
+### Deployment
 
 * [Mage](plugins/mage.md) - `mage`
 * [Mage v3](plugins/mage3.md) - `mage3`
@@ -83,7 +81,7 @@ Plugins
 * [Deployer](plugins/deployer.md) - `deployer`
 * [DeployerOrg](plugins/deployer_org.md) - `deployer_org`
 
-#### Notifications
+### Notifications
 
 * [Campfire](plugins/campfire_notify.md) - `campfire_notify`
 * [Email](plugins/email_notify.md) - `email_notify`
@@ -95,7 +93,7 @@ Plugins
 * [Webhook](plugins/webhook_notify.md) - `webhook_notify`
 * [XMPP](plugins/xmpp_notify.md) - `xmpp_notify`
 
-#### Other
+### Other
 
 * [Clean Build](plugins/clean_build.md) - `clean_build`
 * [Copy Build](plugins/copy_build.md) - `copy_build`

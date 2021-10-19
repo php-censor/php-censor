@@ -16,7 +16,7 @@ Configuration
 
 Send a message if the build fails:
 
-```yaml
+```yml
 failure:
     webhook_notify:
         url: "http://example.com/webhook-handler"
@@ -24,7 +24,7 @@ failure:
 
 Send a message if the build is successful:
 
-```yaml
+```yml
 success:
     webhook_notify:
         url: "http://example.com/webhook-handler"
@@ -32,7 +32,7 @@ success:
 
 Send a message every time the build runs:
 
-```yaml
+```yml
 complete:
     webhook_notify:
         url: "http://example.com/webhook-handler"

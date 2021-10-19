@@ -24,7 +24,7 @@ Message can be formatted via HTML. Example:
 
 ### Examples
 
-```yaml
+```yml
 success:
     hipchat_notify:
         auth_token: 123

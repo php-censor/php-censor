@@ -19,7 +19,7 @@ Configuration
 
 ### Examples
 
-```yaml
+```yml
 complete:
     bitbucket_notify:
       url: "https://bitbucket.yourhost.de"

@@ -17,7 +17,7 @@ Configuration
   
 ### Examples
 
-```yaml
+```yml
 test:
   phlint: ~
 ```

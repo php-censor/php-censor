@@ -15,7 +15,7 @@ Configuration
   
 ### Examples
 
-```yaml
+```yml
 test:
   psalm: ~
 ```

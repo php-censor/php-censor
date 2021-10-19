@@ -16,7 +16,7 @@ Configuration
 
 ### Examples
 
-```yaml
+```yml
 test:
     php_docblock_checker:
         allowed_warnings: 10
