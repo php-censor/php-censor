@@ -165,21 +165,25 @@ class Executor
     protected function doExecutePlugins($plugins, $stage)
     {
         $success = true;
+        foreach ($plugins as $step => $options) {
 
-        foreach ($plugins as $plugin => $options) {
+            $plugin = $step;
+            if (isset($options['plugin'])) {
+                $plugin = $options['plugin'];
+            }
+
             $this->logger->log('');
             $this->logger->logSuccess(
-                \sprintf('RUNNING PLUGIN: %s', Lang::get($plugin)) . ' (' .
-                'Stage' . ': ' . \ucfirst($stage) . ')'
+                \sprintf('RUNNING PLUGIN: %s (Step: %s) (Stage: %s)', Lang::get($plugin), $step, \ucfirst($stage))
             );
 
-            $this->setPluginStatus($stage, $plugin, Plugin::STATUS_RUNNING);
+            $this->setPluginStatus($stage, $step, $plugin, Plugin::STATUS_RUNNING);
 
             // Try and execute it
             if ($this->executePlugin($plugin, $options)) {
                 // Execution was successful
                 $this->logger->logSuccess('PLUGIN: SUCCESS');
-                $this->setPluginStatus($stage, $plugin, Plugin::STATUS_SUCCESS);
+                $this->setPluginStatus($stage, $step, $plugin, Plugin::STATUS_SUCCESS);
             } else {
                 $status = Plugin::STATUS_FAILED;
 
@@ -187,7 +191,8 @@ class Executor
                     $this->logger->logFailure('PLUGIN: FAILED');
                     // If we're in the "setup" stage, execution should not continue after
                     // a plugin has failed:
-                    throw new RuntimeException('Plugin failed: ' . $plugin);
+
+                    throw new RuntimeException('Plugin failed: ' . $plugin . ' (Step: ' . $step . ')');
                 } elseif ($stage === Build::STAGE_DEPLOY) {
                     $this->logger->logFailure('PLUGIN: FAILED');
                     $success = false;
@@ -204,7 +209,7 @@ class Executor
                     }
                 }
 
-                $this->setPluginStatus($stage, $plugin, $status);
+                $this->setPluginStatus($stage, $step, $plugin, $status);
             }
         }
 
@@ -246,23 +251,26 @@ class Executor
      * Change the status of a plugin for a given stage.
      *
      * @param string $stage The builder stage.
+     * @param string $step The name of the step
      * @param string $plugin The plugin name.
      * @param int $status The new status.
      */
-    protected function setPluginStatus($stage, $plugin, $status)
+    protected function setPluginStatus($stage, $step, $plugin, $status)
     {
         $summary = $this->getBuildSummary();
 
-        if (!isset($summary[$stage][$plugin])) {
-            $summary[$stage][$plugin] = [];
+        if (!isset($summary[$stage][$step])) {
+            $summary[$stage][$step] = [
+                'plugin' => $plugin
+            ];
         }
 
-        $summary[$stage][$plugin]['status'] = $status;
+        $summary[$stage][$step]['status'] = $status;
 
         if ($status === Plugin::STATUS_RUNNING) {
-            $summary[$stage][$plugin]['started'] = \time();
+            $summary[$stage][$step]['started'] = \time();
         } elseif ($status >= Plugin::STATUS_SUCCESS) {
-            $summary[$stage][$plugin]['ended'] = \time();
+            $summary[$stage][$step]['ended'] = \time();
         }
 
         $this->setBuildSummary($summary);
