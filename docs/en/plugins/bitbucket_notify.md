@@ -21,13 +21,14 @@ Configuration
 
 ```yml
 complete:
-    bitbucket_notify:
-      url: "https://bitbucket.yourhost.de"
-      auth_token: "123456"
-      project_key: "test"
-      repository_slug: "test-service"
-      create_task_per_fail: true
-      create_task_if_fail: false
-      update_build: true
-      message: ""
+    bitbucket_notify_step:
+        plugin: bitbucket_notify
+        url: "https://bitbucket.yourhost.de"
+        auth_token: "123456"
+        project_key: "test"
+        repository_slug: "test-service"
+        create_task_per_fail: true
+        create_task_if_fail: false
+        update_build: true
+        message: ""
 ```

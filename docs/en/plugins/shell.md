@@ -14,7 +14,8 @@ failed.
 
 ```yml
 setup:
-   shell:
+   shell_step:
+       plugin: shell
        execute_all: true
        commands:
            - "[ -d /www ]"

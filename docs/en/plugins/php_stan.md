@@ -20,7 +20,8 @@ Configuration
 
 ```yml
 test:
-  php_stan:
+  php_stan_step:
+    plugin: php_stan
     directories:
       - src
       - tests

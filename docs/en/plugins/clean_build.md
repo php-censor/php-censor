@@ -15,7 +15,8 @@ Configuration
 
 ```yml
 complete:
-    clean_build:
+    clean_build_step:
+        plugin: clean_build
         remove:
             - composer.json
             - composer.phar

@@ -26,7 +26,8 @@ Send a message if the build fails:
 
 ```yml
 failure:
-    slack_notify:
+    slack_notify_step:
+        plugin:      slack_notify
         webhook_url: "https://hooks.slack.com/services/R212T827A/G983UY31U/aIp0yuW9u0iTqwAMOEwTg"
         room:        "#php-censor"
         username:    "PHP Censor"
@@ -39,7 +40,8 @@ Send a message if the build is successful:
 
 ```yml
 success:
-    slack_notify:
+    slack_notify_step:
+        plugin:      slack_notify
         webhook_url: "https://hooks.slack.com/services/R212T827A/G983UY31U/aIp0yuW9u0iTqwAMOEwTg"
         room:        "#php-censor"
         username:    "PHP Censor"
@@ -52,7 +54,8 @@ Send a message every time the build runs:
 
 ```yml
 complete:
-    slack_notify:
+    slack_notify_step:
+        plugin:      slack_notify
         webhook_url: "https://hooks.slack.com/services/R212T827A/G983UY31U/aIp0yuW9u0iTqwAMOEwTg"
         room:        "#php-censor"
         username:    "PHP Censor"

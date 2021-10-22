@@ -14,7 +14,8 @@ See additional options below.
 
 ```yml
 test:
-    pdepend:
+    pdepend_step:
+        plugin: pdepend
         directory: "src"
 ```
 

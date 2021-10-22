@@ -12,6 +12,7 @@ None.
 
 ```yml
 setup:
-    env:
+    env_step:
+        plugin: env
         APPLICATION_ENV: "development"
 ```

@@ -18,7 +18,8 @@ Configuration
 
 ```yml
 test:
-    php_docblock_checker:
+    php_docblock_checker_step:
+        plugin: php_docblock_checker
         allowed_warnings: 10
         skip_classes: true
 ```

@@ -23,14 +23,16 @@ Configuration
 
 ```yml
 test:
-    php_cs_fixer:
+    php_cs_fixer_step:
+        plugin:    php_cs_fixer
         directory: "./my/dir/path" # == "%BUILD_PATH%/my/dir/path"
         args:      "--rules=@PSR12 --diff --verbose"
 ```
 
 ```yml
 test:
-    php_cs_fixer:
+    php_cs_fixer_step:
+        plugin:    php_cs_fixer
         directory: "%BUILD_PATH%/my/dir/path"
         verbose:   true
         diff:      true
@@ -39,7 +41,8 @@ test:
 
 ```yml
 test:
-    php_cs_fixer:
+    php_cs_fixer_step:
+        plugin: php_cs_fixer
         config: "./my/dir/.php_cs.special"
 ```
 

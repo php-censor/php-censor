@@ -22,7 +22,8 @@ errors.
 
 ```yml
 test:
-    php_tal_lint:
+    php_tal_lint_step:
+        plugin: php_tal_lint
         directory: "app"
         ignore:
             - "vendor"

@@ -24,12 +24,14 @@ build_settings:
         path: '/path/to/sqlite.sqlite'
 
 setup:
-    sqlite:
+    sqlite_step:
+        plugin: sqlite
         queries:
             - "CREATE DATABASE my_app_test;"
 
 complete:
-    sqlite:
+    sqlite_step:
+        plugin: sqlite
         queries:
             - "DROP DATABASE my_app_test;"
 ```

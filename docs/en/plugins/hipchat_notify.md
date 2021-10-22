@@ -26,7 +26,8 @@ Message can be formatted via HTML. Example:
 
 ```yml
 success:
-    hipchat_notify:
+    hipchat_notify_step:
+        plugin:     hipchat_notify
         auth_token: 123
         room:       456
         message:    '<b>%PROJECT_TITLE%</b> - build <a href="%BUILD_LINK%">%BUILD_ID%</a> failed!'

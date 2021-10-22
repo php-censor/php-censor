@@ -26,26 +26,37 @@ There are several ways of configuring build in *PHP Censor* project:
           ignore:
             - "vendor"
         setup:
-          composer:
+          composer_step:
+            plugin: composer
             action: "install"
         test:
-          technical_debt:
+          technical_debt_step:
+            plugin: technical_debt
             allowed_errors: -1
-          php_code_sniffer:
+          php_code_sniffer_step:
+            plugin: php_code_sniffer
             allowed_warnings: -1
             allowed_errors: -1
-          php_mess_detector:
+          php_mess_detector_step:
+            plugin: php_mess_detector
             allowed_warnings: -1
-          php_docblock_checker:
+          php_docblock_checker_step:
+            plugin: php_docblock_checker
             allowed_warnings: -1
-          security_checker:
+          security_checker_step:
+            plugin: security_checker
             allowed_warnings: -1
-          php_parallel_lint:
+          php_parallel_lint_step:
+            plugin: php_parallel_lint
             allow_failures: true
-          php_loc:
-          php_cpd:
-          codeception:
-          php_unit:
+          php_loc_step:
+            plugin: php_loc
+          php_cpd_step:
+            plugin: php_cpd
+          codeception_step:
+            plugin: codeception
+          php_unit_step:
+            plugin: php_unit
     ```
 
 2. Adding a config `.php-censor.yml` to the root of the project.
@@ -53,9 +64,9 @@ There are several ways of configuring build in *PHP Censor* project:
 3. Adding a config via web-interface.
 
     By default, a config from web-interface replaces a config from repository (`.php-censor.yml`). But if you uncheck 
-    the option "Replace the configuration from file with the configuration from the data base", configurations will be 
+    the option "Replace the configuration from file with the configuration from the database", configurations will be 
     merged (the config from web-interface will have priority over the config from the repository). 
-    
+
     Setting config via web-interface and merging it with the config from the repo may be useful if you want to hide some
     secret data (passwords, keys) in case of using public repository. The most of the configuration can be stored as a 
     public file in the repo, and passwords and keys may be added via web-interface.   
@@ -83,15 +94,19 @@ build_settings:
     pass: ""
 
 setup:
-  mysql:
-    - "DROP DATABASE IF EXISTS test;"
-    - "CREATE DATABASE test;"
-    - "GRANT ALL PRIVILEGES ON test.* TO test@'localhost' IDENTIFIED BY 'test';"
-  composer:
+  mysql_step:
+    plugin: mysql
+    queries:
+      - "DROP DATABASE IF EXISTS test;"
+      - "CREATE DATABASE test;"
+      - "GRANT ALL PRIVILEGES ON test.* TO test@'localhost' IDENTIFIED BY 'test';"
+  composer_step:
+    plugin: composer
     action: "install"
 
 test:
-  php_unit:
+  php_unit_step:
+    plugin: php_unit
     config:
       - "PHPUnit-all.xml"
       - "PHPUnit-ubuntu-fix.xml"
@@ -99,34 +114,41 @@ test:
       - "tests/"
     run_from: "phpunit/"
     coverage: "tests/logs/coverage"
-  php_mess_detector:
+  php_mess_detector_step:
+    plugin: php_mess_detector
     priority_path: binary_path
     binary_path:   /home/user/sbin/
     binary_name:   phpmd-local
-  php_code_sniffer:
+  php_code_sniffer_step:
+    plugin: php_code_sniffer
     standard: "PSR2"
-  php_cpd:
+  php_cpd_step:
+    plugin: php_cpd
     allow_failures: true
-  grunt:
+  grunt_step:
+    plugin: grunt
     task: "build"
 
 deploy:
-  deployer:
+  deployer_step:
+    plugin:      deployer
     webhook_url: "http://deployer.local/deploy/QZaF1bMIUqbMFTmKDmgytUuykRN0cjCgW9SooTnwkIGETAYhDTTYoR8C431t"
     reason:      "PHP Censor Build #%BUILD_ID% - %COMMIT_MESSAGE%"
     update_only: true
 
 complete:
-  mysql:
-    host: "localhost"
-    user: "root"
-    pass: ""
+  mysql_step:
+    plugin: mysql
+    host:   "localhost"
+    user:   "root"
+    pass:   ""
     - "DROP DATABASE IF EXISTS test;"
 
 branch-dev:
   run-option: replace
   test:
-    grunt:
+    grunt_step:
+      plugin: grunt
       task: "build-dev"
 ```
 
@@ -136,11 +158,11 @@ Section `build_settings` contents common build settings:
 
 * Option `verbose` enable/disable verbosity of plugins output (Default value: `verbose: true`).
 
-* Option `clone_depth: N` allows to clone repository with partial history (Git clone option `--depth=N`). Option 
+* Option `clone_depth: N` allows cloning repository with partial history (Git clone option `--depth=N`). Option 
 supports Git (GitHub, GitLab, BitBucket, Gogs) and Svn (Subversion) builds.
 
     **ATTENTION!:** Option `clone_depth` should be set only from web-interface (Project edit page) because it should 
-    be known before repository cloning. Also you should understand that some features or plugins with the option may 
+    be known before repository cloning. Also, you should understand that some features or plugins with the option may 
     work with unpredictable result.
 
 * Option `directory` sets default directory path for all plugins (It may be overloaded by the plugin option 
@@ -156,7 +178,8 @@ example config returns ignore list: `vendor, tests, docs`:
         - tests
     ...
     test:
-      example_plugin:
+      example_step:
+        plugin: example_plugin
         ignore:
           - ./vendor
           - ./docs
@@ -177,11 +200,11 @@ with lower values (like 2). Default value is 1000. Allowed values range: [1, 200
     **ATTENTION!:** Option `build_priority` should be set only from web-interface (Project edit page) because it only 
     has an effect before the repository is cloned.
 
-* Also we have global options (Usually connection settings) for some plugins like: ([Campfire](plugins/campfire_notify.md), 
+* Also, we have global options (Usually connection settings) for some plugins like: ([Campfire](plugins/campfire_notify.md), 
 [Irc](plugins/irc_notify.md), [Mysql](plugins/mysql.md), [Pgsql](plugins/pgsql.md) и [Sqlite](plugins/sqlite.md)). See 
 documentation of the plugins for more details.
 
-* Also we have options for configuring connection parameters for Svn (Subversion) project source type. For example:
+* Also, we have options for configuring connection parameters for Svn (Subversion) project source type. For example:
 
     ```yml
     build_settings:
@@ -222,7 +245,7 @@ then - in `priority_path`;
     * `system` - In the first place search among the system utilities (`/bin`, `/usr/bin` etc., use `which`), then - 
 in `local`, then - in `global`, then - in `priority_path`;
     
-    * `binary_path` - First of all, look for the specific path specified in the `binary_path` option, then - in `local`,
+    * `binary_path` - First look for the specific path specified in the `binary_path` option, then - in `local`,
 then - in `global`, then - in `system`;
 
     The `binary_path` option allows you to set a specific path to the directory with the executable plugin file. There 
@@ -232,7 +255,8 @@ of strings).
     Example:
     ```yml
     setup:
-      composer:
+      composer_step:
+        plugin: composer
         priority_path: binary_path
         binary_path: /home/user/bin/
         # Search will be by executable file name: composer-1.4, composer-local, composer, composer.phar
@@ -249,7 +273,7 @@ this stage deployment plugins should be called ([Shell](plugins/shell.md), [Depl
 [Mage](plugins/mage.md) и etc.). This stage is very similar to test.
 
 * `complete` - Build completion stage. Always executes after the deploy (or after the test, in case deploy is missing), 
-regardless of whether the buid was successful or failed. In this stage it is possible to send notifications, to clear 
+regardless of whether the build was successful or failed. In this stage it is possible to send notifications, to clear 
 a database, etc.
 
 * `success` - Successful Build Stage. Called only when the build completed successfully.
@@ -279,7 +303,7 @@ for the same purposes (For example: `branch-regex:^feature\-\d$` for the branche
 **If there are several directives `branch-regex:`/`branch-`, the first directive that matches up with the name of the 
 branch will be used.**
 
-The required parameter `run-option` allows to define, to redefine and to complete the configuration and can take 
+The required parameter `run-option` allows defining, to redefine and to complete the configuration and can take 
 different values:
 
 * `replace` - will cause the branch specific plugins to run and the default ones not.
@@ -298,17 +322,20 @@ test
 branch-regex:^feature\-\d$:
   run-option: replace
   test:
-    grunt:
-      task: "build-feature"
+    grunt_step:
+      plugin: grunt
+      task:   build-feature
 branch-dev:
   run-option: replace
   test:
-    grunt:
-      task: "build-dev"
+    grunt_step:
+      plugin: grunt
+      task:   build-dev
 branch-codeception:
   run-option: after
   test:
-    codeception:
+    codeception_step:
+      plugin: codeception
 ```
 
 ### How it works
@@ -333,24 +360,27 @@ the [specification](http://yaml.org/spec/1.0/#id2563922).
 ```yml
 setup:
     # yaml comment
-    shell:
-        - |
-            echo a long shell command, multiple lines
-            scriptPath=%BUILD_PATH%/../../hook-path/prepare-test5.sh
-            if [ -f $scriptPath ]
-            then
-                "$scriptPath" '%PROJECT_ID%' '%PROJECT_TITLE%' # script can read its path from $scriptPath
-                mkdir ../outputs_to_keep/%COMMIT_ID%
-            fi
-        - >
-            echo this is a very long message I must write here, and it is much too long to allow good editing
-            on only one line, therefore we break it up onto multiple lines, but the result will be on a single
-            line.
-        - echo a short command ...
+    shell_step:
+        plugin: shell
+        commands:
+            - |
+                echo a long shell command, multiple lines
+                scriptPath=%BUILD_PATH%/../../hook-path/prepare-test5.sh
+                if [ -f $scriptPath ]
+                then
+                    "$scriptPath" '%PROJECT_ID%' '%PROJECT_TITLE%' # script can read its path from $scriptPath
+                    mkdir ../outputs_to_keep/%COMMIT_ID%
+                fi
+            - >
+                echo this is a very long message I must write here, and it is much too long to allow good editing
+                on only one line, therefore we break it up onto multiple lines, but the result will be on a single
+                line.
+            - echo a short command ...
 
 branch-master:
     complete: &xmpp_notify
-        xmpp_notify:
+        xmpp_notify_step:
+            plugin: xmpp_notify
             username: &userName "login@gmail.com"
             password: &password "AZERTY123"
             recipients:
@@ -359,7 +389,8 @@ branch-master:
             alias: "build infos for project"
             date_format: "%d/%m/%Y"
     broken:
-        xmpp_notify:
+        xmpp_notify_step:
+            plugin: xmpp_notify
             username: *userName
             password: *password
             recipients:

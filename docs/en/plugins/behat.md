@@ -14,7 +14,8 @@ Configuration
 
 ```yml
 test:
-    behat:
+    behat_step:
+        plugin:     behat
         executable: "path to behat binary"
         features:   "command line arguments"
 ```

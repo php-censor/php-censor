@@ -15,7 +15,8 @@ Configuration
 
 ```yml
 test:
-    phan:
+    phan_step:
+        plugin: phan
         allowed_warnings: 10
         directory: "app"
         ignore:

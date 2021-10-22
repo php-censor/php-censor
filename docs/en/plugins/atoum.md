@@ -15,7 +15,8 @@ Atom binary).
 ### Examples
 ```yml
 test:
-    atoum:
+    atoum_step:
+        plugin: atoum
         args: "command line arguments go here"
         config: "path to config file"
         directory: "directory to run tests"

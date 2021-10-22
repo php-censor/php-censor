@@ -27,7 +27,8 @@ validation:
 
 ```yml
 test:
-    php_code_sniffer:
+    php_code_sniffer_step:
+        plugin: php_code_sniffer
         directory: "app"
         ignore:
             - "app/views"
@@ -37,7 +38,8 @@ test:
 For use with an existing project:
 ```yml
 test:
-    php_code_sniffer:
+    php_code_sniffer_step:
+        plugin:           php_code_sniffer
         standard:         "./phpcs.xml"
         allowed_errors:   -1 # Even a single error will cause the build to fail. -1 = unlimited
         allowed_warnings: -1

@@ -24,9 +24,9 @@ In this example, there are three environments:
 ```yml
 pr:
 rc:
-    - feature-A
+  - feature-A
 test:
-    - feature-B
+  - feature-B
 ```
 
 When you push commits to `master` branch, three builds will be created - one for each of the environments.
@@ -39,14 +39,17 @@ You can use variable `%ENVIRONMENT%` in project config.
 
 ```yml
 setup:
-  mysql:
-    - "DROP DATABASE IF EXISTS project_name_%ENVIRONMENT%;"
-    - "CREATE DATABASE project_name_%ENVIRONMENT%;"
+  mysql_step:
+    plugin: mysql
+    queries:
+      - "DROP DATABASE IF EXISTS project_name_%ENVIRONMENT%;"
+      - "CREATE DATABASE project_name_%ENVIRONMENT%;"
 test:
-    ...
+  ...
 deploy:
-    mage:
-        env: %ENVIRONMENT%
+  mage_step:
+    plugin: mage
+    env:    %ENVIRONMENT%
 ```
 
 

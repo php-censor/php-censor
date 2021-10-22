@@ -19,7 +19,8 @@ details on the rules. (default: ['codesize', 'unusedcode', 'naming']).
 
 ```yml
 test:
-    php_mess_detector:
+    php_mess_detector_step:
+        plugin: php_mess_detector
         directory: 'app'
         ignore:
             - 'vendor'

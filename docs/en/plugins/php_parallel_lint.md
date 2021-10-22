@@ -15,7 +15,8 @@ See additional options below.
 
 ```yml
 test:
-    php_parallel_lint:
+    php_parallel_lint_step:
+        plugin: php_parallel_lint
         directory: "app"
         ignore:
             - "vendor"

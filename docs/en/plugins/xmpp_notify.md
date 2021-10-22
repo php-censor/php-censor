@@ -29,7 +29,8 @@ Configuration
 
 ```yml
 complete:
-    xmpp_notify:
+    xmpp_notify_step:
+        plugin:   xmpp_notify
         username: "login@gmail.com"
         password: "AZERTY123"
         recipients:

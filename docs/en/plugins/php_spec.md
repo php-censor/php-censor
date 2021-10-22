@@ -14,7 +14,8 @@ See additional options below.
 
 ```yml
 test:
-    php_spec: ~
+    php_spec_step:
+        plugin: php_spec
 ```
 
 ### Additional Options

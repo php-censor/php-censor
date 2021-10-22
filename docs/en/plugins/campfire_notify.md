@@ -29,7 +29,8 @@ build_settings:
         url:        "campfire URL"
 
 success:
-    campfire_notify:
+    campfire_notify_step:
+        plugin:  campfire_notify
         verbose: true
         message: "Build succeeded!"
 ```

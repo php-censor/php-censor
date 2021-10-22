@@ -15,7 +15,8 @@ Configuration
 
 ```yml
 test:
-    grunt:
+    grunt_step:
+        plugin: grunt
         directory: "path to run grunt in"
         gruntfile: "gruntfile.js"
         task: "css"

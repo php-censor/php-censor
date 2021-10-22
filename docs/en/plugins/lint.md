@@ -16,7 +16,8 @@ to true).
 
 ```yml
 test:
-    lint:
+    lint_step:
+        plugin: lint
         directory: "single path to lint files"
         directories:
             - "directory to lint files"

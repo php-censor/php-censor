@@ -343,15 +343,19 @@ class Build extends BaseBuild
 
             foreach ([Build::STAGE_SETUP, Build::STAGE_TEST] as $stage) {
                 if ($className::canExecuteOnStage($stage, $this)) {
+                    $pluginName = $className::pluginName();
+                    $stepName   = \sprintf('%s_step', $pluginName);
+
                     $pluginConfig = [
+                        'plugin'      => $pluginName,
                         'zero_config' => true,
                     ];
 
-                    if (PhpParallelLint::pluginName() === $className::pluginName()) {
+                    if (PhpParallelLint::pluginName() === $pluginName) {
                         $pluginConfig['allow_failures'] = true;
                     }
 
-                    $config[$stage][$className::pluginName()] = $pluginConfig;
+                    $config[$stage][$stepName] = $pluginConfig;
                 }
             }
         }

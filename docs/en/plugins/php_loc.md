@@ -17,7 +17,8 @@ included outside of the app directory.
 
 ```yml
 test:
-    php_loc:
+    php_loc_step:
+        plugin: php_loc
         directory: "app"
 ```
 

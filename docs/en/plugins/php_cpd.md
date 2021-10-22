@@ -10,7 +10,8 @@ Configuration
 
 ```yml
 test:
-    php_cpd:
+    php_cpd_step:
+        plugin: php_cpd
         directory: "app"
         ignore:
             - "app/my/path"

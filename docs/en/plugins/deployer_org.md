@@ -31,7 +31,8 @@ Sample configuration
 
 ```yml
 deploy:
-    deployer_org:
+    deployer_org_step:
+        plugin: deployer_org
         development: # branch name
             task:    sample-task # optional, default task is deploy 
             stage:   dev # required, name of stage or server

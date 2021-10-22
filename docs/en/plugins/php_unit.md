@@ -33,7 +33,8 @@ Both modes accept:
 Specify config file and test directory:
 ```yml
 test:
-    php_unit:
+    php_unit_step:
+        plugin: php_unit
         config:
             - "path/to/phpunit.xml"
         directories:
