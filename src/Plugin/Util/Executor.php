@@ -165,34 +165,11 @@ class Executor
     protected function doExecutePlugins($plugins, $stage)
     {
         $success = true;
-
-        /**
-         * @deprecated Plugins names "campfire", "telegram", "xmpp", "email", "irc" and "phpstan" are deprecated and will be
-         * deleted in version 2.0. Use the names "campfire_notify", "telegram_notify", "xmpp_notify",
-         * "email_notify", "irc_notify" and "php_stan" instead.
-         */
-        $deprecatedNotifyPlugins = [
-            'campfire' => 'campfire_notify',
-            'telegram '=> 'telegram_notify',
-            'xmpp'     => 'xmpp_notify',
-            'email'    => 'email_notify',
-            'irc'      => 'irc_notify',
-            'phpstan'  => 'php_stan',
-        ];
-
         foreach ($plugins as $step => $options) {
 
             $plugin = $step;
             if (isset($options['plugin'])) {
                 $plugin = $options['plugin'];
-            }
-
-            if (isset($deprecatedNotifyPlugins[\strtolower($plugin)])) {
-                $deprecatedPlugin = $plugin;
-                $plugin = $deprecatedNotifyPlugins[\strtolower($plugin)];
-                $this->logger->logWarning(
-                    '[DEPRECATED] Plugins name "' . $deprecatedPlugin . '" is deprecated and will be deleted in version 2.0. Use the name "' . $plugin . '" instead.'
-                );
             }
 
             $this->logger->log('');
