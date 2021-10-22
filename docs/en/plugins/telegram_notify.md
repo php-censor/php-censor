@@ -17,7 +17,8 @@ In the PHP Censor Project config section add the Telegram trigger
 
 ```yml
 complete:
-    telegram_notify:
+    telegram_notify_step:
+        plugin: telegram_notify
         auth_token: "<YOUR_BOT_TOKEN_HERE>"
         message:    "[%ICON_BUILD%] [%PROJECT_TITLE%](%PROJECT_LINK%) - [Build #%BUILD_ID%](%BUILD_LINK%) has finished for commit [%SHORT_COMMIT_ID% (%COMMITTER_EMAIL%)](%COMMIT_LINK%) on branch [%BRANCH%](%BRANCH_LINK%)"
         recipients:

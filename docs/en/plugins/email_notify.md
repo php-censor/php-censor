@@ -25,7 +25,8 @@ Send an email to the committer as well as one@exameple.com if a build fails:
 
 ```yml
 failure:
-    email_notify:
+    email_notify_step:
+        plugin: email_notify
         committer: true
         default_mailto_address: one@example.com
 ```
@@ -34,6 +35,7 @@ Send an email to one@example.com every time a build is run:
 
 ```yml
 complete:
-    email_notify:
+    email_notify_step:
+        plugin: email_notify
         default_mailto_address: one@example.com
 ```

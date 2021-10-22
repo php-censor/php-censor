@@ -87,7 +87,7 @@ class Project extends BaseProject
     {
         $criteria = [
             'branch'     => $branch,
-            'project_id' => $this->getId()
+            'project_id' => $this->getId(),
         ];
         $order  = ['id' => 'DESC'];
         $builds = $this->storeRegistry->get('Build')->getWhere($criteria, 1, 1, $order);

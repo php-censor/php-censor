@@ -14,6 +14,7 @@ Configuration
 
 ```yml
 complete:
-    wipe:
+    wipe_step:
+        plugin: wipe
         directory: "/path/to/directory"
 ```

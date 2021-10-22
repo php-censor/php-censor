@@ -23,7 +23,8 @@ flag (default: false).
 
 ```yml
 setup:
-    composer:
+    composer_step:
+        plugin: composer
         directory: "my/composer/dir"
         action: "update"
         prefer_dist: true

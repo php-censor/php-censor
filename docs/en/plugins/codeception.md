@@ -35,7 +35,8 @@ processing on line 146.
 
 ```yml
 tests:
-    codeception:
+    codeception_step:
+        plugin: codeception
         config: "codeception.yml"
         args:   "--no-ansi --coverage-html"
 ```
@@ -44,7 +45,8 @@ Or
 
 ```yml
 tests:
-    codeception:
+    codeception_step:
+        plugin: codeception
         config: "subdir1/subdir2"
         args:   "report.xml -vv "
         output_path:

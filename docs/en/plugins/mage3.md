@@ -17,6 +17,7 @@ Mage must be installed locally in your project as it is not provided by PHP Cens
 
 ```yml
 success:
-    mage3:
+    mage3_step:
+        plugin: mage3
         env: production
 ```

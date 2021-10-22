@@ -18,7 +18,8 @@ Configuration
 
 ```yml
 test:
-    sensiolabs_insight:
+    sensiolabs_insight_step:
+        plugin:         sensiolabs_insight
         allow_failures: true
         user_uuid:      'xxx-xxx-xxx-xxx-xxx'
         auth_token:     'xxxx'

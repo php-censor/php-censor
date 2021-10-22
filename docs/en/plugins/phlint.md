@@ -19,7 +19,8 @@ Configuration
 
 ```yml
 test:
-  phlint: ~
+  phlint_step:
+    plugin: phlint
 ```
 
 ### Additional Options

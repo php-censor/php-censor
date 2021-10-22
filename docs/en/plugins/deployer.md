@@ -17,7 +17,8 @@ branches matches the one being built (Default: true).
 
 ```yml
 success:
-    deployer:
+    deployer_step:
+        plugin:      deployer
         webhook_url: "https://deployer.example.com/deploy/QZaF1bMIUqbMFTmKDmgytUuykRN0cjCgW9SooTnwkIGETAYhDTTYoR8C431t"
         reason:      "PHP Censor Build #%BUILD_ID% - %COMMIT_MESSAGE%"
         update_only: true

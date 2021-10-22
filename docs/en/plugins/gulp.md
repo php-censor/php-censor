@@ -15,7 +15,8 @@ Configuration
 
 ```yml
 test:
-    gulp:
+    gulp_step:
+        plugin: gulp
         directory: "/path/to/run/gulp/from"
         gulpfile:  "gulpfile.js"
         task:      "css"

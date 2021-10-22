@@ -17,7 +17,8 @@ Configuration
 
 ```yml
 test:
-  psalm: ~
+  psalm_step:
+    plugin: psalm
 ```
 
 ### Additional Options

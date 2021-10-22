@@ -30,12 +30,14 @@ build_settings:
         password: '12345678'
 
 setup:
-    pgsql:
+    pgsql_step:
+        plugin: pgsql
         queries:
             - "CREATE DATABASE my_app_test;"
 
 complete:
-    pgsql:
+    pgsql_step:
+        plugin: pgsql
         queries:
             - "DROP DATABASE my_app_test;"
 ```

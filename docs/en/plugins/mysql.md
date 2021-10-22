@@ -34,12 +34,14 @@ build_settings:
         password: '12345678'
 
 setup:
-    mysql:
+    mysql_step:
+        plugin: mysql
         queries:
             - "CREATE DATABASE my_app_test;"
 
 complete:
-    mysql:
+    mysql_step:
+        plugin: mysql
         queries:
             - "DROP DATABASE my_app_test;"
 ```
@@ -47,7 +49,8 @@ complete:
 Import SQL from file:
 ```yml
 setup:
-    mysql:
+    mysql_step:
+        plugin: mysql
         imports:
             - database: "foo"             # Database name
               file:     "path/dump.sql"  # Relative path in build folder

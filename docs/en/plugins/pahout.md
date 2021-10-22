@@ -16,7 +16,8 @@ Configuration
 
 ```yml
 test:
-  pahout: ~
+  pahout_step:
+    plugin: pahout
 ```
 
 ### Additional Options

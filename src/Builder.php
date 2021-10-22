@@ -178,10 +178,10 @@ class Builder
         $success = true;
 
         $previousBuild = $this->build->getProject()->getPreviousBuild($this->build->getBranch());
-        $previousState = Build::STATUS_PENDING;
+        $previousBuildStatus = Build::STATUS_PENDING;
 
         if ($previousBuild) {
-            $previousState = $previousBuild->getStatus();
+            $previousBuildStatus = $previousBuild->getStatus();
         }
 
         try {
@@ -215,7 +215,7 @@ class Builder
                 $this->currentStage = Build::STAGE_SUCCESS;
                 $this->pluginExecutor->executePlugins($this->config, Build::STAGE_SUCCESS);
 
-                if (Build::STATUS_FAILED === $previousState) {
+                if (Build::STATUS_FAILED === $previousBuildStatus) {
                     $this->currentStage = Build::STAGE_FIXED;
                     $this->pluginExecutor->executePlugins($this->config, Build::STAGE_FIXED);
                 }
@@ -223,7 +223,7 @@ class Builder
                 $this->currentStage = Build::STAGE_FAILURE;
                 $this->pluginExecutor->executePlugins($this->config, Build::STAGE_FAILURE);
 
-                if (Build::STATUS_SUCCESS === $previousState || Build::STATUS_PENDING === $previousState) {
+                if (Build::STATUS_SUCCESS === $previousBuildStatus || Build::STATUS_PENDING === $previousBuildStatus) {
                     $this->currentStage = Build::STAGE_BROKEN;
                     $this->pluginExecutor->executePlugins($this->config, Build::STAGE_BROKEN);
                 }

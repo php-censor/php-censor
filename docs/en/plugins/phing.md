@@ -17,7 +17,8 @@ Configuration
 
 ```yml
 setup:
-    phing:
+    phing_step:
+        plugin: phing
         build_file: 'build.xml'
         targets:
             - "build:test"

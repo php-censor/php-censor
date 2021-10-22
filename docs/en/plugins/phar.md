@@ -17,7 +17,8 @@ Configuration
 
 ```yml
 test:
-    phar:
+    phar_step:
+        plugin:    phar
         directory: /path/to/directory
         filename:  foobar.phar
         regexp:    /\.(php|phtml)$/

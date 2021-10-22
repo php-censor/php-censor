@@ -10,10 +10,11 @@ Configuration
 
 ```yml
 complete:
-    git:
-        master:           <-- branch
-            tag:          <-- action
-                name: ""  <-- Action options
+    git_step:
+        plugin: git
+        master:           #<-- branch
+            tag:          #<-- action
+                name: ""  #<-- Action options
     
 ```
 
