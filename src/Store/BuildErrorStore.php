@@ -258,7 +258,6 @@ class BuildErrorStore extends Store
     }
 
     /**
-     *
      * @throws Exception
      */
     public function getErrorAmountPerPluginForBuild(int $buildId): array

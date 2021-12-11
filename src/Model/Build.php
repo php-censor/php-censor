@@ -238,13 +238,9 @@ class Build extends BaseBuild
     }
 
     /**
-     * @param string $buildPath
-     *
-     * @return bool
-     *
      * @throws Exception
      */
-    protected function handleConfig(Builder $builder, $buildPath)
+    protected function handleConfig(Builder $builder, string $buildPath): bool
     {
         $yamlParser           = new YamlParser();
         $overwriteBuildConfig = $this->getProject()->getOverwriteBuildConfig();

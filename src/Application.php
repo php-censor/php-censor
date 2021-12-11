@@ -118,12 +118,16 @@ class Application
         }
 
         if (!$this->controllerExists($this->route)) {
-            throw new NotFoundException('Controller ' . $this->toPhpName($this->route['controller']) . ' does not exist!');
+            throw new NotFoundException(
+                'Controller ' . $this->toPhpName($this->route['controller']) . ' does not exist!'
+            );
         }
 
         $action = lcfirst($this->toPhpName($this->route['action']));
         if (!$this->getController()->hasAction($action)) {
-            throw new NotFoundException('Controller ' . $this->toPhpName($this->route['controller']) . ' does not have action ' . $action . '!');
+            throw new NotFoundException(
+                'Controller ' . $this->toPhpName($this->route['controller']) . ' does not have action ' . $action . '!'
+            );
         }
 
         return $this->getController()->handleAction($action, $this->route['args']);

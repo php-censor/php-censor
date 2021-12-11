@@ -454,7 +454,6 @@ class Build extends Model
 
     /**
      * @return bool
-     *
      */
     public function setExtra(array $value)
     {

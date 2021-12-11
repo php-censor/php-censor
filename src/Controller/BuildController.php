@@ -355,8 +355,6 @@ class BuildController extends WebController
 
     /**
      * Formats a list of builds into rows suitable for the dropdowns in the header bar.
-     *
-     *
      */
     protected function formatBuilds(array $builds): array
     {
