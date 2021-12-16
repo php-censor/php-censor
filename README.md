@@ -141,6 +141,14 @@ cd /path/to/php-censor
 ./bin/console php-censor-migrations:create NewMigrationName
 ```
 
+## Code style
+
+```bash
+cd /path/to/php-censor
+
+./vendor/bin/php-cs-fixer fix
+```
+
 ## Tests
 
 ```bash
