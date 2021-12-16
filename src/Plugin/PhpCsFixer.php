@@ -20,9 +20,7 @@ class PhpCsFixer extends Plugin
 {
     protected $args = '';
 
-    protected $config  = false;
-    protected $configs = [];
-
+    protected $config       = false;
     protected $errors       = false;
     protected $reportErrors = false;
 
@@ -30,16 +28,6 @@ class PhpCsFixer extends Plugin
      * @var int
      */
     protected $allowedWarnings;
-
-    /**
-     * @var bool
-     */
-    protected $supportsUdiff = false;
-
-    /**
-     * @var string|null
-     */
-    protected $version;
 
     /**
      * @return string
@@ -102,39 +90,9 @@ class PhpCsFixer extends Plugin
     {
         $phpCsFixer = $this->executable;
 
-        // Determine the version of PHP CS Fixer
-        $cmd     = $phpCsFixer . ' --version';
-        $success = $this->builder->executeCommand($cmd);
-        $output  = $this->builder->getLastOutput();
-        $matches = [];
-        if (!\preg_match('/(\d+\.\d+\.\d+)/', $output, $matches)) {
-            throw new Exception('Unable to determine the version of the PHP Coding Standards Fixer.');
-        }
-
-        $this->version = $matches[1];
-        // Appeared in PHP CS Fixer 2.8.0 and used by default since 3.0.0
-        // https://github.com/FriendsOfPHP/PHP-CS-Fixer/blob/2.19/CHANGELOG.md#changelog-for-v280
-        $this->supportsUdiff = \version_compare($this->version, '2.8.0', '>=')
-            && \version_compare($this->version, '3.0.0', '<');
-
         $directory = '';
         if (!empty($this->directory)) {
             $directory = $this->directory;
-        }
-
-        if (!$this->config) {
-            if (\version_compare($this->version, '3.0.0', '>=')) {
-                $this->configs = ['.php-cs-fixer.php', '.php-cs-fixer.dist.php'];
-            } else {
-                $this->configs = ['.php_cs', '.php_cs.dist'];
-            }
-            foreach ($this->configs as $config) {
-                if (\file_exists($this->builder->buildPath . $config)) {
-                    $this->config = true;
-                    $this->args .= ' --config=./' . $config;
-                    break;
-                }
-            }
         }
 
         if (!$this->config && !$directory) {
@@ -142,10 +100,7 @@ class PhpCsFixer extends Plugin
         }
 
         if ($this->errors) {
-            $this->args .= ' --verbose --format json --diff';
-            if ($this->supportsUdiff) {
-                $this->args .= ' --diff-format udiff';
-            }
+            $this->args .= ' --verbose --format json --diff --diff-format udiff';
             if (!$this->build->isDebug()) {
                 $this->builder->logExecOutput(false); // do not show json output
             }
@@ -153,8 +108,10 @@ class PhpCsFixer extends Plugin
 
         $cmd     = $phpCsFixer . ' fix ' . $directory . ' %s';
         $success = $this->builder->executeCommand($cmd, $this->args);
+
         $this->builder->logExecOutput(true);
-        $output  = $this->builder->getLastOutput();
+
+        $output = $this->builder->getLastOutput();
 
         if ($this->errors) {
             $warningCount = $this->processReport($output);
@@ -189,12 +146,12 @@ class PhpCsFixer extends Plugin
 
         $warnings = 0;
 
-        foreach ($data['files'] as $item) {
-            $filename      = $item['name'];
-            $appliedFixers = isset($item['appliedFixers']) ? $item['appliedFixers'] : [];
+        foreach ($data['files'] as $file) {
+            $filename      = $file['name'];
+            $appliedFixers = isset($file['appliedFixers']) ? $file['appliedFixers'] : [];
 
             $parser = new Parser();
-            $parsed = $parser->parse($item['diff']);
+            $parsed = $parser->parse($file['diff']);
 
             /** @var Diff $diffItem */
             $diffItem = $parsed[0];
