@@ -6,7 +6,7 @@ $finder = PhpCsFixer\Finder::create()
     ->name('*.php')
     ->ignoreDotFiles(true)
     ->ignoreVCS(true)
-    ->exclude(['vendor', 'src/Migrations'])
+    ->exclude(['vendor'])
     ->in(__DIR__)
 ;
 
@@ -18,7 +18,7 @@ return $config
         '@PSR12'                      => true,
         'strict_param'                => true,
         'array_syntax'                => ['syntax' => 'short'],
-        'blank_line_before_statement' => ['statements' => ['return']],
+        'blank_line_before_statement' => ['statements' => ['return', 'throw']],
         'general_phpdoc_tag_rename'   => ['replacements' => [
             'inheritDocs' => 'inheritDoc',
             'inheritdocs' => 'inheritDoc',

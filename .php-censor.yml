@@ -13,12 +13,12 @@ test:
             - phpunit.xml.dist
         coverage: true
 
-    php_code_sniffer:
-        standard:       PSR2
-        encoding:       UTF-8
+    php_cs_fixer:
+        args: '--allow-risky=yes'
+        errors: true
+        report_errors: true
+        config: .php-cs-fixer.dist.php
         allow_failures: true
-        ignore:
-            - src/Migrations
 
     php_cpd:
         allow_failures: true
