@@ -36,9 +36,6 @@ class FieldSet extends Element
         return $rtn;
     }
 
-    /**
-     * @param array $values
-     */
     public function setValues(array $values)
     {
         foreach ($this->children as $field) {
@@ -60,9 +57,6 @@ class FieldSet extends Element
         }
     }
 
-    /**
-     * @param Element $field
-     */
     public function addField(Element $field)
     {
         $this->children[$field->getName()] = $field;
@@ -85,9 +79,6 @@ class FieldSet extends Element
         return $rtn;
     }
 
-    /**
-     * @param View $view
-     */
     protected function onPreRender(View &$view)
     {
         $rendered = [];

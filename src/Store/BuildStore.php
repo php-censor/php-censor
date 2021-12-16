@@ -36,7 +36,7 @@ class BuildStore extends Store
      * @param int $key
      * @param string  $useConnection
      *
-     * @return null|Build
+     * @return Build|null
      */
     public function getByPrimaryKey($key, $useConnection = 'read')
     {
@@ -180,7 +180,7 @@ class BuildStore extends Store
      * @param int $projectId
      * @param string $branch
      *
-     * @return null|Build
+     * @return Build|null
      *
      * @throws Exception
      */
@@ -401,6 +401,7 @@ class BuildStore extends Store
 
         if ($stmt->execute()) {
             $res = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
             return $res;
         } else {
             return [];

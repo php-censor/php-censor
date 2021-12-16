@@ -108,7 +108,7 @@ class PhpUnitResultJunit extends PhpUnitResult
             $stackStr = substr($this->getMessageTrace($testCase), (int)$testCase['_tracePos'] + 2, -1);
             $trace = explode("\n", str_replace($this->buildPath, '.', $stackStr));
         } else {
-            $trace = array();
+            $trace = [];
         }
 
         return $trace;

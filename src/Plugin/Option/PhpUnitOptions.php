@@ -47,6 +47,7 @@ class PhpUnitOptions
     public function removeArgument($argumentName)
     {
         unset($this->arguments[$argumentName]);
+
         return $this;
     }
 
@@ -171,8 +172,6 @@ class PhpUnitOptions
     /**
      * Get the list of directory to run phpunit in
      *
-     * @param Builder $builder
-     *
      * @return string[] List of directories
      */
     public function getDirectories(Builder $builder)
@@ -204,7 +203,7 @@ class PhpUnitOptions
      *
      * @param $optionName
      *
-     * @return string[]|string|null
+     * @return string|string[]|null
      */
     public function getOption($optionName)
     {
@@ -280,7 +279,7 @@ class PhpUnitOptions
      *
      * @param string $buildPath The path to configuration file
      *
-     * @return null|string
+     * @return string|null
      */
     public static function findConfigFile($buildPath)
     {

@@ -17,10 +17,6 @@ abstract class Controller
      */
     protected $config;
 
-    /**
-     * @param Config  $config
-     * @param Request $request
-     */
     public function __construct(Config $config, Request $request)
     {
         $this->config   = $config;

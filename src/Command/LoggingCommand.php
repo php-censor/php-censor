@@ -17,8 +17,7 @@ abstract class LoggingCommand extends Command
     protected $logger;
 
     /**
-     * @param Logger $logger
-     * @param string          $name
+     * @param string $name
      */
     public function __construct(Logger $logger, $name = null)
     {
@@ -27,9 +26,6 @@ abstract class LoggingCommand extends Command
         $this->logger = $logger;
     }
 
-    /**
-     * @param OutputInterface $output
-     */
     protected function configureLogging(OutputInterface $output)
     {
         $level = Logger::ERROR;
@@ -63,10 +59,6 @@ abstract class LoggingCommand extends Command
         }
     }
 
-    /**
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->configureLogging($output);

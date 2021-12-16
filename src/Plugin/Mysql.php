@@ -180,14 +180,14 @@ class Mysql extends Plugin
             }
         } catch (Exception $ex) {
             $this->builder->logFailure($ex->getMessage());
+
             return false;
         }
+
         return true;
     }
 
     /**
-     * @param array $query
-     *
      * @return bool
      *
      * @throws Exception

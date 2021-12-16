@@ -48,9 +48,6 @@ class Form extends FieldSet
         $this->method = $method;
     }
 
-    /**
-     * @param View $view
-     */
     protected function onPreRender(View &$view)
     {
         $view->action = $this->getAction();

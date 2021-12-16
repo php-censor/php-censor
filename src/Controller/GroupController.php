@@ -133,6 +133,7 @@ class GroupController extends WebController
         $this->groupStore->delete($group);
         $response = new RedirectResponse();
         $response->setHeader('Location', APP_URL.'group');
+
         return $response;
     }
 }

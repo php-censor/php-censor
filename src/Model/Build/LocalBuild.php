@@ -16,7 +16,6 @@ class LocalBuild extends Build
     /**
      * Create a working copy by cloning, copying, or similar.
      *
-     * @param Builder $builder
      * @param string $buildPath
      *
      * @return bool
@@ -57,9 +56,8 @@ class LocalBuild extends Build
     /**
      * Check if this is a "bare" git repository, and if so, unarchive it.
      *
-     * @param Builder $builder
-     * @param string  $reference
-     * @param string  $buildPath
+     * @param string $reference
+     * @param string $buildPath
      *
      * @return bool
      */
@@ -71,6 +69,7 @@ class LocalBuild extends Build
         if ($gitConfig['core']['bare']) {
             $cmd = 'mkdir %2$s; git --git-dir="%1$s" archive %3$s | tar -x -C "%2$s"';
             $builder->executeCommand($cmd, $reference, $buildPath, $this->getBranch());
+
             return true;
         }
 
@@ -80,9 +79,8 @@ class LocalBuild extends Build
     /**
      * Create a symlink if required.
      *
-     * @param Builder $builder
-     * @param string  $reference
-     * @param string  $buildPath
+     * @param string $reference
+     * @param string $buildPath
      *
      * @return bool
      */
@@ -96,6 +94,7 @@ class LocalBuild extends Build
 
         if (!symlink($reference, $buildPath)) {
             $builder->logFailure('Failed to symlink.');
+
             return false;
         }
 

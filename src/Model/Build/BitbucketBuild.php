@@ -306,9 +306,8 @@ class BitbucketBuild extends GitBuild
     /**
      * Uses git diff to figure out what the diff line position is, based on the error line number.
      *
-     * @param Builder $builder
-     * @param string  $file
-     * @param int $line
+     * @param string $file
+     * @param int    $line
      *
      * @return int|null
      */

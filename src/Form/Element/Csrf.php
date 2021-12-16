@@ -22,9 +22,6 @@ class Csrf extends Hidden
         return true;
     }
 
-    /**
-     * @param View $view
-     */
     protected function onPreRender(View &$view)
     {
         parent::onPreRender($view);

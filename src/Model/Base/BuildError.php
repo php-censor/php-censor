@@ -275,8 +275,6 @@ class BuildError extends Model
     }
 
     /**
-     * @param DateTime $value
-     *
      * @return bool
      *
      * @throws InvalidArgumentException

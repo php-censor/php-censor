@@ -70,7 +70,7 @@ class Build extends BaseBuild
     protected $buildBranchDirectory;
 
     /**
-     * @return null|Project
+     * @return Project|null
      *
      * @throws HttpException
      */
@@ -201,6 +201,7 @@ class Build extends BaseBuild
     public function getProjectTitle()
     {
         $project = $this->getProject();
+
         return $project ? $project->getTitle() : "";
     }
 
@@ -226,8 +227,6 @@ class Build extends BaseBuild
     }
 
     /**
-     * @param Builder $builder
-     *
      * @return bool
      *
      * @throws Exception
@@ -251,8 +250,7 @@ class Build extends BaseBuild
     }
 
     /**
-     * @param Builder $builder
-     * @param string  $buildPath
+     * @param string $buildPath
      *
      * @return bool
      *
@@ -326,8 +324,6 @@ class Build extends BaseBuild
     /**
      * Get an array of plugins to run if there's no .php-censor.yml file.
      *
-     * @param Builder $builder
-     *
      * @return array
      *
      * @throws ReflectionException
@@ -387,13 +383,12 @@ class Build extends BaseBuild
     /**
      * Allows specific build types (e.g. Github) to report violations back to their respective services.
      *
-     * @param Builder $builder
      * @param string  $plugin
      * @param string  $message
-     * @param int $severity
+     * @param int     $severity
      * @param string  $file
-     * @param int $lineStart
-     * @param int $lineEnd
+     * @param int     $lineStart
+     * @param int     $lineEnd
      */
     public function reportError(
         Builder $builder,
@@ -563,7 +558,6 @@ class Build extends BaseBuild
     /**
      * Create a working copy by cloning, copying, or similar.
      *
-     * @param Builder $builder
      * @param string  $buildPath
      *
      * @return bool

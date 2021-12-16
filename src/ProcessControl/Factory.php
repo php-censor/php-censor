@@ -28,6 +28,7 @@ class Factory
         if (static::$instance === null) {
             static::$instance = static::createProcessControl();
         }
+
         return static::$instance;
     }
 

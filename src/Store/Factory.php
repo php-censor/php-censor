@@ -38,6 +38,7 @@ class Factory
     public static function getStore($storeName)
     {
         $factory = self::getInstance();
+
         return $factory->loadStore($storeName);
     }
 

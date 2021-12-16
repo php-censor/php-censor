@@ -367,8 +367,6 @@ class Build extends Model
     }
 
     /**
-     * @param DateTime $value
-     *
      * @return bool
      */
     public function setCreateDate(DateTime $value)
@@ -399,8 +397,6 @@ class Build extends Model
     }
 
     /**
-     * @param DateTime $value
-     *
      * @return bool
      */
     public function setStartDate(DateTime $value)
@@ -431,8 +427,6 @@ class Build extends Model
     }
 
     /**
-     * @param DateTime $value
-     *
      * @return bool
      */
     public function setFinishDate(DateTime $value)
@@ -523,8 +517,6 @@ class Build extends Model
     }
 
     /**
-     * @param array $value
-     *
      * @return bool
      *
      * @throws InvalidArgumentException

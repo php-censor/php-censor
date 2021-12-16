@@ -16,7 +16,6 @@ use PHPCensor\Store\UserStore;
 class Ldap extends AbstractProvider implements LoginPasswordProviderInterface
 {
     /**
-     * @param User   $user
      * @param string $password
      *
      * @return bool

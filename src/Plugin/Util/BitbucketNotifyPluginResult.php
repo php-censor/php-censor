@@ -34,6 +34,7 @@ class BitbucketNotifyPluginResult
     public function setPlugin($plugin)
     {
         $this->plugin = $plugin;
+
         return $this;
     }
 
@@ -45,6 +46,7 @@ class BitbucketNotifyPluginResult
     public function setLeft($left)
     {
         $this->left = $left;
+
         return $this;
     }
 
@@ -56,6 +58,7 @@ class BitbucketNotifyPluginResult
     public function setRight($right)
     {
         $this->right = $right;
+
         return $this;
     }
 

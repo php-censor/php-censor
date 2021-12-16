@@ -47,7 +47,7 @@ class Service
      * Create a provider from a given configuration.
      *
      * @param string       $key
-     * @param string|array $config
+     * @param array|string $config
      *
      * @return UserProviderInterface
      */
@@ -70,8 +70,6 @@ class Service
 
     /**
      * Initialize the service.
-     *
-     * @param array $providers
      */
     public function __construct(array $providers)
     {
@@ -101,6 +99,7 @@ class Service
                 $providers[$key] = $provider;
             }
         }
+
         return $providers;
     }
 }

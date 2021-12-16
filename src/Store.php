@@ -114,8 +114,7 @@ abstract class Store
     }
 
     /**
-     * @param Model $obj
-     * @param bool  $saveAllColumns
+     * @param bool $saveAllColumns
      *
      * @throws InvalidArgumentException
      *
@@ -139,8 +138,7 @@ abstract class Store
     }
 
     /**
-     * @param Model $obj
-     * @param bool  $saveAllColumns
+     * @param bool $saveAllColumns
      *
      * @return Model|null
      *
@@ -184,8 +182,7 @@ abstract class Store
     }
 
     /**
-     * @param Model $obj
-     * @param bool  $saveAllColumns
+     * @param bool $saveAllColumns
      *
      * @return Model|null
      *
@@ -225,8 +222,6 @@ abstract class Store
     }
 
     /**
-     * @param Model $obj
-     *
      * @return bool
      *
      * @throws InvalidArgumentException

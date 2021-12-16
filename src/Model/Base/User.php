@@ -268,8 +268,6 @@ class User extends Model
     }
 
     /**
-     * @param array $value
-     *
      * @return bool
      *
      * @throws InvalidArgumentException

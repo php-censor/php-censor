@@ -21,7 +21,6 @@ class DatabasePostgresqlTest extends PHPUnit_Extensions_Database_TestCase
 
     /**
      * @param string $name
-     * @param array  $data
      * @param string $dataName
      */
     public function __construct($name = null, array $data = [], $dataName = '')

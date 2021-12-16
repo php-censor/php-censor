@@ -34,9 +34,7 @@ class RunCommand extends LoggingCommand
     protected $maxBuilds = 10;
 
     /**
-     * @param Logger       $logger
-     * @param BuildService $buildService
-     * @param string       $name
+     * @param string $name
      */
     public function __construct(
         Logger $logger,

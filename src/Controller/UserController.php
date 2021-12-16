@@ -207,6 +207,7 @@ class UserController extends WebController
 
         $response = new RedirectResponse();
         $response->setHeader('Location', APP_URL . 'user');
+
         return $response;
     }
 
@@ -257,6 +258,7 @@ class UserController extends WebController
 
         $response = new RedirectResponse();
         $response->setHeader('Location', APP_URL . 'user');
+
         return $response;
     }
 
@@ -338,6 +340,7 @@ class UserController extends WebController
 
         $response = new RedirectResponse();
         $response->setHeader('Location', APP_URL . 'user');
+
         return $response;
     }
 }

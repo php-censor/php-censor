@@ -62,12 +62,10 @@ class BuildWorker
     protected $lastPeriodical;
 
     /**
-     * @param Logger       $logger
-     * @param BuildService $buildService,
-     * @param string       $queueHost
-     * @param int          $queuePort
-     * @param string       $queueTube
-     * @param bool         $canPeriodicalWork
+     * @param string $queueHost
+     * @param int    $queuePort
+     * @param string $queueTube
+     * @param bool   $canPeriodicalWork
      */
     public function __construct(
         Logger $logger,
@@ -203,9 +201,6 @@ class BuildWorker
         }
     }
 
-    /**
-     * @param Job $job
-     */
     protected function deleteJob(Job $job)
     {
         try {
@@ -245,8 +240,6 @@ class BuildWorker
     }
 
     /**
-     * @param Job $job
-     *
      * @return bool
      */
     protected function verifyJob(Job $job)

@@ -31,7 +31,7 @@ class BuildMetaStore extends Store
      * @param int $key
      * @param string  $useConnection
      *
-     * @return null|BuildMeta
+     * @return BuildMeta|null
      */
     public function getByPrimaryKey($key, $useConnection = 'read')
     {
@@ -44,7 +44,7 @@ class BuildMetaStore extends Store
      * @param int $id
      * @param string  $useConnection
      *
-     * @return null|BuildMeta
+     * @return BuildMeta|null
      *
      * @throws HttpException
      */
@@ -71,7 +71,7 @@ class BuildMetaStore extends Store
      * @param int $buildId
      * @param string  $key
      *
-     * @return null|BuildMeta
+     * @return BuildMeta|null
      *
      * @throws HttpException
      */

@@ -30,10 +30,6 @@ class Executor
      */
     protected $store;
 
-    /**
-     * @param Factory $pluginFactory
-     * @param BuildLogger $logger
-     */
     public function __construct(Factory $pluginFactory, BuildLogger $logger, BuildStore $store = null)
     {
         $this->pluginFactory = $pluginFactory;
@@ -74,7 +70,7 @@ class Executor
      * @param array  $config
      * @param string $branch
      *
-     * @return bool|array
+     * @return array|bool
      */
     public function getBranchSpecificConfig($config, $branch)
     {
@@ -295,6 +291,7 @@ class Executor
         /** @var Build $build */
         $build = $this->pluginFactory->getResourceFor('PHPCensor\Model\Build');
         $metas = $this->store->getMeta('plugin-summary', $build->getProjectId(), $build->getId());
+
         return isset($metas[0]['meta_value']) ? $metas[0]['meta_value'] : [];
     }
 

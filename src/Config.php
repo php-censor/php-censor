@@ -174,6 +174,7 @@ class Config
     {
         if (count($source) === 0) {
             $source = $target;
+
             return;
         }
 

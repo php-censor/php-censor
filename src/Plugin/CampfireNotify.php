@@ -54,7 +54,7 @@ class CampfireNotify extends Plugin
 
             if (\array_key_exists('auth_token', $campfire)) {
                 $this->authToken = $campfire['auth_token'];
-                /** @deprecated Option "authToken" is deprecated and will be deleted in version 2.0. Use the option "auth_token" instead. */
+            /** @deprecated Option "authToken" is deprecated and will be deleted in version 2.0. Use the option "auth_token" instead. */
             } elseif (\array_key_exists('authToken', $campfire)) {
                 $builder->logWarning(
                     '[DEPRECATED] Option "authToken" is deprecated and will be deleted in version 2.0. Use the option "auth_token" instead.'
@@ -65,7 +65,7 @@ class CampfireNotify extends Plugin
 
             if (\array_key_exists('room', $campfire)) {
                 $this->room = $campfire['room'];
-                /** @deprecated Option "roomId" is deprecated and will be deleted in version 2.0. Use the option "room" instead. */
+            /** @deprecated Option "roomId" is deprecated and will be deleted in version 2.0. Use the option "room" instead. */
             } elseif (\array_key_exists('roomId', $campfire)) {
                 $builder->logWarning(
                     '[DEPRECATED] Option "roomId" is deprecated and will be deleted in version 2.0. Use the option "room" instead.'

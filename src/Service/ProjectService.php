@@ -18,9 +18,6 @@ class ProjectService
      */
     protected $projectStore;
 
-    /**
-     * @param ProjectStore $projectStore
-     */
     public function __construct(ProjectStore $projectStore)
     {
         $this->projectStore = $projectStore;
@@ -50,11 +47,10 @@ class ProjectService
     /**
      * Update the properties of a given project.
      *
-     * @param Project $project
      * @param string $title
      * @param string $type
      * @param string $reference
-     * @param array $options
+     * @param array  $options
      *
      * @return Project
      */
@@ -123,8 +119,6 @@ class ProjectService
     /**
      * Delete a given project.
      *
-     * @param Project $project
-     *
      * @return bool
      */
     public function deleteProject(Project $project)
@@ -143,8 +137,6 @@ class ProjectService
 
     /**
      * In circumstances where it is necessary, populate access information based on other project properties.
-     *
-     * @param Project $project
      *
      * @return Project
      */

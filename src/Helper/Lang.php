@@ -45,9 +45,11 @@ class Lang
         $string = $params[0];
         if (array_key_exists($string, self::$strings)) {
             $params[0] = self::$strings[$string];
+
             return call_user_func_array('sprintf', $params);
         } elseif (self::DEFAULT_LANGUAGE !== self::$language && array_key_exists($string, self::$defaultStrings)) {
             $params[0] = self::$defaultStrings[$string];
+
             return call_user_func_array('sprintf', $params);
         }
 
@@ -76,6 +78,7 @@ class Lang
         if (in_array($language, self::$languages)) {
             self::$language = $language;
             self::$strings  = self::loadLanguage();
+
             return true;
         }
 
@@ -113,7 +116,6 @@ class Lang
     /**
      * Initialise the Language helper, try load the language file for the user's browser or the configured default.
      *
-     * @param Config $config
      * @param string $languageForce
      */
     public static function init(Config $config, $languageForce = null)

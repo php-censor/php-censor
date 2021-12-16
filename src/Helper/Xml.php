@@ -12,7 +12,7 @@ class Xml
     /**
      * @param $filePath
      *
-     * @return null|SimpleXMLElement
+     * @return SimpleXMLElement|null
      */
     public static function loadFromFile($filePath)
     {

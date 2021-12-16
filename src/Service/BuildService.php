@@ -40,10 +40,6 @@ class BuildService
      */
     public $queueError = false;
 
-    /**
-     * @param BuildStore   $buildStore
-     * @param ProjectStore $projectStore
-     */
     public function __construct(
         BuildStore $buildStore,
         ProjectStore $projectStore
@@ -53,15 +49,14 @@ class BuildService
     }
 
     /**
-     * @param Project     $project
      * @param int|null    $environmentId
      * @param string      $commitId
      * @param string|null $branch
      * @param string|null $tag
      * @param string|null $committerEmail
      * @param string|null $commitMessage
-     * @param int     $source
-     * @param int     $userId
+     * @param int         $source
+     * @param int         $userId
      * @param array|null  $extra
      *
      * @return Build
@@ -135,8 +130,6 @@ class BuildService
     }
 
     /**
-     * @param Logger $logger
-     *
      * @throws HttpException
      */
     public function createPeriodicalBuilds(Logger $logger)
@@ -244,8 +237,7 @@ class BuildService
     }
 
     /**
-     * @param Build $originalBuild
-     * @param int   $source
+     * @param int $source
      *
      * @return Build
      *
@@ -333,8 +325,6 @@ class BuildService
     /**
      * Delete a given build.
      *
-     * @param Build $build
-     *
      * @return bool
      */
     public function deleteBuild(Build $build)
@@ -346,8 +336,8 @@ class BuildService
 
     /**
      * Takes a build and puts it into the queue to be run (if using a queue)
-     * @param Build $build
-     * @param int   $buildPriority priority in queue relative to default
+     *
+     * @param int $buildPriority priority in queue relative to default
      */
     public function addBuildToQueue(Build $build, $buildPriority = Project::DEFAULT_BUILD_PRIORITY)
     {
@@ -366,7 +356,6 @@ class BuildService
 
     /**
      * @param string $jobType
-     * @param array  $jobData
      * @param int    $queuePriority
      */
     public function addJobToQueue($jobType, array $jobData, $queuePriority = PheanstalkInterface::DEFAULT_PRIORITY)
