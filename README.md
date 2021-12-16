@@ -31,7 +31,6 @@ More [screenshots](docs/en/screenshots.md).
 * [Changelog](#changelog)
 * [Roadmap](#roadmap)
 * [Installing](#installing)
-* [Installing via Docker](#installing-via-docker)
 * [Updating](#updating)
 * [Configuring project](#configuring-project)
 * [Migrations](#migrations)
