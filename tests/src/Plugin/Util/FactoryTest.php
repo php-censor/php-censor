@@ -11,7 +11,6 @@ use Tests\PHPCensor\Plugin\Util\Fake\ExamplePluginWithSingleTypedRequiredArg;
 
 class FactoryTest extends TestCase
 {
-
     /**
      * @var Factory
      */
@@ -33,7 +32,7 @@ class FactoryTest extends TestCase
         };
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
         // Nothing to do.
     }

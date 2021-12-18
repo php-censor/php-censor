@@ -17,7 +17,7 @@ class FormInputTest extends TestCase
         $this->inputElement = Input::create('test', 'Test');
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
         $this->inputElement = null;
         parent::tearDown();

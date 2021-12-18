@@ -11,20 +11,12 @@ use PHPCensor\Security\Authentication\UserProviderInterface;
  */
 abstract class AbstractProvider implements UserProviderInterface
 {
-    /**
-     * @var string
-     */
     protected string $key;
 
-    /**
-     * @var array
-     */
     protected array $config;
 
     /**
      * AbstractProvider constructor
-     *
-     * @param string $key
      */
     public function __construct(string $key, array $config)
     {
@@ -32,17 +24,11 @@ abstract class AbstractProvider implements UserProviderInterface
         $this->config = $config;
     }
 
-    /**
-     * @return string
-     */
     public function getKey(): string
     {
         return $this->key;
     }
 
-    /**
-     * @return array
-     */
     public function getConfig(): array
     {
         return $this->config;

@@ -17,8 +17,8 @@ use PHPCensor\Store\Factory;
 
 class BuildWorker
 {
-    const JOB_TYPE_BUILD     = 'php-censor.build';
-    const JOB_TYPE_STOP_FLAG = 'php-censor.stop-flag';
+    public const JOB_TYPE_BUILD     = 'php-censor.build';
+    public const JOB_TYPE_STOP_FLAG = 'php-censor.stop-flag';
 
     /**
      * If this variable changes to false, the worker will stop after the current build.

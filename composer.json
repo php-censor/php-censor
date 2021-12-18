@@ -76,6 +76,7 @@
         "guzzlehttp/guzzle":               "^6.5",
         "jasongrimes/paginator":           "^1.0",
         "voku/anti-xss":                   "^4.1",
+        "sebastian/diff":                  "^4.0",
 
         "maknz/slack":                "^1.7",
         "hipchat/hipchat-php":        "^1.4",

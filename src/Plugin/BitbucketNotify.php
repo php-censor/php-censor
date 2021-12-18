@@ -59,7 +59,8 @@ class BitbucketNotify extends Plugin
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
+     *
      * @throws Exception
      */
     public function __construct(Builder $builder, Build $build, array $options = [])

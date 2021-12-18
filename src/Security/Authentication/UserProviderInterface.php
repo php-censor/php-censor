@@ -12,7 +12,6 @@ use PHPCensor\Model\User;
  */
 interface UserProviderInterface
 {
-
     /**
      * Check if all software requirements are met (libraries, extensions, ...)
      *

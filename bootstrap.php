@@ -1,4 +1,5 @@
 <?php
+
 // Define the root directory
 if (!defined('ROOT_DIR')) {
     define('ROOT_DIR', __DIR__ . '/');

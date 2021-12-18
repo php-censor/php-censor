@@ -10,7 +10,7 @@ class PharTest extends TestCase
 {
     protected $directories = [];
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
         $this->cleanSource();
     }

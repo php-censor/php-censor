@@ -21,8 +21,8 @@ use Symfony\Component\Console\Exception\InvalidArgumentException;
  */
 class WorkerCommand extends LoggingCommand
 {
-    const MIN_QUEUE_PRIORITY = 24;
-    const MAX_QUEUE_PRIORITY = 2025;
+    public const MIN_QUEUE_PRIORITY = 24;
+    public const MAX_QUEUE_PRIORITY = 2025;
 
     /**
      * @var BuildService

@@ -209,7 +209,7 @@ class Project extends BaseProject
         $store               = $this->getEnvironmentStore();
         foreach ($currentEnvironments['items'] as $environment) {
             /** @var Environment $environment */
-            $key = array_search($environment->getName(), $environmentsNames);
+            $key = array_search($environment->getName(), $environmentsNames, true);
             if ($key !== false) {
                 // already exist
                 unset($environmentsNames[$key]);
@@ -245,7 +245,7 @@ class Project extends BaseProject
         $defaultBranch     = ($branch === $this->getDefaultBranch());
         foreach ($environments['items'] as $environment) {
             /** @var Environment $environment */
-            if ($defaultBranch || in_array($branch, $environment->getBranches())) {
+            if ($defaultBranch || in_array($branch, $environment->getBranches(), true)) {
                 $environmentsIds[] = $environment->getId();
             }
         }

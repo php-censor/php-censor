@@ -125,7 +125,7 @@ abstract class ProcessControlTest extends TestCase
 
     abstract public function getTestCommand();
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
         parent::tearDown();
         $this->endProcess();

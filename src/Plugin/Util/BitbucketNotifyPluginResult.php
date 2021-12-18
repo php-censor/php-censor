@@ -4,7 +4,7 @@ namespace PHPCensor\Plugin\Util;
 
 class BitbucketNotifyPluginResult
 {
-    const DEFAULT_PLUGIN_OUTPUT_FORMAT = "%s | %d\t=> %d\t%s";
+    public const DEFAULT_PLUGIN_OUTPUT_FORMAT = "%s | %d\t=> %d\t%s";
 
     /** @var string $plugin */
     protected $plugin;

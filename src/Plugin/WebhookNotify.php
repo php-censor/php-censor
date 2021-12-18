@@ -31,7 +31,7 @@ class WebhookNotify extends Plugin
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      *
      * @throws Exception
      */

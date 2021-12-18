@@ -11,10 +11,10 @@ use PHPCensor\Model;
 
 class BuildError extends Model
 {
-    const SEVERITY_CRITICAL = 0;
-    const SEVERITY_HIGH     = 1;
-    const SEVERITY_NORMAL   = 2;
-    const SEVERITY_LOW      = 3;
+    public const SEVERITY_CRITICAL = 0;
+    public const SEVERITY_HIGH     = 1;
+    public const SEVERITY_NORMAL   = 2;
+    public const SEVERITY_LOW      = 3;
 
     /**
      * @var array
@@ -42,8 +42,6 @@ class BuildError extends Model
     }
 
     /**
-     * @param int $value
-     *
      * @return bool
      */
     public function setId(int $value)
@@ -66,8 +64,6 @@ class BuildError extends Model
     }
 
     /**
-     * @param int $value
-     *
      * @return bool
      */
     public function setBuildId(int $value)
@@ -90,8 +86,6 @@ class BuildError extends Model
     }
 
     /**
-     * @param string $value
-     *
      * @return bool
      */
     public function setPlugin(string $value)
@@ -114,8 +108,6 @@ class BuildError extends Model
     }
 
     /**
-     * @param string|null $value
-     *
      * @return bool
      */
     public function setFile(?string $value)
@@ -138,8 +130,6 @@ class BuildError extends Model
     }
 
     /**
-     * @param int|null $value
-     *
      * @return bool
      */
     public function setLineStart(?int $value)
@@ -162,8 +152,6 @@ class BuildError extends Model
     }
 
     /**
-     * @param int|null $value
-     *
      * @return bool
      */
     public function setLineEnd(?int $value)
@@ -186,8 +174,6 @@ class BuildError extends Model
     }
 
     /**
-     * @param int $value
-     *
      * @return bool
      */
     public function setSeverity(int $value)
@@ -210,8 +196,6 @@ class BuildError extends Model
     }
 
     /**
-     * @param string $value
-     *
      * @return bool
      */
     public function setMessage(string $value)
@@ -264,8 +248,6 @@ class BuildError extends Model
     }
 
     /**
-     * @param string $value
-     *
      * @return bool
      */
     public function setHash(string $value)
@@ -288,8 +270,6 @@ class BuildError extends Model
     }
 
     /**
-     * @param bool $value
-     *
      * @return bool
      */
     public function setIsNew(bool $value)

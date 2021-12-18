@@ -11,7 +11,7 @@ use PHPCensor\Store\UserStore;
  */
 class Lang
 {
-    const DEFAULT_LANGUAGE = 'en';
+    public const DEFAULT_LANGUAGE = 'en';
 
     /**
      * @var string
@@ -75,7 +75,7 @@ class Lang
      */
     public static function setLanguage($language)
     {
-        if (in_array($language, self::$languages)) {
+        if (in_array($language, self::$languages, true)) {
             self::$language = $language;
             self::$strings  = self::loadLanguage();
 

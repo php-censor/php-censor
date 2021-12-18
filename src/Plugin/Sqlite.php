@@ -39,7 +39,7 @@ class Sqlite extends Plugin
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])
     {

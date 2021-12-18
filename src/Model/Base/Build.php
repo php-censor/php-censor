@@ -13,22 +13,22 @@ use PHPCensor\Store\Factory;
 
 class Build extends Model
 {
-    const STATUS_PENDING = 0;
-    const STATUS_RUNNING = 1;
-    const STATUS_SUCCESS = 2;
-    const STATUS_FAILED  = 3;
+    public const STATUS_PENDING = 0;
+    public const STATUS_RUNNING = 1;
+    public const STATUS_SUCCESS = 2;
+    public const STATUS_FAILED  = 3;
 
-    const SOURCE_UNKNOWN                       = 0;
-    const SOURCE_MANUAL_WEB                    = 1;
-    const SOURCE_MANUAL_CONSOLE                = 2;
-    const SOURCE_PERIODICAL                    = 3;
-    const SOURCE_WEBHOOK_PUSH                  = 4;
-    const SOURCE_WEBHOOK_PULL_REQUEST_CREATED  = 5;
-    const SOURCE_WEBHOOK_PULL_REQUEST_UPDATED  = 6;
-    const SOURCE_WEBHOOK_PULL_REQUEST_APPROVED = 7;
-    const SOURCE_WEBHOOK_PULL_REQUEST_MERGED   = 8;
-    const SOURCE_MANUAL_REBUILD_WEB            = 9;
-    const SOURCE_MANUAL_REBUILD_CONSOLE        = 10;
+    public const SOURCE_UNKNOWN                       = 0;
+    public const SOURCE_MANUAL_WEB                    = 1;
+    public const SOURCE_MANUAL_CONSOLE                = 2;
+    public const SOURCE_PERIODICAL                    = 3;
+    public const SOURCE_WEBHOOK_PUSH                  = 4;
+    public const SOURCE_WEBHOOK_PULL_REQUEST_CREATED  = 5;
+    public const SOURCE_WEBHOOK_PULL_REQUEST_UPDATED  = 6;
+    public const SOURCE_WEBHOOK_PULL_REQUEST_APPROVED = 7;
+    public const SOURCE_WEBHOOK_PULL_REQUEST_MERGED   = 8;
+    public const SOURCE_MANUAL_REBUILD_WEB            = 9;
+    public const SOURCE_MANUAL_REBUILD_CONSOLE        = 10;
 
     /**
      * @var array
@@ -92,8 +92,6 @@ class Build extends Model
     }
 
     /**
-     * @param int $value
-     *
      * @return bool
      */
     public function setId(int $value)
@@ -116,8 +114,6 @@ class Build extends Model
     }
 
     /**
-     * @param int|null $value
-     *
      * @return bool
      */
     public function setParentId(?int $value)
@@ -140,8 +136,6 @@ class Build extends Model
     }
 
     /**
-     * @param int $value
-     *
      * @return bool
      */
     public function setProjectId(int $value)
@@ -164,8 +158,6 @@ class Build extends Model
     }
 
     /**
-     * @param string $value
-     *
      * @return bool
      */
     public function setCommitId(string $value)
@@ -188,8 +180,6 @@ class Build extends Model
     }
 
     /**
-     * @param int $value
-     *
      * @return bool
      *
      * @throws InvalidArgumentException
@@ -256,8 +246,6 @@ class Build extends Model
     }
 
     /**
-     * @param string|null $value
-     *
      * @return bool
      */
     public function setLog(?string $value)
@@ -280,8 +268,6 @@ class Build extends Model
     }
 
     /**
-     * @param string $value
-     *
      * @return bool
      */
     public function setBranch(string $value)
@@ -304,8 +290,6 @@ class Build extends Model
     }
 
     /**
-     * @param string|null $value
-     *
      * @return bool
      */
     public function setTag(?string $value)
@@ -418,8 +402,6 @@ class Build extends Model
     }
 
     /**
-     * @param string|null $value
-     *
      * @return bool
      */
     public function setCommitterEmail(?string $value)
@@ -442,8 +424,6 @@ class Build extends Model
     }
 
     /**
-     * @param string|null $value
-     *
      * @return bool
      */
     public function setCommitMessage(?string $value)
@@ -500,8 +480,6 @@ class Build extends Model
     }
 
     /**
-     * @param int|null $value
-     *
      * @return bool
      *
      * @throws InvalidArgumentException
@@ -526,8 +504,6 @@ class Build extends Model
     }
 
     /**
-     * @param int|null $value
-     *
      * @return bool
      *
      * @throws InvalidArgumentException
@@ -558,8 +534,6 @@ class Build extends Model
     }
 
     /**
-     * @param int|null $value
-     *
      * @return bool
      */
     public function setUserId(?int $value)
@@ -593,8 +567,6 @@ class Build extends Model
     }
 
     /**
-     * @param int $value
-     *
      * @return bool
      */
     public function setErrorsTotal(int $value)
@@ -639,8 +611,6 @@ class Build extends Model
     }
 
     /**
-     * @param int $value
-     *
      * @return bool
      */
     public function setErrorsTotalPrevious(int $value)
@@ -676,8 +646,6 @@ class Build extends Model
     }
 
     /**
-     * @param int $value
-     *
      * @return bool
      */
     public function setErrorsNew(int $value)

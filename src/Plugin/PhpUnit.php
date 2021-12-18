@@ -85,7 +85,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public static function canExecuteOnStage($stage, Build $build)
     {
@@ -135,7 +135,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
             }
         }
 
-        return !in_array(false, $success);
+        return !in_array(false, $success, true);
     }
 
     /**

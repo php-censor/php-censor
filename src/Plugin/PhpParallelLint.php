@@ -63,7 +63,7 @@ class PhpParallelLint extends Plugin implements ZeroConfigPluginInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public static function canExecuteOnStage($stage, Build $build)
     {

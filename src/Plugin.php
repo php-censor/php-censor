@@ -11,13 +11,13 @@ use PHPCensor\Plugin\Codeception;
  */
 abstract class Plugin
 {
-    const STATUS_PENDING        = 0;
-    const STATUS_RUNNING        = 1;
-    const STATUS_SUCCESS        = 2;
-    const STATUS_FAILED         = 3;
-    const STATUS_FAILED_ALLOWED = 4;
+    public const STATUS_PENDING        = 0;
+    public const STATUS_RUNNING        = 1;
+    public const STATUS_SUCCESS        = 2;
+    public const STATUS_FAILED         = 3;
+    public const STATUS_FAILED_ALLOWED = 4;
 
-    const AVAILABLE_PRIORITY_PATHS = [
+    public const AVAILABLE_PRIORITY_PATHS = [
         'global',
         'system',
         'local',

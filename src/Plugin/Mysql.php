@@ -71,7 +71,7 @@ class Mysql extends Plugin
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
@@ -212,7 +212,7 @@ class Mysql extends Plugin
             ':host'        => escapeshellarg($this->host),
             ':user'        => escapeshellarg($this->user),
             ':pass'        => (!$this->password) ? '' : '-p' . escapeshellarg($this->password),
-            ':database'    => ($database === null)? '': escapeshellarg($database),
+            ':database'    => ($database === null) ? '' : escapeshellarg($database),
         ];
 
         return strtr('cat :import_file :decomp_cmd | mysql -h:host -u:user :pass :database', $args);

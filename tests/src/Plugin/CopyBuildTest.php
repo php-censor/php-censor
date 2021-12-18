@@ -15,7 +15,7 @@ class CopyBuildTest extends TestCase
 
     protected $directories = [];
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
         parent::tearDown();
 

@@ -13,7 +13,6 @@ use PHPUnit\Framework\TestCase;
  */
 class ProjectServiceTest extends TestCase
 {
-
     /**
      * @var ProjectService $testedService
      */

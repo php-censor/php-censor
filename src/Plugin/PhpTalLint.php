@@ -43,7 +43,7 @@ class PhpTalLint extends Plugin
     protected $failedPaths = [];
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
@@ -107,7 +107,7 @@ class PhpTalLint extends Plugin
     {
         $success = true;
 
-        if ($item->isFile() && in_array(strtolower($item->getExtension()), $this->suffixes)) {
+        if ($item->isFile() && in_array(strtolower($item->getExtension()), $this->suffixes, true)) {
             if (!$this->lintFile($itemPath)) {
                 $success = false;
             }
@@ -135,7 +135,7 @@ class PhpTalLint extends Plugin
 
             $itemPath = $path . $item->getFilename();
 
-            if (in_array($itemPath, $this->ignore)) {
+            if (in_array($itemPath, $this->ignore, true)) {
                 continue;
             }
 

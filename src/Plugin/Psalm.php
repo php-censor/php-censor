@@ -129,7 +129,7 @@ class Psalm extends Plugin
 
         if (!empty($data) && is_array($data)) {
             foreach ($data as $value) {
-                if (!in_array($value['severity'], ['error','info'])) {
+                if (!in_array($value['severity'], ['error','info'], true)) {
                     continue;
                 }
 

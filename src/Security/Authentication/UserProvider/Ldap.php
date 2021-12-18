@@ -15,11 +15,6 @@ use PHPCensor\Store\UserStore;
  */
 class Ldap extends AbstractProvider implements LoginPasswordProviderInterface
 {
-    /**
-     * @param string $password
-     *
-     * @return bool
-     */
     public function verifyPassword(User $user, string $password): bool
     {
         if (isset($this->config['data'])) {

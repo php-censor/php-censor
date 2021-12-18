@@ -11,21 +11,21 @@ use PHPCensor\Model;
 
 class Project extends Model
 {
-    const TYPE_LOCAL            = 'local';
-    const TYPE_GIT              = 'git';
-    const TYPE_GITHUB           = 'github';
-    const TYPE_BITBUCKET        = 'bitbucket';
-    const TYPE_GITLAB           = 'gitlab';
-    const TYPE_GOGS             = 'gogs';
-    const TYPE_HG               = 'hg';
-    const TYPE_BITBUCKET_HG     = 'bitbucket-hg';
-    const TYPE_BITBUCKET_SERVER = 'bitbucket-server';
-    const TYPE_SVN              = 'svn';
+    public const TYPE_LOCAL            = 'local';
+    public const TYPE_GIT              = 'git';
+    public const TYPE_GITHUB           = 'github';
+    public const TYPE_BITBUCKET        = 'bitbucket';
+    public const TYPE_GITLAB           = 'gitlab';
+    public const TYPE_GOGS             = 'gogs';
+    public const TYPE_HG               = 'hg';
+    public const TYPE_BITBUCKET_HG     = 'bitbucket-hg';
+    public const TYPE_BITBUCKET_SERVER = 'bitbucket-server';
+    public const TYPE_SVN              = 'svn';
 
-    const MIN_BUILD_PRIORITY             = 1;
-    const MAX_BUILD_PRIORITY             = 2000;
-    const DEFAULT_BUILD_PRIORITY         = 1000;
-    const OFFSET_BETWEEN_BUILD_AND_QUEUE = 24;
+    public const MIN_BUILD_PRIORITY             = 1;
+    public const MAX_BUILD_PRIORITY             = 2000;
+    public const DEFAULT_BUILD_PRIORITY         = 1000;
+    public const OFFSET_BETWEEN_BUILD_AND_QUEUE = 24;
 
     /**
      * @var array
@@ -74,8 +74,6 @@ class Project extends Model
     }
 
     /**
-     * @param int $value
-     *
      * @return bool
      */
     public function setId(int $value)
@@ -98,8 +96,6 @@ class Project extends Model
     }
 
     /**
-     * @param string $value
-     *
      * @return bool
      */
     public function setTitle(string $value)
@@ -122,8 +118,6 @@ class Project extends Model
     }
 
     /**
-     * @param string $value
-     *
      * @return bool
      */
     public function setReference(string $value)
@@ -146,8 +140,6 @@ class Project extends Model
     }
 
     /**
-     * @param string $value
-     *
      * @return bool
      */
     public function setDefaultBranch(string $value)
@@ -170,8 +162,6 @@ class Project extends Model
     }
 
     /**
-     * @param bool $value
-     *
      * @return bool
      */
     public function setDefaultBranchOnly(bool $value)
@@ -194,8 +184,6 @@ class Project extends Model
     }
 
     /**
-     * @param string|null $value
-     *
      * @return bool
      */
     public function setSshPrivateKey(?string $value)
@@ -218,8 +206,6 @@ class Project extends Model
     }
 
     /**
-     * @param string|null $value
-     *
      * @return bool
      */
     public function setSshPublicKey(?string $value)
@@ -242,8 +228,6 @@ class Project extends Model
     }
 
     /**
-     * @param string $value
-     *
      * @return bool
      *
      * @throws InvalidArgumentException
@@ -307,8 +291,6 @@ class Project extends Model
     }
 
     /**
-     * @param string|null $value
-     *
      * @return bool
      */
     public function setBuildConfig(?string $value)
@@ -331,8 +313,6 @@ class Project extends Model
     }
 
     /**
-     * @param bool $value
-     *
      * @return bool
      */
     public function setOverwriteBuildConfig(bool $value)
@@ -355,8 +335,6 @@ class Project extends Model
     }
 
     /**
-     * @param bool $value
-     *
      * @return bool
      */
     public function setAllowPublicStatus(bool $value)
@@ -379,8 +357,6 @@ class Project extends Model
     }
 
     /**
-     * @param bool $value
-     *
      * @return bool
      */
     public function setArchived(bool $value)
@@ -403,8 +379,6 @@ class Project extends Model
     }
 
     /**
-     * @param int $value
-     *
      * @return bool
      */
     public function setGroupId(int $value)
@@ -457,8 +431,6 @@ class Project extends Model
     }
 
     /**
-     * @param int|null $value
-     *
      * @return bool
      */
     public function setUserId(?int $value)

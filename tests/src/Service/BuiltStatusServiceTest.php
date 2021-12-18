@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
  */
 class BuildStatusServiceTest extends TestCase
 {
-    const BRANCH = 'master';
+    public const BRANCH = 'master';
 
     /** @var  Project */
     protected $project;
@@ -35,7 +35,7 @@ class BuildStatusServiceTest extends TestCase
         date_default_timezone_set('UTC');
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
         date_default_timezone_set($this->timezone);
     }

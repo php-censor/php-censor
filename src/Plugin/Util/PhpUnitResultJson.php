@@ -11,9 +11,9 @@ use Exception;
  */
 class PhpUnitResultJson extends PhpUnitResult
 {
-    const EVENT_TEST        = 'test';
-    const EVENT_TEST_START  = 'testStart';
-    const EVENT_SUITE_START = 'suiteStart';
+    public const EVENT_TEST        = 'test';
+    public const EVENT_TEST_START  = 'testStart';
+    public const EVENT_SUITE_START = 'suiteStart';
 
     protected $options;
     protected $arguments = [];

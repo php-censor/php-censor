@@ -108,7 +108,7 @@ class BuildStatusService
      */
     public function getActivity()
     {
-        if (in_array($this->build->getStatus(), $this->finishedStatusIds)) {
+        if (in_array($this->build->getStatus(), $this->finishedStatusIds, true)) {
             return 'Sleeping';
         } elseif ($this->build->getStatus() == Build::STATUS_PENDING) {
             return 'Pending';
@@ -132,7 +132,7 @@ class BuildStatusService
      */
     public function isFinished()
     {
-        if (in_array($this->build->getStatus(), $this->finishedStatusIds)) {
+        if (in_array($this->build->getStatus(), $this->finishedStatusIds, true)) {
             return true;
         }
 

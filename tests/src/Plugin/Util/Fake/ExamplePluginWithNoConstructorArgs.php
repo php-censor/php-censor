@@ -13,7 +13,7 @@ class ExamplePluginWithNoConstructorArgs extends Plugin
     {
         return 'example_plugin_with_no_constructor_args';
     }
-    
+
     public function execute()
     {
     }

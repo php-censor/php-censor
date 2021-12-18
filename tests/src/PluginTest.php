@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 class TestPlugin extends Plugin
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
@@ -20,7 +20,7 @@ class TestPlugin extends Plugin
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function execute()
     {

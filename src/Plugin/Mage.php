@@ -21,7 +21,7 @@ class Mage extends Plugin
     protected $mageEnv;
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public static function pluginName()
     {
@@ -29,7 +29,7 @@ class Mage extends Plugin
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
@@ -43,7 +43,7 @@ class Mage extends Plugin
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function execute()
     {

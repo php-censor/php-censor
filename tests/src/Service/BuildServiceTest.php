@@ -15,7 +15,6 @@ use PHPUnit\Framework\TestCase;
  */
 class BuildServiceTest extends TestCase
 {
-
     /**
      * @var BuildService $testedService
      */

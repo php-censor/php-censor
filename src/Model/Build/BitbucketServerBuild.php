@@ -105,7 +105,7 @@ class BitbucketServerBuild extends GitBuild
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     protected function postCloneSetup(Builder $builder, $cloneTo, array $extra = null)
     {
@@ -115,13 +115,13 @@ class BitbucketServerBuild extends GitBuild
         try {
             if (in_array($this->getSource(), Build::$pullRequestSources, true)) {
                 $diff = $this->getPullRequestDiff($builder, $cloneTo, $extra['remote_branch']);
-                
+
                 $diffFile = $this->writeDiff($builder->buildPath, $diff);
 
                 $cmd = 'cd "%s" && git checkout -b php-censor/' . $this->getId();
 
                 $success = $builder->executeCommand($cmd, $cloneTo);
-                
+
                 if ($success) {
                     $applyCmd = 'git apply "%s"';
                     $success  = $builder->executeCommand($applyCmd, $diffFile);
@@ -140,7 +140,7 @@ class BitbucketServerBuild extends GitBuild
 
         return $success;
     }
-    
+
     /**
      * Create request patch with diff
      *

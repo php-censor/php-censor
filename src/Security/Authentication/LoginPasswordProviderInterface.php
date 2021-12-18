@@ -13,10 +13,6 @@ interface LoginPasswordProviderInterface extends UserProviderInterface
 {
     /**
      * Verify if the supplied password matches the user's one.
-     *
-     * @param string $password
-     *
-     * @return bool
      */
     public function verifyPassword(User $user, string $password): bool;
 }

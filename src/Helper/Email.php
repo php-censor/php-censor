@@ -11,7 +11,7 @@ use Swift_Message;
  */
 class Email
 {
-    const DEFAULT_FROM = 'PHP Censor <no-reply@php-censor.local>';
+    public const DEFAULT_FROM = 'PHP Censor <no-reply@php-censor.local>';
 
     protected $emailTo = [];
     protected $emailCc = [];

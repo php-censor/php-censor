@@ -9,8 +9,8 @@ use PDOStatement;
 
 class Database extends PDO
 {
-    const MYSQL_TYPE      = 'mysql';
-    const POSTGRESQL_TYPE = 'pgsql';
+    public const MYSQL_TYPE      = 'mysql';
+    public const POSTGRESQL_TYPE = 'pgsql';
 
     /**
      * @var string

@@ -28,8 +28,6 @@ class Environment extends Model
     }
 
     /**
-     * @param int $value
-     *
      * @return bool
      */
     public function setId(int $value)
@@ -52,8 +50,6 @@ class Environment extends Model
     }
 
     /**
-     * @param int $value
-     *
      * @return bool
      */
     public function setProjectId(int $value)
@@ -76,8 +72,6 @@ class Environment extends Model
     }
 
     /**
-     * @param string $value
-     *
      * @return bool
      */
     public function setName(string $value)

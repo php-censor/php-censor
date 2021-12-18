@@ -27,7 +27,7 @@ class Lint extends Plugin
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
@@ -113,7 +113,7 @@ class Lint extends Plugin
 
             $itemPath = $path . $item->getFilename();
 
-            if (in_array($itemPath, $this->ignore)) {
+            if (in_array($itemPath, $this->ignore, true)) {
                 continue;
             }
 

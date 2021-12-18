@@ -21,7 +21,7 @@ class PosixProcessControl implements ProcessControlInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function kill($pid, $forcefully = false)
     {

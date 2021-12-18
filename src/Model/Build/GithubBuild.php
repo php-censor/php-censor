@@ -228,7 +228,7 @@ class GithubBuild extends GitBuild
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     protected function postCloneSetup(Builder $builder, $cloneTo, array $extra = null)
     {
@@ -260,7 +260,7 @@ class GithubBuild extends GitBuild
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function reportError(
         Builder $builder,

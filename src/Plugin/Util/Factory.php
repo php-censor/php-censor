@@ -15,9 +15,9 @@ use ReflectionParameter;
  */
 class Factory
 {
-    const TYPE_ARRAY       = "array";
-    const TYPE_CALLABLE    = "callable";
-    const INTERFACE_PLUGIN = '\PHPCensor\Plugin';
+    public const TYPE_ARRAY       = "array";
+    public const TYPE_CALLABLE    = "callable";
+    public const INTERFACE_PLUGIN = '\PHPCensor\Plugin';
 
     private $currentPluginOptions;
 
@@ -146,8 +146,8 @@ class Factory
      */
     private function getInternalID($type = null, $name = null)
     {
-        $type = $type ? : "";
-        $name = $name ? : "";
+        $type = $type ?: "";
+        $name = $name ?: "";
 
         return $type . "-" . $name;
     }

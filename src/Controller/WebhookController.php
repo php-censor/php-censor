@@ -141,7 +141,7 @@ class WebhookController extends Controller
             if (!empty($environmentIds)) {
                 $duplicates = [];
                 foreach ($environmentIds as $environmentId) {
-                    if (!in_array($environmentId, $ignoreEnvironments) ||
+                    if (!in_array($environmentId, $ignoreEnvironments, true) ||
                         ($tag && !in_array($tag, $ignoreTags, true))) {
                         // If not, create a new build job for it:
                         $build = $this->buildService->createBuild(
@@ -162,7 +162,7 @@ class WebhookController extends Controller
                             'environment' => $environmentId,
                         ];
                     } else {
-                        $duplicates[] = \array_search($environmentId, $ignoreEnvironments);
+                        $duplicates[] = \array_search($environmentId, $ignoreEnvironments, true);
                     }
                 }
                 if (!empty($createdBuilds)) {
@@ -213,7 +213,7 @@ class WebhookController extends Controller
                     'status'  => 'ignored',
                     'message' => sprintf(
                         'Duplicate of build #%d',
-                        array_search($environmentId, $ignoreEnvironments)
+                        array_search($environmentId, $ignoreEnvironments, true)
                     ),
                 ];
             }
@@ -962,17 +962,17 @@ class WebhookController extends Controller
         $activeStates   = ['open'];
         $inactiveStates = ['closed'];
 
-        if (!in_array($action, $activeActions) && !in_array($action, $inactiveActions)) {
+        if (!in_array($action, $activeActions, true) && !in_array($action, $inactiveActions, true)) {
             return ['status' => 'ignored', 'message' => 'Action ' . $action . ' ignored'];
         }
-        if (!in_array($state, $activeStates) && !in_array($state, $inactiveStates)) {
+        if (!in_array($state, $activeStates, true) && !in_array($state, $inactiveStates, true)) {
             return ['status' => 'ignored', 'message' => 'State ' . $state . ' ignored'];
         }
 
         $envs = [];
 
         // Get environment form labels
-        if (in_array($action, $activeActions) && in_array($state, $activeStates)) {
+        if (in_array($action, $activeActions, true) && in_array($state, $activeStates, true)) {
             if (isset($pullRequest['labels']) && is_array($pullRequest['labels'])) {
                 foreach ($pullRequest['labels'] as $label) {
                     if (strpos($label['name'], 'env:') === 0) {
@@ -987,8 +987,8 @@ class WebhookController extends Controller
         $store       = Factory::getStore('Environment');
         foreach ($envObjects['items'] as $environment) {
             $branches = $environment->getBranches();
-            if (in_array($environment->getName(), $envs)) {
-                if (!in_array($headBranch, $branches)) {
+            if (in_array($environment->getName(), $envs, true)) {
+                if (!in_array($headBranch, $branches, true)) {
                     // Add branch to environment
                     $branches[] = $headBranch;
                     $environment->setBranches($branches);
@@ -996,7 +996,7 @@ class WebhookController extends Controller
                     $envsUpdated[] = $environment->getId();
                 }
             } else {
-                if (in_array($headBranch, $branches)) {
+                if (in_array($headBranch, $branches, true)) {
                     // Remove branch from environment
                     $branches = array_diff($branches, [$headBranch]);
                     $environment->setBranches($branches);

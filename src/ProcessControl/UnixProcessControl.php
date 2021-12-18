@@ -25,15 +25,15 @@ class UnixProcessControl implements ProcessControlInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function kill($pid, $forcefully = false)
     {
         $output = [];
         $result = 1;
-        
+
         exec(sprintf("kill -%d %d", $forcefully ? 9 : 15, $pid), $output, $result);
-        
+
         return !$result;
     }
 

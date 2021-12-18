@@ -35,6 +35,7 @@ More [screenshots](docs/en/screenshots.md).
 * [Updating](#updating)
 * [Configuring project](#configuring-project)
 * [Migrations](#migrations)
+* [Code style](#code-style)
 * [Tests](#tests)
 * [Documentation](#documentation)
 * [License](#license)
@@ -147,7 +148,7 @@ cd /path/to/php-censor
 ```bash
 cd /path/to/php-censor
 
-./vendor/bin/php-cs-fixer fix
+./vendor/bin/php-cs-fixer fix --allow-risky=yes
 ```
 
 ## Tests

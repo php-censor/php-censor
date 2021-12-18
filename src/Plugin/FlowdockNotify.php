@@ -20,7 +20,7 @@ class FlowdockNotify extends Plugin
     protected $email;
     protected $message;
 
-    const MESSAGE_DEFAULT = 'Build %BUILD_ID% has finished for commit <a href="%COMMIT_LINK%">%SHORT_COMMIT_ID%</a>
+    public const MESSAGE_DEFAULT = 'Build %BUILD_ID% has finished for commit <a href="%COMMIT_LINK%">%SHORT_COMMIT_ID%</a>
                             (%COMMITTER_EMAIL%)> on branch <a href="%BRANCH_LINK%">%BRANCH%</a>';
 
     /**
@@ -32,7 +32,7 @@ class FlowdockNotify extends Plugin
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])
     {

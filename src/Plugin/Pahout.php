@@ -16,7 +16,7 @@ use PHPCensor\Plugin;
 class Pahout extends Plugin
 {
     /** @var string */
-    const TAB = "\t";
+    public const TAB = "\t";
 
     /** @var string */
     protected $directory;

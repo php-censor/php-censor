@@ -24,14 +24,14 @@ use Symfony\Component\Yaml\Parser as YamlParser;
  */
 class Build extends BaseBuild
 {
-    const STAGE_SETUP    = 'setup';
-    const STAGE_TEST     = 'test';
-    const STAGE_DEPLOY   = 'deploy';
-    const STAGE_COMPLETE = 'complete';
-    const STAGE_SUCCESS  = 'success';
-    const STAGE_FAILURE  = 'failure';
-    const STAGE_FIXED    = 'fixed';
-    const STAGE_BROKEN   = 'broken';
+    public const STAGE_SETUP    = 'setup';
+    public const STAGE_TEST     = 'test';
+    public const STAGE_DEPLOY   = 'deploy';
+    public const STAGE_COMPLETE = 'complete';
+    public const STAGE_SUCCESS  = 'success';
+    public const STAGE_FAILURE  = 'failure';
+    public const STAGE_FIXED    = 'fixed';
+    public const STAGE_BROKEN   = 'broken';
 
     /**
      * @var array

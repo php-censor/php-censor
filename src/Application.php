@@ -82,7 +82,7 @@ class Application
 
         // Handler for the route we're about to register, checks for a valid session where necessary:
         $routeHandler = function (&$route, Response &$response) use (&$request, $validateSession, $skipAuth) {
-            $skipValidation = in_array($route['controller'], ['session', 'webhook', 'build-status']);
+            $skipValidation = in_array($route['controller'], ['session', 'webhook', 'build-status'], true);
 
             if (!$skipValidation && !$validateSession() && (!is_callable($skipAuth) || !$skipAuth())) {
                 if ($request->isAjax()) {

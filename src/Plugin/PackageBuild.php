@@ -25,14 +25,14 @@ class PackageBuild extends Plugin
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
         parent::__construct($builder, $build, $options);
 
         $this->filename = isset($options['filename']) ? $options['filename'] : 'build';
-        $this->format   = isset($options['format']) ?  $options['format'] : 'zip';
+        $this->format   = isset($options['format']) ? $options['format'] : 'zip';
     }
 
     /**

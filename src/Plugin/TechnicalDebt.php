@@ -107,7 +107,7 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
@@ -135,7 +135,7 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public static function canExecuteOnStage($stage, Build $build)
     {

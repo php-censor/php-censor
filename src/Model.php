@@ -16,9 +16,6 @@ class Model
      */
     protected $modified = [];
 
-    /**
-     * @param array $initialData
-     */
     public function __construct(array $initialData = [])
     {
         if (is_array($initialData)) {
@@ -30,27 +27,16 @@ class Model
         }
     }
 
-    /**
-     * @return array
-     */
     public function getDataArray(): array
     {
         return $this->data;
     }
 
-    /**
-     * @return array
-     */
     public function getModified(): array
     {
         return $this->modified;
     }
 
-    /**
-     * @param string $column
-     *
-     * @return bool
-     */
     protected function setModified(string $column): bool
     {
         $this->modified[$column] = $column;
