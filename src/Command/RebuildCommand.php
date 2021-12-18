@@ -41,7 +41,6 @@ class RebuildCommand extends Command
     protected $sleep;
 
     /**
-     * @param Logger $logger
      * @param string $name
      */
     public function __construct(Logger $logger, $name = null)

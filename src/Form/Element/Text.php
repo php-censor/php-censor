@@ -7,9 +7,6 @@ use PHPCensor\View;
 
 class Text extends Input
 {
-    /**
-     * @param View $view
-     */
     protected function onPreRender(View &$view)
     {
         parent::onPreRender($view);

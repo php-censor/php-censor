@@ -79,7 +79,7 @@ class BitbucketNotify extends Plugin
 
         if (\array_key_exists('auth_token', $options)) {
             $this->authToken = $options['auth_token'];
-            /** @deprecated Option "token" is deprecated and will be deleted in version 2.0. Use the option "auth_token" instead. */
+        /** @deprecated Option "token" is deprecated and will be deleted in version 2.0. Use the option "auth_token" instead. */
         } elseif (\array_key_exists('token', $options)) {
             $builder->logWarning(
                 '[DEPRECATED] Option "token" is deprecated and will be deleted in version 2.0. Use the option "auth_token" instead.'
@@ -293,6 +293,7 @@ class BitbucketNotify extends Plugin
         }
 
         $result[] = $this->getPhpUnitCoverage($targetBranch);
+
         return $result;
     }
 
@@ -394,6 +395,7 @@ class BitbucketNotify extends Plugin
     {
         $options = ['headers' => ['Authorization' => 'Bearer ' . $this->authToken]];
         $jsonBody !== null && $options['json'] = $jsonBody;
+
         return $this->httpClient->request($method, $endpoint, $options);
     }
 }

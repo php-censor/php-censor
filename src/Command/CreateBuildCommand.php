@@ -32,10 +32,6 @@ class CreateBuildCommand extends Command
      */
     protected $buildService;
 
-    /**
-     * @param ProjectStore $projectStore
-     * @param BuildService $buildService
-     */
     public function __construct(ProjectStore $projectStore, BuildService $buildService)
     {
         parent::__construct();

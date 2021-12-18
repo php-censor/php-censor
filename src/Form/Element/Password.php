@@ -16,9 +16,6 @@ class Password extends Text
         return parent::render(($viewFile ? $viewFile : 'Text'));
     }
 
-    /**
-     * @param View $view
-     */
     protected function onPreRender(View &$view)
     {
         parent::onPreRender($view);

@@ -41,6 +41,7 @@ abstract class ProcessControlTest extends TestCase
         self::assertTrue($this->isRunning());
 
         $status = proc_get_status($this->process);
+
         return (int)$status['pid'];
     }
 
@@ -57,6 +58,7 @@ abstract class ProcessControlTest extends TestCase
         $exitCode = proc_close($this->process);
         self::assertFalse($this->isRunning());
         $this->process = null;
+
         return $exitCode;
     }
 
@@ -69,6 +71,7 @@ abstract class ProcessControlTest extends TestCase
             return false;
         }
         $status = proc_get_status($this->process);
+
         return (bool)$status['running'];
     }
 

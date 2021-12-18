@@ -25,11 +25,6 @@ class Pahout extends Plugin
     protected $allowedWarnings;
 
     /**
-     * @param Builder $builder
-     * @param Build $build
-     *
-     * @param array $options
-     *
      * @throws Exception
      */
     public function __construct(Builder $builder, Build $build, array $options = [])
@@ -112,7 +107,7 @@ class Pahout extends Plugin
 
     /**
      * @param string $stage
-     * @param Build $build
+     *
      * @return bool
      */
     public static function canExecuteOnStage($stage, Build $build)

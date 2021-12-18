@@ -62,7 +62,7 @@ class SensiolabsInsight extends Plugin
 
         if (\array_key_exists('auth_token', $options)) {
             $this->authToken = $options['auth_token'];
-            /** @deprecated Option "api_token" is deprecated and will be deleted in version 2.0. Use the option "auth_token" instead. */
+        /** @deprecated Option "api_token" is deprecated and will be deleted in version 2.0. Use the option "auth_token" instead. */
         } elseif (\array_key_exists('api_token', $options)) {
             $builder->logWarning(
                 '[DEPRECATED] Option "api_token" is deprecated and will be deleted in version 2.0. Use the option "auth_token" instead.'
@@ -119,6 +119,7 @@ class SensiolabsInsight extends Plugin
 
         if ($xml === false) {
             $this->builder->log($xmlString);
+
             throw new RuntimeException('Could not process PHPMD report XML.');
         }
 
@@ -187,8 +188,10 @@ class SensiolabsInsight extends Plugin
 
         if ($this->allowedWarnings !== -1 && $errorCount > $this->allowedWarnings) {
             $success = false;
+
             return $success;
         }
+
         return $success;
     }
 }

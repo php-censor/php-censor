@@ -41,11 +41,6 @@ class Application
      */
     protected $router;
 
-    /**
-     * @param Config $config
-     *
-     * @param Request|null $request
-     */
     public function __construct(Config $config, Request $request = null)
     {
         $this->config = $config;
@@ -249,8 +244,6 @@ class Application
     }
 
     /**
-     * @param array $route
-     *
      * @return bool
      */
     public function isValidRoute(array $route)

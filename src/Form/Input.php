@@ -156,6 +156,7 @@ class Input extends Element
     {
         if ($this->getRequired() && empty($this->getValue())) {
             $this->error = $this->getLabel() . ' is required.';
+
             return false;
         }
 
@@ -197,9 +198,6 @@ class Input extends Element
         return $this;
     }
 
-    /**
-     * @param View $view
-     */
     protected function onPreRender(View &$view)
     {
         $view->value    = $this->getValue();

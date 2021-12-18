@@ -49,9 +49,8 @@ class Application extends BaseApplication
 LOGO;
 
     /**
-     * @param Config $applicationConfig
-     *
      * @return Logger
+     *
      * @throws Exception
      */
     protected function initLogger(Config $applicationConfig)

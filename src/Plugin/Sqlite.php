@@ -98,8 +98,10 @@ class Sqlite extends Plugin
             }
         } catch (Exception $ex) {
             $this->builder->logFailure($ex->getMessage());
+
             return false;
         }
+
         return true;
     }
 }

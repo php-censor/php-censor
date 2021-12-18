@@ -56,9 +56,6 @@ class CheckLocalizationCommand extends Command
 
     /**
      * Loops through running.
-     *
-     * @param InputInterface  $input
-     * @param OutputInterface $output
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -105,8 +102,6 @@ class CheckLocalizationCommand extends Command
 
     /**
      * Returns list of languages.
-     *
-     * @param array $languagesList
      *
      * @return array
      */

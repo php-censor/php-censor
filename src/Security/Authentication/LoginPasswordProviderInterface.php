@@ -14,7 +14,6 @@ interface LoginPasswordProviderInterface extends UserProviderInterface
     /**
      * Verify if the supplied password matches the user's one.
      *
-     * @param User   $user
      * @param string $password
      *
      * @return bool

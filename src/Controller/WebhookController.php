@@ -79,20 +79,20 @@ class WebhookController extends Controller
             $response->setResponseCode(500);
             $response->setContent(['status' => 'failed', 'error' => $ex->getMessage()]);
         }
+
         return $response;
     }
 
     /**
      * Wrapper for creating a new build.
      *
-     * @param int     $source
-     * @param Project $project
-     * @param string  $commitId
-     * @param string  $branch
-     * @param string  $tag
-     * @param string  $committer
-     * @param string  $commitMessage
-     * @param array   $extra
+     * @param int    $source
+     * @param string $commitId
+     * @param string $branch
+     * @param string $tag
+     * @param string $committer
+     * @param string $commitMessage
+     * @param array  $extra
      *
      * @return array
      *
@@ -223,8 +223,7 @@ class WebhookController extends Controller
     /**
      * Fetch a project and check its type.
      *
-     * @param int    $projectId    id or title of project
-     * @param array  $expectedType
+     * @param int $projectId id or title of project
      *
      * @return Project
      *
@@ -401,9 +400,6 @@ class WebhookController extends Controller
     /**
      * Handle the payload when Bitbucket sends a commit webhook.
      *
-     * @param Project $project
-     * @param array   $payload
-     *
      * @return array
      */
     protected function bitbucketCommitRequest(Project $project, array $payload)
@@ -441,9 +437,6 @@ class WebhookController extends Controller
 
     /**
      * Handle the payload when Bitbucket sends a Pull Request webhook.
-     *
-     * @param Project $project
-     * @param array   $payload
      *
      * @return array
      *
@@ -533,9 +526,6 @@ class WebhookController extends Controller
     /**
      * Handle the payload when Bitbucket Server sends a Pull Request webhook.
      *
-     * @param Project $project
-     * @param array   $payload
-     *
      * @return array
      *
      * @throws Exception
@@ -588,9 +578,6 @@ class WebhookController extends Controller
 
     /**
      * Bitbucket POST service.
-     *
-     * @param array   $payload
-     * @param Project $project
      *
      * @return array
      */
@@ -667,9 +654,6 @@ class WebhookController extends Controller
     /**
      * Handle the payload when Github sends a commit webhook.
      *
-     * @param Project $project
-     * @param array   $payload
-     *
      * @return array
      */
     protected function githubCommitRequest(Project $project, array $payload)
@@ -724,9 +708,6 @@ class WebhookController extends Controller
 
     /**
      * Handle the payload when Github sends a Pull Request webhook.
-     *
-     * @param Project $project
-     * @param array   $payload
      *
      * @return array
      *
@@ -928,9 +909,6 @@ class WebhookController extends Controller
     /**
      * Handle the payload when Gogs sends a commit webhook.
      *
-     * @param Project $project
-     * @param array   $payload
-     *
      * @return array
      */
     protected function gogsCommitRequest(Project $project, array $payload)
@@ -966,9 +944,6 @@ class WebhookController extends Controller
 
     /**
      * Handle the payload when Gogs sends a pull request webhook.
-     *
-     * @param Project $project
-     * @param array   $payload
      *
      * @return array
      *

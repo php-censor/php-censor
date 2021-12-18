@@ -54,9 +54,11 @@ class Factory
             $configFunction = require($configPath);
             if (is_callable($configFunction)) {
                 $configFunction($this);
+
                 return true;
             }
         }
+
         return false;
     }
 
@@ -146,6 +148,7 @@ class Factory
     {
         $type = $type ? : "";
         $name = $name ? : "";
+
         return $type . "-" . $name;
     }
 
@@ -175,8 +178,7 @@ class Factory
     }
 
     /**
-     * @param ReflectionParameter $param
-     * @return null|string
+     * @return string|null
      */
     private function getParamType(ReflectionParameter $param)
     {
@@ -194,8 +196,9 @@ class Factory
 
     /**
      * @param $existingArgs
-     * @param ReflectionParameter $param
+     *
      * @return array
+     *
      * @throws DomainException
      */
     private function addArgFromParam($existingArgs, ReflectionParameter $param)

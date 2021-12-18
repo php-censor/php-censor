@@ -23,10 +23,6 @@ class BuildLogger implements LoggerAwareInterface
      */
     protected $build;
 
-    /**
-     * @param LoggerInterface $logger
-     * @param Build           $build
-     */
     public function __construct(LoggerInterface $logger, Build $build)
     {
         $this->logger = $logger;
@@ -117,8 +113,6 @@ class BuildLogger implements LoggerAwareInterface
 
     /**
      * Sets a logger instance on the object
-     *
-     * @param LoggerInterface $logger
      */
     public function setLogger(LoggerInterface $logger)
     {

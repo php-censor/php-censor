@@ -34,7 +34,7 @@ class UserStore extends Store
      * @param int $key
      * @param string  $useConnection
      *
-     * @return null|User
+     * @return User|null
      */
     public function getByPrimaryKey($key, $useConnection = 'read')
     {
@@ -47,7 +47,7 @@ class UserStore extends Store
      * @param int $id
      * @param string  $useConnection
      *
-     * @return null|User
+     * @return User|null
      *
      * @throws HttpException
      */

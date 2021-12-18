@@ -144,7 +144,6 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
 
     /**
      * Report all of the errors we've encountered line-by-line.
-     * @param array $output
      */
     protected function reportErrors(array $output)
     {

@@ -20,6 +20,7 @@ class UnixProcessControl implements ProcessControlInterface
     {
         $output = $exitCode = null;
         exec(sprintf("ps %d", $pid), $output, $exitCode);
+
         return $exitCode === 0;
     }
 

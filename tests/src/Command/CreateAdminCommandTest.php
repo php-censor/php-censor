@@ -22,7 +22,7 @@ class CreateAdminCommandTest extends TestCase
     protected $application;
 
     /**
-     * @var QuestionHelper|PHPUnit_Framework_MockObject_MockObject
+     * @var PHPUnit_Framework_MockObject_MockObject|QuestionHelper
      */
     protected $helper;
 

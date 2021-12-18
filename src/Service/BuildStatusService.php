@@ -45,10 +45,9 @@ class BuildStatusService
     ];
 
     /**
-     * @param string  $branch
-     * @param Project $project
-     * @param Build   $build
-     * @param bool $isParent
+     * @param string $branch
+     * @param Build  $build
+     * @param bool   $isParent
      */
     public function __construct(
         $branch,
@@ -116,6 +115,7 @@ class BuildStatusService
         } elseif ($this->build->getStatus() == Build::STATUS_RUNNING) {
             return 'Building';
         }
+
         return 'Unknown';
     }
 
@@ -135,11 +135,12 @@ class BuildStatusService
         if (in_array($this->build->getStatus(), $this->finishedStatusIds)) {
             return true;
         }
+
         return false;
     }
 
     /**
-     * @return null|Build
+     * @return Build|null
      */
     public function getFinishedBuildInfo()
     {
@@ -148,6 +149,7 @@ class BuildStatusService
         } elseif ($this->prevService) {
             return $this->prevService->getBuild();
         }
+
         return null;
     }
 
@@ -159,6 +161,7 @@ class BuildStatusService
         if ($buildInfo = $this->getFinishedBuildInfo()) {
             return $buildInfo->getId();
         }
+
         return '';
     }
 
@@ -171,12 +174,11 @@ class BuildStatusService
         if ($buildInfo = $this->getFinishedBuildInfo()) {
             return ($buildInfo->getFinishDate()) ? $buildInfo->getFinishDate()->format($dateFormat) : '';
         }
+
         return '';
     }
 
     /**
-     * @param Build $build
-     *
      * @return string
      */
     public function getBuildStatus(Build $build)
@@ -187,6 +189,7 @@ class BuildStatusService
             case Build::STATUS_FAILED:
                 return 'Failure';
         }
+
         return 'Unknown';
     }
 
@@ -198,6 +201,7 @@ class BuildStatusService
         if ($build = $this->getFinishedBuildInfo()) {
             return $this->getBuildStatus($build);
         }
+
         return '';
     }
 
@@ -217,6 +221,7 @@ class BuildStatusService
         if (!$this->build) {
             return [];
         }
+
         return [
             'name'            => $this->getName(),
             'activity'        => $this->getActivity(),

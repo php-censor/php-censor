@@ -25,9 +25,6 @@ class CreateAdminCommand extends Command
      */
     protected $userStore;
 
-    /**
-     * @param UserStore $userStore
-     */
     public function __construct(UserStore $userStore)
     {
         parent::__construct();
