@@ -27,8 +27,7 @@ class GitBuild extends Build
     /**
      * Create a working copy by cloning, copying, or similar.
      *
-     * @param Builder $builder
-     * @param string  $buildPath
+     * @param string $buildPath
      *
      * @return bool
      *
@@ -50,6 +49,7 @@ class GitBuild extends Build
 
         if (!$success) {
             $builder->logFailure('Failed to clone remote git repository.');
+
             return false;
         }
 
@@ -57,8 +57,7 @@ class GitBuild extends Build
     }
 
     /**
-     * @param Builder $builder
-     * @param string  $buildPath
+     * @param string $buildPath
      *
      * @return bool
      */
@@ -71,19 +70,20 @@ class GitBuild extends Build
                 $success = $builder->executeCommand($cmd, $buildPath, $branch);
                 if (!$success) {
                     $builder->log('Fail merge branch origin/' . $branch, LogLevel::ERROR);
+
                     return false;
                 }
                 $builder->log('Merged branch origin/' . $branch, LogLevel::INFO);
             }
         }
+
         return true;
     }
 
     /**
      * Use an HTTP-based git clone.
      *
-     * @param Builder $builder
-     * @param string  $cloneTo
+     * @param string $cloneTo
      *
      * @return bool
      */
@@ -109,8 +109,7 @@ class GitBuild extends Build
     /**
      * Use an SSH-based git clone.
      *
-     * @param Builder $builder
-     * @param string  $cloneTo
+     * @param string $cloneTo
      *
      * @return bool
      */
@@ -150,9 +149,8 @@ class GitBuild extends Build
     /**
      * Handle any post-clone tasks, like switching branches.
      *
-     * @param Builder $builder
-     * @param string  $cloneTo
-     * @param array   $extra
+     * @param string $cloneTo
+     * @param array  $extra
      *
      * @return bool
      */

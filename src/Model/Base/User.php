@@ -236,8 +236,6 @@ class User extends Model
     }
 
     /**
-     * @param array $value
-     *
      * @return bool
      */
     public function setProviderData(array $value)

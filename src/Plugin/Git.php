@@ -57,8 +57,9 @@ class Git extends Plugin
 
     /**
      * Determine which action to run, and run it.
+     *
      * @param $action
-     * @param array $options
+     *
      * @return bool
      */
     protected function runAction($action, array $options = [])
@@ -91,6 +92,7 @@ class Git extends Plugin
         if (array_key_exists('branch', $options)) {
             $cmd = 'cd "%s" && git checkout %s && git merge "%s"';
             $path = $this->builder->buildPath;
+
             return $this->builder->executeCommand($cmd, $path, $options['branch'], $this->build->getBranch());
         }
     }
@@ -114,6 +116,7 @@ class Git extends Plugin
         }
 
         $cmd = 'git tag %s -m "%s"';
+
         return $this->builder->executeCommand($cmd, $tagName, $message);
     }
 

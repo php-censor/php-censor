@@ -84,8 +84,6 @@ class ProjectGroup extends Model
     }
 
     /**
-     * @param DateTime $value
-     *
      * @return bool
      */
     public function setCreateDate(DateTime $value)

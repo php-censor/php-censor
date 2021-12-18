@@ -72,6 +72,7 @@ class FlowdockNotify extends Plugin
         if (!$push->sendTeamInboxMessage($flowMessage, ['connect_timeout' => 5000, 'timeout' => 5000])) {
             throw new Exception(sprintf('Flowdock Failed: %s', $flowMessage->getResponseErrors()));
         }
+
         return true;
     }
 }

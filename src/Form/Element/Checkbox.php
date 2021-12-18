@@ -41,12 +41,14 @@ class Checkbox extends Input
         if (is_bool($value) && $value === true) {
             $this->value   = $this->getCheckedValue();
             $this->checked = true;
+
             return;
         }
 
         if ($value == $this->getCheckedValue()) {
             $this->value   = $this->getCheckedValue();
             $this->checked = true;
+
             return;
         }
 
@@ -54,9 +56,6 @@ class Checkbox extends Input
         $this->checked = false;
     }
 
-    /**
-     * @param View $view
-     */
     public function onPreRender(View &$view)
     {
         parent::onPreRender($view);

@@ -110,8 +110,7 @@ class Builder implements LoggerAwareInterface
     /**
      * Set up the builder.
      *
-     * @param Build $build
-     * @param LoggerInterface        $logger
+     * @param LoggerInterface $logger
      */
     public function __construct(Build $build, LoggerInterface $logger = null)
     {
@@ -142,7 +141,7 @@ class Builder implements LoggerAwareInterface
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getCurrentStage()
     {
@@ -151,8 +150,6 @@ class Builder implements LoggerAwareInterface
 
     /**
      * Set the config array, as read from .php-censor.yml
-     *
-     * @param array $config
      *
      * @throws Exception
      */
@@ -476,8 +473,6 @@ class Builder implements LoggerAwareInterface
 
     /**
      * Sets a logger instance on the object
-     *
-     * @param LoggerInterface $logger
      */
     public function setLogger(LoggerInterface $logger)
     {
@@ -540,8 +535,6 @@ class Builder implements LoggerAwareInterface
     /**
      * Returns a configured instance of the plugin factory.
      *
-     * @param Build $build
-     *
      * @return PluginFactory
      */
     private function buildPluginFactory(Build $build)
@@ -577,6 +570,7 @@ class Builder implements LoggerAwareInterface
         $pluginFactory->registerResource(
             function () use ($self) {
                 $factory = new MailerFactory($self->getSystemConfig('php-censor'));
+
                 return $factory->getSwiftMailerFromConfig();
             },
             null,

@@ -30,7 +30,6 @@ class BuildDBLogHandler extends AbstractProcessingHandler
     protected $flushDelay = 1;
 
     /**
-     * @param Build $build
      * @param bool $level
      * @param bool $bubble
      */
@@ -65,7 +64,6 @@ class BuildDBLogHandler extends AbstractProcessingHandler
 
     /**
      * Write a log entry to the build log.
-     * @param array $record
      */
     protected function write(array $record): void
     {

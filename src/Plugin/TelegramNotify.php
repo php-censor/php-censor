@@ -32,9 +32,6 @@ class TelegramNotify extends Plugin
     /**
      * Standard Constructor
      *
-     * @param Builder $builder
-     * @param Build   $build
-     * @param array   $options
      * @throws Exception
      */
     public function __construct(Builder $builder, Build $build, array $options = [])

@@ -15,9 +15,6 @@ class UserService
      */
     protected $store;
 
-    /**
-     * @param UserStore $store
-     */
     public function __construct(UserStore $store)
     {
         $this->store = $store;
@@ -51,13 +48,12 @@ class UserService
     /**
      * Update a user.
      *
-     * @param User    $user
-     * @param string  $name
-     * @param string  $emailAddress
-     * @param string  $password
-     * @param bool $isAdmin
-     * @param string  $language
-     * @param int $perPage
+     * @param string $name
+     * @param string $emailAddress
+     * @param string $password
+     * @param bool   $isAdmin
+     * @param string $language
+     * @param int    $perPage
      *
      * @return User
      */
@@ -82,8 +78,6 @@ class UserService
 
     /**
      * Delete a user.
-     *
-     * @param User $user
      *
      * @return bool
      */

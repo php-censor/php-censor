@@ -12,17 +12,11 @@ class Select extends Input
      */
     protected $options = [];
 
-    /**
-     * @param array $options
-     */
     public function setOptions(array $options)
     {
         $this->options = $options;
     }
 
-    /**
-     * @param View $view
-     */
     protected function onPreRender(View &$view)
     {
         parent::onPreRender($view);

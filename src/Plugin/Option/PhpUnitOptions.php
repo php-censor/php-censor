@@ -47,6 +47,7 @@ class PhpUnitOptions
     public function removeArgument($argumentName)
     {
         unset($this->arguments[$argumentName]);
+
         return $this;
     }
 
@@ -193,7 +194,7 @@ class PhpUnitOptions
      *
      * @param $optionName
      *
-     * @return string[]|string|null
+     * @return string|string[]|null
      */
     public function getOption($optionName)
     {
@@ -269,7 +270,7 @@ class PhpUnitOptions
      *
      * @param string $buildPath The path to configuration file
      *
-     * @return null|string
+     * @return string|null
      */
     public static function findConfigFile($buildPath)
     {

@@ -284,8 +284,6 @@ class Project extends Model
     }
 
     /**
-     * @param array $value
-     *
      * @return bool
      */
     public function setAccessInformation(array $value)
@@ -435,8 +433,6 @@ class Project extends Model
     }
 
     /**
-     * @param DateTime $value
-     *
      * @return bool
      */
     public function setCreateDate(DateTime $value)

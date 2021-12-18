@@ -190,7 +190,6 @@ class BuildController extends WebController
     /**
      * Get build data from database and json encode it.
      *
-     * @param Build   $build
      * @param string  $plugin
      * @param int $severity
      * @param string  $isNew
@@ -361,6 +360,7 @@ class BuildController extends WebController
         }
 
         ksort($rtn['items']);
+
         return $rtn;
     }
 

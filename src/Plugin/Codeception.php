@@ -81,8 +81,10 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
 
     /**
      * Try and find the codeception YML config file.
+     *
      * @param $buildPath
-     * @return null|string
+     *
+     * @return string|null
      */
     public static function findConfigFile($buildPath)
     {

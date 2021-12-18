@@ -20,9 +20,6 @@ class Email
     protected $isHtml  = false;
     protected $config;
 
-    /**
-     * @param Config $config
-     */
     public function __construct(Config $config)
     {
         $this->config = $config;

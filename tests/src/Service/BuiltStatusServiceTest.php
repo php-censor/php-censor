@@ -102,8 +102,9 @@ class BuildStatusServiceTest extends TestCase
     }
 
     /**
-     * @param null|int $prevBuildId
-     * @param bool $setProject
+     * @param int|null $prevBuildId
+     * @param bool     $setProject
+     *
      * @return Project
      */
     protected function getProjectMock($prevBuildId = null, $setProject = true)
@@ -136,7 +137,6 @@ class BuildStatusServiceTest extends TestCase
      * @dataProvider finishedProvider
      *
      * @param int $buildConfigId
-     * @param array $expectedResult
      */
     public function testFinished($buildConfigId, array $expectedResult)
     {

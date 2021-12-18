@@ -54,6 +54,7 @@ class Mage3 extends Plugin
     {
         if (empty($this->mageEnv)) {
             $this->builder->logFailure('You must specify environment.');
+
             return false;
         }
 

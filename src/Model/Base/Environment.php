@@ -105,8 +105,6 @@ class Environment extends Model
     }
 
     /**
-     * @param array $value
-     *
      * @return bool
      */
     public function setBranches(array $value)

@@ -30,7 +30,6 @@ class RebuildQueueCommand extends Command
     protected $logger;
 
     /**
-     * @param Logger $logger
      * @param string $name
      */
     public function __construct(Logger $logger, $name = null)

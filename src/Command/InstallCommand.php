@@ -151,8 +151,6 @@ class InstallCommand extends Command
     }
 
     /**
-     * @param OutputInterface $output
-     *
      * @return bool
      */
     protected function verifyNotInstalled(OutputInterface $output)
@@ -165,6 +163,7 @@ class InstallCommand extends Command
                     '<error>The PHP Censor config file exists and is not empty. ' .
                     'PHP Censor is already installed!</error>'
                 );
+
                 return false;
             }
         }
@@ -174,8 +173,6 @@ class InstallCommand extends Command
 
     /**
      * Check PHP version, required modules and for disabled functions.
-     *
-     * @param  OutputInterface $output
      *
      * @throws Exception
      */
@@ -228,8 +225,6 @@ class InstallCommand extends Command
     /**
      * Load information for admin user form CLI options or ask info to user.
      *
-     * @param InputInterface $input
-     * @param OutputInterface $output
      * @return array
      */
     protected function getAdminInformation(InputInterface $input, OutputInterface $output)
@@ -276,9 +271,6 @@ class InstallCommand extends Command
 
     /**
      * Load configuration form CLI options or ask info to user.
-     *
-     * @param InputInterface  $input
-     * @param OutputInterface $output
      *
      * @return array
      */
@@ -379,9 +371,6 @@ class InstallCommand extends Command
     /**
      * If the user wants to use a queue, get the necessary details.
      *
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     *
      * @return array
      */
     protected function getQueueInformation(InputInterface $input, OutputInterface $output)
@@ -427,9 +416,6 @@ class InstallCommand extends Command
 
     /**
      * Load configuration for database form CLI options or ask info to user.
-     *
-     * @param InputInterface  $input
-     * @param OutputInterface $output
      *
      * @return array
      */
@@ -529,9 +515,6 @@ class InstallCommand extends Command
     /**
      * Try and connect to DB using the details provided
      *
-     * @param  array           $db
-     * @param  OutputInterface $output
-     *
      * @return bool
      */
     protected function verifyDatabaseDetails(array $db, OutputInterface $output)
@@ -581,7 +564,6 @@ class InstallCommand extends Command
 
     /**
      * Write the config.yml file.
-     * @param array $config
      */
     protected function writeConfigFile(array $config)
     {

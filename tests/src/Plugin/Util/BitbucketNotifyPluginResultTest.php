@@ -66,8 +66,6 @@ class BitbucketNotifyPluginResultTest extends TestCase
 
     /**
      * @dataProvider dataProvider
-     * @param array $input
-     * @param array $expected
      */
     public function testFormatting(array $input, array $expected)
     {

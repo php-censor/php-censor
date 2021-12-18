@@ -30,9 +30,7 @@ class WorkerCommand extends LoggingCommand
     protected $buildService;
 
     /**
-     * @param Logger       $logger
-     * @param BuildService $buildService
-     * @param string       $name
+     * @param string $name
      */
     public function __construct(
         Logger $logger,
@@ -66,9 +64,6 @@ class WorkerCommand extends LoggingCommand
     }
 
     /**
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     *
      * @throws Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -91,6 +86,7 @@ class WorkerCommand extends LoggingCommand
                 $priority = self::MAX_QUEUE_PRIORITY; // low priority, stop late
             } else {
                 $msg = sprintf('Invalid value "%s" for --stop-worker, valid are soon, done and idle;', $value);
+
                 throw new InvalidArgumentException($msg);
             }
             $jobData = [];

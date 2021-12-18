@@ -13,7 +13,6 @@ use PHPCensor\Security\Authentication\LoginPasswordProviderInterface;
 class Internal extends AbstractProvider implements LoginPasswordProviderInterface
 {
     /**
-     * @param User   $user
      * @param string $password
      *
      * @return bool

@@ -103,6 +103,7 @@ class SensiolabsInsight extends Plugin
 
         if ($xml === false) {
             $this->builder->log($xmlString);
+
             throw new RuntimeException('Could not process PHPMD report XML.');
         }
 
@@ -171,8 +172,10 @@ class SensiolabsInsight extends Plugin
 
         if ($this->allowedWarnings !== -1 && $errorCount > $this->allowedWarnings) {
             $success = false;
+
             return $success;
         }
+
         return $success;
     }
 }

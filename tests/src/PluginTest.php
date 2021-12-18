@@ -63,12 +63,12 @@ class TestPlugin extends Plugin
 class PluginTest extends TestCase
 {
     /**
-     * @var MockObject|Builder
+     * @var Builder|MockObject
      */
     private $builder;
 
     /**
-     * @var MockObject|Build
+     * @var Build|MockObject
      */
     private $build;
 

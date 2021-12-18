@@ -17,9 +17,8 @@ class OutputLogHandler extends AbstractProcessingHandler
     protected $output;
 
     /**
-     * @param OutputInterface $output
      * @param bool|string $level
-     * @param bool $bubble
+     * @param bool        $bubble
      */
     public function __construct(
         OutputInterface $output,
@@ -33,7 +32,6 @@ class OutputLogHandler extends AbstractProcessingHandler
 
     /**
      * Write a log entry to the terminal.
-     * @param array $record
      */
     protected function write(array $record): void
     {

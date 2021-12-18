@@ -121,6 +121,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
 
         if (false === $xml) {
             $this->builder->log($xmlString);
+
             throw new Exception('Could not process PHPMD report XML.');
         }
 
@@ -156,6 +157,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
     {
         if (!empty($this->rules) && !is_array($this->rules)) {
             $this->builder->logFailure('The "rules" option must be an array.');
+
             return false;
         }
 
@@ -221,8 +223,10 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
 
         if (-1 != $this->allowedWarnings && $errorCount > $this->allowedWarnings) {
             $success = false;
+
             return $success;
         }
+
         return $success;
     }
 }

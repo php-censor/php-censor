@@ -208,7 +208,6 @@ class Database extends PDO
 
     /**
      * @param string $statement
-     * @param array  $driverOptions
      *
      * @return PDOStatement
      */

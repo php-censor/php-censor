@@ -32,7 +32,7 @@ class BuildErrorStore extends Store
      * @param int $key
      * @param string  $useConnection
      *
-     * @return null|BuildError
+     * @return BuildError|null
      */
     public function getByPrimaryKey($key, $useConnection = 'read')
     {
@@ -45,7 +45,7 @@ class BuildErrorStore extends Store
      * @param int $id
      * @param string  $useConnection
      *
-     * @return null|BuildError
+     * @return BuildError|null
      *
      * @throws HttpException
      */
@@ -321,6 +321,7 @@ class BuildErrorStore extends Store
         $stmt->bindValue(':build', $buildId);
 
         $stmt->execute();
+
         return $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
     }
 }

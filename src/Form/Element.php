@@ -149,8 +149,6 @@ abstract class Element
     }
 
     /**
-     * @param Element $parent
-     *
      * @return $this
      */
     public function setParent(Element $parent)
@@ -186,8 +184,5 @@ abstract class Element
         return $view->render();
     }
 
-    /**
-     * @param View $view
-     */
     abstract protected function onPreRender(View &$view);
 }

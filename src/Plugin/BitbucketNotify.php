@@ -281,6 +281,7 @@ class BitbucketNotify extends Plugin
         }
 
         $result[] = $this->getPhpUnitCoverage($targetBranch);
+
         return $result;
     }
 
@@ -382,6 +383,7 @@ class BitbucketNotify extends Plugin
     {
         $options = ['headers' => ['Authorization' => 'Bearer ' . $this->authToken]];
         $jsonBody !== null && $options['json'] = $jsonBody;
+
         return $this->httpClient->request($method, $endpoint, $options);
     }
 }

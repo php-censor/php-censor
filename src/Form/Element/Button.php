@@ -15,9 +15,6 @@ class Button extends Input
         return true;
     }
 
-    /**
-     * @param View $view
-     */
     protected function onPreRender(View &$view)
     {
         parent::onPreRender($view);

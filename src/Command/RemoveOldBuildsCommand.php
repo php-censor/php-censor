@@ -26,10 +26,6 @@ class RemoveOldBuildsCommand extends Command
      */
     protected $buildService;
 
-    /**
-     * @param ProjectStore $projectStore
-     * @param BuildService $buildService
-     */
     public function __construct(ProjectStore $projectStore, BuildService $buildService)
     {
         parent::__construct();
@@ -53,9 +49,6 @@ class RemoveOldBuildsCommand extends Command
 
     /**
     * Loops through projects.
-    *
-    * @param InputInterface  $input
-    * @param OutputInterface $output
     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {

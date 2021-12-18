@@ -111,6 +111,7 @@ class WebhookNotify extends Plugin
                 return 'Failed';
                 break;
         }
+
         return sprintf('Unknown (%d)', $statusId);
     }
 }

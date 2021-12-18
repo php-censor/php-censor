@@ -138,6 +138,7 @@ class Project extends BaseProject
     {
         /** @var EnvironmentStore $store */
         $store = Factory::getStore('Environment');
+
         return $store;
     }
 

@@ -73,11 +73,6 @@ abstract class Plugin
      */
     protected $binaryName = [];
 
-    /**
-     * @param Builder $builder
-     * @param Build   $build
-     * @param array   $options
-     */
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
         $this->builder = $builder;

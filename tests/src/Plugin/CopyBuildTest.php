@@ -70,13 +70,13 @@ class CopyBuildTest extends TestCase
 
     protected function getPlugin(array $options = [])
     {
-        /** @var MockObject|Build $build */
+        /** @var Build|MockObject $build */
         $build = $this
             ->getMockBuilder('PHPCensor\Model\Build')
             ->disableOriginalConstructor()
             ->getMock();
 
-        /** @var MockObject|Builder $builder */
+        /** @var Builder|MockObject $builder */
         $builder = $this
             ->getMockBuilder('PHPCensor\Builder')
             ->disableOriginalConstructor()

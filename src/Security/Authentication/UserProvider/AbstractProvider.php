@@ -25,7 +25,6 @@ abstract class AbstractProvider implements UserProviderInterface
      * AbstractProvider constructor
      *
      * @param string $key
-     * @param array  $config
      */
     public function __construct(string $key, array $config)
     {

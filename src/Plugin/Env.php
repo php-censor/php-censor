@@ -39,6 +39,7 @@ class Env extends Plugin
                 $this->builder->logFailure('Unable to set environment variable');
             }
         }
+
         return $success;
     }
 }
