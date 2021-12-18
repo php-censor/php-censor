@@ -11,7 +11,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ### Fixed
 
-- [Codeception] Updated Codeception version (See: [CVE-2021-23420](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-23420)).
+- **[Codeception]** Updated Codeception version (See: 
+[CVE-2021-23420](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-23420)).
 
 ### Changed
 
