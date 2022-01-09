@@ -44,7 +44,7 @@ class CreateBuildCommandTest extends TestCase
             ->setConstructorArgs([$this->databaseManager])
             ->getMock();
 
-        $this->logger          = $this->getMockBuilder('Psr\Log\LoggerInterface')->getMock();
+        $this->logger          = $this->getMockBuilder('Monolog\Logger')->getMock();
         $projectMock           = $this
             ->getMockBuilder('PHPCensor\Model\Project')
             ->setConstructorArgs([$storeRegistry])

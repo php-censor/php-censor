@@ -48,7 +48,7 @@ class CreateAdminCommandTest extends TestCase
             ->getMockBuilder('PHPCensor\StoreRegistry')
             ->setConstructorArgs([$this->databaseManager])
             ->getMock();
-        $this->logger  = $this->getMockBuilder('Psr\Log\LoggerInterface')->getMock();
+        $this->logger  = $this->getMockBuilder('Monolog\Logger')->getMock();
         $userStoreMock = $this
             ->getMockBuilder('PHPCensor\Store\UserStore')
             ->setConstructorArgs([$this->databaseManager, $storeRegistry])
