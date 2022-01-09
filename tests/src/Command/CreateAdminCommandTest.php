@@ -2,12 +2,12 @@
 
 namespace Tests\PHPCensor\Command;
 
+use Monolog\Logger;
 use PHPCensor\Command\CreateAdminCommand;
 use PHPCensor\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -33,7 +33,7 @@ class CreateAdminCommandTest extends TestCase
 
     protected DatabaseManager $databaseManager;
 
-    protected LoggerInterface $logger;
+    protected Logger $logger;
 
     protected function setUp(): void
     {
@@ -48,7 +48,9 @@ class CreateAdminCommandTest extends TestCase
             ->getMockBuilder('PHPCensor\StoreRegistry')
             ->setConstructorArgs([$this->databaseManager])
             ->getMock();
-        $this->logger  = $this->getMockBuilder('Monolog\Logger')->getMock();
+        $this->logger = $this->getMockBuilder('Monolog\Logger')
+            ->setConstructorArgs(['logger'])
+            ->getMock();
         $userStoreMock = $this
             ->getMockBuilder('PHPCensor\Store\UserStore')
             ->setConstructorArgs([$this->databaseManager, $storeRegistry])
