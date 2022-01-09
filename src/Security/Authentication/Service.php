@@ -80,6 +80,7 @@ class Service
                 $providers[$key] = $provider;
             }
         }
+
         return $providers;
     }
 }

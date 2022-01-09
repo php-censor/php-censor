@@ -37,9 +37,8 @@ class BuildInterpolator
     /**
      * Sets the variables that will be used for interpolation.
      *
-     * @param BaseBuild $build
-     * @param string    $url
-     * @param string    $applicationVersion
+     * @param string $url
+     * @param string $applicationVersion
      *
      * @throws Exception
      */

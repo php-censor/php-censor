@@ -122,6 +122,7 @@ class Input extends Element
     {
         if ($this->getRequired() && empty($this->getValue())) {
             $this->error = $this->getLabel() . ' is required.';
+
             return false;
         }
 

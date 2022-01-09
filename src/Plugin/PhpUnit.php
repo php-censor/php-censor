@@ -71,8 +71,6 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
      * $options['directory']                    Optional directory or list of directories to run PHPUnit on.
      * $options['args']                         Command line args (in string format) to pass to PHP Unit
      *
-     * @param Builder  $builder
-     * @param Build    $build
      * @param string[] $options
      */
     public function __construct(Builder $builder, Build $build, array $options = [])
@@ -91,7 +89,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public static function canExecuteOnStage($stage, Build $build)
     {
@@ -113,6 +111,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
         $directories    = $this->options->getDirectories();
         if (empty($xmlConfigFiles) && empty($directories)) {
             $this->builder->logFailure('Neither a configuration file nor a test directory found.');
+
             return false;
         }
 
@@ -140,7 +139,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
             }
         }
 
-        return !\in_array(false, $success);
+        return !\in_array(false, $success, true);
     }
 
     /**

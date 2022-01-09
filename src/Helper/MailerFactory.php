@@ -64,8 +64,10 @@ class MailerFactory
 
     /**
      * Return a specific configuration value by key.
+     *
      * @param $configName
-     * @return null|string
+     *
+     * @return string|null
      */
     public function getMailConfig($configName)
     {

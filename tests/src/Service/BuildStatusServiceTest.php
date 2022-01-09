@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
  */
 class BuildStatusServiceTest extends TestCase
 {
-    const BRANCH = 'master';
+    public const BRANCH = 'master';
 
     protected Project $project;
 
@@ -47,7 +47,7 @@ class BuildStatusServiceTest extends TestCase
         date_default_timezone_set('UTC');
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
         date_default_timezone_set($this->timezone);
     }
@@ -116,8 +116,9 @@ class BuildStatusServiceTest extends TestCase
     }
 
     /**
-     * @param null|int $prevBuildId
-     * @param bool $setProject
+     * @param int|null $prevBuildId
+     * @param bool     $setProject
+     *
      * @return Project
      */
     protected function getProjectMock($prevBuildId = null, $setProject = true)
@@ -151,7 +152,6 @@ class BuildStatusServiceTest extends TestCase
      * @dataProvider finishedProvider
      *
      * @param int $buildConfigId
-     * @param array $expectedResult
      */
     public function testFinished($buildConfigId, array $expectedResult)
     {

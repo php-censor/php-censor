@@ -25,9 +25,6 @@ class Url extends Text
         return parent::render(($viewFile ? $viewFile : 'Text'));
     }
 
-    /**
-     * @param View $view
-     */
     protected function onPreRender(View &$view): void
     {
         parent::onPreRender($view);

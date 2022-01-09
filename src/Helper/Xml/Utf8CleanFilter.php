@@ -12,7 +12,7 @@ use php_user_filter;
  */
 class Utf8CleanFilter extends php_user_filter
 {
-    const PATTERN = '/[^\x{0009}\x{000a}\x{000d}\x{0020}-\x{D7FF}\x{E000}-\x{FFFD}]+/u';
+    public const PATTERN = '/[^\x{0009}\x{000a}\x{000d}\x{0020}-\x{D7FF}\x{E000}-\x{FFFD}]+/u';
 
     /**
      * @param resource $in

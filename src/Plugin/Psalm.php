@@ -26,10 +26,6 @@ class Psalm extends Plugin
     protected $allowedWarnings;
 
     /**
-     * @param Builder $builder
-     * @param Build   $build
-     * @param array   $options
-     *
      * @throws Exception
      */
     public function __construct(Builder $builder, Build $build, array $options = [])
@@ -138,7 +134,7 @@ class Psalm extends Plugin
 
         if (!empty($data) && \is_array($data)) {
             foreach ($data as $value) {
-                if (!\in_array($value['severity'], ['error','info'])) {
+                if (!\in_array($value['severity'], ['error','info'], true)) {
                     continue;
                 }
 

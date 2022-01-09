@@ -32,7 +32,7 @@ class BuildStore extends Store
      * @param int    $key
      * @param string $useConnection
      *
-     * @return null|Build
+     * @return Build|null
      */
     public function getByPrimaryKey(int $key, string $useConnection = 'read'): ?Build
     {
@@ -175,7 +175,7 @@ class BuildStore extends Store
      * @param int $projectId
      * @param string $branch
      *
-     * @return null|Build
+     * @return Build|null
      *
      * @throws Exception
      */

@@ -46,8 +46,6 @@ class SvnBuild extends Build
     }
 
     /**
-     * @param Builder $builder
-     *
      * @return void
      */
     protected function extendSvnCommandFromConfig(Builder $builder)
@@ -73,7 +71,6 @@ class SvnBuild extends Build
     /**
      * Create a working copy by cloning, copying, or similar.
      *
-     * @param Builder $builder
      * @param string $buildPath
      *
      * @return bool
@@ -94,6 +91,7 @@ class SvnBuild extends Build
 
         if (!$success) {
             $builder->logFailure('Failed to export remote subversion repository.');
+
             return false;
         }
 
@@ -103,8 +101,7 @@ class SvnBuild extends Build
     /**
      * Use an HTTP-based svn export.
      *
-     * @param Builder $builder
-     * @param string  $cloneTo
+     * @param string $cloneTo
      *
      * @return bool
      */
@@ -126,8 +123,7 @@ class SvnBuild extends Build
     /**
      * Use an SSH-based svn export.
      *
-     * @param Builder $builder
-     * @param string  $cloneTo
+     * @param string $cloneTo
      *
      * @return bool
      */

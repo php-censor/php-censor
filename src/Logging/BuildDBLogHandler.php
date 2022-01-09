@@ -71,8 +71,6 @@ class BuildDBLogHandler extends AbstractProcessingHandler
 
     /**
      * Write a log entry to the build log.
-     *
-     * @param array $record
      */
     protected function write(array $record): void
     {

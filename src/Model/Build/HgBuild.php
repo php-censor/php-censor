@@ -44,8 +44,7 @@ class HgBuild extends Build
     /**
      * Create a working copy by cloning, copying, or similar.
      *
-     * @param Builder $builder
-     * @param string  $buildPath
+     * @param string $buildPath
      *
      * @return bool
      *
@@ -73,8 +72,7 @@ class HgBuild extends Build
     /**
      * Use a HTTP-based hg clone.
      *
-     * @param Builder $builder
-     * @param string  $cloneTo
+     * @param string $cloneTo
      *
      * @return bool
      */
@@ -86,8 +84,7 @@ class HgBuild extends Build
     /**
      * Use an SSH-based hg clone.
      *
-     * @param Builder $builder
-     * @param string  $cloneTo
+     * @param string $cloneTo
      *
      * @return bool
      */
@@ -112,9 +109,8 @@ class HgBuild extends Build
     /**
      * Handle post-clone tasks (switching branch, etc.)
      *
-     * @param Builder $builder
-     * @param string  $cloneTo
-     * @param array   $extra
+     * @param string $cloneTo
+     * @param array  $extra
      *
      * @return bool
      */

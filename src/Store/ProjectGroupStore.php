@@ -29,7 +29,7 @@ class ProjectGroupStore extends Store
      * @param int    $key
      * @param string $useConnection
      *
-     * @return null|ProjectGroup
+     * @return ProjectGroup|null
      */
     public function getByPrimaryKey(int $key, string $useConnection = 'read'): ?ProjectGroup
     {

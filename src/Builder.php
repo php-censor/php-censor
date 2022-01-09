@@ -129,8 +129,6 @@ class Builder
 
     /**
      * Set the config array, as read from .php-censor.yml
-     *
-     * @param array $config
      */
     public function setConfig(array $config): void
     {
@@ -460,8 +458,6 @@ class Builder
 
     /**
      * Returns a configured instance of the plugin factory.
-     *
-     * @param Build $build
      *
      * @return PluginFactory
      */

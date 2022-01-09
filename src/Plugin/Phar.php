@@ -45,7 +45,7 @@ class Phar extends Plugin
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
@@ -76,6 +76,7 @@ class Phar extends Plugin
     public function setFilename($filename)
     {
         $this->filename = $filename;
+
         return $this;
     }
 
@@ -89,6 +90,7 @@ class Phar extends Plugin
         if (!isset($this->filename)) {
             $this->setFilename('build.phar');
         }
+
         return $this->filename;
     }
 
@@ -101,6 +103,7 @@ class Phar extends Plugin
     public function setRegExp($regexp)
     {
         $this->regexp = $regexp;
+
         return $this;
     }
 
@@ -114,6 +117,7 @@ class Phar extends Plugin
         if (!isset($this->regexp)) {
             $this->setRegExp('/\.php$/');
         }
+
         return $this->regexp;
     }
 
@@ -126,6 +130,7 @@ class Phar extends Plugin
     public function setStub($stub)
     {
         $this->stub = $stub;
+
         return $this;
     }
 
@@ -150,6 +155,7 @@ class Phar extends Plugin
         if ($filename) {
             $content = \file_get_contents($this->builder->buildPath . $this->getStub());
         }
+
         return $content;
     }
 

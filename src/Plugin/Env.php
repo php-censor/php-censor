@@ -32,7 +32,7 @@ class Env extends Plugin
         foreach ($this->options as $key => $value) {
             if (\is_numeric($key)) {
                 // This allows the developer to specify env vars like " - FOO=bar" or " - FOO: bar"
-                $envVar = \is_array($value) ? \key($value) . '=' . \current($value): $value;
+                $envVar = \is_array($value) ? \key($value) . '=' . \current($value) : $value;
             } else {
                 // This allows the standard syntax: "FOO: bar"
                 $envVar = "$key=$value";
@@ -43,6 +43,7 @@ class Env extends Plugin
                 $this->builder->logFailure('Unable to set environment variable');
             }
         }
+
         return $success;
     }
 }

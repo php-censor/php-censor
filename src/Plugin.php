@@ -14,13 +14,13 @@ use PHPCensor\Model\Build;
  */
 abstract class Plugin
 {
-    const STATUS_PENDING        = 0;
-    const STATUS_RUNNING        = 1;
-    const STATUS_SUCCESS        = 2;
-    const STATUS_FAILED         = 3;
-    const STATUS_FAILED_ALLOWED = 4;
+    public const STATUS_PENDING        = 0;
+    public const STATUS_RUNNING        = 1;
+    public const STATUS_SUCCESS        = 2;
+    public const STATUS_FAILED         = 3;
+    public const STATUS_FAILED_ALLOWED = 4;
 
-    const AVAILABLE_PRIORITY_PATHS = [
+    public const AVAILABLE_PRIORITY_PATHS = [
         'global',
         'system',
         'local',
@@ -78,11 +78,6 @@ abstract class Plugin
 
     protected ?StoreRegistry $storeRegistry = null;
 
-    /**
-     * @param Builder $builder
-     * @param Build   $build
-     * @param array   $options
-     */
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
         $this->builder = $builder;

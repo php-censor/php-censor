@@ -56,13 +56,14 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
      * @var int
      */
     protected $severity = null;
+
     /**
-     * @var null|int
+     * @var int|null
      */
     protected $errorSeverity = null;
 
     /**
-     * @var null|int
+     * @var int|null
      */
     protected $warningSeverity = null;
 
@@ -75,7 +76,7 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
@@ -133,7 +134,7 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public static function canExecuteOnStage($stage, Build $build)
     {

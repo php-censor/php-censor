@@ -36,7 +36,7 @@ class WebhookNotify extends Plugin
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      *
      * @throws Exception
      */
@@ -116,6 +116,7 @@ class WebhookNotify extends Plugin
                 return 'Failed';
                 break;
         }
+
         return \sprintf('Unknown (%d)', $statusId);
     }
 }

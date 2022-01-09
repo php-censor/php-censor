@@ -22,7 +22,7 @@ class Mage3 extends Plugin
     protected $mageLogDir;
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public static function pluginName()
     {
@@ -30,7 +30,7 @@ class Mage3 extends Plugin
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
@@ -48,12 +48,13 @@ class Mage3 extends Plugin
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function execute()
     {
         if (empty($this->mageEnv)) {
             $this->builder->logFailure('You must specify environment.');
+
             return false;
         }
 

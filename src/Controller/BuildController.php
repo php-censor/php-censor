@@ -195,15 +195,6 @@ class BuildController extends WebController
     /**
      * Get build data from database and json encode it.
      *
-     * @param Build $build
-     * @param string $plugin
-     * @param int $severity
-     * @param string $isNew
-     * @param int $start
-     * @param int $perPage
-     *
-     * @return array
-     *
      * @throws \PHPCensor\Common\Exception\InvalidArgumentException
      * @throws \PHPCensor\Common\Exception\RuntimeException
      * @throws \PHPCensor\Exception\HttpException

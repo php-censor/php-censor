@@ -49,7 +49,7 @@ class SensiolabsInsight extends Plugin
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
@@ -107,6 +107,7 @@ class SensiolabsInsight extends Plugin
 
         if ($xml === false) {
             $this->builder->log($xmlString);
+
             throw new RuntimeException('Could not process PHPMD report XML.');
         }
 

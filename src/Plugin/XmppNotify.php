@@ -17,7 +17,6 @@ use PHPCensor\Plugin;
  */
 class XmppNotify extends Plugin
 {
-
     /**
      * @var string, username of sender account xmpp
      */
@@ -62,7 +61,7 @@ class XmppNotify extends Plugin
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])
     {

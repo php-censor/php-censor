@@ -109,7 +109,7 @@ class BitbucketServerBuild extends GitBuild
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     protected function postCloneSetup(Builder $builder, $cloneTo, array $extra = null)
     {
@@ -147,7 +147,6 @@ class BitbucketServerBuild extends GitBuild
     /**
      * Create request patch with diff
      *
-     * @param Builder $builder
      * @param string $cloneTo
      * @param string $targetBranch
      */

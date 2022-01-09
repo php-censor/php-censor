@@ -33,12 +33,6 @@ class BuildStatusService
         Build::STATUS_FAILED,
     ];
 
-    /**
-     * @param string  $branch
-     * @param Project $project
-     * @param Build   $build
-     * @param bool    $isParent
-     */
     public function __construct(
         string $branch,
         Project $project,
@@ -98,13 +92,14 @@ class BuildStatusService
      */
     public function getActivity(): string
     {
-        if (\in_array($this->build->getStatus(), $this->finishedStatusIds)) {
+        if (\in_array($this->build->getStatus(), $this->finishedStatusIds, true)) {
             return 'Sleeping';
         } elseif ($this->build->getStatus() == Build::STATUS_PENDING) {
             return 'Pending';
         } elseif ($this->build->getStatus() == Build::STATUS_RUNNING) {
             return 'Building';
         }
+
         return 'Unknown';
     }
 
@@ -121,7 +116,7 @@ class BuildStatusService
      */
     public function isFinished(): bool
     {
-        if (\in_array($this->build->getStatus(), $this->finishedStatusIds)) {
+        if (\in_array($this->build->getStatus(), $this->finishedStatusIds, true)) {
             return true;
         }
 
@@ -129,7 +124,7 @@ class BuildStatusService
     }
 
     /**
-     * @return null|Build
+     * @return Build|null
      */
     public function getFinishedBuildInfo(): ?Build
     {
@@ -168,8 +163,6 @@ class BuildStatusService
     }
 
     /**
-     * @param Build $build
-     *
      * @return string
      */
     public function getBuildStatus(Build $build): string

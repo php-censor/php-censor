@@ -31,8 +31,6 @@ class BuildMeta extends Model
     }
 
     /**
-     * @param int $value
-     *
      * @return bool
      */
     public function setId(int $value)
@@ -55,8 +53,6 @@ class BuildMeta extends Model
     }
 
     /**
-     * @param int $value
-     *
      * @return bool
      */
     public function setBuildId(int $value)
@@ -79,8 +75,6 @@ class BuildMeta extends Model
     }
 
     /**
-     * @param string $value
-     *
      * @return bool
      */
     public function setMetaKey(string $value)
@@ -103,8 +97,6 @@ class BuildMeta extends Model
     }
 
     /**
-     * @param string $value
-     *
      * @return bool
      */
     public function setMetaValue(string $value)

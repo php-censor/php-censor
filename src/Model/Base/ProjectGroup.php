@@ -32,8 +32,6 @@ class ProjectGroup extends Model
     }
 
     /**
-     * @param int $value
-     *
      * @return bool
      */
     public function setId(int $value)
@@ -56,8 +54,6 @@ class ProjectGroup extends Model
     }
 
     /**
-     * @param string $value
-     *
      * @return bool
      */
     public function setTitle(string $value)
@@ -86,8 +82,6 @@ class ProjectGroup extends Model
     }
 
     /**
-     * @param DateTime $value
-     *
      * @return bool
      */
     public function setCreateDate(DateTime $value)
@@ -112,8 +106,6 @@ class ProjectGroup extends Model
     }
 
     /**
-     * @param int|null $value
-     *
      * @return bool
      */
     public function setUserId(?int $value)

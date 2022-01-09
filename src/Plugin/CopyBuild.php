@@ -30,14 +30,14 @@ class CopyBuild extends Plugin
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
         parent::__construct($builder, $build, $options);
 
-        $this->wipe          = isset($options['wipe']) ?  (bool)$options['wipe'] : false;
-        $this->respectIgnore = isset($options['respect_ignore']) ?  (bool)$options['respect_ignore'] : false;
+        $this->wipe          = isset($options['wipe']) ? (bool)$options['wipe'] : false;
+        $this->respectIgnore = isset($options['respect_ignore']) ? (bool)$options['respect_ignore'] : false;
     }
 
     /**

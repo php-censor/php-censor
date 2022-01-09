@@ -27,14 +27,14 @@ use Symfony\Component\Yaml\Parser as YamlParser;
  */
 class Build extends BaseBuild
 {
-    const STAGE_SETUP    = 'setup';
-    const STAGE_TEST     = 'test';
-    const STAGE_DEPLOY   = 'deploy';
-    const STAGE_COMPLETE = 'complete';
-    const STAGE_SUCCESS  = 'success';
-    const STAGE_FAILURE  = 'failure';
-    const STAGE_FIXED    = 'fixed';
-    const STAGE_BROKEN   = 'broken';
+    public const STAGE_SETUP    = 'setup';
+    public const STAGE_TEST     = 'test';
+    public const STAGE_DEPLOY   = 'deploy';
+    public const STAGE_COMPLETE = 'complete';
+    public const STAGE_SUCCESS  = 'success';
+    public const STAGE_FAILURE  = 'failure';
+    public const STAGE_FIXED    = 'fixed';
+    public const STAGE_BROKEN   = 'broken';
 
     /**
      * @var array
@@ -64,7 +64,7 @@ class Build extends BaseBuild
     protected string $buildBranchDirectory;
 
     /**
-     * @return null|Project
+     * @return Project|null
      *
      * @throws HttpException
      */
@@ -195,6 +195,7 @@ class Build extends BaseBuild
     public function getProjectTitle()
     {
         $project = $this->getProject();
+
         return $project ? $project->getTitle() : "";
     }
 
@@ -220,8 +221,6 @@ class Build extends BaseBuild
     }
 
     /**
-     * @param Builder $builder
-     *
      * @return bool
      *
      * @throws Exception
@@ -245,8 +244,7 @@ class Build extends BaseBuild
     }
 
     /**
-     * @param Builder $builder
-     * @param string  $buildPath
+     * @param string $buildPath
      *
      * @return bool
      *
@@ -366,13 +364,12 @@ class Build extends BaseBuild
     /**
      * Allows specific build types (e.g. Github) to report violations back to their respective services.
      *
-     * @param Builder $builder
      * @param string  $plugin
      * @param string  $message
-     * @param int $severity
+     * @param int     $severity
      * @param string  $file
-     * @param int $lineStart
-     * @param int $lineEnd
+     * @param int     $lineStart
+     * @param int     $lineEnd
      */
     public function reportError(
         Builder $builder,
@@ -542,7 +539,6 @@ class Build extends BaseBuild
     /**
      * Create a working copy by cloning, copying, or similar.
      *
-     * @param Builder $builder
      * @param string  $buildPath
      *
      * @return bool

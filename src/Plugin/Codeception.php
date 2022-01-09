@@ -53,7 +53,7 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
@@ -77,7 +77,7 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public static function canExecuteOnStage($stage, Build $build)
     {
@@ -86,8 +86,10 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
 
     /**
      * Try and find the codeception YML config file.
+     *
      * @param $buildPath
-     * @return null|string
+     *
+     * @return string|null
      */
     public static function findConfigFile($buildPath)
     {

@@ -43,7 +43,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
@@ -69,7 +69,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public static function canExecuteOnStage($stage, Build $build)
     {
@@ -161,6 +161,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
     {
         if (!empty($this->rules) && !\is_array($this->rules)) {
             $this->builder->logFailure('The "rules" option must be an array.');
+
             return false;
         }
 

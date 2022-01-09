@@ -15,7 +15,6 @@ interface ZeroConfigPluginInterface
 {
     /**
      * @param string $stage
-     * @param Build  $build
      *
      * @return bool
      */

@@ -41,7 +41,7 @@ use Symfony\Component\Console\Application as BaseApplication;
  */
 class Application extends BaseApplication
 {
-    const LOGO = <<<'LOGO'
+    public const LOGO = <<<'LOGO'
     ____  __  ______    ______
    / __ \/ / / / __ \  / ____/__  ____  _________  _____
   / /_/ / /_/ / /_/ / / /   / _ \/ __ \/ ___/ __ \/ ___/
@@ -58,10 +58,6 @@ LOGO;
     private StoreRegistry $storeRegistry;
 
     /**
-     * @param ConfigurationInterface $applicationConfig
-     *
-     * @return Logger
-     *
      * @throws Exception
      */
     protected function initLogger(ConfigurationInterface $applicationConfig): Logger

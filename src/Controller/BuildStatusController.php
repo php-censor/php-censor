@@ -37,7 +37,6 @@ class BuildStatusController extends WebController
     /**
      * Returns status of the last build
      *
-     * @param Project $project
      * @param string  $branch
      *
      * @return string
@@ -64,7 +63,6 @@ class BuildStatusController extends WebController
     /**
      * Returns coverage of the last build
      *
-     * @param Project $project
      * @param string  $branch
      * @param string  $type
      *

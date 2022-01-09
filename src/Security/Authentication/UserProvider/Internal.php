@@ -16,12 +16,6 @@ use PHPCensor\Security\Authentication\LoginPasswordProviderInterface;
  */
 class Internal extends AbstractProvider implements LoginPasswordProviderInterface
 {
-    /**
-     * @param User   $user
-     * @param string $password
-     *
-     * @return bool
-     */
     public function verifyPassword(User $user, string $password): bool
     {
         return password_verify($password, $user->getHash());

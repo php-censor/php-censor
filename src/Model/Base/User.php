@@ -37,8 +37,6 @@ class User extends Model
     }
 
     /**
-     * @param int $value
-     *
      * @return bool
      */
     public function setId(int $value)
@@ -61,8 +59,6 @@ class User extends Model
     }
 
     /**
-     * @param string $value
-     *
      * @return bool
      */
     public function setEmail(string $value)
@@ -85,8 +81,6 @@ class User extends Model
     }
 
     /**
-     * @param string $value
-     *
      * @return bool
      */
     public function setHash(string $value)
@@ -109,8 +103,6 @@ class User extends Model
     }
 
     /**
-     * @param bool $value
-     *
      * @return bool
      */
     public function setIsAdmin(bool $value)
@@ -133,8 +125,6 @@ class User extends Model
     }
 
     /**
-     * @param string $value
-     *
      * @return bool
      */
     public function setName(string $value)
@@ -181,8 +171,6 @@ class User extends Model
     }
 
     /**
-     * @param int|null $value
-     *
      * @return bool
      */
     public function setPerPage(?int $value)
@@ -205,8 +193,6 @@ class User extends Model
     }
 
     /**
-     * @param string $value
-     *
      * @return bool
      */
     public function setProviderKey(string $value)
@@ -239,8 +225,6 @@ class User extends Model
     }
 
     /**
-     * @param array $value
-     *
      * @return bool
      */
     public function setProviderData(array $value)
@@ -264,8 +248,6 @@ class User extends Model
     }
 
     /**
-     * @param string|null $value
-     *
      * @return bool
      */
     public function setRememberKey(?string $value)

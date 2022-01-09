@@ -20,11 +20,6 @@ class OutputLogHandler extends AbstractProcessingHandler
 {
     protected OutputInterface $output;
 
-    /**
-     * @param OutputInterface $output
-     * @param string          $level
-     * @param bool            $bubble
-     */
     public function __construct(
         OutputInterface $output,
         string $level = LogLevel::INFO,
@@ -37,8 +32,6 @@ class OutputLogHandler extends AbstractProcessingHandler
 
     /**
      * Write a log entry to the terminal.
-     *
-     * @param array $record
      */
     protected function write(array $record): void
     {

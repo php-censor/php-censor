@@ -696,7 +696,7 @@ class ProjectController extends WebController
                 ],
             ];
 
-            if (\in_array($type, $validators) && !\preg_match($validators[$type]['regex'], $val)) {
+            if (\in_array($type, $validators, true) && !\preg_match($validators[$type]['regex'], $val)) {
                 throw new RuntimeException($validators[$type]['message']);
             } elseif (Project::TYPE_LOCAL === $type && !\is_dir($val)) {
                 throw new RuntimeException(Lang::get('error_path'));

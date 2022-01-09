@@ -30,7 +30,7 @@ class EnvironmentStore extends Store
      * @param int    $key
      * @param string $useConnection
      *
-     * @return null|Environment
+     * @return Environment|null
      */
     public function getByPrimaryKey(int $key, string $useConnection = 'read'): ?Environment
     {
@@ -43,7 +43,7 @@ class EnvironmentStore extends Store
      * @param int    $id
      * @param string $useConnection
      *
-     * @return null|Environment
+     * @return Environment|null
      *
      * @throws HttpException
      */
@@ -73,7 +73,7 @@ class EnvironmentStore extends Store
      * @param int    $projectId
      * @param string $useConnection
      *
-     * @return null|Environment
+     * @return Environment|null
      *
      * @throws HttpException
      */

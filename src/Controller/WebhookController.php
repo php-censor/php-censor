@@ -79,21 +79,12 @@ class WebhookController extends Controller
             $response->setResponseCode(500);
             $response->setContent(['status' => 'failed', 'error' => $ex->getMessage()]);
         }
+
         return $response;
     }
 
     /**
      * Wrapper for creating a new build.
-     *
-     * @param int $source
-     * @param Project $project
-     * @param string $commitId
-     * @param string $branch
-     * @param string $tag
-     * @param string $committer
-     * @param string $commitMessage
-     * @param array|null $extra
-     * @param string|null $environment
      *
      * @return string[]
      *
@@ -146,7 +137,7 @@ class WebhookController extends Controller
             $environmentObject = $environmentStore->getByNameAndProjectId($environment, $project->getId());
             if ($environment && $environmentObject) {
                 if (
-                    !\in_array($environmentObject->getId(), $ignoreEnvironments) ||
+                    !\in_array($environmentObject->getId(), $ignoreEnvironments, true) ||
                     ($tag && !\in_array($tag, $ignoreTags, true))
                 ) {
                     // If not, create a new build job for it:
@@ -168,7 +159,7 @@ class WebhookController extends Controller
                         'environment' => $environmentObject->getId(),
                     ];
                 } else {
-                    $duplicates[] = \array_search($environmentObject->getId(), $ignoreEnvironments);
+                    $duplicates[] = \array_search($environmentObject->getId(), $ignoreEnvironments, true);
                 }
 
                 if (!empty($createdBuilds)) {
@@ -275,7 +266,7 @@ class WebhookController extends Controller
                     'status'  => 'ignored',
                     'message' => \sprintf(
                         'Duplicate of build #%d',
-                        \array_search($environmentId, $ignoreEnvironments)
+                        \array_search($environmentId, $ignoreEnvironments, true)
                     ),
                 ];
             }
@@ -285,8 +276,7 @@ class WebhookController extends Controller
     /**
      * Fetch a project and check its type.
      *
-     * @param int    $projectId    id or title of project
-     * @param array  $expectedType
+     * @param int $projectId id or title of project
      *
      * @return Project
      *
@@ -466,9 +456,6 @@ class WebhookController extends Controller
     /**
      * Handle the payload when Bitbucket sends a commit webhook.
      *
-     * @param Project $project
-     * @param array   $payload
-     *
      * @return array
      */
     protected function bitbucketCommitRequest(Project $project, array $payload): array
@@ -506,9 +493,6 @@ class WebhookController extends Controller
 
     /**
      * Handle the payload when Bitbucket sends a Pull Request webhook.
-     *
-     * @param Project $project
-     * @param array   $payload
      *
      * @return array
      *
@@ -598,9 +582,6 @@ class WebhookController extends Controller
     /**
      * Handle the payload when Bitbucket Server sends a Pull Request webhook.
      *
-     * @param Project $project
-     * @param array   $payload
-     *
      * @return array
      *
      * @throws Exception
@@ -653,9 +634,6 @@ class WebhookController extends Controller
 
     /**
      * Bitbucket POST service.
-     *
-     * @param array   $payload
-     * @param Project $project
      *
      * @return array
      */
@@ -732,9 +710,6 @@ class WebhookController extends Controller
     /**
      * Handle the payload when Github sends a commit webhook.
      *
-     * @param Project $project
-     * @param array   $payload
-     *
      * @return array
      */
     protected function githubCommitRequest(Project $project, array $payload): array
@@ -789,9 +764,6 @@ class WebhookController extends Controller
 
     /**
      * Handle the payload when Github sends a Pull Request webhook.
-     *
-     * @param Project $project
-     * @param array   $payload
      *
      * @return array
      *
@@ -993,9 +965,6 @@ class WebhookController extends Controller
     /**
      * Handle the payload when Gogs sends a commit webhook.
      *
-     * @param Project $project
-     * @param array   $payload
-     *
      * @return array
      */
     protected function gogsCommitRequest(Project $project, array $payload): array
@@ -1032,9 +1001,6 @@ class WebhookController extends Controller
     /**
      * Handle the payload when Gogs sends a pull request webhook.
      *
-     * @param Project $project
-     * @param array   $payload
-     *
      * @return array
      *
      * @throws InvalidArgumentException
@@ -1052,17 +1018,17 @@ class WebhookController extends Controller
         $activeStates   = ['open'];
         $inactiveStates = ['closed'];
 
-        if (!\in_array($action, $activeActions) && !\in_array($action, $inactiveActions)) {
+        if (!\in_array($action, $activeActions, true) && !\in_array($action, $inactiveActions, true)) {
             return ['status' => 'ignored', 'message' => 'Action ' . $action . ' ignored'];
         }
-        if (!\in_array($state, $activeStates) && !\in_array($state, $inactiveStates)) {
+        if (!\in_array($state, $activeStates, true) && !\in_array($state, $inactiveStates, true)) {
             return ['status' => 'ignored', 'message' => 'State ' . $state . ' ignored'];
         }
 
         $envs = [];
 
         // Get environment form labels
-        if (\in_array($action, $activeActions) && \in_array($state, $activeStates)) {
+        if (\in_array($action, $activeActions, true) && \in_array($state, $activeStates, true)) {
             if (isset($pullRequest['labels']) && \is_array($pullRequest['labels'])) {
                 foreach ($pullRequest['labels'] as $label) {
                     if (\strpos($label['name'], 'env:') === 0) {
@@ -1077,8 +1043,8 @@ class WebhookController extends Controller
         $store       = $this->storeRegistry->get('Environment');
         foreach ($envObjects['items'] as $environment) {
             $branches = $environment->getBranches();
-            if (\in_array($environment->getName(), $envs)) {
-                if (!\in_array($headBranch, $branches)) {
+            if (\in_array($environment->getName(), $envs, true)) {
+                if (!\in_array($headBranch, $branches, true)) {
                     // Add branch to environment
                     $branches[] = $headBranch;
                     $environment->setBranches($branches);
@@ -1086,7 +1052,7 @@ class WebhookController extends Controller
                     $envsUpdated[] = $environment->getId();
                 }
             } else {
-                if (\in_array($headBranch, $branches)) {
+                if (\in_array($headBranch, $branches, true)) {
                     // Remove branch from environment
                     $branches = \array_diff($branches, [$headBranch]);
                     $environment->setBranches($branches);

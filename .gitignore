@@ -1,7 +1,7 @@
 /composer.phar
 
 /vendor
-/.php-cs-fixer.cache
+/.php_cs.cache
 /.phpunit.result.cache
 
 /app/config.yml

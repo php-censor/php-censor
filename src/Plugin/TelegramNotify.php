@@ -37,9 +37,6 @@ class TelegramNotify extends Plugin
     /**
      * Standard Constructor
      *
-     * @param Builder $builder
-     * @param Build   $build
-     * @param array   $options
      * @throws Exception
      */
     public function __construct(Builder $builder, Build $build, array $options = [])
@@ -135,7 +132,7 @@ class TelegramNotify extends Plugin
             $firstRow = \mb_substr($bm, 0, $pos);
 
             //skip long outputs
-            if (\in_array($firstRow, ['slack_notify', 'php_loc', 'telegram_notify'])) {
+            if (\in_array($firstRow, ['slack_notify', 'php_loc', 'telegram_notify'], true)) {
                 continue;
             }
 

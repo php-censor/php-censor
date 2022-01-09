@@ -27,8 +27,8 @@ use PHPCensor\Common\Exception\InvalidArgumentException;
  */
 class WorkerCommand extends Command
 {
-    const MIN_QUEUE_PRIORITY = 24;
-    const MAX_QUEUE_PRIORITY = 2025;
+    public const MIN_QUEUE_PRIORITY = 24;
+    public const MAX_QUEUE_PRIORITY = 2025;
 
     protected BuildService $buildService;
 
@@ -67,9 +67,6 @@ class WorkerCommand extends Command
     }
 
     /**
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     *
      * @throws Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output)

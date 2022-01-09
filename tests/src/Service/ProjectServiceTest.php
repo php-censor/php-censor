@@ -248,7 +248,6 @@ class ProjectServiceTest extends TestCase
 
     /**
      * @param string $reference
-     * @param array  $accessInformation
      *
      * @dataProvider getExecuteCreateGithubProjectAccessInformationData
      */

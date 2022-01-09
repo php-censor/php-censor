@@ -83,7 +83,7 @@ class Executor
      * @param array  $config
      * @param string $branch
      *
-     * @return bool|array
+     * @return array|bool
      */
     public function getBranchSpecificConfig($config, $branch)
     {

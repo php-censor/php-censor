@@ -14,14 +14,14 @@
 
 PHP Censor versions:
 
-| Version              | Latest   | Branch        | Status                                                                | Minimal PHP Version |
-| :------------------: | :------: | :-----------: | :-------------------------------------------------------------------: | :-----------------: |
-| `1.0` (Morty Smith)  | `1.0.16` | `release-1.0` | Old version (**UNSUPPORTED**)                                         | `>=5.6, <8.0`       |
-| `1.1` (Birdperson)   | `1.1.6`  | `release-1.1` | Old version (**UNSUPPORTED**)                                         | `>=5.6, <8.0`       |
-| `1.2` (Summer Smith) | `1.2.4`  | `release-1.2` | Old version (**UNSUPPORTED**)                                         | `>=5.6, <8.0`       |
-| `1.3` (Jerry Smith)  | `1.3.5`  | `release-1.3` | Old stable version (**ONLY FIXES**)                                   | `>=5.6, <8.0`       |
-| `2.0` (Rick Sanchez) | `2.0.5`  | `release-2.0` | Current stable version ([Upgrade from v1 to v2](docs/UPGRADE_2.0.md)) | `>=7.4`             |
-| `2.1`                | WIP      | `master`      | Feature minor version (WIP)                                           | `>=7.4`             |
+| Version              |  Latest  | Branch        |                                Status                                 | Minimal PHP Version |
+| :------------------: |:--------:| :-----------: |:---------------------------------------------------------------------:| :-----------------: |
+| `1.0` (Morty Smith)  | `1.0.16` | `release-1.0` |                     Old version (**UNSUPPORTED**)                     | `>=5.6, <8.0`       |
+| `1.1` (Birdperson)   | `1.1.6`  | `release-1.1` |                     Old version (**UNSUPPORTED**)                     | `>=5.6, <8.0`       |
+| `1.2` (Summer Smith) | `1.2.4`  | `release-1.2` |                     Old version (**UNSUPPORTED**)                     | `>=5.6, <8.0`       |
+| `1.3` (Jerry Smith)  | `1.3.6`  | `release-1.3` |                     Old version (**UNSUPPORTED**)                     | `>=5.6, <8.0`       |
+| `2.0` (Rick Sanchez) | `2.0.6`  | `release-2.0` | Current stable version ([Upgrade from v1 to v2](docs/UPGRADE_2.0.md)) | `>=7.4`             |
+| `2.1`                |   WIP    | `master`      |                      Feature minor version (WIP)                      | `>=7.4`             |
 
 [![Dashboard](docs/screenshots/dashboard.png)](docs/screenshots/dashboard.png)
 
@@ -32,10 +32,10 @@ More [screenshots](docs/en/screenshots.md).
 * [Changelog](#changelog)
 * [Roadmap](#roadmap)
 * [Installing](#installing)
-* [Installing via Docker](#installing-via-docker)
 * [Updating](#updating)
 * [Configuring project](#configuring-project)
 * [Migrations](#migrations)
+* [Code style](#code-style)
 * [Tests](#tests)
 * [Documentation](#documentation)
 * [License](#license)
@@ -72,7 +72,7 @@ PHPMessDetector, PHPTalLint and TechnicalDebt;
 CleanBuild, CopyBuild, Deployer, Env, Git, Grunt, Gulp, PackageBuild, Phar, Phing, Shell and Wipe;
 
 * Send notifications to Email, XMPP, Slack, IRC, Flowdock, HipChat and 
-[Telegram](https://github.com/LEXASOFT/PHP-Censor-Telegram-Plugin);
+[Telegram](docs/en/plugins/telegram_notify.md);
 
 * Use your LDAP-server for authentication;
 
@@ -141,6 +141,14 @@ Run to create a new migration:
 ```bash
 cd /path/to/php-censor
 ./bin/console php-censor-migrations:create NewMigrationName
+```
+
+## Code style
+
+```bash
+cd /path/to/php-censor
+
+./vendor/bin/php-cs-fixer fix --allow-risky=yes
 ```
 
 ## Tests

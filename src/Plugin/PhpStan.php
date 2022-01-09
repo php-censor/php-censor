@@ -29,10 +29,6 @@ class PhpStan extends Plugin
     protected $allowedErrors = 0;
 
     /**
-     * @param Builder $builder
-     * @param Build $build
-     * @param array $options
-     *
      * @throws Exception
      */
     public function __construct(Builder $builder, Build $build, array $options = [])
@@ -141,7 +137,6 @@ class PhpStan extends Plugin
 
     /**
      * @param string $stage
-     * @param Build  $build
      *
      * @return bool
      */

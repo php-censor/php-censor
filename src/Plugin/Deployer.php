@@ -31,7 +31,7 @@ class Deployer extends Plugin
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
@@ -56,6 +56,7 @@ class Deployer extends Plugin
     {
         if (empty($this->webhookUrl)) {
             $this->builder->logFailure('You must specify a webhook URL.');
+
             return false;
         }
 

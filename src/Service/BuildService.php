@@ -57,7 +57,6 @@ class BuildService
     }
 
     /**
-     * @param Project     $project
      * @param int|null    $environmentId
      * @param string      $commitId
      * @param string|null $branch
@@ -139,8 +138,6 @@ class BuildService
     }
 
     /**
-     * @param Logger $logger
-     *
      * @throws HttpException
      */
     public function createPeriodicalBuilds(Logger $logger): void
@@ -248,8 +245,7 @@ class BuildService
     }
 
     /**
-     * @param Build $originalBuild
-     * @param int   $source
+     * @param int $source
      *
      * @return Build
      *
@@ -337,8 +333,6 @@ class BuildService
     /**
      * Delete a given build.
      *
-     * @param Build $build
-     *
      * @return bool
      */
     public function deleteBuild(Build $build): bool
@@ -351,7 +345,6 @@ class BuildService
     /**
      * Takes a build and puts it into the queue to be run (if using a queue)
      *
-     * @param Build $build
      * @param int   $buildPriority priority in queue relative to default
      */
     public function addBuildToQueue(Build $build, int $buildPriority = Project::DEFAULT_BUILD_PRIORITY): void
@@ -371,7 +364,6 @@ class BuildService
 
     /**
      * @param string $jobType
-     * @param array  $jobData
      * @param int    $queuePriority
      */
     public function addJobToQueue(string $jobType, array $jobData, int $queuePriority = PheanstalkInterface::DEFAULT_PRIORITY): void

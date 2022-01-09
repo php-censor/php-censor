@@ -55,9 +55,6 @@ class RemoveOldBuildsCommand extends Command
     /**
      * Loops through projects.
      *
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     *
      * @throws HttpException
      */
     protected function execute(InputInterface $input, OutputInterface $output)

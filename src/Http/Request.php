@@ -62,7 +62,7 @@ class Request
     {
         $params = $_REQUEST;
 
-        if (!isset($_SERVER['REQUEST_METHOD']) || \in_array($_SERVER['REQUEST_METHOD'], ['PUT', 'DELETE'])) {
+        if (!isset($_SERVER['REQUEST_METHOD']) || \in_array($_SERVER['REQUEST_METHOD'], ['PUT', 'DELETE'], true)) {
             $vars = \file_get_contents('php://input');
 
             if (!\is_string($vars) || \strlen(\trim($vars)) === 0) {

@@ -39,11 +39,7 @@ class Phan extends Plugin
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @param Builder $builder
-     * @param Build   $build
-     * @param array   $options
+     * {@inheritDoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])
     {

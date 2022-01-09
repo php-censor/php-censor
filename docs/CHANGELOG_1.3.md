@@ -5,6 +5,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [1.3.6 (Jerry Smith)](https://github.com/php-censor/php-censor/tree/1.3.6) (2021-12-18)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/1.3.5...1.3.6)
+
+### Fixed
+
+- **[Codeception]** Updated Codeception version (See:
+  [CVE-2021-23420](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-23420)).
+
+### Changed
+
+- Several documentation improvements.
+- Improved code style.
+
+
 ## [1.3.5 (Jerry Smith)](https://github.com/php-censor/php-censor/tree/1.3.5) (2021-08-22)
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/1.3.4...1.3.5)

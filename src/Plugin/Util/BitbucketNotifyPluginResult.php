@@ -10,7 +10,7 @@ namespace PHPCensor\Plugin\Util;
  */
 class BitbucketNotifyPluginResult
 {
-    const DEFAULT_PLUGIN_OUTPUT_FORMAT = "%s | %d\t=> %d\t%s";
+    public const DEFAULT_PLUGIN_OUTPUT_FORMAT = "%s | %d\t=> %d\t%s";
 
     /** @var string $plugin */
     protected $plugin;
@@ -40,6 +40,7 @@ class BitbucketNotifyPluginResult
     public function setPlugin($plugin)
     {
         $this->plugin = $plugin;
+
         return $this;
     }
 
@@ -51,6 +52,7 @@ class BitbucketNotifyPluginResult
     public function setLeft($left)
     {
         $this->left = $left;
+
         return $this;
     }
 
@@ -62,6 +64,7 @@ class BitbucketNotifyPluginResult
     public function setRight($right)
     {
         $this->right = $right;
+
         return $this;
     }
 

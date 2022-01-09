@@ -124,8 +124,5 @@ abstract class Element
         return $view->render();
     }
 
-    /**
-     * @param View $view
-     */
     abstract protected function onPreRender(View &$view): void;
 }

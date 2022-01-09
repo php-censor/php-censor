@@ -25,7 +25,7 @@ class CreateAdminCommandTest extends TestCase
     protected $application;
 
     /**
-     * @var QuestionHelper|MockObject
+     * @var MockObject|QuestionHelper
      */
     protected $helper;
 

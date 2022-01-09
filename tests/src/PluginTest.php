@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
 class TestPlugin extends Plugin
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
@@ -22,7 +22,7 @@ class TestPlugin extends Plugin
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function execute()
     {
@@ -65,12 +65,12 @@ class TestPlugin extends Plugin
 class PluginTest extends TestCase
 {
     /**
-     * @var MockObject|Builder
+     * @var Builder|MockObject
      */
     private $builder;
 
     /**
-     * @var MockObject|Build
+     * @var Build|MockObject
      */
     private $build;
 

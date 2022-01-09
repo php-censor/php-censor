@@ -219,6 +219,7 @@ class SessionController extends WebController
 
             if (empty($user)) {
                 $this->view->error = Lang::get('reset_no_user_exists');
+
                 return $this->view->render();
             }
 
@@ -255,6 +256,7 @@ class SessionController extends WebController
 
         if (empty($user) || $key != $userKey) {
             $this->view->error = Lang::get('reset_invalid');
+
             return $this->view->render();
         }
 

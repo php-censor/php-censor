@@ -26,10 +26,6 @@ class Phlint extends Plugin
     protected $allowedErrors = 0;
 
     /**
-     * @param Builder $builder
-     * @param Build   $build
-     * @param array   $options
-     *
      * @throws Exception
      */
     public function __construct(Builder $builder, Build $build, array $options = [])

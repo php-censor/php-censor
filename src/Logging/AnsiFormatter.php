@@ -15,7 +15,7 @@ use Monolog\Formatter\LineFormatter;
 class AnsiFormatter extends LineFormatter
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function format(array $record): string
     {

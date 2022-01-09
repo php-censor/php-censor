@@ -42,7 +42,7 @@ class Sqlite extends Plugin
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
@@ -88,8 +88,10 @@ class Sqlite extends Plugin
             }
         } catch (Exception $ex) {
             $this->builder->logFailure($ex->getMessage());
+
             return false;
         }
+
         return true;
     }
 }

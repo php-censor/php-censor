@@ -79,9 +79,8 @@ class CommandExecutor implements CommandExecutorInterface
     ];
 
     /**
-     * @param BuildLogger $logger
-     * @param string      $rootDir
-     * @param bool        $verbose
+     * @param string $rootDir
+     * @param bool   $verbose
      */
     public function __construct(BuildLogger $logger, $rootDir, $verbose = false)
     {
@@ -214,7 +213,7 @@ class CommandExecutor implements CommandExecutorInterface
      * @param string $binaryPath
      * @param string $binary
      *
-     * @return string|false
+     * @return false|string
      */
     protected function findBinaryByPath($binaryPath, $binary)
     {
@@ -231,7 +230,7 @@ class CommandExecutor implements CommandExecutorInterface
      * @param string $composerBin
      * @param string $binary
      *
-     * @return string|false
+     * @return false|string
      */
     protected function findBinaryLocal($composerBin, $binary)
     {
@@ -247,7 +246,7 @@ class CommandExecutor implements CommandExecutorInterface
     /**
      * @param string $binary
      *
-     * @return string|false
+     * @return false|string
      */
     protected function findBinaryGlobal($binary)
     {
@@ -265,7 +264,7 @@ class CommandExecutor implements CommandExecutorInterface
      *
      * @param string $binary
      *
-     * @return string|false
+     * @return false|string
      */
     protected function findBinarySystem($binary)
     {
@@ -280,7 +279,7 @@ class CommandExecutor implements CommandExecutorInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function findBinary($binary, $priorityPath = 'local', $binaryPath = '', $binaryName = [])
     {
@@ -389,6 +388,7 @@ class CommandExecutor implements CommandExecutorInterface
                 }
             }
         }
+
         return null;
     }
 
@@ -407,10 +407,10 @@ class CommandExecutor implements CommandExecutorInterface
 
     private function getDefaultEnv()
     {
-        $env = array();
+        $env = [];
 
         foreach ($_SERVER as $k => $v) {
-            if (\in_array($k, self::$blacklistEnvVars)) {
+            if (\in_array($k, self::$blacklistEnvVars, true)) {
                 continue;
             }
             if (\is_string($v) && false !== $v = \getenv($k)) {
@@ -419,7 +419,7 @@ class CommandExecutor implements CommandExecutorInterface
         }
 
         foreach ($_ENV as $k => $v) {
-            if (\in_array($k, self::$blacklistEnvVars)) {
+            if (\in_array($k, self::$blacklistEnvVars, true)) {
                 continue;
             }
             if (\is_string($v)) {
@@ -429,7 +429,7 @@ class CommandExecutor implements CommandExecutorInterface
 
         if (PHP_MAJOR_VERSION >= 7 && PHP_MINOR_VERSION >= 1) {
             foreach (\getenv() as $k => $v) {
-                if (\in_array($k, self::$blacklistEnvVars)) {
+                if (\in_array($k, self::$blacklistEnvVars, true)) {
                     continue;
                 }
                 if (\is_string($v)) {
@@ -444,7 +444,7 @@ class CommandExecutor implements CommandExecutorInterface
                 if (\count($keyval) < 2 || empty($keyval[1])) {
                     continue;
                 }
-                if (\in_array($keyval[0], self::$blacklistEnvVars)) {
+                if (\in_array($keyval[0], self::$blacklistEnvVars, true)) {
                     continue;
                 }
                 $env[$keyval[0]] = $keyval[1];

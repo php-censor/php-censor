@@ -37,7 +37,7 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
@@ -72,7 +72,7 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public static function canExecuteOnStage($stage, Build $build)
     {
@@ -148,7 +148,6 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
 
     /**
      * Report all of the errors we've encountered line-by-line.
-     * @param array $output
      */
     protected function reportErrors(array $output)
     {

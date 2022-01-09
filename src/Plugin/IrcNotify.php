@@ -32,7 +32,7 @@ class IrcNotify extends Plugin
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
@@ -85,7 +85,7 @@ class IrcNotify extends Plugin
 
     /**
      * @param resource $socket
-     * @param array $commands
+     *
      * @return bool
      */
     private function executeIrcCommands($socket, array $commands)
