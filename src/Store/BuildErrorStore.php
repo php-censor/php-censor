@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PHPCensor\Store;
 
@@ -36,11 +36,6 @@ class BuildErrorStore extends Store
     /**
      * Get a single BuildError by Id.
      *
-     * @param int    $id
-     * @param string $useConnection
-     *
-     * @return BuildError|null
-     *
      * @throws HttpException
      */
     public function getById(int $id, string $useConnection = 'read'): ?BuildError
@@ -64,15 +59,6 @@ class BuildErrorStore extends Store
 
     /**
      * Get multiple BuildError by BuildId.
-     *
-     * @param int         $buildId
-     * @param int|null    $limit
-     * @param int         $offset
-     * @param string|null $plugin
-     * @param int|null    $severity
-     * @param string|null $isNew
-     *
-     * @return array
      *
      * @throws HttpException
      */
@@ -137,13 +123,6 @@ class BuildErrorStore extends Store
     /**
      * Gets the total number of errors for a given build.
      *
-     * @param int         $buildId
-     * @param string|null $plugin
-     * @param int|null    $severity
-     * @param string|null $isNew
-     *
-     * @return int
-     *
      * @throws Exception
      */
     public function getErrorTotalForBuild(int $buildId, ?string $plugin = null, ?int $severity = null, ?string $isNew = null): int
@@ -185,13 +164,6 @@ class BuildErrorStore extends Store
         }
     }
 
-    /**
-     * @param int         $buildId
-     * @param int|null    $severity
-     * @param string|null $isNew
-     *
-     * @return array
-     */
     public function getKnownPlugins(int $buildId, ?int $severity = null, ?string $isNew = null): array
     {
         $query = 'SELECT DISTINCT {{plugin}} from {{' . $this->tableName . '}} WHERE {{build_id}} = :build';
@@ -218,19 +190,13 @@ class BuildErrorStore extends Store
             $map = function ($item) {
                 return $item['plugin'];
             };
+
             return \array_map($map, $res);
         } else {
             return [];
         }
     }
 
-    /**
-     * @param int         $buildId
-     * @param string|null $plugin
-     * @param string|null $isNew
-     *
-     * @return array
-     */
     public function getKnownSeverities(int $buildId, ?string $plugin = null, ?string $isNew = null): array
     {
         $query = 'SELECT DISTINCT {{severity}} FROM {{' . $this->tableName . '}} WHERE {{build_id}} = :build';
@@ -267,10 +233,6 @@ class BuildErrorStore extends Store
     /**
      * Check if a build error is new.
      *
-     * @param int $projectId
-     * @param string $hash
-     *
-     * @return bool
      * @throws Exception
      */
     public function getIsNewError(int $projectId, string $hash): bool
@@ -296,9 +258,6 @@ class BuildErrorStore extends Store
     }
 
     /**
-     * @param int $buildId
-     *
-     * @return array
      *
      * @throws Exception
      */

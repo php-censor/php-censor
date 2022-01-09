@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PHPCensor\Command;
 
@@ -240,8 +240,6 @@ class InstallCommand extends Command
     /**
      * Load configuration form CLI options or ask info to user.
      *
-     * @return array
-     *
      * @throws Exception
      */
     private function getConfigInformation(InputInterface $input, OutputInterface $output): array
@@ -340,8 +338,6 @@ class InstallCommand extends Command
 
     /**
      * If the user wants to use a queue, get the necessary details.
-     *
-     * @return array
      */
     private function getQueueInformation(InputInterface $input, OutputInterface $output): array
     {
@@ -386,8 +382,6 @@ class InstallCommand extends Command
 
     /**
      * Load configuration for database form CLI options or ask info to user.
-     *
-     * @return array
      */
     private function getDatabaseInformation(InputInterface $input, OutputInterface $output): array
     {
@@ -484,8 +478,6 @@ class InstallCommand extends Command
 
     /**
      * Try and connect to DB using the details provided
-     *
-     * @return bool
      */
     private function verifyDatabaseDetails(array $db, OutputInterface $output): bool
     {
@@ -587,9 +579,6 @@ class InstallCommand extends Command
         $createAdmin->create($admin);
     }
 
-    /**
-     * @param OutputInterface $output
-     */
     protected function createDefaultGroup(OutputInterface $output): void
     {
         try {

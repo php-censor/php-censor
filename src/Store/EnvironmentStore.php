@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PHPCensor\Store;
 
@@ -26,11 +26,6 @@ class EnvironmentStore extends Store
 
     /**
      * Get a Environment by primary key (Id)
-     *
-     * @param int    $key
-     * @param string $useConnection
-     *
-     * @return Environment|null
      */
     public function getByPrimaryKey(int $key, string $useConnection = 'read'): ?Environment
     {
@@ -39,11 +34,6 @@ class EnvironmentStore extends Store
 
     /**
      * Get a single Environment by Id.
-     *
-     * @param int    $id
-     * @param string $useConnection
-     *
-     * @return Environment|null
      *
      * @throws HttpException
      */
@@ -69,12 +59,6 @@ class EnvironmentStore extends Store
     /**
      * Get a single Environment by Name.
      *
-     * @param string $name
-     * @param int    $projectId
-     * @param string $useConnection
-     *
-     * @return Environment|null
-     *
      * @throws HttpException
      */
     public function getByNameAndProjectId(string $name, int $projectId, string $useConnection = 'read'): ?Environment
@@ -99,11 +83,6 @@ class EnvironmentStore extends Store
 
     /**
      * Get multiple Environment by Project id.
-     *
-     * @param int $projectId
-     * @param string  $useConnection
-     *
-     * @return array
      *
      * @throws Exception
      */

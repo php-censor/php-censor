@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PHPCensor\Form\Element;
 
@@ -16,9 +16,6 @@ use PHPCensor\View;
  */
 class Checkbox extends Input
 {
-    /**
-     * @var bool
-     */
     protected bool $checked = false;
 
     /**
@@ -69,9 +66,6 @@ class Checkbox extends Input
         return $this;
     }
 
-    /**
-     * @param View $view
-     */
     protected function onPreRender(View &$view): void
     {
         parent::onPreRender($view);

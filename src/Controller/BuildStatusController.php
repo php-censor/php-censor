@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PHPCensor\Controller;
 
@@ -36,10 +36,6 @@ class BuildStatusController extends WebController
 
     /**
      * Returns status of the last build
-     *
-     * @param string  $branch
-     *
-     * @return string
      */
     protected function getStatus(Project $project, string $branch): string
     {
@@ -62,9 +58,6 @@ class BuildStatusController extends WebController
 
     /**
      * Returns coverage of the last build
-     *
-     * @param string  $branch
-     * @param string  $type
      *
      * @return string
      */
@@ -99,11 +92,6 @@ class BuildStatusController extends WebController
         return $coverage;
     }
 
-    /**
-     * @param SimpleXMLElement|null $xml
-     *
-     * @return Response
-     */
     protected function renderXml(?SimpleXMLElement $xml = null): Response
     {
         $response = new Response();
@@ -115,13 +103,8 @@ class BuildStatusController extends WebController
     }
 
     /**
-     * @param int    $projectId
-     * @param string $branch
-     *
      * @throws HttpException
      * @throws InvalidArgumentException
-     *
-     * @return array
      */
     protected function getLatestBuilds(int $projectId, string $branch): array
     {
@@ -150,10 +133,6 @@ class BuildStatusController extends WebController
 
     /**
      * Returns the appropriate build PHPUnit coverage image in SVG format for a given project.
-     *
-     * @param int $projectId
-     *
-     * @return Response
      *
      * @throws HttpException
      */
@@ -208,10 +187,6 @@ class BuildStatusController extends WebController
 
     /**
      * Returns the appropriate build status image in SVG format for a given project.
-     *
-     * @param int $projectId
-     *
-     * @return Response
      *
      * @throws HttpException
      */
@@ -275,10 +250,6 @@ class BuildStatusController extends WebController
     /**
      * View the public status page of a given project, if enabled.
      *
-     * @param int $projectId
-     *
-     * @return string
-     *
      * @throws HttpException
      * @throws InvalidArgumentException
      * @throws NotFoundException
@@ -308,10 +279,6 @@ class BuildStatusController extends WebController
 
     /**
      * Displays projects information in ccmenu format
-     *
-     * @param int $projectId
-     *
-     * @return Response
      *
      * @throws Exception
      */

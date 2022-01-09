@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PHPCensor\Form\Element;
 
@@ -17,8 +17,6 @@ class Url extends Text
 {
     /**
      * @param string $viewFile
-     *
-     * @return string
      */
     public function render(?string $viewFile = null): string
     {

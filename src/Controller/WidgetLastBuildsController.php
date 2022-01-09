@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PHPCensor\Controller;
 
@@ -52,9 +52,6 @@ class WidgetLastBuildsController extends WebController
         return $response;
     }
 
-    /**
-     * @return Response
-     */
     public function update(): Response
     {
         $builds = $this->buildStore->getLatestBuilds(null, 10);

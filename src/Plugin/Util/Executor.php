@@ -166,7 +166,6 @@ class Executor
     {
         $success = true;
         foreach ($plugins as $step => $options) {
-
             $plugin = $step;
             if (isset($options['plugin'])) {
                 $plugin = $options['plugin'];

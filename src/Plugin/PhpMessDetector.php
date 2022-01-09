@@ -126,6 +126,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
 
         if (false === $xml) {
             $this->builder->log($xmlString);
+
             throw new RuntimeException('Could not process PHPMD report XML.');
         }
 

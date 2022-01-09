@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PHPCensor\Store;
 
@@ -27,11 +27,6 @@ class ProjectStore extends Store
 
     /**
      * Get a Project by primary key (Id)
-     *
-     * @param int    $key
-     * @param string $useConnection
-     *
-     * @return Project|null
      */
     public function getByPrimaryKey(int $key, string $useConnection = 'read'): ?Project
     {
@@ -40,11 +35,6 @@ class ProjectStore extends Store
 
     /**
      * Get a single Project by Id.
-     *
-     * @param int    $id
-     * @param string $useConnection
-     *
-     * @return Project|null
      *
      * @throws HttpException
      */
@@ -71,7 +61,6 @@ class ProjectStore extends Store
      * Get a single Project by Ids.
      *
      * @param int[] $values
-     * @param string    $useConnection
      *
      * @throws HttpException
      *
@@ -98,12 +87,6 @@ class ProjectStore extends Store
 
     /**
      * Get multiple Project by Title.
-     *
-     * @param string  $title
-     * @param int $limit
-     * @param string  $useConnection
-     *
-     * @return array
      *
      * @throws HttpException
      */
@@ -138,8 +121,6 @@ class ProjectStore extends Store
      * Returns a list of all branch names.
      *
      * @param $projectId
-     *
-     * @return array
      */
     public function getKnownBranches(int $projectId): array
     {
@@ -162,10 +143,6 @@ class ProjectStore extends Store
 
     /**
      * Get a list of all projects, ordered by their title.
-     *
-     * @param bool $archived
-     *
-     * @return array
      */
     public function getAll(bool $archived = false): array
     {
@@ -195,13 +172,6 @@ class ProjectStore extends Store
 
     /**
      * Get multiple Project by GroupId.
-     *
-     * @param int $groupId
-     * @param bool $archived
-     * @param int $limit
-     * @param string  $useConnection
-     *
-     * @return array
      *
      * @throws Exception
      */

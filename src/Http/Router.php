@@ -19,9 +19,6 @@ class Router
      */
     protected Request $request;
 
-    /**
-     * @var Application
-     */
     protected Application $application;
 
     /**

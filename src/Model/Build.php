@@ -36,9 +36,6 @@ class Build extends BaseBuild
     public const STAGE_FIXED    = 'fixed';
     public const STAGE_BROKEN   = 'broken';
 
-    /**
-     * @var array
-     */
     public static array $pullRequestSources = [
         self::SOURCE_WEBHOOK_PULL_REQUEST_CREATED,
         self::SOURCE_WEBHOOK_PULL_REQUEST_UPDATED,
@@ -46,9 +43,6 @@ class Build extends BaseBuild
         self::SOURCE_WEBHOOK_PULL_REQUEST_MERGED,
     ];
 
-    /**
-     * @var array
-     */
     public static array $webhookSources = [
         self::SOURCE_WEBHOOK_PUSH,
         self::SOURCE_WEBHOOK_PULL_REQUEST_CREATED,

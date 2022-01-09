@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PHPCensor\Store;
 
@@ -26,11 +26,6 @@ class UserStore extends Store
 
     /**
      * Get a User by primary key (Id)
-     *
-     * @param int    $key
-     * @param string $useConnection
-     *
-     * @return User|null
      */
     public function getByPrimaryKey(int $key, string $useConnection = 'read'): ?User
     {
@@ -39,11 +34,6 @@ class UserStore extends Store
 
     /**
      * Get a single User by Id.
-     *
-     * @param int    $id
-     * @param string $useConnection
-     *
-     * @return User|null
      *
      * @throws HttpException
      */
@@ -69,11 +59,7 @@ class UserStore extends Store
     /**
      * Get a single User by Email.
      *
-     * @param string $email
-     *
      * @throws HttpException
-     *
-     * @return User|null
      */
     public function getByEmail(string $email): ?User
     {
@@ -97,8 +83,6 @@ class UserStore extends Store
 
     /**
      * Get a single User by Email or Name.
-     *
-     * @param string $emailOrName
      *
      * @throws HttpException
      *
@@ -126,8 +110,6 @@ class UserStore extends Store
     /**
      * Get a single User by RememberKey.
      *
-     * @param string $rememberKey
-     *
      * @throws HttpException
      *
      * @return User
@@ -153,12 +135,6 @@ class UserStore extends Store
 
     /**
      * Get multiple User by Name.
-     *
-     * @param string  $name
-     * @param int $limit
-     * @param string  $useConnection
-     *
-     * @return array
      *
      * @throws HttpException
      */

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PHPCensor\Controller;
 
@@ -86,7 +86,7 @@ class SessionController extends WebController
     /**
      * Handles user login (form and processing)
      *
-     * @return string|Response
+     * @return Response|string
      *
      * @throws HttpException
      * @throws \PHPCensor\Common\Exception\InvalidArgumentException
@@ -207,8 +207,6 @@ class SessionController extends WebController
     /**
      * Allows the user to request a password reset email.
      *
-     * @return string
-     *
      * @throws HttpException
      */
     public function forgotPassword(): string
@@ -241,10 +239,7 @@ class SessionController extends WebController
     /**
      * Allows the user to change their password after a password reset email.
      *
-     * @param int $userId
-     * @param string $key
-     *
-     * @return string|Response
+     * @return Response|string
      *
      * @throws HttpException
      * @throws \PHPCensor\Common\Exception\InvalidArgumentException
@@ -282,8 +277,6 @@ class SessionController extends WebController
 
     /**
      * Get the URL the user was trying to go to prior to being asked to log in.
-     *
-     * @return string
      */
     protected function getLoginRedirect(): string
     {

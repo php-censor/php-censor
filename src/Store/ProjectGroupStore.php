@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PHPCensor\Store;
 
@@ -25,11 +25,6 @@ class ProjectGroupStore extends Store
 
     /**
      * Get a ProjectGroup by primary key (Id)
-     *
-     * @param int    $key
-     * @param string $useConnection
-     *
-     * @return ProjectGroup|null
      */
     public function getByPrimaryKey(int $key, string $useConnection = 'read'): ?ProjectGroup
     {
@@ -38,11 +33,6 @@ class ProjectGroupStore extends Store
 
     /**
      * Get a single ProjectGroup by Id.
-     *
-     * @param int    $id
-     * @param string $useConnection
-     *
-     * @return ProjectGroup|null
      *
      * @throws HttpException
      */
@@ -68,11 +58,6 @@ class ProjectGroupStore extends Store
 
     /**
      * Get a single ProjectGroup by title.
-     *
-     * @param string $title
-     * @param string $useConnection
-     *
-     * @return ProjectGroup|null
      *
      * @throws HttpException
      */

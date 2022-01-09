@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PHPCensor\Controller;
 
@@ -42,8 +42,6 @@ class WidgetAllProjectsController extends WebController
     }
 
     /**
-     * @return Response
-     *
      * @throws Exception
      */
     public function index(): Response
@@ -60,8 +58,6 @@ class WidgetAllProjectsController extends WebController
      * Generate the HTML for the project overview section of the dashboard.
      *
      * @param Project[] $projects
-     *
-     * @return string
      *
      * @throws Exception
      */
@@ -104,8 +100,6 @@ class WidgetAllProjectsController extends WebController
     /**
      * Get a summary of the project groups we have, and what projects they have in them.
      *
-     * @return array
-     *
      * @throws Exception
      */
     protected function getGroupInfo(): array
@@ -127,10 +121,6 @@ class WidgetAllProjectsController extends WebController
     }
 
     /**
-     * @param int $projectId
-     *
-     * @return Response
-     *
      * @throws HttpException
      */
     public function update(int $projectId): Response

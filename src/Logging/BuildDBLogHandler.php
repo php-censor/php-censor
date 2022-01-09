@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PHPCensor\Logging;
 
@@ -19,9 +19,6 @@ use PHPCensor\Store\BuildStore;
  */
 class BuildDBLogHandler extends AbstractProcessingHandler
 {
-    /**
-     * @var Build
-     */
     protected Build $build;
 
     protected BuildStore $buildStore;

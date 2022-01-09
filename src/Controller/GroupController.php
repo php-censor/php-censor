@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PHPCensor\Controller;
 
@@ -64,8 +64,6 @@ class GroupController extends WebController
     /**
      * Add or edit a project group.
      *
-     * @param int|null $groupId
-     *
      * @return Response
      *
      * @throws \PHPCensor\Common\Exception\InvalidArgumentException
@@ -125,10 +123,6 @@ class GroupController extends WebController
 
     /**
      * Delete a project group.
-     *
-     * @param int $groupId
-     *
-     * @return Response
      *
      * @throws \PHPCensor\Common\Exception\Exception
      * @throws \PHPCensor\Common\Exception\InvalidArgumentException

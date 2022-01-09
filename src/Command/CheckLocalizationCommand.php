@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PHPCensor\Command;
 
@@ -98,8 +98,6 @@ class CheckLocalizationCommand extends Command
      *
      * @param array $default   language by default
      * @param array $languages others languages
-     *
-     * @return array
      */
     private function compareTranslations(array $default, array $languages): array
     {

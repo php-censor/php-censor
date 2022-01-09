@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PHPCensor\Form;
 
@@ -86,9 +86,6 @@ class FieldSet extends Element
         return $rtn;
     }
 
-    /**
-     * @param View $view
-     */
     protected function onPreRender(View &$view): void
     {
         $rendered = [];

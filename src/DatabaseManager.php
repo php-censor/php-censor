@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PHPCensor;
 
@@ -15,8 +15,8 @@ use PHPCensor\Common\Exception\RuntimeException;
  */
 class DatabaseManager
 {
-    const MYSQL_TYPE      = 'mysql';
-    const POSTGRESQL_TYPE = 'pgsql';
+    public const MYSQL_TYPE      = 'mysql';
+    public const POSTGRESQL_TYPE = 'pgsql';
 
     private ConfigurationInterface $configuration;
 
@@ -31,10 +31,6 @@ class DatabaseManager
     }
 
     /**
-     * @param string $type
-     *
-     * @return DatabaseConnection
-     *
      * @throws Exception
      */
     public function getConnection(string $type = 'read'): DatabaseConnection

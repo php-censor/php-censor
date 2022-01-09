@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PHPCensor;
 
@@ -15,9 +15,6 @@ use Symfony\Component\Yaml\Parser as YamlParser;
  */
 class Configuration extends ParameterBag implements ConfigurationInterface
 {
-    /**
-     * @param string $configurationPath
-     */
     public function __construct(string $configurationPath)
     {
         $parameters = [];
@@ -28,11 +25,6 @@ class Configuration extends ParameterBag implements ConfigurationInterface
         parent::__construct($parameters);
     }
 
-    /**
-     * @param string $configurationPath
-     *
-     * @return array
-     */
     private function loadYaml(string $configurationPath): array
     {
         $parser = new YamlParser();

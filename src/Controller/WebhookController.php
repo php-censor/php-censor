@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PHPCensor\Controller;
 
@@ -59,11 +59,6 @@ class WebhookController extends Controller
 
     /**
      * Handle the action, Ensuring to return a JsonResponse.
-     *
-     * @param string $action
-     * @param array  $actionParams
-     *
-     * @return Response
      */
     public function handleAction(string $action, array $actionParams): Response
     {
@@ -191,19 +186,19 @@ class WebhookController extends Controller
                     $duplicates = [];
                     foreach ($environmentIds as $environmentId) {
                         if (
-                            !\in_array($environmentId, $ignoreEnvironments) ||
+                            !\in_array($environmentId, $ignoreEnvironments, true) ||
                             ($tag && !\in_array($tag, $ignoreTags, true))
                         ) {
                             // If not, create a new build job for it:
                             $build = $this->buildService->createBuild(
                                 $project,
-                                $environmentId,
+                                (int)$environmentId,
                                 $commitId,
                                 $project->getDefaultBranch(),
                                 $tag,
                                 $committer,
                                 $commitMessage,
-                                (int)$source,
+                                $source,
                                 null,
                                 $extra
                             );
@@ -213,7 +208,7 @@ class WebhookController extends Controller
                                 'environment' => $environmentId,
                             ];
                         } else {
-                            $duplicates[] = \array_search($environmentId, $ignoreEnvironments);
+                            $duplicates[] = \array_search($environmentId, $ignoreEnvironments, true);
                         }
                     }
 
@@ -278,8 +273,6 @@ class WebhookController extends Controller
      *
      * @param int $projectId id or title of project
      *
-     * @return Project
-     *
      * @throws Exception If the project does not exist or is not of the expected type.
      */
     protected function fetchProject(int $projectId, array $expectedType): Project
@@ -291,7 +284,7 @@ class WebhookController extends Controller
         if (\is_numeric($projectId)) {
             $project = $this->projectStore->getById((int)$projectId);
         } else {
-            $projects = $this->projectStore->getByTitle($projectId, 2);
+            $projects = $this->projectStore->getByTitle((string)$projectId, 2);
             if ($projects['count'] < 1) {
                 throw new NotFoundException('Project does not found: ' . $projectId);
             }
@@ -310,10 +303,6 @@ class WebhookController extends Controller
 
     /**
      * Called by POSTing to /webhook/git/<project_id>?branch=<branch>&commit=<commit>
-     *
-     * @param int $projectId
-     *
-     * @return array
      *
      * @throws Exception
      */
@@ -345,10 +334,6 @@ class WebhookController extends Controller
     /**
      * Called by POSTing to /webhook/hg/<project_id>?branch=<branch>&commit=<commit>
      *
-     * @param int $projectId
-     *
-     * @return array
-     *
      * @throws Exception
      */
     public function hg(int $projectId): array
@@ -378,10 +363,6 @@ class WebhookController extends Controller
      *
      * @author Sylvain Lévesque <slevesque@gezere.com>
      *
-     * @param int $projectId
-     *
-     * @return array
-     *
      * @throws Exception
      */
     public function svn(int $projectId): array
@@ -407,10 +388,6 @@ class WebhookController extends Controller
 
     /**
      * Called by Bitbucket.
-     *
-     * @param int $projectId
-     *
-     * @return array
      *
      * @throws Exception
      */
@@ -455,8 +432,6 @@ class WebhookController extends Controller
 
     /**
      * Handle the payload when Bitbucket sends a commit webhook.
-     *
-     * @return array
      */
     protected function bitbucketCommitRequest(Project $project, array $payload): array
     {
@@ -493,8 +468,6 @@ class WebhookController extends Controller
 
     /**
      * Handle the payload when Bitbucket sends a Pull Request webhook.
-     *
-     * @return array
      *
      * @throws Exception
      */
@@ -582,8 +555,6 @@ class WebhookController extends Controller
     /**
      * Handle the payload when Bitbucket Server sends a Pull Request webhook.
      *
-     * @return array
-     *
      * @throws Exception
      */
     protected function bitbucketSvrPullRequest(Project $project, array $payload): array
@@ -634,8 +605,6 @@ class WebhookController extends Controller
 
     /**
      * Bitbucket POST service.
-     *
-     * @return array
      */
     protected function bitbucketService(array $payload, Project $project): array
     {
@@ -666,10 +635,6 @@ class WebhookController extends Controller
     }
 
     /**
-     * @param int $projectId
-     *
-     * @return array
-     *
      * @throws Exception
      */
     public function github(int $projectId): array
@@ -709,8 +674,6 @@ class WebhookController extends Controller
 
     /**
      * Handle the payload when Github sends a commit webhook.
-     *
-     * @return array
      */
     protected function githubCommitRequest(Project $project, array $payload): array
     {
@@ -764,8 +727,6 @@ class WebhookController extends Controller
 
     /**
      * Handle the payload when Github sends a Pull Request webhook.
-     *
-     * @return array
      *
      * @throws Exception
      */
@@ -856,10 +817,6 @@ class WebhookController extends Controller
     /**
      * Called by Gitlab Webhooks:
      *
-     * @param int $projectId
-     *
-     * @return array
-     *
      * @throws Exception
      */
     public function gitlab(int $projectId): array
@@ -926,8 +883,6 @@ class WebhookController extends Controller
     /**
      * @param string $projectId
      *
-     * @return array
-     *
      * @throws Exception
      */
     public function gogs(int $projectId): array
@@ -964,8 +919,6 @@ class WebhookController extends Controller
 
     /**
      * Handle the payload when Gogs sends a commit webhook.
-     *
-     * @return array
      */
     protected function gogsCommitRequest(Project $project, array $payload): array
     {
@@ -1000,8 +953,6 @@ class WebhookController extends Controller
 
     /**
      * Handle the payload when Gogs sends a pull request webhook.
-     *
-     * @return array
      *
      * @throws InvalidArgumentException
      */

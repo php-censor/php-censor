@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PHPCensor\Security\Authentication\UserProvider;
 
@@ -26,11 +26,6 @@ class Internal extends AbstractProvider implements LoginPasswordProviderInterfac
         // Always fine
     }
 
-    /**
-     * @param string|null $identifier
-     *
-     * @return User|null
-     */
     public function provisionUser(?string $identifier): ?User
     {
         return null;

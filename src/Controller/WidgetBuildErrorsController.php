@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PHPCensor\Controller;
 
@@ -50,8 +50,6 @@ class WidgetBuildErrorsController extends WebController
     }
 
     /**
-     * @return Response
-     *
      * @throws HttpException
      */
     public function update(): Response
@@ -63,10 +61,6 @@ class WidgetBuildErrorsController extends WebController
     }
 
     /**
-     * @param View $view
-     *
-     * @return string
-     *
      * @throws HttpException
      */
     protected function renderAllProjectsLatestBuilds(View $view): string

@@ -23,11 +23,6 @@ class PhpUnitOptions
 
     protected ConfigurationInterface $configuration;
 
-    /**
-     * @param ConfigurationInterface $configuration
-     * @param array                  $options
-     * @param string                 $location
-     */
     public function __construct(ConfigurationInterface $configuration, array $options, string $location)
     {
         $this->configuration = $configuration;

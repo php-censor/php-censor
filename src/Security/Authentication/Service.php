@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PHPCensor\Security\Authentication;
 
@@ -18,8 +18,6 @@ class Service
 {
     /**
      * The table of providers.
-     *
-     * @var array
      */
     private array $providers;
 

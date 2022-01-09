@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PHPCensor\Security\Authentication\UserProvider;
 
@@ -63,10 +63,6 @@ class Ldap extends AbstractProvider implements LoginPasswordProviderInterface
     }
 
     /**
-     * @param string|null $identifier
-     *
-     * @return User|null
-     *
      * @throws \PHPCensor\Common\Exception\RuntimeException
      */
     public function provisionUser(?string $identifier): ?User

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PHPCensor;
 
@@ -102,8 +102,6 @@ class Application
     }
 
     /**
-     * @return Response
-     *
      * @throws NotFoundException
      */
     protected function handleRequestInner(): Response
@@ -132,8 +130,6 @@ class Application
     }
 
     /**
-     * @return User|null
-     *
      * @throws Common\Exception\RuntimeException
      * @throws HttpException
      */
@@ -151,8 +147,6 @@ class Application
 
     /**
      * Handle an incoming web request.
-     *
-     * @return Response
      *
      * @throws Common\Exception\RuntimeException
      * @throws HttpException
@@ -185,10 +179,6 @@ class Application
 
     /**
      * Loads a particular controller, and injects our layout view into it.
-     *
-     * @param string $class
-     *
-     * @return Controller
      */
     protected function loadController(string $class): Controller
     {
@@ -202,8 +192,6 @@ class Application
 
     /**
      * Check whether we should skip auth (because it is disabled)
-     *
-     * @return bool
      *
      * @throws Common\Exception\RuntimeException
      */

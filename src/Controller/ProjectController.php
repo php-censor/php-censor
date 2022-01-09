@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PHPCensor\Controller;
 
@@ -62,11 +62,6 @@ class ProjectController extends WebController
         );
     }
 
-    /**
-     * @param int $projectId
-     *
-     * @return Response
-     */
     public function ajaxBuilds(int $projectId): Response
     {
         $branch       = $this->getParam('branch', '');
@@ -89,10 +84,6 @@ class ProjectController extends WebController
 
     /**
      * View a specific project.
-     *
-     * @param int $projectId
-     *
-     * @return string
      *
      * @throws NotFoundException
      * @throws PHPCensor\Exception\HttpException
@@ -152,16 +143,6 @@ class ProjectController extends WebController
         return $this->view->render();
     }
 
-    /**
-     * @param int $projectId
-     * @param string  $branch
-     * @param string  $environment
-     * @param int $total
-     * @param int $perPage
-     * @param int $page
-     *
-     * @return string
-     */
     protected function getPaginatorHtml(
         int $projectId,
         string $branch,

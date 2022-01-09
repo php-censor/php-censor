@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PHPCensor\Service;
 
@@ -34,13 +34,6 @@ class UserService
     /**
      * Create a new user.
      *
-     * @param string  $name
-     * @param string  $email
-     * @param string  $providerKey
-     * @param array   $providerData
-     * @param string  $password
-     * @param bool $isAdmin
-     *
      * @return User
      */
     public function createUser(string $name, string $email, string $providerKey, array $providerData, string $password, bool $isAdmin = false): ?User
@@ -59,8 +52,6 @@ class UserService
     /**
      * Update a user.
      *
-     * @param string $name
-     * @param string $emailAddress
      * @param string $password
      * @param bool   $isAdmin
      * @param string $language
@@ -89,8 +80,6 @@ class UserService
 
     /**
      * Delete a user.
-     *
-     * @return bool
      */
     public function deleteUser(User $user): bool
     {

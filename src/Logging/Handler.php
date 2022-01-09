@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PHPCensor\Logging;
 
@@ -46,11 +46,6 @@ class Handler
     }
 
     /**
-     * @param int     $level
-     * @param string  $message
-     * @param string  $file
-     * @param int     $line
-     *
      * @throws ErrorException
      */
     public function handleError(int $level, string $message, string $file, int $line): void

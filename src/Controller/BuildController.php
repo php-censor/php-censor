@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PHPCensor\Controller;
 
@@ -55,8 +55,6 @@ class BuildController extends WebController
 
     /**
      * View a specific build.
-     *
-     * @param int $buildId
      *
      * @throws NotFoundException
      * @throws \PHPCensor\Common\Exception\RuntimeException
@@ -172,8 +170,6 @@ class BuildController extends WebController
 
     /**
      * Returns an array of the JS plugins to include.
-     *
-     * @return array
      */
     protected function getUiPlugins(): array
     {
@@ -240,17 +236,6 @@ class BuildController extends WebController
         return $data;
     }
 
-    /**
-     * @param int $buildId
-     * @param string  $plugin
-     * @param int $severity
-     * @param string  $isNew
-     * @param int $total
-     * @param int $perPage
-     * @param int $page
-     *
-     * @return string
-     */
     protected function getPaginatorHtml(
         int $buildId,
         string $plugin,
@@ -290,10 +275,6 @@ class BuildController extends WebController
 
     /**
      * Create a build using an existing build as a template:
-     *
-     * @param int $buildId
-     *
-     * @return Response
      *
      * @throws NotFoundException
      * @throws \PHPCensor\Common\Exception\RuntimeException
@@ -336,10 +317,6 @@ class BuildController extends WebController
     /**
      * Delete a build.
      *
-     * @param int $buildId
-     *
-     * @return Response
-     *
      * @throws NotFoundException
      * @throws \PHPCensor\Common\Exception\RuntimeException
      * @throws \PHPCensor\Exception\HttpException
@@ -368,10 +345,6 @@ class BuildController extends WebController
 
     /**
      * Parse log for unix colours and replace with HTML.
-     *
-     * @param string $log
-     *
-     * @return string
      */
     protected function cleanLog(string $log): string
     {
@@ -383,9 +356,7 @@ class BuildController extends WebController
     /**
      * Formats a list of builds into rows suitable for the dropdowns in the header bar.
      *
-     * @param array $builds
      *
-     * @return array
      */
     protected function formatBuilds(array $builds): array
     {
@@ -400,6 +371,7 @@ class BuildController extends WebController
         }
 
         \ksort($rtn['items']);
+
         return $rtn;
     }
 

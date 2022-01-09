@@ -50,9 +50,11 @@ class Lang
         $string = $params[0];
         if (\array_key_exists($string, self::$strings)) {
             $params[0] = self::$strings[$string];
+
             return \call_user_func_array('sprintf', $params);
         } elseif (self::DEFAULT_LANGUAGE !== self::$language && \array_key_exists($string, self::$defaultStrings)) {
             $params[0] = self::$defaultStrings[$string];
+
             return \call_user_func_array('sprintf', $params);
         }
 

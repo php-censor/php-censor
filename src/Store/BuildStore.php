@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PHPCensor\Store;
 
@@ -28,11 +28,6 @@ class BuildStore extends Store
 
     /**
      * Get a Build by primary key (Id)
-     *
-     * @param int    $key
-     * @param string $useConnection
-     *
-     * @return Build|null
      */
     public function getByPrimaryKey(int $key, string $useConnection = 'read'): ?Build
     {
@@ -41,11 +36,6 @@ class BuildStore extends Store
 
     /**
      * Get a single Build by Id.
-     *
-     * @param int    $id
-     * @param string $useConnection
-     *
-     * @return Build|null
      *
      * @throws HttpException
      */
@@ -70,12 +60,6 @@ class BuildStore extends Store
 
     /**
      * Get multiple Build by ProjectId.
-     *
-     * @param int $projectId
-     * @param int $limit
-     * @param string  $useConnection
-     *
-     * @return array
      *
      * @throws HttpException
      */
@@ -109,12 +93,6 @@ class BuildStore extends Store
     /**
      * Get multiple Build by Status.
      *
-     * @param int $status
-     * @param int $limit
-     * @param string  $useConnection
-     *
-     * @return array
-     *
      * @throws HttpException
      */
     public function getByStatus(int $status, int $limit = 1000, string $useConnection = 'read'): array
@@ -144,12 +122,6 @@ class BuildStore extends Store
         }
     }
 
-    /**
-     * @param int $limit
-     * @param int $offset
-     *
-     * @return array
-     */
     public function getBuilds(int $limit = 5, int $offset = 0): array
     {
         $query = 'SELECT * FROM {{' . $this->tableName . '}} ORDER BY {{id}} DESC LIMIT :limit OFFSET :offset';
@@ -172,11 +144,6 @@ class BuildStore extends Store
     }
 
     /**
-     * @param int $projectId
-     * @param string $branch
-     *
-     * @return Build|null
-     *
      * @throws Exception
      */
     public function getLatestBuildByProjectAndBranch(int $projectId, string $branch): ?Build
@@ -196,11 +163,6 @@ class BuildStore extends Store
 
     /**
      * Return an array of the latest builds for a given project.
-     *
-     * @param int|null $projectId
-     * @param int      $limit
-     *
-     * @return array
      *
      * @throws Exception
      */
@@ -226,6 +188,7 @@ class BuildStore extends Store
             $map = function ($item) {
                 return new Build($this->storeRegistry, $item);
             };
+
             return \array_map($map, $res);
         } else {
             return [];
@@ -234,11 +197,6 @@ class BuildStore extends Store
 
     /**
      * Return the latest build for a specific project, of a specific build status.
-     *
-     * @param int|null $projectId
-     * @param int      $status
-     *
-     * @return Build|null
      */
     public function getLastBuildByStatus(?int $projectId = null, int $status = Build::STATUS_SUCCESS): ?Build
     {
@@ -258,11 +216,6 @@ class BuildStore extends Store
 
     /**
      * Return an array of the latest builds for all projects.
-     *
-     * @param int $limitByProject
-     * @param int $limitAll
-     *
-     * @return array
      */
     public function getAllProjectsLatestBuilds(int $limitByProject = 5, int $limitAll = 10): array
     {
@@ -348,11 +301,6 @@ class BuildStore extends Store
 
     /**
      * Return an array of builds for a given project and commit ID.
-     *
-     * @param int $projectId
-     * @param string  $commitId
-     *
-     * @return array
      */
     public function getByProjectAndCommit(int $projectId, string $commitId): array
     {
@@ -380,10 +328,6 @@ class BuildStore extends Store
     /**
      * Returns all registered branches for project
      *
-     * @param int $projectId
-     *
-     * @return array
-     *
      * @throws Exception
      */
     public function getBuildBranches(int $projectId): array
@@ -401,14 +345,6 @@ class BuildStore extends Store
 
     /**
      * Return build metadata by key, project and optionally build id.
-     *
-     * @param string       $key
-     * @param int      $projectId
-     * @param int|null $buildId
-     * @param string|null  $branch
-     * @param int      $numResults
-     *
-     * @return array|null
      */
     public function getMeta(string $key, int $projectId, ?int $buildId = null, ?string $branch = null, int $numResults = 1): ?array
     {
@@ -477,10 +413,6 @@ class BuildStore extends Store
 
     /**
      * Set a metadata value for a given project and build ID.
-     *
-     * @param int $buildId
-     * @param string  $key
-     * @param string  $value
      */
     public function setMeta(int $buildId, string $key, string $value): void
     {
@@ -510,11 +442,6 @@ class BuildStore extends Store
     }
 
     /**
-     * @param int $projectId
-     * @param int $keep
-     *
-     * @return array
-     *
      * @throws HttpException
      */
     public function getOldByProject(int $projectId, int $keep = 100): array
@@ -545,10 +472,6 @@ class BuildStore extends Store
     }
 
     /**
-     * @param int $buildId
-     *
-     * @return int
-     *
      * @throws Exception
      */
     public function getNewErrorsCount(int $buildId): int
@@ -569,10 +492,6 @@ class BuildStore extends Store
     }
 
     /**
-     * @param int $buildId
-     *
-     * @return int
-     *
      * @throws Exception
      */
     public function getErrorsCount(int $buildId): int
@@ -593,12 +512,6 @@ class BuildStore extends Store
     }
 
     /**
-     * @param int    $buildId
-     * @param int    $projectId
-     * @param string $branch
-     *
-     * @return array
-     *
      * @throws Exception
      */
     public function getBuildErrorsTrend(int $buildId, int $projectId, string $branch): array

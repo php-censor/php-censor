@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PHPCensor\Service;
 
@@ -56,19 +56,6 @@ class BuildService
         $this->projectStore  = $projectStore;
     }
 
-    /**
-     * @param int|null    $environmentId
-     * @param string      $commitId
-     * @param string|null $branch
-     * @param string|null $tag
-     * @param string|null $committerEmail
-     * @param string|null $commitMessage
-     * @param int         $source
-     * @param int         $userId
-     * @param array|null  $extra
-     *
-     * @return Build
-     */
     public function createBuild(
         Project $project,
         ?int $environmentId = null,
@@ -245,10 +232,6 @@ class BuildService
     }
 
     /**
-     * @param int $source
-     *
-     * @return Build
-     *
      * @throws Exception
      */
     public function createDuplicateBuild(Build $originalBuild, int $source): Build
@@ -286,8 +269,6 @@ class BuildService
     }
 
     /**
-     * @param int $projectId
-     *
      * @throws HttpException
      */
     public function deleteOldByProject(int $projectId): void
@@ -302,9 +283,6 @@ class BuildService
         }
     }
 
-    /**
-     * @param int $projectId
-     */
     public function deleteAllByProject(int $projectId): void
     {
         $this->buildStore->deleteAllByProject((int)$projectId);
@@ -332,8 +310,6 @@ class BuildService
 
     /**
      * Delete a given build.
-     *
-     * @return bool
      */
     public function deleteBuild(Build $build): bool
     {
@@ -362,10 +338,6 @@ class BuildService
         $this->addJobToQueue(BuildWorker::JOB_TYPE_BUILD, $jobData, ($buildPriority + Project::OFFSET_BETWEEN_BUILD_AND_QUEUE));
     }
 
-    /**
-     * @param string $jobType
-     * @param int    $queuePriority
-     */
     public function addJobToQueue(string $jobType, array $jobData, int $queuePriority = PheanstalkInterface::DEFAULT_PRIORITY): void
     {
         $settings = $this->configuration->get('php-censor.queue', []);

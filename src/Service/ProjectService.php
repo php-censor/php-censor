@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PHPCensor\Service;
 
@@ -36,14 +36,6 @@ class ProjectService
 
     /**
      * Create a new project model and use the project store to save it.
-     *
-     * @param string $title
-     * @param string $type
-     * @param string $reference
-     * @param int    $userId
-     * @param array  $options
-     *
-     * @return Project
      */
     public function createProject(string $title, string $type, string $reference, int $userId, array $options = []): Project
     {
@@ -57,13 +49,6 @@ class ProjectService
 
     /**
      * Update the properties of a given project.
-     *
-     * @param string $title
-     * @param string $type
-     * @param string $reference
-     * @param array  $options
-     *
-     * @return Project
      */
     public function updateProject(Project $project, string $title, string $type, string $reference, array $options = []): Project
     {
@@ -129,8 +114,6 @@ class ProjectService
 
     /**
      * Delete a given project.
-     *
-     * @return bool
      */
     public function deleteProject(Project $project): bool
     {
@@ -148,8 +131,6 @@ class ProjectService
 
     /**
      * In circumstances where it is necessary, populate access information based on other project properties.
-     *
-     * @return Project
      */
     protected function processAccessInformation(Project $project): Project
     {

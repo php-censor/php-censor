@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PHPCensor;
 
@@ -22,9 +22,6 @@ class View
     protected static string $extension = 'phtml';
 
     /**
-     * @param string      $file
-     * @param string|null $path
-     *
      * @throws RuntimeException
      */
     public function __construct(string $file, ?string $path = null)
@@ -58,8 +55,6 @@ class View
     }
 
     /**
-     * @param string $key
-     *
      * @return mixed
      */
     public function __get(string $key)
@@ -68,7 +63,6 @@ class View
     }
 
     /**
-     * @param string $key
      * @param mixed  $value
      */
     public function __set(string $key, $value): void

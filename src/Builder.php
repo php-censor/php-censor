@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PHPCensor;
 
@@ -138,8 +138,6 @@ class Builder
     /**
      * Access a variable from the .php-censor.yml file.
      *
-     * @param string|null $key
-     *
      * @return mixed
      */
     public function getConfig(?string $key = null)
@@ -156,8 +154,6 @@ class Builder
 
     /**
      * Access a variable from the config.yml
-     *
-     * @param string $key
      *
      * @return mixed
      */
@@ -294,8 +290,6 @@ class Builder
      * Used by this class, and plugins, to execute shell commands.
      *
      * @param ...$params
-     *
-     * @return bool
      */
     public function executeCommand(...$params): bool
     {
@@ -304,8 +298,6 @@ class Builder
 
     /**
      * Returns the output from the last command run.
-     *
-     * @return string
      */
     public function getLastOutput(): string
     {
@@ -314,8 +306,6 @@ class Builder
 
     /**
      * Specify whether exec output should be logged.
-     *
-     * @param bool $enableLog
      */
     public function logExecOutput(bool $enableLog = true): void
     {
@@ -326,11 +316,6 @@ class Builder
      * Find a binary required by a plugin.
      *
      * @param array|string $binary
-     * @param string       $priorityPath
-     * @param string       $binaryPath
-     * @param array        $binaryName
-     *
-     * @return string
      *
      * @throws Exception when no binary has been found.
      */
@@ -342,10 +327,6 @@ class Builder
     /**
      * Replace every occurrence of the interpolation vars in the given string
      * Example: "This is build %BUILD_ID%" => "This is build 182"
-     *
-     * @param string $input
-     *
-     * @return string
      */
     public function interpolate(string $input): string
     {
@@ -356,8 +337,6 @@ class Builder
      * Set up a working copy of the project for building.
      *
      * @throws Exception
-     *
-     * @return bool
      */
     protected function setupBuild(): bool
     {
@@ -458,8 +437,6 @@ class Builder
 
     /**
      * Returns a configured instance of the plugin factory.
-     *
-     * @return PluginFactory
      */
     private function buildPluginFactory(Build $build): PluginFactory
     {

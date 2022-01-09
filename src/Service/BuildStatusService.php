@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PHPCensor\Service;
 
@@ -50,25 +50,17 @@ class BuildStatusService
         }
     }
 
-    /**
-     * @param string $url
-     */
     public function setUrl(string $url): void
     {
         $this->url = $url;
     }
 
-    /**
-     * @return Build
-     */
     public function getBuild(): Build
     {
         return $this->build;
     }
 
     /**
-     * @param bool $isParent
-     *
      * @throws Exception
      */
     protected function loadParentBuild(bool $isParent = true): void
@@ -87,9 +79,6 @@ class BuildStatusService
         }
     }
 
-    /**
-     * @return string
-     */
     public function getActivity(): string
     {
         if (\in_array($this->build->getStatus(), $this->finishedStatusIds, true)) {
@@ -103,17 +92,11 @@ class BuildStatusService
         return 'Unknown';
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->project->getTitle() . ' / ' . $this->branch;
     }
 
-    /**
-     * @return bool
-     */
     public function isFinished(): bool
     {
         if (\in_array($this->build->getStatus(), $this->finishedStatusIds, true)) {
@@ -123,9 +106,6 @@ class BuildStatusService
         return false;
     }
 
-    /**
-     * @return Build|null
-     */
     public function getFinishedBuildInfo(): ?Build
     {
         if ($this->isFinished()) {
@@ -137,9 +117,6 @@ class BuildStatusService
         return null;
     }
 
-    /**
-     * @return string
-     */
     public function getLastBuildLabel(): string
     {
         if ($buildInfo = $this->getFinishedBuildInfo()) {
@@ -149,9 +126,6 @@ class BuildStatusService
         return '';
     }
 
-    /**
-     * @return string
-     */
     public function getLastBuildTime(): string
     {
         $dateFormat = 'Y-m-d\\TH:i:sO';
@@ -162,9 +136,6 @@ class BuildStatusService
         return '';
     }
 
-    /**
-     * @return string
-     */
     public function getBuildStatus(Build $build): string
     {
         switch ($build->getStatus()) {
@@ -177,9 +148,6 @@ class BuildStatusService
         return 'Unknown';
     }
 
-    /**
-     * @return string
-     */
     public function getLastBuildStatus(): string
     {
         if ($build = $this->getFinishedBuildInfo()) {
@@ -189,17 +157,11 @@ class BuildStatusService
         return '';
     }
 
-    /**
-     * @return string
-     */
     public function getBuildUrl(): string
     {
         return $this->url . 'build/view/' . $this->build->getId();
     }
 
-    /**
-     * @return array
-     */
     public function toArray(): array
     {
         if (!$this->build) {

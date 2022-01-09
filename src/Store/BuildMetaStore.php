@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PHPCensor\Store;
 
@@ -26,11 +26,6 @@ class BuildMetaStore extends Store
 
     /**
      * Get a BuildMeta by primary key (Id)
-     *
-     * @param int    $key
-     * @param string $useConnection
-     *
-     * @return BuildMeta|null
      */
     public function getByPrimaryKey(int $key, string $useConnection = 'read'): ?BuildMeta
     {
@@ -39,11 +34,6 @@ class BuildMetaStore extends Store
 
     /**
      * Get a single BuildMeta by Id.
-     *
-     * @param int    $id
-     * @param string $useConnection
-     *
-     * @return BuildMeta|null
      *
      * @throws HttpException
      */
@@ -67,11 +57,6 @@ class BuildMetaStore extends Store
     }
 
     /**
-     * @param int $buildId
-     * @param string  $key
-     *
-     * @return BuildMeta|null
-     *
      * @throws HttpException
      */
     public function getByKey(int $buildId, string $key): ?BuildMeta
@@ -100,12 +85,6 @@ class BuildMetaStore extends Store
 
     /**
      * Get multiple BuildMeta by BuildId.
-     *
-     * @param int $buildId
-     * @param int $limit
-     * @param string  $useConnection
-     *
-     * @return array
      *
      * @throws HttpException
      */
@@ -138,10 +117,6 @@ class BuildMetaStore extends Store
 
     /**
      * Only used by an upgrade migration to move errors from build_meta to build_error
-     *
-     * @param int $limit
-     *
-     * @return array
      */
     public function getErrorsForUpgrade(int $limit): array
     {

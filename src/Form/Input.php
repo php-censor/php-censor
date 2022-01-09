@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PHPCensor\Form;
 
@@ -159,9 +159,6 @@ class Input extends Element
         return $this;
     }
 
-    /**
-     * @param View $view
-     */
     protected function onPreRender(View &$view): void
     {
         $view->value    = $this->getValue();

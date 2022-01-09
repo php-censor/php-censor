@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PHPCensor;
 
@@ -78,9 +78,6 @@ class DatabaseConnection
     }
 
     /**
-     * @param string $query
-     * @param array  $options
-     *
      * @return false|\PDOStatement
      */
     public function prepare(string $query, array $options = [])
@@ -89,9 +86,7 @@ class DatabaseConnection
     }
 
     /**
-     * @param string $statement
-     *
-     * @return int|false
+     * @return false|int
      */
     public function exec(string $statement)
     {
@@ -99,8 +94,6 @@ class DatabaseConnection
     }
 
     /**
-     * @param string $statement
-     *
      * @return false|\PDOStatement
      */
     public function query(string $statement)

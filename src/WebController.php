@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PHPCensor;
 
@@ -73,11 +73,6 @@ abstract class WebController extends Controller
     /**
      * Handle the incoming request.
      *
-     * @param string $action
-     * @param array  $actionParams
-     *
-     * @return Response
-     *
      * @throws Common\Exception\RuntimeException
      */
     public function handleAction(string $action, array $actionParams): Response
@@ -126,8 +121,6 @@ abstract class WebController extends Controller
     /**
      * Check if the currently logged in user is an administrator.
      *
-     * @return bool
-     *
      * @throws HttpException
      */
     protected function currentUserIsAdmin(): bool
@@ -141,8 +134,6 @@ abstract class WebController extends Controller
     }
 
     /**
-     * @return User|null
-     *
      * @throws Common\Exception\RuntimeException
      * @throws HttpException
      */

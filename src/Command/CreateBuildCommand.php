@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PHPCensor\Command;
 
@@ -62,7 +62,7 @@ class CreateBuildCommand extends Command
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $projectId   = $input->getArgument('projectId');
+        $projectId   = (int)$input->getArgument('projectId');
         $commitId    = $input->getOption('commit');
         $branch      = $input->getOption('branch');
         $environment = $input->hasOption('environment') ? $input->getOption('environment') : null;

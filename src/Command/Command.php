@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PHPCensor\Command;
 
@@ -10,7 +10,6 @@ use PHPCensor\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Logging\OutputLogHandler;
 use PHPCensor\StoreRegistry;
-use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -30,13 +29,13 @@ abstract class Command extends BaseCommand
 
     protected StoreRegistry $storeRegistry;
 
-    protected LoggerInterface $logger;
+    protected Logger $logger;
 
     public function __construct(
         ConfigurationInterface $configuration,
         DatabaseManager $databaseManager,
         StoreRegistry $storeRegistry,
-        LoggerInterface $logger,
+        Logger $logger,
         ?string $name = null
     ) {
         parent::__construct($name);

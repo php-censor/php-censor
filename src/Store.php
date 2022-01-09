@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PHPCensor;
 
@@ -46,14 +46,6 @@ abstract class Store
     }
 
     /**
-     * @param array  $where
-     * @param int    $limit
-     * @param int    $offset
-     * @param array  $order
-     * @param string $whereType
-     *
-     * @return array
-     *
      * @throws Common\Exception\Exception
      * @throws InvalidArgumentException
      */
@@ -118,10 +110,6 @@ abstract class Store
     }
 
     /**
-     * @param bool $saveAllColumns
-     *
-     * @return Model|null
-     *
      * @throws InvalidArgumentException
      */
     public function save(Model $obj, bool $saveAllColumns = false): ?Model
@@ -142,10 +130,6 @@ abstract class Store
     }
 
     /**
-     * @param bool $saveAllColumns
-     *
-     * @return Model|null
-     *
      * @throws Exception
      */
     public function saveByUpdate(Model $obj, bool $saveAllColumns = false): ?Model
@@ -185,10 +169,6 @@ abstract class Store
     }
 
     /**
-     * @param bool $saveAllColumns
-     *
-     * @return Model|null
-     *
      * @throws Exception
      */
     public function saveByInsert(Model $obj, bool $saveAllColumns = false): ?Model
@@ -225,8 +205,6 @@ abstract class Store
     }
 
     /**
-     * @return bool
-     *
      * @throws Common\Exception\Exception
      * @throws InvalidArgumentException
      */
@@ -253,10 +231,6 @@ abstract class Store
     }
 
     /**
-     * @param string $field
-     *
-     * @return string
-     *
      * @throws InvalidArgumentException
      */
     protected function fieldCheck(string $field): string

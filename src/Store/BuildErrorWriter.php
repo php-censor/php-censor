@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PHPCensor\Store;
 
@@ -19,19 +19,10 @@ use PHPCensor\StoreRegistry;
  */
 class BuildErrorWriter
 {
-    /**
-     * @var int
-     */
     private int $buildId;
 
-    /**
-     * @var int
-     */
     private int $projectId;
 
-    /**
-     * @var array
-     */
     private array $errors = [];
 
     private DatabaseManager $databaseManager;
@@ -64,17 +55,6 @@ class BuildErrorWriter
         $this->flush();
     }
 
-    /**
-     * Write error
-     *
-     * @param string        $plugin
-     * @param string        $message
-     * @param int           $severity
-     * @param string|null   $file
-     * @param int|null      $lineStart
-     * @param int|null      $lineEnd
-     * @param DateTime|null $createdDate
-     */
     public function write(
         string $plugin,
         string $message,
@@ -109,9 +89,6 @@ class BuildErrorWriter
         }
     }
 
-    /**
-     * Flush buffer
-     */
     public function flush(): void
     {
         if (empty($this->errors)) {

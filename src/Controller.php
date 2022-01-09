@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PHPCensor;
 
@@ -53,9 +53,6 @@ abstract class Controller
     /**
      * Handles an action on this controller and returns a Response object.
      *
-     * @param string $action
-     * @param array  $actionParams
-     *
      * @return Response|string
      */
     public function handleAction(string $action, array $actionParams)
@@ -65,8 +62,6 @@ abstract class Controller
 
     /**
      * Get a hash of incoming request parameters ($_GET, $_POST)
-     *
-     * @return array
      */
     public function getParams(): array
     {
@@ -76,7 +71,6 @@ abstract class Controller
     /**
      * Get a specific incoming request parameter.
      *
-     * @param string $key
      * @param mixed  $default Default return value (if key does not exist)
      *
      * @return mixed
@@ -89,7 +83,6 @@ abstract class Controller
     /**
      * Change the value of an incoming request parameter.
      *
-     * @param string $key
      * @param mixed  $value
      */
     public function setParam(string $key, $value)
@@ -99,8 +92,6 @@ abstract class Controller
 
     /**
      * Remove an incoming request parameter.
-     *
-     * @param string $key
      */
     public function unsetParam(string $key): void
     {

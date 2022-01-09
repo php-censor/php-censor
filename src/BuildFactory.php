@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PHPCensor;
 
@@ -19,12 +19,6 @@ use PHPCensor\Model\Project;
 class BuildFactory
 {
     /**
-     * @param ConfigurationInterface $configuration
-     * @param StoreRegistry          $storeRegistry
-     * @param int                    $buildId
-     *
-     * @return Build|null
-     *
      * @throws Common\Exception\RuntimeException
      * @throws Exception\HttpException
      */
@@ -44,12 +38,6 @@ class BuildFactory
 
     /**
      * Takes a generic build and returns a type-specific build model.
-     *
-     * @param ConfigurationInterface $configuration
-     * @param StoreRegistry          $storeRegistry
-     * @param Build                  $build
-     *
-     * @return Build
      *
      * @throws Exception\HttpException
      */

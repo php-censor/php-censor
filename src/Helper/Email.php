@@ -25,9 +25,6 @@ class Email
     protected $isHtml  = false;
     protected $config;
 
-    /**
-     * @param ConfigurationInterface $config
-     */
     public function __construct(ConfigurationInterface $config)
     {
         $this->config = $config;

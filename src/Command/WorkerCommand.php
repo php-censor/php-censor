@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PHPCensor\Command;
 
@@ -89,6 +89,7 @@ class WorkerCommand extends Command
                 $priority = self::MAX_QUEUE_PRIORITY; // low priority, stop late
             } else {
                 $msg = \sprintf('Invalid value "%s" for --stop-worker, valid are soon, done and idle;', $value);
+
                 throw new InvalidArgumentException($msg);
             }
             $jobData = [];

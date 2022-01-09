@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PHPCensor\Controller;
 
@@ -58,8 +58,6 @@ class UserController extends WebController
 
     /**
      * Allows the user to edit their profile.
-     *
-     * @return string
      *
      * @throws \PHPCensor\Common\Exception\RuntimeException
      * @throws \PHPCensor\Exception\HttpException
@@ -165,7 +163,7 @@ class UserController extends WebController
     /**
      * Add a user - handles both form and processing.
      *
-     * @return string|Response
+     * @return Response|string
      *
      * @throws \PHPCensor\Exception\HttpException
      */
@@ -218,9 +216,7 @@ class UserController extends WebController
     /**
      * Edit a user - handles both form and processing.
      *
-     * @param int $userId
-     *
-     * @return string|Response
+     * @return Response|string
      *
      * @throws ForbiddenException
      * @throws NotFoundException
@@ -277,11 +273,6 @@ class UserController extends WebController
 
     /**
      * Create user add / edit form.
-     *
-     * @param array $values
-     * @param string $type
-     *
-     * @return Form
      *
      * @throws \PHPCensor\Common\Exception\RuntimeException
      * @throws \PHPCensor\Exception\HttpException
@@ -346,10 +337,6 @@ class UserController extends WebController
 
     /**
      * Delete a user.
-     *
-     * @param int $userId
-     *
-     * @return Response
      *
      * @throws NotFoundException
      * @throws \PHPCensor\Exception\HttpException

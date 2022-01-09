@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PHPCensor;
 
@@ -29,10 +29,6 @@ class StoreRegistry
     }
 
     /**
-     * @param string $storeName
-     *
-     * @return Store
-     *
      * @throws RuntimeException
      */
     public function get(string $storeName): Store
