@@ -112,7 +112,10 @@
         "friendsofphp/php-cs-fixer": "~2.14.0"
     },
     "config": {
-        "preferred-install": "source"
+        "preferred-install": "source",
+        "allow-plugins": {
+            "cweagans/composer-patches": true
+        }
     },
     "extra": {
         "platform": {
