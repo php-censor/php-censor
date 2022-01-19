@@ -95,6 +95,23 @@ class PhpCsFixer extends Plugin
     {
         $phpCsFixer = $this->executable;
 
+        // Determine the version of PHP CS Fixer
+        $cmd     = $phpCsFixer . ' --version';
+        $success = $this->builder->executeCommand($cmd);
+        $output  = $this->builder->getLastOutput();
+        $matches = [];
+        if (!\preg_match('/(\d+\.\d+\.\d+)/', $output, $matches)) {
+            throw new Exception('Unable to determine the version of the PHP Coding Standards Fixer.');
+        }
+
+        $version = $matches[1];
+        // Appeared in PHP CS Fixer 2.8.0 and used by default since 3.0.0
+        // https://github.com/FriendsOfPHP/PHP-CS-Fixer/blob/2.19/CHANGELOG.md#changelog-for-v280
+        $supportsUdiff = (
+            \version_compare($version, '2.8.0', '>=') &&
+            \version_compare($version, '3.0.0', '<')
+        );
+
         $directory = '';
         if (!empty($this->directory)) {
             $directory = $this->directory;
@@ -105,9 +122,13 @@ class PhpCsFixer extends Plugin
         }
 
         if ($this->errors) {
-            $this->args .= ' --verbose --format json --diff --diff-format udiff';
+            $this->args .= ' --verbose --format json --diff';
+            if ($supportsUdiff) {
+                $this->args .= ' --diff-format udiff';
+            }
+
             if (!$this->build->isDebug()) {
-                $this->builder->logExecOutput(false); // do not show json output
+                $this->builder->logExecOutput(false);
             }
         }
 
