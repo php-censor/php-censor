@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [2.0.7 (Rick Sanchez)](https://github.com/php-censor/php-censor/tree/2.0.7) (2022-01-19)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/2.0.6...2.0.7)
+
+### Fixed
+
+- **[PhpCsFixer]** Problems with `udiff` option.
+
+
 ## [2.0.6 (Rick Sanchez)](https://github.com/php-censor/php-censor/tree/2.0.6) (2021-12-19)
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/2.0.5...2.0.6)
