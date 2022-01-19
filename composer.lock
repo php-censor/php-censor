@@ -640,9 +640,6 @@
                 "sebastian/comparator": ">=1.2.4 <3.0",
                 "sebastian/diff": ">=1.4 <4.0"
             },
-            "replace": {
-                "codeception/phpunit-wrapper": "*"
-            },
             "require-dev": {
                 "codeception/specify": "*",
                 "vlucas/phpdotenv": "^3.0"
@@ -6373,5 +6370,5 @@
         "ext-bcmath": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.2.0"
 }
