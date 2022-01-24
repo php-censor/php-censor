@@ -5,6 +5,7 @@ namespace Tests\PHPCensor\Command;
 use Monolog\Logger;
 use PHPCensor\Command\CreateAdminCommand;
 use PHPCensor\Command\CreateBuildCommand;
+use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -99,7 +100,7 @@ class CreateBuildCommandTest extends TestCase
 
     public function testExecuteWithUnknownProjectId()
     {
-        self::expectException('\PHPCensor\Common\Exception\InvalidArgumentException');
+        self::expectException(InvalidArgumentException::class);
 
         $commandTester = $this->getCommandTester();
         $commandTester->execute(['projectId' => 2]);
