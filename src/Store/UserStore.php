@@ -85,8 +85,6 @@ class UserStore extends Store
      * Get a single User by Email or Name.
      *
      * @throws HttpException
-     *
-     * @return User
      */
     public function getByEmailOrName(string $emailOrName): ?User
     {
@@ -111,8 +109,6 @@ class UserStore extends Store
      * Get a single User by RememberKey.
      *
      * @throws HttpException
-     *
-     * @return User
      */
     public function getByRememberKey(string $rememberKey): ?User
     {

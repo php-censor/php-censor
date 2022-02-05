@@ -319,8 +319,12 @@ class Builder
      *
      * @throws Exception when no binary has been found.
      */
-    public function findBinary($binary, string $priorityPath = 'local', string $binaryPath = '', array $binaryName = []): string
-    {
+    public function findBinary(
+        $binary,
+        string $priorityPath = 'local',
+        string $binaryPath = '',
+        array $binaryName = []
+    ): string {
         return $this->commandExecutor->findBinary($binary, $priorityPath, $binaryPath, $binaryName);
     }
 

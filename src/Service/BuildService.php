@@ -65,7 +65,7 @@ class BuildService
         ?string $committerEmail = null,
         ?string $commitMessage = null,
         int $source = Build::SOURCE_UNKNOWN,
-        int $userId = null,
+        ?int $userId = null,
         ?array $extra = null
     ): Build {
         $build = new Build($this->storeRegistry);

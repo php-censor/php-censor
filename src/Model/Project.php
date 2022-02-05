@@ -212,7 +212,10 @@ class Project extends BaseProject
             if ($key !== false) {
                 // already exist
                 unset($environmentsNames[$key]);
-                $environment->setBranches(!empty($environmentsConfig[$environment->getName()]) ? $environmentsConfig[$environment->getName()] : []);
+                $branches = !empty($environmentsConfig[$environment->getName()])
+                    ? $environmentsConfig[$environment->getName()]
+                    : [];
+                $environment->setBranches($branches);
                 $store->save($environment);
             } else {
                 // remove
@@ -235,7 +238,7 @@ class Project extends BaseProject
     /**
      * @param string $branch
      *
-     * @return string[]
+     * @return int[]
      */
     public function getEnvironmentsNamesByBranch($branch)
     {

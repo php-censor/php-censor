@@ -41,7 +41,7 @@ use Symfony\Component\Console\Application as BaseApplication;
  */
 class Application extends BaseApplication
 {
-    public const LOGO = <<<'LOGO'
+    private const LOGO = <<<'LOGO'
     ____  __  ______    ______
    / __ \/ / / / __ \  / ____/__  ____  _________  _____
   / /_/ / /_/ / /_/ / / /   / _ \/ __ \/ ___/ __ \/ ___/
