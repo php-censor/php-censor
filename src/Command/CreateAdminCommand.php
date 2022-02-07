@@ -67,5 +67,7 @@ class CreateAdminCommand extends Command
         $createAdmin->create(
             $createAdmin->process()
         );
+
+        return 0;
     }
 }
