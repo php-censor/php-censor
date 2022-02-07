@@ -120,7 +120,7 @@ class CommandExecutor implements CommandExecutorInterface
             $cwd = $this->buildPath;
         }
 
-        $process = new Process($command, $cwd);
+        $process = Process::fromShellCommandline($command, $cwd);
         $process->setTimeout(86400);
 
         $env = $this->getDefaultEnv();

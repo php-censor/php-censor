@@ -128,7 +128,7 @@ class DatabaseConnectionTest extends TestCase
         $pdoConnection
             ->method('lastInsertId')
             ->with('"test_table_id_seq"')
-            ->willReturn(10);
+            ->willReturn('10');
 
         $databaseConnection = new DatabaseConnection('pgsql');
         $databaseConnection->setPdo($pdoConnection);
@@ -154,7 +154,7 @@ class DatabaseConnectionTest extends TestCase
         $pdoConnection
             ->method('lastInsertId')
             ->with('"sequence_test_table"')
-            ->willReturn(10);
+            ->willReturn('10');
 
         $databaseConnection = new DatabaseConnection('pgsql', null, null, null, 'sequence_%s');
         $databaseConnection->setPdo($pdoConnection);
@@ -179,7 +179,7 @@ class DatabaseConnectionTest extends TestCase
 
         $pdoConnection
             ->method('lastInsertId')
-            ->willReturn(11);
+            ->willReturn('11');
 
         $databaseConnection = new DatabaseConnection('mysql', null, null, null, 'sequence_%s');
         $databaseConnection->setPdo($pdoConnection);

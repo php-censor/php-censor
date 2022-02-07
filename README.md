@@ -1,14 +1,15 @@
-[![PHP Censor](http://ci.php-censor.info/build-status/image/2?branch=master&label=PHPCensor&style=flat-square)](http://ci.php-censor.info/build-status/view/2?branch=master)
-[![Latest Version](https://img.shields.io/packagist/v/php-censor/php-censor.svg?label=Version&style=flat-square)](https://packagist.org/packages/php-censor/php-censor)
-[![Total downloads](https://img.shields.io/packagist/dt/php-censor/php-censor.svg?label=Downloads&style=flat-square)](https://packagist.org/packages/php-censor/php-censor)
-[![License](https://img.shields.io/packagist/l/php-censor/php-censor.svg?label=License&style=flat-square)](https://packagist.org/packages/php-censor/php-censor)
-   
-   
+[![Minimum PHP version: 7.4.0](https://img.shields.io/badge/php-7.4.0%2B-blue.svg?label=PHP)](https://packagist.org/packages/php-censor/php-censor)
+[![Actions](https://github.com/php-censor/php-censor/actions/workflows/ci.yaml/badge.svg)](https://github.com/php-censor/php-censor/actions)
+[![PHP Censor](http://ci.php-censor.info/build-status/image/2?branch=master&label=PHP%20Censor)](http://ci.php-censor.info/build-status/view/2?branch=master)
+[![Codecov](https://codecov.io/gh/php-censor/php-censor/branch/master/graph/badge.svg)](https://codecov.io/gh/php-censor/php-censor)
+[![Latest Version](https://img.shields.io/packagist/v/php-censor/php-censor.svg?label=Version)](https://packagist.org/packages/php-censor/php-censor)
+[![Total downloads](https://img.shields.io/packagist/dt/php-censor/php-censor.svg?label=Downloads)](https://packagist.org/packages/php-censor/php-censor)
+[![License](https://img.shields.io/packagist/l/php-censor/php-censor.svg?label=License)](https://packagist.org/packages/php-censor/php-censor)
+
 <p align="center">
     <img width="500" height="auto" src="docs/images/php-censor-black.png" alt="PHP Censor" />
 </p>
-   
-   
+
 **PHP Censor** is an open source, self-hosted, continuous integration server for PHP projects 
 ([PHPCI](https://www.phptesting.org) fork). [Official twitter @php_censor](https://twitter.com/php_censor).
 

@@ -1,0 +1,15 @@
+coverage:
+    round: nearest
+    precision: 0
+
+comment: false
+
+ignore:
+    - "app"
+    - "docs"
+    - "public"
+    - "runtime"
+    - "tests"
+    - "vendor"
+    - "src/Migrations"
+    - "src/Languages"
