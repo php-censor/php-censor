@@ -14,3 +14,4 @@
 /phpunit.xml.dist export-ignore
 /phpmd.xml.dist   export-ignore
 /.php_cs.dist     export-ignore
+/codecov.yml      export-ignore
