@@ -51,14 +51,24 @@ class Model
 
     protected function setData(string $column, $value): bool
     {
-        if ($this->data[$column] === $value) {
+        $stringValue = $value;
+
+        if (!is_null($value)) {
+            switch ($this->casts[$column] ?? 'string') {
+                case 'datetime':
+                    $stringValue = $value->format('Y-m-d H:i:s');
+                    break;
+                case 'array':
+                    $stringValue = json_encode($value);
+                    break;
+            }
+        }
+
+        if ($this->data[$column] === $stringValue) {
             return false;
         }
 
-        // date time
-        // $stringValue = $value->format('Y-m-d H:i:s');
-
-        $this->data[$column] = $value;
+        $this->data[$column] = $stringValue;
         $this->modified[$column] = $column;
 
         return true;
