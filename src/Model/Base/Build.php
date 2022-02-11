@@ -51,7 +51,7 @@ class Build extends Model
         'finish_date' => null,
         'committer_email' => null,
         'commit_message' => null,
-        'extra' => [],
+        'extra' => null,
         'environment_id' => null,
         'source' => Build::SOURCE_UNKNOWN,
         'user_id' => null,

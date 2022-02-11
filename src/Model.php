@@ -84,9 +84,15 @@ class Model
         return $this->modified;
     }
 
-    private function cast($type, $value)
+    /**
+     * @return mixed
+     */
+    private function cast(string $type, ?string $value)
     {
-        if (is_null($value)) {
+        if ($value === null) {
+            if ($type == 'array') {
+                return [];
+            }
             return null;
         }
 

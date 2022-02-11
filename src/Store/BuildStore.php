@@ -346,7 +346,7 @@ class BuildStore extends Store
     /**
      * Return build metadata by key, project and optionally build id.
      */
-    public function getMeta(string $key, int $projectId, ?int $buildId = null, ?string $branch = null, int $numResults = 1): ?array
+    public function getMeta(string $key, ?int $projectId, ?int $buildId = null, ?string $branch = null, int $numResults = 1): ?array
     {
         $query = 'SELECT bm.build_id, bm.meta_key, bm.meta_value
                     FROM {{build_metas}} AS {{bm}}
@@ -370,9 +370,9 @@ class BuildStore extends Store
 
         $stmt = $this->databaseManager->getConnection('read')->prepare($query);
         $stmt->bindValue(':key', $key, PDO::PARAM_STR);
-        $stmt->bindValue(':projectId', (int)$projectId, PDO::PARAM_INT);
-        $stmt->bindValue(':buildId', (int)$buildId, PDO::PARAM_INT);
-        $stmt->bindValue(':numResults', (int)$numResults, PDO::PARAM_INT);
+        $stmt->bindValue(':projectId', $projectId, PDO::PARAM_INT);
+        $stmt->bindValue(':buildId', $buildId, PDO::PARAM_INT);
+        $stmt->bindValue(':numResults', $numResults, PDO::PARAM_INT);
 
         if (!\is_null($branch)) {
             $stmt->bindValue(':branch', $branch, PDO::PARAM_STR);
