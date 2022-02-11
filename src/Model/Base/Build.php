@@ -117,7 +117,7 @@ class Build extends Model
         return $this->setData('project_id', $value);
     }
 
-    public function getCommitId(): string
+    public function getCommitId(): ?string
     {
         return $this->getData('commit_id');
     }
@@ -166,7 +166,7 @@ class Build extends Model
         return $this->setData('status', self::STATUS_FAILED);
     }
 
-    public function getLog(): string
+    public function getLog(): ?string
     {
         return $this->getData('log');
     }
@@ -176,7 +176,7 @@ class Build extends Model
         return $this->setData('log', $value);
     }
 
-    public function getBranch(): string
+    public function getBranch(): ?string
     {
         return $this->getData('branch');
     }
@@ -186,7 +186,7 @@ class Build extends Model
         return $this->setData('branch', $value);
     }
 
-    public function getTag(): string
+    public function getTag(): ?string
     {
         return $this->getData('tag');
     }

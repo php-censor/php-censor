@@ -36,7 +36,7 @@ class BuildMeta extends Model
         return $this->setData('build_id', $value);
     }
 
-    public function getMetaKey(): string
+    public function getMetaKey(): ?string
     {
         return $this->getData('meta_key');
     }
@@ -46,7 +46,7 @@ class BuildMeta extends Model
         return $this->setData('meta_key', $value);
     }
 
-    public function getMetaValue(): string
+    public function getMetaValue(): ?string
     {
         return $this->getData('meta_value');
     }

@@ -54,7 +54,7 @@ class BuildError extends Model
         return $this->setData('build_id', $value);
     }
 
-    public function getPlugin(): string
+    public function getPlugin(): ?string
     {
         return $this->getData('plugin');
     }
@@ -64,7 +64,7 @@ class BuildError extends Model
         return $this->setData('plugin', $value);
     }
 
-    public function getFile(): string
+    public function getFile(): ?string
     {
         return $this->getData('file');
     }
@@ -104,7 +104,7 @@ class BuildError extends Model
         return $this->setData('severity', $value);
     }
 
-    public function getMessage(): string
+    public function getMessage(): ?string
     {
         return $this->getData('message');
     }
@@ -124,7 +124,7 @@ class BuildError extends Model
         return $this->setData('create_date', $value);
     }
 
-    public function getHash(): string
+    public function getHash(): ?string
     {
         return $this->getData('hash');
     }

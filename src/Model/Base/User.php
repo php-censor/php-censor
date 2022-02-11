@@ -28,7 +28,7 @@ class User extends Model
         'remember_key'  => null,
     ];
 
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
         return $this->getData('email');
     }
@@ -38,7 +38,7 @@ class User extends Model
         return $this->setData('email', $value);
     }
 
-    public function getHash(): string
+    public function getHash(): ?string
     {
         return $this->getData('hash');
     }
@@ -58,7 +58,7 @@ class User extends Model
         return $this->setData('is_admin', $value);
     }
 
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->getData('name');
     }
@@ -68,12 +68,12 @@ class User extends Model
         return $this->setData('name', $value);
     }
 
-    public function getLanguage(): string
+    public function getLanguage(): ?string
     {
         return $this->getData('language');
     }
 
-    public function setLanguage(string $value): bool
+    public function setLanguage(?string $value): bool
     {
         return $this->setData('language', $value);
     }
@@ -88,7 +88,7 @@ class User extends Model
         return $this->setData('per_page', $value);
     }
 
-    public function getProviderKey(): string
+    public function getProviderKey(): ?string
     {
         return $this->getData('provider_key');
     }
@@ -116,7 +116,7 @@ class User extends Model
         return $this->setData('provider_data', $value);
     }
 
-    public function getRememberKey(): string
+    public function getRememberKey(): ?string
     {
         return $this->getData('remember_key');
     }

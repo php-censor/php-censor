@@ -36,7 +36,7 @@ class Environment extends Model
         return $this->setData('project_id', $value);
     }
 
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->getData('name');
     }

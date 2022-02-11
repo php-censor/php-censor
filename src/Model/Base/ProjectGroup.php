@@ -26,7 +26,7 @@ class ProjectGroup extends Model
         'user_id' => 'int',
     ];
 
-    public function getTitle(): string
+    public function getTitle(): ?string
     {
         return $this->getData('title');
     }

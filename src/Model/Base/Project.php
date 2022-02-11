@@ -76,7 +76,7 @@ class Project extends Model
         self::TYPE_BITBUCKET_SERVER
     ];
 
-    public function getTitle(): string
+    public function getTitle(): ?string
     {
         return $this->getData('title');
     }
@@ -86,7 +86,7 @@ class Project extends Model
         return $this->setData('title', $value);
     }
 
-    public function getReference(): string
+    public function getReference(): ?string
     {
         return $this->getData('reference');
     }
@@ -96,7 +96,7 @@ class Project extends Model
         return $this->setData('reference', $value);
     }
 
-    public function getDefaultBranch(): string
+    public function getDefaultBranch(): ?string
     {
         return $this->getData('default_branch');
     }
@@ -116,7 +116,7 @@ class Project extends Model
         return $this->setData('default_branch_only', $value);
     }
 
-    public function getSshPrivateKey(): string
+    public function getSshPrivateKey(): ?string
     {
         return $this->getData('ssh_private_key');
     }
@@ -126,7 +126,7 @@ class Project extends Model
         return $this->setData('ssh_private_key', $value);
     }
 
-    public function getSshPublicKey(): string
+    public function getSshPublicKey(): ?string
     {
         return $this->getData('ssh_public_key');
     }
@@ -136,7 +136,7 @@ class Project extends Model
         return $this->setData('ssh_public_key', $value);
     }
 
-    public function getType(): string
+    public function getType(): ?string
     {
         return $this->getData('type');
     }
@@ -172,7 +172,7 @@ class Project extends Model
         return $this->setData('access_information', $value);
     }
 
-    public function getBuildConfig(): string
+    public function getBuildConfig(): ?string
     {
         return $this->getData('build_config');
     }
