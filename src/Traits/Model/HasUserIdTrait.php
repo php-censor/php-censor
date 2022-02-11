@@ -11,18 +11,11 @@ use PHPCensor\Model;
  */
 trait HasUserIdTrait
 {
-    /**
-     * @return int|null
-     */
     public function getUserId(): ?int
     {
         return (null !== $this->data['user_id']) ? (int)$this->data['user_id'] : null;
     }
 
-    /**
-     * @param int|null $value
-     * @return bool
-     */
     public function setUserId(?int $value): bool
     {
         if ($this->data['user_id'] === $value) {

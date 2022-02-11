@@ -14,8 +14,6 @@ use PHPCensor\Model;
 trait HasCreateDateTrait
 {
     /**
-     * @return DateTime|null
-     *
      * @throws Exception
      */
     public function getCreateDate(): ?DateTime
@@ -27,10 +25,6 @@ trait HasCreateDateTrait
         return null;
     }
 
-    /**
-     * @param DateTime $value
-     * @return bool
-     */
     public function setCreateDate(DateTime $value): bool
     {
         $stringValue = $value->format('Y-m-d H:i:s');

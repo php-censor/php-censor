@@ -21,18 +21,11 @@ trait GitGetDiffLineNumberTrait
 {
     /**
      * Uses git diff to figure out what the diff line position is, based on the error line number.
-     *
-     * @param Builder $builder
-     * @param string $file
-     * @param int $line
-     *
-     * @return int|null
      */
     protected function getDiffLineNumber(Builder $builder, string $file, int $line): ?int
     {
         $builder->logExecOutput(false);
 
-        $line = (int)$line;
         $prNumber = $this->getExtra('pull_request_number');
         $path = $builder->buildPath;
 
@@ -56,8 +49,6 @@ trait GitGetDiffLineNumberTrait
 
     /**
      * Take a diff
-     * @param string $diff
-     * @return array
      */
     private function getLinePositions(string $diff): ?array
     {
