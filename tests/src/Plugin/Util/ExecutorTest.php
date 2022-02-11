@@ -154,7 +154,7 @@ class ExecutorTest extends TestCase
     {
         $phpUnitPluginOptions = [];
         $behatPluginOptions   = [];
-        $build                = new Build($this->storeRegistry);
+        $build                = new Build($this->storeRegistry, ['id' => 1]);
 
         $config = [
             'stageOne' => [

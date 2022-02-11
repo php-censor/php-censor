@@ -4,6 +4,8 @@ namespace Tests\PHPCensor\Logging;
 
 use Exception;
 use PHPCensor\Logging\BuildLogger;
+use PHPCensor\Model\Build;
+use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -22,11 +24,15 @@ class BuildLoggerTest extends TestCase
 
     protected $mockBuild;
 
+    protected $mockRegistry;
+
     protected function setUp(): void
     {
         parent::setUp();
         $this->mockLogger = $this->prophesize('\Psr\Log\LoggerInterface');
-        $this->mockBuild = $this->prophesize('\PHPCensor\Model\Build');
+        $this->mockRegistry = $this->prophesize('\PHPCensor\StoreRegistry');
+        $this->mockBuild = $this->prophesize('\PHPCensor\Model\Build')
+            ->willBeConstructedWith([$this->mockRegistry->reveal(), ['id' => 1]]);
 
         $this->testedBuildLogger = new BuildLogger(
             $this->mockLogger->reveal(),
