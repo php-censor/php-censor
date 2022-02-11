@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace PHPCensor;
 
+use DateTime;
+use Exception;
+
 /**
  * @package    PHP Censor
  * @subpackage Application
@@ -15,7 +18,9 @@ class Model
 {
     protected array $data = [];
 
-    protected array $modified = [];
+    protected array $casts = [];
+
+    private array $modified = [];
 
     protected StoreRegistry $storeRegistry;
 
@@ -23,21 +28,40 @@ class Model
         StoreRegistry $storeRegistry,
         array $initialData = []
     ) {
-        if (\is_array($initialData)) {
-            foreach ($initialData as $index => $item) {
-                if (\array_key_exists($index, $this->data)) {
-                    if ('id' === \substr($index, - 2) && null !== $item) {
-                        $this->data[$index] = (int)$item;
 
-                        continue;
-                    }
+        if (!isset($this->casts['id'])) {
+            $this->casts['id'] = 'integer';
+        }
 
-                    $this->data[$index] = $item;
-                }
+        foreach ($initialData as $index => $item) {
+            if (!array_key_exists($index, $this->data)) {
+                continue;
             }
+
+            $this->data[$index] = $item;
         }
 
         $this->storeRegistry = $storeRegistry;
+    }
+
+    protected function getData(string $column, $defaultValue = null)
+    {
+        return $this->cast($this->casts[$column] ?? 'string', $this->data[$column] ?? $defaultValue);
+    }
+
+    protected function setData(string $column, $value): bool
+    {
+        if ($this->data[$column] === $value) {
+            return false;
+        }
+
+        // date time
+        // $stringValue = $value->format('Y-m-d H:i:s');
+
+        $this->data[$column] = $value;
+        $this->modified[$column] = $column;
+
+        return true;
     }
 
     public function getDataArray(): array
@@ -50,10 +74,53 @@ class Model
         return $this->modified;
     }
 
-    protected function setModified(string $column): bool
+    private function cast($type, $value)
     {
-        $this->modified[$column] = $column;
+        if (is_null($value)) {
+            return null;
+        }
 
-        return true;
+        switch ($type) {
+            case 'integer':
+            case 'int':
+                return intval($value);
+
+            case 'bool':
+            case 'boolean':
+                return boolval($value);
+
+            case 'float':
+                return floatval($value);
+
+            case 'array':
+                return json_decode($value, true);
+
+            case 'datetime':
+                try {
+                    return new DateTime($value);
+                } catch (Exception $e) {
+                    return null;
+                }
+
+            default:
+                return $value;
+        }
+    }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->getData('id');
+    }
+
+    /**
+     * @param int $value
+     * @return bool
+     */
+    public function setId(int $value): bool
+    {
+        return $this->setData('id', $value);
     }
 }

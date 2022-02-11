@@ -90,7 +90,7 @@ class BitbucketBuild extends GitBuild
         $username    = $this->configuration->get('php-censor.bitbucket.username');
         $appPassword = $this->configuration->get('php-censor.bitbucket.app_password');
 
-        if (empty($username) || empty($appPassword) || empty($this->data['id'])) {
+        if (empty($username) || empty($appPassword) || empty($this->getId())) {
             return false;
         }
 

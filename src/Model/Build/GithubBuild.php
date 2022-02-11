@@ -101,7 +101,7 @@ class GithubBuild extends GitBuild
         }
 
         $token = $this->configuration->get('php-censor.github.token');
-        if (empty($token) || empty($this->data['id'])) {
+        if (empty($token) || empty($this->getId())) {
             return false;
         }
 

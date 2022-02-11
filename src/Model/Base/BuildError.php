@@ -18,271 +18,129 @@ use PHPCensor\Model;
 class BuildError extends Model
 {
     public const SEVERITY_CRITICAL = 0;
-    public const SEVERITY_HIGH     = 1;
-    public const SEVERITY_NORMAL   = 2;
-    public const SEVERITY_LOW      = 3;
+    public const SEVERITY_HIGH = 1;
+    public const SEVERITY_NORMAL = 2;
+    public const SEVERITY_LOW = 3;
 
     protected array $data = [
-        'id'          => null,
-        'build_id'    => null,
-        'plugin'      => null,
-        'file'        => null,
-        'line_start'  => null,
-        'line_end'    => null,
-        'severity'    => null,
-        'message'     => null,
+        'id' => null,
+        'build_id' => null,
+        'plugin' => null,
+        'file' => null,
+        'line_start' => null,
+        'line_end' => null,
+        'severity' => null,
+        'message' => null,
         'create_date' => null,
-        'hash'        => '',
-        'is_new'      => 0,
+        'hash' => '',
+        'is_new' => 0,
     ];
 
-    /**
-     * @return int
-     */
-    public function getId()
+    protected array $casts = [
+        'build_id' => 'integer',
+        'line_start' => 'integer',
+        'line_end' => 'integer',
+        'severity' => 'integer',
+        'is_new' => 'boolean'
+    ];
+
+    public function getBuildId(): int
     {
-        return (int)$this->data['id'];
+        return $this->getData('build_id');
     }
 
-    /**
-     * @return bool
-     */
-    public function setId(int $value)
+    public function setBuildId(int $value): bool
     {
-        if ($this->data['id'] === $value) {
-            return false;
-        }
-
-        $this->data['id'] = $value;
-
-        return $this->setModified('id');
+        return $this->setData('build_id', $value);
     }
 
-    /**
-     * @return int
-     */
-    public function getBuildId()
+    public function getPlugin(): string
     {
-        return (int)$this->data['build_id'];
+        return $this->getData('plugin');
     }
 
-    /**
-     * @return bool
-     */
-    public function setBuildId(int $value)
+    public function setPlugin(string $value): bool
     {
-        if ($this->data['build_id'] === $value) {
-            return false;
-        }
-
-        $this->data['build_id'] = $value;
-
-        return $this->setModified('build_id');
+        return $this->setData('plugin', $value);
     }
 
-    /**
-     * @return string
-     */
-    public function getPlugin()
+    public function getFile(): string
     {
-        return $this->data['plugin'];
+        return $this->getData('file');
     }
 
-    /**
-     * @return bool
-     */
-    public function setPlugin(string $value)
+    public function setFile(?string $value): bool
     {
-        if ($this->data['plugin'] === $value) {
-            return false;
-        }
-
-        $this->data['plugin'] = $value;
-
-        return $this->setModified('plugin');
+        return $this->setData('file', $value);
     }
 
-    /**
-     * @return string
-     */
-    public function getFile()
+    public function getLineStart(): int
     {
-        return $this->data['file'];
+        return $this->getData('line_start');
     }
 
-    /**
-     * @return bool
-     */
-    public function setFile(?string $value)
+    public function setLineStart(?int $value): bool
     {
-        if ($this->data['file'] === $value) {
-            return false;
-        }
-
-        $this->data['file'] = $value;
-
-        return $this->setModified('file');
+        return $this->setData('line_start', $value);
     }
 
-    /**
-     * @return int
-     */
-    public function getLineStart()
+    public function getLineEnd(): int
     {
-        return (int)$this->data['line_start'];
+        return $this->getData('line_end');
     }
 
-    /**
-     * @return bool
-     */
-    public function setLineStart(?int $value)
+    public function setLineEnd(?int $value): bool
     {
-        if ($this->data['line_start'] === $value) {
-            return false;
-        }
-
-        $this->data['line_start'] = $value;
-
-        return $this->setModified('line_start');
+        return $this->setData('line_end', $value);
     }
 
-    /**
-     * @return int
-     */
-    public function getLineEnd()
+    public function getSeverity(): int
     {
-        return (int)$this->data['line_end'];
+        return $this->getData('severity');
     }
 
-    /**
-     * @return bool
-     */
-    public function setLineEnd(?int $value)
+    public function setSeverity(int $value): bool
     {
-        if ($this->data['line_end'] === $value) {
-            return false;
-        }
-
-        $this->data['line_end'] = $value;
-
-        return $this->setModified('line_end');
+        return $this->setData('severity', $value);
     }
 
-    /**
-     * @return int
-     */
-    public function getSeverity()
+    public function getMessage(): string
     {
-        return (int)$this->data['severity'];
+        return $this->getData('message');
     }
 
-    /**
-     * @return bool
-     */
-    public function setSeverity(int $value)
+    public function setMessage(string $value): bool
     {
-        if ($this->data['severity'] === $value) {
-            return false;
-        }
-
-        $this->data['severity'] = $value;
-
-        return $this->setModified('severity');
+        return $this->setData('message', $value);
     }
 
-    /**
-     * @return string
-     */
-    public function getMessage()
+    public function getCreateDate(): ?DateTime
     {
-        return $this->data['message'];
+        return $this->getData('create_date');
     }
 
-    /**
-     * @return bool
-     */
-    public function setMessage(string $value)
+    public function setCreateDate(DateTime $value): bool
     {
-        if ($this->data['message'] === $value) {
-            return false;
-        }
-
-        $this->data['message'] = $value;
-
-        return $this->setModified('message');
+        return $this->setData('create_date', $value);
     }
 
-    /**
-     * @return DateTime|null
-     *
-     * @throws Exception
-     */
-    public function getCreateDate()
+    public function getHash(): string
     {
-        if ($this->data['create_date']) {
-            return new DateTime($this->data['create_date']);
-        }
-
-        return null;
+        return $this->getData('hash');
     }
 
-    /**
-     * @return bool
-     */
-    public function setCreateDate(DateTime $value)
+    public function setHash(string $value): bool
     {
-        $stringValue = $value->format('Y-m-d H:i:s');
-
-        if ($this->data['create_date'] === $stringValue) {
-            return false;
-        }
-
-        $this->data['create_date'] = $stringValue;
-
-        return $this->setModified('create_date');
+        return $this->setData('hash', $value);
     }
 
-    /**
-     * @return string
-     */
-    public function getHash()
+    public function getIsNew(): bool
     {
-        return $this->data['hash'];
+        return $this->getData('is_new');
     }
 
-    /**
-     * @return bool
-     */
-    public function setHash(string $value)
+    public function setIsNew(bool $value): bool
     {
-        if ($this->data['hash'] === $value) {
-            return false;
-        }
-
-        $this->data['hash'] = $value;
-
-        return $this->setModified('hash');
-    }
-
-    /**
-     * @return bool
-     */
-    public function getIsNew()
-    {
-        return (bool)$this->data['is_new'];
-    }
-
-    /**
-     * @return bool
-     */
-    public function setIsNew(bool $value)
-    {
-        if ($this->data['is_new'] === (int)$value) {
-            return false;
-        }
-
-        $this->data['is_new'] = (int)$value;
-
-        return $this->setModified('is_new');
+        return $this->setData('is_new', $value);
     }
 }

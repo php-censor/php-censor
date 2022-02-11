@@ -18,39 +18,49 @@ use PHPCensor\Model;
  */
 class Project extends Model
 {
-    public const TYPE_LOCAL            = 'local';
-    public const TYPE_GIT              = 'git';
-    public const TYPE_GITHUB           = 'github';
-    public const TYPE_BITBUCKET        = 'bitbucket';
-    public const TYPE_GITLAB           = 'gitlab';
-    public const TYPE_GOGS             = 'gogs';
-    public const TYPE_HG               = 'hg';
-    public const TYPE_BITBUCKET_HG     = 'bitbucket-hg';
+    public const TYPE_LOCAL = 'local';
+    public const TYPE_GIT = 'git';
+    public const TYPE_GITHUB = 'github';
+    public const TYPE_BITBUCKET = 'bitbucket';
+    public const TYPE_GITLAB = 'gitlab';
+    public const TYPE_GOGS = 'gogs';
+    public const TYPE_HG = 'hg';
+    public const TYPE_BITBUCKET_HG = 'bitbucket-hg';
     public const TYPE_BITBUCKET_SERVER = 'bitbucket-server';
-    public const TYPE_SVN              = 'svn';
+    public const TYPE_SVN = 'svn';
 
-    public const MIN_BUILD_PRIORITY             = 1;
-    public const MAX_BUILD_PRIORITY             = 2000;
-    public const DEFAULT_BUILD_PRIORITY         = 1000;
+    public const MIN_BUILD_PRIORITY = 1;
+    public const MAX_BUILD_PRIORITY = 2000;
+    public const DEFAULT_BUILD_PRIORITY = 1000;
     public const OFFSET_BETWEEN_BUILD_AND_QUEUE = 24;
 
     protected array $data = [
-        'id'                     => null,
-        'title'                  => null,
-        'reference'              => null,
-        'default_branch'         => null,
-        'default_branch_only'    => 0,
-        'ssh_private_key'        => null,
-        'ssh_public_key'         => null,
-        'type'                   => null,
-        'access_information'     => null,
-        'build_config'           => null,
+        'id' => null,
+        'title' => null,
+        'reference' => null,
+        'default_branch' => null,
+        'default_branch_only' => 0,
+        'ssh_private_key' => null,
+        'ssh_public_key' => null,
+        'type' => null,
+        'access_information' => null,
+        'build_config' => null,
         'overwrite_build_config' => 1,
-        'allow_public_status'    => 0,
-        'archived'               => 0,
-        'group_id'               => 1,
-        'create_date'            => null,
-        'user_id'                => null,
+        'allow_public_status' => 0,
+        'archived' => 0,
+        'group_id' => 1,
+        'create_date' => null,
+        'user_id' => null,
+    ];
+
+    protected array $casts = [
+        'allow_public_status' => 'boolean',
+        'archived' => 'boolean',
+        'group_id' => 'integer',
+        'default_branch_only' => 'boolean',
+        'create_date' => 'datetime',
+        'user_id' => 'integer',
+        'overwrite_build_config' => 'boolean'
     ];
 
     public static array $allowedTypes = [
@@ -66,382 +76,169 @@ class Project extends Model
         self::TYPE_BITBUCKET_SERVER
     ];
 
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getTitle(): string
     {
-        return (int)$this->data['id'];
+        return $this->getData('title');
+    }
+
+    public function setTitle(string $value): bool
+    {
+        return $this->setData('title', $value);
+    }
+
+    public function getReference(): string
+    {
+        return $this->getData('reference');
+    }
+
+    public function setReference(string $value): bool
+    {
+        return $this->setData('reference', $value);
+    }
+
+    public function getDefaultBranch(): string
+    {
+        return $this->getData('default_branch');
+    }
+
+    public function setDefaultBranch(string $value): bool
+    {
+        return $this->setData('default_branch', $value);
+    }
+
+    public function getDefaultBranchOnly(): bool
+    {
+        return $this->getData('default_branch_only');
+    }
+
+    public function setDefaultBranchOnly(bool $value): bool
+    {
+        return $this->setData('default_branch_only', $value);
+    }
+
+    public function getSshPrivateKey(): string
+    {
+        return $this->getData('ssh_private_key');
+    }
+
+    public function setSshPrivateKey(?string $value): bool
+    {
+        return $this->setData('ssh_private_key', $value);
+    }
+
+    public function getSshPublicKey(): string
+    {
+        return $this->getData('ssh_public_key');
+    }
+
+    public function setSshPublicKey(?string $value): bool
+    {
+        return $this->setData('ssh_public_key', $value);
+    }
+
+    public function getType(): string
+    {
+        return $this->getData('type');
     }
 
     /**
-     * @return bool
-     */
-    public function setId(int $value)
-    {
-        if ($this->data['id'] === $value) {
-            return false;
-        }
-
-        $this->data['id'] = $value;
-
-        return $this->setModified('id');
-    }
-
-    /**
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->data['title'];
-    }
-
-    /**
-     * @return bool
-     */
-    public function setTitle(string $value)
-    {
-        if ($this->data['title'] === $value) {
-            return false;
-        }
-
-        $this->data['title'] = $value;
-
-        return $this->setModified('title');
-    }
-
-    /**
-     * @return string
-     */
-    public function getReference()
-    {
-        return $this->data['reference'];
-    }
-
-    /**
-     * @return bool
-     */
-    public function setReference(string $value)
-    {
-        if ($this->data['reference'] === $value) {
-            return false;
-        }
-
-        $this->data['reference'] = $value;
-
-        return $this->setModified('reference');
-    }
-
-    /**
-     * @return string
-     */
-    public function getDefaultBranch()
-    {
-        return $this->data['default_branch'];
-    }
-
-    /**
-     * @return bool
-     */
-    public function setDefaultBranch(string $value)
-    {
-        if ($this->data['default_branch'] === $value) {
-            return false;
-        }
-
-        $this->data['default_branch'] = $value;
-
-        return $this->setModified('default_branch');
-    }
-
-    /**
-     * @return bool
-     */
-    public function getDefaultBranchOnly()
-    {
-        return (bool)$this->data['default_branch_only'];
-    }
-
-    /**
-     * @return bool
-     */
-    public function setDefaultBranchOnly(bool $value)
-    {
-        if ($this->data['default_branch_only'] === (int)$value) {
-            return false;
-        }
-
-        $this->data['default_branch_only'] = (int)$value;
-
-        return $this->setModified('default_branch_only');
-    }
-
-    /**
-     * @return string
-     */
-    public function getSshPrivateKey()
-    {
-        return $this->data['ssh_private_key'];
-    }
-
-    /**
-     * @return bool
-     */
-    public function setSshPrivateKey(?string $value)
-    {
-        if ($this->data['ssh_private_key'] === $value) {
-            return false;
-        }
-
-        $this->data['ssh_private_key'] = $value;
-
-        return $this->setModified('ssh_private_key');
-    }
-
-    /**
-     * @return string
-     */
-    public function getSshPublicKey()
-    {
-        return $this->data['ssh_public_key'];
-    }
-
-    /**
-     * @return bool
-     */
-    public function setSshPublicKey(?string $value)
-    {
-        if ($this->data['ssh_public_key'] === $value) {
-            return false;
-        }
-
-        $this->data['ssh_public_key'] = $value;
-
-        return $this->setModified('ssh_public_key');
-    }
-
-    /**
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->data['type'];
-    }
-
-    /**
-     * @return bool
-     *
      * @throws InvalidArgumentException
      */
-    public function setType(string $value)
+    public function setType(string $value): bool
     {
         if (!\in_array($value, static::$allowedTypes, true)) {
             throw new InvalidArgumentException(
                 'Column "type" must be one of: ' . \join(', ', static::$allowedTypes) . '.'
             );
         }
+        return $this->setData('type', $value);
+    }
 
-        if ($this->data['type'] === $value) {
-            return false;
+    /**
+     * @return mixed
+     */
+    public function getAccessInformation(string $key = null)
+    {
+        $data = $this->getData('access_information');
+        if ($key === null) {
+            return $data;
         }
 
-        $this->data['type'] = $value;
-
-        return $this->setModified('type');
+        return $data[$key] ?? null;
     }
 
-    /**
-     * @param string|null $key
-     *
-     * @return array|string|null
-     */
-    public function getAccessInformation($key = null)
+    public function setAccessInformation(array $value): bool
     {
-        $data              = \json_decode((string)$this->data['access_information'], true);
-        $accessInformation = null;
-        if (\is_null($key)) {
-            $accessInformation = $data;
-        } elseif (isset($data[$key])) {
-            $accessInformation = $data[$key];
-        }
-
-        return $accessInformation;
+        return $this->setData('access_information', $value);
     }
 
-    /**
-     * @return bool
-     */
-    public function setAccessInformation(array $value)
+    public function getBuildConfig(): string
     {
-        $accessInformation = \json_encode($value);
-        if ($this->data['access_information'] === $accessInformation) {
-            return false;
-        }
-
-        $this->data['access_information'] = $accessInformation;
-
-        return $this->setModified('access_information');
+        return $this->getData('build_config');
     }
 
-    /**
-     * @return string
-     */
-    public function getBuildConfig()
+    public function setBuildConfig(?string $value): bool
     {
-        return $this->data['build_config'];
+        return $this->setData('build_config', $value);
     }
 
-    /**
-     * @return bool
-     */
-    public function setBuildConfig(?string $value)
+    public function getOverwriteBuildConfig(): bool
     {
-        if ($this->data['build_config'] === $value) {
-            return false;
-        }
-
-        $this->data['build_config'] = $value;
-
-        return $this->setModified('build_config');
+        return $this->getData('overwrite_build_config');
     }
 
-    /**
-     * @return bool
-     */
-    public function getOverwriteBuildConfig()
+    public function setOverwriteBuildConfig(bool $value): bool
     {
-        return (bool)$this->data['overwrite_build_config'];
+        return $this->setData('overwrite_build_config', $value);
     }
 
-    /**
-     * @return bool
-     */
-    public function setOverwriteBuildConfig(bool $value)
+    public function getAllowPublicStatus(): bool
     {
-        if ($this->data['overwrite_build_config'] === (int)$value) {
-            return false;
-        }
-
-        $this->data['overwrite_build_config'] = (int)$value;
-
-        return $this->setModified('overwrite_build_config');
+        return $this->getData('allow_public_status');
     }
 
-    /**
-     * @return bool
-     */
-    public function getAllowPublicStatus()
+    public function setAllowPublicStatus(bool $value): bool
     {
-        return (bool)$this->data['allow_public_status'];
+        return $this->setData('allow_public_status', $value);
     }
 
-    /**
-     * @return bool
-     */
-    public function setAllowPublicStatus(bool $value)
+    public function getArchived(): bool
     {
-        if ($this->data['allow_public_status'] === (int)$value) {
-            return false;
-        }
-
-        $this->data['allow_public_status'] = (int)$value;
-
-        return $this->setModified('allow_public_status');
+        return $this->getData('archived');
     }
 
-    /**
-     * @return bool
-     */
-    public function getArchived()
+    public function setArchived(bool $value): bool
     {
-        return (bool)$this->data['archived'];
+        return $this->setData('archived', $value);
     }
 
-    /**
-     * @return bool
-     */
-    public function setArchived(bool $value)
+    public function getGroupId():int
     {
-        if ($this->data['archived'] === (int)$value) {
-            return false;
-        }
-
-        $this->data['archived'] = (int)$value;
-
-        return $this->setModified('archived');
+        return $this->getData('group_id');
     }
 
-    /**
-     * @return int
-     */
-    public function getGroupId()
+    public function setGroupId(int $value): bool
     {
-        return (int)$this->data['group_id'];
+        return $this->setData('group_id', $value);
     }
 
-    /**
-     * @return bool
-     */
-    public function setGroupId(int $value)
+    public function getCreateDate(): ?DateTime
     {
-        if ($this->data['group_id'] === $value) {
-            return false;
-        }
-
-        $this->data['group_id'] = $value;
-
-        return $this->setModified('group_id');
+        return $this->getData('create_date');
     }
 
-    /**
-     * @return DateTime|null
-     *
-     * @throws Exception
-     */
-    public function getCreateDate()
+    public function setCreateDate(DateTime $value): bool
     {
-        if ($this->data['create_date']) {
-            return new DateTime($this->data['create_date']);
-        }
-
-        return null;
+        return $this->setData('create_date', $value);
     }
 
-    /**
-     * @return bool
-     */
-    public function setCreateDate(DateTime $value)
+    public function getUserId(): ?int
     {
-        $stringValue = $value->format('Y-m-d H:i:s');
-
-        if ($this->data['create_date'] === $stringValue) {
-            return false;
-        }
-
-        $this->data['create_date'] = $stringValue;
-
-        return $this->setModified('create_date');
+        return $this->getData('user_id');
     }
 
-    /**
-     * @return int|null
-     */
-    public function getUserId()
+    public function setUserId(?int $value): bool
     {
-        return (null !== $this->data['user_id']) ? (int)$this->data['user_id'] : null;
-    }
-
-    /**
-     * @return bool
-     */
-    public function setUserId(?int $value)
-    {
-        if ($this->data['user_id'] === $value) {
-            return false;
-        }
-
-        $this->data['user_id'] = $value;
-
-        return $this->setModified('user_id');
+        return $this->setData('user_id', $value);
     }
 }

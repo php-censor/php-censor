@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace PHPCensor\Model\Base;
 
 use DateTime;
-use Exception;
 use PHPCensor\Model;
 
 /**
@@ -17,105 +16,43 @@ use PHPCensor\Model;
 class ProjectGroup extends Model
 {
     protected array $data = [
-        'id'          => null,
-        'title'       => null,
+        'id' => null,
+        'title' => null,
         'create_date' => null,
-        'user_id'     => null,
+        'user_id' => null,
     ];
 
-    /**
-     * @return int
-     */
-    public function getId()
+    protected array $maps = [
+        'user_id' => 'int',
+    ];
+
+    public function getTitle(): string
     {
-        return (int)$this->data['id'];
+        return $this->getData('title');
     }
 
-    /**
-     * @return bool
-     */
-    public function setId(int $value)
+    public function setTitle(string $value): bool
     {
-        if ($this->data['id'] === $value) {
-            return false;
-        }
-
-        $this->data['id'] = $value;
-
-        return $this->setModified('id');
+        return $this->setData('title', $value);
     }
 
-    /**
-     * @return string
-     */
-    public function getTitle()
+    public function getCreateDate(): ?DateTime
     {
-        return $this->data['title'];
+        return $this->getData('create_date');
     }
 
-    /**
-     * @return bool
-     */
-    public function setTitle(string $value)
+    public function setCreateDate(DateTime $value): bool
     {
-        if ($this->data['title'] === $value) {
-            return false;
-        }
-
-        $this->data['title'] = $value;
-
-        return $this->setModified('title');
+        return $this->setData('create_date', $value);
     }
 
-    /**
-     * @return DateTime|null
-     *
-     * @throws Exception
-     */
-    public function getCreateDate()
+    public function getUserId(): ?int
     {
-        if ($this->data['create_date']) {
-            return new DateTime($this->data['create_date']);
-        }
-
-        return null;
+        return $this->getData('user_id');
     }
 
-    /**
-     * @return bool
-     */
-    public function setCreateDate(DateTime $value)
+    public function setUserId(?int $value): bool
     {
-        $stringValue = $value->format('Y-m-d H:i:s');
-
-        if ($this->data['create_date'] === $stringValue) {
-            return false;
-        }
-
-        $this->data['create_date'] = $stringValue;
-
-        return $this->setModified('create_date');
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getUserId()
-    {
-        return (null !== $this->data['user_id']) ? (int)$this->data['user_id'] : null;
-    }
-
-    /**
-     * @return bool
-     */
-    public function setUserId(?int $value)
-    {
-        if ($this->data['user_id'] === $value) {
-            return false;
-        }
-
-        $this->data['user_id'] = $value;
-
-        return $this->setModified('user_id');
+        return $this->setData('user_id', $value);
     }
 }

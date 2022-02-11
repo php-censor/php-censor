@@ -15,103 +15,49 @@ use PHPCensor\Model;
 class Environment extends Model
 {
     protected array $data = [
-        'id'         => null,
+        'id' => null,
         'project_id' => null,
-        'name'       => null,
-        'branches'   => null,
+        'name' => null,
+        'branches' => [],
     ];
 
-    /**
-     * @return int
-     */
-    public function getId()
+    protected array $casts = [
+        'project_id' => 'int',
+        'branches' => 'array',
+    ];
+
+    public function getProjectId(): int
     {
-        return (int)$this->data['id'];
+        return $this->getData('project_id');
     }
 
-    /**
-     * @return bool
-     */
-    public function setId(int $value)
+    public function setProjectId(int $value): bool
     {
-        if ($this->data['id'] === $value) {
-            return false;
-        }
-
-        $this->data['id'] = $value;
-
-        return $this->setModified('id');
+        return $this->setData('project_id', $value);
     }
 
-    /**
-     * @return int
-     */
-    public function getProjectId()
+    public function getName(): string
     {
-        return (int)$this->data['project_id'];
+        return $this->getData('name');
     }
 
-    /**
-     * @return bool
-     */
-    public function setProjectId(int $value)
+    public function setName(string $value): bool
     {
-        if ($this->data['project_id'] === $value) {
-            return false;
-        }
-
-        $this->data['project_id'] = $value;
-
-        return $this->setModified('project_id');
+        return $this->setData('name', $value);
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getBranches(): array
     {
-        return $this->data['name'];
-    }
-
-    /**
-     * @return bool
-     */
-    public function setName(string $value)
-    {
-        if ($this->data['name'] === $value) {
-            return false;
-        }
-
-        $this->data['name'] = $value;
-
-        return $this->setModified('name');
-    }
-
-    /**
-     * @return array
-     */
-    public function getBranches()
-    {
-        return \array_filter(
-            \array_map(
+        return array_filter(
+            array_map(
                 'trim',
-                \explode("\n", $this->data['branches'])
+                explode("\n", $this->getData('branches'))
             )
         );
     }
 
-    /**
-     * @return bool
-     */
-    public function setBranches(array $value)
+    public function setBranches(array $value): bool
     {
-        $branches = \implode("\n", $value);
-        if ($this->data['branches'] === $branches) {
-            return false;
-        }
-
-        $this->data['branches'] = $branches;
-
-        return $this->setModified('branches');
+        return $this->setData('branches', implode("\n", $value));
     }
 }

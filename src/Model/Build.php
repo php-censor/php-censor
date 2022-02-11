@@ -81,10 +81,7 @@ class Build extends BaseBuild
      */
     public function addExtraValue($name, $value)
     {
-        $extra = \json_decode($this->data['extra'], true);
-        if ($extra === false) {
-            $extra = [];
-        }
+        $extra = $this->getExtra();
         $extra[$name] = $value;
 
         $this->setExtra($extra);
