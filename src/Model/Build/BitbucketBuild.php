@@ -9,6 +9,7 @@ use PHPCensor\Helper\Bitbucket;
 use PHPCensor\Helper\Diff;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
+use PHPCensor\Traits\Model\Build\GitGetDiffLineNumberTrait;
 
 /**
  * BitBucket Build Model
@@ -21,10 +22,12 @@ use PHPCensor\Model\BuildError;
  */
 class BitbucketBuild extends GitBuild
 {
+    use GitGetDiffLineNumberTrait;
+
     public static array $pullrequestTriggersToSources = [
-        'pullrequest:created'   => Build::SOURCE_WEBHOOK_PULL_REQUEST_CREATED,
-        'pullrequest:updated'   => Build::SOURCE_WEBHOOK_PULL_REQUEST_UPDATED,
-        'pullrequest:approved'  => Build::SOURCE_WEBHOOK_PULL_REQUEST_APPROVED,
+        'pullrequest:created' => Build::SOURCE_WEBHOOK_PULL_REQUEST_CREATED,
+        'pullrequest:updated' => Build::SOURCE_WEBHOOK_PULL_REQUEST_UPDATED,
+        'pullrequest:approved' => Build::SOURCE_WEBHOOK_PULL_REQUEST_APPROVED,
         'pullrequest:fulfilled' => Build::SOURCE_WEBHOOK_PULL_REQUEST_MERGED,
     ];
 
@@ -55,7 +58,7 @@ class BitbucketBuild extends GitBuild
      */
     public function getRemoteBranchLink()
     {
-        $remoteBranch    = $this->getExtra('remote_branch');
+        $remoteBranch = $this->getExtra('remote_branch');
         $remoteReference = $this->getExtra('remote_reference');
 
         return 'https://bitbucket.org/' . $remoteReference . '/src/?at=' . $remoteBranch;
@@ -87,7 +90,7 @@ class BitbucketBuild extends GitBuild
             return false;
         }
 
-        $username    = $this->configuration->get('php-censor.bitbucket.username');
+        $username = $this->configuration->get('php-censor.bitbucket.username');
         $appPassword = $this->configuration->get('php-censor.bitbucket.app_password');
 
         if (empty($username) || empty($appPassword) || empty($this->data['id'])) {
@@ -134,19 +137,19 @@ class BitbucketBuild extends GitBuild
         );
 
         $client = new Client([
-            'base_uri'    => 'https://api.bitbucket.org',
+            'base_uri' => 'https://api.bitbucket.org',
             'http_errors' => false,
         ]);
         $response = $client->post($url, [
-            'auth'    => [$username, $appPassword],
+            'auth' => [$username, $appPassword],
             'headers' => [
                 'Content-Type' => 'application/json',
             ],
             'json' => [
-                'state'       => $status,
-                'key'         => 'PHP-CENSOR',
-                'url'         => $phpCensorUrl . '/build/view/' . $this->getId(),
-                'name'        => 'PHP Censor Build #' . $this->getId(),
+                'state' => $status,
+                'key' => 'PHP-CENSOR',
+                'url' => $phpCensorUrl . '/build/view/' . $this->getId(),
+                'name' => 'PHP Censor Build #' . $this->getId(),
                 'description' => $description,
             ],
         ]);
@@ -189,7 +192,7 @@ class BitbucketBuild extends GitBuild
      */
     protected function postCloneSetup(Builder $builder, $cloneTo, array $extra = null)
     {
-        $success             = true;
+        $success = true;
         $skipGitFinalization = false;
 
         try {
@@ -271,9 +274,9 @@ class BitbucketBuild extends GitBuild
                     if (!\is_null($diffLineNumber)) {
                         $helper = new Bitbucket($this->configuration);
 
-                        $repo     = $this->getProject()->getReference();
+                        $repo = $this->getProject()->getReference();
                         $prNumber = $this->getExtra('pull_request_number');
-                        $commit   = $this->getCommitId();
+                        $commit = $this->getCommitId();
 
                         if (!empty($prNumber)) {
                             if ($allowCommentPullRequest) {
@@ -290,40 +293,5 @@ class BitbucketBuild extends GitBuild
         } catch (\Throwable $e) {
             $builder->getBuildLogger()->logFailure('Exception: ' . $e->getMessage(), $e);
         }
-    }
-
-    /**
-     * Uses git diff to figure out what the diff line position is, based on the error line number.
-     *
-     * @param string $file
-     * @param int    $line
-     *
-     * @return int|null
-     */
-    protected function getDiffLineNumber(Builder $builder, $file, $line)
-    {
-        $builder->logExecOutput(false);
-
-        $line     = (int)$line;
-        $prNumber = $this->getExtra('pull_request_number');
-        $path     = $builder->buildPath;
-
-        if (!empty($prNumber)) {
-            $builder->executeCommand('cd "%s" && git diff "origin/%s" "%s"', $path, $this->getBranch(), $file);
-        } else {
-            $commitId = $this->getCommitId();
-            $compare  = empty($commitId) ? 'HEAD' : $commitId;
-
-            $builder->executeCommand('cd "%s" && git diff "%s^^" "%s"', $path, $compare, $file);
-        }
-
-        $builder->logExecOutput(true);
-
-        $diff = $builder->getLastOutput();
-
-        $helper = new Diff();
-        $lines  = $helper->getLinePositions($diff);
-
-        return isset($lines[$line]) ? $lines[$line] : null;
     }
 }

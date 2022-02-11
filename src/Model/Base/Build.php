@@ -9,6 +9,8 @@ use Exception;
 use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Model;
 use PHPCensor\Store\BuildStore;
+use PHPCensor\Traits\Model\HasCreateDateTrait;
+use PHPCensor\Traits\Model\HasUserIdTrait;
 
 /**
  * @package    PHP Censor
@@ -19,6 +21,9 @@ use PHPCensor\Store\BuildStore;
  */
 class Build extends Model
 {
+    use HasUserIdTrait;
+    use HasCreateDateTrait;
+
     public const STATUS_PENDING = 0;
     public const STATUS_RUNNING = 1;
     public const STATUS_SUCCESS = 2;
@@ -305,36 +310,6 @@ class Build extends Model
      *
      * @throws Exception
      */
-    public function getCreateDate()
-    {
-        if ($this->data['create_date']) {
-            return new DateTime($this->data['create_date']);
-        }
-
-        return null;
-    }
-
-    /**
-     * @return bool
-     */
-    public function setCreateDate(DateTime $value)
-    {
-        $stringValue = $value->format('Y-m-d H:i:s');
-
-        if ($this->data['create_date'] === $stringValue) {
-            return false;
-        }
-
-        $this->data['create_date'] = $stringValue;
-
-        return $this->setModified('create_date');
-    }
-
-    /**
-     * @return DateTime|null
-     *
-     * @throws Exception
-     */
     public function getStartDate()
     {
         if ($this->data['start_date']) {
@@ -519,28 +494,6 @@ class Build extends Model
         $this->data['source'] = $value;
 
         return $this->setModified('source');
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getUserId()
-    {
-        return (null !== $this->data['user_id']) ? (int)$this->data['user_id'] : null;
-    }
-
-    /**
-     * @return bool
-     */
-    public function setUserId(?int $value)
-    {
-        if ($this->data['user_id'] === $value) {
-            return false;
-        }
-
-        $this->data['user_id'] = $value;
-
-        return $this->setModified('user_id');
     }
 
     /**
