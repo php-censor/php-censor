@@ -44,7 +44,7 @@ class BuildError extends Model
         'is_new' => 'boolean'
     ];
 
-    public function getBuildId(): int
+    public function getBuildId(): ?int
     {
         return $this->getData('build_id');
     }
@@ -74,7 +74,7 @@ class BuildError extends Model
         return $this->setData('file', $value);
     }
 
-    public function getLineStart(): int
+    public function getLineStart(): ?int
     {
         return $this->getData('line_start');
     }
@@ -84,7 +84,7 @@ class BuildError extends Model
         return $this->setData('line_start', $value);
     }
 
-    public function getLineEnd(): int
+    public function getLineEnd(): ?int
     {
         return $this->getData('line_end');
     }
@@ -94,7 +94,7 @@ class BuildError extends Model
         return $this->setData('line_end', $value);
     }
 
-    public function getSeverity(): int
+    public function getSeverity(): ?int
     {
         return $this->getData('severity');
     }

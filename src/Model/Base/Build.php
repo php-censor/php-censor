@@ -97,7 +97,7 @@ class Build extends Model
         self::SOURCE_WEBHOOK_PULL_REQUEST_MERGED,
     ];
 
-    public function getParentId(): int
+    public function getParentId(): ?int
     {
         return $this->getData('parent_id');
     }
@@ -107,7 +107,7 @@ class Build extends Model
         return $this->setData('parent_id', $value);
     }
 
-    public function getProjectId(): int
+    public function getProjectId(): ?int
     {
         return $this->getData('project_id');
     }
@@ -127,7 +127,7 @@ class Build extends Model
         return $this->setData('commit_id', $value);
     }
 
-    public function getStatus(): int
+    public function getStatus(): ?int
     {
         return $this->getData('status');
     }

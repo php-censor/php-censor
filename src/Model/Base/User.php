@@ -78,7 +78,7 @@ class User extends Model
         return $this->setData('language', $value);
     }
 
-    public function getPerPage(): int
+    public function getPerPage(): ?int
     {
         return $this->getData('per_page');
     }

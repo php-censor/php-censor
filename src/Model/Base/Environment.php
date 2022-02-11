@@ -26,7 +26,7 @@ class Environment extends Model
         'branches' => 'array',
     ];
 
-    public function getProjectId(): int
+    public function getProjectId(): ?int
     {
         return $this->getData('project_id');
     }
