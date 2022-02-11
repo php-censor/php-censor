@@ -87,21 +87,20 @@ class Model
     /**
      * @return mixed
      */
-    private function cast(string $type, ?string $value)
+    private function cast(string $type, $value)
     {
         if ($value === null) {
-            if ($type == 'array') {
-                return [];
-            }
             return null;
+        }
+
+        if (gettype($value) === $type) {
+            return $value;
         }
 
         switch ($type) {
             case 'integer':
-            case 'int':
                 return intval($value);
 
-            case 'bool':
             case 'boolean':
                 return boolval($value);
 

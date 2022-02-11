@@ -22,7 +22,7 @@ class Environment extends Model
     ];
 
     protected array $casts = [
-        'project_id' => 'int',
+        'project_id' => 'integer',
         'branches' => 'array',
     ];
 

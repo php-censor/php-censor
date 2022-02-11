@@ -22,8 +22,8 @@ class ProjectGroup extends Model
         'user_id' => null,
     ];
 
-    protected array $maps = [
-        'user_id' => 'int',
+    protected array $casts = [
+        'user_id' => 'integer',
     ];
 
     public function getTitle(): ?string

@@ -23,7 +23,7 @@ class BuildMeta extends Model
     ];
 
     protected array $casts = [
-        'build_id' => 'int',
+        'build_id' => 'integer',
     ];
 
     public function getBuildId():int

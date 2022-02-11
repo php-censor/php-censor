@@ -46,7 +46,7 @@ class BuildTest extends TestCase
             'finish_date'           => null,
             'committer_email'       => null,
             'commit_message'        => null,
-            'extra'                 => null,
+            'extra'                 => [],
             'environment_id'        => null,
             'source'                => Build::SOURCE_UNKNOWN,
             'user_id'               => null,

@@ -34,7 +34,7 @@ class EnvironmentTest extends TestCase
             'id'         => null,
             'project_id' => null,
             'name'       => null,
-            'branches'   => null,
+            'branches'   => [],
         ], $environment->getDataArray());
     }
 

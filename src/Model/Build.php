@@ -76,28 +76,31 @@ class Build extends BaseBuild
     }
 
     /**
-     * @param string $name
      * @param mixed  $value
      */
-    public function addExtraValue($name, $value)
+    public function addExtraValue(string $name, $value): bool
     {
         $extra = $this->getExtra();
+        if ($extra === null) {
+            $extra = [];
+        }
         $extra[$name] = $value;
 
-        $this->setExtra($extra);
+        return $this->setExtra($extra);
     }
 
     /**
      * @param string $name
      */
-    public function removeExtraValue($name)
+    public function removeExtraValue(string $name): bool
     {
         $extra = $this->getExtra();
-        if (!empty($extra[$name])) {
-            unset($extra[$name]);
+        if ($extra === null || array_key_exists($name, $extra)) {
+            return false;
         }
 
-        $this->setExtra($extra);
+        unset($extra[$name]);
+        return $this->setExtra($extra);
     }
 
     /**
