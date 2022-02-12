@@ -26,7 +26,7 @@ class BuildMeta extends Model
         'build_id' => 'integer',
     ];
 
-    public function getBuildId():int
+    public function getBuildId(): int
     {
         return $this->getData('build_id');
     }

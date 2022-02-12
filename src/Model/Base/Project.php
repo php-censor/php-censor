@@ -151,6 +151,7 @@ class Project extends Model
                 'Column "type" must be one of: ' . \join(', ', static::$allowedTypes) . '.'
             );
         }
+
         return $this->setData('type', $value);
     }
 
@@ -212,7 +213,7 @@ class Project extends Model
         return $this->setData('archived', $value);
     }
 
-    public function getGroupId():int
+    public function getGroupId(): int
     {
         return $this->getData('group_id');
     }

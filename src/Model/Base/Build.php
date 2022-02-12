@@ -352,9 +352,6 @@ class Build extends Model
         return $this->getData('errors_total_previous');
     }
 
-    /**
-     * @return bool
-     */
     public function setErrorsTotalPrevious(int $value): bool
     {
         return $this->setData('errors_total_previous', $value);

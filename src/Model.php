@@ -28,7 +28,6 @@ class Model
         StoreRegistry $storeRegistry,
         array $initialData = []
     ) {
-
         if (!isset($this->casts['id'])) {
             $this->casts['id'] = 'integer';
         }
@@ -122,18 +121,11 @@ class Model
         }
     }
 
-    /**
-     * @return int
-     */
     public function getId(): ?int
     {
         return $this->getData('id');
     }
 
-    /**
-     * @param int $value
-     * @return bool
-     */
     public function setId(int $value): bool
     {
         return $this->setData('id', $value);

@@ -89,17 +89,14 @@ class Build extends BaseBuild
         return $this->setExtra($extra);
     }
 
-    /**
-     * @param string $name
-     */
     public function removeExtraValue(string $name): bool
     {
         $extra = $this->getExtra();
         if ($extra === null || array_key_exists($name, $extra)) {
             return false;
         }
-
         unset($extra[$name]);
+
         return $this->setExtra($extra);
     }
 
