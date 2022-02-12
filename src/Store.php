@@ -249,7 +249,7 @@ abstract class Store
         $modified = array_keys($model->getId() === null ? $rawData : $model->getModified());
         $data = [];
         foreach ($rawData as $column => $value) {
-            if (!in_array($column, $modified)) {
+            if (!in_array($column, $modified, true)) {
                 continue;
             }
             $data[$column] = $this->castToDatabase($model->getCast($column), $value);
