@@ -179,7 +179,7 @@ abstract class Store
         foreach ($data as $column => $value) {
             $cols[] = $column;
             $values[] = ':' . $column;
-            $queryParams[':' . $column] = $data[$value];
+            $queryParams[':' . $column] = $value;
         }
 
         $queryString = sprintf(
