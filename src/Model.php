@@ -124,7 +124,7 @@ class Model
      */
     private function castToDatabase(string $type, $value)
     {
-        if (gettype($value) === 'string') {
+        if ($value === null || gettype($value) === 'string') {
             return $value;
         }
 
