@@ -190,11 +190,11 @@ class SessionController extends WebController
 
         \setcookie(
             'remember_key',
-            null,
+            '',
             (\time() - 1),
             null,
             null,
-            null,
+            false,
             true
         );
 
