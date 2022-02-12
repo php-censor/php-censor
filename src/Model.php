@@ -32,26 +32,33 @@ class Model
             $this->casts['id'] = 'integer';
         }
 
-        foreach ($initialData as $index => $value) {
-            if (!array_key_exists($index, $this->data)) {
+        $initialData = array_merge($this->data, $initialData);
+
+        foreach ($initialData as $column => $value) {
+            if (!array_key_exists($column, $this->data)) {
                 continue;
             }
 
-            $this->data[$index] = $this->castToDatabase($value);
+            $this->data[$column] = $this->castToDatabase($this->getCast($column), $value);
         }
 
         $this->storeRegistry = $storeRegistry;
     }
 
+    protected function getCast(string $column)
+    {
+        return $this->casts[$column] ?? 'string';
+    }
+
     protected function getData(string $column, $defaultValue = null)
     {
-        return $this->cast($this->casts[$column] ?? 'string', $this->data[$column] ?? $defaultValue);
+        return $this->cast($this->getCast($column), $this->data[$column] ?? $defaultValue);
     }
 
     protected function setData(string $column, $value): bool
     {
         if (!is_null($value)) {
-            $value = $this->castToDatabase($value);
+            $value = $this->castToDatabase($this->getCast($column), $value);
         }
 
         if ($this->data[$column] === $value) {
@@ -112,6 +119,25 @@ class Model
         }
     }
 
+    /**
+     * @return mixed
+     */
+    private function castToDatabase(string $type, $value)
+    {
+        if (gettype($value) === 'string') {
+            return $value;
+        }
+
+        switch ($type) {
+            case 'datetime':
+                return $value->format('Y-m-d H:i:s');
+            case 'array':
+                return json_encode($value);
+            default:
+                return $value;
+        }
+    }
+
     public function getId(): ?int
     {
         return $this->getData('id');
@@ -120,17 +146,5 @@ class Model
     public function setId(int $value): bool
     {
         return $this->setData('id', $value);
-    }
-
-    private function castToDatabase($value)
-    {
-        switch (gettype($value)) {
-            case 'datetime':
-                return $value->format('Y-m-d H:i:s');
-            case 'array':
-                return json_encode($value);
-            default:
-                return $value;
-        }
     }
 }
