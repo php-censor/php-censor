@@ -274,6 +274,9 @@ abstract class Store
                 return json_encode($value);
             case 'newline':
                 return implode("\n", $value);
+            case 'bool':
+            case 'boolean':
+                return $value ? 1 : 0;
             default:
                 return $value;
         }
