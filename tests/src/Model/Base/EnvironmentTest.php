@@ -84,5 +84,9 @@ class EnvironmentTest extends TestCase
 
         $result = $environment->setBranches(['branch-1', 'branch-2']);
         self::assertEquals(false, $result);
+
+
+        $environment = new Environment($this->storeRegistry, ['branches' => "branch-1\nbranch-2\nbranch-3\n\nbranch-4"]);
+        self::assertEquals(['branch-1', 'branch-2', 'branch-3', 'branch-4'], $environment->getBranches());
     }
 }

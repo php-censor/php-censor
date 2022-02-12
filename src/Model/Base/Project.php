@@ -63,6 +63,7 @@ class Project extends Model
         'default_branch_only' => 'boolean',
         'create_date' => 'datetime',
         'user_id' => 'integer',
+        'access_information' => 'array',
         'overwrite_build_config' => 'boolean'
     ];
 

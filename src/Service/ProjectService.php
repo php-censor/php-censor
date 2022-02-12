@@ -132,7 +132,7 @@ class ProjectService
     /**
      * In circumstances where it is necessary, populate access information based on other project properties.
      */
-    protected function processAccessInformation(Project $project): Project
+    public function processAccessInformation(Project $project): Project
     {
         $reference = $project->getReference();
 

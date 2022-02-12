@@ -76,31 +76,6 @@ class Build extends BaseBuild
     }
 
     /**
-     * @param mixed  $value
-     */
-    public function addExtraValue(string $name, $value): bool
-    {
-        $extra = $this->getExtra();
-        if ($extra === null) {
-            $extra = [];
-        }
-        $extra[$name] = $value;
-
-        return $this->setExtra($extra);
-    }
-
-    public function removeExtraValue(string $name): bool
-    {
-        $extra = $this->getExtra();
-        if ($extra === null || array_key_exists($name, $extra)) {
-            return false;
-        }
-        unset($extra[$name]);
-
-        return $this->setExtra($extra);
-    }
-
-    /**
      * Get BuildError models by BuildId for this Build.
      *
      * @return BuildError[]

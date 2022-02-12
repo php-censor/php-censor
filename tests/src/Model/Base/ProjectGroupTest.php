@@ -77,6 +77,12 @@ class ProjectGroupTest extends TestCase
 
         $result = $projectGroup->setCreateDate($createDate);
         self::assertEquals(false, $result);
+
+        $projectGroup = new ProjectGroup($this->storeRegistry, ['create_date' => $createDate->format('Y-m-d H:i:s')]);
+        self::assertEquals($createDate->getTimestamp(), $projectGroup->getCreateDate()->getTimestamp());
+
+        $projectGroup = new ProjectGroup($this->storeRegistry, ['create_date' => 'Invalid Data']);
+        self::assertNull($projectGroup->getCreateDate());
     }
 
     public function testUserId()

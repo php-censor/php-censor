@@ -110,10 +110,12 @@ class Model
                     return $value;
                 }
 
-                return array_filter(
-                    array_map(
-                        'trim',
-                        explode("\n", $value)
+                return array_values(
+                    array_filter(
+                        array_map(
+                            'trim',
+                            explode("\n", $value)
+                        )
                     )
                 );
 

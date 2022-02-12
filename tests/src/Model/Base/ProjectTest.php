@@ -240,6 +240,12 @@ class ProjectTest extends TestCase
 
         $result = $project->setCreateDate($createDate);
         self::assertEquals(false, $result);
+
+        $project = new Project($this->storeRegistry, ['create_date' => $createDate->format('Y-m-d H:i:s')]);
+        self::assertEquals($createDate->getTimestamp(), $project->getCreateDate()->getTimestamp());
+
+        $project = new Project($this->storeRegistry, ['create_date' => 'Invalid Data']);
+        self::assertNull($project->getCreateDate());
     }
 
     public function testUserId()

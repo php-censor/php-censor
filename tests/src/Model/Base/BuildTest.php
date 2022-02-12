@@ -172,6 +172,12 @@ class BuildTest extends TestCase
 
         $result = $build->setCreateDate($createDate);
         self::assertEquals(false, $result);
+
+        $build = new Build($this->storeRegistry, ['create_date' => $createDate->format('Y-m-d H:i:s')]);
+        self::assertEquals($createDate->getTimestamp(), $build->getCreateDate()->getTimestamp());
+
+        $build = new Build($this->storeRegistry, ['create_date' => 'Invalid Data']);
+        self::assertNull($build->getCreateDate());
     }
 
     public function testStartDate()
@@ -180,14 +186,20 @@ class BuildTest extends TestCase
         self::assertEquals(null, $build->getStartDate());
 
         $build      = new Build($this->storeRegistry);
-        $createDate = new DateTime();
+        $startDate = new DateTime();
 
-        $result = $build->setStartDate($createDate);
+        $result = $build->setStartDate($startDate);
         self::assertEquals(true, $result);
-        self::assertEquals($createDate->getTimestamp(), $build->getStartDate()->getTimestamp());
+        self::assertEquals($startDate->getTimestamp(), $build->getStartDate()->getTimestamp());
 
-        $result = $build->setStartDate($createDate);
+        $result = $build->setStartDate($startDate);
         self::assertEquals(false, $result);
+
+        $build = new Build($this->storeRegistry, ['start_date' => $startDate->format('Y-m-d H:i:s')]);
+        self::assertEquals($startDate->getTimestamp(), $build->getStartDate()->getTimestamp());
+
+        $build = new Build($this->storeRegistry, ['start_date' => 'Invalid Data']);
+        self::assertNull($build->getStartDate());
     }
 
     public function testFinishDate()
@@ -196,14 +208,20 @@ class BuildTest extends TestCase
         self::assertEquals(null, $build->getFinishDate());
 
         $build      = new Build($this->storeRegistry);
-        $createDate = new DateTime();
+        $finishDate = new DateTime();
 
-        $result = $build->setFinishDate($createDate);
+        $result = $build->setFinishDate($finishDate);
         self::assertEquals(true, $result);
-        self::assertEquals($createDate->getTimestamp(), $build->getFinishDate()->getTimestamp());
+        self::assertEquals($finishDate->getTimestamp(), $build->getFinishDate()->getTimestamp());
 
-        $result = $build->setFinishDate($createDate);
+        $result = $build->setFinishDate($finishDate);
         self::assertEquals(false, $result);
+
+        $build = new Build($this->storeRegistry, ['finish_date' => $finishDate->format('Y-m-d H:i:s')]);
+        self::assertEquals($finishDate->getTimestamp(), $build->getFinishDate()->getTimestamp());
+
+        $build = new Build($this->storeRegistry, ['finish_date' => 'Invalid Data']);
+        self::assertNull($build->getStartDate());
     }
 
     public function testCommitterEmail()
@@ -241,6 +259,51 @@ class BuildTest extends TestCase
         self::assertEquals(null, $build->getExtra('key-3'));
 
         $result = $build->setExtra(['key-1' => 'value-1', 'key-2' => 'value-2']);
+        self::assertEquals(false, $result);
+    }
+
+    /*
+     * @depends testExtra
+     */
+    public function testAddExtraValue()
+    {
+        $build = new Build($this->storeRegistry, ['extra' => null]);
+
+        $result = $build->addExtraValue('key-1', 'value-1');
+        self::assertEquals(true, $result);
+        self::assertEquals(['key-1' => 'value-1'], $build->getExtra());
+
+        $result = $build->addExtraValue('key-2', 'value-2');
+        self::assertEquals(true, $result);
+        self::assertEquals(['key-1' => 'value-1', 'key-2' => 'value-2'], $build->getExtra());
+
+        $result = $build->addExtraValue('key-1', 'value-1');
+        self::assertEquals(false, $result);
+    }
+
+    /*
+     * @depends testExtra
+     */
+    public function testRemoveExtraValue()
+    {
+
+        $build = new Build($this->storeRegistry);
+
+        $result = $build->removeExtraValue('key-1', 'value-1');
+        self::assertEquals(false, $result);
+
+        $build = new Build($this->storeRegistry, [
+            'extra' => [
+                'key-1' => 'value-1',
+                'key-2' => 'value-2'
+            ]
+        ]);
+
+        $result = $build->removeExtraValue('key-1');
+        self::assertEquals(true, $result);
+        self::assertEquals(['key-2' => 'value-2'], $build->getExtra());
+
+        $result = $build->removeExtraValue('key-1');
         self::assertEquals(false, $result);
     }
 
@@ -282,4 +345,62 @@ class BuildTest extends TestCase
         $result = $build->setUserId(300);
         self::assertEquals(false, $result);
     }
+
+    public function testErrorsTotal()
+    {
+        $build = new Build($this->storeRegistry);
+
+        $result = $build->setErrorsTotal(5);
+        self::assertEquals(true, $result);
+        self::assertEquals(5, $build->getErrorsTotal());
+
+        $result = $build->setErrorsTotal(5);
+        self::assertEquals(false, $result);
+    }
+
+    public function testErrorsTotalPrevious()
+    {
+        $build = new Build($this->storeRegistry);
+
+        $result = $build->setErrorsTotalPrevious(5);
+        self::assertEquals(true, $result);
+        self::assertEquals(5, $build->getErrorsTotalPrevious());
+
+        $result = $build->setErrorsTotalPrevious(5);
+        self::assertEquals(false, $result);
+    }
+
+    public function testErrorsNew()
+    {
+        $build = new Build($this->storeRegistry);
+
+        $result = $build->setErrorsNew(5);
+        self::assertEquals(true, $result);
+        self::assertEquals(5, $build->getErrorsNew());
+
+        $result = $build->setErrorsNew(5);
+        self::assertEquals(false, $result);
+    }
+
+    /*
+     * @depends testExtra
+     */
+    public function testIsDebug()
+    {
+        $build = new Build($this->storeRegistry);
+        self::assertEquals(false, $build->isDebug());
+
+        $build->addExtraValue('debug', true);
+        self::assertEquals(true, $build->isDebug());
+
+        $build->addExtraValue('debug', false);
+        self::assertEquals(false, $build->isDebug());
+
+
+        $build = new Build($this->storeRegistry);
+
+        define('DEBUG_MODE', true);
+        self::assertEquals(true, $build->isDebug());
+    }
+
 }
