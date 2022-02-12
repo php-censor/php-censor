@@ -81,9 +81,11 @@ class Model
         }
 
         switch ($type) {
+            case 'int':
             case 'integer':
                 return is_integer($value) ? $value : intval($value);
 
+            case 'bool':
             case 'boolean':
                 return is_bool($value) ? $value : boolval($value);
 

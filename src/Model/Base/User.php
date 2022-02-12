@@ -30,7 +30,8 @@ class User extends Model
 
     protected array $casts = [
         'is_admin' => 'boolean',
-        'per_page' => 'integer'
+        'per_page' => 'integer',
+        'provider_data' => 'array'
     ];
 
     public function getEmail(): ?string
