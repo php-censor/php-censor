@@ -19,5 +19,6 @@ $databaseManager = new DatabaseManager($configuration);
 $storeRegistry   = new StoreRegistry($databaseManager);
 
 \define('APP_URL', $configuration->get('php-censor.url', '') . '/');
+\define('REALTIME_UI', false);
 
 Lang::init($configuration, $storeRegistry);

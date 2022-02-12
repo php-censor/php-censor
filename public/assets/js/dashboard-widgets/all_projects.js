@@ -13,7 +13,9 @@ PHPCensor.widgets.allProjects = {
 
             success: function (data) {
                 $(('#widget-all_projects-container')).html(data);
-                PHPCensor.widgets.allProjects.interval = setInterval(PHPCensor.widgets.allProjects.update, 10000);
+                if (REALTIME_UI) {
+                    PHPCensor.widgets.allProjects.interval = setInterval(PHPCensor.widgets.allProjects.update, 10000);
+                }
             },
 
             error: PHPCensor.handleFailedAjax

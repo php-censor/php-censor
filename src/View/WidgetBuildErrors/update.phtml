@@ -87,11 +87,11 @@ foreach ($builds as $projectId => $projectEnvs):
         }
 
 ?>
-    <div class="project-box">
+    <div class="project-box" style="overflow: hidden; word-wrap: anywhere;">
     <div class="small-box small-box-full bg-<?= $backgroundClass; ?>">
 
         <div class="inner">
-            <h3>
+            <h3 class="dashboard-box-title">
                 <a href="<?= APP_URL; ?>project/view/<?= $project->getId(); ?>">
                     <?= $project->getTitle(); ?>
                 </a>
@@ -128,11 +128,11 @@ foreach ($builds as $projectId => $projectEnvs):
                 switch ($build->getStatus()) {
                     case Build::STATUS_PENDING:
                         $class = 'bg-blue';
-                        $icon = 'fa-clock-o';
+                        $icon = 'fa-clock-o blink-item';
                         break;
                     case Build::STATUS_RUNNING:
                         $class = 'bg-yellow';
-                        $icon = 'fa-cogs';
+                        $icon = 'fa-cogs blink-item';
                         break;
                     case Build::STATUS_SUCCESS:
                         $class = 'bg-green';

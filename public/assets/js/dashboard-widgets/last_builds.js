@@ -13,7 +13,9 @@ PHPCensor.widgets.lastBuilds = {
 
             success: function (data) {
                 $(('#widget-last_builds-container')).html(data);
-                PHPCensor.widgets.lastBuilds.interval = setInterval(PHPCensor.widgets.lastBuilds.update, 10000);
+                if (REALTIME_UI) {
+                    PHPCensor.widgets.lastBuilds.interval = setInterval(PHPCensor.widgets.lastBuilds.update, 10000);
+                }
             },
 
             error: PHPCensor.handleFailedAjax
