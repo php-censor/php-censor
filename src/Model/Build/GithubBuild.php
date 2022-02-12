@@ -264,12 +264,12 @@ class GithubBuild extends GitBuild
      */
     public function reportError(
         Builder $builder,
-        $plugin,
-        $message,
-        $severity = BuildError::SEVERITY_NORMAL,
-        $file = null,
-        $lineStart = null,
-        $lineEnd = null
+        string $plugin,
+        string $message,
+        int $severity = BuildError::SEVERITY_NORMAL,
+        ?string $file = null,
+        ?int $lineStart = null,
+        ?int $lineEnd = null
     ) {
         parent::reportError($builder, $plugin, $message, $severity, $file, $lineStart, $lineEnd);
 

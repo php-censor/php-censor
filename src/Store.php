@@ -42,7 +42,7 @@ abstract class Store
         }
 
         $this->databaseManager = $databaseManager;
-        $this->storeRegistry   = $storeRegistry;
+        $this->storeRegistry = $storeRegistry;
     }
 
     /**
@@ -56,7 +56,7 @@ abstract class Store
         array $order = [],
         string $whereType = 'AND'
     ): array {
-        $query      = 'SELECT * FROM {{' . $this->tableName . '}}';
+        $query = 'SELECT * FROM {{' . $this->tableName . '}}';
         $countQuery = 'SELECT COUNT(*) AS {{count}} FROM {{' . $this->tableName . '}}';
 
         $wheres = [];
@@ -111,121 +111,117 @@ abstract class Store
 
     /**
      * @throws InvalidArgumentException
+     * @throws Exception
      */
-    public function save(Model $obj, bool $saveAllColumns = false): ?Model
+    public function save(Model $model): ?Model
     {
-        if (!($obj instanceof $this->modelName)) {
-            throw new InvalidArgumentException(get_class($obj) . ' is an invalid model type for this store.');
+        if (!($model instanceof $this->modelName)) {
+            throw new InvalidArgumentException(get_class($model) . ' is an invalid model type for this store.');
         }
 
-        $data = $obj->getDataArray();
+        $data = $this->getData($model);
 
-        if (isset($data[$this->primaryKey])) {
-            $rtn = $this->saveByUpdate($obj, $saveAllColumns);
-        } else {
-            $rtn = $this->saveByInsert($obj, $saveAllColumns);
+        if ($model->getId() !== null) {
+            return $this->saveByUpdate($model, $data);
         }
 
-        return $rtn;
+        return $this->saveByInsert($model, $data);
     }
 
     /**
      * @throws Exception
      */
-    public function saveByUpdate(Model $obj, bool $saveAllColumns = false): ?Model
+    protected function saveByUpdate(Model $model, array $data): ?Model
     {
-        $data     = $obj->getDataArray();
-        $modified = ($saveAllColumns) ? \array_keys($data) : $obj->getModified();
+        if (empty($data)) {
+            return $model;
+        }
 
-        $updates      = [];
+        $updates = [];
         $updateParams = [];
-        foreach ($modified as $key) {
-            $updates[]      = $key . ' = :' . $key;
-            $updateParams[] = [$key, $data[$key]];
+        foreach ($data as $column => $value) {
+            $updates[] = $column . ' = :' . $column;
+            $updateParams[] = [$column, $value];
         }
 
-        if (\count($updates)) {
-            $qs = \sprintf(
-                'UPDATE {{%s}} SET %s WHERE {{%s}} = :primaryKey',
-                $this->tableName,
-                \implode(', ', $updates),
-                $this->primaryKey
-            );
-            $q  = $this->databaseManager->getConnection('write')->prepare($qs);
+        $queryString = sprintf(
+            'UPDATE {{%s}} SET %s WHERE {{%s}} = :primaryKey',
+            $this->tableName,
+            implode(', ', $updates),
+            $this->primaryKey
+        );
+        $query = $this->databaseManager
+            ->getConnection('write')
+            ->prepare($queryString);
 
-            foreach ($updateParams as $updateParam) {
-                $q->bindValue(':' . $updateParam[0], $updateParam[1]);
-            }
-
-            $q->bindValue(':primaryKey', $data[$this->primaryKey]);
-            $q->execute();
-
-            $rtn = $this->getByPrimaryKey((int)$data[$this->primaryKey], 'write');
-        } else {
-            $rtn = $obj;
+        foreach ($updateParams as $updateParam) {
+            $query->bindValue(':' . $updateParam[0], $updateParam[1]);
         }
 
-        return $rtn;
+        $query->bindValue(':primaryKey', $data[$this->primaryKey]);
+        $query->execute();
+
+        return $this->getByPrimaryKey($model->getId(), 'write');
     }
 
     /**
      * @throws Exception
      */
-    public function saveByInsert(Model $obj, bool $saveAllColumns = false): ?Model
+    protected function saveByInsert(Model $model, array $data): ?Model
     {
-        $rtn      = null;
-        $data     = $obj->getDataArray();
-        $modified = ($saveAllColumns) ? \array_keys($data) : $obj->getModified();
-
-        $cols    = [];
-        $values  = [];
-        $qParams = [];
-        foreach ($modified as $key) {
-            $cols[]              = $key;
-            $values[]            = ':' . $key;
-            $qParams[':' . $key] = $data[$key];
+        if (empty($data)) {
+            return $model;
         }
 
-        if (\count($cols)) {
-            $qs = \sprintf(
-                'INSERT INTO {{%s}} (%s) VALUES (%s)',
-                $this->tableName,
-                \implode(', ', $cols),
-                \implode(', ', $values)
-            );
-            $q = $this->databaseManager->getConnection('write')->prepare($qs);
-
-            if ($q->execute($qParams)) {
-                $id  = $this->databaseManager->getConnection('write')->lastInsertId($this->tableName);
-                $rtn = $this->getByPrimaryKey($id, 'write');
-            }
+        $cols = [];
+        $values = [];
+        $queryParams = [];
+        foreach ($data as $column => $value) {
+            $cols[] = $column;
+            $values[] = ':' . $column;
+            $queryParams[':' . $column] = $data[$value];
         }
 
-        return $rtn;
+        $queryString = sprintf(
+            'INSERT INTO {{%s}} (%s) VALUES (%s)',
+            $this->tableName,
+            implode(', ', $cols),
+            implode(', ', $values)
+        );
+        $query = $this->databaseManager
+            ->getConnection('write')
+            ->prepare($queryString);
+
+        if (!$query->execute($queryParams)) {
+            return $model;
+        }
+
+        $id = $this->databaseManager
+            ->getConnection('write')
+            ->lastInsertId($this->tableName);
+        return $this->getByPrimaryKey($id, 'write');
     }
 
     /**
      * @throws Common\Exception\Exception
      * @throws InvalidArgumentException
      */
-    public function delete(Model $obj): bool
+    public function delete(Model $model): bool
     {
-        if (!($obj instanceof $this->modelName)) {
-            throw new InvalidArgumentException(get_class($obj) . ' is an invalid model type for this store.');
+        if (!($model instanceof $this->modelName)) {
+            throw new InvalidArgumentException(get_class($model) . ' is an invalid model type for this store.');
         }
 
-        $data = $obj->getDataArray();
-
-        $q = $this->databaseManager->getConnection('write')
+        $query = $this->databaseManager->getConnection('write')
             ->prepare(
-                \sprintf(
+                sprintf(
                     'DELETE FROM {{%s}} WHERE {{%s}} = :primaryKey',
                     $this->tableName,
                     $this->primaryKey
                 )
             );
-        $q->bindValue(':primaryKey', $data[$this->primaryKey]);
-        $q->execute();
+        $query->bindValue(':primaryKey', $model->getId());
+        $query->execute();
 
         return true;
     }
@@ -244,5 +240,39 @@ abstract class Store
         }
 
         return $field;
+    }
+
+    protected function getData(Model $model): array
+    {
+        $rawData = $model->getDataArray();
+        $modified = $model->getModified();
+        $data = [];
+        foreach ($rawData as $column => $value) {
+            if (!array_key_exists($column, $modified)) {
+                continue;
+            }
+            $data[$column] = $this->castToDatabase($model->getCast($column), $value);
+        }
+
+        return $data;
+    }
+
+    /**
+     * @return mixed
+     */
+    private function castToDatabase(string $type, $value)
+    {
+        if ($value === null || gettype($value) === 'string') {
+            return $value;
+        }
+
+        switch ($type) {
+            case 'datetime':
+                return $value->format('Y-m-d H:i:s');
+            case 'array':
+                return json_encode($value);
+            default:
+                return $value;
+        }
     }
 }

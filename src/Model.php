@@ -32,20 +32,14 @@ class Model
             $this->casts['id'] = 'integer';
         }
 
-        $initialData = array_merge($this->data, $initialData);
-
         foreach ($initialData as $column => $value) {
-            if (!array_key_exists($column, $this->data)) {
-                continue;
-            }
-
-            $this->data[$column] = $this->castToDatabase($this->getCast($column), $value);
+            $this->setData($column, $this->cast($this->getCast($column), $value));
         }
 
         $this->storeRegistry = $storeRegistry;
     }
 
-    protected function getCast(string $column)
+    public function getCast(string $column)
     {
         return $this->casts[$column] ?? 'string';
     }
@@ -57,11 +51,7 @@ class Model
 
     protected function setData(string $column, $value): bool
     {
-        if (!is_null($value)) {
-            $value = $this->castToDatabase($this->getCast($column), $value);
-        }
-
-        if ($this->data[$column] === $value) {
+        if (!array_key_exists($column, $this->data) || $this->data[$column] === $value) {
             return false;
         }
 
@@ -90,49 +80,29 @@ class Model
             return null;
         }
 
-        if (gettype($value) === $type) {
-            return $value;
-        }
-
         switch ($type) {
             case 'integer':
-                return intval($value);
+                return is_integer($value) ? $value : intval($value);
 
             case 'boolean':
-                return boolval($value);
+                return is_bool($value) ? $value : boolval($value);
 
             case 'float':
-                return floatval($value);
+                return is_float($value) ? $value : floatval($value);
 
             case 'array':
-                return json_decode($value, true);
+                return is_array($value) ? $value : json_decode($value, true);
 
             case 'datetime':
+                if (is_a($value, DateTime::class)) {
+                    return $value;
+                }
                 try {
                     return new DateTime($value);
                 } catch (Exception $e) {
                     return null;
                 }
 
-            default:
-                return $value;
-        }
-    }
-
-    /**
-     * @return mixed
-     */
-    private function castToDatabase(string $type, $value)
-    {
-        if ($value === null || gettype($value) === 'string') {
-            return $value;
-        }
-
-        switch ($type) {
-            case 'datetime':
-                return $value->format('Y-m-d H:i:s');
-            case 'array':
-                return json_encode($value);
             default:
                 return $value;
         }
