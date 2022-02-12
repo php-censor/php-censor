@@ -4,8 +4,6 @@ namespace Tests\PHPCensor\Logging;
 
 use Exception;
 use PHPCensor\Logging\BuildLogger;
-use PHPCensor\Model\Build;
-use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
