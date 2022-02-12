@@ -187,10 +187,8 @@ class GithubBuild extends GitBuild
 
     /**
      * Get a parsed version of the commit message, with links to issues and commits.
-     *
-     * @return string
      */
-    public function getCommitMessage()
+    public function getCommitMessage(): ?string
     {
         $message = parent::getCommitMessage();
         $project = $this->getProject();
