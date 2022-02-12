@@ -5,10 +5,10 @@ namespace PHPCensor\Model\Build;
 use Exception;
 use GuzzleHttp\Client;
 use PHPCensor\Builder;
-use PHPCensor\Helper\Diff;
 use PHPCensor\Helper\Github;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
+use PHPCensor\Traits\Model\Build\GitGetDiffLineNumberTrait;
 
 /**
  * Github Build Model
@@ -21,6 +21,8 @@ use PHPCensor\Model\BuildError;
  */
 class GithubBuild extends GitBuild
 {
+    use GitGetDiffLineNumberTrait;
+
     public static array $pullrequestTriggersToSources = [
         'opened'      => Build::SOURCE_WEBHOOK_PULL_REQUEST_CREATED,
         'synchronize' => Build::SOURCE_WEBHOOK_PULL_REQUEST_UPDATED,
@@ -310,40 +312,5 @@ class GithubBuild extends GitBuild
         } catch (\Throwable $e) {
             $builder->getBuildLogger()->logFailure('Exception: ' . $e->getMessage(), $e);
         }
-    }
-
-    /**
-     * Uses git diff to figure out what the diff line position is, based on the error line number.
-     *
-     * @param string $file
-     * @param int    $line
-     *
-     * @return int|null
-     */
-    protected function getDiffLineNumber(Builder $builder, $file, $line)
-    {
-        $builder->logExecOutput(false);
-
-        $line     = (int)$line;
-        $prNumber = $this->getExtra('pull_request_number');
-        $path     = $builder->buildPath;
-
-        if (!empty($prNumber)) {
-            $builder->executeCommand('cd "%s" && git diff "origin/%s" "%s"', $path, $this->getBranch(), $file);
-        } else {
-            $commitId = $this->getCommitId();
-            $compare  = empty($commitId) ? 'HEAD' : $commitId;
-
-            $builder->executeCommand('cd "%s" && git diff "%s^^" "%s"', $path, $compare, $file);
-        }
-
-        $builder->logExecOutput(true);
-
-        $diff = $builder->getLastOutput();
-
-        $helper = new Diff();
-        $lines  = $helper->getLinePositions($diff);
-
-        return isset($lines[$line]) ? $lines[$line] : null;
     }
 }

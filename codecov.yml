@@ -1,6 +1,9 @@
 coverage:
     round: nearest
-    precision: 0
+    precision: 2
+
+github_checks:
+    annotations: false
 
 comment: false
 

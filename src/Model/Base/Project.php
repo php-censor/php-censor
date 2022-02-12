@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace PHPCensor\Model\Base;
 
-use DateTime;
-use Exception;
 use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Model;
+use PHPCensor\Traits\Model\HasCreateDateTrait;
+use PHPCensor\Traits\Model\HasUserIdTrait;
 
 /**
  * @package    PHP Censor
@@ -18,6 +18,9 @@ use PHPCensor\Model;
  */
 class Project extends Model
 {
+    use HasCreateDateTrait;
+    use HasUserIdTrait;
+
     public const TYPE_LOCAL = 'local';
     public const TYPE_GIT = 'git';
     public const TYPE_GITHUB = 'github';
@@ -221,25 +224,5 @@ class Project extends Model
     public function setGroupId(int $value): bool
     {
         return $this->setData('group_id', $value);
-    }
-
-    public function getCreateDate(): ?DateTime
-    {
-        return $this->getData('create_date');
-    }
-
-    public function setCreateDate(DateTime $value): bool
-    {
-        return $this->setData('create_date', $value);
-    }
-
-    public function getUserId(): ?int
-    {
-        return $this->getData('user_id');
-    }
-
-    public function setUserId(?int $value): bool
-    {
-        return $this->setData('user_id', $value);
     }
 }

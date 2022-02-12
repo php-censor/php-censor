@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace PHPCensor\Model\Base;
 
-use DateTime;
-use Exception;
 use PHPCensor\Model;
+use PHPCensor\Traits\Model\HasCreateDateTrait;
 
 /**
  * @package    PHP Censor
@@ -17,6 +16,8 @@ use PHPCensor\Model;
  */
 class BuildError extends Model
 {
+    use HasCreateDateTrait;
+
     public const SEVERITY_CRITICAL = 0;
     public const SEVERITY_HIGH = 1;
     public const SEVERITY_NORMAL = 2;
@@ -117,11 +118,6 @@ class BuildError extends Model
     public function getCreateDate(): ?DateTime
     {
         return $this->getData('create_date');
-    }
-
-    public function setCreateDate(DateTime $value): bool
-    {
-        return $this->setData('create_date', $value);
     }
 
     public function getHash(): ?string

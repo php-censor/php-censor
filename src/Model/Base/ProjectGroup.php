@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace PHPCensor\Model\Base;
 
-use DateTime;
 use PHPCensor\Model;
+use PHPCensor\Traits\Model\HasCreateDateTrait;
+use PHPCensor\Traits\Model\HasUserIdTrait;
 
 /**
  * @package    PHP Censor
@@ -15,6 +16,9 @@ use PHPCensor\Model;
  */
 class ProjectGroup extends Model
 {
+    use HasCreateDateTrait;
+    use HasUserIdTrait;
+
     protected array $data = [
         'id' => null,
         'title' => null,
@@ -34,25 +38,5 @@ class ProjectGroup extends Model
     public function setTitle(string $value): bool
     {
         return $this->setData('title', $value);
-    }
-
-    public function getCreateDate(): ?DateTime
-    {
-        return $this->getData('create_date');
-    }
-
-    public function setCreateDate(DateTime $value): bool
-    {
-        return $this->setData('create_date', $value);
-    }
-
-    public function getUserId(): ?int
-    {
-        return $this->getData('user_id');
-    }
-
-    public function setUserId(?int $value): bool
-    {
-        return $this->setData('user_id', $value);
     }
 }

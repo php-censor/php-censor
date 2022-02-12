@@ -10,6 +10,8 @@ use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Model;
 use PHPCensor\Store\BuildStore;
+use PHPCensor\Traits\Model\HasCreateDateTrait;
+use PHPCensor\Traits\Model\HasUserIdTrait;
 
 /**
  * @package    PHP Censor
@@ -20,6 +22,9 @@ use PHPCensor\Store\BuildStore;
  */
 class Build extends Model
 {
+    use HasUserIdTrait;
+    use HasCreateDateTrait;
+
     public const STATUS_PENDING = 0;
     public const STATUS_RUNNING = 1;
     public const STATUS_SUCCESS = 2;
@@ -196,15 +201,6 @@ class Build extends Model
         return $this->setData('tag', $value);
     }
 
-    public function getCreateDate(): ?DateTime
-    {
-        return $this->getData('create_date');
-    }
-
-    public function setCreateDate(DateTime $value): bool
-    {
-        return $this->setData('create_date', $value);
-    }
     public function getStartDate(): ?DateTime
     {
         return $this->getData('start_date');
@@ -290,16 +286,6 @@ class Build extends Model
         }
 
         return $this->setData('source', $value);
-    }
-
-    public function getUserId(): ?int
-    {
-        return $this->getData('user_id');
-    }
-
-    public function setUserId(?int $value): bool
-    {
-        return $this->setData('user_id', $value);
     }
 
     /**
