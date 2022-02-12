@@ -246,7 +246,7 @@ abstract class Store
     protected function getData(Model $model): array
     {
         $rawData = $model->getDataArray();
-        $modified = $model->getModified();
+        $modified = $model->getId() === null ? array_keys($rawData) : $model->getModified();
         $data = [];
         foreach ($rawData as $column => $value) {
             if (!array_key_exists($column, $modified)) {
