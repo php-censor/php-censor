@@ -39,7 +39,7 @@ class Model
         $this->storeRegistry = $storeRegistry;
     }
 
-    public function getCast(string $column)
+    public function getCast(string $column): string
     {
         return $this->casts[$column] ?? 'string';
     }

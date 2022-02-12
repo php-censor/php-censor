@@ -46,7 +46,6 @@ class BuildInterpolatorTest extends TestCase
     {
         $mockRegistry = $this->prophesize('\PHPCensor\StoreRegistry');
         $build = $this->prophesize('PHPCensor\\Model\\Build')
-            ->willBeConstructedWith([$mockRegistry->reveal(), ['id' => 1]])
             ->reveal();
 
         $string         = "Hello World";

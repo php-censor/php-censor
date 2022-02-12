@@ -31,8 +31,7 @@ class BuildLoggerTest extends TestCase
         parent::setUp();
         $this->mockLogger = $this->prophesize('\Psr\Log\LoggerInterface');
         $this->mockRegistry = $this->prophesize('\PHPCensor\StoreRegistry');
-        $this->mockBuild = $this->prophesize('\PHPCensor\Model\Build')
-            ->willBeConstructedWith([$this->mockRegistry->reveal(), ['id' => 1]]);
+        $this->mockBuild = $this->prophesize('\PHPCensor\Model\Build');
 
         $this->testedBuildLogger = new BuildLogger(
             $this->mockLogger->reveal(),
