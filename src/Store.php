@@ -246,10 +246,10 @@ abstract class Store
     protected function getData(Model $model): array
     {
         $rawData = $model->getDataArray();
-        $modified = $model->getId() === null ? array_keys($rawData) : $model->getModified();
+        $modified = array_keys($model->getId() === null ? $rawData : $model->getModified());
         $data = [];
         foreach ($rawData as $column => $value) {
-            if (!array_key_exists($column, $modified)) {
+            if (!in_array($column, $modified)) {
                 continue;
             }
             $data[$column] = $this->castToDatabase($model->getCast($column), $value);
