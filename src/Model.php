@@ -32,12 +32,12 @@ class Model
             $this->casts['id'] = 'integer';
         }
 
-        foreach ($initialData as $index => $item) {
+        foreach ($initialData as $index => $value) {
             if (!array_key_exists($index, $this->data)) {
                 continue;
             }
 
-            $this->data[$index] = $item;
+            $this->data[$index] = $this->castToDatabase($value);
         }
 
         $this->storeRegistry = $storeRegistry;
@@ -50,24 +50,15 @@ class Model
 
     protected function setData(string $column, $value): bool
     {
-        $stringValue = $value;
-
         if (!is_null($value)) {
-            switch ($this->casts[$column] ?? 'string') {
-                case 'datetime':
-                    $stringValue = $value->format('Y-m-d H:i:s');
-                    break;
-                case 'array':
-                    $stringValue = json_encode($value);
-                    break;
-            }
+            $value = $this->castToDatabase($value);
         }
 
-        if ($this->data[$column] === $stringValue) {
+        if ($this->data[$column] === $value) {
             return false;
         }
 
-        $this->data[$column] = $stringValue;
+        $this->data[$column] = $value;
         $this->modified[$column] = $column;
 
         return true;
@@ -129,5 +120,17 @@ class Model
     public function setId(int $value): bool
     {
         return $this->setData('id', $value);
+    }
+
+    private function castToDatabase($value)
+    {
+        switch (gettype($value)) {
+            case 'datetime':
+                return $value->format('Y-m-d H:i:s');
+            case 'array':
+                return json_encode($value);
+            default:
+                return $value;
+        }
     }
 }
