@@ -23,6 +23,7 @@ class BuildTest extends TestCase
 {
     protected StoreRegistry $storeRegistry;
     protected DatabaseManager $databaseManager;
+    protected ProjectService $projectService;
 
     protected function setUp(): void
     {
@@ -206,7 +207,6 @@ class BuildTest extends TestCase
 
     public function testGitHubBuildLinks()
     {
-
         $project = new Project($this->storeRegistry);
         $project->setType(Project::TYPE_GITHUB);
         $project->setReference('git@github.com:php-censor/php-censor.git');
@@ -254,16 +254,10 @@ class BuildTest extends TestCase
 
     public function testGitlabBuildLinks()
     {
-        $store = $this
-            ->getMockBuilder('PHPCensor\Store\ProjectStore')
-            ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])
-            ->getMock();
-        $service = new ProjectService($this->storeRegistry, $store);
-
         $project = new Project($this->storeRegistry);
         $project->setType(Project::TYPE_GITLAB);
         $project->setReference('git@gitlab.com:php-censor/php-censor.git');
-        $project = $service->processAccessInformation($project);
+        $project = $this->projectService->processAccessInformation($project);
 
         $configuration = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
 

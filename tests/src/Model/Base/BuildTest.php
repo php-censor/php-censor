@@ -286,7 +286,6 @@ class BuildTest extends TestCase
      */
     public function testRemoveExtraValue()
     {
-
         $build = new Build($this->storeRegistry);
 
         $result = $build->removeExtraValue('key-1', 'value-1');
@@ -402,5 +401,4 @@ class BuildTest extends TestCase
         define('DEBUG_MODE', true);
         self::assertEquals(true, $build->isDebug());
     }
-
 }
