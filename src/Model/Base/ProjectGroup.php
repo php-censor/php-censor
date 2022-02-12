@@ -28,6 +28,7 @@ class ProjectGroup extends Model
 
     protected array $casts = [
         'user_id' => 'integer',
+        'create_date' => 'datetime'
     ];
 
     public function getTitle(): ?string

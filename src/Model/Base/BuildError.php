@@ -42,6 +42,7 @@ class BuildError extends Model
         'line_start' => 'integer',
         'line_end' => 'integer',
         'severity' => 'integer',
+        'create_date' => 'datetime',
         'is_new' => 'boolean'
     ];
 
