@@ -73,18 +73,18 @@ class BuildErrorWriter
         $hash       = BuildError::generateHash($plugin, $file, $lineStart, $lineEnd, $severity, $message);
 
         $this->errors[] = [
-            'plugin'      => (string)$plugin,
-            'message'     => (string)$message,
-            'severity'    => (int)$severity,
-            'file'        => !\is_null($file) ? (string)$file : null,
-            'line_start'  => !\is_null($lineStart) ? (int)$lineStart : null,
-            'line_end'    => !\is_null($lineEnd) ? (int)$lineEnd : null,
+            'plugin'      => $plugin,
+            'message'     => $message,
+            'severity'    => $severity,
+            'file'        => $file,
+            'line_start'  => $lineStart,
+            'line_end'    => $lineEnd,
             'create_date' => $createdDate->format('Y-m-d H:i:s'),
             'hash'        => $hash,
             'is_new'      => $errorStore->getIsNewError($this->projectId, $hash) ? 1 : 0,
         ];
 
-        if (\count($this->errors) >= $this->bufferSize) {
+        if (count($this->errors) >= $this->bufferSize) {
             $this->flush();
         }
     }

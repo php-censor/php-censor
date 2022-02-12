@@ -350,22 +350,15 @@ class Build extends BaseBuild
 
     /**
      * Allows specific build types (e.g. Github) to report violations back to their respective services.
-     *
-     * @param string  $plugin
-     * @param string  $message
-     * @param int     $severity
-     * @param string  $file
-     * @param int     $lineStart
-     * @param int     $lineEnd
      */
     public function reportError(
         Builder $builder,
-        $plugin,
-        $message,
-        $severity = BuildError::SEVERITY_NORMAL,
-        $file = null,
-        $lineStart = null,
-        $lineEnd = null
+        string $plugin,
+        string $message,
+        int $severity = BuildError::SEVERITY_NORMAL,
+        ?string $file = null,
+        ?int $lineStart = null,
+        ?int $lineEnd = null
     ) {
         $writer = $builder->getBuildErrorWriter();
         $writer->write(

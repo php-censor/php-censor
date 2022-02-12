@@ -115,11 +115,6 @@ class BuildError extends Model
         return $this->setData('message', $value);
     }
 
-    public function getCreateDate(): ?DateTime
-    {
-        return $this->getData('create_date');
-    }
-
     public function getHash(): ?string
     {
         return $this->getData('hash');
