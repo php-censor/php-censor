@@ -206,20 +206,22 @@ class Project extends BaseProject
         $environmentsNames   = !empty($environmentsConfig) ? \array_keys($environmentsConfig) : [];
         $currentEnvironments = $this->getEnvironmentsObjects();
         $store               = $this->getEnvironmentStore();
-        foreach ($currentEnvironments['items'] as $environment) {
-            /** @var Environment $environment */
-            $key = \array_search($environment->getName(), $environmentsNames, true);
-            if ($key !== false) {
-                // already exist
-                unset($environmentsNames[$key]);
-                $branches = !empty($environmentsConfig[$environment->getName()])
-                    ? $environmentsConfig[$environment->getName()]
-                    : [];
-                $environment->setBranches($branches);
-                $store->save($environment);
-            } else {
-                // remove
-                $store->delete($environment);
+        if (!empty($currentEnvironments['items'])) {
+            foreach ($currentEnvironments['items'] as $environment) {
+                /** @var Environment $environment */
+                $key = \array_search($environment->getName(), $environmentsNames, true);
+                if ($key !== false) {
+                    // already exist
+                    unset($environmentsNames[$key]);
+                    $branches = !empty($environmentsConfig[$environment->getName()])
+                        ? $environmentsConfig[$environment->getName()]
+                        : [];
+                    $environment->setBranches($branches);
+                    $store->save($environment);
+                } else {
+                    // remove
+                    $store->delete($environment);
+                }
             }
         }
 
