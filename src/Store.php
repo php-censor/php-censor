@@ -199,6 +199,7 @@ abstract class Store
         $id = $this->databaseManager
             ->getConnection('write')
             ->lastInsertId($this->tableName);
+
         return $this->getByPrimaryKey($id, 'write');
     }
 

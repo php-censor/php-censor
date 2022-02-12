@@ -18,12 +18,11 @@ class Environment extends Model
         'id' => null,
         'project_id' => null,
         'name' => null,
-        'branches' => [],
+        'branches' => null,
     ];
 
     protected array $casts = [
-        'project_id' => 'integer',
-        'branches' => 'array',
+        'project_id' => 'integer'
     ];
 
     public function getProjectId(): ?int
