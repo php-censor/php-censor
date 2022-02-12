@@ -18,11 +18,12 @@ class Environment extends Model
         'id' => null,
         'project_id' => null,
         'name' => null,
-        'branches' => null,
+        'branches' => [],
     ];
 
     protected array $casts = [
-        'project_id' => 'integer'
+        'project_id' => 'integer',
+        'branches' => 'newline'
     ];
 
     public function getProjectId(): ?int
@@ -47,16 +48,11 @@ class Environment extends Model
 
     public function getBranches(): array
     {
-        return array_filter(
-            array_map(
-                'trim',
-                explode("\n", $this->getData('branches'))
-            )
-        );
+        return $this->getData('branches');
     }
 
     public function setBranches(array $value): bool
     {
-        return $this->setData('branches', implode("\n", $value));
+        return $this->setData('branches', $value);
     }
 }

@@ -103,6 +103,19 @@ class Model
                     return null;
                 }
 
+            case 'newline':
+                if (!is_string($value)) {
+                    return $value;
+                }
+
+                return array_filter(
+                    array_map(
+                        'trim',
+                        explode("\n", $value)
+                    )
+                );
+
+
             default:
                 return $value;
         }

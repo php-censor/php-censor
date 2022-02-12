@@ -272,6 +272,8 @@ abstract class Store
                 return $value->format('Y-m-d H:i:s');
             case 'array':
                 return json_encode($value);
+            case 'newline':
+                return implode("\n", $value);
             default:
                 return $value;
         }
