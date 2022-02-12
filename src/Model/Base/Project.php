@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace PHPCensor\Model\Base;
 
-use DateTime;
-use Exception;
 use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Model;
+use PHPCensor\Traits\Model\HasCreateDateTrait;
+use PHPCensor\Traits\Model\HasUserIdTrait;
 
 /**
  * @package    PHP Censor
@@ -18,6 +18,9 @@ use PHPCensor\Model;
  */
 class Project extends Model
 {
+    use HasCreateDateTrait;
+    use HasUserIdTrait;
+
     public const TYPE_LOCAL            = 'local';
     public const TYPE_GIT              = 'git';
     public const TYPE_GITHUB           = 'github';
@@ -391,57 +394,5 @@ class Project extends Model
         $this->data['group_id'] = $value;
 
         return $this->setModified('group_id');
-    }
-
-    /**
-     * @return DateTime|null
-     *
-     * @throws Exception
-     */
-    public function getCreateDate()
-    {
-        if ($this->data['create_date']) {
-            return new DateTime($this->data['create_date']);
-        }
-
-        return null;
-    }
-
-    /**
-     * @return bool
-     */
-    public function setCreateDate(DateTime $value)
-    {
-        $stringValue = $value->format('Y-m-d H:i:s');
-
-        if ($this->data['create_date'] === $stringValue) {
-            return false;
-        }
-
-        $this->data['create_date'] = $stringValue;
-
-        return $this->setModified('create_date');
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getUserId()
-    {
-        return (null !== $this->data['user_id']) ? (int)$this->data['user_id'] : null;
-    }
-
-    /**
-     * @return bool
-     */
-    public function setUserId(?int $value)
-    {
-        if ($this->data['user_id'] === $value) {
-            return false;
-        }
-
-        $this->data['user_id'] = $value;
-
-        return $this->setModified('user_id');
     }
 }
