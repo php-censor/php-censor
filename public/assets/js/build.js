@@ -72,7 +72,7 @@ var Build = Class.extend({
         var cb = function () {
             var fullUri = window.APP_URL + uri;
 
-            if (name == 'build-updated') {
+            if (name === 'build-updated') {
                 fullUri = window.APP_URL + 'build/ajax-data/' + self.buildId + '?per_page=' + PER_PAGE + '&page=' + PAGE  + '&plugin=' + BUILD_PLUGIN  + '&severity=' + BUILD_SEVERITY + '&is_new=' + BUILD_IS_NEW;
             }
 
@@ -87,7 +87,7 @@ var Build = Class.extend({
             });
         };
 
-        if (seconds != -1) {
+        if (REALTIME_UI && seconds !== -1) {
             self.queries[name] = setInterval(cb, seconds * 1000);
         }
 

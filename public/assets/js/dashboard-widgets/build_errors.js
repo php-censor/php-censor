@@ -13,7 +13,9 @@ PHPCensor.widgets.buildErrors = {
 
             success: function (data) {
                 $(('#widget-build_errors-container')).html(data);
-                PHPCensor.widgets.buildErrors.interval = setInterval(PHPCensor.widgets.buildErrors.update, 10000);
+                if (REALTIME_UI) {
+                    PHPCensor.widgets.buildErrors.interval = setInterval(PHPCensor.widgets.buildErrors.update, 10000);
+                }
             },
 
             error: PHPCensor.handleFailedAjax

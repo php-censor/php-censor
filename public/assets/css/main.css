@@ -650,3 +650,17 @@ h6,
     max-height: 1000%;
     overflow: auto;
 }
+
+.blink-item {
+    animation: blink 1s linear infinite;
+}
+
+@keyframes blink {
+    0% {opacity: 0;}
+    50% {opacity: 0.5;}
+    100% {opacity: 1;}
+}
+
+body .box .small-box h3.dashboard-box-title {
+    font-size: 28px;
+}

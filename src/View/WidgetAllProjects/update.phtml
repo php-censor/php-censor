@@ -85,7 +85,7 @@ if ($buildCount > 0) {
 <div class="small-box small-box-full bg-<?= $backgroundClass; ?>">
 
     <div class="inner">
-        <h3>
+        <h3 class="dashboard-box-title">
             <a href="<?= APP_URL; ?>project/view/<?= $project->getId(); ?>">
                 <?= $project->getTitle(); ?>
             </a>
@@ -108,7 +108,7 @@ if ($buildCount > 0) {
             <?php endif; ?>
         </div>
         <?= Lang::get('view_project'); ?> (<?= $counts; ?>) <i class="fa fa-arrow-circle-right"></i>
-    </a>
+    </a><br />
 
     <?php for ($idx = 0; $idx < 5; $idx++) {
         if (empty($builds[$idx])) {
@@ -119,11 +119,11 @@ if ($buildCount > 0) {
             switch ($build->getStatus()) {
                 case Build::STATUS_PENDING:
                     $class = 'bg-blue';
-                    $icon = 'fa-clock-o';
+                    $icon = 'fa-clock-o blink-item';
                     break;
                 case Build::STATUS_RUNNING:
                     $class = 'bg-yellow';
-                    $icon = 'fa-cogs';
+                    $icon = 'fa-cogs blink-item';
                     break;
                 case Build::STATUS_SUCCESS:
                     $class = 'bg-green';
@@ -134,6 +134,7 @@ if ($buildCount > 0) {
                     $icon = 'fa-times';
                     break;
             }
+
             echo '<a href="' . $link .'" class="small-box-footer-build small-box-footer ' . $class . '"><i class="fa ' . $icon . '"></i></a>';
         }
     } ?>
