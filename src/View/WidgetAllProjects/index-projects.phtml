@@ -87,11 +87,11 @@ foreach ($projects as $project):
     }
 
 ?>
-    <div class="project-box" id="project-box-<?= $project->getId(); ?>">
+    <div class="project-box" id="project-box-<?= $project->getId(); ?>" style="overflow: hidden; word-wrap: anywhere;">
     <div class="small-box small-box-full bg-<?= $backgroundClass; ?>">
 
         <div class="inner">
-            <h3>
+            <h3 class="dashboard-box-title">
                 <a href="<?= APP_URL; ?>project/view/<?= $project->getId(); ?>">
                     <?= $project->getTitle(); ?>
                 </a>
@@ -127,11 +127,11 @@ foreach ($projects as $project):
                     switch ($build->getStatus()) {
                         case Build::STATUS_PENDING:
                             $class = 'bg-blue';
-                            $icon = 'fa-clock-o';
+                            $icon = 'fa-clock-o blink-item';
                             break;
                         case BUild::STATUS_RUNNING:
                             $class = 'bg-yellow';
-                            $icon = 'fa-cogs';
+                            $icon = 'fa-cogs blink-item';
                             break;
                         case Build::STATUS_SUCCESS:
                             $class = 'bg-green';
@@ -142,6 +142,7 @@ foreach ($projects as $project):
                             $icon = 'fa-times';
                             break;
                     }
+
                     echo '<a href="' . $link .'" class="small-box-footer-build small-box-footer ' . $class . '"><i class="fa ' . $icon . '"></i></a>';
                 }
             }

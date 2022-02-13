@@ -43,6 +43,7 @@ use PHPCensor\Model\User;
 
     <script>
         var APP_URL = '<?= APP_URL; ?>';
+        var REALTIME_UI = <?= (REALTIME_UI ? 'true' : 'false'); ?>;
         var LANGUAGE = '<?= Lang::getLanguage(); ?>';
 
         <?php if (\defined('JSON_UNESCAPED_UNICODE')): ?>

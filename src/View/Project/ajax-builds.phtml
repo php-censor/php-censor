@@ -25,14 +25,14 @@ use PHPCensor\Store\EnvironmentStore;
 switch ($build->getStatus()) {
     case 0:
         $cls      = 'active';
-        $subClass = 'info';
+        $subClass = 'info blink-item';
         $status   = Lang::get('pending');
 
     break;
 
     case 1:
         $cls      = 'warning';
-        $subClass = 'warning';
+        $subClass = 'warning blink-item';
         $status   = Lang::get('running');
     break;
 

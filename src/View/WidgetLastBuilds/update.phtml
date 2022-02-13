@@ -31,13 +31,13 @@ use PHPCensor\Store\EnvironmentStore;
             case Build::STATUS_PENDING:
                 $updated = $build->getCreateDate();
                 $label = Lang::get('pending');
-                $color = 'blue';
+                $color = 'blue blink-item';
                 break;
 
             case Build::STATUS_RUNNING:
                 $updated = $build->getStartDate();
                 $label = Lang::get('running');
-                $color = 'yellow';
+                $color = 'yellow blink-item';
                 break;
 
             case Build::STATUS_SUCCESS:

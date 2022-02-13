@@ -6,10 +6,12 @@ var PHPCensor = {
         $(document).ready(function () {
             // Update latest builds every 5 seconds:
             PHPCensor.getBuilds();
-            PHPCensor.intervals.getBuilds = setInterval(PHPCensor.getBuilds, 5000);
+            if (REALTIME_UI) {
+                PHPCensor.intervals.getBuilds = setInterval(PHPCensor.getBuilds, 5000);
+            }
 
             // Update latest project builds every 10 seconds:
-            if (typeof PROJECT_ID != 'undefined') {
+            if (REALTIME_UI && typeof PROJECT_ID != 'undefined') {
                 PHPCensor.intervals.getProjectBuilds = setInterval(PHPCensor.getProjectBuilds, 10000);
             }
         });
