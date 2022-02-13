@@ -13,11 +13,11 @@ trait HasUserIdTrait
 {
     public function getUserId(): ?int
     {
-        return $this->getData('user_id');
+        return $this->getDataItem('user_id');
     }
 
     public function setUserId(?int $value): bool
     {
-        return $this->setData('user_id', $value);
+        return $this->setDataItem('user_id', $value);
     }
 }

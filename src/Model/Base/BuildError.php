@@ -48,91 +48,91 @@ class BuildError extends Model
 
     public function getBuildId(): ?int
     {
-        return $this->getData('build_id');
+        return $this->getDataItem('build_id');
     }
 
     public function setBuildId(int $value): bool
     {
-        return $this->setData('build_id', $value);
+        return $this->setDataItem('build_id', $value);
     }
 
     public function getPlugin(): ?string
     {
-        return $this->getData('plugin');
+        return $this->getDataItem('plugin');
     }
 
     public function setPlugin(string $value): bool
     {
-        return $this->setData('plugin', $value);
+        return $this->setDataItem('plugin', $value);
     }
 
     public function getFile(): ?string
     {
-        return $this->getData('file');
+        return $this->getDataItem('file');
     }
 
     public function setFile(?string $value): bool
     {
-        return $this->setData('file', $value);
+        return $this->setDataItem('file', $value);
     }
 
     public function getLineStart(): ?int
     {
-        return $this->getData('line_start');
+        return $this->getDataItem('line_start');
     }
 
     public function setLineStart(?int $value): bool
     {
-        return $this->setData('line_start', $value);
+        return $this->setDataItem('line_start', $value);
     }
 
     public function getLineEnd(): ?int
     {
-        return $this->getData('line_end');
+        return $this->getDataItem('line_end');
     }
 
     public function setLineEnd(?int $value): bool
     {
-        return $this->setData('line_end', $value);
+        return $this->setDataItem('line_end', $value);
     }
 
     public function getSeverity(): ?int
     {
-        return $this->getData('severity');
+        return $this->getDataItem('severity');
     }
 
     public function setSeverity(int $value): bool
     {
-        return $this->setData('severity', $value);
+        return $this->setDataItem('severity', $value);
     }
 
     public function getMessage(): ?string
     {
-        return $this->getData('message');
+        return $this->getDataItem('message');
     }
 
     public function setMessage(string $value): bool
     {
-        return $this->setData('message', $value);
+        return $this->setDataItem('message', $value);
     }
 
     public function getHash(): ?string
     {
-        return $this->getData('hash');
+        return $this->getDataItem('hash');
     }
 
     public function setHash(string $value): bool
     {
-        return $this->setData('hash', $value);
+        return $this->setDataItem('hash', $value);
     }
 
     public function getIsNew(): bool
     {
-        return $this->getData('is_new');
+        return $this->getDataItem('is_new');
     }
 
     public function setIsNew(bool $value): bool
     {
-        return $this->setData('is_new', $value);
+        return $this->setDataItem('is_new', $value);
     }
 }

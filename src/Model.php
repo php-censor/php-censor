@@ -33,7 +33,7 @@ class Model
         }
 
         foreach ($initialData as $column => $value) {
-            $this->setData($column, $this->castToDataType($this->getDataType($column), $value));
+            $this->setDataItem($column, $this->castToDataType($this->getDataType($column), $value));
         }
 
         $this->storeRegistry = $storeRegistry;
@@ -44,12 +44,12 @@ class Model
         return $this->dataTypes[$column] ?? 'string';
     }
 
-    protected function getData(string $column, $defaultValue = null)
+    protected function getDataItem(string $column, $defaultValue = null)
     {
         return $this->castToDataType($this->getDataType($column), $this->data[$column] ?? $defaultValue);
     }
 
-    protected function setData(string $column, $value): bool
+    protected function setDataItem(string $column, $value): bool
     {
         if (!array_key_exists($column, $this->data) || $this->data[$column] === $value) {
             return false;
@@ -127,11 +127,11 @@ class Model
 
     public function getId(): ?int
     {
-        return $this->getData('id');
+        return $this->getDataItem('id');
     }
 
     public function setId(int $value): bool
     {
-        return $this->setData('id', $value);
+        return $this->setDataItem('id', $value);
     }
 }

@@ -33,11 +33,11 @@ class ProjectGroup extends Model
 
     public function getTitle(): ?string
     {
-        return $this->getData('title');
+        return $this->getDataItem('title');
     }
 
     public function setTitle(string $value): bool
     {
-        return $this->setData('title', $value);
+        return $this->setDataItem('title', $value);
     }
 }

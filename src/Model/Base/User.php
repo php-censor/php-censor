@@ -36,72 +36,72 @@ class User extends Model
 
     public function getEmail(): ?string
     {
-        return $this->getData('email');
+        return $this->getDataItem('email');
     }
 
     public function setEmail(string $value): bool
     {
-        return $this->setData('email', $value);
+        return $this->setDataItem('email', $value);
     }
 
     public function getHash(): ?string
     {
-        return $this->getData('hash');
+        return $this->getDataItem('hash');
     }
 
     public function setHash(string $value): bool
     {
-        return $this->setData('hash', $value);
+        return $this->setDataItem('hash', $value);
     }
 
     public function getIsAdmin(): bool
     {
-        return $this->getData('is_admin');
+        return $this->getDataItem('is_admin');
     }
 
     public function setIsAdmin(bool $value): bool
     {
-        return $this->setData('is_admin', $value);
+        return $this->setDataItem('is_admin', $value);
     }
 
     public function getName(): ?string
     {
-        return $this->getData('name');
+        return $this->getDataItem('name');
     }
 
     public function setName(string $value): bool
     {
-        return $this->setData('name', $value);
+        return $this->setDataItem('name', $value);
     }
 
     public function getLanguage(): ?string
     {
-        return $this->getData('language');
+        return $this->getDataItem('language');
     }
 
     public function setLanguage(?string $value): bool
     {
-        return $this->setData('language', $value);
+        return $this->setDataItem('language', $value);
     }
 
     public function getPerPage(): ?int
     {
-        return $this->getData('per_page');
+        return $this->getDataItem('per_page');
     }
 
     public function setPerPage(?int $value): bool
     {
-        return $this->setData('per_page', $value);
+        return $this->setDataItem('per_page', $value);
     }
 
     public function getProviderKey(): ?string
     {
-        return $this->getData('provider_key');
+        return $this->getDataItem('provider_key');
     }
 
     public function setProviderKey(string $value): bool
     {
-        return $this->setData('provider_key', $value);
+        return $this->setDataItem('provider_key', $value);
     }
 
     /**
@@ -109,7 +109,7 @@ class User extends Model
      */
     public function getProviderData(string $key = null)
     {
-        $data = $this->getData('provider_data');
+        $data = $this->getDataItem('provider_data');
         if ($key === null) {
             return $data;
         }
@@ -119,16 +119,16 @@ class User extends Model
 
     public function setProviderData(array $value): bool
     {
-        return $this->setData('provider_data', $value);
+        return $this->setDataItem('provider_data', $value);
     }
 
     public function getRememberKey(): ?string
     {
-        return $this->getData('remember_key');
+        return $this->getDataItem('remember_key');
     }
 
     public function setRememberKey(?string $value): bool
     {
-        return $this->setData('remember_key', $value);
+        return $this->setDataItem('remember_key', $value);
     }
 }

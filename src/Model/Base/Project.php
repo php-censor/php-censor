@@ -82,67 +82,67 @@ class Project extends Model
 
     public function getTitle(): ?string
     {
-        return $this->getData('title');
+        return $this->getDataItem('title');
     }
 
     public function setTitle(string $value): bool
     {
-        return $this->setData('title', $value);
+        return $this->setDataItem('title', $value);
     }
 
     public function getReference(): ?string
     {
-        return $this->getData('reference');
+        return $this->getDataItem('reference');
     }
 
     public function setReference(string $value): bool
     {
-        return $this->setData('reference', $value);
+        return $this->setDataItem('reference', $value);
     }
 
     public function getDefaultBranch(): ?string
     {
-        return $this->getData('default_branch');
+        return $this->getDataItem('default_branch');
     }
 
     public function setDefaultBranch(string $value): bool
     {
-        return $this->setData('default_branch', $value);
+        return $this->setDataItem('default_branch', $value);
     }
 
     public function getDefaultBranchOnly(): bool
     {
-        return $this->getData('default_branch_only');
+        return $this->getDataItem('default_branch_only');
     }
 
     public function setDefaultBranchOnly(bool $value): bool
     {
-        return $this->setData('default_branch_only', $value);
+        return $this->setDataItem('default_branch_only', $value);
     }
 
     public function getSshPrivateKey(): ?string
     {
-        return $this->getData('ssh_private_key');
+        return $this->getDataItem('ssh_private_key');
     }
 
     public function setSshPrivateKey(?string $value): bool
     {
-        return $this->setData('ssh_private_key', $value);
+        return $this->setDataItem('ssh_private_key', $value);
     }
 
     public function getSshPublicKey(): ?string
     {
-        return $this->getData('ssh_public_key');
+        return $this->getDataItem('ssh_public_key');
     }
 
     public function setSshPublicKey(?string $value): bool
     {
-        return $this->setData('ssh_public_key', $value);
+        return $this->setDataItem('ssh_public_key', $value);
     }
 
     public function getType(): ?string
     {
-        return $this->getData('type');
+        return $this->getDataItem('type');
     }
 
     /**
@@ -156,7 +156,7 @@ class Project extends Model
             );
         }
 
-        return $this->setData('type', $value);
+        return $this->setDataItem('type', $value);
     }
 
     /**
@@ -164,7 +164,7 @@ class Project extends Model
      */
     public function getAccessInformation(string $key = null)
     {
-        $data = $this->getData('access_information');
+        $data = $this->getDataItem('access_information');
         if ($key === null) {
             return $data;
         }
@@ -174,56 +174,56 @@ class Project extends Model
 
     public function setAccessInformation(array $value): bool
     {
-        return $this->setData('access_information', $value);
+        return $this->setDataItem('access_information', $value);
     }
 
     public function getBuildConfig(): ?string
     {
-        return $this->getData('build_config');
+        return $this->getDataItem('build_config');
     }
 
     public function setBuildConfig(?string $value): bool
     {
-        return $this->setData('build_config', $value);
+        return $this->setDataItem('build_config', $value);
     }
 
     public function getOverwriteBuildConfig(): bool
     {
-        return $this->getData('overwrite_build_config');
+        return $this->getDataItem('overwrite_build_config');
     }
 
     public function setOverwriteBuildConfig(bool $value): bool
     {
-        return $this->setData('overwrite_build_config', $value);
+        return $this->setDataItem('overwrite_build_config', $value);
     }
 
     public function getAllowPublicStatus(): bool
     {
-        return $this->getData('allow_public_status');
+        return $this->getDataItem('allow_public_status');
     }
 
     public function setAllowPublicStatus(bool $value): bool
     {
-        return $this->setData('allow_public_status', $value);
+        return $this->setDataItem('allow_public_status', $value);
     }
 
     public function getArchived(): bool
     {
-        return $this->getData('archived');
+        return $this->getDataItem('archived');
     }
 
     public function setArchived(bool $value): bool
     {
-        return $this->setData('archived', $value);
+        return $this->setDataItem('archived', $value);
     }
 
     public function getGroupId(): int
     {
-        return $this->getData('group_id');
+        return $this->getDataItem('group_id');
     }
 
     public function setGroupId(int $value): bool
     {
-        return $this->setData('group_id', $value);
+        return $this->setDataItem('group_id', $value);
     }
 }

@@ -14,11 +14,11 @@ trait HasCreateDateTrait
 {
     public function getCreateDate(): ?DateTime
     {
-        return $this->getData('create_date');
+        return $this->getDataItem('create_date');
     }
 
     public function setCreateDate(DateTime $value): bool
     {
-        return $this->setData('create_date', $value);
+        return $this->setDataItem('create_date', $value);
     }
 }
