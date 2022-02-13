@@ -26,7 +26,7 @@ class Model
         if (\is_array($initialData)) {
             foreach ($initialData as $index => $item) {
                 if (\array_key_exists($index, $this->data)) {
-                    if ('id' === \substr($index, - 2) && null !== $item) {
+                    if ('id' === \substr($index, - 2) && 'commit_id' !== $index && null !== $item) {
                         $this->data[$index] = (int)$item;
 
                         continue;
