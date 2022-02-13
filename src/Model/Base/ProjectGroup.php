@@ -20,14 +20,14 @@ class ProjectGroup extends Model
     use HasUserIdTrait;
 
     protected array $data = [
-        'id' => null,
-        'title' => null,
+        'id'          => null,
+        'title'       => null,
         'create_date' => null,
-        'user_id' => null,
+        'user_id'     => null,
     ];
 
     protected array $casts = [
-        'user_id' => 'integer',
+        'user_id'     => 'integer',
         'create_date' => 'datetime'
     ];
 

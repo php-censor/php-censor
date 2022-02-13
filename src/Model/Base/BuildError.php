@@ -19,31 +19,31 @@ class BuildError extends Model
     use HasCreateDateTrait;
 
     public const SEVERITY_CRITICAL = 0;
-    public const SEVERITY_HIGH = 1;
-    public const SEVERITY_NORMAL = 2;
-    public const SEVERITY_LOW = 3;
+    public const SEVERITY_HIGH     = 1;
+    public const SEVERITY_NORMAL   = 2;
+    public const SEVERITY_LOW      = 3;
 
     protected array $data = [
-        'id' => null,
-        'build_id' => null,
-        'plugin' => null,
-        'file' => null,
-        'line_start' => null,
-        'line_end' => null,
-        'severity' => null,
-        'message' => null,
+        'id'          => null,
+        'build_id'    => null,
+        'plugin'      => null,
+        'file'        => null,
+        'line_start'  => null,
+        'line_end'    => null,
+        'severity'    => null,
+        'message'     => null,
         'create_date' => null,
-        'hash' => '',
-        'is_new' => 0,
+        'hash'        => '',
+        'is_new'      => 0,
     ];
 
     protected array $casts = [
-        'build_id' => 'integer',
-        'line_start' => 'integer',
-        'line_end' => 'integer',
-        'severity' => 'integer',
+        'build_id'    => 'integer',
+        'line_start'  => 'integer',
+        'line_end'    => 'integer',
+        'severity'    => 'integer',
         'create_date' => 'datetime',
-        'is_new' => 'boolean'
+        'is_new'      => 'boolean'
     ];
 
     public function getBuildId(): ?int

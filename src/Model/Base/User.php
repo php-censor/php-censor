@@ -16,21 +16,21 @@ use PHPCensor\Model;
 class User extends Model
 {
     protected array $data = [
-        'id' => null,
-        'email' => null,
-        'hash' => null,
-        'is_admin' => 0,
-        'name' => null,
-        'language' => null,
-        'per_page' => null,
-        'provider_key' => 'internal',
+        'id'            => null,
+        'email'         => null,
+        'hash'          => null,
+        'is_admin'      => 0,
+        'name'          => null,
+        'language'      => null,
+        'per_page'      => null,
+        'provider_key'  => 'internal',
         'provider_data' => null,
-        'remember_key' => null,
+        'remember_key'  => null,
     ];
 
     protected array $casts = [
-        'is_admin' => 'boolean',
-        'per_page' => 'integer',
+        'is_admin'      => 'boolean',
+        'per_page'      => 'integer',
         'provider_data' => 'array'
     ];
 

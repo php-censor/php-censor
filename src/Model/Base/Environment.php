@@ -15,15 +15,15 @@ use PHPCensor\Model;
 class Environment extends Model
 {
     protected array $data = [
-        'id' => null,
+        'id'         => null,
         'project_id' => null,
-        'name' => null,
-        'branches' => [],
+        'name'       => null,
+        'branches'   => [],
     ];
 
     protected array $casts = [
         'project_id' => 'integer',
-        'branches' => 'newline'
+        'branches'   => 'newline'
     ];
 
     public function getProjectId(): ?int
