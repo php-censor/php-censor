@@ -269,11 +269,12 @@ class InstallCommand extends Command
         $queueConfig = $this->getQueueInformation($input, $output);
 
         return [
-            'language' => 'en',
-            'per_page' => 10,
-            'url'      => $url,
-            'queue'    => $queueConfig,
-            'log'      => [
+            'language'    => 'en',
+            'per_page'    => 10,
+            'url'         => $url,
+            'realtime_ui' => true,
+            'queue'       => $queueConfig,
+            'log'         => [
                 'rotate'    => false,
                 'max_files' => 0,
             ],
