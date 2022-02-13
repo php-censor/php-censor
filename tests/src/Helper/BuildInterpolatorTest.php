@@ -44,9 +44,7 @@ class BuildInterpolatorTest extends TestCase
 
     public function testInterpolate_LeavesStringsUnchangedWhenBuildIsSet()
     {
-        $mockRegistry = $this->prophesize('\PHPCensor\StoreRegistry');
-        $build = $this->prophesize('PHPCensor\\Model\\Build')
-            ->reveal();
+        $build = $this->prophesize('PHPCensor\\Model\\Build')->reveal();
 
         $string         = "Hello World";
         $expectedOutput = "Hello World";

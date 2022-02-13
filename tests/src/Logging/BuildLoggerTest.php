@@ -22,13 +22,10 @@ class BuildLoggerTest extends TestCase
 
     protected $mockBuild;
 
-    protected $mockRegistry;
-
     protected function setUp(): void
     {
         parent::setUp();
         $this->mockLogger = $this->prophesize('\Psr\Log\LoggerInterface');
-        $this->mockRegistry = $this->prophesize('\PHPCensor\StoreRegistry');
         $this->mockBuild = $this->prophesize('\PHPCensor\Model\Build');
 
         $this->testedBuildLogger = new BuildLogger(
