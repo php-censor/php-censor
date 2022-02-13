@@ -37,7 +37,7 @@ class BuildError extends Model
         'is_new'      => 0,
     ];
 
-    protected array $casts = [
+    protected array $dataTypes = [
         'build_id'    => 'integer',
         'line_start'  => 'integer',
         'line_end'    => 'integer',

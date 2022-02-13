@@ -22,7 +22,7 @@ class BuildMeta extends Model
         'meta_value' => null,
     ];
 
-    protected array $casts = [
+    protected array $dataTypes = [
         'build_id' => 'integer',
     ];
 

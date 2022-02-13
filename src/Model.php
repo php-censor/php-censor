@@ -18,7 +18,7 @@ class Model
 {
     protected array $data = [];
 
-    protected array $casts = [];
+    protected array $dataTypes = [];
 
     private array $modified = [];
 
@@ -28,25 +28,25 @@ class Model
         StoreRegistry $storeRegistry,
         array $initialData = []
     ) {
-        if (!isset($this->casts['id'])) {
-            $this->casts['id'] = 'integer';
+        if (!isset($this->dataTypes['id'])) {
+            $this->dataTypes['id'] = 'integer';
         }
 
         foreach ($initialData as $column => $value) {
-            $this->setData($column, $this->cast($this->getCast($column), $value));
+            $this->setData($column, $this->castToDataType($this->getDataType($column), $value));
         }
 
         $this->storeRegistry = $storeRegistry;
     }
 
-    public function getCast(string $column): string
+    public function getDataType(string $column): string
     {
-        return $this->casts[$column] ?? 'string';
+        return $this->dataTypes[$column] ?? 'string';
     }
 
     protected function getData(string $column, $defaultValue = null)
     {
-        return $this->cast($this->getCast($column), $this->data[$column] ?? $defaultValue);
+        return $this->castToDataType($this->getDataType($column), $this->data[$column] ?? $defaultValue);
     }
 
     protected function setData(string $column, $value): bool
@@ -74,7 +74,7 @@ class Model
     /**
      * @return mixed
      */
-    private function cast(string $type, $value)
+    private function castToDataType(string $type, $value)
     {
         if ($value === null) {
             return null;

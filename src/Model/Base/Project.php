@@ -56,7 +56,7 @@ class Project extends Model
         'user_id'                => null,
     ];
 
-    protected array $casts = [
+    protected array $dataTypes = [
         'allow_public_status'    => 'boolean',
         'archived'               => 'boolean',
         'group_id'               => 'integer',

@@ -65,7 +65,7 @@ class Build extends Model
         'errors_new'            => null,
     ];
 
-    protected array $casts = [
+    protected array $dataTypes = [
         'project_id'            => 'integer',
         'status'                => 'integer',
         'create_date'           => 'datetime',

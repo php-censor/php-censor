@@ -28,7 +28,7 @@ class User extends Model
         'remember_key'  => null,
     ];
 
-    protected array $casts = [
+    protected array $dataTypes = [
         'is_admin'      => 'boolean',
         'per_page'      => 'integer',
         'provider_data' => 'array'

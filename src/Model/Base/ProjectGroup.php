@@ -26,7 +26,7 @@ class ProjectGroup extends Model
         'user_id'     => null,
     ];
 
-    protected array $casts = [
+    protected array $dataTypes = [
         'user_id'     => 'integer',
         'create_date' => 'datetime'
     ];

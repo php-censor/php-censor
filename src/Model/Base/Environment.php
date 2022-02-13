@@ -21,7 +21,7 @@ class Environment extends Model
         'branches'   => [],
     ];
 
-    protected array $casts = [
+    protected array $dataTypes = [
         'project_id' => 'integer',
         'branches'   => 'newline'
     ];
