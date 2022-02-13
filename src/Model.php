@@ -18,7 +18,7 @@ class Model
 {
     protected array $data = [];
 
-    protected array $casts = [];
+    protected array $dataTypes = [];
 
     private array $modified = [];
 
@@ -28,28 +28,28 @@ class Model
         StoreRegistry $storeRegistry,
         array $initialData = []
     ) {
-        if (!isset($this->casts['id'])) {
-            $this->casts['id'] = 'integer';
+        if (!isset($this->dataTypes['id'])) {
+            $this->dataTypes['id'] = 'integer';
         }
 
         foreach ($initialData as $column => $value) {
-            $this->setData($column, $this->cast($this->getCast($column), $value));
+            $this->setDataItem($column, $this->castToDataType($this->getDataType($column), $value));
         }
 
         $this->storeRegistry = $storeRegistry;
     }
 
-    public function getCast(string $column): string
+    public function getDataType(string $column): string
     {
-        return $this->casts[$column] ?? 'string';
+        return $this->dataTypes[$column] ?? 'string';
     }
 
-    protected function getData(string $column, $defaultValue = null)
+    protected function getDataItem(string $column, $defaultValue = null)
     {
-        return $this->cast($this->getCast($column), $this->data[$column] ?? $defaultValue);
+        return $this->castToDataType($this->getDataType($column), $this->data[$column] ?? $defaultValue);
     }
 
-    protected function setData(string $column, $value): bool
+    protected function setDataItem(string $column, $value): bool
     {
         if (!array_key_exists($column, $this->data) || $this->data[$column] === $value) {
             return false;
@@ -74,7 +74,7 @@ class Model
     /**
      * @return mixed
      */
-    private function cast(string $type, $value)
+    private function castToDataType(string $type, $value)
     {
         if ($value === null) {
             return null;
@@ -127,11 +127,11 @@ class Model
 
     public function getId(): ?int
     {
-        return $this->getData('id');
+        return $this->getDataItem('id');
     }
 
     public function setId(int $value): bool
     {
-        return $this->setData('id', $value);
+        return $this->setDataItem('id', $value);
     }
 }

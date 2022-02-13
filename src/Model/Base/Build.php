@@ -56,7 +56,7 @@ class Build extends Model
         'finish_date'           => null,
         'committer_email'       => null,
         'commit_message'        => null,
-        'extra'                 => null,
+        'extra'                 => [],
         'environment_id'        => null,
         'source'                => Build::SOURCE_UNKNOWN,
         'user_id'               => null,
@@ -65,7 +65,7 @@ class Build extends Model
         'errors_new'            => null,
     ];
 
-    protected array $casts = [
+    protected array $dataTypes = [
         'project_id'            => 'integer',
         'status'                => 'integer',
         'create_date'           => 'datetime',
@@ -104,37 +104,37 @@ class Build extends Model
 
     public function getParentId(): ?int
     {
-        return $this->getData('parent_id');
+        return $this->getDataItem('parent_id');
     }
 
     public function setParentId(?int $value): bool
     {
-        return $this->setData('parent_id', $value);
+        return $this->setDataItem('parent_id', $value);
     }
 
     public function getProjectId(): ?int
     {
-        return $this->getData('project_id');
+        return $this->getDataItem('project_id');
     }
 
     public function setProjectId(int $value): bool
     {
-        return $this->setData('project_id', $value);
+        return $this->setDataItem('project_id', $value);
     }
 
     public function getCommitId(): ?string
     {
-        return $this->getData('commit_id');
+        return $this->getDataItem('commit_id');
     }
 
     public function setCommitId(string $value): bool
     {
-        return $this->setData('commit_id', $value);
+        return $this->setDataItem('commit_id', $value);
     }
 
     public function getStatus(): ?int
     {
-        return $this->getData('status');
+        return $this->getDataItem('status');
     }
 
     /**
@@ -148,97 +148,97 @@ class Build extends Model
             );
         }
 
-        return $this->setData('status', $value);
+        return $this->setDataItem('status', $value);
     }
 
     public function setStatusPending(): bool
     {
-        return $this->setData('status', self::STATUS_PENDING);
+        return $this->setDataItem('status', self::STATUS_PENDING);
     }
 
     public function setStatusRunning(): bool
     {
-        return $this->setData('status', self::STATUS_RUNNING);
+        return $this->setDataItem('status', self::STATUS_RUNNING);
     }
 
     public function setStatusSuccess(): bool
     {
-        return $this->setData('status', self::STATUS_SUCCESS);
+        return $this->setDataItem('status', self::STATUS_SUCCESS);
     }
 
     public function setStatusFailed(): bool
     {
-        return $this->setData('status', self::STATUS_FAILED);
+        return $this->setDataItem('status', self::STATUS_FAILED);
     }
 
     public function getLog(): ?string
     {
-        return $this->getData('log');
+        return $this->getDataItem('log');
     }
 
     public function setLog(?string $value): bool
     {
-        return $this->setData('log', $value);
+        return $this->setDataItem('log', $value);
     }
 
     public function getBranch(): ?string
     {
-        return $this->getData('branch');
+        return $this->getDataItem('branch');
     }
 
     public function setBranch(string $value)
     {
-        return $this->setData('branch', $value);
+        return $this->setDataItem('branch', $value);
     }
 
     public function getTag(): ?string
     {
-        return $this->getData('tag');
+        return $this->getDataItem('tag');
     }
 
     public function setTag(?string $value): bool
     {
-        return $this->setData('tag', $value);
+        return $this->setDataItem('tag', $value);
     }
 
     public function getStartDate(): ?DateTime
     {
-        return $this->getData('start_date');
+        return $this->getDataItem('start_date');
     }
 
     public function setStartDate(DateTime $value): bool
     {
-        return $this->setData('start_date', $value);
+        return $this->setDataItem('start_date', $value);
     }
 
     public function getFinishDate(): ?DateTime
     {
-        return $this->getData('finish_date');
+        return $this->getDataItem('finish_date');
     }
 
     public function setFinishDate(DateTime $value): bool
     {
-        return $this->setData('finish_date', $value);
+        return $this->setDataItem('finish_date', $value);
     }
 
     public function getCommitterEmail(): ?string
     {
-        return $this->getData('committer_email');
+        return $this->getDataItem('committer_email');
     }
 
     public function setCommitterEmail(?string $value): bool
     {
-        return $this->setData('committer_email', $value);
+        return $this->setDataItem('committer_email', $value);
     }
 
     public function getCommitMessage(): ?string
     {
-        return $this->getData('commit_message');
+        return $this->getDataItem('commit_message');
     }
 
     public function setCommitMessage(?string $value): bool
     {
-        return $this->setData('commit_message', $value);
+        return $this->setDataItem('commit_message', $value);
     }
 
     /**
@@ -246,7 +246,7 @@ class Build extends Model
      */
     public function getExtra(string $key = null)
     {
-        $data = $this->getData('extra');
+        $data = $this->getDataItem('extra');
         if ($key === null) {
             return $data;
         }
@@ -256,7 +256,7 @@ class Build extends Model
 
     public function setExtra(array $value): bool
     {
-        return $this->setData('extra', $value);
+        return $this->setDataItem('extra', $value);
     }
 
     /**
@@ -286,17 +286,17 @@ class Build extends Model
 
     public function getEnvironmentId(): ?int
     {
-        return $this->getData('environment_id');
+        return $this->getDataItem('environment_id');
     }
 
     public function setEnvironmentId(?int $value): bool
     {
-        return $this->setData('environment_id', $value);
+        return $this->setDataItem('environment_id', $value);
     }
 
     public function getSource(): ?int
     {
-        return $this->getData('source');
+        return $this->getDataItem('source');
     }
 
     /**
@@ -310,7 +310,7 @@ class Build extends Model
             );
         }
 
-        return $this->setData('source', $value);
+        return $this->setDataItem('source', $value);
     }
 
     /**
@@ -318,7 +318,7 @@ class Build extends Model
      */
     public function getErrorsTotal(): ?int
     {
-        if ($this->getData('errors_total') === null &&
+        if ($this->getDataItem('errors_total') === null &&
             !in_array($this->getStatus(), [self::STATUS_PENDING, self::STATUS_RUNNING], true)) {
             /** @var BuildStore $store */
             $store = $this->storeRegistry->get('Build');
@@ -327,12 +327,12 @@ class Build extends Model
             $store->save($this);
         }
 
-        return $this->getData('errors_total');
+        return $this->getDataItem('errors_total');
     }
 
     public function setErrorsTotal(int $value): bool
     {
-        return $this->setData('errors_total', $value);
+        return $this->setDataItem('errors_total', $value);
     }
 
     /**
@@ -340,7 +340,7 @@ class Build extends Model
      */
     public function getErrorsTotalPrevious(): ?int
     {
-        if ($this->getData('errors_total_previous') === null) {
+        if ($this->getDataItem('errors_total_previous') === null) {
             /** @var BuildStore $store */
             $store = $this->storeRegistry->get('Build');
 
@@ -360,12 +360,12 @@ class Build extends Model
             }
         }
 
-        return $this->getData('errors_total_previous');
+        return $this->getDataItem('errors_total_previous');
     }
 
     public function setErrorsTotalPrevious(int $value): bool
     {
-        return $this->setData('errors_total_previous', $value);
+        return $this->setDataItem('errors_total_previous', $value);
     }
 
     /**
@@ -373,7 +373,7 @@ class Build extends Model
      */
     public function getErrorsNew(): ?int
     {
-        if ($this->getData('errors_new') === null) {
+        if ($this->getDataItem('errors_new') === null) {
             /** @var BuildStore $errorStore */
             $store = $this->storeRegistry->get('Build');
 
@@ -384,12 +384,12 @@ class Build extends Model
             $store->save($this);
         }
 
-        return $this->getData('errors_new');
+        return $this->getDataItem('errors_new');
     }
 
     public function setErrorsNew(int $value): bool
     {
-        return $this->setData('errors_new', $value);
+        return $this->setDataItem('errors_new', $value);
     }
 
     public function isDebug(): bool

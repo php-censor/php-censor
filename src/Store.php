@@ -252,7 +252,7 @@ abstract class Store
             if (!in_array($column, $modified, true)) {
                 continue;
             }
-            $data[$column] = $this->castToDatabase($model->getCast($column), $value);
+            $data[$column] = $this->castToDatabase($model->getDataType($column), $value);
         }
 
         return $data;

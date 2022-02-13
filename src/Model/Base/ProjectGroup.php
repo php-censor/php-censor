@@ -26,18 +26,18 @@ class ProjectGroup extends Model
         'user_id'     => null,
     ];
 
-    protected array $casts = [
+    protected array $dataTypes = [
         'user_id'     => 'integer',
         'create_date' => 'datetime'
     ];
 
     public function getTitle(): ?string
     {
-        return $this->getData('title');
+        return $this->getDataItem('title');
     }
 
     public function setTitle(string $value): bool
     {
-        return $this->setData('title', $value);
+        return $this->setDataItem('title', $value);
     }
 }

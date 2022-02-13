@@ -21,38 +21,38 @@ class Environment extends Model
         'branches'   => [],
     ];
 
-    protected array $casts = [
+    protected array $dataTypes = [
         'project_id' => 'integer',
         'branches'   => 'newline'
     ];
 
     public function getProjectId(): ?int
     {
-        return $this->getData('project_id');
+        return $this->getDataItem('project_id');
     }
 
     public function setProjectId(int $value): bool
     {
-        return $this->setData('project_id', $value);
+        return $this->setDataItem('project_id', $value);
     }
 
     public function getName(): ?string
     {
-        return $this->getData('name');
+        return $this->getDataItem('name');
     }
 
     public function setName(string $value): bool
     {
-        return $this->setData('name', $value);
+        return $this->setDataItem('name', $value);
     }
 
     public function getBranches(): array
     {
-        return $this->getData('branches');
+        return $this->getDataItem('branches');
     }
 
     public function setBranches(array $value): bool
     {
-        return $this->setData('branches', $value);
+        return $this->setDataItem('branches', $value);
     }
 }

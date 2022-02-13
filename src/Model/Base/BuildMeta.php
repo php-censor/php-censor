@@ -22,37 +22,37 @@ class BuildMeta extends Model
         'meta_value' => null,
     ];
 
-    protected array $casts = [
+    protected array $dataTypes = [
         'build_id' => 'integer',
     ];
 
     public function getBuildId(): int
     {
-        return $this->getData('build_id');
+        return $this->getDataItem('build_id');
     }
 
     public function setBuildId(int $value): bool
     {
-        return $this->setData('build_id', $value);
+        return $this->setDataItem('build_id', $value);
     }
 
     public function getMetaKey(): ?string
     {
-        return $this->getData('meta_key');
+        return $this->getDataItem('meta_key');
     }
 
     public function setMetaKey(string $value): bool
     {
-        return $this->setData('meta_key', $value);
+        return $this->setDataItem('meta_key', $value);
     }
 
     public function getMetaValue(): ?string
     {
-        return $this->getData('meta_value');
+        return $this->getDataItem('meta_value');
     }
 
     public function setMetaValue(string $value): bool
     {
-        return $this->setData('meta_value', $value);
+        return $this->setDataItem('meta_value', $value);
     }
 }
