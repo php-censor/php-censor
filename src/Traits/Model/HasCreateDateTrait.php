@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace PHPCensor\Traits\Model;
 
 use DateTime;
-use Exception;
 use PHPCensor\Model;
 
 /**
@@ -13,28 +12,13 @@ use PHPCensor\Model;
  */
 trait HasCreateDateTrait
 {
-    /**
-     * @throws Exception
-     */
     public function getCreateDate(): ?DateTime
     {
-        if ($this->data['create_date']) {
-            return new DateTime($this->data['create_date']);
-        }
-
-        return null;
+        return $this->getDataItem('create_date');
     }
 
     public function setCreateDate(DateTime $value): bool
     {
-        $stringValue = $value->format('Y-m-d H:i:s');
-
-        if ($this->data['create_date'] === $stringValue) {
-            return false;
-        }
-
-        $this->data['create_date'] = $stringValue;
-
-        return $this->setModified('create_date');
+        return $this->setDataItem('create_date', $value);
     }
 }

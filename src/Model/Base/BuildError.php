@@ -37,223 +37,102 @@ class BuildError extends Model
         'is_new'      => 0,
     ];
 
-    /**
-     * @return int
-     */
-    public function getId()
+    protected array $dataTypes = [
+        'build_id'    => 'integer',
+        'line_start'  => 'integer',
+        'line_end'    => 'integer',
+        'severity'    => 'integer',
+        'create_date' => 'datetime',
+        'is_new'      => 'boolean'
+    ];
+
+    public function getBuildId(): ?int
     {
-        return (int)$this->data['id'];
+        return $this->getDataItem('build_id');
     }
 
-    /**
-     * @return bool
-     */
-    public function setId(int $value)
+    public function setBuildId(int $value): bool
     {
-        if ($this->data['id'] === $value) {
-            return false;
-        }
-
-        $this->data['id'] = $value;
-
-        return $this->setModified('id');
+        return $this->setDataItem('build_id', $value);
     }
 
-    /**
-     * @return int
-     */
-    public function getBuildId()
+    public function getPlugin(): ?string
     {
-        return (int)$this->data['build_id'];
+        return $this->getDataItem('plugin');
     }
 
-    /**
-     * @return bool
-     */
-    public function setBuildId(int $value)
+    public function setPlugin(string $value): bool
     {
-        if ($this->data['build_id'] === $value) {
-            return false;
-        }
-
-        $this->data['build_id'] = $value;
-
-        return $this->setModified('build_id');
+        return $this->setDataItem('plugin', $value);
     }
 
-    /**
-     * @return string
-     */
-    public function getPlugin()
+    public function getFile(): ?string
     {
-        return $this->data['plugin'];
+        return $this->getDataItem('file');
     }
 
-    /**
-     * @return bool
-     */
-    public function setPlugin(string $value)
+    public function setFile(?string $value): bool
     {
-        if ($this->data['plugin'] === $value) {
-            return false;
-        }
-
-        $this->data['plugin'] = $value;
-
-        return $this->setModified('plugin');
+        return $this->setDataItem('file', $value);
     }
 
-    /**
-     * @return string
-     */
-    public function getFile()
+    public function getLineStart(): ?int
     {
-        return $this->data['file'];
+        return $this->getDataItem('line_start');
     }
 
-    /**
-     * @return bool
-     */
-    public function setFile(?string $value)
+    public function setLineStart(?int $value): bool
     {
-        if ($this->data['file'] === $value) {
-            return false;
-        }
-
-        $this->data['file'] = $value;
-
-        return $this->setModified('file');
+        return $this->setDataItem('line_start', $value);
     }
 
-    /**
-     * @return int
-     */
-    public function getLineStart()
+    public function getLineEnd(): ?int
     {
-        return (int)$this->data['line_start'];
+        return $this->getDataItem('line_end');
     }
 
-    /**
-     * @return bool
-     */
-    public function setLineStart(?int $value)
+    public function setLineEnd(?int $value): bool
     {
-        if ($this->data['line_start'] === $value) {
-            return false;
-        }
-
-        $this->data['line_start'] = $value;
-
-        return $this->setModified('line_start');
+        return $this->setDataItem('line_end', $value);
     }
 
-    /**
-     * @return int
-     */
-    public function getLineEnd()
+    public function getSeverity(): ?int
     {
-        return (int)$this->data['line_end'];
+        return $this->getDataItem('severity');
     }
 
-    /**
-     * @return bool
-     */
-    public function setLineEnd(?int $value)
+    public function setSeverity(int $value): bool
     {
-        if ($this->data['line_end'] === $value) {
-            return false;
-        }
-
-        $this->data['line_end'] = $value;
-
-        return $this->setModified('line_end');
+        return $this->setDataItem('severity', $value);
     }
 
-    /**
-     * @return int
-     */
-    public function getSeverity()
+    public function getMessage(): ?string
     {
-        return (int)$this->data['severity'];
+        return $this->getDataItem('message');
     }
 
-    /**
-     * @return bool
-     */
-    public function setSeverity(int $value)
+    public function setMessage(string $value): bool
     {
-        if ($this->data['severity'] === $value) {
-            return false;
-        }
-
-        $this->data['severity'] = $value;
-
-        return $this->setModified('severity');
+        return $this->setDataItem('message', $value);
     }
 
-    /**
-     * @return string
-     */
-    public function getMessage()
+    public function getHash(): ?string
     {
-        return $this->data['message'];
+        return $this->getDataItem('hash');
     }
 
-    /**
-     * @return bool
-     */
-    public function setMessage(string $value)
+    public function setHash(string $value): bool
     {
-        if ($this->data['message'] === $value) {
-            return false;
-        }
-
-        $this->data['message'] = $value;
-
-        return $this->setModified('message');
+        return $this->setDataItem('hash', $value);
     }
 
-    /**
-     * @return string
-     */
-    public function getHash()
+    public function getIsNew(): bool
     {
-        return $this->data['hash'];
+        return $this->getDataItem('is_new');
     }
 
-    /**
-     * @return bool
-     */
-    public function setHash(string $value)
+    public function setIsNew(bool $value): bool
     {
-        if ($this->data['hash'] === $value) {
-            return false;
-        }
-
-        $this->data['hash'] = $value;
-
-        return $this->setModified('hash');
-    }
-
-    /**
-     * @return bool
-     */
-    public function getIsNew()
-    {
-        return (bool)$this->data['is_new'];
-    }
-
-    /**
-     * @return bool
-     */
-    public function setIsNew(bool $value)
-    {
-        if ($this->data['is_new'] === (int)$value) {
-            return false;
-        }
-
-        $this->data['is_new'] = (int)$value;
-
-        return $this->setModified('is_new');
+        return $this->setDataItem('is_new', $value);
     }
 }

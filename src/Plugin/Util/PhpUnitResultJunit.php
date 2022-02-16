@@ -160,4 +160,14 @@ class PhpUnitResultJunit extends PhpUnitResult
     {
         throw new RuntimeException($description);
     }
+
+    protected function getFileAndLine($testcase)
+    {
+        $attributes = $testcase->attributes();
+
+        return [
+            'file' => \str_replace($this->buildPath, '', $attributes['file']),
+            'line' => (int) $attributes['line']
+        ];
+    }
 }

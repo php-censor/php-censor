@@ -26,47 +26,18 @@ class ProjectGroup extends Model
         'user_id'     => null,
     ];
 
-    /**
-     * @return int
-     */
-    public function getId()
+    protected array $dataTypes = [
+        'user_id'     => 'integer',
+        'create_date' => 'datetime'
+    ];
+
+    public function getTitle(): ?string
     {
-        return (int)$this->data['id'];
+        return $this->getDataItem('title');
     }
 
-    /**
-     * @return bool
-     */
-    public function setId(int $value)
+    public function setTitle(string $value): bool
     {
-        if ($this->data['id'] === $value) {
-            return false;
-        }
-
-        $this->data['id'] = $value;
-
-        return $this->setModified('id');
-    }
-
-    /**
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->data['title'];
-    }
-
-    /**
-     * @return bool
-     */
-    public function setTitle(string $value)
-    {
-        if ($this->data['title'] === $value) {
-            return false;
-        }
-
-        $this->data['title'] = $value;
-
-        return $this->setModified('title');
+        return $this->setDataItem('title', $value);
     }
 }

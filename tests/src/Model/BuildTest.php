@@ -3,9 +3,14 @@
 namespace Tests\PHPCensor\Model;
 
 use PHPCensor\Common\Exception\InvalidArgumentException;
+use PHPCensor\DatabaseManager;
 use PHPCensor\Model\Build;
+use PHPCensor\Model\Build\GitBuild;
+use PHPCensor\Model\Build\GithubBuild;
+use PHPCensor\Model\Build\GitlabBuild;
 use PHPCensor\Model\Build\GogsBuild;
 use PHPCensor\Model\Project;
+use PHPCensor\Service\ProjectService;
 use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 
@@ -17,18 +22,27 @@ use PHPUnit\Framework\TestCase;
 class BuildTest extends TestCase
 {
     protected StoreRegistry $storeRegistry;
+    protected DatabaseManager $databaseManager;
+    protected ProjectService $projectService;
 
     protected function setUp(): void
     {
         $configuration   = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
-        $databaseManager = $this
+        $this->databaseManager = $this
             ->getMockBuilder('PHPCensor\DatabaseManager')
             ->setConstructorArgs([$configuration])
             ->getMock();
         $this->storeRegistry = $this
             ->getMockBuilder('PHPCensor\StoreRegistry')
-            ->setConstructorArgs([$databaseManager])
+            ->setConstructorArgs([$this->databaseManager])
             ->getMock();
+
+        $projectStore = $this
+            ->getMockBuilder('PHPCensor\Store\ProjectStore')
+            ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])
+            ->getMock();
+
+        $this->projectService = new ProjectService($this->storeRegistry, $projectStore);
     }
 
     public function testConstruct()
@@ -57,7 +71,7 @@ class BuildTest extends TestCase
             'finish_date'           => null,
             'committer_email'       => null,
             'commit_message'        => null,
-            'extra'                 => null,
+            'extra'                 => [],
             'environment_id'        => null,
             'source'                => Build::SOURCE_UNKNOWN,
             'user_id'               => null,
@@ -160,6 +174,121 @@ class BuildTest extends TestCase
 
         self::assertEquals('Item One', $build->getExtra('item1'));
         self::assertEquals('Item Three', $build->getExtra('item3'));
+    }
+
+    public function testGitBuildLinks()
+    {
+        $project = new Project($this->storeRegistry);
+        $project->setType(Project::TYPE_GIT);
+        $project->setReference('https://git.repository/the-vendor/the-project.git');
+
+        $configuration = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
+
+        $stub = $this->getMockBuilder(GitBuild::class)
+            ->setConstructorArgs([$configuration, $this->storeRegistry])
+            ->setMethods(['getProject', 'getCommitId', 'getBranch'])
+            ->getMock();
+
+        $stub->method('getProject')
+            ->will($this->returnValue($project));
+
+        $stub->method('getCommitId')
+            ->will($this->returnValue('abcdef'));
+
+        $stub->method('getBranch')
+            ->will($this->returnValue('master'));
+
+        $this->assertEquals('#', $stub->getCommitLink());
+
+        $this->assertEquals('#', $stub->getBranchLink());
+
+        $this->assertEquals(null, $stub->getFileLinkTemplate());
+    }
+
+    public function testGitHubBuildLinks()
+    {
+        $project = new Project($this->storeRegistry);
+        $project->setType(Project::TYPE_GITHUB);
+        $project->setReference('git@github.com:php-censor/php-censor.git');
+        $project = $this->projectService->processAccessInformation($project);
+
+        $configuration = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
+
+        $stub = $this->getMockBuilder(GithubBuild::class)
+            ->setConstructorArgs([$configuration, $this->storeRegistry])
+            ->setMethods(['getProject', 'getCommitId', 'getBranch', 'getTag'])
+            ->getMock();
+
+        $stub->method('getProject')
+            ->will($this->returnValue($project));
+
+        $stub->method('getCommitId')
+            ->will($this->returnValue('abcdef'));
+
+        $stub->method('getBranch')
+            ->will($this->returnValue('master'));
+
+        $stub->method('getTag')
+            ->will($this->returnValue('2.0.7'));
+
+        $this->assertEquals(
+            '//github.com/php-censor/php-censor/commit/abcdef',
+            $stub->getCommitLink()
+        );
+
+        $this->assertEquals(
+            '//github.com/php-censor/php-censor/tree/master',
+            $stub->getBranchLink()
+        );
+
+        $this->assertEquals(
+            '//github.com/php-censor/php-censor/blob/abcdef/{FILE}#L{LINE}-L{LINE_END}',
+            $stub->getFileLinkTemplate()
+        );
+
+        $this->assertEquals(
+            '//github.com/php-censor/php-censor/tree/2.0.7',
+            $stub->getTagLink()
+        );
+    }
+
+    public function testGitlabBuildLinks()
+    {
+        $project = new Project($this->storeRegistry);
+        $project->setType(Project::TYPE_GITLAB);
+        $project->setReference('git@gitlab.com:php-censor/php-censor.git');
+        $project = $this->projectService->processAccessInformation($project);
+
+        $configuration = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
+
+        $stub = $this->getMockBuilder(GitlabBuild::class)
+            ->setConstructorArgs([$configuration, $this->storeRegistry])
+            ->setMethods(['getProject', 'getCommitId', 'getBranch'])
+            ->getMock();
+
+        $stub->method('getProject')
+            ->will($this->returnValue($project));
+
+        $stub->method('getCommitId')
+            ->will($this->returnValue('abcdef'));
+
+        $stub->method('getBranch')
+            ->will($this->returnValue('master'));
+
+        $this->assertEquals(
+            '//gitlab.com/php-censor/php-censor/commit/abcdef',
+            $stub->getCommitLink()
+        );
+
+        $this->assertEquals(
+            '//gitlab.com/php-censor/php-censor/tree/master',
+            $stub->getBranchLink()
+        );
+
+        $this->assertEquals(
+            '//gitlab.com/php-censor/php-censor/blob/abcdef/{FILE}#L{LINE}',
+            $stub->getFileLinkTemplate()
+        );
     }
 
     public function testGogsBuildLinks()

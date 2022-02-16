@@ -76,34 +76,6 @@ class Build extends BaseBuild
     }
 
     /**
-     * @param string $name
-     * @param mixed  $value
-     */
-    public function addExtraValue($name, $value)
-    {
-        $extra = \json_decode($this->data['extra'], true);
-        if ($extra === false) {
-            $extra = [];
-        }
-        $extra[$name] = $value;
-
-        $this->setExtra($extra);
-    }
-
-    /**
-     * @param string $name
-     */
-    public function removeExtraValue($name)
-    {
-        $extra = $this->getExtra();
-        if (!empty($extra[$name])) {
-            unset($extra[$name]);
-        }
-
-        $this->setExtra($extra);
-    }
-
-    /**
      * Get BuildError models by BuildId for this Build.
      *
      * @return BuildError[]
@@ -353,22 +325,15 @@ class Build extends BaseBuild
 
     /**
      * Allows specific build types (e.g. Github) to report violations back to their respective services.
-     *
-     * @param string  $plugin
-     * @param string  $message
-     * @param int     $severity
-     * @param string  $file
-     * @param int     $lineStart
-     * @param int     $lineEnd
      */
     public function reportError(
         Builder $builder,
-        $plugin,
-        $message,
-        $severity = BuildError::SEVERITY_NORMAL,
-        $file = null,
-        $lineStart = null,
-        $lineEnd = null
+        string $plugin,
+        string $message,
+        int $severity = BuildError::SEVERITY_NORMAL,
+        ?string $file = null,
+        ?int $lineStart = null,
+        ?int $lineEnd = null
     ) {
         $writer = $builder->getBuildErrorWriter();
         $writer->write(

@@ -22,91 +22,37 @@ class BuildMeta extends Model
         'meta_value' => null,
     ];
 
-    /**
-     * @return int
-     */
-    public function getId()
+    protected array $dataTypes = [
+        'build_id' => 'integer',
+    ];
+
+    public function getBuildId(): int
     {
-        return (int)$this->data['id'];
+        return $this->getDataItem('build_id');
     }
 
-    /**
-     * @return bool
-     */
-    public function setId(int $value)
+    public function setBuildId(int $value): bool
     {
-        if ($this->data['id'] === $value) {
-            return false;
-        }
-
-        $this->data['id'] = $value;
-
-        return $this->setModified('id');
+        return $this->setDataItem('build_id', $value);
     }
 
-    /**
-     * @return int
-     */
-    public function getBuildId()
+    public function getMetaKey(): ?string
     {
-        return (int)$this->data['build_id'];
+        return $this->getDataItem('meta_key');
     }
 
-    /**
-     * @return bool
-     */
-    public function setBuildId(int $value)
+    public function setMetaKey(string $value): bool
     {
-        if ($this->data['build_id'] === $value) {
-            return false ;
-        }
-
-        $this->data['build_id'] = $value;
-
-        return $this->setModified('build_id');
+        return $this->setDataItem('meta_key', $value);
     }
 
-    /**
-     * @return string
-     */
-    public function getMetaKey()
+    public function getMetaValue(): ?string
     {
-        return $this->data['meta_key'];
+        return $this->getDataItem('meta_value');
     }
 
-    /**
-     * @return bool
-     */
-    public function setMetaKey(string $value)
+    public function setMetaValue(string $value): bool
     {
-        if ($this->data['meta_key'] === $value) {
-            return false;
-        }
-
-        $this->data['meta_key'] = $value;
-
-        return $this->setModified('meta_key');
-    }
-
-    /**
-     * @return string
-     */
-    public function getMetaValue()
-    {
-        return $this->data['meta_value'];
-    }
-
-    /**
-     * @return bool
-     */
-    public function setMetaValue(string $value)
-    {
-        if ($this->data['meta_value'] === $value) {
-            return false;
-        }
-
-        $this->data['meta_value'] = $value;
-
-        return $this->setModified('meta_value');
+        return $this->setDataItem('meta_value', $value);
     }
 }

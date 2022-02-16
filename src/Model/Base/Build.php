@@ -7,6 +7,7 @@ namespace PHPCensor\Model\Base;
 use DateTime;
 use Exception;
 use PHPCensor\Common\Exception\InvalidArgumentException;
+use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Model;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Traits\Model\HasCreateDateTrait;
@@ -55,13 +56,29 @@ class Build extends Model
         'finish_date'           => null,
         'committer_email'       => null,
         'commit_message'        => null,
-        'extra'                 => null,
+        'extra'                 => [],
         'environment_id'        => null,
         'source'                => Build::SOURCE_UNKNOWN,
         'user_id'               => null,
         'errors_total'          => null,
         'errors_total_previous' => null,
         'errors_new'            => null,
+    ];
+
+    protected array $dataTypes = [
+        'project_id'            => 'integer',
+        'status'                => 'integer',
+        'create_date'           => 'datetime',
+        'start_date'            => 'datetime',
+        'finish_date'           => 'datetime',
+        'extra'                 => 'array',
+        'environment_id'        => 'integer',
+        'source'                => 'integer',
+        'user_id'               => 'integer',
+        'errors_total'          => 'integer',
+        'errors_total_previous' => 'integer',
+        'errors_new'            => 'integer',
+        'parent_id'             => 'integer',
     ];
 
     protected array $allowedStatuses = [
@@ -85,401 +102,207 @@ class Build extends Model
         self::SOURCE_WEBHOOK_PULL_REQUEST_MERGED,
     ];
 
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getParentId(): ?int
     {
-        return (int)$this->data['id'];
+        return $this->getDataItem('parent_id');
+    }
+
+    public function setParentId(?int $value): bool
+    {
+        return $this->setDataItem('parent_id', $value);
+    }
+
+    public function getProjectId(): ?int
+    {
+        return $this->getDataItem('project_id');
+    }
+
+    public function setProjectId(int $value): bool
+    {
+        return $this->setDataItem('project_id', $value);
+    }
+
+    public function getCommitId(): ?string
+    {
+        return $this->getDataItem('commit_id');
+    }
+
+    public function setCommitId(string $value): bool
+    {
+        return $this->setDataItem('commit_id', $value);
+    }
+
+    public function getStatus(): ?int
+    {
+        return $this->getDataItem('status');
     }
 
     /**
-     * @return bool
-     */
-    public function setId(int $value)
-    {
-        if ($this->data['id'] === $value) {
-            return false;
-        }
-
-        $this->data['id'] = (int)$value;
-
-        return $this->setModified('id');
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getParentId()
-    {
-        return (null !== $this->data['parent_id']) ? (int)$this->data['parent_id'] : null;
-    }
-
-    /**
-     * @return bool
-     */
-    public function setParentId(?int $value)
-    {
-        if ($this->data['parent_id'] === $value) {
-            return false;
-        }
-
-        $this->data['parent_id'] = $value;
-
-        return $this->setModified('parent_id');
-    }
-
-    /**
-     * @return int
-     */
-    public function getProjectId()
-    {
-        return (int)$this->data['project_id'];
-    }
-
-    /**
-     * @return bool
-     */
-    public function setProjectId(int $value)
-    {
-        if ($this->data['project_id'] === $value) {
-            return false;
-        }
-
-        $this->data['project_id'] = $value;
-
-        return $this->setModified('project_id');
-    }
-
-    /**
-     * @return string
-     */
-    public function getCommitId()
-    {
-        return $this->data['commit_id'];
-    }
-
-    /**
-     * @return bool
-     */
-    public function setCommitId(string $value)
-    {
-        if ($this->data['commit_id'] === $value) {
-            return false;
-        }
-
-        $this->data['commit_id'] = $value;
-
-        return $this->setModified('commit_id');
-    }
-
-    /**
-     * @return int
-     */
-    public function getStatus()
-    {
-        return (int)$this->data['status'];
-    }
-
-    /**
-     * @return bool
-     *
      * @throws InvalidArgumentException
      */
-    public function setStatus(int $value)
+    public function setStatus(int $value): bool
     {
-        if (!\in_array($value, $this->allowedStatuses, true)) {
+        if (!in_array($value, $this->allowedStatuses, true)) {
             throw new InvalidArgumentException(
                 'Column "status" must be one of: ' . \join(', ', $this->allowedStatuses) . '.'
             );
         }
 
-        if ($this->data['status'] === $value) {
-            return false;
-        }
-
-        $this->data['status'] = $value;
-
-        return $this->setModified('status');
+        return $this->setDataItem('status', $value);
     }
 
-    public function setStatusPending()
+    public function setStatusPending(): bool
     {
-        if (self::STATUS_PENDING !== $this->data['status']) {
-            $this->setModified('status');
-        }
-
-        $this->data['status'] = self::STATUS_PENDING;
+        return $this->setDataItem('status', self::STATUS_PENDING);
     }
 
-    public function setStatusRunning()
+    public function setStatusRunning(): bool
     {
-        if (self::STATUS_RUNNING !== $this->data['status']) {
-            $this->setModified('status');
-        }
-
-        $this->data['status'] = self::STATUS_RUNNING;
+        return $this->setDataItem('status', self::STATUS_RUNNING);
     }
 
-    public function setStatusSuccess()
+    public function setStatusSuccess(): bool
     {
-        if (self::STATUS_SUCCESS !== $this->data['status']) {
-            $this->setModified('status');
-        }
-
-        $this->data['status'] = self::STATUS_SUCCESS;
+        return $this->setDataItem('status', self::STATUS_SUCCESS);
     }
 
-    public function setStatusFailed()
+    public function setStatusFailed(): bool
     {
-        if (self::STATUS_FAILED !== $this->data['status']) {
-            $this->setModified('status');
-        }
-
-        $this->data['status'] = self::STATUS_FAILED;
+        return $this->setDataItem('status', self::STATUS_FAILED);
     }
 
-    /**
-     * @return string
-     */
-    public function getLog()
+    public function getLog(): ?string
     {
-        return $this->data['log'];
+        return $this->getDataItem('log');
     }
 
-    /**
-     * @return bool
-     */
-    public function setLog(?string $value)
+    public function setLog(?string $value): bool
     {
-        if ($this->data['log'] === $value) {
-            return false;
-        }
-
-        $this->data['log'] = $value;
-
-        return $this->setModified('log');
+        return $this->setDataItem('log', $value);
     }
 
-    /**
-     * @return string
-     */
-    public function getBranch()
+    public function getBranch(): ?string
     {
-        return $this->data['branch'];
+        return $this->getDataItem('branch');
     }
 
-    /**
-     * @return bool
-     */
     public function setBranch(string $value)
     {
-        if ($this->data['branch'] === $value) {
+        return $this->setDataItem('branch', $value);
+    }
+
+    public function getTag(): ?string
+    {
+        return $this->getDataItem('tag');
+    }
+
+    public function setTag(?string $value): bool
+    {
+        return $this->setDataItem('tag', $value);
+    }
+
+    public function getStartDate(): ?DateTime
+    {
+        return $this->getDataItem('start_date');
+    }
+
+    public function setStartDate(DateTime $value): bool
+    {
+        return $this->setDataItem('start_date', $value);
+    }
+
+    public function getFinishDate(): ?DateTime
+    {
+        return $this->getDataItem('finish_date');
+    }
+
+    public function setFinishDate(DateTime $value): bool
+    {
+        return $this->setDataItem('finish_date', $value);
+    }
+
+    public function getCommitterEmail(): ?string
+    {
+        return $this->getDataItem('committer_email');
+    }
+
+    public function setCommitterEmail(?string $value): bool
+    {
+        return $this->setDataItem('committer_email', $value);
+    }
+
+    public function getCommitMessage(): ?string
+    {
+        return $this->getDataItem('commit_message');
+    }
+
+    public function setCommitMessage(?string $value): bool
+    {
+        return $this->setDataItem('commit_message', $value);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getExtra(string $key = null)
+    {
+        $data = $this->getDataItem('extra');
+        if ($key === null) {
+            return $data;
+        }
+
+        return $data[$key] ?? null;
+    }
+
+    public function setExtra(array $value): bool
+    {
+        return $this->setDataItem('extra', $value);
+    }
+
+    /**
+     * @param mixed  $value
+     */
+    public function addExtraValue(string $name, $value): bool
+    {
+        $extra = $this->getExtra();
+        if ($extra === null) {
+            $extra = [];
+        }
+        $extra[$name] = $value;
+
+        return $this->setExtra($extra);
+    }
+
+    public function removeExtraValue(string $name): bool
+    {
+        $extra = $this->getExtra();
+        if ($extra === null || !array_key_exists($name, $extra)) {
             return false;
         }
+        unset($extra[$name]);
 
-        $this->data['branch'] = $value;
-
-        return $this->setModified('branch');
+        return $this->setExtra($extra);
     }
 
-    /**
-     * @return string
-     */
-    public function getTag()
+    public function getEnvironmentId(): ?int
     {
-        return $this->data['tag'];
+        return $this->getDataItem('environment_id');
     }
 
-    /**
-     * @return bool
-     */
-    public function setTag(?string $value)
+    public function setEnvironmentId(?int $value): bool
     {
-        if ($this->data['tag'] === $value) {
-            return false;
-        }
-
-        $this->data['tag'] = $value;
-
-        return $this->setModified('tag');
+        return $this->setDataItem('environment_id', $value);
     }
 
-    /**
-     * @return DateTime|null
-     *
-     * @throws Exception
-     */
-    public function getStartDate()
+    public function getSource(): ?int
     {
-        if ($this->data['start_date']) {
-            return new DateTime($this->data['start_date']);
-        }
-
-        return null;
+        return $this->getDataItem('source');
     }
 
     /**
-     * @return bool
-     */
-    public function setStartDate(DateTime $value)
-    {
-        $stringValue = $value->format('Y-m-d H:i:s');
-
-        if ($this->data['start_date'] === $stringValue) {
-            return false;
-        }
-
-        $this->data['start_date'] = $stringValue;
-
-        return $this->setModified('start_date');
-    }
-
-    /**
-     * @return DateTime|null
-     *
-     * @throws Exception
-     */
-    public function getFinishDate()
-    {
-        if ($this->data['finish_date']) {
-            return new DateTime($this->data['finish_date']);
-        }
-
-        return null;
-    }
-
-    /**
-     * @return bool
-     */
-    public function setFinishDate(DateTime $value)
-    {
-        $stringValue = $value->format('Y-m-d H:i:s');
-
-        if ($this->data['finish_date'] === $stringValue) {
-            return false;
-        }
-
-        $this->data['finish_date'] = $stringValue;
-
-        return $this->setModified('finish_date');
-    }
-
-    /**
-     * @return string
-     */
-    public function getCommitterEmail()
-    {
-        return $this->data['committer_email'];
-    }
-
-    /**
-     * @return bool
-     */
-    public function setCommitterEmail(?string $value)
-    {
-        if ($this->data['committer_email'] === $value) {
-            return false;
-        }
-
-        $this->data['committer_email'] = $value;
-
-        return $this->setModified('committer_email');
-    }
-
-    /**
-     * @return string
-     */
-    public function getCommitMessage()
-    {
-        return $this->data['commit_message'];
-    }
-
-    /**
-     * @return bool
-     */
-    public function setCommitMessage(?string $value)
-    {
-        if ($this->data['commit_message'] === $value) {
-            return false;
-        }
-
-        $this->data['commit_message'] = $value;
-
-        return $this->setModified('commit_message');
-    }
-
-    /**
-     * @param string|null $key
-     *
-     * @return array|string|null
-     */
-    public function getExtra($key = null)
-    {
-        $data  = \json_decode($this->data['extra'], true);
-        $extra = null;
-        if (\is_null($key)) {
-            $extra = $data;
-        } elseif (isset($data[$key])) {
-            $extra = $data[$key];
-        }
-
-        return $extra;
-    }
-
-    /**
-     * @return bool
-     */
-    public function setExtra(array $value)
-    {
-        $extra = \json_encode($value);
-        if ($this->data['extra'] === $extra) {
-            return false;
-        }
-
-        $this->data['extra'] = $extra;
-
-        return $this->setModified('extra');
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getEnvironmentId()
-    {
-        return (null !== $this->data['environment_id']) ? (int)$this->data['environment_id'] : null;
-    }
-
-    /**
-     * @return bool
-     *
      * @throws InvalidArgumentException
      */
-    public function setEnvironmentId(?int $value)
-    {
-        if ($this->data['environment_id'] === $value) {
-            return false;
-        }
-
-        $this->data['environment_id'] = $value;
-
-        return $this->setModified('environment_id');
-    }
-
-    /**
-     * @return int
-     */
-    public function getSource()
-    {
-        return (int)$this->data['source'];
-    }
-
-    /**
-     * @return bool
-     *
-     * @throws InvalidArgumentException
-     */
-    public function setSource(?int $value)
+    public function setSource(?int $value): bool
     {
         if (!\in_array($value, $this->allowedSources, true)) {
             throw new InvalidArgumentException(
@@ -487,24 +310,16 @@ class Build extends Model
             );
         }
 
-        if ($this->data['source'] === $value) {
-            return false;
-        }
-
-        $this->data['source'] = $value;
-
-        return $this->setModified('source');
+        return $this->setDataItem('source', $value);
     }
 
     /**
-     * @return int
-     *
-     * @throws InvalidArgumentException
+     * @throws InvalidArgumentException|RuntimeException
      */
-    public function getErrorsTotal()
+    public function getErrorsTotal(): ?int
     {
-        if (null === $this->data['errors_total'] &&
-            !\in_array($this->getStatus(), [self::STATUS_PENDING, self::STATUS_RUNNING], true)) {
+        if ($this->getDataItem('errors_total') === null &&
+            !in_array($this->getStatus(), [self::STATUS_PENDING, self::STATUS_RUNNING], true)) {
             /** @var BuildStore $store */
             $store = $this->storeRegistry->get('Build');
 
@@ -512,31 +327,20 @@ class Build extends Model
             $store->save($this);
         }
 
-        return $this->data['errors_total'];
+        return $this->getDataItem('errors_total');
     }
 
-    /**
-     * @return bool
-     */
-    public function setErrorsTotal(int $value)
+    public function setErrorsTotal(int $value): bool
     {
-        if ($this->data['errors_total'] === $value) {
-            return false;
-        }
-
-        $this->data['errors_total'] = $value;
-
-        return $this->setModified('errors_total');
+        return $this->setDataItem('errors_total', $value);
     }
 
     /**
-     * @return int|null
-     *
      * @throws Exception
      */
-    public function getErrorsTotalPrevious()
+    public function getErrorsTotalPrevious(): ?int
     {
-        if (null === $this->data['errors_total_previous']) {
+        if ($this->getDataItem('errors_total_previous') === null) {
             /** @var BuildStore $store */
             $store = $this->storeRegistry->get('Build');
 
@@ -556,31 +360,20 @@ class Build extends Model
             }
         }
 
-        return $this->data['errors_total_previous'];
+        return $this->getDataItem('errors_total_previous');
+    }
+
+    public function setErrorsTotalPrevious(int $value): bool
+    {
+        return $this->setDataItem('errors_total_previous', $value);
     }
 
     /**
-     * @return bool
+     * @throws InvalidArgumentException|RuntimeException
      */
-    public function setErrorsTotalPrevious(int $value)
+    public function getErrorsNew(): ?int
     {
-        if ($this->data['errors_total_previous'] === $value) {
-            return false;
-        }
-
-        $this->data['errors_total_previous'] = $value;
-
-        return $this->setModified('errors_total_previous');
-    }
-
-    /**
-     * @return int
-     *
-     * @throws InvalidArgumentException
-     */
-    public function getErrorsNew()
-    {
-        if (null === $this->data['errors_new']) {
+        if ($this->getDataItem('errors_new') === null) {
             /** @var BuildStore $errorStore */
             $store = $this->storeRegistry->get('Build');
 
@@ -591,36 +384,16 @@ class Build extends Model
             $store->save($this);
         }
 
-        return $this->data['errors_new'];
+        return $this->getDataItem('errors_new');
     }
 
-    /**
-     * @return bool
-     */
-    public function setErrorsNew(int $value)
+    public function setErrorsNew(int $value): bool
     {
-        if ($this->data['errors_new'] === $value) {
-            return false;
-        }
-
-        $this->data['errors_new'] = $value;
-
-        return $this->setModified('errors_new');
+        return $this->setDataItem('errors_new', $value);
     }
 
-    /**
-     * @return bool
-     */
-    public function isDebug()
+    public function isDebug(): bool
     {
-        if (\defined('DEBUG_MODE') && DEBUG_MODE) {
-            return true;
-        }
-
-        if ($this->getExtra('debug')) {
-            return true;
-        }
-
-        return false;
+        return (defined('DEBUG_MODE') && DEBUG_MODE) || $this->getExtra('debug');
     }
 }

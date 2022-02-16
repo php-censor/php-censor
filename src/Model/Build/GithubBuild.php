@@ -103,7 +103,7 @@ class GithubBuild extends GitBuild
         }
 
         $token = $this->configuration->get('php-censor.github.token');
-        if (empty($token) || empty($this->data['id'])) {
+        if (empty($token) || empty($this->getId())) {
             return false;
         }
 
@@ -187,10 +187,8 @@ class GithubBuild extends GitBuild
 
     /**
      * Get a parsed version of the commit message, with links to issues and commits.
-     *
-     * @return string
      */
-    public function getCommitMessage()
+    public function getCommitMessage(): ?string
     {
         $message = parent::getCommitMessage();
         $project = $this->getProject();
@@ -266,12 +264,12 @@ class GithubBuild extends GitBuild
      */
     public function reportError(
         Builder $builder,
-        $plugin,
-        $message,
-        $severity = BuildError::SEVERITY_NORMAL,
-        $file = null,
-        $lineStart = null,
-        $lineEnd = null
+        string $plugin,
+        string $message,
+        int $severity = BuildError::SEVERITY_NORMAL,
+        ?string $file = null,
+        ?int $lineStart = null,
+        ?int $lineEnd = null
     ) {
         parent::reportError($builder, $plugin, $message, $severity, $file, $lineStart, $lineEnd);
 

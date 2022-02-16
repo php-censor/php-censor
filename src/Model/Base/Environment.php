@@ -18,100 +18,41 @@ class Environment extends Model
         'id'         => null,
         'project_id' => null,
         'name'       => null,
-        'branches'   => null,
+        'branches'   => [],
     ];
 
-    /**
-     * @return int
-     */
-    public function getId()
+    protected array $dataTypes = [
+        'project_id' => 'integer',
+        'branches'   => 'newline'
+    ];
+
+    public function getProjectId(): ?int
     {
-        return (int)$this->data['id'];
+        return $this->getDataItem('project_id');
     }
 
-    /**
-     * @return bool
-     */
-    public function setId(int $value)
+    public function setProjectId(int $value): bool
     {
-        if ($this->data['id'] === $value) {
-            return false;
-        }
-
-        $this->data['id'] = $value;
-
-        return $this->setModified('id');
+        return $this->setDataItem('project_id', $value);
     }
 
-    /**
-     * @return int
-     */
-    public function getProjectId()
+    public function getName(): ?string
     {
-        return (int)$this->data['project_id'];
+        return $this->getDataItem('name');
     }
 
-    /**
-     * @return bool
-     */
-    public function setProjectId(int $value)
+    public function setName(string $value): bool
     {
-        if ($this->data['project_id'] === $value) {
-            return false;
-        }
-
-        $this->data['project_id'] = $value;
-
-        return $this->setModified('project_id');
+        return $this->setDataItem('name', $value);
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getBranches(): array
     {
-        return $this->data['name'];
+        return $this->getDataItem('branches');
     }
 
-    /**
-     * @return bool
-     */
-    public function setName(string $value)
+    public function setBranches(array $value): bool
     {
-        if ($this->data['name'] === $value) {
-            return false;
-        }
-
-        $this->data['name'] = $value;
-
-        return $this->setModified('name');
-    }
-
-    /**
-     * @return array
-     */
-    public function getBranches()
-    {
-        return \array_filter(
-            \array_map(
-                'trim',
-                \explode("\n", $this->data['branches'])
-            )
-        );
-    }
-
-    /**
-     * @return bool
-     */
-    public function setBranches(array $value)
-    {
-        $branches = \implode("\n", $value);
-        if ($this->data['branches'] === $branches) {
-            return false;
-        }
-
-        $this->data['branches'] = $branches;
-
-        return $this->setModified('branches');
+        return $this->setDataItem('branches', $value);
     }
 }

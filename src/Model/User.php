@@ -14,7 +14,7 @@ use PHPCensor\Model\Base\User as BaseUser;
  */
 class User extends BaseUser
 {
-    public function getFinalPerPage(ConfigurationInterface $configuration): int
+    public function getFinalPerPage(ConfigurationInterface $configuration): ?int
     {
         $perPage = $this->getPerPage();
         if ($perPage) {

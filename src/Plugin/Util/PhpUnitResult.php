@@ -48,10 +48,7 @@ abstract class PhpUnitResult
 
     abstract protected function buildTrace($testcase);
 
-    protected function getFileAndLine($testcase)
-    {
-        return $testcase;
-    }
+    abstract protected function getFileAndLine($testcase);
 
     protected function getOutput($testcase)
     {

@@ -13,17 +13,11 @@ trait HasUserIdTrait
 {
     public function getUserId(): ?int
     {
-        return (null !== $this->data['user_id']) ? (int)$this->data['user_id'] : null;
+        return $this->getDataItem('user_id');
     }
 
     public function setUserId(?int $value): bool
     {
-        if ($this->data['user_id'] === $value) {
-            return false;
-        }
-
-        $this->data['user_id'] = $value;
-
-        return $this->setModified('user_id');
+        return $this->setDataItem('user_id', $value);
     }
 }

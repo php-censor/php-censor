@@ -28,236 +28,107 @@ class User extends Model
         'remember_key'  => null,
     ];
 
-    /**
-     * @return int
-     */
-    public function getId()
+    protected array $dataTypes = [
+        'is_admin'      => 'boolean',
+        'per_page'      => 'integer',
+        'provider_data' => 'array'
+    ];
+
+    public function getEmail(): ?string
     {
-        return (int)$this->data['id'];
+        return $this->getDataItem('email');
+    }
+
+    public function setEmail(string $value): bool
+    {
+        return $this->setDataItem('email', $value);
+    }
+
+    public function getHash(): ?string
+    {
+        return $this->getDataItem('hash');
+    }
+
+    public function setHash(string $value): bool
+    {
+        return $this->setDataItem('hash', $value);
+    }
+
+    public function getIsAdmin(): bool
+    {
+        return $this->getDataItem('is_admin');
+    }
+
+    public function setIsAdmin(bool $value): bool
+    {
+        return $this->setDataItem('is_admin', $value);
+    }
+
+    public function getName(): ?string
+    {
+        return $this->getDataItem('name');
+    }
+
+    public function setName(string $value): bool
+    {
+        return $this->setDataItem('name', $value);
+    }
+
+    public function getLanguage(): ?string
+    {
+        return $this->getDataItem('language');
+    }
+
+    public function setLanguage(?string $value): bool
+    {
+        return $this->setDataItem('language', $value);
+    }
+
+    public function getPerPage(): ?int
+    {
+        return $this->getDataItem('per_page');
+    }
+
+    public function setPerPage(?int $value): bool
+    {
+        return $this->setDataItem('per_page', $value);
+    }
+
+    public function getProviderKey(): ?string
+    {
+        return $this->getDataItem('provider_key');
+    }
+
+    public function setProviderKey(string $value): bool
+    {
+        return $this->setDataItem('provider_key', $value);
     }
 
     /**
-     * @return bool
+     * @return mixed
      */
-    public function setId(int $value)
+    public function getProviderData(string $key = null)
     {
-        if ($this->data['id'] === $value) {
-            return false;
+        $data = $this->getDataItem('provider_data');
+        if ($key === null) {
+            return $data;
         }
 
-        $this->data['id'] = $value;
-
-        return $this->setModified('id');
+        return $data[$key] ?? null;
     }
 
-    /**
-     * @return string
-     */
-    public function getEmail()
+    public function setProviderData(array $value): bool
     {
-        return $this->data['email'];
+        return $this->setDataItem('provider_data', $value);
     }
 
-    /**
-     * @return bool
-     */
-    public function setEmail(string $value)
+    public function getRememberKey(): ?string
     {
-        if ($this->data['email'] === $value) {
-            return false;
-        }
-
-        $this->data['email'] = $value;
-
-        return $this->setModified('email');
+        return $this->getDataItem('remember_key');
     }
 
-    /**
-     * @return string
-     */
-    public function getHash()
+    public function setRememberKey(?string $value): bool
     {
-        return $this->data['hash'];
-    }
-
-    /**
-     * @return bool
-     */
-    public function setHash(string $value)
-    {
-        if ($this->data['hash'] === $value) {
-            return false;
-        }
-
-        $this->data['hash'] = $value;
-
-        return $this->setModified('hash');
-    }
-
-    /**
-     * @return bool
-     */
-    public function getIsAdmin()
-    {
-        return (bool)$this->data['is_admin'];
-    }
-
-    /**
-     * @return bool
-     */
-    public function setIsAdmin(bool $value)
-    {
-        if ($this->data['is_admin'] === (int)$value) {
-            return false;
-        }
-
-        $this->data['is_admin'] = (int)$value;
-
-        return $this->setModified('is_admin');
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->data['name'];
-    }
-
-    /**
-     * @return bool
-     */
-    public function setName(string $value)
-    {
-        if ($this->data['name'] === $value) {
-            return false;
-        }
-
-        $this->data['name'] = $value;
-
-        return $this->setModified('name');
-    }
-
-    /**
-     * @return string
-     */
-    public function getLanguage()
-    {
-        return $this->data['language'];
-    }
-
-    /**
-     * @param string $value
-     *
-     * @return bool
-     */
-    public function setLanguage($value)
-    {
-        if ($this->data['language'] === $value) {
-            return false;
-        }
-
-        $this->data['language'] = $value;
-
-        return $this->setModified('language');
-    }
-
-    /**
-     * @return int
-     */
-    public function getPerPage()
-    {
-        return (int)$this->data['per_page'];
-    }
-
-    /**
-     * @return bool
-     */
-    public function setPerPage(?int $value)
-    {
-        if ($this->data['per_page'] === $value) {
-            return false;
-        }
-
-        $this->data['per_page'] = $value;
-
-        return $this->setModified('per_page');
-    }
-
-    /**
-     * @return string
-     */
-    public function getProviderKey()
-    {
-        return $this->data['provider_key'];
-    }
-
-    /**
-     * @return bool
-     */
-    public function setProviderKey(string $value)
-    {
-        if ($this->data['provider_key'] === $value) {
-            return false;
-        }
-
-        $this->data['provider_key'] = $value;
-
-        return $this->setModified('provider_key');
-    }
-
-    /**
-     * @param string|null $key
-     *
-     * @return array|string|null
-     */
-    public function getProviderData($key = null)
-    {
-        $data         = \json_decode($this->data['provider_data'], true);
-        $providerData = null;
-        if (\is_null($key)) {
-            $providerData = $data;
-        } elseif (isset($data[$key])) {
-            $providerData = $data[$key];
-        }
-
-        return $providerData;
-    }
-
-    /**
-     * @return bool
-     */
-    public function setProviderData(array $value)
-    {
-        $providerData = \json_encode($value);
-        if ($this->data['provider_data'] === $providerData) {
-            return false;
-        }
-
-        $this->data['provider_data'] = $providerData;
-
-        return $this->setModified('provider_data');
-    }
-
-    /**
-     * @return string
-     */
-    public function getRememberKey()
-    {
-        return $this->data['remember_key'];
-    }
-
-    /**
-     * @return bool
-     */
-    public function setRememberKey(?string $value)
-    {
-        if ($this->data['remember_key'] === $value) {
-            return false;
-        }
-
-        $this->data['remember_key'] = $value;
-
-        return $this->setModified('remember_key');
+        return $this->setDataItem('remember_key', $value);
     }
 }

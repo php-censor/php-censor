@@ -156,7 +156,14 @@ class BuildErrorTest extends TestCase
 
         $result = $buildError->setCreateDate($createDate);
         self::assertEquals(false, $result);
+
+        $buildError = new BuildError($this->storeRegistry, ['create_date' => $createDate->format('Y-m-d H:i:s')]);
+        self::assertEquals($createDate->getTimestamp(), $buildError->getCreateDate()->getTimestamp());
+
+        $buildError = new BuildError($this->storeRegistry, ['create_date' => 'Invalid Data']);
+        self::assertNull($buildError->getCreateDate());
     }
+
 
     public function testHash()
     {
