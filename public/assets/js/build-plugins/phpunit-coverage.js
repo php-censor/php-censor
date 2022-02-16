@@ -101,7 +101,8 @@ var coveragePlugin = ActiveBuild.UiPlugin.extend({
                     scaleStepWidth :      10,
                     scaleStartValue :     0,
                     datasetFill:          false,
-                    multiTooltipTemplate: "<%=datasetLabel%>: <%= value %>"
+                    multiTooltipTemplate: "<%=datasetLabel%>: <%= value %>",
+                    maintainAspectRatio:  false
                 }
             });
 

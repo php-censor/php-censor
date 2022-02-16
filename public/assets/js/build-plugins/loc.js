@@ -104,7 +104,8 @@ var locPlugin = ActiveBuild.UiPlugin.extend({
                 data: self.chartData,
                 options: {
                     datasetFill:          false,
-                    multiTooltipTemplate: "<%=datasetLabel%>: <%= value %>"
+                    multiTooltipTemplate: "<%=datasetLabel%>: <%= value %>",
+                    maintainAspectRatio:  false
                 }
             });
 
