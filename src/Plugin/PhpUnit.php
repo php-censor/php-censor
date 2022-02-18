@@ -191,6 +191,11 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
 
         $arguments = $this->builder->interpolate($options->buildArgumentString());
         $cmd       = $this->executable . ' %s %s';
+
+        if ($options->getOption('coverage')) {
+            $cmd = 'XDEBUG_MODE=coverage ' . $cmd;
+        }
+
         $success   = $this->executePhpUnitCommand($cmd, $arguments, $directory);
         $output    = $this->builder->getLastOutput();
         $covHtmlOk = false;
