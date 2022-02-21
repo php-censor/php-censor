@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PHPCensor\Helper;
 
-use PHPCensor\Model\Project;
+use PHPCensor\Model\Base\Project;
 
 /**
  * @package    PHP Censor
@@ -12,7 +14,7 @@ use PHPCensor\Model\Project;
  */
 class Branch
 {
-    public static function getDefaultBranchName($projectType)
+    public static function getDefaultBranchName(string $projectType): string
     {
         switch ($projectType) {
             case Project::TYPE_HG:
