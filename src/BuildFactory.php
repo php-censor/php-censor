@@ -27,6 +27,7 @@ class BuildFactory
         StoreRegistry $storeRegistry,
         int $buildId
     ): ?Build {
+        /** @var Build $build */
         $build = $storeRegistry->get('Build')->getById($buildId);
 
         if (empty($build)) {

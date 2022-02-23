@@ -146,6 +146,6 @@ abstract class WebController extends Controller
         /** @var UserStore $userStore */
         $userStore = $this->storeRegistry->get('User');
 
-        return $userStore->getById($_SESSION['php-censor-user-id']);
+        return $userStore->getById((int)$_SESSION['php-censor-user-id']);
     }
 }

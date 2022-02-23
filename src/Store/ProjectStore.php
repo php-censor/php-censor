@@ -19,43 +19,9 @@ use PHPCensor\Store;
  */
 class ProjectStore extends Store
 {
-    protected string $tableName  = 'projects';
+    protected string $tableName = 'projects';
 
-    protected ?string $modelName  = '\PHPCensor\Model\Project';
-
-    protected ?string $primaryKey = 'id';
-
-    /**
-     * Get a Project by primary key (Id)
-     */
-    public function getByPrimaryKey(int $key, string $useConnection = 'read'): ?Project
-    {
-        return $this->getById($key, $useConnection);
-    }
-
-    /**
-     * Get a single Project by Id.
-     *
-     * @throws HttpException
-     */
-    public function getById(int $id, string $useConnection = 'read'): ?Project
-    {
-        if (\is_null($id)) {
-            throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
-        }
-
-        $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{id}} = :id LIMIT 1';
-        $stmt  = $this->databaseManager->getConnection($useConnection)->prepare($query);
-        $stmt->bindValue(':id', $id);
-
-        if ($stmt->execute()) {
-            if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                return new Project($this->storeRegistry, $data);
-            }
-        }
-
-        return null;
-    }
+    protected string $modelName = '\PHPCensor\Model\Project';
 
     /**
      * Get a single Project by Ids.

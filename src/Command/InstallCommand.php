@@ -272,8 +272,11 @@ class InstallCommand extends Command
             'language'    => 'en',
             'per_page'    => 10,
             'url'         => $url,
-            'realtime_ui' => true,
             'queue'       => $queueConfig,
+            'realtime_ui' => true,
+            'webhook'     => [
+                'log_requests' => false,
+            ],
             'log'         => [
                 'rotate'    => false,
                 'max_files' => 0,

@@ -137,7 +137,7 @@ class Lang
         if (!empty($_SESSION['php-censor-user-id'])) {
             /** @var UserStore $userStore */
             $userStore = $storeRegistry->get('User');
-            $user      = $userStore->getById($_SESSION['php-censor-user-id']);
+            $user      = $userStore->getById((int)$_SESSION['php-censor-user-id']);
         }
 
         if ($user) {

@@ -17,44 +17,9 @@ use PHPCensor\Store;
  */
 class ProjectGroupStore extends Store
 {
-    protected string $tableName  = 'project_groups';
+    protected string $tableName = 'project_groups';
 
-    protected ?string $modelName  = '\PHPCensor\Model\ProjectGroup';
-
-    protected ?string $primaryKey = 'id';
-
-    /**
-     * Get a ProjectGroup by primary key (Id)
-     */
-    public function getByPrimaryKey(int $key, string $useConnection = 'read'): ?ProjectGroup
-    {
-        return $this->getById($key, $useConnection);
-    }
-
-    /**
-     * Get a single ProjectGroup by Id.
-     *
-     * @throws HttpException
-     */
-    public function getById(int $id, string $useConnection = 'read'): ?ProjectGroup
-    {
-        if (\is_null($id)) {
-            throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
-        }
-
-        $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{id}} = :id LIMIT 1';
-        $stmt  = $this->databaseManager->getConnection($useConnection)->prepare($query);
-
-        $stmt->bindValue(':id', $id);
-
-        if ($stmt->execute()) {
-            if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                return new ProjectGroup($this->storeRegistry, $data);
-            }
-        }
-
-        return null;
-    }
+    protected string $modelName = '\PHPCensor\Model\ProjectGroup';
 
     /**
      * Get a single ProjectGroup by title.

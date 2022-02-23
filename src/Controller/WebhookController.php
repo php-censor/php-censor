@@ -18,10 +18,12 @@ use PHPCensor\Model\Build\BitbucketBuild;
 use PHPCensor\Model\Build\BitbucketServerBuild;
 use PHPCensor\Model\Build\GithubBuild;
 use PHPCensor\Model\Project;
+use PHPCensor\Model\WebhookRequest;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\EnvironmentStore;
 use PHPCensor\Store\ProjectStore;
+use PHPCensor\Store\WebhookRequestStore;
 
 /**
  * @package    PHP Censor
@@ -39,15 +41,20 @@ class WebhookController extends Controller
 
     protected ProjectStore $projectStore;
 
+    protected WebhookRequestStore $webhookRequestStore;
+
     protected BuildService $buildService;
+
+    private bool $logRequests = false;
 
     /**
      * Initialise the controller, set up stores and services.
      */
     public function init(): void
     {
-        $this->buildStore   = $this->storeRegistry->get('Build');
-        $this->projectStore = $this->storeRegistry->get('Project');
+        $this->buildStore          = $this->storeRegistry->get('Build');
+        $this->projectStore        = $this->storeRegistry->get('Project');
+        $this->webhookRequestStore = $this->storeRegistry->get('WebhookRequest');
 
         $this->buildService = new BuildService(
             $this->configuration,
@@ -55,6 +62,8 @@ class WebhookController extends Controller
             $this->buildStore,
             $this->projectStore
         );
+
+        $this->logRequests = (bool)$this->configuration->get('php-censor.webhook.log_requests', false);
     }
 
     /**
@@ -271,34 +280,42 @@ class WebhookController extends Controller
     /**
      * Fetch a project and check its type.
      *
-     * @param int $projectId id or title of project
-     *
      * @throws Exception If the project does not exist or is not of the expected type.
      */
     protected function fetchProject(int $projectId, array $expectedType): Project
     {
-        if (empty($projectId)) {
+        if (!$projectId) {
             throw new NotFoundException('Project does not exist: ' . $projectId);
         }
 
-        if (\is_numeric($projectId)) {
-            $project = $this->projectStore->getById((int)$projectId);
-        } else {
-            $projects = $this->projectStore->getByTitle((string)$projectId, 2);
-            if ($projects['count'] < 1) {
-                throw new NotFoundException('Project does not found: ' . $projectId);
-            }
-            if ($projects['count'] > 1) {
-                throw new NotFoundException('Project id is ambiguous: ' . $projectId);
-            }
-            $project = \reset($projects['items']);
-        }
+        /** @var Project $project */
+        $project = $this->projectStore->getById($projectId);
 
         if (!\in_array($project->getType(), $expectedType, true)) {
             throw new NotFoundException('Wrong project type: ' . $project->getType());
         }
 
         return $project;
+    }
+
+    protected function logWebhookRequest(
+        int $projectId,
+        string $webhookType,
+        string $payload
+    ): void {
+        try {
+            if ($this->logRequests) {
+                $webhookRequest = new WebhookRequest($this->storeRegistry);
+
+                $webhookRequest->setProjectId($projectId);
+                $webhookRequest->setWebhookType($webhookType);
+                $webhookRequest->setPayload($payload);
+                $webhookRequest->setCreateDate(new \DateTime());
+
+                $this->webhookRequestStore->save($webhookRequest);
+            }
+        } catch (\Throwable $e) {
+        }
     }
 
     /**
@@ -311,23 +328,34 @@ class WebhookController extends Controller
         $project = $this->fetchProject($projectId, [
             Project::TYPE_LOCAL,
             Project::TYPE_GIT,
+            Project::TYPE_GITHUB,
         ]);
-        $branch        = $this->getParam('branch', $project->getDefaultBranch());
-        $environment   = $this->getParam('environment');
-        $commit        = $this->getParam('commit');
-        $commitMessage = $this->getParam('message');
-        $committer     = $this->getParam('committer');
+
+        $payload = [
+            'branch'         => $this->getParam('branch', $project->getDefaultBranch()),
+            'environment'    => $this->getParam('environment'),
+            'commit'         => $this->getParam('commit'),
+            'commit_message' => $this->getParam('message', ''),
+            'committer'      => $this->getParam('committer', ''),
+        ];
+        $payloadJson = \json_encode($payload);
+
+        $this->logWebhookRequest(
+            $project->getId(),
+            WebhookRequest::WEBHOOK_TYPE_GIT,
+            $payloadJson
+        );
 
         return $this->createBuild(
             Build::SOURCE_WEBHOOK_PUSH,
             $project,
-            $commit,
-            $branch,
+            $payload['commit'],
+            $payload['branch'],
             null,
-            $committer,
-            $commitMessage,
+            $payload['committer'],
+            $payload['commit_message'],
             null,
-            $environment
+            $payload['environment']
         );
     }
 
@@ -342,19 +370,32 @@ class WebhookController extends Controller
             Project::TYPE_LOCAL,
             Project::TYPE_HG,
         ]);
-        $branch        = $this->getParam('branch', $project->getDefaultBranch());
-        $commit        = $this->getParam('commit');
-        $commitMessage = $this->getParam('message');
-        $committer     = $this->getParam('committer');
+
+        $payload = [
+            'branch'         => $this->getParam('branch', $project->getDefaultBranch()),
+            'environment'    => $this->getParam('environment'),
+            'commit'         => $this->getParam('commit'),
+            'commit_message' => $this->getParam('message'),
+            'committer'      => $this->getParam('committer'),
+        ];
+        $payloadJson = \json_encode($payload);
+
+        $this->logWebhookRequest(
+            $project->getId(),
+            WebhookRequest::WEBHOOK_TYPE_HG,
+            $payloadJson
+        );
 
         return $this->createBuild(
             Build::SOURCE_WEBHOOK_PUSH,
             $project,
-            $commit,
-            $branch,
+            $payload['commit'],
+            $payload['branch'],
             null,
-            $committer,
-            $commitMessage
+            $payload['committer'],
+            $payload['commit_message'],
+            null,
+            $payload['environment']
         );
     }
 
@@ -370,19 +411,32 @@ class WebhookController extends Controller
         $project = $this->fetchProject($projectId, [
             Project::TYPE_SVN
         ]);
-        $branch        = $this->getParam('branch', $project->getDefaultBranch());
-        $commit        = $this->getParam('commit');
-        $commitMessage = $this->getParam('message');
-        $committer     = $this->getParam('committer');
+
+        $payload = [
+            'branch'         => $this->getParam('branch', $project->getDefaultBranch()),
+            'environment'    => $this->getParam('environment'),
+            'commit'         => $this->getParam('commit'),
+            'commit_message' => $this->getParam('message'),
+            'committer'      => $this->getParam('committer'),
+        ];
+        $payloadJson = \json_encode($payload);
+
+        $this->logWebhookRequest(
+            $project->getId(),
+            WebhookRequest::WEBHOOK_TYPE_SVN,
+            $payloadJson
+        );
 
         return $this->createBuild(
             Build::SOURCE_WEBHOOK_PUSH,
             $project,
-            $commit,
-            $branch,
+            $payload['commit'],
+            $payload['branch'],
             null,
-            $committer,
-            $commitMessage
+            $payload['committer'],
+            $payload['commit_message'],
+            null,
+            $payload['environment']
         );
     }
 
@@ -402,11 +456,26 @@ class WebhookController extends Controller
         ]);
 
         // Support both old services and new webhooks
-        if ($payload = $this->getParam('payload')) {
-            return $this->bitbucketService(\json_decode($payload, true), $project);
+        if ($payloadJson = $this->getParam('payload')) {
+            $this->logWebhookRequest(
+                $project->getId(),
+                WebhookRequest::WEBHOOK_TYPE_BITBUCKET,
+                $payloadJson
+            );
+
+            return $this->bitbucketService(\json_decode($payloadJson, true), $project);
         }
 
-        $payload = \json_decode(\file_get_contents("php://input"), true);
+        $payloadJson = \file_get_contents("php://input");
+        $payload     = \json_decode($payloadJson, true);
+
+        if ($payloadJson) {
+            $this->logWebhookRequest(
+                $project->getId(),
+                WebhookRequest::WEBHOOK_TYPE_BITBUCKET,
+                $payloadJson
+            );
+        }
 
         // Handle Pull Request webhooks:
         if (!empty($payload['pullrequest'])) {
@@ -646,10 +715,12 @@ class WebhookController extends Controller
 
         switch ($_SERVER['CONTENT_TYPE']) {
             case 'application/json':
-                $payload = \json_decode(\file_get_contents('php://input'), true);
+                $payloadJson = \file_get_contents('php://input');
+
                 break;
             case 'application/x-www-form-urlencoded':
-                $payload = \json_decode($this->getParam('payload'), true);
+                $payloadJson = $this->getParam('payload');
+
                 break;
             default:
                 return [
@@ -658,6 +729,16 @@ class WebhookController extends Controller
                     'responseCode' => 401
                 ];
         }
+
+        if ($payloadJson) {
+            $this->logWebhookRequest(
+                $project->getId(),
+                WebhookRequest::WEBHOOK_TYPE_GITHUB,
+                $payloadJson
+            );
+        }
+
+        $payload = \json_decode($payloadJson, true);
 
         // Handle Pull Request webhooks:
         if (\array_key_exists('pull_request', $payload)) {
@@ -826,8 +907,17 @@ class WebhookController extends Controller
             Project::TYPE_GIT,
         ]);
 
-        $payloadString = \file_get_contents("php://input");
-        $payload       = \json_decode($payloadString, true);
+        $payloadJson = \file_get_contents("php://input");
+
+        if ($payloadJson) {
+            $this->logWebhookRequest(
+                $project->getId(),
+                WebhookRequest::WEBHOOK_TYPE_GITLAB,
+                $payloadJson
+            );
+        }
+
+        $payload = \json_decode($payloadJson, true);
 
         // build on merge request events
         if (isset($payload['object_kind']) && $payload['object_kind'] == 'merge_request') {
@@ -898,12 +988,23 @@ class WebhookController extends Controller
 
         switch ($contentType) {
             case 'application/x-www-form-urlencoded':
-                $payload = \json_decode($this->getParam('payload'), true);
+                $payloadJson = $this->getParam('payload');
+
                 break;
             case 'application/json':
             default:
-                $payload = \json_decode(\file_get_contents('php://input'), true);
+                $payloadJson = \file_get_contents('php://input');
         }
+
+        if ($payloadJson) {
+            $this->logWebhookRequest(
+                $project->getId(),
+                WebhookRequest::WEBHOOK_TYPE_GOGS,
+                $payloadJson
+            );
+        }
+
+        $payload = \json_decode($payloadJson, true);
 
         // Handle Push web hooks:
         if (\array_key_exists('commits', $payload)) {

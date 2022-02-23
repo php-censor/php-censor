@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Phinx\Db\Adapter\MysqlAdapter;
 use Phinx\Migration\AbstractMigration;
 use PHPCensor\Model\Build;

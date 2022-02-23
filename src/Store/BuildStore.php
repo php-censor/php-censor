@@ -20,43 +20,9 @@ use PHPCensor\Store;
  */
 class BuildStore extends Store
 {
-    protected string $tableName  = 'builds';
+    protected string $tableName = 'builds';
 
-    protected ?string $modelName  = '\PHPCensor\Model\Build';
-
-    protected ?string $primaryKey = 'id';
-
-    /**
-     * Get a Build by primary key (Id)
-     */
-    public function getByPrimaryKey(int $key, string $useConnection = 'read'): ?Build
-    {
-        return $this->getById($key, $useConnection);
-    }
-
-    /**
-     * Get a single Build by Id.
-     *
-     * @throws HttpException
-     */
-    public function getById(int $id, string $useConnection = 'read'): ?Build
-    {
-        if (\is_null($id)) {
-            throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
-        }
-
-        $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{id}} = :id LIMIT 1';
-        $stmt  = $this->databaseManager->getConnection($useConnection)->prepare($query);
-        $stmt->bindValue(':id', $id);
-
-        if ($stmt->execute()) {
-            if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                return new Build($this->storeRegistry, $data);
-            }
-        }
-
-        return null;
-    }
+    protected string $modelName = '\PHPCensor\Model\Build';
 
     /**
      * Get multiple Build by ProjectId.
