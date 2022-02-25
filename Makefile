@@ -17,7 +17,7 @@ test: php-info install ## Run PHPUnit tests
 	$(PHP) vendor/bin/phpunit --configuration=phpunit.xml.dist
 
 test-coverage: php-info install ## Run PHPUnit tests with coverage report
-	$(PHP) vendor/bin/phpunit --configuration=phpunit.xml.dist --coverage-text --coverage-html=tests/var/coverage
+	$(PHP) vendor/bin/phpunit --configuration=phpunit.xml.dist --coverage-text --coverage-html=tests/runtime/coverage
 
 mutation-test: php-info install ## Run Infection mutation tests
 	$(PHP) vendor/bin/infection --threads=4 --show-mutations -vvv
