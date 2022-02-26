@@ -117,6 +117,10 @@ class ProjectService
      */
     public function deleteProject(Project $project): bool
     {
+        if (!$project->getId()) {
+            return false;
+        }
+
         try {
             $fileSystem = new Filesystem();
 
