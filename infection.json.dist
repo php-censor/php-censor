@@ -1,0 +1,18 @@
+{
+    "timeout": 10,
+    "source": {
+        "directories": [
+            "src"
+        ],
+        "excludes": [
+            "Migrations",
+            "View"
+        ]
+    },
+    "logs": {
+        "text": "tests/runtime/infection.log"
+    },
+    "mutators": {
+        "@default": true
+    }
+}

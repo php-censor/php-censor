@@ -409,10 +409,8 @@ class Build extends BaseBuild
 
     /**
      * Removes the build directory.
-     *
-     * @param bool $withArtifacts
      */
-    public function removeBuildDirectory($withArtifacts = false)
+    public function removeBuildDirectory(bool $withArtifacts = false)
     {
         // Get the path and remove the trailing slash as this may prompt PHP
         // to see this as a directory even if it's a link.

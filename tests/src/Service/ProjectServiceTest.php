@@ -331,6 +331,9 @@ class ProjectServiceTest extends TestCase
         $service = new ProjectService($this->storeRegistry, $store);
         $project = new Project($this->storeRegistry);
 
+        self::assertEquals(false, $service->deleteProject($project));
+
+        $project->setId(1);
         self::assertEquals(true, $service->deleteProject($project));
     }
 }
