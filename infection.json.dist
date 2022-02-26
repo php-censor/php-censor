@@ -3,6 +3,10 @@
     "source": {
         "directories": [
             "src"
+        ],
+        "excludes": [
+            "Migrations",
+            "View"
         ]
     },
     "logs": {
