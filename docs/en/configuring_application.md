@@ -26,6 +26,8 @@ php-censor:
   per_page: 10
   url:      'http://php-censor.local'
   realtime_ui: true # If true dashboard and ui are periodically updated using ajax
+  webhook:
+    log_requests: false
   email_settings:
     from_address:    'PHP Censor <no-reply@php-censor.local>'
     smtp_address:    null

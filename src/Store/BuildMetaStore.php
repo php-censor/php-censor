@@ -18,43 +18,9 @@ use PHPCensor\Store;
  */
 class BuildMetaStore extends Store
 {
-    protected string $tableName  = 'build_metas';
+    protected string $tableName = 'build_metas';
 
-    protected ?string $modelName  = '\PHPCensor\Model\BuildMeta';
-
-    protected ?string $primaryKey = 'id';
-
-    /**
-     * Get a BuildMeta by primary key (Id)
-     */
-    public function getByPrimaryKey(int $key, string $useConnection = 'read'): ?BuildMeta
-    {
-        return $this->getById($key, $useConnection);
-    }
-
-    /**
-     * Get a single BuildMeta by Id.
-     *
-     * @throws HttpException
-     */
-    public function getById(int $id, string $useConnection = 'read'): ?BuildMeta
-    {
-        if (\is_null($id)) {
-            throw new HttpException('id passed to ' . __FUNCTION__ . ' cannot be null.');
-        }
-
-        $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{id}} = :id LIMIT 1';
-        $stmt  = $this->databaseManager->getConnection($useConnection)->prepare($query);
-        $stmt->bindValue(':id', $id);
-
-        if ($stmt->execute()) {
-            if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                return new BuildMeta($this->storeRegistry, $data);
-            }
-        }
-
-        return null;
-    }
+    protected string $modelName = '\PHPCensor\Model\BuildMeta';
 
     /**
      * @throws HttpException

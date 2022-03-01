@@ -7,7 +7,7 @@ namespace PHPCensor;
 use Exception;
 use PDO;
 use PHPCensor\Common\Exception\InvalidArgumentException;
-use PHPCensor\Common\Exception\RuntimeException;
+use PHPCensor\Exception\HttpException;
 
 /**
  * @package    PHP Censor
@@ -18,31 +18,41 @@ use PHPCensor\Common\Exception\RuntimeException;
  */
 abstract class Store
 {
-    protected ?string $modelName = null;
+    protected string $modelName = '';
 
     protected string $tableName = '';
 
-    protected ?string $primaryKey = null;
+    protected string $primaryKey = 'id';
 
     protected DatabaseManager $databaseManager;
 
     protected StoreRegistry $storeRegistry;
 
-    abstract public function getByPrimaryKey(int $key, string $useConnection = 'read'): ?Model;
-
-    /**
-     * @throws RuntimeException
-     */
     public function __construct(
         DatabaseManager $databaseManager,
         StoreRegistry $storeRegistry
     ) {
-        if (empty($this->primaryKey)) {
-            throw new RuntimeException('Save not implemented for this store.');
-        }
-
         $this->databaseManager = $databaseManager;
         $this->storeRegistry = $storeRegistry;
+    }
+
+    public function getById(int $id, string $useConnection = 'read'): ?Model
+    {
+        if (\is_null($id)) {
+            throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
+        }
+
+        $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{id}} = :id LIMIT 1';
+        $stmt = $this->databaseManager->getConnection($useConnection)->prepare($query);
+        $stmt->bindValue(':id', $id);
+
+        if ($stmt->execute()) {
+            if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                return new $this->modelName($this->storeRegistry, $data);
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -161,7 +171,7 @@ abstract class Store
         $query->bindValue(':primaryKey', $data[$this->primaryKey]);
         $query->execute();
 
-        return $this->getByPrimaryKey($model->getId(), 'write');
+        return $this->getById($model->getId(), 'write');
     }
 
     /**
@@ -177,9 +187,11 @@ abstract class Store
         $values = [];
         $queryParams = [];
         foreach ($data as $column => $value) {
-            $cols[] = $column;
-            $values[] = ':' . $column;
-            $queryParams[':' . $column] = $value;
+            if ('id' !== $column) {
+                $cols[] = $column;
+                $values[] = ':' . $column;
+                $queryParams[':' . $column] = $value;
+            }
         }
 
         $queryString = sprintf(
@@ -200,7 +212,7 @@ abstract class Store
             ->getConnection('write')
             ->lastInsertId($this->tableName);
 
-        return $this->getByPrimaryKey($id, 'write');
+        return $this->getById($id, 'write');
     }
 
     /**

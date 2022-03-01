@@ -21,41 +21,7 @@ class BuildErrorStore extends Store
 {
     protected string $tableName = 'build_errors';
 
-    protected ?string $modelName = '\PHPCensor\Model\BuildError';
-
-    protected ?string $primaryKey = 'id';
-
-    /**
-     * @throws HttpException
-     */
-    public function getByPrimaryKey(int $key, string $useConnection = 'read'): ?BuildError
-    {
-        return $this->getById($key, $useConnection);
-    }
-
-    /**
-     * Get a single BuildError by Id.
-     *
-     * @throws HttpException
-     */
-    public function getById(int $id, string $useConnection = 'read'): ?BuildError
-    {
-        if (\is_null($id)) {
-            throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
-        }
-
-        $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{id}} = :id LIMIT 1';
-        $stmt = $this->databaseManager->getConnection($useConnection)->prepare($query);
-        $stmt->bindValue(':id', $id);
-
-        if ($stmt->execute()) {
-            if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                return new BuildError($this->storeRegistry, $data);
-            }
-        }
-
-        return null;
-    }
+    protected string $modelName = '\PHPCensor\Model\BuildError';
 
     /**
      * Get multiple BuildError by BuildId.

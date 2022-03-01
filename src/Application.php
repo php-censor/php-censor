@@ -65,7 +65,7 @@ class Application
         // Inlined as a closure to fix "using $this when not in object context" on 5.3
         $validateSession = function () {
             if (!empty($_SESSION['php-censor-user-id'])) {
-                $user = $this->storeRegistry->get('User')->getByPrimaryKey((int)$_SESSION['php-censor-user-id']);
+                $user = $this->storeRegistry->get('User')->getById((int)$_SESSION['php-censor-user-id']);
 
                 if ($user) {
                     return true;
@@ -146,7 +146,7 @@ class Application
         /** @var UserStore $userStore */
         $userStore = $this->storeRegistry->get('User');
 
-        return $userStore->getById($_SESSION['php-censor-user-id']);
+        return $userStore->getById((int)$_SESSION['php-censor-user-id']);
     }
 
     /**
@@ -205,7 +205,7 @@ class Application
         $defaultUserId = (int)$this->configuration->get('php-censor.security.default_user_id', 1);
 
         if ($disableAuth && $defaultUserId) {
-            $user = $this->storeRegistry->get('User')->getByPrimaryKey($defaultUserId);
+            $user = $this->storeRegistry->get('User')->getById($defaultUserId);
 
             if ($user) {
                 return true;

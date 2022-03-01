@@ -18,43 +18,9 @@ use PHPCensor\Store;
  */
 class UserStore extends Store
 {
-    protected string $tableName  = 'users';
+    protected string $tableName = 'users';
 
-    protected ?string $modelName  = '\PHPCensor\Model\User';
-
-    protected ?string $primaryKey = 'id';
-
-    /**
-     * Get a User by primary key (Id)
-     */
-    public function getByPrimaryKey(int $key, string $useConnection = 'read'): ?User
-    {
-        return $this->getById($key, $useConnection);
-    }
-
-    /**
-     * Get a single User by Id.
-     *
-     * @throws HttpException
-     */
-    public function getById(int $id, string $useConnection = 'read'): ?User
-    {
-        if (\is_null($id)) {
-            throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
-        }
-
-        $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{id}} = :id LIMIT 1';
-        $stmt  = $this->databaseManager->getConnection($useConnection)->prepare($query);
-        $stmt->bindValue(':id', $id);
-
-        if ($stmt->execute()) {
-            if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                return new User($this->storeRegistry, $data);
-            }
-        }
-
-        return null;
-    }
+    protected string $modelName = '\PHPCensor\Model\User';
 
     /**
      * Get a single User by Email.
