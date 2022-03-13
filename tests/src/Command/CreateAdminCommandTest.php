@@ -60,7 +60,7 @@ class CreateAdminCommandTest extends TestCase
 
         $this->helper = $this
             ->getMockBuilder('Symfony\Component\Console\Helper\QuestionHelper')
-            ->setMethods(['ask'])
+            ->onlyMethods(['ask'])
             ->getMock();
 
         $this->application = new Application();

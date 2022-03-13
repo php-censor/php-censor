@@ -79,7 +79,7 @@ class BuildServiceTest extends TestCase
         $project = $this
             ->getMockBuilder('PHPCensor\Model\Project')
             ->setConstructorArgs([$this->storeRegistry])
-            ->setMethods(['getEnvironmentStore'])
+            ->onlyMethods(['getEnvironmentStore'])
             ->getMock();
 
         $project->expects($this->any())
@@ -111,7 +111,7 @@ class BuildServiceTest extends TestCase
         $project = $this
             ->getMockBuilder('PHPCensor\Model\Project')
             ->setConstructorArgs([$this->storeRegistry])
-            ->setMethods(['getEnvironmentStore'])
+            ->onlyMethods(['getEnvironmentStore'])
             ->getMock();
 
         $project->expects($this->any())
@@ -142,7 +142,7 @@ class BuildServiceTest extends TestCase
         $project = $this
             ->getMockBuilder('PHPCensor\Model\Project')
             ->setConstructorArgs([$this->storeRegistry])
-            ->setMethods(['getEnvironmentStore'])
+            ->onlyMethods(['getEnvironmentStore'])
             ->getMock();
 
         $project->expects($this->any())

@@ -72,7 +72,7 @@ class EmailTest extends TestCase
 
         $this->mockProject = $this
             ->getMockBuilder('\PHPCensor\Model\Project')
-            ->setMethods(['getTitle'])
+            ->onlyMethods(['getTitle'])
             ->setMockClassName('mockProject')
             ->disableOriginalConstructor()
             ->getMock();
@@ -83,7 +83,7 @@ class EmailTest extends TestCase
 
         $this->mockBuild = $this
             ->getMockBuilder('\PHPCensor\Model\Build')
-            ->setMethods(['getLog', 'getStatus', 'getProject', 'getCommitterEmail'])
+            ->onlyMethods(['getLog', 'getStatus', 'getProject', 'getCommitterEmail'])
             ->setMockClassName('mockBuild')
             ->disableOriginalConstructor()
             ->getMock();
@@ -108,7 +108,7 @@ class EmailTest extends TestCase
 
         $this->mockBuilder = $this
             ->getMockBuilder('\PHPCensor\Builder')
-            ->setMethods(['getSystemConfig', 'getBuild', 'log', 'logDebug', 'interpolate'])
+            ->onlyMethods(['getSystemConfig', 'log', 'logDebug', 'interpolate'])
             ->setMockClassName('mockBuilder_email')
             ->disableOriginalConstructor()
             ->getMock();
@@ -145,7 +145,7 @@ class EmailTest extends TestCase
 
         $this->testedEmailPlugin = $this
             ->getMockBuilder('\PHPCensor\Plugin\EmailNotify')
-            ->setMethods(['sendEmail'])
+            ->onlyMethods(['sendEmail'])
             ->setConstructorArgs([$this->mockBuilder, $this->mockBuild, $arrOptions])
             ->getMock();
 

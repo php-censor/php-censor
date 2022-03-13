@@ -186,7 +186,7 @@ class BuildTest extends TestCase
 
         $stub = $this->getMockBuilder(GitBuild::class)
             ->setConstructorArgs([$configuration, $this->storeRegistry])
-            ->setMethods(['getProject', 'getCommitId', 'getBranch'])
+            ->onlyMethods(['getProject', 'getCommitId', 'getBranch'])
             ->getMock();
 
         $stub->method('getProject')
@@ -216,7 +216,7 @@ class BuildTest extends TestCase
 
         $stub = $this->getMockBuilder(GithubBuild::class)
             ->setConstructorArgs([$configuration, $this->storeRegistry])
-            ->setMethods(['getProject', 'getCommitId', 'getBranch', 'getTag'])
+            ->onlyMethods(['getProject', 'getCommitId', 'getBranch', 'getTag'])
             ->getMock();
 
         $stub->method('getProject')
@@ -263,7 +263,7 @@ class BuildTest extends TestCase
 
         $stub = $this->getMockBuilder(GitlabBuild::class)
             ->setConstructorArgs([$configuration, $this->storeRegistry])
-            ->setMethods(['getProject', 'getCommitId', 'getBranch'])
+            ->onlyMethods(['getProject', 'getCommitId', 'getBranch'])
             ->getMock();
 
         $stub->method('getProject')
@@ -301,7 +301,7 @@ class BuildTest extends TestCase
 
         $stub = $this->getMockBuilder(GogsBuild::class)
             ->setConstructorArgs([$configuration, $this->storeRegistry])
-            ->setMethods(['getProject', 'getCommitId', 'getBranch'])
+            ->onlyMethods(['getProject', 'getCommitId', 'getBranch'])
             ->getMock();
 
         $stub->method('getProject')

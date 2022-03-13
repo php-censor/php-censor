@@ -126,7 +126,7 @@ class BuildStatusServiceTest extends TestCase
         $project = $this
             ->getMockBuilder('PHPCensor\Model\Project')
             ->setConstructorArgs([$this->storeRegistry])
-            ->setMethods(['getLatestBuild'])
+            ->onlyMethods(['getLatestBuild'])
             ->getMock();
 
         $prevBuild = ($prevBuildId) ? $this->getBuild($prevBuildId, false) : null;
