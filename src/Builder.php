@@ -60,13 +60,13 @@ class Builder
 
     protected BuildLogger $buildLogger;
 
-    private BuildErrorWriter $buildErrorWriter;
+    protected BuildErrorWriter $buildErrorWriter;
 
-    private ConfigurationInterface $configuration;
+    protected ConfigurationInterface $configuration;
 
-    private DatabaseManager $databaseManager;
+    protected DatabaseManager $databaseManager;
 
-    private StoreRegistry $storeRegistry;
+    protected StoreRegistry $storeRegistry;
 
     public function __construct(
         ConfigurationInterface $configuration,
@@ -85,8 +85,8 @@ class Builder
         $buildStore  = $this->storeRegistry->get('Build');
         $this->store = $buildStore;
 
-        $this->buildLogger    = new BuildLogger($logger, $build);
-        $pluginFactory        = $this->buildPluginFactory($build);
+        $this->buildLogger = new BuildLogger($logger, $build);
+        $pluginFactory     = new PluginFactory($this, $build);
 
         $this->pluginExecutor = new Plugin\Util\Executor(
             $this->storeRegistry,
@@ -150,16 +150,6 @@ class Builder
         }
 
         return $value;
-    }
-
-    /**
-     * Access a variable from the config.yml
-     *
-     * @return mixed
-     */
-    public function getSystemConfig(string $key)
-    {
-        return $this->configuration->get($key);
     }
 
     public function execute(): void
@@ -437,14 +427,6 @@ class Builder
     public function logDebug(string $message): void
     {
         $this->buildLogger->logDebug($message);
-    }
-
-    /**
-     * Returns a configured instance of the plugin factory.
-     */
-    private function buildPluginFactory(Build $build): PluginFactory
-    {
-        return new PluginFactory($this, $build);
     }
 
     public function getBuildErrorWriter(): BuildErrorWriter

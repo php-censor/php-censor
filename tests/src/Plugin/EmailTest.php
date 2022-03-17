@@ -108,7 +108,7 @@ class EmailTest extends TestCase
 
         $this->mockBuilder = $this
             ->getMockBuilder('\PHPCensor\Builder')
-            ->onlyMethods(['getSystemConfig', 'log', 'logDebug', 'interpolate'])
+            ->onlyMethods(['log', 'logDebug', 'interpolate'])
             ->setMockClassName('mockBuilder_email')
             ->disableOriginalConstructor()
             ->getMock();
@@ -122,8 +122,8 @@ class EmailTest extends TestCase
                 return $interpolator->interpolate("test");
             }));
 
-        $this->mockBuilder->expects($this->any())
-            ->method('getSystemConfig')
+        $configuration->expects($this->any())
+            ->method('get')
             ->with('php-censor')
             ->will($this->returnValue(['email_settings' => ['from_address' => "test-from-address@example.com"]]));
     }

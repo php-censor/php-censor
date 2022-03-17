@@ -2,7 +2,14 @@
 
 namespace Tests\PHPCensor\Plugin;
 
+use Monolog\Logger;
+use PHPCensor\Builder;
+use PHPCensor\ConfigurationInterface;
+use PHPCensor\DatabaseManager;
+use PHPCensor\Model\Build;
+use PHPCensor\Plugin\PhpUnit;
 use PHPCensor\Store\BuildStore;
+use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -54,18 +61,18 @@ class PhpUnitTest extends TestCase
      */
     protected function getPluginBuilder($options = [])
     {
-        $loggerMock = $this->getMockBuilder('\Monolog\Logger')
+        $loggerMock = $this->getMockBuilder(Logger::class)
             ->setConstructorArgs(['Test'])
             ->onlyMethods(['addRecord'])
             ->getMock();
 
-        $mockConfiguration   = $this->getMockBuilder('\PHPCensor\ConfigurationInterface')->getMock();
+        $mockConfiguration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
         $mockDatabaseManager = $this
-            ->getMockBuilder('\PHPCensor\DatabaseManager')
+            ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$mockConfiguration])
             ->getMock();
         $storeRegistry = $this
-            ->getMockBuilder('PHPCensor\StoreRegistry')
+            ->getMockBuilder(StoreRegistry::class)
             ->setConstructorArgs([$mockDatabaseManager])
             ->getMock();
 
@@ -80,7 +87,7 @@ class PhpUnitTest extends TestCase
             ->willReturn($buildStore);
 
         $mockBuild = $this
-            ->getMockBuilder('\PHPCensor\Model\Build')
+            ->getMockBuilder(Build::class)
             ->setConstructorArgs([$storeRegistry])
             ->getMock();
 
@@ -92,12 +99,12 @@ class PhpUnitTest extends TestCase
             ->method('getProjectId')
             ->willReturn(1);
 
-        $mockBuilder = $this->getMockBuilder('\PHPCensor\Builder')
+        $mockBuilder = $this->getMockBuilder(Builder::class)
             ->setConstructorArgs([$mockConfiguration, $mockDatabaseManager, $storeRegistry, $mockBuild, $loggerMock])
             ->onlyMethods(['executeCommand'])
             ->getMock();
 
-        return $this->getMockBuilder('PHPCensor\Plugin\PhpUnit')->setConstructorArgs(
+        return $this->getMockBuilder(PhpUnit::class)->setConstructorArgs(
             [$mockBuilder, $mockBuild, $options]
         );
     }
