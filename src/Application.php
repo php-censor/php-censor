@@ -13,6 +13,7 @@ use PHPCensor\Http\Response\RedirectResponse;
 use PHPCensor\Http\Router;
 use PHPCensor\Model\User;
 use PHPCensor\Store\UserStore;
+use PHPCensor\Common\Application\ConfigurationInterface;
 
 /**
  * @package    PHP Censor

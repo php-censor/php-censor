@@ -6,6 +6,7 @@ use PHPCensor\Helper\BuildInterpolator;
 use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
+use PHPCensor\Common\Application\ConfigurationInterface;
 
 class BuildInterpolatorTest extends TestCase
 {
@@ -19,7 +20,7 @@ class BuildInterpolatorTest extends TestCase
     {
         parent::setUp();
 
-        $configuration   = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
+        $configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
         $databaseManager = $this
             ->getMockBuilder('PHPCensor\DatabaseManager')
             ->setConstructorArgs([$configuration])

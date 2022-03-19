@@ -44,6 +44,8 @@ class ProjectController extends WebController
 
     protected BuildService $buildService;
 
+    protected BuildFactory $buildFactory;
+
     /**
      * Initialise the controller, set up stores and services.
      */
@@ -53,10 +55,18 @@ class ProjectController extends WebController
 
         $this->buildStore     = $this->storeRegistry->get('Build');
         $this->projectStore   = $this->storeRegistry->get('Project');
+
         $this->projectService = new ProjectService($this->storeRegistry, $this->projectStore);
+
+        $this->buildFactory = new BuildFactory(
+            $this->configuration,
+            $this->storeRegistry
+        );
+
         $this->buildService   = new BuildService(
             $this->configuration,
             $this->storeRegistry,
+            $this->buildFactory,
             $this->buildStore,
             $this->projectStore
         );
@@ -346,7 +356,7 @@ class ProjectController extends WebController
         $view   = new View('Project/ajax-builds');
 
         foreach ($builds['items'] as &$build) {
-            $build = BuildFactory::getBuild($this->configuration, $this->storeRegistry, $build);
+            $build = $this->buildFactory->getBuild($build);
         }
 
         $view->builds           = $builds['items'];

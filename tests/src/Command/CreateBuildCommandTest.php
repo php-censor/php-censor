@@ -6,7 +6,7 @@ use Monolog\Logger;
 use PHPCensor\Command\CreateAdminCommand;
 use PHPCensor\Command\CreateBuildCommand;
 use PHPCensor\Common\Exception\InvalidArgumentException;
-use PHPCensor\ConfigurationInterface;
+use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -35,7 +35,7 @@ class CreateBuildCommandTest extends TestCase
     {
         parent::setUp();
 
-        $this->configuration   = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
+        $this->configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
         $this->databaseManager = $this
             ->getMockBuilder('PHPCensor\DatabaseManager')
             ->setConstructorArgs([$this->configuration])

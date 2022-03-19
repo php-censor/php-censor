@@ -20,6 +20,8 @@ class WidgetLastBuildsController extends WebController
 {
     protected BuildStore $buildStore;
 
+    protected BuildFactory $buildFactory;
+
     /**
      * Initialise the controller, set up stores and services.
      */
@@ -28,6 +30,11 @@ class WidgetLastBuildsController extends WebController
         parent::init();
 
         $this->buildStore = $this->storeRegistry->get('Build');
+
+        $this->buildFactory = new BuildFactory(
+            $this->configuration,
+            $this->storeRegistry
+        );
     }
 
     /**
@@ -38,7 +45,7 @@ class WidgetLastBuildsController extends WebController
         $builds = $this->buildStore->getLatestBuilds(null, 10);
 
         foreach ($builds as &$build) {
-            $build = BuildFactory::getBuild($this->configuration, $this->storeRegistry, $build);
+            $build = $this->buildFactory->getBuild($build);
         }
 
         $view = new View('WidgetLastBuilds/update');
@@ -57,7 +64,7 @@ class WidgetLastBuildsController extends WebController
         $builds = $this->buildStore->getLatestBuilds(null, 10);
 
         foreach ($builds as &$build) {
-            $build = BuildFactory::getBuild($this->configuration, $this->storeRegistry, $build);
+            $build = $this->buildFactory->getBuild($build);
         }
 
         $this->view->builds           = $builds;

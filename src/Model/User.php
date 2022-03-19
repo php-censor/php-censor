@@ -2,7 +2,7 @@
 
 namespace PHPCensor\Model;
 
-use PHPCensor\ConfigurationInterface;
+use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\Model\Base\User as BaseUser;
 
 /**

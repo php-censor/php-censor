@@ -3,7 +3,7 @@
 namespace PHPCensor\Helper;
 
 use GuzzleHttp\Client;
-use PHPCensor\ConfigurationInterface;
+use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\Model\Build;
 
 /**

@@ -4,7 +4,7 @@ namespace PHPCensor\Model\Build;
 
 use Exception;
 use PHPCensor\Builder;
-use PHPCensor\ConfigurationInterface;
+use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\Model\Build;
 use PHPCensor\StoreRegistry;
 

@@ -2,7 +2,7 @@
 
 namespace PHPCensor\Plugin\Option;
 
-use PHPCensor\ConfigurationInterface;
+use PHPCensor\Common\Application\ConfigurationInterface;
 
 /**
  * Class PhpUnitOptions validates and parse the option for the PhpUnitV2 plugin

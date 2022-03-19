@@ -3,7 +3,7 @@
 namespace Tests\PHPCensor\Plugin\Option;
 
 use PHPCensor\Builder;
-use PHPCensor\ConfigurationInterface;
+use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\Plugin\Option\PhpUnitOptions;
 use PHPUnit\Framework\TestCase;
 

@@ -6,6 +6,7 @@ namespace PHPCensor\Controller;
 
 use Exception;
 use GuzzleHttp\Client;
+use PHPCensor\BuildFactory;
 use PHPCensor\Controller;
 use PHPCensor\Exception\HttpException\ForbiddenException;
 use PHPCensor\Exception\HttpException\NotFoundException;
@@ -45,6 +46,8 @@ class WebhookController extends Controller
 
     protected BuildService $buildService;
 
+    protected BuildFactory $buildFactory;
+
     private bool $logRequests = false;
 
     /**
@@ -56,9 +59,15 @@ class WebhookController extends Controller
         $this->projectStore        = $this->storeRegistry->get('Project');
         $this->webhookRequestStore = $this->storeRegistry->get('WebhookRequest');
 
+        $this->buildFactory = new BuildFactory(
+            $this->configuration,
+            $this->storeRegistry
+        );
+
         $this->buildService = new BuildService(
             $this->configuration,
             $this->storeRegistry,
+            $this->buildFactory,
             $this->buildStore,
             $this->projectStore
         );

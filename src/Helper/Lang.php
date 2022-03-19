@@ -2,7 +2,7 @@
 
 namespace PHPCensor\Helper;
 
-use PHPCensor\ConfigurationInterface;
+use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\Store\UserStore;
 use PHPCensor\StoreRegistry;
 

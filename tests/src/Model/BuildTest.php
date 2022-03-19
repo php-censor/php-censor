@@ -13,6 +13,7 @@ use PHPCensor\Model\Project;
 use PHPCensor\Service\ProjectService;
 use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
+use PHPCensor\Common\Application\ConfigurationInterface;
 
 /**
  * Unit tests for the Build model class.
@@ -27,7 +28,7 @@ class BuildTest extends TestCase
 
     protected function setUp(): void
     {
-        $configuration   = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
+        $configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
         $this->databaseManager = $this
             ->getMockBuilder('PHPCensor\DatabaseManager')
             ->setConstructorArgs([$configuration])
@@ -182,7 +183,7 @@ class BuildTest extends TestCase
         $project->setType(Project::TYPE_GIT);
         $project->setReference('https://git.repository/the-vendor/the-project.git');
 
-        $configuration = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
+        $configuration = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
 
         $stub = $this->getMockBuilder(GitBuild::class)
             ->setConstructorArgs([$configuration, $this->storeRegistry])
@@ -212,7 +213,7 @@ class BuildTest extends TestCase
         $project->setReference('git@github.com:php-censor/php-censor.git');
         $project = $this->projectService->processAccessInformation($project);
 
-        $configuration = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
+        $configuration = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
 
         $stub = $this->getMockBuilder(GithubBuild::class)
             ->setConstructorArgs([$configuration, $this->storeRegistry])
@@ -259,7 +260,7 @@ class BuildTest extends TestCase
         $project->setReference('git@gitlab.com:php-censor/php-censor.git');
         $project = $this->projectService->processAccessInformation($project);
 
-        $configuration = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
+        $configuration = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
 
         $stub = $this->getMockBuilder(GitlabBuild::class)
             ->setConstructorArgs([$configuration, $this->storeRegistry])
@@ -297,7 +298,7 @@ class BuildTest extends TestCase
         $project->setType(Project::TYPE_GOGS);
         $project->setReference('https://gogs.repository/the-vendor/the-project.git');
 
-        $configuration = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
+        $configuration = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
 
         $stub = $this->getMockBuilder(GogsBuild::class)
             ->setConstructorArgs([$configuration, $this->storeRegistry])

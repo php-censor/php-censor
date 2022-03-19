@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace PHPCensor\Command;
 
 use PHPCensor\Command\Action\CreateAdmin;
-use PHPCensor\ConfigurationInterface;
+use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Store\UserStore;
 use PHPCensor\StoreRegistry;

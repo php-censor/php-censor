@@ -7,7 +7,8 @@ namespace PHPCensor\Command;
 use Exception;
 use Monolog\Logger;
 use Pheanstalk\Pheanstalk;
-use PHPCensor\ConfigurationInterface;
+use PHPCensor\BuildFactory;
+use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Service\BuildService;
@@ -32,17 +33,21 @@ class WorkerCommand extends Command
 
     protected BuildService $buildService;
 
+    protected BuildFactory $buildFactory;
+
     public function __construct(
         ConfigurationInterface $configuration,
         DatabaseManager $databaseManager,
         StoreRegistry $storeRegistry,
         Logger $logger,
         BuildService $buildService,
+        BuildFactory $buildFactory,
         ?string $name = null
     ) {
         parent::__construct($configuration, $databaseManager, $storeRegistry, $logger, $name);
 
         $this->buildService = $buildService;
+        $this->buildFactory = $buildFactory;
     }
 
     protected function configure()
@@ -104,6 +109,7 @@ class WorkerCommand extends Command
             $this->storeRegistry,
             $this->logger,
             $this->buildService,
+            $this->buildFactory,
             $config['host'],
             (int)$this->configuration->get('php-censor.queue.port', Pheanstalk::DEFAULT_PORT),
             $config['name'],

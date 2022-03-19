@@ -4,7 +4,7 @@ namespace Tests\PHPCensor\Plugin;
 
 use Monolog\Logger;
 use PHPCensor\Builder;
-use PHPCensor\ConfigurationInterface;
+use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin\PhpUnit;

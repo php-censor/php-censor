@@ -6,9 +6,10 @@ namespace PHPCensor;
 
 use PHPCensor\Model\Build;
 use PHPCensor\Model\Project;
+use PHPCensor\Common\Application\ConfigurationInterface;
 
 /**
- * BuildFactory - Takes in a generic "Build" and returns a type-specific build model.
+ * BuildFactory - Takes in a generic Build and returns a type-specific Build model.
  *
  * @package    PHP Censor
  * @subpackage Application
@@ -18,23 +19,32 @@ use PHPCensor\Model\Project;
  */
 class BuildFactory
 {
+    private ConfigurationInterface $configuration;
+
+    private StoreRegistry $storeRegistry;
+
+    public function __construct(
+        ConfigurationInterface $configuration,
+        StoreRegistry $storeRegistry
+    ) {
+        $this->configuration = $configuration;
+        $this->storeRegistry = $storeRegistry;
+    }
+
     /**
      * @throws Common\Exception\RuntimeException
      * @throws Exception\HttpException
      */
-    public static function getBuildById(
-        ConfigurationInterface $configuration,
-        StoreRegistry $storeRegistry,
-        int $buildId
-    ): ?Build {
+    public function getBuildById(int $buildId): ?Build
+    {
         /** @var Build $build */
-        $build = $storeRegistry->get('Build')->getById($buildId);
+        $build = $this->storeRegistry->get('Build')->getById($buildId);
 
-        if (empty($build)) {
+        if (!$build) {
             return null;
         }
 
-        return self::getBuild($configuration, $storeRegistry, $build);
+        return $this->getBuild($build);
     }
 
     /**
@@ -42,13 +52,9 @@ class BuildFactory
      *
      * @throws Exception\HttpException
      */
-    public static function getBuild(
-        ConfigurationInterface $configuration,
-        StoreRegistry $storeRegistry,
-        Build $build
-    ): Build {
+    public function getBuild(Build $build): Build
+    {
         $project = $build->getProject();
-
         if (!empty($project)) {
             switch ($project->getType()) {
                 case Project::TYPE_LOCAL:
@@ -86,7 +92,7 @@ class BuildFactory
             }
 
             $class = '\\PHPCensor\\Model\\Build\\' . $type;
-            $build = new $class($configuration, $storeRegistry, $build->getDataArray());
+            $build = new $class($this->configuration, $this->storeRegistry, $build->getDataArray());
         }
 
         return $build;

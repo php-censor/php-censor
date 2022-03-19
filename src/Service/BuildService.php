@@ -11,7 +11,7 @@ use Monolog\Logger;
 use Pheanstalk\Pheanstalk;
 use Pheanstalk\Contract\PheanstalkInterface;
 use PHPCensor\BuildFactory;
-use PHPCensor\ConfigurationInterface;
+use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\Exception\HttpException;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\Project;
@@ -42,11 +42,14 @@ class BuildService
 
     private StoreRegistry $storeRegistry;
 
+    private BuildFactory $buildFactory;
+
     public bool $queueError = false;
 
     public function __construct(
         ConfigurationInterface $configuration,
         StoreRegistry $storeRegistry,
+        BuildFactory $buildFactory,
         BuildStore $buildStore,
         ProjectStore $projectStore
     ) {
@@ -54,6 +57,7 @@ class BuildService
         $this->storeRegistry = $storeRegistry;
         $this->buildStore    = $buildStore;
         $this->projectStore  = $projectStore;
+        $this->buildFactory  = $buildFactory;
     }
 
     public function createBuild(
@@ -113,7 +117,7 @@ class BuildService
 
         if (!empty($buildId)) {
             $project = $build->getProject();
-            $build = BuildFactory::getBuild($this->configuration, $this->storeRegistry, $build);
+            $build = $this->buildFactory->getBuild($build);
             $build->sendStatusPostback();
             $this->addBuildToQueue(
                 $build,
@@ -256,7 +260,7 @@ class BuildService
         $buildId = $build->getId();
 
         if (!empty($buildId)) {
-            $build   = BuildFactory::getBuild($this->configuration, $this->storeRegistry, $build);
+            $build   = $this->buildFactory->getBuild($build);
             $project = $build->getProject();
             $build->sendStatusPostback();
             $this->addBuildToQueue(

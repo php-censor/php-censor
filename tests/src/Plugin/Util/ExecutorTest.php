@@ -9,6 +9,7 @@ use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
+use PHPCensor\Common\Application\ConfigurationInterface;
 
 class ExecutorTest extends TestCase
 {
@@ -31,7 +32,7 @@ class ExecutorTest extends TestCase
     {
         parent::setUp();
 
-        $configuration   = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
+        $configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
         $databaseManager = $this
             ->getMockBuilder('PHPCensor\DatabaseManager')
             ->setConstructorArgs([$configuration])

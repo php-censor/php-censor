@@ -17,6 +17,7 @@ use PHPCensor\Store\BuildErrorWriter;
 use PHPCensor\Store\BuildStore;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
+use PHPCensor\Common\Application\ConfigurationInterface;
 
 /**
  * @package    PHP Censor

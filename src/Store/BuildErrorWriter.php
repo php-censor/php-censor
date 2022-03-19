@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace PHPCensor\Store;
 
 use DateTime;
-use PHPCensor\ConfigurationInterface;
+use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Model\BuildError;
 use PHPCensor\StoreRegistry;

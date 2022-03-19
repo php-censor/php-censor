@@ -6,7 +6,7 @@ namespace PHPCensor\Command;
 
 use Monolog\Handler\AbstractHandler;
 use Monolog\Logger;
-use PHPCensor\ConfigurationInterface;
+use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Logging\OutputLogHandler;
 use PHPCensor\StoreRegistry;

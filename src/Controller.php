@@ -6,6 +6,7 @@ namespace PHPCensor;
 
 use PHPCensor\Http\Request;
 use PHPCensor\Http\Response;
+use PHPCensor\Common\Application\ConfigurationInterface;
 
 /**
  * @package    PHP Censor

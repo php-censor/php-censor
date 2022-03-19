@@ -2,7 +2,7 @@
 
 namespace Tests\PHPCensor\Service;
 
-use PHPCensor\ConfigurationInterface;
+use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Model\Project;
 use PHPCensor\Service\ProjectService;
@@ -34,7 +34,7 @@ class ProjectServiceTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->configuration   = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
+        $this->configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
         $this->databaseManager = $this
             ->getMockBuilder('PHPCensor\DatabaseManager')
             ->setConstructorArgs([$this->configuration])

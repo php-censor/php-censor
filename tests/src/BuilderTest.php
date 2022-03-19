@@ -7,7 +7,7 @@ namespace Tests\PHPCensor;
 use Monolog\Logger;
 use PHPCensor\Builder;
 use PHPCensor\Configuration;
-use PHPCensor\ConfigurationInterface;
+use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Helper\CommandExecutor;
 use PHPCensor\Logging\BuildLogger;

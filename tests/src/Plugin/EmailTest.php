@@ -9,6 +9,7 @@ use PHPCensor\Plugin\EmailNotify as EmailPlugin;
 use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use PHPCensor\Common\Application\ConfigurationInterface;
 
 /**
  * Unit test for the PHPUnit plugin.
@@ -60,7 +61,7 @@ class EmailTest extends TestCase
         $this->mailDelivered = true;
         $self                = $this;
 
-        $configuration   = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
+        $configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
         $databaseManager = $this
             ->getMockBuilder('PHPCensor\DatabaseManager')
             ->setConstructorArgs([$configuration])

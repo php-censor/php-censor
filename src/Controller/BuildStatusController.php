@@ -13,6 +13,7 @@ use PHPCensor\Http\Response;
 use PHPCensor\Http\Response\RedirectResponse;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\Project;
+use PHPCensor\Service\BuildService;
 use PHPCensor\Service\BuildStatusService;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\ProjectStore;
@@ -33,6 +34,21 @@ class BuildStatusController extends WebController
     protected ProjectStore $projectStore;
 
     protected BuildStore $buildStore;
+
+    protected BuildFactory $buildFactory;
+
+    public function init(): void
+    {
+        parent::init();
+
+        $this->buildStore   = $this->storeRegistry->get('Build');
+        $this->projectStore = $this->storeRegistry->get('Project');
+
+        $this->buildFactory = new BuildFactory(
+            $this->configuration,
+            $this->storeRegistry
+        );
+    }
 
     /**
      * Returns status of the last build
@@ -117,18 +133,10 @@ class BuildStatusController extends WebController
         $builds = $this->buildStore->getWhere($criteria, 10, 0, $order);
 
         foreach ($builds['items'] as &$build) {
-            $build = BuildFactory::getBuild($this->configuration, $this->storeRegistry, $build);
+            $build = $this->buildFactory->getBuild($build);
         }
 
         return $builds['items'];
-    }
-
-    public function init(): void
-    {
-        parent::init();
-
-        $this->buildStore   = $this->storeRegistry->get('Build');
-        $this->projectStore = $this->storeRegistry->get('Project');
     }
 
     /**

@@ -2,7 +2,7 @@
 
 namespace Tests\PHPCensor\Security\Authentication;
 
-use PHPCensor\ConfigurationInterface;
+use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\Model\User;
 use PHPCensor\Security\Authentication\Service;
 use PHPCensor\Security\Authentication\UserProvider\AbstractProvider;
@@ -22,7 +22,7 @@ class ServiceTest extends TestCase
     {
         parent::setUp();
 
-        $this->configuration = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
+        $this->configuration = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
         $databaseManager     = $this
             ->getMockBuilder('PHPCensor\DatabaseManager')
             ->setConstructorArgs([$this->configuration])

@@ -1,6 +1,6 @@
 <?php
 
-use PHPCensor\ConfigurationInterface;
+use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
 use PHPCensor\StoreRegistry;
 use PHPCensor\Application;

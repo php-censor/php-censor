@@ -10,6 +10,7 @@ use PHPCensor\Http\Request;
 use PHPCensor\Http\Response;
 use PHPCensor\Model\User;
 use PHPCensor\Store\UserStore;
+use PHPCensor\Common\Application\ConfigurationInterface;
 
 /**
  * @package    PHP Censor
