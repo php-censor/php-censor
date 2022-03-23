@@ -83,6 +83,10 @@ class UserService
      */
     public function deleteUser(User $user): bool
     {
+        if (!$user->getId()) {
+            return false;
+        }
+
         return $this->store->delete($user);
     }
 }

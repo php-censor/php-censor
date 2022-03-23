@@ -4,7 +4,9 @@ namespace Tests\PHPCensor\Service;
 
 use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
+use PHPCensor\Model\Project;
 use PHPCensor\Model\User;
+use PHPCensor\Service\ProjectService;
 use PHPCensor\Service\UserService;
 use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
@@ -126,5 +128,24 @@ class UserServiceTest extends TestCase
 
         $user = $this->testedService->updateUser($user, 'Test', 'test@example.com', '', false);
         self::assertTrue(password_verify('testing', $user->getHash()));
+    }
+
+    public function testExecuteDeleteUser()
+    {
+        $store = $this
+            ->getMockBuilder('PHPCensor\Store\UserStore')
+            ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])
+            ->getMock();
+        $store->expects($this->once())
+            ->method('delete')
+            ->will($this->returnValue(true));
+
+        $service = new UserService($this->storeRegistry, $store);
+        $user = new User($this->storeRegistry);
+
+        self::assertEquals(false, $service->deleteUser($user));
+
+        $user->setId(11);
+        self::assertEquals(true, $service->deleteUser($user));
     }
 }

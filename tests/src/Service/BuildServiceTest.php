@@ -240,6 +240,9 @@ class BuildServiceTest extends TestCase
         );
         $build = new Build($this->storeRegistry);
 
+        self::assertEquals(false, $service->deleteBuild($build));
+
+        $build->setId(22);
         self::assertEquals(true, $service->deleteBuild($build));
     }
 }

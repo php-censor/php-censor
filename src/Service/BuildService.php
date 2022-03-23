@@ -317,6 +317,10 @@ class BuildService
      */
     public function deleteBuild(Build $build): bool
     {
+        if (!$build->getId()) {
+            return false;
+        }
+
         $build->removeBuildDirectory(true);
 
         return $this->buildStore->delete($build);

@@ -72,6 +72,17 @@ class ProjectServiceTest extends TestCase
         self::assertEquals('github', $project->getType());
         self::assertEquals('php-censor/php-censor1', $project->getReference());
         self::assertEquals([], $project->getAccessInformation());
+
+        self::assertEquals(null, $project->getSshPrivateKey());
+        self::assertEquals(null, $project->getSshPublicKey());
+        self::assertEquals(null, $project->getBuildConfig());
+        self::assertEquals(null, $project->getDefaultBranch());
+        self::assertEquals(false, $project->getArchived());
+        self::assertEquals(false, $project->getDefaultBranchOnly());
+        self::assertEquals(true, $project->getOverwriteBuildConfig());
+        self::assertEquals(false, $project->getAllowPublicStatus());
+        self::assertEquals(1, $project->getGroupId());
+        self::assertEquals([], $project->getEnvironmentsNames());
     }
 
     /**
@@ -266,11 +277,16 @@ class ProjectServiceTest extends TestCase
     public function testExecuteCreateProjectWithOptions()
     {
         $options = [
-            'ssh_private_key'     => 'private',
-            'ssh_public_key'      => 'public',
-            'allow_public_status' => true,
-            'build_config'        => 'config',
-            'default_branch'      => 'testbranch',
+            'ssh_private_key'        => 'private',
+            'ssh_public_key'         => 'public',
+            'allow_public_status'    => true,
+            'overwrite_build_config' => false,
+            'archived'               => true,
+            'default_branch_only'    => true,
+            'build_config'           => 'config',
+            'default_branch'         => 'testbranch',
+            'group'                  => 11,
+            'environments'           => 'env1',
         ];
 
         $returnValue = $this->testedService->createProject(
@@ -285,7 +301,12 @@ class ProjectServiceTest extends TestCase
         self::assertEquals('public', $returnValue->getSshPublicKey());
         self::assertEquals('config', $returnValue->getBuildConfig());
         self::assertEquals('testbranch', $returnValue->getDefaultBranch());
+        self::assertEquals(false, $returnValue->getOverwriteBuildConfig());
+        self::assertEquals(true, $returnValue->getArchived());
+        self::assertEquals(true, $returnValue->getDefaultBranchOnly());
         self::assertEquals(true, $returnValue->getAllowPublicStatus());
+        self::assertEquals(11, $returnValue->getGroupId());
+        self::assertEquals([], $returnValue->getEnvironmentsNames());
     }
 
     public function testExecuteUpdateExistingProject()
