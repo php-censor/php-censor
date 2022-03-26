@@ -117,8 +117,6 @@ class PhpUnitOptionsTest extends TestCase
             '/location'
         );
 
-        $builder = $this->createMock(Builder::class);
-
         self::assertEquals('/path/to/run/from', $options->getRunFrom());
         self::assertEquals('subTest', $options->getTestsPath());
         self::assertNull($options->getOption('random'));

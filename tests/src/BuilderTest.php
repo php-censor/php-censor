@@ -17,6 +17,7 @@ use PHPCensor\Store\BuildErrorWriter;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LogLevel;
 
 class TestBuilder extends Builder
 {
@@ -28,16 +29,13 @@ class TestBuilder extends Builder
 
 class BuilderTest extends TestCase
 {
+    private BuildLogger $buildLogger;
+
     private Builder $builder;
 
     protected function setUp(): void
     {
         parent::setUp();
-
-        $logger = $this->getMockBuilder(Logger::class)
-            ->setConstructorArgs(['Test'])
-            ->onlyMethods(['addRecord'])
-            ->getMock();
 
         $configuration = new Configuration('');
 
@@ -87,8 +85,16 @@ class BuilderTest extends TestCase
             ->method('getProject')
             ->willReturn($project);
 
+        $logger = $this->getMockBuilder(Logger::class)
+            ->setConstructorArgs(['Test'])
+            ->getMock();
+
+        $this->buildLogger = $this->getMockBuilder(BuildLogger::class)
+            ->setConstructorArgs([$logger, $build])
+            ->getMock();
+
         $this->builder = $this->getMockBuilder(TestBuilder::class)
-            ->setConstructorArgs([$configuration, $databaseManager, $storeRegistry, $build, $logger])
+            ->setConstructorArgs([$configuration, $databaseManager, $storeRegistry, $build, $this->buildLogger])
             ->onlyMethods(['executeCommand'])
             ->getMock();
     }
@@ -152,5 +158,55 @@ class BuilderTest extends TestCase
 
         self::assertEquals(['test' => 'test-value'], $this->builder->getConfig());
         self::assertEquals('test-value', $this->builder->getConfig('test'));
+    }
+
+    public function testLogDebug()
+    {
+        $this->buildLogger
+            ->expects($this->once())
+            ->method('logDebug')
+            ->with('Debug message');
+
+        $this->builder->logDebug('Debug message');
+    }
+
+    public function testLogSuccess()
+    {
+        $this->buildLogger
+            ->expects($this->once())
+            ->method('logSuccess')
+            ->with('Success message');
+
+        $this->builder->logSuccess('Success message');
+    }
+
+    public function testLogWarning()
+    {
+        $this->buildLogger
+            ->expects($this->once())
+            ->method('logWarning')
+            ->with('Warning message');
+
+        $this->builder->logWarning('Warning message');
+    }
+
+    public function testLogFailure()
+    {
+        $this->buildLogger
+            ->expects($this->once())
+            ->method('logFailure')
+            ->with('Failure message', null);
+
+        $this->builder->logFailure('Failure message');
+    }
+
+    public function testLog()
+    {
+        $this->buildLogger
+            ->expects($this->once())
+            ->method('log')
+            ->with('Log message', LogLevel::INFO, []);
+
+        $this->builder->log('Log message');
     }
 }

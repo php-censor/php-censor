@@ -14,6 +14,7 @@ use PHPCensor\BuildFactory;
 use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Logging\BuildDBLogHandler;
+use PHPCensor\Logging\BuildLogger;
 use PHPCensor\Model\Build;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Store\BuildStore;
@@ -172,12 +173,13 @@ class BuildWorker
             $buildDbLog = new BuildDBLogHandler($buildStore, $build, Logger::DEBUG);
             $this->logger->pushHandler($buildDbLog);
 
+            $buildLogger = new BuildLogger($this->logger, $build);
             $builder = new Builder(
                 $this->configuration,
                 $this->databaseManager,
                 $this->storeRegistry,
                 $build,
-                $this->logger
+                $buildLogger
             );
 
             try {

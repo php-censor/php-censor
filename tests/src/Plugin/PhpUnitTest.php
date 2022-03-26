@@ -6,6 +6,7 @@ use Monolog\Logger;
 use PHPCensor\Builder;
 use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
+use PHPCensor\Logging\BuildLogger;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin\PhpUnit;
 use PHPCensor\Store\BuildStore;
@@ -61,11 +62,6 @@ class PhpUnitTest extends TestCase
      */
     protected function getPluginBuilder($options = [])
     {
-        $loggerMock = $this->getMockBuilder(Logger::class)
-            ->setConstructorArgs(['Test'])
-            ->onlyMethods(['addRecord'])
-            ->getMock();
-
         $mockConfiguration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
         $mockDatabaseManager = $this
             ->getMockBuilder(DatabaseManager::class)
@@ -99,8 +95,16 @@ class PhpUnitTest extends TestCase
             ->method('getProjectId')
             ->willReturn(1);
 
+        $logger = $this->getMockBuilder(Logger::class)
+            ->setConstructorArgs(['Test'])
+            ->onlyMethods(['addRecord'])
+            ->getMock();
+        $buildLogger = $this->getMockBuilder(BuildLogger::class)
+            ->setConstructorArgs([$logger, $mockBuild])
+            ->getMock();
+
         $mockBuilder = $this->getMockBuilder(Builder::class)
-            ->setConstructorArgs([$mockConfiguration, $mockDatabaseManager, $storeRegistry, $mockBuild, $loggerMock])
+            ->setConstructorArgs([$mockConfiguration, $mockDatabaseManager, $storeRegistry, $mockBuild, $buildLogger])
             ->onlyMethods(['executeCommand'])
             ->getMock();
 

@@ -74,11 +74,12 @@ class Builder
         DatabaseManager $databaseManager,
         StoreRegistry $storeRegistry,
         Build $build,
-        LoggerInterface $logger = null
+        BuildLogger $buildLogger
     ) {
         $this->configuration   = $configuration;
         $this->databaseManager = $databaseManager;
         $this->storeRegistry   = $storeRegistry;
+        $this->buildLogger     = $buildLogger;
 
         $this->build = $build;
 
@@ -86,7 +87,6 @@ class Builder
         $buildStore  = $this->storeRegistry->get('Build');
         $this->store = $buildStore;
 
-        $this->buildLogger = new BuildLogger($logger, $build);
         $pluginFactory     = new PluginFactory($this, $build);
 
         $this->pluginExecutor = new Plugin\Util\Executor(
