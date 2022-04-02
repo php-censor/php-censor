@@ -18,20 +18,8 @@ use Psr\Log\LogLevel;
  * @author Dan Cryer <dan@block8.co.uk>
  * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
-class GitBuild extends Build
+class GitBuild extends TypedBuild
 {
-    protected ConfigurationInterface $configuration;
-
-    public function __construct(
-        ConfigurationInterface $configuration,
-        StoreRegistry $storeRegistry,
-        array $initialData = []
-    ) {
-        parent::__construct($storeRegistry, $initialData);
-
-        $this->configuration = $configuration;
-    }
-
     /**
      * Get the URL to be used to clone this remote repository.
      *
