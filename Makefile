@@ -10,6 +10,9 @@ list: php-info ## List
 install: php-info ## Install dependencies (make install PHP=php8.0)
 	@if [ ! -d "vendor" ]; then $(PHP) $(COMPOSER) install; fi;
 
+install-force: php-info ## Force install dependencies (make install PHP=php8.0)
+	$(PHP) $(COMPOSER) install
+
 update: php-info ## Update dependencies
 	@$(PHP) $(COMPOSER) update
 

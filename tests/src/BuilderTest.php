@@ -111,7 +111,6 @@ class BuilderTest extends TestCase
 
     public function testGetBuildLogger()
     {
-        //self::assertInstanceOf(BuildLoggerInterface::class, $this->builder->getBuildLogger());
         self::assertInstanceOf(BuildLogger::class, $this->builder->getBuildLogger());
     }
 
