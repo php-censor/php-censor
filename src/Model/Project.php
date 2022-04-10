@@ -150,7 +150,6 @@ class Project extends BaseProject
     public function getEnvironmentsObjects()
     {
         $projectId = $this->getId();
-
         if (empty($projectId)) {
             return null;
         }
@@ -167,9 +166,11 @@ class Project extends BaseProject
     {
         $environments      = $this->getEnvironmentsObjects();
         $environmentsNames = [];
-        foreach ($environments['items'] as $environment) {
-            /** @var Environment $environment */
-            $environmentsNames[] = $environment->getName();
+        if ($environments) {
+            foreach ($environments['items'] as $environment) {
+                /** @var Environment $environment */
+                $environmentsNames[] = $environment->getName();
+            }
         }
 
         return $environmentsNames;
@@ -184,9 +185,11 @@ class Project extends BaseProject
     {
         $environments       = $this->getEnvironmentsObjects();
         $environmentsConfig = [];
-        foreach ($environments['items'] as $environment) {
-            /** @var Environment $environment */
-            $environmentsConfig[$environment->getName()] = $environment->getBranches();
+        if ($environments) {
+            foreach ($environments['items'] as $environment) {
+                /** @var Environment $environment */
+                $environmentsConfig[$environment->getName()] = $environment->getBranches();
+            }
         }
 
         $yamlDumper = new YamlDumper();
@@ -203,7 +206,7 @@ class Project extends BaseProject
     {
         $yamlParser          = new YamlParser();
         $environmentsConfig  = $yamlParser->parse($value);
-        $environmentsNames   = !empty($environmentsConfig) ? \array_keys($environmentsConfig) : [];
+        $environmentsNames   = (!empty($environmentsConfig) && is_array($environmentsConfig)) ? \array_keys($environmentsConfig) : [];
         $currentEnvironments = $this->getEnvironmentsObjects();
         $store               = $this->getEnvironmentStore();
         if (!empty($currentEnvironments['items'])) {

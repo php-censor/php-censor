@@ -2,7 +2,15 @@
 
 namespace Tests\PHPCensor\Plugin;
 
+use Monolog\Logger;
+use PHPCensor\Builder;
+use PHPCensor\Common\Application\ConfigurationInterface;
+use PHPCensor\DatabaseManager;
+use PHPCensor\Logging\BuildLogger;
+use PHPCensor\Model\Build;
+use PHPCensor\Plugin\PhpUnit;
 use PHPCensor\Store\BuildStore;
+use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -20,7 +28,7 @@ class PhpUnitTest extends TestCase
 
         $mockPlugin = $this
             ->getPluginBuilder($options)
-            ->setMethods(['runConfig'])
+            ->onlyMethods(['runConfig'])
             ->getMock();
 
         $mockPlugin->expects($this->once())->method('runConfig')->with(null, ROOT_DIR . 'phpunit.xml.dist');
@@ -37,7 +45,7 @@ class PhpUnitTest extends TestCase
             ]
         ];
 
-        $mockPlugin = $this->getPluginBuilder($options)->setMethods(['runConfig'])->getMock();
+        $mockPlugin = $this->getPluginBuilder($options)->onlyMethods(['runConfig'])->getMock();
         $mockPlugin->expects($this->exactly(2))->method('runConfig')->withConsecutive(
             [null, ROOT_DIR . 'phpunit1.xml'],
             [null, ROOT_DIR . 'phpunit2.xml']
@@ -54,18 +62,13 @@ class PhpUnitTest extends TestCase
      */
     protected function getPluginBuilder($options = [])
     {
-        $loggerMock = $this->getMockBuilder('\Monolog\Logger')
-            ->setConstructorArgs(['Test'])
-            ->setMethods(['addRecord'])
-            ->getMock();
-
-        $mockConfiguration   = $this->getMockBuilder('\PHPCensor\ConfigurationInterface')->getMock();
+        $mockConfiguration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
         $mockDatabaseManager = $this
-            ->getMockBuilder('\PHPCensor\DatabaseManager')
+            ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$mockConfiguration])
             ->getMock();
         $storeRegistry = $this
-            ->getMockBuilder('PHPCensor\StoreRegistry')
+            ->getMockBuilder(StoreRegistry::class)
             ->setConstructorArgs([$mockDatabaseManager])
             ->getMock();
 
@@ -80,7 +83,7 @@ class PhpUnitTest extends TestCase
             ->willReturn($buildStore);
 
         $mockBuild = $this
-            ->getMockBuilder('\PHPCensor\Model\Build')
+            ->getMockBuilder(Build::class)
             ->setConstructorArgs([$storeRegistry])
             ->getMock();
 
@@ -92,12 +95,20 @@ class PhpUnitTest extends TestCase
             ->method('getProjectId')
             ->willReturn(1);
 
-        $mockBuilder = $this->getMockBuilder('\PHPCensor\Builder')
-            ->setConstructorArgs([$mockConfiguration, $mockDatabaseManager, $storeRegistry, $mockBuild, $loggerMock])
-            ->setMethods(['executeCommand'])
+        $logger = $this->getMockBuilder(Logger::class)
+            ->setConstructorArgs(['Test'])
+            ->onlyMethods(['addRecord'])
+            ->getMock();
+        $buildLogger = $this->getMockBuilder(BuildLogger::class)
+            ->setConstructorArgs([$logger, $mockBuild])
             ->getMock();
 
-        return $this->getMockBuilder('PHPCensor\Plugin\PhpUnit')->setConstructorArgs(
+        $mockBuilder = $this->getMockBuilder(Builder::class)
+            ->setConstructorArgs([$mockConfiguration, $mockDatabaseManager, $storeRegistry, $mockBuild, $buildLogger])
+            ->onlyMethods(['executeCommand'])
+            ->getMock();
+
+        return $this->getMockBuilder(PhpUnit::class)->setConstructorArgs(
             [$mockBuilder, $mockBuild, $options]
         );
     }
@@ -108,7 +119,7 @@ class PhpUnitTest extends TestCase
             'directories' => '/test/directory/one'
         ];
 
-        $mockPlugin = $this->getPluginBuilder($options)->setMethods(['runConfig'])->getMock();
+        $mockPlugin = $this->getPluginBuilder($options)->onlyMethods(['runConfig'])->getMock();
         $mockPlugin->expects($this->once())->method('runConfig')->with('/test/directory/one', null);
 
         $mockPlugin->execute();
@@ -123,7 +134,7 @@ class PhpUnitTest extends TestCase
             ]
         ];
 
-        $mockPlugin = $this->getPluginBuilder($options)->setMethods(['runConfig'])->getMock();
+        $mockPlugin = $this->getPluginBuilder($options)->onlyMethods(['runConfig'])->getMock();
         $mockPlugin->expects($this->exactly(2))->method('runConfig')->withConsecutive(
             ['/test/directory/one'],
             ['/test/directory/two']
@@ -138,7 +149,7 @@ class PhpUnitTest extends TestCase
             'config' => ROOT_DIR . 'phpunit.xml.dist'
         ];
 
-        $mockPlugin = $this->getPluginBuilder($options)->setMethods(['processResults'])->getMock();
+        $mockPlugin = $this->getPluginBuilder($options)->onlyMethods(['processResults'])->getMock();
         $mockPlugin->expects($this->once())->method('processResults')->with($this->isType('string'));
 
         $mockPlugin->execute();
@@ -150,7 +161,7 @@ class PhpUnitTest extends TestCase
             'directories' => ROOT_DIR . 'Tests'
         ];
 
-        $mockPlugin = $this->getPluginBuilder($options)->setMethods(['processResults'])->getMock();
+        $mockPlugin = $this->getPluginBuilder($options)->onlyMethods(['processResults'])->getMock();
         $mockPlugin->expects($this->once())->method('processResults')->with($this->isType('string'));
 
         $mockPlugin->execute();
@@ -164,7 +175,7 @@ class PhpUnitTest extends TestCase
             'required_lines_coverage' => 60,
         ];
 
-        $mockPlugin = $this->getPluginBuilder($options)->setMethods(['extractCoverage', 'executePhpUnitCommand', 'processResults'])->getMock();
+        $mockPlugin = $this->getPluginBuilder($options)->onlyMethods(['extractCoverage', 'executePhpUnitCommand', 'processResults'])->getMock();
         $mockPlugin->expects($this->once())->method('executePhpUnitCommand')->willReturn(true);
         $mockPlugin->expects($this->once())->method('extractCoverage')->willReturn([
             'classes' => '100.00',
@@ -182,7 +193,7 @@ class PhpUnitTest extends TestCase
             'required_lines_coverage' => 60,
         ];
 
-        $mockPlugin = $this->getPluginBuilder($options)->setMethods(['extractCoverage', 'executePhpUnitCommand', 'processResults'])->getMock();
+        $mockPlugin = $this->getPluginBuilder($options)->onlyMethods(['extractCoverage', 'executePhpUnitCommand', 'processResults'])->getMock();
         $mockPlugin->expects($this->once())->method('executePhpUnitCommand')->willReturn(false);
         $mockPlugin->expects($this->once())->method('extractCoverage')->willReturn([
             'classes' => '100.00',
@@ -201,7 +212,7 @@ class PhpUnitTest extends TestCase
         ];
 
         $mockPlugin = $this->getPluginBuilder($options)
-            ->setMethods(['extractCoverage', 'processResults'])
+            ->onlyMethods(['extractCoverage', 'processResults'])
             ->getMock();
         $mockPlugin->expects($this->once())->method('extractCoverage')->willReturn([
             'classes' => '30.00',

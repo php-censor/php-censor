@@ -5,6 +5,7 @@ namespace Tests\PHPCensor\Model\Base;
 use PHPCensor\Model\Base\BuildMeta;
 use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
+use PHPCensor\Common\Application\ConfigurationInterface;
 
 class BuildMetaTest extends TestCase
 {
@@ -12,7 +13,7 @@ class BuildMetaTest extends TestCase
 
     protected function setUp(): void
     {
-        $configuration   = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
+        $configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
         $databaseManager = $this
             ->getMockBuilder('PHPCensor\DatabaseManager')
             ->setConstructorArgs([$configuration])

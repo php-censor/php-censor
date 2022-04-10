@@ -6,6 +6,7 @@ namespace PHPCensor;
 
 use PHPCensor\Common\Exception\Exception;
 use PHPCensor\Common\Exception\RuntimeException;
+use PHPCensor\Common\Application\ConfigurationInterface;
 
 /**
  * @package    PHP Censor

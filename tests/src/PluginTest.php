@@ -10,6 +10,7 @@ use PHPCensor\Store\BuildStore;
 use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use PHPCensor\Common\Application\ConfigurationInterface;
 
 class TestPlugin extends Plugin
 {
@@ -88,7 +89,7 @@ class PluginTest extends TestCase
         $this->builder = $this->createMock(Builder::class);
         $this->build   = $this->createMock(Build::class);
 
-        $configuration   = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
+        $configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
         $databaseManager = $this
             ->getMockBuilder('PHPCensor\DatabaseManager')
             ->setConstructorArgs([$configuration])

@@ -15,7 +15,7 @@ use PHPCensor\Model\Build;
  * @author Nadir Dzhilkibaev <imam.sharif@gmail.com>
  * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
-class SvnBuild extends Build
+class SvnBuild extends TypedBuild
 {
     protected string $svnCommand = 'svn export -q --non-interactive ';
 

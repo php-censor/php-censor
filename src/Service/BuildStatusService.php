@@ -24,7 +24,7 @@ class BuildStatusService
 
     private string $branch;
 
-    private Build $build;
+    private ?Build $build;
 
     private string $url;
 
@@ -85,11 +85,9 @@ class BuildStatusService
             return 'Sleeping';
         } elseif ($this->build->getStatus() == Build::STATUS_PENDING) {
             return 'Pending';
-        } elseif ($this->build->getStatus() == Build::STATUS_RUNNING) {
-            return 'Building';
         }
 
-        return 'Unknown';
+        return 'Building';
     }
 
     public function getName(): string
@@ -136,22 +134,14 @@ class BuildStatusService
         return '';
     }
 
-    public function getBuildStatus(Build $build): string
-    {
-        switch ($build->getStatus()) {
-            case Build::STATUS_SUCCESS:
-                return 'Success';
-            case Build::STATUS_FAILED:
-                return 'Failure';
-        }
-
-        return 'Unknown';
-    }
-
     public function getLastBuildStatus(): string
     {
         if ($build = $this->getFinishedBuildInfo()) {
-            return $this->getBuildStatus($build);
+            if (Build::STATUS_SUCCESS === $build->getStatus()) {
+                return 'Success';
+            }
+
+            return 'Failure';
         }
 
         return '';

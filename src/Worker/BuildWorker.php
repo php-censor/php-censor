@@ -11,9 +11,10 @@ use Pheanstalk\Job;
 use Pheanstalk\Pheanstalk;
 use PHPCensor\Builder;
 use PHPCensor\BuildFactory;
-use PHPCensor\ConfigurationInterface;
+use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Logging\BuildDBLogHandler;
+use PHPCensor\Logging\BuildLogger;
 use PHPCensor\Model\Build;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Store\BuildStore;
@@ -51,6 +52,8 @@ class BuildWorker
 
     private StoreRegistry $storeRegistry;
 
+    private BuildFactory $buildFactory;
+
     /**
      * beanstalkd queue to watch
      */
@@ -66,6 +69,7 @@ class BuildWorker
         StoreRegistry $storeRegistry,
         Logger $logger,
         BuildService $buildService,
+        BuildFactory $buildFactory,
         string $queueHost,
         int $queuePort,
         string $queueTube,
@@ -76,6 +80,7 @@ class BuildWorker
         $this->configuration   = $configuration;
         $this->databaseManager = $databaseManager;
         $this->storeRegistry   = $storeRegistry;
+        $this->buildFactory    = $buildFactory;
 
         $this->queueTube  = $queueTube;
         $this->pheanstalk = Pheanstalk::create($queueHost, $queuePort);
@@ -129,12 +134,7 @@ class BuildWorker
                 )
             );
 
-            $build = BuildFactory::getBuildById(
-                $this->configuration,
-                $this->storeRegistry,
-                (int)$jobData['build_id']
-            );
-
+            $build = $this->buildFactory->getBuildById((int)$jobData['build_id']);
             if (!$build) {
                 $this->logger->warning(
                     \sprintf(
@@ -173,12 +173,13 @@ class BuildWorker
             $buildDbLog = new BuildDBLogHandler($buildStore, $build, Logger::DEBUG);
             $this->logger->pushHandler($buildDbLog);
 
+            $buildLogger = new BuildLogger($this->logger, $build);
             $builder = new Builder(
                 $this->configuration,
                 $this->databaseManager,
                 $this->storeRegistry,
                 $build,
-                $this->logger
+                $buildLogger
             );
 
             try {

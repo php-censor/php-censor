@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace PHPCensor\Security\Authentication;
 
-use PHPCensor\ConfigurationInterface;
+use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\StoreRegistry;
 
 /**

@@ -15,7 +15,7 @@ use PHPCensor\Model\Build;
  * @author Dan Cryer <dan@block8.co.uk>
  * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
-class LocalBuild extends Build
+class LocalBuild extends TypedBuild
 {
     /**
      * Create a working copy by cloning, copying, or similar.

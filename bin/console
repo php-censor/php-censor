@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-use PHPCensor\ConfigurationInterface;
+use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\Console\Application;
 use PHPCensor\DatabaseManager;
 use PHPCensor\StoreRegistry;

@@ -2,7 +2,7 @@
 
 namespace PHPCensor\Helper;
 
-use PHPCensor\ConfigurationInterface;
+use PHPCensor\Common\Application\ConfigurationInterface;
 
 /**
  * Helper class for dealing with SSH keys.

@@ -6,6 +6,7 @@ namespace PHPCensor;
 
 use PHPCensor\Common\ParameterBag;
 use Symfony\Component\Yaml\Parser as YamlParser;
+use PHPCensor\Common\Application\ConfigurationInterface;
 
 /**
  * @package    PHP Censor

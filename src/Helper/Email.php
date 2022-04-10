@@ -3,7 +3,7 @@
 namespace PHPCensor\Helper;
 
 use PHPCensor\Builder;
-use PHPCensor\ConfigurationInterface;
+use PHPCensor\Common\Application\ConfigurationInterface;
 use Swift_Message;
 
 /**

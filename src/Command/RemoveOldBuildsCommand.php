@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace PHPCensor\Command;
 
-use PHPCensor\ConfigurationInterface;
+use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Store\ProjectStore;

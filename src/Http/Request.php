@@ -41,7 +41,7 @@ class Request
             $path = $_SERVER['REQUEST_URI'];
         }
 
-        if ($_SERVER['SCRIPT_NAME'] != $_SERVER['REQUEST_URI']) {
+        if ($_SERVER['SCRIPT_NAME'] != $path) {
             $scriptPath = \str_replace('/index.php', '', $_SERVER['SCRIPT_NAME']);
             $path = \str_replace($scriptPath, '', $path);
         }

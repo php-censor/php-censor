@@ -6,6 +6,7 @@ namespace PHPCensor;
 
 use PHPCensor\Http\Request;
 use PHPCensor\Http\Response;
+use PHPCensor\Common\Application\ConfigurationInterface;
 
 /**
  * @package    PHP Censor
@@ -40,10 +41,6 @@ abstract class Controller
     public function hasAction(string $name): bool
     {
         if (\method_exists($this, $name)) {
-            return true;
-        }
-
-        if (\method_exists($this, '__call')) {
             return true;
         }
 

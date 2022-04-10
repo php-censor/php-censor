@@ -9,6 +9,7 @@ use PHPCensor\Plugin\EmailNotify as EmailPlugin;
 use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use PHPCensor\Common\Application\ConfigurationInterface;
 
 /**
  * Unit test for the PHPUnit plugin.
@@ -60,7 +61,7 @@ class EmailTest extends TestCase
         $this->mailDelivered = true;
         $self                = $this;
 
-        $configuration   = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
+        $configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
         $databaseManager = $this
             ->getMockBuilder('PHPCensor\DatabaseManager')
             ->setConstructorArgs([$configuration])
@@ -72,7 +73,7 @@ class EmailTest extends TestCase
 
         $this->mockProject = $this
             ->getMockBuilder('\PHPCensor\Model\Project')
-            ->setMethods(['getTitle'])
+            ->onlyMethods(['getTitle'])
             ->setMockClassName('mockProject')
             ->disableOriginalConstructor()
             ->getMock();
@@ -83,7 +84,7 @@ class EmailTest extends TestCase
 
         $this->mockBuild = $this
             ->getMockBuilder('\PHPCensor\Model\Build')
-            ->setMethods(['getLog', 'getStatus', 'getProject', 'getCommitterEmail'])
+            ->onlyMethods(['getLog', 'getStatus', 'getProject', 'getCommitterEmail'])
             ->setMockClassName('mockBuild')
             ->disableOriginalConstructor()
             ->getMock();
@@ -108,7 +109,7 @@ class EmailTest extends TestCase
 
         $this->mockBuilder = $this
             ->getMockBuilder('\PHPCensor\Builder')
-            ->setMethods(['getSystemConfig', 'getBuild', 'log', 'logDebug', 'interpolate'])
+            ->onlyMethods(['log', 'logDebug', 'interpolate'])
             ->setMockClassName('mockBuilder_email')
             ->disableOriginalConstructor()
             ->getMock();
@@ -122,8 +123,8 @@ class EmailTest extends TestCase
                 return $interpolator->interpolate("test");
             }));
 
-        $this->mockBuilder->expects($this->any())
-            ->method('getSystemConfig')
+        $configuration->expects($this->any())
+            ->method('get')
             ->with('php-censor')
             ->will($this->returnValue(['email_settings' => ['from_address' => "test-from-address@example.com"]]));
     }
@@ -145,7 +146,7 @@ class EmailTest extends TestCase
 
         $this->testedEmailPlugin = $this
             ->getMockBuilder('\PHPCensor\Plugin\EmailNotify')
-            ->setMethods(['sendEmail'])
+            ->onlyMethods(['sendEmail'])
             ->setConstructorArgs([$this->mockBuilder, $this->mockBuild, $arrOptions])
             ->getMock();
 

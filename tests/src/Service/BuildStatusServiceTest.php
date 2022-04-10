@@ -8,6 +8,7 @@ use PHPCensor\Model\Project;
 use PHPCensor\Service\BuildStatusService;
 use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
+use PHPCensor\Common\Application\ConfigurationInterface;
 
 /**
  * Unit tests for the ProjectService class.
@@ -26,7 +27,7 @@ class BuildStatusServiceTest extends TestCase
 
     protected function setUp(): void
     {
-        $configuration   = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
+        $configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
         $databaseManager = $this
             ->getMockBuilder('PHPCensor\DatabaseManager')
             ->setConstructorArgs([$configuration])
@@ -52,48 +53,47 @@ class BuildStatusServiceTest extends TestCase
         date_default_timezone_set($this->timezone);
     }
 
-    /**
-     * @param $configId
-     * @param bool $setProject
-     * @return Build
-     */
-    protected function getBuild($configId, $setProject = true)
+    protected function getBuild(int $configId, bool $setProject = true): ?Build
     {
         $config = [
-            '1' => [
+            1 => [
                 'status'         => Build::STATUS_RUNNING,
                 'id'             => 77,
                 'finishDateTime' => null,
                 'startedDate'    => '2014-10-25 21:20:02',
                 'previousBuild'  => null,
             ],
-            '2' => [
+            2 => [
                 'status'         => Build::STATUS_RUNNING,
                 'id'             => 78,
                 'finishDateTime' => null,
                 'startedDate'    => '2014-10-25 21:20:02',
                 'previousBuild'  => 4,
             ],
-            '3' => [
+            3 => [
                 'status'         => Build::STATUS_SUCCESS,
                 'id'             => 7,
                 'finishDateTime' => '2014-10-25 21:50:02',
                 'startedDate'    => '2014-10-25 21:20:02',
                 'previousBuild'  => null,
             ],
-            '4' => [
+            4 => [
                 'status'         => Build::STATUS_FAILED,
                 'id'             => 13,
                 'finishDateTime' => '2014-10-13 13:13:13',
                 'previousBuild'  => null,
             ],
-            '5' => [
+            5 => [
                 'status'         => Build::STATUS_PENDING,
                 'id'             => 1000,
                 'finishDateTime' => '2014-12-25 21:12:21',
                 'previousBuild'  => 3,
             ]
         ];
+
+        if (!isset($config[$configId])) {
+            return null;
+        }
 
         $build = new Build($this->storeRegistry);
         $build->setId($config[$configId]['id']);
@@ -115,18 +115,12 @@ class BuildStatusServiceTest extends TestCase
         return $build;
     }
 
-    /**
-     * @param int|null $prevBuildId
-     * @param bool     $setProject
-     *
-     * @return Project
-     */
-    protected function getProjectMock($prevBuildId = null, $setProject = true)
+    protected function getProjectMock(?int $prevBuildId = null, bool $setProject = true): Project
     {
         $project = $this
             ->getMockBuilder('PHPCensor\Model\Project')
             ->setConstructorArgs([$this->storeRegistry])
-            ->setMethods(['getLatestBuild'])
+            ->onlyMethods(['getLatestBuild'])
             ->getMock();
 
         $prevBuild = ($prevBuildId) ? $this->getBuild($prevBuildId, false) : null;
@@ -150,18 +144,18 @@ class BuildStatusServiceTest extends TestCase
 
     /**
      * @dataProvider finishedProvider
-     *
-     * @param int $buildConfigId
      */
-    public function testFinished($buildConfigId, array $expectedResult)
+    public function testFinished(int $buildConfigId, array $expectedResult): void
     {
         $build = $this->getBuild($buildConfigId);
+
         $service = new BuildStatusService(self::BRANCH, $this->project, $build);
         $service->setUrl('http://php-censor.local/');
+
         self::assertEquals($expectedResult, $service->toArray());
     }
 
-    public function finishedProvider()
+    public function finishedProvider(): array
     {
         return [
             'buildingStatus' => [
@@ -173,7 +167,7 @@ class BuildStatusServiceTest extends TestCase
                     'lastBuildStatus' => '',
                     'lastBuildTime'   => '',
                     'webUrl'          => 'http://php-censor.local/build/view/77',
-                ]
+                ],
             ],
             'buildingStatusWithPrev' => [
                 2,
@@ -184,7 +178,7 @@ class BuildStatusServiceTest extends TestCase
                     'lastBuildStatus' => 'Failure',
                     'lastBuildTime'   => '2014-10-13T13:13:13+0000',
                     'webUrl'          => 'http://php-censor.local/build/view/78',
-                ]
+                ],
             ],
             'successStatus' => [
                 3,
@@ -195,7 +189,7 @@ class BuildStatusServiceTest extends TestCase
                     'lastBuildStatus' => 'Success',
                     'lastBuildTime'   => '2014-10-25T21:50:02+0000',
                     'webUrl'          => 'http://php-censor.local/build/view/7',
-                ]
+                ],
             ],
             'failureStatus' => [
                 4,
@@ -206,9 +200,9 @@ class BuildStatusServiceTest extends TestCase
                     'lastBuildStatus' => 'Failure',
                     'lastBuildTime'   => '2014-10-13T13:13:13+0000',
                     'webUrl'          => 'http://php-censor.local/build/view/13',
-                ]
+                ],
             ],
-            'pending' => [
+            'pendingStatus' => [
                 5,
                 [
                     'name'            => 'Test / master',
@@ -217,7 +211,11 @@ class BuildStatusServiceTest extends TestCase
                     'lastBuildStatus' => 'Success',
                     'lastBuildTime'   => '2014-10-25T21:50:02+0000',
                     'webUrl'          => 'http://php-censor.local/build/view/1000',
-                ]
+                ],
+            ],
+            'pendingStatusWithoutBuild' => [
+                10,
+                [],
             ],
         ];
     }

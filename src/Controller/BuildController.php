@@ -38,6 +38,8 @@ class BuildController extends WebController
 
     protected BuildService $buildService;
 
+    protected BuildFactory $buildFactory;
+
     public function init(): void
     {
         parent::init();
@@ -45,9 +47,15 @@ class BuildController extends WebController
         $this->buildStore   = $this->storeRegistry->get('Build');
         $this->projectStore = $this->storeRegistry->get('Project');
 
+        $this->buildFactory = new BuildFactory(
+            $this->configuration,
+            $this->storeRegistry
+        );
+
         $this->buildService = new BuildService(
             $this->configuration,
             $this->storeRegistry,
+            $this->buildFactory,
             $this->buildStore,
             $this->projectStore
         );
@@ -73,11 +81,7 @@ class BuildController extends WebController
             $severity = null;
         }
 
-        $build = BuildFactory::getBuildById(
-            $this->configuration,
-            $this->storeRegistry,
-            (int)$buildId
-        );
+        $build = $this->buildFactory->getBuildById($buildId);
 
         if (!$build) {
             throw new NotFoundException(Lang::get('build_x_not_found', $buildId));
@@ -282,12 +286,7 @@ class BuildController extends WebController
      */
     public function rebuild(int $buildId): Response
     {
-        $copy = BuildFactory::getBuildById(
-            $this->configuration,
-            $this->storeRegistry,
-            $buildId
-        );
-
+        $copy = $this->buildFactory->getBuildById($buildId);
         $project = $this->storeRegistry->get('Project')->getById((int)$copy->getProjectId());
 
         if (!$copy || $project->getArchived()) {
@@ -325,12 +324,7 @@ class BuildController extends WebController
     {
         $this->requireAdmin();
 
-        $build = BuildFactory::getBuildById(
-            $this->configuration,
-            $this->storeRegistry,
-            (int)$buildId
-        );
-
+        $build = $this->buildFactory->getBuildById($buildId);
         if (!$build) {
             throw new NotFoundException(Lang::get('build_x_not_found', $buildId));
         }
@@ -388,12 +382,8 @@ class BuildController extends WebController
         }
 
         $response = new JsonResponse();
-        $build = BuildFactory::getBuildById(
-            $this->configuration,
-            $this->storeRegistry,
-            (int)$buildId
-        );
 
+        $build = $this->buildFactory->getBuildById($buildId);
         if (!$build) {
             $response->setResponseCode(404);
             $response->setContent([]);
@@ -427,12 +417,7 @@ class BuildController extends WebController
 
     public function ajaxMeta(int $buildId): Response
     {
-        $build = BuildFactory::getBuildById(
-            $this->configuration,
-            $this->storeRegistry,
-            (int)$buildId
-        );
-
+        $build     = $this->buildFactory->getBuildById($buildId);
         $key       = $this->getParam('key');
         $numBuilds = (int)$this->getParam('num_builds', 1);
         $data      = null;

@@ -3,7 +3,7 @@
 namespace Tests\PHPCensor\Plugin\Option;
 
 use PHPCensor\Builder;
-use PHPCensor\ConfigurationInterface;
+use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\Plugin\Option\PhpUnitOptions;
 use PHPUnit\Framework\TestCase;
 
@@ -116,8 +116,6 @@ class PhpUnitOptionsTest extends TestCase
             ],
             '/location'
         );
-
-        $builder = $this->createMock(Builder::class);
 
         self::assertEquals('/path/to/run/from', $options->getRunFrom());
         self::assertEquals('subTest', $options->getTestsPath());

@@ -7,6 +7,7 @@ use PHPCensor\Model\Base\ProjectGroup;
 use PHPCensor\Model\Base\WebhookRequest;
 use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
+use PHPCensor\Common\Application\ConfigurationInterface;
 
 class WebhookRequestTest extends TestCase
 {
@@ -14,7 +15,7 @@ class WebhookRequestTest extends TestCase
 
     protected function setUp(): void
     {
-        $configuration   = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
+        $configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
         $databaseManager = $this
             ->getMockBuilder('PHPCensor\DatabaseManager')
             ->setConstructorArgs([$configuration])

@@ -6,6 +6,7 @@ use DateTime;
 use PHPCensor\Model\Base\BuildError;
 use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
+use PHPCensor\Common\Application\ConfigurationInterface;
 
 class BuildErrorTest extends TestCase
 {
@@ -13,7 +14,7 @@ class BuildErrorTest extends TestCase
 
     protected function setUp(): void
     {
-        $configuration   = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
+        $configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
         $databaseManager = $this
             ->getMockBuilder('PHPCensor\DatabaseManager')
             ->setConstructorArgs([$configuration])

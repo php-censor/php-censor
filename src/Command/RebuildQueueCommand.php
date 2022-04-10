@@ -40,16 +40,22 @@ class RebuildQueueCommand extends Command
 
         $this->logger->info(\sprintf('Found %d builds', \count($result['items'])));
 
+        $buildFactory = new BuildFactory(
+            $this->configuration,
+            $this->storeRegistry
+        );
+
         $buildService = new BuildService(
             $this->configuration,
             $this->storeRegistry,
+            $buildFactory,
             $buildStore,
             $projectStore
         );
 
         while (\count($result['items'])) {
             $build   = \array_shift($result['items']);
-            $build   = BuildFactory::getBuild($this->configuration, $this->storeRegistry, $build);
+            $build   = $buildFactory->getBuild($build);
             $project = $build->getProject();
 
             $this->logger->info('Added build #' . $build->getId() . ' to queue.');

@@ -121,14 +121,11 @@ class ProjectService
             return false;
         }
 
-        try {
-            $fileSystem = new Filesystem();
+        $fileSystem = new Filesystem();
 
-            $fileSystem->remove(RUNTIME_DIR . 'builds/' . $project->getId());
-            $fileSystem->remove(PUBLIC_DIR . 'artifacts/pdepend/' . $project->getId());
-            $fileSystem->remove(PUBLIC_DIR . 'artifacts/phpunit/' . $project->getId());
-        } catch (Exception $e) {
-        }
+        $fileSystem->remove(RUNTIME_DIR . 'builds/' . $project->getId());
+        $fileSystem->remove(PUBLIC_DIR . 'artifacts/pdepend/' . $project->getId());
+        $fileSystem->remove(PUBLIC_DIR . 'artifacts/phpunit/' . $project->getId());
 
         return $this->projectStore->delete($project);
     }

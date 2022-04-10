@@ -4,7 +4,8 @@ namespace Tests\PHPCensor\Service;
 
 use DateTime;
 use Exception;
-use PHPCensor\ConfigurationInterface;
+use PHPCensor\BuildFactory;
+use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Model\Build;
 use PHPCensor\Service\BuildService;
@@ -32,9 +33,11 @@ class BuildServiceTest extends TestCase
 
     protected EnvironmentStore $mockEnvironmentStore;
 
+    protected BuildFactory $buildFactory;
+
     protected function setUp(): void
     {
-        $this->configuration   = $this->getMockBuilder('PHPCensor\ConfigurationInterface')->getMock();
+        $this->configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
         $this->databaseManager = $this
             ->getMockBuilder('PHPCensor\DatabaseManager')
             ->setConstructorArgs([$this->configuration])
@@ -66,9 +69,15 @@ class BuildServiceTest extends TestCase
             ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])
             ->getMock();
 
+        $this->buildFactory = new BuildFactory(
+            $this->configuration,
+            $this->storeRegistry
+        );
+
         $this->testedService = new BuildService(
             $this->configuration,
             $this->storeRegistry,
+            $this->buildFactory,
             $this->mockBuildStore,
             $mockProjectStore
         );
@@ -79,7 +88,7 @@ class BuildServiceTest extends TestCase
         $project = $this
             ->getMockBuilder('PHPCensor\Model\Project')
             ->setConstructorArgs([$this->storeRegistry])
-            ->setMethods(['getEnvironmentStore'])
+            ->onlyMethods(['getEnvironmentStore'])
             ->getMock();
 
         $project->expects($this->any())
@@ -111,7 +120,7 @@ class BuildServiceTest extends TestCase
         $project = $this
             ->getMockBuilder('PHPCensor\Model\Project')
             ->setConstructorArgs([$this->storeRegistry])
-            ->setMethods(['getEnvironmentStore'])
+            ->onlyMethods(['getEnvironmentStore'])
             ->getMock();
 
         $project->expects($this->any())
@@ -142,7 +151,7 @@ class BuildServiceTest extends TestCase
         $project = $this
             ->getMockBuilder('PHPCensor\Model\Project')
             ->setConstructorArgs([$this->storeRegistry])
-            ->setMethods(['getEnvironmentStore'])
+            ->onlyMethods(['getEnvironmentStore'])
             ->getMock();
 
         $project->expects($this->any())
@@ -225,11 +234,15 @@ class BuildServiceTest extends TestCase
         $service = new BuildService(
             $this->configuration,
             $this->storeRegistry,
+            $this->buildFactory,
             $store,
             $mockProjectStore
         );
         $build = new Build($this->storeRegistry);
 
+        self::assertEquals(false, $service->deleteBuild($build));
+
+        $build->setId(22);
         self::assertEquals(true, $service->deleteBuild($build));
     }
 }

@@ -14,6 +14,7 @@ use Phinx\Console\Command\Create;
 use Phinx\Console\Command\Migrate;
 use Phinx\Console\Command\Rollback;
 use Phinx\Console\Command\Status;
+use PHPCensor\BuildFactory;
 use PHPCensor\Command\CheckLocalizationCommand;
 use PHPCensor\Command\CreateAdminCommand;
 use PHPCensor\Command\CreateBuildCommand;
@@ -21,7 +22,7 @@ use PHPCensor\Command\InstallCommand;
 use PHPCensor\Command\RemoveOldBuildsCommand;
 use PHPCensor\Command\RebuildQueueCommand;
 use PHPCensor\Command\WorkerCommand;
-use PHPCensor\ConfigurationInterface;
+use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Logging\AnsiFormatter;
@@ -178,19 +179,26 @@ LOGO;
         /** @var BuildStore $buildStore */
         $buildStore = $this->storeRegistry->get('Build');
 
+        $buildFactory = new BuildFactory(
+            $this->configuration,
+            $this->storeRegistry
+        );
+
         $buildService = new BuildService(
             $this->configuration,
             $this->storeRegistry,
+            $buildFactory,
             $buildStore,
             $projectStore
         );
+
         $logger = $this->initLogger($this->configuration);
 
         $this->add(new InstallCommand($this->configuration, $this->databaseManager, $this->storeRegistry, $logger));
         $this->add(new CreateAdminCommand($this->configuration, $this->databaseManager, $this->storeRegistry, $logger, $userStore));
         $this->add(new CreateBuildCommand($this->configuration, $this->databaseManager, $this->storeRegistry, $logger, $projectStore, $buildService));
         $this->add(new RemoveOldBuildsCommand($this->configuration, $this->databaseManager, $this->storeRegistry, $logger, $projectStore, $buildService));
-        $this->add(new WorkerCommand($this->configuration, $this->databaseManager, $this->storeRegistry, $logger, $buildService));
+        $this->add(new WorkerCommand($this->configuration, $this->databaseManager, $this->storeRegistry, $logger, $buildService, $buildFactory));
         $this->add(new RebuildQueueCommand($this->configuration, $this->databaseManager, $this->storeRegistry, $logger));
         $this->add(new CheckLocalizationCommand($this->configuration, $this->databaseManager, $this->storeRegistry, $logger));
     }
