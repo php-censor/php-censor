@@ -147,8 +147,6 @@ class BuildFactoryTest extends TestCase
 
     public function testGetBuildByIdWithEmptyBuild(): void
     {
-        $rawBuild = new Build($this->storeRegistry, ['project_id' => 10]);
-
         $buildStore = $this
             ->getMockBuilder(BuildStore::class)
             ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])

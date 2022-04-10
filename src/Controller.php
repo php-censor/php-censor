@@ -44,10 +44,6 @@ abstract class Controller
             return true;
         }
 
-        if (\method_exists($this, '__call')) {
-            return true;
-        }
-
         return false;
     }
 
