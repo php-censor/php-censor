@@ -231,6 +231,7 @@ class InstallCommand extends Command
             $questionHelper,
             $input,
             $output,
+            $this->storeRegistry,
             $userStore
         );
 
@@ -577,6 +578,7 @@ class InstallCommand extends Command
             $questionHelper,
             $input,
             $output,
+            $this->storeRegistry,
             $userStore
         );
 
