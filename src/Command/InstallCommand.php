@@ -140,9 +140,7 @@ class InstallCommand extends Command
             return 1;
         }
 
-        $admin = $this->getAdminInformation($input, $output);
-        $this->createAdminUser($admin, $input, $output);
-
+        $this->createAdminUser($input, $output);
         $this->createDefaultGroup($output);
 
         return 0;
@@ -214,53 +212,6 @@ class InstallCommand extends Command
 
         $output->writeln('');
         $output->writeln('<info>OK</info>');
-    }
-
-    /**
-     * Load information for admin user form CLI options or ask info to user.
-     *
-     * @return array
-     */
-    protected function getAdminInformation(InputInterface $input, OutputInterface $output)
-    {
-        $admin = [];
-
-        /** @var $helper QuestionHelper */
-        $helper = $this->getHelperSet()->get('question');
-
-        // Function to validate email address.
-        $mailValidator = function ($answer) {
-            if (!filter_var($answer, FILTER_VALIDATE_EMAIL)) {
-                throw new InvalidArgumentException('Must be a valid email address.');
-            }
-
-            return $answer;
-        };
-
-        if ($adminEmail = $input->getOption('admin-email')) {
-            $adminEmail = $mailValidator($adminEmail);
-        } else {
-            $questionEmail = new Question('Admin email: ');
-            $adminEmail    = $helper->ask($input, $output, $questionEmail);
-        }
-
-        if (!$adminName = $input->getOption('admin-name')) {
-            $questionName = new Question('Admin name: ');
-            $adminName    = $helper->ask($input, $output, $questionName);
-        }
-
-        if (!$adminPassword = $input->getOption('admin-password')) {
-            $questionPassword = new Question('Admin password: ');
-            $questionPassword->setHidden(true);
-            $questionPassword->setHiddenFallback(false);
-            $adminPassword = $helper->ask($input, $output, $questionPassword);
-        }
-
-        $admin['email']    = $adminEmail;
-        $admin['name']     = $adminName;
-        $admin['password'] = $adminPassword;
-
-        return $admin;
     }
 
     /**
@@ -591,7 +542,7 @@ class InstallCommand extends Command
     /**
      * Create admin user using information loaded before.
      */
-    protected function createAdminUser(array $admin, InputInterface $input, OutputInterface $output): void
+    protected function createAdminUser(InputInterface $input, OutputInterface $output): void
     {
         /** @var $questionHelper QuestionHelper */
         $questionHelper = $this->getHelperSet()->get('question');
@@ -607,6 +558,7 @@ class InstallCommand extends Command
             $userStore
         );
 
+        $admin = $createAdmin->process();
         $createAdmin->create($admin);
     }
 

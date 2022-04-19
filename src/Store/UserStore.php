@@ -34,7 +34,7 @@ class UserStore extends Store
         }
 
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{email}} = :email LIMIT 1';
-        $stmt  = $this->databaseManager->getConnection('read')->prepare($query);
+        $stmt  = $this->databaseManager->getConnection()->prepare($query);
 
         $stmt->bindValue(':email', $email);
 

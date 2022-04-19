@@ -171,7 +171,7 @@ abstract class Store
         $query->bindValue(':primaryKey', $data[$this->primaryKey]);
         $query->execute();
 
-        return $this->getById($model->getId(), 'write');
+        return $this->getById($model->getId());
     }
 
     /**
@@ -212,7 +212,7 @@ abstract class Store
             ->getConnection('write')
             ->lastInsertId($this->tableName);
 
-        return $this->getById($id, 'write');
+        return $this->getById($id);
     }
 
     /**
