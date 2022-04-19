@@ -86,8 +86,7 @@ class DatabaseManager
                 }
             }
 
-            // No connection? Oh dear.
-            if (!$connection && $type === 'read') {
+            if (!$connection) {
                 throw new RuntimeException('Could not connect to any ' . $type . ' servers.');
             }
 

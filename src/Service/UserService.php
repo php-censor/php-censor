@@ -31,11 +31,6 @@ class UserService
         $this->store         = $store;
     }
 
-    /**
-     * Create a new user.
-     *
-     * @return User
-     */
     public function createUser(string $name, string $email, string $providerKey, array $providerData, string $password, bool $isAdmin = false): ?User
     {
         $user = new User($this->storeRegistry);

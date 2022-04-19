@@ -103,7 +103,7 @@ class InstallCommand extends Command
         $configFromFile = (bool)$input->getOption('config-from-file');
 
         if (!$configFromFile && !$this->verifyNotInstalled($output)) {
-            return;
+            return 1;
         }
 
         $output->writeln('');
@@ -137,13 +137,15 @@ class InstallCommand extends Command
         $this->configuration = new Configuration($this->configPath);
 
         if (!$this->setupDatabase($output)) {
-            return false;
+            return 1;
         }
 
         $admin = $this->getAdminInformation($input, $output);
         $this->createAdminUser($admin, $input, $output);
 
         $this->createDefaultGroup($output);
+
+        return 0;
     }
 
     private function verifyNotInstalled(OutputInterface $output): bool
@@ -217,25 +219,48 @@ class InstallCommand extends Command
     /**
      * Load information for admin user form CLI options or ask info to user.
      *
-     * @throws InvalidArgumentException
+     * @return array
      */
-    private function getAdminInformation(InputInterface $input, OutputInterface $output): array
+    protected function getAdminInformation(InputInterface $input, OutputInterface $output)
     {
-        /** @var $questionHelper QuestionHelper */
-        $questionHelper = $this->getHelperSet()->get('question');
+        $admin = [];
 
-        /** @var UserStore $userStore */
-        $userStore = $this->storeRegistry->get('User');
+        /** @var $helper QuestionHelper */
+        $helper = $this->getHelperSet()->get('question');
 
-        $createAdmin = new CreateAdmin(
-            $questionHelper,
-            $input,
-            $output,
-            $this->storeRegistry,
-            $userStore
-        );
+        // Function to validate email address.
+        $mailValidator = function ($answer) {
+            if (!filter_var($answer, FILTER_VALIDATE_EMAIL)) {
+                throw new InvalidArgumentException('Must be a valid email address.');
+            }
 
-        return $createAdmin->process();
+            return $answer;
+        };
+
+        if ($adminEmail = $input->getOption('admin-email')) {
+            $adminEmail = $mailValidator($adminEmail);
+        } else {
+            $questionEmail = new Question('Admin email: ');
+            $adminEmail    = $helper->ask($input, $output, $questionEmail);
+        }
+
+        if (!$adminName = $input->getOption('admin-name')) {
+            $questionName = new Question('Admin name: ');
+            $adminName    = $helper->ask($input, $output, $questionName);
+        }
+
+        if (!$adminPassword = $input->getOption('admin-password')) {
+            $questionPassword = new Question('Admin password: ');
+            $questionPassword->setHidden(true);
+            $questionPassword->setHiddenFallback(false);
+            $adminPassword = $helper->ask($input, $output, $questionPassword);
+        }
+
+        $admin['email']    = $adminEmail;
+        $admin['name']     = $adminName;
+        $admin['password'] = $adminPassword;
+
+        return $admin;
     }
 
     /**
