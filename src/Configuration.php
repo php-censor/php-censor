@@ -16,14 +16,25 @@ use PHPCensor\Common\Application\ConfigurationInterface;
  */
 class Configuration extends ParameterBag implements ConfigurationInterface
 {
+    private string $configurationPath;
+
     public function __construct(string $configurationPath)
     {
+        parent::__construct([]);
+
+        $this->configurationPath = $configurationPath;
+
+        $this->load();
+    }
+
+    public function load()
+    {
         $parameters = [];
-        if ($configurationPath && \file_exists($configurationPath)) {
-            $parameters = $this->loadYaml($configurationPath);
+        if ($this->configurationPath && \file_exists($this->configurationPath)) {
+            $parameters = $this->loadYaml($this->configurationPath);
         }
 
-        parent::__construct($parameters);
+        $this->parameters = $parameters;
     }
 
     private function loadYaml(string $configurationPath): array

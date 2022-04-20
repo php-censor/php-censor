@@ -83,7 +83,7 @@ class CreateAdmin
         return $result;
     }
 
-    public function create(array $adminDetails): void
+    public function create(array $adminDetails): bool
     {
         try {
             $adminUser = $this->userStore->getByEmail($adminDetails['email']);
@@ -106,6 +106,10 @@ class CreateAdmin
         } catch (\Throwable $ex) {
             $this->output->writeln('<error>PHP Censor failed to create your admin account!</error>');
             $this->output->writeln('<error>' . $ex->getMessage() . '</error>');
+
+            return false;
         }
+
+        return true;
     }
 }

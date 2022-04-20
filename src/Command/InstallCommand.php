@@ -9,7 +9,6 @@ use Exception;
 use PDO;
 use Pheanstalk\Pheanstalk;
 use PHPCensor\Command\Action\CreateAdmin;
-use PHPCensor\Configuration;
 use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Model\ProjectGroup;
@@ -134,14 +133,19 @@ class InstallCommand extends Command
             $this->writeConfigFile($conf);
         }
 
-        $this->configuration = new Configuration($this->configPath);
+        $this->configuration->load();
 
         if (!$this->setupDatabase($output)) {
-            return 1;
+            return 2;
         }
 
-        $this->createAdminUser($input, $output);
-        $this->createDefaultGroup($output);
+        if (!$this->createAdminUser($input, $output)) {
+            return 3;
+        }
+
+        if (!$this->createDefaultGroup($output)) {
+            return 4;
+        }
 
         return 0;
     }
@@ -542,7 +546,7 @@ class InstallCommand extends Command
     /**
      * Create admin user using information loaded before.
      */
-    protected function createAdminUser(InputInterface $input, OutputInterface $output): void
+    protected function createAdminUser(InputInterface $input, OutputInterface $output): bool
     {
         /** @var $questionHelper QuestionHelper */
         $questionHelper = $this->getHelperSet()->get('question');
@@ -559,10 +563,11 @@ class InstallCommand extends Command
         );
 
         $admin = $createAdmin->process();
-        $createAdmin->create($admin);
+
+        return $createAdmin->create($admin);
     }
 
-    protected function createDefaultGroup(OutputInterface $output): void
+    protected function createDefaultGroup(OutputInterface $output): bool
     {
         try {
             /** @var ProjectGroupStore $projectGroupStore */
@@ -583,6 +588,10 @@ class InstallCommand extends Command
         } catch (\Throwable $ex) {
             $output->writeln('<error>PHP Censor failed to create default project group!</error>');
             $output->writeln('<error>' . $ex->getMessage() . '</error>');
+
+            return false;
         }
+
+        return true;
     }
 }
