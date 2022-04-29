@@ -27,7 +27,7 @@ class Configuration extends ParameterBag implements ConfigurationInterface
         $this->load();
     }
 
-    public function load()
+    public function load(): void
     {
         $parameters = [];
         if ($this->configurationPath && \file_exists($this->configurationPath)) {

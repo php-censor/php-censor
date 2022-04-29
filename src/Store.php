@@ -154,10 +154,10 @@ abstract class Store
             $updateParams[] = [$column, $value];
         }
 
-        $queryString = sprintf(
+        $queryString = \sprintf(
             'UPDATE {{%s}} SET %s WHERE {{%s}} = :primaryKey',
             $this->tableName,
-            implode(', ', $updates),
+            \implode(', ', $updates),
             $this->primaryKey
         );
         $query = $this->databaseManager
@@ -194,11 +194,11 @@ abstract class Store
             }
         }
 
-        $queryString = sprintf(
+        $queryString = \sprintf(
             'INSERT INTO {{%s}} (%s) VALUES (%s)',
             $this->tableName,
-            implode(', ', $cols),
-            implode(', ', $values)
+            \implode(', ', $cols),
+            \implode(', ', $values)
         );
         $query = $this->databaseManager
             ->getConnection('write')
@@ -227,7 +227,7 @@ abstract class Store
 
         $query = $this->databaseManager->getConnection('write')
             ->prepare(
-                sprintf(
+                \sprintf(
                     'DELETE FROM {{%s}} WHERE {{%s}} = :primaryKey',
                     $this->tableName,
                     $this->primaryKey
@@ -258,10 +258,10 @@ abstract class Store
     protected function getData(Model $model): array
     {
         $rawData = $model->getDataArray();
-        $modified = array_keys($model->getId() === null ? $rawData : $model->getModified());
+        $modified = \array_keys($model->getId() === null ? $rawData : $model->getModified());
         $data = [];
         foreach ($rawData as $column => $value) {
-            if (!in_array($column, $modified, true)) {
+            if (!\in_array($column, $modified, true)) {
                 continue;
             }
             $data[$column] = $this->castToDatabase($model->getDataType($column), $value);
@@ -275,7 +275,7 @@ abstract class Store
      */
     private function castToDatabase(string $type, $value)
     {
-        if ($value === null || gettype($value) === 'string') {
+        if ($value === null || \gettype($value) === 'string') {
             return $value;
         }
 
@@ -283,9 +283,9 @@ abstract class Store
             case 'datetime':
                 return $value->format('Y-m-d H:i:s');
             case 'array':
-                return json_encode($value);
+                return \json_encode($value);
             case 'newline':
-                return implode("\n", $value);
+                return \implode("\n", $value);
             case 'bool':
             case 'boolean':
                 return $value ? 1 : 0;

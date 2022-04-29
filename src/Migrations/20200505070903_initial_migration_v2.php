@@ -13,7 +13,7 @@ use PHPCensor\Common\Exception\RuntimeException;
  *
  * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
-class InitialMigrationV2 extends AbstractMigration
+final class InitialMigrationV2 extends AbstractMigration
 {
     private const LATEST_V1_MIGRATION_NAME = 'FixedPhpStanPluginName';
 

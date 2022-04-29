@@ -250,6 +250,7 @@ class Builder
         $this->buildErrorWriter->flush();
 
         $this->setErrorTrend();
+        $this->setTestCoverageTrend();
 
         $this->store->save($this->build);
     }
@@ -264,15 +265,25 @@ class Builder
             $this->build->getBranch()
         );
 
-        if (isset($trend[1])) {
-            $previousBuild = $this->store->getById((int)$trend[1]['build_id']);
-            if ($previousBuild &&
-                !\in_array(
-                    $previousBuild->getStatus(),
-                    [Build::STATUS_PENDING, Build::STATUS_RUNNING],
-                    true
-                )) {
-                $this->build->setErrorsTotalPrevious((int)$trend[1]['count']);
+        if (isset($trend[0])) {
+            $this->build->setErrorsTotalPrevious((int)$trend[0]['count']);
+        }
+    }
+
+    protected function setTestCoverageTrend(): void
+    {
+        $this->build->setTestCoverage($this->store->getTestCoverage($this->build->getId()));
+
+        $trend = $this->store->getBuildTestCoverageTrend(
+            $this->build->getId(),
+            $this->build->getProjectId(),
+            $this->build->getBranch()
+        );
+
+        if (!empty($trend[0]) && !empty($trend[0]['coverage'])) {
+            $coverage = \json_decode($trend[0]['coverage'], true);
+            if (isset($coverage['lines'])) {
+                $this->build->setTestCoveragePrevious($coverage['lines']);
             }
         }
     }

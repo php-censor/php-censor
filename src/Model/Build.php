@@ -615,27 +615,58 @@ OUT;
     }
 
     /**
-     * @return int
-     *
      * @throws InvalidArgumentException
      * @throws HttpException
      */
-    public function getErrorsTrend()
+    public function getErrorsTrend(): array
     {
         $total    = (int)$this->getErrorsTotal();
         $previous = $this->getErrorsTotalPrevious();
 
         if (null === $previous) {
-            return 0;
+            return [
+                'trend' => 0,
+                'delta' => 0,
+            ];
         }
 
-        $previous = (int)$previous;
         if ($previous > $total) {
-            return 1;
+            return [
+                'trend' => 1,
+                'delta' => $total - $previous,
+            ];
         } elseif ($previous < $total) {
-            return -1;
+            return [
+                'trend' => -1,
+                'delta' => $total - $previous,
+            ];
         }
 
-        return 0;
+        return [
+            'trend' => 0,
+            'delta' => 0,
+        ];
+    }
+
+    /**
+     * @throws InvalidArgumentException
+     * @throws HttpException
+     */
+    public function getTestCoverageTrend(): array
+    {
+        $total    = $this->getTestCoverage();
+        $previous = $this->getTestCoveragePrevious();
+
+        if (null === $previous) {
+            return [
+                'trend' => 0,
+                'delta' => '0.00',
+            ];
+        }
+
+        return [
+            'trend' => \bccomp($previous, $total, 2),
+            'delta' => \bcsub($total, $previous, 2),
+        ];
     }
 }

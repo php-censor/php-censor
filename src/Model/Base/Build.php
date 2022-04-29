@@ -43,26 +43,28 @@ class Build extends Model
     public const SOURCE_MANUAL_REBUILD_CONSOLE        = 10;
 
     protected array $data = [
-        'id'                    => null,
-        'parent_id'             => null,
-        'project_id'            => null,
-        'commit_id'             => null,
-        'status'                => null,
-        'log'                   => null,
-        'branch'                => null,
-        'tag'                   => null,
-        'create_date'           => null,
-        'start_date'            => null,
-        'finish_date'           => null,
-        'committer_email'       => null,
-        'commit_message'        => null,
-        'extra'                 => [],
-        'environment_id'        => null,
-        'source'                => Build::SOURCE_UNKNOWN,
-        'user_id'               => null,
-        'errors_total'          => null,
-        'errors_total_previous' => null,
-        'errors_new'            => null,
+        'id'                     => null,
+        'parent_id'              => null,
+        'project_id'             => null,
+        'commit_id'              => null,
+        'status'                 => null,
+        'log'                    => null,
+        'branch'                 => null,
+        'tag'                    => null,
+        'create_date'            => null,
+        'start_date'             => null,
+        'finish_date'            => null,
+        'committer_email'        => null,
+        'commit_message'         => null,
+        'extra'                  => [],
+        'environment_id'         => null,
+        'source'                 => Build::SOURCE_UNKNOWN,
+        'user_id'                => null,
+        'errors_total'           => null,
+        'errors_total_previous'  => null,
+        'errors_new'             => null,
+        'test_coverage'          => null,
+        'test_coverage_previous' => null,
     ];
 
     protected array $dataTypes = [
@@ -346,17 +348,9 @@ class Build extends Model
 
             $trend = $store->getBuildErrorsTrend($this->getId(), $this->getProjectId(), $this->getBranch());
 
-            if (isset($trend[1])) {
-                $previousBuild = $store->getById((int)$trend[1]['build_id']);
-                if ($previousBuild &&
-                    !\in_array(
-                        $previousBuild->getStatus(),
-                        [self::STATUS_PENDING, self::STATUS_RUNNING],
-                        true
-                    )) {
-                    $this->setErrorsTotalPrevious((int)$trend[1]['count']);
-                    $store->save($this);
-                }
+            if (isset($trend[0])) {
+                $this->setErrorsTotalPrevious((int)$trend[0]['count']);
+                $store->save($this);
             }
         }
 
@@ -366,6 +360,56 @@ class Build extends Model
     public function setErrorsTotalPrevious(int $value): bool
     {
         return $this->setDataItem('errors_total_previous', $value);
+    }
+
+    /**
+     * @throws InvalidArgumentException|RuntimeException
+     */
+    public function getTestCoverage(): ?string
+    {
+        if ($this->getDataItem('test_coverage') === null &&
+            !in_array($this->getStatus(), [self::STATUS_PENDING, self::STATUS_RUNNING], true)) {
+            /** @var BuildStore $store */
+            $store = $this->storeRegistry->get('Build');
+
+            $this->setTestCoverage($store->getTestCoverage($this->getId()));
+            $store->save($this);
+        }
+
+        return $this->getDataItem('test_coverage');
+    }
+
+    public function setTestCoverage(string $value): bool
+    {
+        return $this->setDataItem('test_coverage', $value);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getTestCoveragePrevious(): ?string
+    {
+        if ($this->getDataItem('test_coverage_previous') === null) {
+            /** @var BuildStore $store */
+            $store = $this->storeRegistry->get('Build');
+
+            $trend = $store->getBuildTestCoverageTrend($this->getId(), $this->getProjectId(), $this->getBranch());
+
+            if (!empty($trend[0]) && !empty($trend[0]['coverage'])) {
+                $coverage = \json_decode($trend[0]['coverage'], true);
+                if (isset($coverage['lines'])) {
+                    $this->setTestCoveragePrevious($coverage['lines']);
+                    $store->save($this);
+                }
+            }
+        }
+
+        return $this->getDataItem('test_coverage_previous');
+    }
+
+    public function setTestCoveragePrevious(string $value): bool
+    {
+        return $this->setDataItem('test_coverage_previous', $value);
     }
 
     /**

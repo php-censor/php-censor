@@ -9,6 +9,7 @@ use PDO;
 use PHPCensor\Exception\HttpException;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildMeta;
+use PHPCensor\Model\Project;
 use PHPCensor\Store;
 
 /**
@@ -480,16 +481,77 @@ class BuildStore extends Store
     /**
      * @throws Exception
      */
+    public function getTestCoverage(int $buildId): string
+    {
+        $coverage = '0.00';
+        $type = 'lines';
+
+        try {
+            $build = $this->getById($buildId);
+
+            if (isset($build) && $build instanceof Build) {
+                $coverageMeta = $this->getMeta(
+                    'php_unit-coverage',
+                    $build->getProjectId(),
+                    $build->getId(),
+                    $build->getBranch()
+                );
+
+                if ($coverageMeta && isset($coverageMeta[0]['meta_value'][$type])) {
+                    $coverage = $coverageMeta[0]['meta_value'][$type];
+                }
+            }
+        } catch (Exception $e) {
+        }
+
+        return $coverage;
+    }
+
+    /**
+     * @throws Exception
+     */
     public function getBuildErrorsTrend(int $buildId, int $projectId, string $branch): array
     {
         $query = '
 SELECT b.id AS {{build_id}}, count(be.id) AS {{count}} FROM {{' . $this->tableName . '}} AS b
 LEFT JOIN {{build_errors}} AS be
 ON b.id = be.build_id
-WHERE b.project_id = :project_id AND b.branch = :branch AND b.id <= :build_id
+WHERE b.project_id = :project_id
+    AND b.branch = :branch
+    AND b.id < :build_id
+    AND b.status NOT IN (' . Build::STATUS_PENDING . ', ' . Build::STATUS_RUNNING . ')
 GROUP BY b.id
-order BY b.id DESC
-LIMIT 2';
+ORDER BY b.id DESC
+LIMIT 1';
+
+        $stmt = $this->databaseManager->getConnection('read')->prepare($query);
+
+        $stmt->bindValue(':build_id', $buildId, PDO::PARAM_INT);
+        $stmt->bindValue(':project_id', $projectId, PDO::PARAM_INT);
+        $stmt->bindValue(':branch', $branch, PDO::PARAM_STR);
+
+        if ($stmt->execute()) {
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        return [];
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getBuildTestCoverageTrend(int $buildId, int $projectId, string $branch): array
+    {
+        $query = '
+SELECT b.id AS {{build_id}}, bm.coverage AS {{coverage}} FROM {{' . $this->tableName . '}} AS b
+LEFT JOIN (SELECT {{build_id}}, {{meta_value}} AS {{coverage}} FROM {{build_metas}} WHERE {{meta_key}} = \'php_unit-coverage\') AS bm
+ON b.id = bm.build_id
+WHERE b.project_id = :project_id
+    AND b.branch = :branch
+    AND b.id < :build_id
+    AND b.status NOT IN (' . Build::STATUS_PENDING . ', ' . Build::STATUS_RUNNING . ')
+ORDER BY b.id DESC
+LIMIT 1';
 
         $stmt = $this->databaseManager->getConnection('read')->prepare($query);
 

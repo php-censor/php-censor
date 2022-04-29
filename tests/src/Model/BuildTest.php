@@ -79,6 +79,8 @@ class BuildTest extends TestCase
             'errors_total'          => null,
             'errors_total_previous' => null,
             'errors_new'            => null,
+            'test_coverage'          => null,
+            'test_coverage_previous' => null,
         ], $build->getDataArray());
 
         try {
