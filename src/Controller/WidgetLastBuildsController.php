@@ -51,6 +51,7 @@ class WidgetLastBuildsController extends WebController
         $view = new View('WidgetLastBuilds/update');
 
         $view->builds         = $builds;
+        $view->environmentStore = $this->storeRegistry->get('Environment');
         $this->view->timeline = $view->render();
 
         $response = new Response();

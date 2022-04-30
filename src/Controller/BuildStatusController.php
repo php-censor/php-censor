@@ -146,6 +146,7 @@ class BuildStatusController extends WebController
      */
     public function phpunitCoverageImage(int $projectId): Response
     {
+        /** @var Project $project */
         $project = $this->projectStore->getById($projectId);
 
         // plastic|flat|flat-squared|social

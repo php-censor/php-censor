@@ -80,39 +80,23 @@ use PHPCensor\Store\EnvironmentStore;
                 ?>
                 </span>
                 <h3 class="timeline-header">
+                    <a href="<?= APP_URL; ?>build/view/<?= $build->getId(); ?>">
+                        #<?= $build->getId(); ?>
+                    </a>
+                    &mdash;
                     <a href="<?= APP_URL; ?>project/view/<?= $build->getProjectId(); ?>">
                         <?= $build->getProject()->getTitle(); ?>
                     </a>
-                    <span><?= $environment; ?></span>
-                    &mdash;
-                    <a href="<?= APP_URL; ?>build/view/<?= $build->getId(); ?>">
-                        <?= Lang::get('build'); ?> #<?= $build->getId(); ?>
-                    </a>
-                    &mdash;
-                    <?= $build->getSourceHumanize(); ?>
-
-                    &mdash;
-                    <?= Lang::get('total_errors'); ?>:
-                    <?php if (!\in_array($build->getStatus(), [Build::STATUS_PENDING, Build::STATUS_RUNNING], true)): ?>
-                        <?php $trend = $build->getErrorsTrend(); ?>
-                        <?php if (1 === $trend): ?>
-                            <span class="arrow_trend_positive"><?= (int)$build->getErrorsTotal(); ?></span><i class="fa fa-arrow-down arrow_trend_positive"></i>
-                        <?php elseif (-1 === $trend): ?>
-                            <span class="arrow_trend_negative"><?= (int)$build->getErrorsTotal(); ?></span><i class="fa fa-arrow-up arrow_trend_negative"></i>
-                        <?php else: ?>
-                            <?= (int)$build->getErrorsTotal(); ?>
-                        <?php endif; ?>
-                    <?php endif; ?>
-
-                    <?php if ($newErrorsCount = $build->getErrorsNew()): ?>
-                        /
-                        <?= Lang::get('new_errors'); ?>:
-                        <?= $newErrorsCount; ?>
+                    <?php if ($environment): ?>
+                        &mdash;
+                        <i class="fa fa-gear"></i>
+                        <span style="color: #999"><?= $environment; ?></span>
                     <?php endif; ?>
                 </h3>
 
                 <div class="timeline-body">
                     <p>
+                    <?= $build->getSourceHumanize(); ?> &mdash;
                     <?php if (\in_array($build->getSource(), Build::$pullRequestSources, true)): ?>
                         <a href="<?= $build->getRemoteBranchLink(); ?>">
                             <i class="fa fa-code-fork"></i>
@@ -142,12 +126,46 @@ use PHPCensor\Store\EnvironmentStore;
                             );
                             $buildCommitMessage = Template::clean($build->getCommitMessage());
                             if ($buildCommitMessage) {
-                                echo '</p><p>';
+                                echo ' &mdash; ';
                                 echo $buildCommitMessage;
                             }
                         }
                     ?>
                     </p>
+                    <?php if (!\in_array($build->getStatus(), [Build::STATUS_PENDING, Build::STATUS_RUNNING], true)): ?>
+                        <p style="color: #999">
+                            <?= Lang::get('total_errors'); ?>:
+                            <?php if (!\in_array($build->getStatus(), [Build::STATUS_PENDING, Build::STATUS_RUNNING], true)): ?>
+                                <?php $trend = $build->getErrorsTrend(); ?>
+                                <?php if (1 === $trend['trend']): ?>
+                                    <span class="arrow_trend_positive"><?= (int)$build->getErrorsTotal(); ?> (<?= $trend['delta']; ?>)</span><i class="fa fa-arrow-down arrow_trend_positive"></i>
+                                <?php elseif (-1 === $trend['trend']): ?>
+                                    <span class="arrow_trend_negative"><?= (int)$build->getErrorsTotal(); ?> (+<?= $trend['delta']; ?>)</span><i class="fa fa-arrow-up arrow_trend_negative"></i>
+                                <?php else: ?>
+                                    <?= (int)$build->getErrorsTotal(); ?>
+                                <?php endif; ?>
+                            <?php endif; ?>
+
+                            <?php if ($newErrorsCount = $build->getErrorsNew()): ?>
+                                /
+                                <?= Lang::get('new_errors'); ?>:
+                                <?= $newErrorsCount; ?>
+                            <?php endif; ?>
+
+                            |
+                            <?= Lang::get('test_coverage'); ?>:
+                            <?php if (!\in_array($build->getStatus(), [Build::STATUS_PENDING, Build::STATUS_RUNNING], true)): ?>
+                                <?php $trend = $build->getTestCoverageTrend(); ?>
+                                <?php if (-1 === $trend['trend']): ?>
+                                    <span class="arrow_trend_positive"><?= $build->getTestCoverage(); ?>% (+<?= $trend['delta']; ?>%)</span><i class="fa fa-arrow-up arrow_trend_positive"></i>
+                                <?php elseif (1 === $trend['trend']): ?>
+                                    <span class="arrow_trend_negative"><?= $build->getTestCoverage(); ?>% (<?= $trend['delta']; ?>%)</span><i class="fa fa-arrow-down arrow_trend_negative"></i>
+                                <?php else: ?>
+                                    <?= $build->getTestCoverage(); ?>%
+                                <?php endif; ?>
+                            <?php endif; ?>
+                        </p>
+                    <?php endif; ?>
                 </div>
             </div>
         </li>
