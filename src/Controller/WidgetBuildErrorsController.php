@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace PHPCensor\Controller;
 
 use PHPCensor\Exception\HttpException;
-use PHPCensor\Http\Response;
+use Symfony\Component\HttpFoundation\Response;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\ProjectStore;
 use PHPCensor\View;

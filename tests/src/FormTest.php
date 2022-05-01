@@ -5,6 +5,7 @@ namespace Tests\PHPCensor;
 use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Form;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class FormTest extends TestCase
 {
@@ -205,15 +206,6 @@ class FormTest extends TestCase
 
         $e = new Form\Element\Url();
         self::assertTrue(\strpos($e->render(), 'url') !== false);
-
-        $_SESSION = [];
-
-        $e = new Form\Element\Csrf();
-        self::assertTrue(\strpos($e->render(), $e->getValue()) !== false);
-        self::assertEquals($_SESSION['csrf_tokens'][$e->getName()], $e->getValue());
-        self::assertTrue($e->validate());
-        $e->setValue('111');
-        self::assertFalse($e->validate());
 
         $e = new Form\Element\Password();
         self::assertTrue(\strpos($e->render(), 'password') !== false);

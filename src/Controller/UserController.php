@@ -8,8 +8,8 @@ use PHPCensor\Exception\HttpException\ForbiddenException;
 use PHPCensor\Exception\HttpException\NotFoundException;
 use PHPCensor\Form;
 use PHPCensor\Helper\Lang;
-use PHPCensor\Http\Response;
-use PHPCensor\Http\Response\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use PHPCensor\Model\User;
 use PHPCensor\Service\UserService;
 use PHPCensor\Store\UserStore;
@@ -176,7 +176,7 @@ class UserController extends WebController
         $method = $this->request->getMethod();
 
         if ($method === 'POST') {
-            $values = $this->getParams();
+            $values = $this->request->request->all();
         } else {
             $values = [];
         }
@@ -207,10 +207,7 @@ class UserController extends WebController
             $isAdmin
         );
 
-        $response = new RedirectResponse();
-        $response->setHeader('Location', APP_URL . 'user');
-
-        return $response;
+        return new RedirectResponse(APP_URL . 'user');
     }
 
     /**
@@ -241,7 +238,7 @@ class UserController extends WebController
         $this->layout->title = $user->getName();
         $this->layout->subtitle = Lang::get('edit_user');
 
-        $values = \array_merge($user->getDataArray(), $this->getParams());
+        $values = \array_merge($user->getDataArray(), $this->request->request->all());
         $form = $this->userForm($values, 'edit/' . $userId);
 
         if ($method != 'POST' || ($method == 'POST' && !$form->validate())) {
@@ -265,10 +262,7 @@ class UserController extends WebController
 
         $this->userService->updateUser($user, $name, $email, $password, $isAdmin);
 
-        $response = new RedirectResponse();
-        $response->setHeader('Location', APP_URL . 'user');
-
-        return $response;
+        return new RedirectResponse(APP_URL . 'user');
     }
 
     /**
@@ -353,9 +347,6 @@ class UserController extends WebController
 
         $this->userService->deleteUser($user);
 
-        $response = new RedirectResponse();
-        $response->setHeader('Location', APP_URL . 'user');
-
-        return $response;
+        return new RedirectResponse(APP_URL . 'user');
     }
 }

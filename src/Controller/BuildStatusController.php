@@ -9,11 +9,10 @@ use PHPCensor\BuildFactory;
 use PHPCensor\Exception\HttpException;
 use PHPCensor\Exception\HttpException\NotFoundException;
 use PHPCensor\Common\Exception\InvalidArgumentException;
-use PHPCensor\Http\Response;
-use PHPCensor\Http\Response\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\Project;
-use PHPCensor\Service\BuildService;
 use PHPCensor\Service\BuildStatusService;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\ProjectStore;
@@ -112,7 +111,7 @@ class BuildStatusController extends WebController
     {
         $response = new Response();
 
-        $response->setHeader('Content-Type', 'text/xml');
+        $response->headers->set('Content-Type', 'text/xml');
         $response->setContent($xml->asXML());
 
         return $response;
@@ -188,7 +187,7 @@ class BuildStatusController extends WebController
 
         $response = new Response();
 
-        $response->setHeader('Content-Type', 'image/svg+xml');
+        $response->headers->set('Content-Type', 'image/svg+xml');
         $response->setContent($image);
 
         return $response;
@@ -218,10 +217,7 @@ class BuildStatusController extends WebController
         $status = $this->getStatus($project, $branch);
 
         if (\is_null($status)) {
-            $response = new RedirectResponse();
-            $response->setHeader('Location', '/');
-
-            return $response;
+            return new RedirectResponse('/');
         }
 
         $color    = ($status == 'passing') ? 'green' : 'red';
@@ -250,7 +246,7 @@ class BuildStatusController extends WebController
 
         $response = new Response();
 
-        $response->setHeader('Content-Type', 'image/svg+xml');
+        $response->headers->set('Content-Type', 'image/svg+xml');
         $response->setContent($image);
 
         return $response;

@@ -37,6 +37,11 @@ var coveragePlugin = ActiveBuild.UiPlugin.extend({
     },
 
     onUpdate: function (e) {
+        if (!e.queryData || $.isEmptyObject(e.queryData)) {
+            $('#build-php_unit-coverage').hide();
+            return;
+        }
+
         this.lastData = e.queryData;
         this.displayChart();
     },

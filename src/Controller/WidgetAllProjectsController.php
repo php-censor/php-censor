@@ -6,7 +6,7 @@ namespace PHPCensor\Controller;
 
 use Exception;
 use PHPCensor\Exception\HttpException;
-use PHPCensor\Http\Response;
+use Symfony\Component\HttpFoundation\Response;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\Project;
 use PHPCensor\Store\BuildStore;

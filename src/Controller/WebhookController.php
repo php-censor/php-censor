@@ -13,7 +13,8 @@ use PHPCensor\Exception\HttpException\NotFoundException;
 use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Helper\Lang;
-use PHPCensor\Http\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\Build\BitbucketBuild;
 use PHPCensor\Model\Build\BitbucketServerBuild;
@@ -80,17 +81,17 @@ class WebhookController extends Controller
      */
     public function handleAction(string $action, array $actionParams): Response
     {
-        $response = new Response\JsonResponse();
+        $response = new JsonResponse();
         try {
             $data = parent::handleAction($action, $actionParams);
             if (isset($data['responseCode'])) {
-                $response->setResponseCode($data['responseCode']);
+                $response->setStatusCode($data['responseCode']);
                 unset($data['responseCode']);
             }
             $response->setContent($data);
         } catch (Exception $ex) {
-            $response->setResponseCode(500);
-            $response->setContent(['status' => 'failed', 'error' => $ex->getMessage()]);
+            $response->setStatusCode(500);
+            $response->setData(['status' => 'failed', 'error' => $ex->getMessage()]);
         }
 
         return $response;
@@ -855,7 +856,7 @@ class WebhookController extends Controller
             'headers' => $headers,
             'query'   => $params,
         ]);
-        $status = (int)$response->getStatusCode();
+        $status = $response->getStatusCode();
 
         // Check we got a success response:
         if ($status < 200 || $status >= 300) {

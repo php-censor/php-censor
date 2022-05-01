@@ -58,6 +58,7 @@
         "php-censor/common": "~0.6.0",
 
         "swiftmailer/swiftmailer":         "^6.2",
+        "symfony/http-foundation":         "^5.4",
         "symfony/yaml":                    "^5.4",
         "symfony/console":                 "^5.4",
         "symfony/finder":                  "^5.4",

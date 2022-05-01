@@ -7,9 +7,10 @@ namespace Tests\PHPCensor;
 use PHPCensor\Configuration;
 use PHPCensor\Controller;
 use PHPCensor\DatabaseManager;
-use PHPCensor\Http\Request;
+use Symfony\Component\HttpFoundation\Request;
 use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class TestController extends Controller
 {
@@ -43,7 +44,7 @@ class ControllerTest extends TestCase
             ->getMockBuilder(Request::class)
             ->getMock();
 
-        $this->controller = new TestController($configuration, $storeRegistry, $this->request);
+        $this->controller = new TestController($configuration, $storeRegistry, $this->request, new Session());
     }
 
     public function testConstruct()
@@ -51,52 +52,22 @@ class ControllerTest extends TestCase
         self::assertInstanceOf(Controller::class, $this->controller);
     }
 
-    public function testGetParams()
-    {
-        $this->request
-            ->expects($this->once())
-            ->method('getParams')
-            ->willReturn(['param' => 'value']);
-
-        self::assertEquals(['param' => 'value'], $this->controller->getParams());
-    }
-
     public function testGetParam()
     {
         $this->request
             ->expects($this->once())
-            ->method('getParam')
+            ->method('get')
             ->with('param2')
             ->willReturn('value2');
 
         self::assertEquals('value2', $this->controller->getParam('param2'));
     }
 
-    public function testSetParam()
-    {
-        $this->request
-            ->expects($this->once())
-            ->method('setParam')
-            ->with('param3', 'value3');
-
-        $this->controller->setParam('param3', 'value3');
-    }
-
-    public function testUnsetParam()
-    {
-        $this->request
-            ->expects($this->once())
-            ->method('unsetParam')
-            ->with('param4');
-
-        $this->controller->unsetParam('param4');
-    }
-
     public function testHandleAction()
     {
         $this->request
             ->expects($this->once())
-            ->method('getParam')
+            ->method('get')
             ->with('param5');
 
         $this->controller->handleAction('getParam', ['param5']);

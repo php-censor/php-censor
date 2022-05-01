@@ -124,7 +124,8 @@ class Lang
     public static function init(
         ConfigurationInterface $config,
         StoreRegistry $storeRegistry,
-        ?string $languageForce = null
+        ?string $languageForce = null,
+        ?string $sessionUserId = null
     ) {
         self::$defaultStrings = self::loadLanguage(self::DEFAULT_LANGUAGE);
         self::loadAvailableLanguages();
@@ -134,10 +135,10 @@ class Lang
         }
 
         $user = null;
-        if (!empty($_SESSION['php-censor-user-id'])) {
+        if (!empty($sessionUserId)) {
             /** @var UserStore $userStore */
             $userStore = $storeRegistry->get('User');
-            $user      = $userStore->getById((int)$_SESSION['php-censor-user-id']);
+            $user      = $userStore->getById((int)$sessionUserId);
         }
 
         if ($user) {

@@ -11,7 +11,7 @@ use PHPCensor\Exception\HttpException\NotFoundException;
 use PHPCensor\Form;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Helper\SshKey;
-use PHPCensor\Http\Response\RedirectResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\Project;
 use PHPCensor\Service\BuildService;
@@ -23,7 +23,7 @@ use PHPCensor\WebController;
 use PHPCensor\Helper\Branch;
 use PHPCensor\Store\EnvironmentStore;
 use PHPCensor\Common\Exception\RuntimeException;
-use PHPCensor\Http\Response;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @package    PHP Censor
@@ -195,7 +195,7 @@ class ProjectController extends WebController
      * @return RedirectResponse
      *
      */
-    public function build($projectId)
+    public function build($projectId): RedirectResponse
     {
         /* @var Project $project */
         $project = $this->projectStore->getById($projectId);
@@ -256,13 +256,10 @@ class ProjectController extends WebController
         );
 
         if ($this->buildService->queueError) {
-            $_SESSION['global_error'] = Lang::get('add_to_queue_failed');
+            $this->session->set('global_error', Lang::get('add_to_queue_failed'));
         }
 
-        $response = new RedirectResponse();
-        $response->setHeader('Location', APP_URL.'build/view/' . $build->getId());
-
-        return $response;
+        return new RedirectResponse(APP_URL.'build/view/' . $build->getId());
     }
 
     /**
@@ -279,10 +276,7 @@ class ProjectController extends WebController
         $project = $this->projectStore->getById($projectId);
         $this->projectService->deleteProject($project);
 
-        $response = new RedirectResponse();
-        $response->setHeader('Location', APP_URL);
-
-        return $response;
+        return new RedirectResponse(APP_URL);
     }
 
     /**
@@ -298,10 +292,7 @@ class ProjectController extends WebController
 
         $this->buildService->deleteAllByProject($projectId);
 
-        $response = new RedirectResponse();
-        $response->setHeader('Location', APP_URL . 'project/view/' . $projectId);
-
-        return $response;
+        return new RedirectResponse(APP_URL . 'project/view/' . $projectId);
     }
 
     /**
@@ -317,10 +308,7 @@ class ProjectController extends WebController
 
         $this->buildService->deleteOldByProject($projectId);
 
-        $response = new RedirectResponse();
-        $response->setHeader('Location', APP_URL . 'project/view/' . $projectId);
-
-        return $response;
+        return new RedirectResponse(APP_URL . 'project/view/' . $projectId);
     }
 
     /**
@@ -378,7 +366,7 @@ class ProjectController extends WebController
         $this->requireAdmin();
 
         $method                   = $this->request->getMethod();
-        $values                   = $this->getParams();
+        $values                   = $this->request->request->all();;
         $values['default_branch'] = null;
 
         if ($method !== 'POST') {
@@ -421,10 +409,7 @@ class ProjectController extends WebController
             $user    = $this->getUser();
             $project = $this->projectService->createProject($title, $type, $reference, $user->getId(), $options);
 
-            $response = new RedirectResponse();
-            $response->setHeader('Location', APP_URL.'project/view/' . $project->getId());
-
-            return $response;
+            return new RedirectResponse(APP_URL.'project/view/' . $project->getId());
         }
     }
 
@@ -468,7 +453,7 @@ class ProjectController extends WebController
         }
 
         if ($method === 'POST') {
-            $values = $this->getParams();
+            $values = $this->request->request->all();
         }
 
         $form = $this->projectForm($values, 'edit/' . $projectId);
@@ -507,10 +492,7 @@ class ProjectController extends WebController
 
         $project = $this->projectService->updateProject($project, $title, $type, $reference, $options);
 
-        $response = new RedirectResponse();
-        $response->setHeader('Location', APP_URL.'project/view/' . $project->getId());
-
-        return $response;
+        return new RedirectResponse(APP_URL.'project/view/' . $project->getId());
     }
 
     /**

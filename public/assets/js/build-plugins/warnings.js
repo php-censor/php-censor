@@ -62,6 +62,11 @@ var warningsPlugin = ActiveBuild.UiPlugin.extend({
     },
 
     onUpdate: function (e) {
+        if (!e.queryData || $.isEmptyObject(e.queryData)) {
+            $('#build-warnings').hide();
+            return;
+        }
+
         var self   = this;
         var builds = e.queryData;
 

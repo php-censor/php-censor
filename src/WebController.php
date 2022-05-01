@@ -6,11 +6,12 @@ namespace PHPCensor;
 
 use PHPCensor\Exception\HttpException;
 use PHPCensor\Exception\HttpException\ForbiddenException;
-use PHPCensor\Http\Request;
-use PHPCensor\Http\Response;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use PHPCensor\Model\User;
 use PHPCensor\Store\UserStore;
 use PHPCensor\Common\Application\ConfigurationInterface;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * @package    PHP Censor
@@ -31,9 +32,10 @@ abstract class WebController extends Controller
     public function __construct(
         ConfigurationInterface $configuration,
         StoreRegistry $storeRegistry,
-        Request $request
+        Request $request,
+        Session $session
     ) {
-        parent::__construct($configuration, $storeRegistry, $request);
+        parent::__construct($configuration, $storeRegistry, $request, $session);
 
         $class           = \explode('\\', \get_class($this));
         $this->className = \substr(\array_pop($class), 0, -10);
@@ -52,6 +54,9 @@ abstract class WebController extends Controller
 
             $this->layout->version         = $version;
             $this->layout->isLoginDisabled = (bool)$this->configuration->get('php-censor.security.disable_auth', false);
+
+            $this->layout->globalError = $this->session->get('global_error');
+            $this->session->remove('global_error');
 
             $groups     = [];
             $groupStore = $this->storeRegistry->get('ProjectGroup');
@@ -140,13 +145,14 @@ abstract class WebController extends Controller
      */
     protected function getUser(): ?User
     {
-        if (empty($_SESSION['php-censor-user-id'])) {
+        $sessionUserId = $this->session->get('php-censor-user-id');
+        if (empty($sessionUserId)) {
             return null;
         }
 
         /** @var UserStore $userStore */
         $userStore = $this->storeRegistry->get('User');
 
-        return $userStore->getById((int)$_SESSION['php-censor-user-id']);
+        return $userStore->getById((int)$sessionUserId);
     }
 }
