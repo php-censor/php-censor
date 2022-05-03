@@ -22,8 +22,6 @@ class HipchatNotify extends Plugin
     protected $authToken;
     protected $color;
     protected $notify;
-    protected $userAgent;
-    protected $cookie;
     protected $message;
     protected $room;
 
@@ -41,10 +39,6 @@ class HipchatNotify extends Plugin
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
         parent::__construct($builder, $build, $options);
-
-        $version         = $this->builder->interpolate('%SYSTEM_VERSION%');
-        $this->userAgent = 'PHP Censor/' . $version;
-        $this->cookie    = "php-censor-cookie";
 
         if (!\is_array($options) || !isset($options['room']) || (!isset($options['authToken']) && !isset($options['auth_token']))) {
             throw new InvalidArgumentException('Please define room and authToken for hipchat_notify plugin.');

@@ -38,7 +38,7 @@ var phpspecPlugin = ActiveBuild.UiPlugin.extend({
     },
 
     onUpdate: function (e) {
-        if (!e.queryData) {
+        if (!e.queryData || $.isEmptyObject(e.queryData)) {
             $('#build-php_spec-errors').hide();
             return;
         }

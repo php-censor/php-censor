@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace PHPCensor;
 
-use PHPCensor\Http\Request;
-use PHPCensor\Http\Response;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use PHPCensor\Common\Application\ConfigurationInterface;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * @package    PHP Censor
@@ -19,6 +20,8 @@ abstract class Controller
 {
     protected Request $request;
 
+    protected Session $session;
+
     protected ConfigurationInterface $configuration;
 
     protected StoreRegistry $storeRegistry;
@@ -26,11 +29,13 @@ abstract class Controller
     public function __construct(
         ConfigurationInterface $configuration,
         StoreRegistry $storeRegistry,
-        Request $request
+        Request $request,
+        Session $session
     ) {
         $this->configuration = $configuration;
         $this->storeRegistry = $storeRegistry;
         $this->request       = $request;
+        $this->session       = $session;
     }
 
     /**
@@ -58,14 +63,6 @@ abstract class Controller
     }
 
     /**
-     * Get a hash of incoming request parameters ($_GET, $_POST)
-     */
-    public function getParams(): array
-    {
-        return $this->request->getParams();
-    }
-
-    /**
      * Get a specific incoming request parameter.
      *
      * @param mixed  $default Default return value (if key does not exist)
@@ -74,24 +71,6 @@ abstract class Controller
      */
     public function getParam(string $key, $default = null)
     {
-        return $this->request->getParam($key, $default);
-    }
-
-    /**
-     * Change the value of an incoming request parameter.
-     *
-     * @param mixed  $value
-     */
-    public function setParam(string $key, $value)
-    {
-        $this->request->setParam($key, $value);
-    }
-
-    /**
-     * Remove an incoming request parameter.
-     */
-    public function unsetParam(string $key): void
-    {
-        $this->request->unsetParam($key);
+        return $this->request->get($key, $default);
     }
 }

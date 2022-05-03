@@ -4,15 +4,16 @@ use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
 use PHPCensor\StoreRegistry;
 use PHPCensor\Application;
-use PHPCensor\Http\Request;
-
-\session_start();
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /** @var $configuration ConfigurationInterface */
 /** @var $databaseManager DatabaseManager */
 /** @var $storeRegistry StoreRegistry */
+/** @var $session Session */
 require_once(\dirname(__DIR__) . '/bootstrap.php');
 
-$application = new Application($configuration, $storeRegistry, new Request());
+$request = Request::createFromGlobals();
+$application = new Application($configuration, $storeRegistry, $request, $session);
 
-echo $application->handleRequest();
+$application->handleRequest()->send();

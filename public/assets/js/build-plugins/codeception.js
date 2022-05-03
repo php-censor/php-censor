@@ -43,7 +43,7 @@ var codeceptionPlugin = ActiveBuild.UiPlugin.extend({
     },
 
     onUpdateData: function (e) {
-        if (!e.queryData) {
+        if (!e.queryData || $.isEmptyObject(e.queryData)) {
             $('#build-codeception-errors').hide();
             return;
         }
@@ -78,7 +78,8 @@ var codeceptionPlugin = ActiveBuild.UiPlugin.extend({
     },
 
     onUpdateMeta: function (e) {
-        if (!e.queryData) {
+        if (!e.queryData || $.isEmptyObject(e.queryData)) {
+            $('#build-codeception-errors').hide();
             return;
         }
 

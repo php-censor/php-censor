@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PHPCensor\Form\Element;
 
 use PHPCensor\View;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * @package    PHP Censor
@@ -15,11 +16,19 @@ use PHPCensor\View;
  */
 class Csrf extends Hidden
 {
+    private Session $session;
+
+    public function __construct(Session $session, ?string $name = null)
+    {
+        parent::__construct($name);
+
+        $this->session = $session;
+    }
+
     public function validate(): bool
     {
-        $sessionToken = isset($_SESSION['csrf_tokens'][$this->getName()])
-            ? $_SESSION['csrf_tokens'][$this->getName()]
-            : null;
+        $tokens = $this->session->get('csrf_tokens');
+        $sessionToken = isset($tokens[$this->getName()]) ? $tokens[$this->getName()] : null;
 
         if ($this->value !== $sessionToken) {
             return false;
@@ -38,6 +47,9 @@ class Csrf extends Hidden
 
         $view->value = $this->getValue();
 
-        $_SESSION['csrf_tokens'][$this->getName()] = $this->getValue();
+        $tokens = $this->session->get('csrf_tokens');
+        $tokens[$this->getName()] = $this->getValue();
+
+        $this->session->set('csrf_tokens', $tokens);
     }
 }

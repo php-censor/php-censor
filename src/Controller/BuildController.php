@@ -8,9 +8,9 @@ use JasonGrimes\Paginator;
 use PHPCensor\BuildFactory;
 use PHPCensor\Exception\HttpException\NotFoundException;
 use PHPCensor\Helper\Lang;
-use PHPCensor\Http\Response;
-use PHPCensor\Http\Response\JsonResponse;
-use PHPCensor\Http\Response\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\User;
 use PHPCensor\Service\BuildService;
@@ -109,7 +109,7 @@ class BuildController extends WebController
 
         $this->view->plugin     = urldecode($plugin);
         $this->view->plugins    = $errorStore->getKnownPlugins($buildId, $severity, $isNew);
-        $this->view->severity   = urldecode(null !== $severity ? $severity : '');
+        $this->view->severity   = urldecode(null !== $severity ? (string)$severity : '');
         $this->view->severities = $errorStore->getKnownSeverities($buildId, $plugin, $isNew);
         $this->view->isNew      = urldecode($isNew);
         $this->view->isNews     = ['only_new', 'only_old'];
@@ -304,13 +304,10 @@ class BuildController extends WebController
         $build = $this->buildService->createDuplicateBuild($copy, Build::SOURCE_MANUAL_REBUILD_WEB);
 
         if ($this->buildService->queueError) {
-            $_SESSION['global_error'] = Lang::get('add_to_queue_failed');
+            $this->session->set('global_error', Lang::get('add_to_queue_failed'));
         }
 
-        $response = new RedirectResponse();
-        $response->setHeader('Location', APP_URL.'build/view/' . $build->getId());
-
-        return $response;
+        return new RedirectResponse(APP_URL.'build/view/' . $build->getId());
     }
 
     /**
@@ -331,10 +328,7 @@ class BuildController extends WebController
 
         $this->buildService->deleteBuild($build);
 
-        $response = new RedirectResponse();
-        $response->setHeader('Location', APP_URL.'project/view/' . $build->getProjectId());
-
-        return $response;
+        return new RedirectResponse(APP_URL.'project/view/' . $build->getProjectId());
     }
 
     /**
@@ -385,8 +379,8 @@ class BuildController extends WebController
 
         $build = $this->buildFactory->getBuildById($buildId);
         if (!$build) {
-            $response->setResponseCode(404);
-            $response->setContent([]);
+            $response->setStatusCode(404);
+            $response->setData([]);
 
             return $response;
         }
@@ -410,7 +404,7 @@ class BuildController extends WebController
             $page
         );
 
-        $response->setContent($data);
+        $response->setData($data);
 
         return $response;
     }
@@ -420,16 +414,13 @@ class BuildController extends WebController
         $build     = $this->buildFactory->getBuildById($buildId);
         $key       = $this->getParam('key');
         $numBuilds = (int)$this->getParam('num_builds', 1);
-        $data      = null;
+        $data      = [];
 
         if ($key && $build) {
             $data = $this->buildStore->getMeta($key, $build->getProjectId(), $buildId, $build->getBranch(), $numBuilds);
         }
 
-        $response = new JsonResponse();
-        $response->setContent($data);
-
-        return $response;
+        return new JsonResponse($data);
     }
 
     public function ajaxQueue(): Response
@@ -439,9 +430,6 @@ class BuildController extends WebController
             'running' => $this->formatBuilds($this->buildStore->getByStatus(Build::STATUS_RUNNING)),
         ];
 
-        $response = new JsonResponse();
-        $response->setContent($rtn);
-
-        return $response;
+        return new JsonResponse($rtn);
     }
 }

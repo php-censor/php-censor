@@ -7,8 +7,8 @@ namespace PHPCensor\Controller;
 use DateTime;
 use PHPCensor\Form;
 use PHPCensor\Helper\Lang;
-use PHPCensor\Http\Response;
-use PHPCensor\Http\Response\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use PHPCensor\Model\ProjectGroup;
 use PHPCensor\Model\User;
 use PHPCensor\Store\ProjectGroupStore;
@@ -92,8 +92,7 @@ class GroupController extends WebController
 
             $this->groupStore->save($group);
 
-            $response = new RedirectResponse();
-            $response->setHeader('Location', APP_URL.'group');
+            $response = new RedirectResponse(APP_URL.'group');
 
             return $response;
         }
@@ -134,8 +133,7 @@ class GroupController extends WebController
         $group = $this->groupStore->getById($groupId);
 
         $this->groupStore->delete($group);
-        $response = new RedirectResponse();
-        $response->setHeader('Location', APP_URL.'group');
+        $response = new RedirectResponse(APP_URL.'group');
 
         return $response;
     }

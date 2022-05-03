@@ -7,13 +7,14 @@ namespace PHPCensor;
 use Exception;
 use PHPCensor\Exception\HttpException;
 use PHPCensor\Exception\HttpException\NotFoundException;
-use PHPCensor\Http\Request;
-use PHPCensor\Http\Response;
-use PHPCensor\Http\Response\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use PHPCensor\Http\Router;
 use PHPCensor\Model\User;
 use PHPCensor\Store\UserStore;
 use PHPCensor\Common\Application\ConfigurationInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * @package    PHP Censor
@@ -30,6 +31,8 @@ class Application
 
     private Request $request;
 
+    private Session $session;
+
     private ConfigurationInterface $configuration;
 
     private StoreRegistry $storeRegistry;
@@ -39,15 +42,13 @@ class Application
     public function __construct(
         ConfigurationInterface $configuration,
         StoreRegistry $storeRegistry,
-        ?Request $request = null
+        Request $request,
+        Session $session
     ) {
-        $this->configuration   = $configuration;
-        $this->storeRegistry   = $storeRegistry;
-
-        $this->request = new Request();
-        if (!\is_null($request)) {
-            $this->request = $request;
-        }
+        $this->configuration = $configuration;
+        $this->storeRegistry = $storeRegistry;
+        $this->request       = $request;
+        $this->session       = $session;
 
         $this->router = new Router($this, $this->request);
 
@@ -63,10 +64,13 @@ class Application
         $route   = '/:controller/:action';
         $opts    = ['controller' => 'Home', 'action' => 'index'];
 
+        $session = $this->session;
+
         // Inlined as a closure to fix "using $this when not in object context" on 5.3
-        $validateSession = function () {
-            if (!empty($_SESSION['php-censor-user-id'])) {
-                $user = $this->storeRegistry->get('User')->getById((int)$_SESSION['php-censor-user-id']);
+        $validateSession = function () use ($session) {
+            $sessionUserId = $session->get('php-censor-user-id');
+            if (!empty($sessionUserId)) {
+                $user = $this->storeRegistry->get('User')->getById((int)$sessionUserId);
 
                 if ($user) {
                     return true;
@@ -79,17 +83,17 @@ class Application
         $skipAuth = [$this, 'shouldSkipAuth'];
 
         // Handler for the route we're about to register, checks for a valid session where necessary:
-        $routeHandler = function ($route, Response &$response) use (&$request, $validateSession, $skipAuth) {
+        $routeHandler = function ($route, Response &$response) use (&$request, $validateSession, $skipAuth, $session) {
             $skipValidation = \in_array($route['controller'], ['session', 'webhook', 'build-status'], true);
 
             if (!$skipValidation && !$validateSession() && (!\is_callable($skipAuth) || !$skipAuth())) {
-                if ($request->isAjax()) {
-                    $response->setResponseCode(401);
-                    $response->setContent('');
+                if ($request->isXmlHttpRequest()) {
+                    $response->setStatusCode(Response::HTTP_UNAUTHORIZED);
+                    $response->setContent(null);
                 } else {
-                    $_SESSION['php-censor-login-redirect'] = \substr($request->getPath(), 1);
-                    $response = new RedirectResponse($response);
-                    $response->setHeader('Location', APP_URL . 'session/login');
+                    $session->set('php-censor-login-redirect', \substr($request->getPathInfo(), 1));
+
+                    $response = new RedirectResponse(APP_URL . 'session/login');
                 }
 
                 return false;
@@ -140,14 +144,15 @@ class Application
      */
     private function getUser(): ?User
     {
-        if (empty($_SESSION['php-censor-user-id'])) {
+        $sessionUserId = $this->session->get('php-censor-user-id');
+        if (empty($sessionUserId)) {
             return null;
         }
 
         /** @var UserStore $userStore */
         $userStore = $this->storeRegistry->get('User');
 
-        return $userStore->getById((int)$_SESSION['php-censor-user-id']);
+        return $userStore->getById((int)$sessionUserId);
     }
 
     /**
@@ -167,7 +172,7 @@ class Application
 
             $response = new Response();
 
-            $response->setResponseCode($ex->getErrorCode());
+            $response->setStatusCode($ex->getErrorCode());
             $response->setContent($view->render());
         } catch (Exception $ex) {
             $view = new View('exception');
@@ -175,7 +180,7 @@ class Application
 
             $response = new Response();
 
-            $response->setResponseCode(500);
+            $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
             $response->setContent($view->render());
         }
 
@@ -188,7 +193,7 @@ class Application
     protected function loadController(string $class): Controller
     {
         /** @var Controller $controller */
-        $controller = new $class($this->configuration, $this->storeRegistry, $this->request);
+        $controller = new $class($this->configuration, $this->storeRegistry, $this->request, $this->session);
 
         $controller->init();
 

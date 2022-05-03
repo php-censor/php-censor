@@ -37,6 +37,11 @@ var locPlugin = ActiveBuild.UiPlugin.extend({
     },
 
     onUpdate: function (e) {
+        if (!e.queryData || $.isEmptyObject(e.queryData)) {
+            $('#build-lines').hide();
+            return;
+        }
+
         this.lastData = e.queryData;
         this.displayChart();
     },

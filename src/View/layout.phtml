@@ -256,11 +256,9 @@ use PHPCensor\Model\User;
         <!-- Main content -->
         <section class="content">
             <?php
-            if (!empty($_SESSION['global_error'])) {
-                $message = $_SESSION['global_error'];
-                unset($_SESSION['global_error']);
-                print '<div class="alert alert-danger">' . $message . '</div>';
-            }
+                if (!empty($globalError)) {
+                    echo '<div class="alert alert-danger">' . $globalError . '</div>';
+                }
             ?>
 
             <?= $content; ?>

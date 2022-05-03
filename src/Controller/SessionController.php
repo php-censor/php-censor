@@ -13,8 +13,9 @@ use PHPCensor\Form\Element\Submit;
 use PHPCensor\Form\Element\Text;
 use PHPCensor\Helper\Email;
 use PHPCensor\Helper\Lang;
-use PHPCensor\Http\Response;
-use PHPCensor\Http\Response\RedirectResponse;
+use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use PHPCensor\Security\Authentication\Service;
 use PHPCensor\Store\UserStore;
 use PHPCensor\WebController;
@@ -51,7 +52,7 @@ class SessionController extends WebController
         $form->setMethod('POST');
         $form->setAction(APP_URL . 'session/login');
 
-        $form->addField(new Csrf('login_form'));
+        $form->addField(new Csrf($this->session, 'login_form'));
 
         $email = new Text('email');
         $email->setLabel(Lang::get('login'));
@@ -93,22 +94,20 @@ class SessionController extends WebController
      */
     public function login()
     {
-        if (!empty($_COOKIE['remember_key'])) {
-            $user = $this->userStore->getByRememberKey($_COOKIE['remember_key']);
+        $rememberKey = $this->request->cookies->get('remember_key');
+        if (!empty($rememberKey)) {
+            $user = $this->userStore->getByRememberKey($rememberKey);
             if ($user) {
-                $_SESSION['php-censor-user-id'] = $user->getId();
+                $this->session->set('php-censor-user-id', $user->getId());
 
-                $response = new RedirectResponse();
-                $response->setHeader('Location', $this->getLoginRedirect());
-
-                return $response;
+                return new RedirectResponse($this->getLoginRedirect());
             }
         }
 
         $method = $this->request->getMethod();
 
         if ($method === 'POST') {
-            $values = $this->getParams();
+            $values = $this->request->request->all();
         } else {
             $values = [];
         }
@@ -146,27 +145,25 @@ class SessionController extends WebController
                 }
 
                 if (!$isLoginFailure) {
-                    $_SESSION['php-censor-user-id'] = $user->getId();
+                    $this->session->set('php-censor-user-id', $user->getId());
 
+                    $response = new RedirectResponse($this->getLoginRedirect());
                     if ($rememberMe) {
                         $rememberKey = \md5((string)\microtime(true));
 
                         $user->setRememberKey($rememberKey);
                         $this->userStore->save($user);
 
-                        \setcookie(
+                        $response->headers->setCookie(new Cookie(
                             'remember_key',
                             $rememberKey,
                             (\time() + 60 * 60 * 24 * 30),
-                            '',
-                            '',
+                            '/',
+                            null,
                             false,
                             true
-                        );
+                        ));
                     }
-
-                    $response = new RedirectResponse();
-                    $response->setHeader('Location', $this->getLoginRedirect());
 
                     return $response;
                 }
@@ -184,11 +181,11 @@ class SessionController extends WebController
      */
     public function logout(): Response
     {
-        unset($_SESSION['php-censor-user-id']);
+        $this->session->remove('php-censor-user-id');
+        $this->session->clear();
 
-        \session_destroy();
-
-        \setcookie(
+        $response = new RedirectResponse(APP_URL);
+        $response->headers->setCookie(new Cookie(
             'remember_key',
             '',
             (\time() - 1),
@@ -196,10 +193,7 @@ class SessionController extends WebController
             null,
             false,
             true
-        );
-
-        $response = new RedirectResponse();
-        $response->setHeader('Location', APP_URL);
+        ));
 
         return $response;
     }
@@ -261,12 +255,9 @@ class SessionController extends WebController
 
             $this->userStore->save($user);
 
-            $_SESSION['php-censor-user-id'] = $user->getId();
+            $this->session->set('php-censor-user-id', $user->getId());
 
-            $response = new RedirectResponse();
-            $response->setHeader('Location', APP_URL);
-
-            return $response;
+            return new RedirectResponse(APP_URL);
         }
 
         $this->view->id = $userId;
@@ -282,9 +273,11 @@ class SessionController extends WebController
     {
         $rtn = APP_URL;
 
-        if (!empty($_SESSION['php-censor-login-redirect'])) {
-            $rtn .= $_SESSION['php-censor-login-redirect'];
-            $_SESSION['php-censor-login-redirect'] = null;
+        $sessionLoginRedirect = $this->session->get('php-censor-login-redirect');
+        if (!empty($sessionLoginRedirect)) {
+            $rtn .= $sessionLoginRedirect;
+
+            $this->session->remove('php-censor-login-redirect');
         }
 
         return $rtn;

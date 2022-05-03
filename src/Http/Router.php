@@ -4,6 +4,7 @@ namespace PHPCensor\Http;
 
 use PHPCensor\Application;
 use PHPCensor\Common\Exception\InvalidArgumentException;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @package    PHP Censor
@@ -14,17 +15,13 @@ use PHPCensor\Common\Exception\InvalidArgumentException;
  */
 class Router
 {
-    /**
-     * @var Request;
-     */
     protected Request $request;
 
     protected Application $application;
 
-    /**
-     * @var array
-     */
-    protected $routes = [['route' => '/:controller/:action', 'callback' => null, 'defaults' => []]];
+    protected array $routes = [
+        ['route' => '/:controller/:action', 'callback' => null, 'defaults' => []]
+    ];
 
     public function __construct(Application $application, Request $request)
     {
@@ -56,7 +53,8 @@ class Router
     public function dispatch()
     {
         foreach ($this->routes as $route) {
-            $pathParts = $this->request->getPathParts();
+            $pathParts = $this->request->getPathInfo();
+            $pathParts = \array_values(\array_filter(\explode('/', $pathParts)));
 
             //-------
             // Set up default values for everything:

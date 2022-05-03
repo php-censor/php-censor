@@ -41,7 +41,7 @@ var phpunitPlugin = ActiveBuild.UiPlugin.extend({
     },
 
     onUpdate: function (e) {
-        if (!e.queryData) {
+        if (!e.queryData || $.isEmptyObject(e.queryData)) {
             $('#build-php_unit-errors').hide();
             return;
         }
