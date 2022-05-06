@@ -8,7 +8,6 @@ use DateTime;
 use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Model\BuildError;
-use PHPCensor\StoreRegistry;
 
 /**
  * @package    PHP Censor
@@ -27,7 +26,7 @@ class BuildErrorWriter
 
     private DatabaseManager $databaseManager;
 
-    private StoreRegistry $storeRegistry;
+    private BuildErrorStore $buildErrorStore;
 
     /**
      * @see https://stackoverflow.com/questions/40361164/pdoexception-sqlstatehy000-general-error-7-number-of-parameters-must-be-bet
@@ -37,17 +36,15 @@ class BuildErrorWriter
     public function __construct(
         ConfigurationInterface $configuration,
         DatabaseManager $databaseManager,
-        StoreRegistry $storeRegistry,
+        BuildErrorStore $buildErrorStore,
         int $projectId,
         int $buildId
     ) {
-        $this->bufferSize = (int)$configuration->get('php-censor.build.writer_buffer_size', 500);
-
-        $this->projectId = $projectId;
-        $this->buildId   = $buildId;
-
+        $this->bufferSize      = (int)$configuration->get('php-censor.build.writer_buffer_size', 500);
+        $this->projectId       = $projectId;
+        $this->buildId         = $buildId;
         $this->databaseManager = $databaseManager;
-        $this->storeRegistry   = $storeRegistry;
+        $this->buildErrorStore = $buildErrorStore;
     }
 
     public function __destruct()
@@ -68,9 +65,7 @@ class BuildErrorWriter
             $createdDate = new DateTime();
         }
 
-        /** @var BuildErrorStore $errorStore */
-        $errorStore = $this->storeRegistry->get('BuildError');
-        $hash       = BuildError::generateHash($plugin, $file, $lineStart, $lineEnd, $severity, $message);
+        $hash = BuildError::generateHash($plugin, $file, $lineStart, $lineEnd, $severity, $message);
 
         $this->errors[] = [
             'plugin'      => $plugin,
@@ -81,7 +76,7 @@ class BuildErrorWriter
             'line_end'    => $lineEnd,
             'create_date' => $createdDate->format('Y-m-d H:i:s'),
             'hash'        => $hash,
-            'is_new'      => $errorStore->getIsNewError($this->projectId, $hash) ? 1 : 0,
+            'is_new'      => $this->buildErrorStore->getIsNewError($this->projectId, $hash) ? 1 : 0,
         ];
 
         if (\count($this->errors) >= $this->bufferSize) {

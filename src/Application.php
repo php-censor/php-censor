@@ -37,16 +37,20 @@ class Application
 
     private StoreRegistry $storeRegistry;
 
+    private UserStore $userStore;
+
     private Router $router;
 
     public function __construct(
         ConfigurationInterface $configuration,
         StoreRegistry $storeRegistry,
+        UserStore $userStore,
         Request $request,
         Session $session
     ) {
         $this->configuration = $configuration;
         $this->storeRegistry = $storeRegistry;
+        $this->userStore     = $userStore;
         $this->request       = $request;
         $this->session       = $session;
 
@@ -70,7 +74,7 @@ class Application
         $validateSession = function () use ($session) {
             $sessionUserId = $session->get('php-censor-user-id');
             if (!empty($sessionUserId)) {
-                $user = $this->storeRegistry->get('User')->getById((int)$sessionUserId);
+                $user = $this->userStore->getById((int)$sessionUserId);
 
                 if ($user) {
                     return true;
@@ -149,10 +153,10 @@ class Application
             return null;
         }
 
-        /** @var UserStore $userStore */
-        $userStore = $this->storeRegistry->get('User');
+        /** @var ?User $user */
+        $user = $this->userStore->getById((int)$sessionUserId);
 
-        return $userStore->getById((int)$sessionUserId);
+        return $user;
     }
 
     /**
@@ -192,6 +196,8 @@ class Application
      */
     protected function loadController(string $class): Controller
     {
+
+
         /** @var Controller $controller */
         $controller = new $class($this->configuration, $this->storeRegistry, $this->request, $this->session);
 
@@ -211,7 +217,7 @@ class Application
         $defaultUserId = (int)$this->configuration->get('php-censor.security.default_user_id', 1);
 
         if ($disableAuth && $defaultUserId) {
-            $user = $this->storeRegistry->get('User')->getById($defaultUserId);
+            $user = $this->userStore->getById($defaultUserId);
 
             if ($user) {
                 return true;

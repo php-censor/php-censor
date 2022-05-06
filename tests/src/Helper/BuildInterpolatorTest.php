@@ -6,8 +6,8 @@ namespace Tests\PHPCensor\Helper;
 
 use PHPCensor\DatabaseManager;
 use PHPCensor\Helper\BuildInterpolator;
-use PHPCensor\Model\Build;
 use PHPCensor\Store\EnvironmentStore;
+use PHPCensor\Model\Build;
 use PHPCensor\Store\SecretStore;
 use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
@@ -20,8 +20,6 @@ class BuildInterpolatorTest extends TestCase
 
     private BuildInterpolator $testedInterpolator;
 
-    private StoreRegistry $storeRegistry;
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -31,20 +29,13 @@ class BuildInterpolatorTest extends TestCase
             ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$configuration])
             ->getMock();
-        $this->storeRegistry = $this
+        $storeRegistry = $this
             ->getMockBuilder(StoreRegistry::class)
             ->setConstructorArgs([$databaseManager])
             ->getMock();
 
-        $secretStore = $this
-            ->getMockBuilder(SecretStore::class)
-            ->setConstructorArgs([$databaseManager, $this->storeRegistry])
-            ->getMock();
-
-        $environmentStore = $this
-            ->getMockBuilder(EnvironmentStore::class)
-            ->setConstructorArgs([$databaseManager, $this->storeRegistry])
-            ->getMock();
+        $secretStore      = new SecretStore($databaseManager, $storeRegistry);
+        $environmentStore = new EnvironmentStore($databaseManager, $storeRegistry);
 
         $this->testedInterpolator = new BuildInterpolator($environmentStore, $secretStore);
     }

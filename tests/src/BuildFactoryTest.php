@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\PHPCensor;
 
 use PHPCensor\BuildFactory;
-use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\Configuration;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Model\Build;
@@ -27,21 +26,21 @@ use PHPCensor\Model\Build\SvnBuild;
 
 class BuildFactoryTest extends TestCase
 {
-    private ConfigurationInterface $configuration;
     private DatabaseManager $databaseManager;
     private StoreRegistry $storeRegistry;
     private ProjectStore $projectStore;
+    private BuildStore $buildStore;
     private BuildFactory $factory;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->configuration = new Configuration('');
+        $configuration = new Configuration('');
 
         $this->databaseManager = $this
             ->getMockBuilder(DatabaseManager::class)
-            ->setConstructorArgs([$this->configuration])
+            ->setConstructorArgs([$configuration])
             ->getMock();
 
         $this->storeRegistry = $this
@@ -49,12 +48,17 @@ class BuildFactoryTest extends TestCase
             ->setConstructorArgs([$this->databaseManager])
             ->getMock();
 
+        $this->buildStore = $this
+            ->getMockBuilder(BuildStore::class)
+            ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])
+            ->getMock();
+
         $this->projectStore = $this
             ->getMockBuilder(ProjectStore::class)
             ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])
             ->getMock();
 
-        $this->factory = new BuildFactory($this->configuration, $this->storeRegistry);
+        $this->factory = new BuildFactory($configuration, $this->storeRegistry, $this->buildStore);
     }
 
     protected function tearDown(): void
@@ -121,16 +125,9 @@ class BuildFactoryTest extends TestCase
 
     public function testGetBuildById(): void
     {
-        $rawBuild = new Build($this->storeRegistry, ['project_id' => 10]);
+        $build = new Build($this->storeRegistry, ['id' => 20]);
 
-        $buildStore = $this
-            ->getMockBuilder(BuildStore::class)
-            ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])
-            ->getMock();
-
-        $build = new Build($this->storeRegistry, ['id' => 222]);
-
-        $buildStore
+        $this->buildStore
             ->method('getById')
             ->with(20)
             ->willReturn($build);
@@ -138,7 +135,7 @@ class BuildFactoryTest extends TestCase
         $this->storeRegistry
             ->method('get')
             ->with('Build')
-            ->willReturn($buildStore);
+            ->willReturn($this->buildStore);
 
         $buildByFactory = $this->factory->getBuildById(20);
 

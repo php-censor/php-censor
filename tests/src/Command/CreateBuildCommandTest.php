@@ -13,6 +13,8 @@ use PHPCensor\Model\Project;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Store\ProjectStore;
 use PHPCensor\StoreRegistry;
+use PHPCensor\Store\EnvironmentStore;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -51,6 +53,12 @@ class CreateBuildCommandTest extends TestCase
             ->getMockBuilder(ProjectStore::class)
             ->setConstructorArgs([$this->databaseManager, $storeRegistry])
             ->getMock();
+
+        $environmentStore = $this
+            ->getMockBuilder(EnvironmentStore::class)
+            ->setConstructorArgs([$this->databaseManager, $storeRegistry])
+            ->getMock();
+
         $projectStore->method('getById')
             ->will($this->returnValueMap([
                 [1, 'read', $project],
@@ -68,7 +76,15 @@ class CreateBuildCommandTest extends TestCase
                 [$project, null, 'master', null, null, null]
             );
 
-        $this->command = new CreateBuildCommand($this->configuration, $this->databaseManager, $storeRegistry, $this->logger, $projectStore, $buildService);
+        $this->command = new CreateBuildCommand(
+            $this->configuration,
+            $this->databaseManager,
+            $storeRegistry,
+            $this->logger,
+            $projectStore,
+            $buildService,
+            $environmentStore
+        );
 
         $this->application = new Application();
     }

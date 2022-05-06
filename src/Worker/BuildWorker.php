@@ -17,7 +17,9 @@ use PHPCensor\Logging\BuildDBLogHandler;
 use PHPCensor\Logging\BuildLogger;
 use PHPCensor\Model\Build;
 use PHPCensor\Service\BuildService;
+use PHPCensor\Store\BuildErrorStore;
 use PHPCensor\Store\BuildStore;
+use PHPCensor\Store\EnvironmentStore;
 use PHPCensor\Store\SecretStore;
 use PHPCensor\StoreRegistry;
 use Psr\Log\LoggerInterface;
@@ -54,6 +56,14 @@ class BuildWorker
 
     private StoreRegistry $storeRegistry;
 
+    private BuildErrorStore $buildErrorStore;
+
+    private BuildStore $buildStore;
+
+    private SecretStore $secretStore;
+
+    private EnvironmentStore $environmentStore;
+
     private BuildFactory $buildFactory;
 
     /**
@@ -69,6 +79,10 @@ class BuildWorker
         ConfigurationInterface $configuration,
         DatabaseManager $databaseManager,
         StoreRegistry $storeRegistry,
+        BuildErrorStore $buildErrorStore,
+        BuildStore $buildStore,
+        SecretStore $secretStore,
+        EnvironmentStore $environmentStore,
         LoggerInterface $logger,
         BuildService $buildService,
         BuildFactory $buildFactory,
@@ -77,12 +91,16 @@ class BuildWorker
         string $queueTube,
         bool $canPeriodicalWork
     ) {
-        $this->logger          = $logger;
-        $this->buildService    = $buildService;
-        $this->configuration   = $configuration;
-        $this->databaseManager = $databaseManager;
-        $this->storeRegistry   = $storeRegistry;
-        $this->buildFactory    = $buildFactory;
+        $this->logger           = $logger;
+        $this->buildService     = $buildService;
+        $this->configuration    = $configuration;
+        $this->databaseManager  = $databaseManager;
+        $this->storeRegistry    = $storeRegistry;
+        $this->buildErrorStore  = $buildErrorStore;
+        $this->buildStore       = $buildStore;
+        $this->secretStore      = $secretStore;
+        $this->environmentStore = $environmentStore;
+        $this->buildFactory     = $buildFactory;
 
         $this->queueTube  = $queueTube;
         $this->pheanstalk = Pheanstalk::create($queueHost, $queuePort);
@@ -167,14 +185,8 @@ class BuildWorker
                 continue;
             }
 
-            /** @var BuildStore $buildStore */
-            $buildStore = $this->storeRegistry->get('Build');
-
-            /** @var SecretStore $secretStore */
-            $secretStore = $this->storeRegistry->get('Secret');
-
             // Logging relevant to this build should be stored against the build itself.
-            $buildDbLog = new BuildDBLogHandler($secretStore, $buildStore, $build, Logger::DEBUG);
+            $buildDbLog = new BuildDBLogHandler($this->secretStore, $this->buildStore, $build, Logger::DEBUG);
             $this->logger->pushHandler($buildDbLog);
 
             $buildLogger = new BuildLogger($this->logger, $build);
@@ -182,6 +194,10 @@ class BuildWorker
                 $this->configuration,
                 $this->databaseManager,
                 $this->storeRegistry,
+                $this->buildErrorStore,
+                $this->buildStore,
+                $this->secretStore,
+                $this->environmentStore,
                 $build,
                 $buildLogger
             );
@@ -201,12 +217,12 @@ class BuildWorker
                 $build->setStatusFailed();
                 $build->setFinishDate(new DateTime());
 
-                $buildStore->save($build);
+                $this->buildStore->save($build);
 
                 $build->sendStatusPostback();
             }
 
-            // After execution we no longer want to record the information back to this specific build so the handler
+            // After execution, we no longer want to record the information back to this specific build so the handler
             // should be removed.
             $this->logger->popHandler();
             // destructor implicitly call flush

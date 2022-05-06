@@ -5,10 +5,14 @@ declare(strict_types=1);
 namespace PHPCensor\Command;
 
 use PHPCensor\BuildFactory;
+use PHPCensor\Common\Application\ConfigurationInterface;
+use PHPCensor\DatabaseManager;
 use PHPCensor\Model\Project;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\ProjectStore;
+use PHPCensor\StoreRegistry;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use PHPCensor\Common\Exception\RuntimeException;
@@ -23,6 +27,24 @@ use PHPCensor\Exception\HttpException;
  */
 class RebuildQueueCommand extends Command
 {
+    protected BuildStore $buildStore;
+    protected ProjectStore $projectStore;
+
+    public function __construct(
+        ConfigurationInterface $configuration,
+        DatabaseManager $databaseManager,
+        StoreRegistry $storeRegistry,
+        LoggerInterface $logger,
+        BuildStore $buildStore,
+        ProjectStore $projectStore,
+        ?string $name = null
+    ) {
+        parent::__construct($configuration, $databaseManager, $storeRegistry, $logger, $name);
+
+        $this->buildStore = $buildStore;
+        $this->projectStore = $projectStore;
+    }
+
     protected function configure(): void
     {
         $this
@@ -36,27 +58,22 @@ class RebuildQueueCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        /** @var BuildStore $buildStore */
-        $buildStore = $this->storeRegistry->get('Build');
-
-        /** @var ProjectStore $projectStore */
-        $projectStore = $this->storeRegistry->get('Project');
-
-        $result = $buildStore->getByStatus(0);
+        $result = $this->buildStore->getByStatus(0);
 
         $this->logger->info(\sprintf('Found %d builds', \count($result['items'])));
 
         $buildFactory = new BuildFactory(
             $this->configuration,
-            $this->storeRegistry
+            $this->storeRegistry,
+            $this->buildStore
         );
 
         $buildService = new BuildService(
             $this->configuration,
             $this->storeRegistry,
             $buildFactory,
-            $buildStore,
-            $projectStore
+            $this->buildStore,
+            $this->projectStore
         );
 
         while (\count($result['items'])) {

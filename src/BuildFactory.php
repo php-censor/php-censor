@@ -7,6 +7,7 @@ namespace PHPCensor;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\Project;
 use PHPCensor\Common\Application\ConfigurationInterface;
+use PHPCensor\Store\BuildStore;
 
 /**
  * BuildFactory - Takes in a generic Build and returns a type-specific Build model.
@@ -20,15 +21,17 @@ use PHPCensor\Common\Application\ConfigurationInterface;
 class BuildFactory
 {
     private ConfigurationInterface $configuration;
-
     private StoreRegistry $storeRegistry;
+    private BuildStore $buildStore;
 
     public function __construct(
         ConfigurationInterface $configuration,
-        StoreRegistry $storeRegistry
+        StoreRegistry $storeRegistry,
+        BuildStore $buildStore
     ) {
         $this->configuration = $configuration;
         $this->storeRegistry = $storeRegistry;
+        $this->buildStore    = $buildStore;
     }
 
     /**
@@ -38,7 +41,7 @@ class BuildFactory
     public function getBuildById(int $buildId): ?Build
     {
         /** @var Build $build */
-        $build = $this->storeRegistry->get('Build')->getById($buildId);
+        $build = $this->buildStore->getById($buildId);
 
         if (!$build) {
             return null;

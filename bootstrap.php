@@ -5,6 +5,7 @@ declare(strict_types=1);
 use PHPCensor\Configuration;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Helper\Lang;
+use PHPCensor\Store\UserStore;
 use PHPCensor\StoreRegistry;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -24,7 +25,10 @@ $session         = new Session();
 
 $session->start();
 
+/** @var UserStore $userStore */
+$userStore = $storeRegistry->get('User');
+
 \define('APP_URL', $configuration->get('php-censor.url', '') . '/');
 \define('REALTIME_UI', $configuration->get('php-censor.realtime_ui', true));
 
-Lang::init($configuration, $storeRegistry, null, $session->get('php-censor-user-id'));
+Lang::init($configuration, $userStore, null, $session->get('php-censor-user-id'));

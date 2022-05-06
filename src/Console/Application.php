@@ -28,8 +28,12 @@ use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Logging\AnsiFormatter;
 use PHPCensor\Logging\Handler;
 use PHPCensor\Service\BuildService;
+use PHPCensor\Store\BuildErrorStore;
 use PHPCensor\Store\BuildStore;
+use PHPCensor\Store\EnvironmentStore;
+use PHPCensor\Store\ProjectGroupStore;
 use PHPCensor\Store\ProjectStore;
+use PHPCensor\Store\SecretStore;
 use PHPCensor\Store\UserStore;
 use PHPCensor\StoreRegistry;
 use Symfony\Component\Console\Application as BaseApplication;
@@ -86,6 +90,13 @@ LOGO;
         ConfigurationInterface $configuration,
         DatabaseManager $databaseManager,
         StoreRegistry $storeRegistry,
+        UserStore $userStore,
+        ProjectStore $projectStore,
+        ProjectGroupStore $projectGroupStore,
+        BuildStore $buildStore,
+        BuildErrorStore $buildErrorStore,
+        SecretStore $secretStore,
+        EnvironmentStore $environmentStore,
         string $name = 'PHP Censor',
         string $version = 'UNKNOWN'
     ) {
@@ -170,18 +181,10 @@ LOGO;
                 ->setName('php-censor-migrations:status')
         );
 
-        /** @var UserStore $userStore */
-        $userStore = $this->storeRegistry->get('User');
-
-        /** @var ProjectStore $projectStore */
-        $projectStore = $this->storeRegistry->get('Project');
-
-        /** @var BuildStore $buildStore */
-        $buildStore = $this->storeRegistry->get('Build');
-
         $buildFactory = new BuildFactory(
             $this->configuration,
-            $this->storeRegistry
+            $this->storeRegistry,
+            $buildStore
         );
 
         $buildService = new BuildService(
@@ -194,13 +197,64 @@ LOGO;
 
         $logger = $this->initLogger($this->configuration);
 
-        $this->add(new InstallCommand($this->configuration, $this->databaseManager, $this->storeRegistry, $logger));
-        $this->add(new CreateAdminCommand($this->configuration, $this->databaseManager, $this->storeRegistry, $logger, $userStore));
-        $this->add(new CreateBuildCommand($this->configuration, $this->databaseManager, $this->storeRegistry, $logger, $projectStore, $buildService));
-        $this->add(new RemoveOldBuildsCommand($this->configuration, $this->databaseManager, $this->storeRegistry, $logger, $projectStore, $buildService));
-        $this->add(new WorkerCommand($this->configuration, $this->databaseManager, $this->storeRegistry, $logger, $buildService, $buildFactory));
-        $this->add(new RebuildQueueCommand($this->configuration, $this->databaseManager, $this->storeRegistry, $logger));
-        $this->add(new CheckLocalizationCommand($this->configuration, $this->databaseManager, $this->storeRegistry, $logger));
+        $this->add(new InstallCommand(
+            $this->configuration,
+            $this->databaseManager,
+            $this->storeRegistry,
+            $logger,
+            $userStore,
+            $projectGroupStore
+        ));
+        $this->add(new CreateAdminCommand(
+            $this->configuration,
+            $this->databaseManager,
+            $this->storeRegistry,
+            $logger,
+            $userStore
+        ));
+        $this->add(new CreateBuildCommand(
+            $this->configuration,
+            $this->databaseManager,
+            $this->storeRegistry,
+            $logger,
+            $projectStore,
+            $buildService,
+            $environmentStore
+        ));
+        $this->add(new RemoveOldBuildsCommand(
+            $this->configuration,
+            $this->databaseManager,
+            $this->storeRegistry,
+            $logger,
+            $projectStore,
+            $buildService
+        ));
+        $this->add(new WorkerCommand(
+            $this->configuration,
+            $this->databaseManager,
+            $this->storeRegistry,
+            $buildErrorStore,
+            $buildStore,
+            $secretStore,
+            $environmentStore,
+            $logger,
+            $buildService,
+            $buildFactory
+        ));
+        $this->add(new RebuildQueueCommand(
+            $this->configuration,
+            $this->databaseManager,
+            $this->storeRegistry,
+            $logger,
+            $buildStore,
+            $projectStore
+        ));
+        $this->add(new CheckLocalizationCommand(
+            $this->configuration,
+            $this->databaseManager,
+            $this->storeRegistry,
+            $logger
+        ));
     }
 
     public function getHelp(): string

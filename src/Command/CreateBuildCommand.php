@@ -11,6 +11,7 @@ use PHPCensor\Model\Build;
 use PHPCensor\Model\Project;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Store\ProjectStore;
+use PHPCensor\Store\EnvironmentStore;
 use PHPCensor\StoreRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputArgument;
@@ -19,7 +20,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Exception\HttpException;
-use PHPCensor\Store\EnvironmentStore;
 
 /**
  * @package    PHP Censor
@@ -31,7 +31,7 @@ use PHPCensor\Store\EnvironmentStore;
 class CreateBuildCommand extends Command
 {
     protected ProjectStore $projectStore;
-
+    protected EnvironmentStore $environmentStore;
     protected BuildService $buildService;
 
     public function __construct(
@@ -41,12 +41,14 @@ class CreateBuildCommand extends Command
         LoggerInterface $logger,
         ProjectStore $projectStore,
         BuildService $buildService,
+        EnvironmentStore $environmentStore,
         ?string $name = null
     ) {
         parent::__construct($configuration, $databaseManager, $storeRegistry, $logger, $name);
 
-        $this->projectStore = $projectStore;
-        $this->buildService = $buildService;
+        $this->projectStore     = $projectStore;
+        $this->buildService     = $buildService;
+        $this->environmentStore = $environmentStore;
     }
 
     protected function configure(): void
@@ -85,9 +87,7 @@ class CreateBuildCommand extends Command
 
         $environmentId = null;
         if ($environment) {
-            /** @var EnvironmentStore $environmentStore */
-            $environmentStore  = $this->storeRegistry->get('Environment');
-            $environmentObject = $environmentStore->getByNameAndProjectId($environment, $project->getId());
+            $environmentObject = $this->environmentStore->getByNameAndProjectId($environment, $project->getId());
             if ($environmentObject) {
                 $environmentId = $environmentObject->getId();
             }

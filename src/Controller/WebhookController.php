@@ -62,7 +62,8 @@ class WebhookController extends Controller
 
         $this->buildFactory = new BuildFactory(
             $this->configuration,
-            $this->storeRegistry
+            $this->storeRegistry,
+            $this->buildStore
         );
 
         $this->buildService = new BuildService(

@@ -9,7 +9,6 @@ use PDO;
 use PHPCensor\Exception\HttpException;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildMeta;
-use PHPCensor\Model\Project;
 use PHPCensor\Store;
 
 /**

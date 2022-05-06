@@ -43,7 +43,7 @@ class SessionController extends WebController
         parent::init();
 
         $this->userStore      = $this->storeRegistry->get('User');
-        $this->authentication = new Service($this->configuration, $this->storeRegistry);
+        $this->authentication = new Service($this->configuration, $this->storeRegistry, $this->userStore);
     }
 
     protected function loginForm(array $values): Form

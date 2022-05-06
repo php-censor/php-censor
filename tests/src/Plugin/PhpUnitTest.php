@@ -11,6 +11,10 @@ use PHPCensor\DatabaseManager;
 use PHPCensor\Logging\BuildLogger;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin\PhpUnit;
+use PHPCensor\Store\BuildErrorStore;
+use PHPCensor\Store\BuildStore;
+use PHPCensor\Store\EnvironmentStore;
+use PHPCensor\Store\SecretStore;
 use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\MockObject\MockBuilder;
 use PHPUnit\Framework\TestCase;
@@ -87,8 +91,28 @@ class PhpUnitTest extends TestCase
             ->setConstructorArgs([$logger, $build])
             ->getMock();
 
+        $buildErrorStore = $this
+            ->getMockBuilder(BuildErrorStore::class)
+            ->setConstructorArgs([$databaseManager, $storeRegistry])
+            ->getMock();
+
+        $buildStore = $this
+            ->getMockBuilder(BuildStore::class)
+            ->setConstructorArgs([$databaseManager, $storeRegistry])
+            ->getMock();
+
+        $secretStore = $this
+            ->getMockBuilder(SecretStore::class)
+            ->setConstructorArgs([$databaseManager, $storeRegistry])
+            ->getMock();
+
+        $environmentStore = $this
+            ->getMockBuilder(EnvironmentStore::class)
+            ->setConstructorArgs([$databaseManager, $storeRegistry])
+            ->getMock();
+
         $builder = $this->getMockBuilder(Builder::class)
-            ->setConstructorArgs([$configuration, $databaseManager, $storeRegistry, $build, $buildLogger])
+            ->setConstructorArgs([$configuration, $databaseManager, $storeRegistry, $buildErrorStore, $buildStore, $secretStore, $environmentStore, $build, $buildLogger])
             ->onlyMethods(['executeCommand'])
             ->getMock();
 

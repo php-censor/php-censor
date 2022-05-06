@@ -4,9 +4,18 @@
 declare(strict_types=1);
 
 use PHPCensor\Common\Application\ConfigurationInterface;
+use PHPCensor\Configuration;
 use PHPCensor\Console\Application;
 use PHPCensor\DatabaseManager;
+use PHPCensor\Store\BuildErrorStore;
+use PHPCensor\Store\BuildStore;
+use PHPCensor\Store\EnvironmentStore;
+use PHPCensor\Store\ProjectGroupStore;
+use PHPCensor\Store\ProjectStore;
+use PHPCensor\Store\SecretStore;
+use PHPCensor\Store\UserStore;
 use PHPCensor\StoreRegistry;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 \error_reporting(-1);
 \ini_set('display_errors', '1');
@@ -14,6 +23,37 @@ use PHPCensor\StoreRegistry;
 /** @var $configuration ConfigurationInterface */
 /** @var $databaseManager DatabaseManager */
 /** @var $storeRegistry StoreRegistry */
+/** @var $session Session */
+/** @var $userStore UserStore */
 require_once(\dirname(__DIR__) . '/bootstrap.php');
 
-(new Application($configuration, $databaseManager, $storeRegistry))->run();
+/** @var ProjectStore $projectStore */
+$projectStore = $storeRegistry->get('Project');
+
+/** @var ProjectGroupStore $projectGroupStore */
+$projectGroupStore = $storeRegistry->get('ProjectGroup');
+
+/** @var BuildStore $buildStore */
+$buildStore = $storeRegistry->get('Build');
+
+/** @var BuildErrorStore $buildErrorStore */
+$buildErrorStore = $storeRegistry->get('BuildError');
+
+/** @var SecretStore $secretStore */
+$secretStore = $storeRegistry->get('Secret');
+
+/** @var EnvironmentStore $environmentStore */
+$environmentStore = $storeRegistry->get('Environment');
+
+(new Application(
+    $configuration,
+    $databaseManager,
+    $storeRegistry,
+    $userStore,
+    $projectStore,
+    $projectGroupStore,
+    $buildStore,
+    $buildErrorStore,
+    $secretStore,
+    $environmentStore
+))->run();

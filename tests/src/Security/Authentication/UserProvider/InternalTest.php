@@ -7,6 +7,7 @@ namespace Tests\PHPCensor\Security\Authentication\UserProvider;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Model\User;
 use PHPCensor\Security\Authentication\UserProvider\Internal;
+use PHPCensor\Store\UserStore;
 use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 use PHPCensor\Common\Application\ConfigurationInterface;
@@ -23,12 +24,18 @@ class InternalTest extends TestCase
             ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$configuration])
             ->getMock();
+
         $this->storeRegistry = $this
             ->getMockBuilder(StoreRegistry::class)
             ->setConstructorArgs([$databaseManager])
             ->getMock();
 
-        $this->provider = new Internal($this->storeRegistry, 'internal', [
+        $userStore = $this
+            ->getMockBuilder(UserStore::class)
+            ->setConstructorArgs([$databaseManager, $this->storeRegistry])
+            ->getMock();
+
+        $this->provider = new Internal($this->storeRegistry, $userStore, 'internal', [
             'type' => 'internal',
         ]);
     }

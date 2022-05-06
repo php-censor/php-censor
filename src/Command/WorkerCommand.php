@@ -12,6 +12,10 @@ use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Service\BuildService;
+use PHPCensor\Store\BuildErrorStore;
+use PHPCensor\Store\BuildStore;
+use PHPCensor\Store\EnvironmentStore;
+use PHPCensor\Store\SecretStore;
 use PHPCensor\StoreRegistry;
 use PHPCensor\Worker\BuildWorker;
 use Psr\Log\LoggerInterface;
@@ -36,10 +40,22 @@ class WorkerCommand extends Command
 
     protected BuildFactory $buildFactory;
 
+    protected BuildStore $buildStore;
+
+    protected EnvironmentStore $environmentStore;
+
+    protected SecretStore $secretStore;
+
+    protected BuildErrorStore $buildErrorStore;
+
     public function __construct(
         ConfigurationInterface $configuration,
         DatabaseManager $databaseManager,
         StoreRegistry $storeRegistry,
+        BuildErrorStore $buildErrorStore,
+        BuildStore $buildStore,
+        SecretStore $secretStore,
+        EnvironmentStore $environmentStore,
         LoggerInterface $logger,
         BuildService $buildService,
         BuildFactory $buildFactory,
@@ -47,8 +63,12 @@ class WorkerCommand extends Command
     ) {
         parent::__construct($configuration, $databaseManager, $storeRegistry, $logger, $name);
 
-        $this->buildService = $buildService;
-        $this->buildFactory = $buildFactory;
+        $this->buildService     = $buildService;
+        $this->buildFactory     = $buildFactory;
+        $this->buildStore       = $buildStore;
+        $this->secretStore      = $secretStore;
+        $this->environmentStore = $environmentStore;
+        $this->buildErrorStore  = $buildErrorStore;
     }
 
     protected function configure(): void
@@ -131,6 +151,10 @@ class WorkerCommand extends Command
             $this->configuration,
             $this->databaseManager,
             $this->storeRegistry,
+            $this->buildErrorStore,
+            $this->buildStore,
+            $this->secretStore,
+            $this->environmentStore,
             $this->logger,
             $this->buildService,
             $this->buildFactory,

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PHPCensor\Security\Authentication\UserProvider;
 
 use PHPCensor\Security\Authentication\UserProviderInterface;
+use PHPCensor\Store\UserStore;
 use PHPCensor\StoreRegistry;
 
 /**
@@ -22,14 +23,18 @@ abstract class AbstractProvider implements UserProviderInterface
 
     protected StoreRegistry $storeRegistry;
 
+    protected UserStore $userStore;
+
     public function __construct(
         StoreRegistry $storeRegistry,
+        UserStore $userStore,
         string $key,
         array $config
     ) {
         $this->key           = $key;
         $this->config        = $config;
         $this->storeRegistry = $storeRegistry;
+        $this->userStore     = $userStore;
     }
 
     public function getKey(): string

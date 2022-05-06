@@ -13,7 +13,11 @@ use PHPCensor\Helper\CommandExecutor;
 use PHPCensor\Logging\BuildLogger;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\Project;
+use PHPCensor\Store\BuildErrorStore;
 use PHPCensor\Store\BuildErrorWriter;
+use PHPCensor\Store\BuildStore;
+use PHPCensor\Store\EnvironmentStore;
+use PHPCensor\Store\SecretStore;
 use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LogLevel;
@@ -78,8 +82,29 @@ class BuilderTest extends TestCase
             ->setConstructorArgs([$logger, $build])
             ->getMock();
 
+
+        $buildErrorStore = $this
+            ->getMockBuilder(BuildErrorStore::class)
+            ->setConstructorArgs([$databaseManager, $storeRegistry])
+            ->getMock();
+
+        $buildStore = $this
+            ->getMockBuilder(BuildStore::class)
+            ->setConstructorArgs([$databaseManager, $storeRegistry])
+            ->getMock();
+
+        $secretStore = $this
+            ->getMockBuilder(SecretStore::class)
+            ->setConstructorArgs([$databaseManager, $storeRegistry])
+            ->getMock();
+
+        $environmentStore = $this
+            ->getMockBuilder(EnvironmentStore::class)
+            ->setConstructorArgs([$databaseManager, $storeRegistry])
+            ->getMock();
+
         $this->builder = $this->getMockBuilder(TestBuilder::class)
-            ->setConstructorArgs([$configuration, $databaseManager, $storeRegistry, $build, $this->buildLogger])
+            ->setConstructorArgs([$configuration, $databaseManager, $storeRegistry, $buildErrorStore, $buildStore, $secretStore, $environmentStore, $build, $this->buildLogger])
             ->onlyMethods(['executeCommand'])
             ->getMock();
     }

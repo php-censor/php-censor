@@ -4,7 +4,6 @@ namespace PHPCensor\Helper;
 
 use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\Store\UserStore;
-use PHPCensor\StoreRegistry;
 
 /**
  * Languages Helper Class - Handles loading strings files and the strings within them.
@@ -123,7 +122,7 @@ class Lang
      */
     public static function init(
         ConfigurationInterface $config,
-        StoreRegistry $storeRegistry,
+        UserStore $userStore,
         ?string $languageForce = null,
         ?int $sessionUserId = null
     ) {
@@ -136,9 +135,7 @@ class Lang
 
         $user = null;
         if (!empty($sessionUserId)) {
-            /** @var UserStore $userStore */
-            $userStore = $storeRegistry->get('User');
-            $user      = $userStore->getById($sessionUserId);
+            $user = $userStore->getById($sessionUserId);
         }
 
         if ($user) {

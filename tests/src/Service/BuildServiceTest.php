@@ -69,7 +69,8 @@ class BuildServiceTest extends TestCase
 
         $this->buildFactory = new BuildFactory(
             $this->configuration,
-            $this->storeRegistry
+            $this->storeRegistry,
+            $this->buildStore
         );
 
         $this->testedService = new BuildService(

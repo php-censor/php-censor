@@ -9,11 +9,15 @@ use Exception;
 use PDO;
 use Pheanstalk\Pheanstalk;
 use PHPCensor\Command\Action\CreateAdmin;
+use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Common\Exception\RuntimeException;
+use PHPCensor\DatabaseManager;
 use PHPCensor\Model\ProjectGroup;
 use PHPCensor\Store\ProjectGroupStore;
 use PHPCensor\Store\UserStore;
+use PHPCensor\StoreRegistry;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -30,7 +34,25 @@ use Symfony\Component\Yaml\Dumper;
  */
 class InstallCommand extends Command
 {
+    protected UserStore $userStore;
+    protected ProjectGroupStore $projectGroupStore;
+
     protected string $configPath = APP_DIR . 'config.yml';
+
+    public function __construct(
+        ConfigurationInterface $configuration,
+        DatabaseManager $databaseManager,
+        StoreRegistry $storeRegistry,
+        LoggerInterface $logger,
+        UserStore $userStore,
+        ProjectGroupStore $projectGroupStore,
+        ?string $name = null
+    ) {
+        parent::__construct($configuration, $databaseManager, $storeRegistry, $logger, $name);
+
+        $this->userStore         = $userStore;
+        $this->projectGroupStore = $projectGroupStore;
+    }
 
     protected function configure(): void
     {
@@ -552,15 +574,12 @@ class InstallCommand extends Command
         /** @var $questionHelper QuestionHelper */
         $questionHelper = $this->getHelperSet()->get('question');
 
-        /** @var UserStore $userStore */
-        $userStore = $this->storeRegistry->get('User');
-
         $createAdmin = new CreateAdmin(
             $questionHelper,
             $input,
             $output,
             $this->storeRegistry,
-            $userStore
+            $this->userStore
         );
 
         $admin = $createAdmin->process();
@@ -571,9 +590,7 @@ class InstallCommand extends Command
     protected function createDefaultGroup(OutputInterface $output): bool
     {
         try {
-            /** @var ProjectGroupStore $projectGroupStore */
-            $projectGroupStore = $this->storeRegistry->get('ProjectGroup');
-            $projectGroup      = $projectGroupStore->getByTitle('Projects');
+            $projectGroup = $this->projectGroupStore->getByTitle('Projects');
             if ($projectGroup) {
                 throw new RuntimeException('Default project group already exists!');
             }
@@ -583,7 +600,7 @@ class InstallCommand extends Command
             $group->setCreateDate(new DateTime());
             $group->setUserId(null);
 
-            $this->storeRegistry->get('ProjectGroup')->save($group);
+            $this->projectGroupStore->save($group);
 
             $output->writeln('<info>Default project group created!</info>');
         } catch (\Throwable $ex) {

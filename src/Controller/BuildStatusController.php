@@ -45,7 +45,8 @@ class BuildStatusController extends WebController
 
         $this->buildFactory = new BuildFactory(
             $this->configuration,
-            $this->storeRegistry
+            $this->storeRegistry,
+            $this->buildStore
         );
     }
 

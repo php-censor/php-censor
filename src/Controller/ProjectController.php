@@ -61,7 +61,8 @@ class ProjectController extends WebController
 
         $this->buildFactory = new BuildFactory(
             $this->configuration,
-            $this->storeRegistry
+            $this->storeRegistry,
+            $this->buildStore
         );
 
         $this->buildService   = new BuildService(

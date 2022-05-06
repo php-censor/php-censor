@@ -14,6 +14,7 @@ use PHPCensor\Logging\BuildLogger;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin\Util\Executor;
 use PHPCensor\Plugin\Util\Factory as PluginFactory;
+use PHPCensor\Store\BuildErrorStore;
 use PHPCensor\Store\BuildErrorWriter;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\EnvironmentStore;
@@ -56,7 +57,9 @@ class Builder
 
     protected BuildInterpolator $interpolator;
 
-    protected BuildStore $store;
+    protected BuildStore $buildStore;
+
+    protected SecretStore $secretStore;
 
     protected Executor $pluginExecutor;
 
@@ -65,6 +68,10 @@ class Builder
     protected BuildLogger $buildLogger;
 
     protected BuildErrorWriter $buildErrorWriter;
+
+    protected BuildErrorStore $buildErrorStore;
+
+    protected EnvironmentStore $environmentStore;
 
     protected ConfigurationInterface $configuration;
 
@@ -76,32 +83,30 @@ class Builder
         ConfigurationInterface $configuration,
         DatabaseManager $databaseManager,
         StoreRegistry $storeRegistry,
+        BuildErrorStore $buildErrorStore,
+        BuildStore $buildStore,
+        SecretStore $secretStore,
+        EnvironmentStore $environmentStore,
         Build $build,
         BuildLogger $buildLogger
     ) {
-        $this->configuration   = $configuration;
-        $this->databaseManager = $databaseManager;
-        $this->storeRegistry   = $storeRegistry;
-        $this->buildLogger     = $buildLogger;
+        $this->configuration    = $configuration;
+        $this->databaseManager  = $databaseManager;
+        $this->storeRegistry    = $storeRegistry;
+        $this->buildErrorStore  = $buildErrorStore;
+        $this->buildStore       = $buildStore;
+        $this->secretStore      = $secretStore;
+        $this->environmentStore = $environmentStore;
+        $this->buildLogger      = $buildLogger;
+        $this->build            = $build;
 
-        $this->build = $build;
-
-        /** @var BuildStore $buildStore */
-        $buildStore = $this->storeRegistry->get('Build');
-        /** @var SecretStore $secretStore */
-        $secretStore = $this->storeRegistry->get('Secret');
-        /** @var EnvironmentStore $environmentStore */
-        $environmentStore = $this->storeRegistry->get('Environment');
-
-        $this->store = $buildStore;
-
-        $pluginFactory     = new PluginFactory($this, $build);
+        $pluginFactory = new PluginFactory($this, $build);
 
         $this->pluginExecutor = new Plugin\Util\Executor(
             $this->storeRegistry,
             $pluginFactory,
             $this->buildLogger,
-            $buildStore
+            $this->buildStore
         );
 
         $executorClass         = CommandExecutor::class;
@@ -111,11 +116,11 @@ class Builder
             $this->verbose
         );
 
-        $this->interpolator     = new BuildInterpolator($environmentStore, $secretStore);
+        $this->interpolator     = new BuildInterpolator($this->environmentStore, $this->secretStore);
         $this->buildErrorWriter = new BuildErrorWriter(
             $this->configuration,
             $this->databaseManager,
-            $this->storeRegistry,
+            $this->buildErrorStore,
             $this->build->getProjectId(),
             $this->build->getId()
         );
@@ -165,7 +170,7 @@ class Builder
     {
         $this->build->setStatusRunning();
         $this->build->setStartDate(new DateTime());
-        $this->store->save($this->build);
+        $this->buildStore->save($this->build);
         $this->build->sendStatusPostback();
 
         $success = true;
@@ -260,14 +265,14 @@ class Builder
         $this->setErrorTrend();
         $this->setTestCoverageTrend();
 
-        $this->store->save($this->build);
+        $this->buildStore->save($this->build);
     }
 
     protected function setErrorTrend(): void
     {
-        $this->build->setErrorsTotal($this->store->getErrorsCount($this->build->getId()));
+        $this->build->setErrorsTotal($this->buildStore->getErrorsCount($this->build->getId()));
 
-        $trend = $this->store->getBuildErrorsTrend(
+        $trend = $this->buildStore->getBuildErrorsTrend(
             $this->build->getId(),
             $this->build->getProjectId(),
             $this->build->getBranch()
@@ -280,9 +285,9 @@ class Builder
 
     protected function setTestCoverageTrend(): void
     {
-        $this->build->setTestCoverage($this->store->getTestCoverage($this->build->getId()));
+        $this->build->setTestCoverage($this->buildStore->getTestCoverage($this->build->getId()));
 
-        $trend = $this->store->getBuildTestCoverageTrend(
+        $trend = $this->buildStore->getBuildTestCoverageTrend(
             $this->build->getId(),
             $this->build->getProjectId(),
             $this->build->getBranch()
