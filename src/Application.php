@@ -238,10 +238,9 @@ class Application
 
     protected function getControllerClass(array $route): string
     {
-        $namespace  = $this->toPhpName($route['namespace']);
         $controller = $this->toPhpName($route['controller']);
 
-        return 'PHPCensor\\' . $namespace . '\\' . $controller . 'Controller';
+        return 'PHPCensor\\Controller\\' . $controller . 'Controller';
     }
 
     public function isValidRoute(array $route): bool

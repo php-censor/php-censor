@@ -56,16 +56,8 @@ class Router
             $pathParts = $this->request->getPathInfo();
             $pathParts = \array_values(\array_filter(\explode('/', $pathParts)));
 
-            //-------
-            // Set up default values for everything:
-            //-------
-            $thisNamespace  = 'Controller';
             $thisController = null;
             $thisAction     = null;
-
-            if (\array_key_exists('namespace', $route['defaults'])) {
-                $thisNamespace = $route['defaults']['namespace'];
-            }
 
             if (\array_key_exists('controller', $route['defaults'])) {
                 $thisController = $route['defaults']['controller'];
@@ -83,9 +75,6 @@ class Router
                 $pathPart = \array_shift($pathParts);
 
                 switch ($routePart) {
-                    case ':namespace':
-                        $thisNamespace = !\is_null($pathPart) ? $pathPart : $thisNamespace;
-                        break;
                     case ':controller':
                         $thisController = !\is_null($pathPart) ? $pathPart : $thisController;
                         break;
@@ -112,7 +101,6 @@ class Router
 
             if ($routeMatches) {
                 $route = [
-                    'namespace'  => $thisNamespace,
                     'controller' => $thisController,
                     'action'     => $thisAction,
                     'args'       => $pathParts,
