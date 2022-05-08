@@ -31,5 +31,8 @@ code-style-fix: php-info install ## Fix code style
 psalm: php-info install ## Run Psalm check
 	$(PHP) vendor/bin/psalm --config=psalm.xml.dist --threads=4 --show-snippet=true --show-info=true
 
-.PHONY: php-info list install update test mutation-test code-style-fix psalm
+run-worker: php-info install ## Run PHP Censor worker
+	$(PHP) bin/console php-censor:worker -v
+
+.PHONY: php-info list install install-force update test test-coverage mutation-test code-style-fix psalm run-worker
 .DEFAULT_GOAL := list
