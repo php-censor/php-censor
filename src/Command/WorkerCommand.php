@@ -6,7 +6,7 @@ namespace PHPCensor\Command;
 
 use Exception;
 use Monolog\Logger;
-use Pheanstalk\Pheanstalk;
+use Pheanstalk\Contract\PheanstalkInterface;
 use PHPCensor\BuildFactory;
 use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
@@ -14,6 +14,7 @@ use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Service\BuildService;
 use PHPCensor\StoreRegistry;
 use PHPCensor\Worker\BuildWorker;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -39,7 +40,7 @@ class WorkerCommand extends Command
         ConfigurationInterface $configuration,
         DatabaseManager $databaseManager,
         StoreRegistry $storeRegistry,
-        Logger $logger,
+        LoggerInterface $logger,
         BuildService $buildService,
         BuildFactory $buildFactory,
         ?string $name = null
@@ -50,7 +51,7 @@ class WorkerCommand extends Command
         $this->buildFactory = $buildFactory;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $whenHints = 'soon=when next job done (default), done=when current jobs done, idle=when waiting for jobs';
         $this
@@ -65,45 +66,68 @@ class WorkerCommand extends Command
                 'stop-worker',
                 's',
                 InputOption::VALUE_OPTIONAL,
-                "Gracefully stop one worker ($whenHints)",
-                false // default value is used when option not given
+                "Gracefully stop one worker ($whenHints)"
             )
             ->setDescription('Runs the PHP Censor build worker.');
     }
 
     /**
-     * @throws Exception
+     * @throws RuntimeException
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    private function checkQueueSettings(array $config): void
     {
-        parent::execute($input, $output);
-
-        $config = $this->configuration->get('php-censor.queue', []);
         if (empty($config['host']) || empty($config['name'])) {
             throw new RuntimeException(
                 'The worker is not configured. You must set a host and queue in your config.yml file.'
             );
         }
+    }
+
+    /**
+     * @throws InvalidArgumentException
+     */
+    private function processWorkerStopFlag(InputInterface $input): bool
+    {
         $value = $input->getOption('stop-worker');
-        if (false !== $value) {
-            if ('soon' === $value || null === $value) {
+        if (!empty($value)) {
+            if ('soon' === $value) {
                 $priority = self::MIN_QUEUE_PRIORITY; // high priority, stop soon
             } elseif ('done' === $value) {
-                $priority = Pheanstalk::DEFAULT_PRIORITY;
+                $priority = PheanstalkInterface::DEFAULT_PRIORITY;
             } elseif ('idle' === $value) {
                 $priority = self::MAX_QUEUE_PRIORITY; // low priority, stop late
             } else {
-                $msg = \sprintf('Invalid value "%s" for --stop-worker, valid are soon, done and idle;', $value);
-
-                throw new InvalidArgumentException($msg);
+                throw new InvalidArgumentException(
+                    \sprintf('Invalid value "%s" for --stop-worker, valid are soon, done and idle;', $value)
+                );
             }
+
             $jobData = [];
             $this->buildService->addJobToQueue(BuildWorker::JOB_TYPE_STOP_FLAG, $jobData, $priority);
 
-            return;
+            return true;
         }
 
-        (new BuildWorker(
+        return false;
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function execute(InputInterface $input, OutputInterface $output): int
+    {
+        parent::execute($input, $output);
+
+        $config = $this->configuration->get('php-censor.queue', []);
+        $this->checkQueueSettings($config);
+
+        $needToStopWorker = $this->processWorkerStopFlag($input);
+        if ($needToStopWorker) {
+            return 0;
+        }
+
+        $canPeriodicalWork = $input->hasOption('periodical-work') && $input->getOption('periodical-work');
+        $worker = new BuildWorker(
             $this->configuration,
             $this->databaseManager,
             $this->storeRegistry,
@@ -111,10 +135,13 @@ class WorkerCommand extends Command
             $this->buildService,
             $this->buildFactory,
             $config['host'],
-            (int)$this->configuration->get('php-censor.queue.port', Pheanstalk::DEFAULT_PORT),
+            (int)$this->configuration->get('php-censor.queue.port', PheanstalkInterface::DEFAULT_PORT),
             $config['name'],
-            ($input->hasOption('periodical-work') && $input->getOption('periodical-work'))
-        ))
-            ->startWorker();
+            $canPeriodicalWork
+        );
+
+        $worker->startWorker();
+
+        return 0;
     }
 }

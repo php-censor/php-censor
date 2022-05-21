@@ -10,6 +10,7 @@ use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Logging\OutputLogHandler;
 use PHPCensor\StoreRegistry;
+use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -29,13 +30,13 @@ abstract class Command extends BaseCommand
 
     protected StoreRegistry $storeRegistry;
 
-    protected Logger $logger;
+    protected LoggerInterface $logger;
 
     public function __construct(
         ConfigurationInterface $configuration,
         DatabaseManager $databaseManager,
         StoreRegistry $storeRegistry,
-        Logger $logger,
+        LoggerInterface $logger,
         ?string $name = null
     ) {
         parent::__construct($name);
@@ -46,7 +47,7 @@ abstract class Command extends BaseCommand
         $this->logger          = $logger;
     }
 
-    protected function configureLogging(OutputInterface $output)
+    protected function configureLogging(OutputInterface $output): void
     {
         $level = LogLevel::ERROR;
         if ($output->isDebug()) {
@@ -81,16 +82,10 @@ abstract class Command extends BaseCommand
         }
     }
 
-    /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     *
-     * @return int
-     */
     protected function execute(
         InputInterface $input,
         OutputInterface $output
-    ) {
+    ): int {
         $this->configureLogging($output);
 
         return 0;

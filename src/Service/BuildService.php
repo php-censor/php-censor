@@ -19,6 +19,7 @@ use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\ProjectStore;
 use PHPCensor\StoreRegistry;
 use PHPCensor\Worker\BuildWorker;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
@@ -131,7 +132,7 @@ class BuildService
     /**
      * @throws HttpException
      */
-    public function createPeriodicalBuilds(Logger $logger): void
+    public function createPeriodicalBuilds(LoggerInterface $logger): void
     {
         $periodicalConfig = null;
         if (\file_exists(APP_DIR . 'periodical.yml')) {
@@ -162,6 +163,7 @@ class BuildService
 
         $buildsCount = 0;
         foreach ($periodicalConfig['projects'] as $projectId => $projectConfig) {
+            /** @var Project $project */
             $project = $this->projectStore->getById((int)$projectId);
 
             if (!$project ||
@@ -189,7 +191,7 @@ class BuildService
                         $projectId,
                         $e->getMessage()
                     ),
-                    $e
+                    [$e]
                 );
 
                 return;

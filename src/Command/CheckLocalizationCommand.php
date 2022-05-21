@@ -20,7 +20,7 @@ class CheckLocalizationCommand extends Command
 
     protected array $excluded = ['lang.en.php'];
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('php-censor:check-localizations')
@@ -31,7 +31,7 @@ class CheckLocalizationCommand extends Command
             ->setDescription('Check localizations.');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln("\n<info>Check localizations!</info>");
 
@@ -58,6 +58,8 @@ class CheckLocalizationCommand extends Command
                 $output->writeln("\tSame than English:\n\t\t" . \implode("\n\t\t", $value['same']));
             }
         }
+
+        return 0;
     }
 
     private function getTranslations(string $language): array
@@ -96,8 +98,8 @@ class CheckLocalizationCommand extends Command
     /**
      * Compare translations.
      *
-     * @param array $default   language by default
-     * @param array $languages others languages
+     * @param array $default   Language by default
+     * @param array $languages Others languages
      */
     private function compareTranslations(array $default, array $languages): array
     {

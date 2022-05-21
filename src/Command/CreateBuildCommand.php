@@ -8,8 +8,8 @@ use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Model\Build;
+use PHPCensor\Model\Project;
 use PHPCensor\Service\BuildService;
-use PHPCensor\Store;
 use PHPCensor\Store\ProjectStore;
 use PHPCensor\StoreRegistry;
 use Psr\Log\LoggerInterface;
@@ -17,6 +17,9 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use PHPCensor\Common\Exception\RuntimeException;
+use PHPCensor\Exception\HttpException;
+use PHPCensor\Store\EnvironmentStore;
 
 /**
  * @package    PHP Censor
@@ -46,7 +49,7 @@ class CreateBuildCommand extends Command
         $this->buildService = $buildService;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('php-censor:create-build')
@@ -60,7 +63,12 @@ class CreateBuildCommand extends Command
             ->setDescription('Create a build for a project');
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    /**
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
+     * @throws HttpException
+     */
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $projectId   = (int)$input->getArgument('projectId');
         $commitId    = $input->getOption('commit');
@@ -69,6 +77,7 @@ class CreateBuildCommand extends Command
         $ciEmail     = $input->getOption('email');
         $ciMessage   = $input->getOption('message');
 
+        /** @var Project $project */
         $project = $this->projectStore->getById($projectId);
         if (empty($project) || $project->getArchived()) {
             throw new InvalidArgumentException('Project does not exist: ' . $projectId);
@@ -76,7 +85,7 @@ class CreateBuildCommand extends Command
 
         $environmentId = null;
         if ($environment) {
-            /** @var Store\EnvironmentStore $environmentStore */
+            /** @var EnvironmentStore $environmentStore */
             $environmentStore  = $this->storeRegistry->get('Environment');
             $environmentObject = $environmentStore->getByNameAndProjectId($environment, $project->getId());
             if ($environmentObject) {

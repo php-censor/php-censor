@@ -19,6 +19,7 @@ use PHPCensor\Model\Build;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\StoreRegistry;
+use Psr\Log\LoggerInterface;
 
 /**
  * @package    PHP Censor
@@ -42,7 +43,7 @@ class BuildWorker
     /**
      * The logger for builds to use.
      */
-    private Logger $logger;
+    private LoggerInterface $logger;
 
     private BuildService $buildService;
 
@@ -67,7 +68,7 @@ class BuildWorker
         ConfigurationInterface $configuration,
         DatabaseManager $databaseManager,
         StoreRegistry $storeRegistry,
-        Logger $logger,
+        LoggerInterface $logger,
         BuildService $buildService,
         BuildFactory $buildFactory,
         string $queueHost,
