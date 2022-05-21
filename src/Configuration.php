@@ -18,11 +18,11 @@ class Configuration extends ParameterBag implements ConfigurationInterface
 {
     private string $configurationPath;
 
-    public function __construct(string $configurationPath)
+    public function __construct()
     {
         parent::__construct([]);
 
-        $this->configurationPath = $configurationPath;
+        $this->configurationPath = APP_DIR . 'config.yml';
 
         $this->load();
     }

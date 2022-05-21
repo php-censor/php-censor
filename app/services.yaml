@@ -1,0 +1,21 @@
+parameters:
+    config.path: './app/config.yml'
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    PHPCensor\Configuration:
+
+    PHPCensor\DatabaseManager:
+
+    PHPCensor\StoreRegistry:
+
+    Symfony\Component\HttpFoundation\Session\Session:
+
+    PHPCensor\Common\Application\ConfigurationInterface:
+        alias:  PHPCensor\Configuration
+
+    Symfony\Component\HttpFoundation\Session\SessionInterface:
+        alias:  Symfony\Component\HttpFoundation\Session\Session

@@ -196,8 +196,6 @@ class Application
      */
     protected function loadController(string $class): Controller
     {
-
-
         /** @var Controller $controller */
         $controller = new $class($this->configuration, $this->storeRegistry, $this->request, $this->session);
 

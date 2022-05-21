@@ -18,6 +18,8 @@ use Symfony\Component\HttpFoundation\Session\Session;
  */
 abstract class Controller
 {
+    protected string $className;
+
     protected Request $request;
 
     protected Session $session;
@@ -36,6 +38,9 @@ abstract class Controller
         $this->storeRegistry = $storeRegistry;
         $this->request       = $request;
         $this->session       = $session;
+
+        $class           = \explode('\\', \get_class($this));
+        $this->className = \substr(\array_pop($class), 0, -10);
     }
 
     /**
