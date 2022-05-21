@@ -191,9 +191,6 @@ class ProjectController extends WebController
      * @param int $projectId
      *
      * @throws NotFoundException
-     *
-     * @return RedirectResponse
-     *
      */
     public function build($projectId): RedirectResponse
     {
@@ -365,8 +362,9 @@ class ProjectController extends WebController
         $this->layout->title = Lang::get('add_project');
         $this->requireAdmin();
 
-        $method                   = $this->request->getMethod();
-        $values                   = $this->request->request->all();;
+        $method = $this->request->getMethod();
+        $values = $this->request->request->all();
+
         $values['default_branch'] = null;
 
         if ($method !== 'POST') {
