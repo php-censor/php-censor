@@ -46,6 +46,9 @@ class CreateAdmin
         $this->storeRegistry  = $storeRegistry;
     }
 
+    /**
+     * @throws InvalidArgumentException
+     */
     public function process(): array
     {
         $result = [];

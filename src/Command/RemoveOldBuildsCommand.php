@@ -45,7 +45,7 @@ class RemoveOldBuildsCommand extends Command
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('php-censor:remove-old-builds')
@@ -57,11 +57,13 @@ class RemoveOldBuildsCommand extends Command
      *
      * @throws HttpException
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $projects = $this->projectStore->getAll();
         foreach ($projects['items'] as $project) {
             $this->buildService->deleteOldByProject($project->getId());
         }
+
+        return 0;
     }
 }

@@ -11,6 +11,8 @@ use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\ProjectStore;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use PHPCensor\Common\Exception\RuntimeException;
+use PHPCensor\Exception\HttpException;
 
 /**
  * @package    PHP Censor
@@ -21,14 +23,18 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class RebuildQueueCommand extends Command
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('php-censor:rebuild-queue')
             ->setDescription('Rebuilds the PHP Censor worker queue.');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    /**
+     * @throws RuntimeException
+     * @throws HttpException
+     */
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         /** @var BuildStore $buildStore */
         $buildStore = $this->storeRegistry->get('Build');
@@ -64,5 +70,7 @@ class RebuildQueueCommand extends Command
                 (null !== $project) ? $project->getBuildPriority() : Project::DEFAULT_BUILD_PRIORITY
             );
         }
+
+        return 0;
     }
 }

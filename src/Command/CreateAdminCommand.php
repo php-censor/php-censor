@@ -14,6 +14,7 @@ use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use PHPCensor\Common\Exception\InvalidArgumentException;
 
 /**
  * @package    PHP Censor
@@ -39,7 +40,7 @@ class CreateAdminCommand extends Command
         $this->userStore = $userStore;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('php-censor:create-admin')
@@ -51,7 +52,10 @@ class CreateAdminCommand extends Command
             ->setDescription('Create an admin user');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    /**
+     * @throws InvalidArgumentException
+     */
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         /** @var $questionHelper QuestionHelper */
         $questionHelper = $this->getHelperSet()->get('question');

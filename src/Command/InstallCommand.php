@@ -32,7 +32,7 @@ class InstallCommand extends Command
 {
     protected string $configPath = APP_DIR . 'config.yml';
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('php-censor:install')
@@ -97,7 +97,7 @@ class InstallCommand extends Command
             ->setDescription('Install PHP Censor');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $configFromFile = (bool)$input->getOption('config-from-file');
 
@@ -173,7 +173,7 @@ class InstallCommand extends Command
      *
      * @throws Exception
      */
-    private function checkRequirements(OutputInterface $output)
+    private function checkRequirements(OutputInterface $output): void
     {
         $output->writeln('Checking requirements...');
         $errors = false;
@@ -327,9 +327,7 @@ class InstallCommand extends Command
     private function getQueueInformation(InputInterface $input, OutputInterface $output): array
     {
         $queueConfig = [
-            'host'     => null,
             'port'     => Pheanstalk::DEFAULT_PORT,
-            'name'     => null,
             'lifetime' => 600,
         ];
 
@@ -545,6 +543,9 @@ class InstallCommand extends Command
 
     /**
      * Create admin user using information loaded before.
+     *
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
      */
     protected function createAdminUser(InputInterface $input, OutputInterface $output): bool
     {
