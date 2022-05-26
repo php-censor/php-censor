@@ -189,9 +189,9 @@ LOGO;
 
         $buildService = new BuildService(
             $this->configuration,
-            $this->storeRegistry,
             $buildFactory,
             $buildStore,
+            $buildErrorStore,
             $projectStore
         );
 
@@ -247,6 +247,7 @@ LOGO;
             $this->storeRegistry,
             $logger,
             $buildStore,
+            $buildErrorStore,
             $projectStore
         ));
         $this->add(new CheckLocalizationCommand(

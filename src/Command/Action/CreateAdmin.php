@@ -94,7 +94,7 @@ class CreateAdmin
                 throw new RuntimeException('Admin account already exists!');
             }
 
-            $userService = new UserService($this->storeRegistry, $this->userStore);
+            $userService = new UserService($this->userStore);
 
             $userService->createUser(
                 $adminDetails['name'],

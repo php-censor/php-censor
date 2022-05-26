@@ -42,7 +42,7 @@ class InternalTest extends TestCase
 
     public function testVerifyPassword(): void
     {
-        $user = new User($this->storeRegistry);
+        $user = new User();
         $password = 'bla';
         $user->setHash(\password_hash($password, PASSWORD_DEFAULT));
 
@@ -51,7 +51,7 @@ class InternalTest extends TestCase
 
     public function testVerifyInvalidPassword(): void
     {
-        $user = new User($this->storeRegistry);
+        $user = new User();
         $password = 'foo';
         $user->setHash(\password_hash($password, PASSWORD_DEFAULT));
 

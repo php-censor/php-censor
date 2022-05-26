@@ -9,6 +9,10 @@ use PHPCensor\DatabaseManager;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\Project;
 use PHPCensor\Service\BuildStatusService;
+use PHPCensor\Store\BuildErrorStore;
+use PHPCensor\Store\BuildStore;
+use PHPCensor\Store\EnvironmentStore;
+use PHPCensor\Store\ProjectStore;
 use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 use PHPCensor\Common\Application\ConfigurationInterface;
@@ -26,6 +30,10 @@ class BuildStatusServiceTest extends TestCase
     private string $timezone;
     private StoreRegistry $storeRegistry;
 
+    private ProjectStore $projectStore;
+    private BuildStore $buildStore;
+    private BuildErrorStore $buildErrorStore;
+
     protected function setUp(): void
     {
         $configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
@@ -38,7 +46,27 @@ class BuildStatusServiceTest extends TestCase
             ->setConstructorArgs([$databaseManager])
             ->getMock();
 
-        $project = new Project($this->storeRegistry);
+        $buildStore = $this
+            ->getMockBuilder(BuildStore::class)
+            ->setConstructorArgs([$databaseManager, $this->storeRegistry])
+            ->getMock();
+
+        $this->projectStore = $this
+            ->getMockBuilder(ProjectStore::class)
+            ->setConstructorArgs([$databaseManager, $this->storeRegistry])
+            ->getMock();
+
+        $this->buildErrorStore = $this
+            ->getMockBuilder(BuildErrorStore::class)
+            ->setConstructorArgs([$databaseManager, $this->storeRegistry])
+            ->getMock();
+
+        $environmentStore = $this
+            ->getMockBuilder(EnvironmentStore::class)
+            ->setConstructorArgs([$databaseManager, $this->storeRegistry])
+            ->getMock();
+
+        $project = new Project($buildStore, $environmentStore);
         $project->setId(3);
         $project->setDefaultBranch(self::BRANCH);
         $project->setTitle('Test');
@@ -96,7 +124,7 @@ class BuildStatusServiceTest extends TestCase
             return null;
         }
 
-        $build = new Build($this->storeRegistry);
+        $build = new Build($this->buildErrorStore, $this->buildStore, $this->projectStore);
         $build->setId($config[$configId]['id']);
         $build->setBranch(self::BRANCH);
 

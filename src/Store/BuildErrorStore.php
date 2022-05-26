@@ -74,7 +74,7 @@ class BuildErrorStore extends Store
         if ($stmt->execute()) {
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            $map = fn ($item) => new BuildError($this->storeRegistry, $item);
+            $map = fn ($item) => new BuildError($item);
             $rtn = \array_map($map, $res);
 
             $count = \count($rtn);

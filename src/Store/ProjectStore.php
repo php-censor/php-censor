@@ -6,10 +6,12 @@ namespace PHPCensor\Store;
 
 use Exception;
 use PDO;
+use PHPCensor\DatabaseManager;
 use PHPCensor\Exception\HttpException;
 use PHPCensor\Model\Environment;
 use PHPCensor\Model\Project;
 use PHPCensor\Store;
+use PHPCensor\StoreRegistry;
 
 /**
  * @package    PHP Censor
@@ -23,6 +25,19 @@ class ProjectStore extends Store
     protected string $tableName = 'projects';
 
     protected string $modelName = Project::class;
+
+    private BuildStore $buildStore;
+    private EnvironmentStore $environmentStore;
+
+    public function __construct(
+        DatabaseManager $databaseManager,
+        StoreRegistry $storeRegistry
+    ) {
+        parent::__construct($databaseManager, $storeRegistry);
+
+        $this->buildStore = $this->storeRegistry->get('Build');
+        $this->environmentStore = $this->storeRegistry->get('Environment');
+    }
 
     /**
      * Get a single Project by Ids.
@@ -45,7 +60,7 @@ class ProjectStore extends Store
         $rtn = [];
         if ($stmt->execute()) {
             while ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                $rtn[$data['id']] = new Project($this->storeRegistry, $data);
+                $rtn[$data['id']] = new Project($this->buildStore, $this->environmentStore, $data);
             }
         }
 
@@ -71,7 +86,7 @@ class ProjectStore extends Store
         if ($stmt->execute()) {
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            $map = fn ($item) => new Project($this->storeRegistry, $item);
+            $map = fn ($item) => new Project($this->buildStore, $this->environmentStore, $item);
             $rtn = \array_map($map, $res);
 
             $count = \count($rtn);
@@ -119,7 +134,7 @@ class ProjectStore extends Store
         if ($stmt->execute()) {
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            $map = fn ($item) => new Project($this->storeRegistry, $item);
+            $map = fn ($item) => new Project($this->buildStore, $this->environmentStore, $item);
             $rtn = \array_map($map, $res);
 
             $count = \count($rtn);
@@ -148,12 +163,12 @@ class ProjectStore extends Store
 
         $stmt->bindValue(':group_id', $groupId);
         $stmt->bindValue(':archived', $archived);
-        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            $map = fn ($item) => new Project($this->storeRegistry, $item);
+            $map = fn ($item) => new Project($this->buildStore, $this->environmentStore, $item);
             $rtn = \array_map($map, $res);
 
             $count = \count($rtn);

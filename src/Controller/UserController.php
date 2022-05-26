@@ -16,6 +16,8 @@ use PHPCensor\Store\UserStore;
 use PHPCensor\View;
 use PHPCensor\WebController;
 use PHPCensor\Form\Element\Csrf;
+use PHPCensor\Common\Exception\RuntimeException;
+use PHPCensor\Exception\HttpException;
 
 /**
  * @package    PHP Censor
@@ -34,13 +36,18 @@ class UserController extends WebController
 
     /**
      * Initialise the controller, set up stores and services.
+     *
+     * @throws RuntimeException
      */
     public function init(): void
     {
         parent::init();
 
-        $this->userStore   = $this->storeRegistry->get('User');
-        $this->userService = new UserService($this->storeRegistry, $this->userStore);
+        /** @var UserStore userStore */
+        $userStore = $this->storeRegistry->get('User');
+        $this->userStore = $userStore;
+
+        $this->userService = new UserService($this->userStore);
     }
 
     /**
@@ -60,8 +67,8 @@ class UserController extends WebController
     /**
      * Allows the user to edit their profile.
      *
-     * @throws \PHPCensor\Common\Exception\RuntimeException
-     * @throws \PHPCensor\Exception\HttpException
+     * @throws RuntimeException
+     * @throws HttpException
      */
     public function profile(): string
     {

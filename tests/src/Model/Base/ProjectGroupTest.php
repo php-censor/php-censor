@@ -31,7 +31,7 @@ class ProjectGroupTest extends TestCase
 
     public function testConstruct(): void
     {
-        $projectGroup = new ProjectGroup($this->storeRegistry);
+        $projectGroup = new ProjectGroup();
 
         self::assertInstanceOf(Model::class, $projectGroup);
         self::assertInstanceOf(ProjectGroup::class, $projectGroup);
@@ -46,7 +46,7 @@ class ProjectGroupTest extends TestCase
 
     public function testId(): void
     {
-        $projectGroup = new ProjectGroup($this->storeRegistry);
+        $projectGroup = new ProjectGroup();
 
         $result = $projectGroup->setId(100);
         self::assertEquals(true, $result);
@@ -58,7 +58,7 @@ class ProjectGroupTest extends TestCase
 
     public function testTitle(): void
     {
-        $projectGroup = new ProjectGroup($this->storeRegistry);
+        $projectGroup = new ProjectGroup();
 
         $result = $projectGroup->setTitle('title');
         self::assertEquals(true, $result);
@@ -70,10 +70,10 @@ class ProjectGroupTest extends TestCase
 
     public function testCreateDate(): void
     {
-        $projectGroup = new ProjectGroup($this->storeRegistry);
+        $projectGroup = new ProjectGroup();
         self::assertEquals(null, $projectGroup->getCreateDate());
 
-        $projectGroup = new ProjectGroup($this->storeRegistry);
+        $projectGroup = new ProjectGroup();
         $createDate   = new DateTime();
 
         $result = $projectGroup->setCreateDate($createDate);
@@ -83,16 +83,16 @@ class ProjectGroupTest extends TestCase
         $result = $projectGroup->setCreateDate($createDate);
         self::assertEquals(false, $result);
 
-        $projectGroup = new ProjectGroup($this->storeRegistry, ['create_date' => $createDate->format('Y-m-d H:i:s')]);
+        $projectGroup = new ProjectGroup(['create_date' => $createDate->format('Y-m-d H:i:s')]);
         self::assertEquals($createDate->getTimestamp(), $projectGroup->getCreateDate()->getTimestamp());
 
-        $projectGroup = new ProjectGroup($this->storeRegistry, ['create_date' => 'Invalid Data']);
+        $projectGroup = new ProjectGroup(['create_date' => 'Invalid Data']);
         self::assertNull($projectGroup->getCreateDate());
     }
 
     public function testUserId(): void
     {
-        $projectGroup = new ProjectGroup($this->storeRegistry);
+        $projectGroup = new ProjectGroup();
 
         $result = $projectGroup->setUserId(200);
         self::assertEquals(true, $result);

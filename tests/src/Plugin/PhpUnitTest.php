@@ -67,8 +67,20 @@ class PhpUnitTest extends TestCase
             ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$configuration])
             ->getMock();
+        $storeRegistry = $this
+            ->getMockBuilder(StoreRegistry::class)
+            ->setConstructorArgs([$databaseManager])
+            ->getMock();
 
-        $storeRegistry = new StoreRegistry($databaseManager);
+        $buildStore = $this
+            ->getMockBuilder(BuildStore::class)
+            ->setConstructorArgs([$databaseManager, $storeRegistry])
+            ->getMock();
+
+        $storeRegistry
+            ->method('get')
+            ->with('Build')
+            ->willReturn($buildStore);
 
         $build = $this
             ->getMockBuilder(Build::class)
@@ -110,7 +122,6 @@ class PhpUnitTest extends TestCase
             ->getMockBuilder(EnvironmentStore::class)
             ->setConstructorArgs([$databaseManager, $storeRegistry])
             ->getMock();
-
         $builder = $this->getMockBuilder(Builder::class)
             ->setConstructorArgs([$configuration, $databaseManager, $storeRegistry, $buildErrorStore, $buildStore, $secretStore, $environmentStore, $build, $buildLogger])
             ->onlyMethods(['executeCommand'])

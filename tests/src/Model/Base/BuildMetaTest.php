@@ -4,33 +4,15 @@ declare(strict_types=1);
 
 namespace Tests\PHPCensor\Model\Base;
 
-use PHPCensor\DatabaseManager;
 use PHPCensor\Model;
 use PHPCensor\Model\Base\BuildMeta;
-use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
-use PHPCensor\Common\Application\ConfigurationInterface;
 
 class BuildMetaTest extends TestCase
 {
-    private StoreRegistry $storeRegistry;
-
-    protected function setUp(): void
-    {
-        $configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
-        $databaseManager = $this
-            ->getMockBuilder(DatabaseManager::class)
-            ->setConstructorArgs([$configuration])
-            ->getMock();
-        $this->storeRegistry = $this
-            ->getMockBuilder(StoreRegistry::class)
-            ->setConstructorArgs([$databaseManager])
-            ->getMock();
-    }
-
     public function testConstruct(): void
     {
-        $buildMeta = new BuildMeta($this->storeRegistry);
+        $buildMeta = new BuildMeta();
 
         self::assertInstanceOf(Model::class, $buildMeta);
         self::assertInstanceOf(BuildMeta::class, $buildMeta);
@@ -45,7 +27,7 @@ class BuildMetaTest extends TestCase
 
     public function testId(): void
     {
-        $buildMeta = new BuildMeta($this->storeRegistry);
+        $buildMeta = new BuildMeta();
 
         $result = $buildMeta->setId(100);
         self::assertEquals(true, $result);
@@ -57,7 +39,7 @@ class BuildMetaTest extends TestCase
 
     public function testBuildId(): void
     {
-        $buildMeta = new BuildMeta($this->storeRegistry);
+        $buildMeta = new BuildMeta();
 
         $result = $buildMeta->setBuildId(200);
         self::assertEquals(true, $result);
@@ -69,7 +51,7 @@ class BuildMetaTest extends TestCase
 
     public function testMetaKey(): void
     {
-        $buildMeta = new BuildMeta($this->storeRegistry);
+        $buildMeta = new BuildMeta();
 
         $result = $buildMeta->setMetaKey('key');
         self::assertEquals(true, $result);
@@ -81,7 +63,7 @@ class BuildMetaTest extends TestCase
 
     public function testMetaValue(): void
     {
-        $buildMeta = new BuildMeta($this->storeRegistry);
+        $buildMeta = new BuildMeta();
 
         $result = $buildMeta->setMetaValue('value');
         self::assertEquals(true, $result);

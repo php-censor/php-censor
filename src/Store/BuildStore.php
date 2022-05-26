@@ -6,10 +6,12 @@ namespace PHPCensor\Store;
 
 use Exception;
 use PDO;
+use PHPCensor\DatabaseManager;
 use PHPCensor\Exception\HttpException;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildMeta;
 use PHPCensor\Store;
+use PHPCensor\StoreRegistry;
 
 /**
  * @package    PHP Censor
@@ -23,6 +25,21 @@ class BuildStore extends Store
     protected string $tableName = 'builds';
 
     protected string $modelName = Build::class;
+
+    private BuildErrorStore $buildErrorStore;
+    private BuildStore $buildStore;
+    private ProjectStore $projectStore;
+
+    public function __construct(
+        DatabaseManager $databaseManager,
+        StoreRegistry $storeRegistry
+    ) {
+        parent::__construct($databaseManager, $storeRegistry);
+
+        $this->buildErrorStore = $this->storeRegistry->get('BuildError');
+        $this->buildStore = $this->storeRegistry->get('Build');
+        $this->projectStore = $this->storeRegistry->get('Project');
+    }
 
     /**
      * Get multiple Build by ProjectId.
@@ -38,12 +55,12 @@ class BuildStore extends Store
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{project_id}} = :project_id LIMIT :limit';
         $stmt  = $this->databaseManager->getConnection($useConnection)->prepare($query);
         $stmt->bindValue(':project_id', $projectId);
-        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            $map = fn ($item) => new Build($this->storeRegistry, $item);
+            $map = fn ($item) => new Build($this->buildErrorStore, $this->buildStore, $this->projectStore, $item);
             $rtn = \array_map($map, $res);
 
             $count = \count($rtn);
@@ -73,7 +90,7 @@ class BuildStore extends Store
         if ($stmt->execute()) {
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            $map = fn ($item) => new Build($this->storeRegistry, $item);
+            $map = fn ($item) => new Build($this->buildErrorStore, $this->buildStore, $this->projectStore, $item);
             $rtn = \array_map($map, $res);
 
             $count = \count($rtn);
@@ -94,7 +111,7 @@ class BuildStore extends Store
 
         if ($stmt->execute()) {
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            $map = fn ($item) => new Build($this->storeRegistry, $item);
+            $map = fn ($item) => new Build($this->buildErrorStore, $this->buildStore, $this->projectStore, $item);
 
             return \array_map($map, $res);
         } else {
@@ -114,7 +131,7 @@ class BuildStore extends Store
         $stmt->bindValue(':branch', $branch);
 
         if ($stmt->execute() && $data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            return new Build($this->storeRegistry, $data);
+            return new Build($this->buildErrorStore, $this->buildStore, $this->projectStore, $data);
         }
 
         return null;
@@ -143,7 +160,7 @@ class BuildStore extends Store
 
         if ($stmt->execute()) {
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            $map = fn ($item) => new Build($this->storeRegistry, $item);
+            $map = fn ($item) => new Build($this->buildErrorStore, $this->buildStore, $this->projectStore, $item);
 
             return \array_map($map, $res);
         } else {
@@ -163,7 +180,7 @@ class BuildStore extends Store
 
         if ($stmt->execute()) {
             if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                return new Build($this->storeRegistry, $data);
+                return new Build($this->buildErrorStore, $this->buildStore, $this->projectStore, $data);
             }
         }
 
@@ -218,24 +235,24 @@ class BuildStore extends Store
                 }
                 $build = null;
                 if (\count($projects[$projectId][$environment]['latest']) < $limitByProject) {
-                    $build = new Build($this->storeRegistry, $item);
+                    $build = new Build($this->buildErrorStore, $this->buildStore, $this->projectStore, $item);
                     $projects[$projectId][$environment]['latest'][] = $build;
                 }
                 if (\count($latest) < $limitAll) {
                     if (\is_null($build)) {
-                        $build = new Build($this->storeRegistry, $item);
+                        $build = new Build($this->buildErrorStore, $this->buildStore, $this->projectStore, $item);
                     }
                     $latest[] = $build;
                 }
                 if (empty($projects[$projectId][$environment]['success']) && Build::STATUS_SUCCESS === $item['status']) {
                     if (\is_null($build)) {
-                        $build = new Build($this->storeRegistry, $item);
+                        $build = new Build($this->buildErrorStore, $this->buildStore, $this->projectStore, $item);
                     }
                     $projects[$projectId][$environment]['success'] = $build;
                 }
                 if (empty($projects[$projectId][$environment]['failed']) && Build::STATUS_FAILED === $item['status']) {
                     if (\is_null($build)) {
-                        $build = new Build($this->storeRegistry, $item);
+                        $build = new Build($this->buildErrorStore, $this->buildStore, $this->projectStore, $item);
                     }
                     $projects[$projectId][$environment]['failed'] = $build;
                 }
@@ -266,7 +283,7 @@ class BuildStore extends Store
 
         if ($stmt->execute()) {
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            $map = fn ($item) => new Build($this->storeRegistry, $item);
+            $map = fn ($item) => new Build($this->buildErrorStore, $this->buildStore, $this->projectStore, $item);
 
             $rtn = \array_map($map, $res);
 
@@ -292,6 +309,24 @@ class BuildStore extends Store
         } else {
             return [];
         }
+    }
+
+    /**
+     * Set a metadata value for a given project and build ID.
+     */
+    public function setMeta(int $buildId, string $key, string $value): void
+    {
+        /** @var BuildMetaStore $store */
+        $store = $this->storeRegistry->get('BuildMeta');
+        $meta  = $store->getByKey($buildId, $key);
+        if (\is_null($meta)) {
+            $meta = new BuildMeta();
+            $meta->setBuildId($buildId);
+            $meta->setMetaKey($key);
+        }
+        $meta->setMetaValue($value);
+
+        $store->save($meta);
     }
 
     /**
@@ -362,24 +397,6 @@ class BuildStore extends Store
         }
     }
 
-    /**
-     * Set a metadata value for a given project and build ID.
-     */
-    public function setMeta(int $buildId, string $key, string $value): void
-    {
-        /** @var BuildMetaStore $store */
-        $store = $this->storeRegistry->get('BuildMeta');
-        $meta  = $store->getByKey($buildId, $key);
-        if (\is_null($meta)) {
-            $meta = new BuildMeta($this->storeRegistry);
-            $meta->setBuildId($buildId);
-            $meta->setMetaKey($key);
-        }
-        $meta->setMetaValue($value);
-
-        $store->save($meta);
-    }
-
     public function deleteAllByProject(int $projectId): int
     {
         $q = $this->databaseManager->getConnection('write')
@@ -408,7 +425,7 @@ class BuildStore extends Store
 
         if ($stmt->execute()) {
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            $map = fn ($item) => new Build($this->storeRegistry, $item);
+            $map = fn ($item) => new Build($this->buildErrorStore, $this->buildStore, $this->projectStore, $item);
             $rtn = \array_map($map, $res);
 
             $count = \count($rtn);

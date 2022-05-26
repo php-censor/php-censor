@@ -14,6 +14,8 @@ use PHPCensor\Helper\Lang;
 use PHPCensor\Model\Base\Build as BaseBuild;
 use PHPCensor\Plugin\PhpParallelLint;
 use PHPCensor\Store\BuildErrorStore;
+use PHPCensor\Store\BuildMetaStore;
+use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\ProjectStore;
 use PHPCensor\ZeroConfigPluginInterface;
 use ReflectionClass;
@@ -60,42 +62,36 @@ class Build extends BaseBuild
 
     protected string $buildBranchDirectory;
 
+    private BuildErrorStore $buildErrorStore;
+    private BuildStore $buildStore;
+    private ProjectStore $projectStore;
+
+    public function __construct(
+        BuildErrorStore $buildErrorStore,
+        BuildStore $buildStore,
+        ProjectStore $projectStore,
+        array $initialData = []
+    ) {
+        parent::__construct($initialData);
+
+        $this->buildErrorStore = $buildErrorStore;
+        $this->buildStore      = $buildStore;
+        $this->projectStore    = $projectStore;
+    }
+
     /**
      * @return Project|null
      *
      * @throws HttpException
      */
-    public function getProject()
+    public function getProject(): ?Project
     {
         $projectId = $this->getProjectId();
         if (!$projectId) {
             return null;
         }
 
-        /** @var ProjectStore $projectStore */
-        $projectStore = $this->storeRegistry->get('Project');
-
-        return $projectStore->getById($projectId);
-    }
-
-    /**
-     * Get BuildError models by BuildId for this Build.
-     *
-     * @return BuildError[]
-     */
-    public function getBuildBuildErrors()
-    {
-        return $this->storeRegistry->get('BuildError')->getByBuildId($this->getId());
-    }
-
-    /**
-     * Get BuildMeta models by BuildId for this Build.
-     *
-     * @return BuildMeta[]
-     */
-    public function getBuildBuildMetas()
-    {
-        return $this->storeRegistry->get('BuildMeta')->getByBuildId($this->getId());
+        return $this->projectStore->getById($projectId);
     }
 
     /**
@@ -178,7 +174,7 @@ class Build extends BaseBuild
     {
         $value = \json_encode($value);
 
-        $this->storeRegistry->get('Build')->setMeta($this->getId(), $key, $value);
+        $this->buildStore->setMeta($this->getId(), $key, $value);
     }
 
     /**
@@ -603,10 +599,7 @@ OUT;
             $isNew;
 
         if (!isset($this->totalErrorsCount[$key])) {
-            /** @var BuildErrorStore $store */
-            $store = $this->storeRegistry->get('BuildError');
-
-            $this->totalErrorsCount[$key] = (int)$store->getErrorTotalForBuild(
+            $this->totalErrorsCount[$key] = $this->buildErrorStore->getErrorTotalForBuild(
                 $this->getId(),
                 $plugin,
                 $severity,

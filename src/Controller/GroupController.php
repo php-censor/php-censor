@@ -78,7 +78,7 @@ class GroupController extends WebController
         if (!\is_null($groupId)) {
             $group = $this->groupStore->getById($groupId);
         } else {
-            $group = new ProjectGroup($this->storeRegistry);
+            $group = new ProjectGroup();
         }
 
         if ($this->request->getMethod() === 'POST') {

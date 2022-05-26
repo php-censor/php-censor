@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace PHPCensor\Service;
 
 use DateTime;
-use Exception;
 use PHPCensor\Model\Project;
+use PHPCensor\Store\BuildStore;
+use PHPCensor\Store\EnvironmentStore;
 use PHPCensor\Store\ProjectStore;
-use PHPCensor\StoreRegistry;
 use Symfony\Component\Filesystem\Filesystem;
+use PHPCensor\Common\Exception\InvalidArgumentException;
 
 /**
  * The project service handles the creation, modification and deletion of projects.
@@ -23,15 +24,17 @@ use Symfony\Component\Filesystem\Filesystem;
 class ProjectService
 {
     private ProjectStore $projectStore;
-
-    private StoreRegistry $storeRegistry;
+    private BuildStore $buildStore;
+    private EnvironmentStore $environmentStore;
 
     public function __construct(
-        StoreRegistry $storeRegistry,
+        BuildStore $buildStore,
+        EnvironmentStore $environmentStore,
         ProjectStore $projectStore
     ) {
-        $this->storeRegistry = $storeRegistry;
-        $this->projectStore  = $projectStore;
+        $this->projectStore     = $projectStore;
+        $this->buildStore       = $buildStore;
+        $this->environmentStore = $environmentStore;
     }
 
     /**
@@ -40,18 +43,25 @@ class ProjectService
     public function createProject(string $title, string $type, string $reference, int $userId, array $options = []): Project
     {
         // Create base project and use updateProject() to set its properties:
-        $project = new Project($this->storeRegistry);
+        $project = new Project($this->buildStore, $this->environmentStore);
         $project->setCreateDate(new DateTime());
-        $project->setUserId((int)$userId);
+        $project->setUserId($userId);
 
         return $this->updateProject($project, $title, $type, $reference, $options);
     }
 
     /**
      * Update the properties of a given project.
+     *
+     * @throws InvalidArgumentException
      */
-    public function updateProject(Project $project, string $title, string $type, string $reference, array $options = []): Project
-    {
+    public function updateProject(
+        Project $project,
+        string $title,
+        string $type,
+        string $reference,
+        array $options = []
+    ): Project {
         // Set basic properties:
         $project->setTitle($title);
         $project->setType($type);

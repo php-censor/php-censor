@@ -15,6 +15,7 @@ use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\Exception\HttpException;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\Project;
+use PHPCensor\Store\BuildErrorStore;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\ProjectStore;
 use PHPCensor\StoreRegistry;
@@ -37,11 +38,11 @@ class BuildService
 {
     private BuildStore $buildStore;
 
+    private BuildErrorStore $buildErrorStore;
+
     private ProjectStore $projectStore;
 
     private ConfigurationInterface $configuration;
-
-    private StoreRegistry $storeRegistry;
 
     private BuildFactory $buildFactory;
 
@@ -49,16 +50,16 @@ class BuildService
 
     public function __construct(
         ConfigurationInterface $configuration,
-        StoreRegistry $storeRegistry,
         BuildFactory $buildFactory,
         BuildStore $buildStore,
+        BuildErrorStore $buildErrorStore,
         ProjectStore $projectStore
     ) {
-        $this->configuration = $configuration;
-        $this->storeRegistry = $storeRegistry;
-        $this->buildStore    = $buildStore;
-        $this->projectStore  = $projectStore;
-        $this->buildFactory  = $buildFactory;
+        $this->configuration   = $configuration;
+        $this->buildStore      = $buildStore;
+        $this->buildErrorStore = $buildErrorStore;
+        $this->projectStore    = $projectStore;
+        $this->buildFactory    = $buildFactory;
     }
 
     public function createBuild(
@@ -73,7 +74,7 @@ class BuildService
         ?int $userId = null,
         ?array $extra = null
     ): Build {
-        $build = new Build($this->storeRegistry);
+        $build = new Build($this->buildErrorStore, $this->buildStore, $this->projectStore);
         $build->setCreateDate(new DateTime());
         $build->setProjectId($project->getId());
         $build->setStatusPending();
@@ -242,7 +243,8 @@ class BuildService
      */
     public function createDuplicateBuild(Build $originalBuild, int $source): Build
     {
-        $build = new Build($this->storeRegistry);
+        $build = new Build($this->buildErrorStore, $this->buildStore, $this->projectStore);
+
         $build->setParentId($originalBuild->getId());
         $build->setProjectId($originalBuild->getProjectId());
         $build->setCommitId($originalBuild->getCommitId());

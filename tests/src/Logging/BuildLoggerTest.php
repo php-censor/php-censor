@@ -17,9 +17,14 @@ class BuildLoggerTest extends TestCase
 {
     use ProphecyTrait;
 
-    private BuildLogger $testedBuildLogger;
-    private $logger;
-    private $build;
+    /**
+     * @var BuildLogger
+     */
+    protected $testedBuildLogger;
+
+    protected $logger;
+
+    protected $build;
 
     protected function setUp(): void
     {

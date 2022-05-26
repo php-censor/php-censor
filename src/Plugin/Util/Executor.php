@@ -21,20 +21,11 @@ use PHPCensor\StoreRegistry;
  */
 class Executor
 {
-    /**
-     * @var BuildLogger
-     */
-    protected $logger;
+    protected BuildLogger $logger;
 
-    /**
-     * @var Factory
-     */
-    protected $pluginFactory;
+    protected Factory $pluginFactory;
 
-    /**
-     * @var BuildStore
-     */
-    protected $store;
+    protected BuildStore $buildStore;
 
     protected StoreRegistry $storeRegistry;
 
@@ -42,12 +33,12 @@ class Executor
         StoreRegistry $storeRegistry,
         Factory $pluginFactory,
         BuildLogger $logger,
-        BuildStore $store = null
+        BuildStore $buildStore = null
     ) {
         $this->storeRegistry = $storeRegistry;
         $this->pluginFactory = $pluginFactory;
         $this->logger        = $logger;
-        $this->store         = $store;
+        $this->buildStore    = $buildStore;
     }
 
     /**
@@ -286,7 +277,7 @@ class Executor
     private function getBuildSummary()
     {
         $build = $this->pluginFactory->getBuild();
-        $metas = $this->store->getMeta('plugin-summary', $build->getProjectId(), $build->getId());
+        $metas = $this->buildStore->getMeta('plugin-summary', $build->getProjectId(), $build->getId());
 
         return isset($metas[0]['meta_value']) ? $metas[0]['meta_value'] : [];
     }
@@ -299,6 +290,6 @@ class Executor
     private function setBuildSummary($summary)
     {
         $build = $this->pluginFactory->getBuild();
-        $this->store->setMeta($build->getId(), 'plugin-summary', \json_encode($summary));
+        $this->buildStore->setMeta($build->getId(), 'plugin-summary', \json_encode($summary));
     }
 }

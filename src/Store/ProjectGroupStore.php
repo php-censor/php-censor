@@ -39,7 +39,7 @@ class ProjectGroupStore extends Store
 
         if ($stmt->execute()) {
             if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                return new ProjectGroup($this->storeRegistry, $data);
+                return new ProjectGroup($data);
             }
         }
 

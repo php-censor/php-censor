@@ -595,7 +595,7 @@ class InstallCommand extends Command
                 throw new RuntimeException('Default project group already exists!');
             }
 
-            $group = new ProjectGroup($this->storeRegistry);
+            $group = new ProjectGroup();
             $group->setTitle('Projects');
             $group->setCreateDate(new DateTime());
             $group->setUserId(null);

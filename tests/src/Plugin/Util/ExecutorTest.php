@@ -11,7 +11,10 @@ use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 use PHPCensor\Plugin\Util\Executor;
 use PHPCensor\Plugin\Util\Factory;
+use PHPCensor\Store\BuildErrorStore;
 use PHPCensor\Store\BuildStore;
+use PHPCensor\Store\ProjectStore;
+use PHPCensor\Plugin\Util\Factory;
 use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
@@ -23,10 +26,12 @@ class ExecutorTest extends TestCase
     use ProphecyTrait;
 
     private Executor $testedExecutor;
-    private $buildLogger;
-    private $factory;
-    private $buildStore;
+    private BuildLogger $buildLogger;
+    private Factory $factory;
+    private BuildStore $buildStore;
     private StoreRegistry $storeRegistry;
+    private ProjectStore $projectStore;
+    private BuildErrorStore $buildErrorStore;
 
     protected function setUp(): void
     {
@@ -42,14 +47,29 @@ class ExecutorTest extends TestCase
             ->setConstructorArgs([$databaseManager])
             ->getMock();
 
+        $this->projectStore = $this
+            ->getMockBuilder(ProjectStore::class)
+            ->setConstructorArgs([$databaseManager, $this->storeRegistry])
+            ->getMock();
+
+        $this->buildStore = $this
+            ->getMockBuilder(BuildStore::class)
+            ->setConstructorArgs([$databaseManager, $this->storeRegistry])
+            ->getMock();
+
+        $this->buildErrorStore = $this
+            ->getMockBuilder(BuildErrorStore::class)
+            ->setConstructorArgs([$databaseManager, $this->storeRegistry])
+            ->getMock();
+
         $this->buildLogger = $this->prophesize(BuildLogger::class);
         $this->factory = $this->prophesize(Factory::class);
-        $this->buildStore = $this->prophesize(BuildStore::class);
+
         $this->testedExecutor = new Executor(
             $this->storeRegistry,
             $this->factory->reveal(),
             $this->buildLogger->reveal(),
-            $this->buildStore->reveal()
+            $this->buildStore
         );
     }
 
@@ -91,7 +111,7 @@ class ExecutorTest extends TestCase
     {
         $options = [];
         $pluginName = 'PhpUnit';
-        $build = new Build($this->storeRegistry);
+        $build = new Build($this->buildErrorStore, $this->buildStore, $this->projectStore);
 
         $plugin = $this->prophesize(Plugin::class);
         $plugin->setStoreRegistry($this->storeRegistry)->shouldBeCalledTimes(1);
@@ -155,7 +175,7 @@ class ExecutorTest extends TestCase
     {
         $phpUnitPluginOptions = [];
         $behatPluginOptions   = [];
-        $build                = new Build($this->storeRegistry, ['id' => 1]);
+        $build                = new Build($this->buildErrorStore, $this->buildStore, $this->projectStore, ['id' => 1]);
 
         $config = [
             'stageOne' => [

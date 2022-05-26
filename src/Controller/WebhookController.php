@@ -13,6 +13,7 @@ use PHPCensor\Exception\HttpException\NotFoundException;
 use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Helper\Lang;
+use PHPCensor\Store\BuildErrorStore;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use PHPCensor\Model\Build;
@@ -41,6 +42,8 @@ class WebhookController extends Controller
 {
     protected BuildStore $buildStore;
 
+    protected BuildErrorStore $buildErrorStore;
+
     protected ProjectStore $projectStore;
 
     protected WebhookRequestStore $webhookRequestStore;
@@ -57,6 +60,7 @@ class WebhookController extends Controller
     public function init(): void
     {
         $this->buildStore          = $this->storeRegistry->get('Build');
+        $this->buildErrorStore     = $this->storeRegistry->get('BuildError');
         $this->projectStore        = $this->storeRegistry->get('Project');
         $this->webhookRequestStore = $this->storeRegistry->get('WebhookRequest');
 
@@ -68,9 +72,9 @@ class WebhookController extends Controller
 
         $this->buildService = new BuildService(
             $this->configuration,
-            $this->storeRegistry,
             $this->buildFactory,
             $this->buildStore,
+            $this->buildErrorStore,
             $this->projectStore
         );
 
@@ -316,7 +320,7 @@ class WebhookController extends Controller
     ): void {
         try {
             if ($this->logRequests) {
-                $webhookRequest = new WebhookRequest($this->storeRegistry);
+                $webhookRequest = new WebhookRequest();
 
                 $webhookRequest->setProjectId($projectId);
                 $webhookRequest->setWebhookType($webhookType);

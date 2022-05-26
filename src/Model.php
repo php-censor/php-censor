@@ -22,12 +22,8 @@ class Model
 
     private array $modified = [];
 
-    protected StoreRegistry $storeRegistry;
-
-    public function __construct(
-        StoreRegistry $storeRegistry,
-        array $initialData = []
-    ) {
+    public function __construct(array $initialData = [])
+    {
         if (!isset($this->dataTypes['id'])) {
             $this->dataTypes['id'] = 'integer';
         }
@@ -35,8 +31,6 @@ class Model
         foreach ($initialData as $column => $value) {
             $this->setDataItem($column, $this->castToDataType($this->getDataType($column), $value));
         }
-
-        $this->storeRegistry = $storeRegistry;
     }
 
     public function getDataType(string $column): string

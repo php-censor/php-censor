@@ -1,12 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PHPCensor\Model\Build;
 
 use Exception;
 use PHPCensor\Builder;
-use PHPCensor\Common\Application\ConfigurationInterface;
-use PHPCensor\Model\Build;
-use PHPCensor\StoreRegistry;
 use Psr\Log\LogLevel;
 
 /**

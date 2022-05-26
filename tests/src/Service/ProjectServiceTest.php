@@ -9,6 +9,8 @@ use PHPCensor\DatabaseManager;
 use PHPCensor\Model\Project;
 use PHPCensor\Service\ProjectService;
 use PHPCensor\Store\ProjectStore;
+use PHPCensor\Store\BuildStore;
+use PHPCensor\Store\EnvironmentStore;
 use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 
@@ -19,10 +21,18 @@ use PHPUnit\Framework\TestCase;
  */
 class ProjectServiceTest extends TestCase
 {
-    private ProjectService $testedService;
+    private ProjectService $projectService;
+
     private ProjectStore $projectStore;
+
+    private BuildStore $buildStore;
+
+    private EnvironmentStore $environmentStore;
+
     private ConfigurationInterface $configuration;
+
     private DatabaseManager $databaseManager;
+
     private StoreRegistry $storeRegistry;
 
     protected function setUp(): void
@@ -49,12 +59,22 @@ class ProjectServiceTest extends TestCase
                 $this->returnArgument(0)
             );
 
-        $this->testedService = new ProjectService($this->storeRegistry, $this->projectStore);
+        $this->buildStore = $this
+            ->getMockBuilder(BuildStore::class)
+            ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])
+            ->getMock();
+
+        $this->environmentStore = $this
+            ->getMockBuilder(EnvironmentStore::class)
+            ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])
+            ->getMock();
+
+        $this->projectService = new ProjectService($this->buildStore, $this->environmentStore, $this->projectStore);
     }
 
     public function testExecuteCreateGithubProject(): void
     {
-        $project = $this->testedService->createProject(
+        $project = $this->projectService->createProject(
             'Test Project',
             'github',
             'php-censor/php-censor1',
@@ -252,7 +272,7 @@ class ProjectServiceTest extends TestCase
      */
     public function testExecuteCreateGithubProjectAccessInformation(string $reference, array $accessInformation): void
     {
-        $project = $this->testedService->createProject(
+        $project = $this->projectService->createProject(
             'Test Project',
             'github',
             $reference,
@@ -277,7 +297,7 @@ class ProjectServiceTest extends TestCase
             'environments'           => 'env1',
         ];
 
-        $returnValue = $this->testedService->createProject(
+        $returnValue = $this->projectService->createProject(
             'Test Project',
             'github',
             'vendor/project',
@@ -299,12 +319,12 @@ class ProjectServiceTest extends TestCase
 
     public function testExecuteUpdateExistingProject(): void
     {
-        $project = new Project($this->storeRegistry);
+        $project = new Project($this->buildStore, $this->environmentStore);
         $project->setTitle('Before Title');
         $project->setReference('Before Reference');
         $project->setType('github');
 
-        $returnValue = $this->testedService->updateProject($project, 'After Title', 'bitbucket', 'After Reference');
+        $returnValue = $this->projectService->updateProject($project, 'After Title', 'bitbucket', 'After Reference');
 
         self::assertEquals('After Title', $returnValue->getTitle());
         self::assertEquals('After Reference', $returnValue->getReference());
@@ -313,7 +333,7 @@ class ProjectServiceTest extends TestCase
 
     public function testExecuteEmptyPublicStatus(): void
     {
-        $project = new Project($this->storeRegistry);
+        $project = new Project($this->buildStore, $this->environmentStore);
         $project->setAllowPublicStatus(true);
 
         $options = [
@@ -322,23 +342,23 @@ class ProjectServiceTest extends TestCase
             'build_config'    => 'config',
         ];
 
-        $returnValue = $this->testedService->updateProject($project, 'Test Project', 'github', 'vendor/project', $options);
+        $returnValue = $this->projectService->updateProject($project, 'Test Project', 'github', 'vendor/project', $options);
 
         self::assertEquals(false, $returnValue->getAllowPublicStatus());
     }
 
     public function testExecuteDeleteProject(): void
     {
-        $store = $this
+        $projectStore = $this
             ->getMockBuilder(ProjectStore::class)
             ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])
             ->getMock();
-        $store->expects($this->once())
+        $projectStore->expects($this->once())
             ->method('delete')
             ->will($this->returnValue(true));
 
-        $service = new ProjectService($this->storeRegistry, $store);
-        $project = new Project($this->storeRegistry);
+        $service = new ProjectService($this->buildStore, $this->environmentStore, $projectStore);
+        $project = new Project($this->buildStore, $this->environmentStore);
 
         self::assertEquals(false, $service->deleteProject($project));
 

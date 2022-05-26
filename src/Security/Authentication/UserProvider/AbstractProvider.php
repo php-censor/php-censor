@@ -21,20 +21,16 @@ abstract class AbstractProvider implements UserProviderInterface
 
     protected array $config;
 
-    protected StoreRegistry $storeRegistry;
-
     protected UserStore $userStore;
 
     public function __construct(
-        StoreRegistry $storeRegistry,
         UserStore $userStore,
         string $key,
         array $config
     ) {
-        $this->key           = $key;
-        $this->config        = $config;
-        $this->storeRegistry = $storeRegistry;
-        $this->userStore     = $userStore;
+        $this->key       = $key;
+        $this->config    = $config;
+        $this->userStore = $userStore;
     }
 
     public function getKey(): string

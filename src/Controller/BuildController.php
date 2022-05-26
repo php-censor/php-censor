@@ -34,6 +34,8 @@ class BuildController extends WebController
 
     protected BuildStore $buildStore;
 
+    protected BuildErrorStore $buildErrorStore;
+
     protected ProjectStore $projectStore;
 
     protected BuildService $buildService;
@@ -44,8 +46,9 @@ class BuildController extends WebController
     {
         parent::init();
 
-        $this->buildStore   = $this->storeRegistry->get('Build');
-        $this->projectStore = $this->storeRegistry->get('Project');
+        $this->buildStore      = $this->storeRegistry->get('Build');
+        $this->buildErrorStore = $this->storeRegistry->get('BuildError');
+        $this->projectStore    = $this->storeRegistry->get('Project');
 
         $this->buildFactory = new BuildFactory(
             $this->configuration,
@@ -55,9 +58,9 @@ class BuildController extends WebController
 
         $this->buildService = new BuildService(
             $this->configuration,
-            $this->storeRegistry,
             $this->buildFactory,
             $this->buildStore,
+            $this->buildErrorStore,
             $this->projectStore
         );
     }

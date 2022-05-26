@@ -66,7 +66,7 @@ class Ldap extends AbstractProvider implements LoginPasswordProviderInterface
      */
     public function provisionUser(?string $identifier): ?User
     {
-        $userService = new UserService($this->storeRegistry, $this->userStore);
+        $userService = new UserService($this->userStore);
 
         $parts    = \explode("@", $identifier);
         $username = $parts[0];

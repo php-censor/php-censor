@@ -24,6 +24,7 @@ use PHPCensor\Helper\Branch;
 use PHPCensor\Store\EnvironmentStore;
 use PHPCensor\Common\Exception\RuntimeException;
 use Symfony\Component\HttpFoundation\Response;
+use PHPCensor\Store\BuildErrorStore;
 use PHPCensor\Form\Element\Csrf;
 
 /**
@@ -43,6 +44,10 @@ class ProjectController extends WebController
 
     protected BuildStore $buildStore;
 
+    protected BuildErrorStore $buildErrorStore;
+
+    protected EnvironmentStore $environmentStore;
+
     protected BuildService $buildService;
 
     protected BuildFactory $buildFactory;
@@ -54,10 +59,12 @@ class ProjectController extends WebController
     {
         parent::init();
 
-        $this->buildStore     = $this->storeRegistry->get('Build');
-        $this->projectStore   = $this->storeRegistry->get('Project');
+        $this->buildStore       = $this->storeRegistry->get('Build');
+        $this->buildErrorStore  = $this->storeRegistry->get('BuildError');
+        $this->environmentStore = $this->storeRegistry->get('Environment');
+        $this->projectStore     = $this->storeRegistry->get('Project');
 
-        $this->projectService = new ProjectService($this->storeRegistry, $this->projectStore);
+        $this->projectService = new ProjectService($this->buildStore, $this->environmentStore, $this->projectStore);
 
         $this->buildFactory = new BuildFactory(
             $this->configuration,
@@ -67,9 +74,9 @@ class ProjectController extends WebController
 
         $this->buildService   = new BuildService(
             $this->configuration,
-            $this->storeRegistry,
             $this->buildFactory,
             $this->buildStore,
+            $this->buildErrorStore,
             $this->projectStore
         );
     }

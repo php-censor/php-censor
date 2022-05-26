@@ -106,6 +106,7 @@ class EmailTest extends TestCase
 
         $interpolator = new BuildInterpolator($environmentStore, $secretStore);
 
+        $interpolator = new BuildInterpolator($environmentStore);
         $this->builder->expects($this->any())
             ->method('interpolate')
             ->will($this->returnCallback(function () use ($self, $interpolator) {

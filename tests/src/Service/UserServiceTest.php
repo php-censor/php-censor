@@ -20,9 +20,13 @@ use PHPUnit\Framework\TestCase;
 class UserServiceTest extends TestCase
 {
     private UserService $testedService;
+
     private UserStore $userStore;
+
     private ConfigurationInterface $configuration;
+
     private DatabaseManager $databaseManager;
+
     private StoreRegistry $storeRegistry;
 
     protected function setUp(): void
@@ -46,7 +50,7 @@ class UserServiceTest extends TestCase
             ->method('save')
             ->will($this->returnArgument(0));
 
-        $this->testedService = new UserService($this->storeRegistry, $this->userStore);
+        $this->testedService = new UserService($this->userStore);
     }
 
     public function testExecute_CreateNonAdminUser(): void
@@ -82,7 +86,7 @@ class UserServiceTest extends TestCase
 
     public function testExecute_RevokeAdminStatus(): void
     {
-        $user = new User($this->storeRegistry);
+        $user = new User();
         $user->setEmail('test@example.com');
         $user->setName('Test');
         $user->setIsAdmin(true);
@@ -93,7 +97,7 @@ class UserServiceTest extends TestCase
 
     public function testExecute_GrantAdminStatus(): void
     {
-        $user = new User($this->storeRegistry);
+        $user = new User();
         $user->setEmail('test@example.com');
         $user->setName('Test');
         $user->setIsAdmin(false);
@@ -104,7 +108,7 @@ class UserServiceTest extends TestCase
 
     public function testExecute_ChangesPasswordIfNotEmpty(): void
     {
-        $user = new User($this->storeRegistry);
+        $user = new User();
         $user->setHash(\password_hash('testing', PASSWORD_DEFAULT));
 
         $user = $this->testedService->updateUser($user, 'Test', 'test@example.com', 'newpassword', false);
@@ -114,7 +118,7 @@ class UserServiceTest extends TestCase
 
     public function testExecute_DoesNotChangePasswordIfEmpty(): void
     {
-        $user = new User($this->storeRegistry);
+        $user = new User();
         $user->setHash(\password_hash('testing', PASSWORD_DEFAULT));
 
         $user = $this->testedService->updateUser($user, 'Test', 'test@example.com', '', false);
@@ -131,8 +135,8 @@ class UserServiceTest extends TestCase
             ->method('delete')
             ->will($this->returnValue(true));
 
-        $service = new UserService($this->storeRegistry, $store);
-        $user = new User($this->storeRegistry);
+        $service = new UserService($store);
+        $user = new User();
 
         self::assertEquals(false, $service->deleteUser($user));
 

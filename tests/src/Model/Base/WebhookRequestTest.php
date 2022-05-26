@@ -5,34 +5,16 @@ declare(strict_types=1);
 namespace Tests\PHPCensor\Model\Base;
 
 use DateTime;
-use PHPCensor\DatabaseManager;
 use PHPCensor\Model;
 use PHPCensor\Model\Base\ProjectGroup;
 use PHPCensor\Model\Base\WebhookRequest;
-use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
-use PHPCensor\Common\Application\ConfigurationInterface;
 
 class WebhookRequestTest extends TestCase
 {
-    private StoreRegistry $storeRegistry;
-
-    protected function setUp(): void
-    {
-        $configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
-        $databaseManager = $this
-            ->getMockBuilder(DatabaseManager::class)
-            ->setConstructorArgs([$configuration])
-            ->getMock();
-        $this->storeRegistry = $this
-            ->getMockBuilder(StoreRegistry::class)
-            ->setConstructorArgs([$databaseManager])
-            ->getMock();
-    }
-
     public function testConstruct(): void
     {
-        $webhookRequest = new WebhookRequest($this->storeRegistry);
+        $webhookRequest = new WebhookRequest();
 
         self::assertInstanceOf(Model::class, $webhookRequest);
         self::assertInstanceOf(WebhookRequest::class, $webhookRequest);
@@ -48,7 +30,7 @@ class WebhookRequestTest extends TestCase
 
     public function testId(): void
     {
-        $webhookRequest = new WebhookRequest($this->storeRegistry);
+        $webhookRequest = new WebhookRequest();
 
         $result = $webhookRequest->setId(100);
         self::assertEquals(true, $result);
@@ -60,7 +42,7 @@ class WebhookRequestTest extends TestCase
 
     public function testProjectId(): void
     {
-        $webhookRequest = new WebhookRequest($this->storeRegistry);
+        $webhookRequest = new WebhookRequest();
 
         $result = $webhookRequest->setProjectId(200);
         self::assertEquals(true, $result);
@@ -72,7 +54,7 @@ class WebhookRequestTest extends TestCase
 
     public function testWebhookType(): void
     {
-        $webhookRequest = new WebhookRequest($this->storeRegistry);
+        $webhookRequest = new WebhookRequest();
 
         $result = $webhookRequest->setWebhookType('git');
         self::assertEquals(true, $result);
@@ -84,7 +66,7 @@ class WebhookRequestTest extends TestCase
 
     public function testPayload(): void
     {
-        $webhookRequest = new WebhookRequest($this->storeRegistry);
+        $webhookRequest = new WebhookRequest();
 
         $result = $webhookRequest->setPayload('payload');
         self::assertEquals(true, $result);
@@ -96,10 +78,10 @@ class WebhookRequestTest extends TestCase
 
     public function testCreateDate(): void
     {
-        $projectGroup = new ProjectGroup($this->storeRegistry);
+        $projectGroup = new ProjectGroup();
         self::assertEquals(null, $projectGroup->getCreateDate());
 
-        $projectGroup = new ProjectGroup($this->storeRegistry);
+        $projectGroup = new ProjectGroup();
         $createDate   = new DateTime();
 
         $result = $projectGroup->setCreateDate($createDate);
@@ -109,10 +91,10 @@ class WebhookRequestTest extends TestCase
         $result = $projectGroup->setCreateDate($createDate);
         self::assertEquals(false, $result);
 
-        $projectGroup = new ProjectGroup($this->storeRegistry, ['create_date' => $createDate->format('Y-m-d H:i:s')]);
+        $projectGroup = new ProjectGroup(['create_date' => $createDate->format('Y-m-d H:i:s')]);
         self::assertEquals($createDate->getTimestamp(), $projectGroup->getCreateDate()->getTimestamp());
 
-        $projectGroup = new ProjectGroup($this->storeRegistry, ['create_date' => 'Invalid Data']);
+        $projectGroup = new ProjectGroup(['create_date' => 'Invalid Data']);
         self::assertNull($projectGroup->getCreateDate());
     }
 }

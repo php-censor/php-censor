@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace PHPCensor\Model;
 
 use PHPCensor\Model\Base\Project as BaseProject;
+use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\EnvironmentStore;
-use PHPCensor\Store\ProjectGroupStore;
 use Symfony\Component\Yaml\Dumper as YamlDumper;
 use Symfony\Component\Yaml\Parser as YamlParser;
 
@@ -19,30 +19,18 @@ use Symfony\Component\Yaml\Parser as YamlParser;
  */
 class Project extends BaseProject
 {
-    /**
-     * @return ProjectGroup|null
-     */
-    public function getGroup()
-    {
-        $groupId = $this->getGroupId();
-        if (empty($groupId)) {
-            return null;
-        }
+    private BuildStore $buildStore;
+    private EnvironmentStore $environmentStore;
 
-        /** @var ProjectGroupStore $groupStore */
-        $groupStore = $this->storeRegistry->get('ProjectGroup');
+    public function __construct(
+        BuildStore $buildStore,
+        EnvironmentStore $environmentStore,
+        array $initialData = []
+    ) {
+        parent::__construct($initialData);
 
-        return $groupStore->getById($groupId);
-    }
-
-    /**
-     * Get Build models by ProjectId for this Project.
-     *
-     * @return Build[]
-     */
-    public function getProjectBuilds()
-    {
-        return $this->storeRegistry->get('Build')->getByProjectId($this->getId());
+        $this->buildStore       = $buildStore;
+        $this->environmentStore = $environmentStore;
     }
 
     /**
@@ -65,7 +53,7 @@ class Project extends BaseProject
         }
 
         $order  = ['id' => 'DESC'];
-        $builds = $this->storeRegistry->get('Build')->getWhere($criteria, 1, 0, $order);
+        $builds = $this->buildStore->getWhere($criteria, 1, 0, $order);
 
         if (\is_array($builds['items']) && \count($builds['items'])) {
             $latest = \array_shift($builds['items']);
@@ -92,7 +80,7 @@ class Project extends BaseProject
             'project_id' => $this->getId(),
         ];
         $order  = ['id' => 'DESC'];
-        $builds = $this->storeRegistry->get('Build')->getWhere($criteria, 1, 1, $order);
+        $builds = $this->buildStore->getWhere($criteria, 1, 1, $order);
 
         if (\is_array($builds['items']) && \count($builds['items'])) {
             $previous = \array_shift($builds['items']);
@@ -140,14 +128,6 @@ class Project extends BaseProject
     }
 
     /**
-     * @return EnvironmentStore
-     */
-    protected function getEnvironmentStore()
-    {
-        return $this->storeRegistry->get('Environment');
-    }
-
-    /**
      * Get Environments
      *
      * @return array contain items with \PHPCensor\Model\Environment
@@ -159,7 +139,7 @@ class Project extends BaseProject
             return null;
         }
 
-        return $this->getEnvironmentStore()->getByProjectId($projectId);
+        return $this->environmentStore->getByProjectId($projectId);
     }
 
     /**
@@ -213,7 +193,6 @@ class Project extends BaseProject
         $environmentsConfig  = $yamlParser->parse($value);
         $environmentsNames   = (!empty($environmentsConfig) && \is_array($environmentsConfig)) ? \array_keys($environmentsConfig) : [];
         $currentEnvironments = $this->getEnvironmentsObjects();
-        $store               = $this->getEnvironmentStore();
         if (!empty($currentEnvironments['items'])) {
             foreach ($currentEnvironments['items'] as $environment) {
                 /** @var Environment $environment */
@@ -225,10 +204,10 @@ class Project extends BaseProject
                         ? $environmentsConfig[$environment->getName()]
                         : [];
                     $environment->setBranches($branches);
-                    $store->save($environment);
+                    $this->environmentStore->save($environment);
                 } else {
                     // remove
-                    $store->delete($environment);
+                    $this->environmentStore->delete($environment);
                 }
             }
         }
@@ -236,11 +215,11 @@ class Project extends BaseProject
         if (!empty($environmentsNames)) {
             // add
             foreach ($environmentsNames as $environmentName) {
-                $environment = new Environment($this->storeRegistry);
+                $environment = new Environment();
                 $environment->setProjectId($this->getId());
                 $environment->setName($environmentName);
                 $environment->setBranches(!empty($environmentsConfig[$environment->getName()]) ? $environmentsConfig[$environment->getName()] : []);
-                $store->save($environment);
+                $this->environmentStore->save($environment);
             }
         }
     }

@@ -46,7 +46,7 @@ class ServiceTest extends TestCase
 
     public function testBuildBuiltinProvider(): void
     {
-        $provider = Service::buildProvider($this->storeRegistry, $this->userStore, 'test', ['type' => 'internal']);
+        $provider = Service::buildProvider($this->userStore, 'test', ['type' => 'internal']);
 
         self::assertInstanceOf(Internal::class, $provider);
     }
@@ -54,7 +54,7 @@ class ServiceTest extends TestCase
     public function testBuildAnyProvider(): void
     {
         $config   = ['type' => DummyProvider::class];
-        $provider = Service::buildProvider($this->storeRegistry, $this->userStore, 'test', $config);
+        $provider = Service::buildProvider($this->userStore, 'test', $config);
 
         self::assertInstanceOf(DummyProvider::class, $provider);
         self::assertEquals('test', $provider->getKey());
@@ -67,7 +67,7 @@ class ServiceTest extends TestCase
         $b         = $this->prophesize(UserProviderInterface::class)->reveal();
         $providers = ['a' => $a, 'b' => $b];
 
-        $service = new Service($this->configuration, $this->storeRegistry, $this->userStore, $providers);
+        $service = new Service($this->configuration, $this->userStore, $providers);
 
         self::assertEquals($providers, $service->getProviders());
     }
@@ -78,7 +78,7 @@ class ServiceTest extends TestCase
         $b         = $this->prophesize(LoginPasswordProviderInterface::class)->reveal();
         $providers = ['a' => $a, 'b' => $b];
 
-        $service = new Service($this->configuration, $this->storeRegistry, $this->userStore, $providers);
+        $service = new Service($this->configuration, $this->userStore, $providers);
 
         self::assertEquals(['b' => $b], $service->getLoginPasswordProviders());
     }

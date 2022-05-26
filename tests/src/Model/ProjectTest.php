@@ -8,6 +8,8 @@ use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Model;
 use PHPCensor\Model\Project;
+use PHPCensor\Store\BuildStore;
+use PHPCensor\Store\EnvironmentStore;
 use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 use PHPCensor\Common\Application\ConfigurationInterface;
@@ -19,6 +21,8 @@ use PHPCensor\Common\Application\ConfigurationInterface;
  */
 class ProjectTest extends TestCase
 {
+    private BuildStore $buildStore;
+    private EnvironmentStore $environmentStore;
     private StoreRegistry $storeRegistry;
 
     protected function setUp(): void
@@ -32,6 +36,31 @@ class ProjectTest extends TestCase
             ->getMockBuilder(StoreRegistry::class)
             ->setConstructorArgs([$databaseManager])
             ->getMock();
+
+        $this->buildStore = $this
+            ->getMockBuilder(BuildStore::class)
+            ->setConstructorArgs([$databaseManager, $this->storeRegistry])
+            ->getMock();
+
+        $this->environmentStore = $this
+            ->getMockBuilder(EnvironmentStore::class)
+            ->setConstructorArgs([$databaseManager, $this->storeRegistry])
+            ->getMock();
+    }
+
+    public function testExecute_TestIsAValidModel()
+    {
+        $project = new Project($this->buildStore, $this->environmentStore);
+        self::assertTrue($project instanceof Model);
+
+        try {
+            $project->setArchived(true);
+        } catch (InvalidArgumentException $e) {
+            self::assertEquals(
+                'Column "archived" must be a bool.',
+                $e->getMessage()
+            );
+        }
     }
 
     public function testExecute_TestProjectAccessInformation(): void
@@ -41,7 +70,7 @@ class ProjectTest extends TestCase
             'item2' => 2,
         ];
 
-        $project = new Project($this->storeRegistry);
+        $project = new Project($this->buildStore, $this->environmentStore);
         $project->setAccessInformation($info);
 
         self::assertEquals('Item One', $project->getAccessInformation('item1'));

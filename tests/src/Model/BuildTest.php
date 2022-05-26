@@ -14,6 +14,9 @@ use PHPCensor\Model\Build\GitlabBuild;
 use PHPCensor\Model\Build\GogsBuild;
 use PHPCensor\Model\Project;
 use PHPCensor\Service\ProjectService;
+use PHPCensor\Store\BuildErrorStore;
+use PHPCensor\Store\BuildStore;
+use PHPCensor\Store\EnvironmentStore;
 use PHPCensor\Store\ProjectStore;
 use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
@@ -27,37 +30,56 @@ use PHPCensor\Common\Application\ConfigurationInterface;
 class BuildTest extends TestCase
 {
     private StoreRegistry $storeRegistry;
-    private DatabaseManager $databaseManager;
     private ProjectService $projectService;
+    private ProjectStore $projectStore;
+    private BuildStore $buildStore;
+    private BuildErrorStore $buildErrorStore;
+    private EnvironmentStore $environmentStore;
+    private DatabaseManager $databaseManager;
 
     protected function setUp(): void
     {
         $configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
-        $this->databaseManager = $this
+        $databaseManager = $this
             ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$configuration])
             ->getMock();
         $this->storeRegistry = $this
             ->getMockBuilder(StoreRegistry::class)
-            ->setConstructorArgs([$this->databaseManager])
+            ->setConstructorArgs([$databaseManager])
             ->getMock();
 
-        $projectStore = $this
+        $this->projectStore = $this
             ->getMockBuilder(ProjectStore::class)
-            ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])
+            ->setConstructorArgs([$databaseManager, $this->storeRegistry])
             ->getMock();
 
-        $this->projectService = new ProjectService($this->storeRegistry, $projectStore);
+        $this->buildStore = $this
+            ->getMockBuilder(BuildStore::class)
+            ->setConstructorArgs([$databaseManager, $this->storeRegistry])
+            ->getMock();
+
+        $this->buildErrorStore = $this
+            ->getMockBuilder(BuildErrorStore::class)
+            ->setConstructorArgs([$databaseManager, $this->storeRegistry])
+            ->getMock();
+
+        $this->environmentStore = $this
+            ->getMockBuilder(EnvironmentStore::class)
+            ->setConstructorArgs([$databaseManager, $this->storeRegistry])
+            ->getMock();
+
+        $this->projectService = new ProjectService($this->buildStore, $this->environmentStore, $this->projectStore);
     }
 
     public function testConstruct(): void
     {
-        $build = new Build($this->storeRegistry);
+        $build = new Build($this->buildErrorStore, $this->buildStore, $this->projectStore);
 
         self::assertInstanceOf(Model::class, $build);
         self::assertInstanceOf(Build::class, $build);
 
-        $build = new Build($this->storeRegistry, [
+        $build = new Build($this->buildErrorStore, $this->buildStore, $this->projectStore, [
             'project_id' => 100,
             'branch'     => 'master',
         ]);
@@ -88,7 +110,7 @@ class BuildTest extends TestCase
         ], $build->getDataArray());
 
         try {
-            new Build($this->storeRegistry, [
+            new Build($this->buildErrorStore, $this->buildStore, $this->projectStore, [
                 'project_id' => 101,
                 'branch'     => 'dev',
                 'unknown'    => 'unknown',
@@ -100,7 +122,7 @@ class BuildTest extends TestCase
             );
         }
 
-        $build = new Build($this->storeRegistry);
+        $build = new Build($this->buildErrorStore, $this->buildStore, $this->projectStore);
         $build->setLog('log');
         self::assertEquals('log', $build->getLog());
 
@@ -140,7 +162,7 @@ class BuildTest extends TestCase
 
     public function testExecute_TestBaseBuildDefaults(): void
     {
-        $build = new Build($this->storeRegistry);
+        $build = new Build($this->buildErrorStore, $this->buildStore, $this->projectStore);
         self::assertEquals('#', $build->getCommitLink());
         self::assertEquals('#', $build->getBranchLink());
         self::assertEquals(null, $build->getFileLinkTemplate());
@@ -148,7 +170,7 @@ class BuildTest extends TestCase
 
     public function testExecute_TestIsSuccessful(): void
     {
-        $build = new Build($this->storeRegistry);
+        $build = new Build($this->buildErrorStore, $this->buildStore, $this->projectStore);
         $build->setStatusPending();
         self::assertFalse($build->isSuccessful());
 
@@ -169,7 +191,7 @@ class BuildTest extends TestCase
             'item2' => 2,
         ];
 
-        $build = new Build($this->storeRegistry);
+        $build = new Build($this->buildErrorStore, $this->buildStore, $this->projectStore);
         $build->setExtra($info);
 
         self::assertEquals('Item One', $build->getExtra('item1'));
@@ -185,7 +207,7 @@ class BuildTest extends TestCase
 
     public function testGitBuildLinks(): void
     {
-        $project = new Project($this->storeRegistry);
+        $project = new Project($this->buildStore, $this->environmentStore);
         $project->setType(Project::TYPE_GIT);
         $project->setReference('https://git.repository/the-vendor/the-project.git');
 
@@ -214,7 +236,7 @@ class BuildTest extends TestCase
 
     public function testGitHubBuildLinks(): void
     {
-        $project = new Project($this->storeRegistry);
+        $project = new Project($this->buildStore, $this->environmentStore);
         $project->setType(Project::TYPE_GITHUB);
         $project->setReference('git@github.com:php-censor/php-censor.git');
         $project = $this->projectService->processAccessInformation($project);
@@ -261,7 +283,7 @@ class BuildTest extends TestCase
 
     public function testGitlabBuildLinks(): void
     {
-        $project = new Project($this->storeRegistry);
+        $project = new Project($this->buildStore, $this->environmentStore);
         $project->setType(Project::TYPE_GITLAB);
         $project->setReference('git@gitlab.com:php-censor/php-censor.git');
         $project = $this->projectService->processAccessInformation($project);
@@ -300,7 +322,7 @@ class BuildTest extends TestCase
 
     public function testGogsBuildLinks(): void
     {
-        $project = new Project($this->storeRegistry);
+        $project = new Project($this->buildStore, $this->environmentStore);
         $project->setType(Project::TYPE_GOGS);
         $project->setReference('https://gogs.repository/the-vendor/the-project.git');
 

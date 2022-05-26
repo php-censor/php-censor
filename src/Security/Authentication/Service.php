@@ -6,7 +6,6 @@ namespace PHPCensor\Security\Authentication;
 
 use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\Store\UserStore;
-use PHPCensor\StoreRegistry;
 
 /**
  * @package    PHP Censor
@@ -24,7 +23,6 @@ class Service
 
     public function __construct(
         ConfigurationInterface $configuration,
-        StoreRegistry $storeRegistry,
         UserStore $userStore,
         array $providers = []
     ) {
@@ -40,7 +38,7 @@ class Service
 
             $providers = [];
             foreach ($config as $key => $providerConfig) {
-                $providers[$key] = self::buildProvider($storeRegistry, $userStore, $key, $providerConfig);
+                $providers[$key] = self::buildProvider($userStore, $key, $providerConfig);
             }
         }
 
@@ -48,7 +46,6 @@ class Service
     }
 
     public static function buildProvider(
-        StoreRegistry $storeRegistry,
         UserStore $userStore,
         string $key,
         array $config
@@ -58,7 +55,7 @@ class Service
             $class = '\\PHPCensor\\Security\\Authentication\\UserProvider\\' . $class;
         }
 
-        return new $class($storeRegistry, $userStore, $key, $config);
+        return new $class($userStore, $key, $config);
     }
 
     /**

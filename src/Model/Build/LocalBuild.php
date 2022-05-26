@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PHPCensor\Model\Build;
 
 use Exception;
 use PHPCensor\Builder;
-use PHPCensor\Model\Build;
 
 /**
  * Local Build Model

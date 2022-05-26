@@ -12,6 +12,7 @@ use PHPCensor\DatabaseManager;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\Project;
 use PHPCensor\Service\BuildService;
+use PHPCensor\Store\BuildErrorStore;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\EnvironmentStore;
 use PHPCensor\Store\ProjectStore;
@@ -26,12 +27,14 @@ use PHPUnit\Framework\TestCase;
 class BuildServiceTest extends TestCase
 {
     private BuildService $testedService;
-    private BuildStore $buildStore;
     private ConfigurationInterface $configuration;
     private DatabaseManager $databaseManager;
     private StoreRegistry $storeRegistry;
     private EnvironmentStore $environmentStore;
     private BuildFactory $buildFactory;
+    private ProjectStore $projectStore;
+    private BuildStore $buildStore;
+    private BuildErrorStore $buildErrorStore;
 
     protected function setUp(): void
     {
@@ -44,10 +47,12 @@ class BuildServiceTest extends TestCase
             ->getMockBuilder(StoreRegistry::class)
             ->setConstructorArgs([$this->databaseManager])
             ->getMock();
+
         $this->buildStore = $this
             ->getMockBuilder(BuildStore::class)
             ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])
             ->getMock();
+
         $this->buildStore
             ->expects($this->any())
             ->method('save')
@@ -57,13 +62,19 @@ class BuildServiceTest extends TestCase
             ->getMockBuilder(EnvironmentStore::class)
             ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])
             ->getMock();
+
         $this->environmentStore
             ->expects($this->any())
             ->method('getByProjectId')
             ->will($this->returnValue(['items' => [], 'count' => 0]));
 
-        $projectStore = $this
+        $this->projectStore = $this
             ->getMockBuilder(ProjectStore::class)
+            ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])
+            ->getMock();
+
+        $this->buildErrorStore = $this
+            ->getMockBuilder(BuildErrorStore::class)
             ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])
             ->getMock();
 
@@ -75,10 +86,10 @@ class BuildServiceTest extends TestCase
 
         $this->testedService = new BuildService(
             $this->configuration,
-            $this->storeRegistry,
             $this->buildFactory,
             $this->buildStore,
-            $projectStore
+            $this->buildErrorStore,
+            $this->projectStore
         );
     }
 
@@ -182,7 +193,7 @@ class BuildServiceTest extends TestCase
      */
     public function testExecute_CreateDuplicateBuild(): void
     {
-        $build = new Build($this->storeRegistry);
+        $build = new Build($this->buildErrorStore, $this->buildStore, $this->projectStore);
         $build->setId(1);
         $build->setProjectId(101);
         $build->setCommitId('abcde');
@@ -217,27 +228,22 @@ class BuildServiceTest extends TestCase
 
     public function testExecute_DeleteBuild(): void
     {
-        $store = $this
+        $buildStore = $this
             ->getMockBuilder(BuildStore::class)
             ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])
             ->getMock();
-        $store->expects($this->once())
+        $buildStore->expects($this->once())
             ->method('delete')
             ->will($this->returnValue(true));
 
-        $projectStore = $this
-            ->getMockBuilder(ProjectStore::class)
-            ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])
-            ->getMock();
-
         $service = new BuildService(
             $this->configuration,
-            $this->storeRegistry,
             $this->buildFactory,
-            $store,
-            $projectStore
+            $buildStore,
+            $this->buildErrorStore,
+            $this->projectStore
         );
-        $build = new Build($this->storeRegistry);
+        $build = new Build($this->buildErrorStore, $this->buildStore, $this->projectStore);
 
         self::assertEquals(false, $service->deleteBuild($build));
 

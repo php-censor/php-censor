@@ -9,6 +9,7 @@ use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Model\Project;
 use PHPCensor\Service\BuildService;
+use PHPCensor\Store\BuildErrorStore;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\ProjectStore;
 use PHPCensor\StoreRegistry;
@@ -28,6 +29,7 @@ use PHPCensor\Exception\HttpException;
 class RebuildQueueCommand extends Command
 {
     protected BuildStore $buildStore;
+    protected BuildErrorStore $buildErrorStore;
     protected ProjectStore $projectStore;
 
     public function __construct(
@@ -36,13 +38,15 @@ class RebuildQueueCommand extends Command
         StoreRegistry $storeRegistry,
         LoggerInterface $logger,
         BuildStore $buildStore,
+        BuildErrorStore $buildErrorStore,
         ProjectStore $projectStore,
         ?string $name = null
     ) {
         parent::__construct($configuration, $databaseManager, $storeRegistry, $logger, $name);
 
-        $this->buildStore = $buildStore;
-        $this->projectStore = $projectStore;
+        $this->buildStore      = $buildStore;
+        $this->buildErrorStore = $buildErrorStore;
+        $this->projectStore    = $projectStore;
     }
 
     protected function configure(): void
@@ -70,9 +74,9 @@ class RebuildQueueCommand extends Command
 
         $buildService = new BuildService(
             $this->configuration,
-            $this->storeRegistry,
             $buildFactory,
             $this->buildStore,
+            $this->buildErrorStore,
             $this->projectStore
         );
 

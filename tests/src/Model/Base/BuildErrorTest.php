@@ -5,33 +5,15 @@ declare(strict_types=1);
 namespace Tests\PHPCensor\Model\Base;
 
 use DateTime;
-use PHPCensor\DatabaseManager;
 use PHPCensor\Model;
 use PHPCensor\Model\Base\BuildError;
-use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
-use PHPCensor\Common\Application\ConfigurationInterface;
 
 class BuildErrorTest extends TestCase
 {
-    private StoreRegistry $storeRegistry;
-
-    protected function setUp(): void
-    {
-        $configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
-        $databaseManager = $this
-            ->getMockBuilder(DatabaseManager::class)
-            ->setConstructorArgs([$configuration])
-            ->getMock();
-        $this->storeRegistry = $this
-            ->getMockBuilder(StoreRegistry::class)
-            ->setConstructorArgs([$databaseManager])
-            ->getMock();
-    }
-
     public function testConstruct(): void
     {
-        $buildError = new BuildError($this->storeRegistry);
+        $buildError = new BuildError();
 
         self::assertInstanceOf(Model::class, $buildError);
         self::assertInstanceOf(BuildError::class, $buildError);
@@ -53,7 +35,7 @@ class BuildErrorTest extends TestCase
 
     public function testId(): void
     {
-        $buildError = new BuildError($this->storeRegistry);
+        $buildError = new BuildError();
 
         $result = $buildError->setId(100);
         self::assertEquals(true, $result);
@@ -65,7 +47,7 @@ class BuildErrorTest extends TestCase
 
     public function testBuildId(): void
     {
-        $buildError = new BuildError($this->storeRegistry);
+        $buildError = new BuildError();
 
         $result = $buildError->setBuildId(200);
         self::assertEquals(true, $result);
@@ -77,7 +59,7 @@ class BuildErrorTest extends TestCase
 
     public function testPlugin(): void
     {
-        $buildError = new BuildError($this->storeRegistry);
+        $buildError = new BuildError();
 
         $result = $buildError->setPlugin('plugin');
         self::assertEquals(true, $result);
@@ -89,7 +71,7 @@ class BuildErrorTest extends TestCase
 
     public function testFile(): void
     {
-        $buildError = new BuildError($this->storeRegistry);
+        $buildError = new BuildError();
 
         $result = $buildError->setFile('file.php');
         self::assertEquals(true, $result);
@@ -101,7 +83,7 @@ class BuildErrorTest extends TestCase
 
     public function testLineStart(): void
     {
-        $buildError = new BuildError($this->storeRegistry);
+        $buildError = new BuildError();
 
         $result = $buildError->setLineStart(5);
         self::assertEquals(true, $result);
@@ -113,7 +95,7 @@ class BuildErrorTest extends TestCase
 
     public function testLineEnd(): void
     {
-        $buildError = new BuildError($this->storeRegistry);
+        $buildError = new BuildError();
 
         $result = $buildError->setLineEnd(10);
         self::assertEquals(true, $result);
@@ -125,7 +107,7 @@ class BuildErrorTest extends TestCase
 
     public function testSeverity(): void
     {
-        $buildError = new BuildError($this->storeRegistry);
+        $buildError = new BuildError();
 
         $result = $buildError->setSeverity(BuildError::SEVERITY_CRITICAL);
         self::assertEquals(true, $result);
@@ -137,7 +119,7 @@ class BuildErrorTest extends TestCase
 
     public function testMessage(): void
     {
-        $buildError = new BuildError($this->storeRegistry);
+        $buildError = new BuildError();
 
         $result = $buildError->setMessage('message');
         self::assertEquals(true, $result);
@@ -149,10 +131,10 @@ class BuildErrorTest extends TestCase
 
     public function testCreateDate(): void
     {
-        $buildError = new BuildError($this->storeRegistry);
+        $buildError = new BuildError();
         self::assertEquals(null, $buildError->getCreateDate());
 
-        $buildError = new BuildError($this->storeRegistry);
+        $buildError = new BuildError();
         $createDate = new DateTime();
 
         $result = $buildError->setCreateDate($createDate);
@@ -162,17 +144,17 @@ class BuildErrorTest extends TestCase
         $result = $buildError->setCreateDate($createDate);
         self::assertEquals(false, $result);
 
-        $buildError = new BuildError($this->storeRegistry, ['create_date' => $createDate->format('Y-m-d H:i:s')]);
+        $buildError = new BuildError(['create_date' => $createDate->format('Y-m-d H:i:s')]);
         self::assertEquals($createDate->getTimestamp(), $buildError->getCreateDate()->getTimestamp());
 
-        $buildError = new BuildError($this->storeRegistry, ['create_date' => 'Invalid Data']);
+        $buildError = new BuildError(['create_date' => 'Invalid Data']);
         self::assertNull($buildError->getCreateDate());
     }
 
 
     public function testHash(): void
     {
-        $buildError = new BuildError($this->storeRegistry);
+        $buildError = new BuildError();
 
         $result = $buildError->setHash('hash');
         self::assertEquals(true, $result);
@@ -184,7 +166,7 @@ class BuildErrorTest extends TestCase
 
     public function testIsNew(): void
     {
-        $buildError = new BuildError($this->storeRegistry);
+        $buildError = new BuildError();
 
         $result = $buildError->setIsNew(true);
         self::assertEquals(true, $result);

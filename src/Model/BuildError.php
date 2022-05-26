@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace PHPCensor\Model;
 
 use PHPCensor\Model\Base\BuildError as BaseBuildError;
-use PHPCensor\Store\BuildStore;
 
 /**
  * @package    PHP Censor
@@ -16,22 +15,6 @@ use PHPCensor\Store\BuildStore;
  */
 class BuildError extends BaseBuildError
 {
-    /**
-     * @return Build|null
-     */
-    public function getBuild()
-    {
-        $buildId = $this->getBuildId();
-        if (empty($buildId)) {
-            return null;
-        }
-
-        /** @var BuildStore $buildStore */
-        $buildStore = $this->storeRegistry->get('Build');
-
-        return $buildStore->getById($buildId);
-    }
-
     /**
      * Get the language string key for this error's severity level.
      *
