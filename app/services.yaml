@@ -6,16 +6,18 @@ services:
         autoconfigure: true
         public: true
 
-    PHPCensor\Configuration:
+    Symfony\Component\HttpFoundation\Session\SessionInterface:
+        alias:  Symfony\Component\HttpFoundation\Session\Session
+
+    PHPCensor\Common\Application\ConfigurationInterface:
+        alias:  PHPCensor\Configuration
 
     PHPCensor\DatabaseManager:
 
     PHPCensor\StoreRegistry:
 
-    Symfony\Component\HttpFoundation\Session\Session:
+    PHPCensor\Store\:
+        resource: '../src/Store/*'
 
-    PHPCensor\Common\Application\ConfigurationInterface:
-        alias:  PHPCensor\Configuration
-
-    Symfony\Component\HttpFoundation\Session\SessionInterface:
-        alias:  Symfony\Component\HttpFoundation\Session\Session
+    PHPCensor\Controller\:
+        resource: '../src/Controller/*'

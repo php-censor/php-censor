@@ -5,6 +5,12 @@ declare(strict_types=1);
 use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Helper\Lang;
+use PHPCensor\Store\BuildErrorStore;
+use PHPCensor\Store\BuildStore;
+use PHPCensor\Store\EnvironmentStore;
+use PHPCensor\Store\ProjectGroupStore;
+use PHPCensor\Store\ProjectStore;
+use PHPCensor\Store\SecretStore;
 use PHPCensor\Store\UserStore;
 use PHPCensor\StoreRegistry;
 use Symfony\Component\Config\FileLocator;
@@ -41,7 +47,19 @@ $session  = $containerBuilder->get(SessionInterface::class);
 $session->start();
 
 /** @var UserStore $userStore */
-$userStore = $storeRegistry->get('User');
+$userStore = $containerBuilder->get(UserStore::class);
+/** @var ProjectStore $projectStore */
+$projectStore = $containerBuilder->get(ProjectStore::class);
+/** @var ProjectGroupStore $projectGroupStore */
+$projectGroupStore = $containerBuilder->get(ProjectGroupStore::class);
+/** @var BuildStore $buildStore */
+$buildStore = $containerBuilder->get(BuildStore::class);
+/** @var BuildErrorStore $buildErrorStore */
+$buildErrorStore = $containerBuilder->get(BuildErrorStore::class);
+/** @var SecretStore $secretStore */
+$secretStore = $containerBuilder->get(SecretStore::class);
+/** @var EnvironmentStore $environmentStore */
+$environmentStore = $containerBuilder->get(EnvironmentStore::class);
 
 \define('APP_URL', $configuration->get('php-censor.url', '') . '/');
 \define('REALTIME_UI', $configuration->get('php-censor.realtime_ui', true));
