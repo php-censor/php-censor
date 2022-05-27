@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\PHPCensor\Model\Base;
 
 use DateTime;
@@ -11,7 +13,7 @@ use PHPCensor\Common\Application\ConfigurationInterface;
 
 class WebhookRequestTest extends TestCase
 {
-    protected StoreRegistry $storeRegistry;
+    private StoreRegistry $storeRegistry;
 
     protected function setUp(): void
     {
@@ -26,7 +28,7 @@ class WebhookRequestTest extends TestCase
             ->getMock();
     }
 
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $webhookRequest = new WebhookRequest($this->storeRegistry);
 
@@ -42,7 +44,7 @@ class WebhookRequestTest extends TestCase
         ], $webhookRequest->getDataArray());
     }
 
-    public function testId()
+    public function testId(): void
     {
         $webhookRequest = new WebhookRequest($this->storeRegistry);
 
@@ -54,7 +56,7 @@ class WebhookRequestTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testProjectId()
+    public function testProjectId(): void
     {
         $webhookRequest = new WebhookRequest($this->storeRegistry);
 
@@ -66,7 +68,7 @@ class WebhookRequestTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testWebhookType()
+    public function testWebhookType(): void
     {
         $webhookRequest = new WebhookRequest($this->storeRegistry);
 
@@ -78,7 +80,7 @@ class WebhookRequestTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testPayload()
+    public function testPayload(): void
     {
         $webhookRequest = new WebhookRequest($this->storeRegistry);
 
@@ -90,7 +92,7 @@ class WebhookRequestTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testCreateDate()
+    public function testCreateDate(): void
     {
         $projectGroup = new ProjectGroup($this->storeRegistry);
         self::assertEquals(null, $projectGroup->getCreateDate());

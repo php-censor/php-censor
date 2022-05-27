@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\PHPCensor\Logging;
 
 use Exception;
@@ -13,18 +15,14 @@ class BuildLoggerTest extends TestCase
 {
     use ProphecyTrait;
 
-    /**
-     * @var BuildLogger
-     */
-    protected $testedBuildLogger;
-
-    protected $mockLogger;
-
-    protected $mockBuild;
+    private BuildLogger $testedBuildLogger;
+    private $mockLogger;
+    private $mockBuild;
 
     protected function setUp(): void
     {
         parent::setUp();
+
         $this->mockLogger = $this->prophesize('\Psr\Log\LoggerInterface');
         $this->mockBuild = $this->prophesize('\PHPCensor\Model\Build');
 
@@ -34,7 +32,7 @@ class BuildLoggerTest extends TestCase
         );
     }
 
-    public function testLog_CallsWrappedLogger()
+    public function testLog_CallsWrappedLogger(): void
     {
         $level = LogLevel::NOTICE;
         $message   = "Testing";
@@ -47,7 +45,7 @@ class BuildLoggerTest extends TestCase
         $this->testedBuildLogger->log($message, $level, $contextIn);
     }
 
-    public function testLog_CallsWrappedLoggerForEachMessage()
+    public function testLog_CallsWrappedLoggerForEachMessage(): void
     {
         $level     = LogLevel::NOTICE;
         $message   = ["One", "Two", "Three"];
@@ -68,7 +66,7 @@ class BuildLoggerTest extends TestCase
         $this->testedBuildLogger->log($message, $level, $contextIn);
     }
 
-    public function testLogFailure_AddsExceptionContext()
+    public function testLogFailure_AddsExceptionContext(): void
     {
         $message = "Testing";
 

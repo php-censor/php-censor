@@ -1,35 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\PHPCensor\Command;
 
 use Monolog\Logger;
-use PHPCensor\Command\CreateAdminCommand;
 use PHPCensor\Command\CreateBuildCommand;
 use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
 class CreateBuildCommandTest extends TestCase
 {
-    /**
-     * @var CreateAdminCommand|MockObject
-     */
-    protected $command;
-
-    /**
-     * @var Application|MockObject
-     */
-    protected $application;
-
-    protected ConfigurationInterface $configuration;
-
-    protected DatabaseManager $databaseManager;
-
-    protected Logger $logger;
+    private CreateBuildCommand $command;
+    private Application $application;
+    private ConfigurationInterface $configuration;
+    private DatabaseManager $databaseManager;
+    private Logger $logger;
 
     protected function setUp(): void
     {
@@ -79,7 +69,7 @@ class CreateBuildCommandTest extends TestCase
         $this->application = new Application();
     }
 
-    protected function getCommandTester()
+    protected function getCommandTester(): CommandTester
     {
         $this->application->add($this->command);
         $command = $this->application->find('php-censor:create-build');
@@ -87,7 +77,7 @@ class CreateBuildCommandTest extends TestCase
         return new CommandTester($command);
     }
 
-    public function testExecute()
+    public function testExecute(): void
     {
         $commandTester = $this->getCommandTester();
 
@@ -98,7 +88,7 @@ class CreateBuildCommandTest extends TestCase
         self::assertTrue(true);
     }
 
-    public function testExecuteWithUnknownProjectId()
+    public function testExecuteWithUnknownProjectId(): void
     {
         self::expectException(InvalidArgumentException::class);
 

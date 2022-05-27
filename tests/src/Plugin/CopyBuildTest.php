@@ -1,19 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\PHPCensor\Plugin;
 
 use PHPCensor\Builder;
 use PHPCensor\Helper\CommandExecutor;
 use PHPCensor\Model\Build;
+use PHPCensor\Plugin;
 use PHPCensor\Plugin\CopyBuild;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class CopyBuildTest extends TestCase
 {
-    protected $buildPath;
+    private string $buildPath;
 
-    protected $directories = [];
+    private array $directories = [];
 
     protected function tearDown(): void
     {
@@ -60,7 +63,7 @@ class CopyBuildTest extends TestCase
         $this->buildPath     = $directory;
     }
 
-    protected function buildTemp()
+    protected function buildTemp(): string
     {
         $directory = \tempnam(ROOT_DIR . 'tests/runtime/', 'copy_build_test_');
         @\unlink($directory);
@@ -68,7 +71,7 @@ class CopyBuildTest extends TestCase
         return $directory . '/';
     }
 
-    protected function getPlugin(array $options = [])
+    protected function getPlugin(array $options = []): Plugin
     {
         /** @var Build|MockObject $build */
         $build = $this
@@ -109,7 +112,7 @@ class CopyBuildTest extends TestCase
         return new CopyBuild($builder, $build, $options);
     }
 
-    public function testExecuteAbsolute()
+    public function testExecuteAbsolute(): void
     {
         $directory           = $this->buildTemp();
         $this->directories[] = $directory;
@@ -132,7 +135,7 @@ class CopyBuildTest extends TestCase
         self::assertTrue(\file_exists($directory . '/tree/four.php'));
     }
 
-    public function testExecuteRelative()
+    public function testExecuteRelative(): void
     {
         $directory           = '../copy_build_test_relative';
         $this->directories[] = ROOT_DIR . 'tests/runtime/copy_build_test_relative/';

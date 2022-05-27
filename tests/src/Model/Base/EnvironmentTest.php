@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\PHPCensor\Model\Base;
 
 use PHPCensor\Model\Base\Environment;
@@ -9,7 +11,7 @@ use PHPCensor\Common\Application\ConfigurationInterface;
 
 class EnvironmentTest extends TestCase
 {
-    protected StoreRegistry $storeRegistry;
+    private StoreRegistry $storeRegistry;
 
     protected function setUp(): void
     {
@@ -24,7 +26,7 @@ class EnvironmentTest extends TestCase
             ->getMock();
     }
 
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $environment = new Environment($this->storeRegistry);
 
@@ -39,7 +41,7 @@ class EnvironmentTest extends TestCase
         ], $environment->getDataArray());
     }
 
-    public function testId()
+    public function testId(): void
     {
         $environment = new Environment($this->storeRegistry);
 
@@ -51,7 +53,7 @@ class EnvironmentTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testProjectId()
+    public function testProjectId(): void
     {
         $environment = new Environment($this->storeRegistry);
 
@@ -63,7 +65,7 @@ class EnvironmentTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testName()
+    public function testName(): void
     {
         $environment = new Environment($this->storeRegistry);
 
@@ -75,7 +77,7 @@ class EnvironmentTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testBranches()
+    public function testBranches(): void
     {
         $environment = new Environment($this->storeRegistry);
 

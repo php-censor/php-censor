@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\PHPCensor\Model\Base;
 
 use PHPCensor\Model\Base\BuildMeta;
@@ -9,7 +11,7 @@ use PHPCensor\Common\Application\ConfigurationInterface;
 
 class BuildMetaTest extends TestCase
 {
-    protected StoreRegistry $storeRegistry;
+    private StoreRegistry $storeRegistry;
 
     protected function setUp(): void
     {
@@ -24,7 +26,7 @@ class BuildMetaTest extends TestCase
             ->getMock();
     }
 
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $buildMeta = new BuildMeta($this->storeRegistry);
 
@@ -39,7 +41,7 @@ class BuildMetaTest extends TestCase
         ], $buildMeta->getDataArray());
     }
 
-    public function testId()
+    public function testId(): void
     {
         $buildMeta = new BuildMeta($this->storeRegistry);
 
@@ -51,7 +53,7 @@ class BuildMetaTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testBuildId()
+    public function testBuildId(): void
     {
         $buildMeta = new BuildMeta($this->storeRegistry);
 
@@ -63,7 +65,7 @@ class BuildMetaTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testMetaKey()
+    public function testMetaKey(): void
     {
         $buildMeta = new BuildMeta($this->storeRegistry);
 
@@ -75,7 +77,7 @@ class BuildMetaTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testMetaValue()
+    public function testMetaValue(): void
     {
         $buildMeta = new BuildMeta($this->storeRegistry);
 

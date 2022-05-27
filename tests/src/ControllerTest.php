@@ -47,12 +47,12 @@ class ControllerTest extends TestCase
         $this->controller = new TestController($configuration, $storeRegistry, $this->request, new Session());
     }
 
-    public function testConstruct()
+    public function testConstruct(): void
     {
         self::assertInstanceOf(Controller::class, $this->controller);
     }
 
-    public function testGetParam()
+    public function testGetParam(): void
     {
         $this->request
             ->expects($this->once())
@@ -63,7 +63,7 @@ class ControllerTest extends TestCase
         self::assertEquals('value2', $this->controller->getParam('param2'));
     }
 
-    public function testHandleAction()
+    public function testHandleAction(): void
     {
         $this->request
             ->expects($this->once())
@@ -73,12 +73,12 @@ class ControllerTest extends TestCase
         $this->controller->handleAction('getParam', ['param5']);
     }
 
-    public function testHasActionSuccess()
+    public function testHasActionSuccess(): void
     {
         self::assertEquals(true, $this->controller->hasAction('getParam'));
     }
 
-    public function testHasActionFailed()
+    public function testHasActionFailed(): void
     {
         self::assertEquals(false, $this->controller->hasAction('getParamNew'));
     }

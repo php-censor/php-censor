@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\PHPCensor\Model\Base;
 
 use PHPCensor\Model\Base\User;
@@ -9,7 +11,7 @@ use PHPCensor\Common\Application\ConfigurationInterface;
 
 class UserTest extends TestCase
 {
-    protected StoreRegistry $storeRegistry;
+    private StoreRegistry $storeRegistry;
 
     protected function setUp(): void
     {
@@ -24,7 +26,7 @@ class UserTest extends TestCase
             ->getMock();
     }
 
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $user = new User($this->storeRegistry);
 
@@ -45,7 +47,7 @@ class UserTest extends TestCase
         ], $user->getDataArray());
     }
 
-    public function testId()
+    public function testId(): void
     {
         $user = new User($this->storeRegistry);
 
@@ -57,7 +59,7 @@ class UserTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testEmail()
+    public function testEmail(): void
     {
         $user = new User($this->storeRegistry);
 
@@ -69,7 +71,7 @@ class UserTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testHash()
+    public function testHash(): void
     {
         $user = new User($this->storeRegistry);
 
@@ -81,7 +83,7 @@ class UserTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testIsAdmin()
+    public function testIsAdmin(): void
     {
         $user = new User($this->storeRegistry);
 
@@ -93,7 +95,7 @@ class UserTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testName()
+    public function testName(): void
     {
         $user = new User($this->storeRegistry);
 
@@ -105,7 +107,7 @@ class UserTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testLanguage()
+    public function testLanguage(): void
     {
         $user = new User($this->storeRegistry);
 
@@ -117,7 +119,7 @@ class UserTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testPerPage()
+    public function testPerPage(): void
     {
         $user = new User($this->storeRegistry);
 
@@ -129,7 +131,7 @@ class UserTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testProviderKey()
+    public function testProviderKey(): void
     {
         $user = new User($this->storeRegistry);
 
@@ -141,7 +143,7 @@ class UserTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testProviderData()
+    public function testProviderData(): void
     {
         $user = new User($this->storeRegistry);
 
@@ -155,7 +157,7 @@ class UserTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testRememberKey()
+    public function testRememberKey(): void
     {
         $user = new User($this->storeRegistry);
 

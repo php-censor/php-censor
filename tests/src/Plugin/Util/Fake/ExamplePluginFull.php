@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\PHPCensor\Plugin\Util\Fake;
 
 use PHPCensor\Builder;
@@ -8,15 +10,12 @@ use PHPCensor\Plugin;
 
 class ExamplePluginFull extends Plugin
 {
-    /**
-     * @var array
-     */
     public $options;
 
     /**
      * @return string
      */
-    public static function pluginName()
+    public static function pluginName(): string
     {
         return 'example_plugin_full';
     }
@@ -26,7 +25,7 @@ class ExamplePluginFull extends Plugin
         $this->options = $options;
     }
 
-    public function execute()
+    public function execute(): void
     {
     }
 }

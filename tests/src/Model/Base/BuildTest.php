@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\PHPCensor\Model\Base;
 
 use DateTime;
@@ -11,7 +13,7 @@ use PHPCensor\Common\Application\ConfigurationInterface;
 
 class BuildTest extends TestCase
 {
-    protected StoreRegistry $storeRegistry;
+    private StoreRegistry $storeRegistry;
 
     protected function setUp(): void
     {
@@ -26,7 +28,7 @@ class BuildTest extends TestCase
             ->getMock();
     }
 
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $build = new Build($this->storeRegistry);
 
@@ -59,7 +61,7 @@ class BuildTest extends TestCase
         ], $build->getDataArray());
     }
 
-    public function testId()
+    public function testId(): void
     {
         $build = new Build($this->storeRegistry);
 
@@ -76,7 +78,7 @@ class BuildTest extends TestCase
     /**
      * @throws InvalidArgumentException
      */
-    public function testParentId()
+    public function testParentId(): void
     {
         $build = new Build($this->storeRegistry);
 
@@ -90,7 +92,7 @@ class BuildTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testProjectId()
+    public function testProjectId(): void
     {
         $build = new Build($this->storeRegistry);
 
@@ -102,7 +104,7 @@ class BuildTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testCommitId()
+    public function testCommitId(): void
     {
         $build = new Build($this->storeRegistry);
 
@@ -114,7 +116,7 @@ class BuildTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testStatus()
+    public function testStatus(): void
     {
         $build = new Build($this->storeRegistry);
 
@@ -125,7 +127,7 @@ class BuildTest extends TestCase
         $build->setStatus(10);
     }
 
-    public function testLog()
+    public function testLog(): void
     {
         $build = new Build($this->storeRegistry);
 
@@ -137,7 +139,7 @@ class BuildTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testBranch()
+    public function testBranch(): void
     {
         $build = new Build($this->storeRegistry);
 
@@ -149,7 +151,7 @@ class BuildTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testTag()
+    public function testTag(): void
     {
         $build = new Build($this->storeRegistry);
 
@@ -161,7 +163,7 @@ class BuildTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testCreateDate()
+    public function testCreateDate(): void
     {
         $build = new Build($this->storeRegistry);
         self::assertEquals(null, $build->getCreateDate());
@@ -183,7 +185,7 @@ class BuildTest extends TestCase
         self::assertNull($build->getCreateDate());
     }
 
-    public function testStartDate()
+    public function testStartDate(): void
     {
         $build = new Build($this->storeRegistry);
         self::assertEquals(null, $build->getStartDate());
@@ -205,7 +207,7 @@ class BuildTest extends TestCase
         self::assertNull($build->getStartDate());
     }
 
-    public function testFinishDate()
+    public function testFinishDate(): void
     {
         $build = new Build($this->storeRegistry);
         self::assertEquals(null, $build->getFinishDate());
@@ -227,7 +229,7 @@ class BuildTest extends TestCase
         self::assertNull($build->getStartDate());
     }
 
-    public function testCommitterEmail()
+    public function testCommitterEmail(): void
     {
         $build = new Build($this->storeRegistry);
 
@@ -239,7 +241,7 @@ class BuildTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testCommitMessage()
+    public function testCommitMessage(): void
     {
         $build = new Build($this->storeRegistry);
 
@@ -251,7 +253,7 @@ class BuildTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testExtra()
+    public function testExtra(): void
     {
         $build = new Build($this->storeRegistry);
 
@@ -265,10 +267,7 @@ class BuildTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    /*
-     * @depends testExtra
-     */
-    public function testAddExtraValue()
+    public function testAddExtraValue(): void
     {
         $build = new Build($this->storeRegistry, ['extra' => null]);
 
@@ -284,10 +283,7 @@ class BuildTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    /*
-     * @depends testExtra
-     */
-    public function testRemoveExtraValue()
+    public function testRemoveExtraValue(): void
     {
         $build = new Build($this->storeRegistry);
 
@@ -309,7 +305,7 @@ class BuildTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testEnvironment()
+    public function testEnvironment(): void
     {
         $build = new Build($this->storeRegistry);
 
@@ -321,7 +317,7 @@ class BuildTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testSource()
+    public function testSource(): void
     {
         $build = new Build($this->storeRegistry);
 
@@ -336,7 +332,7 @@ class BuildTest extends TestCase
         $build->setSource(20);
     }
 
-    public function testUserId()
+    public function testUserId(): void
     {
         $build = new Build($this->storeRegistry);
 
@@ -348,7 +344,7 @@ class BuildTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testErrorsTotal()
+    public function testErrorsTotal(): void
     {
         $build = new Build($this->storeRegistry);
 
@@ -360,7 +356,7 @@ class BuildTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testErrorsTotalPrevious()
+    public function testErrorsTotalPrevious(): void
     {
         $build = new Build($this->storeRegistry);
 
@@ -372,7 +368,7 @@ class BuildTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testErrorsNew()
+    public function testErrorsNew(): void
     {
         $build = new Build($this->storeRegistry);
 
@@ -384,10 +380,7 @@ class BuildTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    /*
-     * @depends testExtra
-     */
-    public function testIsDebug()
+    public function testIsDebug(): void
     {
         $build = new Build($this->storeRegistry);
         self::assertEquals(false, $build->isDebug());

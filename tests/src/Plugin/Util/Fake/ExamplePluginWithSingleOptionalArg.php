@@ -1,15 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\PHPCensor\Plugin\Util\Fake;
 
 use PHPCensor\Plugin;
 
 class ExamplePluginWithSingleOptionalArg extends Plugin
 {
-    /**
-     * @return string
-     */
-    public static function pluginName()
+    public static function pluginName(): string
     {
         return 'example_plugin_with_single_optional_arg';
     }
@@ -18,7 +17,7 @@ class ExamplePluginWithSingleOptionalArg extends Plugin
     {
     }
 
-    public function execute()
+    public function execute(): void
     {
     }
 }

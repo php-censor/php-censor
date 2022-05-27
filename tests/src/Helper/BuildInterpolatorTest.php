@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\PHPCensor\Helper;
 
 use PHPCensor\Helper\BuildInterpolator;
+use PHPCensor\Model\Build;
 use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -12,9 +15,9 @@ class BuildInterpolatorTest extends TestCase
 {
     use ProphecyTrait;
 
-    protected BuildInterpolator $testedInterpolator;
+    private BuildInterpolator $testedInterpolator;
 
-    protected StoreRegistry $storeRegistry;
+    private StoreRegistry $storeRegistry;
 
     protected function setUp(): void
     {
@@ -33,7 +36,7 @@ class BuildInterpolatorTest extends TestCase
         $this->testedInterpolator = new BuildInterpolator($this->storeRegistry);
     }
 
-    public function testInterpolate_LeavesStringsUnchangedByDefault()
+    public function testInterpolate_LeavesStringsUnchangedByDefault(): void
     {
         $string = "Hello World";
         $expectedOutput = "Hello World";
@@ -43,8 +46,9 @@ class BuildInterpolatorTest extends TestCase
         self::assertEquals($expectedOutput, $actualOutput);
     }
 
-    public function testInterpolate_LeavesStringsUnchangedWhenBuildIsSet()
+    public function testInterpolate_LeavesStringsUnchangedWhenBuildIsSet(): void
     {
+        /** @var Build $build */
         $build = $this->prophesize('PHPCensor\\Model\\Build')->reveal();
 
         $string         = "Hello World";

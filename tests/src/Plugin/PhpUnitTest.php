@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\PHPCensor\Plugin;
 
 use Monolog\Logger;
@@ -11,6 +13,7 @@ use PHPCensor\Model\Build;
 use PHPCensor\Plugin\PhpUnit;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\StoreRegistry;
+use PHPUnit\Framework\MockObject\MockBuilder;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -20,7 +23,7 @@ use PHPUnit\Framework\TestCase;
  */
 class PhpUnitTest extends TestCase
 {
-    public function testSingleConfigFile()
+    public function testSingleConfigFile(): void
     {
         $options = [
             'config' => ROOT_DIR . 'phpunit.xml.dist'
@@ -36,7 +39,7 @@ class PhpUnitTest extends TestCase
         $mockPlugin->execute();
     }
 
-    public function testMultiConfigFile()
+    public function testMultiConfigFile(): void
     {
         $options = [
             'config' => [
@@ -54,13 +57,7 @@ class PhpUnitTest extends TestCase
         $mockPlugin->execute();
     }
 
-
-
-    /**
-     * @param array $options
-     *
-     */
-    protected function getPluginBuilder($options = [])
+    protected function getPluginBuilder(array $options = []): MockBuilder
     {
         $mockConfiguration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
         $mockDatabaseManager = $this
@@ -113,7 +110,7 @@ class PhpUnitTest extends TestCase
         );
     }
 
-    public function testSingleDir()
+    public function testSingleDir(): void
     {
         $options = [
             'directories' => '/test/directory/one'
@@ -125,7 +122,7 @@ class PhpUnitTest extends TestCase
         $mockPlugin->execute();
     }
 
-    public function testMultiDir()
+    public function testMultiDir(): void
     {
         $options = [
             'directories' => [
@@ -143,7 +140,7 @@ class PhpUnitTest extends TestCase
         $mockPlugin->execute();
     }
 
-    public function testProcessResultsFromConfig()
+    public function testProcessResultsFromConfig(): void
     {
         $options = [
             'config' => ROOT_DIR . 'phpunit.xml.dist'
@@ -155,7 +152,7 @@ class PhpUnitTest extends TestCase
         $mockPlugin->execute();
     }
 
-    public function testProcessResultsFromDir()
+    public function testProcessResultsFromDir(): void
     {
         $options = [
             'directories' => ROOT_DIR . 'Tests'
@@ -167,7 +164,7 @@ class PhpUnitTest extends TestCase
         $mockPlugin->execute();
     }
 
-    public function testRequiredCoverageWithPassingPercentage()
+    public function testRequiredCoverageWithPassingPercentage(): void
     {
         $options = [
             'config'                  => ROOT_DIR . 'phpunit.xml.dist',
@@ -185,7 +182,7 @@ class PhpUnitTest extends TestCase
         $this->assertTrue($mockPlugin->execute());
     }
 
-    public function testRequiredCoverageWithPassingPercentage2()
+    public function testRequiredCoverageWithPassingPercentage2(): void
     {
         $options = [
             'config' => ROOT_DIR . 'phpunit.xml.dist',
@@ -203,7 +200,7 @@ class PhpUnitTest extends TestCase
         $this->assertFalse($mockPlugin->execute());
     }
 
-    public function testRequiredCoverageWithFailingPercentage()
+    public function testRequiredCoverageWithFailingPercentage(): void
     {
         $options = [
             'config'                  => ROOT_DIR . 'phpunit.xml.dist',

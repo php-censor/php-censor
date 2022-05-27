@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\PHPCensor\Security\Authentication;
 
 use PHPCensor\Common\Application\ConfigurationInterface;
@@ -14,9 +16,8 @@ class ServiceTest extends TestCase
 {
     use ProphecyTrait;
 
-    protected ConfigurationInterface $configuration;
-
-    protected StoreRegistry $storeRegistry;
+    private ConfigurationInterface $configuration;
+    private StoreRegistry $storeRegistry;
 
     protected function setUp(): void
     {
@@ -33,14 +34,14 @@ class ServiceTest extends TestCase
             ->getMock();
     }
 
-    public function testBuildBuiltinProvider()
+    public function testBuildBuiltinProvider(): void
     {
         $provider = Service::buildProvider($this->storeRegistry, 'test', ['type' => 'internal']);
 
         self::assertInstanceOf('\PHPCensor\Security\Authentication\UserProvider\Internal', $provider);
     }
 
-    public function testBuildAnyProvider()
+    public function testBuildAnyProvider(): void
     {
         $config   = ['type' => '\Tests\PHPCensor\Security\Authentication\DummyProvider'];
         $provider = Service::buildProvider($this->storeRegistry, 'test', $config);
@@ -50,7 +51,7 @@ class ServiceTest extends TestCase
         self::assertEquals($config, $provider->getConfig());
     }
 
-    public function testGetProviders()
+    public function testGetProviders(): void
     {
         $a         = $this->prophesize('\PHPCensor\Security\Authentication\UserProviderInterface')->reveal();
         $b         = $this->prophesize('\PHPCensor\Security\Authentication\UserProviderInterface')->reveal();
@@ -61,7 +62,7 @@ class ServiceTest extends TestCase
         self::assertEquals($providers, $service->getProviders());
     }
 
-    public function testGetLoginPasswordProviders()
+    public function testGetLoginPasswordProviders(): void
     {
         $a         = $this->prophesize('\PHPCensor\Security\Authentication\UserProviderInterface')->reveal();
         $b         = $this->prophesize('\PHPCensor\Security\Authentication\LoginPasswordProviderInterface')->reveal();

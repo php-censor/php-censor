@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\PHPCensor\Service;
 
 use DateTime;
@@ -21,19 +23,13 @@ use PHPUnit\Framework\TestCase;
  */
 class BuildServiceTest extends TestCase
 {
-    protected BuildService $testedService;
-
-    protected BuildStore $mockBuildStore;
-
-    protected ConfigurationInterface $configuration;
-
-    protected DatabaseManager $databaseManager;
-
-    protected StoreRegistry $storeRegistry;
-
-    protected EnvironmentStore $mockEnvironmentStore;
-
-    protected BuildFactory $buildFactory;
+    private BuildService $testedService;
+    private BuildStore $mockBuildStore;
+    private ConfigurationInterface $configuration;
+    private DatabaseManager $databaseManager;
+    private StoreRegistry $storeRegistry;
+    private EnvironmentStore $mockEnvironmentStore;
+    private BuildFactory $buildFactory;
 
     protected function setUp(): void
     {
@@ -83,7 +79,7 @@ class BuildServiceTest extends TestCase
         );
     }
 
-    public function testExecute_CreateBasicBuild()
+    public function testExecute_CreateBasicBuild(): void
     {
         $project = $this
             ->getMockBuilder('PHPCensor\Model\Project')
@@ -115,7 +111,7 @@ class BuildServiceTest extends TestCase
         self::assertEquals(Build::SOURCE_UNKNOWN, $returnValue->getSource());
     }
 
-    public function testExecute_CreateBuildWithOptions()
+    public function testExecute_CreateBuildWithOptions(): void
     {
         $project = $this
             ->getMockBuilder('PHPCensor\Model\Project')
@@ -146,7 +142,7 @@ class BuildServiceTest extends TestCase
         self::assertEquals('test@example.com', $returnValue->getCommitterEmail());
     }
 
-    public function testExecute_CreateBuildWithExtra()
+    public function testExecute_CreateBuildWithExtra(): void
     {
         $project = $this
             ->getMockBuilder('PHPCensor\Model\Project')
@@ -181,7 +177,7 @@ class BuildServiceTest extends TestCase
     /**
      * @throws Exception
      */
-    public function testExecute_CreateDuplicateBuild()
+    public function testExecute_CreateDuplicateBuild(): void
     {
         $build = new Build($this->storeRegistry);
         $build->setId(1);
@@ -216,7 +212,7 @@ class BuildServiceTest extends TestCase
         self::assertEquals($build->getId(), $returnValue->getParentId());
     }
 
-    public function testExecute_DeleteBuild()
+    public function testExecute_DeleteBuild(): void
     {
         $store = $this
             ->getMockBuilder('PHPCensor\Store\BuildStore')

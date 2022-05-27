@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\PHPCensor\Service;
 
 use DateTime;
@@ -17,13 +19,11 @@ use PHPCensor\Common\Application\ConfigurationInterface;
  */
 class BuildStatusServiceTest extends TestCase
 {
-    public const BRANCH = 'master';
+    private const BRANCH = 'master';
 
-    protected Project $project;
-
-    protected string $timezone;
-
-    protected StoreRegistry $storeRegistry;
+    private Project $project;
+    private string $timezone;
+    private StoreRegistry $storeRegistry;
 
     protected function setUp(): void
     {

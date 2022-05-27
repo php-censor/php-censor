@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\PHPCensor\Helper;
 
 use PHPCensor\Helper\MailerFactory;
@@ -7,15 +9,12 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Unit tests for the ProjectService class.
+ *
  * @author Dan Cryer <dan@block8.co.uk>
  */
 class MailerFactoryTest extends TestCase
 {
-    protected function setUp(): void
-    {
-    }
-
-    public function testExecute_TestGetMailConfig()
+    public function testExecute_TestGetMailConfig(): void
     {
         $config = [
             'smtp_address'           => 'mail.example.com',
@@ -36,7 +35,7 @@ class MailerFactoryTest extends TestCase
         self::assertEquals($config['default_mailto_address'], $factory->getMailConfig('default_mailto_address'));
     }
 
-    public function testExecute_TestMailer()
+    public function testExecute_TestMailer(): void
     {
         $config = [
             'smtp_address'           => 'mail.example.com',

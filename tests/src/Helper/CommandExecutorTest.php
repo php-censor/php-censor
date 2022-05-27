@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\PHPCensor\Helper;
 
 use Exception;
@@ -11,10 +13,7 @@ class CommandExecutorTest extends TestCase
 {
     use ProphecyTrait;
 
-    /**
-     * @var CommandExecutor
-     */
-    protected $testedExecutor;
+    protected CommandExecutor $testedExecutor;
 
     protected function setUp(): void
     {
@@ -26,34 +25,38 @@ class CommandExecutorTest extends TestCase
         $this->testedExecutor = new $class($mockBuildLogger->reveal(), __DIR__);
     }
 
-    public function testGetLastOutput_ReturnsOutputOfCommand()
+    public function testGetLastOutput_ReturnsOutputOfCommand(): void
     {
         $this->testedExecutor->executeCommand(['echo "%s"', 'Hello World']);
         $output = $this->testedExecutor->getLastOutput();
+
         self::assertEquals("Hello World", $output);
     }
 
-    public function testGetLastOutput_ForgetsPreviousCommandOutput()
+    public function testGetLastOutput_ForgetsPreviousCommandOutput(): void
     {
         $this->testedExecutor->executeCommand(['echo "%s"', 'Hello World']);
         $this->testedExecutor->executeCommand(['echo "%s"', 'Hello Tester']);
         $output = $this->testedExecutor->getLastOutput();
+
         self::assertEquals("Hello Tester", $output);
     }
 
-    public function testExecuteCommand_ReturnsTrueForValidCommands()
+    public function testExecuteCommand_ReturnsTrueForValidCommands(): void
     {
         $returnValue = $this->testedExecutor->executeCommand(['echo "%s"', 'Hello World']);
+
         self::assertTrue($returnValue);
     }
 
-    public function testExecuteCommand_ReturnsFalseForInvalidCommands()
+    public function testExecuteCommand_ReturnsFalseForInvalidCommands(): void
     {
         $returnValue = $this->testedExecutor->executeCommand(['eerfdcvcho "%s" > /dev/null 2>&1', 'Hello World']);
+
         self::assertFalse($returnValue);
     }
 
-    public function testFindBinary_ThrowsWhenNotFound()
+    public function testFindBinary_ThrowsWhenNotFound(): void
     {
         self::expectException(Exception::class);
 
@@ -61,7 +64,7 @@ class CommandExecutorTest extends TestCase
         $this->testedExecutor->findBinary($thisFileName);
     }
 
-    public function testReplaceIllegalCharacters()
+    public function testReplaceIllegalCharacters(): void
     {
         self::assertEquals(
             "start � end",

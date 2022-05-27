@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\PHPCensor\Plugin\Util;
 
 use PHPCensor\Common\Exception\RuntimeException;
@@ -15,18 +17,11 @@ class ExecutorTest extends TestCase
 {
     use ProphecyTrait;
 
-    /**
-     * @var Executor
-     */
-    protected $testedExecutor;
-
-    protected $mockBuildLogger;
-
-    protected $mockFactory;
-
-    protected $mockStore;
-
-    protected StoreRegistry $storeRegistry;
+    private Executor $testedExecutor;
+    private $mockBuildLogger;
+    private $mockFactory;
+    private $mockStore;
+    private StoreRegistry $storeRegistry;
 
     protected function setUp(): void
     {
@@ -53,14 +48,14 @@ class ExecutorTest extends TestCase
         );
     }
 
-    protected function getFakePluginClassName($pluginName)
+    protected function getFakePluginClassName(string $pluginName): string
     {
         $pluginNamespace = 'Tests\\PHPCensor\\Plugin\\Util\\Fake\\';
 
         return $pluginNamespace . $pluginName;
     }
 
-    public function testExecutePlugin_AssumesNamespaceIfNoneGiven()
+    public function testExecutePlugin_AssumesNamespaceIfNoneGiven(): void
     {
         $options = [];
         $pluginName = 'PhpUnit';
@@ -74,7 +69,7 @@ class ExecutorTest extends TestCase
         $this->testedExecutor->executePlugin($pluginName, $options);
     }
 
-    public function testExecutePlugin_KeepsCalledNameSpace()
+    public function testExecutePlugin_KeepsCalledNameSpace(): void
     {
         $options = [];
         $pluginClass = $this->getFakePluginClassName('ExamplePluginFull');
@@ -87,7 +82,7 @@ class ExecutorTest extends TestCase
         $this->testedExecutor->executePlugin($pluginClass, $options);
     }
 
-    public function testExecutePlugin_CallsExecuteOnFactoryBuildPlugin()
+    public function testExecutePlugin_CallsExecuteOnFactoryBuildPlugin(): void
     {
         $options = [];
         $pluginName = 'PhpUnit';
@@ -103,7 +98,7 @@ class ExecutorTest extends TestCase
         $this->testedExecutor->executePlugin($pluginName, $options);
     }
 
-    public function testExecutePlugin_ReturnsPluginSuccess()
+    public function testExecutePlugin_ReturnsPluginSuccess(): void
     {
         $options = [];
         $pluginName = 'PhpUnit';
@@ -121,7 +116,7 @@ class ExecutorTest extends TestCase
         self::assertEquals($expectedReturnValue, $returnValue);
     }
 
-    public function testExecutePlugin_LogsFailureForNonExistentClasses()
+    public function testExecutePlugin_LogsFailureForNonExistentClasses(): void
     {
         $options    = [];
         $pluginName = 'DOESNTEXIST';
@@ -131,7 +126,7 @@ class ExecutorTest extends TestCase
         $this->testedExecutor->executePlugin($pluginName, $options);
     }
 
-    public function testExecutePlugin_LogsFailureWhenExceptionsAreThrownByPlugin()
+    public function testExecutePlugin_LogsFailureWhenExceptionsAreThrownByPlugin(): void
     {
         $options    = [];
         $pluginName = 'PhpUnit';
@@ -151,7 +146,7 @@ class ExecutorTest extends TestCase
         $this->testedExecutor->executePlugin($pluginName, $options);
     }
 
-    public function testExecutePlugins_CallsEachPluginForStage()
+    public function testExecutePlugins_CallsEachPluginForStage(): void
     {
         $phpUnitPluginOptions = [];
         $behatPluginOptions   = [];
@@ -186,7 +181,7 @@ class ExecutorTest extends TestCase
         $this->testedExecutor->executePlugins($config, 'stageOne');
     }
 
-    public function testGetBranchSpecificConfig()
+    public function testGetBranchSpecificConfig(): void
     {
         $config = [
             'setup' => [

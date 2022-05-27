@@ -1,15 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\PHPCensor;
 
 use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Form;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\HttpFoundation\Session\Session;
 
 class FormTest extends TestCase
 {
-    public function testFormBasics()
+    public function testFormBasics(): void
     {
         $f = new Form();
         $f->setAction('/');
@@ -19,7 +20,7 @@ class FormTest extends TestCase
         self::assertTrue($f->getMethod() == 'POST');
     }
 
-    public function testElementBasics()
+    public function testElementBasics(): void
     {
         $f = new Form\Element\Text('element-name');
         $f->setId('element-id');
@@ -40,7 +41,7 @@ class FormTest extends TestCase
         self::assertTrue(\strpos($output, 'container-class') !== false);
     }
 
-    public function testInputBasics()
+    public function testInputBasics(): void
     {
         $f = new Form\Element\Text();
 
@@ -55,7 +56,7 @@ class FormTest extends TestCase
         self::assertTrue(\is_callable($f->getValidator()));
     }
 
-    public function testInputCreate()
+    public function testInputCreate(): void
     {
         $text = Form\Element\Text::create(
             'input-name',
@@ -68,7 +69,7 @@ class FormTest extends TestCase
         self::assertTrue($text->getRequired());
     }
 
-    public function testInputValidation()
+    public function testInputValidation(): void
     {
         $f = new Form\Element\Text();
         $f->setRequired(true);
@@ -98,7 +99,7 @@ class FormTest extends TestCase
         self::assertFalse($f->validate());
     }
 
-    public function testInputValidationWithCustomError()
+    public function testInputValidationWithCustomError(): void
     {
         $f = new Form\Element\Text();
         $f->setRequired(true);
@@ -108,7 +109,7 @@ class FormTest extends TestCase
         self::assertFalse($f->validate());
     }
 
-    public function testFieldSetBasics()
+    public function testFieldSetBasics(): void
     {
         $f  = new Form\FieldSet();
         $f2 = new Form\FieldSet('group');
@@ -154,7 +155,7 @@ class FormTest extends TestCase
         self::assertEquals($f3, $child);
     }
 
-    public function testElements()
+    public function testElements(): void
     {
         $e = new Form\Element\Button();
         self::assertTrue($e->validate());

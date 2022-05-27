@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use PHPCensor\Configuration;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Helper\Lang;

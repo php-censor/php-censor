@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\PHPCensor\Model\Base;
 
 use DateTime;
@@ -10,7 +12,7 @@ use PHPCensor\Common\Application\ConfigurationInterface;
 
 class ProjectTest extends TestCase
 {
-    protected StoreRegistry $storeRegistry;
+    private StoreRegistry $storeRegistry;
 
     protected function setUp(): void
     {
@@ -25,7 +27,7 @@ class ProjectTest extends TestCase
             ->getMock();
     }
 
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $project = new Project($this->storeRegistry);
 
@@ -52,7 +54,7 @@ class ProjectTest extends TestCase
         ], $project->getDataArray());
     }
 
-    public function testId()
+    public function testId(): void
     {
         $project = new Project($this->storeRegistry);
 
@@ -64,7 +66,7 @@ class ProjectTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testTitle()
+    public function testTitle(): void
     {
         $project = new Project($this->storeRegistry);
 
@@ -76,7 +78,7 @@ class ProjectTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testReference()
+    public function testReference(): void
     {
         $project = new Project($this->storeRegistry);
 
@@ -88,7 +90,7 @@ class ProjectTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testBranch()
+    public function testBranch(): void
     {
         $project = new Project($this->storeRegistry);
 
@@ -102,7 +104,7 @@ class ProjectTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testDefaultBranchOnly()
+    public function testDefaultBranchOnly(): void
     {
         $project = new Project($this->storeRegistry);
 
@@ -114,7 +116,7 @@ class ProjectTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testSshPrivateKey()
+    public function testSshPrivateKey(): void
     {
         $project = new Project($this->storeRegistry);
 
@@ -126,7 +128,7 @@ class ProjectTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testSshPublicKey()
+    public function testSshPublicKey(): void
     {
         $project = new Project($this->storeRegistry);
 
@@ -138,7 +140,7 @@ class ProjectTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testType()
+    public function testType(): void
     {
         $project = new Project($this->storeRegistry);
 
@@ -153,7 +155,7 @@ class ProjectTest extends TestCase
         $project->setType('invalid-type');
     }
 
-    public function testAccessInformation()
+    public function testAccessInformation(): void
     {
         $project = new Project($this->storeRegistry);
 
@@ -167,7 +169,7 @@ class ProjectTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testBuildConfig()
+    public function testBuildConfig(): void
     {
         $project = new Project($this->storeRegistry);
 
@@ -179,7 +181,7 @@ class ProjectTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testOverwriteBuildConfig()
+    public function testOverwriteBuildConfig(): void
     {
         $project = new Project($this->storeRegistry);
 
@@ -191,7 +193,7 @@ class ProjectTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testAllowPublicStatus()
+    public function testAllowPublicStatus(): void
     {
         $project = new Project($this->storeRegistry);
 
@@ -203,7 +205,7 @@ class ProjectTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testArchived()
+    public function testArchived(): void
     {
         $project = new Project($this->storeRegistry);
 
@@ -215,7 +217,7 @@ class ProjectTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testGroupId()
+    public function testGroupId(): void
     {
         $project = new Project($this->storeRegistry);
 
@@ -227,7 +229,7 @@ class ProjectTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testCreateDate()
+    public function testCreateDate(): void
     {
         $project = new Project($this->storeRegistry);
         self::assertEquals(null, $project->getCreateDate());
@@ -249,7 +251,7 @@ class ProjectTest extends TestCase
         self::assertNull($project->getCreateDate());
     }
 
-    public function testUserId()
+    public function testUserId(): void
     {
         $project = new Project($this->storeRegistry);
 

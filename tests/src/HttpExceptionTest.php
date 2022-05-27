@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\PHPCensor;
 
 use Exception;
@@ -8,13 +10,13 @@ use PHPUnit\Framework\TestCase;
 
 class HttpExceptionTest extends TestCase
 {
-    public function testHttpExceptionIsException()
+    public function testHttpExceptionIsException(): void
     {
         $ex = new HttpException();
         self::assertTrue($ex instanceof Exception);
     }
 
-    public function testHttpException()
+    public function testHttpException(): void
     {
         try {
             throw new HttpException('Test');
@@ -26,7 +28,7 @@ class HttpExceptionTest extends TestCase
         }
     }
 
-    public function testBadRequestException()
+    public function testBadRequestException(): void
     {
         try {
             throw new HttpException\BadRequestException('Test');
@@ -36,7 +38,7 @@ class HttpExceptionTest extends TestCase
         }
     }
 
-    public function testForbiddenException()
+    public function testForbiddenException(): void
     {
         try {
             throw new HttpException\ForbiddenException('Test');
@@ -46,7 +48,7 @@ class HttpExceptionTest extends TestCase
         }
     }
 
-    public function testNotAuthorizedException()
+    public function testNotAuthorizedException(): void
     {
         try {
             throw new HttpException\NotAuthorizedException('Test');
@@ -56,7 +58,7 @@ class HttpExceptionTest extends TestCase
         }
     }
 
-    public function testNotFoundException()
+    public function testNotFoundException(): void
     {
         try {
             throw new HttpException\NotFoundException('Test');
@@ -66,7 +68,7 @@ class HttpExceptionTest extends TestCase
         }
     }
 
-    public function testServerErrorException()
+    public function testServerErrorException(): void
     {
         try {
             throw new HttpException\ServerErrorException('Test');

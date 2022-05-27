@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 class DatabaseConnectionTest extends TestCase
 {
-    public function testConstructorWithNewPDO()
+    public function testConstructorWithNewPDO(): void
     {
         $databaseConnection = new DatabaseConnection('sqlite::memory');
 
@@ -18,7 +18,7 @@ class DatabaseConnectionTest extends TestCase
         self::assertInstanceOf(\PDO::class, $databaseConnection->getPdo());
     }
 
-    public function testConstructorWithExternalPDO()
+    public function testConstructorWithExternalPDO(): void
     {
         $pdoConnection = $this
             ->getMockBuilder(\PDO::class)
@@ -32,7 +32,7 @@ class DatabaseConnectionTest extends TestCase
         self::assertInstanceOf(\PDO::class, $databaseConnection->getPdo());
     }
 
-    public function testQuoteNamesForMySQL()
+    public function testQuoteNamesForMySQL(): void
     {
         $pdoConnection = $this
             ->getMockBuilder(\PDO::class)
@@ -55,7 +55,7 @@ class DatabaseConnectionTest extends TestCase
         );
     }
 
-    public function testQuoteNamesForPostgreSQL()
+    public function testQuoteNamesForPostgreSQL(): void
     {
         $pdoConnection = $this
             ->getMockBuilder(\PDO::class)
@@ -81,7 +81,7 @@ class DatabaseConnectionTest extends TestCase
     /**
      * @dataProvider prepareDataProvider
      */
-    public function testPrepare($result, array $option)
+    public function testPrepare($result, array $option): void
     {
         $pdoConnection = $this
             ->getMockBuilder(\PDO::class)
@@ -113,7 +113,7 @@ class DatabaseConnectionTest extends TestCase
         );
     }
 
-    public function testLastInsertIdForPostgreSQL()
+    public function testLastInsertIdForPostgreSQL(): void
     {
         $pdoConnection = $this
             ->getMockBuilder(\PDO::class)
@@ -139,7 +139,7 @@ class DatabaseConnectionTest extends TestCase
         );
     }
 
-    public function testLastInsertIdForPostgreSQLWithNonDefaultSequenceName()
+    public function testLastInsertIdForPostgreSQLWithNonDefaultSequenceName(): void
     {
         $pdoConnection = $this
             ->getMockBuilder(\PDO::class)
@@ -165,7 +165,7 @@ class DatabaseConnectionTest extends TestCase
         );
     }
 
-    public function testLastInsertIdForMySQL()
+    public function testLastInsertIdForMySQL(): void
     {
         $pdoConnection = $this
             ->getMockBuilder(\PDO::class)
@@ -193,7 +193,7 @@ class DatabaseConnectionTest extends TestCase
     /**
      * @dataProvider execDataProvider
      */
-    public function testExec($result)
+    public function testExec($result): void
     {
         $pdoConnection = $this
             ->getMockBuilder(\PDO::class)
@@ -224,7 +224,7 @@ class DatabaseConnectionTest extends TestCase
     /**
      * @dataProvider queryDataProvider
      */
-    public function testQuery($result)
+    public function testQuery($result): void
     {
         $pdoConnection = $this
             ->getMockBuilder(\PDO::class)
@@ -255,7 +255,7 @@ class DatabaseConnectionTest extends TestCase
     /**
      * @dataProvider booleanResultDataProvider
      */
-    public function testBeginTransaction(bool $result)
+    public function testBeginTransaction(bool $result): void
     {
         $pdoConnection = $this
             ->getMockBuilder(\PDO::class)
@@ -275,7 +275,7 @@ class DatabaseConnectionTest extends TestCase
     /**
      * @dataProvider booleanResultDataProvider
      */
-    public function testCommit(bool $result)
+    public function testCommit(bool $result): void
     {
         $pdoConnection = $this
             ->getMockBuilder(\PDO::class)
@@ -295,7 +295,7 @@ class DatabaseConnectionTest extends TestCase
     /**
      * @dataProvider booleanResultDataProvider
      */
-    public function testRollback(bool $result)
+    public function testRollback(bool $result): void
     {
         $pdoConnection = $this
             ->getMockBuilder(\PDO::class)
@@ -315,7 +315,7 @@ class DatabaseConnectionTest extends TestCase
     /**
      * @dataProvider booleanResultDataProvider
      */
-    public function testInTransaction(bool $result)
+    public function testInTransaction(bool $result): void
     {
         $pdoConnection = $this
             ->getMockBuilder(\PDO::class)

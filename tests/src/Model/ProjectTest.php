@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\PHPCensor\Model;
 
 use PHPCensor\Common\Exception\InvalidArgumentException;
@@ -16,7 +18,7 @@ use PHPCensor\Common\Application\ConfigurationInterface;
  */
 class ProjectTest extends TestCase
 {
-    protected StoreRegistry $storeRegistry;
+    private StoreRegistry $storeRegistry;
 
     protected function setUp(): void
     {
@@ -31,22 +33,7 @@ class ProjectTest extends TestCase
             ->getMock();
     }
 
-    public function testExecute_TestIsAValidModel()
-    {
-        $project = new Project($this->storeRegistry);
-        self::assertTrue($project instanceof Model);
-
-        try {
-            $project->setArchived('true');
-        } catch (InvalidArgumentException $e) {
-            self::assertEquals(
-                'Column "archived" must be a bool.',
-                $e->getMessage()
-            );
-        }
-    }
-
-    public function testExecute_TestProjectAccessInformation()
+    public function testExecute_TestProjectAccessInformation(): void
     {
         $info = [
             'item1' => 'Item One',

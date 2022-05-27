@@ -18,9 +18,9 @@ class TestingOutputLogHandler extends OutputLogHandler
 
 class OutputLogHandlerTest extends TestCase
 {
-    public function testWrite()
+    public function testWrite(): void
     {
-        $output  = $this->createMock(NullOutput::class);
+        $output = $this->createMock(NullOutput::class);
         $output
             ->expects($this->once())
             ->method('write')

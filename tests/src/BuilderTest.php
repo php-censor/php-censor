@@ -30,7 +30,6 @@ class TestBuilder extends Builder
 class BuilderTest extends TestCase
 {
     private BuildLogger $buildLogger;
-
     private Builder $builder;
 
     protected function setUp(): void
@@ -99,28 +98,23 @@ class BuilderTest extends TestCase
             ->getMock();
     }
 
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-    }
-
-    public function testConstruct()
+    public function testConstruct(): void
     {
         self::assertInstanceOf(Builder::class, $this->builder);
     }
 
-    public function testGetBuildLogger()
+    public function testGetBuildLogger(): void
     {
         self::assertInstanceOf(BuildLogger::class, $this->builder->getBuildLogger());
     }
 
-    public function testGetConfiguration()
+    public function testGetConfiguration(): void
     {
         self::assertInstanceOf(ConfigurationInterface::class, $this->builder->getConfiguration());
         self::assertInstanceOf(Configuration::class, $this->builder->getConfiguration());
     }
 
-    public function testGetCurrentStage()
+    public function testGetCurrentStage(): void
     {
         self::assertNull($this->builder->getCurrentStage());
 
@@ -129,12 +123,12 @@ class BuilderTest extends TestCase
         self::assertEquals(Build::STAGE_COMPLETE, $this->builder->getCurrentStage());
     }
 
-    public function testGetBuildErrorWriter()
+    public function testGetBuildErrorWriter(): void
     {
         self::assertInstanceOf(BuildErrorWriter::class, $this->builder->getBuildErrorWriter());
     }
 
-    public function testLogExecOutput()
+    public function testLogExecOutput(): void
     {
         self::assertTrue($this->builder->getCommandExecutor()->logExecOutput);
 
@@ -148,7 +142,7 @@ class BuilderTest extends TestCase
         self::assertFalse($this->builder->getCommandExecutor()->logExecOutput);
     }
 
-    public function testGetConfig()
+    public function testGetConfig(): void
     {
         self::assertEquals([], $this->builder->getConfig());
         self::assertEquals(null, $this->builder->getConfig('test'));
@@ -159,7 +153,7 @@ class BuilderTest extends TestCase
         self::assertEquals('test-value', $this->builder->getConfig('test'));
     }
 
-    public function testLogDebug()
+    public function testLogDebug(): void
     {
         $this->buildLogger
             ->expects($this->once())
@@ -169,7 +163,7 @@ class BuilderTest extends TestCase
         $this->builder->logDebug('Debug message');
     }
 
-    public function testLogSuccess()
+    public function testLogSuccess(): void
     {
         $this->buildLogger
             ->expects($this->once())
@@ -179,7 +173,7 @@ class BuilderTest extends TestCase
         $this->builder->logSuccess('Success message');
     }
 
-    public function testLogWarning()
+    public function testLogWarning(): void
     {
         $this->buildLogger
             ->expects($this->once())
@@ -189,7 +183,7 @@ class BuilderTest extends TestCase
         $this->builder->logWarning('Warning message');
     }
 
-    public function testLogFailure()
+    public function testLogFailure(): void
     {
         $this->buildLogger
             ->expects($this->once())
@@ -199,7 +193,7 @@ class BuilderTest extends TestCase
         $this->builder->logFailure('Failure message');
     }
 
-    public function testLog()
+    public function testLog(): void
     {
         $this->buildLogger
             ->expects($this->once())
