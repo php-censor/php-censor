@@ -12,9 +12,6 @@ class ExamplePluginFull extends Plugin
 {
     public $options;
 
-    /**
-     * @return string
-     */
     public static function pluginName(): string
     {
         return 'example_plugin_full';

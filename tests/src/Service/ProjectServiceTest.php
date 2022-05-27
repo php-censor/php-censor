@@ -20,7 +20,7 @@ use PHPUnit\Framework\TestCase;
 class ProjectServiceTest extends TestCase
 {
     private ProjectService $testedService;
-    private ProjectStore $mockProjectStore;
+    private ProjectStore $projectStore;
     private ConfigurationInterface $configuration;
     private DatabaseManager $databaseManager;
     private StoreRegistry $storeRegistry;
@@ -37,19 +37,19 @@ class ProjectServiceTest extends TestCase
             ->setConstructorArgs([$this->databaseManager])
             ->getMock();
 
-        $this->mockProjectStore = $this
+        $this->projectStore = $this
             ->getMockBuilder('PHPCensor\Store\ProjectStore')
             ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])
             ->getMock();
 
-        $this->mockProjectStore
+        $this->projectStore
             ->expects($this->any())
             ->method('save')
             ->will(
                 $this->returnArgument(0)
             );
 
-        $this->testedService = new ProjectService($this->storeRegistry, $this->mockProjectStore);
+        $this->testedService = new ProjectService($this->storeRegistry, $this->projectStore);
     }
 
     public function testExecuteCreateGithubProject(): void
@@ -78,9 +78,6 @@ class ProjectServiceTest extends TestCase
         self::assertEquals([], $project->getEnvironmentsNames());
     }
 
-    /**
-     * @return array
-     */
     public function getExecuteCreateGithubProjectAccessInformationData(): array
     {
         return [

@@ -16,19 +16,19 @@ class BuildLoggerTest extends TestCase
     use ProphecyTrait;
 
     private BuildLogger $testedBuildLogger;
-    private $mockLogger;
-    private $mockBuild;
+    private $logger;
+    private $build;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->mockLogger = $this->prophesize('\Psr\Log\LoggerInterface');
-        $this->mockBuild = $this->prophesize('\PHPCensor\Model\Build');
+        $this->logger = $this->prophesize('\Psr\Log\LoggerInterface');
+        $this->build = $this->prophesize('\PHPCensor\Model\Build');
 
         $this->testedBuildLogger = new BuildLogger(
-            $this->mockLogger->reveal(),
-            $this->mockBuild->reveal()
+            $this->logger->reveal(),
+            $this->build->reveal()
         );
     }
 
@@ -38,7 +38,7 @@ class BuildLoggerTest extends TestCase
         $message   = "Testing";
         $contextIn = [];
 
-        $this->mockLogger
+        $this->logger
             ->log($level, $message, Argument::type('array'))
             ->shouldBeCalledTimes(1);
 
@@ -51,15 +51,15 @@ class BuildLoggerTest extends TestCase
         $message   = ["One", "Two", "Three"];
         $contextIn = [];
 
-        $this->mockLogger
+        $this->logger
             ->log($level, "One", Argument::type('array'))
             ->shouldBeCalledTimes(1);
 
-        $this->mockLogger
+        $this->logger
             ->log($level, "Two", Argument::type('array'))
             ->shouldBeCalledTimes(1);
 
-        $this->mockLogger
+        $this->logger
             ->log($level, "Three", Argument::type('array'))
             ->shouldBeCalledTimes(1);
 
@@ -73,7 +73,7 @@ class BuildLoggerTest extends TestCase
         $exception = new Exception("Expected Exception");
 
 
-        $this->mockLogger
+        $this->logger
             ->log(
                 Argument::type('string'),
                 Argument::type('string'),

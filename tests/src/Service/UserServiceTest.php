@@ -20,7 +20,7 @@ use PHPUnit\Framework\TestCase;
 class UserServiceTest extends TestCase
 {
     private UserService $testedService;
-    private UserStore $mockUserStore;
+    private UserStore $userStore;
     private ConfigurationInterface $configuration;
     private DatabaseManager $databaseManager;
     private StoreRegistry $storeRegistry;
@@ -37,16 +37,16 @@ class UserServiceTest extends TestCase
             ->setConstructorArgs([$this->databaseManager])
             ->getMock();
 
-        $this->mockUserStore = $this
+        $this->userStore = $this
             ->getMockBuilder('PHPCensor\Store\UserStore')
             ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])
             ->getMock();
-        $this->mockUserStore
+        $this->userStore
             ->expects($this->any())
             ->method('save')
             ->will($this->returnArgument(0));
 
-        $this->testedService = new UserService($this->storeRegistry, $this->mockUserStore);
+        $this->testedService = new UserService($this->storeRegistry, $this->userStore);
     }
 
     public function testExecute_CreateNonAdminUser(): void

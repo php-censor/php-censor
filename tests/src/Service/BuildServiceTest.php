@@ -24,11 +24,11 @@ use PHPUnit\Framework\TestCase;
 class BuildServiceTest extends TestCase
 {
     private BuildService $testedService;
-    private BuildStore $mockBuildStore;
+    private BuildStore $buildStore;
     private ConfigurationInterface $configuration;
     private DatabaseManager $databaseManager;
     private StoreRegistry $storeRegistry;
-    private EnvironmentStore $mockEnvironmentStore;
+    private EnvironmentStore $environmentStore;
     private BuildFactory $buildFactory;
 
     protected function setUp(): void
@@ -42,25 +42,25 @@ class BuildServiceTest extends TestCase
             ->getMockBuilder('PHPCensor\StoreRegistry')
             ->setConstructorArgs([$this->databaseManager])
             ->getMock();
-        $this->mockBuildStore = $this
+        $this->buildStore = $this
             ->getMockBuilder('PHPCensor\Store\BuildStore')
             ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])
             ->getMock();
-        $this->mockBuildStore
+        $this->buildStore
             ->expects($this->any())
             ->method('save')
             ->will($this->returnArgument(0));
 
-        $this->mockEnvironmentStore = $this
+        $this->environmentStore = $this
             ->getMockBuilder('PHPCensor\Store\EnvironmentStore')
             ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])
             ->getMock();
-        $this->mockEnvironmentStore
+        $this->environmentStore
             ->expects($this->any())
             ->method('getByProjectId')
             ->will($this->returnValue(['items' => [], 'count' => 0]));
 
-        $mockProjectStore = $this
+        $projectStore = $this
             ->getMockBuilder('PHPCensor\Store\ProjectStore')
             ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])
             ->getMock();
@@ -74,8 +74,8 @@ class BuildServiceTest extends TestCase
             $this->configuration,
             $this->storeRegistry,
             $this->buildFactory,
-            $this->mockBuildStore,
-            $mockProjectStore
+            $this->buildStore,
+            $projectStore
         );
     }
 
@@ -89,7 +89,7 @@ class BuildServiceTest extends TestCase
 
         $project->expects($this->any())
             ->method('getEnvironmentStore')
-            ->will($this->returnValue($this->mockEnvironmentStore));
+            ->will($this->returnValue($this->environmentStore));
 
         $project->setType('github');
         $project->setDefaultBranch('master');
@@ -121,7 +121,7 @@ class BuildServiceTest extends TestCase
 
         $project->expects($this->any())
             ->method('getEnvironmentStore')
-            ->will($this->returnValue($this->mockEnvironmentStore));
+            ->will($this->returnValue($this->environmentStore));
 
         $project->setType('hg');
         $project->setId(101);
@@ -152,7 +152,7 @@ class BuildServiceTest extends TestCase
 
         $project->expects($this->any())
             ->method('getEnvironmentStore')
-            ->will($this->returnValue($this->mockEnvironmentStore));
+            ->will($this->returnValue($this->environmentStore));
 
         $project->setType('bitbucket');
         $project->setDefaultBranch('master');
@@ -222,7 +222,7 @@ class BuildServiceTest extends TestCase
             ->method('delete')
             ->will($this->returnValue(true));
 
-        $mockProjectStore = $this
+        $projectStore = $this
             ->getMockBuilder('PHPCensor\Store\ProjectStore')
             ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])
             ->getMock();
@@ -232,7 +232,7 @@ class BuildServiceTest extends TestCase
             $this->storeRegistry,
             $this->buildFactory,
             $store,
-            $mockProjectStore
+            $projectStore
         );
         $build = new Build($this->storeRegistry);
 

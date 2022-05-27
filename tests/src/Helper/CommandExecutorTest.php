@@ -19,10 +19,10 @@ class CommandExecutorTest extends TestCase
     {
         parent::setUp();
 
-        $mockBuildLogger = $this->prophesize('PHPCensor\Logging\BuildLogger');
+        $buildLogger = $this->prophesize('PHPCensor\Logging\BuildLogger');
 
         $class = 'PHPCensor\Helper\CommandExecutor';
-        $this->testedExecutor = new $class($mockBuildLogger->reveal(), __DIR__);
+        $this->testedExecutor = new $class($buildLogger->reveal(), __DIR__);
     }
 
     public function testGetLastOutput_ReturnsOutputOfCommand(): void

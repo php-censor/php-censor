@@ -22,9 +22,9 @@ use PHPCensor\Common\Application\ConfigurationInterface;
 class EmailTest extends TestCase
 {
     private EmailPlugin $testedEmailPlugin;
-    private Builder $mockBuilder;
-    private Build $mockBuild;
-    private Project $mockProject;
+    private Builder $builder;
+    private Build $build;
+    private Project $project;
     private int $buildStatus;
     private array $message;
     private bool $mailDelivered;
@@ -46,53 +46,53 @@ class EmailTest extends TestCase
             ->setConstructorArgs([$databaseManager])
             ->getMock();
 
-        $this->mockProject = $this
+        $this->project = $this
             ->getMockBuilder('\PHPCensor\Model\Project')
             ->onlyMethods(['getTitle'])
             ->setMockClassName('mockProject')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->mockProject->expects($this->any())
+        $this->project->expects($this->any())
             ->method('getTitle')
             ->will($this->returnValue("Test-Project"));
 
-        $this->mockBuild = $this
+        $this->build = $this
             ->getMockBuilder('\PHPCensor\Model\Build')
             ->onlyMethods(['getLog', 'getStatus', 'getProject', 'getCommitterEmail'])
             ->setMockClassName('mockBuild')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->mockBuild->expects($this->any())
+        $this->build->expects($this->any())
             ->method('getLog')
             ->will($this->returnValue("Build Log"));
 
-        $this->mockBuild->expects($this->any())
+        $this->build->expects($this->any())
             ->method('getStatus')
             ->will($this->returnCallback(function () use ($self) {
                 return $self->buildStatus;
             }));
 
-        $this->mockBuild->expects($this->any())
+        $this->build->expects($this->any())
             ->method('getProject')
-            ->will($this->returnValue($this->mockProject));
+            ->will($this->returnValue($this->project));
 
-        $this->mockBuild->expects($this->any())
+        $this->build->expects($this->any())
             ->method('getCommitterEmail')
             ->will($this->returnValue('committer-email@example.com'));
 
-        $this->mockBuilder = $this
+        $this->builder = $this
             ->getMockBuilder('\PHPCensor\Builder')
             ->onlyMethods(['log', 'logDebug', 'interpolate'])
             ->setMockClassName('mockBuilder_email')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->mockBuilder->buildPath = "/";
+        $this->builder->buildPath = "/";
 
         $interpolator = new BuildInterpolator($this->storeRegistry);
-        $this->mockBuilder->expects($this->any())
+        $this->builder->expects($this->any())
             ->method('interpolate')
             ->will($this->returnCallback(function () use ($self, $interpolator) {
                 return $interpolator->interpolate("test");
@@ -122,7 +122,7 @@ class EmailTest extends TestCase
         $this->testedEmailPlugin = $this
             ->getMockBuilder('\PHPCensor\Plugin\EmailNotify')
             ->onlyMethods(['sendEmail'])
-            ->setConstructorArgs([$this->mockBuilder, $this->mockBuild, $arrOptions])
+            ->setConstructorArgs([$this->builder, $this->build, $arrOptions])
             ->getMock();
 
         $this->testedEmailPlugin
