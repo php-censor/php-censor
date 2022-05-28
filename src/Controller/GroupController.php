@@ -80,7 +80,7 @@ class GroupController extends WebController
             $group = new ProjectGroup($this->storeRegistry);
         }
 
-        if ($this->request->getMethod() == 'POST') {
+        if ($this->request->getMethod() === 'POST') {
             $group->setTitle($this->getParam('title'));
             if (\is_null($groupId)) {
                 /** @var User $user */

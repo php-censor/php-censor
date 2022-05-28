@@ -48,7 +48,7 @@ class Bitbucket
 
         $data = [
             'content'   => $comment,
-            'anchor'    => substr($commitId, 0, 12),
+            'anchor'    => \substr($commitId, 0, 12),
             'filename'  => $file,
         ];
         if ($line > 0) {

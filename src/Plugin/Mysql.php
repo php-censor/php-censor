@@ -220,6 +220,6 @@ class Mysql extends Plugin
             ':database'    => ($database === null) ? '' : \escapeshellarg($database),
         ];
 
-        return strtr('cat :import_file :decomp_cmd | mysql -h:host -u:user :pass :database', $args);
+        return \strtr('cat :import_file :decomp_cmd | mysql -h:host -u:user :pass :database', $args);
     }
 }

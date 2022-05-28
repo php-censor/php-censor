@@ -230,9 +230,11 @@ class BitbucketNotify extends Plugin
         switch ($this->getBuild()->getStatus()) {
             case Build::STATUS_SUCCESS:
                 $state = 'SUCCESSFUL';
+
                 break;
             case Build::STATUS_FAILED:
                 $state = 'FAILED';
+
                 break;
             default:
                 $state = 'INPROGRESS';

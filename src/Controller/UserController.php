@@ -67,7 +67,7 @@ class UserController extends WebController
         /** @var User $user */
         $user = $this->getUser();
 
-        if ($this->request->getMethod() == 'POST') {
+        if ($this->request->getMethod() === 'POST') {
             $name     = $this->getParam('name', null);
             $email    = $this->getParam('email', null);
             $password = $this->getParam('password', null);
@@ -183,7 +183,7 @@ class UserController extends WebController
 
         $form = $this->userForm($values);
 
-        if ($method !== 'POST' || ($method == 'POST' && !$form->validate())) {
+        if ($method !== 'POST' || ($method === 'POST' && !$form->validate())) {
             $view       = new View('User/edit');
             $view->type = 'add';
             $view->user = null;
@@ -241,7 +241,7 @@ class UserController extends WebController
         $values = \array_merge($user->getDataArray(), $this->request->request->all());
         $form = $this->userForm($values, 'edit/' . $userId);
 
-        if ($method != 'POST' || ($method == 'POST' && !$form->validate())) {
+        if ($method !== 'POST' || ($method === 'POST' && !$form->validate())) {
             $view = new View('User/edit');
             $view->type = 'edit';
             $view->user = $user;
@@ -298,7 +298,7 @@ class UserController extends WebController
 
         $field = new Form\Element\Password('password');
 
-        if ($type == 'add') {
+        if ($type === 'add') {
             $field->setRequired(true);
             $field->setLabel(Lang::get('password'));
         } else {

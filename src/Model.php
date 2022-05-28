@@ -51,7 +51,7 @@ class Model
 
     protected function setDataItem(string $column, $value): bool
     {
-        if (!array_key_exists($column, $this->data) || $this->data[$column] === $value) {
+        if (!\array_key_exists($column, $this->data) || $this->data[$column] === $value) {
             return false;
         }
 
@@ -83,20 +83,20 @@ class Model
         switch ($type) {
             case 'int':
             case 'integer':
-                return is_integer($value) ? $value : intval($value);
+                return \is_integer($value) ? $value : \intval($value);
 
             case 'bool':
             case 'boolean':
-                return is_bool($value) ? $value : boolval($value);
+                return \is_bool($value) ? $value : \boolval($value);
 
             case 'float':
-                return is_float($value) ? $value : floatval($value);
+                return \is_float($value) ? $value : \floatval($value);
 
             case 'array':
-                return is_array($value) ? $value : json_decode($value, true);
+                return \is_array($value) ? $value : \json_decode($value, true);
 
             case 'datetime':
-                if (is_a($value, DateTime::class)) {
+                if (\is_a($value, DateTime::class)) {
                     return $value;
                 }
                 try {
@@ -106,15 +106,15 @@ class Model
                 }
 
             case 'newline':
-                if (!is_string($value)) {
+                if (!\is_string($value)) {
                     return $value;
                 }
 
-                return array_values(
-                    array_filter(
-                        array_map(
+                return \array_values(
+                    \array_filter(
+                        \array_map(
                             'trim',
-                            explode("\n", $value)
+                            \explode("\n", $value)
                         )
                     )
                 );

@@ -220,7 +220,7 @@ class BuildStatusController extends WebController
             return new RedirectResponse('/');
         }
 
-        $color    = ($status == 'passing') ? 'green' : 'red';
+        $color    = ($status === 'passing') ? 'green' : 'red';
         $imageUrl = \sprintf(
             'http://img.shields.io/badge/%s-%s-%s.svg?style=%s',
             $label,

@@ -314,10 +314,10 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
             $this->build->storeMeta((self::pluginName() . '-errors'), $parser->getFailures());
 
             foreach ($parser->getErrors() as $error) {
-                $severity = $error['severity'] ==
-                $parser::SEVERITY_ERROR ?
-                BuildError::SEVERITY_CRITICAL :
-                BuildError::SEVERITY_HIGH;
+                $severity = $error['severity'] === $parser::SEVERITY_ERROR
+                    ? BuildError::SEVERITY_CRITICAL
+                    : BuildError::SEVERITY_HIGH;
+
                 $this->build->reportError(
                     $this->builder,
                     self::pluginName(),

@@ -122,7 +122,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
      */
     protected function processReport($xmlString)
     {
-        $xml = simplexml_load_string($xmlString);
+        $xml = \simplexml_load_string($xmlString);
 
         if (false === $xml) {
             $this->builder->log($xmlString);
@@ -224,7 +224,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
      */
     protected function wasLastExecSuccessful($errorCount)
     {
-        if (-1 != $this->allowedWarnings && $errorCount > $this->allowedWarnings) {
+        if (-1 !== $this->allowedWarnings && $errorCount > $this->allowedWarnings) {
             return false;
         }
 

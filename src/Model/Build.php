@@ -289,7 +289,7 @@ class Build extends BaseBuild
                 continue;
             }
 
-            if ($item->getExtension() != 'php') {
+            if ($item->getExtension() !== 'php') {
                 continue;
             }
 
@@ -357,7 +357,7 @@ class Build extends BaseBuild
 
         $createDate = $this->getCreateDate();
         if (empty($this->buildDirectory)) {
-            $this->buildDirectory = $this->getProjectId() . '/' . $this->getId() . '_' . substr(
+            $this->buildDirectory = $this->getProjectId() . '/' . $this->getId() . '_' . \substr(
                 \md5(
                     ($this->getId() . '_' . ($createDate ? $createDate->format('Y-m-d H:i:s') : null))
                 ),
@@ -380,7 +380,7 @@ class Build extends BaseBuild
 
         $createDate = $this->getCreateDate();
         if (empty($this->buildBranchDirectory)) {
-            $this->buildBranchDirectory = $this->getProjectId() . '/' . $this->getBranch() . '_' . substr(
+            $this->buildBranchDirectory = $this->getProjectId() . '/' . $this->getBranch() . '_' . \substr(
                 \md5(
                     ($this->getBranch() . '_' . ($createDate ? $createDate->format('Y-m-d H:i:s') : null))
                 ),
@@ -481,8 +481,8 @@ class Build extends BaseBuild
         $diff  = \date_diff($start, $end);
         $parts = [];
         foreach (['y', 'm', 'd', 'h', 'i', 's'] as $timePart) {
-            if ($diff->{$timePart} != 0) {
-                $parts[] = $diff->{$timePart} . ($timePart == 'i' ? 'm' : $timePart);
+            if ($diff->{$timePart} !== 0) {
+                $parts[] = $diff->{$timePart} . ($timePart === 'i' ? 'm' : $timePart);
             }
         }
 

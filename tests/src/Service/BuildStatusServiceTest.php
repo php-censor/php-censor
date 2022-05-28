@@ -43,14 +43,14 @@ class BuildStatusServiceTest extends TestCase
         $project->setTitle('Test');
 
         $this->project = $project;
-        $this->timezone = date_default_timezone_get();
+        $this->timezone = \date_default_timezone_get();
 
-        date_default_timezone_set('UTC');
+        \date_default_timezone_set('UTC');
     }
 
     protected function tearDown(): void
     {
-        date_default_timezone_set($this->timezone);
+        \date_default_timezone_set($this->timezone);
     }
 
     protected function getBuild(int $configId, bool $setProject = true): ?Build

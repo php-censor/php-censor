@@ -61,10 +61,12 @@ class PackageBuild extends Plugin
             switch ($format) {
                 case 'tar':
                     $cmd = 'tar cfz "%s/%s.tar.gz" ./*';
+
                     break;
                 default:
                 case 'zip':
                     $cmd = 'zip -rq "%s/%s.zip" ./*';
+
                     break;
             }
 

@@ -46,14 +46,14 @@ class Checkbox extends Input
      */
     public function setValue($value): self
     {
-        if (is_bool($value) && $value === true) {
+        if (\is_bool($value) && $value === true) {
             $this->value   = $this->getCheckedValue();
             $this->checked = true;
 
             return $this;
         }
 
-        if ($value == $this->getCheckedValue()) {
+        if ($value === $this->getCheckedValue()) {
             $this->value   = $this->getCheckedValue();
             $this->checked = true;
 

@@ -144,7 +144,7 @@ class PhpCsFixer extends Plugin
 
             $this->build->storeMeta((self::pluginName() . '-warnings'), $warningCount);
 
-            if (-1 != $this->allowedWarnings && $warningCount > $this->allowedWarnings) {
+            if (-1 !== $this->allowedWarnings && $warningCount > $this->allowedWarnings) {
                 $success = false;
             }
         }
@@ -195,12 +195,15 @@ class PhpCsFixer extends Plugin
                     switch ($line->getType()) {
                         case Line::ADDED:
                             $symbol = '+';
+
                             break;
                         case Line::REMOVED:
                             $symbol = '-';
+
                             break;
                         default:
                             $symbol = ' ';
+
                             break;
                     }
                     $chunkDiff[] = $symbol . $line->getContent();
@@ -209,6 +212,7 @@ class PhpCsFixer extends Plugin
                     }
                     if (Line::UNCHANGED === $line->getType()) {
                         ++$firstModifiedLine;
+
                         continue;
                     }
 

@@ -13,7 +13,7 @@ class ViewTest extends TestCase
     public function testSimpleView(): void
     {
         $view = new View('simple', ROOT_DIR . 'tests/data/View/');
-        self::assertTrue($view->render() == 'Hello');
+        self::assertTrue($view->render() === 'Hello');
     }
 
     public function testInvalidView(): void
@@ -31,6 +31,6 @@ class ViewTest extends TestCase
         self::assertTrue(isset($view->who));
         self::assertEquals('World', $view->who);
         self::assertFalse(isset($view->what));
-        self::assertTrue($view->render() == 'Hello World');
+        self::assertTrue($view->render() === 'Hello World');
     }
 }

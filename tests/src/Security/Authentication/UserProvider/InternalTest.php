@@ -36,7 +36,7 @@ class InternalTest extends TestCase
     {
         $user = new User($this->storeRegistry);
         $password = 'bla';
-        $user->setHash(password_hash($password, PASSWORD_DEFAULT));
+        $user->setHash(\password_hash($password, PASSWORD_DEFAULT));
 
         self::assertTrue($this->provider->verifyPassword($user, $password));
     }

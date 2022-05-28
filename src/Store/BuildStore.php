@@ -254,7 +254,7 @@ class BuildStore extends Store
 
             foreach ($projects as $idx => $project) {
                 $projects[$idx] = \array_filter($project, function ($val) {
-                    return ($val['latest'][0]->getStatus() != Build::STATUS_SUCCESS);
+                    return ($val['latest'][0]->getStatus() !== Build::STATUS_SUCCESS);
                 });
             }
 

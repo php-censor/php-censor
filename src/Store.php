@@ -126,7 +126,7 @@ abstract class Store
     public function save(Model $model): ?Model
     {
         if (!($model instanceof $this->modelName)) {
-            throw new InvalidArgumentException(get_class($model) . ' is an invalid model type for this store.');
+            throw new InvalidArgumentException(\get_class($model) . ' is an invalid model type for this store.');
         }
 
         $data = $this->getData($model);
@@ -222,7 +222,7 @@ abstract class Store
     public function delete(Model $model): bool
     {
         if (!($model instanceof $this->modelName)) {
-            throw new InvalidArgumentException(get_class($model) . ' is an invalid model type for this store.');
+            throw new InvalidArgumentException(\get_class($model) . ' is an invalid model type for this store.');
         }
 
         $query = $this->databaseManager->getConnection('write')

@@ -93,7 +93,7 @@ class BuildController extends WebController
         $data    = $this->getBuildData($build, $plugin, $severity, $isNew, (($page - 1) * $perPage), $perPage);
         $pages   = ($data['errors'] === 0)
             ? 1
-            : (int)ceil($data['errors'] / $perPage);
+            : (int)\ceil($data['errors'] / $perPage);
 
         if ($page > $pages) {
             $page = $pages;
@@ -107,11 +107,11 @@ class BuildController extends WebController
         $this->view->data        = $data;
         $this->view->environment = $this->storeRegistry->get('Environment')->getById((int)$build->getEnvironmentId());
 
-        $this->view->plugin     = urldecode($plugin);
+        $this->view->plugin     = \urldecode($plugin);
         $this->view->plugins    = $errorStore->getKnownPlugins($buildId, $severity, $isNew);
-        $this->view->severity   = urldecode(null !== $severity ? (string)$severity : '');
+        $this->view->severity   = \urldecode(null !== $severity ? (string)$severity : '');
         $this->view->severities = $errorStore->getKnownSeverities($buildId, $plugin, $isNew);
-        $this->view->isNew      = urldecode($isNew);
+        $this->view->isNew      = \urldecode($isNew);
         $this->view->isNews     = ['only_new', 'only_old'];
 
         $this->view->page      = $page;
@@ -132,18 +132,22 @@ class BuildController extends WebController
         switch ($build->getStatus()) {
             case 0:
                 $this->layout->skin = 'blue';
+
                 break;
 
             case 1:
                 $this->layout->skin = 'yellow';
+
                 break;
 
             case 2:
                 $this->layout->skin = 'green';
+
                 break;
 
             case 3:
                 $this->layout->skin = 'red';
+
                 break;
         }
 
@@ -179,10 +183,10 @@ class BuildController extends WebController
     {
         $rtn  = [];
         $path = PUBLIC_DIR . 'assets/js/build-plugins/';
-        $dir  = opendir($path);
+        $dir  = \opendir($path);
 
-        while ($item = readdir($dir)) {
-            if (substr($item, 0, 1) == '.' || substr($item, -3) != '.js') {
+        while ($item = \readdir($dir)) {
+            if (\substr($item, 0, 1) === '.' || \substr($item, -3) !== '.js') {
                 continue;
             }
 

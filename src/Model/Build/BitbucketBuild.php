@@ -111,18 +111,22 @@ class BitbucketBuild extends GitBuild
             case 1:
                 $status = 'INPROGRESS';
                 $description = 'PHP Censor build running.';
+
                 break;
             case 2:
                 $status = 'SUCCESSFUL';
                 $description = 'PHP Censor build passed.';
+
                 break;
             case 3:
                 $status = 'FAILED';
                 $description = 'PHP Censor build failed.';
+
                 break;
             default:
                 $status = 'STOPPED';
                 $description = 'PHP Censor build failed to complete.';
+
                 break;
         }
 

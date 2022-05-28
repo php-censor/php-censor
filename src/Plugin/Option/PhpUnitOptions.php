@@ -53,7 +53,7 @@ class PhpUnitOptions
     {
         $argumentString = '';
         foreach ($this->getCommandArguments() as $argumentName => $argumentValues) {
-            $prefix = $argumentName[0] == '-' ? '' : '--';
+            $prefix = $argumentName[0] === '-' ? '' : '--';
 
             if (!\is_array($argumentValues)) {
                 $argumentValues = [$argumentValues];

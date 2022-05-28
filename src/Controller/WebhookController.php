@@ -775,7 +775,7 @@ class WebhookController extends Controller
         }
 
         if (isset($payload['head_commit']) && $payload['head_commit']) {
-            $isTag   = (\substr($payload['ref'], 0, 10) == 'refs/tags/') ? true : false;
+            $isTag   = (\substr($payload['ref'], 0, 10) === 'refs/tags/') ? true : false;
             $commit  = $payload['head_commit'];
             $results = [];
             $status  = 'failed';
@@ -930,7 +930,7 @@ class WebhookController extends Controller
         $payload = \json_decode($payloadJson, true);
 
         // build on merge request events
-        if (isset($payload['object_kind']) && $payload['object_kind'] == 'merge_request') {
+        if (isset($payload['object_kind']) && $payload['object_kind'] === 'merge_request') {
             $attributes = $payload['object_attributes'];
             if ($attributes['state'] === 'opened' || $attributes['state'] === 'reopened') {
                 $branch    = $attributes['source_branch'];

@@ -88,7 +88,7 @@ class Lint extends Plugin
     {
         $success = true;
 
-        if ($item->isFile() && $item->getExtension() == 'php' && !$this->lintFile($php, $itemPath)) {
+        if ($item->isFile() && $item->getExtension() === 'php' && !$this->lintFile($php, $itemPath)) {
             $success = false;
         } elseif ($item->isDir() &&
             $this->recursive &&

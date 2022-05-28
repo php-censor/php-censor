@@ -394,7 +394,7 @@ class BuildTest extends TestCase
 
         $build = new Build($this->storeRegistry);
 
-        define('DEBUG_MODE', true);
+        \define('DEBUG_MODE', true);
         self::assertEquals(true, $build->isDebug());
     }
 }

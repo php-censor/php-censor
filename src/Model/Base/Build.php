@@ -144,7 +144,7 @@ class Build extends Model
      */
     public function setStatus(int $value): bool
     {
-        if (!in_array($value, $this->allowedStatuses, true)) {
+        if (!\in_array($value, $this->allowedStatuses, true)) {
             throw new InvalidArgumentException(
                 'Column "status" must be one of: ' . \join(', ', $this->allowedStatuses) . '.'
             );
@@ -278,7 +278,7 @@ class Build extends Model
     public function removeExtraValue(string $name): bool
     {
         $extra = $this->getExtra();
-        if ($extra === null || !array_key_exists($name, $extra)) {
+        if ($extra === null || !\array_key_exists($name, $extra)) {
             return false;
         }
         unset($extra[$name]);
@@ -321,7 +321,7 @@ class Build extends Model
     public function getErrorsTotal(): ?int
     {
         if ($this->getDataItem('errors_total') === null &&
-            !in_array($this->getStatus(), [self::STATUS_PENDING, self::STATUS_RUNNING], true)) {
+            !\in_array($this->getStatus(), [self::STATUS_PENDING, self::STATUS_RUNNING], true)) {
             /** @var BuildStore $store */
             $store = $this->storeRegistry->get('Build');
 
@@ -368,7 +368,7 @@ class Build extends Model
     public function getTestCoverage(): ?string
     {
         if ($this->getDataItem('test_coverage') === null &&
-            !in_array($this->getStatus(), [self::STATUS_PENDING, self::STATUS_RUNNING], true)) {
+            !\in_array($this->getStatus(), [self::STATUS_PENDING, self::STATUS_RUNNING], true)) {
             /** @var BuildStore $store */
             $store = $this->storeRegistry->get('Build');
 
@@ -438,6 +438,6 @@ class Build extends Model
 
     public function isDebug(): bool
     {
-        return (defined('DEBUG_MODE') && DEBUG_MODE) || $this->getExtra('debug');
+        return (\defined('DEBUG_MODE') && DEBUG_MODE) || $this->getExtra('debug');
     }
 }

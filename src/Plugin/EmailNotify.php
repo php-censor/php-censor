@@ -41,7 +41,7 @@ class EmailNotify extends Plugin
 
         // Without some email addresses in the yml file then we
         // can't do anything.
-        if (\count($addresses) == 0) {
+        if (\count($addresses) === 0) {
             return false;
         }
 

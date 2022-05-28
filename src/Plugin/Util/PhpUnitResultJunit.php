@@ -49,20 +49,24 @@ class PhpUnitResultJunit extends PhpUnitResult
             switch ($child->getName()) {
                 case 'failure':
                     $severity = self::SEVERITY_FAIL;
+
                     break 2;
                 case 'error':
-                    if ('PHPUnit\Framework\RiskyTestError' == $child['type']) { // == because convertion to string is desired
+                    if ('PHPUnit\Framework\RiskyTestError' === (string)$child['type']) { // == because conversion to string is desired
                         $severity = self::SEVERITY_RISKY;
                     } else {
                         $severity = self::SEVERITY_ERROR;
                     }
+
                     break 2;
                 case 'skipped':
                     // skipped and ignored, can not distinguish
                     $severity = self::SEVERITY_SKIPPED;
+
                     break 2;
                 case 'warning':
                     $severity = self::SEVERITY_WARN;
+
                     break 2;
                 case 'system-out':
                 case 'system-err':
@@ -70,6 +74,7 @@ class PhpUnitResultJunit extends PhpUnitResult
                     continue 2;
                 default:
                     $severity = 'UNKNOWN RESULT TYPE: '.$child->getName();
+
                     break 2;
             }
         }
@@ -83,10 +88,10 @@ class PhpUnitResultJunit extends PhpUnitResult
         $msg = $this->getMessageTrace($testCase);
         if ('' !== $msg) {
             //strip trace
-            $trPos = strrpos($msg, "\n\n");
+            $trPos = \strrpos($msg, "\n\n");
             if (false !== $trPos) {
                 $tracePos = $trPos;
-                $msg = substr($msg, 0, $trPos);
+                $msg = \substr($msg, 0, $trPos);
             }
         }
         if ('' === $msg) {
@@ -132,6 +137,7 @@ class PhpUnitResultJunit extends PhpUnitResult
                     if ('' === $msg) {
                         $msg = (string)$child;
                     }
+
                     break 2;
             }
         }

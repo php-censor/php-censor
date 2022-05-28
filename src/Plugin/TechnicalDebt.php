@@ -191,6 +191,7 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
             foreach ($this->suffixes as $suffix) {
                 if ($suffix !== $extension) {
                     $ignored = true;
+
                     break;
                 }
             }
@@ -201,6 +202,7 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
                 if ('/' === $ignoreAbsolute[0]) {
                     if (0 === \strpos($filePath, $ignoreAbsolute)) {
                         $ignored = true;
+
                         break;
                     }
                 }

@@ -94,7 +94,7 @@ abstract class WebController extends Controller
         }
 
         $content = '';
-        if (is_string($result)) {
+        if (\is_string($result)) {
             $content = $result;
         } elseif ($this->view) {
             $content = $this->view->render();

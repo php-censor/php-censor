@@ -21,10 +21,10 @@ class HttpExceptionTest extends TestCase
         try {
             throw new HttpException('Test');
         } catch (HttpException $ex) {
-            self::assertTrue($ex->getMessage() == 'Test');
-            self::assertTrue($ex->getErrorCode() == 500);
-            self::assertTrue($ex->getStatusMessage() == 'Internal Server Error');
-            self::assertTrue($ex->getHttpHeader() == 'HTTP/1.1 500 Internal Server Error');
+            self::assertTrue($ex->getMessage() === 'Test');
+            self::assertTrue($ex->getErrorCode() === 500);
+            self::assertTrue($ex->getStatusMessage() === 'Internal Server Error');
+            self::assertTrue($ex->getHttpHeader() === 'HTTP/1.1 500 Internal Server Error');
         }
     }
 
@@ -33,8 +33,8 @@ class HttpExceptionTest extends TestCase
         try {
             throw new HttpException\BadRequestException('Test');
         } catch (HttpException $ex) {
-            self::assertTrue($ex->getErrorCode() == 400);
-            self::assertTrue($ex->getStatusMessage() == 'Bad Request');
+            self::assertTrue($ex->getErrorCode() === 400);
+            self::assertTrue($ex->getStatusMessage() === 'Bad Request');
         }
     }
 
@@ -43,8 +43,8 @@ class HttpExceptionTest extends TestCase
         try {
             throw new HttpException\ForbiddenException('Test');
         } catch (HttpException $ex) {
-            self::assertTrue($ex->getErrorCode() == 403);
-            self::assertTrue($ex->getStatusMessage() == 'Forbidden');
+            self::assertTrue($ex->getErrorCode() === 403);
+            self::assertTrue($ex->getStatusMessage() === 'Forbidden');
         }
     }
 
@@ -53,8 +53,8 @@ class HttpExceptionTest extends TestCase
         try {
             throw new HttpException\NotAuthorizedException('Test');
         } catch (HttpException $ex) {
-            self::assertTrue($ex->getErrorCode() == 401);
-            self::assertTrue($ex->getStatusMessage() == 'Not Authorized');
+            self::assertTrue($ex->getErrorCode() === 401);
+            self::assertTrue($ex->getStatusMessage() === 'Not Authorized');
         }
     }
 
@@ -63,8 +63,8 @@ class HttpExceptionTest extends TestCase
         try {
             throw new HttpException\NotFoundException('Test');
         } catch (HttpException $ex) {
-            self::assertTrue($ex->getErrorCode() == 404);
-            self::assertTrue($ex->getStatusMessage() == 'Not Found');
+            self::assertTrue($ex->getErrorCode() === 404);
+            self::assertTrue($ex->getStatusMessage() === 'Not Found');
         }
     }
 
@@ -73,8 +73,8 @@ class HttpExceptionTest extends TestCase
         try {
             throw new HttpException\ServerErrorException('Test');
         } catch (HttpException $ex) {
-            self::assertTrue($ex->getErrorCode() == 500);
-            self::assertTrue($ex->getStatusMessage() == 'Internal Server Error');
+            self::assertTrue($ex->getErrorCode() === 500);
+            self::assertTrue($ex->getStatusMessage() === 'Internal Server Error');
         }
     }
 }

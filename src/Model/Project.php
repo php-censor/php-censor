@@ -113,12 +113,14 @@ class Project extends BaseProject
         switch ($this->getType()) {
             case Project::TYPE_GITHUB:
                 $icon = 'github';
+
                 break;
 
             case Project::TYPE_BITBUCKET:
             case Project::TYPE_BITBUCKET_HG:
             case Project::TYPE_BITBUCKET_SERVER:
                 $icon = 'bitbucket';
+
                 break;
 
             case Project::TYPE_GIT:
@@ -128,6 +130,7 @@ class Project extends BaseProject
             case Project::TYPE_SVN:
             default:
                 $icon = 'code-fork';
+
                 break;
         }
 
@@ -206,7 +209,7 @@ class Project extends BaseProject
     {
         $yamlParser          = new YamlParser();
         $environmentsConfig  = $yamlParser->parse($value);
-        $environmentsNames   = (!empty($environmentsConfig) && is_array($environmentsConfig)) ? \array_keys($environmentsConfig) : [];
+        $environmentsNames   = (!empty($environmentsConfig) && \is_array($environmentsConfig)) ? \array_keys($environmentsConfig) : [];
         $currentEnvironments = $this->getEnvironmentsObjects();
         $store               = $this->getEnvironmentStore();
         if (!empty($currentEnvironments['items'])) {
@@ -271,7 +274,7 @@ class Project extends BaseProject
         $environments = $this->getEnvironmentsObjects();
         foreach ($environments['items'] as $environment) {
             /** @var Environment $environment */
-            if ($environmentId == $environment->getId()) {
+            if ($environmentId === $environment->getId()) {
                 return $environment->getBranches();
             }
         }
