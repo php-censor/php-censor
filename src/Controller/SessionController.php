@@ -139,6 +139,7 @@ class SessionController extends WebController
                         if ($user && $provider->verifyPassword($user, $password)) {
                             $this->userStore->save($user);
                             $isLoginFailure = false;
+
                             break;
                         }
                     }
@@ -205,7 +206,7 @@ class SessionController extends WebController
      */
     public function forgotPassword(): string
     {
-        if ($this->request->getMethod() == 'POST') {
+        if ($this->request->getMethod() === 'POST') {
             $email = $this->getParam('email', null);
             $user  = $this->userStore->getByEmail($email);
 
@@ -243,13 +244,13 @@ class SessionController extends WebController
         $user = $this->userStore->getById($userId);
         $userKey = \md5(\date('Y-m-d') . $user->getHash());
 
-        if (empty($user) || $key != $userKey) {
+        if (empty($user) || $key !== $userKey) {
             $this->view->error = Lang::get('reset_invalid');
 
             return $this->view->render();
         }
 
-        if ($this->request->getMethod() == 'POST') {
+        if ($this->request->getMethod() === 'POST') {
             $hash = \password_hash($this->getParam('password'), PASSWORD_DEFAULT);
             $user->setHash($hash);
 

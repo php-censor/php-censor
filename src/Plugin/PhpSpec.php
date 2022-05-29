@@ -92,7 +92,7 @@ class PhpSpec extends Plugin
                     'status'    => (string)$attr['status'],
                 ];
 
-                if ('failed' == $case['status']) {
+                if ('failed' === $case['status']) {
                     $error = [];
                     /*
                      * ok, sad, we had an error

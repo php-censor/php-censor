@@ -1,13 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\PHPCensor\Plugin;
 
+use PHPCensor\Builder;
 use PHPCensor\Helper\BuildInterpolator;
 use PHPCensor\Model\Build;
+use PHPCensor\Model\Project;
 use PHPCensor\Plugin;
 use PHPCensor\Plugin\EmailNotify as EmailPlugin;
 use PHPCensor\StoreRegistry;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use PHPCensor\Common\Application\ConfigurationInterface;
 
@@ -18,42 +21,14 @@ use PHPCensor\Common\Application\ConfigurationInterface;
  */
 class EmailTest extends TestCase
 {
-    /**
-     * @var EmailPlugin $testedPhpUnit
-     */
-    protected $testedEmailPlugin;
-
-    /**
-     * @var MockObject
-     */
-    protected $mockBuilder;
-
-    /**
-     * @var MockObject
-     */
-    protected $mockBuild;
-
-    /**
-     * @var MockObject
-     */
-    protected $mockProject;
-
-    /**
-     * @var int buildStatus
-     */
-    public $buildStatus;
-
-    /**
-     * @var array $message;
-     */
-    public $message;
-
-    /**
-     * @var bool $mailDelivered
-     */
-    public $mailDelivered;
-
-    protected StoreRegistry $storeRegistry;
+    private EmailPlugin $testedEmailPlugin;
+    private Builder $builder;
+    private Build $build;
+    private Project $project;
+    private int $buildStatus;
+    private array $message;
+    private bool $mailDelivered;
+    private StoreRegistry $storeRegistry;
 
     protected function setUp(): void
     {
@@ -71,53 +46,53 @@ class EmailTest extends TestCase
             ->setConstructorArgs([$databaseManager])
             ->getMock();
 
-        $this->mockProject = $this
+        $this->project = $this
             ->getMockBuilder('\PHPCensor\Model\Project')
             ->onlyMethods(['getTitle'])
             ->setMockClassName('mockProject')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->mockProject->expects($this->any())
+        $this->project->expects($this->any())
             ->method('getTitle')
             ->will($this->returnValue("Test-Project"));
 
-        $this->mockBuild = $this
+        $this->build = $this
             ->getMockBuilder('\PHPCensor\Model\Build')
             ->onlyMethods(['getLog', 'getStatus', 'getProject', 'getCommitterEmail'])
             ->setMockClassName('mockBuild')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->mockBuild->expects($this->any())
+        $this->build->expects($this->any())
             ->method('getLog')
             ->will($this->returnValue("Build Log"));
 
-        $this->mockBuild->expects($this->any())
+        $this->build->expects($this->any())
             ->method('getStatus')
             ->will($this->returnCallback(function () use ($self) {
                 return $self->buildStatus;
             }));
 
-        $this->mockBuild->expects($this->any())
+        $this->build->expects($this->any())
             ->method('getProject')
-            ->will($this->returnValue($this->mockProject));
+            ->will($this->returnValue($this->project));
 
-        $this->mockBuild->expects($this->any())
+        $this->build->expects($this->any())
             ->method('getCommitterEmail')
             ->will($this->returnValue('committer-email@example.com'));
 
-        $this->mockBuilder = $this
+        $this->builder = $this
             ->getMockBuilder('\PHPCensor\Builder')
             ->onlyMethods(['log', 'logDebug', 'interpolate'])
             ->setMockClassName('mockBuilder_email')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->mockBuilder->buildPath = "/";
+        $this->builder->buildPath = "/";
 
         $interpolator = new BuildInterpolator($this->storeRegistry);
-        $this->mockBuilder->expects($this->any())
+        $this->builder->expects($this->any())
             ->method('interpolate')
             ->will($this->returnCallback(function () use ($self, $interpolator) {
                 return $interpolator->interpolate("test");
@@ -129,7 +104,7 @@ class EmailTest extends TestCase
             ->will($this->returnValue(['email_settings' => ['from_address' => "test-from-address@example.com"]]));
     }
 
-    protected function loadEmailPluginWithOptions($arrOptions = [], $buildStatus = null, $mailDelivered = 1)
+    protected function loadEmailPluginWithOptions(array $arrOptions = [], ?int $buildStatus = null, ?bool $mailDelivered = true): void
     {
         $this->mailDelivered = $mailDelivered;
 
@@ -147,7 +122,7 @@ class EmailTest extends TestCase
         $this->testedEmailPlugin = $this
             ->getMockBuilder('\PHPCensor\Plugin\EmailNotify')
             ->onlyMethods(['sendEmail'])
-            ->setConstructorArgs([$this->mockBuilder, $this->mockBuild, $arrOptions])
+            ->setConstructorArgs([$this->builder, $this->build, $arrOptions])
             ->getMock();
 
         $this->testedEmailPlugin
@@ -163,7 +138,7 @@ class EmailTest extends TestCase
             }));
     }
 
-    public function testReturnsFalseWithoutArgs()
+    public function testReturnsFalseWithoutArgs(): void
     {
         $this->loadEmailPluginWithOptions();
 
@@ -175,7 +150,7 @@ class EmailTest extends TestCase
         self::assertEquals($expectedReturn, $returnValue);
     }
 
-    public function testBuildsBasicEmails()
+    public function testBuildsBasicEmails(): void
     {
         $this->loadEmailPluginWithOptions([
             'addresses' => ['test-receiver@example.com'],
@@ -186,7 +161,7 @@ class EmailTest extends TestCase
         self::assertContains('test-receiver@example.com', $this->message['to']);
     }
 
-    public function testBuildsDefaultEmails()
+    public function testBuildsDefaultEmails(): void
     {
         $this->loadEmailPluginWithOptions([
             'default_mailto_address' => 'default-mailto-address@example.com',
@@ -197,7 +172,7 @@ class EmailTest extends TestCase
         self::assertContains('default-mailto-address@example.com', $this->message['to']);
     }
 
-    public function testExecute_UniqueRecipientsFromWithCommitter()
+    public function testExecute_UniqueRecipientsFromWithCommitter(): void
     {
         $this->loadEmailPluginWithOptions([
             'addresses' => ['test-receiver@example.com', 'test-receiver2@example.com'],
@@ -212,7 +187,7 @@ class EmailTest extends TestCase
         self::assertContains('test-receiver2@example.com', $this->message['to']);
     }
 
-    public function testExecute_UniqueRecipientsWithCommitter()
+    public function testExecute_UniqueRecipientsWithCommitter(): void
     {
         $this->loadEmailPluginWithOptions([
             'committer' => true,
@@ -226,7 +201,7 @@ class EmailTest extends TestCase
         self::assertContains('committer@test.com', $this->message['to']);
     }
 
-    public function testCcDefaultEmails()
+    public function testCcDefaultEmails(): void
     {
         $this->loadEmailPluginWithOptions(
             [
@@ -252,7 +227,7 @@ class EmailTest extends TestCase
         );
     }
 
-    public function testBuildsCommitterEmails()
+    public function testBuildsCommitterEmails(): void
     {
         $this->loadEmailPluginWithOptions(
             [
@@ -266,7 +241,7 @@ class EmailTest extends TestCase
         self::assertContains('committer-email@example.com', $this->message['to']);
     }
 
-    public function testMailSuccessfulBuildHaveProjectName()
+    public function testMailSuccessfulBuildHaveProjectName(): void
     {
         $this->loadEmailPluginWithOptions(
             [
@@ -281,7 +256,7 @@ class EmailTest extends TestCase
         self::assertStringContainsString('Test-Project', $this->message['body']);
     }
 
-    public function testMailFailingBuildHaveProjectName()
+    public function testMailFailingBuildHaveProjectName(): void
     {
         $this->loadEmailPluginWithOptions(
             [
@@ -296,7 +271,7 @@ class EmailTest extends TestCase
         self::assertStringContainsString('Test-Project', $this->message['body']);
     }
 
-    public function testMailSuccessfulBuildHaveStatus()
+    public function testMailSuccessfulBuildHaveStatus(): void
     {
         $this->loadEmailPluginWithOptions(
             [
@@ -313,7 +288,7 @@ class EmailTest extends TestCase
         self::assertStringContainsString('success', $this->message['body']);
     }
 
-    public function testMailFailingBuildHaveStatus()
+    public function testMailFailingBuildHaveStatus(): void
     {
         $this->loadEmailPluginWithOptions(
             [
@@ -331,7 +306,7 @@ class EmailTest extends TestCase
         self::assertStringContainsString('failed', $this->message['body']);
     }
 
-    public function testMailDeliverySuccess()
+    public function testMailDeliverySuccess(): void
     {
         $this->loadEmailPluginWithOptions(
             [
@@ -339,7 +314,7 @@ class EmailTest extends TestCase
                 'priority_path' => 'system',
             ],
             Build::STATUS_FAILED,
-            1
+            true
         );
 
         self::assertEquals('system', $this->testedEmailPlugin->getPriorityPath());
@@ -349,7 +324,7 @@ class EmailTest extends TestCase
         self::assertEquals(true, $returnValue);
     }
 
-    public function testMailDeliveryFail()
+    public function testMailDeliveryFail(): void
     {
         $this->loadEmailPluginWithOptions(
             [
@@ -357,7 +332,7 @@ class EmailTest extends TestCase
                 'priority_path' => 'Global',
             ],
             Build::STATUS_FAILED,
-            0
+            false
         );
 
         self::assertEquals('local', $this->testedEmailPlugin->getPriorityPath());

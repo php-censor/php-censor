@@ -77,12 +77,14 @@ class Router
                 switch ($routePart) {
                     case ':controller':
                         $thisController = !\is_null($pathPart) ? $pathPart : $thisController;
+
                         break;
                     case ':action':
                         $thisAction = !\is_null($pathPart) ? $pathPart : $thisAction;
+
                         break;
                     default:
-                        if ($routePart != $pathPart) {
+                        if ($routePart !== $pathPart) {
                             $routeMatches = false;
                         }
                 }

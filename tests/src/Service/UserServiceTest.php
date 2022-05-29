@@ -1,13 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\PHPCensor\Service;
 
 use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
-use PHPCensor\Model\Project;
 use PHPCensor\Model\User;
-use PHPCensor\Service\ProjectService;
 use PHPCensor\Service\UserService;
+use PHPCensor\Store\UserStore;
 use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 
@@ -18,21 +19,11 @@ use PHPUnit\Framework\TestCase;
  */
 class UserServiceTest extends TestCase
 {
-    /**
-     * @var UserService $testedService
-     */
-    protected $testedService;
-
-    /**
-     * @var $mockBuildStore
-     */
-    protected $mockUserStore;
-
-    protected ConfigurationInterface $configuration;
-
-    protected DatabaseManager $databaseManager;
-
-    protected StoreRegistry $storeRegistry;
+    private UserService $testedService;
+    private UserStore $userStore;
+    private ConfigurationInterface $configuration;
+    private DatabaseManager $databaseManager;
+    private StoreRegistry $storeRegistry;
 
     protected function setUp(): void
     {
@@ -46,19 +37,19 @@ class UserServiceTest extends TestCase
             ->setConstructorArgs([$this->databaseManager])
             ->getMock();
 
-        $this->mockUserStore = $this
+        $this->userStore = $this
             ->getMockBuilder('PHPCensor\Store\UserStore')
             ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])
             ->getMock();
-        $this->mockUserStore
+        $this->userStore
             ->expects($this->any())
             ->method('save')
             ->will($this->returnArgument(0));
 
-        $this->testedService = new UserService($this->storeRegistry, $this->mockUserStore);
+        $this->testedService = new UserService($this->storeRegistry, $this->userStore);
     }
 
-    public function testExecute_CreateNonAdminUser()
+    public function testExecute_CreateNonAdminUser(): void
     {
         $user = $this->testedService->createUser(
             'Test',
@@ -72,10 +63,10 @@ class UserServiceTest extends TestCase
         self::assertEquals('Test', $user->getName());
         self::assertEquals('test@example.com', $user->getEmail());
         self::assertEquals(false, $user->getIsAdmin());
-        self::assertTrue(password_verify('testing', $user->getHash()));
+        self::assertTrue(\password_verify('testing', $user->getHash()));
     }
 
-    public function testExecute_CreateAdminUser()
+    public function testExecute_CreateAdminUser(): void
     {
         $user = $this->testedService->createUser(
             'Test',
@@ -89,7 +80,7 @@ class UserServiceTest extends TestCase
         self::assertEquals(true, $user->getIsAdmin());
     }
 
-    public function testExecute_RevokeAdminStatus()
+    public function testExecute_RevokeAdminStatus(): void
     {
         $user = new User($this->storeRegistry);
         $user->setEmail('test@example.com');
@@ -100,7 +91,7 @@ class UserServiceTest extends TestCase
         self::assertEquals(false, $user->getIsAdmin());
     }
 
-    public function testExecute_GrantAdminStatus()
+    public function testExecute_GrantAdminStatus(): void
     {
         $user = new User($this->storeRegistry);
         $user->setEmail('test@example.com');
@@ -111,26 +102,26 @@ class UserServiceTest extends TestCase
         self::assertEquals(true, $user->getIsAdmin());
     }
 
-    public function testExecute_ChangesPasswordIfNotEmpty()
+    public function testExecute_ChangesPasswordIfNotEmpty(): void
     {
         $user = new User($this->storeRegistry);
-        $user->setHash(password_hash('testing', PASSWORD_DEFAULT));
+        $user->setHash(\password_hash('testing', PASSWORD_DEFAULT));
 
         $user = $this->testedService->updateUser($user, 'Test', 'test@example.com', 'newpassword', false);
-        self::assertFalse(password_verify('testing', $user->getHash()));
-        self::assertTrue(password_verify('newpassword', $user->getHash()));
+        self::assertFalse(\password_verify('testing', $user->getHash()));
+        self::assertTrue(\password_verify('newpassword', $user->getHash()));
     }
 
-    public function testExecute_DoesNotChangePasswordIfEmpty()
+    public function testExecute_DoesNotChangePasswordIfEmpty(): void
     {
         $user = new User($this->storeRegistry);
-        $user->setHash(password_hash('testing', PASSWORD_DEFAULT));
+        $user->setHash(\password_hash('testing', PASSWORD_DEFAULT));
 
         $user = $this->testedService->updateUser($user, 'Test', 'test@example.com', '', false);
-        self::assertTrue(password_verify('testing', $user->getHash()));
+        self::assertTrue(\password_verify('testing', $user->getHash()));
     }
 
-    public function testExecuteDeleteUser()
+    public function testExecuteDeleteUser(): void
     {
         $store = $this
             ->getMockBuilder('PHPCensor\Store\UserStore')

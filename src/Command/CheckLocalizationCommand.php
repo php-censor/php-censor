@@ -84,7 +84,7 @@ class CheckLocalizationCommand extends Command
             if (!empty($languagesList)) {
                 $languageOfName = \explode('.', $name);
 
-                if (null == $languageOfName[1] || !\in_array($languageOfName[1], $languagesList, true)) {
+                if (null === $languageOfName[1] || !\in_array($languageOfName[1], $languagesList, true)) {
                     return null;
                 }
             }

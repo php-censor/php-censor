@@ -116,7 +116,7 @@ class ProjectController extends WebController
         $builds  = $this->getLatestBuildsHtml($projectId, $branch, $environment, (($page - 1) * $perPage), $perPage);
         $pages   = ($builds[1] === 0)
             ? 1
-            : (int)ceil($builds[1] / $perPage);
+            : (int)\ceil($builds[1] / $perPage);
 
         if ($page > $pages) {
             $page = $pages;
@@ -125,9 +125,9 @@ class ProjectController extends WebController
         $this->view->builds       = $builds[0];
         $this->view->total        = $builds[1];
         $this->view->project      = $project;
-        $this->view->branch       = urldecode($branch);
+        $this->view->branch       = \urldecode($branch);
         $this->view->branches     = $this->projectStore->getKnownBranches($projectId);
-        $this->view->environment  = urldecode($environment);
+        $this->view->environment  = \urldecode($environment);
         $this->view->environments = $project->getEnvironmentsNames();
         $this->view->page         = $page;
         $this->view->perPage      = $perPage;
@@ -210,9 +210,11 @@ class ProjectController extends WebController
         switch ($type) {
             case 'environment':
                 $environment = $id;
+
                 break;
             case 'branch':
                 $branch = $id;
+
                 break;
         }
 

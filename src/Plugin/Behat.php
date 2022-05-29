@@ -90,8 +90,9 @@ class Behat extends Plugin
 
         foreach ($lines as $line) {
             $line = \trim($line);
-            if ('Failed scenarios:' == $line) {
+            if ('Failed scenarios:' === $line) {
                 $storeFailures = true;
+
                 continue;
             }
 

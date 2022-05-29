@@ -29,7 +29,7 @@ class LocalBuild extends TypedBuild
     public function createWorkingCopy(Builder $builder, $buildPath)
     {
         $reference  = $this->getProject()->getReference();
-        $reference  = \substr($reference, -1) == '/' ? \substr($reference, 0, -1) : $reference;
+        $reference  = \substr($reference, -1) === '/' ? \substr($reference, 0, -1) : $reference;
         $buildPath  = \substr($buildPath, 0, -1);
 
         // If there's a /config file in the reference directory, it is probably a bare repository
@@ -67,7 +67,7 @@ class LocalBuild extends TypedBuild
      */
     protected function handleBareRepository(Builder $builder, $reference, $buildPath)
     {
-        $gitConfig = parse_ini_file($reference.'/config', true);
+        $gitConfig = \parse_ini_file($reference.'/config', true);
 
         // If it is indeed a bare repository, then extract it into our build path:
         if ($gitConfig['core']['bare']) {

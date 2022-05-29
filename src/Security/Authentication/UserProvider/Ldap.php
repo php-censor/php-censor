@@ -28,30 +28,30 @@ class Ldap extends AbstractProvider implements LoginPasswordProviderInterface
             $ldapMail   = !empty($ldapData['mail_attribute']) ? $ldapData['mail_attribute'] : 'mail';
 
             if ($ldapPort) {
-                $ldap = @\ldap_connect($ldapHost, $ldapPort);
+                $ldap = @ldap_connect($ldapHost, $ldapPort);
             } else {
-                $ldap = @\ldap_connect($ldapHost);
+                $ldap = @ldap_connect($ldapHost);
             }
 
             if (false === $ldap) {
                 return false;
             }
 
-            \ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
+            ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
 
-            $ls = @\ldap_search($ldap, $ldapBaseDn, $ldapMail . '=' . $user->getEmail());
+            $ls = @ldap_search($ldap, $ldapBaseDn, $ldapMail . '=' . $user->getEmail());
             if (false === $ls) {
                 return false;
             }
 
-            $le = @\ldap_get_entries($ldap, $ls);
+            $le = @ldap_get_entries($ldap, $ls);
             if (!$le['count']) {
                 return false;
             }
 
             $dn = $le[0]['dn'];
 
-            return @\ldap_bind($ldap, $dn, $password);
+            return @ldap_bind($ldap, $dn, $password);
         }
 
         return false;

@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 
 class FactoryTest extends TestCase
 {
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $builder = $this
             ->getMockBuilder(Builder::class)
@@ -29,7 +29,7 @@ class FactoryTest extends TestCase
         self::assertInstanceOf(Factory::class, $factory);
     }
 
-    public function testGetBuild()
+    public function testGetBuild(): void
     {
         $builder = $this
             ->getMockBuilder(Builder::class)
@@ -46,7 +46,7 @@ class FactoryTest extends TestCase
         self::assertInstanceOf(Build::class, $factory->getBuild());
     }
 
-    public function testBuildPlugin()
+    public function testBuildPlugin(): void
     {
         $builder = $this
             ->getMockBuilder(Builder::class)

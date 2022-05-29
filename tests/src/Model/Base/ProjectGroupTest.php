@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\PHPCensor\Model\Base;
 
 use DateTime;
@@ -10,7 +12,7 @@ use PHPCensor\Common\Application\ConfigurationInterface;
 
 class ProjectGroupTest extends TestCase
 {
-    protected StoreRegistry $storeRegistry;
+    private StoreRegistry $storeRegistry;
 
     protected function setUp(): void
     {
@@ -25,7 +27,7 @@ class ProjectGroupTest extends TestCase
             ->getMock();
     }
 
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $projectGroup = new ProjectGroup($this->storeRegistry);
 
@@ -40,7 +42,7 @@ class ProjectGroupTest extends TestCase
         ], $projectGroup->getDataArray());
     }
 
-    public function testId()
+    public function testId(): void
     {
         $projectGroup = new ProjectGroup($this->storeRegistry);
 
@@ -52,7 +54,7 @@ class ProjectGroupTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testTitle()
+    public function testTitle(): void
     {
         $projectGroup = new ProjectGroup($this->storeRegistry);
 
@@ -64,7 +66,7 @@ class ProjectGroupTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testCreateDate()
+    public function testCreateDate(): void
     {
         $projectGroup = new ProjectGroup($this->storeRegistry);
         self::assertEquals(null, $projectGroup->getCreateDate());
@@ -86,7 +88,7 @@ class ProjectGroupTest extends TestCase
         self::assertNull($projectGroup->getCreateDate());
     }
 
-    public function testUserId()
+    public function testUserId(): void
     {
         $projectGroup = new ProjectGroup($this->storeRegistry);
 

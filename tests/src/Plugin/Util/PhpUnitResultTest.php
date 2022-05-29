@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\PHPCensor\Plugin\Util;
 
 use PHPCensor\Plugin\Util\PhpUnitResult;
@@ -17,18 +19,13 @@ class PhpUnitResultTest extends TestCase
 {
     /**
      * Skipped test results
-     *
-     * @var array[]
      */
-    public static $skipped = [];
+    public static array $skipped = [];
 
     /**
      * @dataProvider getTestData
-     *
-     * @param string $resultClass
-     * @param string $testFile
      */
-    public function testInitParse($resultClass, $testFile)
+    public function testInitParse(string $resultClass, string $testFile): void
     {
         $buildPath = '/path/to/build';
         $parser = new $resultClass(ROOT_DIR . $testFile, $buildPath);
@@ -78,7 +75,7 @@ class PhpUnitResultTest extends TestCase
         }
     }
 
-    public static function getTestData()
+    public static function getTestData(): array
     {
         return [
             'json'  => [PhpUnitResultJson::class, 'tests/data/Plugin/PhpUnit/phpunit_money.txt'],

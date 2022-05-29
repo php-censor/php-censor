@@ -107,7 +107,7 @@ class Phing extends Plugin
      */
     public function setTargets($targets)
     {
-        if (is_string($targets)) {
+        if (\is_string($targets)) {
             $targets = [$targets];
         }
 
@@ -183,7 +183,7 @@ class Phing extends Plugin
      */
     public function setProperties($properties)
     {
-        if (is_string($properties)) {
+        if (\is_string($properties)) {
             $properties = [$properties];
         }
 

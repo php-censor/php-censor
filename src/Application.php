@@ -128,7 +128,7 @@ class Application
             );
         }
 
-        $action = lcfirst($this->toPhpName($this->route['action']));
+        $action = \lcfirst($this->toPhpName($this->route['action']));
         if (!$this->getController()->hasAction($action)) {
             throw new NotFoundException(
                 'Controller ' . $this->toPhpName($this->route['controller']) . ' does not have action ' . $action . '!'

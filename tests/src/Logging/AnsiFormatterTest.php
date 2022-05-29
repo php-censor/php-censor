@@ -11,7 +11,7 @@ use DateTimeImmutable;
 
 class AnsiFormatterTest extends TestCase
 {
-    public function testFormat()
+    public function testFormat(): void
     {
         $formatter = new AnsiFormatter(null, 'Y-m-d');
         $message   = $formatter->format([

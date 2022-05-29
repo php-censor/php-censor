@@ -139,7 +139,7 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
 
         $success = true;
 
-        if (-1 != $this->allowedWarnings && $errors > $this->allowedWarnings) {
+        if (-1 !== $this->allowedWarnings && $errors > $this->allowedWarnings) {
             $success = false;
         }
 
@@ -156,38 +156,45 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
                 case 'class':
                     $message  = 'Class ' . $error['class'] . ' is missing a docblock.';
                     $severity = BuildError::SEVERITY_NORMAL;
+
                     break;
 
                 case 'method':
                     $message  = 'Method ' . $error['class'] . '::' . $error['method'] . ' is missing a docblock.';
                     $severity = BuildError::SEVERITY_NORMAL;
+
                     break;
 
                 case 'param-missing':
                     $message  = $error['class'] . '::' . $error['method'] . ' @param ' . $error['param'] . ' missing.';
                     $severity = BuildError::SEVERITY_LOW;
+
                     break;
 
                 case 'param-mismatch':
                     $message = $error['class'] . '::' . $error['method'] . ' @param ' . $error['param'] .
                         '(' . $error['doc-type'] . ') does not match method signature (' . $error['param-type'] . ')';
                     $severity = BuildError::SEVERITY_LOW;
+
                     break;
 
                 case 'return-missing':
                     $message  = $error['class'] . '::' . $error['method'] . ' @return missing.';
                     $severity = BuildError::SEVERITY_LOW;
+
                     break;
 
                 case 'return-mismatch':
                     $message = $error['class'] . '::' . $error['method'] . ' @return ' . $error['doc-type'] .
                         ' does not match method signature (' . $error['return-type'] . ')';
                     $severity = BuildError::SEVERITY_LOW;
+
                     break;
 
                 default:
                     $message  = 'Class ' . $error['class'] . ' invalid/missing a docblock.';
                     $severity = BuildError::SEVERITY_LOW;
+
                     break;
             }
 

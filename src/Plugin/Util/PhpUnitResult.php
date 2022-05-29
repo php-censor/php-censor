@@ -58,7 +58,7 @@ abstract class PhpUnitResult
     protected function parseTestcase($testcase)
     {
         $severity = $this->getSeverity($testcase);
-        $pass = isset(array_fill_keys([self::SEVERITY_PASS, self::SEVERITY_SKIPPED], true)[$severity]);
+        $pass = isset(\array_fill_keys([self::SEVERITY_PASS, self::SEVERITY_SKIPPED], true)[$severity]);
         $data = [
             'pass'     => $pass,
             'severity' => $severity,

@@ -47,7 +47,7 @@ class BuildInterpolator
         $this->interpolationVars = [];
 
         $this->interpolationVars['%COMMIT_ID%']       = $build->getCommitId();
-        $this->interpolationVars['%SHORT_COMMIT_ID%'] = substr($build->getCommitId(), 0, 7);
+        $this->interpolationVars['%SHORT_COMMIT_ID%'] = \substr($build->getCommitId(), 0, 7);
         $this->interpolationVars['%PROJECT_ID%']      = $build->getProjectId();
         $this->interpolationVars['%BUILD_ID%']        = $build->getId();
         $this->interpolationVars['%COMMITTER_EMAIL%'] = $build->getCommitterEmail();

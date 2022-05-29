@@ -1,12 +1,15 @@
 <?php
 
-namespace PHPCensor\Plugin\Util;
+declare(strict_types=1);
 
+namespace Tests\PHPCensor\Plugin\Util;
+
+use PHPCensor\Plugin\Util\BitbucketNotifyPhpUnitResult;
 use PHPUnit\Framework\TestCase;
 
 class BitbucketNotifyPhpUnitResultTest extends TestCase
 {
-    public function dataProvider()
+    public function dataProvider(): array
     {
         return [
             'unchanged' => [
@@ -67,7 +70,7 @@ class BitbucketNotifyPhpUnitResultTest extends TestCase
     /**
      * @dataProvider dataProvider
      */
-    public function testFormatting(array $input, array $expected)
+    public function testFormatting(array $input, array $expected): void
     {
         $pluginResult = new BitbucketNotifyPhpUnitResult($input[0], $input[1], $input[2]);
         $this->assertEquals($expected['degraded'], $pluginResult->isDegraded());

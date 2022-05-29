@@ -77,7 +77,7 @@ class PhpTalLint extends Plugin
         $warnings = 0;
 
         foreach ($this->failedPaths as $path) {
-            if ($path['type'] == 'error') {
+            if ($path['type'] === 'error') {
                 $errors++;
             } else {
                 $warnings++;

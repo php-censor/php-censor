@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\PHPCensor\Plugin\Option;
 
-use PHPCensor\Builder;
 use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\Plugin\Option\PhpUnitOptions;
 use PHPUnit\Framework\TestCase;
@@ -14,7 +15,7 @@ use PHPUnit\Framework\TestCase;
  */
 class PhpUnitOptionsTest extends TestCase
 {
-    public function validOptionsProvider()
+    public function validOptionsProvider(): array
     {
         return [
             [
@@ -91,12 +92,9 @@ class PhpUnitOptionsTest extends TestCase
     }
 
     /**
-     * @param $rawOptions
-     * @param $parsedArguments
-     *
      * @dataProvider validOptionsProvider
      */
-    public function testCommandArguments($rawOptions, $parsedArguments)
+    public function testCommandArguments(array $rawOptions, array $parsedArguments): void
     {
         $configuration = $this->createMock(ConfigurationInterface::class);
 
@@ -104,7 +102,7 @@ class PhpUnitOptionsTest extends TestCase
         self::assertSame($parsedArguments, $options->getCommandArguments());
     }
 
-    public function testGetters()
+    public function testGetters(): void
     {
         $configuration = $this->createMock(ConfigurationInterface::class);
 

@@ -137,7 +137,7 @@ class XmppNotify extends Plugin
         /*
          * Without recipients we can't send notification
          */
-        if (!\is_array($this->recipients) || \count($this->recipients) == 0) {
+        if (!\is_array($this->recipients) || \count($this->recipients) === 0) {
             return false;
         }
 
@@ -158,7 +158,7 @@ class XmppNotify extends Plugin
             $tls = ' -t';
         }
 
-        $messageFile = $this->builder->buildPath . uniqid('xmppmessage');
+        $messageFile = $this->builder->buildPath . \uniqid('xmppmessage');
         if ($this->buildMessage($messageFile) === false) {
             return false;
         }

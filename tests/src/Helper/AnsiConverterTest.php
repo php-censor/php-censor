@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\PHPCensor\Helper;
 
 use PHPUnit\Framework\TestCase;
@@ -7,7 +9,7 @@ use SensioLabs\AnsiConverter\AnsiToHtmlConverter;
 
 class AnsiConverterTest extends TestCase
 {
-    public function testConvert_convertToHtml()
+    public function testConvert_convertToHtml(): void
     {
         $input          = "\e[31mThis is red !\e[0m";
         $expectedOutput = '<span class="ansi_color_bg_black ansi_color_fg_red">This is red !</span>';

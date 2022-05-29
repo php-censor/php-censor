@@ -83,7 +83,7 @@ class BuildStatusService
     {
         if (\in_array($this->build->getStatus(), $this->finishedStatusIds, true)) {
             return 'Sleeping';
-        } elseif ($this->build->getStatus() == Build::STATUS_PENDING) {
+        } elseif ($this->build->getStatus() === Build::STATUS_PENDING) {
             return 'Pending';
         }
 

@@ -128,7 +128,7 @@ class SecurityChecker extends Plugin implements ZeroConfigPluginInterface
                 }
             }
 
-            if ($this->allowedWarnings != -1 && (\count($warnings) > $this->allowedWarnings)) {
+            if ($this->allowedWarnings !== -1 && (\count($warnings) > $this->allowedWarnings)) {
                 $success = false;
             }
         } elseif (null === $warnings && $result) {

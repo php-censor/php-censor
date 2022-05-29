@@ -13,7 +13,7 @@ class BranchTest extends TestCase
     /**
      * @dataProvider providerGetDefaultBranchName
      */
-    public function testGetDefaultBranchName(string $projectType, string $expectedBranch)
+    public function testGetDefaultBranchName(string $projectType, string $expectedBranch): void
     {
         $branch = Branch::getDefaultBranchName($projectType);
 

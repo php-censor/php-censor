@@ -62,7 +62,7 @@ class BuildFactoryTest extends TestCase
         parent::tearDown();
     }
 
-    public function testConstruct()
+    public function testConstruct(): void
     {
         self::assertInstanceOf(BuildFactory::class, $this->factory);
     }

@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\PHPCensor\Service;
 
 use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Model\Project;
 use PHPCensor\Service\ProjectService;
+use PHPCensor\Store\ProjectStore;
 use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 
@@ -16,21 +19,11 @@ use PHPUnit\Framework\TestCase;
  */
 class ProjectServiceTest extends TestCase
 {
-    /**
-     * @var ProjectService $testedService
-     */
-    protected $testedService;
-
-    /**
-     * @var $mockProjectStore
-     */
-    protected $mockProjectStore;
-
-    protected ConfigurationInterface $configuration;
-
-    protected DatabaseManager $databaseManager;
-
-    protected StoreRegistry $storeRegistry;
+    private ProjectService $testedService;
+    private ProjectStore $projectStore;
+    private ConfigurationInterface $configuration;
+    private DatabaseManager $databaseManager;
+    private StoreRegistry $storeRegistry;
 
     protected function setUp(): void
     {
@@ -44,22 +37,22 @@ class ProjectServiceTest extends TestCase
             ->setConstructorArgs([$this->databaseManager])
             ->getMock();
 
-        $this->mockProjectStore = $this
+        $this->projectStore = $this
             ->getMockBuilder('PHPCensor\Store\ProjectStore')
             ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])
             ->getMock();
 
-        $this->mockProjectStore
+        $this->projectStore
             ->expects($this->any())
             ->method('save')
             ->will(
                 $this->returnArgument(0)
             );
 
-        $this->testedService = new ProjectService($this->storeRegistry, $this->mockProjectStore);
+        $this->testedService = new ProjectService($this->storeRegistry, $this->projectStore);
     }
 
-    public function testExecuteCreateGithubProject()
+    public function testExecuteCreateGithubProject(): void
     {
         $project = $this->testedService->createProject(
             'Test Project',
@@ -85,10 +78,7 @@ class ProjectServiceTest extends TestCase
         self::assertEquals([], $project->getEnvironmentsNames());
     }
 
-    /**
-     * @return array
-     */
-    public function getExecuteCreateGithubProjectAccessInformationData()
+    public function getExecuteCreateGithubProjectAccessInformationData(): array
     {
         return [
             [
@@ -258,11 +248,9 @@ class ProjectServiceTest extends TestCase
     }
 
     /**
-     * @param string $reference
-     *
      * @dataProvider getExecuteCreateGithubProjectAccessInformationData
      */
-    public function testExecuteCreateGithubProjectAccessInformation($reference, array $accessInformation)
+    public function testExecuteCreateGithubProjectAccessInformation(string $reference, array $accessInformation): void
     {
         $project = $this->testedService->createProject(
             'Test Project',
@@ -274,7 +262,7 @@ class ProjectServiceTest extends TestCase
         self::assertEquals($accessInformation, $project->getAccessInformation());
     }
 
-    public function testExecuteCreateProjectWithOptions()
+    public function testExecuteCreateProjectWithOptions(): void
     {
         $options = [
             'ssh_private_key'        => 'private',
@@ -309,7 +297,7 @@ class ProjectServiceTest extends TestCase
         self::assertEquals([], $returnValue->getEnvironmentsNames());
     }
 
-    public function testExecuteUpdateExistingProject()
+    public function testExecuteUpdateExistingProject(): void
     {
         $project = new Project($this->storeRegistry);
         $project->setTitle('Before Title');
@@ -323,7 +311,7 @@ class ProjectServiceTest extends TestCase
         self::assertEquals('bitbucket', $returnValue->getType());
     }
 
-    public function testExecuteEmptyPublicStatus()
+    public function testExecuteEmptyPublicStatus(): void
     {
         $project = new Project($this->storeRegistry);
         $project->setAllowPublicStatus(true);
@@ -339,7 +327,7 @@ class ProjectServiceTest extends TestCase
         self::assertEquals(false, $returnValue->getAllowPublicStatus());
     }
 
-    public function testExecuteDeleteProject()
+    public function testExecuteDeleteProject(): void
     {
         $store = $this
             ->getMockBuilder('PHPCensor\Store\ProjectStore')

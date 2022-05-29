@@ -30,7 +30,7 @@ class SvnBuild extends TypedBuild
         $branch = \ltrim($this->getBranch(), '/');
 
         // For empty default branch or default branch name like "/trunk" or "trunk" (-> "trunk")
-        if (empty($branch) || $branch == 'trunk') {
+        if (empty($branch) || $branch === 'trunk') {
             $url .= 'trunk';
         // For default branch with standard default branch directory ("branches") like "/branch-1" or "branch-1"
         // (-> "branches/branch-1")
@@ -81,7 +81,7 @@ class SvnBuild extends TypedBuild
     {
         $this->extendSvnCommandFromConfig($builder);
 
-        $key = trim($this->getProject()->getSshPrivateKey());
+        $key = \trim($this->getProject()->getSshPrivateKey());
 
         if (!empty($key)) {
             $success = $this->cloneBySsh($builder, $buildPath);

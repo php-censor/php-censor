@@ -67,7 +67,7 @@ class WebhookNotify extends Plugin
             'project_title'   => $this->build->getProjectTitle(),
             'build_id'        => $this->build->getId(),
             'commit_id'       => $this->build->getCommitId(),
-            'short_commit_id' => substr($this->build->getCommitId(), 0, 7),
+            'short_commit_id' => \substr($this->build->getCommitId(), 0, 7),
             'branch'          => $this->build->getBranch(),
             'branch_link'     => $this->build->getBranchLink(),
             'committer_email' => $this->build->getCommitterEmail(),
@@ -105,15 +105,19 @@ class WebhookNotify extends Plugin
         switch ($statusId) {
             case self::STATUS_PENDING:
                 return 'Pending';
+
                 break;
             case self::STATUS_RUNNING:
                 return 'Running';
+
                 break;
             case self::STATUS_SUCCESS:
                 return 'Successful';
+
                 break;
             case self::STATUS_FAILED:
                 return 'Failed';
+
                 break;
         }
 

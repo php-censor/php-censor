@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\PHPCensor;
 
 use PHPCensor\Builder;
@@ -65,21 +67,9 @@ class TestPlugin extends Plugin
 
 class PluginTest extends TestCase
 {
-    /**
-     * @var Builder|MockObject
-     */
-    private $builder;
-
-    /**
-     * @var Build|MockObject
-     */
-    private $build;
-
-    /**
-     * @var string
-     */
-    private $currentDir;
-
+    private Builder $builder;
+    private Build $build;
+    private string $currentDir;
     private StoreRegistry $storeRegistry;
 
     protected function setUp(): void
@@ -126,7 +116,7 @@ class PluginTest extends TestCase
         $this->builder->directory = $this->currentDir;
     }
 
-    public function testDirectory()
+    public function testDirectory(): void
     {
         $plugin = new TestPlugin($this->builder, $this->build, []);
         self::assertEquals($this->currentDir, $plugin->getDirectory());
@@ -223,7 +213,7 @@ class PluginTest extends TestCase
         self::assertEquals($absoluteRealPath . 'docs/', $plugin->getDirectory());
     }
 
-    public function testIgnore()
+    public function testIgnore(): void
     {
         $this->builder->ignore = [];
 
@@ -268,7 +258,7 @@ class PluginTest extends TestCase
         ], $plugin->getIgnore());
     }
 
-    public function testBinary()
+    public function testBinary(): void
     {
         $this->builder->binaryPath = '/builder/bin/';
 

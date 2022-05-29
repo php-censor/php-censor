@@ -1,35 +1,29 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\PHPCensor\Helper;
 
 use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\Helper\Email;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class EmailTest extends TestCase
 {
-    /**
-     * @var Config|MockObject
-     */
-    private $config;
-
-    /**
-     * @var Email
-     */
-    private $email;
+    private ConfigurationInterface $configuration;
+    private Email $email;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->config = $this->createMock(ConfigurationInterface::class);
-        $this->email  = new Email($this->config);
+        $this->configuration = $this->createMock(ConfigurationInterface::class);
+        $this->email  = new Email($this->configuration);
     }
 
-    public function testGetFrom()
+    public function testGetFrom(): void
     {
-        $this->config
+        $this->configuration
             ->expects($this->once())
             ->method('get')
             ->with('php-censor.email_settings.from_address', Email::DEFAULT_FROM)
@@ -40,9 +34,9 @@ class EmailTest extends TestCase
         ], $this->email->getFrom());
     }
 
-    public function testGetFrom2()
+    public function testGetFrom2(): void
     {
-        $this->config
+        $this->configuration
             ->expects($this->once())
             ->method('get')
             ->with('php-censor.email_settings.from_address', Email::DEFAULT_FROM)

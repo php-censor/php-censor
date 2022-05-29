@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\PHPCensor\Service;
 
 use DateTime;
@@ -17,13 +19,11 @@ use PHPCensor\Common\Application\ConfigurationInterface;
  */
 class BuildStatusServiceTest extends TestCase
 {
-    public const BRANCH = 'master';
+    private const BRANCH = 'master';
 
-    protected Project $project;
-
-    protected string $timezone;
-
-    protected StoreRegistry $storeRegistry;
+    private Project $project;
+    private string $timezone;
+    private StoreRegistry $storeRegistry;
 
     protected function setUp(): void
     {
@@ -43,14 +43,14 @@ class BuildStatusServiceTest extends TestCase
         $project->setTitle('Test');
 
         $this->project = $project;
-        $this->timezone = date_default_timezone_get();
+        $this->timezone = \date_default_timezone_get();
 
-        date_default_timezone_set('UTC');
+        \date_default_timezone_set('UTC');
     }
 
     protected function tearDown(): void
     {
-        date_default_timezone_set($this->timezone);
+        \date_default_timezone_set($this->timezone);
     }
 
     protected function getBuild(int $configId, bool $setProject = true): ?Build

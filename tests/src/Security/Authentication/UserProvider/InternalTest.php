@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\PHPCensor\Security\Authentication\UserProvider;
 
 use PHPCensor\Model\User;
@@ -10,12 +12,8 @@ use PHPCensor\Common\Application\ConfigurationInterface;
 
 class InternalTest extends TestCase
 {
-    /**
-     * @var Internal
-     */
-    protected $provider;
-
-    protected StoreRegistry $storeRegistry;
+    private Internal $provider;
+    private StoreRegistry $storeRegistry;
 
     protected function setUp(): void
     {
@@ -34,16 +32,16 @@ class InternalTest extends TestCase
         ]);
     }
 
-    public function testVerifyPassword()
+    public function testVerifyPassword(): void
     {
         $user = new User($this->storeRegistry);
         $password = 'bla';
-        $user->setHash(password_hash($password, PASSWORD_DEFAULT));
+        $user->setHash(\password_hash($password, PASSWORD_DEFAULT));
 
         self::assertTrue($this->provider->verifyPassword($user, $password));
     }
 
-    public function testVerifyInvaldPassword()
+    public function testVerifyInvalidPassword(): void
     {
         $user = new User($this->storeRegistry);
         $password = 'foo';
@@ -52,7 +50,7 @@ class InternalTest extends TestCase
         self::assertFalse($this->provider->verifyPassword($user, 'bar'));
     }
 
-    public function testProvisionUser()
+    public function testProvisionUser(): void
     {
         self::assertNull($this->provider->provisionUser('john@doe.com'));
     }

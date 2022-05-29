@@ -84,7 +84,7 @@ class BuildErrorWriter
             'is_new'      => $errorStore->getIsNewError($this->projectId, $hash) ? 1 : 0,
         ];
 
-        if (count($this->errors) >= $this->bufferSize) {
+        if (\count($this->errors) >= $this->bufferSize) {
             $this->flush();
         }
     }
@@ -134,7 +134,7 @@ class BuildErrorWriter
                 {{hash}},
                 {{is_new}}
             )
-            VALUES ' . join(', ', $insertValuesPlaceholders) . '
+            VALUES ' . \join(', ', $insertValuesPlaceholders) . '
         ';
         $stmt = $this->databaseManager->getConnection('write')->prepare($query);
         $stmt->execute($insertValuesData);

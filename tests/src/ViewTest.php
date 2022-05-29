@@ -10,20 +10,20 @@ use PHPUnit\Framework\TestCase;
 
 class ViewTest extends TestCase
 {
-    public function testSimpleView()
+    public function testSimpleView(): void
     {
         $view = new View('simple', ROOT_DIR . 'tests/data/View/');
-        self::assertTrue($view->render() == 'Hello');
+        self::assertTrue($view->render() === 'Hello');
     }
 
-    public function testInvalidView()
+    public function testInvalidView(): void
     {
         self::expectException(RuntimeException::class);
 
         new View('dogs', ROOT_DIR . 'tests/data/View/');
     }
 
-    public function testViewVars()
+    public function testViewVars(): void
     {
         $view = new View('vars', ROOT_DIR . 'tests/data/View/');
         $view->who = 'World';
@@ -31,6 +31,6 @@ class ViewTest extends TestCase
         self::assertTrue(isset($view->who));
         self::assertEquals('World', $view->who);
         self::assertFalse(isset($view->what));
-        self::assertTrue($view->render() == 'Hello World');
+        self::assertTrue($view->render() === 'Hello World');
     }
 }

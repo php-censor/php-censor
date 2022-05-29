@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 
 class StoreRegistryTest extends TestCase
 {
-    public function testConstructor()
+    public function testConstructor(): void
     {
         /** @var DatabaseManager $databaseManager */
         $databaseManager = $this
@@ -25,7 +25,7 @@ class StoreRegistryTest extends TestCase
         self::assertInstanceOf(StoreRegistry::class, $storeRegistry);
     }
 
-    public function testGetSuccess()
+    public function testGetSuccess(): void
     {
         /** @var DatabaseManager $databaseManager */
         $databaseManager = $this
@@ -39,7 +39,7 @@ class StoreRegistryTest extends TestCase
         self::assertInstanceOf(BuildStore::class, $buildStore);
     }
 
-    public function testGetSuccessFromCache()
+    public function testGetSuccessFromCache(): void
     {
         /** @var DatabaseManager $databaseManager */
         $databaseManager = $this
@@ -55,7 +55,7 @@ class StoreRegistryTest extends TestCase
         self::assertSame($buildStore, $buildStore2);
     }
 
-    public function testGetNotFound()
+    public function testGetNotFound(): void
     {
         self::expectException(RuntimeException::class);
 

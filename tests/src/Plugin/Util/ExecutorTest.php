@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\PHPCensor\Plugin\Util;
 
 use PHPCensor\Common\Exception\RuntimeException;
@@ -15,18 +17,11 @@ class ExecutorTest extends TestCase
 {
     use ProphecyTrait;
 
-    /**
-     * @var Executor
-     */
-    protected $testedExecutor;
-
-    protected $mockBuildLogger;
-
-    protected $mockFactory;
-
-    protected $mockStore;
-
-    protected StoreRegistry $storeRegistry;
+    private Executor $testedExecutor;
+    private $buildLogger;
+    private $factory;
+    private $buildStore;
+    private StoreRegistry $storeRegistry;
 
     protected function setUp(): void
     {
@@ -42,31 +37,31 @@ class ExecutorTest extends TestCase
             ->setConstructorArgs([$databaseManager])
             ->getMock();
 
-        $this->mockBuildLogger = $this->prophesize('\PHPCensor\Logging\BuildLogger');
-        $this->mockFactory = $this->prophesize('\PHPCensor\Plugin\Util\Factory');
-        $this->mockStore = $this->prophesize('\PHPCensor\Store\BuildStore');
+        $this->buildLogger = $this->prophesize('\PHPCensor\Logging\BuildLogger');
+        $this->factory = $this->prophesize('\PHPCensor\Plugin\Util\Factory');
+        $this->buildStore = $this->prophesize('\PHPCensor\Store\BuildStore');
         $this->testedExecutor = new Executor(
             $this->storeRegistry,
-            $this->mockFactory->reveal(),
-            $this->mockBuildLogger->reveal(),
-            $this->mockStore->reveal()
+            $this->factory->reveal(),
+            $this->buildLogger->reveal(),
+            $this->buildStore->reveal()
         );
     }
 
-    protected function getFakePluginClassName($pluginName)
+    protected function getFakePluginClassName(string $pluginName): string
     {
         $pluginNamespace = 'Tests\\PHPCensor\\Plugin\\Util\\Fake\\';
 
         return $pluginNamespace . $pluginName;
     }
 
-    public function testExecutePlugin_AssumesNamespaceIfNoneGiven()
+    public function testExecutePlugin_AssumesNamespaceIfNoneGiven(): void
     {
         $options = [];
         $pluginName = 'PhpUnit';
         $pluginNamespace = 'PHPCensor\\Plugin\\';
 
-        $this->mockFactory
+        $this->factory
             ->buildPlugin($pluginNamespace . $pluginName, $options)
             ->shouldBeCalledTimes(1)
             ->willReturn($this->prophesize('PHPCensor\Plugin')->reveal());
@@ -74,12 +69,12 @@ class ExecutorTest extends TestCase
         $this->testedExecutor->executePlugin($pluginName, $options);
     }
 
-    public function testExecutePlugin_KeepsCalledNameSpace()
+    public function testExecutePlugin_KeepsCalledNameSpace(): void
     {
         $options = [];
         $pluginClass = $this->getFakePluginClassName('ExamplePluginFull');
 
-        $this->mockFactory
+        $this->factory
             ->buildPlugin($pluginClass, $options)
             ->shouldBeCalledTimes(1)
             ->willReturn($this->prophesize('PHPCensor\Plugin')->reveal());
@@ -87,71 +82,71 @@ class ExecutorTest extends TestCase
         $this->testedExecutor->executePlugin($pluginClass, $options);
     }
 
-    public function testExecutePlugin_CallsExecuteOnFactoryBuildPlugin()
+    public function testExecutePlugin_CallsExecuteOnFactoryBuildPlugin(): void
     {
         $options = [];
         $pluginName = 'PhpUnit';
         $build = new Build($this->storeRegistry);
 
-        $mockPlugin = $this->prophesize('PHPCensor\Plugin');
-        $mockPlugin->setStoreRegistry($this->storeRegistry)->shouldBeCalledTimes(1);
-        $mockPlugin->execute()->shouldBeCalledTimes(1);
+        $plugin = $this->prophesize('PHPCensor\Plugin');
+        $plugin->setStoreRegistry($this->storeRegistry)->shouldBeCalledTimes(1);
+        $plugin->execute()->shouldBeCalledTimes(1);
 
-        $this->mockFactory->buildPlugin(Argument::any(), Argument::any())->willReturn($mockPlugin->reveal());
-        $this->mockFactory->getBuild()->willReturn($build);
+        $this->factory->buildPlugin(Argument::any(), Argument::any())->willReturn($plugin->reveal());
+        $this->factory->getBuild()->willReturn($build);
 
         $this->testedExecutor->executePlugin($pluginName, $options);
     }
 
-    public function testExecutePlugin_ReturnsPluginSuccess()
+    public function testExecutePlugin_ReturnsPluginSuccess(): void
     {
         $options = [];
         $pluginName = 'PhpUnit';
 
         $expectedReturnValue = true;
 
-        $mockPlugin = $this->prophesize('PHPCensor\Plugin');
-        $mockPlugin->setStoreRegistry($this->storeRegistry)->shouldBeCalledTimes(1);
-        $mockPlugin->execute()->willReturn($expectedReturnValue);
+        $plugin = $this->prophesize('PHPCensor\Plugin');
+        $plugin->setStoreRegistry($this->storeRegistry)->shouldBeCalledTimes(1);
+        $plugin->execute()->willReturn($expectedReturnValue);
 
-        $this->mockFactory->buildPlugin(Argument::any(), Argument::any())->willReturn($mockPlugin->reveal());
+        $this->factory->buildPlugin(Argument::any(), Argument::any())->willReturn($plugin->reveal());
 
         $returnValue = $this->testedExecutor->executePlugin($pluginName, $options);
 
         self::assertEquals($expectedReturnValue, $returnValue);
     }
 
-    public function testExecutePlugin_LogsFailureForNonExistentClasses()
+    public function testExecutePlugin_LogsFailureForNonExistentClasses(): void
     {
         $options    = [];
         $pluginName = 'DOESNTEXIST';
 
-        $this->mockBuildLogger->logFailure(\sprintf('Plugin does not exist: %s', $pluginName))->shouldBeCalledTimes(1);
+        $this->buildLogger->logFailure(\sprintf('Plugin does not exist: %s', $pluginName))->shouldBeCalledTimes(1);
 
         $this->testedExecutor->executePlugin($pluginName, $options);
     }
 
-    public function testExecutePlugin_LogsFailureWhenExceptionsAreThrownByPlugin()
+    public function testExecutePlugin_LogsFailureWhenExceptionsAreThrownByPlugin(): void
     {
         $options    = [];
         $pluginName = 'PhpUnit';
 
         $expectedException = new RuntimeException("Generic Error");
 
-        $mockPlugin = $this->prophesize('PHPCensor\Plugin');
-        $mockPlugin->setStoreRegistry($this->storeRegistry)->shouldBeCalledTimes(1);
-        $mockPlugin->execute()->willThrow($expectedException);
+        $plugin = $this->prophesize('PHPCensor\Plugin');
+        $plugin->setStoreRegistry($this->storeRegistry)->shouldBeCalledTimes(1);
+        $plugin->execute()->willThrow($expectedException);
 
-        $this->mockFactory->buildPlugin(Argument::any(), Argument::any())->willReturn($mockPlugin->reveal());
+        $this->factory->buildPlugin(Argument::any(), Argument::any())->willReturn($plugin->reveal());
 
-        $this->mockBuildLogger
+        $this->buildLogger
             ->logFailure('Exception: ' . $expectedException->getMessage(), $expectedException)
             ->shouldBeCalledTimes(1);
 
         $this->testedExecutor->executePlugin($pluginName, $options);
     }
 
-    public function testExecutePlugins_CallsEachPluginForStage()
+    public function testExecutePlugins_CallsEachPluginForStage(): void
     {
         $phpUnitPluginOptions = [];
         $behatPluginOptions   = [];
@@ -166,27 +161,27 @@ class ExecutorTest extends TestCase
 
         $pluginNamespace = 'PHPCensor\\Plugin\\';
 
-        $mockPhpUnitPlugin = $this->prophesize('PHPCensor\Plugin');
-        $mockPhpUnitPlugin->setStoreRegistry($this->storeRegistry)->shouldBeCalledTimes(1);
-        $mockPhpUnitPlugin->execute()->shouldBeCalledTimes(1)->willReturn(true);
+        $phpUnitPlugin = $this->prophesize('PHPCensor\Plugin');
+        $phpUnitPlugin->setStoreRegistry($this->storeRegistry)->shouldBeCalledTimes(1);
+        $phpUnitPlugin->execute()->shouldBeCalledTimes(1)->willReturn(true);
 
-        $this->mockFactory
+        $this->factory
             ->buildPlugin($pluginNamespace . 'PhpUnit', $phpUnitPluginOptions)
-            ->willReturn($mockPhpUnitPlugin->reveal());
-        $this->mockFactory->getBuild()->willReturn($build);
+            ->willReturn($phpUnitPlugin->reveal());
+        $this->factory->getBuild()->willReturn($build);
 
-        $mockBehatPlugin = $this->prophesize('PHPCensor\Plugin');
-        $mockBehatPlugin->setStoreRegistry($this->storeRegistry)->shouldBeCalledTimes(1);
-        $mockBehatPlugin->execute()->shouldBeCalledTimes(1)->willReturn(true);
+        $behatPlugin = $this->prophesize('PHPCensor\Plugin');
+        $behatPlugin->setStoreRegistry($this->storeRegistry)->shouldBeCalledTimes(1);
+        $behatPlugin->execute()->shouldBeCalledTimes(1)->willReturn(true);
 
-        $this->mockFactory
+        $this->factory
             ->buildPlugin($pluginNamespace . 'Behat', $behatPluginOptions)
-            ->willReturn($mockBehatPlugin->reveal());
+            ->willReturn($behatPlugin->reveal());
 
         $this->testedExecutor->executePlugins($config, 'stageOne');
     }
 
-    public function testGetBranchSpecificConfig()
+    public function testGetBranchSpecificConfig(): void
     {
         $config = [
             'setup' => [

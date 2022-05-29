@@ -116,7 +116,7 @@ abstract class Plugin
     {
         $normalizedPath = $this->builder->interpolate($rawPath);
 
-        if ('/' !== substr($rawPath, 0, 1)) {
+        if ('/' !== \substr($rawPath, 0, 1)) {
             $normalizedPath = $this->build->getBuildPath() . $normalizedPath;
         }
 
@@ -143,7 +143,7 @@ abstract class Plugin
         if (!empty($this->options['binary_path'])) {
             $optionBinaryPath = $this->builder->interpolate($this->options['binary_path']);
 
-            if ('/' !== substr($optionBinaryPath, 0, 1)) {
+            if ('/' !== \substr($optionBinaryPath, 0, 1)) {
                 $binaryPath = $this->build->getBuildPath();
             }
 

@@ -1,21 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\PHPCensor\Plugin;
 
 use Phar as PHPPhar;
+use PHPCensor\Plugin;
 use PHPCensor\Plugin\Phar as PharPlugin;
 use PHPUnit\Framework\TestCase;
 
 class PharTest extends TestCase
 {
-    protected $directories = [];
+    private array $directories = [];
 
     protected function tearDown(): void
     {
         $this->cleanSource();
     }
 
-    protected function getPlugin(array $options = [])
+    protected function getPlugin(array $options = []): Plugin
     {
         $build = $this
             ->getMockBuilder('PHPCensor\Model\Build')
@@ -39,7 +42,7 @@ class PharTest extends TestCase
         return new PharPlugin($builder, $build, $options);
     }
 
-    protected function buildTemp()
+    protected function buildTemp(): string
     {
         $directory = \tempnam(ROOT_DIR . 'tests/runtime/', 'phar_test_');
         @\unlink($directory);
@@ -47,7 +50,7 @@ class PharTest extends TestCase
         return $directory . '/';
     }
 
-    protected function buildSource()
+    protected function buildSource(): string
     {
         $directory = $this->buildTemp();
 
@@ -64,7 +67,7 @@ class PharTest extends TestCase
         return $directory;
     }
 
-    protected function cleanSource()
+    protected function cleanSource(): void
     {
         foreach ($this->directories as $directory) {
             if ($directory) {
@@ -92,14 +95,14 @@ class PharTest extends TestCase
         }
     }
 
-    protected function checkReadonly()
+    protected function checkReadonly(): void
     {
         if (\ini_get('phar.readonly')) {
             $this->markTestSkipped('Test skipped because phar writing disabled in php.ini.');
         }
     }
 
-    public function testPlugin()
+    public function testPlugin(): void
     {
         $plugin = $this->getPlugin();
         self::assertInstanceOf('PHPCensor\Plugin', $plugin);
@@ -107,7 +110,7 @@ class PharTest extends TestCase
         self::assertInstanceOf('PHPCensor\Builder', $plugin->getBuilder());
     }
 
-    public function testFilename()
+    public function testFilename(): void
     {
         $plugin = $this->getPlugin();
         self::assertEquals('build.phar', $plugin->getFilename());
@@ -116,7 +119,7 @@ class PharTest extends TestCase
         self::assertEquals('another.phar', $plugin->getFilename());
     }
 
-    public function testRegExp()
+    public function testRegExp(): void
     {
         $plugin = $this->getPlugin();
         self::assertEquals('/\.php$/', $plugin->getRegExp());
@@ -125,7 +128,7 @@ class PharTest extends TestCase
         self::assertEquals('/\.(php|phtml)$/', $plugin->getRegExp());
     }
 
-    public function testStub()
+    public function testStub(): void
     {
         $plugin = $this->getPlugin();
         self::assertNull($plugin->getStub());
@@ -134,7 +137,7 @@ class PharTest extends TestCase
         self::assertEquals('stub.php', $plugin->getStub());
     }
 
-    public function testExecute()
+    public function testExecute(): void
     {
         $this->checkReadonly();
 
@@ -150,7 +153,7 @@ class PharTest extends TestCase
         self::assertFileDoesNotExist('phar://build.phar/views/index.phtml');
     }
 
-    public function testExecuteRegExp()
+    public function testExecuteRegExp(): void
     {
         $this->checkReadonly();
 
@@ -169,7 +172,7 @@ class PharTest extends TestCase
         );
     }
 
-    public function testExecuteStub()
+    public function testExecuteStub(): void
     {
         $this->checkReadonly();
 
@@ -190,7 +193,7 @@ STUB;
         self::assertEquals($content, \trim($phar->getStub())); // + trim because PHP adds newline char
     }
 
-    public function testExecuteUnknownDirectory()
+    public function testExecuteUnknownDirectory(): void
     {
         $this->checkReadonly();
 

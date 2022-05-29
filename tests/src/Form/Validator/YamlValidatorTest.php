@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\PHPCensor\Form\Validator;
 
 use PHPCensor\Form\Validator\Yaml;
@@ -7,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class YamlValidatorTest extends TestCase
 {
-    public function getDatasetSuccess()
+    public function getDatasetSuccess(): array
     {
         return [
             ["php-censor:\n    language: en\n    per_page: 10\n\n"],
@@ -16,7 +18,7 @@ class YamlValidatorTest extends TestCase
         ];
     }
 
-    public function getDatasetFail()
+    public function getDatasetFail(): array
     {
         return [
             ["php-censor:\n    language: en\n   per_page: 10\n\n"],
@@ -28,7 +30,7 @@ class YamlValidatorTest extends TestCase
     /**
      * @dataProvider getDatasetSuccess
      */
-    public function testYamlValidatorSuccess($value)
+    public function testYamlValidatorSuccess(string $value): void
     {
         $validator = new Yaml();
         $result = \call_user_func_array($validator, [$value]);
@@ -38,7 +40,7 @@ class YamlValidatorTest extends TestCase
     /**
      * @dataProvider getDatasetFail
      */
-    public function testYamlValidatorFail($value)
+    public function testYamlValidatorFail(string $value): void
     {
         $this->expectException('Exception');
         $validator = new Yaml();

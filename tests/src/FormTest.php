@@ -1,25 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\PHPCensor;
 
 use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Form;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\HttpFoundation\Session\Session;
 
 class FormTest extends TestCase
 {
-    public function testFormBasics()
+    public function testFormBasics(): void
     {
         $f = new Form();
         $f->setAction('/');
         $f->setMethod('POST');
 
-        self::assertTrue($f->getAction() == '/');
-        self::assertTrue($f->getMethod() == 'POST');
+        self::assertTrue($f->getAction() === '/');
+        self::assertTrue($f->getMethod() === 'POST');
     }
 
-    public function testElementBasics()
+    public function testElementBasics(): void
     {
         $f = new Form\Element\Text('element-name');
         $f->setId('element-id');
@@ -27,11 +28,11 @@ class FormTest extends TestCase
         $f->setClass('element-class');
         $f->setContainerClass('container-class');
 
-        self::assertTrue($f->getName() == 'element-name');
-        self::assertTrue($f->getId() == 'element-id');
-        self::assertTrue($f->getLabel() == 'element-label');
-        self::assertTrue($f->getClass() == 'element-class');
-        self::assertTrue($f->getContainerClass() == 'container-class');
+        self::assertTrue($f->getName() === 'element-name');
+        self::assertTrue($f->getId() === 'element-id');
+        self::assertTrue($f->getLabel() === 'element-label');
+        self::assertTrue($f->getClass() === 'element-class');
+        self::assertTrue($f->getContainerClass() === 'container-class');
 
         $output = $f->render();
 
@@ -40,22 +41,22 @@ class FormTest extends TestCase
         self::assertTrue(\strpos($output, 'container-class') !== false);
     }
 
-    public function testInputBasics()
+    public function testInputBasics(): void
     {
         $f = new Form\Element\Text();
 
         $f->setValue('input-value');
         $f->setRequired(true);
         $f->setValidator(function ($value) {
-            return ($value == 'input-value');
+            return ($value === 'input-value');
         });
 
-        self::assertTrue($f->getValue() == 'input-value');
-        self::assertTrue($f->getRequired() == true);
+        self::assertTrue($f->getValue() === 'input-value');
+        self::assertTrue($f->getRequired() === true);
         self::assertTrue(\is_callable($f->getValidator()));
     }
 
-    public function testInputCreate()
+    public function testInputCreate(): void
     {
         $text = Form\Element\Text::create(
             'input-name',
@@ -68,7 +69,7 @@ class FormTest extends TestCase
         self::assertTrue($text->getRequired());
     }
 
-    public function testInputValidation()
+    public function testInputValidation(): void
     {
         $f = new Form\Element\Text();
         $f->setRequired(true);
@@ -85,7 +86,7 @@ class FormTest extends TestCase
         self::assertTrue($f->validate());
 
         $f->setValidator(function ($item) {
-            if ($item != 'input-value') {
+            if ($item !== 'input-value') {
                 throw new RuntimeException('Invalid input value.');
             }
         });
@@ -98,7 +99,7 @@ class FormTest extends TestCase
         self::assertFalse($f->validate());
     }
 
-    public function testInputValidationWithCustomError()
+    public function testInputValidationWithCustomError(): void
     {
         $f = new Form\Element\Text();
         $f->setRequired(true);
@@ -108,7 +109,7 @@ class FormTest extends TestCase
         self::assertFalse($f->validate());
     }
 
-    public function testFieldSetBasics()
+    public function testFieldSetBasics(): void
     {
         $f  = new Form\FieldSet();
         $f2 = new Form\FieldSet('group');
@@ -136,9 +137,9 @@ class FormTest extends TestCase
         self::assertTrue(\array_key_exists('group', $values));
         self::assertTrue(\array_key_exists('one', $values['group']));
         self::assertTrue(\array_key_exists('three', $values));
-        self::assertTrue($values['group']['one'] == 'ONE');
-        self::assertTrue($values['group']['two'] == 'TWO');
-        self::assertTrue($values['three'] == 'THREE');
+        self::assertTrue($values['group']['one'] === 'ONE');
+        self::assertTrue($values['group']['two'] === 'TWO');
+        self::assertTrue($values['three'] === 'THREE');
         self::assertTrue($f->validate());
 
         $html = $f->render();
@@ -154,7 +155,7 @@ class FormTest extends TestCase
         self::assertEquals($f3, $child);
     }
 
-    public function testElements()
+    public function testElements(): void
     {
         $e = new Form\Element\Button();
         self::assertTrue($e->validate());
@@ -162,7 +163,7 @@ class FormTest extends TestCase
 
         $e = new Form\Element\Checkbox();
         $e->setCheckedValue('ten');
-        self::assertTrue($e->getCheckedValue() == 'ten');
+        self::assertTrue($e->getCheckedValue() === 'ten');
         self::assertTrue(\strpos($e->render(), 'checkbox') !== false);
         self::assertTrue(\strpos($e->render(), 'checked') === false);
 

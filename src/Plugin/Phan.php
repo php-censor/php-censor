@@ -142,11 +142,11 @@ class Phan extends Plugin
      */
     protected function severity($severity)
     {
-        if ($severity == 10) {
+        if ($severity === 10) {
             return BuildError::SEVERITY_CRITICAL;
         }
 
-        if ($severity == 5) {
+        if ($severity === 5) {
             return BuildError::SEVERITY_NORMAL;
         }
 

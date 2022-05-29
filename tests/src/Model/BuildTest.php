@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\PHPCensor\Model;
 
 use PHPCensor\Common\Exception\InvalidArgumentException;
@@ -22,9 +24,9 @@ use PHPCensor\Common\Application\ConfigurationInterface;
  */
 class BuildTest extends TestCase
 {
-    protected StoreRegistry $storeRegistry;
-    protected DatabaseManager $databaseManager;
-    protected ProjectService $projectService;
+    private StoreRegistry $storeRegistry;
+    private DatabaseManager $databaseManager;
+    private ProjectService $projectService;
 
     protected function setUp(): void
     {
@@ -46,7 +48,7 @@ class BuildTest extends TestCase
         $this->projectService = new ProjectService($this->storeRegistry, $projectStore);
     }
 
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $build = new Build($this->storeRegistry);
 
@@ -116,10 +118,10 @@ class BuildTest extends TestCase
         self::assertEquals(Build::SOURCE_WEBHOOK_PULL_REQUEST_CREATED, $build->getSource());
 
         try {
-            $build->setSource('5');
+            $build->setSource(50);
         } catch (InvalidArgumentException $e) {
-            self::assertEquals(
-                'Column "source" must be an int.',
+            self::assertStringStartsWith(
+                'Column "source" must be one of:',
                 $e->getMessage()
             );
         }
@@ -134,7 +136,7 @@ class BuildTest extends TestCase
         }
     }
 
-    public function testExecute_TestBaseBuildDefaults()
+    public function testExecute_TestBaseBuildDefaults(): void
     {
         $build = new Build($this->storeRegistry);
         self::assertEquals('#', $build->getCommitLink());
@@ -142,7 +144,7 @@ class BuildTest extends TestCase
         self::assertEquals(null, $build->getFileLinkTemplate());
     }
 
-    public function testExecute_TestIsSuccessful()
+    public function testExecute_TestIsSuccessful(): void
     {
         $build = new Build($this->storeRegistry);
         $build->setStatusPending();
@@ -158,7 +160,7 @@ class BuildTest extends TestCase
         self::assertTrue($build->isSuccessful());
     }
 
-    public function testExecute_TestBuildExtra()
+    public function testExecute_TestBuildExtra(): void
     {
         $info = [
             'item1' => 'Item One',
@@ -179,7 +181,7 @@ class BuildTest extends TestCase
         self::assertEquals('Item Three', $build->getExtra('item3'));
     }
 
-    public function testGitBuildLinks()
+    public function testGitBuildLinks(): void
     {
         $project = new Project($this->storeRegistry);
         $project->setType(Project::TYPE_GIT);
@@ -208,7 +210,7 @@ class BuildTest extends TestCase
         $this->assertEquals(null, $stub->getFileLinkTemplate());
     }
 
-    public function testGitHubBuildLinks()
+    public function testGitHubBuildLinks(): void
     {
         $project = new Project($this->storeRegistry);
         $project->setType(Project::TYPE_GITHUB);
@@ -255,7 +257,7 @@ class BuildTest extends TestCase
         );
     }
 
-    public function testGitlabBuildLinks()
+    public function testGitlabBuildLinks(): void
     {
         $project = new Project($this->storeRegistry);
         $project->setType(Project::TYPE_GITLAB);
@@ -294,7 +296,7 @@ class BuildTest extends TestCase
         );
     }
 
-    public function testGogsBuildLinks()
+    public function testGogsBuildLinks(): void
     {
         $project = new Project($this->storeRegistry);
         $project->setType(Project::TYPE_GOGS);
