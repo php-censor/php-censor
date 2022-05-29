@@ -7,7 +7,6 @@ namespace PHPCensor;
 use Exception;
 use PDO;
 use PHPCensor\Common\Exception\InvalidArgumentException;
-use PHPCensor\Exception\HttpException;
 
 /**
  * @package    PHP Censor
@@ -38,10 +37,6 @@ abstract class Store
 
     public function getById(int $id, string $useConnection = 'read'): ?Model
     {
-        if (\is_null($id)) {
-            throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
-        }
-
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{id}} = :id LIMIT 1';
         $stmt = $this->databaseManager->getConnection($useConnection)->prepare($query);
         $stmt->bindValue(':id', $id);

@@ -13,6 +13,14 @@
     bootstrap="./tests/bootstrap.php"
     xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
 >
+    <php>
+        <env name="MYSQL_USER" value="test_user" force="true" />
+        <env name="MYSQL_PASSWORD" value="test_password" force="true" />
+        <env name="MYSQL_DBNAME" value="test_db" force="true" />
+        <env name="POSTGRESQL_USER" value="test_user" force="true" />
+        <env name="POSTGRESQL_PASSWORD" value="test_password" force="true" />
+        <env name="POSTGRESQL_DBNAME" value="test_db" force="true" />
+    </php>
     <coverage processUncoveredFiles="true">
         <include>
             <directory suffix=".php">./src</directory>
