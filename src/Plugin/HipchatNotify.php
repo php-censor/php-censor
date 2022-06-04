@@ -40,12 +40,12 @@ class HipchatNotify extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        if (!\is_array($options) || !isset($options['room']) || (!isset($options['authToken']) && !isset($options['auth_token']))) {
+        if (!\is_array($options) || !isset($options['room']) || !isset($options['auth_token'])) {
             throw new InvalidArgumentException('Please define room and authToken for hipchat_notify plugin.');
         }
 
         if (\array_key_exists('auth_token', $options)) {
-            $this->authToken = $options['auth_token'];
+            $this->authToken = $this->builder->interpolate($options['auth_token']);
         }
 
         $this->room = $options['room'];

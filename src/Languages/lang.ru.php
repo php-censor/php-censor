@@ -172,6 +172,9 @@ PHP Censor',
     'webhooks_help_bitbucket' => 'Чтобы Автоматически собирать этот проект при публикации новых коммитов, добавьте URL ниже как "POST" сервис в разделе <a href="https://bitbucket.org/%s/admin/services">
                                   Services</a> вашего Bitbucket репозитория.',
 
+    // Secrets
+    'secrets' => 'Секреты',
+
     // Project Groups
     'group_projects' => 'Группы проектов',
     'project_group'  => 'Группа проекта',

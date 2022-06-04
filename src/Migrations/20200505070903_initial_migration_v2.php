@@ -158,7 +158,7 @@ final class InitialMigrationV2 extends AbstractMigration
             ->save();
 
         $projectGroups
-            ->addColumn('title', 'string', ['limit' => 100, 'null' => false])
+            ->addColumn('title', 'string', ['limit' => 100])
             ->addColumn('create_date', 'datetime')
             ->addColumn('user_id', 'integer', ['null' => true])
 

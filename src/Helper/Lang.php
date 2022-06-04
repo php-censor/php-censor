@@ -125,7 +125,7 @@ class Lang
         ConfigurationInterface $config,
         StoreRegistry $storeRegistry,
         ?string $languageForce = null,
-        ?string $sessionUserId = null
+        ?int $sessionUserId = null
     ) {
         self::$defaultStrings = self::loadLanguage(self::DEFAULT_LANGUAGE);
         self::loadAvailableLanguages();
@@ -138,7 +138,7 @@ class Lang
         if (!empty($sessionUserId)) {
             /** @var UserStore $userStore */
             $userStore = $storeRegistry->get('User');
-            $user      = $userStore->getById((int)$sessionUserId);
+            $user      = $userStore->getById($sessionUserId);
         }
 
         if ($user) {

@@ -43,7 +43,7 @@ class TelegramNotify extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        if (empty($options['auth_token']) && empty($options['api_key'])) {
+        if (empty($options['auth_token'])) {
             throw new InvalidArgumentException("Not setting telegram 'auth_token'");
         }
 
@@ -52,7 +52,7 @@ class TelegramNotify extends Plugin
         }
 
         if (\array_key_exists('auth_token', $options)) {
-            $this->authToken = $options['auth_token'];
+            $this->authToken = $this->builder->interpolate($options['auth_token']);
         }
 
         $this->message = '[%ICON_BUILD%] [%PROJECT_TITLE%](%PROJECT_LINK%)' .
@@ -82,11 +82,11 @@ class TelegramNotify extends Plugin
     {
         $message = $this->buildMessage();
         $client  = new Client();
-        $url     = '/bot'. $this->authToken . '/sendMessage';
+        $url     = '/bot' . $this->authToken . '/sendMessage';
 
         foreach ($this->recipients as $chatId) {
             $params = [
-                'chat_id'    => $chatId,
+                'chat_id'    => $this->builder->interpolate($chatId),
                 'text'       => $message,
                 'parse_mode' => 'Markdown',
             ];

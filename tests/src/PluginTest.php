@@ -9,6 +9,9 @@ use PHPCensor\Helper\BuildInterpolator;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 use PHPCensor\Store\BuildStore;
+use PHPCensor\Store\EnvironmentStore;
+use PHPCensor\Store\ProjectStore;
+use PHPCensor\Store\SecretStore;
 use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -103,7 +106,17 @@ class PluginTest extends TestCase
             ->method('getCommitId')
             ->willReturn('commit_hash');
 
-        $interpolator = new BuildInterpolator($this->storeRegistry);
+        $secretStore = $this
+            ->getMockBuilder(SecretStore::class)
+            ->setConstructorArgs([$databaseManager, $this->storeRegistry])
+            ->getMock();
+
+        $environmentStore = $this
+            ->getMockBuilder(EnvironmentStore::class)
+            ->setConstructorArgs([$databaseManager, $this->storeRegistry])
+            ->getMock();
+
+        $interpolator = new BuildInterpolator($environmentStore, $secretStore);
         $interpolator->setupInterpolationVars($this->build, 'http://php-censor.local/', '1.0.0');
 
         $this->builder

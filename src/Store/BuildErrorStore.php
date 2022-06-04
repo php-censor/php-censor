@@ -21,7 +21,7 @@ class BuildErrorStore extends Store
 {
     protected string $tableName = 'build_errors';
 
-    protected string $modelName = '\PHPCensor\Model\BuildError';
+    protected string $modelName = BuildError::class;
 
     /**
      * Get multiple BuildError by BuildId.

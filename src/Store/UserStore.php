@@ -20,7 +20,7 @@ class UserStore extends Store
 {
     protected string $tableName = 'users';
 
-    protected string $modelName = '\PHPCensor\Model\User';
+    protected string $modelName = User::class;
 
     /**
      * Get a single User by Email.

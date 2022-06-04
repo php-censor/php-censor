@@ -15,6 +15,7 @@ use PHPCensor\Service\UserService;
 use PHPCensor\Store\UserStore;
 use PHPCensor\View;
 use PHPCensor\WebController;
+use PHPCensor\Form\Element\Csrf;
 
 /**
  * @package    PHP Censor
@@ -95,7 +96,7 @@ class UserController extends WebController
         $form->setAction(APP_URL . 'user/profile');
         $form->setMethod('POST');
 
-        $form->addField(new Form\Element\Csrf('profile_form'));
+        $form->addField(new Csrf($this->session, 'profile_form'));
 
         $name = new Form\Element\Text('name');
         $name->setClass('form-control');
@@ -280,7 +281,7 @@ class UserController extends WebController
         $form->setMethod('POST');
         $form->setAction(APP_URL . 'user/' . $type);
 
-        $form->addField(new Form\Element\Csrf('user_form'));
+        $form->addField(new Csrf($this->session, 'user_form'));
 
         $field = new Form\Element\Email('email');
         $field->setRequired(true);

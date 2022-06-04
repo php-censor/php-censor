@@ -6,6 +6,8 @@ namespace Tests\PHPCensor\Helper;
 
 use PHPCensor\Helper\BuildInterpolator;
 use PHPCensor\Model\Build;
+use PHPCensor\Store\EnvironmentStore;
+use PHPCensor\Store\SecretStore;
 use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -33,7 +35,17 @@ class BuildInterpolatorTest extends TestCase
             ->setConstructorArgs([$databaseManager])
             ->getMock();
 
-        $this->testedInterpolator = new BuildInterpolator($this->storeRegistry);
+        $secretStore = $this
+            ->getMockBuilder(SecretStore::class)
+            ->setConstructorArgs([$databaseManager, $this->storeRegistry])
+            ->getMock();
+
+        $environmentStore = $this
+            ->getMockBuilder(EnvironmentStore::class)
+            ->setConstructorArgs([$databaseManager, $this->storeRegistry])
+            ->getMock();
+
+        $this->testedInterpolator = new BuildInterpolator($environmentStore, $secretStore);
     }
 
     public function testInterpolate_LeavesStringsUnchangedByDefault(): void

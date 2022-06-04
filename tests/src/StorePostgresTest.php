@@ -64,6 +64,7 @@ class StorePostgresTest extends TestCase
             $this->connection->exec('DROP TABLE IF EXISTS "environments"');
             $this->connection->exec('DROP TABLE IF EXISTS "projects"');
             $this->connection->exec('DROP TABLE IF EXISTS "project_groups"');
+            $this->connection->exec('DROP TABLE IF EXISTS "secrets"');
             $this->connection->exec('DROP TABLE IF EXISTS "users"');
 
             $phinxSettings = [
@@ -139,6 +140,7 @@ class StorePostgresTest extends TestCase
             $this->connection->exec('DROP TABLE IF EXISTS "environments"');
             $this->connection->exec('DROP TABLE IF EXISTS "projects"');
             $this->connection->exec('DROP TABLE IF EXISTS "project_groups"');
+            $this->connection->exec('DROP TABLE IF EXISTS "secrets"');
             $this->connection->exec('DROP TABLE IF EXISTS "users"');
 
             $this->connection = null;

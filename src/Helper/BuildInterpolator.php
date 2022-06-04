@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PHPCensor\Helper;
 
 use Exception;
-use PHPCensor\Model\Build as BaseBuild;
+use PHPCensor\Model\Build;
 use PHPCensor\Store\EnvironmentStore;
-use PHPCensor\StoreRegistry;
+use PHPCensor\Store\SecretStore;
 
 /**
  * The BuildInterpolator class replaces variables in a string with build-specific information.
@@ -27,27 +29,28 @@ class BuildInterpolator
      */
     private array $interpolationVars = [];
 
-    private StoreRegistry $storeRegistry;
+    private EnvironmentStore $environmentStore;
+    private SecretStore $secretStore;
 
-    public function __construct(StoreRegistry $storeRegistry)
-    {
-        $this->storeRegistry = $storeRegistry;
+    public function __construct(
+        EnvironmentStore $environmentStore,
+        SecretStore $secretStore
+    ) {
+        $this->environmentStore = $environmentStore;
+        $this->secretStore      = $secretStore;
     }
 
     /**
      * Sets the variables that will be used for interpolation.
      *
-     * @param string $url
-     * @param string $applicationVersion
-     *
      * @throws Exception
      */
-    public function setupInterpolationVars(BaseBuild $build, $url, $applicationVersion)
+    public function setupInterpolationVars(Build $build, string $url, string $applicationVersion): void
     {
         $this->interpolationVars = [];
 
         $this->interpolationVars['%COMMIT_ID%']       = $build->getCommitId();
-        $this->interpolationVars['%SHORT_COMMIT_ID%'] = \substr($build->getCommitId(), 0, 7);
+        $this->interpolationVars['%SHORT_COMMIT_ID%'] = \substr((string)$build->getCommitId(), 0, 7);
         $this->interpolationVars['%PROJECT_ID%']      = $build->getProjectId();
         $this->interpolationVars['%BUILD_ID%']        = $build->getId();
         $this->interpolationVars['%COMMITTER_EMAIL%'] = $build->getCommitterEmail();
@@ -63,9 +66,7 @@ class BuildInterpolator
         $environmentId = $build->getEnvironmentId();
         $environment   = null;
         if ($environmentId) {
-            /** @var EnvironmentStore $environmentStore */
-            $environmentStore  = $this->storeRegistry->get('Environment');
-            $environmentObject = $environmentStore->getById($environmentId);
+            $environmentObject = $this->environmentStore->getById($environmentId);
             if ($environmentObject) {
                 $environment = $environmentObject->getName();
             }
@@ -92,12 +93,7 @@ class BuildInterpolator
         \putenv('PHP_CENSOR_SYSTEM_VERSION=' . $this->interpolationVars['%SYSTEM_VERSION%']);
     }
 
-    /**
-     * @param string $input
-     *
-     * @return string
-     */
-    private function realtimeInterpolate($input)
+    private function realtimeInterpolate(string $input): string
     {
         $input = \str_replace('%CURRENT_DATE%', \date('Y-m-d'), $input);
         $input = \str_replace('%CURRENT_TIME%', \date('H-i-s'), $input);
@@ -105,16 +101,30 @@ class BuildInterpolator
         return \str_replace('%CURRENT_DATETIME%', \date('Y-m-d_H-i-s'), $input);
     }
 
+    private function secretInterpolate(string $input): string
+    {
+        \preg_match_all('#%SECRET:(.+?)%#', $input, $matches);
+        if (!empty($matches[0])) {
+            $secrets = $this->secretStore->getByNames($matches[1]);
+            $finalSecrets = [];
+
+            foreach ($matches[0] as $index => $match) {
+                $finalSecrets[$index] = $secrets[$matches[1][$index]]->getValue();
+            }
+
+            $input = \str_replace($matches[0], $finalSecrets, $input);
+        }
+
+        return $input;
+    }
+
     /**
      * Replace every occurrence of the interpolation vars in the given string
      * Example: "This is build %BUILD_ID%" => "This is build 182"
-     *
-     * @param string $input
-     *
-     * @return string
      */
-    public function interpolate($input)
+    public function interpolate(string $input): string
     {
+        $input = $this->secretInterpolate($input);
         $input = $this->realtimeInterpolate($input);
 
         $keys   = \array_keys($this->interpolationVars);

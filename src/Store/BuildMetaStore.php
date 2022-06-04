@@ -20,7 +20,7 @@ class BuildMetaStore extends Store
 {
     protected string $tableName = 'build_metas';
 
-    protected string $modelName = '\PHPCensor\Model\BuildMeta';
+    protected string $modelName = BuildMeta::class;
 
     /**
      * @throws HttpException

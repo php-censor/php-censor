@@ -39,11 +39,14 @@ abstract class Store
     {
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{id}} = :id LIMIT 1';
         $stmt = $this->databaseManager->getConnection($useConnection)->prepare($query);
-        $stmt->bindValue(':id', $id);
 
-        if ($stmt->execute()) {
-            if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                return new $this->modelName($this->storeRegistry, $data);
+        if ($stmt) {
+            $stmt->bindValue(':id', $id);
+
+            if ($stmt->execute()) {
+                if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                    return new $this->modelName($this->storeRegistry, $data);
+                }
             }
         }
 

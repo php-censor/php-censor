@@ -178,6 +178,17 @@ PHP Censor',
                                 <a href="https://bitbucket.org/%s/admin/services">
                                 Services</a> section of your Bitbucket repository.',
 
+    // Secrets
+    'secrets'         => 'Secrets',
+    'secret'          => 'Secret',
+    'secret_edit'     => 'Edit',
+    'secret_delete'   => 'Delete',
+    'secret_add'      => 'Add Secret',
+    'secret_add_edit' => 'Add / Edit Secret',
+    'secret_name'     => 'Secret Name',
+    'secret_value'    => 'Secret Value',
+    'secret_save'     => 'Save Secret',
+
     // Project Groups
     'group_projects' => 'Project groups',
     'project_group'  => 'Project group',

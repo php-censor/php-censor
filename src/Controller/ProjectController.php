@@ -24,6 +24,7 @@ use PHPCensor\Helper\Branch;
 use PHPCensor\Store\EnvironmentStore;
 use PHPCensor\Common\Exception\RuntimeException;
 use Symfony\Component\HttpFoundation\Response;
+use PHPCensor\Form\Element\Csrf;
 
 /**
  * @package    PHP Censor
@@ -505,7 +506,7 @@ class ProjectController extends WebController
         $form->setMethod('POST');
         $form->setAction(APP_URL . 'project/' . $type);
 
-        $form->addField(new Form\Element\Csrf('project_form'));
+        $form->addField(new Csrf($this->session, 'project_form'));
         $form->addField(new Form\Element\Hidden('ssh_public_key'));
 
         $options = [

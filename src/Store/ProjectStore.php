@@ -21,7 +21,7 @@ class ProjectStore extends Store
 {
     protected string $tableName = 'projects';
 
-    protected string $modelName = '\PHPCensor\Model\Project';
+    protected string $modelName = Project::class;
 
     /**
      * Get a single Project by Ids.

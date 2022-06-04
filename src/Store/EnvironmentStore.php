@@ -20,7 +20,7 @@ class EnvironmentStore extends Store
 {
     protected string $tableName = 'environments';
 
-    protected string $modelName = '\PHPCensor\Model\Environment';
+    protected string $modelName = Environment::class;
 
     /**
      * Get a single Environment by Name.
