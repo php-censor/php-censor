@@ -11,6 +11,12 @@ jobs:
                 php-version: ['7.4', '8.0', '8.1']
 
         steps:
+            - name: Setup MySQL latest
+              run: docker run --rm --name=mysqld -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=test_db -p 3306:3306 -d mysql --default-authentication-plugin=mysql_native_password
+
+            - name: Setup PostgreSQL latest
+              run: docker run --rm --name=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=test_db -p 5432:5432 -d postgres
+
             - uses: actions/checkout@v2
 
             - name: Setup PHP
@@ -39,6 +45,10 @@ jobs:
 
             - name: Run tests
               run: |
+                  export POSTGRESQL_USER='postgres';
+                  export POSTGRESQL_PASSWORD='postgres';
+                  export MYSQL_USER='root';
+                  export MYSQL_PASSWORD='root';
                   if [[ ${{ matrix.php-version }} == '7.4' ]]; then
                       export CODECOVERAGE=1 && vendor/bin/phpunit --verbose --coverage-clover=coverage.xml
                   else
