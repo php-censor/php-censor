@@ -77,7 +77,7 @@ class BitbucketNotify extends Plugin
         $this->updateBuild       = $options['update_build'];
 
         if (\array_key_exists('auth_token', $options)) {
-            $this->authToken = $options['auth_token'];
+            $this->authToken = $this->builder->interpolate($options['auth_token']);
         }
 
         if (empty($this->message)) {

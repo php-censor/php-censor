@@ -43,20 +43,7 @@ class BuilderTest extends TestCase
             ->setConstructorArgs([$configuration])
             ->getMock();
 
-        $storeRegistry = $this
-            ->getMockBuilder(StoreRegistry::class)
-            ->setConstructorArgs([$databaseManager])
-            ->getMock();
-
-        $buildStore = $this
-            ->getMockBuilder(BuildStore::class)
-            ->setConstructorArgs([$databaseManager, $storeRegistry])
-            ->getMock();
-
-        $storeRegistry
-            ->method('get')
-            ->with('Build')
-            ->willReturn($buildStore);
+        $storeRegistry = new StoreRegistry($databaseManager);
 
         $project = $this
             ->getMockBuilder(Project::class)

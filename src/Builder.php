@@ -15,6 +15,8 @@ use PHPCensor\Plugin\Util\Executor;
 use PHPCensor\Plugin\Util\Factory as PluginFactory;
 use PHPCensor\Store\BuildErrorWriter;
 use PHPCensor\Store\BuildStore;
+use PHPCensor\Store\EnvironmentStore;
+use PHPCensor\Store\SecretStore;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use PHPCensor\Common\Application\ConfigurationInterface;
@@ -84,7 +86,12 @@ class Builder
         $this->build = $build;
 
         /** @var BuildStore $buildStore */
-        $buildStore  = $this->storeRegistry->get('Build');
+        $buildStore = $this->storeRegistry->get('Build');
+        /** @var SecretStore $secretStore */
+        $secretStore = $this->storeRegistry->get('Secret');
+        /** @var EnvironmentStore $environmentStore */
+        $environmentStore = $this->storeRegistry->get('Environment');
+
         $this->store = $buildStore;
 
         $pluginFactory     = new PluginFactory($this, $build);
@@ -103,7 +110,7 @@ class Builder
             $this->verbose
         );
 
-        $this->interpolator     = new BuildInterpolator($this->storeRegistry);
+        $this->interpolator     = new BuildInterpolator($environmentStore, $secretStore);
         $this->buildErrorWriter = new BuildErrorWriter(
             $this->configuration,
             $this->databaseManager,

@@ -13,6 +13,7 @@ use PHPCensor\Model\ProjectGroup;
 use PHPCensor\Model\User;
 use PHPCensor\Store\ProjectGroupStore;
 use PHPCensor\WebController;
+use PHPCensor\Form\Element\Csrf;
 
 /**
  * @package    PHP Censor
@@ -92,7 +93,7 @@ class GroupController extends WebController
 
             $this->groupStore->save($group);
 
-            $response = new RedirectResponse(APP_URL.'group');
+            $response = new RedirectResponse(APP_URL . 'group');
 
             return $response;
         }
@@ -102,7 +103,7 @@ class GroupController extends WebController
         $form->setMethod('POST');
         $form->setAction(APP_URL . 'group/edit' . (!\is_null($groupId) ? '/' . $groupId : ''));
 
-        $form->addField(new Form\Element\Csrf('group_form'));
+        $form->addField(new Csrf($this->session, 'group_form'));
 
         $title = new Form\Element\Text('title');
         $title->setContainerClass('form-group');
@@ -133,8 +134,7 @@ class GroupController extends WebController
         $group = $this->groupStore->getById($groupId);
 
         $this->groupStore->delete($group);
-        $response = new RedirectResponse(APP_URL.'group');
 
-        return $response;
+        return new RedirectResponse(APP_URL . 'group');
     }
 }

@@ -134,7 +134,6 @@ if (!Function.prototype.bind) {
  */
 function confirmDelete(url, reloadAfter)
 {
-
     var dialog = new PHPCensorConfirmDialog({
         title: Lang.get('confirm_title'),
         message: Lang.get('confirm_message'),

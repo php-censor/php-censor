@@ -10,6 +10,8 @@ use PHPCensor\Model\Build;
 use PHPCensor\Model\Project;
 use PHPCensor\Plugin;
 use PHPCensor\Plugin\EmailNotify as EmailPlugin;
+use PHPCensor\Store\EnvironmentStore;
+use PHPCensor\Store\SecretStore;
 use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 use PHPCensor\Common\Application\ConfigurationInterface;
@@ -91,7 +93,18 @@ class EmailTest extends TestCase
 
         $this->builder->buildPath = "/";
 
-        $interpolator = new BuildInterpolator($this->storeRegistry);
+        $secretStore = $this
+            ->getMockBuilder(SecretStore::class)
+            ->setConstructorArgs([$databaseManager, $this->storeRegistry])
+            ->getMock();
+
+        $environmentStore = $this
+            ->getMockBuilder(EnvironmentStore::class)
+            ->setConstructorArgs([$databaseManager, $this->storeRegistry])
+            ->getMock();
+
+        $interpolator = new BuildInterpolator($environmentStore, $secretStore);
+
         $this->builder->expects($this->any())
             ->method('interpolate')
             ->will($this->returnCallback(function () use ($self, $interpolator) {

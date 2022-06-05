@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PHPCensor\Store;
 
+use PHPCensor\Model\WebhookRequest;
 use PHPCensor\Store;
 
 /**
@@ -16,5 +17,5 @@ class WebhookRequestStore extends Store
 {
     protected string $tableName = 'webhook_requests';
 
-    protected string $modelName = '\PHPCensor\Model\WebhookRequest';
+    protected string $modelName = WebhookRequest::class;
 }

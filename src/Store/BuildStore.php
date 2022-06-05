@@ -23,7 +23,7 @@ class BuildStore extends Store
 {
     protected string $tableName = 'builds';
 
-    protected string $modelName = '\PHPCensor\Model\Build';
+    protected string $modelName = Build::class;
 
     /**
      * Get multiple Build by ProjectId.
@@ -467,12 +467,14 @@ class BuildStore extends Store
 
         $stmt = $this->databaseManager->getConnection('read')->prepare($query);
 
-        $stmt->bindValue(':build_id', $buildId);
+        if ($stmt) {
+            $stmt->bindValue(':build_id', $buildId);
 
-        if ($stmt->execute()) {
-            $res = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($stmt->execute()) {
+                $res = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            return (int)$res['total'];
+                return (int)$res['total'];
+            }
         }
 
         return 0;
@@ -526,12 +528,14 @@ LIMIT 1';
 
         $stmt = $this->databaseManager->getConnection('read')->prepare($query);
 
-        $stmt->bindValue(':build_id', $buildId, PDO::PARAM_INT);
-        $stmt->bindValue(':project_id', $projectId, PDO::PARAM_INT);
-        $stmt->bindValue(':branch', $branch, PDO::PARAM_STR);
+        if ($stmt) {
+            $stmt->bindValue(':build_id', $buildId, PDO::PARAM_INT);
+            $stmt->bindValue(':project_id', $projectId, PDO::PARAM_INT);
+            $stmt->bindValue(':branch', $branch, PDO::PARAM_STR);
 
-        if ($stmt->execute()) {
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if ($stmt->execute()) {
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            }
         }
 
         return [];
@@ -555,12 +559,14 @@ LIMIT 1';
 
         $stmt = $this->databaseManager->getConnection('read')->prepare($query);
 
-        $stmt->bindValue(':build_id', $buildId, PDO::PARAM_INT);
-        $stmt->bindValue(':project_id', $projectId, PDO::PARAM_INT);
-        $stmt->bindValue(':branch', $branch, PDO::PARAM_STR);
+        if ($stmt) {
+            $stmt->bindValue(':build_id', $buildId, PDO::PARAM_INT);
+            $stmt->bindValue(':project_id', $projectId, PDO::PARAM_INT);
+            $stmt->bindValue(':branch', $branch, PDO::PARAM_STR);
 
-        if ($stmt->execute()) {
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if ($stmt->execute()) {
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            }
         }
 
         return [];

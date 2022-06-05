@@ -2,24 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Tests\PHPCensor;
+namespace Tests\PHPCensor\Store;
 
 use Phinx\Config\Config as PhinxConfig;
 use Phinx\Console\Command\Migrate;
 use PHPCensor\ArrayConfiguration;
-use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\DatabaseManager;
-use PHPCensor\Model\Project;
-use PHPCensor\Model\ProjectGroup;
+use PHPCensor\Model\Secret;
 use PHPCensor\Store;
-use PHPCensor\Store\ProjectGroupStore;
+use PHPCensor\Store\SecretStore;
 use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class StorePostgresTest extends TestCase
+class SecretStorePostgresTest extends TestCase
 {
     private ?\PDO $connection = null;
 
@@ -103,14 +101,14 @@ class StorePostgresTest extends TestCase
             ");
 
             $this->connection->exec("
-                INSERT INTO \"project_groups\" (\"title\", \"create_date\", \"user_id\") VALUES
-                ('group 1', '2014-01-01 01:01:00', 1),
-                ('group 2', '2015-01-01 01:01:00', 1),
-                ('group 3', '2016-01-01 01:01:00', 1),
-                ('group 4', '2017-01-01 01:01:00', 1),
-                ('group 5', '2018-01-01 01:01:00', 2),
-                ('group 6', '2018-02-01 01:01:00', 3),
-                ('group 7', '2018-03-01 01:01:00', 4)
+                INSERT INTO \"secrets\" (\"name\", \"value\", \"create_date\", \"user_id\") VALUES
+                ('secret 1', 'value 1', '2014-01-01 01:01:00', 1),
+                ('secret 2', 'value 2', '2015-01-01 01:01:00', 1),
+                ('secret 3', 'value 3', '2016-01-01 01:01:00', 1),
+                ('secret 4', 'value 4', '2017-01-01 01:01:00', 1),
+                ('secret 5', 'value 5', '2018-01-01 01:01:00', 2),
+                ('secret 6', 'value 6', '2018-02-01 01:01:00', 3),
+                ('secret 7', 'value 7', '2018-03-01 01:01:00', 4)
             ");
         } catch (\Throwable $e) {
             //var_dump($e);
@@ -124,7 +122,7 @@ class StorePostgresTest extends TestCase
         $databaseManager     = new DatabaseManager($configuration);
         $this->storeRegistry = new StoreRegistry($databaseManager);
 
-        $this->store = new ProjectGroupStore($databaseManager, $this->storeRegistry);
+        $this->store = new SecretStore($databaseManager, $this->storeRegistry);
     }
 
     protected function tearDown(): void
@@ -156,134 +154,29 @@ class StorePostgresTest extends TestCase
         return $this->connection;
     }
 
-    public function testGetByIdSuccess(): void
+    public function testGetByNamesSuccess(): void
     {
-        /** @var ProjectGroup $newModel */
-        $model = $this->store->getById(4);
+        /** @var Secret[] $result */
+        $result = $this->store->getByNames(['secret 2', 'secret 5']);
 
-        self::assertInstanceOf(ProjectGroup::class, $model);
-        self::assertEquals(4, $model->getId());
-        self::assertEquals('group 4', $model->getTitle());
-        self::assertEquals(1, $model->getUserId());
+        self::assertCount(2, $result);
+
+        self::assertInstanceOf(Secret::class, $result['secret 2']);
+        self::assertEquals('secret 2', $result['secret 2']->getName());
+        self::assertEquals('value 2', $result['secret 2']->getValue());
+        self::assertEquals(1, $result['secret 2']->getUserId());
+
+        self::assertInstanceOf(Secret::class, $result['secret 5']);
+        self::assertEquals('secret 5', $result['secret 5']->getName());
+        self::assertEquals('value 5', $result['secret 5']->getValue());
+        self::assertEquals(2, $result['secret 5']->getUserId());
     }
 
     public function testGetByIdFailed(): void
     {
-        /** @var ProjectGroup $newModel */
-        $model = $this->store->getById(10);
+        /** @var Secret[] $result */
+        $result = $this->store->getByNames(['secret 20', 'secret 50']);
 
-        self::assertEquals(null, $model);
-    }
-
-    public function testGetWhere(): void
-    {
-        $data = $this->store->getWhere([], 3, 1, ['id' => 'DESC']);
-        self::assertEquals(7, $data['count']);
-        self::assertEquals(3, \count($data['items']));
-
-        self::assertEquals(6, $data['items'][0]->getId());
-        self::assertEquals(5, $data['items'][1]->getId());
-        self::assertEquals(4, $data['items'][2]->getId());
-
-        $data = $this->store->getWhere(['project_groups.user_id' => 1], 100, 0, ['id' => 'ASC']);
-        self::assertEquals(4, $data['count']);
-        self::assertEquals(4, \count($data['items']));
-
-        self::assertEquals(1, $data['items'][0]->getId());
-        self::assertEquals(2, $data['items'][1]->getId());
-        self::assertEquals(3, $data['items'][2]->getId());
-        self::assertEquals(4, $data['items'][3]->getId());
-
-        try {
-            $data = $this->store->getWhere(['' => 0], 100, 0, ['id' => 'ASC']);
-        } catch (InvalidArgumentException $e) {
-            self::assertEquals('You cannot have an empty field name.', $e->getMessage());
-        }
-
-        try {
-            $data = $this->store->getWhere(['unknown' => 0], 1, 0, ['id' => 'ASC']);
-        } catch (\PDOException $e) {
-            self::assertInstanceOf('\PDOException', $e);
-        }
-    }
-
-    public function testSaveByInsert()
-    {
-        $model = new ProjectGroup($this->storeRegistry);
-
-        $model->setTitle('group 8');
-        $model->setCreateDate(new \DateTime());
-        $model->setUserId(1);
-
-        $this->store->save($model);
-
-        /** @var ProjectGroup $newModel */
-        $newModel = $this->store->getById(8);
-
-        self::assertEquals(8, $newModel->getId());
-        self::assertEquals('group 8', $newModel->getTitle());
-        self::assertEquals(1, $newModel->getUserId());
-    }
-
-    public function testSaveByUpdate()
-    {
-        $model = $this->store->getById(7);
-        $model->setTitle('group 100');
-
-        $this->store->save($model);
-        $newModel = $this->store->getById(7);
-
-        self::assertEquals(7, $newModel->getId());
-        self::assertEquals('group 100', $newModel->getTitle());
-
-        // Without changes
-        $model = $this->store->getById(6);
-
-        $this->store->save($model);
-
-        $newModel = $this->store->getById(6);
-
-        self::assertEquals(6, $newModel->getId());
-        self::assertEquals('group 6', $newModel->getTitle());
-
-        // Wrong Model
-        try {
-            $model = new Project($this->storeRegistry);
-            $model->setId(10);
-            $model->setCreateDate(new \DateTime());
-            $model->setUserId(1);
-
-            $this->store->save($model);
-        } catch (InvalidArgumentException $e) {
-            self::assertEquals(
-                'PHPCensor\Model\Project is an invalid model type for this store.',
-                $e->getMessage()
-            );
-        }
-    }
-
-    public function testDelete()
-    {
-        $model = $this->store->getById(5);
-        $this->store->delete($model);
-
-        $newModel = $this->store->getById(5);
-
-        self::assertEquals(null, $newModel);
-
-        // Wrong Model
-        try {
-            $model = new Project($this->storeRegistry);
-            $model->setId(20);
-            $model->setCreateDate(new \DateTime());
-            $model->setUserId(5);
-
-            $this->store->delete($model);
-        } catch (InvalidArgumentException $e) {
-            self::assertEquals(
-                'PHPCensor\Model\Project is an invalid model type for this store.',
-                $e->getMessage()
-            );
-        }
+        self::assertCount(0, $result);
     }
 }

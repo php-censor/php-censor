@@ -44,12 +44,12 @@ class FlowdockNotify extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        if (!\is_array($options) || (!isset($options['api_key']) && !isset($options['auth_token']))) {
+        if (empty($options['auth_token'])) {
             throw new InvalidArgumentException('Please define the "auth_token" for Flowdock Notify plugin!');
         }
 
         if (\array_key_exists('auth_token', $options)) {
-            $this->authToken = $options['auth_token'];
+            $this->authToken = $this->builder->interpolate($options['auth_token']);
         }
 
         $this->message = isset($options['message']) ? $options['message'] : self::MESSAGE_DEFAULT;

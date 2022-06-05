@@ -38,6 +38,9 @@ class Input extends Element
 
     protected ?DataTransformerInterface $dataTransformer = null;
 
+    /**
+     * @return static
+     */
     public static function create(string $name, string $label, bool $required = false): self
     {
         $el = new static();

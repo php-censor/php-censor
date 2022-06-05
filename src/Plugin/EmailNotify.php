@@ -92,14 +92,14 @@ class EmailNotify extends Plugin
     {
         $email = new EmailHelper($this->builder->getConfiguration());
 
-        $email->setEmailTo($toAddress, $toAddress);
-        $email->setSubject($subject);
-        $email->setBody($body);
+        $email->setEmailTo($this->builder->interpolate($toAddress), $this->builder->interpolate($toAddress));
+        $email->setSubject($this->builder->interpolate($subject));
+        $email->setBody($this->builder->interpolate($body));
         $email->setHtml(true);
 
         if (\is_array($ccList) && \count($ccList)) {
             foreach ($ccList as $address) {
-                $email->addCc($address, $address);
+                $email->addCc($this->builder->interpolate($address), $this->builder->interpolate($address));
             }
         }
 

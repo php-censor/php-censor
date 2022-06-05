@@ -19,7 +19,7 @@ class ProjectGroupStore extends Store
 {
     protected string $tableName = 'project_groups';
 
-    protected string $modelName = '\PHPCensor\Model\ProjectGroup';
+    protected string $modelName = ProjectGroup::class;
 
     /**
      * Get a single ProjectGroup by title.
