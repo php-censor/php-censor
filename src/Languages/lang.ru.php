@@ -173,7 +173,15 @@ PHP Censor',
                                   Services</a> вашего Bitbucket репозитория.',
 
     // Secrets
-    'secrets' => 'Секреты',
+    'secrets'         => 'Секреты',
+    'secret'          => 'Секрет',
+    'secret_edit'     => 'Редактировать',
+    'secret_delete'   => 'Удалить',
+    'secret_add'      => 'Добавить секрет',
+    'secret_add_edit' => 'Добавить / изменить секрет',
+    'secret_name'     => 'Название секрета',
+    'secret_value'    => 'Значение секрета',
+    'secret_save'     => 'Сохранить секрет',
 
     // Project Groups
     'group_projects' => 'Группы проектов',
