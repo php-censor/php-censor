@@ -5,6 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [2.0.8 (Rick Sanchez)](https://github.com/php-censor/php-censor/tree/2.0.8) (2022-06-08)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/2.0.7...2.0.8)
+
+### Fixed
+
+- Updated dependencies. Fixed:
+  - `guzzlehttp/guzzle` (6.5.5) | CVE-2022-29248: Cross-domain cookie leakage | https://github.com/guzzle/guzzle/security/advisories/GHSA-cwmx-hcrq-mhc3.
+
+  - `guzzlehttp/psr7` (1.8.3) | CVE-2022-24775: Inproper parsing of HTTP headers | https://github.com/guzzle/psr7/security/advisories/GHSA-q7rv-6hp3-vh96.
+
+
 ## [2.0.7 (Rick Sanchez)](https://github.com/php-censor/php-censor/tree/2.0.7) (2022-01-19)
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/2.0.6...2.0.7)
