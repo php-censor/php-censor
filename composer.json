@@ -98,5 +98,10 @@
         "platform": {
             "php": "7.4.*"
         }
+    },
+    "config": {
+        "allow-plugins": {
+            "infection/extension-installer": true
+        }
     }
 }
