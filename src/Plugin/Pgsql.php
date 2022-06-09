@@ -123,7 +123,7 @@ class Pgsql extends Plugin
             foreach ($this->queries as $query) {
                 $pdo->query($query);
             }
-        } catch (Exception $ex) {
+        } catch (\Throwable $ex) {
             $this->builder->logFailure($ex->getMessage());
 
             return false;

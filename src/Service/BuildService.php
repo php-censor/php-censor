@@ -184,7 +184,7 @@ class BuildService
 
             try {
                 $interval = new DateInterval($projectConfig['interval']);
-            } catch (Exception $e) {
+            } catch (\Throwable $e) {
                 $logger->error(
                     \sprintf(
                         'Invalid datetime interval for project #%s! Exception: %s',
@@ -310,7 +310,7 @@ class BuildService
                     $fileSystem->remove($projectPath);
                 }
             }
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
         }
     }
 
@@ -366,7 +366,7 @@ class BuildService
                     PheanstalkInterface::DEFAULT_DELAY,
                     $this->configuration->get('php-censor.queue.lifetime', 600)
                 );
-            } catch (Exception $ex) {
+            } catch (\Throwable $ex) {
                 $this->queueError = true;
             }
         }

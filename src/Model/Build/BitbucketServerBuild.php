@@ -133,7 +133,7 @@ class BitbucketServerBuild extends GitBuild
 
                 $skipGitFinalization = true;
             }
-        } catch (Exception $ex) {
+        } catch (\Throwable $ex) {
             $success = false;
         }
 

@@ -242,7 +242,7 @@ class Executor
             $obj->setStoreRegistry($this->storeRegistry);
 
             return $obj->execute();
-        } catch (Exception $ex) {
+        } catch (\Throwable $ex) {
             $this->logger->logFailure('Exception: ' . $ex->getMessage(), $ex);
 
             return false;

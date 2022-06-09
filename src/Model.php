@@ -101,7 +101,7 @@ class Model
                 }
                 try {
                     return new DateTime($value);
-                } catch (Exception $e) {
+                } catch (\Throwable $e) {
                     return null;
                 }
 

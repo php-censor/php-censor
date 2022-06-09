@@ -26,9 +26,7 @@ class Xml
 
         try {
             $xml = \simplexml_load_file('php://filter/read=xml_utf8_clean/resource=' . $filePath);
-        } catch (Exception $ex) {
-            $xml = null;
-        } catch (\Throwable $ex) { // since php7
+        } catch (\Throwable $ex) {
             $xml = null;
         }
 

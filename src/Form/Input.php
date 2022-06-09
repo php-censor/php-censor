@@ -140,7 +140,7 @@ class Input extends Element
         if (\is_callable($validator)) {
             try {
                 \call_user_func_array($validator, [$this->getValue()]);
-            } catch (Exception $ex) {
+            } catch (\Throwable $ex) {
                 $this->error = $ex->getMessage();
 
                 return false;

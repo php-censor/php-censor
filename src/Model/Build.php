@@ -438,7 +438,7 @@ class Build extends BaseBuild
                 $fileSystem->remove(PUBLIC_DIR . 'artifacts/pdepend/' . $buildDirectory);
                 $fileSystem->remove(PUBLIC_DIR . 'artifacts/phpunit/' . $buildDirectory);
             }
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
         }
     }
 

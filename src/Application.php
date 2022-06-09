@@ -174,7 +174,7 @@ class Application
 
             $response->setStatusCode($ex->getErrorCode());
             $response->setContent($view->render());
-        } catch (Exception $ex) {
+        } catch (\Throwable $ex) {
             $view = new View('exception');
             $view->exception = $ex;
 

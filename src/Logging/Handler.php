@@ -84,7 +84,7 @@ class Handler
                 );
                 $this->log($error);
             }
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             $error = new ErrorException(
                 \sprintf(
                     '%s: %s in %s line %d',

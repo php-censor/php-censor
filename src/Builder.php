@@ -196,7 +196,7 @@ class Builder
             } else {
                 $this->build->setStatusFailed();
             }
-        } catch (Exception $ex) {
+        } catch (\Throwable $ex) {
             $success = false;
             $this->build->setStatusFailed();
             $this->buildLogger->logFailure('Exception: ' . $ex->getMessage(), $ex);
@@ -220,7 +220,7 @@ class Builder
                     $this->pluginExecutor->executePlugins($this->config, Build::STAGE_BROKEN);
                 }
             }
-        } catch (Exception $ex) {
+        } catch (\Throwable $ex) {
             $this->buildLogger->logFailure('Exception: ' . $ex->getMessage(), $ex);
         }
 
@@ -238,7 +238,7 @@ class Builder
             // Complete stage plugins are always run
             $this->currentStage = Build::STAGE_COMPLETE;
             $this->pluginExecutor->executePlugins($this->config, Build::STAGE_COMPLETE);
-        } catch (Exception $ex) {
+        } catch (\Throwable $ex) {
             $this->buildLogger->logFailure('Exception: ' . $ex->getMessage());
         }
 

@@ -64,7 +64,7 @@ class BuildStatusController extends WebController
             if (isset($build) && $build instanceof Build && $build->getStatus() !== Build::STATUS_SUCCESS) {
                 $status = 'failed';
             }
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             $status = 'error';
         }
 
@@ -101,7 +101,7 @@ class BuildStatusController extends WebController
                     $coverage = $coverageMeta[0]['meta_value'][$type];
                 }
             }
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
         }
 
         return $coverage;
@@ -313,7 +313,7 @@ class BuildStatusController extends WebController
                     }
                 }
             }
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             $xml = new SimpleXMLElement('<projects/>');
         }
 

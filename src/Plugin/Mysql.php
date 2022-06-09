@@ -155,7 +155,7 @@ class Mysql extends Plugin
             foreach ($this->imports as $import) {
                 $this->executeFile($import);
             }
-        } catch (Exception $ex) {
+        } catch (\Throwable $ex) {
             $this->builder->logFailure($ex->getMessage());
 
             return false;

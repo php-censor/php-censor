@@ -185,7 +185,7 @@ class BuildWorker
 
             try {
                 $builder->execute();
-            } catch (Exception $e) {
+            } catch (\Throwable $e) {
                 $builder->getBuildLogger()->log('');
                 $builder->getBuildLogger()->logFailure(
                     \sprintf(
@@ -217,7 +217,7 @@ class BuildWorker
     {
         try {
             $this->pheanstalk->delete($job);
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             $this->logger->warning($e->getMessage());
         }
     }
@@ -226,7 +226,7 @@ class BuildWorker
     {
         try {
             $this->pheanstalk->peekReady();
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             return true;
         }
 

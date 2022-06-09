@@ -252,7 +252,7 @@ class GithubBuild extends GitBuild
 
                 $success = $builder->executeCommand($cmd, $cloneTo, $this->getBranch(), $pullRequestId);
             }
-        } catch (Exception $ex) {
+        } catch (\Throwable $ex) {
             $success = false;
         }
 

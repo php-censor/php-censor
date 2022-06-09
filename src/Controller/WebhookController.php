@@ -89,7 +89,7 @@ class WebhookController extends Controller
                 unset($data['responseCode']);
             }
             $response->setContent($data);
-        } catch (Exception $ex) {
+        } catch (\Throwable $ex) {
             $response->setStatusCode(500);
             $response->setData(['status' => 'failed', 'error' => $ex->getMessage()]);
         }
@@ -536,7 +536,7 @@ class WebhookController extends Controller
                         $commit['new']['target']['message']
                     );
                     $status = 'ok';
-                } catch (Exception $ex) {
+                } catch (\Throwable $ex) {
                     $results[$commit['new']['target']['hash']] = ['status' => 'failed', 'error' => $ex->getMessage()];
                 }
             }
@@ -623,7 +623,7 @@ class WebhookController extends Controller
                     $extra
                 );
                 $status = 'ok';
-            } catch (Exception $ex) {
+            } catch (\Throwable $ex) {
                 $results[$id] = ['status' => 'failed', 'error' => $ex->getMessage()];
             }
         }
@@ -675,7 +675,7 @@ class WebhookController extends Controller
                 $extra
             );
             $status = 'ok';
-        } catch (Exception $ex) {
+        } catch (\Throwable $ex) {
             $results[$id] = ['status' => 'failed', 'error' => $ex->getMessage()];
         }
 
@@ -705,7 +705,7 @@ class WebhookController extends Controller
                     $commit['message']
                 );
                 $status = 'ok';
-            } catch (Exception $ex) {
+            } catch (\Throwable $ex) {
                 $results[$commit['raw_node']] = ['status' => 'failed', 'error' => $ex->getMessage()];
             }
         }
@@ -805,7 +805,7 @@ class WebhookController extends Controller
                     );
 
                     $status = 'ok';
-                } catch (Exception $ex) {
+                } catch (\Throwable $ex) {
                     $results[$commit['id']] = ['status' => 'failed', 'error' => $ex->getMessage()];
                 }
             }
@@ -897,7 +897,7 @@ class WebhookController extends Controller
                     $extra
                 );
                 $status = 'ok';
-            } catch (Exception $ex) {
+            } catch (\Throwable $ex) {
                 $results[$id] = ['status' => 'failed', 'error' => $ex->getMessage()];
             }
         }
@@ -970,7 +970,7 @@ class WebhookController extends Controller
                     $commit['message']
                 );
                 $status = 'ok';
-            } catch (Exception $ex) {
+            } catch (\Throwable $ex) {
                 $results[$commit['id']] = ['status' => 'failed', 'error' => $ex->getMessage()];
             }
 
@@ -1051,7 +1051,7 @@ class WebhookController extends Controller
                         $commit['message']
                     );
                     $status = 'ok';
-                } catch (Exception $ex) {
+                } catch (\Throwable $ex) {
                     $results[$commit['id']] = ['status' => 'failed', 'error' => $ex->getMessage()];
                 }
             }
