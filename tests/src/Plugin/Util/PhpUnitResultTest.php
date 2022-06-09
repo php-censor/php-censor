@@ -60,19 +60,6 @@ class PhpUnitResultTest extends TestCase
         } catch (ExpectationFailedException $e) {
             self::$skipped[] = ['cls' => $resultClass, 'ex' => $e];
         }
-
-        // testSkippedAnything(): Used as long as junit format does not provide message for skipped tests
-        if (self::$skipped) {
-            $msg = "Skipped result tests:\n";
-            foreach (self::$skipped as $skip) {
-                $exMsg = \strstr((string)$skip['ex'], "\n", true);
-                if (false === $exMsg) {
-                    $exMsg = (string)$skip['ex'];
-                }
-                $msg .= \sprintf(" * %s: %s \n", $skip['cls'], $exMsg);
-            }
-            $this->markTestSkipped($msg);
-        }
     }
 
     public static function getTestData(): array
