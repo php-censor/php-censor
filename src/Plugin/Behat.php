@@ -113,7 +113,7 @@ class Behat extends Plugin
                     'Behat scenario failed.',
                     BuildError::SEVERITY_HIGH,
                     $lineParts[0],
-                    $lineParts[1]
+                    (int)$lineParts[1]
                 );
             }
         }

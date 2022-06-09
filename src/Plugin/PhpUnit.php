@@ -324,7 +324,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
                     $error['message'],
                     $severity,
                     $error['file'],
-                    $error['line']
+                    (int)$error['line']
                 );
             }
             \unlink($logFile);

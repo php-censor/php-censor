@@ -263,7 +263,7 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
                     'PHPCS: ' . $message['message'],
                     'ERROR' === $message['type'] ? BuildError::SEVERITY_HIGH : BuildError::SEVERITY_LOW,
                     $fileName,
-                    $message['line']
+                    (int)$message['line']
                 );
             }
         }

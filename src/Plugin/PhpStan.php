@@ -104,7 +104,7 @@ class PhpStan extends Plugin
                             $message['message'],
                             BuildError::SEVERITY_NORMAL,
                             $filename,
-                            $message['line']
+                            (int)$message['line']
                         );
                     }
                     $separator = \str_repeat('-', 6) . ' ' . \str_repeat('-', $len + 2) . PHP_EOL;

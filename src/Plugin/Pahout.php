@@ -87,7 +87,7 @@ class Pahout extends Plugin
                     $hint['message'],
                     BuildError::SEVERITY_LOW,
                     $hint['file'],
-                    $hint['line_from']
+                    (int)$hint['line_from']
                 );
             }
         }

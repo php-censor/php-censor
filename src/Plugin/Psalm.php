@@ -80,8 +80,8 @@ class Psalm extends Plugin
                     $error['message'],
                     BuildError::SEVERITY_HIGH,
                     $error['file'],
-                    $error['line_from'],
-                    $error['line_to']
+                    (int)$error['line_from'],
+                    (int)$error['line_to']
                 );
             }
         }
@@ -100,8 +100,8 @@ class Psalm extends Plugin
                     $info['message'],
                     BuildError::SEVERITY_LOW,
                     $info['file'],
-                    $info['line_from'],
-                    $info['line_to']
+                    (int)$info['line_from'],
+                    (int)$info['line_to']
                 );
             }
         }

@@ -67,7 +67,7 @@ class Phlint extends Plugin
                     $error['message'],
                     BuildError::SEVERITY_HIGH,
                     $error['file'],
-                    $error['line_from']
+                    (int)$error['line_from']
                 );
             }
         }
