@@ -122,6 +122,8 @@ class SecurityChecker extends Plugin implements ZeroConfigPluginInterface
                         self::pluginName(),
                         $library . ' (' . $warning['version'] . ")\n" . $data['cve'] . ': ' . $data['title'] . "\n" . $data['link'],
                         BuildError::SEVERITY_CRITICAL,
+                        '-',
+                        '-'
                     );
                 }
             }
