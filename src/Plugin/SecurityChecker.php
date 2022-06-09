@@ -111,7 +111,7 @@ class SecurityChecker extends Plugin implements ZeroConfigPluginInterface
         $builder->logExecOutput(true);
 
         $success  = true;
-        $result   = (string)$builder->getLastOutput();
+        $result   = $builder->getLastOutput();
         $warnings = \json_decode($result, true);
 
         if ($warnings) {
@@ -121,9 +121,7 @@ class SecurityChecker extends Plugin implements ZeroConfigPluginInterface
                         $this->builder,
                         self::pluginName(),
                         $library . ' (' . $warning['version'] . ")\n" . $data['cve'] . ': ' . $data['title'] . "\n" . $data['link'],
-                        BuildError::SEVERITY_CRITICAL,
-                        '-',
-                        '-'
+                        BuildError::SEVERITY_CRITICAL
                     );
                 }
             }
