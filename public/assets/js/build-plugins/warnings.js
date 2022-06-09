@@ -24,13 +24,14 @@ var warningsPlugin = ActiveBuild.UiPlugin.extend({
     displayOnUpdate: false,
     rendered:        false,
     chartData:       null,
+    showWidget:      false,
 
     register: function () {
         var self = this;
 
         var queries = [];
         for (var key in self.keys) {
-            queries.push(ActiveBuild.registerQuery(key, -1, {num_builds: 10, key: key}));
+            queries.push(ActiveBuild.registerQuery(key, -1, {num_builds: 20, key: key}));
         }
 
         $(window).on(Object.keys(self.keys).join(' '), function (data) {
@@ -62,13 +63,18 @@ var warningsPlugin = ActiveBuild.UiPlugin.extend({
     },
 
     onUpdate: function (e) {
-        if (!e.queryData || $.isEmptyObject(e.queryData)) {
-            $('#build-warnings').hide();
-            return;
-        }
-
         var self   = this;
         var builds = e.queryData;
+
+        if (!self.showWidget) {
+            if (!e.queryData || $.isEmptyObject(e.queryData)) {
+                $('#build-warnings').hide();
+
+                return;
+            }
+        }
+
+        self.showWidget = true;
 
         if (!builds || !builds.length) {
             return;
@@ -130,7 +136,9 @@ var warningsPlugin = ActiveBuild.UiPlugin.extend({
                     label:           self.keys[key],
                     borderColor:     color,
                     backgroundColor: color,
-                    data:            []
+                    data:            [],
+                    cubicInterpolationMode: 'monotone',
+                    tension: 0.2
                 });
 
                 for (var build in self.data) {
@@ -153,7 +161,7 @@ var warningsPlugin = ActiveBuild.UiPlugin.extend({
         var self = this;
 
         if ($('#information').hasClass('active') && self.chartData) {
-            $('#build-warnings-chart').show();
+            $('#build-warnings').show();
 
             var ctx                = $("#build-warnings-linechart").get(0).getContext("2d");
 

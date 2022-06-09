@@ -9,7 +9,7 @@ var locPlugin = ActiveBuild.UiPlugin.extend({
 
     register: function () {
         var self  = this;
-        var query = ActiveBuild.registerQuery('php_loc-data', -1, {num_builds: 10, key: 'php_loc-data'});
+        var query = ActiveBuild.registerQuery('php_loc-data', -1, {num_builds: 20, key: 'php_loc-data'});
 
         $(window).on('php_loc-data', function (data) {
             self.onUpdate(data);
@@ -58,25 +58,33 @@ var locPlugin = ActiveBuild.UiPlugin.extend({
                     label:           Lang.get('lines'),
                     borderColor:     "#555299",
                     backgroundColor: "#555299",
-                    data:            []
+                    data:            [],
+                    cubicInterpolationMode: 'monotone',
+                    tension: 0.2
             },
                 {
                     label:           Lang.get('logical_lines'),
                     borderColor:     "#00A65A",
                     backgroundColor: "#00A65A",
-                    data:            []
+                    data:            [],
+                    cubicInterpolationMode: 'monotone',
+                    tension: 0.2
             },
                 {
                     label:           Lang.get('comment_lines'),
                     borderColor:     "#8AA4AF",
                     backgroundColor: "#8AA4AF",
-                    data:            []
+                    data:            [],
+                    cubicInterpolationMode: 'monotone',
+                    tension: 0.2
             },
                 {
                     label:           Lang.get('noncomment_lines'),
                     borderColor:     "#00A7D0",
                     backgroundColor: "#00A7D0",
-                    data:            []
+                    data:            [],
+                    cubicInterpolationMode: 'monotone',
+                    tension: 0.2
             }
             ]
         };
