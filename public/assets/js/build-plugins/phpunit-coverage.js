@@ -9,7 +9,7 @@ var coveragePlugin = ActiveBuild.UiPlugin.extend({
 
     register: function () {
         var self  = this;
-        var query = ActiveBuild.registerQuery('php_unit-coverage', -1, {num_builds: 10, key: 'php_unit-coverage'});
+        var query = ActiveBuild.registerQuery('php_unit-coverage', -1, {num_builds: 20, key: 'php_unit-coverage'});
 
         $(window).on('php_unit-coverage', function (data) {
             self.onUpdate(data);
@@ -58,19 +58,25 @@ var coveragePlugin = ActiveBuild.UiPlugin.extend({
                     label:           Lang.get('classes'),
                     borderColor:     "#555299",
                     backgroundColor: "#555299",
-                    data:            []
+                    data:            [],
+                    cubicInterpolationMode: 'monotone',
+                    tension: 0.2
             },
                 {
                     label:           Lang.get('methods'),
                     borderColor:     "#00A65A",
                     backgroundColor: "#00A65A",
-                    data:            []
+                    data:            [],
+                    cubicInterpolationMode: 'monotone',
+                    tension: 0.2
             },
                 {
                     label:           Lang.get('lines'),
                     borderColor:     "#8AA4AF",
                     backgroundColor: "#8AA4AF",
-                    data:            []
+                    data:            [],
+                    cubicInterpolationMode: 'monotone',
+                    tension: 0.2
             }
             ]
         };
