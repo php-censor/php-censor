@@ -5,6 +5,22 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [2.0.9 (Rick Sanchez)](https://github.com/php-censor/php-censor/tree/2.0.9) (2022-06-11)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/2.0.8...2.0.9)
+
+### Fixed
+
+- Updated dependencies. Fixed:
+  - `guzzlehttp/guzzle` (6.5.6) | CVE-2022-31042: Failure to strip the Cookie header on change in host or HTTP downgrade | https://github.com/guzzle/guzzle/security/advisories/GHSA-f2wf-25xc-69c9
+
+  - `guzzlehttp/guzzle` (6.5.6) | CVE-2022-31043: Fix failure to strip Authorization header on HTTP downgrade | https://github.com/guzzle/guzzle/security/advisories/GHSA-w248-ffj2-4v5q
+
+### Changed
+
+- Added secrets to PHP Censor CI config (`.php-censor.yml`).
+
+
 ## [2.0.8 (Rick Sanchez)](https://github.com/php-censor/php-censor/tree/2.0.8) (2022-06-08)
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/2.0.7...2.0.8)
