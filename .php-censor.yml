@@ -38,3 +38,8 @@ test:
 complete:
     email_notify:
         default_mailto_address: poisoncorpsee@gmail.com
+    telegram_notify:
+        auth_token: "%SECRET:telegram_auth_token%"
+        recipients:
+            - "%SECRET:telegram_chat_id%"
+        send_log: false
