@@ -91,7 +91,7 @@ class StoreMysqlTest extends TestCase
                     ->setName('php-censor-migrations:migrate')
                     ->run(new ArgvInput([]), new ConsoleOutput(OutputInterface::VERBOSITY_QUIET));
             } catch (\Throwable $e) {
-                var_dump($e);
+                //var_dump($e);
             }
 
             $this->connection->exec("
@@ -113,7 +113,7 @@ class StoreMysqlTest extends TestCase
                 ('group 7', '2018-03-01 01:01:00', 4)
             ");
         } catch (\Throwable $e) {
-            var_dump($e);
+            //var_dump($e);
 
             $this->connection = null;
         }
