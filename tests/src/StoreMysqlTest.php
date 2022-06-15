@@ -51,7 +51,7 @@ class StoreMysqlTest extends TestCase
 
         try {
             $this->connection = new \PDO(
-                'mysql:host=localhost;dbname=' . env('MYSQL_DBNAME'),
+                'mysql:host=127.0.0.1;dbname=' . env('MYSQL_DBNAME'),
                 env('MYSQL_USER'),
                 env('MYSQL_PASSWORD')
             );
@@ -64,6 +64,7 @@ class StoreMysqlTest extends TestCase
             $this->connection->exec('DROP TABLE IF EXISTS `environments`');
             $this->connection->exec('DROP TABLE IF EXISTS `projects`');
             $this->connection->exec('DROP TABLE IF EXISTS `project_groups`');
+            $this->connection->exec('DROP TABLE IF EXISTS `secrets`');
             $this->connection->exec('DROP TABLE IF EXISTS `users`');
 
             $phinxSettings = [
@@ -90,7 +91,7 @@ class StoreMysqlTest extends TestCase
                     ->setName('php-censor-migrations:migrate')
                     ->run(new ArgvInput([]), new ConsoleOutput(OutputInterface::VERBOSITY_QUIET));
             } catch (\Throwable $e) {
-                //var_dump($e);
+                var_dump($e);
             }
 
             $this->connection->exec("
@@ -112,7 +113,7 @@ class StoreMysqlTest extends TestCase
                 ('group 7', '2018-03-01 01:01:00', 4)
             ");
         } catch (\Throwable $e) {
-            //var_dump($e);
+            var_dump($e);
 
             $this->connection = null;
         }
@@ -139,6 +140,7 @@ class StoreMysqlTest extends TestCase
             $this->connection->exec('DROP TABLE IF EXISTS `environments`');
             $this->connection->exec('DROP TABLE IF EXISTS `projects`');
             $this->connection->exec('DROP TABLE IF EXISTS `project_groups`');
+            $this->connection->exec('DROP TABLE IF EXISTS `secrets`');
             $this->connection->exec('DROP TABLE IF EXISTS `users`');
 
             $this->connection = null;
