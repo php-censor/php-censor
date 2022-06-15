@@ -12,10 +12,10 @@ jobs:
 
         steps:
             - name: Setup MySQL latest
-              run: docker run --rm --name=mysqld -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=test_db -p 3306:3306 -d mysql --default-authentication-plugin=mysql_native_password
+              run: docker run --rm --name=mysqld -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=test -p 3306:3306 -d mysql --default-authentication-plugin=mysql_native_password
 
             - name: Setup PostgreSQL latest
-              run: docker run --rm --name=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=test_db -p 5432:5432 -d postgres
+              run: docker run --rm --name=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=test -p 5432:5432 -d postgres
 
             - uses: actions/checkout@v2
 
@@ -23,7 +23,7 @@ jobs:
               uses: shivammathur/setup-php@v2
               with:
                   php-version: ${{ matrix.php-version }}
-                  ini-values: memory_limit=512M, xdebug.mode=off
+                  ini-values: memory_limit=512M, xdebug.mode=off, phar.readonly=off
                   coverage: pcov
 
             - name: Get composer cache directory
@@ -43,6 +43,18 @@ jobs:
             - name: Composer install
               run: composer update --no-interaction --prefer-dist --no-progress
 
+            - name: Setup Database
+              run: |
+                  n=0
+                  until [ "$n" -ge 5 ]
+                  do
+                    mysql -h 127.0.0.1 -u root -proot -e 'CREATE DATABASE test_db;' && break || :
+                    n=$((n+1))
+                    sleep 2
+                  done
+                  mysql -h 127.0.0.1 -u root -proot -D test_db -e 'SELECT 1;'
+                  psql -c 'CREATE DATABASE test_db;' postgresql://postgres:postgres@127.0.0.1
+
             - name: Run tests
               run: |
                   export POSTGRESQL_USER='postgres';
@@ -52,7 +64,7 @@ jobs:
                   if [[ ${{ matrix.php-version }} == '7.4' ]]; then
                       export CODECOVERAGE=1 && vendor/bin/phpunit --verbose --coverage-clover=coverage.xml
                   else
-                      vendor/bin/phpunit
+                      vendor/bin/phpunit --verbose
                   fi
 
             - name: Submit code coverage

@@ -10,7 +10,6 @@ use PHPCensor\ArrayConfiguration;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Model\Secret;
 use PHPCensor\Store;
-use PHPCensor\Store\ProjectGroupStore;
 use PHPCensor\Store\SecretStore;
 use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
@@ -50,7 +49,7 @@ class SecretStoreMysqlTest extends TestCase
 
         try {
             $this->connection = new \PDO(
-                'mysql:host=localhost;dbname=' . env('MYSQL_DBNAME'),
+                'mysql:host=127.0.0.1;dbname=' . env('MYSQL_DBNAME'),
                 env('MYSQL_USER'),
                 env('MYSQL_PASSWORD')
             );
@@ -63,6 +62,7 @@ class SecretStoreMysqlTest extends TestCase
             $this->connection->exec('DROP TABLE IF EXISTS `environments`');
             $this->connection->exec('DROP TABLE IF EXISTS `projects`');
             $this->connection->exec('DROP TABLE IF EXISTS `project_groups`');
+            $this->connection->exec('DROP TABLE IF EXISTS `secrets`');
             $this->connection->exec('DROP TABLE IF EXISTS `users`');
 
             $phinxSettings = [
@@ -138,6 +138,7 @@ class SecretStoreMysqlTest extends TestCase
             $this->connection->exec('DROP TABLE IF EXISTS `environments`');
             $this->connection->exec('DROP TABLE IF EXISTS `projects`');
             $this->connection->exec('DROP TABLE IF EXISTS `project_groups`');
+            $this->connection->exec('DROP TABLE IF EXISTS `secrets`');
             $this->connection->exec('DROP TABLE IF EXISTS `users`');
 
             $this->connection = null;
@@ -147,7 +148,7 @@ class SecretStoreMysqlTest extends TestCase
     protected function getConnection(): ?\PDO
     {
         if (null === $this->connection) {
-            $this->markTestSkipped('Test skipped because PostgreSQL database/user/extension doesn\'t exist.');
+            $this->markTestSkipped('Test skipped because MySQL database/user/extension doesn\'t exist.');
         }
 
         return $this->connection;

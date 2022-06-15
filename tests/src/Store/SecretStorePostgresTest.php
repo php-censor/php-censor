@@ -49,7 +49,7 @@ class SecretStorePostgresTest extends TestCase
 
         try {
             $this->connection = new \PDO(
-                'pgsql:host=localhost;dbname=' . env('POSTGRESQL_DBNAME'),
+                'pgsql:host=127.0.0.1;dbname=' . env('POSTGRESQL_DBNAME'),
                 env('POSTGRESQL_USER'),
                 env('POSTGRESQL_PASSWORD')
             );
