@@ -96,7 +96,8 @@
         "php-parallel-lint/php-parallel-lint": "^1.2",
         "php-censor/phpdoc-checker":           "^3.0",
         "friendsofphp/php-cs-fixer":           "^3.3",
-        "symfony/var-dumper":                  "^4.4"
+        "symfony/var-dumper":                  "^4.4",
+        "vimeo/psalm":                         "^4.23"
     },
     "extra": {
         "platform": {

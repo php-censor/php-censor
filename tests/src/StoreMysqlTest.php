@@ -4,156 +4,90 @@ declare(strict_types=1);
 
 namespace Tests\PHPCensor;
 
-use Phinx\Config\Config as PhinxConfig;
-use Phinx\Console\Command\Migrate;
-use PHPCensor\ArrayConfiguration;
 use PHPCensor\Common\Exception\InvalidArgumentException;
-use PHPCensor\DatabaseManager;
 use PHPCensor\Model\Project;
 use PHPCensor\Model\ProjectGroup;
 use PHPCensor\Store;
 use PHPCensor\Store\ProjectGroupStore;
-use PHPCensor\StoreRegistry;
-use PHPUnit\Framework\TestCase;
-use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\Console\Output\ConsoleOutput;
-use Symfony\Component\Console\Output\OutputInterface;
 
-class StoreMysqlTest extends TestCase
+class StoreMysqlTest extends BaseMysqlTestCase
 {
-    private ?\PDO $connection = null;
-
-    private StoreRegistry $storeRegistry;
     private Store $store;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $configurationArray = [
-            'php-censor' => [
-                'database' => [
-                    'servers'  => [
-                        'read'  => [
-                            ['host' => '127.0.0.1'],
-                        ],
-                        'write' => [
-                            ['host' => '127.0.0.1'],
-                        ],
-                    ],
-                    'type'     => 'mysql',
-                    'name'     => env('MYSQL_DBNAME'),
-                    'username' => env('MYSQL_USER'),
-                    'password' => env('MYSQL_PASSWORD'),
+        $this->store = new ProjectGroupStore($this->databaseManager, $this->storeRegistry);
+    }
+
+    protected function getTestData(): array
+    {
+        return [
+            'users' => [
+                [
+                    'email'    => 'user1@test.test',
+                    'hash'     => 'abc1',
+                    'name'     => 'user 1',
+                    'is_admin' => 1,
+                ],
+                [
+                    'email'    => 'user2@test.test',
+                    'hash'     => 'abc2',
+                    'name'     => 'user 2',
+                    'is_admin' => 0,
+                ],
+                [
+                    'email'    => 'user3@test.test',
+                    'hash'     => 'abc3',
+                    'name'     => 'user 3',
+                    'is_admin' => 0,
+                ],
+                [
+                    'email'    => 'user4@test.test',
+                    'hash'     => 'abc4',
+                    'name'     => 'user 4',
+                    'is_admin' => 0,
+                ],
+            ],
+            'project_groups' => [
+                [
+                    'title'       => 'group 1',
+                    'create_date' => '2014-01-01 01:01:00',
+                    'user_id'     => 1,
+                ],
+                [
+                    'title'       => 'group 2',
+                    'create_date' => '2015-01-01 01:01:00',
+                    'user_id'     => 1,
+                ],
+                [
+                    'title'       => 'group 3',
+                    'create_date' => '2016-01-01 01:01:00',
+                    'user_id'     => 1,
+                ],
+                [
+                    'title'       => 'group 4',
+                    'create_date' => '2017-01-01 01:01:00',
+                    'user_id'     => 1,
+                ],
+                [
+                    'title'       => 'group 5',
+                    'create_date' => '2018-01-01 01:01:00',
+                    'user_id'     => 2,
+                ],
+                [
+                    'title'       => 'group 6',
+                    'create_date' => '2018-02-01 01:01:00',
+                    'user_id'     => 3,
+                ],
+                [
+                    'title'       => 'group 7',
+                    'create_date' => '2018-03-01 01:01:00',
+                    'user_id'     => 4,
                 ],
             ],
         ];
-
-        try {
-            $this->connection = new \PDO(
-                'mysql:host=127.0.0.1;dbname=' . env('MYSQL_DBNAME'),
-                env('MYSQL_USER'),
-                env('MYSQL_PASSWORD')
-            );
-
-            $this->connection->exec('DROP TABLE IF EXISTS `migrations`');
-            $this->connection->exec('DROP TABLE IF EXISTS `webhook_requests`');
-            $this->connection->exec('DROP TABLE IF EXISTS `build_errors`');
-            $this->connection->exec('DROP TABLE IF EXISTS `build_metas`');
-            $this->connection->exec('DROP TABLE IF EXISTS `builds`');
-            $this->connection->exec('DROP TABLE IF EXISTS `environments`');
-            $this->connection->exec('DROP TABLE IF EXISTS `projects`');
-            $this->connection->exec('DROP TABLE IF EXISTS `project_groups`');
-            $this->connection->exec('DROP TABLE IF EXISTS `secrets`');
-            $this->connection->exec('DROP TABLE IF EXISTS `users`');
-
-            $phinxSettings = [
-                'paths' => [
-                    'migrations' => ROOT_DIR . 'src/Migrations',
-                ],
-                'environments' => [
-                    'default_migration_table' => 'migrations',
-                    'default_database'        => 'php-censor',
-                    'php-censor'              => [
-                        'adapter' => 'mysql',
-                        'host' => '127.0.0.1',
-                        'name' => env('MYSQL_DBNAME'),
-                        'user' => env('MYSQL_USER'),
-                        'pass' => env('MYSQL_PASSWORD'),
-                    ],
-                ],
-            ];
-            $phinxConfig = new PhinxConfig($phinxSettings);
-
-            try {
-                (new Migrate())
-                    ->setConfig($phinxConfig)
-                    ->setName('php-censor-migrations:migrate')
-                    ->run(new ArgvInput([]), new ConsoleOutput(OutputInterface::VERBOSITY_QUIET));
-            } catch (\Throwable $e) {
-                //var_dump($e);
-            }
-
-            $this->connection->exec("
-                INSERT INTO `users` (`email`, `hash`, `name`, `is_admin`) VALUES
-                ('user1@test.test', 'abc1', 'user 1', 1),
-                ('user2@test.test', 'abc2', 'user 2', 0),
-                ('user3@test.test', 'abc3', 'user 3', 0),
-                ('user4@test.test', 'abc4', 'user 4', 0)
-            ");
-
-            $this->connection->exec("
-                INSERT INTO `project_groups` (`title`, `create_date`, `user_id`) VALUES
-                ('group 1', '2014-01-01 01:01:00', 1),
-                ('group 2', '2015-01-01 01:01:00', 1),
-                ('group 3', '2016-01-01 01:01:00', 1),
-                ('group 4', '2017-01-01 01:01:00', 1),
-                ('group 5', '2018-01-01 01:01:00', 2),
-                ('group 6', '2018-02-01 01:01:00', 3),
-                ('group 7', '2018-03-01 01:01:00', 4)
-            ");
-        } catch (\Throwable $e) {
-            //var_dump($e);
-
-            $this->connection = null;
-        }
-
-        $this->getConnection();
-
-        $configuration       = new ArrayConfiguration($configurationArray);
-        $databaseManager     = new DatabaseManager($configuration);
-        $this->storeRegistry = new StoreRegistry($databaseManager);
-
-        $this->store = new ProjectGroupStore($databaseManager, $this->storeRegistry);
-    }
-
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-
-        if (null !== $this->connection) {
-            $this->connection->exec('DROP TABLE IF EXISTS `migrations`');
-            $this->connection->exec('DROP TABLE IF EXISTS `webhook_requests`');
-            $this->connection->exec('DROP TABLE IF EXISTS `build_errors`');
-            $this->connection->exec('DROP TABLE IF EXISTS `build_metas`');
-            $this->connection->exec('DROP TABLE IF EXISTS `builds`');
-            $this->connection->exec('DROP TABLE IF EXISTS `environments`');
-            $this->connection->exec('DROP TABLE IF EXISTS `projects`');
-            $this->connection->exec('DROP TABLE IF EXISTS `project_groups`');
-            $this->connection->exec('DROP TABLE IF EXISTS `secrets`');
-            $this->connection->exec('DROP TABLE IF EXISTS `users`');
-
-            $this->connection = null;
-        }
-    }
-
-    protected function getConnection(): ?\PDO
-    {
-        if (null === $this->connection) {
-            $this->markTestSkipped('Test skipped because MySQL database/user/extension doesn\'t exist.');
-        }
-
-        return $this->connection;
     }
 
     public function testGetByIdSuccess(): void

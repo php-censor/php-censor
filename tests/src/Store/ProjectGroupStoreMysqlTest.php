@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\PHPCensor\Store;
 
-use PHPCensor\Model\Secret;
+use PHPCensor\Model\ProjectGroup;
 use PHPCensor\Store;
-use PHPCensor\Store\SecretStore;
-use Tests\PHPCensor\BasePostgresTestCase;
+use PHPCensor\Store\ProjectGroupStore;
+use Tests\PHPCensor\BaseMysqlTestCase;
 
-class SecretStorePostgresTest extends BasePostgresTestCase
+class ProjectGroupStoreMysqlTest extends BaseMysqlTestCase
 {
     private Store $store;
 
@@ -17,7 +17,7 @@ class SecretStorePostgresTest extends BasePostgresTestCase
     {
         parent::setUp();
 
-        $this->store = new SecretStore($this->databaseManager, $this->storeRegistry);
+        $this->store = new ProjectGroupStore($this->databaseManager, $this->storeRegistry);
     }
 
     protected function getTestData(): array
@@ -49,46 +49,39 @@ class SecretStorePostgresTest extends BasePostgresTestCase
                     'is_admin' => 0,
                 ],
             ],
-            'secrets' => [
+            'project_groups' => [
                 [
-                    'name'        => 'secret 1',
-                    'value'       => 'value 1',
+                    'title'       => 'group 1',
                     'create_date' => '2014-01-01 01:01:00',
                     'user_id'     => 1,
                 ],
                 [
-                    'name'        => 'secret 2',
-                    'value'       => 'value 2',
+                    'title'       => 'group 2',
                     'create_date' => '2015-01-01 01:01:00',
                     'user_id'     => 1,
                 ],
                 [
-                    'name'        => 'secret 3',
-                    'value'       => 'value 3',
+                    'title'       => 'group 3',
                     'create_date' => '2016-01-01 01:01:00',
                     'user_id'     => 1,
                 ],
                 [
-                    'name'        => 'secret 4',
-                    'value'       => 'value 4',
+                    'title'       => 'group 4',
                     'create_date' => '2017-01-01 01:01:00',
                     'user_id'     => 1,
                 ],
                 [
-                    'name'        => 'secret 5',
-                    'value'       => 'value 5',
+                    'title'       => 'group 5',
                     'create_date' => '2018-01-01 01:01:00',
                     'user_id'     => 2,
                 ],
                 [
-                    'name'        => 'secret 6',
-                    'value'       => 'value 6',
+                    'title'       => 'group 6',
                     'create_date' => '2018-02-01 01:01:00',
                     'user_id'     => 3,
                 ],
                 [
-                    'name'        => 'secret 7',
-                    'value'       => 'value 7',
+                    'title'       => 'group 7',
                     'create_date' => '2018-03-01 01:01:00',
                     'user_id'     => 4,
                 ],
@@ -96,29 +89,22 @@ class SecretStorePostgresTest extends BasePostgresTestCase
         ];
     }
 
-    public function testGetByNamesSuccess(): void
+    public function testGetByTitleSuccess(): void
     {
-        /** @var Secret[] $result */
-        $result = $this->store->getByNames(['secret 2', 'secret 5']);
+        /** @var ProjectGroup $newModel */
+        $model = $this->store->getByTitle('group 5');
 
-        self::assertCount(2, $result);
-
-        self::assertInstanceOf(Secret::class, $result['secret 2']);
-        self::assertEquals('secret 2', $result['secret 2']->getName());
-        self::assertEquals('value 2', $result['secret 2']->getValue());
-        self::assertEquals(1, $result['secret 2']->getUserId());
-
-        self::assertInstanceOf(Secret::class, $result['secret 5']);
-        self::assertEquals('secret 5', $result['secret 5']->getName());
-        self::assertEquals('value 5', $result['secret 5']->getValue());
-        self::assertEquals(2, $result['secret 5']->getUserId());
+        self::assertInstanceOf(ProjectGroup::class, $model);
+        self::assertEquals(5, $model->getId());
+        self::assertEquals('group 5', $model->getTitle());
+        self::assertEquals(2, $model->getUserId());
     }
 
-    public function testGetByIdFailed(): void
+    public function testGetByTitleFailed(): void
     {
-        /** @var Secret[] $result */
-        $result = $this->store->getByNames(['secret 20', 'secret 50']);
+        /** @var ProjectGroup $newModel */
+        $model = $this->store->getByTitle('group 10');
 
-        self::assertCount(0, $result);
+        self::assertEquals(null, $model);
     }
 }
