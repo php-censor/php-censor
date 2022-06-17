@@ -627,8 +627,8 @@ OUT;
 
         if (null === $previous) {
             return [
-                'trend' => 0,
-                'delta' => 0,
+                'trend' => -1,
+                'delta' => $total,
             ];
         }
 
@@ -661,8 +661,8 @@ OUT;
 
         if (null === $previous) {
             return [
-                'trend' => 0,
-                'delta' => '0.00',
+                'trend' => -1,
+                'delta' => $total,
             ];
         }
 

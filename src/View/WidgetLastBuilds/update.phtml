@@ -149,7 +149,7 @@ use PHPCensor\Store\EnvironmentStore;
                             <?php if ($newErrorsCount = $build->getErrorsNew()): ?>
                                 /
                                 <?= Lang::get('new_errors'); ?>:
-                                <?= $newErrorsCount; ?>
+                                <span class="arrow_trend_negative"><?= $newErrorsCount; ?></span>
                             <?php endif; ?>
 
                             |
