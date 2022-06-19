@@ -8,6 +8,7 @@ use DateTime;
 use Exception;
 use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Helper\BuildInterpolator;
+use PHPCensor\Helper\CommandExecutor;
 use PHPCensor\Helper\CommandExecutorInterface;
 use PHPCensor\Logging\BuildLogger;
 use PHPCensor\Model\Build;
@@ -103,7 +104,7 @@ class Builder
             $buildStore
         );
 
-        $executorClass         = 'PHPCensor\Helper\CommandExecutor';
+        $executorClass         = CommandExecutor::class;
         $this->commandExecutor = new $executorClass(
             $this->buildLogger,
             ROOT_DIR,

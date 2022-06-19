@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Tests\PHPCensor\Plugin;
 
 use Phar as PHPPhar;
+use PHPCensor\Builder;
+use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 use PHPCensor\Plugin\Phar as PharPlugin;
 use PHPUnit\Framework\TestCase;
@@ -21,12 +23,12 @@ class PharTest extends TestCase
     protected function getPlugin(array $options = []): Plugin
     {
         $build = $this
-            ->getMockBuilder('PHPCensor\Model\Build')
+            ->getMockBuilder(Build::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $builder = $this
-            ->getMockBuilder('PHPCensor\Builder')
+            ->getMockBuilder(Builder::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -105,9 +107,9 @@ class PharTest extends TestCase
     public function testPlugin(): void
     {
         $plugin = $this->getPlugin();
-        self::assertInstanceOf('PHPCensor\Plugin', $plugin);
-        self::assertInstanceOf('PHPCensor\Model\Build', $plugin->getBuild());
-        self::assertInstanceOf('PHPCensor\Builder', $plugin->getBuilder());
+        self::assertInstanceOf(Plugin::class, $plugin);
+        self::assertInstanceOf(Build::class, $plugin->getBuild());
+        self::assertInstanceOf(Builder::class, $plugin->getBuilder());
     }
 
     public function testFilename(): void

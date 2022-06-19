@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\PHPCensor\Security\Authentication\UserProvider;
 
+use PHPCensor\DatabaseManager;
 use PHPCensor\Model\User;
 use PHPCensor\Security\Authentication\UserProvider\Internal;
 use PHPCensor\StoreRegistry;
@@ -19,11 +20,11 @@ class InternalTest extends TestCase
     {
         $configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
         $databaseManager = $this
-            ->getMockBuilder('PHPCensor\DatabaseManager')
+            ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$configuration])
             ->getMock();
         $this->storeRegistry = $this
-            ->getMockBuilder('PHPCensor\StoreRegistry')
+            ->getMockBuilder(StoreRegistry::class)
             ->setConstructorArgs([$databaseManager])
             ->getMock();
 

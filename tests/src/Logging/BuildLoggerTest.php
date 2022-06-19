@@ -6,9 +6,11 @@ namespace Tests\PHPCensor\Logging;
 
 use Exception;
 use PHPCensor\Logging\BuildLogger;
+use PHPCensor\Model\Build;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 
 class BuildLoggerTest extends TestCase
@@ -23,8 +25,8 @@ class BuildLoggerTest extends TestCase
     {
         parent::setUp();
 
-        $this->logger = $this->prophesize('\Psr\Log\LoggerInterface');
-        $this->build = $this->prophesize('\PHPCensor\Model\Build');
+        $this->logger = $this->prophesize(LoggerInterface::class);
+        $this->build = $this->prophesize(Build::class);
 
         $this->testedBuildLogger = new BuildLogger(
             $this->logger->reveal(),

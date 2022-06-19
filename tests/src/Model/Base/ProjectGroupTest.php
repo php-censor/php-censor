@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Tests\PHPCensor\Model\Base;
 
 use DateTime;
+use PHPCensor\DatabaseManager;
+use PHPCensor\Model;
 use PHPCensor\Model\Base\ProjectGroup;
 use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
@@ -18,11 +20,11 @@ class ProjectGroupTest extends TestCase
     {
         $configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
         $databaseManager = $this
-            ->getMockBuilder('PHPCensor\DatabaseManager')
+            ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$configuration])
             ->getMock();
         $this->storeRegistry = $this
-            ->getMockBuilder('PHPCensor\StoreRegistry')
+            ->getMockBuilder(StoreRegistry::class)
             ->setConstructorArgs([$databaseManager])
             ->getMock();
     }
@@ -31,8 +33,8 @@ class ProjectGroupTest extends TestCase
     {
         $projectGroup = new ProjectGroup($this->storeRegistry);
 
-        self::assertInstanceOf('PHPCensor\Model', $projectGroup);
-        self::assertInstanceOf('PHPCensor\Model\Base\ProjectGroup', $projectGroup);
+        self::assertInstanceOf(Model::class, $projectGroup);
+        self::assertInstanceOf(ProjectGroup::class, $projectGroup);
 
         self::assertEquals([
             'id'          => null,

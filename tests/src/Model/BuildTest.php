@@ -6,6 +6,7 @@ namespace Tests\PHPCensor\Model;
 
 use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\DatabaseManager;
+use PHPCensor\Model;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\Build\GitBuild;
 use PHPCensor\Model\Build\GithubBuild;
@@ -13,6 +14,7 @@ use PHPCensor\Model\Build\GitlabBuild;
 use PHPCensor\Model\Build\GogsBuild;
 use PHPCensor\Model\Project;
 use PHPCensor\Service\ProjectService;
+use PHPCensor\Store\ProjectStore;
 use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 use PHPCensor\Common\Application\ConfigurationInterface;
@@ -32,16 +34,16 @@ class BuildTest extends TestCase
     {
         $configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
         $this->databaseManager = $this
-            ->getMockBuilder('PHPCensor\DatabaseManager')
+            ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$configuration])
             ->getMock();
         $this->storeRegistry = $this
-            ->getMockBuilder('PHPCensor\StoreRegistry')
+            ->getMockBuilder(StoreRegistry::class)
             ->setConstructorArgs([$this->databaseManager])
             ->getMock();
 
         $projectStore = $this
-            ->getMockBuilder('PHPCensor\Store\ProjectStore')
+            ->getMockBuilder(ProjectStore::class)
             ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])
             ->getMock();
 
@@ -52,8 +54,8 @@ class BuildTest extends TestCase
     {
         $build = new Build($this->storeRegistry);
 
-        self::assertInstanceOf('PHPCensor\Model', $build);
-        self::assertInstanceOf('PHPCensor\Model\Build', $build);
+        self::assertInstanceOf(Model::class, $build);
+        self::assertInstanceOf(Build::class, $build);
 
         $build = new Build($this->storeRegistry, [
             'project_id' => 100,

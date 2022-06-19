@@ -29,16 +29,16 @@ class ProjectServiceTest extends TestCase
     {
         $this->configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
         $this->databaseManager = $this
-            ->getMockBuilder('PHPCensor\DatabaseManager')
+            ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$this->configuration])
             ->getMock();
         $this->storeRegistry = $this
-            ->getMockBuilder('PHPCensor\StoreRegistry')
+            ->getMockBuilder(StoreRegistry::class)
             ->setConstructorArgs([$this->databaseManager])
             ->getMock();
 
         $this->projectStore = $this
-            ->getMockBuilder('PHPCensor\Store\ProjectStore')
+            ->getMockBuilder(ProjectStore::class)
             ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])
             ->getMock();
 
@@ -330,7 +330,7 @@ class ProjectServiceTest extends TestCase
     public function testExecuteDeleteProject(): void
     {
         $store = $this
-            ->getMockBuilder('PHPCensor\Store\ProjectStore')
+            ->getMockBuilder(ProjectStore::class)
             ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])
             ->getMock();
         $store->expects($this->once())

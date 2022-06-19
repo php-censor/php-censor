@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\PHPCensor\Model\Base;
 
+use PHPCensor\DatabaseManager;
+use PHPCensor\Model;
 use PHPCensor\Model\Base\User;
 use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
@@ -17,11 +19,11 @@ class UserTest extends TestCase
     {
         $configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
         $databaseManager = $this
-            ->getMockBuilder('PHPCensor\DatabaseManager')
+            ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$configuration])
             ->getMock();
         $this->storeRegistry = $this
-            ->getMockBuilder('PHPCensor\StoreRegistry')
+            ->getMockBuilder(StoreRegistry::class)
             ->setConstructorArgs([$databaseManager])
             ->getMock();
     }
@@ -30,8 +32,8 @@ class UserTest extends TestCase
     {
         $user = new User($this->storeRegistry);
 
-        self::assertInstanceOf('PHPCensor\Model', $user);
-        self::assertInstanceOf('PHPCensor\Model\Base\User', $user);
+        self::assertInstanceOf(Model::class, $user);
+        self::assertInstanceOf(User::class, $user);
 
         self::assertEquals([
             'id'            => null,

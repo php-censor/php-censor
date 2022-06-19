@@ -6,6 +6,7 @@ namespace Tests\PHPCensor\Helper;
 
 use Exception;
 use PHPCensor\Helper\CommandExecutor;
+use PHPCensor\Logging\BuildLogger;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 
@@ -19,9 +20,9 @@ class CommandExecutorTest extends TestCase
     {
         parent::setUp();
 
-        $buildLogger = $this->prophesize('PHPCensor\Logging\BuildLogger');
+        $buildLogger = $this->prophesize(BuildLogger::class);
 
-        $class = 'PHPCensor\Helper\CommandExecutor';
+        $class = CommandExecutor::class;
         $this->testedExecutor = new $class($buildLogger->reveal(), __DIR__);
     }
 

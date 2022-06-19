@@ -5,15 +5,14 @@ declare(strict_types=1);
 namespace Tests\PHPCensor;
 
 use PHPCensor\Builder;
+use PHPCensor\DatabaseManager;
 use PHPCensor\Helper\BuildInterpolator;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\EnvironmentStore;
-use PHPCensor\Store\ProjectStore;
 use PHPCensor\Store\SecretStore;
 use PHPCensor\StoreRegistry;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use PHPCensor\Common\Application\ConfigurationInterface;
 
@@ -84,11 +83,11 @@ class PluginTest extends TestCase
 
         $configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
         $databaseManager = $this
-            ->getMockBuilder('PHPCensor\DatabaseManager')
+            ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$configuration])
             ->getMock();
         $this->storeRegistry = $this
-            ->getMockBuilder('PHPCensor\StoreRegistry')
+            ->getMockBuilder(StoreRegistry::class)
             ->setConstructorArgs([$databaseManager])
             ->getMock();
 

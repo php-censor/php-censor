@@ -5,8 +5,13 @@ declare(strict_types=1);
 namespace Tests\PHPCensor\Plugin\Util;
 
 use PHPCensor\Common\Exception\RuntimeException;
+use PHPCensor\DatabaseManager;
+use PHPCensor\Logging\BuildLogger;
 use PHPCensor\Model\Build;
+use PHPCensor\Plugin;
 use PHPCensor\Plugin\Util\Executor;
+use PHPCensor\Plugin\Util\Factory;
+use PHPCensor\Store\BuildStore;
 use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
@@ -29,17 +34,17 @@ class ExecutorTest extends TestCase
 
         $configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
         $databaseManager = $this
-            ->getMockBuilder('PHPCensor\DatabaseManager')
+            ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$configuration])
             ->getMock();
         $this->storeRegistry = $this
-            ->getMockBuilder('PHPCensor\StoreRegistry')
+            ->getMockBuilder(StoreRegistry::class)
             ->setConstructorArgs([$databaseManager])
             ->getMock();
 
-        $this->buildLogger = $this->prophesize('\PHPCensor\Logging\BuildLogger');
-        $this->factory = $this->prophesize('\PHPCensor\Plugin\Util\Factory');
-        $this->buildStore = $this->prophesize('\PHPCensor\Store\BuildStore');
+        $this->buildLogger = $this->prophesize(BuildLogger::class);
+        $this->factory = $this->prophesize(Factory::class);
+        $this->buildStore = $this->prophesize(BuildStore::class);
         $this->testedExecutor = new Executor(
             $this->storeRegistry,
             $this->factory->reveal(),
@@ -59,12 +64,12 @@ class ExecutorTest extends TestCase
     {
         $options = [];
         $pluginName = 'PhpUnit';
-        $pluginNamespace = 'PHPCensor\\Plugin\\';
+        $pluginNamespace = 'PHPCensor\Plugin\\';
 
         $this->factory
             ->buildPlugin($pluginNamespace . $pluginName, $options)
             ->shouldBeCalledTimes(1)
-            ->willReturn($this->prophesize('PHPCensor\Plugin')->reveal());
+            ->willReturn($this->prophesize(Plugin::class)->reveal());
 
         $this->testedExecutor->executePlugin($pluginName, $options);
     }
@@ -77,7 +82,7 @@ class ExecutorTest extends TestCase
         $this->factory
             ->buildPlugin($pluginClass, $options)
             ->shouldBeCalledTimes(1)
-            ->willReturn($this->prophesize('PHPCensor\Plugin')->reveal());
+            ->willReturn($this->prophesize(Plugin::class)->reveal());
 
         $this->testedExecutor->executePlugin($pluginClass, $options);
     }
@@ -88,7 +93,7 @@ class ExecutorTest extends TestCase
         $pluginName = 'PhpUnit';
         $build = new Build($this->storeRegistry);
 
-        $plugin = $this->prophesize('PHPCensor\Plugin');
+        $plugin = $this->prophesize(Plugin::class);
         $plugin->setStoreRegistry($this->storeRegistry)->shouldBeCalledTimes(1);
         $plugin->execute()->shouldBeCalledTimes(1);
 
@@ -105,7 +110,7 @@ class ExecutorTest extends TestCase
 
         $expectedReturnValue = true;
 
-        $plugin = $this->prophesize('PHPCensor\Plugin');
+        $plugin = $this->prophesize(Plugin::class);
         $plugin->setStoreRegistry($this->storeRegistry)->shouldBeCalledTimes(1);
         $plugin->execute()->willReturn($expectedReturnValue);
 
@@ -133,7 +138,7 @@ class ExecutorTest extends TestCase
 
         $expectedException = new RuntimeException("Generic Error");
 
-        $plugin = $this->prophesize('PHPCensor\Plugin');
+        $plugin = $this->prophesize(Plugin::class);
         $plugin->setStoreRegistry($this->storeRegistry)->shouldBeCalledTimes(1);
         $plugin->execute()->willThrow($expectedException);
 
@@ -159,9 +164,9 @@ class ExecutorTest extends TestCase
             ]
         ];
 
-        $pluginNamespace = 'PHPCensor\\Plugin\\';
+        $pluginNamespace = 'PHPCensor\Plugin\\';
 
-        $phpUnitPlugin = $this->prophesize('PHPCensor\Plugin');
+        $phpUnitPlugin = $this->prophesize(Plugin::class);
         $phpUnitPlugin->setStoreRegistry($this->storeRegistry)->shouldBeCalledTimes(1);
         $phpUnitPlugin->execute()->shouldBeCalledTimes(1)->willReturn(true);
 
@@ -170,7 +175,7 @@ class ExecutorTest extends TestCase
             ->willReturn($phpUnitPlugin->reveal());
         $this->factory->getBuild()->willReturn($build);
 
-        $behatPlugin = $this->prophesize('PHPCensor\Plugin');
+        $behatPlugin = $this->prophesize(Plugin::class);
         $behatPlugin->setStoreRegistry($this->storeRegistry)->shouldBeCalledTimes(1);
         $behatPlugin->execute()->shouldBeCalledTimes(1)->willReturn(true);
 

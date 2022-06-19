@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\PHPCensor\Service;
 
 use DateTime;
+use PHPCensor\DatabaseManager;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\Project;
 use PHPCensor\Service\BuildStatusService;
@@ -29,11 +30,11 @@ class BuildStatusServiceTest extends TestCase
     {
         $configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
         $databaseManager = $this
-            ->getMockBuilder('PHPCensor\DatabaseManager')
+            ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$configuration])
             ->getMock();
         $this->storeRegistry = $this
-            ->getMockBuilder('PHPCensor\StoreRegistry')
+            ->getMockBuilder(StoreRegistry::class)
             ->setConstructorArgs([$databaseManager])
             ->getMock();
 
@@ -118,7 +119,7 @@ class BuildStatusServiceTest extends TestCase
     protected function getProjectMock(?int $prevBuildId = null, bool $setProject = true): Project
     {
         $project = $this
-            ->getMockBuilder('PHPCensor\Model\Project')
+            ->getMockBuilder(Project::class)
             ->setConstructorArgs([$this->storeRegistry])
             ->onlyMethods(['getLatestBuild'])
             ->getMock();

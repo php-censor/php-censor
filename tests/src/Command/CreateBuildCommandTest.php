@@ -9,6 +9,10 @@ use PHPCensor\Command\CreateBuildCommand;
 use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
+use PHPCensor\Model\Project;
+use PHPCensor\Service\BuildService;
+use PHPCensor\Store\ProjectStore;
+use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -27,24 +31,24 @@ class CreateBuildCommandTest extends TestCase
 
         $this->configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
         $this->databaseManager = $this
-            ->getMockBuilder('PHPCensor\DatabaseManager')
+            ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$this->configuration])
             ->getMock();
         $storeRegistry = $this
-            ->getMockBuilder('PHPCensor\StoreRegistry')
+            ->getMockBuilder(StoreRegistry::class)
             ->setConstructorArgs([$this->databaseManager])
             ->getMock();
 
-        $this->logger = $this->getMockBuilder('Monolog\Logger')
+        $this->logger = $this->getMockBuilder(Logger::class)
             ->setConstructorArgs(['logger'])
             ->getMock();
         $projectMock  = $this
-            ->getMockBuilder('PHPCensor\Model\Project')
+            ->getMockBuilder(Project::class)
             ->setConstructorArgs([$storeRegistry])
             ->getMock();
 
         $projectStoreMock = $this
-            ->getMockBuilder('PHPCensor\Store\ProjectStore')
+            ->getMockBuilder(ProjectStore::class)
             ->setConstructorArgs([$this->databaseManager, $storeRegistry])
             ->getMock();
         $projectStoreMock->method('getById')
@@ -53,7 +57,7 @@ class CreateBuildCommandTest extends TestCase
                 [2, 'read', null],
             ]));
 
-        $buildServiceMock = $this->getMockBuilder('PHPCensor\Service\BuildService')
+        $buildServiceMock = $this->getMockBuilder(BuildService::class)
             ->disableOriginalConstructor()
             ->getMock();
 

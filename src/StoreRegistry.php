@@ -35,7 +35,7 @@ class StoreRegistry
     {
         if (!isset($this->loadedStores[$storeName])) {
             try {
-                $class = 'PHPCensor\\Store\\' . $storeName . 'Store';
+                $class = 'PHPCensor\Store\\' . $storeName . 'Store';
                 $store = new $class($this->databaseManager, $this);
 
                 $this->loadedStores[$storeName] = $store;
