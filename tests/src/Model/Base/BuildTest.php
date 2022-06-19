@@ -6,6 +6,8 @@ namespace Tests\PHPCensor\Model\Base;
 
 use DateTime;
 use PHPCensor\Common\Exception\InvalidArgumentException;
+use PHPCensor\DatabaseManager;
+use PHPCensor\Model;
 use PHPCensor\Model\Base\Build;
 use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
@@ -19,11 +21,11 @@ class BuildTest extends TestCase
     {
         $configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
         $databaseManager = $this
-            ->getMockBuilder('PHPCensor\DatabaseManager')
+            ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$configuration])
             ->getMock();
         $this->storeRegistry = $this
-            ->getMockBuilder('PHPCensor\StoreRegistry')
+            ->getMockBuilder(StoreRegistry::class)
             ->setConstructorArgs([$databaseManager])
             ->getMock();
     }
@@ -32,8 +34,8 @@ class BuildTest extends TestCase
     {
         $build = new Build($this->storeRegistry);
 
-        self::assertInstanceOf('PHPCensor\Model', $build);
-        self::assertInstanceOf('PHPCensor\Model\Base\Build', $build);
+        self::assertInstanceOf(Model::class, $build);
+        self::assertInstanceOf(Build::class, $build);
 
         self::assertEquals([
             'id'                     => null,
@@ -123,7 +125,7 @@ class BuildTest extends TestCase
         $build->setStatusFailed();
         self::assertEquals(Build::STATUS_FAILED, $build->getStatus());
 
-        self::expectException('\PHPCensor\Common\Exception\InvalidArgumentException');
+        self::expectException(InvalidArgumentException::class);
         $build->setStatus(10);
     }
 
@@ -328,7 +330,7 @@ class BuildTest extends TestCase
         $result = $build->setSource(Build::SOURCE_WEBHOOK_PULL_REQUEST_CREATED);
         self::assertEquals(false, $result);
 
-        self::expectException('\PHPCensor\Common\Exception\InvalidArgumentException');
+        self::expectException(InvalidArgumentException::class);
         $build->setSource(20);
     }
 

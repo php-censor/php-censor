@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Tests\PHPCensor\Model\Base;
 
 use DateTime;
+use PHPCensor\Common\Exception\InvalidArgumentException;
+use PHPCensor\DatabaseManager;
+use PHPCensor\Model;
 use PHPCensor\Model\Base\Project;
 use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
@@ -18,11 +21,11 @@ class ProjectTest extends TestCase
     {
         $configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
         $databaseManager = $this
-            ->getMockBuilder('PHPCensor\DatabaseManager')
+            ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$configuration])
             ->getMock();
         $this->storeRegistry = $this
-            ->getMockBuilder('PHPCensor\StoreRegistry')
+            ->getMockBuilder(StoreRegistry::class)
             ->setConstructorArgs([$databaseManager])
             ->getMock();
     }
@@ -31,8 +34,8 @@ class ProjectTest extends TestCase
     {
         $project = new Project($this->storeRegistry);
 
-        self::assertInstanceOf('PHPCensor\Model', $project);
-        self::assertInstanceOf('PHPCensor\Model\Base\Project', $project);
+        self::assertInstanceOf(Model::class, $project);
+        self::assertInstanceOf(Project::class, $project);
 
         self::assertEquals([
             'id'                     => null,
@@ -151,7 +154,7 @@ class ProjectTest extends TestCase
         $result = $project->setType('git');
         self::assertEquals(false, $result);
 
-        self::expectException('\PHPCensor\Common\Exception\InvalidArgumentException');
+        self::expectException(InvalidArgumentException::class);
         $project->setType('invalid-type');
     }
 

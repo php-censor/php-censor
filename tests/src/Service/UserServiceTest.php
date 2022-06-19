@@ -29,16 +29,16 @@ class UserServiceTest extends TestCase
     {
         $this->configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
         $this->databaseManager = $this
-            ->getMockBuilder('PHPCensor\DatabaseManager')
+            ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$this->configuration])
             ->getMock();
         $this->storeRegistry = $this
-            ->getMockBuilder('PHPCensor\StoreRegistry')
+            ->getMockBuilder(StoreRegistry::class)
             ->setConstructorArgs([$this->databaseManager])
             ->getMock();
 
         $this->userStore = $this
-            ->getMockBuilder('PHPCensor\Store\UserStore')
+            ->getMockBuilder(UserStore::class)
             ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])
             ->getMock();
         $this->userStore
@@ -124,7 +124,7 @@ class UserServiceTest extends TestCase
     public function testExecuteDeleteUser(): void
     {
         $store = $this
-            ->getMockBuilder('PHPCensor\Store\UserStore')
+            ->getMockBuilder(UserStore::class)
             ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])
             ->getMock();
         $store->expects($this->once())

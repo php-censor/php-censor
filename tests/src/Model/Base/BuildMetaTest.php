@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\PHPCensor\Model\Base;
 
+use PHPCensor\DatabaseManager;
+use PHPCensor\Model;
 use PHPCensor\Model\Base\BuildMeta;
 use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
@@ -17,11 +19,11 @@ class BuildMetaTest extends TestCase
     {
         $configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
         $databaseManager = $this
-            ->getMockBuilder('PHPCensor\DatabaseManager')
+            ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$configuration])
             ->getMock();
         $this->storeRegistry = $this
-            ->getMockBuilder('PHPCensor\StoreRegistry')
+            ->getMockBuilder(StoreRegistry::class)
             ->setConstructorArgs([$databaseManager])
             ->getMock();
     }
@@ -30,8 +32,8 @@ class BuildMetaTest extends TestCase
     {
         $buildMeta = new BuildMeta($this->storeRegistry);
 
-        self::assertInstanceOf('PHPCensor\Model', $buildMeta);
-        self::assertInstanceOf('PHPCensor\Model\Base\BuildMeta', $buildMeta);
+        self::assertInstanceOf(Model::class, $buildMeta);
+        self::assertInstanceOf(BuildMeta::class, $buildMeta);
 
         self::assertEquals([
             'id'         => null,

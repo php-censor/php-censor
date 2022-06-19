@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\PHPCensor\Model;
 
 use PHPCensor\Common\Exception\InvalidArgumentException;
+use PHPCensor\DatabaseManager;
 use PHPCensor\Model;
 use PHPCensor\Model\Project;
 use PHPCensor\StoreRegistry;
@@ -24,11 +25,11 @@ class ProjectTest extends TestCase
     {
         $configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
         $databaseManager = $this
-            ->getMockBuilder('PHPCensor\DatabaseManager')
+            ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$configuration])
             ->getMock();
         $this->storeRegistry = $this
-            ->getMockBuilder('PHPCensor\StoreRegistry')
+            ->getMockBuilder(StoreRegistry::class)
             ->setConstructorArgs([$databaseManager])
             ->getMock();
     }

@@ -10,9 +10,11 @@ use PHPCensor\BuildFactory;
 use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Model\Build;
+use PHPCensor\Model\Project;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\EnvironmentStore;
+use PHPCensor\Store\ProjectStore;
 use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 
@@ -35,15 +37,15 @@ class BuildServiceTest extends TestCase
     {
         $this->configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
         $this->databaseManager = $this
-            ->getMockBuilder('PHPCensor\DatabaseManager')
+            ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$this->configuration])
             ->getMock();
         $this->storeRegistry = $this
-            ->getMockBuilder('PHPCensor\StoreRegistry')
+            ->getMockBuilder(StoreRegistry::class)
             ->setConstructorArgs([$this->databaseManager])
             ->getMock();
         $this->buildStore = $this
-            ->getMockBuilder('PHPCensor\Store\BuildStore')
+            ->getMockBuilder(BuildStore::class)
             ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])
             ->getMock();
         $this->buildStore
@@ -52,7 +54,7 @@ class BuildServiceTest extends TestCase
             ->will($this->returnArgument(0));
 
         $this->environmentStore = $this
-            ->getMockBuilder('PHPCensor\Store\EnvironmentStore')
+            ->getMockBuilder(EnvironmentStore::class)
             ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])
             ->getMock();
         $this->environmentStore
@@ -61,7 +63,7 @@ class BuildServiceTest extends TestCase
             ->will($this->returnValue(['items' => [], 'count' => 0]));
 
         $projectStore = $this
-            ->getMockBuilder('PHPCensor\Store\ProjectStore')
+            ->getMockBuilder(ProjectStore::class)
             ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])
             ->getMock();
 
@@ -82,7 +84,7 @@ class BuildServiceTest extends TestCase
     public function testExecute_CreateBasicBuild(): void
     {
         $project = $this
-            ->getMockBuilder('PHPCensor\Model\Project')
+            ->getMockBuilder(Project::class)
             ->setConstructorArgs([$this->storeRegistry])
             ->onlyMethods(['getEnvironmentStore'])
             ->getMock();
@@ -114,7 +116,7 @@ class BuildServiceTest extends TestCase
     public function testExecute_CreateBuildWithOptions(): void
     {
         $project = $this
-            ->getMockBuilder('PHPCensor\Model\Project')
+            ->getMockBuilder(Project::class)
             ->setConstructorArgs([$this->storeRegistry])
             ->onlyMethods(['getEnvironmentStore'])
             ->getMock();
@@ -145,7 +147,7 @@ class BuildServiceTest extends TestCase
     public function testExecute_CreateBuildWithExtra(): void
     {
         $project = $this
-            ->getMockBuilder('PHPCensor\Model\Project')
+            ->getMockBuilder(Project::class)
             ->setConstructorArgs([$this->storeRegistry])
             ->onlyMethods(['getEnvironmentStore'])
             ->getMock();
@@ -215,7 +217,7 @@ class BuildServiceTest extends TestCase
     public function testExecute_DeleteBuild(): void
     {
         $store = $this
-            ->getMockBuilder('PHPCensor\Store\BuildStore')
+            ->getMockBuilder(BuildStore::class)
             ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])
             ->getMock();
         $store->expects($this->once())
@@ -223,7 +225,7 @@ class BuildServiceTest extends TestCase
             ->will($this->returnValue(true));
 
         $projectStore = $this
-            ->getMockBuilder('PHPCensor\Store\ProjectStore')
+            ->getMockBuilder(ProjectStore::class)
             ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])
             ->getMock();
 

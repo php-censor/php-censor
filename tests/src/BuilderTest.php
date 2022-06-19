@@ -14,7 +14,6 @@ use PHPCensor\Logging\BuildLogger;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\Project;
 use PHPCensor\Store\BuildErrorWriter;
-use PHPCensor\Store\BuildStore;
 use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LogLevel;

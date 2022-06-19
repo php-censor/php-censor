@@ -9,6 +9,10 @@ use PHPCensor\Command\CreateBuildCommand;
 use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
+use PHPCensor\Model\Project;
+use PHPCensor\Service\BuildService;
+use PHPCensor\Store\ProjectStore;
+use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -27,44 +31,44 @@ class CreateBuildCommandTest extends TestCase
 
         $this->configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
         $this->databaseManager = $this
-            ->getMockBuilder('PHPCensor\DatabaseManager')
+            ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$this->configuration])
             ->getMock();
         $storeRegistry = $this
-            ->getMockBuilder('PHPCensor\StoreRegistry')
+            ->getMockBuilder(StoreRegistry::class)
             ->setConstructorArgs([$this->databaseManager])
             ->getMock();
 
-        $this->logger = $this->getMockBuilder('Monolog\Logger')
+        $this->logger = $this->getMockBuilder(Logger::class)
             ->setConstructorArgs(['logger'])
             ->getMock();
-        $projectMock  = $this
-            ->getMockBuilder('PHPCensor\Model\Project')
+        $project  = $this
+            ->getMockBuilder(Project::class)
             ->setConstructorArgs([$storeRegistry])
             ->getMock();
 
-        $projectStoreMock = $this
-            ->getMockBuilder('PHPCensor\Store\ProjectStore')
+        $projectStore = $this
+            ->getMockBuilder(ProjectStore::class)
             ->setConstructorArgs([$this->databaseManager, $storeRegistry])
             ->getMock();
-        $projectStoreMock->method('getById')
+        $projectStore->method('getById')
             ->will($this->returnValueMap([
-                [1, 'read', $projectMock],
+                [1, 'read', $project],
                 [2, 'read', null],
             ]));
 
-        $buildServiceMock = $this->getMockBuilder('PHPCensor\Service\BuildService')
+        $buildService = $this->getMockBuilder(BuildService::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $buildServiceMock->method('createBuild')
+        $buildService->method('createBuild')
             ->withConsecutive(
-                [$projectMock, null, null, null, null, null],
-                [$projectMock, '92c8c6e', null, null, null, null],
-                [$projectMock, null, 'master', null, null, null]
+                [$project, null, null, null, null, null],
+                [$project, '92c8c6e', null, null, null, null],
+                [$project, null, 'master', null, null, null]
             );
 
-        $this->command = new CreateBuildCommand($this->configuration, $this->databaseManager, $storeRegistry, $this->logger, $projectStoreMock, $buildServiceMock);
+        $this->command = new CreateBuildCommand($this->configuration, $this->databaseManager, $storeRegistry, $this->logger, $projectStore, $buildService);
 
         $this->application = new Application();
     }

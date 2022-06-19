@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\PHPCensor\Model\Base;
 
+use PHPCensor\DatabaseManager;
+use PHPCensor\Model;
 use PHPCensor\Model\Base\Environment;
 use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
@@ -17,11 +19,11 @@ class EnvironmentTest extends TestCase
     {
         $configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
         $databaseManager = $this
-            ->getMockBuilder('PHPCensor\DatabaseManager')
+            ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$configuration])
             ->getMock();
         $this->storeRegistry = $this
-            ->getMockBuilder('PHPCensor\StoreRegistry')
+            ->getMockBuilder(StoreRegistry::class)
             ->setConstructorArgs([$databaseManager])
             ->getMock();
     }
@@ -30,8 +32,8 @@ class EnvironmentTest extends TestCase
     {
         $environment = new Environment($this->storeRegistry);
 
-        self::assertInstanceOf('PHPCensor\Model', $environment);
-        self::assertInstanceOf('PHPCensor\Model\Base\Environment', $environment);
+        self::assertInstanceOf(Model::class, $environment);
+        self::assertInstanceOf(Environment::class, $environment);
 
         self::assertEquals([
             'id'         => null,

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\PHPCensor\Helper;
 
+use PHPCensor\DatabaseManager;
 use PHPCensor\Helper\BuildInterpolator;
 use PHPCensor\Model\Build;
 use PHPCensor\Store\EnvironmentStore;
@@ -27,11 +28,11 @@ class BuildInterpolatorTest extends TestCase
 
         $configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
         $databaseManager = $this
-            ->getMockBuilder('PHPCensor\DatabaseManager')
+            ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$configuration])
             ->getMock();
         $this->storeRegistry = $this
-            ->getMockBuilder('PHPCensor\StoreRegistry')
+            ->getMockBuilder(StoreRegistry::class)
             ->setConstructorArgs([$databaseManager])
             ->getMock();
 
@@ -61,7 +62,7 @@ class BuildInterpolatorTest extends TestCase
     public function testInterpolate_LeavesStringsUnchangedWhenBuildIsSet(): void
     {
         /** @var Build $build */
-        $build = $this->prophesize('PHPCensor\\Model\\Build')->reveal();
+        $build = $this->prophesize(Build::class)->reveal();
 
         $string         = "Hello World";
         $expectedOutput = "Hello World";

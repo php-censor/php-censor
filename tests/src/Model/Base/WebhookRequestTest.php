@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Tests\PHPCensor\Model\Base;
 
 use DateTime;
+use PHPCensor\DatabaseManager;
+use PHPCensor\Model;
 use PHPCensor\Model\Base\ProjectGroup;
 use PHPCensor\Model\Base\WebhookRequest;
 use PHPCensor\StoreRegistry;
@@ -19,11 +21,11 @@ class WebhookRequestTest extends TestCase
     {
         $configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
         $databaseManager = $this
-            ->getMockBuilder('PHPCensor\DatabaseManager')
+            ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$configuration])
             ->getMock();
         $this->storeRegistry = $this
-            ->getMockBuilder('PHPCensor\StoreRegistry')
+            ->getMockBuilder(StoreRegistry::class)
             ->setConstructorArgs([$databaseManager])
             ->getMock();
     }
@@ -32,8 +34,8 @@ class WebhookRequestTest extends TestCase
     {
         $webhookRequest = new WebhookRequest($this->storeRegistry);
 
-        self::assertInstanceOf('PHPCensor\Model', $webhookRequest);
-        self::assertInstanceOf('PHPCensor\Model\Base\WebhookRequest', $webhookRequest);
+        self::assertInstanceOf(Model::class, $webhookRequest);
+        self::assertInstanceOf(WebhookRequest::class, $webhookRequest);
 
         self::assertEquals([
             'id'           => null,

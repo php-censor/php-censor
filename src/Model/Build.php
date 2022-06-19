@@ -15,6 +15,7 @@ use PHPCensor\Model\Base\Build as BaseBuild;
 use PHPCensor\Plugin\PhpParallelLint;
 use PHPCensor\Store\BuildErrorStore;
 use PHPCensor\Store\ProjectStore;
+use PHPCensor\ZeroConfigPluginInterface;
 use ReflectionClass;
 use ReflectionException;
 use Symfony\Component\Filesystem\Filesystem;
@@ -295,11 +296,11 @@ class Build extends BaseBuild
                 continue;
             }
 
-            $className = '\PHPCensor\Plugin\\' . $item->getBasename('.php');
+            $className = 'PHPCensor\Plugin\\' . $item->getBasename('.php');
 
             $reflectedPlugin = new ReflectionClass($className);
 
-            if (!$reflectedPlugin->implementsInterface('\PHPCensor\ZeroConfigPluginInterface')) {
+            if (!$reflectedPlugin->implementsInterface(ZeroConfigPluginInterface::class)) {
                 continue;
             }
 
@@ -627,8 +628,8 @@ OUT;
 
         if (null === $previous) {
             return [
-                'trend' => 0,
-                'delta' => 0,
+                'trend' => -1,
+                'delta' => $total,
             ];
         }
 
@@ -661,8 +662,8 @@ OUT;
 
         if (null === $previous) {
             return [
-                'trend' => 0,
-                'delta' => '0.00',
+                'trend' => -1,
+                'delta' => $total,
             ];
         }
 

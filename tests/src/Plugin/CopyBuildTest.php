@@ -6,6 +6,7 @@ namespace Tests\PHPCensor\Plugin;
 
 use PHPCensor\Builder;
 use PHPCensor\Helper\CommandExecutor;
+use PHPCensor\Logging\BuildLogger;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 use PHPCensor\Plugin\CopyBuild;
@@ -75,18 +76,18 @@ class CopyBuildTest extends TestCase
     {
         /** @var Build|MockObject $build */
         $build = $this
-            ->getMockBuilder('PHPCensor\Model\Build')
+            ->getMockBuilder(Build::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         /** @var Builder|MockObject $builder */
         $builder = $this
-            ->getMockBuilder('PHPCensor\Builder')
+            ->getMockBuilder(Builder::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $buildLogger = $this
-            ->getMockBuilder('PHPCensor\Logging\BuildLogger')
+            ->getMockBuilder(BuildLogger::class)
             ->disableOriginalConstructor()
             ->getMock();
 

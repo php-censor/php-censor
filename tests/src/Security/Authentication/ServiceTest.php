@@ -5,9 +5,13 @@ declare(strict_types=1);
 namespace Tests\PHPCensor\Security\Authentication;
 
 use PHPCensor\Common\Application\ConfigurationInterface;
+use PHPCensor\DatabaseManager;
 use PHPCensor\Model\User;
+use PHPCensor\Security\Authentication\LoginPasswordProviderInterface;
 use PHPCensor\Security\Authentication\Service;
 use PHPCensor\Security\Authentication\UserProvider\AbstractProvider;
+use PHPCensor\Security\Authentication\UserProvider\Internal;
+use PHPCensor\Security\Authentication\UserProviderInterface;
 use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -25,11 +29,11 @@ class ServiceTest extends TestCase
 
         $this->configuration = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
         $databaseManager     = $this
-            ->getMockBuilder('PHPCensor\DatabaseManager')
+            ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$this->configuration])
             ->getMock();
         $this->storeRegistry = $this
-            ->getMockBuilder('PHPCensor\StoreRegistry')
+            ->getMockBuilder(StoreRegistry::class)
             ->setConstructorArgs([$databaseManager])
             ->getMock();
     }
@@ -38,23 +42,23 @@ class ServiceTest extends TestCase
     {
         $provider = Service::buildProvider($this->storeRegistry, 'test', ['type' => 'internal']);
 
-        self::assertInstanceOf('\PHPCensor\Security\Authentication\UserProvider\Internal', $provider);
+        self::assertInstanceOf(Internal::class, $provider);
     }
 
     public function testBuildAnyProvider(): void
     {
-        $config   = ['type' => '\Tests\PHPCensor\Security\Authentication\DummyProvider'];
+        $config   = ['type' => DummyProvider::class];
         $provider = Service::buildProvider($this->storeRegistry, 'test', $config);
 
-        self::assertInstanceOf('\Tests\PHPCensor\Security\Authentication\DummyProvider', $provider);
+        self::assertInstanceOf(DummyProvider::class, $provider);
         self::assertEquals('test', $provider->getKey());
         self::assertEquals($config, $provider->getConfig());
     }
 
     public function testGetProviders(): void
     {
-        $a         = $this->prophesize('\PHPCensor\Security\Authentication\UserProviderInterface')->reveal();
-        $b         = $this->prophesize('\PHPCensor\Security\Authentication\UserProviderInterface')->reveal();
+        $a         = $this->prophesize(UserProviderInterface::class)->reveal();
+        $b         = $this->prophesize(UserProviderInterface::class)->reveal();
         $providers = ['a' => $a, 'b' => $b];
 
         $service = new Service($this->configuration, $this->storeRegistry, $providers);
@@ -64,8 +68,8 @@ class ServiceTest extends TestCase
 
     public function testGetLoginPasswordProviders(): void
     {
-        $a         = $this->prophesize('\PHPCensor\Security\Authentication\UserProviderInterface')->reveal();
-        $b         = $this->prophesize('\PHPCensor\Security\Authentication\LoginPasswordProviderInterface')->reveal();
+        $a         = $this->prophesize(UserProviderInterface::class)->reveal();
+        $b         = $this->prophesize(LoginPasswordProviderInterface::class)->reveal();
         $providers = ['a' => $a, 'b' => $b];
 
         $service = new Service($this->configuration, $this->storeRegistry, $providers);

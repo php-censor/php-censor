@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\PHPCensor\Plugin;
 
 use PHPCensor\Builder;
+use PHPCensor\DatabaseManager;
 use PHPCensor\Helper\BuildInterpolator;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\Project;
@@ -40,16 +41,16 @@ class EmailTest extends TestCase
 
         $configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
         $databaseManager = $this
-            ->getMockBuilder('PHPCensor\DatabaseManager')
+            ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$configuration])
             ->getMock();
         $this->storeRegistry = $this
-            ->getMockBuilder('PHPCensor\StoreRegistry')
+            ->getMockBuilder(StoreRegistry::class)
             ->setConstructorArgs([$databaseManager])
             ->getMock();
 
         $this->project = $this
-            ->getMockBuilder('\PHPCensor\Model\Project')
+            ->getMockBuilder(Project::class)
             ->onlyMethods(['getTitle'])
             ->setMockClassName('mockProject')
             ->disableOriginalConstructor()
@@ -60,7 +61,7 @@ class EmailTest extends TestCase
             ->will($this->returnValue("Test-Project"));
 
         $this->build = $this
-            ->getMockBuilder('\PHPCensor\Model\Build')
+            ->getMockBuilder(Build::class)
             ->onlyMethods(['getLog', 'getStatus', 'getProject', 'getCommitterEmail'])
             ->setMockClassName('mockBuild')
             ->disableOriginalConstructor()
@@ -85,7 +86,7 @@ class EmailTest extends TestCase
             ->will($this->returnValue('committer-email@example.com'));
 
         $this->builder = $this
-            ->getMockBuilder('\PHPCensor\Builder')
+            ->getMockBuilder(Builder::class)
             ->onlyMethods(['log', 'logDebug', 'interpolate'])
             ->setMockClassName('mockBuilder_email')
             ->disableOriginalConstructor()
@@ -133,7 +134,7 @@ class EmailTest extends TestCase
         $self = $this;
 
         $this->testedEmailPlugin = $this
-            ->getMockBuilder('\PHPCensor\Plugin\EmailNotify')
+            ->getMockBuilder(Plugin\EmailNotify::class)
             ->onlyMethods(['sendEmail'])
             ->setConstructorArgs([$this->builder, $this->build, $arrOptions])
             ->getMock();

@@ -227,7 +227,7 @@ class Executor
         if (!\class_exists($class)) {
             $class = \str_replace('_', ' ', $plugin);
             $class = \ucwords($class);
-            $class = 'PHPCensor\\Plugin\\' . \str_replace(' ', '', $class);
+            $class = 'PHPCensor\Plugin\\' . \str_replace(' ', '', $class);
 
             if (!\class_exists($class)) {
                 $this->logger->logFailure(\sprintf('Plugin does not exist: %s', $plugin));

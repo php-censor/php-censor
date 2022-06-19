@@ -240,7 +240,7 @@ class Application
     {
         $controller = $this->toPhpName($route['controller']);
 
-        return 'PHPCensor\\Controller\\' . $controller . 'Controller';
+        return 'PHPCensor\Controller\\' . $controller . 'Controller';
     }
 
     public function isValidRoute(array $route): bool

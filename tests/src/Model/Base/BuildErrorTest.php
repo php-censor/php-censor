@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Tests\PHPCensor\Model\Base;
 
 use DateTime;
+use PHPCensor\DatabaseManager;
+use PHPCensor\Model;
 use PHPCensor\Model\Base\BuildError;
 use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
@@ -18,11 +20,11 @@ class BuildErrorTest extends TestCase
     {
         $configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
         $databaseManager = $this
-            ->getMockBuilder('PHPCensor\DatabaseManager')
+            ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$configuration])
             ->getMock();
         $this->storeRegistry = $this
-            ->getMockBuilder('PHPCensor\StoreRegistry')
+            ->getMockBuilder(StoreRegistry::class)
             ->setConstructorArgs([$databaseManager])
             ->getMock();
     }
@@ -31,8 +33,8 @@ class BuildErrorTest extends TestCase
     {
         $buildError = new BuildError($this->storeRegistry);
 
-        self::assertInstanceOf('PHPCensor\Model', $buildError);
-        self::assertInstanceOf('PHPCensor\Model\Base\BuildError', $buildError);
+        self::assertInstanceOf(Model::class, $buildError);
+        self::assertInstanceOf(BuildError::class, $buildError);
 
         self::assertEquals([
             'id'          => null,

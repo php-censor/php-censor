@@ -5,6 +5,7 @@ namespace PHPCensor\Helper;
 use DOMDocument;
 use Exception;
 use LibXMLError;
+use PHPCensor\Helper\Xml\Utf8CleanFilter;
 use SimpleXMLElement;
 
 /**
@@ -22,7 +23,7 @@ class Xml
      */
     public static function loadFromFile($filePath)
     {
-        \stream_filter_register('xml_utf8_clean', 'PHPCensor\Helper\Xml\Utf8CleanFilter');
+        \stream_filter_register('xml_utf8_clean', Utf8CleanFilter::class);
 
         try {
             $xml = \simplexml_load_file('php://filter/read=xml_utf8_clean/resource=' . $filePath);
