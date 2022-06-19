@@ -42,33 +42,33 @@ class CreateBuildCommandTest extends TestCase
         $this->logger = $this->getMockBuilder(Logger::class)
             ->setConstructorArgs(['logger'])
             ->getMock();
-        $projectMock  = $this
+        $project  = $this
             ->getMockBuilder(Project::class)
             ->setConstructorArgs([$storeRegistry])
             ->getMock();
 
-        $projectStoreMock = $this
+        $projectStore = $this
             ->getMockBuilder(ProjectStore::class)
             ->setConstructorArgs([$this->databaseManager, $storeRegistry])
             ->getMock();
-        $projectStoreMock->method('getById')
+        $projectStore->method('getById')
             ->will($this->returnValueMap([
-                [1, 'read', $projectMock],
+                [1, 'read', $project],
                 [2, 'read', null],
             ]));
 
-        $buildServiceMock = $this->getMockBuilder(BuildService::class)
+        $buildService = $this->getMockBuilder(BuildService::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $buildServiceMock->method('createBuild')
+        $buildService->method('createBuild')
             ->withConsecutive(
-                [$projectMock, null, null, null, null, null],
-                [$projectMock, '92c8c6e', null, null, null, null],
-                [$projectMock, null, 'master', null, null, null]
+                [$project, null, null, null, null, null],
+                [$project, '92c8c6e', null, null, null, null],
+                [$project, null, 'master', null, null, null]
             );
 
-        $this->command = new CreateBuildCommand($this->configuration, $this->databaseManager, $storeRegistry, $this->logger, $projectStoreMock, $buildServiceMock);
+        $this->command = new CreateBuildCommand($this->configuration, $this->databaseManager, $storeRegistry, $this->logger, $projectStore, $buildService);
 
         $this->application = new Application();
     }

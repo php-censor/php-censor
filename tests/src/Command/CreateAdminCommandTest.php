@@ -40,12 +40,12 @@ class CreateAdminCommandTest extends TestCase
         $this->logger = $this->getMockBuilder(Logger::class)
             ->setConstructorArgs(['logger'])
             ->getMock();
-        $userStoreMock = $this
+        $userStore = $this
             ->getMockBuilder(UserStore::class)
             ->setConstructorArgs([$this->databaseManager, $storeRegistry])
             ->getMock();
 
-        $this->command = new CreateAdminCommand($this->configuration, $this->databaseManager, $storeRegistry, $this->logger, $userStoreMock);
+        $this->command = new CreateAdminCommand($this->configuration, $this->databaseManager, $storeRegistry, $this->logger, $userStore);
 
         $this->helper = $this
             ->getMockBuilder(QuestionHelper::class)
