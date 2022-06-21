@@ -130,7 +130,7 @@ class Model
         return $this->getDataItem('id');
     }
 
-    public function setId(int $value): bool
+    public function setId(?int $value): bool
     {
         return $this->setDataItem('id', $value);
     }

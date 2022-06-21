@@ -273,10 +273,37 @@ class ProjectController extends WebController
     {
         $this->requireAdmin();
 
+        /** @var Project $project */
         $project = $this->projectStore->getById($projectId);
         $this->projectService->deleteProject($project);
 
         return new RedirectResponse(APP_URL);
+    }
+
+    /**
+     * @param int $projectId
+     *
+     * @return RedirectResponse
+     * @throws PHPCensor\Exception\HttpException
+     * @throws PHPCensor\Exception\HttpException\ForbiddenException
+     */
+    public function clone(int $projectId)
+    {
+        $this->requireAdmin();
+
+        /** @var PHPCensor\Model\User $user */
+        $user = $this->getUser();
+
+        /** @var Project $project */
+        $project = $this->projectStore->getById($projectId);
+        $project->setId(null);
+        $project->setTitle('CLONE OF: ' . $project->getTitle());
+        $project->setCreateDate(new \DateTime());
+        $project->setUserId($user->getId());
+
+        $project = $this->projectStore->save($project);
+
+        return new RedirectResponse(APP_URL.'project/view/' . $project->getId());
     }
 
     /**
