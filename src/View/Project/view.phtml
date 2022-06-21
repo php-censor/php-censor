@@ -23,6 +23,9 @@ use PHPCensor\Model\User;
     <a class="btn btn-default" href="<?= APP_URL . 'project/edit/' . $project->getId(); ?>">
         <?= Lang::get('edit_project'); ?>
     </a>
+    <a class="btn btn-default" href="<?= APP_URL . 'project/clone/' . $project->getId(); ?>">
+        <?= Lang::get('clone_project'); ?>
+    </a>
 
     <?php if ($user->getIsAdmin()): ?>
         <a class="btn btn-danger" id="delete-project">
