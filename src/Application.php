@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace PHPCensor;
 
-use Exception;
+use PHPCensor\Common\Application\ApplicationInterface;
 use PHPCensor\Exception\HttpException;
 use PHPCensor\Exception\HttpException\NotFoundException;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,7 +23,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
  * @author Dan Cryer <dan@block8.co.uk>
  * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
-class Application
+class Application implements ApplicationInterface
 {
     private ?array $route;
 
@@ -53,6 +53,46 @@ class Application
         $this->router = new Router($this, $this->request);
 
         $this->init();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getConfiguration(): ConfigurationInterface
+    {
+        return $this->configuration;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getRootPath(): string
+    {
+        return ROOT_DIR;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isPublicArtifactsAllowed(): bool
+    {
+        return (bool)$this->configuration->get('php-censor.build.allow_public_artifacts', false);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getArtifactsLink(): string
+    {
+        return APP_URL . 'artifacts/';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getArtifactsPath(): string
+    {
+        return PUBLIC_DIR . 'artifacts/';
     }
 
     /**

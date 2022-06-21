@@ -22,6 +22,7 @@ use PHPCensor\Command\InstallCommand;
 use PHPCensor\Command\RemoveOldBuildsCommand;
 use PHPCensor\Command\RebuildQueueCommand;
 use PHPCensor\Command\WorkerCommand;
+use PHPCensor\Common\Application\ApplicationInterface;
 use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Common\Exception\InvalidArgumentException;
@@ -40,7 +41,7 @@ use Symfony\Component\Console\Application as BaseApplication;
  *
  * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
-class Application extends BaseApplication
+class Application extends BaseApplication implements ApplicationInterface
 {
     private const LOGO = <<<'LOGO'
     ____  __  ______    ______
@@ -216,5 +217,45 @@ LOGO;
     public function getLongVersion(): string
     {
         return \sprintf('<info>%s</info> v%s', $this->getName(), $this->getVersion());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getConfiguration(): ConfigurationInterface
+    {
+        return $this->configuration;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getRootPath(): string
+    {
+        return ROOT_DIR;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isPublicArtifactsAllowed(): bool
+    {
+        return (bool)$this->configuration->get('php-censor.build.allow_public_artifacts', false);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getArtifactsLink(): string
+    {
+        return APP_URL . 'artifacts/';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getArtifactsPath(): string
+    {
+        return PUBLIC_DIR . 'artifacts/';
     }
 }
