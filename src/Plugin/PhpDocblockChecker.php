@@ -7,7 +7,7 @@ use PHPCensor\Builder;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
 use PHPCensor\Plugin;
-use PHPCensor\ZeroConfigPluginInterface;
+use PHPCensor\Common\Plugin\ZeroConfigPluginInterface;
 
 /**
  * PHP Docblock Checker Plugin - Checks your PHP files for appropriate uses of Docblocks

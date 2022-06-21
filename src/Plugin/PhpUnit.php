@@ -11,7 +11,7 @@ use PHPCensor\Plugin;
 use PHPCensor\Plugin\Option\PhpUnitOptions;
 use PHPCensor\Plugin\Util\PhpUnitResultJson;
 use PHPCensor\Plugin\Util\PhpUnitResultJunit;
-use PHPCensor\ZeroConfigPluginInterface;
+use PHPCensor\Common\Plugin\ZeroConfigPluginInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use PHPCensor\Common\Exception\RuntimeException;
 

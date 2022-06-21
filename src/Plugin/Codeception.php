@@ -8,7 +8,7 @@ use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 use PHPCensor\Plugin\Util\TestResultParsers\Codeception as Parser;
-use PHPCensor\ZeroConfigPluginInterface;
+use PHPCensor\Common\Plugin\ZeroConfigPluginInterface;
 use Symfony\Component\Yaml\Parser as YamlParser;
 
 /**

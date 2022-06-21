@@ -6,7 +6,7 @@ use PHPCensor;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
-use PHPCensor\ZeroConfigPluginInterface;
+use PHPCensor\Common\Plugin\ZeroConfigPluginInterface;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use SplFileInfo;

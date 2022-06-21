@@ -15,7 +15,7 @@ use PHPCensor\Model\Base\Build as BaseBuild;
 use PHPCensor\Plugin\PhpParallelLint;
 use PHPCensor\Store\BuildErrorStore;
 use PHPCensor\Store\ProjectStore;
-use PHPCensor\ZeroConfigPluginInterface;
+use PHPCensor\Common\Plugin\ZeroConfigPluginInterface;
 use ReflectionClass;
 use ReflectionException;
 use Symfony\Component\Filesystem\Filesystem;

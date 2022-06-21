@@ -8,7 +8,7 @@ use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
 use PHPCensor\Plugin;
-use PHPCensor\ZeroConfigPluginInterface;
+use PHPCensor\Common\Plugin\ZeroConfigPluginInterface;
 
 /**
  * PHP Copy / Paste Detector - Allows PHP Copy / Paste Detector testing.
