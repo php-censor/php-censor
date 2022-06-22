@@ -341,6 +341,7 @@ class Build extends BaseBuild
     ) {
         $writer = $builder->getBuildErrorWriter();
         $writer->write(
+            $this,
             $plugin,
             $message,
             $severity,

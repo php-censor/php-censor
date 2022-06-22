@@ -6,6 +6,8 @@ namespace PHPCensor\Store;
 
 use DateTime;
 use PHPCensor\Common\Application\ConfigurationInterface;
+use PHPCensor\Common\Build\BuildErrorWriterInterface;
+use PHPCensor\Common\Build\BuildInterface;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Model\BuildError;
 use PHPCensor\StoreRegistry;
@@ -17,12 +19,8 @@ use PHPCensor\StoreRegistry;
  * @author Dan Cryer <dan@block8.co.uk>
  * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
-class BuildErrorWriter
+class BuildErrorWriter implements BuildErrorWriterInterface
 {
-    private int $buildId;
-
-    private int $projectId;
-
     private array $errors = [];
 
     private DatabaseManager $databaseManager;
@@ -37,14 +35,9 @@ class BuildErrorWriter
     public function __construct(
         ConfigurationInterface $configuration,
         DatabaseManager $databaseManager,
-        StoreRegistry $storeRegistry,
-        int $projectId,
-        int $buildId
+        StoreRegistry $storeRegistry
     ) {
         $this->bufferSize = (int)$configuration->get('php-censor.build.writer_buffer_size', 500);
-
-        $this->projectId = $projectId;
-        $this->buildId   = $buildId;
 
         $this->databaseManager = $databaseManager;
         $this->storeRegistry   = $storeRegistry;
@@ -56,32 +49,29 @@ class BuildErrorWriter
     }
 
     public function write(
+        BuildInterface $build,
         string $plugin,
         string $message,
         int $severity,
         ?string $file = null,
         ?int $lineStart = null,
-        ?int $lineEnd = null,
-        ?DateTime $createdDate = null
+        ?int $lineEnd = null
     ): void {
-        if (\is_null($createdDate)) {
-            $createdDate = new DateTime();
-        }
-
         /** @var BuildErrorStore $errorStore */
         $errorStore = $this->storeRegistry->get('BuildError');
         $hash       = BuildError::generateHash($plugin, $file, $lineStart, $lineEnd, $severity, $message);
 
         $this->errors[] = [
+            'build_id'    => $build->getId(),
             'plugin'      => $plugin,
             'message'     => $message,
             'severity'    => $severity,
             'file'        => $file,
             'line_start'  => $lineStart,
             'line_end'    => $lineEnd,
-            'create_date' => $createdDate->format('Y-m-d H:i:s'),
+            'create_date' => (new DateTime())->format('Y-m-d H:i:s'),
             'hash'        => $hash,
-            'is_new'      => $errorStore->getIsNewError($this->projectId, $hash) ? 1 : 0,
+            'is_new'      => $errorStore->getIsNewError($build->getProjectId(), $hash) ? 1 : 0,
         ];
 
         if (\count($this->errors) >= $this->bufferSize) {
@@ -110,7 +100,7 @@ class BuildErrorWriter
                 :hash' . $i . ',
                 :is_new' . $i . '
             )';
-            $insertValuesData['build_id' . $i]    = $this->buildId;
+            $insertValuesData['build_id' . $i]    = $error['build_id'];
             $insertValuesData['plugin' . $i]      = $error['plugin'];
             $insertValuesData['file' . $i]        = $error['file'];
             $insertValuesData['line_start' . $i]  = $error['line_start'];

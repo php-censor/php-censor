@@ -115,9 +115,7 @@ class Builder
         $this->buildErrorWriter = new BuildErrorWriter(
             $this->configuration,
             $this->databaseManager,
-            $this->storeRegistry,
-            $this->build->getProjectId(),
-            $this->build->getId()
+            $this->storeRegistry
         );
     }
 
