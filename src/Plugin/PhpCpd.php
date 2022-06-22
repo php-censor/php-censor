@@ -4,6 +4,7 @@ namespace PHPCensor\Plugin;
 
 use Exception;
 use PHPCensor\Builder;
+use PHPCensor\Common\Build\BuildErrorInterface;
 use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
@@ -136,7 +137,7 @@ CPD;
                     $this->builder,
                     self::pluginName(),
                     $message,
-                    BuildError::SEVERITY_NORMAL,
+                    BuildErrorInterface::SEVERITY_NORMAL,
                     $fileName,
                     (int)$file['line'],
                     (int)$file['line'] + (int)$duplication['lines']

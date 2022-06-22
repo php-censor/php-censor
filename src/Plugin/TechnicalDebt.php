@@ -223,7 +223,7 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
                                 $this->builder,
                                 self::pluginName(),
                                 $technicalDebtLine,
-                                PHPCensor\Model\BuildError::SEVERITY_LOW,
+                                PHPCensor\Common\Build\BuildErrorInterface::SEVERITY_LOW,
                                 $fileName,
                                 $lineNumber
                             );

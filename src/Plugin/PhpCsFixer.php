@@ -4,6 +4,7 @@ namespace PHPCensor\Plugin;
 
 use Exception;
 use PHPCensor\Builder;
+use PHPCensor\Common\Build\BuildErrorInterface;
 use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
@@ -226,7 +227,7 @@ class PhpCsFixer extends Plugin
                         $this->builder,
                         self::pluginName(),
                         "PHP CS Fixer suggestion:\r\n```diff\r\n" . \implode("\r\n", $chunkDiff) . "\r\n```",
-                        BuildError::SEVERITY_LOW,
+                        BuildErrorInterface::SEVERITY_LOW,
                         $filename,
                         $firstModifiedLine
                     );
@@ -238,7 +239,7 @@ class PhpCsFixer extends Plugin
                     $this->builder,
                     self::pluginName(),
                     'PHP CS Fixer failed fixers: ' . \implode(', ', $appliedFixers),
-                    BuildError::SEVERITY_LOW,
+                    BuildErrorInterface::SEVERITY_LOW,
                     $filename
                 );
             }

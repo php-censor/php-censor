@@ -102,7 +102,7 @@ class PhpStan extends Plugin
                             $this->builder,
                             self::pluginName(),
                             $message['message'],
-                            BuildError::SEVERITY_NORMAL,
+                            PHPCensor\Common\Build\BuildErrorInterface::SEVERITY_NORMAL,
                             $filename,
                             (int)$message['line']
                         );

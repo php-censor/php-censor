@@ -5,6 +5,7 @@ namespace PHPCensor\Model\Build;
 use Exception;
 use GuzzleHttp\Client;
 use PHPCensor\Builder;
+use PHPCensor\Common\Build\BuildErrorInterface;
 use PHPCensor\Helper\Github;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
@@ -270,7 +271,7 @@ class GithubBuild extends GitBuild
         Builder $builder,
         string $plugin,
         string $message,
-        int $severity = BuildError::SEVERITY_NORMAL,
+        int $severity = BuildErrorInterface::SEVERITY_NORMAL,
         ?string $file = null,
         ?int $lineStart = null,
         ?int $lineEnd = null

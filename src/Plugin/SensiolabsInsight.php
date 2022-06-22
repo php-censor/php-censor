@@ -124,7 +124,7 @@ class SensiolabsInsight extends Plugin
                     $this->builder,
                     self::pluginName(),
                     (string)$violation,
-                    PHPCensor\Model\BuildError::SEVERITY_HIGH,
+                    PHPCensor\Common\Build\BuildErrorInterface::SEVERITY_HIGH,
                     $fileName,
                     (int)$violation['beginline'],
                     (int)$violation['endline']

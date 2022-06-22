@@ -5,6 +5,7 @@ namespace PHPCensor\Plugin;
 use Exception;
 use PHPCensor;
 use PHPCensor\Builder;
+use PHPCensor\Common\Build\BuildErrorInterface;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
 use PHPCensor\Plugin;
@@ -315,8 +316,8 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
 
             foreach ($parser->getErrors() as $error) {
                 $severity = $error['severity'] === $parser::SEVERITY_ERROR
-                    ? BuildError::SEVERITY_CRITICAL
-                    : BuildError::SEVERITY_HIGH;
+                    ? BuildErrorInterface::SEVERITY_CRITICAL
+                    : BuildErrorInterface::SEVERITY_HIGH;
 
                 $this->build->reportError(
                     $this->builder,

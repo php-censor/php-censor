@@ -4,6 +4,7 @@ namespace PHPCensor\Plugin;
 
 use PHPCensor;
 use PHPCensor\Builder;
+use PHPCensor\Common\Build\BuildErrorInterface;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
 use PHPCensor\Plugin;
@@ -121,7 +122,7 @@ class SecurityChecker extends Plugin implements ZeroConfigPluginInterface
                         $this->builder,
                         self::pluginName(),
                         $library . ' (' . $warning['version'] . ")\n" . $data['cve'] . ': ' . $data['title'] . "\n" . $data['link'],
-                        BuildError::SEVERITY_CRITICAL
+                        BuildErrorInterface::SEVERITY_CRITICAL
                     );
                 }
             }

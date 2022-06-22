@@ -65,7 +65,7 @@ class Phlint extends Plugin
                     $this->builder,
                     self::pluginName(),
                     $error['message'],
-                    BuildError::SEVERITY_HIGH,
+                    PHPCensor\Common\Build\BuildErrorInterface::SEVERITY_HIGH,
                     $error['file'],
                     (int)$error['line_from']
                 );

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\PHPCensor\Model\Base;
 
 use DateTime;
+use PHPCensor\Common\Build\BuildErrorInterface;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Model;
 use PHPCensor\Model\Base\BuildError;
@@ -127,11 +128,11 @@ class BuildErrorTest extends TestCase
     {
         $buildError = new BuildError($this->storeRegistry);
 
-        $result = $buildError->setSeverity(BuildError::SEVERITY_CRITICAL);
+        $result = $buildError->setSeverity(BuildErrorInterface::SEVERITY_CRITICAL);
         self::assertEquals(true, $result);
-        self::assertEquals(BuildError::SEVERITY_CRITICAL, $buildError->getSeverity());
+        self::assertEquals(BuildErrorInterface::SEVERITY_CRITICAL, $buildError->getSeverity());
 
-        $result = $buildError->setSeverity(BuildError::SEVERITY_CRITICAL);
+        $result = $buildError->setSeverity(BuildErrorInterface::SEVERITY_CRITICAL);
         self::assertEquals(false, $result);
     }
 

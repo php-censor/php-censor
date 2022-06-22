@@ -5,6 +5,7 @@ namespace PHPCensor\Model\Build;
 use Exception;
 use GuzzleHttp\Client;
 use PHPCensor\Builder;
+use PHPCensor\Common\Build\BuildErrorInterface;
 use PHPCensor\Helper\Bitbucket;
 use PHPCensor\Helper\Diff;
 use PHPCensor\Model\Build;
@@ -253,7 +254,7 @@ class BitbucketBuild extends GitBuild
         Builder $builder,
         $plugin,
         $message,
-        $severity = BuildError::SEVERITY_NORMAL,
+        $severity = BuildErrorInterface::SEVERITY_NORMAL,
         $file = null,
         $lineStart = null,
         $lineEnd = null

@@ -78,7 +78,7 @@ class Psalm extends Plugin
                     $this->builder,
                     self::pluginName(),
                     $error['message'],
-                    BuildError::SEVERITY_HIGH,
+                    PHPCensor\Common\Build\BuildErrorInterface::SEVERITY_HIGH,
                     $error['file'],
                     (int)$error['line_from'],
                     (int)$error['line_to']
@@ -98,7 +98,7 @@ class Psalm extends Plugin
                     $this->builder,
                     self::pluginName(),
                     $info['message'],
-                    BuildError::SEVERITY_LOW,
+                    PHPCensor\Common\Build\BuildErrorInterface::SEVERITY_LOW,
                     $info['file'],
                     (int)$info['line_from'],
                     (int)$info['line_to']

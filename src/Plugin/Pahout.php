@@ -85,7 +85,7 @@ class Pahout extends Plugin
                     $this->builder,
                     self::pluginName(),
                     $hint['message'],
-                    BuildError::SEVERITY_LOW,
+                    PHPCensor\Common\Build\BuildErrorInterface::SEVERITY_LOW,
                     $hint['file'],
                     (int)$hint['line_from']
                 );

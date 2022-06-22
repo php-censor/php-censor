@@ -4,6 +4,7 @@ namespace PHPCensor\Plugin;
 
 use Exception;
 use PHPCensor\Builder;
+use PHPCensor\Common\Build\BuildErrorInterface;
 use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
@@ -143,13 +144,13 @@ class Phan extends Plugin
     protected function severity($severity)
     {
         if ($severity === 10) {
-            return BuildError::SEVERITY_CRITICAL;
+            return BuildErrorInterface::SEVERITY_CRITICAL;
         }
 
         if ($severity === 5) {
-            return BuildError::SEVERITY_NORMAL;
+            return BuildErrorInterface::SEVERITY_NORMAL;
         }
 
-        return BuildError::SEVERITY_LOW;
+        return BuildErrorInterface::SEVERITY_LOW;
     }
 }

@@ -8,6 +8,7 @@ use DateTime;
 use DirectoryIterator;
 use Exception;
 use PHPCensor\Builder;
+use PHPCensor\Common\Build\BuildErrorInterface;
 use PHPCensor\Exception\HttpException;
 use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Helper\Lang;
@@ -333,7 +334,7 @@ class Build extends BaseBuild
         Builder $builder,
         string $plugin,
         string $message,
-        int $severity = BuildError::SEVERITY_NORMAL,
+        int $severity = BuildErrorInterface::SEVERITY_NORMAL,
         ?string $file = null,
         ?int $lineStart = null,
         ?int $lineEnd = null

@@ -3,6 +3,7 @@
 namespace PHPCensor\Plugin;
 
 use PHPCensor\Builder;
+use PHPCensor\Common\Build\BuildErrorInterface;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
 use PHPCensor\Plugin;
@@ -111,7 +112,7 @@ class Behat extends Plugin
                     $this->builder,
                     self::pluginName(),
                     'Behat scenario failed.',
-                    BuildError::SEVERITY_HIGH,
+                    BuildErrorInterface::SEVERITY_HIGH,
                     $lineParts[0],
                     (int)$lineParts[1]
                 );

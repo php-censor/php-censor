@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PHPCensor\Model\Base;
 
+use PHPCensor\Common\Build\BuildErrorInterface;
 use PHPCensor\Model;
 use PHPCensor\Traits\Model\HasCreateDateTrait;
 
@@ -14,14 +15,9 @@ use PHPCensor\Traits\Model\HasCreateDateTrait;
  * @author Dan Cryer <dan@block8.co.uk>
  * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
-class BuildError extends Model
+class BuildError extends Model implements BuildErrorInterface
 {
     use HasCreateDateTrait;
-
-    public const SEVERITY_CRITICAL = 0;
-    public const SEVERITY_HIGH     = 1;
-    public const SEVERITY_NORMAL   = 2;
-    public const SEVERITY_LOW      = 3;
 
     protected array $data = [
         'id'          => null,
