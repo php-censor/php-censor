@@ -281,9 +281,8 @@ class ProjectController extends WebController
     }
 
     /**
-     * @param int $projectId
-     *
      * @return RedirectResponse
+     *
      * @throws PHPCensor\Exception\HttpException
      * @throws PHPCensor\Exception\HttpException\ForbiddenException
      */
