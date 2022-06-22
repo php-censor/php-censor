@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\PHPCensor\Model;
 
+use PHPCensor\Common\Build\BuildInterface;
 use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Model;
@@ -78,7 +79,7 @@ class BuildTest extends TestCase
             'commit_message'        => null,
             'extra'                 => [],
             'environment_id'        => null,
-            'source'                => Build::SOURCE_UNKNOWN,
+            'source'                => BuildInterface::SOURCE_UNKNOWN,
             'user_id'               => null,
             'errors_total'          => null,
             'errors_total_previous' => null,
@@ -116,8 +117,8 @@ class BuildTest extends TestCase
             );
         }
 
-        $build->setSource(Build::SOURCE_WEBHOOK_PULL_REQUEST_CREATED);
-        self::assertEquals(Build::SOURCE_WEBHOOK_PULL_REQUEST_CREATED, $build->getSource());
+        $build->setSource(BuildInterface::SOURCE_WEBHOOK_PULL_REQUEST_CREATED);
+        self::assertEquals(BuildInterface::SOURCE_WEBHOOK_PULL_REQUEST_CREATED, $build->getSource());
 
         try {
             $build->setSource(50);

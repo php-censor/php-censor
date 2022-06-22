@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PHPCensor\Service;
 
 use Exception;
+use PHPCensor\Common\Build\BuildInterface;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\Project;
 use function GuzzleHttp\Psr7\str;
@@ -29,8 +30,8 @@ class BuildStatusService
     private string $url;
 
     private array $finishedStatusIds = [
-        Build::STATUS_SUCCESS,
-        Build::STATUS_FAILED,
+        BuildInterface::STATUS_SUCCESS,
+        BuildInterface::STATUS_FAILED,
     ];
 
     public function __construct(
@@ -83,7 +84,7 @@ class BuildStatusService
     {
         if (\in_array($this->build->getStatus(), $this->finishedStatusIds, true)) {
             return 'Sleeping';
-        } elseif ($this->build->getStatus() === Build::STATUS_PENDING) {
+        } elseif ($this->build->getStatus() === BuildInterface::STATUS_PENDING) {
             return 'Pending';
         }
 
@@ -137,7 +138,7 @@ class BuildStatusService
     public function getLastBuildStatus(): string
     {
         if ($build = $this->getFinishedBuildInfo()) {
-            if (Build::STATUS_SUCCESS === $build->getStatus()) {
+            if (BuildInterface::STATUS_SUCCESS === $build->getStatus()) {
                 return 'Success';
             }
 

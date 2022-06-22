@@ -79,7 +79,7 @@ class SecurityChecker extends Plugin implements ZeroConfigPluginInterface
     {
         $path = $build->getBuildPath() . 'composer.lock';
 
-        if (\file_exists($path) && $stage === Build::STAGE_TEST) {
+        if (\file_exists($path) && $stage === PHPCensor\Common\Build\BuildInterface::STAGE_TEST) {
             return true;
         }
 

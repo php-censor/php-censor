@@ -6,6 +6,7 @@ namespace PHPCensor;
 
 use DateTime;
 use Exception;
+use PHPCensor\Common\Build\BuildInterface;
 use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Helper\BuildInterpolator;
 use PHPCensor\Helper\CommandExecutor;
@@ -169,7 +170,7 @@ class Builder
         $success = true;
 
         $previousBuild = $this->build->getProject()->getPreviousBuild($this->build->getBranch());
-        $previousBuildStatus = Build::STATUS_PENDING;
+        $previousBuildStatus = BuildInterface::STATUS_PENDING;
 
         if ($previousBuild) {
             $previousBuildStatus = $previousBuild->getStatus();
@@ -180,7 +181,7 @@ class Builder
             $this->setupBuild();
 
             // Run the core plugin stages:
-            foreach ([Build::STAGE_SETUP, Build::STAGE_TEST, Build::STAGE_DEPLOY] as $stage) {
+            foreach ([BuildInterface::STAGE_SETUP, BuildInterface::STAGE_TEST, BuildInterface::STAGE_DEPLOY] as $stage) {
                 $this->currentStage = $stage;
                 $success &= $this->pluginExecutor->executePlugins($this->config, $stage);
                 if (!$success) {
@@ -203,20 +204,20 @@ class Builder
 
         try {
             if ($success) {
-                $this->currentStage = Build::STAGE_SUCCESS;
-                $this->pluginExecutor->executePlugins($this->config, Build::STAGE_SUCCESS);
+                $this->currentStage = BuildInterface::STAGE_SUCCESS;
+                $this->pluginExecutor->executePlugins($this->config, BuildInterface::STAGE_SUCCESS);
 
-                if (Build::STATUS_FAILED === $previousBuildStatus) {
-                    $this->currentStage = Build::STAGE_FIXED;
-                    $this->pluginExecutor->executePlugins($this->config, Build::STAGE_FIXED);
+                if (BuildInterface::STATUS_FAILED === $previousBuildStatus) {
+                    $this->currentStage = BuildInterface::STAGE_FIXED;
+                    $this->pluginExecutor->executePlugins($this->config, BuildInterface::STAGE_FIXED);
                 }
             } else {
-                $this->currentStage = Build::STAGE_FAILURE;
-                $this->pluginExecutor->executePlugins($this->config, Build::STAGE_FAILURE);
+                $this->currentStage = BuildInterface::STAGE_FAILURE;
+                $this->pluginExecutor->executePlugins($this->config, BuildInterface::STAGE_FAILURE);
 
-                if (Build::STATUS_SUCCESS === $previousBuildStatus || Build::STATUS_PENDING === $previousBuildStatus) {
-                    $this->currentStage = Build::STAGE_BROKEN;
-                    $this->pluginExecutor->executePlugins($this->config, Build::STAGE_BROKEN);
+                if (BuildInterface::STATUS_SUCCESS === $previousBuildStatus || BuildInterface::STATUS_PENDING === $previousBuildStatus) {
+                    $this->currentStage = BuildInterface::STAGE_BROKEN;
+                    $this->pluginExecutor->executePlugins($this->config, BuildInterface::STAGE_BROKEN);
                 }
             }
         } catch (\Throwable $ex) {
@@ -224,7 +225,7 @@ class Builder
         }
 
         $this->buildLogger->log('');
-        if (Build::STATUS_FAILED === $this->build->getStatus()) {
+        if (BuildInterface::STATUS_FAILED === $this->build->getStatus()) {
             $this->buildLogger->logFailure('BUILD FAILED!');
         } else {
             $this->buildLogger->logSuccess('BUILD SUCCESS!');
@@ -235,8 +236,8 @@ class Builder
 
         try {
             // Complete stage plugins are always run
-            $this->currentStage = Build::STAGE_COMPLETE;
-            $this->pluginExecutor->executePlugins($this->config, Build::STAGE_COMPLETE);
+            $this->currentStage = BuildInterface::STAGE_COMPLETE;
+            $this->pluginExecutor->executePlugins($this->config, BuildInterface::STAGE_COMPLETE);
         } catch (\Throwable $ex) {
             $this->buildLogger->logFailure('Exception: ' . $ex->getMessage());
         }

@@ -3,6 +3,7 @@
 namespace PHPCensor\Plugin\Util;
 
 use Exception;
+use PHPCensor\Common\Build\BuildInterface;
 use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Logging\BuildLogger;
@@ -189,19 +190,19 @@ class Executor
             } else {
                 $status = Plugin::STATUS_FAILED;
 
-                if ($stage === Build::STAGE_SETUP) {
+                if ($stage === BuildInterface::STAGE_SETUP) {
                     $this->logger->logFailure('PLUGIN: FAILED');
                     // If we're in the "setup" stage, execution should not continue after
                     // a plugin has failed:
 
                     throw new RuntimeException('Plugin failed: ' . $plugin . ' (Step: ' . $step . ')');
-                } elseif ($stage === Build::STAGE_DEPLOY) {
+                } elseif ($stage === BuildInterface::STAGE_DEPLOY) {
                     $this->logger->logFailure('PLUGIN: FAILED');
                     $success = false;
                 } else {
                     // If we're in the "test" stage and the plugin is not allowed to fail,
                     // then mark the build as failed:
-                    if (empty($options['allow_failures']) && $stage === Build::STAGE_TEST) {
+                    if (empty($options['allow_failures']) && $stage === BuildInterface::STAGE_TEST) {
                         $this->logger->logFailure('PLUGIN: FAILED');
                         $success = false;
                     } else {

@@ -3,6 +3,7 @@
 namespace PHPCensor\Plugin;
 
 use PHPCensor\Builder;
+use PHPCensor\Common\Build\BuildInterface;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
 use PHPCensor\Common\Plugin\ZeroConfigPluginInterface;
@@ -71,7 +72,7 @@ class PhpParallelLint extends Plugin implements ZeroConfigPluginInterface
      */
     public static function canExecuteOnStage($stage, Build $build)
     {
-        if (Build::STAGE_TEST === $stage) {
+        if (BuildInterface::STAGE_TEST === $stage) {
             return true;
         }
 

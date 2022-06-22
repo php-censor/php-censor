@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PHPCensor\Command;
 
 use PHPCensor\Common\Application\ConfigurationInterface;
+use PHPCensor\Common\Build\BuildInterface;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Model\Build;
@@ -102,7 +103,7 @@ class CreateBuildCommand extends Command
                 null,
                 $ciEmail,
                 $ciMessage,
-                Build::SOURCE_MANUAL_CONSOLE
+                BuildInterface::SOURCE_MANUAL_CONSOLE
             );
 
             $output->writeln('Build Created');

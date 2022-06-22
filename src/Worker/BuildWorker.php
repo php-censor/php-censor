@@ -12,6 +12,7 @@ use Pheanstalk\Pheanstalk;
 use PHPCensor\Builder;
 use PHPCensor\BuildFactory;
 use PHPCensor\Common\Application\ConfigurationInterface;
+use PHPCensor\Common\Build\BuildInterface;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Logging\BuildDBLogHandler;
 use PHPCensor\Logging\BuildLogger;
@@ -150,7 +151,7 @@ class BuildWorker
                 continue;
             }
 
-            if (Build::STATUS_PENDING !== $build->getStatus()) {
+            if (BuildInterface::STATUS_PENDING !== $build->getStatus()) {
                 $this->logger->warning(
                     \sprintf(
                         'Invalid build #%s status "%s" from the queue tube "%s". ' .
@@ -158,7 +159,7 @@ class BuildWorker
                         $build->getId(),
                         $build->getStatus(),
                         $this->queueTube,
-                        Build::STATUS_PENDING
+                        BuildInterface::STATUS_PENDING
                     )
                 );
 

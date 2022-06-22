@@ -4,6 +4,7 @@ namespace PHPCensor\Plugin;
 
 use Exception;
 use PHPCensor\Builder;
+use PHPCensor\Common\Build\BuildInterface;
 use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
@@ -81,7 +82,7 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
      */
     public static function canExecuteOnStage($stage, Build $build)
     {
-        return (Build::STAGE_TEST === $stage && !\is_null(self::findConfigFile($build->getBuildPath())));
+        return (BuildInterface::STAGE_TEST === $stage && !\is_null(self::findConfigFile($build->getBuildPath())));
     }
 
     /**

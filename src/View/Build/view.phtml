@@ -1,5 +1,6 @@
 <?php
 
+use PHPCensor\Common\Build\BuildInterface;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Helper\Template;
 use PHPCensor\Model\Build;
@@ -204,7 +205,7 @@ use PHPCensor\Model\Environment;
         </div>
 
         <div class="tab-pane" id="errors">
-            <?php if ($build->getStatus() > Build::STATUS_RUNNING): ?>
+            <?php if ($build->getStatus() > BuildInterface::STATUS_RUNNING): ?>
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title"><?= Lang::get('filters'); ?></h3>

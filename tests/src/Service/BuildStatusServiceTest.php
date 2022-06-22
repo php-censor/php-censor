@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\PHPCensor\Service;
 
 use DateTime;
+use PHPCensor\Common\Build\BuildInterface;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\Project;
@@ -58,34 +59,34 @@ class BuildStatusServiceTest extends TestCase
     {
         $config = [
             1 => [
-                'status'         => Build::STATUS_RUNNING,
+                'status'         => BuildInterface::STATUS_RUNNING,
                 'id'             => 77,
                 'finishDateTime' => null,
                 'startedDate'    => '2014-10-25 21:20:02',
                 'previousBuild'  => null,
             ],
             2 => [
-                'status'         => Build::STATUS_RUNNING,
+                'status'         => BuildInterface::STATUS_RUNNING,
                 'id'             => 78,
                 'finishDateTime' => null,
                 'startedDate'    => '2014-10-25 21:20:02',
                 'previousBuild'  => 4,
             ],
             3 => [
-                'status'         => Build::STATUS_SUCCESS,
+                'status'         => BuildInterface::STATUS_SUCCESS,
                 'id'             => 7,
                 'finishDateTime' => '2014-10-25 21:50:02',
                 'startedDate'    => '2014-10-25 21:20:02',
                 'previousBuild'  => null,
             ],
             4 => [
-                'status'         => Build::STATUS_FAILED,
+                'status'         => BuildInterface::STATUS_FAILED,
                 'id'             => 13,
                 'finishDateTime' => '2014-10-13 13:13:13',
                 'previousBuild'  => null,
             ],
             5 => [
-                'status'         => Build::STATUS_PENDING,
+                'status'         => BuildInterface::STATUS_PENDING,
                 'id'             => 1000,
                 'finishDateTime' => '2014-12-25 21:12:21',
                 'previousBuild'  => 3,

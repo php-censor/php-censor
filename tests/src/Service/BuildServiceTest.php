@@ -8,6 +8,7 @@ use DateTime;
 use Exception;
 use PHPCensor\BuildFactory;
 use PHPCensor\Common\Application\ConfigurationInterface;
+use PHPCensor\Common\Build\BuildInterface;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\Project;
@@ -100,7 +101,7 @@ class BuildServiceTest extends TestCase
         $returnValue = $this->testedService->createBuild($project, null);
 
         self::assertEquals(101, $returnValue->getProjectId());
-        self::assertEquals(Build::STATUS_PENDING, $returnValue->getStatus());
+        self::assertEquals(BuildInterface::STATUS_PENDING, $returnValue->getStatus());
         self::assertNull($returnValue->getStartDate());
         self::assertNull($returnValue->getFinishDate());
         self::assertNull($returnValue->getLog());
@@ -110,7 +111,7 @@ class BuildServiceTest extends TestCase
         self::assertEquals('master', $returnValue->getBranch());
         self::assertInstanceOf('DateTime', $returnValue->getCreateDate());
         self::assertEquals('', $returnValue->getCommitId());
-        self::assertEquals(Build::SOURCE_UNKNOWN, $returnValue->getSource());
+        self::assertEquals(BuildInterface::SOURCE_UNKNOWN, $returnValue->getSource());
     }
 
     public function testExecute_CreateBuildWithOptions(): void
@@ -168,7 +169,7 @@ class BuildServiceTest extends TestCase
             null,
             null,
             null,
-            Build::SOURCE_UNKNOWN,
+            BuildInterface::SOURCE_UNKNOWN,
             0,
             ['item1' => 1001]
         );
@@ -193,15 +194,15 @@ class BuildServiceTest extends TestCase
         $build->setCommitMessage('test');
         $build->setCommitterEmail('test@example.com');
         $build->setExtra(['item1' => 1001]);
-        $build->setSource(Build::SOURCE_MANUAL_CONSOLE);
+        $build->setSource(BuildInterface::SOURCE_MANUAL_CONSOLE);
 
-        $returnValue = $this->testedService->createDuplicateBuild($build, Build::SOURCE_MANUAL_REBUILD_CONSOLE);
+        $returnValue = $this->testedService->createDuplicateBuild($build, BuildInterface::SOURCE_MANUAL_REBUILD_CONSOLE);
 
         self::assertNotEquals($build->getId(), $returnValue->getId());
         self::assertEquals($build->getProjectId(), $returnValue->getProjectId());
         self::assertEquals($build->getCommitId(), $returnValue->getCommitId());
         self::assertNotEquals($build->getStatus(), $returnValue->getStatus());
-        self::assertEquals(Build::STATUS_PENDING, $returnValue->getStatus());
+        self::assertEquals(BuildInterface::STATUS_PENDING, $returnValue->getStatus());
         self::assertNull($returnValue->getLog());
         self::assertEquals($build->getBranch(), $returnValue->getBranch());
         self::assertNotEquals($build->getCreateDate(), $returnValue->getCreateDate());
@@ -210,7 +211,7 @@ class BuildServiceTest extends TestCase
         self::assertEquals('test', $returnValue->getCommitMessage());
         self::assertEquals('test@example.com', $returnValue->getCommitterEmail());
         self::assertEquals($build->getExtra('item1'), $returnValue->getExtra('item1'));
-        self::assertEquals(Build::SOURCE_MANUAL_REBUILD_CONSOLE, $returnValue->getSource());
+        self::assertEquals(BuildInterface::SOURCE_MANUAL_REBUILD_CONSOLE, $returnValue->getSource());
         self::assertEquals($build->getId(), $returnValue->getParentId());
     }
 

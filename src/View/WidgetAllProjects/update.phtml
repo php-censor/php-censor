@@ -1,5 +1,6 @@
 <?php
 
+use PHPCensor\Common\Build\BuildInterface;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Model\Build;
 
@@ -18,16 +19,16 @@ if (\count($builds)) {
     $lastBuild = $builds[0];
     $status = $lastBuild->getStatus();
     switch ($status) {
-        case Build::STATUS_PENDING:
+        case BuildInterface::STATUS_PENDING:
             $backgroundClass = 'blue';
             break;
-        case Build::STATUS_RUNNING:
+        case BuildInterface::STATUS_RUNNING:
             $backgroundClass = 'yellow';
             break;
-        case Build::STATUS_SUCCESS:
+        case BuildInterface::STATUS_SUCCESS:
             $backgroundClass = 'green';
             break;
-        case Build::STATUS_FAILED:
+        case BuildInterface::STATUS_FAILED:
             $backgroundClass = 'red';
             break;
     }
@@ -36,17 +37,17 @@ if (\count($builds)) {
 
     foreach ($builds as $build) {
         switch ($build->getStatus()) {
-            case Build::STATUS_PENDING:
+            case BuildInterface::STATUS_PENDING:
                 $statuses[] = 'pending';
                 break;
-            case Build::STATUS_RUNNING:
+            case BuildInterface::STATUS_RUNNING:
                 $statuses[] = 'running';
                 break;
-            case Build::STATUS_SUCCESS:
+            case BuildInterface::STATUS_SUCCESS:
                 $statuses[] = 'ok';
                 $success = \is_null($success) && !\is_null($build->getFinishDate()) ? $build->getFinishDate()->format('Y-m-d H:i:s') : $success;
                 break;
-            case Build::STATUS_FAILED:
+            case BuildInterface::STATUS_FAILED:
                 $failures++;
                 $statuses[] = 'failed';
                 $failure = \is_null($failure) && !\is_null($build->getFinishDate()) ? $build->getFinishDate()->format('Y-m-d H:i:s') : $failure;
@@ -117,19 +118,19 @@ if ($buildCount > 0) {
             $build = $builds[$idx];
             $link = APP_URL . 'build/view/' . $build->getId();
             switch ($build->getStatus()) {
-                case Build::STATUS_PENDING:
+                case BuildInterface::STATUS_PENDING:
                     $class = 'bg-blue';
                     $icon = 'fa-clock-o blink-item';
                     break;
-                case Build::STATUS_RUNNING:
+                case BuildInterface::STATUS_RUNNING:
                     $class = 'bg-yellow';
                     $icon = 'fa-cogs blink-item';
                     break;
-                case Build::STATUS_SUCCESS:
+                case BuildInterface::STATUS_SUCCESS:
                     $class = 'bg-green';
                     $icon = 'fa-check';
                     break;
-                case Build::STATUS_FAILED:
+                case BuildInterface::STATUS_FAILED:
                     $class = 'bg-red';
                     $icon = 'fa-times';
                     break;

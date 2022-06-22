@@ -142,7 +142,7 @@ class PhpStan extends Plugin
      */
     public static function canExecuteOnStage($stage, Build $build)
     {
-        return Build::STAGE_TEST === $stage;
+        return PHPCensor\Common\Build\BuildInterface::STAGE_TEST === $stage;
     }
 
     /**

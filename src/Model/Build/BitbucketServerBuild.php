@@ -2,8 +2,8 @@
 
 namespace PHPCensor\Model\Build;
 
-use Exception;
 use PHPCensor\Builder;
+use PHPCensor\Common\Build\BuildInterface;
 use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Model\Build;
 
@@ -15,11 +15,11 @@ use PHPCensor\Model\Build;
  */
 class BitbucketServerBuild extends GitBuild
 {
-    public static array $pullrequestTriggersToSources = [
-        'pr:opened'   => Build::SOURCE_WEBHOOK_PULL_REQUEST_CREATED,
-        'pr:updated'  => Build::SOURCE_WEBHOOK_PULL_REQUEST_UPDATED,
-        'pr:approved' => Build::SOURCE_WEBHOOK_PULL_REQUEST_APPROVED,
-        'pr:merged'   => Build::SOURCE_WEBHOOK_PULL_REQUEST_MERGED,
+    public static array $pullRequestTriggersToSources = [
+        'pr:opened'   => BuildInterface::SOURCE_WEBHOOK_PULL_REQUEST_CREATED,
+        'pr:updated'  => BuildInterface::SOURCE_WEBHOOK_PULL_REQUEST_UPDATED,
+        'pr:approved' => BuildInterface::SOURCE_WEBHOOK_PULL_REQUEST_APPROVED,
+        'pr:merged'   => BuildInterface::SOURCE_WEBHOOK_PULL_REQUEST_MERGED,
     ];
 
     /**

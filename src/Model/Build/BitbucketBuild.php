@@ -2,14 +2,12 @@
 
 namespace PHPCensor\Model\Build;
 
-use Exception;
 use GuzzleHttp\Client;
 use PHPCensor\Builder;
 use PHPCensor\Common\Build\BuildErrorInterface;
+use PHPCensor\Common\Build\BuildInterface;
 use PHPCensor\Helper\Bitbucket;
-use PHPCensor\Helper\Diff;
 use PHPCensor\Model\Build;
-use PHPCensor\Model\BuildError;
 use PHPCensor\Traits\Model\Build\GitGetDiffLineNumberTrait;
 
 /**
@@ -25,11 +23,11 @@ class BitbucketBuild extends GitBuild
 {
     use GitGetDiffLineNumberTrait;
 
-    public static array $pullrequestTriggersToSources = [
-        'pullrequest:created' => Build::SOURCE_WEBHOOK_PULL_REQUEST_CREATED,
-        'pullrequest:updated' => Build::SOURCE_WEBHOOK_PULL_REQUEST_UPDATED,
-        'pullrequest:approved' => Build::SOURCE_WEBHOOK_PULL_REQUEST_APPROVED,
-        'pullrequest:fulfilled' => Build::SOURCE_WEBHOOK_PULL_REQUEST_MERGED,
+    public static array $pullRequestTriggersToSources = [
+        'pullrequest:created' => BuildInterface::SOURCE_WEBHOOK_PULL_REQUEST_CREATED,
+        'pullrequest:updated' => BuildInterface::SOURCE_WEBHOOK_PULL_REQUEST_UPDATED,
+        'pullrequest:approved' => BuildInterface::SOURCE_WEBHOOK_PULL_REQUEST_APPROVED,
+        'pullrequest:fulfilled' => BuildInterface::SOURCE_WEBHOOK_PULL_REQUEST_MERGED,
     ];
 
     /**

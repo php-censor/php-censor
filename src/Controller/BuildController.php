@@ -6,6 +6,7 @@ namespace PHPCensor\Controller;
 
 use JasonGrimes\Paginator;
 use PHPCensor\BuildFactory;
+use PHPCensor\Common\Build\BuildInterface;
 use PHPCensor\Exception\HttpException\NotFoundException;
 use PHPCensor\Helper\Lang;
 use Symfony\Component\HttpFoundation\Response;
@@ -305,7 +306,7 @@ class BuildController extends WebController
             $copy->removeExtraValue('debug');
         }
 
-        $build = $this->buildService->createDuplicateBuild($copy, Build::SOURCE_MANUAL_REBUILD_WEB);
+        $build = $this->buildService->createDuplicateBuild($copy, BuildInterface::SOURCE_MANUAL_REBUILD_WEB);
 
         if ($this->buildService->queueError) {
             $this->session->set('global_error', Lang::get('add_to_queue_failed'));
@@ -430,8 +431,8 @@ class BuildController extends WebController
     public function ajaxQueue(): Response
     {
         $rtn = [
-            'pending' => $this->formatBuilds($this->buildStore->getByStatus(Build::STATUS_PENDING)),
-            'running' => $this->formatBuilds($this->buildStore->getByStatus(Build::STATUS_RUNNING)),
+            'pending' => $this->formatBuilds($this->buildStore->getByStatus(BuildInterface::STATUS_PENDING)),
+            'running' => $this->formatBuilds($this->buildStore->getByStatus(BuildInterface::STATUS_RUNNING)),
         ];
 
         return new JsonResponse($rtn);

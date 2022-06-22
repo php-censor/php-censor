@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\PHPCensor\Model\Base;
 
 use DateTime;
+use PHPCensor\Common\Build\BuildInterface;
 use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Model;
@@ -53,7 +54,7 @@ class BuildTest extends TestCase
             'commit_message'         => null,
             'extra'                  => [],
             'environment_id'         => null,
-            'source'                 => Build::SOURCE_UNKNOWN,
+            'source'                 => BuildInterface::SOURCE_UNKNOWN,
             'user_id'                => null,
             'errors_total'           => null,
             'errors_total_previous'  => null,
@@ -123,7 +124,7 @@ class BuildTest extends TestCase
         $build = new Build($this->storeRegistry);
 
         $build->setStatusFailed();
-        self::assertEquals(Build::STATUS_FAILED, $build->getStatus());
+        self::assertEquals(BuildInterface::STATUS_FAILED, $build->getStatus());
 
         self::expectException(InvalidArgumentException::class);
         $build->setStatus(10);
@@ -323,11 +324,11 @@ class BuildTest extends TestCase
     {
         $build = new Build($this->storeRegistry);
 
-        $result = $build->setSource(Build::SOURCE_WEBHOOK_PULL_REQUEST_CREATED);
+        $result = $build->setSource(BuildInterface::SOURCE_WEBHOOK_PULL_REQUEST_CREATED);
         self::assertEquals(true, $result);
-        self::assertEquals(Build::SOURCE_WEBHOOK_PULL_REQUEST_CREATED, $build->getSource());
+        self::assertEquals(BuildInterface::SOURCE_WEBHOOK_PULL_REQUEST_CREATED, $build->getSource());
 
-        $result = $build->setSource(Build::SOURCE_WEBHOOK_PULL_REQUEST_CREATED);
+        $result = $build->setSource(BuildInterface::SOURCE_WEBHOOK_PULL_REQUEST_CREATED);
         self::assertEquals(false, $result);
 
         self::expectException(InvalidArgumentException::class);

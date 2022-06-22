@@ -6,6 +6,7 @@ use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use PHPCensor\Builder;
+use PHPCensor\Common\Build\BuildInterface;
 use PHPCensor\Exception\HttpException;
 use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Model\Build;
@@ -103,19 +104,19 @@ class WebhookNotify extends Plugin
     private function getReadableStatus($statusId)
     {
         switch ($statusId) {
-            case self::STATUS_PENDING:
+            case BuildInterface::STATUS_PENDING:
                 return 'Pending';
 
                 break;
-            case self::STATUS_RUNNING:
+            case BuildInterface::STATUS_RUNNING:
                 return 'Running';
 
                 break;
-            case self::STATUS_SUCCESS:
+            case BuildInterface::STATUS_SUCCESS:
                 return 'Successful';
 
                 break;
-            case self::STATUS_FAILED:
+            case BuildInterface::STATUS_FAILED:
                 return 'Failed';
 
                 break;

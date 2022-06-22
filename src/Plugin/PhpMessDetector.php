@@ -73,7 +73,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
      */
     public static function canExecuteOnStage($stage, Build $build)
     {
-        if (Build::STAGE_TEST === $stage) {
+        if (PHPCensor\Common\Build\BuildInterface::STAGE_TEST === $stage) {
             return true;
         }
 

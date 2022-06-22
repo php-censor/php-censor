@@ -1,5 +1,6 @@
 <?php
 
+use PHPCensor\Common\Build\BuildInterface;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\User;
@@ -104,12 +105,12 @@ $branches = $build->getExtra('branches');
         ?>
     </td>
     <td>
-        <?php if (!\in_array($build->getStatus(), [Build::STATUS_PENDING, Build::STATUS_RUNNING], true)): ?>
+        <?php if (!\in_array($build->getStatus(), [BuildInterface::STATUS_PENDING, BuildInterface::STATUS_RUNNING], true)): ?>
             <?= $build->getDuration(); ?> <?= Lang::get('seconds'); ?>
         <?php endif; ?>
     </td>
     <td>
-        <?php if (!\in_array($build->getStatus(), [Build::STATUS_PENDING, Build::STATUS_RUNNING], true)): ?>
+        <?php if (!\in_array($build->getStatus(), [BuildInterface::STATUS_PENDING, BuildInterface::STATUS_RUNNING], true)): ?>
             <?php $trend = $build->getErrorsTrend(); ?>
             <?php if (1 === $trend['trend']): ?>
                 <span class="arrow_trend_positive"><?= (int)$build->getErrorsTotal(); ?> (<?= $trend['delta']; ?>)</span><i class="fa fa-arrow-down arrow_trend_positive"></i>
@@ -121,12 +122,12 @@ $branches = $build->getExtra('branches');
         <?php endif; ?>
     </td>
     <td>
-        <?php if (!\in_array($build->getStatus(), [Build::STATUS_PENDING, Build::STATUS_RUNNING], true)): ?>
+        <?php if (!\in_array($build->getStatus(), [BuildInterface::STATUS_PENDING, BuildInterface::STATUS_RUNNING], true)): ?>
             <span class="arrow_trend_negative"><?= $build->getErrorsNew(); ?></span>
         <?php endif; ?>
     </td>
     <td>
-        <?php if (!\in_array($build->getStatus(), [Build::STATUS_PENDING, Build::STATUS_RUNNING], true)): ?>
+        <?php if (!\in_array($build->getStatus(), [BuildInterface::STATUS_PENDING, BuildInterface::STATUS_RUNNING], true)): ?>
             <?php $trend = $build->getTestCoverageTrend(); ?>
             <?php if (-1 === $trend['trend']): ?>
                 <span class="arrow_trend_positive"><?= $build->getTestCoverage(); ?>% (+<?= $trend['delta']; ?>%)</span><i class="fa fa-arrow-up arrow_trend_positive"></i>

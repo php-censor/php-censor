@@ -5,6 +5,7 @@ namespace PHPCensor\Plugin;
 use Exception;
 use PHPCensor\Builder;
 use PHPCensor\Common\Build\BuildErrorInterface;
+use PHPCensor\Common\Build\BuildInterface;
 use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
@@ -45,7 +46,7 @@ class PhpCpd extends Plugin implements ZeroConfigPluginInterface
      */
     public static function canExecuteOnStage($stage, Build $build)
     {
-        if (Build::STAGE_TEST === $stage) {
+        if (BuildInterface::STAGE_TEST === $stage) {
             return true;
         }
 

@@ -1,5 +1,6 @@
 <?php
 
+use PHPCensor\Common\Build\BuildInterface;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Helper\Template;
 use PHPCensor\Model\Build;
@@ -28,25 +29,25 @@ use PHPCensor\Store\EnvironmentStore;
         $branches = $build->getExtra('branches');
 
         switch ($build->getStatus()) {
-            case Build::STATUS_PENDING:
+            case BuildInterface::STATUS_PENDING:
                 $updated = $build->getCreateDate();
                 $label = Lang::get('pending');
                 $color = 'blue blink-item';
                 break;
 
-            case Build::STATUS_RUNNING:
+            case BuildInterface::STATUS_RUNNING:
                 $updated = $build->getStartDate();
                 $label = Lang::get('running');
                 $color = 'yellow blink-item';
                 break;
 
-            case Build::STATUS_SUCCESS:
+            case BuildInterface::STATUS_SUCCESS:
                 $updated = $build->getFinishDate();
                 $label = Lang::get('success');
                 $color = 'green';
                 break;
 
-            case Build::STATUS_FAILED:
+            case BuildInterface::STATUS_FAILED:
                 $updated = $build->getFinishDate();
                 $label = Lang::get('failed');
                 $color = 'red';
@@ -74,7 +75,7 @@ use PHPCensor\Store\EnvironmentStore;
                 <span class="time"><i class="fa fa-clock-o"></i>
                 <?php
                     echo $updated->format('H:i:s');
-                    if ($build->getStatus() != Build::STATUS_PENDING) {
+                    if ($build->getStatus() != BuildInterface::STATUS_PENDING) {
                         echo ' &mdash; ' . $build->getDuration(); ?> <?= Lang::get('seconds');
                     }
                 ?>
@@ -132,10 +133,10 @@ use PHPCensor\Store\EnvironmentStore;
                         }
                     ?>
                     </p>
-                    <?php if (!\in_array($build->getStatus(), [Build::STATUS_PENDING, Build::STATUS_RUNNING], true)): ?>
+                    <?php if (!\in_array($build->getStatus(), [BuildInterface::STATUS_PENDING, BuildInterface::STATUS_RUNNING], true)): ?>
                         <p style="color: #999">
                             <?= Lang::get('total_errors'); ?>:
-                            <?php if (!\in_array($build->getStatus(), [Build::STATUS_PENDING, Build::STATUS_RUNNING], true)): ?>
+                            <?php if (!\in_array($build->getStatus(), [BuildInterface::STATUS_PENDING, BuildInterface::STATUS_RUNNING], true)): ?>
                                 <?php $trend = $build->getErrorsTrend(); ?>
                                 <?php if (1 === $trend['trend']): ?>
                                     <span class="arrow_trend_positive"><?= (int)$build->getErrorsTotal(); ?> (<?= $trend['delta']; ?>)</span><i class="fa fa-arrow-down arrow_trend_positive"></i>
@@ -154,7 +155,7 @@ use PHPCensor\Store\EnvironmentStore;
 
                             |
                             <?= Lang::get('test_coverage'); ?>:
-                            <?php if (!\in_array($build->getStatus(), [Build::STATUS_PENDING, Build::STATUS_RUNNING], true)): ?>
+                            <?php if (!\in_array($build->getStatus(), [BuildInterface::STATUS_PENDING, BuildInterface::STATUS_RUNNING], true)): ?>
                                 <?php $trend = $build->getTestCoverageTrend(); ?>
                                 <?php if (-1 === $trend['trend']): ?>
                                     <span class="arrow_trend_positive"><?= $build->getTestCoverage(); ?>% (+<?= $trend['delta']; ?>%)</span><i class="fa fa-arrow-up arrow_trend_positive"></i>

@@ -6,6 +6,7 @@ namespace PHPCensor\Store;
 
 use Exception;
 use PDO;
+use PHPCensor\Common\Build\BuildInterface;
 use PHPCensor\Exception\HttpException;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildMeta;
@@ -165,7 +166,7 @@ class BuildStore extends Store
     /**
      * Return the latest build for a specific project, of a specific build status.
      */
-    public function getLastBuildByStatus(?int $projectId = null, int $status = Build::STATUS_SUCCESS): ?Build
+    public function getLastBuildByStatus(?int $projectId = null, int $status = BuildInterface::STATUS_SUCCESS): ?Build
     {
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{project_id}} = :pid AND {{status}} = :status ORDER BY {{id}} DESC LIMIT 1';
         $stmt  = $this->databaseManager->getConnection('read')->prepare($query);
@@ -238,13 +239,13 @@ class BuildStore extends Store
                     }
                     $latest[] = $build;
                 }
-                if (empty($projects[$projectId][$environment]['success']) && Build::STATUS_SUCCESS === $item['status']) {
+                if (empty($projects[$projectId][$environment]['success']) && BuildInterface::STATUS_SUCCESS === $item['status']) {
                     if (\is_null($build)) {
                         $build = new Build($this->storeRegistry, $item);
                     }
                     $projects[$projectId][$environment]['success'] = $build;
                 }
-                if (empty($projects[$projectId][$environment]['failed']) && Build::STATUS_FAILED === $item['status']) {
+                if (empty($projects[$projectId][$environment]['failed']) && BuildInterface::STATUS_FAILED === $item['status']) {
                     if (\is_null($build)) {
                         $build = new Build($this->storeRegistry, $item);
                     }
@@ -254,7 +255,7 @@ class BuildStore extends Store
 
             foreach ($projects as $idx => $project) {
                 $projects[$idx] = \array_filter($project, function ($val) {
-                    return ($val['latest'][0]->getStatus() !== Build::STATUS_SUCCESS);
+                    return ($val['latest'][0]->getStatus() !== BuildInterface::STATUS_SUCCESS);
                 });
             }
 
@@ -521,7 +522,7 @@ ON b.id = be.build_id
 WHERE b.project_id = :project_id
     AND b.branch = :branch
     AND b.id < :build_id
-    AND b.status NOT IN (' . Build::STATUS_PENDING . ', ' . Build::STATUS_RUNNING . ')
+    AND b.status NOT IN (' . BuildInterface::STATUS_PENDING . ', ' . BuildInterface::STATUS_RUNNING . ')
 GROUP BY b.id
 ORDER BY b.id DESC
 LIMIT 1';
@@ -553,7 +554,7 @@ ON b.id = bm.build_id
 WHERE b.project_id = :project_id
     AND b.branch = :branch
     AND b.id < :build_id
-    AND b.status NOT IN (' . Build::STATUS_PENDING . ', ' . Build::STATUS_RUNNING . ')
+    AND b.status NOT IN (' . BuildInterface::STATUS_PENDING . ', ' . BuildInterface::STATUS_RUNNING . ')
 ORDER BY b.id DESC
 LIMIT 1';
 

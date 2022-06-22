@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\PHPCensor\Plugin;
 
 use PHPCensor\Builder;
+use PHPCensor\Common\Build\BuildInterface;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Helper\BuildInterpolator;
 use PHPCensor\Model\Build;
@@ -123,7 +124,7 @@ class EmailTest extends TestCase
         $this->mailDelivered = $mailDelivered;
 
         if (\is_null($buildStatus)) {
-            $this->buildStatus = Build::STATUS_SUCCESS;
+            $this->buildStatus = BuildInterface::STATUS_SUCCESS;
         } else {
             $this->buildStatus = $buildStatus;
         }
@@ -168,7 +169,7 @@ class EmailTest extends TestCase
     {
         $this->loadEmailPluginWithOptions([
             'addresses' => ['test-receiver@example.com'],
-        ], Build::STATUS_SUCCESS);
+        ], BuildInterface::STATUS_SUCCESS);
 
         $this->testedEmailPlugin->execute();
 
@@ -179,7 +180,7 @@ class EmailTest extends TestCase
     {
         $this->loadEmailPluginWithOptions([
             'default_mailto_address' => 'default-mailto-address@example.com',
-        ], Build::STATUS_SUCCESS);
+        ], BuildInterface::STATUS_SUCCESS);
 
         $this->testedEmailPlugin->execute();
 
@@ -226,7 +227,7 @@ class EmailTest extends TestCase
                     'cc-email-3@example.com',
                 ],
             ],
-            Build::STATUS_SUCCESS
+            BuildInterface::STATUS_SUCCESS
         );
 
         $this->testedEmailPlugin->execute();
@@ -247,7 +248,7 @@ class EmailTest extends TestCase
             [
                 'committer' => true,
             ],
-            Build::STATUS_SUCCESS
+            BuildInterface::STATUS_SUCCESS
         );
 
         $this->testedEmailPlugin->execute();
@@ -261,7 +262,7 @@ class EmailTest extends TestCase
             [
                 'addresses' => ['test-receiver@example.com'],
             ],
-            Build::STATUS_SUCCESS
+            BuildInterface::STATUS_SUCCESS
         );
 
         $this->testedEmailPlugin->execute();
@@ -276,7 +277,7 @@ class EmailTest extends TestCase
             [
                 'addresses' => ['test-receiver@example.com'],
             ],
-            Build::STATUS_FAILED
+            BuildInterface::STATUS_FAILED
         );
 
         $this->testedEmailPlugin->execute();
@@ -291,7 +292,7 @@ class EmailTest extends TestCase
             [
                 'addresses' => ['test-receiver@example.com'],
             ],
-            Build::STATUS_SUCCESS
+            BuildInterface::STATUS_SUCCESS
         );
 
         self::assertEquals('local', $this->testedEmailPlugin->getPriorityPath());
@@ -309,7 +310,7 @@ class EmailTest extends TestCase
                 'addresses'     => ['test-receiver@example.com'],
                 'priority_path' => 'global',
             ],
-            Build::STATUS_FAILED
+            BuildInterface::STATUS_FAILED
         );
 
         self::assertEquals('global', $this->testedEmailPlugin->getPriorityPath());
@@ -327,7 +328,7 @@ class EmailTest extends TestCase
                 'addresses'     => ['test-receiver@example.com'],
                 'priority_path' => 'system',
             ],
-            Build::STATUS_FAILED,
+            BuildInterface::STATUS_FAILED,
             true
         );
 
@@ -345,7 +346,7 @@ class EmailTest extends TestCase
                 'addresses'     => ['test-receiver@example.com'],
                 'priority_path' => 'Global',
             ],
-            Build::STATUS_FAILED,
+            BuildInterface::STATUS_FAILED,
             false
         );
 

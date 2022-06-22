@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PHPCensor\Controller;
 
 use Exception;
+use PHPCensor\Common\Build\BuildInterface;
 use PHPCensor\Exception\HttpException;
 use Symfony\Component\HttpFoundation\Response;
 use PHPCensor\Model\Build;
@@ -79,8 +80,8 @@ class WidgetAllProjectsController extends WebController
             );
             $counts[$project->getId()] = $count['count'];
 
-            $success = $this->buildStore->getLastBuildByStatus($project->getId(), Build::STATUS_SUCCESS);
-            $failure = $this->buildStore->getLastBuildByStatus($project->getId(), Build::STATUS_FAILED);
+            $success = $this->buildStore->getLastBuildByStatus($project->getId(), BuildInterface::STATUS_SUCCESS);
+            $failure = $this->buildStore->getLastBuildByStatus($project->getId(), BuildInterface::STATUS_FAILED);
 
             $successes[$project->getId()] = $success;
             $failures[$project->getId()]  = $failure;
@@ -135,8 +136,8 @@ class WidgetAllProjectsController extends WebController
 
         $this->view->project    = $this->projectStore->getById($projectId);
         $this->view->builds     = $this->buildStore->getLatestBuilds($projectId);
-        $this->view->successful = $this->buildStore->getLastBuildByStatus($projectId, Build::STATUS_SUCCESS);
-        $this->view->failed     = $this->buildStore->getLastBuildByStatus($projectId, Build::STATUS_FAILED);
+        $this->view->successful = $this->buildStore->getLastBuildByStatus($projectId, BuildInterface::STATUS_SUCCESS);
+        $this->view->failed     = $this->buildStore->getLastBuildByStatus($projectId, BuildInterface::STATUS_FAILED);
         $this->view->counts     = $counts;
 
         $response = new Response();

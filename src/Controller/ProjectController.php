@@ -250,7 +250,7 @@ class ProjectController extends WebController
             null,
             $user->getEmail(),
             null,
-            Build::SOURCE_MANUAL_WEB,
+            PHPCensor\Common\Build\BuildInterface::SOURCE_MANUAL_WEB,
             $user->getId(),
             $extra
         );

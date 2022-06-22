@@ -7,6 +7,7 @@ namespace PHPCensor\Controller;
 use Exception;
 use GuzzleHttp\Client;
 use PHPCensor\BuildFactory;
+use PHPCensor\Common\Build\BuildInterface;
 use PHPCensor\Controller;
 use PHPCensor\Exception\HttpException\ForbiddenException;
 use PHPCensor\Exception\HttpException\NotFoundException;
@@ -357,7 +358,7 @@ class WebhookController extends Controller
         );
 
         return $this->createBuild(
-            Build::SOURCE_WEBHOOK_PUSH,
+            BuildInterface::SOURCE_WEBHOOK_PUSH,
             $project,
             $payload['commit'],
             $payload['branch'],
@@ -397,7 +398,7 @@ class WebhookController extends Controller
         );
 
         return $this->createBuild(
-            Build::SOURCE_WEBHOOK_PUSH,
+            BuildInterface::SOURCE_WEBHOOK_PUSH,
             $project,
             $payload['commit'],
             $payload['branch'],
@@ -438,7 +439,7 @@ class WebhookController extends Controller
         );
 
         return $this->createBuild(
-            Build::SOURCE_WEBHOOK_PUSH,
+            BuildInterface::SOURCE_WEBHOOK_PUSH,
             $project,
             $payload['commit'],
             $payload['branch'],
@@ -527,7 +528,7 @@ class WebhookController extends Controller
                     }
 
                     $results[$commit['new']['target']['hash']] = $this->createBuild(
-                        Build::SOURCE_WEBHOOK_PUSH,
+                        BuildInterface::SOURCE_WEBHOOK_PUSH,
                         $project,
                         $commit['new']['target']['hash'],
                         $commit['new']['name'],
@@ -556,7 +557,7 @@ class WebhookController extends Controller
 
         if (!\array_key_exists(
             $triggerType,
-            BitbucketBuild::$pullrequestTriggersToSources
+            BitbucketBuild::$pullRequestTriggersToSources
         )) {
             return [
                 'status'  => 'ignored',
@@ -613,7 +614,7 @@ class WebhookController extends Controller
                 ];
 
                 $results[$id] = $this->createBuild(
-                    BitbucketBuild::$pullrequestTriggersToSources[$triggerType],
+                    BitbucketBuild::$pullRequestTriggersToSources[$triggerType],
                     $project,
                     $id,
                     $branch,
@@ -642,7 +643,7 @@ class WebhookController extends Controller
 
         if (!\array_key_exists(
             $triggerType,
-            BitbucketServerBuild::$pullrequestTriggersToSources
+            BitbucketServerBuild::$pullRequestTriggersToSources
         )) {
             return [
                 'status'  => 'ignored',
@@ -665,7 +666,7 @@ class WebhookController extends Controller
             $results = [];
 
             $results[$id] = $this->createBuild(
-                BitbucketServerBuild::$pullrequestTriggersToSources[$triggerType],
+                BitbucketServerBuild::$pullRequestTriggersToSources[$triggerType],
                 $project,
                 $id,
                 $branch,
@@ -696,7 +697,7 @@ class WebhookController extends Controller
                 $email = \substr($email, \strpos($email, '<') + 1);
 
                 $results[$commit['raw_node']] = $this->createBuild(
-                    Build::SOURCE_WEBHOOK_PUSH,
+                    BuildInterface::SOURCE_WEBHOOK_PUSH,
                     $project,
                     $commit['raw_node'],
                     $commit['branch'],
@@ -795,7 +796,7 @@ class WebhookController extends Controller
                     }
 
                     $results[$commit['id']] = $this->createBuild(
-                        Build::SOURCE_WEBHOOK_PUSH,
+                        BuildInterface::SOURCE_WEBHOOK_PUSH,
                         $project,
                         $commit['id'],
                         $branch,
@@ -827,7 +828,7 @@ class WebhookController extends Controller
 
         if (!\array_key_exists(
             $triggerType,
-            GithubBuild::$pullrequestTriggersToSources
+            GithubBuild::$pullRequestTriggersToSources
         )) {
             return [
                 'status'  => 'ignored',
@@ -887,7 +888,7 @@ class WebhookController extends Controller
                 ];
 
                 $results[$id] = $this->createBuild(
-                    GithubBuild::$pullrequestTriggersToSources[$triggerType],
+                    GithubBuild::$pullRequestTriggersToSources[$triggerType],
                     $project,
                     $id,
                     $branch,
@@ -938,7 +939,7 @@ class WebhookController extends Controller
                 $committer = $commit['author']['email'];
 
                 return $this->createBuild(
-                    Build::SOURCE_WEBHOOK_PULL_REQUEST_CREATED,
+                    BuildInterface::SOURCE_WEBHOOK_PULL_REQUEST_CREATED,
                     $project,
                     $commit['id'],
                     $branch,
@@ -961,7 +962,7 @@ class WebhookController extends Controller
                 $branch                 = \str_replace('refs/heads/', '', $payload['ref']);
                 $committer              = $commit['author']['email'];
                 $results[$commit['id']] = $this->createBuild(
-                    Build::SOURCE_WEBHOOK_PUSH,
+                    BuildInterface::SOURCE_WEBHOOK_PUSH,
                     $project,
                     $commit['id'],
                     $branch,
@@ -1042,7 +1043,7 @@ class WebhookController extends Controller
                     $branch = \str_replace('refs/heads/', '', $payload['ref']);
                     $committer = $commit['author']['email'];
                     $results[$commit['id']] = $this->createBuild(
-                        Build::SOURCE_WEBHOOK_PUSH,
+                        BuildInterface::SOURCE_WEBHOOK_PUSH,
                         $project,
                         $commit['id'],
                         $branch,
@@ -1141,7 +1142,7 @@ class WebhookController extends Controller
                     null,
                     null,
                     null,
-                    Build::SOURCE_WEBHOOK_PUSH,
+                    BuildInterface::SOURCE_WEBHOOK_PUSH,
                     null,
                     null
                 );

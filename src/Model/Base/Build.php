@@ -6,6 +6,7 @@ namespace PHPCensor\Model\Base;
 
 use DateTime;
 use Exception;
+use PHPCensor\Common\Build\BuildInterface;
 use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Model;
@@ -25,23 +26,6 @@ class Build extends Model
     use HasUserIdTrait;
     use HasCreateDateTrait;
 
-    public const STATUS_PENDING = 0;
-    public const STATUS_RUNNING = 1;
-    public const STATUS_SUCCESS = 2;
-    public const STATUS_FAILED  = 3;
-
-    public const SOURCE_UNKNOWN                       = 0;
-    public const SOURCE_MANUAL_WEB                    = 1;
-    public const SOURCE_MANUAL_CONSOLE                = 2;
-    public const SOURCE_PERIODICAL                    = 3;
-    public const SOURCE_WEBHOOK_PUSH                  = 4;
-    public const SOURCE_WEBHOOK_PULL_REQUEST_CREATED  = 5;
-    public const SOURCE_WEBHOOK_PULL_REQUEST_UPDATED  = 6;
-    public const SOURCE_WEBHOOK_PULL_REQUEST_APPROVED = 7;
-    public const SOURCE_WEBHOOK_PULL_REQUEST_MERGED   = 8;
-    public const SOURCE_MANUAL_REBUILD_WEB            = 9;
-    public const SOURCE_MANUAL_REBUILD_CONSOLE        = 10;
-
     protected array $data = [
         'id'                     => null,
         'parent_id'              => null,
@@ -58,7 +42,7 @@ class Build extends Model
         'commit_message'         => null,
         'extra'                  => [],
         'environment_id'         => null,
-        'source'                 => Build::SOURCE_UNKNOWN,
+        'source'                 => BuildInterface::SOURCE_UNKNOWN,
         'user_id'                => null,
         'errors_total'           => null,
         'errors_total_previous'  => null,
@@ -84,24 +68,24 @@ class Build extends Model
     ];
 
     protected array $allowedStatuses = [
-        self::STATUS_PENDING,
-        self::STATUS_RUNNING,
-        self::STATUS_SUCCESS,
-        self::STATUS_FAILED,
+        BuildInterface::STATUS_PENDING,
+        BuildInterface::STATUS_RUNNING,
+        BuildInterface::STATUS_SUCCESS,
+        BuildInterface::STATUS_FAILED,
     ];
 
     protected array $allowedSources = [
-        self::SOURCE_UNKNOWN,
-        self::SOURCE_MANUAL_WEB,
-        self::SOURCE_MANUAL_CONSOLE,
-        self::SOURCE_MANUAL_REBUILD_WEB,
-        self::SOURCE_MANUAL_REBUILD_CONSOLE,
-        self::SOURCE_PERIODICAL,
-        self::SOURCE_WEBHOOK_PUSH,
-        self::SOURCE_WEBHOOK_PULL_REQUEST_CREATED,
-        self::SOURCE_WEBHOOK_PULL_REQUEST_UPDATED,
-        self::SOURCE_WEBHOOK_PULL_REQUEST_APPROVED,
-        self::SOURCE_WEBHOOK_PULL_REQUEST_MERGED,
+        BuildInterface::SOURCE_UNKNOWN,
+        BuildInterface::SOURCE_MANUAL_WEB,
+        BuildInterface::SOURCE_MANUAL_CONSOLE,
+        BuildInterface::SOURCE_MANUAL_REBUILD_WEB,
+        BuildInterface::SOURCE_MANUAL_REBUILD_CONSOLE,
+        BuildInterface::SOURCE_PERIODICAL,
+        BuildInterface::SOURCE_WEBHOOK_PUSH,
+        BuildInterface::SOURCE_WEBHOOK_PULL_REQUEST_CREATED,
+        BuildInterface::SOURCE_WEBHOOK_PULL_REQUEST_UPDATED,
+        BuildInterface::SOURCE_WEBHOOK_PULL_REQUEST_APPROVED,
+        BuildInterface::SOURCE_WEBHOOK_PULL_REQUEST_MERGED,
     ];
 
     public function getParentId(): ?int
@@ -155,22 +139,22 @@ class Build extends Model
 
     public function setStatusPending(): bool
     {
-        return $this->setDataItem('status', self::STATUS_PENDING);
+        return $this->setDataItem('status', BuildInterface::STATUS_PENDING);
     }
 
     public function setStatusRunning(): bool
     {
-        return $this->setDataItem('status', self::STATUS_RUNNING);
+        return $this->setDataItem('status', BuildInterface::STATUS_RUNNING);
     }
 
     public function setStatusSuccess(): bool
     {
-        return $this->setDataItem('status', self::STATUS_SUCCESS);
+        return $this->setDataItem('status', BuildInterface::STATUS_SUCCESS);
     }
 
     public function setStatusFailed(): bool
     {
-        return $this->setDataItem('status', self::STATUS_FAILED);
+        return $this->setDataItem('status', BuildInterface::STATUS_FAILED);
     }
 
     public function getLog(): ?string
@@ -321,7 +305,7 @@ class Build extends Model
     public function getErrorsTotal(): ?int
     {
         if ($this->getDataItem('errors_total') === null &&
-            !\in_array($this->getStatus(), [self::STATUS_PENDING, self::STATUS_RUNNING], true)) {
+            !\in_array($this->getStatus(), [BuildInterface::STATUS_PENDING, BuildInterface::STATUS_RUNNING], true)) {
             /** @var BuildStore $store */
             $store = $this->storeRegistry->get('Build');
 
@@ -368,7 +352,7 @@ class Build extends Model
     public function getTestCoverage(): ?string
     {
         if ($this->getDataItem('test_coverage') === null &&
-            !\in_array($this->getStatus(), [self::STATUS_PENDING, self::STATUS_RUNNING], true)) {
+            !\in_array($this->getStatus(), [BuildInterface::STATUS_PENDING, BuildInterface::STATUS_RUNNING], true)) {
             /** @var BuildStore $store */
             $store = $this->storeRegistry->get('Build');
 
@@ -439,5 +423,10 @@ class Build extends Model
     public function isDebug(): bool
     {
         return (\defined('DEBUG_MODE') && DEBUG_MODE) || $this->getExtra('debug');
+    }
+
+    public function getLink(): string
+    {
+        return APP_URL . 'build/view/' . $this->getId();
     }
 }

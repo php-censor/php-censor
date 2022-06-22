@@ -1,5 +1,6 @@
 <?php
 
+use PHPCensor\Common\Build\BuildInterface;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Model\Build;
 
@@ -19,11 +20,11 @@ use PHPCensor\Model\Build;
         <h4>
             <?= $build->getProject()->getTitle(); ?>
 
-            <?php if ($build->getStatus() == Build::STATUS_PENDING): ?>
+            <?php if ($build->getStatus() == BuildInterface::STATUS_PENDING): ?>
                 <small class="pull-right">
                     <?= Lang::get('created_x', $build->getCreateDate()->format('H:i')); ?>
                 </small>
-            <?php elseif ($build->getStatus() == Build::STATUS_RUNNING): ?>
+            <?php elseif ($build->getStatus() == BuildInterface::STATUS_RUNNING): ?>
                 <small class="pull-right">
                     <?= Lang::get('started_x', $build->getStartDate()->format('H:i')); ?>
                 </small>

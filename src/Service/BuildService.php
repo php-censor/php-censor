@@ -12,6 +12,7 @@ use Pheanstalk\Pheanstalk;
 use Pheanstalk\Contract\PheanstalkInterface;
 use PHPCensor\BuildFactory;
 use PHPCensor\Common\Application\ConfigurationInterface;
+use PHPCensor\Common\Build\BuildInterface;
 use PHPCensor\Exception\HttpException;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\Project;
@@ -69,7 +70,7 @@ class BuildService
         ?string $tag = null,
         ?string $committerEmail = null,
         ?string $commitMessage = null,
-        int $source = Build::SOURCE_UNKNOWN,
+        int $source = BuildInterface::SOURCE_UNKNOWN,
         ?int $userId = null,
         ?array $extra = null
     ): Build {
@@ -204,7 +205,7 @@ class BuildService
 
                 if ($latestBuild) {
                     $status = (int)$latestBuild->getStatus();
-                    if ($status === Build::STATUS_RUNNING || $status === Build::STATUS_PENDING) {
+                    if ($status === BuildInterface::STATUS_RUNNING || $status === BuildInterface::STATUS_PENDING) {
                         continue;
                     }
 
@@ -223,7 +224,7 @@ class BuildService
                     null,
                     null,
                     null,
-                    Build::SOURCE_PERIODICAL
+                    BuildInterface::SOURCE_PERIODICAL
                 );
             }
         }

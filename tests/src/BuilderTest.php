@@ -6,6 +6,7 @@ namespace Tests\PHPCensor;
 
 use Monolog\Logger;
 use PHPCensor\Builder;
+use PHPCensor\Common\Build\BuildInterface;
 use PHPCensor\Configuration;
 use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
@@ -106,7 +107,7 @@ class BuilderTest extends TestCase
 
         $this->builder->execute();
 
-        self::assertEquals(Build::STAGE_COMPLETE, $this->builder->getCurrentStage());
+        self::assertEquals(BuildInterface::STAGE_COMPLETE, $this->builder->getCurrentStage());
     }
 
     public function testGetBuildErrorWriter(): void

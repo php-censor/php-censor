@@ -5,6 +5,7 @@ namespace PHPCensor\Plugin;
 use Exception;
 use GuzzleHttp\Client;
 use PHPCensor\Builder;
+use PHPCensor\Common\Build\BuildInterface;
 use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
@@ -228,11 +229,11 @@ class BitbucketNotify extends Plugin
         );
 
         switch ($this->getBuild()->getStatus()) {
-            case Build::STATUS_SUCCESS:
+            case BuildInterface::STATUS_SUCCESS:
                 $state = 'SUCCESSFUL';
 
                 break;
-            case Build::STATUS_FAILED:
+            case BuildInterface::STATUS_FAILED:
                 $state = 'FAILED';
 
                 break;

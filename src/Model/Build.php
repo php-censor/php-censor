@@ -9,6 +9,7 @@ use DirectoryIterator;
 use Exception;
 use PHPCensor\Builder;
 use PHPCensor\Common\Build\BuildErrorInterface;
+use PHPCensor\Common\Build\BuildInterface;
 use PHPCensor\Exception\HttpException;
 use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Helper\Lang;
@@ -29,30 +30,21 @@ use Symfony\Component\Yaml\Parser as YamlParser;
  * @author Dan Cryer <dan@block8.co.uk>
  * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
-class Build extends BaseBuild
+class Build extends BaseBuild implements BuildInterface
 {
-    public const STAGE_SETUP    = 'setup';
-    public const STAGE_TEST     = 'test';
-    public const STAGE_DEPLOY   = 'deploy';
-    public const STAGE_COMPLETE = 'complete';
-    public const STAGE_SUCCESS  = 'success';
-    public const STAGE_FAILURE  = 'failure';
-    public const STAGE_FIXED    = 'fixed';
-    public const STAGE_BROKEN   = 'broken';
-
     public static array $pullRequestSources = [
-        self::SOURCE_WEBHOOK_PULL_REQUEST_CREATED,
-        self::SOURCE_WEBHOOK_PULL_REQUEST_UPDATED,
-        self::SOURCE_WEBHOOK_PULL_REQUEST_APPROVED,
-        self::SOURCE_WEBHOOK_PULL_REQUEST_MERGED,
+        BuildInterface::SOURCE_WEBHOOK_PULL_REQUEST_CREATED,
+        BuildInterface::SOURCE_WEBHOOK_PULL_REQUEST_UPDATED,
+        BuildInterface::SOURCE_WEBHOOK_PULL_REQUEST_APPROVED,
+        BuildInterface::SOURCE_WEBHOOK_PULL_REQUEST_MERGED,
     ];
 
     public static array $webhookSources = [
-        self::SOURCE_WEBHOOK_PUSH,
-        self::SOURCE_WEBHOOK_PULL_REQUEST_CREATED,
-        self::SOURCE_WEBHOOK_PULL_REQUEST_UPDATED,
-        self::SOURCE_WEBHOOK_PULL_REQUEST_APPROVED,
-        self::SOURCE_WEBHOOK_PULL_REQUEST_MERGED,
+        BuildInterface::SOURCE_WEBHOOK_PUSH,
+        BuildInterface::SOURCE_WEBHOOK_PULL_REQUEST_CREATED,
+        BuildInterface::SOURCE_WEBHOOK_PULL_REQUEST_UPDATED,
+        BuildInterface::SOURCE_WEBHOOK_PULL_REQUEST_APPROVED,
+        BuildInterface::SOURCE_WEBHOOK_PULL_REQUEST_MERGED,
     ];
 
     protected array $totalErrorsCount = [];
@@ -102,7 +94,7 @@ class Build extends BaseBuild
     /**
     * Get link to commit from another source (i.e. Github)
     */
-    public function getCommitLink()
+    public function getCommitLink(): string
     {
         return '#';
     }
@@ -110,7 +102,7 @@ class Build extends BaseBuild
     /**
     * Get link to branch from another source (i.e. Github)
     */
-    public function getBranchLink()
+    public function getBranchLink(): string
     {
         return '#';
     }
@@ -185,9 +177,9 @@ class Build extends BaseBuild
     /**
      * Is this build successful?
      */
-    public function isSuccessful()
+    public function isSuccessful(): bool
     {
-        return ($this->getStatus() === self::STATUS_SUCCESS);
+        return ($this->getStatus() === BuildInterface::STATUS_SUCCESS);
     }
 
     /**
@@ -305,7 +297,7 @@ class Build extends BaseBuild
                 continue;
             }
 
-            foreach ([Build::STAGE_SETUP, Build::STAGE_TEST] as $stage) {
+            foreach ([BuildInterface::STAGE_SETUP, BuildInterface::STAGE_TEST] as $stage) {
                 if ($className::canExecuteOnStage($stage, $this)) {
                     $pluginName = $className::pluginName();
                     $stepName   = \sprintf('%s_step', $pluginName);
@@ -351,13 +343,10 @@ class Build extends BaseBuild
         );
     }
 
-    /**
-     * @return string|null
-     */
-    public function getBuildDirectory()
+    public function getBuildDirectory(): string
     {
         if (!$this->getId()) {
-            return null;
+            return '';
         }
 
         $createDate = $this->getCreateDate();
@@ -374,13 +363,10 @@ class Build extends BaseBuild
         return $this->buildDirectory;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getBuildBranchDirectory()
+    public function getBuildBranchDirectory(): string
     {
         if (!$this->getId()) {
-            return null;
+            return '';
         }
 
         $createDate = $this->getCreateDate();
@@ -397,13 +383,10 @@ class Build extends BaseBuild
         return $this->buildBranchDirectory;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getBuildPath()
+    public function getBuildPath(): string
     {
         if (!$this->getId()) {
-            return null;
+            return '';
         }
 
         return \rtrim(
@@ -556,27 +539,27 @@ OUT;
         $parentLink = '<a href="' . APP_URL . 'build/view/' . $parentId . '">#' . $parentId . '</a>';
 
         switch ($this->getSource()) {
-            case Build::SOURCE_WEBHOOK_PUSH:
+            case BuildInterface::SOURCE_WEBHOOK_PUSH:
                 return Lang::get('source_webhook_push');
-            case Build::SOURCE_WEBHOOK_PULL_REQUEST_CREATED:
+            case BuildInterface::SOURCE_WEBHOOK_PULL_REQUEST_CREATED:
                 return Lang::get('source_webhook_pull_request_created');
-            case Build::SOURCE_WEBHOOK_PULL_REQUEST_UPDATED:
+            case BuildInterface::SOURCE_WEBHOOK_PULL_REQUEST_UPDATED:
                 return Lang::get('source_webhook_pull_request_updated');
-            case Build::SOURCE_WEBHOOK_PULL_REQUEST_APPROVED:
+            case BuildInterface::SOURCE_WEBHOOK_PULL_REQUEST_APPROVED:
                 return Lang::get('source_webhook_pull_request_approved');
-            case Build::SOURCE_WEBHOOK_PULL_REQUEST_MERGED:
+            case BuildInterface::SOURCE_WEBHOOK_PULL_REQUEST_MERGED:
                 return Lang::get('source_webhook_pull_request_merged');
-            case Build::SOURCE_MANUAL_WEB:
+            case BuildInterface::SOURCE_MANUAL_WEB:
                 return Lang::get('source_manual_web');
-            case Build::SOURCE_MANUAL_REBUILD_WEB:
+            case BuildInterface::SOURCE_MANUAL_REBUILD_WEB:
                 return Lang::get('source_manual_rebuild_web', $parentLink);
-            case Build::SOURCE_MANUAL_CONSOLE:
+            case BuildInterface::SOURCE_MANUAL_CONSOLE:
                 return Lang::get('source_manual_console');
-            case Build::SOURCE_MANUAL_REBUILD_CONSOLE:
+            case BuildInterface::SOURCE_MANUAL_REBUILD_CONSOLE:
                 return Lang::get('source_manual_rebuild_console', $parentLink);
-            case Build::SOURCE_PERIODICAL:
+            case BuildInterface::SOURCE_PERIODICAL:
                 return Lang::get('source_periodical');
-            case Build::SOURCE_UNKNOWN:
+            case BuildInterface::SOURCE_UNKNOWN:
             default:
                 return Lang::get('source_unknown');
         }

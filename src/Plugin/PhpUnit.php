@@ -94,7 +94,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
      */
     public static function canExecuteOnStage($stage, Build $build)
     {
-        if (Build::STAGE_TEST === $stage && !\is_null(PhpUnitOptions::findConfigFile($build->getBuildPath()))) {
+        if (PHPCensor\Common\Build\BuildInterface::STAGE_TEST === $stage && !\is_null(PhpUnitOptions::findConfigFile($build->getBuildPath()))) {
             return true;
         }
 

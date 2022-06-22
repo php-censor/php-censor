@@ -6,6 +6,7 @@ namespace PHPCensor\Controller;
 
 use Exception;
 use PHPCensor\BuildFactory;
+use PHPCensor\Common\Build\BuildInterface;
 use PHPCensor\Exception\HttpException;
 use PHPCensor\Exception\HttpException\NotFoundException;
 use PHPCensor\Common\Exception\InvalidArgumentException;
@@ -57,11 +58,11 @@ class BuildStatusController extends WebController
         $status = 'passing';
         try {
             $build = $project->getLatestBuild($branch, [
-                Build::STATUS_SUCCESS,
-                Build::STATUS_FAILED,
+                BuildInterface::STATUS_SUCCESS,
+                BuildInterface::STATUS_FAILED,
             ]);
 
-            if (isset($build) && $build instanceof Build && $build->getStatus() !== Build::STATUS_SUCCESS) {
+            if (isset($build) && $build instanceof Build && $build->getStatus() !== BuildInterface::STATUS_SUCCESS) {
                 $status = 'failed';
             }
         } catch (\Throwable $e) {
@@ -85,8 +86,8 @@ class BuildStatusController extends WebController
 
         try {
             $build = $project->getLatestBuild($branch, [
-                Build::STATUS_SUCCESS,
-                Build::STATUS_FAILED,
+                BuildInterface::STATUS_SUCCESS,
+                BuildInterface::STATUS_FAILED,
             ]);
 
             if (isset($build) && $build instanceof Build) {

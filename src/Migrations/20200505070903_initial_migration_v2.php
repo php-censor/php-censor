@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Phinx\Db\Adapter\MysqlAdapter;
 use Phinx\Migration\AbstractMigration;
-use PHPCensor\Model\Build;
+use PHPCensor\Common\Build\BuildInterface;
 use PHPCensor\Common\Exception\RuntimeException;
 
 /**
@@ -89,7 +89,7 @@ final class InitialMigrationV2 extends AbstractMigration
             ->addColumn('commit_message', 'text', ['null' => true])
             ->addColumn('extra', 'text', ['null' => true])
             ->addColumn('environment_id', 'integer', ['null' => true])
-            ->addColumn('source', 'integer', ['default' => Build::SOURCE_UNKNOWN])
+            ->addColumn('source', 'integer', ['default' => BuildInterface::SOURCE_UNKNOWN])
             ->addColumn('user_id', 'integer', ['null' => true])
             ->addColumn('errors_total', 'integer', ['null' => true])
             ->addColumn('errors_total_previous', 'integer', ['null' => true])

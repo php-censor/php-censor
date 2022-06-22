@@ -2,13 +2,12 @@
 
 namespace PHPCensor\Model\Build;
 
-use Exception;
 use GuzzleHttp\Client;
 use PHPCensor\Builder;
 use PHPCensor\Common\Build\BuildErrorInterface;
+use PHPCensor\Common\Build\BuildInterface;
 use PHPCensor\Helper\Github;
 use PHPCensor\Model\Build;
-use PHPCensor\Model\BuildError;
 use PHPCensor\Traits\Model\Build\GitGetDiffLineNumberTrait;
 
 /**
@@ -24,11 +23,11 @@ class GithubBuild extends GitBuild
 {
     use GitGetDiffLineNumberTrait;
 
-    public static array $pullrequestTriggersToSources = [
-        'opened'      => Build::SOURCE_WEBHOOK_PULL_REQUEST_CREATED,
-        'synchronize' => Build::SOURCE_WEBHOOK_PULL_REQUEST_UPDATED,
-        'reopened'    => Build::SOURCE_WEBHOOK_PULL_REQUEST_UPDATED,
-        'edited'      => Build::SOURCE_WEBHOOK_PULL_REQUEST_UPDATED,
+    public static array $pullRequestTriggersToSources = [
+        'opened'      => BuildInterface::SOURCE_WEBHOOK_PULL_REQUEST_CREATED,
+        'synchronize' => BuildInterface::SOURCE_WEBHOOK_PULL_REQUEST_UPDATED,
+        'reopened'    => BuildInterface::SOURCE_WEBHOOK_PULL_REQUEST_UPDATED,
+        'edited'      => BuildInterface::SOURCE_WEBHOOK_PULL_REQUEST_UPDATED,
     ];
 
     /**
