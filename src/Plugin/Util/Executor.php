@@ -175,7 +175,7 @@ class Executor
                 $plugin = $options['plugin'];
             }
 
-            $this->logger->log('');
+            $this->logger->logNormal('');
             $this->logger->logSuccess(
                 \sprintf('RUNNING PLUGIN: %s (Step: %s) (Stage: %s)', Lang::get($plugin), $step, \ucfirst($stage))
             );

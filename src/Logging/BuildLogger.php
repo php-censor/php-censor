@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PHPCensor\Logging;
 
+use PHPCensor\Common\Build\BuildLoggerInterface;
 use PHPCensor\Model\Build;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
@@ -14,7 +15,7 @@ use Psr\Log\LogLevel;
  *
  * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
-class BuildLogger
+class BuildLogger implements BuildLoggerInterface
 {
     private LoggerInterface $logger;
 
@@ -26,7 +27,7 @@ class BuildLogger
         $this->build  = $build;
     }
 
-    public function log($message, string $level = LogLevel::INFO, array $context = []): void
+    private function log($message, string $level = LogLevel::INFO, array $context = []): void
     {
         if (!\is_array($message)) {
             $message = [$message];
@@ -37,6 +38,11 @@ class BuildLogger
         foreach ($message as $item) {
             $this->logger->log($level, $item, ($item ? $context : []));
         }
+    }
+
+    public function logNormal(string $message): void
+    {
+        $this->log($message);
     }
 
     public function logWarning(string $message): void

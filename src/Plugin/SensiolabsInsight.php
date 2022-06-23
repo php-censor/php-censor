@@ -106,7 +106,7 @@ class SensiolabsInsight extends Plugin
         $xml = \simplexml_load_string($xmlString);
 
         if ($xml === false) {
-            $this->builder->log($xmlString);
+            $this->builder->logNormal($xmlString);
 
             throw new RuntimeException('Could not process PHPMD report XML.');
         }

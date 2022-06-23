@@ -121,7 +121,7 @@ class PhpStan extends Plugin
         if ($success) {
             $this->builder->logSuccess('[OK] No errors');
         } else {
-            $this->builder->log(\sprintf('[ERROR] Found %d errors', $total_errors));
+            $this->builder->logNormal(\sprintf('[ERROR] Found %d errors', $total_errors));
         }
 
         return $success;

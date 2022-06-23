@@ -79,12 +79,12 @@ class Atoum extends Plugin
 
         if (false === \strpos($output, "Success (")) {
             $status = false;
-            $this->builder->log($output);
+            $this->builder->logNormal($output);
         }
 
         if (!$output) {
             $status = false;
-            $this->builder->log('No tests have been performed.');
+            $this->builder->logNormal('No tests have been performed.');
         }
 
         return $status;

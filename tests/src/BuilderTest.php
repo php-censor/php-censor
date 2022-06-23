@@ -184,9 +184,9 @@ class BuilderTest extends TestCase
     {
         $this->buildLogger
             ->expects($this->once())
-            ->method('log')
+            ->method('logNormal')
             ->with('Log message', LogLevel::INFO, []);
 
-        $this->builder->log('Log message');
+        $this->builder->logNormal('Log message');
     }
 }

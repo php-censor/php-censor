@@ -94,22 +94,22 @@ class Composer extends Plugin implements ZeroConfigPluginInterface
         $cmd = $composerLocation . ' --no-ansi --no-interaction ';
 
         if ($this->preferDist) {
-            $this->builder->log('Using --prefer-dist flag');
+            $this->builder->logNormal('Using --prefer-dist flag');
             $cmd .= ' --prefer-dist';
         }
 
         if ($this->preferSource) {
-            $this->builder->log('Using --prefer-source flag');
+            $this->builder->logNormal('Using --prefer-source flag');
             $cmd .= ' --prefer-source';
         }
 
         if ($this->noDev) {
-            $this->builder->log('Using --no-dev flag');
+            $this->builder->logNormal('Using --no-dev flag');
             $cmd .= ' --no-dev';
         }
 
         if ($this->ignorePlatformReqs) {
-            $this->builder->log('Using --ignore-platform-reqs flag');
+            $this->builder->logNormal('Using --ignore-platform-reqs flag');
             $cmd .= ' --ignore-platform-reqs';
         }
 

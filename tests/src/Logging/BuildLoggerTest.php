@@ -38,34 +38,12 @@ class BuildLoggerTest extends TestCase
     {
         $level = LogLevel::NOTICE;
         $message   = "Testing";
-        $contextIn = [];
 
         $this->logger
             ->log($level, $message, Argument::type('array'))
             ->shouldBeCalledTimes(1);
 
-        $this->testedBuildLogger->log($message, $level, $contextIn);
-    }
-
-    public function testLog_CallsWrappedLoggerForEachMessage(): void
-    {
-        $level     = LogLevel::NOTICE;
-        $message   = ["One", "Two", "Three"];
-        $contextIn = [];
-
-        $this->logger
-            ->log($level, "One", Argument::type('array'))
-            ->shouldBeCalledTimes(1);
-
-        $this->logger
-            ->log($level, "Two", Argument::type('array'))
-            ->shouldBeCalledTimes(1);
-
-        $this->logger
-            ->log($level, "Three", Argument::type('array'))
-            ->shouldBeCalledTimes(1);
-
-        $this->testedBuildLogger->log($message, $level, $contextIn);
+        $this->testedBuildLogger->logNormal($message);
     }
 
     public function testLogFailure_AddsExceptionContext(): void

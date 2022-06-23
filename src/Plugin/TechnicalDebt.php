@@ -158,7 +158,7 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
         $success    = true;
         $errorCount = $this->getErrorList();
 
-        $this->builder->log($this->returnResult() . "Found $errorCount instances of " . \implode(', ', $this->searches));
+        $this->builder->logNormal($this->returnResult() . "Found $errorCount instances of " . \implode(', ', $this->searches));
 
         $this->build->storeMeta((self::pluginName() . '-warnings'), $errorCount);
 

@@ -56,9 +56,9 @@ class Mage extends Plugin
         $result = $this->builder->executeCommand($this->executable . ' deploy to:' . $this->mageEnv);
 
         try {
-            $this->builder->log('########## MAGE LOG BEGIN ##########');
-            $this->builder->log($this->getMageLog());
-            $this->builder->log('########## MAGE LOG END ##########');
+            $this->builder->logNormal('########## MAGE LOG BEGIN ##########');
+            $this->builder->logNormal($this->getMageLog());
+            $this->builder->logNormal('########## MAGE LOG END ##########');
         } catch (\Throwable $e) {
             $this->builder->logFailure($e->getMessage());
         }

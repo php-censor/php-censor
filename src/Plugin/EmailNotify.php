@@ -51,7 +51,7 @@ class EmailNotify extends Plugin
         try {
             $view = $this->getMailTemplate();
         } catch (RuntimeException $e) {
-            $this->builder->log(
+            $this->builder->logNormal(
                 \sprintf('Unknown mail template "%s", falling back to default.', $this->options['template']),
                 LogLevel::WARNING
             );
@@ -74,8 +74,8 @@ class EmailNotify extends Plugin
         );
 
         // This is a success if we've not failed to send anything.
-        $this->builder->log(\sprintf('%d emails sent.', (\count($addresses) - $sendFailures)));
-        $this->builder->log(\sprintf('%d emails failed to send.', $sendFailures));
+        $this->builder->logNormal(\sprintf('%d emails sent.', (\count($addresses) - $sendFailures)));
+        $this->builder->logNormal(\sprintf('%d emails failed to send.', $sendFailures));
 
         return ($sendFailures === 0);
     }

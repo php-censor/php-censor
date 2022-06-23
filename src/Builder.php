@@ -224,7 +224,7 @@ class Builder
             $this->buildLogger->logFailure('Exception: ' . $ex->getMessage(), $ex);
         }
 
-        $this->buildLogger->log('');
+        $this->buildLogger->logNormal('');
         if (BuildInterface::STATUS_FAILED === $this->build->getStatus()) {
             $this->buildLogger->logFailure('BUILD FAILED!');
         } else {
@@ -249,7 +249,7 @@ class Builder
         $removeBuilds = (bool)$this->configuration->get('php-censor.build.remove_builds', true);
         if ($removeBuilds) {
             // Clean up:
-            $this->buildLogger->log('');
+            $this->buildLogger->logNormal('');
             $this->buildLogger->logSuccess('REMOVING BUILD.');
             $this->build->removeBuildDirectory();
         }
@@ -423,9 +423,9 @@ class Builder
         return true;
     }
 
-    public function log(string $message, string $level = LogLevel::INFO, array $context = []): void
+    public function logNormal(string $message): void
     {
-        $this->buildLogger->log($message, $level, $context);
+        $this->buildLogger->logNormal($message);
     }
 
     public function logWarning(string $message): void

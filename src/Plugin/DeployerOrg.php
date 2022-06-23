@@ -46,7 +46,7 @@ class DeployerOrg extends Plugin
     public function execute()
     {
         if (($validationResult = $this->validateConfig()) !== null) {
-            $this->builder->log($validationResult['message']);
+            $this->builder->logNormal($validationResult['message']);
 
             return $validationResult['successful'];
         }

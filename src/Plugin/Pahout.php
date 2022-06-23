@@ -96,7 +96,7 @@ class Pahout extends Plugin
             $this->builder->logSuccess('Awesome! There is nothing from me to teach you!');
         }
 
-        $this->builder->log(\sprintf('%d files checked, %d hints detected.', \count($files), \count($hints)));
+        $this->builder->logNormal(\sprintf('%d files checked, %d hints detected.', \count($files), \count($hints)));
 
         return $success;
     }

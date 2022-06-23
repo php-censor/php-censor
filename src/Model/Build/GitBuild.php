@@ -75,11 +75,11 @@ class GitBuild extends TypedBuild
             foreach ($branches as $branch) {
                 $success = $builder->executeCommand($cmd, $buildPath, $branch);
                 if (!$success) {
-                    $builder->log('Fail merge branch origin/' . $branch, LogLevel::ERROR);
+                    $builder->logFailure('Fail merge branch origin/' . $branch);
 
                     return false;
                 }
-                $builder->log('Merged branch origin/' . $branch, LogLevel::INFO);
+                $builder->logNormal('Merged branch origin/' . $branch);
             }
         }
 

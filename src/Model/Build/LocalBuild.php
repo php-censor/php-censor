@@ -94,7 +94,7 @@ class LocalBuild extends TypedBuild
             \unlink($buildPath);
         }
 
-        $builder->log(\sprintf('Symlinking: %s to %s', $reference, $buildPath));
+        $builder->logNormal(\sprintf('Symlinking: %s to %s', $reference, $buildPath));
 
         if (!\symlink($reference, $buildPath)) {
             $builder->logFailure('Failed to symlink.');

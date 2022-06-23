@@ -105,7 +105,7 @@ class CommandExecutor implements CommandExecutorInterface
 
         $command = \call_user_func_array('sprintf', $args);
 
-        $this->logger->log('Shell command: ' . $command);
+        $this->logger->logNormal('Shell command: ' . $command);
 
         $withNoExit = '';
         foreach (self::$noExitCommands as $nec) {
@@ -158,7 +158,7 @@ class CommandExecutor implements CommandExecutorInterface
         $shouldOutput = ($this->logExecOutput && ($this->verbose || 0 !== $status));
 
         if ($shouldOutput && !empty($this->lastOutput)) {
-            $this->logger->log($this->lastOutput);
+            $this->logger->logNormal($this->lastOutput);
         }
 
         if (!empty($this->lastError)) {

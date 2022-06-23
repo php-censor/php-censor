@@ -187,7 +187,7 @@ class BuildWorker
             try {
                 $builder->execute();
             } catch (\Throwable $e) {
-                $builder->getBuildLogger()->log('');
+                $builder->getBuildLogger()->logNormal('');
                 $builder->getBuildLogger()->logFailure(
                     \sprintf(
                         'BUILD FAILED! Exception: %s',
