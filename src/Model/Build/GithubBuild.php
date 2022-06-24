@@ -48,7 +48,7 @@ class GithubBuild extends GitBuild
      *
      * @return string
      */
-    public function getCommitLink()
+    public function getCommitLink(): string
     {
         return '//' . $this->getDomain() . '/' . $this->getProject()->getReference() . '/commit/' . $this->getCommitId();
     }
@@ -58,7 +58,7 @@ class GithubBuild extends GitBuild
      *
      * @return string
      */
-    public function getBranchLink()
+    public function getBranchLink(): string
     {
         return '//' . $this->getDomain() . '/' . $this->getProject()->getReference() . '/tree/' . $this->getBranch();
     }

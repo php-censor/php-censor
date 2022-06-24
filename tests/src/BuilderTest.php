@@ -180,12 +180,12 @@ class BuilderTest extends TestCase
         $this->builder->logFailure('Failure message');
     }
 
-    public function testLog(): void
+    public function testLogNormal(): void
     {
         $this->buildLogger
             ->expects($this->once())
             ->method('logNormal')
-            ->with('Log message', LogLevel::INFO, []);
+            ->with('Log message');
 
         $this->builder->logNormal('Log message');
     }

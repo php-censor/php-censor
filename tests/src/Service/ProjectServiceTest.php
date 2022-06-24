@@ -68,7 +68,7 @@ class ProjectServiceTest extends TestCase
 
         self::assertEquals(null, $project->getSshPrivateKey());
         self::assertEquals(null, $project->getSshPublicKey());
-        self::assertEquals(null, $project->getBuildConfig());
+        self::assertEquals([], $project->getBuildConfig());
         self::assertEquals(null, $project->getDefaultBranch());
         self::assertEquals(false, $project->getArchived());
         self::assertEquals(false, $project->getDefaultBranchOnly());
@@ -271,7 +271,7 @@ class ProjectServiceTest extends TestCase
             'overwrite_build_config' => false,
             'archived'               => true,
             'default_branch_only'    => true,
-            'build_config'           => 'config',
+            'build_config'           => 'config: test',
             'default_branch'         => 'testbranch',
             'group'                  => 11,
             'environments'           => 'env1',
@@ -287,7 +287,7 @@ class ProjectServiceTest extends TestCase
 
         self::assertEquals('private', $returnValue->getSshPrivateKey());
         self::assertEquals('public', $returnValue->getSshPublicKey());
-        self::assertEquals('config', $returnValue->getBuildConfig());
+        self::assertEquals(['config' => 'test'], $returnValue->getBuildConfig());
         self::assertEquals('testbranch', $returnValue->getDefaultBranch());
         self::assertEquals(false, $returnValue->getOverwriteBuildConfig());
         self::assertEquals(true, $returnValue->getArchived());

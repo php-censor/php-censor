@@ -36,7 +36,7 @@ class BuildLoggerTest extends TestCase
 
     public function testLog_CallsWrappedLogger(): void
     {
-        $level = LogLevel::NOTICE;
+        $level = LogLevel::INFO;
         $message   = "Testing";
 
         $this->logger

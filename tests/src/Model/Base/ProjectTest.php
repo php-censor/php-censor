@@ -176,11 +176,11 @@ class ProjectTest extends TestCase
     {
         $project = new Project($this->storeRegistry);
 
-        $result = $project->setBuildConfig('config');
+        $result = $project->setBuildConfig('config: test');
         self::assertEquals(true, $result);
-        self::assertEquals('config', $project->getBuildConfig());
+        self::assertEquals(['config' => 'test'], $project->getBuildConfig());
 
-        $result = $project->setBuildConfig('config');
+        $result = $project->setBuildConfig('config: test');
         self::assertEquals(false, $result);
     }
 

@@ -18,7 +18,7 @@ class GitlabBuild extends GitBuild
      *
      * @return string
      */
-    public function getCommitLink()
+    public function getCommitLink(): string
     {
         $domain = $this->getProject()->getAccessInformation('domain');
 
@@ -30,7 +30,7 @@ class GitlabBuild extends GitBuild
      *
      * @return string
      */
-    public function getBranchLink()
+    public function getBranchLink(): string
     {
         $domain = $this->getProject()->getAccessInformation('domain');
 

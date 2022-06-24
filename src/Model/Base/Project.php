@@ -8,6 +8,7 @@ use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Model;
 use PHPCensor\Traits\Model\HasCreateDateTrait;
 use PHPCensor\Traits\Model\HasUserIdTrait;
+use Symfony\Component\Yaml\Parser as YamlParser;
 
 /**
  * @package    PHP Censor
@@ -177,9 +178,16 @@ class Project extends Model
         return $this->setDataItem('access_information', $value);
     }
 
-    public function getBuildConfig(): ?string
+    public function getBuildConfig(): array
     {
-        return $this->getDataItem('build_config');
+        $buildConfig = $this->getDataItem('build_config');
+        if (!$buildConfig) {
+            return [];
+        }
+
+        $yamlParser  = new YamlParser();
+
+        return $yamlParser->parse($buildConfig);
     }
 
     public function setBuildConfig(?string $value): bool

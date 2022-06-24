@@ -192,14 +192,8 @@ class Build extends BaseBuild implements BuildInterface
         $buildConfig = $this->getProject()->getBuildConfig();
 
         if ($buildConfig) {
-            $yamlParser  = new YamlParser();
-            $buildConfig = $yamlParser->parse($buildConfig);
-
-            if ($buildConfig && \is_array($buildConfig)) {
-                $builder->logDebug('Config before repository clone (DB): ' . \json_encode($buildConfig));
-
-                $builder->setConfig($buildConfig);
-            }
+            $builder->logDebug('Config before repository clone (DB): ' . \json_encode($buildConfig));
+            $builder->setConfig($buildConfig);
         }
 
         return true;

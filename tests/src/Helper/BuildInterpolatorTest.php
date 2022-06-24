@@ -61,8 +61,7 @@ class BuildInterpolatorTest extends TestCase
 
     public function testInterpolate_LeavesStringsUnchangedWhenBuildIsSet(): void
     {
-        /** @var Build $build */
-        $build = $this->prophesize(Build::class)->reveal();
+        $build = new Build($this->storeRegistry);
 
         $string         = "Hello World";
         $expectedOutput = "Hello World";

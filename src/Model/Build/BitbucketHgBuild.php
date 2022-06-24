@@ -20,7 +20,7 @@ class BitbucketHgBuild extends HgBuild
      *
      * @return string
      */
-    public function getCommitLink()
+    public function getCommitLink(): string
     {
         return 'https://bitbucket.org/' . $this->getProject()->getReference() . '/commits/' . $this->getCommitId();
     }
@@ -30,7 +30,7 @@ class BitbucketHgBuild extends HgBuild
      *
      * @return string
      */
-    public function getBranchLink()
+    public function getBranchLink(): string
     {
         return 'https://bitbucket.org/' . $this->getProject()->getReference() . '/src/?at=' . $this->getBranch();
     }

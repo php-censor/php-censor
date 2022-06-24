@@ -27,7 +27,7 @@ class GogsBuild extends GitBuild
      *
      * @return string
      */
-    public function getCommitLink()
+    public function getCommitLink(): string
     {
         return $this->getCleanedReferenceForLink() . '/commit/' . $this->getCommitId();
     }
@@ -37,7 +37,7 @@ class GogsBuild extends GitBuild
      *
      * @return string
      */
-    public function getBranchLink()
+    public function getBranchLink(): string
     {
         return $this->getCleanedReferenceForLink() . '/src/' . $this->getBranch();
     }

@@ -88,7 +88,7 @@ class EmailTest extends TestCase
 
         $this->builder = $this
             ->getMockBuilder(Builder::class)
-            ->onlyMethods(['log', 'logDebug', 'interpolate'])
+            ->onlyMethods(['logNormal', 'logDebug', 'interpolate'])
             ->setMockClassName('mockBuilder_email')
             ->disableOriginalConstructor()
             ->getMock();
