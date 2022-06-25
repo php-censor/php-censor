@@ -198,7 +198,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
         }
 
         $success   = $this->executePhpUnitCommand($cmd, $arguments, $directory);
-        $output    = $this->builder->getLastOutput();
+        $output    = $this->builder->getLastCommandOutput();
         $covHtmlOk = false;
 
         if ($fileSystem->exists($this->buildLocation.'/index.html') &&

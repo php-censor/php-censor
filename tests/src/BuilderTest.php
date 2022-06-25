@@ -17,7 +17,6 @@ use PHPCensor\Model\Project;
 use PHPCensor\Store\BuildErrorWriter;
 use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
-use Psr\Log\LogLevel;
 
 class TestBuilder extends Builder
 {
@@ -117,16 +116,16 @@ class BuilderTest extends TestCase
 
     public function testLogExecOutput(): void
     {
-        self::assertTrue($this->builder->getCommandExecutor()->logExecOutput);
+        self::assertTrue($this->builder->getCommandExecutor()->isEnabledCommandOutput());
 
         $this->builder->logExecOutput();
-        self::assertTrue($this->builder->getCommandExecutor()->logExecOutput);
+        self::assertTrue($this->builder->getCommandExecutor()->isEnabledCommandOutput());
 
         $this->builder->logExecOutput(true);
-        self::assertTrue($this->builder->getCommandExecutor()->logExecOutput);
+        self::assertTrue($this->builder->getCommandExecutor()->isEnabledCommandOutput());
 
         $this->builder->logExecOutput(false);
-        self::assertFalse($this->builder->getCommandExecutor()->logExecOutput);
+        self::assertFalse($this->builder->getCommandExecutor()->isEnabledCommandOutput());
     }
 
     public function testGetConfig(): void

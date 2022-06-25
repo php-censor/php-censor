@@ -37,7 +37,7 @@ class Gulp extends Plugin
 
         $this->task = null;
 
-        $this->executable = $this->findBinary('gulp');
+        $this->executable = $this->findBinary(['gulp']);
 
         $this->gulpfile = 'gulpfile.js';
 

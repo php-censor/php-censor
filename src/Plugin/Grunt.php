@@ -43,7 +43,7 @@ class Grunt extends Plugin
             $this->task = $options['task'];
         }
 
-        $this->executable = $this->findBinary('grunt');
+        $this->executable = $this->findBinary(['grunt']);
 
         if (isset($options['gruntfile'])) {
             $this->gruntfile = $options['gruntfile'];

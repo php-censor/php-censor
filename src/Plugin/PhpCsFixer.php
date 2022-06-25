@@ -99,7 +99,7 @@ class PhpCsFixer extends Plugin
         // Determine the version of PHP CS Fixer
         $cmd     = $phpCsFixer . ' --version';
         $success = $this->builder->executeCommand($cmd);
-        $output  = $this->builder->getLastOutput();
+        $output  = $this->builder->getLastCommandOutput();
         $matches = [];
         if (!\preg_match('/(\d+\.\d+\.\d+)/', $output, $matches)) {
             throw new Exception('Unable to determine the version of the PHP Coding Standards Fixer.');
@@ -138,7 +138,7 @@ class PhpCsFixer extends Plugin
 
         $this->builder->logExecOutput(true);
 
-        $output = $this->builder->getLastOutput();
+        $output = $this->builder->getLastCommandOutput();
 
         if ($this->errors) {
             $warningCount = $this->processReport($output);

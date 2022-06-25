@@ -75,7 +75,7 @@ class Atoum extends Plugin
 
         $this->builder->executeCommand($cmd);
 
-        $output = $this->builder->getLastOutput();
+        $output = $this->builder->getLastCommandOutput();
 
         if (false === \strpos($output, "Success (")) {
             $status = false;

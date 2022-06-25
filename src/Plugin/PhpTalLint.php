@@ -168,7 +168,7 @@ class PhpTalLint extends Plugin
 
         $this->builder->executeCommand($cmd, $suffixes, $this->builder->buildPath . $path);
 
-        $output = $this->builder->getLastOutput();
+        $output = $this->builder->getLastCommandOutput();
 
         if (\preg_match('/Found (.+?) (error|warning)/i', $output, $matches)) {
             $rows = \explode(PHP_EOL, $output);

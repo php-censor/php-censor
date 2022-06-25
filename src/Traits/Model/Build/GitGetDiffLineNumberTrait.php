@@ -40,7 +40,7 @@ trait GitGetDiffLineNumberTrait
 
         $builder->logExecOutput(true);
 
-        $diff = $builder->getLastOutput();
+        $diff = $builder->getLastCommandOutput();
 
         $lines = $this->getLinePositions($diff);
 

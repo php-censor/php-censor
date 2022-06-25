@@ -95,10 +95,10 @@ class SecurityChecker extends Plugin implements ZeroConfigPluginInterface
 
         if ('symfony' === $this->binaryType) {
             $cmd = '%s check:security --format=json --dir=%s';
-            $executable = $this->findBinary('symfony');
+            $executable = $this->findBinary(['symfony']);
         } else {
             $cmd = '%s --format=json --path="%s"';
-            $executable = $this->findBinary('local-php-security-checker');
+            $executable = $this->findBinary(['local-php-security-checker']);
         }
 
         $builder = $this->getBuilder();
@@ -112,7 +112,7 @@ class SecurityChecker extends Plugin implements ZeroConfigPluginInterface
         $builder->logExecOutput(true);
 
         $success  = true;
-        $result   = $builder->getLastOutput();
+        $result   = $builder->getLastCommandOutput();
         $warnings = \json_decode($result, true);
 
         if ($warnings) {

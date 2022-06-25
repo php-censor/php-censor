@@ -67,7 +67,7 @@ class PhpLoc extends Plugin implements ZeroConfigPluginInterface
         $phploc = $this->executable;
 
         $success = $this->builder->executeCommand('cd "%s" && php -d xdebug.mode=off -d error_reporting=0 ' . $phploc . ' %s %s', $this->builder->buildPath, $ignore, $this->directory);
-        $output  = $this->builder->getLastOutput();
+        $output  = $this->builder->getLastCommandOutput();
 
         if (\preg_match_all('/\((LOC|CLOC|NCLOC|LLOC)\)\s+([0-9]+)/', $output, $matches)) {
             $data = [];

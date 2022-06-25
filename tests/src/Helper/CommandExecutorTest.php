@@ -28,31 +28,31 @@ class CommandExecutorTest extends TestCase
 
     public function testGetLastOutput_ReturnsOutputOfCommand(): void
     {
-        $this->testedExecutor->executeCommand(['echo "%s"', 'Hello World']);
-        $output = $this->testedExecutor->getLastOutput();
+        $this->testedExecutor->executeCommand('echo "%s"', 'Hello World');
+        $output = $this->testedExecutor->getLastCommandOutput();
 
         self::assertEquals("Hello World", $output);
     }
 
     public function testGetLastOutput_ForgetsPreviousCommandOutput(): void
     {
-        $this->testedExecutor->executeCommand(['echo "%s"', 'Hello World']);
-        $this->testedExecutor->executeCommand(['echo "%s"', 'Hello Tester']);
-        $output = $this->testedExecutor->getLastOutput();
+        $this->testedExecutor->executeCommand('echo "%s"', 'Hello World');
+        $this->testedExecutor->executeCommand('echo "%s"', 'Hello Tester');
+        $output = $this->testedExecutor->getLastCommandOutput();
 
         self::assertEquals("Hello Tester", $output);
     }
 
     public function testExecuteCommand_ReturnsTrueForValidCommands(): void
     {
-        $returnValue = $this->testedExecutor->executeCommand(['echo "%s"', 'Hello World']);
+        $returnValue = $this->testedExecutor->executeCommand('echo "%s"', 'Hello World');
 
         self::assertTrue($returnValue);
     }
 
     public function testExecuteCommand_ReturnsFalseForInvalidCommands(): void
     {
-        $returnValue = $this->testedExecutor->executeCommand(['eerfdcvcho "%s" > /dev/null 2>&1', 'Hello World']);
+        $returnValue = $this->testedExecutor->executeCommand('eerfdcvcho "%s" > /dev/null 2>&1', 'Hello World');
 
         self::assertFalse($returnValue);
     }
@@ -62,7 +62,7 @@ class CommandExecutorTest extends TestCase
         self::expectException(Exception::class);
 
         $thisFileName = "WorldWidePeace";
-        $this->testedExecutor->findBinary($thisFileName);
+        $this->testedExecutor->findBinary([$thisFileName]);
     }
 
     public function testReplaceIllegalCharacters(): void

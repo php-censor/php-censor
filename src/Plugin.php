@@ -256,9 +256,9 @@ abstract class Plugin
      *
      * @throws Exception when no binary has been found.
      */
-    public function findBinary($binary)
+    public function findBinary(array $binary)
     {
-        return $this->builder->findBinary($binary, $this->priorityPath, $this->binaryPath, $this->binaryName);
+        return $this->builder->findBinary($binary, $this->binaryPath);
     }
 
     /**

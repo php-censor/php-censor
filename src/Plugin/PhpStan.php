@@ -74,7 +74,7 @@ class PhpStan extends Plugin
         // Define that the plugin succeed
         $success = true;
 
-        list($total_errors, $files) = $this->processReport($this->builder->getLastOutput());
+        list($total_errors, $files) = $this->processReport($this->builder->getLastCommandOutput());
 
         if (0 < $total_errors) {
             if (-1 !== $this->allowedErrors && $total_errors > $this->allowedErrors) {

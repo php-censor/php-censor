@@ -75,7 +75,7 @@ class XmppNotify extends Plugin
         $this->tls        = false;
         $this->dateFormat = '%c';
 
-        $this->executable = $this->findBinary('sendxmpp');
+        $this->executable = $this->findBinary(['sendxmpp']);
 
         /*
          * Set recipients list
@@ -171,7 +171,7 @@ class XmppNotify extends Plugin
 
         $success = $this->builder->executeCommand($cmd, $tls, $configFile, $messageFile, $recipients);
 
-        print $this->builder->getLastOutput();
+        print $this->builder->getLastCommandOutput();
 
         /*
          * Remove temp message file

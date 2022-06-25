@@ -173,7 +173,7 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
             $warningSeverity
         );
 
-        $output                  = $this->builder->getLastOutput();
+        $output                  = $this->builder->getLastCommandOutput();
         list($errors, $warnings) = $this->processReport($output);
 
         $this->builder->logExecOutput(true);

@@ -5,6 +5,7 @@ namespace PHPCensor\Helper;
 use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Logging\BuildLogger;
 use Symfony\Component\Process\Process;
+use PHPCensor\Common\CommandExecutorInterface;
 
 /**
  * Handles running system commands with variables.
@@ -39,7 +40,7 @@ class CommandExecutor implements CommandExecutorInterface
     /**
      * @var bool
      */
-    public $logExecOutput = true;
+    protected $logExecOutput = true;
 
     /**
      * The path which findBinary will look in.
@@ -90,20 +91,33 @@ class CommandExecutor implements CommandExecutorInterface
         $this->rootDir    = $rootDir;
     }
 
+
+
+    public function enableCommandOutput(): void
+    {
+        $this->logExecOutput = true;
+    }
+
+    public function disableCommandOutput(): void
+    {
+        $this->logExecOutput = false;
+    }
+
+    public function isEnabledCommandOutput(): bool
+    {
+        return $this->logExecOutput;
+    }
+
     /**
-     * Executes shell commands.
-     *
-     * @param array $args
-     *
-     * @return bool Indicates success
+     * {@inheritDoc}
      */
-    public function executeCommand($args = [])
+    public function executeCommand(...$params): bool
     {
         $this->lastOutput = [];
 
-        $this->logger->logDebug('Args: ' . \json_encode($args));
+        $this->logger->logDebug('Args: ' . \json_encode($params));
 
-        $command = \call_user_func_array('sprintf', $args);
+        $command = \call_user_func_array('sprintf', $params);
 
         $this->logger->logNormal('Shell command: ' . $command);
 
@@ -191,180 +205,59 @@ class CommandExecutor implements CommandExecutorInterface
     }
 
     /**
-     * Returns the output from the last command run.
-     *
-     * @return string
+     * {@inheritDoc}
      */
-    public function getLastOutput()
+    public function getLastCommandOutput(): string
     {
         return \implode(PHP_EOL, $this->lastOutput);
     }
 
     /**
-     * Returns the stderr output from the last command run.
-     *
-     * @return string
-     */
-    public function getLastError()
-    {
-        return $this->lastError;
-    }
-
-    /**
-     * @param string $binaryPath
-     * @param string $binary
-     *
-     * @return false|string
-     */
-    protected function findBinaryByPath($binaryPath, $binary)
-    {
-        if (\is_dir($binaryPath) && \is_file($binaryPath . '/' . $binary)) {
-            $this->logger->logDebug(\sprintf('Found in %s (binary_path): %s', $binaryPath, $binary));
-
-            return $binaryPath . '/' . $binary;
-        }
-
-        return false;
-    }
-
-    /**
-     * @param string $composerBin
-     * @param string $binary
-     *
-     * @return false|string
-     */
-    protected function findBinaryLocal($composerBin, $binary)
-    {
-        if (\is_dir($composerBin) && \is_file($composerBin . '/' . $binary)) {
-            $this->logger->logDebug(\sprintf('Found in %s (local): %s', $composerBin, $binary));
-
-            return $composerBin . '/' . $binary;
-        }
-
-        return false;
-    }
-
-    /**
-     * @param string $binary
-     *
-     * @return false|string
-     */
-    protected function findBinaryGlobal($binary)
-    {
-        if (\is_file($this->rootDir . 'vendor/bin/' . $binary)) {
-            $this->logger->logDebug(\sprintf('Found in %s (global): %s', 'vendor/bin', $binary));
-
-            return $this->rootDir . 'vendor/bin/' . $binary;
-        }
-
-        return false;
-    }
-
-    /**
-     * Uses 'which' to find a system binary by name
-     *
-     * @param string $binary
-     *
-     * @return false|string
-     */
-    protected function findBinarySystem($binary)
-    {
-        $tempBinary = \trim(\shell_exec('which ' . $binary));
-        if (\is_file($tempBinary)) {
-            $this->logger->logDebug(\sprintf('Found in %s (system): %s', '', $binary));
-
-            return $tempBinary;
-        }
-
-        return false;
-    }
-
-    /**
      * {@inheritDoc}
      */
-    public function findBinary($binary, $priorityPath = 'local', $binaryPath = '', $binaryName = [])
-    {
-        $composerBin = $this->getComposerBinDir($this->buildPath);
+    public function findBinary(
+        array $binaryNames,
+        string $binaryPath = ''
+    ): string {
+        if ($binaryPath) {
+            if (\file_exists($binaryPath)) {
+                $this->logger->logDebug(\sprintf('Found in %s (binary_path)', $binaryPath));
 
-        if (\is_string($binary)) {
-            $binary = [$binary];
-        }
+                return $binaryPath;
+            }
 
-        if ($binaryName) {
-            \array_unshift($binary, ...$binaryName);
-        }
+            if (\is_dir($binaryPath)) {
+                foreach ($binaryNames as $binaryName) {
+                    $this->logger->logDebug(\sprintf('Looking for binary: %s in: %s', $binaryName, $binaryPath));
+                    if (\file_exists($binaryPath . '/' . $binaryName)) {
+                        $this->logger->logDebug(\sprintf('Found in %s (binary_path): %s', $binaryPath, $binaryName));
 
-        foreach ($binary as $bin) {
-            $this->logger->logDebug(\sprintf('Looking for binary: %s, priority = %s', $bin, $priorityPath));
-
-            if ('binary_path' === $priorityPath) {
-                if ($existedBinary = $this->findBinaryByPath($binaryPath, $bin)) {
-                    return $existedBinary;
-                }
-
-                if ($existedBinary = $this->findBinaryLocal($composerBin, $bin)) {
-                    return $existedBinary;
-                }
-
-                if ($existedBinary = $this->findBinaryGlobal($bin)) {
-                    return $existedBinary;
-                }
-
-                if ($existedBinary = $this->findBinarySystem($bin)) {
-                    return $existedBinary;
-                }
-            } elseif ('system' === $priorityPath) {
-                if ($existedBinary = $this->findBinarySystem($bin)) {
-                    return $existedBinary;
-                }
-
-                if ($existedBinary = $this->findBinaryLocal($composerBin, $bin)) {
-                    return $existedBinary;
-                }
-
-                if ($existedBinary = $this->findBinaryGlobal($bin)) {
-                    return $existedBinary;
-                }
-
-                if ($existedBinary = $this->findBinaryByPath($binaryPath, $bin)) {
-                    return $existedBinary;
-                }
-            } elseif ('global' === $priorityPath) {
-                if ($existedBinary = $this->findBinaryGlobal($bin)) {
-                    return $existedBinary;
-                }
-
-                if ($existedBinary = $this->findBinaryLocal($composerBin, $bin)) {
-                    return $existedBinary;
-                }
-
-                if ($existedBinary = $this->findBinarySystem($bin)) {
-                    return $existedBinary;
-                }
-
-                if ($existedBinary = $this->findBinaryByPath($binaryPath, $bin)) {
-                    return $existedBinary;
-                }
-            } else {
-                if ($existedBinary = $this->findBinaryLocal($composerBin, $bin)) {
-                    return $existedBinary;
-                }
-
-                if ($existedBinary = $this->findBinaryGlobal($bin)) {
-                    return $existedBinary;
-                }
-
-                if ($existedBinary = $this->findBinarySystem($bin)) {
-                    return $existedBinary;
-                }
-
-                if ($existedBinary = $this->findBinaryByPath($binaryPath, $bin)) {
-                    return $existedBinary;
+                        return $binaryPath . '/' . $binaryName;
+                    }
                 }
             }
         }
 
-        throw new RuntimeException(\sprintf('Could not find %s', \implode('/', $binary)));
+        $composerBin = $this->getComposerBinDir($this->buildPath);
+        foreach ($binaryNames as $binaryName) {
+            $this->logger->logDebug(\sprintf('Looking for binary: %s in: %s', $binaryName, $composerBin));
+            if (\is_dir($composerBin) && \is_file($composerBin . '/' . $binaryName)) {
+                $this->logger->logDebug(\sprintf('Found in %s (local): %s', $composerBin, $binaryName));
+
+                return $composerBin . '/' . $binaryName;
+            }
+        }
+
+        foreach ($binaryNames as $binaryName) {
+            $tempBinary = \trim(\shell_exec('which ' . $binaryName));
+            if (\file_exists($tempBinary)) {
+                $this->logger->logDebug(\sprintf('Found in %s (system): %s', '', $binaryName));
+
+                return $tempBinary;
+            }
+        }
+
+        throw new RuntimeException(\sprintf('Could not find %s', \implode('|', $binaryNames)));
     }
 
     /**
@@ -403,9 +296,6 @@ class CommandExecutor implements CommandExecutorInterface
         $this->buildPath = $path;
     }
 
-
-
-
     private function getDefaultEnv()
     {
         $env = [];
@@ -441,14 +331,14 @@ class CommandExecutor implements CommandExecutorInterface
             $output = [];
             \exec('env', $output);
             foreach ($output as $o) {
-                $keyval = \explode('=', $o, 2);
-                if (\count($keyval) < 2 || empty($keyval[1])) {
+                $keyVal = \explode('=', $o, 2);
+                if (\count($keyVal) < 2 || empty($keyVal[1])) {
                     continue;
                 }
-                if (\in_array($keyval[0], self::$blacklistEnvVars, true)) {
+                if (\in_array($keyVal[0], self::$blacklistEnvVars, true)) {
                     continue;
                 }
-                $env[$keyval[0]] = $keyval[1];
+                $env[$keyVal[0]] = $keyVal[1];
             }
         }
 

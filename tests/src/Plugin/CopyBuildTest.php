@@ -104,7 +104,7 @@ class CopyBuildTest extends TestCase
             ->willReturnCallback(function () use ($executor) {
                 $args = \func_get_args();
 
-                return $executor->executeCommand($args);
+                return $executor->executeCommand(...$args);
             });
 
         $builder->buildPath = $this->buildPath;

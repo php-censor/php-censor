@@ -93,7 +93,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
 
         $this->executePhpMd($phpmdBinaryPath);
 
-        $errorCount = $this->processReport(\trim($this->builder->getLastOutput()));
+        $errorCount = $this->processReport(\trim($this->builder->getLastCommandOutput()));
         $this->build->storeMeta((self::pluginName() . '-warnings'), $errorCount);
 
         return $this->wasLastExecSuccessful($errorCount);

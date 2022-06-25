@@ -71,7 +71,7 @@ class Pahout extends Plugin
         // Define that the plugin succeed
         $success = true;
 
-        list($files, $hints) = $this->processReport($this->builder->getLastOutput());
+        list($files, $hints) = $this->processReport($this->builder->getLastCommandOutput());
 
         if (0 < \count($hints)) {
             if (-1 !== $this->allowedWarnings && \count($hints) > $this->allowedWarnings) {

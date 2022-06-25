@@ -156,7 +156,7 @@ class BitbucketServerBuild extends GitBuild
         $success = $builder->executeCommand($cmd, $cloneTo, $targetBranch);
 
         if ($success) {
-            return $builder->getLastOutput();
+            return $builder->getLastCommandOutput();
         }
 
         throw new RuntimeException('Unable to create diff patch.');

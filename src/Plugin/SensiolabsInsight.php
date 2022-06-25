@@ -72,7 +72,7 @@ class SensiolabsInsight extends Plugin
             $this->projectUuid = $options['project_uuid'];
         }
 
-        $this->executable = $this->findBinary('insight');
+        $this->executable = $this->findBinary(['insight']);
     }
 
     /**
@@ -86,7 +86,7 @@ class SensiolabsInsight extends Plugin
 
         $this->executeSensiolabsInsight($insightBinaryPath);
 
-        $errorCount = $this->processReport(\trim($this->builder->getLastOutput()));
+        $errorCount = $this->processReport(\trim($this->builder->getLastCommandOutput()));
         $this->build->storeMeta((self::pluginName() . '-warnings'), $errorCount);
 
         return $this->wasLastExecSuccessful($errorCount);

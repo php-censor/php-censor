@@ -126,7 +126,7 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
         );
         $this->builder->logExecOutput(true);
 
-        $output = \json_decode($this->builder->getLastOutput(), true);
+        $output = \json_decode($this->builder->getLastCommandOutput(), true);
 
         $errors = 0;
         if ($output && \is_array($output)) {

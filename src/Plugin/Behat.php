@@ -76,7 +76,7 @@ class Behat extends Plugin
      */
     public function parseBehatOutput()
     {
-        $output = $this->builder->getLastOutput();
+        $output = $this->builder->getLastCommandOutput();
 
         $parts = \explode('---', $output);
 

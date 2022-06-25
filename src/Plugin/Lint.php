@@ -66,7 +66,7 @@ class Lint extends Plugin
     {
         $success = true;
 
-        $php = $this->findBinary('php');
+        $php = $this->findBinary(['php']);
 
         foreach ($this->directories as $dir) {
             if (!$this->lintDirectory($php, $dir)) {

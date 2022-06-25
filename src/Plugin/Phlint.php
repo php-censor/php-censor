@@ -53,7 +53,7 @@ class Phlint extends Plugin
         // Define that the plugin succeed
         $success = true;
 
-        $errors = $this->processReport($this->builder->getLastOutput());
+        $errors = $this->processReport($this->builder->getLastCommandOutput());
 
         if (0 < \count($errors)) {
             if (-1 !== $this->allowedErrors && \count($errors) > $this->allowedErrors) {

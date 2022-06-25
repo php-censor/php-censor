@@ -64,7 +64,7 @@ class Psalm extends Plugin
         // Define that the plugin succeed
         $success = true;
 
-        list($errors, $infos) = $this->processReport($this->builder->getLastOutput());
+        list($errors, $infos) = $this->processReport($this->builder->getLastCommandOutput());
 
         if (0 < \count($errors)) {
             if (-1 !== $this->allowedErrors && \count($errors) > $this->allowedErrors) {

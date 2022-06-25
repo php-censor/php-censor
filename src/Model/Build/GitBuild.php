@@ -173,16 +173,16 @@ class GitBuild extends TypedBuild
 
         // Always update the commit hash with the actual HEAD hash
         if ($builder->executeCommand($chdir . ' && git rev-parse HEAD', $cloneTo)) {
-            $commitId = \trim($builder->getLastOutput());
+            $commitId = \trim($builder->getLastCommandOutput());
 
             $this->setCommitId($commitId);
 
             if ($builder->executeCommand($chdir . ' && git log -1 --pretty=format:%%s %s', $cloneTo, $commitId)) {
-                $this->setCommitMessage(\trim($builder->getLastOutput()));
+                $this->setCommitMessage(\trim($builder->getLastCommandOutput()));
             }
 
             if ($builder->executeCommand($chdir . ' && git log -1 --pretty=format:%%ae %s', $cloneTo, $commitId)) {
-                $this->setCommitterEmail(\trim($builder->getLastOutput()));
+                $this->setCommitterEmail(\trim($builder->getLastCommandOutput()));
             }
         }
 

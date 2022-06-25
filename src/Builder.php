@@ -10,7 +10,7 @@ use PHPCensor\Common\Build\BuildInterface;
 use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Helper\BuildInterpolator;
 use PHPCensor\Helper\CommandExecutor;
-use PHPCensor\Helper\CommandExecutorInterface;
+use PHPCensor\Common\CommandExecutorInterface;
 use PHPCensor\Logging\BuildLogger;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin\Util\Executor;
@@ -20,7 +20,6 @@ use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\EnvironmentStore;
 use PHPCensor\Store\SecretStore;
 use Psr\Log\LoggerInterface;
-use Psr\Log\LogLevel;
 use PHPCensor\Common\Application\ConfigurationInterface;
 
 /**
@@ -308,9 +307,9 @@ class Builder
     /**
      * Returns the output from the last command run.
      */
-    public function getLastOutput(): string
+    public function getLastCommandOutput(): string
     {
-        return $this->commandExecutor->getLastOutput();
+        return $this->commandExecutor->getLastCommandOutput();
     }
 
     /**
@@ -318,23 +317,18 @@ class Builder
      */
     public function logExecOutput(bool $enableLog = true): void
     {
-        $this->commandExecutor->logExecOutput = $enableLog;
+        if ($enableLog) {
+            $this->commandExecutor->enableCommandOutput();
+        } else {
+            $this->commandExecutor->disableCommandOutput();
+        }
     }
 
-    /**
-     * Find a binary required by a plugin.
-     *
-     * @param array|string $binary
-     *
-     * @throws Exception when no binary has been found.
-     */
     public function findBinary(
-        $binary,
-        string $priorityPath = 'local',
-        string $binaryPath = '',
-        array $binaryName = []
+        array $binaryNames,
+        string $binaryPath = ''
     ): string {
-        return $this->commandExecutor->findBinary($binary, $priorityPath, $binaryPath, $binaryName);
+        return $this->commandExecutor->findBinary($binaryNames, $binaryPath);
     }
 
     /**
