@@ -7,10 +7,10 @@ namespace PHPCensor\Store;
 use Exception;
 use PDO;
 use PHPCensor\Common\Build\BuildInterface;
+use PHPCensor\Common\Repository\BuildRepositoryInterface;
 use PHPCensor\Exception\HttpException;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildMeta;
-use PHPCensor\Model\Project;
 use PHPCensor\Store;
 
 /**
@@ -20,7 +20,7 @@ use PHPCensor\Store;
  * @author Dan Cryer <dan@block8.co.uk>
  * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
-class BuildStore extends Store
+class BuildStore extends Store implements BuildRepositoryInterface
 {
     protected string $tableName = 'builds';
 
@@ -114,7 +114,7 @@ class BuildStore extends Store
     /**
      * @throws Exception
      */
-    public function getLatestBuildByProjectAndBranch(int $projectId, string $branch): ?Build
+    public function getLatestByProjectIdAndBranch(int $projectId, string $branch): ?BuildInterface
     {
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{project_id}} = :project_id AND {{branch}} = :branch ORDER BY {{id}} DESC';
         $stmt  = $this->databaseManager->getConnection('read')->prepare($query);

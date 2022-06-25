@@ -201,7 +201,7 @@ class BuildService
             $date->sub($interval);
 
             foreach ($projectConfig['branches'] as $branch) {
-                $latestBuild = $this->buildStore->getLatestBuildByProjectAndBranch($projectId, $branch);
+                $latestBuild = $this->buildStore->getLatestByProjectIdAndBranch($projectId, $branch);
 
                 if ($latestBuild) {
                     $status = (int)$latestBuild->getStatus();

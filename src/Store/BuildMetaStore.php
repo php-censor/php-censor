@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace PHPCensor\Store;
 
 use PDO;
+use PHPCensor\Common\Build\BuildMetaInterface;
+use PHPCensor\Common\Repository\BuildMetaRepositoryInterface;
 use PHPCensor\Exception\HttpException;
 use PHPCensor\Model\BuildMeta;
 use PHPCensor\Store;
@@ -16,7 +18,7 @@ use PHPCensor\Store;
  * @author Dan Cryer <dan@block8.co.uk>
  * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
-class BuildMetaStore extends Store
+class BuildMetaStore extends Store implements BuildMetaRepositoryInterface
 {
     protected string $tableName = 'build_metas';
 
@@ -39,6 +41,33 @@ class BuildMetaStore extends Store
         $stmt  = $this->databaseManager->getConnection('read')->prepare($query);
         $stmt->bindValue(':build_id', $buildId);
         $stmt->bindValue(':meta_key', $key);
+
+        if ($stmt->execute()) {
+            if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                return new BuildMeta($this->storeRegistry, $data);
+            }
+        }
+
+        return null;
+    }
+
+    public function getOneByBuildIdAndPluginAndKey(
+        int $buildId,
+        string $plugin,
+        string $key
+    ): ?BuildMetaInterface {
+        if (\is_null($buildId)) {
+            throw new HttpException('buildId passed to ' . __FUNCTION__ . ' cannot be null.');
+        }
+
+        if (!$key) {
+            throw new HttpException('key passed to ' . __FUNCTION__ . ' cannot be empty.');
+        }
+
+        $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{build_id}} = :build_id AND {{meta_key}} = :meta_key LIMIT 1';
+        $stmt  = $this->databaseManager->getConnection('read')->prepare($query);
+        $stmt->bindValue(':build_id', $buildId);
+        $stmt->bindValue(':meta_key', $plugin . '-' . $key);
 
         if ($stmt->execute()) {
             if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {

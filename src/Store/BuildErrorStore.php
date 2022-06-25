@@ -6,6 +6,7 @@ namespace PHPCensor\Store;
 
 use Exception;
 use PDO;
+use PHPCensor\Common\Repository\BuildErrorRepositoryInterface;
 use PHPCensor\Exception\HttpException;
 use PHPCensor\Model\BuildError;
 use PHPCensor\Store;
@@ -17,7 +18,7 @@ use PHPCensor\Store;
  * @author Dan Cryer <dan@block8.co.uk>
  * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
-class BuildErrorStore extends Store
+class BuildErrorStore extends Store implements BuildErrorRepositoryInterface
 {
     protected string $tableName = 'build_errors';
 
@@ -226,7 +227,7 @@ class BuildErrorStore extends Store
     /**
      * @throws Exception
      */
-    public function getErrorAmountPerPluginForBuild(int $buildId): array
+    public function getErrorsCountPerPluginByBuildId(int $buildId): array
     {
         $query = '
             SELECT {{plugin}}, COUNT(*) AS {{amount}}

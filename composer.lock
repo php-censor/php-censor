@@ -1001,12 +1001,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-censor/common.git",
-                "reference": "f5abd869a74f9039d8dc30c99d224767f41ccecc"
+                "reference": "3ee02729cdad818eb96c9e892407979a93d0a18e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-censor/common/zipball/f5abd869a74f9039d8dc30c99d224767f41ccecc",
-                "reference": "f5abd869a74f9039d8dc30c99d224767f41ccecc",
+                "url": "https://api.github.com/repos/php-censor/common/zipball/3ee02729cdad818eb96c9e892407979a93d0a18e",
+                "reference": "3ee02729cdad818eb96c9e892407979a93d0a18e",
                 "shasum": ""
             },
             "require": {
@@ -1065,7 +1065,7 @@
                 "issues": "https://github.com/php-censor/common/issues",
                 "source": "https://github.com/php-censor/common"
             },
-            "time": "2022-06-24T05:02:43+00:00"
+            "time": "2022-06-25T07:44:54+00:00"
         },
         {
             "name": "php-censor/flowdock-client",

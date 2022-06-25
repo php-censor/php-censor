@@ -260,11 +260,11 @@ class BitbucketNotify extends Plugin
         /** @var BuildErrorStore $buildErrorStore */
         $buildErrorStore = $this->storeRegistry->get('BuildError');
 
-        $targetBranchBuildStats = $buildErrorStore->getErrorAmountPerPluginForBuild(
+        $targetBranchBuildStats = $buildErrorStore->getErrorsCountPerPluginByBuildId(
             $this->findLatestBuild($targetBranch)
         );
 
-        $currentBranchBuildStats = $buildErrorStore->getErrorAmountPerPluginForBuild($this->build->getId());
+        $currentBranchBuildStats = $buildErrorStore->getErrorsCountPerPluginByBuildId($this->build->getId());
 
         if (empty($targetBranchBuildStats) && empty($currentBranchBuildStats)) {
             return [];
@@ -365,7 +365,7 @@ class BitbucketNotify extends Plugin
         /** @var BuildStore $buildStore */
         $buildStore = $this->storeRegistry->get('Build');
 
-        $build = $buildStore->getLatestBuildByProjectAndBranch($this->getBuild()->getProjectId(), $branchName);
+        $build = $buildStore->getLatestByProjectIdAndBranch($this->getBuild()->getProjectId(), $branchName);
 
         return $build !== null ? $build->getId() : null;
     }
