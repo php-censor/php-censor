@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PHPCensor;
 
+use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Exception\HttpException;
 use PHPCensor\Exception\HttpException\ForbiddenException;
 use Symfony\Component\HttpFoundation\Request;
@@ -78,13 +79,13 @@ abstract class WebController extends Controller
 
     /**
      * Handle the incoming request.
-     *
-     * @throws Common\Exception\RuntimeException
      */
     public function handleAction(string $action, array $actionParams): Response
     {
-        if (View::exists($this->className . '/' . $action)) {
+        try {
             $this->view = new View($this->className . '/' . $action);
+        } catch (RuntimeException $e) {
+            $this->view = null;
         }
 
         $result = parent::handleAction($action, $actionParams);

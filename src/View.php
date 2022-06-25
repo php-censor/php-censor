@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PHPCensor;
 
 use PHPCensor\Common\Exception\RuntimeException;
+use PHPCensor\Common\View\ViewInterface;
 
 /**
  * @package    PHP Censor
@@ -13,36 +14,44 @@ use PHPCensor\Common\Exception\RuntimeException;
  * @author Dan Cryer <dan@block8.co.uk>
  * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
-class View
+class View implements ViewInterface
 {
     protected array $data = [];
 
     protected string $viewFile;
 
-    protected static string $extension = 'phtml';
+    protected string $path = SRC_DIR . 'View/';
+
+    protected string $extension = 'phtml';
 
     /**
      * @throws RuntimeException
      */
-    public function __construct(string $file, ?string $path = null)
+    public function __construct(string $file, ?string $path = null, ?string $fileExtension = null)
     {
-        if (!self::exists($file, $path)) {
+        if ($fileExtension) {
+            $this->extension = $fileExtension;
+        }
+
+        if ($path) {
+            $this->path = $path;
+        }
+
+        if (!$this->exists($file)) {
             throw new RuntimeException('View file does not exist: ' . $file);
         }
 
-        $this->viewFile = self::getViewFile($file, $path);
+        $this->viewFile = $this->getViewFile($file);
     }
 
-    protected static function getViewFile(string $file, ?string $path = null): string
+    protected function getViewFile(string $file): string
     {
-        $viewPath = \is_null($path) ? (SRC_DIR . 'View/') : $path;
-
-        return $viewPath . $file . '.' . static::$extension;
+        return $this->path . $file . '.' . $this->extension;
     }
 
-    public static function exists(string $file, ?string $path = null): bool
+    public function exists(string $file): bool
     {
-        if (!\file_exists(self::getViewFile($file, $path))) {
+        if (!\file_exists($this->getViewFile($file))) {
             return false;
         }
 
@@ -68,6 +77,36 @@ class View
     public function __set(string $key, $value): void
     {
         $this->data[$key] = $value;
+    }
+
+    public function hasVariable(string $key): bool
+    {
+        return $this->__isset($key);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getVariable(string $key)
+    {
+        return $this->__get($key);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setVariable(string $key, $value): bool
+    {
+        $this->__set($key, $value);
+
+        return true;
+    }
+
+    public function setVariables(array $values): bool
+    {
+        foreach ($values as $key => $value) {
+            $this->setVariable($key, $value);
+        }
     }
 
     public function render(): string
