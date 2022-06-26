@@ -5,6 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [2.0.10 (Rick Sanchez)](https://github.com/php-censor/php-censor/tree/2.0.10) (2022-06-26)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/2.0.9...2.0.10)
+
+### Fixed
+
+- Updated dependencies. Fixed:
+    - `guzzlehttp/guzzle` (6.5.7) | CVE-2022-31090: CURLOPT_HTTPAUTH option not cleared on change of origin | https://github.com/guzzle/guzzle/security/advisories/GHSA-25mq-v84q-4j7r
+
+    - `guzzlehttp/guzzle` (6.5.7) | CVE-2022-31091: Change in port should be considered a change in origin https://github.com/guzzle/guzzle/security/advisories/GHSA-q559-8m2m-g699
+
+
 ## [2.0.9 (Rick Sanchez)](https://github.com/php-censor/php-censor/tree/2.0.9) (2022-06-11)
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/2.0.8...2.0.9)
