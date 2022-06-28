@@ -6,6 +6,8 @@ namespace PHPCensor\Store;
 
 use Exception;
 use PDO;
+use PHPCensor\Common\Environment\EnvironmentInterface;
+use PHPCensor\Common\Repository\EnvironmentRepositoryInterface;
 use PHPCensor\Exception\HttpException;
 use PHPCensor\Model\Environment;
 use PHPCensor\Store;
@@ -16,11 +18,19 @@ use PHPCensor\Store;
  *
  * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
-class EnvironmentStore extends Store
+class EnvironmentStore extends Store implements EnvironmentRepositoryInterface
 {
     protected string $tableName = 'environments';
 
     protected string $modelName = Environment::class;
+
+    public function getOneById(int $environmentId): ?EnvironmentInterface
+    {
+        /** @var EnvironmentInterface|null $environment */
+        $environment = $this->getById($environmentId);
+
+        return $environment;
+    }
 
     /**
      * Get a single Environment by Name.

@@ -8,7 +8,7 @@ use DateTime;
 use Exception;
 use PHPCensor\Common\Build\BuildInterface;
 use PHPCensor\Common\Exception\RuntimeException;
-use PHPCensor\Helper\BuildInterpolator;
+use PHPCensor\Helper\VariableInterpolator;
 use PHPCensor\Helper\CommandExecutor;
 use PHPCensor\Common\CommandExecutorInterface;
 use PHPCensor\Logging\BuildLogger;
@@ -54,7 +54,7 @@ class Builder
 
     protected array $config = [];
 
-    protected BuildInterpolator $interpolator;
+    protected ?VariableInterpolator $interpolator = null;
 
     protected BuildStore $store;
 
@@ -71,6 +71,10 @@ class Builder
     protected DatabaseManager $databaseManager;
 
     protected StoreRegistry $storeRegistry;
+
+    protected EnvironmentStore $environmentStore;
+
+    protected SecretStore $secretStore;
 
     public function __construct(
         ConfigurationInterface $configuration,
@@ -93,7 +97,9 @@ class Builder
         /** @var EnvironmentStore $environmentStore */
         $environmentStore = $this->storeRegistry->get('Environment');
 
-        $this->store = $buildStore;
+        $this->secretStore      = $secretStore;
+        $this->environmentStore = $environmentStore;
+        $this->store            = $buildStore;
 
         $pluginFactory     = new PluginFactory($this, $build);
 
@@ -111,7 +117,6 @@ class Builder
             $this->verbose
         );
 
-        $this->interpolator     = new BuildInterpolator($environmentStore, $secretStore);
         $this->buildErrorWriter = new BuildErrorWriter(
             $this->configuration,
             $this->databaseManager,
@@ -337,7 +342,9 @@ class Builder
      */
     public function interpolate(string $input): string
     {
-        return $this->interpolator->interpolate($input);
+        return $this->interpolator
+            ? $this->interpolator->interpolate($input)
+            : $input;
     }
 
     /**
@@ -347,7 +354,7 @@ class Builder
      */
     protected function setupBuild(): bool
     {
-        $this->buildPath = (string)$this->build->getBuildPath();
+        $this->buildPath = $this->build->getBuildPath();
 
         $this->commandExecutor->setBuildPath($this->buildPath);
 
@@ -361,13 +368,15 @@ class Builder
 
         \chdir($this->buildPath);
 
-        $version = (string)\trim(\file_get_contents(ROOT_DIR . 'VERSION.md'));
-        $version = !empty($version) ? $version : '0.0.0 (UNKNOWN)';
+        $applicationVersion = \trim(\file_get_contents(ROOT_DIR . 'VERSION.md'));
+        $applicationVersion = !empty($applicationVersion) ? $applicationVersion : '0.0.0 (UNKNOWN)';
 
-        $this->interpolator->setupInterpolationVars(
+        $this->interpolator = new VariableInterpolator(
             $this->build,
-            APP_URL,
-            $version
+            $this->build->getProject(),
+            $this->environmentStore,
+            $this->secretStore,
+            $applicationVersion
         );
 
         // Does the project's .php-censor.yml request verbose mode?

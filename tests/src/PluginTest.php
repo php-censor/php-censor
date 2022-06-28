@@ -6,8 +6,9 @@ namespace Tests\PHPCensor;
 
 use PHPCensor\Builder;
 use PHPCensor\DatabaseManager;
-use PHPCensor\Helper\BuildInterpolator;
+use PHPCensor\Helper\VariableInterpolator;
 use PHPCensor\Model\Build;
+use PHPCensor\Model\Project;
 use PHPCensor\Plugin;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\EnvironmentStore;
@@ -105,6 +106,10 @@ class PluginTest extends TestCase
             ->method('getCommitId')
             ->willReturn('commit_hash');
 
+        $this->build
+            ->method('getProject')
+            ->willReturn(new Project($this->storeRegistry));
+
         $secretStore = $this
             ->getMockBuilder(SecretStore::class)
             ->setConstructorArgs([$databaseManager, $this->storeRegistry])
@@ -115,8 +120,13 @@ class PluginTest extends TestCase
             ->setConstructorArgs([$databaseManager, $this->storeRegistry])
             ->getMock();
 
-        $interpolator = new BuildInterpolator($environmentStore, $secretStore);
-        $interpolator->setupInterpolationVars($this->build, 'http://php-censor.local/', '1.0.0');
+        $interpolator = new VariableInterpolator(
+            $this->build,
+            $this->build->getProject(),
+            $environmentStore,
+            $secretStore,
+            '1.0.0'
+        );
 
         $this->builder
             ->method('interpolate')

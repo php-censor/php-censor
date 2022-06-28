@@ -7,7 +7,7 @@ namespace Tests\PHPCensor\Plugin;
 use PHPCensor\Builder;
 use PHPCensor\Common\Build\BuildInterface;
 use PHPCensor\DatabaseManager;
-use PHPCensor\Helper\BuildInterpolator;
+use PHPCensor\Helper\VariableInterpolator;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\Project;
 use PHPCensor\Plugin;
@@ -86,6 +86,10 @@ class EmailTest extends TestCase
             ->method('getCommitterEmail')
             ->will($this->returnValue('committer-email@example.com'));
 
+        $this->build
+            ->method('getProject')
+            ->willReturn(new Project($this->storeRegistry));
+
         $this->builder = $this
             ->getMockBuilder(Builder::class)
             ->onlyMethods(['logNormal', 'logDebug', 'interpolate'])
@@ -105,7 +109,13 @@ class EmailTest extends TestCase
             ->setConstructorArgs([$databaseManager, $this->storeRegistry])
             ->getMock();
 
-        $interpolator = new BuildInterpolator($environmentStore, $secretStore);
+        $interpolator = new VariableInterpolator(
+            $this->build,
+            $this->build->getProject(),
+            $environmentStore,
+            $secretStore,
+            '1.0.0'
+        );
 
         $this->builder->expects($this->any())
             ->method('interpolate')

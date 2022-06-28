@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PHPCensor\Model;
 
+use PHPCensor\Common\Environment\EnvironmentInterface;
 use PHPCensor\Model\Base\Environment as BaseEnvironment;
 
 /**
@@ -12,6 +13,6 @@ use PHPCensor\Model\Base\Environment as BaseEnvironment;
  *
  * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
-class Environment extends BaseEnvironment
+class Environment extends BaseEnvironment implements EnvironmentInterface
 {
 }

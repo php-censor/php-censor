@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Tests\PHPCensor\Helper;
 
 use PHPCensor\DatabaseManager;
-use PHPCensor\Helper\BuildInterpolator;
+use PHPCensor\Helper\VariableInterpolator;
 use PHPCensor\Model\Build;
+use PHPCensor\Model\Project;
 use PHPCensor\Store\EnvironmentStore;
 use PHPCensor\Store\SecretStore;
 use PHPCensor\StoreRegistry;
@@ -18,7 +19,7 @@ class BuildInterpolatorTest extends TestCase
 {
     use ProphecyTrait;
 
-    private BuildInterpolator $testedInterpolator;
+    private VariableInterpolator $testedInterpolator;
 
     private StoreRegistry $storeRegistry;
 
@@ -46,7 +47,18 @@ class BuildInterpolatorTest extends TestCase
             ->setConstructorArgs([$databaseManager, $this->storeRegistry])
             ->getMock();
 
-        $this->testedInterpolator = new BuildInterpolator($environmentStore, $secretStore);
+        $build = $this->createMock(Build::class);
+        $build
+            ->method('getProject')
+            ->willReturn(new Project($this->storeRegistry));
+
+        $this->testedInterpolator = new VariableInterpolator(
+            $build,
+            $build->getProject(),
+            $environmentStore,
+            $secretStore,
+            '1.0.0'
+        );
     }
 
     public function testInterpolate_LeavesStringsUnchangedByDefault(): void
@@ -61,16 +73,8 @@ class BuildInterpolatorTest extends TestCase
 
     public function testInterpolate_LeavesStringsUnchangedWhenBuildIsSet(): void
     {
-        $build = new Build($this->storeRegistry);
-
         $string         = "Hello World";
         $expectedOutput = "Hello World";
-
-        $this->testedInterpolator->setupInterpolationVars(
-            $build,
-            'php-censor.local',
-            '1.0.0'
-        );
 
         $actualOutput = $this->testedInterpolator->interpolate($string);
 
