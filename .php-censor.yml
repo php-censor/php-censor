@@ -6,6 +6,11 @@ build_settings:
 setup:
     composer:
         action: install
+    env:
+        POSTGRESQL_USER: '%SECRET:postgres_testdb_user%'
+        POSTGRESQL_PASSWORD: '%SECRET:postgres_testdb_password%'
+        MYSQL_USER: '%SECRET:mysql_testdb_user%'
+        MYSQL_PASSWORD: '%SECRET:mysql_testdb_password%'
 
 test:
     php_unit:
