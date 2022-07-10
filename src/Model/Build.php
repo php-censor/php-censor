@@ -624,14 +624,7 @@ OUT;
     public function getErrorsTrend(): array
     {
         $total    = (int)$this->getErrorsTotal();
-        $previous = $this->getErrorsTotalPrevious();
-
-        if (null === $previous) {
-            return [
-                'trend' => -1,
-                'delta' => $total,
-            ];
-        }
+        $previous = (int)$this->getErrorsTotalPrevious();
 
         if ($previous > $total) {
             return [
@@ -660,11 +653,12 @@ OUT;
         $total    = $this->getTestCoverage();
         $previous = $this->getTestCoveragePrevious();
 
+        if (null === $total) {
+            $total = '0.00';
+        }
+
         if (null === $previous) {
-            return [
-                'trend' => -1,
-                'delta' => $total,
-            ];
+            $previous = '0.00';
         }
 
         return [
