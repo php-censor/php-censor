@@ -187,7 +187,7 @@ use PHPCensor\Model\Environment;
             <a href="#errors" data-toggle="tab">
                 <i class="fa fa-exclamation-triangle"></i>  <?= Lang::get('errors'); ?>
                 <?php if ($data['errors_total'] == 0): ?>
-                    <span class="errors-label label label-danger" style="display: none">0</span>
+                    <span class="errors-label label label-success" style="display: none">0</span>
                 <?php else: ?>
                     <span class="errors-label label label-danger"><?= $data['errors_total']; ?></span>
                 <?php endif; ?>
