@@ -122,7 +122,12 @@ $branches = $build->getExtra('branches');
     </td>
     <td>
         <?php if (!\in_array($build->getStatus(), [Build::STATUS_PENDING, Build::STATUS_RUNNING], true)): ?>
-            <span class="arrow_trend_negative"><?= $build->getErrorsNew(); ?></span>
+            <?php $newErrorsCount = (int)$build->getErrorsNew(); ?>
+            <?php if (0 < $newErrorsCount): ?>
+                <span class="arrow_trend_negative"><?= $newErrorsCount; ?></span>
+            <?php else: ?>
+                <?= $newErrorsCount; ?>
+            <?php endif; ?>
         <?php endif; ?>
     </td>
     <td>

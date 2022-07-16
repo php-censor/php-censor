@@ -146,10 +146,14 @@ use PHPCensor\Store\EnvironmentStore;
                                 <?php endif; ?>
                             <?php endif; ?>
 
-                            <?php if ($newErrorsCount = $build->getErrorsNew()): ?>
+                            <?php if ($newErrorsCount = (int)$build->getErrorsNew()): ?>
                                 /
                                 <?= Lang::get('new_errors'); ?>:
-                                <span class="arrow_trend_negative"><?= $newErrorsCount; ?></span>
+                                <?php if (0 < $newErrorsCount): ?>
+                                    <span class="arrow_trend_negative"><?= $newErrorsCount; ?></span>
+                                <?php else: ?>
+                                    <?= $newErrorsCount; ?>
+                                <?php endif; ?>
                             <?php endif; ?>
 
                             |
