@@ -1,4 +1,4 @@
-Plugin gulp
+Plugin Gulp
 ===========
 
 This plugin runs [gulpjs](https://gulpjs.com/) tasks.

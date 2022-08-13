@@ -1,5 +1,5 @@
-Plugin WebhookNotify
-==================
+Plugin Webhook Notify
+=====================
 
 This plugin sends a JSON web hook to a configured URL.
 

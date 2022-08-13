@@ -1,4 +1,4 @@
-Plugin Clean build
+Plugin Clean Build
 ==================
 
 Works through a list of files to remove from your build. Useful when used in combination with Copy Build or Package 

@@ -1,5 +1,5 @@
 Plugin Bitbucket Notify
-=========================
+=======================
 
 This plugin notify you in Bitbucket about the build status with comments, tasks and build info.
 
