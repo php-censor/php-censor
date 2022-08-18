@@ -42,7 +42,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ### Fixed
 
 - Install command return code.
-- [PHPUnit] Xdebug settings for coverage option. Pull request [#427](https://github.com/php-censor/php-censor/pull/427). Thanks to [@KieranFYI](https://github.com/KieranFYI).
+- **[PHPUnit]** Xdebug settings for coverage option. Pull request [#427](https://github.com/php-censor/php-censor/pull/427). Thanks to [@KieranFYI](https://github.com/KieranFYI).
 
 ## Other versions
 
