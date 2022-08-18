@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
-## [2.1.0 (Mr. Meeseeks)](https://github.com/php-censor/php-censor/tree/2.1.0) (2022-xx-xx)
+## [2.1.0 (Mr. Meeseeks)](https://github.com/php-censor/php-censor/tree/2.1.0) (2022-08-18)
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/2.0.10...2.1.0)
 
