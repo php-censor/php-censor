@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b0c9820687d3afb4c7446991862b3f44",
+    "content-hash": "20b1f00489615f4ab268d26b842fdd1d",
     "packages": [
         {
             "name": "cakephp/core",
@@ -995,16 +995,16 @@
         },
         {
             "name": "php-censor/common",
-            "version": "0.6.0",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-censor/common.git",
-                "reference": "ddfe8ba729f5661af7c0d302ae5890054d03e368"
+                "reference": "5a3e18158e40b665476606d95c2efca11ec33a5c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-censor/common/zipball/ddfe8ba729f5661af7c0d302ae5890054d03e368",
-                "reference": "ddfe8ba729f5661af7c0d302ae5890054d03e368",
+                "url": "https://api.github.com/repos/php-censor/common/zipball/5a3e18158e40b665476606d95c2efca11ec33a5c",
+                "reference": "5a3e18158e40b665476606d95c2efca11ec33a5c",
                 "shasum": ""
             },
             "require": {
@@ -1062,7 +1062,7 @@
                 "issues": "https://github.com/php-censor/common/issues",
                 "source": "https://github.com/php-censor/common"
             },
-            "time": "2022-02-07T15:41:38+00:00"
+            "time": "2022-06-29T05:37:35+00:00"
         },
         {
             "name": "php-censor/flowdock-client",
