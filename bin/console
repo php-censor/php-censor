@@ -1,13 +1,15 @@
 #!/usr/bin/env php
 <?php
 
+declare(strict_types=1);
+
 use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\Console\Application;
 use PHPCensor\DatabaseManager;
 use PHPCensor\StoreRegistry;
 
 \error_reporting(-1);
-\ini_set('display_errors', 1);
+\ini_set('display_errors', '1');
 
 /** @var $configuration ConfigurationInterface */
 /** @var $databaseManager DatabaseManager */
