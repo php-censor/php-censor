@@ -57,6 +57,7 @@ jobs:
 
             - name: Run tests
               run: |
+                  export SKIP_DB_TESTS=0;
                   export POSTGRESQL_USER='postgres';
                   export POSTGRESQL_PASSWORD='postgres';
                   export MYSQL_USER='root';

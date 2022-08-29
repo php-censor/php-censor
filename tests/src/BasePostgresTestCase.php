@@ -35,9 +35,9 @@ class BasePostgresTestCase extends TestCase
                 'php-censor'              => [
                     'adapter' => 'pgsql',
                     'host' => '127.0.0.1',
-                    'name' => env('POSTGRESQL_DBNAME'),
-                    'user' => env('POSTGRESQL_USER'),
-                    'pass' => env('POSTGRESQL_PASSWORD'),
+                    'name' => \env('POSTGRESQL_DBNAME'),
+                    'user' => \env('POSTGRESQL_USER'),
+                    'pass' => \env('POSTGRESQL_PASSWORD'),
                 ],
             ],
         ];
@@ -53,7 +53,9 @@ class BasePostgresTestCase extends TestCase
                 ->setName('php-censor-migrations:migrate')
                 ->run(new ArgvInput([]), new ConsoleOutput(OutputInterface::VERBOSITY_QUIET));
         } catch (\Throwable $e) {
-            //var_dump($e);
+            if (!\env('SKIP_DB_TESTS')) {
+                throw $e;
+            }
         }
     }
 
@@ -119,9 +121,9 @@ class BasePostgresTestCase extends TestCase
                         ],
                     ],
                     'type'     => 'pgsql',
-                    'name'     => env('POSTGRESQL_DBNAME'),
-                    'username' => env('POSTGRESQL_USER'),
-                    'password' => env('POSTGRESQL_PASSWORD'),
+                    'name'     => \env('POSTGRESQL_DBNAME'),
+                    'username' => \env('POSTGRESQL_USER'),
+                    'password' => \env('POSTGRESQL_PASSWORD'),
                 ],
             ],
         ];
@@ -136,15 +138,17 @@ class BasePostgresTestCase extends TestCase
         try {
             $this->connection = new \PDO(
                 'pgsql:host=127.0.0.1;dbname=' . env('POSTGRESQL_DBNAME'),
-                env('POSTGRESQL_USER'),
-                env('POSTGRESQL_PASSWORD')
+                \env('POSTGRESQL_USER'),
+                \env('POSTGRESQL_PASSWORD')
             );
 
             $this->dropTables();
             $this->migrateDatabaseScheme();
             $this->migrateDatabaseData();
         } catch (\Throwable $e) {
-            //var_dump($e);
+            if (!\env('SKIP_DB_TESTS')) {
+                throw $e;
+            }
 
             $this->connection = null;
         }
@@ -170,7 +174,11 @@ class BasePostgresTestCase extends TestCase
     protected function getConnection(): ?\PDO
     {
         if (null === $this->connection) {
-            $this->markTestSkipped('Test skipped because PostgreSQL database/user/extension doesn\'t exist.');
+            if (\env('SKIP_DB_TESTS')) {
+                $this->markTestSkipped('Test skipped because PostgreSQL database/user/extension doesn\'t exist.');
+            } else {
+                $this->fail('Test failed because PostgreSQL database/user/extension doesn\'t exist.');
+            }
         }
 
         return $this->connection;
