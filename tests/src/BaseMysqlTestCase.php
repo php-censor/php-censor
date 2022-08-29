@@ -53,7 +53,7 @@ class BaseMysqlTestCase extends TestCase
                 ->setName('php-censor-migrations:migrate')
                 ->run(new ArgvInput([]), new ConsoleOutput(OutputInterface::VERBOSITY_QUIET));
         } catch (\Throwable $e) {
-            if (!\env('SKIP_DB_TESTS')) {
+            if (!env('SKIP_DB_TESTS')) {
                 throw $e;
             }
         }
@@ -146,7 +146,7 @@ class BaseMysqlTestCase extends TestCase
             $this->migrateDatabaseScheme();
             $this->migrateDatabaseData();
         } catch (\Throwable $e) {
-            if (!\env('SKIP_DB_TESTS')) {
+            if (!env('SKIP_DB_TESTS')) {
                 throw $e;
             }
 
@@ -174,7 +174,7 @@ class BaseMysqlTestCase extends TestCase
     protected function getConnection(): ?\PDO
     {
         if (null === $this->connection) {
-            if (\env('SKIP_DB_TESTS')) {
+            if (env('SKIP_DB_TESTS')) {
                 $this->markTestSkipped('Test skipped because MySQL database/user/extension doesn\'t exist.');
             } else {
                 $this->fail('Test failed because MySQL database/user/extension doesn\'t exist.');
