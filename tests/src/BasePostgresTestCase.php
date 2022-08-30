@@ -53,7 +53,9 @@ class BasePostgresTestCase extends TestCase
                 ->setName('php-censor-migrations:migrate')
                 ->run(new ArgvInput([]), new ConsoleOutput(OutputInterface::VERBOSITY_QUIET));
         } catch (\Throwable $e) {
-            //var_dump($e);
+            if (!env('SKIP_DB_TESTS')) {
+                throw $e;
+            }
         }
     }
 
@@ -144,7 +146,9 @@ class BasePostgresTestCase extends TestCase
             $this->migrateDatabaseScheme();
             $this->migrateDatabaseData();
         } catch (\Throwable $e) {
-            //var_dump($e);
+            if (!env('SKIP_DB_TESTS')) {
+                throw $e;
+            }
 
             $this->connection = null;
         }
@@ -170,7 +174,11 @@ class BasePostgresTestCase extends TestCase
     protected function getConnection(): ?\PDO
     {
         if (null === $this->connection) {
-            $this->markTestSkipped('Test skipped because PostgreSQL database/user/extension doesn\'t exist.');
+            if (env('SKIP_DB_TESTS')) {
+                $this->markTestSkipped('Test skipped because PostgreSQL database/user/extension doesn\'t exist.');
+            } else {
+                $this->fail('Test failed because PostgreSQL database/user/extension doesn\'t exist.');
+            }
         }
 
         return $this->connection;

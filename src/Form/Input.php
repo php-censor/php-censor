@@ -129,7 +129,7 @@ class Input extends Element
             return false;
         }
 
-        if ($this->getPattern() && !\preg_match('/' . $this->getPattern() . '/', (string)$this->getValue())) {
+        if ($this->getPattern() && !\preg_match('#' . $this->getPattern() . '#', (string)$this->getValue())) {
             $this->error = 'Invalid value entered.';
 
             return false;

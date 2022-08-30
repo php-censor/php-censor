@@ -69,7 +69,7 @@ abstract class WebController extends Controller
                 $groups[]              = $thisGroup;
             }
 
-            $archivedProjects               = $this->storeRegistry->get('Project')->getAll(true);
+            $archivedProjects               = $this->storeRegistry->get('Project')->getAll('read', true);
             $this->layout->archivedProjects = $archivedProjects['items'];
             $this->layout->groups           = $groups;
             $this->layout->user             = $this->getUser();

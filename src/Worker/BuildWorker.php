@@ -18,6 +18,7 @@ use PHPCensor\Logging\BuildLogger;
 use PHPCensor\Model\Build;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Store\BuildStore;
+use PHPCensor\Store\SecretStore;
 use PHPCensor\StoreRegistry;
 use Psr\Log\LoggerInterface;
 
@@ -170,8 +171,11 @@ class BuildWorker
             /** @var BuildStore $buildStore */
             $buildStore = $this->storeRegistry->get('Build');
 
+            /** @var SecretStore $secretStore */
+            $secretStore = $this->storeRegistry->get('Secret');
+
             // Logging relevant to this build should be stored against the build itself.
-            $buildDbLog = new BuildDBLogHandler($buildStore, $build, Logger::DEBUG);
+            $buildDbLog = new BuildDBLogHandler($secretStore, $buildStore, $build, Logger::DEBUG);
             $this->logger->pushHandler($buildDbLog);
 
             $buildLogger = new BuildLogger($this->logger, $build);

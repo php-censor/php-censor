@@ -103,7 +103,7 @@ class BuildInterpolator
 
     private function secretInterpolate(string $input): string
     {
-        \preg_match_all('#%SECRET:(.+?)%#', $input, $matches);
+        \preg_match_all('#%SECRET:([-_\w\d]+)?%#', $input, $matches);
         if (!empty($matches[0])) {
             $secrets = $this->secretStore->getByNames($matches[1]);
             $finalSecrets = [];
