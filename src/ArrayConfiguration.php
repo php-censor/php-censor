@@ -15,4 +15,8 @@ use PHPCensor\Common\Application\ConfigurationInterface;
  */
 class ArrayConfiguration extends ParameterBag implements ConfigurationInterface
 {
+    public function load(): void
+    {
+        return;
+    }
 }

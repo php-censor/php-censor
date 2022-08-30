@@ -53,6 +53,28 @@ abstract class Store
         return null;
     }
 
+    public function getAll(string $useConnection = 'read'): array
+    {
+        $query = 'SELECT * FROM {{' . $this->tableName . '}}';
+        $countQuery = 'SELECT COUNT(*) AS {{count}} FROM {{' . $this->tableName . '}}';
+
+        $stmt = $this->databaseManager->getConnection($useConnection)->prepare($countQuery);
+        $stmt->execute();
+        $res = $stmt->fetch(PDO::FETCH_ASSOC);
+        $count = (int)$res['count'];
+
+        $stmt = $this->databaseManager->getConnection($useConnection)->prepare($query);
+        $stmt->execute();
+        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $rtn = [];
+
+        foreach ($res as $data) {
+            $rtn[] = new $this->modelName($this->storeRegistry, $data);
+        }
+
+        return ['items' => $rtn, 'count' => $count];
+    }
+
     /**
      * @throws Common\Exception\Exception
      * @throws InvalidArgumentException

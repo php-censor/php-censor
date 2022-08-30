@@ -7,12 +7,14 @@
 /tests/   export-ignore
 /docs/    export-ignore
 
-/Makefile         export-ignore
-/.editorconfig    export-ignore
-/.gitattributes   export-ignore
-/.gitignore       export-ignore
-/.php-censor.yml  export-ignore
-/phpunit.xml.dist export-ignore
-/phpmd.xml.dist   export-ignore
-/.php_cs.dist     export-ignore
-/codecov.yml      export-ignore
+/Makefile            export-ignore
+/.editorconfig       export-ignore
+/.gitattributes      export-ignore
+/.gitignore          export-ignore
+/.php-censor.yml     export-ignore
+/phpunit.xml.dist    export-ignore
+/phpmd.xml.dist      export-ignore
+/.php_cs.dist        export-ignore
+/codecov.yml         export-ignore
+/infection.json.dist export-ignore
+/psalm.xml.dist      export-ignore

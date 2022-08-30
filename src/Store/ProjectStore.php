@@ -110,7 +110,7 @@ class ProjectStore extends Store
     /**
      * Get a list of all projects, ordered by their title.
      */
-    public function getAll(bool $archived = false): array
+    public function getAll(string $useConnection = 'read', bool $archived = false): array
     {
         $archived = (int)$archived;
 
