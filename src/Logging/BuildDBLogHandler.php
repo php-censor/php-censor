@@ -79,7 +79,7 @@ class BuildDBLogHandler extends AbstractProcessingHandler
             ROOT_DIR,
         ], [
             '/',
-            '//',
+            '/',
             '<BUILD_PATH>/',
             '<PHP_CENSOR_PATH>/',
         ], $message);
