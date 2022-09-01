@@ -88,7 +88,7 @@ class WebhookController extends Controller
                 $response->setStatusCode($data['responseCode']);
                 unset($data['responseCode']);
             }
-            $response->setContent($data);
+            $response->setData($data);
         } catch (\Throwable $ex) {
             $response->setStatusCode(500);
             $response->setData(['status' => 'failed', 'error' => $ex->getMessage()]);
