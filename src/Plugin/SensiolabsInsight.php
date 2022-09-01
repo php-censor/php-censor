@@ -65,7 +65,7 @@ class SensiolabsInsight extends Plugin
         }
 
         if (\array_key_exists('auth_token', $options)) {
-            $this->authToken = $this->builder->interpolate($options['auth_token']);
+            $this->authToken = $this->builder->interpolate($options['auth_token'], true);
         }
 
         if (\array_key_exists('project_uuid', $options)) {

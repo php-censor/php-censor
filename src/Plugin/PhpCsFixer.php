@@ -69,7 +69,7 @@ class PhpCsFixer extends Plugin
 
         if (isset($options['config']) && $options['config']) {
             $this->config = true;
-            $this->args .= ' --config=' . $builder->interpolate($options['config']);
+            $this->args .= ' --config=' . $builder->interpolate($options['config'], true);
         }
 
         if (isset($options['errors']) && $options['errors']) {

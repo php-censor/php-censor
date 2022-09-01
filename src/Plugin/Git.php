@@ -113,11 +113,11 @@ class Git extends Plugin
         $message = \sprintf('Tag created by PHP Censor: %s', \date('Y-m-d H:i:s'));
 
         if (\array_key_exists('name', $options)) {
-            $tagName = $this->builder->interpolate($options['name']);
+            $tagName = $this->builder->interpolate($options['name'], true);
         }
 
         if (\array_key_exists('message', $options)) {
-            $message = $this->builder->interpolate($options['message']);
+            $message = $this->builder->interpolate($options['message'], true);
         }
 
         $cmd = 'git tag %s -m "%s"';
@@ -136,11 +136,11 @@ class Git extends Plugin
         $remote = 'origin';
 
         if (\array_key_exists('branch', $options)) {
-            $branch = $this->builder->interpolate($options['branch']);
+            $branch = $this->builder->interpolate($options['branch'], true);
         }
 
         if (\array_key_exists('remote', $options)) {
-            $remote = $this->builder->interpolate($options['remote']);
+            $remote = $this->builder->interpolate($options['remote'], true);
         }
 
         return $this->builder->executeCommand('git pull %s %s', $remote, $branch);
@@ -157,11 +157,11 @@ class Git extends Plugin
         $remote = 'origin';
 
         if (\array_key_exists('branch', $options)) {
-            $branch = $this->builder->interpolate($options['branch']);
+            $branch = $this->builder->interpolate($options['branch'], true);
         }
 
         if (\array_key_exists('remote', $options)) {
-            $remote = $this->builder->interpolate($options['remote']);
+            $remote = $this->builder->interpolate($options['remote'], true);
         }
 
         return $this->builder->executeCommand('git push %s %s', $remote, $branch);

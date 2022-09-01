@@ -92,7 +92,7 @@ class BuildService
             $userId = null;
         }
         $build->setUserId($userId);
-        $build->setCommitId((string)$commitId);
+        $build->setCommitId($commitId);
 
         if (!empty($branch)) {
             $build->setBranch($branch);

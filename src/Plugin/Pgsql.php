@@ -72,15 +72,15 @@ class Pgsql extends Plugin
         $buildSettings = $this->builder->getConfig('build_settings');
 
         if (!empty($buildSettings['pgsql']['host'])) {
-            $this->host = $this->builder->interpolate($buildSettings['pgsql']['host']);
+            $this->host = $this->builder->interpolate($buildSettings['pgsql']['host'], true);
         }
 
         if (!empty($buildSettings['pgsql']['port'])) {
-            $this->port = (int)$this->builder->interpolate($buildSettings['pgsql']['port']);
+            $this->port = (int)$this->builder->interpolate($buildSettings['pgsql']['port'], true);
         }
 
         if (!empty($buildSettings['pgsql']['dbname'])) {
-            $this->dbName = $this->builder->interpolate($buildSettings['pgsql']['dbname']);
+            $this->dbName = $this->builder->interpolate($buildSettings['pgsql']['dbname'], true);
         }
 
         if (!empty($buildSettings['pgsql']['options']) && \is_array($buildSettings['pgsql']['options'])) {
@@ -88,16 +88,16 @@ class Pgsql extends Plugin
         }
 
         if (!empty($buildSettings['pgsql']['user'])) {
-            $this->user = $this->builder->interpolate($buildSettings['pgsql']['user']);
+            $this->user = $this->builder->interpolate($buildSettings['pgsql']['user'], true);
         }
 
         if (\array_key_exists('password', $buildSettings['pgsql'])) {
-            $this->password = $this->builder->interpolate($buildSettings['pgsql']['password']);
+            $this->password = $this->builder->interpolate($buildSettings['pgsql']['password'], true);
         }
 
         if (!empty($this->options['queries']) && \is_array($this->options['queries'])) {
             foreach ($this->options['queries'] as $query) {
-                $this->queries[] = $this->builder->interpolate($query);
+                $this->queries[] = $this->builder->interpolate($query, true);
             }
         }
     }

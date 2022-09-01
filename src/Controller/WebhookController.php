@@ -88,7 +88,7 @@ class WebhookController extends Controller
                 $response->setStatusCode($data['responseCode']);
                 unset($data['responseCode']);
             }
-            $response->setContent($data);
+            $response->setData($data);
         } catch (\Throwable $ex) {
             $response->setStatusCode(500);
             $response->setData(['status' => 'failed', 'error' => $ex->getMessage()]);
@@ -344,9 +344,9 @@ class WebhookController extends Controller
         $payload = [
             'branch'         => $this->getParam('branch', $project->getDefaultBranch()),
             'environment'    => $this->getParam('environment'),
-            'commit'         => $this->getParam('commit'),
-            'commit_message' => $this->getParam('message', ''),
-            'committer'      => $this->getParam('committer', ''),
+            'commit'         => (string)$this->getParam('commit', ''),
+            'commit_message' => (string)$this->getParam('message', ''),
+            'committer'      => (string)$this->getParam('committer', ''),
         ];
         $payloadJson = \json_encode($payload);
 
@@ -384,9 +384,9 @@ class WebhookController extends Controller
         $payload = [
             'branch'         => $this->getParam('branch', $project->getDefaultBranch()),
             'environment'    => $this->getParam('environment'),
-            'commit'         => $this->getParam('commit'),
-            'commit_message' => $this->getParam('message'),
-            'committer'      => $this->getParam('committer'),
+            'commit'         => (string)$this->getParam('commit', ''),
+            'commit_message' => (string)$this->getParam('message', ''),
+            'committer'      => (string)$this->getParam('committer', ''),
         ];
         $payloadJson = \json_encode($payload);
 
@@ -425,9 +425,9 @@ class WebhookController extends Controller
         $payload = [
             'branch'         => $this->getParam('branch', $project->getDefaultBranch()),
             'environment'    => $this->getParam('environment'),
-            'commit'         => $this->getParam('commit'),
-            'commit_message' => $this->getParam('message'),
-            'committer'      => $this->getParam('committer'),
+            'commit'         => (string)$this->getParam('commit', ''),
+            'commit_message' => (string)$this->getParam('message', ''),
+            'committer'      => (string)$this->getParam('committer', ''),
         ];
         $payloadJson = \json_encode($payload);
 
@@ -521,7 +521,7 @@ class WebhookController extends Controller
                 try {
                     $email = $commit['new']['target']['author']['raw'];
                     if (\strpos($email, '>') !== false) {
-                        // In order not to loose email if it is RAW, w/o "<>" symbols
+                        // In order not to lose email if it is RAW, w/o "<>" symbols
                         $email = \substr($email, 0, \strpos($email, '>'));
                         $email = \substr($email, \strpos($email, '<') + 1);
                     }
@@ -600,7 +600,7 @@ class WebhookController extends Controller
                 $branch    = $payload['pullrequest']['destination']['branch']['name'];
                 $committer = $commit['author']['raw'];
                 if (\strpos($committer, '>') !== false) {
-                    // In order not to loose email if it is RAW, w/o "<>" symbols
+                    // In order not to lose email if it is RAW, w/o "<>" symbols
                     $committer = \substr($committer, 0, \strpos($committer, '>'));
                     $committer = \substr($committer, \strpos($committer, '<') + 1);
                 }

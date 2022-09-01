@@ -342,9 +342,9 @@ class Builder
      * Replace every occurrence of the interpolation vars in the given string
      * Example: "This is build %BUILD_ID%" => "This is build 182"
      */
-    public function interpolate(string $input): string
+    public function interpolate(string $input, bool $useSecrets = false): string
     {
-        return $this->interpolator->interpolate($input);
+        return $this->interpolator->interpolate($input, $useSecrets);
     }
 
     /**
@@ -389,7 +389,7 @@ class Builder
 
         if (!empty($this->config['build_settings']['binary_path'])) {
             $this->binaryPath = \rtrim(
-                $this->interpolate($this->config['build_settings']['binary_path']),
+                $this->interpolate($this->config['build_settings']['binary_path'], true),
                 '/\\'
             ) . '/';
         }
@@ -411,7 +411,7 @@ class Builder
         }
 
         $this->directory = \rtrim(
-            $this->interpolate($directory),
+            $this->interpolate($directory, true),
             '/\\'
         ) . '/';
 

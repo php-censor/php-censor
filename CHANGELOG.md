@@ -5,6 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [2.1.2 (Mr. Meeseeks)](https://github.com/php-censor/php-censor/tree/2.1.2) (2022-09-01)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/2.1.1...2.1.2)
+
+### Fixed
+
+- Build logger expression. Pull requests [#431](https://github.com/php-censor/php-censor/pull/431). Thanks to [@StudioMaX](https://github.com/StudioMaX).
+- Type of GET param `commitId` in WebhookController. Issue [#432](https://github.com/php-censor/php-censor/pull/432).
+- Webhook response type. Issue [#432](https://github.com/php-censor/php-censor/pull/432).
+- Secrets security: denied to using secrets in notify plugins content.
+
+
 ## [2.1.1 (Mr. Meeseeks)](https://github.com/php-censor/php-censor/tree/2.1.1) (2022-08-30)
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/2.1.0...2.1.1)

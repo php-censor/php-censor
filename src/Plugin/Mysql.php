@@ -88,19 +88,19 @@ class Mysql extends Plugin
         }
 
         if (!empty($buildSettings['mysql']['host'])) {
-            $this->host = $this->builder->interpolate($buildSettings['mysql']['host']);
+            $this->host = $this->builder->interpolate($buildSettings['mysql']['host'], true);
         }
 
         if (!empty($buildSettings['mysql']['port'])) {
-            $this->port = (int)$this->builder->interpolate($buildSettings['mysql']['port']);
+            $this->port = (int)$this->builder->interpolate($buildSettings['mysql']['port'], true);
         }
 
         if (!empty($buildSettings['mysql']['dbname'])) {
-            $this->dbName = $this->builder->interpolate($buildSettings['mysql']['dbname']);
+            $this->dbName = $this->builder->interpolate($buildSettings['mysql']['dbname'], true);
         }
 
         if (!empty($buildSettings['mysql']['charset'])) {
-            $this->charset = $this->builder->interpolate($buildSettings['mysql']['charset']);
+            $this->charset = $this->builder->interpolate($buildSettings['mysql']['charset'], true);
         }
 
         if (!empty($buildSettings['mysql']['options']) && \is_array($buildSettings['mysql']['options'])) {
@@ -108,16 +108,16 @@ class Mysql extends Plugin
         }
 
         if (!empty($buildSettings['mysql']['user'])) {
-            $this->user = $this->builder->interpolate($buildSettings['mysql']['user']);
+            $this->user = $this->builder->interpolate($buildSettings['mysql']['user'], true);
         }
 
         if (\array_key_exists('password', $buildSettings['mysql'])) {
-            $this->password = $this->builder->interpolate($buildSettings['mysql']['password']);
+            $this->password = $this->builder->interpolate($buildSettings['mysql']['password'], true);
         }
 
         if (!empty($this->options['queries']) && \is_array($this->options['queries'])) {
             foreach ($this->options['queries'] as $query) {
-                $this->queries[] = $this->builder->interpolate($query);
+                $this->queries[] = $this->builder->interpolate($query, true);
             }
         }
 
@@ -175,12 +175,12 @@ class Mysql extends Plugin
             throw new InvalidArgumentException('Import statement must contain a \'file\' key');
         }
 
-        $importFile = $this->builder->buildPath . $this->builder->interpolate($query['file']);
+        $importFile = $this->builder->buildPath . $this->builder->interpolate($query['file'], true);
         if (!\is_readable($importFile)) {
             throw new RuntimeException(\sprintf('Cannot open SQL import file: %s', $importFile));
         }
 
-        $database = isset($query['database']) ? $this->builder->interpolate($query['database']) : null;
+        $database = isset($query['database']) ? $this->builder->interpolate($query['database'], true) : null;
 
         $importCommand = $this->getImportCommand($importFile, $database);
         if (!$this->builder->executeCommand($importCommand)) {

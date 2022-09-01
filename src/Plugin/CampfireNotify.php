@@ -57,7 +57,7 @@ class CampfireNotify extends Plugin
             $this->url       = $campfire['url'];
 
             if (\array_key_exists('auth_token', $campfire)) {
-                $this->authToken = $this->builder->interpolate($campfire['auth_token']);
+                $this->authToken = $this->builder->interpolate($campfire['auth_token'], true);
             }
 
             if (\array_key_exists('room', $campfire)) {

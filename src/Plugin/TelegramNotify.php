@@ -52,7 +52,7 @@ class TelegramNotify extends Plugin
         }
 
         if (\array_key_exists('auth_token', $options)) {
-            $this->authToken = $this->builder->interpolate($options['auth_token']);
+            $this->authToken = $this->builder->interpolate($options['auth_token'], true);
         }
 
         $this->message = '[%ICON_BUILD%] [%PROJECT_TITLE%](%PROJECT_LINK%)' .
@@ -86,7 +86,7 @@ class TelegramNotify extends Plugin
 
         foreach ($this->recipients as $chatId) {
             $params = [
-                'chat_id'    => $this->builder->interpolate($chatId),
+                'chat_id'    => $this->builder->interpolate($chatId, true),
                 'text'       => $message,
                 'parse_mode' => 'Markdown',
             ];

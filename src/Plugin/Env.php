@@ -40,7 +40,7 @@ class Env extends Plugin
                 $envVar = "$key=$value";
             }
 
-            if (!\putenv($this->builder->interpolate($envVar))) {
+            if (!\putenv($this->builder->interpolate($envVar, true))) {
                 $success = false;
                 $this->builder->logFailure('Unable to set environment variable');
             }
