@@ -65,11 +65,11 @@ class Deployer extends Plugin
             $this->webhookUrl,
             [
                 'form_params' => [
-                    'reason'      => $this->builder->interpolate($this->reason),
+                    'reason'      => $this->builder->interpolate($this->reason, true),
                     'source'      => 'PHP Censor',
-                    'url'         => $this->builder->interpolate('%BUILD_LINK%'),
-                    'branch'      => $this->builder->interpolate('%BRANCH%'),
-                    'commit'      => $this->builder->interpolate('%COMMIT_ID%'),
+                    'url'         => $this->builder->interpolate('%BUILD_LINK%', true),
+                    'branch'      => $this->builder->interpolate('%BRANCH%', true),
+                    'commit'      => $this->builder->interpolate('%COMMIT_ID%', true),
                     'update_only' => $this->updateOnly,
                 ]
             ]

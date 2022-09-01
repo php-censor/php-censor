@@ -49,7 +49,7 @@ class FlowdockNotify extends Plugin
         }
 
         if (\array_key_exists('auth_token', $options)) {
-            $this->authToken = $this->builder->interpolate($options['auth_token']);
+            $this->authToken = $this->builder->interpolate($options['auth_token'], true);
         }
 
         $this->message = isset($options['message']) ? $options['message'] : self::MESSAGE_DEFAULT;

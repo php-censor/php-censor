@@ -122,9 +122,11 @@ class BuildInterpolator
      * Replace every occurrence of the interpolation vars in the given string
      * Example: "This is build %BUILD_ID%" => "This is build 182"
      */
-    public function interpolate(string $input): string
+    public function interpolate(string $input, bool $useSecrets = false): string
     {
-        $input = $this->secretInterpolate($input);
+        if ($useSecrets) {
+            $input = $this->secretInterpolate($input);
+        }
         $input = $this->realtimeInterpolate($input);
 
         $keys   = \array_keys($this->interpolationVars);

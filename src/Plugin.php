@@ -114,7 +114,7 @@ abstract class Plugin
      */
     protected function normalizePath($rawPath)
     {
-        $normalizedPath = $this->builder->interpolate($rawPath);
+        $normalizedPath = $this->builder->interpolate($rawPath, true);
 
         if ('/' !== \substr($rawPath, 0, 1)) {
             $normalizedPath = $this->build->getBuildPath() . $normalizedPath;
@@ -141,7 +141,7 @@ abstract class Plugin
     {
         $binaryPath = '';
         if (!empty($this->options['binary_path'])) {
-            $optionBinaryPath = $this->builder->interpolate($this->options['binary_path']);
+            $optionBinaryPath = $this->builder->interpolate($this->options['binary_path'], true);
 
             if ('/' !== \substr($optionBinaryPath, 0, 1)) {
                 $binaryPath = $this->build->getBuildPath();
@@ -177,7 +177,7 @@ abstract class Plugin
 
         $directory = '';
         if (!empty($this->options['directory'])) {
-            $optionDirectory = $this->builder->interpolate($this->options['directory']);
+            $optionDirectory = $this->builder->interpolate($this->options['directory'], true);
 
             if ('/' !== \substr($optionDirectory, 0, 1)) {
                 $directory = $this->build->getBuildPath();
@@ -220,7 +220,7 @@ abstract class Plugin
         $baseDirectory = $this->builder->buildPath;
 
         \array_walk($ignore, function (&$value) use ($baseDirectory) {
-            $value = $this->builder->interpolate($value);
+            $value = $this->builder->interpolate($value, true);
 
             if ('/' !== \substr($value, 0, 1)) {
                 $value = $baseDirectory . $value;

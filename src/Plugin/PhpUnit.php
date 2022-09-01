@@ -189,7 +189,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
             }
         }
 
-        $arguments = $this->builder->interpolate($options->buildArgumentString());
+        $arguments = $this->builder->interpolate($options->buildArgumentString(), true);
         $cmd       = $this->executable . ' %s %s';
 
         if ($options->getOption('coverage')) {

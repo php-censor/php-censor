@@ -73,7 +73,7 @@ class PackageBuild extends Plugin
             $success = $this->builder->executeCommand(
                 $cmd,
                 $this->directory,
-                $this->builder->interpolate($filename)
+                $this->builder->interpolate($filename, true)
             );
         }
 

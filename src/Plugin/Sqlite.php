@@ -65,7 +65,7 @@ class Sqlite extends Plugin
 
         if (!empty($this->options['queries']) && \is_array($this->options['queries'])) {
             foreach ($this->options['queries'] as $query) {
-                $this->queries[] = $this->builder->interpolate($query);
+                $this->queries[] = $this->builder->interpolate($query, true);
             }
         }
     }

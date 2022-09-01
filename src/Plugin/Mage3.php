@@ -39,11 +39,11 @@ class Mage3 extends Plugin
         $this->executable = $this->findBinary(['mage', 'mage.phar']);
 
         if (isset($options['env'])) {
-            $this->mageEnv = $builder->interpolate($options['env']);
+            $this->mageEnv = $builder->interpolate($options['env'], true);
         }
 
         if (isset($options['log_dir'])) {
-            $this->mageLogDir = $builder->interpolate($options['log_dir']);
+            $this->mageLogDir = $builder->interpolate($options['log_dir'], true);
         }
     }
 
