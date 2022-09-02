@@ -73,7 +73,7 @@ PHPMessDetector, PHPTalLint and TechnicalDebt;
 * Run through any combination of the other [supported plugins](docs/en/README.md#plugins), including Campfire, 
 CleanBuild, CopyBuild, Deployer, Env, Git, Grunt, Gulp, PackageBuild, Phar, Phing, Shell and Wipe;
 
-* Send notifications to Email, XMPP, Slack, IRC, Flowdock, HipChat and 
+* Send notifications to Email, XMPP, Slack, IRC, Flowdock and 
 [Telegram](docs/en/plugins/telegram_notify.md);
 
 * Use your LDAP-server for authentication;

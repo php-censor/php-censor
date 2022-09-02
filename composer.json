@@ -82,7 +82,6 @@
         "sebastian/diff":                  "^4.0",
 
         "maknz/slack":                "^1.7",
-        "hipchat/hipchat-php":        "^1.4",
         "php-censor/flowdock-client": "^2.0"
     },
     "require-dev": {

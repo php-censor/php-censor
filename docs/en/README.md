@@ -85,7 +85,6 @@ Plugins
 * [Campfire](plugins/campfire_notify.md) - `campfire_notify`
 * [Email](plugins/email_notify.md) - `email_notify`
 * [FlowDock](plugins/flowdock_notify.md) - `flowdock_notify`
-* [HipChat](plugins/hipchat_notify.md) - `hipchat_notify`
 * [IRC](plugins/irc_notify.md) - `irc_notify`
 * [Slack](plugins/slack_notify.md) - `slack_notify`
 * [Telegram](plugins/telegram_notify.md) - `telegram_notify`
