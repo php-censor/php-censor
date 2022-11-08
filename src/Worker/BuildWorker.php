@@ -63,7 +63,7 @@ class BuildWorker
 
     private Pheanstalk $pheanstalk;
 
-    private int $lastPeriodical;
+    private int $lastPeriodical = 0;
 
     public function __construct(
         ConfigurationInterface $configuration,
@@ -87,7 +87,6 @@ class BuildWorker
         $this->queueTube  = $queueTube;
         $this->pheanstalk = Pheanstalk::create($queueHost, $queuePort);
 
-        $this->lastPeriodical    = 0;
         $this->canPeriodicalWork = $canPeriodicalWork;
     }
 

@@ -22,14 +22,13 @@ class BitbucketNotifyPluginResult
     protected $right;
 
     /** @var string $outputFormat */
-    protected $outputFormat;
+    protected $outputFormat = self::DEFAULT_PLUGIN_OUTPUT_FORMAT;
 
     public function __construct($plugin, $left, $right)
     {
         $this->plugin = $plugin;
         $this->left = $left;
         $this->right = $right;
-        $this->outputFormat = self::DEFAULT_PLUGIN_OUTPUT_FORMAT;
     }
 
     public function getPlugin()

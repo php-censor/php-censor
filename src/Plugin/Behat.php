@@ -21,7 +21,7 @@ class Behat extends Plugin
     /**
      * @var string
      */
-    protected $features;
+    protected $features = '';
 
     /**
      * @return string
@@ -39,8 +39,6 @@ class Behat extends Plugin
         parent::__construct($builder, $build, $options);
 
         $this->executable = $this->findBinary(['behat', 'behat.phar']);
-
-        $this->features = '';
 
         if (!empty($options['features'])) {
             $this->features = $options['features'];

@@ -20,37 +20,37 @@ class XmppNotify extends Plugin
     /**
      * @var string, username of sender account xmpp
      */
-    protected $username;
+    protected $username = '';
 
     /**
      * @var string, alias server of sender account xmpp
      */
-    protected $server;
+    protected $server = '';
 
     /**
      * @var string, password of sender account xmpp
      */
-    protected $password;
+    protected $password = '';
 
     /**
      * @var string, alias for sender
      */
-    protected $alias;
+    protected $alias = '';
 
     /**
      * @var string, use tls
      */
-    protected $tls;
+    protected $tls = false;
 
     /**
      * @var array, list of recipients xmpp accounts
      */
-    protected $recipients;
+    protected $recipients = [];
 
     /**
      * @var string, mask to format date
      */
-    protected $dateFormat;
+    protected $dateFormat = '%c';
 
     /**
      * @return string
@@ -66,14 +66,6 @@ class XmppNotify extends Plugin
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
         parent::__construct($builder, $build, $options);
-
-        $this->username   = '';
-        $this->password   = '';
-        $this->server     = '';
-        $this->alias      = '';
-        $this->recipients = [];
-        $this->tls        = false;
-        $this->dateFormat = '%c';
 
         $this->executable = $this->findBinary('sendxmpp');
 

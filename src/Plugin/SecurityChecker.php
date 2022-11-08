@@ -23,7 +23,7 @@ class SecurityChecker extends Plugin implements ZeroConfigPluginInterface
     /**
      * @var int
      */
-    protected $allowedWarnings;
+    protected $allowedWarnings = 0;
 
     /**
      * @var string
@@ -52,8 +52,6 @@ class SecurityChecker extends Plugin implements ZeroConfigPluginInterface
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
         parent::__construct($builder, $build, $options);
-
-        $this->allowedWarnings = 0;
 
         if (isset($options['zero_config']) && $options['zero_config']) {
             $this->allowedWarnings = -1;

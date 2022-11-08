@@ -31,8 +31,14 @@ code-style-fix: php-info install ## Fix code style
 psalm: php-info install ## Run Psalm check
 	$(PHP) vendor/bin/psalm --config=psalm.xml.dist --threads=4 --show-snippet=true --show-info=true
 
+rector: php-info install ## Run Rector check
+	$(PHP) vendor/bin/rector --dry-run --clear-cache
+
+rector-fix: php-info install ## Run Rector fix
+	$(PHP) vendor/bin/rector --clear-cache
+
 run-worker: php-info install ## Run PHP Censor worker
 	$(PHP) bin/console php-censor:worker -v
 
-.PHONY: php-info list install install-force update test test-coverage mutation-test code-style-fix psalm run-worker
+.PHONY: php-info list install install-force update test test-coverage mutation-test code-style-fix psalm rector rector-fix run-worker
 .DEFAULT_GOAL := list

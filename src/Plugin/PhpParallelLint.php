@@ -21,12 +21,12 @@ class PhpParallelLint extends Plugin implements ZeroConfigPluginInterface
     /**
      * @var string - comma separated list of file extensions
      */
-    protected $extensions;
+    protected $extensions = 'php';
 
     /**
      * @var bool - enable short tags
      */
-    protected $shortTag;
+    protected $shortTag = false;
 
     /**
      * @return string
@@ -46,9 +46,6 @@ class PhpParallelLint extends Plugin implements ZeroConfigPluginInterface
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
         parent::__construct($builder, $build, $options);
-
-        $this->extensions = 'php';
-        $this->shortTag   = false;
 
         $this->executable = $this->findBinary(['parallel-lint', 'parallel-lint.phar']);
 

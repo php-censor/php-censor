@@ -19,11 +19,11 @@ use PHPCensor\ZeroConfigPluginInterface;
  */
 class Composer extends Plugin implements ZeroConfigPluginInterface
 {
-    protected $action;
-    protected $preferDist;
-    protected $noDev;
-    protected $ignorePlatformReqs;
-    protected $preferSource;
+    protected $action = 'install';
+    protected $preferDist = false;
+    protected $noDev = false;
+    protected $ignorePlatformReqs = false;
+    protected $preferSource = false;
 
     /**
      * @return string
@@ -39,12 +39,6 @@ class Composer extends Plugin implements ZeroConfigPluginInterface
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
         parent::__construct($builder, $build, $options);
-
-        $this->action             = 'install';
-        $this->preferDist         = false;
-        $this->preferSource       = false;
-        $this->noDev              = false;
-        $this->ignorePlatformReqs = false;
 
         $this->executable = $this->findBinary(['composer', 'composer.phar']);
 

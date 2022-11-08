@@ -25,17 +25,17 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
     /**
      * @var array
      */
-    protected $suffixes;
+    protected $suffixes = ['php'];
 
     /**
      * @var int
      */
-    protected $allowedErrors;
+    protected $allowedErrors = 0;
 
     /**
      * @var array - terms to search for
      */
-    protected $searches;
+    protected $searches = ['TODO', 'FIXME', 'TO DO', 'FIX ME'];
 
     /**
      * @var array - lines of . and X to visualize errors
@@ -116,10 +116,6 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
         parent::__construct($builder, $build, $options);
-
-        $this->suffixes      = ['php'];
-        $this->allowedErrors = 0;
-        $this->searches      = ['TODO', 'FIXME', 'TO DO', 'FIX ME'];
 
         if (!empty($options['suffixes']) && \is_array($options['suffixes'])) {
             $this->suffixes = $options['suffixes'];

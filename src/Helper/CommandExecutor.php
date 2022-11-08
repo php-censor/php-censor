@@ -29,7 +29,7 @@ class CommandExecutor implements CommandExecutorInterface
     /**
      * @var array
      */
-    protected $lastOutput;
+    protected $lastOutput = [];
 
     /**
      * @var string
@@ -60,7 +60,7 @@ class CommandExecutor implements CommandExecutorInterface
      *
      * @var array
      */
-    private static $noExitCommands = [
+    private static array $noExitCommands = [
         'codecept',
     ];
 
@@ -69,7 +69,7 @@ class CommandExecutor implements CommandExecutorInterface
      *
      * @var array
      */
-    private static $blacklistEnvVars = [
+    private static array $blacklistEnvVars = [
         'PHP_SELF',
         'SCRIPT_NAME',
         'SCRIPT_FILENAME',
@@ -86,7 +86,6 @@ class CommandExecutor implements CommandExecutorInterface
     {
         $this->logger     = $logger;
         $this->verbose    = $verbose;
-        $this->lastOutput = [];
         $this->rootDir    = $rootDir;
     }
 
@@ -136,9 +135,7 @@ class CommandExecutor implements CommandExecutorInterface
                 \exec("ps auxww | grep '{$withNoExit}' | grep -v grep", $response);
                 $response = \array_filter(
                     $response,
-                    function ($a) {
-                        return \strpos($a, $this->buildPath) !== false;
-                    }
+                    fn($a) => \strpos($a, $this->buildPath) !== false
                 );
             } while (!empty($response));
             $process->stop();

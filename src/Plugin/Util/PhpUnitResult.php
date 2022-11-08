@@ -42,17 +42,17 @@ abstract class PhpUnitResult
      */
     abstract public function parse();
 
-    abstract protected function getSeverity($testcase);
+    abstract protected function getSeverity($testCase);
 
-    abstract protected function buildMessage($testcase);
+    abstract protected function buildMessage($testCase);
 
-    abstract protected function buildTrace($testcase);
+    abstract protected function buildTrace($testCase);
 
-    abstract protected function getFileAndLine($testcase);
+    abstract protected function getFileAndLine($testCase);
 
-    protected function getOutput($testcase)
+    protected function getOutput($testCase)
     {
-        return $testcase['output'];
+        return $testCase['output'];
     }
 
     protected function parseTestcase($testcase)

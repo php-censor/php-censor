@@ -8,6 +8,7 @@ use Exception;
 use PDO;
 use PHPCensor\Exception\HttpException;
 use PHPCensor\Model\BuildError;
+use PHPCensor\Model\BuildMeta;
 use PHPCensor\Store;
 
 /**
@@ -73,9 +74,7 @@ class BuildErrorStore extends Store
         if ($stmt->execute()) {
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            $map = function ($item) {
-                return new BuildError($this->storeRegistry, $item);
-            };
+            $map = fn($item) => new BuildError($this->storeRegistry, $item);
             $rtn = \array_map($map, $res);
 
             $count = \count($rtn);
@@ -152,10 +151,7 @@ class BuildErrorStore extends Store
 
         if ($stmt->execute()) {
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            $map = function ($item) {
-                return $item['plugin'];
-            };
+            $map = fn($item) => $item['plugin'];
 
             return \array_map($map, $res);
         } else {
@@ -185,10 +181,7 @@ class BuildErrorStore extends Store
 
         if ($stmt->execute()) {
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            $map = function ($item) {
-                return (int)$item['severity'];
-            };
+            $map = fn($item) => (int)$item['severity'];
 
             return \array_map($map, $res);
         } else {

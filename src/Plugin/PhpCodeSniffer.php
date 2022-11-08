@@ -25,32 +25,32 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
     /**
      * @var array
      */
-    protected $suffixes;
+    protected $suffixes = ['php'];
 
     /**
      * @var string
      */
-    protected $standard;
+    protected $standard = 'PSR2';
 
     /**
      * @var string
      */
-    protected $tabWidth;
+    protected $tabWidth = '';
 
     /**
      * @var string
      */
-    protected $encoding;
+    protected $encoding = '';
 
     /**
      * @var int
      */
-    protected $allowedErrors;
+    protected $allowedErrors = 0;
 
     /**
      * @var int
      */
-    protected $allowedWarnings;
+    protected $allowedWarnings = 0;
 
     /**
      * @var int
@@ -81,13 +81,6 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
         parent::__construct($builder, $build, $options);
-
-        $this->suffixes        = ['php'];
-        $this->standard        = 'PSR2';
-        $this->tabWidth        = '';
-        $this->encoding        = '';
-        $this->allowedWarnings = 0;
-        $this->allowedErrors   = 0;
 
         $this->executable = $this->findBinary(['phpcs', 'phpcs.phar']);
 

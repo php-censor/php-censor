@@ -17,8 +17,8 @@ use PHPCensor\Plugin;
  */
 class Gulp extends Plugin
 {
-    protected $task;
-    protected $gulpfile;
+    protected $task = null;
+    protected $gulpfile = 'gulpfile.js';
 
     /**
      * @return string
@@ -35,11 +35,7 @@ class Gulp extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        $this->task = null;
-
         $this->executable = $this->findBinary('gulp');
-
-        $this->gulpfile = 'gulpfile.js';
 
         if (isset($options['task'])) {
             $this->task = $options['task'];

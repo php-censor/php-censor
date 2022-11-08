@@ -19,7 +19,7 @@ use PHPCensor\Plugin;
 class Deployer extends Plugin
 {
     protected $webhookUrl;
-    protected $reason;
+    protected $reason = 'PHP Censor Build #%BUILD_ID% - %COMMIT_MESSAGE%';
     protected $updateOnly;
 
     /**
@@ -37,7 +37,6 @@ class Deployer extends Plugin
     {
         parent::__construct($builder, $build, $options);
 
-        $this->reason = 'PHP Censor Build #%BUILD_ID% - %COMMIT_MESSAGE%';
         if (isset($options['webhook_url'])) {
             $this->webhookUrl = $options['webhook_url'];
         }

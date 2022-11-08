@@ -38,7 +38,7 @@ class SensiolabsInsight extends Plugin
     /**
      * @var int
      */
-    protected $allowedWarnings;
+    protected $allowedWarnings = 0;
 
     /**
      * @return string
@@ -54,8 +54,6 @@ class SensiolabsInsight extends Plugin
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
         parent::__construct($builder, $build, $options);
-
-        $this->allowedWarnings = 0;
         if (\array_key_exists('allowed_warnings', $options)) {
             $this->allowedWarnings = (int)$options['allowed_warnings'];
         }

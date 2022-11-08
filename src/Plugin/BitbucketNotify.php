@@ -269,7 +269,7 @@ class BitbucketNotify extends Plugin
             return [];
         }
 
-        $plugins = \array_unique(\array_merge(\array_keys($targetBranchBuildStats), \array_keys($currentBranchBuildStats)));
+        $plugins = \array_unique([...\array_keys($targetBranchBuildStats), ...\array_keys($currentBranchBuildStats)]);
         \sort($plugins);
 
         $result = [];
