@@ -57,7 +57,7 @@ class PhpLoc extends Plugin implements ZeroConfigPluginInterface
     {
         $ignore = '';
         if (\is_array($this->ignore)) {
-            $map = fn($item) => \sprintf(' --exclude="%s"', $item);
+            $map = fn ($item) => \sprintf(' --exclude="%s"', $item);
 
             $ignore = \array_map($map, $this->ignore);
             $ignore = \implode('', $ignore);

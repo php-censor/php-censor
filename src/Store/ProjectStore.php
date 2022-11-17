@@ -71,7 +71,7 @@ class ProjectStore extends Store
         if ($stmt->execute()) {
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            $map = fn($item) => new Project($this->storeRegistry, $item);
+            $map = fn ($item) => new Project($this->storeRegistry, $item);
             $rtn = \array_map($map, $res);
 
             $count = \count($rtn);
@@ -96,7 +96,7 @@ class ProjectStore extends Store
         if ($stmt->execute()) {
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            $map = fn($item) => $item['branch'];
+            $map = fn ($item) => $item['branch'];
 
             return \array_map($map, $res);
         } else {
@@ -119,7 +119,7 @@ class ProjectStore extends Store
         if ($stmt->execute()) {
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            $map = fn($item) => new Project($this->storeRegistry, $item);
+            $map = fn ($item) => new Project($this->storeRegistry, $item);
             $rtn = \array_map($map, $res);
 
             $count = \count($rtn);
@@ -153,7 +153,7 @@ class ProjectStore extends Store
         if ($stmt->execute()) {
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            $map = fn($item) => new Project($this->storeRegistry, $item);
+            $map = fn ($item) => new Project($this->storeRegistry, $item);
             $rtn = \array_map($map, $res);
 
             $count = \count($rtn);

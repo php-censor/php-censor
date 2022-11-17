@@ -44,7 +44,7 @@ class BuildStore extends Store
         if ($stmt->execute()) {
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            $map = fn($item) => new Build($this->storeRegistry, $item);
+            $map = fn ($item) => new Build($this->storeRegistry, $item);
             $rtn = \array_map($map, $res);
 
             $count = \count($rtn);
@@ -74,7 +74,7 @@ class BuildStore extends Store
         if ($stmt->execute()) {
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            $map = fn($item) => new Build($this->storeRegistry, $item);
+            $map = fn ($item) => new Build($this->storeRegistry, $item);
             $rtn = \array_map($map, $res);
 
             $count = \count($rtn);
@@ -95,7 +95,7 @@ class BuildStore extends Store
 
         if ($stmt->execute()) {
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            $map = fn($item) => new Build($this->storeRegistry, $item);
+            $map = fn ($item) => new Build($this->storeRegistry, $item);
 
             return \array_map($map, $res);
         } else {
@@ -144,7 +144,7 @@ class BuildStore extends Store
 
         if ($stmt->execute()) {
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            $map = fn($item) => new Build($this->storeRegistry, $item);
+            $map = fn ($item) => new Build($this->storeRegistry, $item);
 
             return \array_map($map, $res);
         } else {
@@ -243,7 +243,7 @@ class BuildStore extends Store
             }
 
             foreach ($projects as $idx => $project) {
-                $projects[$idx] = \array_filter($project, fn($val) => $val['latest'][0]->getStatus() !== Build::STATUS_SUCCESS);
+                $projects[$idx] = \array_filter($project, fn ($val) => $val['latest'][0]->getStatus() !== Build::STATUS_SUCCESS);
             }
 
             $projects = \array_filter($projects);
@@ -267,7 +267,7 @@ class BuildStore extends Store
 
         if ($stmt->execute()) {
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            $map = fn($item) => new Build($this->storeRegistry, $item);
+            $map = fn ($item) => new Build($this->storeRegistry, $item);
 
             $rtn = \array_map($map, $res);
 
@@ -409,7 +409,7 @@ class BuildStore extends Store
 
         if ($stmt->execute()) {
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            $map = fn($item) => new Build($this->storeRegistry, $item);
+            $map = fn ($item) => new Build($this->storeRegistry, $item);
             $rtn = \array_map($map, $res);
 
             $count = \count($rtn);

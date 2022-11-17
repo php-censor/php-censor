@@ -88,7 +88,7 @@ class Mage3 extends Plugin
             throw new RuntimeException('Log dir read fail');
         }
 
-        $list = \array_filter($list, fn($name) => \preg_match('/^\d+_\d+\.log$/', $name));
+        $list = \array_filter($list, fn ($name) => \preg_match('/^\d+_\d+\.log$/', $name));
         if (empty($list)) {
             throw new RuntimeException('Log dir filter fail');
         }

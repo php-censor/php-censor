@@ -57,8 +57,6 @@ class CommandExecutor implements CommandExecutorInterface
 
     /**
      * Commands with no proper exit mechanism
-     *
-     * @var array
      */
     private static array $noExitCommands = [
         'codecept',
@@ -66,8 +64,6 @@ class CommandExecutor implements CommandExecutorInterface
 
     /**
      * Environment variables that should not be inherited
-     *
-     * @var array
      */
     private static array $blacklistEnvVars = [
         'PHP_SELF',
@@ -135,7 +131,7 @@ class CommandExecutor implements CommandExecutorInterface
                 \exec("ps auxww | grep '{$withNoExit}' | grep -v grep", $response);
                 $response = \array_filter(
                     $response,
-                    fn($a) => \strpos($a, $this->buildPath) !== false
+                    fn ($a) => \strpos($a, $this->buildPath) !== false
                 );
             } while (!empty($response));
             $process->stop();

@@ -74,7 +74,7 @@ class BuildErrorStore extends Store
         if ($stmt->execute()) {
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            $map = fn($item) => new BuildError($this->storeRegistry, $item);
+            $map = fn ($item) => new BuildError($this->storeRegistry, $item);
             $rtn = \array_map($map, $res);
 
             $count = \count($rtn);
@@ -151,7 +151,7 @@ class BuildErrorStore extends Store
 
         if ($stmt->execute()) {
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            $map = fn($item) => $item['plugin'];
+            $map = fn ($item) => $item['plugin'];
 
             return \array_map($map, $res);
         } else {
@@ -181,7 +181,7 @@ class BuildErrorStore extends Store
 
         if ($stmt->execute()) {
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            $map = fn($item) => (int)$item['severity'];
+            $map = fn ($item) => (int)$item['severity'];
 
             return \array_map($map, $res);
         } else {
