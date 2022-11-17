@@ -34,17 +34,17 @@ class Pdepend extends Plugin
     /**
      * @var string File where the summary.xml is stored
      */
-    protected $summary;
+    protected $summary = 'summary.xml';
 
     /**
      * @var string File where the chart.svg is stored
      */
-    protected $chart;
+    protected $chart = 'chart.svg';
 
     /**
      * @var string File where the pyramid.svg is stored
      */
-    protected $pyramid;
+    protected $pyramid = 'pyramid.svg';
 
     /**
      * @var string
@@ -70,10 +70,6 @@ class Pdepend extends Plugin
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
         parent::__construct($builder, $build, $options);
-
-        $this->summary   = 'summary.xml';
-        $this->pyramid   = 'pyramid.svg';
-        $this->chart     = 'chart.svg';
 
         $this->executable = $this->findBinary(['pdepend', 'pdepend.phar']);
 

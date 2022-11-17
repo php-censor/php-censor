@@ -24,15 +24,15 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
     /**
      * @var array
      */
-    protected $suffixes;
+    protected $suffixes = ['php'];
 
     /**
      * Array of PHPMD rules. Can be one of the builtins (codesize, unusedcode, naming, design, controversial)
      * or a filename (detected by checking for a / in it), either absolute or relative to the project root.
      * @var array
      */
-    protected $rules;
-    protected $allowedWarnings;
+    protected $rules = ['codesize', 'unusedcode', 'naming'];
+    protected $allowedWarnings = 0;
 
     /**
      * @return string
@@ -48,10 +48,6 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
         parent::__construct($builder, $build, $options);
-
-        $this->suffixes        = ['php'];
-        $this->rules           = ['codesize', 'unusedcode', 'naming'];
-        $this->allowedWarnings = 0;
 
         if (isset($options['zero_config']) && $options['zero_config']) {
             $this->allowedWarnings = -1;

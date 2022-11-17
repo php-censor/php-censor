@@ -72,21 +72,21 @@ class PhpUnitResultJson extends PhpUnitResult
     /**
      * Build the severity of the event
      *
-     * @param $event
+     * @param $testCase
      *
      * @return string The severity flags
      * @throws Exception
      */
-    protected function getSeverity($event)
+    protected function getSeverity($testCase)
     {
-        $status = $event['status'];
+        $status = $testCase['status'];
         switch ($status) {
             case 'fail':
                 $severity = self::SEVERITY_FAIL;
 
                 break;
             case 'error':
-                if (\strpos($event['message'], 'Skipped') === 0 || \strpos($event['message'], 'Incomplete') === 0) {
+                if (\strpos($testCase['message'], 'Skipped') === 0 || \strpos($testCase['message'], 'Incomplete') === 0) {
                     $severity = self::SEVERITY_SKIPPED;
                 } else {
                     $severity = self::SEVERITY_ERROR;
@@ -108,16 +108,16 @@ class PhpUnitResultJson extends PhpUnitResult
     /**
      * Build the message string for an event
      *
-     * @param array $event
+     * @param array $testCase
      *
      * @return string
      */
-    protected function buildMessage($event)
+    protected function buildMessage($testCase)
     {
-        $message = $event['test'];
+        $message = $testCase['test'];
 
-        if ($event['message']) {
-            $message .= PHP_EOL . $event ['message'];
+        if ($testCase['message']) {
+            $message .= PHP_EOL . $testCase ['message'];
         }
 
         return $message;
@@ -126,16 +126,16 @@ class PhpUnitResultJson extends PhpUnitResult
     /**
      * Build a string base trace of the failure
      *
-     * @param array $event
+     * @param array $testCase
      *
      * @return string[]
      */
-    protected function buildTrace($event)
+    protected function buildTrace($testCase)
     {
         $formattedTrace = [];
 
-        if (!empty($event['trace'])) {
-            foreach ($event['trace'] as $step) {
+        if (!empty($testCase['trace'])) {
+            foreach ($testCase['trace'] as $step) {
                 $line             = \str_replace($this->buildPath, '', $step['file']) . ':' . $step['line'];
                 $formattedTrace[] = $line;
             }
@@ -147,20 +147,20 @@ class PhpUnitResultJson extends PhpUnitResult
     /**
      * Saves additional info for a failing test
      *
-     * @param array $event
+     * @param array $testCase
      *
      * @return array
      */
-    protected function getFileAndLine($event)
+    protected function getFileAndLine($testCase)
     {
-        if (empty($event['trace'])) {
+        if (empty($testCase['trace'])) {
             return [
                 'file' => '',
                 'line' => '',
             ];
         }
-        $firstTrace = \end($event['trace']);
-        \reset($event['trace']);
+        $firstTrace = \end($testCase['trace']);
+        \reset($testCase['trace']);
 
         return [
             'file' => \str_replace($this->buildPath, '', $firstTrace['file']),

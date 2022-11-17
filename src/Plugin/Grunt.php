@@ -17,8 +17,8 @@ use PHPCensor\Plugin;
  */
 class Grunt extends Plugin
 {
-    protected $task;
-    protected $gruntfile;
+    protected $task = null;
+    protected $gruntfile = 'Gruntfile.js';
 
     /**
      * @return string
@@ -34,10 +34,6 @@ class Grunt extends Plugin
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
         parent::__construct($builder, $build, $options);
-
-        $this->task = null;
-
-        $this->gruntfile = 'Gruntfile.js';
 
         if (isset($options['task'])) {
             $this->task = $options['task'];

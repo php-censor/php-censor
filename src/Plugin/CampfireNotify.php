@@ -21,7 +21,7 @@ class CampfireNotify extends Plugin
     protected $url;
     protected $authToken;
     protected $userAgent;
-    protected $cookie;
+    protected $cookie = 'php-censor-cookie';
     protected $verbose = false;
     protected $room;
     protected $message;
@@ -44,7 +44,6 @@ class CampfireNotify extends Plugin
         $this->message   = $options['message'];
         $version         = $this->builder->interpolate('%SYSTEM_VERSION%');
         $this->userAgent = 'PHP Censor/' . $version;
-        $this->cookie    = "php-censor-cookie";
 
         if (isset($options['verbose']) && $options['verbose']) {
             $this->verbose = true;

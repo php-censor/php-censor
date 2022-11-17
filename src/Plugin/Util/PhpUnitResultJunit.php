@@ -167,9 +167,9 @@ class PhpUnitResultJunit extends PhpUnitResult
         throw new RuntimeException($description);
     }
 
-    protected function getFileAndLine($testcase)
+    protected function getFileAndLine($testCase)
     {
-        $attributes = $testcase->attributes();
+        $attributes = $testCase->attributes();
 
         return [
             'file' => \str_replace($this->buildPath, '', $attributes['file']),

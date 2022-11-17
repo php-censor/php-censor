@@ -7,6 +7,7 @@ namespace PHPCensor\Store;
 use Exception;
 use PDO;
 use PHPCensor\Exception\HttpException;
+use PHPCensor\Model\Build;
 use PHPCensor\Model\Environment;
 use PHPCensor\Store;
 
@@ -66,9 +67,7 @@ class EnvironmentStore extends Store
         if ($stmt->execute()) {
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            $map = function ($item) {
-                return new Environment($this->storeRegistry, $item);
-            };
+            $map = fn ($item) => new Environment($this->storeRegistry, $item);
             $rtn = \array_map($map, $res);
 
             $count = \count($rtn);

@@ -114,9 +114,7 @@ class UserStore extends Store
         if ($stmt->execute()) {
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            $map = function ($item) {
-                return new User($this->storeRegistry, $item);
-            };
+            $map = fn ($item) => new User($this->storeRegistry, $item);
             $rtn = \array_map($map, $res);
 
             $count = \count($rtn);

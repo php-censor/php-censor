@@ -7,6 +7,7 @@ namespace PHPCensor\Store;
 use Exception;
 use PDO;
 use PHPCensor\Exception\HttpException;
+use PHPCensor\Model\Environment;
 use PHPCensor\Model\Project;
 use PHPCensor\Store;
 
@@ -70,9 +71,7 @@ class ProjectStore extends Store
         if ($stmt->execute()) {
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            $map = function ($item) {
-                return new Project($this->storeRegistry, $item);
-            };
+            $map = fn ($item) => new Project($this->storeRegistry, $item);
             $rtn = \array_map($map, $res);
 
             $count = \count($rtn);
@@ -97,9 +96,7 @@ class ProjectStore extends Store
         if ($stmt->execute()) {
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            $map = function ($item) {
-                return $item['branch'];
-            };
+            $map = fn ($item) => $item['branch'];
 
             return \array_map($map, $res);
         } else {
@@ -122,9 +119,7 @@ class ProjectStore extends Store
         if ($stmt->execute()) {
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            $map = function ($item) {
-                return new Project($this->storeRegistry, $item);
-            };
+            $map = fn ($item) => new Project($this->storeRegistry, $item);
             $rtn = \array_map($map, $res);
 
             $count = \count($rtn);
@@ -158,9 +153,7 @@ class ProjectStore extends Store
         if ($stmt->execute()) {
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            $map = function ($item) {
-                return new Project($this->storeRegistry, $item);
-            };
+            $map = fn ($item) => new Project($this->storeRegistry, $item);
             $rtn = \array_map($map, $res);
 
             $count = \count($rtn);

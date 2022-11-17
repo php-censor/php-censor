@@ -5,6 +5,7 @@ namespace PHPCensor\Plugin;
 use PHPCensor;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
+use PHPCensor\Model\User;
 use PHPCensor\Plugin;
 use PHPCensor\ZeroConfigPluginInterface;
 
@@ -56,9 +57,7 @@ class PhpLoc extends Plugin implements ZeroConfigPluginInterface
     {
         $ignore = '';
         if (\is_array($this->ignore)) {
-            $map = function ($item) {
-                return \sprintf(' --exclude="%s"', $item);
-            };
+            $map = fn ($item) => \sprintf(' --exclude="%s"', $item);
 
             $ignore = \array_map($map, $this->ignore);
             $ignore = \implode('', $ignore);
