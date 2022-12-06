@@ -296,7 +296,7 @@ class CommandExecutor implements CommandExecutorInterface
                     return $existedBinary;
                 }
 
-                if ($existedBinary = $this->findBinaryLocal($composerBin, $bin)) {
+                if (null !== $composerBin && $existedBinary = $this->findBinaryLocal($composerBin, $bin)) {
                     return $existedBinary;
                 }
 
@@ -312,7 +312,7 @@ class CommandExecutor implements CommandExecutorInterface
                     return $existedBinary;
                 }
 
-                if ($existedBinary = $this->findBinaryLocal($composerBin, $bin)) {
+                if (null !== $composerBin && $existedBinary = $this->findBinaryLocal($composerBin, $bin)) {
                     return $existedBinary;
                 }
 
@@ -328,7 +328,7 @@ class CommandExecutor implements CommandExecutorInterface
                     return $existedBinary;
                 }
 
-                if ($existedBinary = $this->findBinaryLocal($composerBin, $bin)) {
+                if (null !== $composerBin && $existedBinary = $this->findBinaryLocal($composerBin, $bin)) {
                     return $existedBinary;
                 }
 
@@ -340,7 +340,7 @@ class CommandExecutor implements CommandExecutorInterface
                     return $existedBinary;
                 }
             } else {
-                if ($existedBinary = $this->findBinaryLocal($composerBin, $bin)) {
+                if (null !== $composerBin && $existedBinary = $this->findBinaryLocal($composerBin, $bin)) {
                     return $existedBinary;
                 }
 
