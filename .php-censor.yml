@@ -6,6 +6,14 @@ build_settings:
 setup:
     composer:
         action: install
+    env:
+        SKIP_DB_TESTS: '0'
+        POSTGRESQL_USER: '%SECRET:postgres_testdb_user%'
+        POSTGRESQL_PASSWORD: '%SECRET:postgres_testdb_password%'
+        POSTGRESQL_DBNAME: '%SECRET:postgres_testdb_name%'
+        MYSQL_USER: '%SECRET:mysql_testdb_user%'
+        MYSQL_PASSWORD: '%SECRET:mysql_testdb_password%'
+        MYSQL_DBNAME: '%SECRET:mysql_testdb_name%'
 
 test:
     php_unit:
@@ -22,6 +30,8 @@ test:
 
     php_cpd:
         allow_failures: true
+        ignore:
+            - 'src/Languages'
 
     php_loc:
         allow_failures: true
