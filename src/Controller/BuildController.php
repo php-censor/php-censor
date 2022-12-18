@@ -46,10 +46,6 @@ class BuildController extends WebController
     {
         parent::init();
 
-        $this->buildStore      = $this->storeRegistry->get('Build');
-        $this->buildErrorStore = $this->storeRegistry->get('BuildError');
-        $this->projectStore    = $this->storeRegistry->get('Project');
-
         $this->buildFactory = new BuildFactory(
             $this->configuration,
             $this->storeRegistry,
@@ -103,18 +99,15 @@ class BuildController extends WebController
             $page = $pages;
         }
 
-        /** @var BuildErrorStore $errorStore */
-        $errorStore = $this->storeRegistry->get('BuildError');
-
         $this->view->uiPlugins   = $this->getUiPlugins();
         $this->view->build       = $build;
         $this->view->data        = $data;
-        $this->view->environment = $this->storeRegistry->get('Environment')->getById((int)$build->getEnvironmentId());
+        $this->view->environment = $this->environmentStore->getById((int)$build->getEnvironmentId());
 
         $this->view->plugin     = \urldecode($plugin);
-        $this->view->plugins    = $errorStore->getKnownPlugins($buildId, $severity, $isNew);
+        $this->view->plugins    = $this->buildErrorStore->getKnownPlugins($buildId, $severity, $isNew);
         $this->view->severity   = \urldecode(null !== $severity ? (string)$severity : '');
-        $this->view->severities = $errorStore->getKnownSeverities($buildId, $plugin, $isNew);
+        $this->view->severities = $this->buildErrorStore->getKnownSeverities($buildId, $plugin, $isNew);
         $this->view->isNew      = \urldecode($isNew);
         $this->view->isNews     = ['only_new', 'only_old'];
 
@@ -163,7 +156,7 @@ class BuildController extends WebController
         $delete     = Lang::get('delete_build');
         $deleteLink = APP_URL . 'build/delete/' . $build->getId();
 
-        $project = $this->storeRegistry->get('Project')->getById((int)$build->getProjectId());
+        $project = $this->projectStore->getById((int)$build->getProjectId());
 
         $actions = '';
         if (!$project->getArchived()) {
@@ -233,9 +226,7 @@ class BuildController extends WebController
 
         $data['duration'] = $build->getDuration();
 
-        /** @var BuildErrorStore $errorStore */
-        $errorStore = $this->storeRegistry->get('BuildError');
-        $errors     = $errorStore->getByBuildId($build->getId(), $perPage, $start, $plugin, $severity, $isNew);
+        $errors = $this->buildErrorStore->getByBuildId($build->getId(), $perPage, $start, $plugin, $severity, $isNew);
 
         $errorView         = new View('Build/errors');
         $errorView->build  = $build;
@@ -295,7 +286,7 @@ class BuildController extends WebController
     public function rebuild(int $buildId): Response
     {
         $copy = $this->buildFactory->getBuildById($buildId);
-        $project = $this->storeRegistry->get('Project')->getById((int)$copy->getProjectId());
+        $project = $this->projectStore->getById((int)$copy->getProjectId());
 
         if (!$copy || $project->getArchived()) {
             throw new NotFoundException(Lang::get('build_x_not_found', $buildId));

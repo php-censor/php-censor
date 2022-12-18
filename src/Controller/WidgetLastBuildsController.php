@@ -29,8 +29,6 @@ class WidgetLastBuildsController extends WebController
     {
         parent::init();
 
-        $this->buildStore = $this->storeRegistry->get('Build');
-
         $this->buildFactory = new BuildFactory(
             $this->configuration,
             $this->storeRegistry,
@@ -51,8 +49,8 @@ class WidgetLastBuildsController extends WebController
 
         $view = new View('WidgetLastBuilds/update');
 
-        $view->builds         = $builds;
-        $view->environmentStore = $this->storeRegistry->get('Environment');
+        $view->builds = $builds;
+        $view->environmentStore = $this->environmentStore;
         $this->view->timeline = $view->render();
 
         $response = new Response();
@@ -70,7 +68,7 @@ class WidgetLastBuildsController extends WebController
         }
 
         $this->view->builds           = $builds;
-        $this->view->environmentStore = $this->storeRegistry->get('Environment');
+        $this->view->environmentStore = $this->environmentStore;
 
         $response = new Response();
         $response->setContent($this->view->render());

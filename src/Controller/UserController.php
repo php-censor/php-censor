@@ -43,10 +43,6 @@ class UserController extends WebController
     {
         parent::init();
 
-        /** @var UserStore userStore */
-        $userStore = $this->storeRegistry->get('User');
-        $this->userStore = $userStore;
-
         $this->userService = new UserService($this->userStore);
     }
 

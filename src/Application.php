@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace PHPCensor;
 
-use Exception;
 use PHPCensor\Exception\HttpException;
 use PHPCensor\Exception\HttpException\NotFoundException;
+use Psr\Container\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use PHPCensor\Http\Router;
@@ -35,21 +35,21 @@ class Application
 
     private ConfigurationInterface $configuration;
 
-    private StoreRegistry $storeRegistry;
-
     private UserStore $userStore;
 
     private Router $router;
 
+    private ContainerInterface $container;
+
     public function __construct(
+        ContainerInterface $container,
         ConfigurationInterface $configuration,
-        StoreRegistry $storeRegistry,
         UserStore $userStore,
         Request $request,
         Session $session
     ) {
+        $this->container     = $container;
         $this->configuration = $configuration;
-        $this->storeRegistry = $storeRegistry;
         $this->userStore     = $userStore;
         $this->request       = $request;
         $this->session       = $session;
@@ -197,8 +197,7 @@ class Application
     protected function loadController(string $class): Controller
     {
         /** @var Controller $controller */
-        $controller = new $class($this->configuration, $this->storeRegistry, $this->request, $this->session);
-
+        $controller = $this->container->get($class);
         $controller->init();
 
         return $controller;

@@ -24,17 +24,6 @@ class WidgetBuildErrorsController extends WebController
     protected ProjectStore $projectStore;
 
     /**
-     * Initialise the controller, set up stores and services.
-     */
-    public function init(): void
-    {
-        parent::init();
-
-        $this->buildStore   = $this->storeRegistry->get('Build');
-        $this->projectStore = $this->storeRegistry->get('Project');
-    }
-
-    /**
     * Display dashboard.
     */
     public function index(): Response

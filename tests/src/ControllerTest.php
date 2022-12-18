@@ -7,6 +7,12 @@ namespace Tests\PHPCensor;
 use PHPCensor\Configuration;
 use PHPCensor\Controller;
 use PHPCensor\DatabaseManager;
+use PHPCensor\Store\BuildErrorStore;
+use PHPCensor\Store\BuildStore;
+use PHPCensor\Store\EnvironmentStore;
+use PHPCensor\Store\ProjectStore;
+use PHPCensor\Store\SecretStore;
+use PHPCensor\Store\UserStore;
 use Symfony\Component\HttpFoundation\Request;
 use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
@@ -44,7 +50,12 @@ class ControllerTest extends TestCase
             ->getMockBuilder(Request::class)
             ->getMock();
 
-        $this->controller = new TestController($configuration, $storeRegistry, $this->request, new Session());
+        $this->controller = new TestController(
+            $configuration,
+            $storeRegistry,
+            $this->request,
+            new Session()
+        );
     }
 
     public function testConstruct(): void

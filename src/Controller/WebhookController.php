@@ -7,6 +7,7 @@ namespace PHPCensor\Controller;
 use Exception;
 use GuzzleHttp\Client;
 use PHPCensor\BuildFactory;
+use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\Controller;
 use PHPCensor\Exception\HttpException\ForbiddenException;
 use PHPCensor\Exception\HttpException\NotFoundException;
@@ -14,7 +15,12 @@ use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Store\BuildErrorStore;
+use PHPCensor\Store\ProjectGroupStore;
+use PHPCensor\Store\SecretStore;
+use PHPCensor\Store\UserStore;
+use PHPCensor\StoreRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\Build\BitbucketBuild;
@@ -27,6 +33,7 @@ use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\EnvironmentStore;
 use PHPCensor\Store\ProjectStore;
 use PHPCensor\Store\WebhookRequestStore;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * @package    PHP Censor
@@ -40,30 +47,43 @@ use PHPCensor\Store\WebhookRequestStore;
  */
 class WebhookController extends Controller
 {
-    protected BuildStore $buildStore;
-
-    protected BuildErrorStore $buildErrorStore;
-
-    protected ProjectStore $projectStore;
-
-    protected WebhookRequestStore $webhookRequestStore;
-
     protected BuildService $buildService;
 
     protected BuildFactory $buildFactory;
 
     private bool $logRequests = false;
 
+    protected ProjectStore $projectStore;
+    protected BuildStore $buildStore;
+    protected BuildErrorStore $buildErrorStore;
+    protected EnvironmentStore $environmentStore;
+    protected WebhookRequestStore $webhookRequestStore;
+
+    public function __construct(
+        ConfigurationInterface $configuration,
+        StoreRegistry $storeRegistry,
+        Request $request,
+        Session $session,
+        ProjectStore $projectStore,
+        BuildStore $buildStore,
+        BuildErrorStore $buildErrorStore,
+        EnvironmentStore $environmentStore,
+        WebhookRequestStore $webhookRequestStore
+    ) {
+        parent::__construct($configuration, $storeRegistry, $request, $session);
+
+        $this->projectStore = $projectStore;
+        $this->buildStore = $buildStore;
+        $this->buildErrorStore = $buildErrorStore;
+        $this->environmentStore = $environmentStore;
+        $this->webhookRequestStore = $webhookRequestStore;
+    }
+
     /**
      * Initialise the controller, set up stores and services.
      */
     public function init(): void
     {
-        $this->buildStore          = $this->storeRegistry->get('Build');
-        $this->buildErrorStore     = $this->storeRegistry->get('BuildError');
-        $this->projectStore        = $this->storeRegistry->get('Project');
-        $this->webhookRequestStore = $this->storeRegistry->get('WebhookRequest');
-
         $this->buildFactory = new BuildFactory(
             $this->configuration,
             $this->storeRegistry,
@@ -150,10 +170,7 @@ class WebhookController extends Controller
         $environments = $project->getEnvironmentsObjects();
         if ($environments['count']) {
             $createdBuilds = [];
-
-            /** @var EnvironmentStore $environmentStore */
-            $environmentStore  = $this->storeRegistry->get('Environment');
-            $environmentObject = $environmentStore->getByNameAndProjectId($environment, $project->getId());
+            $environmentObject = $this->environmentStore->getByNameAndProjectId($environment, $project->getId());
             if ($environment && $environmentObject) {
                 if (
                     !\in_array($environmentObject->getId(), $ignoreEnvironments, true) ||
@@ -1107,7 +1124,6 @@ class WebhookController extends Controller
 
         $envsUpdated = [];
         $envObjects  = $project->getEnvironmentsObjects();
-        $store       = $this->storeRegistry->get('Environment');
         foreach ($envObjects['items'] as $environment) {
             $branches = $environment->getBranches();
             if (\in_array($environment->getName(), $envs, true)) {
@@ -1115,7 +1131,7 @@ class WebhookController extends Controller
                     // Add branch to environment
                     $branches[] = $headBranch;
                     $environment->setBranches($branches);
-                    $store->save($environment);
+                    $this->environmentStore->save($environment);
                     $envsUpdated[] = $environment->getId();
                 }
             } else {
@@ -1123,7 +1139,7 @@ class WebhookController extends Controller
                     // Remove branch from environment
                     $branches = \array_diff($branches, [$headBranch]);
                     $environment->setBranches($branches);
-                    $store->save($environment);
+                    $this->environmentStore->save($environment);
                     $envsUpdated[] = $environment->getId();
                 }
             }

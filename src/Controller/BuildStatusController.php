@@ -40,9 +40,6 @@ class BuildStatusController extends WebController
     {
         parent::init();
 
-        $this->buildStore   = $this->storeRegistry->get('Build');
-        $this->projectStore = $this->storeRegistry->get('Project');
-
         $this->buildFactory = new BuildFactory(
             $this->configuration,
             $this->storeRegistry,
@@ -278,7 +275,7 @@ class BuildStatusController extends WebController
 
         $this->view->builds           = $builds;
         $this->view->project          = $project;
-        $this->view->environmentStore = $this->storeRegistry->get('Environment');
+        $this->view->environmentStore = $this->environmentStore;
 
         return $this->view->render();
     }

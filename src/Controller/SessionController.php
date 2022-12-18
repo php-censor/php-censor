@@ -42,7 +42,6 @@ class SessionController extends WebController
     {
         parent::init();
 
-        $this->userStore      = $this->storeRegistry->get('User');
         $this->authentication = new Service($this->configuration, $this->userStore);
     }
 

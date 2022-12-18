@@ -59,11 +59,6 @@ class ProjectController extends WebController
     {
         parent::init();
 
-        $this->buildStore       = $this->storeRegistry->get('Build');
-        $this->buildErrorStore  = $this->storeRegistry->get('BuildError');
-        $this->environmentStore = $this->storeRegistry->get('Environment');
-        $this->projectStore     = $this->storeRegistry->get('Project');
-
         $this->projectService = new ProjectService($this->buildStore, $this->environmentStore, $this->projectStore);
 
         $this->buildFactory = new BuildFactory(
@@ -240,9 +235,7 @@ class ProjectController extends WebController
 
         $environmentId = null;
         if ($environment) {
-            /** @var EnvironmentStore $environmentStore */
-            $environmentStore  = $this->storeRegistry->get('Environment');
-            $environmentObject = $environmentStore->getByNameAndProjectId($environment, $project->getId());
+            $environmentObject = $this->environmentStore->getByNameAndProjectId($environment, $project->getId());
             if ($environmentObject) {
                 $environmentId = $environmentObject->getId();
             }
@@ -361,9 +354,7 @@ class ProjectController extends WebController
         $criteria = ['project_id' => $projectId];
 
         if (!empty($environment)) {
-            /** @var EnvironmentStore $environmentStore */
-            $environmentStore  = $this->storeRegistry->get('Environment');
-            $environmentObject = $environmentStore->getByNameAndProjectId($environment, $projectId);
+            $environmentObject = $this->environmentStore->getByNameAndProjectId($environment, $projectId);
             if ($environmentObject) {
                 $criteria['environment_id'] = $environmentObject->getId();
             }
@@ -382,7 +373,7 @@ class ProjectController extends WebController
         }
 
         $view->builds           = $builds['items'];
-        $view->environmentStore = $this->storeRegistry->get('Environment');
+        $view->environmentStore = $this->environmentStore;
         $view->user             = $this->getUser();
 
         return [
@@ -624,9 +615,8 @@ class ProjectController extends WebController
         $field = Form\Element\Select::create('group_id', Lang::get('project_group'), true);
         $field->setClass('form-control')->setContainerClass('form-group')->setValue(null);
 
-        $groups     = [];
-        $groupStore = $this->storeRegistry->get('ProjectGroup');
-        $groupList  = $groupStore->getWhere([], 100, 0, ['title' => 'ASC']);
+        $groups    = [];
+        $groupList = $this->projectGroupStore->getWhere([], 100, 0, ['title' => 'ASC']);
 
         foreach ($groupList['items'] as $group) {
             $groups[$group->getId()] = $group->getTitle();

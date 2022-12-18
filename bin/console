@@ -14,6 +14,7 @@ use PHPCensor\Store\ProjectStore;
 use PHPCensor\Store\SecretStore;
 use PHPCensor\Store\UserStore;
 use PHPCensor\StoreRegistry;
+use Psr\Container\ContainerInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 \error_reporting(-1);
@@ -30,6 +31,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 /** @var BuildErrorStore $buildErrorStore */
 /** @var SecretStore $secretStore */
 /** @var EnvironmentStore $environmentStore */
+/** @var ContainerInterface $container */
 require_once(\dirname(__DIR__) . '/bootstrap.php');
 
 (new Application(

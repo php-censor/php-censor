@@ -26,40 +26,40 @@ const RUNTIME_DIR = ROOT_DIR . 'runtime/';
 
 require_once(ROOT_DIR . 'vendor/autoload.php');
 
-$containerBuilder = new ContainerBuilder();
-$loader = new YamlFileLoader($containerBuilder, new FileLocator(__DIR__));
+$container = new ContainerBuilder();
+$loader = new YamlFileLoader($container, new FileLocator(__DIR__));
 $loader->load(APP_DIR . 'services.yaml');
 
-$containerBuilder->compile();
+$container->compile();
 
 /** @var ConfigurationInterface $configuration */
-$configuration = $containerBuilder->get(ConfigurationInterface::class);
+$configuration = $container->get(ConfigurationInterface::class);
 
 /** @var DatabaseManager $databaseManager */
-$databaseManager = $containerBuilder->get(DatabaseManager::class);
+$databaseManager = $container->get(DatabaseManager::class);
 
 /** @var StoreRegistry $storeRegistry */
-$storeRegistry = $containerBuilder->get(StoreRegistry::class);
+$storeRegistry = $container->get(StoreRegistry::class);
 
 /** @var SessionInterface $session */
-$session  = $containerBuilder->get(SessionInterface::class);
+$session  = $container->get(SessionInterface::class);
 
 $session->start();
 
 /** @var UserStore $userStore */
-$userStore = $containerBuilder->get(UserStore::class);
+$userStore = $container->get(UserStore::class);
 /** @var ProjectStore $projectStore */
-$projectStore = $containerBuilder->get(ProjectStore::class);
+$projectStore = $container->get(ProjectStore::class);
 /** @var ProjectGroupStore $projectGroupStore */
-$projectGroupStore = $containerBuilder->get(ProjectGroupStore::class);
+$projectGroupStore = $container->get(ProjectGroupStore::class);
 /** @var BuildStore $buildStore */
-$buildStore = $containerBuilder->get(BuildStore::class);
+$buildStore = $container->get(BuildStore::class);
 /** @var BuildErrorStore $buildErrorStore */
-$buildErrorStore = $containerBuilder->get(BuildErrorStore::class);
+$buildErrorStore = $container->get(BuildErrorStore::class);
 /** @var SecretStore $secretStore */
-$secretStore = $containerBuilder->get(SecretStore::class);
+$secretStore = $container->get(SecretStore::class);
 /** @var EnvironmentStore $environmentStore */
-$environmentStore = $containerBuilder->get(EnvironmentStore::class);
+$environmentStore = $container->get(EnvironmentStore::class);
 
 \define('APP_URL', $configuration->get('php-censor.url', '') . '/');
 \define('REALTIME_UI', $configuration->get('php-censor.realtime_ui', true));

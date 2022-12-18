@@ -26,15 +26,6 @@ class GroupController extends WebController
 {
     public string $layoutName = 'layout';
 
-    protected ProjectGroupStore $groupStore;
-
-    public function init(): void
-    {
-        parent::init();
-
-        $this->groupStore = $this->storeRegistry->get('ProjectGroup');
-    }
-
     /**
      * List project groups.
      */
@@ -43,15 +34,15 @@ class GroupController extends WebController
         $this->requireAdmin();
 
         $groups    = [];
-        $groupList = $this->groupStore->getWhere([], 100, 0, ['title' => 'ASC']);
+        $groupList = $this->projectGroupStore->getWhere([], 100, 0, ['title' => 'ASC']);
 
         foreach ($groupList['items'] as $group) {
             $thisGroup = [
                 'title' => $group->getTitle(),
                 'id'    => $group->getId(),
             ];
-            $projectsActive   = $this->storeRegistry->get('Project')->getByGroupId($group->getId(), false);
-            $projectsArchived = $this->storeRegistry->get('Project')->getByGroupId($group->getId(), true);
+            $projectsActive   = $this->projectStore->getByGroupId($group->getId(), false);
+            $projectsArchived = $this->projectStore->getByGroupId($group->getId(), true);
 
             $thisGroup['projects'] = \array_merge($projectsActive['items'], $projectsArchived['items']);
             $groups[]              = $thisGroup;
@@ -76,7 +67,7 @@ class GroupController extends WebController
         $this->requireAdmin();
 
         if (!\is_null($groupId)) {
-            $group = $this->groupStore->getById($groupId);
+            $group = $this->projectGroupStore->getById($groupId);
         } else {
             $group = new ProjectGroup();
         }
@@ -91,7 +82,7 @@ class GroupController extends WebController
                 $group->setUserId($user->getId());
             }
 
-            $this->groupStore->save($group);
+            $this->projectGroupStore->save($group);
 
             $response = new RedirectResponse(APP_URL . 'group');
 
@@ -131,9 +122,9 @@ class GroupController extends WebController
     public function delete(int $groupId): Response
     {
         $this->requireAdmin();
-        $group = $this->groupStore->getById($groupId);
+        $group = $this->projectGroupStore->getById($groupId);
 
-        $this->groupStore->delete($group);
+        $this->projectGroupStore->delete($group);
 
         return new RedirectResponse(APP_URL . 'group');
     }

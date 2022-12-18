@@ -30,18 +30,6 @@ class WidgetAllProjectsController extends WebController
     protected ProjectGroupStore $groupStore;
 
     /**
-     * Initialise the controller, set up stores and services.
-     */
-    public function init(): void
-    {
-        parent::init();
-
-        $this->buildStore   = $this->storeRegistry->get('Build');
-        $this->projectStore = $this->storeRegistry->get('Project');
-        $this->groupStore   = $this->storeRegistry->get('ProjectGroup');
-    }
-
-    /**
      * @throws Exception
      */
     public function index(): Response

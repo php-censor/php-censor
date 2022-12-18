@@ -30,8 +30,6 @@ class SecretController extends WebController
     public function init(): void
     {
         parent::init();
-
-        $this->secretStore = $this->storeRegistry->get('Secret');
     }
 
     public function index(): void

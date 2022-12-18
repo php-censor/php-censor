@@ -13,6 +13,7 @@ use PHPCensor\Store\SecretStore;
 use PHPCensor\Store\UserStore;
 use PHPCensor\StoreRegistry;
 use PHPCensor\Application;
+use Psr\Container\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -27,9 +28,10 @@ use Symfony\Component\HttpFoundation\Session\Session;
 /** @var BuildErrorStore $buildErrorStore */
 /** @var SecretStore $secretStore */
 /** @var EnvironmentStore $environmentStore */
+/** @var ContainerInterface $container */
 require_once(\dirname(__DIR__) . '/bootstrap.php');
 
 $request = Request::createFromGlobals();
-$application = new Application($configuration, $storeRegistry, $userStore, $request, $session);
+$application = new Application($container, $configuration, $userStore, $request, $session);
 
 $application->handleRequest()->send();

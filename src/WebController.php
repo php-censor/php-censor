@@ -6,6 +6,12 @@ namespace PHPCensor;
 
 use PHPCensor\Exception\HttpException;
 use PHPCensor\Exception\HttpException\ForbiddenException;
+use PHPCensor\Store\BuildErrorStore;
+use PHPCensor\Store\BuildStore;
+use PHPCensor\Store\EnvironmentStore;
+use PHPCensor\Store\ProjectGroupStore;
+use PHPCensor\Store\ProjectStore;
+use PHPCensor\Store\SecretStore;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use PHPCensor\Model\User;
@@ -29,13 +35,36 @@ abstract class WebController extends Controller
 
     public ?View $layout = null;
 
+    protected UserStore $userStore;
+    protected ProjectStore $projectStore;
+    protected ProjectGroupStore $projectGroupStore;
+    protected BuildStore $buildStore;
+    protected BuildErrorStore $buildErrorStore;
+    protected EnvironmentStore $environmentStore;
+    protected SecretStore $secretStore;
+
     public function __construct(
         ConfigurationInterface $configuration,
         StoreRegistry $storeRegistry,
         Request $request,
-        Session $session
+        Session $session,
+        UserStore $userStore,
+        ProjectStore $projectStore,
+        ProjectGroupStore $projectGroupStore,
+        BuildStore $buildStore,
+        BuildErrorStore $buildErrorStore,
+        EnvironmentStore $environmentStore,
+        SecretStore $secretStore
     ) {
         parent::__construct($configuration, $storeRegistry, $request, $session);
+
+        $this->userStore = $userStore;
+        $this->projectStore = $projectStore;
+        $this->projectGroupStore = $projectGroupStore;
+        $this->buildStore = $buildStore;
+        $this->buildErrorStore = $buildErrorStore;
+        $this->environmentStore = $environmentStore;
+        $this->secretStore = $secretStore;
 
         $class           = \explode('\\', \get_class($this));
         $this->className = \substr(\array_pop($class), 0, -10);
@@ -58,18 +87,17 @@ abstract class WebController extends Controller
             $this->layout->globalError = $this->session->get('global_error');
             $this->session->remove('global_error');
 
-            $groups     = [];
-            $groupStore = $this->storeRegistry->get('ProjectGroup');
-            $groupList  = $groupStore->getWhere([], 100, 0, ['title' => 'ASC']);
+            $groups    = [];
+            $groupList = $this->projectGroupStore->getWhere([], 100, 0, ['title' => 'ASC']);
 
             foreach ($groupList['items'] as $group) {
                 $thisGroup             = ['title' => $group->getTitle()];
-                $projects              = $this->storeRegistry->get('Project')->getByGroupId($group->getId(), false);
+                $projects              = $this->projectStore->getByGroupId($group->getId(), false);
                 $thisGroup['projects'] = $projects['items'];
                 $groups[]              = $thisGroup;
             }
 
-            $archivedProjects               = $this->storeRegistry->get('Project')->getAll('read', true);
+            $archivedProjects               = $this->projectStore->getAll('read', true);
             $this->layout->archivedProjects = $archivedProjects['items'];
             $this->layout->groups           = $groups;
             $this->layout->user             = $this->getUser();
@@ -150,9 +178,6 @@ abstract class WebController extends Controller
             return null;
         }
 
-        /** @var UserStore $userStore */
-        $userStore = $this->storeRegistry->get('User');
-
-        return $userStore->getById((int)$sessionUserId);
+        return $this->userStore->getById((int)$sessionUserId);
     }
 }
