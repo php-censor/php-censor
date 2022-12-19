@@ -6,7 +6,6 @@ namespace PHPCensor\Model\Build;
 
 use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\Model\Build;
-use PHPCensor\StoreRegistry;
 
 /**
  * Remote Typed Build Model
@@ -22,10 +21,9 @@ class TypedBuild extends Build
 
     public function __construct(
         ConfigurationInterface $configuration,
-        StoreRegistry $storeRegistry,
         array $initialData = []
     ) {
-        parent::__construct($storeRegistry, $initialData);
+        parent::__construct($initialData);
 
         $this->configuration = $configuration;
     }

@@ -12,9 +12,7 @@ use PHPCensor\DatabaseManager;
 use PHPCensor\Model\Project;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Store\ProjectStore;
-use PHPCensor\StoreRegistry;
 use PHPCensor\Store\EnvironmentStore;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -36,27 +34,23 @@ class CreateBuildCommandTest extends TestCase
             ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$this->configuration])
             ->getMock();
-        $storeRegistry = $this
-            ->getMockBuilder(StoreRegistry::class)
-            ->setConstructorArgs([$this->databaseManager])
-            ->getMock();
 
         $this->logger = $this->getMockBuilder(Logger::class)
             ->setConstructorArgs(['logger'])
             ->getMock();
         $project  = $this
             ->getMockBuilder(Project::class)
-            ->setConstructorArgs([$storeRegistry])
+            ->setConstructorArgs([])
             ->getMock();
 
         $projectStore = $this
             ->getMockBuilder(ProjectStore::class)
-            ->setConstructorArgs([$this->databaseManager, $storeRegistry])
+            ->setConstructorArgs([$this->databaseManager])
             ->getMock();
 
         $environmentStore = $this
             ->getMockBuilder(EnvironmentStore::class)
-            ->setConstructorArgs([$this->databaseManager, $storeRegistry])
+            ->setConstructorArgs([$this->databaseManager])
             ->getMock();
 
         $projectStore->method('getById')
@@ -79,7 +73,6 @@ class CreateBuildCommandTest extends TestCase
         $this->command = new CreateBuildCommand(
             $this->configuration,
             $this->databaseManager,
-            $storeRegistry,
             $this->logger,
             $projectStore,
             $buildService,

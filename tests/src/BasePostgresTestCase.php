@@ -9,7 +9,6 @@ use Phinx\Console\Command\Migrate;
 use PHPCensor\ArrayConfiguration;
 use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
-use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
@@ -21,7 +20,6 @@ class BasePostgresTestCase extends TestCase
 
     protected ConfigurationInterface $configuration;
     protected DatabaseManager $databaseManager;
-    protected StoreRegistry $storeRegistry;
 
     protected function generatePhinxConfig(): PhinxConfig
     {
@@ -157,7 +155,6 @@ class BasePostgresTestCase extends TestCase
 
         $this->configuration   = $this->generateAppConfiguration();
         $this->databaseManager = new DatabaseManager($this->configuration);
-        $this->storeRegistry   = new StoreRegistry($this->databaseManager);
     }
 
     protected function tearDown(): void

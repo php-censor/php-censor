@@ -12,7 +12,6 @@ use PHPCensor\Model\Project;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Store\ProjectStore;
 use PHPCensor\Store\EnvironmentStore;
-use PHPCensor\StoreRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -37,14 +36,13 @@ class CreateBuildCommand extends Command
     public function __construct(
         ConfigurationInterface $configuration,
         DatabaseManager $databaseManager,
-        StoreRegistry $storeRegistry,
         LoggerInterface $logger,
         ProjectStore $projectStore,
         BuildService $buildService,
         EnvironmentStore $environmentStore,
         ?string $name = null
     ) {
-        parent::__construct($configuration, $databaseManager, $storeRegistry, $logger, $name);
+        parent::__construct($configuration, $databaseManager, $logger, $name);
 
         $this->projectStore     = $projectStore;
         $this->buildService     = $buildService;

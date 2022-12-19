@@ -9,7 +9,6 @@ use PHPCensor\Command\CreateAdminCommand;
 use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Store\UserStore;
-use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Helper\QuestionHelper;
@@ -33,19 +32,15 @@ class CreateAdminCommandTest extends TestCase
             ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$this->configuration])
             ->getMock();
-        $storeRegistry = $this
-            ->getMockBuilder(StoreRegistry::class)
-            ->setConstructorArgs([$this->databaseManager])
-            ->getMock();
         $this->logger = $this->getMockBuilder(Logger::class)
             ->setConstructorArgs(['logger'])
             ->getMock();
         $userStore = $this
             ->getMockBuilder(UserStore::class)
-            ->setConstructorArgs([$this->databaseManager, $storeRegistry])
+            ->setConstructorArgs([$this->databaseManager])
             ->getMock();
 
-        $this->command = new CreateAdminCommand($this->configuration, $this->databaseManager, $storeRegistry, $this->logger, $userStore);
+        $this->command = new CreateAdminCommand($this->configuration, $this->databaseManager, $this->logger, $userStore);
 
         $this->helper = $this
             ->getMockBuilder(QuestionHelper::class)

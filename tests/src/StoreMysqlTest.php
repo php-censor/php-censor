@@ -18,7 +18,7 @@ class StoreMysqlTest extends BaseMysqlTestCase
     {
         parent::setUp();
 
-        $this->store = new ProjectGroupStore($this->databaseManager, $this->storeRegistry);
+        $this->store = new ProjectGroupStore($this->databaseManager);
     }
 
     protected function getTestData(): array
@@ -143,7 +143,7 @@ class StoreMysqlTest extends BaseMysqlTestCase
 
     public function testSaveByInsert()
     {
-        $model = new ProjectGroup($this->storeRegistry);
+        $model = new ProjectGroup();
 
         $model->setTitle('group 8');
         $model->setCreateDate(new \DateTime());
@@ -182,7 +182,7 @@ class StoreMysqlTest extends BaseMysqlTestCase
 
         // Wrong Model
         try {
-            $model = new Project($this->storeRegistry);
+            $model = new Project();
             $model->setId(10);
             $model->setCreateDate(new \DateTime());
             $model->setUserId(1);
@@ -207,7 +207,7 @@ class StoreMysqlTest extends BaseMysqlTestCase
 
         // Wrong Model
         try {
-            $model = new Project($this->storeRegistry);
+            $model = new Project();
             $model->setId(20);
             $model->setCreateDate(new \DateTime());
             $model->setUserId(5);

@@ -17,7 +17,7 @@ class ProjectGroupStorePostgresTest extends BasePostgresTestCase
     {
         parent::setUp();
 
-        $this->store = new ProjectGroupStore($this->databaseManager, $this->storeRegistry);
+        $this->store = new ProjectGroupStore($this->databaseManager);
     }
 
     protected function getTestData(): array

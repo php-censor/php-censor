@@ -14,8 +14,6 @@ services:
 
     PHPCensor\DatabaseManager:
 
-    PHPCensor\StoreRegistry:
-
     PHPCensor\Store\:
         resource: '../src/Store/*'
 

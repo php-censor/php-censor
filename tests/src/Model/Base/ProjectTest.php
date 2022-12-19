@@ -9,26 +9,17 @@ use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Model;
 use PHPCensor\Model\Base\Project;
-use PHPCensor\Store\BuildStore;
-use PHPCensor\Store\EnvironmentStore;
-use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 use PHPCensor\Common\Application\ConfigurationInterface;
 
 class ProjectTest extends TestCase
 {
-    private StoreRegistry $storeRegistry;
-
     protected function setUp(): void
     {
         $configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
         $databaseManager = $this
             ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$configuration])
-            ->getMock();
-        $this->storeRegistry = $this
-            ->getMockBuilder(StoreRegistry::class)
-            ->setConstructorArgs([$databaseManager])
             ->getMock();
     }
 

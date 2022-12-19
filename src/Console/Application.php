@@ -29,13 +29,13 @@ use PHPCensor\Logging\AnsiFormatter;
 use PHPCensor\Logging\Handler;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Store\BuildErrorStore;
+use PHPCensor\Store\BuildMetaStore;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\EnvironmentStore;
 use PHPCensor\Store\ProjectGroupStore;
 use PHPCensor\Store\ProjectStore;
 use PHPCensor\Store\SecretStore;
 use PHPCensor\Store\UserStore;
-use PHPCensor\StoreRegistry;
 use Symfony\Component\Console\Application as BaseApplication;
 
 /**
@@ -59,8 +59,6 @@ LOGO;
     private ConfigurationInterface $configuration;
 
     private DatabaseManager $databaseManager;
-
-    private StoreRegistry $storeRegistry;
 
     /**
      * @throws Exception
@@ -89,11 +87,11 @@ LOGO;
     public function __construct(
         ConfigurationInterface $configuration,
         DatabaseManager $databaseManager,
-        StoreRegistry $storeRegistry,
         UserStore $userStore,
         ProjectStore $projectStore,
         ProjectGroupStore $projectGroupStore,
         BuildStore $buildStore,
+        BuildMetaStore $buildMetaStore,
         BuildErrorStore $buildErrorStore,
         SecretStore $secretStore,
         EnvironmentStore $environmentStore,
@@ -107,7 +105,6 @@ LOGO;
 
         $this->configuration   = $configuration;
         $this->databaseManager = $databaseManager;
-        $this->storeRegistry   = $storeRegistry;
 
         $oldDatabaseSettings = $this->configuration->get('b8.database', []);
         $databaseSettings    = $this->configuration->get('php-censor.database', []);
@@ -183,7 +180,6 @@ LOGO;
 
         $buildFactory = new BuildFactory(
             $this->configuration,
-            $this->storeRegistry,
             $buildStore
         );
 
@@ -200,7 +196,6 @@ LOGO;
         $this->add(new InstallCommand(
             $this->configuration,
             $this->databaseManager,
-            $this->storeRegistry,
             $logger,
             $userStore,
             $projectGroupStore
@@ -208,14 +203,12 @@ LOGO;
         $this->add(new CreateAdminCommand(
             $this->configuration,
             $this->databaseManager,
-            $this->storeRegistry,
             $logger,
             $userStore
         ));
         $this->add(new CreateBuildCommand(
             $this->configuration,
             $this->databaseManager,
-            $this->storeRegistry,
             $logger,
             $projectStore,
             $buildService,
@@ -224,7 +217,6 @@ LOGO;
         $this->add(new RemoveOldBuildsCommand(
             $this->configuration,
             $this->databaseManager,
-            $this->storeRegistry,
             $logger,
             $projectStore,
             $buildService
@@ -232,7 +224,7 @@ LOGO;
         $this->add(new WorkerCommand(
             $this->configuration,
             $this->databaseManager,
-            $this->storeRegistry,
+            $buildMetaStore,
             $buildErrorStore,
             $buildStore,
             $secretStore,
@@ -244,7 +236,6 @@ LOGO;
         $this->add(new RebuildQueueCommand(
             $this->configuration,
             $this->databaseManager,
-            $this->storeRegistry,
             $logger,
             $buildStore,
             $buildErrorStore,
@@ -253,7 +244,6 @@ LOGO;
         $this->add(new CheckLocalizationCommand(
             $this->configuration,
             $this->databaseManager,
-            $this->storeRegistry,
             $logger
         ));
     }

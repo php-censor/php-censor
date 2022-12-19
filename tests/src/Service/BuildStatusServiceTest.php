@@ -13,7 +13,6 @@ use PHPCensor\Store\BuildErrorStore;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\EnvironmentStore;
 use PHPCensor\Store\ProjectStore;
-use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 use PHPCensor\Common\Application\ConfigurationInterface;
 
@@ -28,7 +27,6 @@ class BuildStatusServiceTest extends TestCase
 
     private Project $project;
     private string $timezone;
-    private StoreRegistry $storeRegistry;
 
     private ProjectStore $projectStore;
     private BuildStore $buildStore;
@@ -41,29 +39,25 @@ class BuildStatusServiceTest extends TestCase
             ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$configuration])
             ->getMock();
-        $this->storeRegistry = $this
-            ->getMockBuilder(StoreRegistry::class)
-            ->setConstructorArgs([$databaseManager])
-            ->getMock();
 
         $buildStore = $this
             ->getMockBuilder(BuildStore::class)
-            ->setConstructorArgs([$databaseManager, $this->storeRegistry])
+            ->setConstructorArgs([$databaseManager])
             ->getMock();
 
         $this->projectStore = $this
             ->getMockBuilder(ProjectStore::class)
-            ->setConstructorArgs([$databaseManager, $this->storeRegistry])
+            ->setConstructorArgs([$databaseManager])
             ->getMock();
 
         $this->buildErrorStore = $this
             ->getMockBuilder(BuildErrorStore::class)
-            ->setConstructorArgs([$databaseManager, $this->storeRegistry])
+            ->setConstructorArgs([$databaseManager])
             ->getMock();
 
         $environmentStore = $this
             ->getMockBuilder(EnvironmentStore::class)
-            ->setConstructorArgs([$databaseManager, $this->storeRegistry])
+            ->setConstructorArgs([$databaseManager])
             ->getMock();
 
         $project = new Project($buildStore, $environmentStore);
@@ -148,7 +142,7 @@ class BuildStatusServiceTest extends TestCase
     {
         $project = $this
             ->getMockBuilder(Project::class)
-            ->setConstructorArgs([$this->storeRegistry])
+            ->setConstructorArgs([])
             ->onlyMethods(['getLatestBuild'])
             ->getMock();
 

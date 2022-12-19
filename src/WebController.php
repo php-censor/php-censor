@@ -45,7 +45,6 @@ abstract class WebController extends Controller
 
     public function __construct(
         ConfigurationInterface $configuration,
-        StoreRegistry $storeRegistry,
         Request $request,
         Session $session,
         UserStore $userStore,
@@ -56,7 +55,7 @@ abstract class WebController extends Controller
         EnvironmentStore $environmentStore,
         SecretStore $secretStore
     ) {
-        parent::__construct($configuration, $storeRegistry, $request, $session);
+        parent::__construct($configuration, $request, $session);
 
         $this->userStore = $userStore;
         $this->projectStore = $projectStore;

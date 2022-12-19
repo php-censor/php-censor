@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace PHPCensor\Command;
 
 use Exception;
-use Monolog\Logger;
 use Pheanstalk\Contract\PheanstalkInterface;
 use PHPCensor\BuildFactory;
 use PHPCensor\Common\Application\ConfigurationInterface;
@@ -13,10 +12,10 @@ use PHPCensor\DatabaseManager;
 use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Store\BuildErrorStore;
+use PHPCensor\Store\BuildMetaStore;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\EnvironmentStore;
 use PHPCensor\Store\SecretStore;
-use PHPCensor\StoreRegistry;
 use PHPCensor\Worker\BuildWorker;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputInterface;
@@ -48,10 +47,12 @@ class WorkerCommand extends Command
 
     protected BuildErrorStore $buildErrorStore;
 
+    protected BuildMetaStore $buildMetaStore;
+
     public function __construct(
         ConfigurationInterface $configuration,
         DatabaseManager $databaseManager,
-        StoreRegistry $storeRegistry,
+        BuildMetaStore $buildMetaStore,
         BuildErrorStore $buildErrorStore,
         BuildStore $buildStore,
         SecretStore $secretStore,
@@ -61,7 +62,7 @@ class WorkerCommand extends Command
         BuildFactory $buildFactory,
         ?string $name = null
     ) {
-        parent::__construct($configuration, $databaseManager, $storeRegistry, $logger, $name);
+        parent::__construct($configuration, $databaseManager, $logger, $name);
 
         $this->buildService     = $buildService;
         $this->buildFactory     = $buildFactory;
@@ -69,6 +70,7 @@ class WorkerCommand extends Command
         $this->secretStore      = $secretStore;
         $this->environmentStore = $environmentStore;
         $this->buildErrorStore  = $buildErrorStore;
+        $this->buildMetaStore   = $buildMetaStore;
     }
 
     protected function configure(): void
@@ -150,7 +152,7 @@ class WorkerCommand extends Command
         $worker = new BuildWorker(
             $this->configuration,
             $this->databaseManager,
-            $this->storeRegistry,
+            $this->buildMetaStore,
             $this->buildErrorStore,
             $this->buildStore,
             $this->secretStore,

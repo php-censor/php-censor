@@ -17,7 +17,7 @@ class SecretStoreMysqlTest extends BaseMysqlTestCase
     {
         parent::setUp();
 
-        $this->store = new SecretStore($this->databaseManager, $this->storeRegistry);
+        $this->store = new SecretStore($this->databaseManager);
     }
 
     protected function getTestData(): array

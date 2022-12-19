@@ -8,7 +8,6 @@ use PHPCensor\Command\Action\CreateAdmin;
 use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Store\UserStore;
-use PHPCensor\StoreRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
@@ -30,12 +29,11 @@ class CreateAdminCommand extends Command
     public function __construct(
         ConfigurationInterface $configuration,
         DatabaseManager $databaseManager,
-        StoreRegistry $storeRegistry,
         LoggerInterface $logger,
         UserStore $userStore,
         ?string $name = null
     ) {
-        parent::__construct($configuration, $databaseManager, $storeRegistry, $logger, $name);
+        parent::__construct($configuration, $databaseManager, $logger, $name);
 
         $this->userStore = $userStore;
     }
@@ -64,7 +62,6 @@ class CreateAdminCommand extends Command
             $questionHelper,
             $input,
             $output,
-            $this->storeRegistry,
             $this->userStore
         );
 

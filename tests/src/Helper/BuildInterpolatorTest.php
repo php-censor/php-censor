@@ -9,7 +9,6 @@ use PHPCensor\Helper\BuildInterpolator;
 use PHPCensor\Store\EnvironmentStore;
 use PHPCensor\Model\Build;
 use PHPCensor\Store\SecretStore;
-use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use PHPCensor\Common\Application\ConfigurationInterface;
@@ -29,13 +28,9 @@ class BuildInterpolatorTest extends TestCase
             ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$configuration])
             ->getMock();
-        $storeRegistry = $this
-            ->getMockBuilder(StoreRegistry::class)
-            ->setConstructorArgs([$databaseManager])
-            ->getMock();
 
-        $secretStore      = new SecretStore($databaseManager, $storeRegistry);
-        $environmentStore = new EnvironmentStore($databaseManager, $storeRegistry);
+        $secretStore      = new SecretStore($databaseManager);
+        $environmentStore = new EnvironmentStore($databaseManager);
 
         $this->testedInterpolator = new BuildInterpolator($environmentStore, $secretStore);
     }

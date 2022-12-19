@@ -45,7 +45,7 @@ class SecretStore extends Store
         $rtn = [];
         if ($stmt->execute()) {
             while ($data = $stmt->fetch(\PDO::FETCH_ASSOC)) {
-                $rtn[$data['name']] = new Secret($this->storeRegistry, $data);
+                $rtn[$data['name']] = new Secret($data);
             }
         }
 

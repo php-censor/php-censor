@@ -9,10 +9,8 @@ use PHPCensor\DatabaseManager;
 use PHPCensor\Helper\BuildInterpolator;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
-use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\EnvironmentStore;
 use PHPCensor\Store\SecretStore;
-use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 use PHPCensor\Common\Application\ConfigurationInterface;
 
@@ -72,7 +70,6 @@ class PluginTest extends TestCase
     private Builder $builder;
     private Build $build;
     private string $currentDir;
-    private StoreRegistry $storeRegistry;
 
     protected function setUp(): void
     {
@@ -86,16 +83,6 @@ class PluginTest extends TestCase
             ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$configuration])
             ->getMock();
-        $this->storeRegistry = $this
-            ->getMockBuilder(StoreRegistry::class)
-            ->setConstructorArgs([$databaseManager])
-            ->getMock();
-
-        $buildStore = new BuildStore($databaseManager, $this->storeRegistry);
-
-        $this->storeRegistry
-            ->method('get')
-            ->willReturn($buildStore);
 
         $this->build
             ->method('getBuildPath')
@@ -107,12 +94,12 @@ class PluginTest extends TestCase
 
         $secretStore = $this
             ->getMockBuilder(SecretStore::class)
-            ->setConstructorArgs([$databaseManager, $this->storeRegistry])
+            ->setConstructorArgs([$databaseManager])
             ->getMock();
 
         $environmentStore = $this
             ->getMockBuilder(EnvironmentStore::class)
-            ->setConstructorArgs([$databaseManager, $this->storeRegistry])
+            ->setConstructorArgs([$databaseManager])
             ->getMock();
 
         $interpolator = new BuildInterpolator($environmentStore, $secretStore);

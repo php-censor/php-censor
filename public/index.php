@@ -5,13 +5,13 @@ declare(strict_types=1);
 use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Store\BuildErrorStore;
+use PHPCensor\Store\BuildMetaStore;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\EnvironmentStore;
 use PHPCensor\Store\ProjectGroupStore;
 use PHPCensor\Store\ProjectStore;
 use PHPCensor\Store\SecretStore;
 use PHPCensor\Store\UserStore;
-use PHPCensor\StoreRegistry;
 use PHPCensor\Application;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,13 +19,13 @@ use Symfony\Component\HttpFoundation\Session\Session;
 
 /** @var ConfigurationInterface $configuration */
 /** @var DatabaseManager $databaseManager */
-/** @var StoreRegistry $storeRegistry */
 /** @var Session $session */
 /** @var UserStore $userStore */
 /** @var ProjectStore $projectStore */
 /** @var ProjectGroupStore $projectGroupStore */
 /** @var BuildStore $buildStore */
 /** @var BuildErrorStore $buildErrorStore */
+/** @var BuildMetaStore $buildMetaStore */
 /** @var SecretStore $secretStore */
 /** @var EnvironmentStore $environmentStore */
 /** @var ContainerInterface $container */

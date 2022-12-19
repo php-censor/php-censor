@@ -11,7 +11,6 @@ use PHPCensor\Service\ProjectService;
 use PHPCensor\Store\ProjectStore;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\EnvironmentStore;
-use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -33,8 +32,6 @@ class ProjectServiceTest extends TestCase
 
     private DatabaseManager $databaseManager;
 
-    private StoreRegistry $storeRegistry;
-
     protected function setUp(): void
     {
         $this->configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
@@ -42,14 +39,10 @@ class ProjectServiceTest extends TestCase
             ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$this->configuration])
             ->getMock();
-        $this->storeRegistry = $this
-            ->getMockBuilder(StoreRegistry::class)
-            ->setConstructorArgs([$this->databaseManager])
-            ->getMock();
 
         $this->projectStore = $this
             ->getMockBuilder(ProjectStore::class)
-            ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])
+            ->setConstructorArgs([$this->databaseManager])
             ->getMock();
 
         $this->projectStore
@@ -61,12 +54,12 @@ class ProjectServiceTest extends TestCase
 
         $this->buildStore = $this
             ->getMockBuilder(BuildStore::class)
-            ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])
+            ->setConstructorArgs([$this->databaseManager])
             ->getMock();
 
         $this->environmentStore = $this
             ->getMockBuilder(EnvironmentStore::class)
-            ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])
+            ->setConstructorArgs([$this->databaseManager])
             ->getMock();
 
         $this->projectService = new ProjectService($this->buildStore, $this->environmentStore, $this->projectStore);
@@ -351,7 +344,7 @@ class ProjectServiceTest extends TestCase
     {
         $projectStore = $this
             ->getMockBuilder(ProjectStore::class)
-            ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])
+            ->setConstructorArgs([$this->databaseManager])
             ->getMock();
         $projectStore->expects($this->once())
             ->method('delete')

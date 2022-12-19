@@ -15,10 +15,6 @@ use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Store\BuildErrorStore;
-use PHPCensor\Store\ProjectGroupStore;
-use PHPCensor\Store\SecretStore;
-use PHPCensor\Store\UserStore;
-use PHPCensor\StoreRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -61,7 +57,6 @@ class WebhookController extends Controller
 
     public function __construct(
         ConfigurationInterface $configuration,
-        StoreRegistry $storeRegistry,
         Request $request,
         Session $session,
         ProjectStore $projectStore,
@@ -70,7 +65,7 @@ class WebhookController extends Controller
         EnvironmentStore $environmentStore,
         WebhookRequestStore $webhookRequestStore
     ) {
-        parent::__construct($configuration, $storeRegistry, $request, $session);
+        parent::__construct($configuration, $request, $session);
 
         $this->projectStore = $projectStore;
         $this->buildStore = $buildStore;
@@ -86,7 +81,6 @@ class WebhookController extends Controller
     {
         $this->buildFactory = new BuildFactory(
             $this->configuration,
-            $this->storeRegistry,
             $this->buildStore
         );
 

@@ -18,7 +18,6 @@ use PHPCensor\Store\BuildErrorStore;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\EnvironmentStore;
 use PHPCensor\Store\ProjectStore;
-use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 use PHPCensor\Common\Application\ConfigurationInterface;
 
@@ -29,13 +28,11 @@ use PHPCensor\Common\Application\ConfigurationInterface;
  */
 class BuildTest extends TestCase
 {
-    private StoreRegistry $storeRegistry;
     private ProjectService $projectService;
     private ProjectStore $projectStore;
     private BuildStore $buildStore;
     private BuildErrorStore $buildErrorStore;
     private EnvironmentStore $environmentStore;
-    private DatabaseManager $databaseManager;
 
     protected function setUp(): void
     {
@@ -44,29 +41,25 @@ class BuildTest extends TestCase
             ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$configuration])
             ->getMock();
-        $this->storeRegistry = $this
-            ->getMockBuilder(StoreRegistry::class)
-            ->setConstructorArgs([$databaseManager])
-            ->getMock();
 
         $this->projectStore = $this
             ->getMockBuilder(ProjectStore::class)
-            ->setConstructorArgs([$databaseManager, $this->storeRegistry])
+            ->setConstructorArgs([$databaseManager])
             ->getMock();
 
         $this->buildStore = $this
             ->getMockBuilder(BuildStore::class)
-            ->setConstructorArgs([$databaseManager, $this->storeRegistry])
+            ->setConstructorArgs([$databaseManager])
             ->getMock();
 
         $this->buildErrorStore = $this
             ->getMockBuilder(BuildErrorStore::class)
-            ->setConstructorArgs([$databaseManager, $this->storeRegistry])
+            ->setConstructorArgs([$databaseManager])
             ->getMock();
 
         $this->environmentStore = $this
             ->getMockBuilder(EnvironmentStore::class)
-            ->setConstructorArgs([$databaseManager, $this->storeRegistry])
+            ->setConstructorArgs([$databaseManager])
             ->getMock();
 
         $this->projectService = new ProjectService($this->buildStore, $this->environmentStore, $this->projectStore);
@@ -214,7 +207,7 @@ class BuildTest extends TestCase
         $configuration = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
 
         $stub = $this->getMockBuilder(GitBuild::class)
-            ->setConstructorArgs([$configuration, $this->storeRegistry])
+            ->setConstructorArgs([$configuration])
             ->onlyMethods(['getProject', 'getCommitId', 'getBranch'])
             ->getMock();
 
@@ -244,7 +237,7 @@ class BuildTest extends TestCase
         $configuration = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
 
         $stub = $this->getMockBuilder(GithubBuild::class)
-            ->setConstructorArgs([$configuration, $this->storeRegistry])
+            ->setConstructorArgs([$configuration])
             ->onlyMethods(['getProject', 'getCommitId', 'getBranch', 'getTag'])
             ->getMock();
 
@@ -291,7 +284,7 @@ class BuildTest extends TestCase
         $configuration = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
 
         $stub = $this->getMockBuilder(GitlabBuild::class)
-            ->setConstructorArgs([$configuration, $this->storeRegistry])
+            ->setConstructorArgs([$configuration])
             ->onlyMethods(['getProject', 'getCommitId', 'getBranch'])
             ->getMock();
 
@@ -329,7 +322,7 @@ class BuildTest extends TestCase
         $configuration = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
 
         $stub = $this->getMockBuilder(GogsBuild::class)
-            ->setConstructorArgs([$configuration, $this->storeRegistry])
+            ->setConstructorArgs([$configuration])
             ->onlyMethods(['getProject', 'getCommitId', 'getBranch'])
             ->getMock();
 

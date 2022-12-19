@@ -13,7 +13,6 @@ use PHPCensor\Plugin;
 use PHPCensor\Plugin\EmailNotify as EmailPlugin;
 use PHPCensor\Store\EnvironmentStore;
 use PHPCensor\Store\SecretStore;
-use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 use PHPCensor\Common\Application\ConfigurationInterface;
 
@@ -31,7 +30,6 @@ class EmailTest extends TestCase
     private int $buildStatus;
     private array $message;
     private bool $mailDelivered;
-    private StoreRegistry $storeRegistry;
 
     protected function setUp(): void
     {
@@ -43,10 +41,6 @@ class EmailTest extends TestCase
         $databaseManager = $this
             ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$configuration])
-            ->getMock();
-        $this->storeRegistry = $this
-            ->getMockBuilder(StoreRegistry::class)
-            ->setConstructorArgs([$databaseManager])
             ->getMock();
 
         $this->project = $this
@@ -96,17 +90,16 @@ class EmailTest extends TestCase
 
         $secretStore = $this
             ->getMockBuilder(SecretStore::class)
-            ->setConstructorArgs([$databaseManager, $this->storeRegistry])
+            ->setConstructorArgs([$databaseManager])
             ->getMock();
 
         $environmentStore = $this
             ->getMockBuilder(EnvironmentStore::class)
-            ->setConstructorArgs([$databaseManager, $this->storeRegistry])
+            ->setConstructorArgs([$databaseManager])
             ->getMock();
 
         $interpolator = new BuildInterpolator($environmentStore, $secretStore);
 
-        $interpolator = new BuildInterpolator($environmentStore);
         $this->builder->expects($this->any())
             ->method('interpolate')
             ->will($this->returnCallback(function () use ($self, $interpolator) {

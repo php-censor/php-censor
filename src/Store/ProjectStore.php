@@ -8,10 +8,8 @@ use Exception;
 use PDO;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Exception\HttpException;
-use PHPCensor\Model\Environment;
 use PHPCensor\Model\Project;
 use PHPCensor\Store;
-use PHPCensor\StoreRegistry;
 
 /**
  * @package    PHP Censor
@@ -31,12 +29,13 @@ class ProjectStore extends Store
 
     public function __construct(
         DatabaseManager $databaseManager,
-        StoreRegistry $storeRegistry
+        BuildStore $buildStore,
+        EnvironmentStore $environmentStore
     ) {
-        parent::__construct($databaseManager, $storeRegistry);
+        parent::__construct($databaseManager);
 
-        $this->buildStore = $this->storeRegistry->get('Build');
-        $this->environmentStore = $this->storeRegistry->get('Environment');
+        $this->buildStore = $buildStore;
+        $this->environmentStore = $environmentStore;
     }
 
     /**

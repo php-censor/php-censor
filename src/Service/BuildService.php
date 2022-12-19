@@ -18,7 +18,6 @@ use PHPCensor\Model\Project;
 use PHPCensor\Store\BuildErrorStore;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\ProjectStore;
-use PHPCensor\StoreRegistry;
 use PHPCensor\Worker\BuildWorker;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Filesystem;

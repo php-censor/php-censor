@@ -26,16 +26,12 @@ abstract class Controller
 
     protected ConfigurationInterface $configuration;
 
-    protected StoreRegistry $storeRegistry;
-
     public function __construct(
         ConfigurationInterface $configuration,
-        StoreRegistry $storeRegistry,
         Request $request,
         Session $session
     ) {
         $this->configuration = $configuration;
-        $this->storeRegistry = $storeRegistry;
         $this->request       = $request;
         $this->session       = $session;
 

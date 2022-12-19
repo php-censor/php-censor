@@ -13,7 +13,6 @@ use PHPCensor\Security\Authentication\UserProvider\AbstractProvider;
 use PHPCensor\Security\Authentication\UserProvider\Internal;
 use PHPCensor\Security\Authentication\UserProviderInterface;
 use PHPCensor\Store\UserStore;
-use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 
@@ -22,7 +21,6 @@ class ServiceTest extends TestCase
     use ProphecyTrait;
 
     private ConfigurationInterface $configuration;
-    private StoreRegistry $storeRegistry;
     protected UserStore $userStore;
 
     protected function setUp(): void
@@ -34,13 +32,9 @@ class ServiceTest extends TestCase
             ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$this->configuration])
             ->getMock();
-        $this->storeRegistry = $this
-            ->getMockBuilder(StoreRegistry::class)
-            ->setConstructorArgs([$databaseManager])
-            ->getMock();
         $this->userStore = $this
             ->getMockBuilder(UserStore::class)
-            ->setConstructorArgs([$databaseManager, $this->storeRegistry])
+            ->setConstructorArgs([$databaseManager])
             ->getMock();
     }
 

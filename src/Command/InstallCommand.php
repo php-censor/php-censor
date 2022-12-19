@@ -16,7 +16,6 @@ use PHPCensor\DatabaseManager;
 use PHPCensor\Model\ProjectGroup;
 use PHPCensor\Store\ProjectGroupStore;
 use PHPCensor\Store\UserStore;
-use PHPCensor\StoreRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
@@ -42,13 +41,12 @@ class InstallCommand extends Command
     public function __construct(
         ConfigurationInterface $configuration,
         DatabaseManager $databaseManager,
-        StoreRegistry $storeRegistry,
         LoggerInterface $logger,
         UserStore $userStore,
         ProjectGroupStore $projectGroupStore,
         ?string $name = null
     ) {
-        parent::__construct($configuration, $databaseManager, $storeRegistry, $logger, $name);
+        parent::__construct($configuration, $databaseManager, $logger, $name);
 
         $this->userStore         = $userStore;
         $this->projectGroupStore = $projectGroupStore;
@@ -578,7 +576,6 @@ class InstallCommand extends Command
             $questionHelper,
             $input,
             $output,
-            $this->storeRegistry,
             $this->userStore
         );
 

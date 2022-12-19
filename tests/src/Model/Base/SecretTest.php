@@ -6,33 +6,14 @@ namespace Tests\PHPCensor\Model\Base;
 
 use PHPCensor\DatabaseManager;
 use PHPCensor\Model;
-use PHPCensor\Model\Base\Project;
 use PHPCensor\Model\Base\Secret;
-use PHPCensor\Model\Base\User;
-use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
-use PHPCensor\Common\Application\ConfigurationInterface;
 
 class SecretTest extends TestCase
 {
-    private StoreRegistry $storeRegistry;
-
-    protected function setUp(): void
-    {
-        $configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
-        $databaseManager = $this
-            ->getMockBuilder(DatabaseManager::class)
-            ->setConstructorArgs([$configuration])
-            ->getMock();
-        $this->storeRegistry = $this
-            ->getMockBuilder(StoreRegistry::class)
-            ->setConstructorArgs([$databaseManager])
-            ->getMock();
-    }
-
     public function testConstruct(): void
     {
-        $secret = new Secret($this->storeRegistry);
+        $secret = new Secret();
 
         self::assertInstanceOf(Model::class, $secret);
         self::assertInstanceOf(Secret::class, $secret);
@@ -48,7 +29,7 @@ class SecretTest extends TestCase
 
     public function testId(): void
     {
-        $secret = new Secret($this->storeRegistry);
+        $secret = new Secret();
 
         $result = $secret->setId(100);
         self::assertEquals(true, $result);
@@ -60,7 +41,7 @@ class SecretTest extends TestCase
 
     public function testName(): void
     {
-        $secret = new Secret($this->storeRegistry);
+        $secret = new Secret();
 
         $result = $secret->setName('name');
         self::assertEquals(true, $result);
@@ -72,7 +53,7 @@ class SecretTest extends TestCase
 
     public function testValue(): void
     {
-        $secret = new Secret($this->storeRegistry);
+        $secret = new Secret();
 
         $result = $secret->setValue('value');
         self::assertEquals(true, $result);
@@ -84,10 +65,10 @@ class SecretTest extends TestCase
 
     public function testCreateDate(): void
     {
-        $secret = new Secret($this->storeRegistry);
+        $secret = new Secret();
         self::assertEquals(null, $secret->getCreateDate());
 
-        $secret    = new Secret($this->storeRegistry);
+        $secret    = new Secret();
         $createDate = new \DateTime();
 
         $result = $secret->setCreateDate($createDate);
@@ -97,16 +78,16 @@ class SecretTest extends TestCase
         $result = $secret->setCreateDate($createDate);
         self::assertEquals(false, $result);
 
-        $secret = new Secret($this->storeRegistry, ['create_date' => $createDate->format('Y-m-d H:i:s')]);
+        $secret = new Secret(['create_date' => $createDate->format('Y-m-d H:i:s')]);
         self::assertEquals($createDate->getTimestamp(), $secret->getCreateDate()->getTimestamp());
 
-        $secret = new Secret($this->storeRegistry, ['create_date' => 'Invalid Data']);
+        $secret = new Secret(['create_date' => 'Invalid Data']);
         self::assertNull($secret->getCreateDate());
     }
 
     public function testUserId(): void
     {
-        $secret = new Secret($this->storeRegistry);
+        $secret = new Secret();
 
         $result = $secret->setUserId(300);
         self::assertEquals(true, $result);

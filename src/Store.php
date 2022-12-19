@@ -25,14 +25,10 @@ abstract class Store
 
     protected DatabaseManager $databaseManager;
 
-    protected StoreRegistry $storeRegistry;
-
     public function __construct(
-        DatabaseManager $databaseManager,
-        StoreRegistry $storeRegistry
+        DatabaseManager $databaseManager
     ) {
         $this->databaseManager = $databaseManager;
-        $this->storeRegistry = $storeRegistry;
     }
 
     public function getById(int $id, string $useConnection = 'read'): ?Model
@@ -45,7 +41,7 @@ abstract class Store
 
             if ($stmt->execute()) {
                 if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                    return new $this->modelName($this->storeRegistry, $data);
+                    return new $this->modelName($data);
                 }
             }
         }
@@ -69,7 +65,7 @@ abstract class Store
         $rtn = [];
 
         foreach ($res as $data) {
-            $rtn[] = new $this->modelName($this->storeRegistry, $data);
+            $rtn[] = new $this->modelName($data);
         }
 
         return ['items' => $rtn, 'count' => $count];
@@ -133,7 +129,7 @@ abstract class Store
         $rtn = [];
 
         foreach ($res as $data) {
-            $rtn[] = new $this->modelName($this->storeRegistry, $data);
+            $rtn[] = new $this->modelName($data);
         }
 
         return ['items' => $rtn, 'count' => $count];

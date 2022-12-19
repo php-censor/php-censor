@@ -21,16 +21,13 @@ use PHPCensor\Store\BuildStore;
 class BuildFactory
 {
     private ConfigurationInterface $configuration;
-    private StoreRegistry $storeRegistry;
     private BuildStore $buildStore;
 
     public function __construct(
         ConfigurationInterface $configuration,
-        StoreRegistry $storeRegistry,
         BuildStore $buildStore
     ) {
         $this->configuration = $configuration;
-        $this->storeRegistry = $storeRegistry;
         $this->buildStore    = $buildStore;
     }
 
@@ -105,7 +102,7 @@ class BuildFactory
             }
 
             $class = '\\PHPCensor\\Model\\Build\\' . $type;
-            $build = new $class($this->configuration, $this->storeRegistry, $build->getDataArray());
+            $build = new $class($this->configuration, $build->getDataArray());
         }
 
         return $build;

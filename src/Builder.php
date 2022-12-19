@@ -16,6 +16,7 @@ use PHPCensor\Plugin\Util\Executor;
 use PHPCensor\Plugin\Util\Factory as PluginFactory;
 use PHPCensor\Store\BuildErrorStore;
 use PHPCensor\Store\BuildErrorWriter;
+use PHPCensor\Store\BuildMetaStore;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\EnvironmentStore;
 use PHPCensor\Store\SecretStore;
@@ -69,6 +70,8 @@ class Builder
 
     protected BuildErrorWriter $buildErrorWriter;
 
+    protected BuildMetaStore $buildMetaStore;
+
     protected BuildErrorStore $buildErrorStore;
 
     protected EnvironmentStore $environmentStore;
@@ -77,12 +80,10 @@ class Builder
 
     protected DatabaseManager $databaseManager;
 
-    protected StoreRegistry $storeRegistry;
-
     public function __construct(
         ConfigurationInterface $configuration,
         DatabaseManager $databaseManager,
-        StoreRegistry $storeRegistry,
+        BuildMetaStore $buildMetaStore,
         BuildErrorStore $buildErrorStore,
         BuildStore $buildStore,
         SecretStore $secretStore,
@@ -92,8 +93,8 @@ class Builder
     ) {
         $this->configuration    = $configuration;
         $this->databaseManager  = $databaseManager;
-        $this->storeRegistry    = $storeRegistry;
         $this->buildErrorStore  = $buildErrorStore;
+        $this->buildMetaStore   = $buildMetaStore;
         $this->buildStore       = $buildStore;
         $this->secretStore      = $secretStore;
         $this->environmentStore = $environmentStore;
@@ -103,10 +104,11 @@ class Builder
         $pluginFactory = new PluginFactory($this, $build);
 
         $this->pluginExecutor = new Plugin\Util\Executor(
-            $this->storeRegistry,
             $pluginFactory,
             $this->buildLogger,
-            $this->buildStore
+            $this->buildStore,
+            $this->buildMetaStore,
+            $this->buildErrorStore
         );
 
         $executorClass         = CommandExecutor::class;

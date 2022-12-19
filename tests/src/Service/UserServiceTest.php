@@ -9,7 +9,6 @@ use PHPCensor\DatabaseManager;
 use PHPCensor\Model\User;
 use PHPCensor\Service\UserService;
 use PHPCensor\Store\UserStore;
-use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -27,8 +26,6 @@ class UserServiceTest extends TestCase
 
     private DatabaseManager $databaseManager;
 
-    private StoreRegistry $storeRegistry;
-
     protected function setUp(): void
     {
         $this->configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
@@ -36,14 +33,10 @@ class UserServiceTest extends TestCase
             ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$this->configuration])
             ->getMock();
-        $this->storeRegistry = $this
-            ->getMockBuilder(StoreRegistry::class)
-            ->setConstructorArgs([$this->databaseManager])
-            ->getMock();
 
         $this->userStore = $this
             ->getMockBuilder(UserStore::class)
-            ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])
+            ->setConstructorArgs([$this->databaseManager])
             ->getMock();
         $this->userStore
             ->expects($this->any())
@@ -129,7 +122,7 @@ class UserServiceTest extends TestCase
     {
         $store = $this
             ->getMockBuilder(UserStore::class)
-            ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])
+            ->setConstructorArgs([$this->databaseManager])
             ->getMock();
         $store->expects($this->once())
             ->method('delete')

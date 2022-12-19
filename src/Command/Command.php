@@ -9,7 +9,6 @@ use Monolog\Logger;
 use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Logging\OutputLogHandler;
-use PHPCensor\StoreRegistry;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use Symfony\Component\Console\Input\InputInterface;
@@ -28,14 +27,11 @@ abstract class Command extends BaseCommand
 
     protected DatabaseManager $databaseManager;
 
-    protected StoreRegistry $storeRegistry;
-
     protected LoggerInterface $logger;
 
     public function __construct(
         ConfigurationInterface $configuration,
         DatabaseManager $databaseManager,
-        StoreRegistry $storeRegistry,
         LoggerInterface $logger,
         ?string $name = null
     ) {
@@ -43,7 +39,6 @@ abstract class Command extends BaseCommand
 
         $this->configuration   = $configuration;
         $this->databaseManager = $databaseManager;
-        $this->storeRegistry   = $storeRegistry;
         $this->logger          = $logger;
     }
 

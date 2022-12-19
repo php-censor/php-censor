@@ -50,6 +50,25 @@ class BitbucketNotify extends Plugin
      */
     protected $httpClient;
 
+    protected ?BuildStore $buildStore = null;
+    protected ?BuildMetaStore $buildMetaStore = null;
+    protected ?BuildErrorStore $buildErrorStore = null;
+
+    public function setBuildStore(BuildStore $buildStore): void
+    {
+        $this->buildStore = $buildStore;
+    }
+
+    public function setBuildMetaStore(BuildMetaStore $buildMetaStore): void
+    {
+        $this->buildMetaStore = $buildMetaStore;
+    }
+
+    public function setBuildErrorStore(BuildErrorStore $buildErrorStore): void
+    {
+        $this->buildErrorStore = $buildErrorStore;
+    }
+
     /**
      * @return string
      */
@@ -256,14 +275,11 @@ class BitbucketNotify extends Plugin
      */
     protected function prepareResult($targetBranch)
     {
-        /** @var BuildErrorStore $buildErrorStore */
-        $buildErrorStore = $this->storeRegistry->get('BuildError');
-
-        $targetBranchBuildStats = $buildErrorStore->getErrorAmountPerPluginForBuild(
+        $targetBranchBuildStats = $this->buildErrorStore->getErrorAmountPerPluginForBuild(
             $this->findLatestBuild($targetBranch)
         );
 
-        $currentBranchBuildStats = $buildErrorStore->getErrorAmountPerPluginForBuild($this->build->getId());
+        $currentBranchBuildStats = $this->buildErrorStore->getErrorAmountPerPluginForBuild($this->build->getId());
 
         if (empty($targetBranchBuildStats) && empty($currentBranchBuildStats)) {
             return [];
@@ -293,15 +309,12 @@ class BitbucketNotify extends Plugin
      */
     public function getPhpUnitCoverage($targetBranch)
     {
-        /** @var BuildMetaStore $buildMetaStore */
-        $buildMetaStore       = $this->storeRegistry->get('BuildMeta');
-        $latestTargetBuildId  = $this->findLatestBuild($targetBranch);
-
-        $targetMetaData = $buildMetaStore->getByKey(
+        $latestTargetBuildId = $this->findLatestBuild($targetBranch);
+        $targetMetaData = $this->buildMetaStore->getByKey(
             $this->findLatestBuild($targetBranch),
             PhpUnit::pluginName() . '-coverage'
         );
-        $currentMetaData = $buildMetaStore->getByKey(
+        $currentMetaData = $this->buildMetaStore->getByKey(
             $this->build->getId(),
             PhpUnit::pluginName() . '-coverage'
         );
@@ -361,10 +374,7 @@ class BitbucketNotify extends Plugin
      */
     protected function findLatestBuild($branchName)
     {
-        /** @var BuildStore $buildStore */
-        $buildStore = $this->storeRegistry->get('Build');
-
-        $build = $buildStore->getLatestBuildByProjectAndBranch($this->getBuild()->getProjectId(), $branchName);
+        $build = $this->buildStore->getLatestBuildByProjectAndBranch($this->getBuild()->getProjectId(), $branchName);
 
         return $build !== null ? $build->getId() : null;
     }

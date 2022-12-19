@@ -76,8 +76,6 @@ abstract class Plugin
      */
     protected $binaryName = [];
 
-    protected ?StoreRegistry $storeRegistry = null;
-
     public function __construct(Builder $builder, Build $build, array $options = [])
     {
         $this->builder = $builder;
@@ -296,10 +294,5 @@ abstract class Plugin
     public static function pluginName()
     {
         return '';
-    }
-
-    public function setStoreRegistry(StoreRegistry $storeRegistry)
-    {
-        $this->storeRegistry = $storeRegistry;
     }
 }

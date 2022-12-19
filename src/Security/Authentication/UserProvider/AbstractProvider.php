@@ -6,7 +6,6 @@ namespace PHPCensor\Security\Authentication\UserProvider;
 
 use PHPCensor\Security\Authentication\UserProviderInterface;
 use PHPCensor\Store\UserStore;
-use PHPCensor\StoreRegistry;
 
 /**
  * @package    PHP Censor

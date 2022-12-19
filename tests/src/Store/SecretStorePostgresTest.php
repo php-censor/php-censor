@@ -17,7 +17,7 @@ class SecretStorePostgresTest extends BasePostgresTestCase
     {
         parent::setUp();
 
-        $this->store = new SecretStore($this->databaseManager, $this->storeRegistry);
+        $this->store = new SecretStore($this->databaseManager);
     }
 
     protected function getTestData(): array

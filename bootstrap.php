@@ -6,13 +6,13 @@ use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Store\BuildErrorStore;
+use PHPCensor\Store\BuildMetaStore;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\EnvironmentStore;
 use PHPCensor\Store\ProjectGroupStore;
 use PHPCensor\Store\ProjectStore;
 use PHPCensor\Store\SecretStore;
 use PHPCensor\Store\UserStore;
-use PHPCensor\StoreRegistry;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
@@ -38,9 +38,6 @@ $configuration = $container->get(ConfigurationInterface::class);
 /** @var DatabaseManager $databaseManager */
 $databaseManager = $container->get(DatabaseManager::class);
 
-/** @var StoreRegistry $storeRegistry */
-$storeRegistry = $container->get(StoreRegistry::class);
-
 /** @var SessionInterface $session */
 $session  = $container->get(SessionInterface::class);
 
@@ -56,6 +53,8 @@ $projectGroupStore = $container->get(ProjectGroupStore::class);
 $buildStore = $container->get(BuildStore::class);
 /** @var BuildErrorStore $buildErrorStore */
 $buildErrorStore = $container->get(BuildErrorStore::class);
+/** @var BuildMetaStore $buildMetaStore */
+$buildMetaStore = $container->get(BuildMetaStore::class);
 /** @var SecretStore $secretStore */
 $secretStore = $container->get(SecretStore::class);
 /** @var EnvironmentStore $environmentStore */

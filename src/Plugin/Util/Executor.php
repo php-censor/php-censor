@@ -8,8 +8,9 @@ use PHPCensor\Helper\Lang;
 use PHPCensor\Logging\BuildLogger;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
+use PHPCensor\Store\BuildErrorStore;
+use PHPCensor\Store\BuildMetaStore;
 use PHPCensor\Store\BuildStore;
-use PHPCensor\StoreRegistry;
 
 /**
  * Plugin Executor - Runs the configured plugins for a given build stage.
@@ -21,24 +22,26 @@ use PHPCensor\StoreRegistry;
  */
 class Executor
 {
-    protected BuildLogger $logger;
+    private BuildLogger $logger;
 
-    protected Factory $pluginFactory;
+    private Factory $pluginFactory;
 
-    protected BuildStore $buildStore;
-
-    protected StoreRegistry $storeRegistry;
+    private BuildStore $buildStore;
+    private BuildMetaStore $buildMetaStore;
+    private BuildErrorStore $buildErrorStore;
 
     public function __construct(
-        StoreRegistry $storeRegistry,
         Factory $pluginFactory,
         BuildLogger $logger,
-        BuildStore $buildStore = null
+        BuildStore $buildStore,
+        BuildMetaStore $buildMetaStore,
+        BuildErrorStore $buildErrorStore
     ) {
-        $this->storeRegistry = $storeRegistry;
-        $this->pluginFactory = $pluginFactory;
-        $this->logger        = $logger;
-        $this->buildStore    = $buildStore;
+        $this->pluginFactory   = $pluginFactory;
+        $this->logger          = $logger;
+        $this->buildStore      = $buildStore;
+        $this->buildMetaStore  = $buildMetaStore;
+        $this->buildErrorStore = $buildErrorStore;
     }
 
     /**
@@ -230,7 +233,11 @@ class Executor
         try {
             // Build and run it
             $obj = $this->pluginFactory->buildPlugin($class, (\is_null($options) ? [] : $options));
-            $obj->setStoreRegistry($this->storeRegistry);
+            if ($obj instanceof Plugin\BitbucketNotify) {
+                $obj->setBuildStore($this->buildStore);
+                $obj->setBuildMetaStore($this->buildMetaStore);
+                $obj->setBuildErrorStore($this->buildErrorStore);
+            }
 
             return $obj->execute();
         } catch (\Throwable $ex) {

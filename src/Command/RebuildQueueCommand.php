@@ -12,7 +12,6 @@ use PHPCensor\Service\BuildService;
 use PHPCensor\Store\BuildErrorStore;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\ProjectStore;
-use PHPCensor\StoreRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -35,14 +34,13 @@ class RebuildQueueCommand extends Command
     public function __construct(
         ConfigurationInterface $configuration,
         DatabaseManager $databaseManager,
-        StoreRegistry $storeRegistry,
         LoggerInterface $logger,
         BuildStore $buildStore,
         BuildErrorStore $buildErrorStore,
         ProjectStore $projectStore,
         ?string $name = null
     ) {
-        parent::__construct($configuration, $databaseManager, $storeRegistry, $logger, $name);
+        parent::__construct($configuration, $databaseManager, $logger, $name);
 
         $this->buildStore      = $buildStore;
         $this->buildErrorStore = $buildErrorStore;
@@ -68,7 +66,6 @@ class RebuildQueueCommand extends Command
 
         $buildFactory = new BuildFactory(
             $this->configuration,
-            $this->storeRegistry,
             $this->buildStore
         );
 

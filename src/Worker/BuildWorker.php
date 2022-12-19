@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace PHPCensor\Worker;
 
 use DateTime;
-use Exception;
 use Monolog\Logger;
 use Pheanstalk\Job;
 use Pheanstalk\Pheanstalk;
@@ -18,10 +17,10 @@ use PHPCensor\Logging\BuildLogger;
 use PHPCensor\Model\Build;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Store\BuildErrorStore;
+use PHPCensor\Store\BuildMetaStore;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\EnvironmentStore;
 use PHPCensor\Store\SecretStore;
-use PHPCensor\StoreRegistry;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -54,7 +53,7 @@ class BuildWorker
 
     private DatabaseManager $databaseManager;
 
-    private StoreRegistry $storeRegistry;
+    private BuildMetaStore $buildMetaStore;
 
     private BuildErrorStore $buildErrorStore;
 
@@ -78,7 +77,7 @@ class BuildWorker
     public function __construct(
         ConfigurationInterface $configuration,
         DatabaseManager $databaseManager,
-        StoreRegistry $storeRegistry,
+        BuildMetaStore $buildMetaStore,
         BuildErrorStore $buildErrorStore,
         BuildStore $buildStore,
         SecretStore $secretStore,
@@ -95,8 +94,8 @@ class BuildWorker
         $this->buildService     = $buildService;
         $this->configuration    = $configuration;
         $this->databaseManager  = $databaseManager;
-        $this->storeRegistry    = $storeRegistry;
         $this->buildErrorStore  = $buildErrorStore;
+        $this->buildMetaStore   = $buildMetaStore;
         $this->buildStore       = $buildStore;
         $this->secretStore      = $secretStore;
         $this->environmentStore = $environmentStore;
@@ -193,7 +192,7 @@ class BuildWorker
             $builder = new Builder(
                 $this->configuration,
                 $this->databaseManager,
-                $this->storeRegistry,
+                $this->buildMetaStore,
                 $this->buildErrorStore,
                 $this->buildStore,
                 $this->secretStore,

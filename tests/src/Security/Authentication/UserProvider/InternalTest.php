@@ -8,14 +8,12 @@ use PHPCensor\DatabaseManager;
 use PHPCensor\Model\User;
 use PHPCensor\Security\Authentication\UserProvider\Internal;
 use PHPCensor\Store\UserStore;
-use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\TestCase;
 use PHPCensor\Common\Application\ConfigurationInterface;
 
 class InternalTest extends TestCase
 {
     private Internal $provider;
-    private StoreRegistry $storeRegistry;
 
     protected function setUp(): void
     {
@@ -25,17 +23,12 @@ class InternalTest extends TestCase
             ->setConstructorArgs([$configuration])
             ->getMock();
 
-        $this->storeRegistry = $this
-            ->getMockBuilder(StoreRegistry::class)
+        $userStore = $this
+            ->getMockBuilder(UserStore::class)
             ->setConstructorArgs([$databaseManager])
             ->getMock();
 
-        $userStore = $this
-            ->getMockBuilder(UserStore::class)
-            ->setConstructorArgs([$databaseManager, $this->storeRegistry])
-            ->getMock();
-
-        $this->provider = new Internal($this->storeRegistry, $userStore, 'internal', [
+        $this->provider = new Internal($userStore, 'internal', [
             'type' => 'internal',
         ]);
     }

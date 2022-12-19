@@ -15,7 +15,6 @@ use PHPCensor\Store\BuildErrorStore;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\EnvironmentStore;
 use PHPCensor\Store\SecretStore;
-use PHPCensor\StoreRegistry;
 use PHPUnit\Framework\MockObject\MockBuilder;
 use PHPUnit\Framework\TestCase;
 
@@ -67,24 +66,10 @@ class PhpUnitTest extends TestCase
             ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$configuration])
             ->getMock();
-        $storeRegistry = $this
-            ->getMockBuilder(StoreRegistry::class)
-            ->setConstructorArgs([$databaseManager])
-            ->getMock();
-
-        $buildStore = $this
-            ->getMockBuilder(BuildStore::class)
-            ->setConstructorArgs([$databaseManager, $storeRegistry])
-            ->getMock();
-
-        $storeRegistry
-            ->method('get')
-            ->with('Build')
-            ->willReturn($buildStore);
 
         $build = $this
             ->getMockBuilder(Build::class)
-            ->setConstructorArgs([$storeRegistry])
+            ->setConstructorArgs([])
             ->getMock();
 
         $build
@@ -105,25 +90,25 @@ class PhpUnitTest extends TestCase
 
         $buildErrorStore = $this
             ->getMockBuilder(BuildErrorStore::class)
-            ->setConstructorArgs([$databaseManager, $storeRegistry])
+            ->setConstructorArgs([$databaseManager])
             ->getMock();
 
         $buildStore = $this
             ->getMockBuilder(BuildStore::class)
-            ->setConstructorArgs([$databaseManager, $storeRegistry])
+            ->setConstructorArgs([$databaseManager])
             ->getMock();
 
         $secretStore = $this
             ->getMockBuilder(SecretStore::class)
-            ->setConstructorArgs([$databaseManager, $storeRegistry])
+            ->setConstructorArgs([$databaseManager])
             ->getMock();
 
         $environmentStore = $this
             ->getMockBuilder(EnvironmentStore::class)
-            ->setConstructorArgs([$databaseManager, $storeRegistry])
+            ->setConstructorArgs([$databaseManager])
             ->getMock();
         $builder = $this->getMockBuilder(Builder::class)
-            ->setConstructorArgs([$configuration, $databaseManager, $storeRegistry, $buildErrorStore, $buildStore, $secretStore, $environmentStore, $build, $buildLogger])
+            ->setConstructorArgs([$configuration, $databaseManager, $buildErrorStore, $buildStore, $secretStore, $environmentStore, $build, $buildLogger])
             ->onlyMethods(['executeCommand'])
             ->getMock();
 

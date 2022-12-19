@@ -66,7 +66,7 @@ class SecretController extends WebController
         if (!\is_null($secretId)) {
             $secret = $this->secretStore->getById($secretId);
         } else {
-            $secret = new Secret($this->storeRegistry);
+            $secret = new Secret();
         }
 
         if ($this->request->getMethod() === 'POST') {
