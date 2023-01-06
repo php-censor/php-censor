@@ -8,8 +8,11 @@ use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Model;
 use PHPCensor\Model\Project;
+use PHPCensor\Store\BuildErrorStore;
+use PHPCensor\Store\BuildMetaStore;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\EnvironmentStore;
+use PHPCensor\Store\ProjectStore;
 use PHPUnit\Framework\TestCase;
 use PHPCensor\Common\Application\ConfigurationInterface;
 
@@ -31,9 +34,29 @@ class ProjectTest extends TestCase
             ->setConstructorArgs([$configuration])
             ->getMock();
 
+        $projectStore = $this
+            ->getMockBuilder(ProjectStore::class)
+            ->setConstructorArgs([$databaseManager])
+            ->getMock();
+
+        $buildErrorStore = $this
+            ->getMockBuilder(BuildErrorStore::class)
+            ->setConstructorArgs([$databaseManager])
+            ->getMock();
+
+        $buildMetaStore = $this
+            ->getMockBuilder(BuildMetaStore::class)
+            ->setConstructorArgs([$databaseManager])
+            ->getMock();
+
         $this->buildStore = $this
             ->getMockBuilder(BuildStore::class)
-            ->setConstructorArgs([$databaseManager])
+            ->setConstructorArgs([
+                $databaseManager,
+                $buildErrorStore,
+                $buildMetaStore,
+                $projectStore
+            ])
             ->getMock();
 
         $this->environmentStore = $this

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace PHPCensor\Model;
 
 use PHPCensor\Model\Base\Project as BaseProject;
-use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\EnvironmentStore;
 use Symfony\Component\Yaml\Dumper as YamlDumper;
 use Symfony\Component\Yaml\Parser as YamlParser;
@@ -19,17 +18,14 @@ use Symfony\Component\Yaml\Parser as YamlParser;
  */
 class Project extends BaseProject
 {
-    private BuildStore $buildStore;
     private EnvironmentStore $environmentStore;
 
     public function __construct(
-        BuildStore $buildStore,
         EnvironmentStore $environmentStore,
         array $initialData = []
     ) {
         parent::__construct($initialData);
 
-        $this->buildStore       = $buildStore;
         $this->environmentStore = $environmentStore;
     }
 
@@ -60,33 +56,6 @@ class Project extends BaseProject
 
             if (isset($latest) && $latest instanceof Build) {
                 return $latest;
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Return the previous build from a specific branch, for this project.
-     *
-     * @param string $branch
-     *
-     * @return mixed|null
-     */
-    public function getPreviousBuild($branch)
-    {
-        $criteria = [
-            'branch'     => $branch,
-            'project_id' => $this->getId(),
-        ];
-        $order  = ['id' => 'DESC'];
-        $builds = $this->buildStore->getWhere($criteria, 1, 1, $order);
-
-        if (\is_array($builds['items']) && \count($builds['items'])) {
-            $previous = \array_shift($builds['items']);
-
-            if (isset($previous) && $previous instanceof Build) {
-                return $previous;
             }
         }
 

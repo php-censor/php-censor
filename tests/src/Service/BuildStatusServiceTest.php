@@ -10,6 +10,7 @@ use PHPCensor\Model\Build;
 use PHPCensor\Model\Project;
 use PHPCensor\Service\BuildStatusService;
 use PHPCensor\Store\BuildErrorStore;
+use PHPCensor\Store\BuildMetaStore;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\EnvironmentStore;
 use PHPCensor\Store\ProjectStore;
@@ -40,13 +41,13 @@ class BuildStatusServiceTest extends TestCase
             ->setConstructorArgs([$configuration])
             ->getMock();
 
-        $buildStore = $this
-            ->getMockBuilder(BuildStore::class)
+        $this->projectStore = $this
+            ->getMockBuilder(ProjectStore::class)
             ->setConstructorArgs([$databaseManager])
             ->getMock();
 
-        $this->projectStore = $this
-            ->getMockBuilder(ProjectStore::class)
+        $buildMetaStore = $this
+            ->getMockBuilder(BuildMetaStore::class)
             ->setConstructorArgs([$databaseManager])
             ->getMock();
 
@@ -55,12 +56,22 @@ class BuildStatusServiceTest extends TestCase
             ->setConstructorArgs([$databaseManager])
             ->getMock();
 
+        $this->buildStore = $this
+            ->getMockBuilder(BuildStore::class)
+            ->setConstructorArgs([
+                $databaseManager,
+                $this->buildErrorStore,
+                $buildMetaStore,
+                $this->projectStore
+            ])
+            ->getMock();
+
         $environmentStore = $this
             ->getMockBuilder(EnvironmentStore::class)
             ->setConstructorArgs([$databaseManager])
             ->getMock();
 
-        $project = new Project($buildStore, $environmentStore);
+        $project = new Project($this->buildStore, $environmentStore);
         $project->setId(3);
         $project->setDefaultBranch(self::BRANCH);
         $project->setTitle('Test');

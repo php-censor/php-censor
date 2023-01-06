@@ -8,6 +8,8 @@ use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
 use PHPCensor\Model\Project;
 use PHPCensor\Service\ProjectService;
+use PHPCensor\Store\BuildErrorStore;
+use PHPCensor\Store\BuildMetaStore;
 use PHPCensor\Store\ProjectStore;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\EnvironmentStore;
@@ -52,9 +54,24 @@ class ProjectServiceTest extends TestCase
                 $this->returnArgument(0)
             );
 
+        $buildMetaStore = $this
+            ->getMockBuilder(BuildMetaStore::class)
+            ->setConstructorArgs([$this->databaseManager])
+            ->getMock();
+
+        $buildErrorStore = $this
+            ->getMockBuilder(BuildErrorStore::class)
+            ->setConstructorArgs([$this->databaseManager])
+            ->getMock();
+
         $this->buildStore = $this
             ->getMockBuilder(BuildStore::class)
-            ->setConstructorArgs([$this->databaseManager])
+            ->setConstructorArgs([
+                $this->databaseManager,
+                $buildErrorStore,
+                $buildMetaStore,
+                $this->projectStore
+            ])
             ->getMock();
 
         $this->environmentStore = $this

@@ -177,7 +177,7 @@ class Builder
 
         $success = true;
 
-        $previousBuild = $this->build->getProject()->getPreviousBuild($this->build->getBranch());
+        $previousBuild = $this->build->getPreviousBuild($this->build->getBranch());
         $previousBuildStatus = Build::STATUS_PENDING;
 
         if ($previousBuild) {

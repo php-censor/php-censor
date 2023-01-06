@@ -7,7 +7,6 @@ namespace PHPCensor\Service;
 use Exception;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\Project;
-use function GuzzleHttp\Psr7\str;
 
 /**
  * @package    PHP Censor
@@ -66,7 +65,7 @@ class BuildStatusService
     protected function loadParentBuild(bool $isParent = true): void
     {
         if ($isParent === false && !$this->isFinished()) {
-            $lastFinishedBuild = $this->project->getLatestBuild($this->branch, $this->finishedStatusIds);
+            $lastFinishedBuild = $this->build->getLatestBuild($this->branch, $this->finishedStatusIds);
 
             if ($lastFinishedBuild) {
                 $this->prevService = new BuildStatusService(

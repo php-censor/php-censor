@@ -15,8 +15,10 @@ use PHPCensor\Model\Build;
 use PHPCensor\Model\Project;
 use PHPCensor\Store\BuildErrorStore;
 use PHPCensor\Store\BuildErrorWriter;
+use PHPCensor\Store\BuildMetaStore;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\EnvironmentStore;
+use PHPCensor\Store\ProjectStore;
 use PHPCensor\Store\SecretStore;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LogLevel;
@@ -79,15 +81,29 @@ class BuilderTest extends TestCase
             ->setConstructorArgs([$logger, $build])
             ->getMock();
 
-
         $buildErrorStore = $this
             ->getMockBuilder(BuildErrorStore::class)
             ->setConstructorArgs([$databaseManager])
             ->getMock();
 
+        $buildMetaStore = $this
+            ->getMockBuilder(BuildMetaStore::class)
+            ->setConstructorArgs([$databaseManager])
+            ->getMock();
+
+        $projectStore = $this
+            ->getMockBuilder(ProjectStore::class)
+            ->setConstructorArgs([$databaseManager])
+            ->getMock();
+
         $buildStore = $this
             ->getMockBuilder(BuildStore::class)
-            ->setConstructorArgs([$databaseManager])
+            ->setConstructorArgs([
+                $databaseManager,
+                $buildErrorStore,
+                $buildMetaStore,
+                $projectStore
+            ])
             ->getMock();
 
         $secretStore = $this
@@ -101,7 +117,16 @@ class BuilderTest extends TestCase
             ->getMock();
 
         $this->builder = $this->getMockBuilder(TestBuilder::class)
-            ->setConstructorArgs([$configuration, $databaseManager, $buildErrorStore, $buildStore, $secretStore, $environmentStore, $build, $this->buildLogger])
+            ->setConstructorArgs([
+                $configuration,
+                $databaseManager,
+                $buildErrorStore,
+                $buildStore,
+                $secretStore,
+                $environmentStore,
+                $build,
+                $this->buildLogger
+            ])
             ->onlyMethods(['executeCommand'])
             ->getMock();
     }

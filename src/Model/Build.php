@@ -14,7 +14,6 @@ use PHPCensor\Helper\Lang;
 use PHPCensor\Model\Base\Build as BaseBuild;
 use PHPCensor\Plugin\PhpParallelLint;
 use PHPCensor\Store\BuildErrorStore;
-use PHPCensor\Store\BuildMetaStore;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\ProjectStore;
 use PHPCensor\ZeroConfigPluginInterface;
@@ -658,5 +657,56 @@ OUT;
             'trend' => \bccomp($previous, $total, 2),
             'delta' => \bcsub($total, $previous, 2),
         ];
+    }
+
+    /**
+     * Return the previous build from a specific branch, for this project.
+     */
+    public function getPreviousBuild(string $branch): ?Build
+    {
+        $criteria = [
+            'branch'     => $branch,
+            'project_id' => $this->getProjectId(),
+        ];
+        $order  = ['id' => 'DESC'];
+        $builds = $this->buildStore->getWhere($criteria, 1, 1, $order);
+
+        if (\is_array($builds['items']) && \count($builds['items'])) {
+            $previous = \array_shift($builds['items']);
+
+            if (isset($previous) && $previous instanceof Build) {
+                return $previous;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Return the latest build from a specific branch, of a specific status, for this project.
+     */
+    public function getLatestBuild(string $branch, array $statuses = []): ?Build
+    {
+        $criteria = [
+            'branch'     => $branch,
+            'project_id' => $this->getProjectId()
+        ];
+
+        if ($statuses) {
+            $criteria['status'] = $statuses;
+        }
+
+        $order  = ['id' => 'DESC'];
+        $builds = $this->buildStore->getWhere($criteria, 1, 0, $order);
+
+        if (\is_array($builds['items']) && \count($builds['items'])) {
+            $latest = \array_shift($builds['items']);
+
+            if (isset($latest) && $latest instanceof Build) {
+                return $latest;
+            }
+        }
+
+        return null;
     }
 }

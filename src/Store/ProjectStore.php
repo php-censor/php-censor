@@ -67,36 +67,6 @@ class ProjectStore extends Store
     }
 
     /**
-     * Get multiple Project by Title.
-     *
-     * @throws HttpException
-     */
-    public function getByTitle(string $title, int $limit = 1000, string $useConnection = 'read'): array
-    {
-        if (\is_null($title)) {
-            throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
-        }
-
-        $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{title}} = :title LIMIT :limit';
-        $stmt  = $this->databaseManager->getConnection($useConnection)->prepare($query);
-        $stmt->bindValue(':title', $title);
-        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
-
-        if ($stmt->execute()) {
-            $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            $map = fn ($item) => new Project($this->buildStore, $this->environmentStore, $item);
-            $rtn = \array_map($map, $res);
-
-            $count = \count($rtn);
-
-            return ['items' => $rtn, 'count' => $count];
-        } else {
-            return ['items' => [], 'count' => 0];
-        }
-    }
-
-    /**
      * Returns a list of all branch names.
      *
      * @param $projectId

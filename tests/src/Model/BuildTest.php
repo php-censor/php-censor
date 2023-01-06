@@ -15,6 +15,7 @@ use PHPCensor\Model\Build\GogsBuild;
 use PHPCensor\Model\Project;
 use PHPCensor\Service\ProjectService;
 use PHPCensor\Store\BuildErrorStore;
+use PHPCensor\Store\BuildMetaStore;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\EnvironmentStore;
 use PHPCensor\Store\ProjectStore;
@@ -47,14 +48,24 @@ class BuildTest extends TestCase
             ->setConstructorArgs([$databaseManager])
             ->getMock();
 
-        $this->buildStore = $this
-            ->getMockBuilder(BuildStore::class)
-            ->setConstructorArgs([$databaseManager])
-            ->getMock();
-
         $this->buildErrorStore = $this
             ->getMockBuilder(BuildErrorStore::class)
             ->setConstructorArgs([$databaseManager])
+            ->getMock();
+
+        $buildMetaStore = $this
+            ->getMockBuilder(BuildMetaStore::class)
+            ->setConstructorArgs([$databaseManager])
+            ->getMock();
+
+        $this->buildStore = $this
+            ->getMockBuilder(BuildStore::class)
+            ->setConstructorArgs([
+                $databaseManager,
+                $this->buildErrorStore,
+                $buildMetaStore,
+                $this->projectStore
+            ])
             ->getMock();
 
         $this->environmentStore = $this

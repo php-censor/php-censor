@@ -47,11 +47,6 @@ class ExecutorTest extends TestCase
             ->setConstructorArgs([$databaseManager])
             ->getMock();
 
-        $this->buildStore = $this
-            ->getMockBuilder(BuildStore::class)
-            ->setConstructorArgs([$databaseManager])
-            ->getMock();
-
         $this->buildMetaStore = $this
             ->getMockBuilder(BuildMetaStore::class)
             ->setConstructorArgs([$databaseManager])
@@ -60,6 +55,16 @@ class ExecutorTest extends TestCase
         $this->buildErrorStore = $this
             ->getMockBuilder(BuildErrorStore::class)
             ->setConstructorArgs([$databaseManager])
+            ->getMock();
+
+        $this->buildStore = $this
+            ->getMockBuilder(BuildStore::class)
+            ->setConstructorArgs([
+                $databaseManager,
+                $this->buildErrorStore,
+                $this->buildMetaStore,
+                $this->projectStore
+            ])
             ->getMock();
 
         $this->buildLogger = $this->prophesize(BuildLogger::class);

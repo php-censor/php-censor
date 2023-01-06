@@ -12,8 +12,10 @@ use PHPCensor\Logging\BuildLogger;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin\PhpUnit;
 use PHPCensor\Store\BuildErrorStore;
+use PHPCensor\Store\BuildMetaStore;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\EnvironmentStore;
+use PHPCensor\Store\ProjectStore;
 use PHPCensor\Store\SecretStore;
 use PHPUnit\Framework\MockObject\MockBuilder;
 use PHPUnit\Framework\TestCase;
@@ -88,14 +90,29 @@ class PhpUnitTest extends TestCase
             ->setConstructorArgs([$logger, $build])
             ->getMock();
 
+        $projectStore = $this
+            ->getMockBuilder(ProjectStore::class)
+            ->setConstructorArgs([$databaseManager])
+            ->getMock();
+
         $buildErrorStore = $this
             ->getMockBuilder(BuildErrorStore::class)
             ->setConstructorArgs([$databaseManager])
             ->getMock();
 
+        $buildMetaStore = $this
+            ->getMockBuilder(BuildMetaStore::class)
+            ->setConstructorArgs([$databaseManager])
+            ->getMock();
+
         $buildStore = $this
             ->getMockBuilder(BuildStore::class)
-            ->setConstructorArgs([$databaseManager])
+            ->setConstructorArgs([
+                $databaseManager,
+                $buildErrorStore,
+                $buildMetaStore,
+                $projectStore
+            ])
             ->getMock();
 
         $secretStore = $this
@@ -108,7 +125,16 @@ class PhpUnitTest extends TestCase
             ->setConstructorArgs([$databaseManager])
             ->getMock();
         $builder = $this->getMockBuilder(Builder::class)
-            ->setConstructorArgs([$configuration, $databaseManager, $buildErrorStore, $buildStore, $secretStore, $environmentStore, $build, $buildLogger])
+            ->setConstructorArgs([
+                $configuration,
+                $databaseManager,
+                $buildErrorStore,
+                $buildStore,
+                $secretStore,
+                $environmentStore,
+                $build,
+                $buildLogger
+            ])
             ->onlyMethods(['executeCommand'])
             ->getMock();
 

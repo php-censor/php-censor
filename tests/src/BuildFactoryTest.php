@@ -10,6 +10,7 @@ use PHPCensor\DatabaseManager;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\Project;
 use PHPCensor\Store\BuildErrorStore;
+use PHPCensor\Store\BuildMetaStore;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\EnvironmentStore;
 use PHPCensor\Store\ProjectStore;
@@ -31,6 +32,7 @@ class BuildFactoryTest extends TestCase
     private ProjectStore $projectStore;
     private BuildStore $buildStore;
     private BuildErrorStore $buildErrorStore;
+    private BuildMetaStore $buildMetaStore;
     private EnvironmentStore $environmentStore;
     private BuildFactory $factory;
 
@@ -45,11 +47,6 @@ class BuildFactoryTest extends TestCase
             ->setConstructorArgs([$configuration])
             ->getMock();
 
-        $this->buildStore = $this
-            ->getMockBuilder(BuildStore::class)
-            ->setConstructorArgs([$this->databaseManager])
-            ->getMock();
-
         $this->projectStore = $this
             ->getMockBuilder(ProjectStore::class)
             ->setConstructorArgs([$this->databaseManager])
@@ -58,6 +55,21 @@ class BuildFactoryTest extends TestCase
         $this->buildErrorStore = $this
             ->getMockBuilder(BuildErrorStore::class)
             ->setConstructorArgs([$this->databaseManager])
+            ->getMock();
+
+        $this->buildMetaStore = $this
+            ->getMockBuilder(BuildMetaStore::class)
+            ->setConstructorArgs([$this->databaseManager])
+            ->getMock();
+
+        $this->buildStore = $this
+            ->getMockBuilder(BuildStore::class)
+            ->setConstructorArgs([
+                $this->databaseManager,
+                $this->buildErrorStore,
+                $this->buildMetaStore,
+                $this->projectStore
+            ])
             ->getMock();
 
         $this->environmentStore = $this
@@ -122,16 +134,9 @@ class BuildFactoryTest extends TestCase
 
     public function testGetBuildById(): void
     {
-        $rawBuild = new Build($this->buildErrorStore, $this->buildStore, $this->projectStore, ['project_id' => 10]);
-
-        $buildStore = $this
-            ->getMockBuilder(BuildStore::class)
-            ->setConstructorArgs([$this->databaseManager])
-            ->getMock();
-
         $build = new Build($this->buildErrorStore, $this->buildStore, $this->projectStore, ['id' => 222]);
 
-        $buildStore
+        $this->buildStore
             ->method('getById')
             ->with(20)
             ->willReturn($build);
@@ -143,12 +148,7 @@ class BuildFactoryTest extends TestCase
 
     public function testGetBuildByIdWithEmptyBuild(): void
     {
-        $buildStore = $this
-            ->getMockBuilder(BuildStore::class)
-            ->setConstructorArgs([$this->databaseManager])
-            ->getMock();
-
-        $buildStore
+        $this->buildStore
             ->method('getById')
             ->with(20)
             ->willReturn(null);
