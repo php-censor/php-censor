@@ -20,7 +20,6 @@ class Utf8CleanFilter extends php_user_filter
      * @param int      $consumed
      * @param bool     $closing
      *
-     * @return int
      */
     public function filter($in, $out, &$consumed, $closing): int
     {
