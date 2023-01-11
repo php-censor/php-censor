@@ -1,8 +1,19 @@
 Changelog 2.0
 =============
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to 
+The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
+
+
+## [2.0.11 (Rick Sanchez)](https://github.com/php-censor/php-censor/tree/2.0.11) (2023-01-11)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/2.0.10...2.0.11)
+
+### Fixed
+
+- PHP 8.1 deprecation while searching for composer binary. Pull request [#434](https://github.com/php-censor/php-censor/pull/434).
+  Thanks to [@StudioMaX](https://github.com/StudioMaX).
+- PHP 8.1 error with return type of `php_user_filter::filter` function.
 
 
 ## [2.0.10 (Rick Sanchez)](https://github.com/php-censor/php-censor/tree/2.0.10) (2022-06-26)
@@ -24,9 +35,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ### Fixed
 
 - Updated dependencies. Fixed:
-  - `guzzlehttp/guzzle` (6.5.6) | CVE-2022-31042: Failure to strip the Cookie header on change in host or HTTP downgrade | https://github.com/guzzle/guzzle/security/advisories/GHSA-f2wf-25xc-69c9
+    - `guzzlehttp/guzzle` (6.5.6) | CVE-2022-31042: Failure to strip the Cookie header on change in host or HTTP downgrade | https://github.com/guzzle/guzzle/security/advisories/GHSA-f2wf-25xc-69c9
 
-  - `guzzlehttp/guzzle` (6.5.6) | CVE-2022-31043: Fix failure to strip Authorization header on HTTP downgrade | https://github.com/guzzle/guzzle/security/advisories/GHSA-w248-ffj2-4v5q
+    - `guzzlehttp/guzzle` (6.5.6) | CVE-2022-31043: Fix failure to strip Authorization header on HTTP downgrade | https://github.com/guzzle/guzzle/security/advisories/GHSA-w248-ffj2-4v5q
 
 ### Changed
 
@@ -40,9 +51,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ### Fixed
 
 - Updated dependencies. Fixed:
-  - `guzzlehttp/guzzle` (6.5.5) | CVE-2022-29248: Cross-domain cookie leakage | https://github.com/guzzle/guzzle/security/advisories/GHSA-cwmx-hcrq-mhc3.
+    - `guzzlehttp/guzzle` (6.5.5) | CVE-2022-29248: Cross-domain cookie leakage | https://github.com/guzzle/guzzle/security/advisories/GHSA-cwmx-hcrq-mhc3.
 
-  - `guzzlehttp/psr7` (1.8.3) | CVE-2022-24775: Inproper parsing of HTTP headers | https://github.com/guzzle/psr7/security/advisories/GHSA-q7rv-6hp3-vh96.
+    - `guzzlehttp/psr7` (1.8.3) | CVE-2022-24775: Inproper parsing of HTTP headers | https://github.com/guzzle/psr7/security/advisories/GHSA-q7rv-6hp3-vh96.
 
 
 ## [2.0.7 (Rick Sanchez)](https://github.com/php-censor/php-censor/tree/2.0.7) (2022-01-19)
@@ -92,9 +103,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ### Fixed
 
-- **[PhpStan]** Option `directories` and `directory`. 
-Issue [#408](https://github.com/php-censor/php-censor/issues/#408). Pull request
-[#409](https://github.com/php-censor/php-censor/pull/409). Thanks to [@StudioMaX](https://github.com/StudioMaX).
+- **[PhpStan]** Option `directories` and `directory`.
+  Issue [#408](https://github.com/php-censor/php-censor/issues/#408). Pull request
+  [#409](https://github.com/php-censor/php-censor/pull/409). Thanks to [@StudioMaX](https://github.com/StudioMaX).
 - **[SecurityChecker]** Option `allowed_warnings`.
 - Security issue with old Chart.js version (Chart.js upgraded from version `1.1.1` to `3.3.0`).
 
@@ -117,17 +128,17 @@ Issue [#408](https://github.com/php-censor/php-censor/issues/#408). Pull request
 
 - SSH keys generating (Removed unwanted symbols). Issue [#403](https://github.com/php-censor/php-censor/issues/#403).
 - Environments (Case when you may get environment from another project). Issue
-[#405](https://github.com/php-censor/php-censor/issues/#405).
+  [#405](https://github.com/php-censor/php-censor/issues/#405).
 - Localizations for "Notify" plugins.
-- Deprecations from PHP 8.0. Pull request [#404](https://github.com/php-censor/php-censor/pull/404). Thanks to 
-[@ismaail](https://github.com/ismaail).
+- Deprecations from PHP 8.0. Pull request [#404](https://github.com/php-censor/php-censor/pull/404). Thanks to
+  [@ismaail](https://github.com/ismaail).
 
 ### Changed
 
 - **[SecurityChecker]** Reimplement the plugin because package `sensiolabs/security-checker` was archived/abandoned
-(See [README](https://github.com/sensiolabs/security-checker#sensiolabs-security-checker)). Now plugin uses `symfony`
-binary (Symfony CLI) or `fabpot/local-php-security-checker` tool for working. See
-[documentation](https://github.com/php-censor/php-censor/blob/release-1.3/docs/en/plugins/security_checker.md).
+  (See [README](https://github.com/sensiolabs/security-checker#sensiolabs-security-checker)). Now plugin uses `symfony`
+  binary (Symfony CLI) or `fabpot/local-php-security-checker` tool for working. See
+  [documentation](https://github.com/php-censor/php-censor/blob/release-1.3/docs/en/plugins/security_checker.md).
 
 ### Removed
 
@@ -155,7 +166,7 @@ binary (Symfony CLI) or `fabpot/local-php-security-checker` tool for working. Se
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/1.3.0...2.0.0)
 
-### [How to upgrade from v1 to v2](/docs/UPGRADE_2.0.md)
+### [How tp upgrade from v1 to v2](/docs/UPGRADE_2.0.md)
 
 ### Changed
 
@@ -168,11 +179,11 @@ binary (Symfony CLI) or `fabpot/local-php-security-checker` tool for working. Se
     - Project configs `phpci.yml` and `.phpci.yml` (use `.php-censor.yml` instead).
     - `PHPCI_*` interpolation and env variables (Use `PHP_CENSOR_*` instead).
     - Global application config section `b8.database` (Use `php-censor.database` instead).
-    - Options `authToken`, `api_key`, `api_token`, `token` for several plugins: `CampfireNotify`, 
-`HipchatNotify`, `FlowdockNotify`, `TelegramNotify`, `SensiolabInsight`, `BitbucketNotify` (Use `auth_token` instead).
-    - Plugin names: `campfire`, `telegram`, `xmpp`, `email`, `irc`, `phpstan` (Use: `campfire_notify`, `telegram_notify`, 
-`xmpp_notify`, `email_notify`, `irc_notify`, `php_stan` instead).
-    - [Codeception] Option `path` (Use option `output_path` instead). 
+    - Options `authToken`, `api_key`, `api_token`, `token` for several plugins: `CampfireNotify`,
+      `HipchatNotify`, `FlowdockNotify`, `TelegramNotify`, `SensiolabInsight`, `BitbucketNotify` (Use `auth_token` instead).
+    - Plugin names: `campfire`, `telegram`, `xmpp`, `email`, `irc`, `phpstan` (Use: `campfire_notify`, `telegram_notify`,
+      `xmpp_notify`, `email_notify`, `irc_notify`, `php_stan` instead).
+    - [Codeception] Option `path` (Use option `output_path` instead).
     - [Codeception] Option `executable` (Use the options `binary_path` and `binary_name` instead).
     - [Grunt] Option `grunt` (Use options `binary_path` and `binary_name` instead).
     - [Gulp] Option `gulp` (Use options `binary_path` and `binary_name` instead).
