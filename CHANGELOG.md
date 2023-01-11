@@ -5,6 +5,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [2.0.11 (Rick Sanchez)](https://github.com/php-censor/php-censor/tree/2.0.11) (2023-01-11)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/2.0.10...2.0.11)
+
+### Fixed
+
+- PHP 8.1 deprecation while searching for composer binary. Pull request [#434](https://github.com/php-censor/php-censor/pull/434). 
+Thanks to [@StudioMaX](https://github.com/StudioMaX).
+- PHP 8.1 error with return type of `php_user_filter::filter` function.
+
+
 ## [2.0.10 (Rick Sanchez)](https://github.com/php-censor/php-censor/tree/2.0.10) (2022-06-26)
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/2.0.9...2.0.10)
