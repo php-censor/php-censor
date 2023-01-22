@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace PHPCensor\Command;
 
 use Exception;
-use Monolog\Logger;
 use Pheanstalk\Contract\PheanstalkInterface;
 use PHPCensor\BuildFactory;
 use PHPCensor\Common\Application\ConfigurationInterface;
@@ -53,20 +52,21 @@ class WorkerCommand extends Command
 
     protected function configure(): void
     {
-        $whenHints = 'soon=when next job done (default), done=when current jobs done, idle=when waiting for jobs';
         $this
             ->setName('php-censor:worker')
             ->addOption(
                 'periodical-work',
                 'p',
                 InputOption::VALUE_NONE,
-                'Allow worker run periodical work'
+                'Allow worker run periodical work',
+                false
             )
             ->addOption(
                 'stop-worker',
                 's',
                 InputOption::VALUE_OPTIONAL,
-                "Gracefully stop one worker ($whenHints)"
+                "Gracefully stop one worker ('soon' = when next job done, 'done' = when current jobs done, 'idle' = when waiting for jobs)",
+                ''
             )
             ->setDescription('Runs the PHP Censor build worker.');
     }
@@ -126,7 +126,7 @@ class WorkerCommand extends Command
             return 0;
         }
 
-        $canPeriodicalWork = $input->hasOption('periodical-work') && $input->getOption('periodical-work');
+        $periodicalWork = (bool)$input->getOption('periodical-work');
         $worker = new BuildWorker(
             $this->configuration,
             $this->databaseManager,
@@ -137,7 +137,7 @@ class WorkerCommand extends Command
             $config['host'],
             (int)$this->configuration->get('php-censor.queue.port', PheanstalkInterface::DEFAULT_PORT),
             $config['name'],
-            $canPeriodicalWork
+            $periodicalWork
         );
 
         $worker->startWorker();

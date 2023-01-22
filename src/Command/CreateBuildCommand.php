@@ -54,11 +54,12 @@ class CreateBuildCommand extends Command
         $this
             ->setName('php-censor:create-build')
 
-            ->addArgument('projectId', InputArgument::REQUIRED, 'A project ID')
+            ->addArgument('project-id', InputArgument::REQUIRED, 'A project ID')
             ->addOption('commit', null, InputOption::VALUE_OPTIONAL, 'Commit ID to build')
             ->addOption('branch', null, InputOption::VALUE_OPTIONAL, 'Branch to build')
             ->addOption('email', null, InputOption::VALUE_OPTIONAL, 'Committer email')
             ->addOption('message', null, InputOption::VALUE_OPTIONAL, 'Commit message')
+            ->addOption('environment', null, InputOption::VALUE_OPTIONAL, 'Build environment')
 
             ->setDescription('Create a build for a project');
     }
@@ -70,10 +71,10 @@ class CreateBuildCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
-        $projectId   = (int)$input->getArgument('projectId');
+        $projectId   = (int)$input->getArgument('project-id');
         $commitId    = $input->getOption('commit');
         $branch      = $input->getOption('branch');
-        $environment = $input->hasOption('environment') ? $input->getOption('environment') : null;
+        $environment = $input->getOption('environment');
         $ciEmail     = $input->getOption('email');
         $ciMessage   = $input->getOption('message');
 
