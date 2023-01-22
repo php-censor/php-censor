@@ -85,9 +85,9 @@ class CreateBuildCommandTest extends TestCase
     {
         $commandTester = $this->getCommandTester();
 
-        $commandTester->execute(['projectId' => 1]);
-        $commandTester->execute(['projectId' => 1, '--commit' => '92c8c6e']);
-        $commandTester->execute(['projectId' => 1, '--branch' => 'master']);
+        $commandTester->execute(['project-id' => 1]);
+        $commandTester->execute(['project-id' => 1, '--commit' => '92c8c6e']);
+        $commandTester->execute(['project-id' => 1, '--branch' => 'master']);
 
         self::assertTrue(true);
     }
@@ -97,6 +97,6 @@ class CreateBuildCommandTest extends TestCase
         self::expectException(InvalidArgumentException::class);
 
         $commandTester = $this->getCommandTester();
-        $commandTester->execute(['projectId' => 2]);
+        $commandTester->execute(['project-id' => 2]);
     }
 }
