@@ -14,7 +14,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use PHPCensor\Exception\HttpException;
 
 /**
  * @package    PHP Censor
@@ -55,15 +54,10 @@ class AddSecretCommand extends Command
             ->setDescription('Update secret');
     }
 
-    /**
-     * Loops through projects.
-     *
-     * @throws HttpException
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $secretName  = $input->getArgument('secret-name');
-        $secretValue = $input->getArgument('secret-value');
+        $secretName  = (string)$input->getArgument('secret-name');
+        $secretValue = (string)$input->getArgument('secret-value');
         $force       = (bool)$input->getOption('force');
 
         $secrets = $this->secretStore->getByNames([$secretName]);
@@ -73,6 +67,14 @@ class AddSecretCommand extends Command
             );
 
             return 1;
+        }
+
+        if (!\preg_match(\sprintf('#%s#', Secret::SECRET_NAME_PATTERN), $secretName)) {
+            $output->writeln(
+                '<error>Secret name "%s" is invalid! Use only letters, numbers and "-" or "_".</error>'
+            );
+
+            return 2;
         }
 
         $secret = new Secret($this->storeRegistry);
