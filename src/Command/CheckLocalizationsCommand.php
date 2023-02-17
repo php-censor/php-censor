@@ -25,7 +25,7 @@ class CheckLocalizationsCommand extends Command
         $this
             ->setName('php-censor:check-localizations')
 
-            ->addOption('same', 's', InputOption::VALUE_NONE, 'Same than English version', false)
+            ->addOption('same', 's', InputOption::VALUE_NONE, 'Same than English version')
             ->addOption('languages', 'l', InputOption::VALUE_OPTIONAL, 'List of languages separated by commas. By default, all languages', '')
 
             ->setDescription('Check localizations');

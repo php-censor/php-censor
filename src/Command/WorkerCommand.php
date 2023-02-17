@@ -58,8 +58,7 @@ class WorkerCommand extends Command
                 'periodical-work',
                 'p',
                 InputOption::VALUE_NONE,
-                'Allow worker run periodical work',
-                false
+                'Allow worker run periodical work'
             )
             ->addOption(
                 'stop-worker',

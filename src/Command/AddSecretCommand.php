@@ -49,7 +49,7 @@ class AddSecretCommand extends Command
             ->addArgument('secret-name', InputArgument::REQUIRED, 'Secret name')
             ->addArgument('secret-value', InputArgument::REQUIRED, 'Secret value')
 
-            ->addOption('force', 'f', InputOption::VALUE_NONE, 'Force to update existing values', false)
+            ->addOption('force', 'f', InputOption::VALUE_NONE, 'Force to update existing values')
 
             ->setDescription('Update secret');
     }
@@ -63,7 +63,7 @@ class AddSecretCommand extends Command
         $secrets = $this->secretStore->getByNames([$secretName]);
         if ($secrets && !$force) {
             $output->writeln(
-                '<error>Secret with name "%s" already exists! Use flag "-f|--force" if you want update secret.</error>'
+                \sprintf('<error>Secret with name "%s" already exists! Use flag "-f|--force" if you want update secret.</error>', $secretName)
             );
 
             return 1;
@@ -71,7 +71,7 @@ class AddSecretCommand extends Command
 
         if (!\preg_match(\sprintf('#%s#', Secret::SECRET_NAME_PATTERN), $secretName)) {
             $output->writeln(
-                '<error>Secret name "%s" is invalid! Use only letters, numbers and "-" or "_".</error>'
+                \sprintf('<error>Secret name "%s" is invalid! Use only letters, numbers and "-" or "_".</error>', $secretName)
             );
 
             return 2;
@@ -82,8 +82,8 @@ class AddSecretCommand extends Command
         $secret->setUserId(null);
         $secret->setName($secretName);
 
-        if ($force) {
-            $secret = $secrets[0];
+        if ($secrets && $force) {
+            $secret = $secrets[$secretName];
         }
 
         $secret->setValue($secretValue);
