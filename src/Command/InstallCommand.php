@@ -89,9 +89,8 @@ class InstallCommand extends Command
             ->addOption(
                 'config-from-file',
                 null,
-                InputOption::VALUE_OPTIONAL,
-                'Take config from file and ignore options',
-                false
+                InputOption::VALUE_NONE,
+                'Take config from file and ignore options'
             )
 
             ->setDescription('Install PHP Censor');

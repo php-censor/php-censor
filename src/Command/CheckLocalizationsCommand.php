@@ -14,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
-class CheckLocalizationCommand extends Command
+class CheckLocalizationsCommand extends Command
 {
     protected string $basePath = __DIR__ . '/../Languages';
 
@@ -25,27 +25,25 @@ class CheckLocalizationCommand extends Command
         $this
             ->setName('php-censor:check-localizations')
 
-            ->addOption('same', 0, InputOption::VALUE_OPTIONAL, 'Same than English version (0 = no, 1 = yes)')
-            ->addOption('langs', [], InputOption::VALUE_OPTIONAL, 'List of languages separated by commas. By default, all languages')
+            ->addOption('same', 's', InputOption::VALUE_NONE, 'Same than English version')
+            ->addOption('languages', 'l', InputOption::VALUE_OPTIONAL, 'List of languages separated by commas. By default, all languages', '')
 
-            ->setDescription('Check localizations.');
+            ->setDescription('Check localizations');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln("\n<info>Check localizations!</info>");
 
-        $sameThanEnglish = (null !== $input->getOption('same'))
-            ? $input->getOption('same')
-            : false;
+        $sameThanEnglish = (bool)$input->getOption('same');
 
-        $languagesList = (null !== $input->getOption('langs'))
-            ? \explode(',', $input->getOption('langs'))
+        $languages = $input->getOption('languages')
+            ? \explode(',', $input->getOption('languages'))
             : [];
 
         // Get English version
-        $english         = $this->getTranslations($this->basePath.'/lang.en.php');
-        $othersLanguages = $this->getLanguages($languagesList);
+        $english         = $this->getTranslations($this->basePath . '/lang.en.php');
+        $othersLanguages = $this->getLanguages($languages);
         $diffs           = $this->compareTranslations($english, $othersLanguages);
 
         foreach ($diffs as $language => $value) {

@@ -100,7 +100,7 @@ class SecretController extends WebController
         $field
             ->setClass('form-control')
             ->setContainerClass('form-group')
-            ->setPattern('^[-_\w\d]+$')
+            ->setPattern(Secret::SECRET_NAME_PATTERN)
             ->setValue($secret->getName());
         $form->addField($field);
 

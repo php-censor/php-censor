@@ -14,4 +14,5 @@ use PHPCensor\Model\Base\Secret as BaseSecret;
  */
 class Secret extends BaseSecret
 {
+    public const SECRET_NAME_PATTERN = '^[-_\w\d]+$';
 }

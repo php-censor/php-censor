@@ -15,7 +15,8 @@ use Phinx\Console\Command\Migrate;
 use Phinx\Console\Command\Rollback;
 use Phinx\Console\Command\Status;
 use PHPCensor\BuildFactory;
-use PHPCensor\Command\CheckLocalizationCommand;
+use PHPCensor\Command\AddSecretCommand;
+use PHPCensor\Command\CheckLocalizationsCommand;
 use PHPCensor\Command\CreateAdminCommand;
 use PHPCensor\Command\CreateBuildCommand;
 use PHPCensor\Command\InstallCommand;
@@ -30,6 +31,7 @@ use PHPCensor\Logging\Handler;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\ProjectStore;
+use PHPCensor\Store\SecretStore;
 use PHPCensor\Store\UserStore;
 use PHPCensor\StoreRegistry;
 use Symfony\Component\Console\Application as BaseApplication;
@@ -179,6 +181,9 @@ LOGO;
         /** @var BuildStore $buildStore */
         $buildStore = $this->storeRegistry->get('Build');
 
+        /** @var SecretStore $secretStore */
+        $secretStore = $this->storeRegistry->get('Secret');
+
         $buildFactory = new BuildFactory(
             $this->configuration,
             $this->storeRegistry
@@ -200,7 +205,8 @@ LOGO;
         $this->add(new RemoveOldBuildsCommand($this->configuration, $this->databaseManager, $this->storeRegistry, $logger, $projectStore, $buildService));
         $this->add(new WorkerCommand($this->configuration, $this->databaseManager, $this->storeRegistry, $logger, $buildService, $buildFactory));
         $this->add(new RebuildQueueCommand($this->configuration, $this->databaseManager, $this->storeRegistry, $logger));
-        $this->add(new CheckLocalizationCommand($this->configuration, $this->databaseManager, $this->storeRegistry, $logger));
+        $this->add(new CheckLocalizationsCommand($this->configuration, $this->databaseManager, $this->storeRegistry, $logger));
+        $this->add(new AddSecretCommand($this->configuration, $this->databaseManager, $this->storeRegistry, $logger, $secretStore));
     }
 
     public function getHelp(): string
