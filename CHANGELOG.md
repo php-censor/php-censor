@@ -5,6 +5,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [2.1.4 (Mr. Meeseeks)](https://github.com/php-censor/php-censor/tree/2.1.4) (2024-01-11)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/2.1.3...2.1.4)
+
+### Fixed
+
+- Updated dependencies. Fixed:
+    - `guzzlehttp/psr7` (1.9.0) | CVE-2023-29197: Improper header validation | https://github.com/guzzle/psr7/security/advisories/GHSA-wxmh-65f7-jcvw.
+
+
 ## [2.1.3 (Mr. Meeseeks)](https://github.com/php-censor/php-censor/tree/2.1.3) (2023-01-11)
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/2.1.2...2.1.3)
