@@ -1,0 +1,74 @@
+name: Actions CI
+
+on: ['push', 'pull_request']
+
+jobs:
+    testsuite:
+        runs-on: ubuntu-20.04
+        strategy:
+            fail-fast: false
+            matrix:
+                php-version: ['7.4', '8.0', '8.1', '8.2', '8.3']
+
+        steps:
+            - name: Setup MySQL latest
+              run: docker run --rm --name=mysqld -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=test -p 3306:3306 -d mysql --default-authentication-plugin=mysql_native_password
+
+            - name: Setup PostgreSQL latest
+              run: docker run --rm --name=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=test -p 5432:5432 -d postgres
+
+            - uses: actions/checkout@v2
+
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: ${{ matrix.php-version }}
+                  ini-values: memory_limit=512M, xdebug.mode=off, phar.readonly=off
+                  coverage: pcov
+
+            - name: Get composer cache directory
+              id: composer-cache
+              run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+            - name: Get date part for cache key
+              id: key-date
+              run: echo "::set-output name=date::$(date +'%Y-%m')"
+
+            - name: Cache composer dependencies
+              uses: actions/cache@v1
+              with:
+                  path: ${{ steps.composer-cache.outputs.dir }}
+                  key: ${{ runner.os }}-composer-${{ steps.key-date.outputs.date }}-${{ hashFiles('composer.json') }}
+
+            - name: Composer install
+              run: composer update --no-interaction --prefer-dist --no-progress
+
+            - name: Setup Database
+              run: |
+                  sudo systemctl start mysql
+                  n=0
+                  until [ "$n" -ge 5 ]
+                  do
+                    mysql -h 127.0.0.1 -u root -proot -e 'CREATE DATABASE test_db;' && break || :
+                    n=$((n+1))
+                    sleep 2
+                  done
+                  mysql -h 127.0.0.1 -u root -proot -D test_db -e 'SELECT 1;'
+                  psql -c 'CREATE DATABASE test_db;' postgresql://postgres:postgres@127.0.0.1
+
+            - name: Run tests
+              run: |
+                  export SKIP_DB_TESTS=0;
+                  export POSTGRESQL_USER='postgres';
+                  export POSTGRESQL_PASSWORD='postgres';
+                  export MYSQL_USER='root';
+                  export MYSQL_PASSWORD='root';
+                  if [[ ${{ matrix.php-version }} == '7.4' ]]; then
+                      export CODECOVERAGE=1 && vendor/bin/phpunit --verbose --coverage-clover=coverage.xml
+                  else
+                      vendor/bin/phpunit --verbose
+                  fi
+
+            - name: Submit code coverage
+              if: matrix.php-version == '7.4'
+              uses: codecov/codecov-action@v1
