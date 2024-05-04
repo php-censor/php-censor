@@ -150,7 +150,7 @@ class SessionController extends WebController
 
                     $response = new RedirectResponse($this->getLoginRedirect());
                     if ($rememberMe) {
-                        $rememberKey = md5(random_bytes(64));
+                        $rememberKey = \md5(\random_bytes(64));
 
                         $user->setRememberKey($rememberKey);
                         $this->userStore->save($user);
