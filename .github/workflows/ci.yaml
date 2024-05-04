@@ -45,6 +45,7 @@ jobs:
 
             - name: Setup Database
               run: |
+                  sudo systemctl start mysql
                   n=0
                   until [ "$n" -ge 5 ]
                   do
