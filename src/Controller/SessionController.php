@@ -133,7 +133,7 @@ class SessionController extends WebController
                     $key = $user->getProviderKey();
                     $isLoginFailure = !isset($providers[$key]) || !$providers[$key]->verifyPassword($user, $password);
                 } else {
-                    // Ask each providers to provision the user
+                    // Ask each provider to provision the user
                     foreach ($providers as $provider) {
                         $user = $provider->provisionUser($email);
                         if ($user && $provider->verifyPassword($user, $password)) {
@@ -150,7 +150,7 @@ class SessionController extends WebController
 
                     $response = new RedirectResponse($this->getLoginRedirect());
                     if ($rememberMe) {
-                        $rememberKey = \md5((string)\microtime(true));
+                        $rememberKey = md5(random_bytes(64));
 
                         $user->setRememberKey($rememberKey);
                         $this->userStore->save($user);
