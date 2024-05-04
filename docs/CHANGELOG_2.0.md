@@ -5,6 +5,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [2.0.13 (Rick Sanchez)](https://github.com/php-censor/php-censor/tree/2.0.13) (2024-05-04)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/2.0.12...2.0.13)
+
+### Added
+
+- GitHub Actions pipeline (backport from v2.1) + support of PHP 8.2 and 8.3.
+
+### Fixed
+
+- Security issue with remember me key in auth. See: https://chmod744.super.site/redacted-vulnerability.
+
+
 ## [2.0.12 (Rick Sanchez)](https://github.com/php-censor/php-censor/tree/2.0.12) (2024-01-11)
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/2.0.11...2.0.12)
