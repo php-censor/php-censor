@@ -40,7 +40,7 @@ cd ./php-censor.local
 # Interactive installation
 ./bin/console php-censor:install
 
-# Non-interactive installation
+# Non-interactive installation (useful for automation)
 ./bin/console php-censor:install \
     --url='http://php-censor.local' \
     --db-type=pgsql \
@@ -68,9 +68,32 @@ cd ./php-censor.local
 * [Add a virtual host to your web server](virtual_host.md), pointing to the `public` directory within your new
   PHP Censor directory. You'll need to set up rewrite rules to point all non-existent requests to PHP Censor;
 
-* [Set up the PHP Censor Worker](workers/worker.md);
+* [Set up the PHP Censor Worker](workers/worker.md) (required for background tasks);
+
+## Additional Configuration
+
+**Database Setup Tips:**
+* For MySQL/MariaDB:
+    * Ensure that the user has proper permissions on the database.
+    * Recommended to use UTF-8 encoding for best compatibility. 
+* For PostgreSQL:
+    * If using SSL, adjust the `--db-pgsql-sslmode` option based on your server settings (e.g., `require`, `verify-full`).
+
+**Beanstalkd Queue Setup:**
+* Ensure that Beanstalkd is set to start automatically on reboot:
+```bash
+sudo systemctl enable beanstalkd
+```
 
 ## Installing via Docker
 
 If you want to install PHP Censor as a Docker container, you can use
-[php-censor/docker-php-censor](https://github.com/php-censor/docker-php-censor) project.
+[php-censor/docker-php-censor](https://github.com/php-censor/docker-php-censor) project. This method simplifies environment management and is especially useful for development setups.
+
+## Troubleshooting
+* **Common Issues:**
+    * **Database Connection Issues:** Ensure that the database credentials are correct and that the database server is running.
+    * **Permission Errors:** Verify that the web server user has appropriate permissions on the PHP Censor directories.
+    * **Queue Issues:** If jobs are not being processed, check the status of the Beanstalkd queue and ensure that the worker is running.
+* **Logs:**
+    * Check the PHP Censor logs in `./runtime/logs` for detailed error messages if the installation fails.  
