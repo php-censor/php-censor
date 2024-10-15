@@ -32,7 +32,7 @@ return $config
             'allow_mixed'         => true,
             'allow_unused_params' => true,
         ],
-        'no_unneeded_curly_braces' => [
+        'no_unneeded_braces' => [
             'namespaces' => true,
         ],
         'phpdoc_types_order' => [
