@@ -8,7 +8,7 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                php-version: ['7.4', '8.0', '8.1', '8.2', '8.3']
+                php-version: ['8.3']
 
         steps:
             - name: Setup MySQL latest
@@ -63,12 +63,12 @@ jobs:
                   export POSTGRESQL_PASSWORD='postgres';
                   export MYSQL_USER='root';
                   export MYSQL_PASSWORD='root';
-                  if [[ ${{ matrix.php-version }} == '7.4' ]]; then
+                  if [[ ${{ matrix.php-version }} == '8.3' ]]; then
                       export CODECOVERAGE=1 && vendor/bin/phpunit --verbose --coverage-clover=coverage.xml
                   else
                       vendor/bin/phpunit --verbose
                   fi
 
             - name: Submit code coverage
-              if: matrix.php-version == '7.4'
+              if: matrix.php-version == '8.3'
               uses: codecov/codecov-action@v1
