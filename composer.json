@@ -96,7 +96,8 @@
         "friendsofphp/php-cs-fixer":           "^3.0",
         "symfony/var-dumper":                  "^4.4",
         "vimeo/psalm":                         "^4.23",
-        "rector/rector":                       "^0.14"
+        "rector/rector":                       "^0.14",
+        "infection/infection":                 "^0.27.11"
     },
     "extra": {
         "platform": {
