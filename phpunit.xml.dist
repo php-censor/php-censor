@@ -15,9 +15,6 @@
 >
     <php>
         <env name="SKIP_DB_TESTS" value="true" force="true" />
-        <env name="MYSQL_USER" value="test_user" force="true" />
-        <env name="MYSQL_PASSWORD" value="test_password" force="true" />
-        <env name="MYSQL_DBNAME" value="test_db" force="true" />
         <env name="POSTGRESQL_USER" value="test_user" force="true" />
         <env name="POSTGRESQL_PASSWORD" value="test_password" force="true" />
         <env name="POSTGRESQL_DBNAME" value="test_db" force="true" />

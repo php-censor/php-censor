@@ -18,7 +18,7 @@ php-censor:
         - host:          localhost
           port:          3306
           pgsql-sslmode: prefer
-    type:     mysql # Database type: "mysql" or "pgsql"
+    type:     pgsql # Database type: "pgsql"
     name:     php-censor-db
     username: php-censor-user
     password: php-censor-password

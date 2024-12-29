@@ -57,24 +57,12 @@ class DatabaseConnection
 
     public function quoteNames(string $query): string
     {
-        $driver  = $this->getPdo()->getAttribute(\PDO::ATTR_DRIVER_NAME);
-        $pattern = '\1';
-        if (DatabaseManager::MYSQL_TYPE === $driver) {
-            $pattern = '`\1`';
-        } elseif (DatabaseManager::POSTGRESQL_TYPE === $driver) {
-            $pattern = '"\1"';
-        }
-
-        return \preg_replace('#{{(.*?)}}#m', $pattern, $query);
+        return \preg_replace('#{{(.*?)}}#m', '"\1"', $query);
     }
 
     public function lastInsertId(string $tableName): int
     {
-        if (DatabaseManager::POSTGRESQL_TYPE === $this->getPdo()->getAttribute(\PDO::ATTR_DRIVER_NAME)) {
-            return (int)$this->getPdo()->lastInsertId(\sprintf("\"{$this->sequencePattern}\"", $tableName));
-        }
-
-        return (int)$this->getPdo()->lastInsertId();
+        return (int)$this->getPdo()->lastInsertId(\sprintf("\"{$this->sequencePattern}\"", $tableName));
     }
 
     /**

@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use Phinx\Db\Adapter\MysqlAdapter;
 use Phinx\Migration\AbstractMigration;
 
 final class WebhookRequestsNewTable extends AbstractMigration
@@ -10,12 +9,7 @@ final class WebhookRequestsNewTable extends AbstractMigration
     public function up()
     {
         $webhookRequests = $this->table('webhook_requests');
-
-        $databaseType   = $this->getAdapter()->getAdapterType();
         $payloadOptions = ['null' => true];
-        if ('mysql' === $databaseType) {
-            $payloadOptions['limit'] = MysqlAdapter::TEXT_LONG;
-        }
 
         $webhookRequests
             ->addColumn('project_id', 'integer')

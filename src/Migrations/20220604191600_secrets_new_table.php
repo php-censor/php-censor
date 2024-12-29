@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use Phinx\Db\Adapter\MysqlAdapter;
 use Phinx\Migration\AbstractMigration;
 
 final class SecretsNewTable extends AbstractMigration
@@ -10,12 +9,7 @@ final class SecretsNewTable extends AbstractMigration
     public function up()
     {
         $secrets = $this->table('secrets');
-
-        $databaseType   = $this->getAdapter()->getAdapterType();
         $payloadOptions = [];
-        if ('mysql' === $databaseType) {
-            $payloadOptions['limit'] = MysqlAdapter::TEXT_REGULAR;
-        }
 
         $secrets
             ->addColumn('name', 'string', ['limit' => 100])

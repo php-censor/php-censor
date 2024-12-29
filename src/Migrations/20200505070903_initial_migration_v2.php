@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use Phinx\Db\Adapter\MysqlAdapter;
 use Phinx\Migration\AbstractMigration;
 use PHPCensor\Model\Build;
 use PHPCensor\Common\Exception\RuntimeException;
@@ -66,14 +65,8 @@ final class InitialMigrationV2 extends AbstractMigration
         $projectGroups = $this->table('project_groups');
         $users         = $this->table('users');
         $environments  = $this->table('environments');
-
-        $databaseType          = $this->getAdapter()->getAdapterType();
         $buildLogOptions       = ['null' => true];
         $buildMetaValueOptions = [];
-        if ('mysql' === $databaseType) {
-            $buildLogOptions['limit']       = MysqlAdapter::TEXT_LONG;
-            $buildMetaValueOptions['limit'] = MysqlAdapter::TEXT_LONG;
-        }
 
         $builds
             ->addColumn('project_id', 'integer')

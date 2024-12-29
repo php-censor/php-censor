@@ -16,9 +16,6 @@ use PHPCensor\Common\Application\ConfigurationInterface;
  */
 class DatabaseManager
 {
-    public const MYSQL_TYPE      = 'mysql';
-    public const POSTGRESQL_TYPE = 'pgsql';
-
     private ConfigurationInterface $configuration;
 
     private array $connections = [
@@ -43,16 +40,14 @@ class DatabaseManager
             $connection = null;
             while (\count($servers)) {
                 $server = \array_shift($servers);
-                $driver = $this->configuration->get('php-censor.database.type', self::POSTGRESQL_TYPE);
+                $driver = $this->configuration->get('php-censor.database.type', 'pgsql');
                 $dsn    = $driver . ':host=' . $server['host'];
 
-                if (self::POSTGRESQL_TYPE === $driver) {
-                    if (!\array_key_exists('pgsql-sslmode', $server)) {
-                        $server['pgsql-sslmode'] = 'prefer';
-                    }
-
-                    $dsn .= ';sslmode=' . $server['pgsql-sslmode'];
+                if (!\array_key_exists('pgsql-sslmode', $server)) {
+                    $server['pgsql-sslmode'] = 'prefer';
                 }
+
+                $dsn .= ';sslmode=' . $server['pgsql-sslmode'];
 
                 if (isset($server['port'])) {
                     $dsn .= ';port=' . (int)$server['port'];
@@ -65,10 +60,6 @@ class DatabaseManager
                     \PDO::ATTR_ERRMODE    => \PDO::ERRMODE_EXCEPTION,
                     \PDO::ATTR_TIMEOUT    => 2,
                 ];
-
-                if (self::MYSQL_TYPE === $driver) {
-                    $pdoOptions[\PDO::MYSQL_ATTR_INIT_COMMAND] = "SET NAMES 'UTF8'";
-                }
 
                 try {
                     $connection = new DatabaseConnection(

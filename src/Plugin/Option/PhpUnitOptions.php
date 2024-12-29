@@ -269,7 +269,6 @@ class PhpUnitOptions
     {
         $files = [
             'phpunit.xml',
-            'phpunit.mysql.xml',
             'phpunit.pgsql.xml',
             'phpunit.xml.dist',
             'tests/phpunit.xml',

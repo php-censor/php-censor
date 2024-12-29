@@ -25,4 +25,4 @@ assignees: ''
 * PHP Censor version
 * Operating System
 * PHP version
-* MySQL/PostgreSQL version
+* PostgreSQL version

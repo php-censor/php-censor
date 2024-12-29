@@ -19,7 +19,7 @@ composer create-project \
 Or download [latest archive](https://github.com/php-censor/php-censor/releases/latest) from GitHub, unzip it and run
 `composer install`.
 
-* Create an empty database for your application (MySQL/MariaDB or PostgreSQL);
+* Create an empty PostgreSQL database for your application;
 
 * Install Beanstalkd Queue (Optional, if you are going to use a queue with Worker):
 
@@ -49,7 +49,7 @@ cd ./php-censor.local
     --db-name=php-censor \
     --db-user=php-censor \
     --db-password=php-censor \
-    --db-port=default \ # Value 'default': 5432 for PostgreSQL and 3306 for MySQL
+    --db-port=default \ # Value 'default': 5432
     --admin-name=admin \
     --admin-password=admin \
     --admin-email='admin@php-censor.local' \

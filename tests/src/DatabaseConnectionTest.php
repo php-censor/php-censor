@@ -32,40 +32,12 @@ class DatabaseConnectionTest extends TestCase
         self::assertInstanceOf(\PDO::class, $databaseConnection->getPdo());
     }
 
-    public function testQuoteNamesForMySQL(): void
-    {
-        $pdoConnection = $this
-            ->getMockBuilder(\PDO::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $pdoConnection
-            ->method('getAttribute')
-            ->with(\PDO::ATTR_DRIVER_NAME)
-            ->willReturn(DatabaseManager::MYSQL_TYPE);
-
-        $databaseConnection = new DatabaseConnection('mysql');
-        $databaseConnection->setPdo($pdoConnection);
-
-        self::assertEquals(
-            'SELECT `test_table`.`id`,`test`, `date` FROM `test_table` WHERE `condition` > 2',
-            $databaseConnection->quoteNames(
-                'SELECT {{test_table}}.{{id}},{{test}}, {{date}} FROM {{test_table}} WHERE {{condition}} > 2'
-            )
-        );
-    }
-
     public function testQuoteNamesForPostgreSQL(): void
     {
         $pdoConnection = $this
             ->getMockBuilder(\PDO::class)
             ->disableOriginalConstructor()
             ->getMock();
-
-        $pdoConnection
-            ->method('getAttribute')
-            ->with(\PDO::ATTR_DRIVER_NAME)
-            ->willReturn(DatabaseManager::POSTGRESQL_TYPE);
 
         $databaseConnection = new DatabaseConnection('pgsql');
         $databaseConnection->setPdo($pdoConnection);
@@ -87,11 +59,6 @@ class DatabaseConnectionTest extends TestCase
             ->getMockBuilder(\PDO::class)
             ->disableOriginalConstructor()
             ->getMock();
-
-        $pdoConnection
-            ->method('getAttribute')
-            ->with(\PDO::ATTR_DRIVER_NAME)
-            ->willReturn(DatabaseManager::POSTGRESQL_TYPE);
 
         $pdoConnection
             ->method('prepare')
@@ -121,11 +88,6 @@ class DatabaseConnectionTest extends TestCase
             ->getMock();
 
         $pdoConnection
-            ->method('getAttribute')
-            ->with(\PDO::ATTR_DRIVER_NAME)
-            ->willReturn(DatabaseManager::POSTGRESQL_TYPE);
-
-        $pdoConnection
             ->method('lastInsertId')
             ->with('"test_table_id_seq"')
             ->willReturn('10');
@@ -147,11 +109,6 @@ class DatabaseConnectionTest extends TestCase
             ->getMock();
 
         $pdoConnection
-            ->method('getAttribute')
-            ->with(\PDO::ATTR_DRIVER_NAME)
-            ->willReturn(DatabaseManager::POSTGRESQL_TYPE);
-
-        $pdoConnection
             ->method('lastInsertId')
             ->with('"sequence_test_table"')
             ->willReturn('10');
@@ -165,31 +122,6 @@ class DatabaseConnectionTest extends TestCase
         );
     }
 
-    public function testLastInsertIdForMySQL(): void
-    {
-        $pdoConnection = $this
-            ->getMockBuilder(\PDO::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $pdoConnection
-            ->method('getAttribute')
-            ->with(\PDO::ATTR_DRIVER_NAME)
-            ->willReturn(DatabaseManager::MYSQL_TYPE);
-
-        $pdoConnection
-            ->method('lastInsertId')
-            ->willReturn('11');
-
-        $databaseConnection = new DatabaseConnection('mysql', null, null, null, 'sequence_%s');
-        $databaseConnection->setPdo($pdoConnection);
-
-        self::assertEquals(
-            11,
-            $databaseConnection->lastInsertId('test_table')
-        );
-    }
-
     /**
      * @dataProvider execDataProvider
      */
@@ -199,11 +131,6 @@ class DatabaseConnectionTest extends TestCase
             ->getMockBuilder(\PDO::class)
             ->disableOriginalConstructor()
             ->getMock();
-
-        $pdoConnection
-            ->method('getAttribute')
-            ->with(\PDO::ATTR_DRIVER_NAME)
-            ->willReturn(DatabaseManager::POSTGRESQL_TYPE);
 
         $pdoConnection
             ->method('exec')
@@ -230,11 +157,6 @@ class DatabaseConnectionTest extends TestCase
             ->getMockBuilder(\PDO::class)
             ->disableOriginalConstructor()
             ->getMock();
-
-        $pdoConnection
-            ->method('getAttribute')
-            ->with(\PDO::ATTR_DRIVER_NAME)
-            ->willReturn(DatabaseManager::POSTGRESQL_TYPE);
 
         $pdoConnection
             ->method('query')

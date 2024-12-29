@@ -372,10 +372,8 @@ class InstallCommand extends Command
         /** @var $helper QuestionHelper */
         $helper = $this->getHelperSet()->get('question');
 
-        if (!$dbType = $input->getOption('db-type')) {
-            $questionType = new Question('Enter your database type ("mysql" or "pgsql"): ');
-            $dbType       = \trim(\strtolower($helper->ask($input, $output, $questionType)));
-        }
+        $dbType = 'pgsql';
+        $defaultPort = 5432;
 
         if (!$dbHost = $input->getOption('db-host')) {
             $questionHost = new Question(
@@ -383,11 +381,6 @@ class InstallCommand extends Command
                 'localhost'
             );
             $dbHost = \trim($helper->ask($input, $output, $questionHost));
-        }
-
-        $defaultPort = 3306;
-        if ('pgsql' === $dbType) {
-            $defaultPort = 5432;
         }
 
         $dbPort = $input->getOption('db-port');
@@ -404,10 +397,7 @@ class InstallCommand extends Command
             $dbPort = (int)$dbPort;
         }
 
-        if (
-            $dbType === 'pgsql'
-            && !$dbPgsqlSslMode = $input->getOption('db-pgsql-sslmode')
-        ) {
+        if (!$dbPgsqlSslMode = $input->getOption('db-pgsql-sslmode')) {
             $questionSslMode = new Question('Enter your database connection\'s SSL mode (default: prefer): ', 'prefer');
             $dbPgsqlSslMode  = $helper->ask($input, $output, $questionSslMode);
         }
@@ -441,7 +431,7 @@ class InstallCommand extends Command
             ]
         ];
 
-        if ($dbType === 'pgsql' && !empty($dbPgsqlSslMode)) {
+        if (!empty($dbPgsqlSslMode)) {
             $dbServers[0]['pgsql-sslmode'] = $dbPgsqlSslMode;
         }
 
@@ -480,9 +470,6 @@ class InstallCommand extends Command
             PDO::ATTR_ERRMODE    => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_TIMEOUT    => 2,
         ];
-        if ('mysql' === $db['type']) {
-            $pdoOptions[PDO::MYSQL_ATTR_INIT_COMMAND] = "SET NAMES 'UTF8'";
-        }
 
         try {
             $pdo = new PDO(

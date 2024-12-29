@@ -11,9 +11,6 @@ jobs:
                 php-version: ['8.1', '8.2', '8.3']
 
         steps:
-            - name: Setup MySQL latest
-              run: docker run --rm --name=mysqld -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=test -p 3306:3306 -d mysql --default-authentication-plugin=mysql_native_password
-
             - name: Setup PostgreSQL latest
               run: docker run --rm --name=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=test -p 5432:5432 -d postgres
 
@@ -45,15 +42,6 @@ jobs:
 
             - name: Setup Database
               run: |
-                  sudo systemctl start mysql
-                  n=0
-                  until [ "$n" -ge 5 ]
-                  do
-                    mysql -h 127.0.0.1 -u root -proot -e 'CREATE DATABASE test_db;' && break || :
-                    n=$((n+1))
-                    sleep 2
-                  done
-                  mysql -h 127.0.0.1 -u root -proot -D test_db -e 'SELECT 1;'
                   psql -c 'CREATE DATABASE test_db;' postgresql://postgres:postgres@127.0.0.1
 
             - name: Run tests
@@ -61,8 +49,6 @@ jobs:
                   export SKIP_DB_TESTS=0;
                   export POSTGRESQL_USER='postgres';
                   export POSTGRESQL_PASSWORD='postgres';
-                  export MYSQL_USER='root';
-                  export MYSQL_PASSWORD='root';
                   if [[ ${{ matrix.php-version }} == '8.1' ]]; then
                       export CODECOVERAGE=1 && vendor/bin/phpunit --verbose --coverage-clover=coverage.xml
                   else

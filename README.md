@@ -50,7 +50,7 @@ More [screenshots](docs/en/screenshots.md).
 
 * Web-server (Nginx or Apache2);
 
-* Database (MySQL/MariaDB or PostgreSQL);
+* PostgreSQL Database;
 
 * Beanstalkd queue;
 
@@ -161,9 +161,9 @@ cd /path/to/php-censor
 ./vendor/bin/phpunit --configuration ./phpunit.xml.dist --coverage-html ./tests/runtime/coverage -vvv --colors=always
 ```
 
-For Phar plugin tests set `phar.readonly` setting to Off (`0`) in `php.ini` config. Otherwise the tests will be skipped.  
+For Phar plugin tests set `phar.readonly` setting to Off (`0`) in `php.ini` config. Otherwise, the tests will be skipped.  
 
-For database tests create an empty databases on 'localhost' with user/password for MySQL/PostgreSQL and set env 
+For database tests create an empty databases on 'localhost' with user/password for PostgreSQL and set env 
 variables from `phpunit.xml.dist` config. For example:
 
 ```shell
@@ -172,15 +172,10 @@ variables from `phpunit.xml.dist` config. For example:
 psql --username="test" --host="127.0.0.1" --echo-all --command="DROP DATABASE IF EXISTS \"php-censor-test\";"
 psql --username="test" --host="127.0.0.1" --echo-all --command="CREATE DATABASE \"php-censor-test\";"
 
-mysql --user="test" --password="test" --host="127.0.0.1" --verbose --execute="CREATE DATABASE IF NOT EXISTS \`php-censor-test\`;"
-
 export SKIP_DB_TESTS=0;\
 export POSTGRESQL_DBNAME=php-censor-test;\
 export POSTGRESQL_USER=test;\
 export POSTGRESQL_PASSWORD=test;\
-export MYSQL_DBNAME=php-censor-test;\
-export MYSQL_USER=test;\
-export MYSQL_PASSWORD=test;\
 vendor/bin/phpunit --configuration=phpunit.xml.dist --verbose
 ```
 
