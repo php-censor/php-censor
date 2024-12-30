@@ -141,13 +141,13 @@ class Executor
 
                 break;
 
-            // Run branch-specific plugins before standard plugins:
+                // Run branch-specific plugins before standard plugins:
             case 'before':
                 \array_unshift($pluginsToExecute, $plugins);
 
                 break;
 
-            // Run branch-specific plugins after standard plugins:
+                // Run branch-specific plugins after standard plugins:
             case 'after':
             default:
                 \array_push($pluginsToExecute, $plugins);
@@ -160,8 +160,6 @@ class Executor
 
     /**
      * Execute the list of plugins found for a given testing stage.
-     * @param $plugins
-     * @param $stage
      * @return bool
      * @throws Exception
      */

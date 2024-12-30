@@ -33,7 +33,6 @@ class PhpUnitOptions
     /**
      * Remove a command argument
      *
-     * @param $argumentName
      *
      * @return $this
      */
@@ -185,7 +184,6 @@ class PhpUnitOptions
     /**
      * Get an option if defined
      *
-     * @param $optionName
      *
      * @return string|string[]|null
      */
@@ -241,7 +239,6 @@ class PhpUnitOptions
     /**
      * Get options for a given argument
      *
-     * @param $argumentName
      *
      * @return string[] All the options for given argument
      */

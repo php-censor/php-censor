@@ -46,13 +46,6 @@ class UserService
 
     /**
      * Update a user.
-     *
-     * @param string $password
-     * @param bool   $isAdmin
-     * @param string $language
-     * @param int    $perPage
-     *
-     * @return User
      */
     public function updateUser(User $user, string $name, string $emailAddress, ?string $password = null, ?bool $isAdmin = null, ?string $language = null, ?int $perPage = null): ?User
     {

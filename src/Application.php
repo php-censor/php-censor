@@ -60,7 +60,7 @@ class Application
      */
     public function init(): void
     {
-        $request =& $this->request;
+        $request = &$this->request;
         $route   = '/:controller/:action';
         $opts    = ['controller' => 'Home', 'action' => 'index'];
 

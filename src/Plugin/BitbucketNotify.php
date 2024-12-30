@@ -316,7 +316,7 @@ class BitbucketNotify extends Plugin
             $currentBranchCoverage = \json_decode($currentMetaData->getMetaValue(), true);
         }
 
-        return new Plugin\Util\BitbucketNotifyPhpUnitResult(
+        return new Util\BitbucketNotifyPhpUnitResult(
             PhpUnit::pluginName() . '-coverage',
             isset($targetBranchCoverage['lines']) ? $targetBranchCoverage['lines'] : 0,
             isset($currentBranchCoverage['lines']) ? $currentBranchCoverage['lines'] : 0
@@ -324,7 +324,7 @@ class BitbucketNotify extends Plugin
     }
 
     /**
-     * @param Util\BitbucketNotifyPluginResult[] $plugins
+     * @param BitbucketNotifyPluginResult[] $plugins
      * @return array
      */
     protected function buildResultComparator(array $plugins)
@@ -355,7 +355,6 @@ class BitbucketNotify extends Plugin
     }
 
     /**
-     * @param $branchName
      * @return int
      * @throws Exception
      */

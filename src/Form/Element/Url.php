@@ -15,9 +15,6 @@ use PHPCensor\View;
  */
 class Url extends Text
 {
-    /**
-     * @param string $viewFile
-     */
     public function render(?string $viewFile = null): string
     {
         return parent::render(($viewFile ? $viewFile : 'Text'));

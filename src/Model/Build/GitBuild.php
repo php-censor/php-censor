@@ -156,7 +156,6 @@ class GitBuild extends TypedBuild
      * Handle any post-clone tasks, like switching branches.
      *
      * @param string $cloneTo
-     * @param array  $extra
      *
      * @return bool
      */

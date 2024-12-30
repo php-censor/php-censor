@@ -72,7 +72,6 @@ class PhpUnitResultJson extends PhpUnitResult
     /**
      * Build the severity of the event
      *
-     * @param $testCase
      *
      * @return string The severity flags
      * @throws Exception

@@ -134,7 +134,7 @@ class EmailTest extends TestCase
         $self = $this;
 
         $this->testedEmailPlugin = $this
-            ->getMockBuilder(Plugin\EmailNotify::class)
+            ->getMockBuilder(EmailPlugin::class)
             ->onlyMethods(['sendEmail'])
             ->setConstructorArgs([$this->builder, $this->build, $arrOptions])
             ->getMock();

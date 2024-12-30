@@ -97,7 +97,7 @@ class Builder
 
         $pluginFactory     = new PluginFactory($this, $build);
 
-        $this->pluginExecutor = new Plugin\Util\Executor(
+        $this->pluginExecutor = new Executor(
             $this->storeRegistry,
             $pluginFactory,
             $this->buildLogger,
@@ -298,8 +298,6 @@ class Builder
 
     /**
      * Used by this class, and plugins, to execute shell commands.
-     *
-     * @param ...$params
      */
     public function executeCommand(...$params): bool
     {
