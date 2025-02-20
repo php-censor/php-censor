@@ -156,8 +156,17 @@ class InstallCommand extends Command
 
             if (!empty($content)) {
                 $output->writeln(
-                    '<error>The PHP Censor config file exists and is not empty. ' .
+                    '<error>The PHP Censor config file already exists and is not empty. ' .
                     'PHP Censor is already installed!</error>'
+                );
+                $output->writeln(
+                    '<comment>If you want to reinstall, delete the config file by running:</comment>'
+                );
+                $output->writeln(
+                    '<comment>rm ' . $this->configPath . '</comment>'
+                );
+                $output->writeln(
+                    '<comment>Then, rerun the installation command.</comment>'
                 );
 
                 return false;
