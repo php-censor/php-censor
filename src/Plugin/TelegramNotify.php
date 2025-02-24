@@ -90,6 +90,12 @@ class TelegramNotify extends Plugin
                 'text'       => $message,
                 'parse_mode' => 'Markdown',
             ];
+
+            $messageThreadId = $this->getMessageThreadIdFromGroupId($chatId);
+            if ($messageThreadId !== null) {
+                $params['message_thread_id'] = $messageThreadId;
+            }
+
             $client->post(('https://api.telegram.org' . $url), [
                 'headers' => [
                     'Content-Type' => 'application/json',
@@ -103,6 +109,11 @@ class TelegramNotify extends Plugin
                     'text'       => $this->buildMsg,
                     'parse_mode' => 'Markdown',
                 ];
+
+                if ($messageThreadId !== null) {
+                    $params['message_thread_id'] = $messageThreadId;
+                }
+
                 $client->post(('https://api.telegram.org' . $url), [
                     'headers' => [
                         'Content-Type' => 'application/json',
@@ -141,5 +152,17 @@ class TelegramNotify extends Plugin
         }
 
         return $this->builder->interpolate(\str_replace(['%ICON_BUILD%'], [$buildIcon], $this->message));
+    }
+
+    /**
+     * Split chat group id to chat id and message thread id
+     *
+     * @param string|int $chatId
+     * @return string|null
+     */
+    protected function getMessageThreadIdFromGroupId($chatId)
+    {
+        $parts = explode('/', $chatId);
+        return (count($parts) > 1 && $parts[1] !== '') ? $parts[1] : null;
     }
 }
