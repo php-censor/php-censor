@@ -85,15 +85,17 @@ class TelegramNotify extends Plugin
         $url     = '/bot' . $this->authToken . '/sendMessage';
 
         foreach ($this->recipients as $chatId) {
+            $chatId = $this->builder->interpolate($chatId, true);
+            [$chatId, $topicId] = $this->splitChatIdAndTopicId($chatId);
+
             $params = [
-                'chat_id'    => $this->builder->interpolate($chatId, true),
+                'chat_id'    => $chatId,
                 'text'       => $message,
                 'parse_mode' => 'Markdown',
             ];
 
-            $messageThreadId = $this->getMessageThreadIdFromGroupId($chatId);
-            if ($messageThreadId !== null) {
-                $params['message_thread_id'] = $messageThreadId;
+            if ($topicId !== null) {
+                $params['message_thread_id'] = $topicId;
             }
 
             $client->post(('https://api.telegram.org' . $url), [
@@ -110,8 +112,8 @@ class TelegramNotify extends Plugin
                     'parse_mode' => 'Markdown',
                 ];
 
-                if ($messageThreadId !== null) {
-                    $params['message_thread_id'] = $messageThreadId;
+                if ($topicId !== null) {
+                    $params['message_thread_id'] = $topicId;
                 }
 
                 $client->post(('https://api.telegram.org' . $url), [
@@ -155,14 +157,16 @@ class TelegramNotify extends Plugin
     }
 
     /**
-     * Split chat group id to chat id and message thread id
+     * Split chat group id to chat id and topic id
      *
      * @param string|int $chatId
-     * @return string|null
+     * @return array{string, string|null}
      */
-    protected function getMessageThreadIdFromGroupId($chatId)
+    protected function splitChatIdAndTopicId($chatId)
     {
-        $parts = explode('/', $chatId);
-        return (count($parts) > 1 && $parts[1] !== '') ? $parts[1] : null;
+        $parts = \explode('/', \trim((string) $chatId) . '/');
+        $topicId = $parts[1] !== '' ? $parts[1] : null;
+
+        return [$parts[0], $topicId];
     }
 }
