@@ -12,43 +12,61 @@ use PHPCensor\Model\BuildError;
 
 $linkTemplate = $build->getFileLinkTemplate();
 
-foreach ($errors as $error):
+<input type="text" id="errorSearch" placeholder="Search errors..." onkeyup="filterErrors()">
 
-    $link = \str_replace('{BASEFILE}', \basename($error->getFile()), $linkTemplate);
-    $link = \str_replace('{FILE}', $error->getFile(), $link);
-    $link = \str_replace('{LINE}', $error->getLineStart(), $link);
+<table id="errorTable">
+    foreach ($errors as $error):
 
-    if ($error->getLineStart() == $error->getLineEnd() || !$error->getLineEnd()) {
-        # For Github
-        $link = \str_replace('-L{LINE_END}', '', $link);
-    } else {
-        $link = \str_replace('{LINE_END}', $error->getLineEnd(), $link);
-    }
-?>
-   <tr>
-       <td>
-           <?php if ($error->getIsNew()): ?>
-               <span class="label label-danger"><?= Lang::get('new'); ?></span>
-           <?php endif; ?>
-       </td>
-       <td>
-           <span class="label label-<?= $error->getSeverityClass(); ?>">
-               <?= Lang::get($error->getSeverityString()); ?>
-           </span>
-       </td>
-       <td><?= Lang::get($error->getPlugin()); ?></td>
-       <td><a href="<?= $link; ?>"><?= $error->getFile(); ?></a></td>
-       <td>
-           <a href="<?= $link; ?>">
-           <?php
-           if ($error->getLineStart() == $error->getLineEnd() || !$error->getLineEnd()) {
-               echo $error->getLineStart();
-           } else {
-               echo $error->getLineStart() . ' - ' . $error->getLineEnd();
-           }
-           ?>
-           </a>
-       </td>
-       <td class="visible-line-breaks"><?= Template::clean(trim($error->getMessage())); ?></td>
-   </tr>
-<?php endforeach; ?>
+        $link = \str_replace('{BASEFILE}', \basename($error->getFile()), $linkTemplate);
+        $link = \str_replace('{FILE}', $error->getFile(), $link);
+        $link = \str_replace('{LINE}', $error->getLineStart(), $link);
+
+        if ($error->getLineStart() == $error->getLineEnd() || !$error->getLineEnd()) {
+            # For Github
+            $link = \str_replace('-L{LINE_END}', '', $link);
+        } else {
+            $link = \str_replace('{LINE_END}', $error->getLineEnd(), $link);
+        }
+    ?>
+       <tr>
+           <td>
+               <?php if ($error->getIsNew()): ?>
+                   <span class="label label-danger"><?= Lang::get('new'); ?></span>
+               <?php endif; ?>
+           </td>
+           <td>
+               <span class="label label-<?= $error->getSeverityClass(); ?>">
+                   <?= Lang::get($error->getSeverityString()); ?>
+               </span>
+           </td>
+           <td><?= Lang::get($error->getPlugin()); ?></td>
+           <td><a href="<?= $link; ?>"><?= $error->getFile(); ?></a></td>
+           <td>
+               <a href="<?= $link; ?>">
+               <?php
+               if ($error->getLineStart() == $error->getLineEnd() || !$error->getLineEnd()) {
+                   echo $error->getLineStart();
+               } else {
+                   echo $error->getLineStart() . ' - ' . $error->getLineEnd();
+               }
+               ?>
+               </a>
+           </td>
+           <td class="visible-line-breaks"><?= Template::clean(trim($error->getMessage())); ?></td>
+       </tr>
+    <?php endforeach; ?>
+</table>
+
+<script>
+function filterErrors() {
+    let input = document.getElementById("errorSearch").value.toLowerCase();
+    let rows = document.querySelectorAll("#errorTable tr"); // Επιλέγουμε όλες τις σειρές του πίνακα
+
+    rows.forEach((row, index) => {
+        if (index === 0) return; // Αγνοούμε την πρώτη γραμμή αν είναι header
+        let text = row.innerText.toLowerCase();
+        row.style.display = text.includes(input) ? "" : "none";
+    });
+}
+</script>
+
