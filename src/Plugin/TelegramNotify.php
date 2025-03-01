@@ -159,7 +159,7 @@ class TelegramNotify extends Plugin
     /**
      * Split chat group id to chat id and topic id
      *
-     * @param string|int $chatId
+     * @param int|string $chatId
      * @return array{string, string|null}
      */
     protected function splitChatIdAndTopicId($chatId)
