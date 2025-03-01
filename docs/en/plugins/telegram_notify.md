@@ -24,6 +24,7 @@ complete:
         recipients:
             - "<user id>"
             - "-<group id>"
+            - "-<group id>/<thread id>"
             - "@<channel id>"
         send_log: true
 ```

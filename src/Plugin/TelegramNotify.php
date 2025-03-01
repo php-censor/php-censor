@@ -85,11 +85,19 @@ class TelegramNotify extends Plugin
         $url     = '/bot' . $this->authToken . '/sendMessage';
 
         foreach ($this->recipients as $chatId) {
+            $chatId = $this->builder->interpolate($chatId, true);
+            [$chatId, $topicId] = $this->splitChatIdAndTopicId($chatId);
+
             $params = [
-                'chat_id'    => $this->builder->interpolate($chatId, true),
+                'chat_id'    => $chatId,
                 'text'       => $message,
                 'parse_mode' => 'Markdown',
             ];
+
+            if ($topicId !== null) {
+                $params['message_thread_id'] = $topicId;
+            }
+
             $client->post(('https://api.telegram.org' . $url), [
                 'headers' => [
                     'Content-Type' => 'application/json',
@@ -103,6 +111,11 @@ class TelegramNotify extends Plugin
                     'text'       => $this->buildMsg,
                     'parse_mode' => 'Markdown',
                 ];
+
+                if ($topicId !== null) {
+                    $params['message_thread_id'] = $topicId;
+                }
+
                 $client->post(('https://api.telegram.org' . $url), [
                     'headers' => [
                         'Content-Type' => 'application/json',
@@ -141,5 +154,19 @@ class TelegramNotify extends Plugin
         }
 
         return $this->builder->interpolate(\str_replace(['%ICON_BUILD%'], [$buildIcon], $this->message));
+    }
+
+    /**
+     * Split chat group id to chat id and topic id
+     *
+     * @param string|int $chatId
+     * @return array{string, string|null}
+     */
+    protected function splitChatIdAndTopicId($chatId)
+    {
+        $parts = \explode('/', \trim((string) $chatId) . '/');
+        $topicId = $parts[1] !== '' ? $parts[1] : null;
+
+        return [$parts[0], $topicId];
     }
 }
