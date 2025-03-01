@@ -11,7 +11,7 @@
 </p>
 
 **PHP Censor** is an open source, self-hosted, continuous integration server for PHP projects 
-([PHPCI](https://www.phptesting.org) fork). [Official twitter @php_censor](https://twitter.com/php_censor).
+([PHPCI](https://github.com/dancryer/PHPCI) fork). [Official twitter @php_censor](https://twitter.com/php_censor).
 
 PHP Censor versions:
 

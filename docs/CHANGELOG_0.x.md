@@ -941,7 +941,7 @@ requests as comments on Github (`php-censor.github.comments.commit` and `php-cen
 
 ## [0.1.0](https://github.com/php-censor/php-censor/tree/0.1.0) (2017-01-04)
 
-Initial release. Changes from [PHPCI](https://www.phptesting.org/) v1.7.1:
+Initial release. Changes from [PHPCI](https://github.com/dancryer/PHPCI) v1.7.1:
 
 ### Added
 
