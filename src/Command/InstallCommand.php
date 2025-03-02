@@ -227,12 +227,12 @@ class InstallCommand extends Command
         /** @var $helper QuestionHelper */
         $helper = $this->getHelperSet()->get('question');
 
-        $urlValidator = function ($answer) {
-            if (!\filter_var($answer, FILTER_VALIDATE_URL)) {
-                throw new InvalidArgumentException('Must be a valid URL.');
+        $urlValidator = function ($domain) {
+            if (!\filter_var($domain, FILTER_VALIDATE_URL)) {
+                throw new InvalidArgumentException("${domain} is not a valid URL!");
             }
 
-            return \rtrim($answer, '/');
+            return \rtrim($domain, '/');
         };
 
         if ($url = $input->getOption('url')) {
