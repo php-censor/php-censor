@@ -5,6 +5,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [2.1.6 (Mr. Meeseeks)](https://github.com/php-censor/php-censor/tree/2.1.6) (2025-03-15)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/2.1.5...2.1.6)
+
+### Fixed
+
+- Security issue with remember me key in auth. See: https://chmod744.super.site/redacted-vulnerability.
+- Security issue CVE-2024-50345: CVE-2024-50345: Open redirect via browser-sanitized URLs. See: https://symfony.com/cve-2024-50345.
+
+
 ## [2.1.5 (Mr. Meeseeks)](https://github.com/php-censor/php-censor/tree/2.1.5) (2024-05-04)
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/2.1.4...2.1.5)
