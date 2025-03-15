@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PHPCensor - Continuous Integration for PHP
  */

@@ -277,7 +277,6 @@ class BuildController extends WebController
     /**
      * Create a build using an existing build as a template:
      *
-     * @param $buildId
      *
      * @return RedirectResponse
      * @throws NotFoundException
@@ -343,7 +342,6 @@ class BuildController extends WebController
     /**
      * Formats a list of builds into rows suitable for the dropdowns in the header bar.
      *
-     * @param $builds
      *
      * @return array
      */

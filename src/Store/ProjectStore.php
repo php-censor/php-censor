@@ -142,7 +142,6 @@ class ProjectStore extends Store
     /**
      * Returns a list of all branch names.
      *
-     * @param $projectId
      *
      * @return array
      */

@@ -19,7 +19,6 @@ class UserServiceTest extends TestCase
     protected $testedService;
 
     /**
-     * @var $mockBuildStore
      */
     protected $mockUserStore;
 

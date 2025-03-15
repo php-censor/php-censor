@@ -304,7 +304,6 @@ class BuildErrorStore extends Store
     }
 
     /**
-     * @param $buildId
      * @return array
      * @throws Exception
      */

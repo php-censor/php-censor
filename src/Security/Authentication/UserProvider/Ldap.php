@@ -60,9 +60,7 @@ class Ldap extends AbstractProvider implements LoginPasswordProviderInterface
     }
 
     /**
-     * @param string $identifier
      *
-     * @return User
      */
     public function provisionUser(?string $identifier): ?User
     {

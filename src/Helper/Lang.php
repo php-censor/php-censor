@@ -69,7 +69,6 @@ class Lang
     /**
      * Try and load a language, and if successful, set it for use throughout the system.
      *
-     * @param $language
      *
      * @return bool
      */

@@ -150,7 +150,6 @@ class GitBuild extends Build
      * Handle any post-clone tasks, like switching branches.
      *
      * @param string $cloneTo
-     * @param array  $extra
      *
      * @return bool
      */

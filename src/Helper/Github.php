@@ -12,12 +12,6 @@ class Github
 {
     /**
      * Create a comment on a specific file (and commit) in a Github Pull Request.
-     * @param $repo
-     * @param $pullId
-     * @param $commitId
-     * @param $file
-     * @param $line
-     * @param $comment
      * @return null
      */
     public function createPullRequestComment($repo, $pullId, $commitId, $file, $line, $comment)
@@ -49,11 +43,6 @@ class Github
 
     /**
      * Create a comment on a Github commit.
-     * @param $repo
-     * @param $commitId
-     * @param $file
-     * @param $line
-     * @param $comment
      * @return null
      */
     public function createCommitComment($repo, $commitId, $file, $line, $comment)

@@ -651,7 +651,6 @@ class ProjectController extends WebController
 
     /**
      * Get the validator to use to check project references.
-     * @param $values
      * @return callable
      */
     protected function getReferenceValidator($values)

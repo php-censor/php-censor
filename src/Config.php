@@ -108,7 +108,6 @@ class Config
     /**
      * Set an array of values.
      *
-     * @param $array
      */
     public function setArray($array)
     {

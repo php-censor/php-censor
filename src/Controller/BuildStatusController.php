@@ -106,7 +106,6 @@ class BuildStatusController extends WebController
     }
 
     /**
-     * @param SimpleXMLElement $xml
      *
      * @return Response
      */
@@ -157,7 +156,6 @@ class BuildStatusController extends WebController
     /**
      * Returns the appropriate build PHPUnit coverage image in SVG format for a given project.
      *
-     * @param $projectId
      *
      * @return Response
      */
@@ -213,7 +211,6 @@ class BuildStatusController extends WebController
     /**
      * Returns the appropriate build status image in SVG format for a given project.
      *
-     * @param $projectId
      *
      * @return Response
      */
@@ -309,7 +306,6 @@ class BuildStatusController extends WebController
     /**
      * Displays projects information in ccmenu format
      *
-     * @param $projectId
      *
      * @return Response
      *

@@ -212,7 +212,7 @@ class InitialMigrationV2 extends AbstractMigration
                 'build_id',
                 'builds',
                 'id',
-                ['delete'=> 'CASCADE', 'update' => 'CASCADE']
+                ['delete' => 'CASCADE', 'update' => 'CASCADE']
             )
             ->save();
 

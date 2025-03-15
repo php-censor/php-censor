@@ -92,7 +92,6 @@ class WebhookController extends Controller
      * @param string $tag
      * @param string $committer
      * @param string $commitMessage
-     * @param array  $extra
      *
      * @return array
      *
