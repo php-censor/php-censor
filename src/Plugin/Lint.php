@@ -79,9 +79,6 @@ class Lint extends Plugin
 
     /**
      * Lint an item (file or directory) by calling the appropriate method.
-     * @param $php
-     * @param $item
-     * @param $itemPath
      * @return bool
      */
     protected function lintItem($php, $item, $itemPath)
@@ -101,8 +98,6 @@ class Lint extends Plugin
 
     /**
      * Run php -l against a directory of files.
-     * @param $php
-     * @param $path
      * @return bool
      */
     protected function lintDirectory($php, $path)
@@ -131,8 +126,6 @@ class Lint extends Plugin
 
     /**
      * Run php -l against a specific file.
-     * @param $php
-     * @param $path
      * @return bool
      */
     protected function lintFile($php, $path)
