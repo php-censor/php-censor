@@ -103,7 +103,7 @@ class DeployerOrg extends Plugin
     protected function getVerbosityOption($verbosity)
     {
         $logLevelList = [
-            'verbose'      =>'v',
+            'verbose'      => 'v',
             'very verbose' => 'vv',
             'debug'        => 'vvv',
             'quiet'        => 'q'

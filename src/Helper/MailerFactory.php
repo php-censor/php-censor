@@ -65,7 +65,6 @@ class MailerFactory
     /**
      * Return a specific configuration value by key.
      *
-     * @param $configName
      *
      * @return string|null
      */

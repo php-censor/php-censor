@@ -102,7 +102,6 @@ class PhpCpd extends Plugin implements ZeroConfigPluginInterface
     /**
      * Process the PHPCPD XML report.
      *
-     * @param $xmlString
      *
      * @return int
      *

@@ -69,11 +69,6 @@ class Bitbucket
     /**
      * Create a comment on a Bitbucket commit.
      *
-     * @param $repo
-     * @param $commitId
-     * @param $file
-     * @param $line
-     * @param $comment
      * @return null
      */
     public function createCommitComment($repo, $commitId, $file, $line, $comment)

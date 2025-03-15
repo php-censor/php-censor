@@ -101,8 +101,6 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
 
     /**
      * Override a default setting.
-     * @param $options
-     * @param $key
      */
     protected function overrideSetting($options, $key)
     {
@@ -114,7 +112,6 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
     /**
      * Process PHPMD's XML output report.
      *
-     * @param $xmlString
      *
      * @return int
      *
@@ -177,7 +174,6 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
 
     /**
      * Execute PHP Mess Detector.
-     * @param $binaryPath
      */
     protected function executePhpMd($binaryPath)
     {

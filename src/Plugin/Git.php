@@ -63,7 +63,6 @@ class Git extends Plugin
     /**
      * Determine which action to run, and run it.
      *
-     * @param $action
      *
      * @return bool
      */
@@ -89,7 +88,6 @@ class Git extends Plugin
 
     /**
      * Handle a merge action.
-     * @param $options
      * @return bool
      */
     protected function runMergeAction($options)
@@ -104,7 +102,6 @@ class Git extends Plugin
 
     /**
      * Handle a tag action.
-     * @param $options
      * @return bool
      */
     protected function runTagAction($options)
@@ -127,7 +124,6 @@ class Git extends Plugin
 
     /**
      * Handle a pull action.
-     * @param $options
      * @return bool
      */
     protected function runPullAction($options)
@@ -148,7 +144,6 @@ class Git extends Plugin
 
     /**
      * Handle a push action.
-     * @param $options
      * @return bool
      */
     protected function runPushAction($options)

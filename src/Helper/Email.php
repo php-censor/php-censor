@@ -116,7 +116,6 @@ class Email
     /**
      * Send the email.
      *
-     * @param Builder $builder
      *
      * @return int
      */

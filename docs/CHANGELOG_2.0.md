@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [2.0.14 (Rick Sanchez)](https://github.com/php-censor/php-censor/tree/2.0.14) (2025-03-15)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/2.0.13...2.0.14)
+
+### Fixed
+
+- Security issue CVE-2024-51736: Command execution hijack on Windows with Process class. See:  https://symfony.com/cve-2024-51736.
+
+
 ## [2.0.13 (Rick Sanchez)](https://github.com/php-censor/php-censor/tree/2.0.13) (2024-05-04)
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/2.0.12...2.0.13)

@@ -87,7 +87,6 @@ class CampfireNotify extends Plugin
 
     /**
      * Join a Campfire room.
-     * @param $roomId
      */
     public function joinRoom($roomId)
     {
@@ -96,7 +95,6 @@ class CampfireNotify extends Plugin
 
     /**
      * Leave a Campfire room.
-     * @param $roomId
      */
     public function leaveRoom($roomId)
     {
@@ -105,8 +103,6 @@ class CampfireNotify extends Plugin
 
     /**
      * Send a message to a campfire room.
-     * @param $message
-     * @param $roomId
      * @param bool $isPaste
      * @return bool|mixed
      */
@@ -125,7 +121,6 @@ class CampfireNotify extends Plugin
 
     /**
      * Make a request to Campfire.
-     * @param $page
      * @param null $data
      * @return bool|mixed
      */

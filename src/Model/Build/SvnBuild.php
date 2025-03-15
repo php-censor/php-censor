@@ -36,8 +36,8 @@ class SvnBuild extends TypedBuild
         // (-> "branches/branch-1")
         } elseif (false === \strpos($branch, '/')) {
             $url .= 'branches/' . $branch;
-        // For default branch with non-standard branch directory like "/branch/branch-1" or "branch/branch-1"
-        // (-> "branch/branch-1")
+            // For default branch with non-standard branch directory like "/branch/branch-1" or "branch/branch-1"
+            // (-> "branch/branch-1")
         } else {
             $url .= $branch;
         }

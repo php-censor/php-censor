@@ -95,7 +95,6 @@ class SensiolabsInsight extends Plugin
     /**
      * Process PHPMD's XML output report.
      *
-     * @param $xmlString
      *
      * @return int
      *
@@ -137,7 +136,6 @@ class SensiolabsInsight extends Plugin
 
     /**
      * Execute Sensiolabs Insight.
-     * @param $binaryPath
      */
     protected function executeSensiolabsInsight($binaryPath)
     {

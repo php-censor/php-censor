@@ -355,7 +355,6 @@ class BitbucketNotify extends Plugin
     }
 
     /**
-     * @param $branchName
      * @return int
      * @throws Exception
      */

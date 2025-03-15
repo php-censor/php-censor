@@ -182,7 +182,6 @@ class XmppNotify extends Plugin
     }
 
     /**
-     * @param $messageFile
      * @return int
      */
     protected function buildMessage($messageFile)
