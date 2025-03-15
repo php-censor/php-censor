@@ -98,7 +98,7 @@ class CommandExecutor implements CommandExecutorInterface
 
         $this->logger->logDebug('Args: ' . json_encode($args));
 
-        $command = call_user_func_array('sprintf', $args);
+        $command = \call_user_func_array('sprintf', $args);
 
         $this->logger->log('Shell command: ' . $command);
 
@@ -115,7 +115,7 @@ class CommandExecutor implements CommandExecutorInterface
             $cwd = $this->buildPath;
         }
 
-        $process = new Process($command, $cwd);
+        $process = Process::fromShellCommandline($command, $cwd);
         $process->setTimeout(86400);
 
         $env = $this->getDefaultEnv();
