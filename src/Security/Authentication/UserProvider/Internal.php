@@ -23,7 +23,6 @@ class Internal extends AbstractProvider implements LoginPasswordProviderInterfac
     }
 
     /**
-     * @param string $identifier
      *
      * @return null
      */

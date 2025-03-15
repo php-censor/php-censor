@@ -10,7 +10,6 @@ use SimpleXMLElement;
 class Xml
 {
     /**
-     * @param $filePath
      *
      * @return SimpleXMLElement|null
      */

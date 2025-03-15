@@ -241,8 +241,6 @@ class SessionController extends WebController
 
     /**
      * Allows the user to change their password after a password reset email.
-     * @param $userId
-     * @param $key
      * @return string
      */
     public function resetPassword($userId, $key)

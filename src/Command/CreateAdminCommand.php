@@ -91,5 +91,7 @@ class CreateAdminCommand extends Command
             $output->writeln('<error>PHP Censor failed to create your admin account!</error>');
             $output->writeln('<error>' . $ex->getMessage() . '</error>');
         }
+
+        return 0;
     }
 }

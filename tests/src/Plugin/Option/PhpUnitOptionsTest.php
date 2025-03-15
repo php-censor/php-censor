@@ -90,8 +90,6 @@ class PhpUnitOptionsTest extends TestCase
     }
 
     /**
-     * @param $rawOptions
-     * @param $parsedArguments
      *
      * @dataProvider validOptionsProvider
      */

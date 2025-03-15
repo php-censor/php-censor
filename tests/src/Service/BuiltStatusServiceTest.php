@@ -41,7 +41,6 @@ class BuildStatusServiceTest extends TestCase
     }
 
     /**
-     * @param $configId
      * @param bool $setProject
      * @return Build
      */

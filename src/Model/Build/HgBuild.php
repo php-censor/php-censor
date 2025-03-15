@@ -92,7 +92,6 @@ class HgBuild extends Build
      * Handle post-clone tasks (switching branch, etc.)
      *
      * @param string $cloneTo
-     * @param array  $extra
      *
      * @return bool
      */

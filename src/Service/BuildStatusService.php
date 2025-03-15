@@ -46,7 +46,6 @@ class BuildStatusService
 
     /**
      * @param string $branch
-     * @param Build  $build
      * @param bool   $isParent
      */
     public function __construct(

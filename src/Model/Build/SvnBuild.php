@@ -28,12 +28,12 @@ class SvnBuild extends Build
         // For empty default branch or default branch name like "/trunk" or "trunk" (-> "trunk")
         if (empty($branch) || $branch == 'trunk') {
             $url .= 'trunk';
-        // For default branch with standard default branch directory ("branches") like "/branch-1" or "branch-1"
-        // (-> "branches/branch-1")
+            // For default branch with standard default branch directory ("branches") like "/branch-1" or "branch-1"
+            // (-> "branches/branch-1")
         } elseif (false === strpos($branch, '/')) {
             $url .= 'branches/' . $branch;
-        // For default branch with non-standard branch directory like "/branch/branch-1" or "branch/branch-1"
-        // (-> "branch/branch-1")
+            // For default branch with non-standard branch directory like "/branch/branch-1" or "branch/branch-1"
+            // (-> "branch/branch-1")
         } else {
             $url .= $branch;
         }

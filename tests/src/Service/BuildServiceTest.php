@@ -21,12 +21,10 @@ class BuildServiceTest extends TestCase
     protected $testedService;
 
     /**
-     * @var $mockBuildStore
      */
     protected $mockBuildStore;
 
     /**
-     * @var $mockEnvironmentStore
      */
     protected $mockEnvironmentStore;
 

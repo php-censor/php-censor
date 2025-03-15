@@ -27,7 +27,6 @@ class Factory
     private $container;
 
     /**
-     * @param Container $container
      */
     public function __construct(Container $container = null)
     {
@@ -43,7 +42,6 @@ class Factory
      * file returns a function then $this will be passed to it.
      * This enables the config file to call any public methods.
      *
-     * @param $configPath
      * @return bool - true if the function exists else false.
      */
     public function addConfigFromFile($configPath)
@@ -198,7 +196,6 @@ class Factory
     }
 
     /**
-     * @param $existingArgs
      *
      * @return array
      *

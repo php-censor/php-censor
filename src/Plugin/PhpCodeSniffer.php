@@ -231,7 +231,6 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
 
     /**
      * Process the PHPCS output report.
-     * @param $output
      * @return array
      * @throws Exception
      */

@@ -19,7 +19,6 @@ class ProjectServiceTest extends TestCase
     protected $testedService;
 
     /**
-     * @var $mockProjectStore
      */
     protected $mockProjectStore;
 

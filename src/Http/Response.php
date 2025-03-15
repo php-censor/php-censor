@@ -71,7 +71,7 @@ class Response
                 $text = 'Moved Temporarily';
                 break;
 
-            // 400 class errors
+                // 400 class errors
             case 400:
                 $text = 'Bad Request';
                 break;
@@ -85,12 +85,12 @@ class Response
                 $text = 'Not Found';
                 break;
 
-            // 500 class errors
+                // 500 class errors
             case 500:
                 $text = 'Internal Server Error';
                 break;
 
-            // OK
+                // OK
             case 200:
             default:
                 $text = 'OK';

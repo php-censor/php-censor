@@ -32,7 +32,6 @@ class Handler
     protected $logger;
 
     /**
-     * @param LoggerInterface $logger
      */
     public function __construct(LoggerInterface $logger = null)
     {
@@ -41,7 +40,6 @@ class Handler
 
     /**
      * Register a new log handler.
-     * @param LoggerInterface $logger
      */
     public static function register(LoggerInterface $logger = null)
     {
@@ -119,7 +117,6 @@ class Handler
     }
 
     /**
-     * @param $exception
      */
     public function handleException($exception)
     {
@@ -128,7 +125,6 @@ class Handler
 
     /**
      * Write to the build log.
-     * @param $exception
      */
     protected function log($exception)
     {

@@ -122,7 +122,6 @@ class GroupController extends WebController
 
     /**
      * Delete a project group.
-     * @param $groupId
      * @return RedirectResponse
      */
     public function delete($groupId)

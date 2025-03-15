@@ -110,7 +110,6 @@ class Builder implements LoggerAwareInterface
     /**
      * Set up the builder.
      *
-     * @param LoggerInterface $logger
      */
     public function __construct(Build $build, LoggerInterface $logger = null)
     {
