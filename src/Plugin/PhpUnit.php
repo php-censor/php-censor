@@ -115,9 +115,15 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
             return false;
         }
 
-        $cmd      = $this->executable;
-        $lastLine = \exec($cmd . ' --log-json . --version');
-        if (false !== \strpos($lastLine, '--log-json')) {
+        $cmd = $this->executable;
+
+        $this->builder->executeCommand(
+            $cmd . ' --log-json . --version',
+        );
+        $this->builder->logExecOutput(true);
+
+        $lastOutput = $this->builder->getLastOutput();
+        if (false !== \strpos($lastOutput, '--log-json')) {
             $logFormat = 'junit'; // --log-json is not supported
         } else {
             $logFormat = 'json';

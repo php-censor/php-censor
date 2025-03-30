@@ -78,10 +78,16 @@ class PhpCpd extends Plugin implements ZeroConfigPluginInterface
         }
 
         $phpcpd   = $this->executable;
-        $lastLine = \exec(
-            \sprintf('cd "%s" && ' . $phpcpd . ' %s "%s" --version', $this->builder->buildPath, $ignore, $this->directory)
+        $this->builder->executeCommand(
+            'cd "%s" && ' . $phpcpd . ' %s "%s" --version',
+            $this->builder->buildPath,
+            $ignore,
+            $this->directory,
         );
-        if (false !== \strpos($lastLine, '--names-exclude')) {
+        $this->builder->logExecOutput(true);
+
+        $lastOutput = $this->builder->getLastOutput();
+        if (false !== \strpos($lastOutput, '--names-exclude')) {
             $ignore = $ignoreForNewVersion;
         }
 
