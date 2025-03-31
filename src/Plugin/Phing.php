@@ -68,7 +68,7 @@ class Phing extends Plugin
     {
         $phingExecutable = $this->executable;
 
-        $cmd[] = $phingExecutable . ' -f ' . $this->getBuildFilePath();
+        $cmd[] = Builder::PHP_CLI_TAG . ' ' . $phingExecutable . ' -f ' . $this->getBuildFilePath();
 
         if ($this->getPropertyFile()) {
             $cmd[] = '-propertyfile ' . $this->getPropertyFile();

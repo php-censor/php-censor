@@ -173,7 +173,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
      */
     protected function executePhpMd($binaryPath)
     {
-        $cmd = 'cd "%s" && ' . $binaryPath . ' "%s" xml %s %s %s';
+        $cmd = 'cd "%s" && ' . Builder::PHP_CLI_TAG . ' ' . $binaryPath . ' "%s" xml %s %s %s';
 
         $ignore = '';
         if (\is_array($this->ignore) && \count($this->ignore) > 0) {

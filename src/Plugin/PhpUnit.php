@@ -118,7 +118,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
         $cmd = $this->executable;
 
         $this->builder->executeCommand(
-            $cmd . ' --log-json . --version',
+            Builder::PHP_CLI_TAG . ' ' . $cmd . ' --log-json . --version',
         );
         $this->builder->logExecOutput(true);
 
@@ -196,7 +196,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
         }
 
         $arguments = $this->builder->interpolate($options->buildArgumentString(), true);
-        $cmd       = $this->executable . ' %s %s';
+        $cmd       = Builder::PHP_CLI_TAG . ' ' . $this->executable . ' %s %s';
 
         if ($options->getOption('coverage')) {
             $cmd = 'XDEBUG_MODE=coverage ' . $cmd;

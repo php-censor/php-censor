@@ -206,6 +206,9 @@ class Build extends BaseBuild
                 $builder->logDebug('Config before repository clone (DB): ' . \json_encode($buildConfig));
 
                 $builder->setConfig($buildConfig);
+                if (!empty($buildConfig['build_settings']['php'])) {
+                    $builder->setPhpExecutable($buildConfig['build_settings']['php']);
+                }
             }
         }
 
@@ -258,6 +261,9 @@ class Build extends BaseBuild
             $builder->logDebug('Final config: ' . \json_encode($buildConfig));
 
             $builder->setConfig($buildConfig);
+            if (!empty($buildConfig['build_settings']['php'])) {
+                $builder->setPhpExecutable($buildConfig['build_settings']['php']);
+            }
         }
 
         return true;

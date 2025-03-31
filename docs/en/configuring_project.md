@@ -156,6 +156,8 @@ branch-dev:
 
 Section `build_settings` contents common build settings:
 
+* Option `php` set php executable path (For example: `php: php7.4` or `php: /usr/local/bin/php`. Default value: `php: php`).
+
 * Option `verbose` enable/disable verbosity of plugins output (Default value: `verbose: true`).
 
 * Option `clone_depth: N` allows cloning repository with partial history (Git clone option `--depth=N`). Option 

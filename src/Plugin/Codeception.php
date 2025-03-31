@@ -132,7 +132,7 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
             return false;
         }
 
-        $cmd = 'cd "%s" && ' . $codeception . ' run -c "%s" ' . $this->args . ' --xml';
+        $cmd = 'cd "%s" && ' . Builder::PHP_CLI_TAG . ' ' . $codeception . ' run -c "%s" ' . $this->args . ' --xml';
 
         $success = $this->builder->executeCommand($cmd, $this->directory, $this->ymlConfigFile);
         if (!$success) {

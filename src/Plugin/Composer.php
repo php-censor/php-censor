@@ -85,7 +85,7 @@ class Composer extends Plugin implements ZeroConfigPluginInterface
     {
         $composerLocation = $this->executable;
 
-        $cmd = $composerLocation . ' --no-ansi --no-interaction ';
+        $cmd = Builder::PHP_CLI_TAG . ' ' . $composerLocation . ' --no-ansi --no-interaction ';
 
         if ($this->preferDist) {
             $this->builder->log('Using --prefer-dist flag');
