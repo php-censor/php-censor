@@ -53,7 +53,7 @@ class DeployerOrg extends Plugin
 
         $branchConfig = $this->options[$this->branch];
         $options      = $this->getOptions($branchConfig);
-        $deployerCmd  = "$this->executable $options";
+        $deployerCmd  = Builder::PHP_CLI_TAG . " $this->executable $options";
 
         return $this->builder->executeCommand($deployerCmd);
     }

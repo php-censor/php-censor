@@ -3,7 +3,6 @@
 namespace PHPCensor\Plugin;
 
 use DirectoryIterator;
-use PHPCensor;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin;
@@ -66,10 +65,8 @@ class Lint extends Plugin
     {
         $success = true;
 
-        $php = $this->findBinary('php');
-
         foreach ($this->directories as $dir) {
-            if (!$this->lintDirectory($php, $dir)) {
+            if (!$this->lintDirectory($dir)) {
                 $success = false;
             }
         }
@@ -81,15 +78,15 @@ class Lint extends Plugin
      * Lint an item (file or directory) by calling the appropriate method.
      * @return bool
      */
-    protected function lintItem($php, $item, $itemPath)
+    protected function lintItem($item, $itemPath)
     {
         $success = true;
 
-        if ($item->isFile() && $item->getExtension() === 'php' && !$this->lintFile($php, $itemPath)) {
+        if ($item->isFile() && $item->getExtension() === 'php' && !$this->lintFile($itemPath)) {
             $success = false;
         } elseif ($item->isDir() &&
             $this->recursive &&
-            !$this->lintDirectory($php, ($itemPath . '/'))) {
+            !$this->lintDirectory($itemPath . '/')) {
             $success = false;
         }
 
@@ -100,7 +97,7 @@ class Lint extends Plugin
      * Run php -l against a directory of files.
      * @return bool
      */
-    protected function lintDirectory($php, $path)
+    protected function lintDirectory($path)
     {
         $success = true;
         $directory = new DirectoryIterator($this->builder->buildPath . $path);
@@ -116,7 +113,7 @@ class Lint extends Plugin
                 continue;
             }
 
-            if (!$this->lintItem($php, $item, $itemPath)) {
+            if (!$this->lintItem($item, $itemPath)) {
                 $success = false;
             }
         }
@@ -128,11 +125,11 @@ class Lint extends Plugin
      * Run php -l against a specific file.
      * @return bool
      */
-    protected function lintFile($php, $path)
+    protected function lintFile($path)
     {
         $success = true;
 
-        if (!$this->builder->executeCommand($php . ' -l "%s"', $this->builder->buildPath . $path)) {
+        if (!$this->builder->executeCommand(Builder::PHP_CLI_TAG . ' -l "%s"', $this->builder->buildPath . $path)) {
             $this->builder->logFailure($path);
             $success = false;
         }

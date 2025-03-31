@@ -58,7 +58,7 @@ class Psalm extends Plugin
             $this->builder->logExecOutput(false);
         }
 
-        $this->builder->executeCommand('cd "%s" && ' . $psalm . ' --output-format=json', $this->builder->buildPath);
+        $this->builder->executeCommand('cd "%s" && ' . Builder::PHP_CLI_TAG . ' ' . $psalm . ' --output-format=json', $this->builder->buildPath);
         $this->builder->logExecOutput(true);
 
         // Define that the plugin succeed

@@ -31,6 +31,10 @@ use PHPCensor\Common\Application\ConfigurationInterface;
  */
 class Builder
 {
+    const PHP_CLI_TAG = '%PHP%';
+
+    protected string $phpExecutable = 'php';
+
     public string $buildPath = '';
 
     /**
@@ -125,6 +129,11 @@ class Builder
     public function setConfig(array $config): void
     {
         $this->config = $config;
+    }
+
+    public function setPhpExecutable(string $phpExecutable): void
+    {
+        $this->phpExecutable = $phpExecutable;
     }
 
     /**
@@ -286,6 +295,10 @@ class Builder
      */
     public function executeCommand(...$params): bool
     {
+        if (!empty($params[0])) {
+            $params[0] = \str_replace(self::PHP_CLI_TAG, $this->phpExecutable, $params[0]);
+        }
+
         return $this->commandExecutor->executeCommand($params);
     }
 

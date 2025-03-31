@@ -62,7 +62,7 @@ class Pahout extends Plugin
         }
 
         $this->builder->executeCommand(
-            'cd "%s" && ' . $pahout . ' %s --format=json',
+            'cd "%s" && ' . Builder::PHP_CLI_TAG . ' ' . $pahout . ' %s --format=json',
             $this->builder->buildPath,
             $this->directory
         );

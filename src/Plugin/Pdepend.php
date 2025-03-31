@@ -104,7 +104,7 @@ class Pdepend extends Plugin
         }
 
         $pdepend = $this->executable;
-        $cmd     = 'cd "%s" && ' . $pdepend . ' --summary-xml="%s" --jdepend-chart="%s" --overview-pyramid="%s" %s "%s"';
+        $cmd     = 'cd "%s" && ' . Builder::PHP_CLI_TAG . ' ' . $pdepend . ' --summary-xml="%s" --jdepend-chart="%s" --overview-pyramid="%s" %s "%s"';
 
         $ignore = '';
         if (\count($this->ignore)) {

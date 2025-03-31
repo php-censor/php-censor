@@ -96,7 +96,7 @@ class PhpCsFixer extends Plugin
         $phpCsFixer = $this->executable;
 
         // Determine the version of PHP CS Fixer
-        $cmd     = $phpCsFixer . ' --version';
+        $cmd     = Builder::PHP_CLI_TAG . ' ' . $phpCsFixer . ' --version';
         $success = $this->builder->executeCommand($cmd);
         $output  = $this->builder->getLastOutput();
         $matches = [];
@@ -132,7 +132,7 @@ class PhpCsFixer extends Plugin
             }
         }
 
-        $cmd     = $phpCsFixer . ' fix ' . $directory . ' %s';
+        $cmd     = Builder::PHP_CLI_TAG . ' ' . $phpCsFixer . ' fix ' . $directory . ' %s';
         $success = $this->builder->executeCommand($cmd, $this->args);
 
         $this->builder->logExecOutput(true);

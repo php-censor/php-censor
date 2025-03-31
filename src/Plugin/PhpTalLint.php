@@ -160,7 +160,7 @@ class PhpTalLint extends Plugin
         $lint = __DIR__ . '/';
         $lint .= 'vendor/phptal/phptal/';
         $lint .= 'tools/phptal_lint.php';
-        $cmd  = 'php ' . $lint . ' %s "%s"';
+        $cmd  = Builder::PHP_CLI_TAG . ' ' . $lint . ' %s "%s"';
 
         $this->builder->executeCommand($cmd, $suffixes, $this->builder->buildPath . $path);
 

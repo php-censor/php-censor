@@ -65,7 +65,7 @@ class PhpStan extends Plugin
         }
 
         $this->builder->executeCommand(
-            'cd "%s" && ' . $phpStan . ' analyze --error-format=json %s',
+            'cd "%s" && ' . Builder::PHP_CLI_TAG . ' ' . $phpStan . ' analyze --error-format=json %s',
             $this->builder->buildPath,
             \implode(' ', $this->directories)
         );
