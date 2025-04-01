@@ -63,8 +63,11 @@ abstract class Plugin
 
     protected ?StoreRegistry $storeRegistry = null;
 
-    public function __construct(protected Builder $builder, protected Build $build, protected array $options = [])
-    {
+    public function __construct(
+        protected Builder $builder,
+        protected Build $build,
+        protected array $options = []
+    ) {
         $this->directory  = $this->normalizeDirectory();
         $this->binaryPath = $this->normalizeBinaryPath();
         $this->ignore     = $this->normalizeIgnore();

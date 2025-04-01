@@ -37,8 +37,13 @@ class BuildService
 {
     public bool $queueError = false;
 
-    public function __construct(private readonly ConfigurationInterface $configuration, private readonly StoreRegistry $storeRegistry, private readonly BuildFactory $buildFactory, private readonly BuildStore $buildStore, private readonly ProjectStore $projectStore)
-    {
+    public function __construct(
+        private readonly ConfigurationInterface $configuration,
+        private readonly StoreRegistry $storeRegistry,
+        private readonly BuildFactory $buildFactory,
+        private readonly BuildStore $buildStore,
+        private readonly ProjectStore $projectStore
+    ) {
     }
 
     public function createBuild(

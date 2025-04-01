@@ -19,12 +19,20 @@ use PHPCensor\StoreRegistry;
  */
 class UserService
 {
-    public function __construct(private readonly StoreRegistry $storeRegistry, private readonly UserStore $store)
-    {
+    public function __construct(
+        private readonly StoreRegistry $storeRegistry,
+        private readonly UserStore $store
+    ) {
     }
 
-    public function createUser(string $name, string $email, string $providerKey, array $providerData, string $password, bool $isAdmin = false): ?User
-    {
+    public function createUser(
+        string $name,
+        string $email,
+        string $providerKey,
+        array $providerData,
+        string $password,
+        bool $isAdmin = false
+    ): ?User {
         $user = new User($this->storeRegistry);
         $user->setName($name);
         $user->setEmail($email);

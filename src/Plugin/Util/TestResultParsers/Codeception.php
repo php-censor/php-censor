@@ -44,8 +44,10 @@ class Codeception implements ParserInterface
     /**
      * @param string $xmlPath
      */
-    public function __construct(protected Builder $builder, protected $xmlPath)
-    {
+    public function __construct(
+        protected Builder $builder,
+        protected $xmlPath
+    ) {
     }
 
     /**

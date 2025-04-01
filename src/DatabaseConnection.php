@@ -14,8 +14,13 @@ class DatabaseConnection
 {
     private ?\PDO $pdoConnection = null;
 
-    public function __construct(private readonly string $dsn, private readonly ?string $username = null, private readonly ?string $password = null, private readonly ?array $options = null, private readonly string $sequencePattern = '%s_id_seq')
-    {
+    public function __construct(
+        private readonly string $dsn,
+        private readonly ?string $username = null,
+        private readonly ?string $password = null,
+        private readonly ?array $options = null,
+        private readonly string $sequencePattern = '%s_id_seq'
+    ) {
     }
 
     public function getPdo(): \PDO

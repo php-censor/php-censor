@@ -20,8 +20,11 @@ class BitbucketNotifyPluginResult implements \Stringable
      * @param int $left
      * @param int $right
      */
-    public function __construct(protected $plugin, protected $left, protected $right)
-    {
+    public function __construct(
+        protected $plugin,
+        protected $left,
+        protected $right
+    ) {
     }
 
     public function getPlugin()

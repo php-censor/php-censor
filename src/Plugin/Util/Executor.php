@@ -21,8 +21,12 @@ use PHPCensor\StoreRegistry;
  */
 class Executor
 {
-    public function __construct(protected StoreRegistry $storeRegistry, protected Factory $pluginFactory, protected BuildLogger $logger, protected BuildStore $store = null)
-    {
+    public function __construct(
+        protected StoreRegistry $storeRegistry,
+        protected Factory $pluginFactory,
+        protected BuildLogger $logger,
+        protected ?BuildStore $store = null
+    ) {
     }
 
     /**

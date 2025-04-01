@@ -29,8 +29,10 @@ class BuildInterpolator
      */
     private array $interpolationVars = [];
 
-    public function __construct(private readonly EnvironmentStore $environmentStore, private readonly SecretStore $secretStore)
-    {
+    public function __construct(
+        private readonly EnvironmentStore $environmentStore,
+        private readonly SecretStore $secretStore
+    ) {
     }
 
     /**

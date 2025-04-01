@@ -25,8 +25,10 @@ abstract class PhpUnitResult
     protected $failures = 0;
     protected $errors = [];
 
-    public function __construct(protected $outputFile, protected $buildPath = '')
-    {
+    public function __construct(
+        protected $outputFile,
+        protected $buildPath = ''
+    ) {
     }
 
     /**

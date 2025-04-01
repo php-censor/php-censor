@@ -17,8 +17,11 @@ class PhpUnitOptions
 {
     protected array $arguments = [];
 
-    public function __construct(protected ConfigurationInterface $configuration, protected array $options, protected string $location)
-    {
+    public function __construct(
+        protected ConfigurationInterface $configuration,
+        protected array $options,
+        protected string $location
+    ) {
     }
 
     /**
