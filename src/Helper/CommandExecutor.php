@@ -237,8 +237,8 @@ class CommandExecutor implements CommandExecutorInterface
      */
     protected function findBinarySystem($binary): false|string
     {
-        $tempBinary = \trim(\shell_exec('which ' . $binary));
-        if (\is_file($tempBinary)) {
+        $tempBinary = \trim((string)\shell_exec('which ' . $binary));
+        if ($tempBinary && \is_file($tempBinary)) {
             $this->logger->logDebug(\sprintf('Found in %s (system): %s', '', $binary));
 
             return $tempBinary;
