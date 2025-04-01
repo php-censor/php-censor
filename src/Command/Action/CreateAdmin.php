@@ -22,8 +22,13 @@ use Symfony\Component\Console\Question\Question;
  */
 class CreateAdmin
 {
-    public function __construct(private readonly QuestionHelper $questionHelper, private readonly InputInterface $input, private readonly OutputInterface $output, private readonly StoreRegistry $storeRegistry, private readonly UserStore $userStore)
-    {
+    public function __construct(
+        private readonly QuestionHelper $questionHelper,
+        private readonly InputInterface $input,
+        private readonly OutputInterface $output,
+        private readonly StoreRegistry $storeRegistry,
+        private readonly UserStore $userStore
+    ) {
     }
 
     /**

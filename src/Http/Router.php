@@ -19,8 +19,10 @@ class Router
         ['route' => '/:controller/:action', 'callback' => null, 'defaults' => []]
     ];
 
-    public function __construct(protected Application $application, protected Request $request)
-    {
+    public function __construct(
+        protected Application $application,
+        protected Request $request
+    ) {
     }
 
     public function clearRoutes()

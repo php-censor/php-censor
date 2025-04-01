@@ -23,8 +23,10 @@ abstract class Store
 
     protected string $primaryKey = 'id';
 
-    public function __construct(protected DatabaseManager $databaseManager, protected StoreRegistry $storeRegistry)
-    {
+    public function __construct(
+        protected DatabaseManager $databaseManager,
+        protected StoreRegistry $storeRegistry
+    ) {
     }
 
     public function getById(int $id, string $useConnection = 'read'): ?Model

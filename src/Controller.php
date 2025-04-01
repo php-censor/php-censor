@@ -18,8 +18,12 @@ use Symfony\Component\HttpFoundation\Session\Session;
  */
 abstract class Controller
 {
-    public function __construct(protected ConfigurationInterface $configuration, protected StoreRegistry $storeRegistry, protected Request $request, protected Session $session)
-    {
+    public function __construct(
+        protected ConfigurationInterface $configuration,
+        protected StoreRegistry $storeRegistry,
+        protected Request $request,
+        protected Session $session
+    ) {
     }
 
     /**

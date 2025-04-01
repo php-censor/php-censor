@@ -61,8 +61,11 @@ class CommandExecutor implements CommandExecutorInterface
      * @param string $rootDir
      * @param bool   $verbose
      */
-    public function __construct(protected BuildLogger $logger, protected $rootDir, protected $verbose = false)
-    {
+    public function __construct(
+        protected BuildLogger $logger,
+        protected $rootDir,
+        protected $verbose = false
+    ) {
     }
 
     /**
