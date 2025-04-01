@@ -17,13 +17,13 @@ class WebhookRequest extends Model
 {
     use HasCreateDateTrait;
 
-    public const WEBHOOK_TYPE_GIT = 'git';
-    public const WEBHOOK_TYPE_GITHUB = 'github';
-    public const WEBHOOK_TYPE_BITBUCKET = 'bitbucket';
-    public const WEBHOOK_TYPE_GITLAB = 'gitlab';
-    public const WEBHOOK_TYPE_GOGS = 'gogs';
-    public const WEBHOOK_TYPE_HG = 'hg';
-    public const WEBHOOK_TYPE_SVN = 'svn';
+    final public const WEBHOOK_TYPE_GIT = 'git';
+    final public const WEBHOOK_TYPE_GITHUB = 'github';
+    final public const WEBHOOK_TYPE_BITBUCKET = 'bitbucket';
+    final public const WEBHOOK_TYPE_GITLAB = 'gitlab';
+    final public const WEBHOOK_TYPE_GOGS = 'gogs';
+    final public const WEBHOOK_TYPE_HG = 'hg';
+    final public const WEBHOOK_TYPE_SVN = 'svn';
 
     protected array $data = [
         'id'           => null,

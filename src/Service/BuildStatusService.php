@@ -28,9 +28,9 @@ class BuildStatusService
     ];
 
     public function __construct(
-        private string $branch,
-        private Project $project,
-        private ?Build $build = null,
+        private readonly string $branch,
+        private readonly Project $project,
+        private readonly ?Build $build = null,
         bool $isParent = false
     ) {
         if ($this->build) {

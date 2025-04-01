@@ -272,7 +272,7 @@ class Builder
         );
 
         if (!empty($trend[0]) && !empty($trend[0]['coverage'])) {
-            $coverage = \json_decode($trend[0]['coverage'], true);
+            $coverage = \json_decode((string) $trend[0]['coverage'], true);
             if (isset($coverage['lines'])) {
                 $this->build->setTestCoveragePrevious($coverage['lines']);
             }

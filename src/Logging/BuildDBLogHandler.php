@@ -34,7 +34,7 @@ class BuildDBLogHandler extends AbstractProcessingHandler
     protected int $flushDelay = 1;
 
     public function __construct(
-        private SecretStore $secretStore,
+        private readonly SecretStore $secretStore,
         protected BuildStore $buildStore,
         protected Build $build,
         int $level = Logger::INFO,

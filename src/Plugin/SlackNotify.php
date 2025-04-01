@@ -44,7 +44,7 @@ class SlackNotify extends Plugin
         parent::__construct($builder, $build, $options);
 
         if (\is_array($options) && isset($options['webhook_url'])) {
-            $this->webHook = \trim($options['webhook_url']);
+            $this->webHook = \trim((string) $options['webhook_url']);
 
             if (isset($options['message'])) {
                 $this->message = $options['message'];

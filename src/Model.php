@@ -89,7 +89,7 @@ class Model
                 return \is_float($value) ? $value : \floatval($value);
 
             case 'array':
-                return \is_array($value) ? $value : \json_decode($value, true);
+                return \is_array($value) ? $value : \json_decode((string) $value, true);
 
             case 'datetime':
                 if (\is_a($value, DateTime::class)) {

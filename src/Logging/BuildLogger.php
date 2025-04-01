@@ -16,7 +16,7 @@ use Psr\Log\LogLevel;
  */
 class BuildLogger
 {
-    public function __construct(private LoggerInterface $logger, private Build $build)
+    public function __construct(private readonly LoggerInterface $logger, private readonly Build $build)
     {
     }
 

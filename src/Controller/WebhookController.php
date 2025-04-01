@@ -473,7 +473,7 @@ class WebhookController extends Controller
                 $payloadJson
             );
 
-            return $this->bitbucketService(\json_decode($payloadJson, true), $project);
+            return $this->bitbucketService(\json_decode((string) $payloadJson, true), $project);
         }
 
         $payloadJson = \file_get_contents("php://input");
@@ -520,9 +520,9 @@ class WebhookController extends Controller
             if (!empty($commit['new'])) {
                 try {
                     $email = $commit['new']['target']['author']['raw'];
-                    if (\str_contains($email, '>')) {
+                    if (\str_contains((string) $email, '>')) {
                         // In order not to lose email if it is RAW, w/o "<>" symbols
-                        $email = \substr($email, 0, \strpos($email, '>'));
+                        $email = \substr((string) $email, 0, \strpos((string) $email, '>'));
                         $email = \substr($email, \strpos($email, '<') + 1);
                     }
 
@@ -552,7 +552,7 @@ class WebhookController extends Controller
      */
     protected function bitbucketPullRequest(Project $project, array $payload): array
     {
-        $triggerType = \trim($_SERVER['HTTP_X_EVENT_KEY']);
+        $triggerType = \trim((string) $_SERVER['HTTP_X_EVENT_KEY']);
 
         if (!\array_key_exists(
             $triggerType,
@@ -590,7 +590,7 @@ class WebhookController extends Controller
         foreach ($commits as $commit) {
             // Skip all but the current HEAD commit ID:
             $id = $commit['hash'];
-            if (!\str_starts_with($id, $payload['pullrequest']['source']['commit']['hash'])) {
+            if (!\str_starts_with((string) $id, (string) $payload['pullrequest']['source']['commit']['hash'])) {
                 $results[$id] = ['status' => 'ignored', 'message' => 'not branch head'];
 
                 continue;
@@ -599,9 +599,9 @@ class WebhookController extends Controller
             try {
                 $branch    = $payload['pullrequest']['destination']['branch']['name'];
                 $committer = $commit['author']['raw'];
-                if (\str_contains($committer, '>')) {
+                if (\str_contains((string) $committer, '>')) {
                     // In order not to lose email if it is RAW, w/o "<>" symbols
-                    $committer = \substr($committer, 0, \strpos($committer, '>'));
+                    $committer = \substr((string) $committer, 0, \strpos((string) $committer, '>'));
                     $committer = \substr($committer, \strpos($committer, '<') + 1);
                 }
                 $message   = $commit['message'];
@@ -638,7 +638,7 @@ class WebhookController extends Controller
      */
     protected function bitbucketSvrPullRequest(Project $project, array $payload): array
     {
-        $triggerType = \trim($_SERVER['HTTP_X_EVENT_KEY']);
+        $triggerType = \trim((string) $_SERVER['HTTP_X_EVENT_KEY']);
 
         if (!\array_key_exists(
             $triggerType,
@@ -692,7 +692,7 @@ class WebhookController extends Controller
         foreach ($payload['commits'] as $commit) {
             try {
                 $email = $commit['raw_author'];
-                $email = \substr($email, 0, \strpos($email, '>'));
+                $email = \substr((string) $email, 0, \strpos((string) $email, '>'));
                 $email = \substr($email, \strpos($email, '<') + 1);
 
                 $results[$commit['raw_node']] = $this->createBuild(
@@ -748,7 +748,7 @@ class WebhookController extends Controller
             );
         }
 
-        $payload = \json_decode($payloadJson, true);
+        $payload = \json_decode((string) $payloadJson, true);
 
         // Handle Pull Request webhooks:
         if (\array_key_exists('pull_request', $payload)) {
@@ -775,7 +775,7 @@ class WebhookController extends Controller
         }
 
         if (isset($payload['head_commit']) && $payload['head_commit']) {
-            $isTag   = (\str_starts_with($payload['ref'], 'refs/tags/')) ? true : false;
+            $isTag   = (\str_starts_with((string) $payload['ref'], 'refs/tags/')) ? true : false;
             $commit  = $payload['head_commit'];
             $results = [];
             $status  = 'failed';
@@ -786,11 +786,11 @@ class WebhookController extends Controller
                 try {
                     $tag = null;
                     if ($isTag) {
-                        $tag       = \str_replace('refs/tags/', '', $payload['ref']);
-                        $branch    = \str_replace('refs/heads/', '', $payload['base_ref']);
+                        $tag       = \str_replace('refs/tags/', '', (string) $payload['ref']);
+                        $branch    = \str_replace('refs/heads/', '', (string) $payload['base_ref']);
                         $committer = $payload['pusher']['email'];
                     } else {
-                        $branch    = \str_replace('refs/heads/', '', $payload['ref']);
+                        $branch    = \str_replace('refs/heads/', '', (string) $payload['ref']);
                         $committer = $commit['committer']['email'];
                     }
 
@@ -823,7 +823,7 @@ class WebhookController extends Controller
      */
     protected function githubPullRequest(Project $project, array $payload): array
     {
-        $triggerType = \trim($payload['action']);
+        $triggerType = \trim((string) $payload['action']);
 
         if (!\array_key_exists(
             $triggerType,
@@ -876,7 +876,7 @@ class WebhookController extends Controller
             }
 
             try {
-                $branch    = \str_replace('refs/heads/', '', $payload['pull_request']['base']['ref']);
+                $branch    = \str_replace('refs/heads/', '', (string) $payload['pull_request']['base']['ref']);
                 $committer = $commit['commit']['author']['email'];
                 $message   = $commit['commit']['message'];
 
@@ -958,7 +958,7 @@ class WebhookController extends Controller
 
             $commit = \end($payload['commits']);
             try {
-                $branch                 = \str_replace('refs/heads/', '', $payload['ref']);
+                $branch                 = \str_replace('refs/heads/', '', (string) $payload['ref']);
                 $committer              = $commit['author']['email'];
                 $results[$commit['id']] = $this->createBuild(
                     Build::SOURCE_WEBHOOK_PUSH,
@@ -1007,7 +1007,7 @@ class WebhookController extends Controller
             );
         }
 
-        $payload = \json_decode($payloadJson, true);
+        $payload = \json_decode((string) $payloadJson, true);
 
         // Handle Push web hooks:
         if (\array_key_exists('commits', $payload)) {
@@ -1032,7 +1032,7 @@ class WebhookController extends Controller
             $status  = 'failed';
             foreach ($payload['commits'] as $commit) {
                 try {
-                    $branch = \str_replace('refs/heads/', '', $payload['ref']);
+                    $branch = \str_replace('refs/heads/', '', (string) $payload['ref']);
                     $committer = $commit['author']['email'];
                     $results[$commit['id']] = $this->createBuild(
                         Build::SOURCE_WEBHOOK_PUSH,
@@ -1086,8 +1086,8 @@ class WebhookController extends Controller
         if (\in_array($action, $activeActions, true) && \in_array($state, $activeStates, true)) {
             if (isset($pullRequest['labels']) && \is_array($pullRequest['labels'])) {
                 foreach ($pullRequest['labels'] as $label) {
-                    if (\str_starts_with($label['name'], 'env:')) {
-                        $envs[] = \substr($label['name'], 4);
+                    if (\str_starts_with((string) $label['name'], 'env:')) {
+                        $envs[] = \substr((string) $label['name'], 4);
                     }
                 }
             }

@@ -15,7 +15,7 @@ use PHPCensor\Common\Application\ConfigurationInterface;
  */
 class Github
 {
-    public function __construct(private ConfigurationInterface $configuration)
+    public function __construct(private readonly ConfigurationInterface $configuration)
     {
     }
 
@@ -31,7 +31,7 @@ class Github
             return null;
         }
 
-        $url = '/repos/' . \strtolower($repo) . '/pulls/' . $pullId . '/comments';
+        $url = '/repos/' . \strtolower((string) $repo) . '/pulls/' . $pullId . '/comments';
 
         $params = [
             'body'      => $comment,
@@ -62,7 +62,7 @@ class Github
             return null;
         }
 
-        $url = '/repos/' . \strtolower($repo) . '/commits/' . $commitId . '/comments';
+        $url = '/repos/' . \strtolower((string) $repo) . '/commits/' . $commitId . '/comments';
 
         $params = [
             'body'     => $comment,

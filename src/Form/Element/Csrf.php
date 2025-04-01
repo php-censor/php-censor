@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
  */
 class Csrf extends Hidden
 {
-    public function __construct(private Session $session, ?string $name = null)
+    public function __construct(private readonly Session $session, ?string $name = null)
     {
         parent::__construct($name);
     }

@@ -16,7 +16,7 @@ use PHPCensor\Plugin;
  */
 class Factory
 {
-    public function __construct(private Builder $builder, private Build $build)
+    public function __construct(private readonly Builder $builder, private readonly Build $build)
     {
     }
 

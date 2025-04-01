@@ -16,7 +16,7 @@ use PHPCensor\Model\Build;
  */
 class Bitbucket
 {
-    public function __construct(private ConfigurationInterface $configuration)
+    public function __construct(private readonly ConfigurationInterface $configuration)
     {
     }
 

@@ -145,12 +145,12 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
 
         $trueReportXmlPath = null;
         if ($config && isset($config['paths']['log'])) {
-            $trueReportXmlPath = \rtrim($config['paths']['log'], '/\\') . '/';
+            $trueReportXmlPath = \rtrim((string) $config['paths']['log'], '/\\') . '/';
         }
 
         if (!\file_exists($trueReportXmlPath . 'report.xml')) {
             foreach ($this->outputPath as $outputPath) {
-                $trueReportXmlPath = \rtrim($outputPath, '/\\') . '/';
+                $trueReportXmlPath = \rtrim((string) $outputPath, '/\\') . '/';
                 if (\file_exists($trueReportXmlPath . 'report.xml')) {
                     break;
                 }

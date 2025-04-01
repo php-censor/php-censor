@@ -153,7 +153,7 @@ class TelegramNotify extends Plugin
             $this->buildMsg .= $firstRow === 'composer' ? '' : ('```' . \mb_substr($bm, $pos) . '```');
         }
 
-        return $this->builder->interpolate(\str_replace(['%ICON_BUILD%'], [$buildIcon], $this->message));
+        return $this->builder->interpolate(\str_replace(['%ICON_BUILD%'], [$buildIcon], (string) $this->message));
     }
 
     /**

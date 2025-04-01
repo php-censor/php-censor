@@ -374,7 +374,7 @@ class InstallCommand extends Command
 
         if (!$dbType = $input->getOption('db-type')) {
             $questionType = new Question('Enter your database type ("mysql" or "pgsql"): ');
-            $dbType       = \trim(\strtolower($helper->ask($input, $output, $questionType)));
+            $dbType       = \trim(\strtolower((string) $helper->ask($input, $output, $questionType)));
         }
 
         if (!$dbHost = $input->getOption('db-host')) {
@@ -382,7 +382,7 @@ class InstallCommand extends Command
                 'Enter your database host (default: "localhost"): ',
                 'localhost'
             );
-            $dbHost = \trim($helper->ask($input, $output, $questionHost));
+            $dbHost = \trim((string) $helper->ask($input, $output, $questionHost));
         }
 
         $defaultPort = 3306;
@@ -417,7 +417,7 @@ class InstallCommand extends Command
                 'Enter your database name (default: "php-censor-db"): ',
                 'php-censor-db'
             );
-            $dbName = \trim($helper->ask($input, $output, $questionDb));
+            $dbName = \trim((string) $helper->ask($input, $output, $questionDb));
         }
 
         if (!$dbUser = $input->getOption('db-user')) {
@@ -425,7 +425,7 @@ class InstallCommand extends Command
                 'Enter your database user (default: "php-censor-user"): ',
                 'php-censor-user'
             );
-            $dbUser = \trim($helper->ask($input, $output, $questionUser));
+            $dbUser = \trim((string) $helper->ask($input, $output, $questionUser));
         }
 
         if (!$dbPass = $input->getOption('db-password')) {

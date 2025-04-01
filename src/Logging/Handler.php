@@ -36,10 +36,10 @@ class Handler
     {
         $handler = new static($logger);
 
-        \set_error_handler([$handler, 'handleError']);
+        \set_error_handler($handler->handleError(...));
         \register_shutdown_function([$handler, 'handleFatalError']);
 
-        \set_exception_handler([$handler, 'handleException']);
+        \set_exception_handler($handler->handleException(...));
     }
 
     /**
