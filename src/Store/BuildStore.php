@@ -338,7 +338,7 @@ class BuildStore extends Store
 
             $rtn = \array_reverse($rtn);
             $rtn = \array_map(function ($item) use ($key, $errorStore, $buildId) {
-                $item['meta_value'] = \json_decode($item['meta_value'], true);
+                $item['meta_value'] = \json_decode((string) $item['meta_value'], true);
                 if ('plugin-summary' === $key) {
                     foreach ($item['meta_value'] as $stage => $stageData) {
                         foreach ($stageData as $plugin => $pluginData) {

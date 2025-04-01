@@ -249,7 +249,7 @@ class SessionController extends WebController
         }
 
         if ($this->request->getMethod() === 'POST') {
-            $hash = \password_hash($this->getParam('password'), PASSWORD_DEFAULT);
+            $hash = \password_hash((string) $this->getParam('password'), PASSWORD_DEFAULT);
             $user->setHash($hash);
 
             $this->userStore->save($user);

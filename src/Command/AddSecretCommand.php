@@ -28,7 +28,7 @@ class AddSecretCommand extends Command
         DatabaseManager $databaseManager,
         StoreRegistry $storeRegistry,
         LoggerInterface $logger,
-        private SecretStore $secretStore,
+        private readonly SecretStore $secretStore,
         ?string $name = null
     ) {
         parent::__construct($configuration, $databaseManager, $storeRegistry, $logger, $name);

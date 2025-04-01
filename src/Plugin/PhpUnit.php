@@ -284,7 +284,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
     {
         foreach ($coverage as $key => $currentValue) {
             if ($requiredValue = $this->options->getOption(\implode('_', ['required', $key, 'coverage']))) {
-                if (\bccomp($requiredValue, $currentValue) === 1) {
+                if (\bccomp($requiredValue, (string) $currentValue) === 1) {
                     return false;
                 }
             }

@@ -16,15 +16,15 @@ use PHPCensor\Common\Application\ConfigurationInterface;
  */
 class DatabaseManager
 {
-    public const MYSQL_TYPE      = 'mysql';
-    public const POSTGRESQL_TYPE = 'pgsql';
+    final public const MYSQL_TYPE      = 'mysql';
+    final public const POSTGRESQL_TYPE = 'pgsql';
 
     private array $connections = [
         'read'  => null,
         'write' => null
     ];
 
-    public function __construct(private ConfigurationInterface $configuration)
+    public function __construct(private readonly ConfigurationInterface $configuration)
     {
     }
 

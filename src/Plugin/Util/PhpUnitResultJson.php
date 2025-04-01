@@ -16,9 +16,9 @@ use PHPCensor\Common\Exception\RuntimeException;
  */
 class PhpUnitResultJson extends PhpUnitResult
 {
-    public const EVENT_TEST        = 'test';
-    public const EVENT_TEST_START  = 'testStart';
-    public const EVENT_SUITE_START = 'suiteStart';
+    final public const EVENT_TEST        = 'test';
+    final public const EVENT_TEST_START  = 'testStart';
+    final public const EVENT_SUITE_START = 'suiteStart';
 
     protected $options;
     protected $arguments = [];
@@ -86,7 +86,7 @@ class PhpUnitResultJson extends PhpUnitResult
 
                 break;
             case 'error':
-                if (\str_starts_with($testCase['message'], 'Skipped') || \str_starts_with($testCase['message'], 'Incomplete')) {
+                if (\str_starts_with((string) $testCase['message'], 'Skipped') || \str_starts_with((string) $testCase['message'], 'Incomplete')) {
                     $severity = self::SEVERITY_SKIPPED;
                 } else {
                     $severity = self::SEVERITY_ERROR;
@@ -136,7 +136,7 @@ class PhpUnitResultJson extends PhpUnitResult
 
         if (!empty($testCase['trace'])) {
             foreach ($testCase['trace'] as $step) {
-                $line             = \str_replace($this->buildPath, '', $step['file']) . ':' . $step['line'];
+                $line             = \str_replace($this->buildPath, '', (string) $step['file']) . ':' . $step['line'];
                 $formattedTrace[] = $line;
             }
         }
@@ -163,7 +163,7 @@ class PhpUnitResultJson extends PhpUnitResult
         \reset($testCase['trace']);
 
         return [
-            'file' => \str_replace($this->buildPath, '', $firstTrace['file']),
+            'file' => \str_replace($this->buildPath, '', (string) $firstTrace['file']),
             'line' => $firstTrace['line']
         ];
     }

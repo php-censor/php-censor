@@ -31,35 +31,35 @@ use Psr\Log\LoggerInterface;
  */
 class BuildWorker
 {
-    public const JOB_TYPE_BUILD     = 'php-censor.build';
-    public const JOB_TYPE_STOP_FLAG = 'php-censor.stop-flag';
+    final public const JOB_TYPE_BUILD     = 'php-censor.build';
+    final public const JOB_TYPE_STOP_FLAG = 'php-censor.stop-flag';
 
     /**
      * If this variable changes to false, the worker will stop after the current build.
      */
     private bool $canRun = true;
 
-    private Pheanstalk $pheanstalk;
+    private readonly Pheanstalk $pheanstalk;
 
     private int $lastPeriodical = 0;
 
     public function __construct(
-        private ConfigurationInterface $configuration,
-        private DatabaseManager $databaseManager,
-        private StoreRegistry $storeRegistry,
+        private readonly ConfigurationInterface $configuration,
+        private readonly DatabaseManager $databaseManager,
+        private readonly StoreRegistry $storeRegistry,
         /**
          * The logger for builds to use.
          */
-        private LoggerInterface $logger,
-        private BuildService $buildService,
-        private BuildFactory $buildFactory,
+        private readonly LoggerInterface $logger,
+        private readonly BuildService $buildService,
+        private readonly BuildFactory $buildFactory,
         string $queueHost,
         int $queuePort,
         /**
          * beanstalkd queue to watch
          */
-        private string $queueTube,
-        private bool $canPeriodicalWork
+        private readonly string $queueTube,
+        private readonly bool $canPeriodicalWork
     ) {
         $this->pheanstalk = Pheanstalk::create($queueHost, $queuePort);
     }

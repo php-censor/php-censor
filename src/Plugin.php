@@ -14,13 +14,13 @@ use PHPCensor\Model\Build;
  */
 abstract class Plugin
 {
-    public const STATUS_PENDING        = 0;
-    public const STATUS_RUNNING        = 1;
-    public const STATUS_SUCCESS        = 2;
-    public const STATUS_FAILED         = 3;
-    public const STATUS_FAILED_ALLOWED = 4;
+    final public const STATUS_PENDING        = 0;
+    final public const STATUS_RUNNING        = 1;
+    final public const STATUS_SUCCESS        = 2;
+    final public const STATUS_FAILED         = 3;
+    final public const STATUS_FAILED_ALLOWED = 4;
 
-    public const AVAILABLE_PRIORITY_PATHS = [
+    final public const AVAILABLE_PRIORITY_PATHS = [
         'global',
         'system',
         'local',

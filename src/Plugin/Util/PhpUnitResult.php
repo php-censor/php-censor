@@ -15,12 +15,12 @@ use Exception;
  */
 abstract class PhpUnitResult
 {
-    public const SEVERITY_PASS    = 'success';
-    public const SEVERITY_FAIL    = 'fail';
-    public const SEVERITY_ERROR   = 'error';
-    public const SEVERITY_SKIPPED = 'skipped';
-    public const SEVERITY_WARN    = self::SEVERITY_PASS;
-    public const SEVERITY_RISKY   = self::SEVERITY_PASS;
+    final public const SEVERITY_PASS    = 'success';
+    final public const SEVERITY_FAIL    = 'fail';
+    final public const SEVERITY_ERROR   = 'error';
+    final public const SEVERITY_SKIPPED = 'skipped';
+    final public const SEVERITY_WARN    = self::SEVERITY_PASS;
+    final public const SEVERITY_RISKY   = self::SEVERITY_PASS;
     protected $results;
     protected $failures = 0;
     protected $errors = [];

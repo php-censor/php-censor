@@ -61,7 +61,7 @@ class Router
                 $thisAction = $route['defaults']['action'];
             }
 
-            $routeParts = \array_filter(\explode('/', $route['route']));
+            $routeParts = \array_filter(\explode('/', (string) $route['route']));
             $routeMatches = true;
 
             while (\count($routeParts)) {

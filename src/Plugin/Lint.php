@@ -46,7 +46,7 @@ class Lint extends Plugin
                 $relativePath = \preg_replace(
                     '#^(\./|/)?(.*)$#',
                     '$2',
-                    $options['directories'][$index]
+                    (string) $options['directories'][$index]
                 );
                 $relativePath = \rtrim($relativePath, "\//");
 

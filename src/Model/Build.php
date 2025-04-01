@@ -30,14 +30,14 @@ use Symfony\Component\Yaml\Parser as YamlParser;
  */
 class Build extends BaseBuild
 {
-    public const STAGE_SETUP    = 'setup';
-    public const STAGE_TEST     = 'test';
-    public const STAGE_DEPLOY   = 'deploy';
-    public const STAGE_COMPLETE = 'complete';
-    public const STAGE_SUCCESS  = 'success';
-    public const STAGE_FAILURE  = 'failure';
-    public const STAGE_FIXED    = 'fixed';
-    public const STAGE_BROKEN   = 'broken';
+    final public const STAGE_SETUP    = 'setup';
+    final public const STAGE_TEST     = 'test';
+    final public const STAGE_DEPLOY   = 'deploy';
+    final public const STAGE_COMPLETE = 'complete';
+    final public const STAGE_SUCCESS  = 'success';
+    final public const STAGE_FAILURE  = 'failure';
+    final public const STAGE_FIXED    = 'fixed';
+    final public const STAGE_BROKEN   = 'broken';
 
     public static array $pullRequestSources = [
         self::SOURCE_WEBHOOK_PULL_REQUEST_CREATED,

@@ -16,7 +16,7 @@ use Swift_Message;
  */
 class Email
 {
-    public const DEFAULT_FROM = 'PHP Censor <no-reply@php-censor.local>';
+    final public const DEFAULT_FROM = 'PHP Censor <no-reply@php-censor.local>';
 
     protected $emailTo = [];
     protected $emailCc = [];
@@ -102,11 +102,11 @@ class Email
             self::DEFAULT_FROM
         );
 
-        if (!\str_contains($from, '<')) {
-            return [(string)\trim($from) => 'PHP Censor'];
+        if (!\str_contains((string) $from, '<')) {
+            return [(string)\trim((string) $from) => 'PHP Censor'];
         }
 
-        \preg_match('#^(.*?)<(.*?)>$#ui', $from, $fromParts);
+        \preg_match('#^(.*?)<(.*?)>$#ui', (string) $from, $fromParts);
 
         return [\trim($fromParts[2]) => \trim($fromParts[1])];
     }

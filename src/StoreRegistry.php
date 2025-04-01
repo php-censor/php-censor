@@ -21,7 +21,7 @@ class StoreRegistry
      */
     private array $loadedStores = [];
 
-    public function __construct(private DatabaseManager $databaseManager)
+    public function __construct(private readonly DatabaseManager $databaseManager)
     {
     }
 

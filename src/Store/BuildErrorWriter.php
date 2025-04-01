@@ -24,14 +24,14 @@ class BuildErrorWriter
     /**
      * @see https://stackoverflow.com/questions/40361164/pdoexception-sqlstatehy000-general-error-7-number-of-parameters-must-be-bet
      */
-    private int $bufferSize;
+    private readonly int $bufferSize;
 
     public function __construct(
         ConfigurationInterface $configuration,
-        private DatabaseManager $databaseManager,
-        private StoreRegistry $storeRegistry,
-        private int $projectId,
-        private int $buildId
+        private readonly DatabaseManager $databaseManager,
+        private readonly StoreRegistry $storeRegistry,
+        private readonly int $projectId,
+        private readonly int $buildId
     ) {
         $this->bufferSize = (int)$configuration->get('php-censor.build.writer_buffer_size', 500);
     }

@@ -147,7 +147,7 @@ class Executor
 
             $this->logger->log('');
             $this->logger->logSuccess(
-                \sprintf('RUNNING PLUGIN: %s (Step: %s) (Stage: %s)', Lang::get($plugin), $step, \ucfirst($stage))
+                \sprintf('RUNNING PLUGIN: %s (Step: %s) (Stage: %s)', Lang::get($plugin), $step, \ucfirst((string) $stage))
             );
 
             $this->setPluginStatus($stage, $step, $plugin, Plugin::STATUS_RUNNING);
@@ -197,7 +197,7 @@ class Executor
     {
         $class = $plugin;
         if (!\class_exists($class)) {
-            $class = \str_replace('_', ' ', $plugin);
+            $class = \str_replace('_', ' ', (string) $plugin);
             $class = \ucwords($class);
             $class = 'PHPCensor\Plugin\\' . \str_replace(' ', '', $class);
 

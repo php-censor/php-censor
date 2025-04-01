@@ -19,7 +19,7 @@ use PHPCensor\StoreRegistry;
  */
 class UserService
 {
-    public function __construct(private StoreRegistry $storeRegistry, private UserStore $store)
+    public function __construct(private readonly StoreRegistry $storeRegistry, private readonly UserStore $store)
     {
     }
 

@@ -84,7 +84,7 @@ class CommandExecutor implements CommandExecutorInterface
 
         $withNoExit = '';
         foreach (self::$noExitCommands as $nec) {
-            if (\preg_match("/\b{$nec}\b/", $command)) {
+            if (\preg_match("/\b{$nec}\b/", (string) $command)) {
                 $withNoExit = $nec;
 
                 break;

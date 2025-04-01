@@ -16,7 +16,7 @@ use PHPCensor\StoreRegistry;
  */
 class Lang
 {
-    public const DEFAULT_LANGUAGE = 'en';
+    final public const DEFAULT_LANGUAGE = 'en';
 
     /**
      * @var string
@@ -187,7 +187,7 @@ class Lang
     {
         $matches = [];
         foreach (\glob(SRC_DIR . 'Languages/lang.*.php') as $file) {
-            if (\preg_match('/lang\.([a-z]{2}\-?[a-z]*)\.php/', $file, $matches)) {
+            if (\preg_match('/lang\.([a-z]{2}\-?[a-z]*)\.php/', (string) $file, $matches)) {
                 self::$languages[] = $matches[1];
             }
         }

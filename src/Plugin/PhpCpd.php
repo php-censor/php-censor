@@ -109,7 +109,7 @@ class PhpCpd extends Plugin implements ZeroConfigPluginInterface
      */
     protected function processReport($xmlString)
     {
-        $xml = \simplexml_load_string($xmlString);
+        $xml = \simplexml_load_string((string) $xmlString);
 
         if (false === $xml) {
             $this->builder->log($xmlString);

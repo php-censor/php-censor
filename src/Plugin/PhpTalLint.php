@@ -109,7 +109,7 @@ class PhpTalLint extends Plugin
     {
         $success = true;
 
-        if ($item->isFile() && \in_array(\strtolower($item->getExtension()), $this->suffixes, true)) {
+        if ($item->isFile() && \in_array(\strtolower((string) $item->getExtension()), $this->suffixes, true)) {
             if (!$this->lintFile($itemPath)) {
                 $success = false;
             }
@@ -175,7 +175,7 @@ class PhpTalLint extends Plugin
             unset($rows[3]);
 
             foreach ($rows as $row) {
-                $name = \basename($path);
+                $name = \basename((string) $path);
 
                 $row = \str_replace('(use -i to include your custom modifier functions)', '', $row);
                 $message = \str_replace($name . ': ', '', $row);

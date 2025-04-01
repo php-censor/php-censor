@@ -19,7 +19,7 @@ class Service
     /**
      * The table of providers.
      */
-    private array $providers;
+    private readonly array $providers;
 
     public function __construct(
         ConfigurationInterface $configuration,
@@ -47,7 +47,7 @@ class Service
 
     public static function buildProvider(StoreRegistry $storeRegistry, string $key, array $config): UserProviderInterface
     {
-        $class = \ucfirst($config['type']);
+        $class = \ucfirst((string) $config['type']);
         if (\class_exists('\\PHPCensor\\Security\\Authentication\\UserProvider\\' . $class)) {
             $class = '\\PHPCensor\\Security\\Authentication\\UserProvider\\' . $class;
         }

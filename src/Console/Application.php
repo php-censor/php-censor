@@ -79,9 +79,9 @@ LOGO;
     }
 
     public function __construct(
-        private ConfigurationInterface $configuration,
-        private DatabaseManager $databaseManager,
-        private StoreRegistry $storeRegistry,
+        private readonly ConfigurationInterface $configuration,
+        private readonly DatabaseManager $databaseManager,
+        private readonly StoreRegistry $storeRegistry,
         string $name = 'PHP Censor',
         string $version = 'UNKNOWN'
     ) {

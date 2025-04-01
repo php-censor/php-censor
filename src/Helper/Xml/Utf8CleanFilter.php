@@ -12,7 +12,7 @@ use php_user_filter;
  */
 class Utf8CleanFilter extends php_user_filter
 {
-    public const PATTERN = '/[^\x{0009}\x{000a}\x{000d}\x{0020}-\x{D7FF}\x{E000}-\x{FFFD}]+/u';
+    final public const PATTERN = '/[^\x{0009}\x{000a}\x{000d}\x{0020}-\x{D7FF}\x{E000}-\x{FFFD}]+/u';
 
     /**
      * @param resource $in
@@ -24,7 +24,7 @@ class Utf8CleanFilter extends php_user_filter
     public function filter($in, $out, &$consumed, $closing): int
     {
         while ($bucket = \stream_bucket_make_writeable($in)) {
-            $bucket->data = \preg_replace(self::PATTERN, '', $bucket->data);
+            $bucket->data = \preg_replace(self::PATTERN, '', (string) $bucket->data);
             $consumed     += $bucket->datalen;
 
             \stream_bucket_append($out, $bucket);

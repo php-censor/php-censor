@@ -25,7 +25,7 @@ class WebhookNotify extends Plugin
     /**
      * @var string The URL to send the webhook to.
      */
-    private string $url;
+    private readonly string $url;
 
     /**
      * @return string
@@ -51,7 +51,7 @@ class WebhookNotify extends Plugin
         if (!isset($options['url'])) {
             throw new InvalidArgumentException('Please define the url for webhook_notify plugin!');
         }
-        $this->url = \trim($options['url']);
+        $this->url = \trim((string) $options['url']);
     }
 
     /**
