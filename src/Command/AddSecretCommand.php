@@ -23,19 +23,15 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class AddSecretCommand extends Command
 {
-    private SecretStore $secretStore;
-
     public function __construct(
         ConfigurationInterface $configuration,
         DatabaseManager $databaseManager,
         StoreRegistry $storeRegistry,
         LoggerInterface $logger,
-        SecretStore $secretStore,
+        private SecretStore $secretStore,
         ?string $name = null
     ) {
         parent::__construct($configuration, $databaseManager, $storeRegistry, $logger, $name);
-
-        $this->secretStore = $secretStore;
     }
 
     /**

@@ -19,16 +19,13 @@ class DatabaseManager
     public const MYSQL_TYPE      = 'mysql';
     public const POSTGRESQL_TYPE = 'pgsql';
 
-    private ConfigurationInterface $configuration;
-
     private array $connections = [
         'read'  => null,
         'write' => null
     ];
 
-    public function __construct(ConfigurationInterface $configuration)
+    public function __construct(private ConfigurationInterface $configuration)
     {
-        $this->configuration = $configuration;
     }
 
     /**
@@ -77,7 +74,7 @@ class DatabaseManager
                         $this->configuration->get('php-censor.database.password', ''),
                         $pdoOptions
                     );
-                } catch (\PDOException $ex) {
+                } catch (\PDOException) {
                     $connection = false;
                 }
 

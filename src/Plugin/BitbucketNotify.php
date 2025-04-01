@@ -227,18 +227,11 @@ class BitbucketNotify extends Plugin
             $this->getBuild()->getCommitId()
         );
 
-        switch ($this->getBuild()->getStatus()) {
-            case Build::STATUS_SUCCESS:
-                $state = 'SUCCESSFUL';
-
-                break;
-            case Build::STATUS_FAILED:
-                $state = 'FAILED';
-
-                break;
-            default:
-                $state = 'INPROGRESS';
-        }
+        $state = match ($this->getBuild()->getStatus()) {
+            Build::STATUS_SUCCESS => 'SUCCESSFUL',
+            Build::STATUS_FAILED => 'FAILED',
+            default => 'INPROGRESS',
+        };
 
         $this->buildStatusRequest($endpoint, 'post', [
             'state' => $state,

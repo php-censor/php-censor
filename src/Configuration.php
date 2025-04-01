@@ -16,13 +16,9 @@ use PHPCensor\Common\Application\ConfigurationInterface;
  */
 class Configuration extends ParameterBag implements ConfigurationInterface
 {
-    private string $configurationPath;
-
-    public function __construct(string $configurationPath)
+    public function __construct(private string $configurationPath)
     {
         parent::__construct([]);
-
-        $this->configurationPath = $configurationPath;
 
         $this->load();
     }

@@ -257,7 +257,7 @@ class GithubBuild extends GitBuild
                     \escapeshellarg('pull/' . $pullRequestId . '/head')
                 );
             }
-        } catch (\Throwable $ex) {
+        } catch (\Throwable) {
             $success = false;
         }
 

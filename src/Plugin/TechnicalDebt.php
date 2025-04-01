@@ -196,7 +196,7 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
                 $ignoreAbsolute = $this->builder->buildPath . $ignore;
 
                 if ('/' === $ignoreAbsolute[0]) {
-                    if (0 === \strpos($filePath, $ignoreAbsolute)) {
+                    if (\str_starts_with($filePath, $ignoreAbsolute)) {
                         $ignored = true;
 
                         break;

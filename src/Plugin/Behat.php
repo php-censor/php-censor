@@ -94,7 +94,7 @@ class Behat extends Plugin
                 continue;
             }
 
-            if (\strpos($line, ':') === false) {
+            if (!\str_contains($line, ':')) {
                 $storeFailures = false;
             }
 

@@ -32,15 +32,13 @@ interface CommandExecutorInterface
     /**
      * Find a binary required by a plugin.
      *
-     * @param array|string $binary
      * @param string       $priorityPath
      * @param string       $binaryPath
      * @param array        $binaryName
      * @return string
-     *
      * @throws Exception when no binary has been found.
      */
-    public function findBinary($binary, $priorityPath = 'local', $binaryPath = '', $binaryName = []);
+    public function findBinary(array|string $binary, $priorityPath = 'local', $binaryPath = '', $binaryName = []);
 
     /**
      * Set the buildPath property.

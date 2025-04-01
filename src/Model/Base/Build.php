@@ -261,10 +261,7 @@ class Build extends Model
         return $this->setDataItem('extra', $value);
     }
 
-    /**
-     * @param mixed  $value
-     */
-    public function addExtraValue(string $name, $value): bool
+    public function addExtraValue(string $name, mixed $value): bool
     {
         $extra = $this->getExtra();
         if ($extra === null) {

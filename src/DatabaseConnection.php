@@ -14,29 +14,8 @@ class DatabaseConnection
 {
     private ?\PDO $pdoConnection = null;
 
-    private string $dsn;
-
-    private ?string $username;
-
-    private ?string $password;
-
-    private ?array $options;
-
-    private string $sequencePattern;
-
-    public function __construct(
-        string $dsn,
-        ?string $username = null,
-        ?string $password = null,
-        ?array $options = null,
-        string $sequencePattern = '%s_id_seq'
-    ) {
-        $this->sequencePattern = $sequencePattern;
-
-        $this->dsn      = $dsn;
-        $this->username = $username;
-        $this->password = $password;
-        $this->options  = $options;
+    public function __construct(private string $dsn, private ?string $username = null, private ?string $password = null, private ?array $options = null, private string $sequencePattern = '%s_id_seq')
+    {
     }
 
     public function getPdo(): \PDO
@@ -77,26 +56,17 @@ class DatabaseConnection
         return (int)$this->getPdo()->lastInsertId();
     }
 
-    /**
-     * @return false|\PDOStatement
-     */
-    public function prepare(string $query, array $options = [])
+    public function prepare(string $query, array $options = []): false|\PDOStatement
     {
         return $this->getPdo()->prepare($this->quoteNames($query), $options);
     }
 
-    /**
-     * @return false|int
-     */
-    public function exec(string $statement)
+    public function exec(string $statement): false|int
     {
         return $this->getPdo()->exec($this->quoteNames($statement));
     }
 
-    /**
-     * @return false|\PDOStatement
-     */
-    public function query(string $statement)
+    public function query(string $statement): false|\PDOStatement
     {
         return $this->getPdo()->query($this->quoteNames($statement));
     }

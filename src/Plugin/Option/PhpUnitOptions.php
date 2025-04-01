@@ -15,19 +15,10 @@ use PHPCensor\Common\Application\ConfigurationInterface;
  */
 class PhpUnitOptions
 {
-    protected array $options;
-
-    protected string $location;
-
     protected array $arguments = [];
 
-    protected ConfigurationInterface $configuration;
-
-    public function __construct(ConfigurationInterface $configuration, array $options, string $location)
+    public function __construct(protected ConfigurationInterface $configuration, protected array $options, protected string $location)
     {
-        $this->configuration = $configuration;
-        $this->options       = $options;
-        $this->location      = $location;
     }
 
     /**

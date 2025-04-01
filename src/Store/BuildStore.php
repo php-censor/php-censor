@@ -485,7 +485,7 @@ class BuildStore extends Store
                     $coverage = $coverageMeta[0]['meta_value'][$type];
                 }
             }
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
         }
 
         return $coverage;

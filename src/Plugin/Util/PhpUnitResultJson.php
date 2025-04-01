@@ -86,7 +86,7 @@ class PhpUnitResultJson extends PhpUnitResult
 
                 break;
             case 'error':
-                if (\strpos($testCase['message'], 'Skipped') === 0 || \strpos($testCase['message'], 'Incomplete') === 0) {
+                if (\str_starts_with($testCase['message'], 'Skipped') || \str_starts_with($testCase['message'], 'Incomplete')) {
                     $severity = self::SEVERITY_SKIPPED;
                 } else {
                     $severity = self::SEVERITY_ERROR;

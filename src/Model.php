@@ -22,10 +22,8 @@ class Model
 
     private array $modified = [];
 
-    protected StoreRegistry $storeRegistry;
-
     public function __construct(
-        StoreRegistry $storeRegistry,
+        protected StoreRegistry $storeRegistry,
         array $initialData = []
     ) {
         if (!isset($this->dataTypes['id'])) {
@@ -35,8 +33,6 @@ class Model
         foreach ($initialData as $column => $value) {
             $this->setDataItem($column, $this->castToDataType($this->getDataType($column), $value));
         }
-
-        $this->storeRegistry = $storeRegistry;
     }
 
     public function getDataType(string $column): string
@@ -101,7 +97,7 @@ class Model
                 }
                 try {
                     return new DateTime($value);
-                } catch (\Throwable $e) {
+                } catch (\Throwable) {
                     return null;
                 }
 

@@ -48,8 +48,6 @@ class Builder
 
     protected bool $verbose = true;
 
-    protected Build $build;
-
     protected LoggerInterface $logger;
 
     protected array $config = [];
@@ -62,30 +60,15 @@ class Builder
 
     protected CommandExecutorInterface $commandExecutor;
 
-    protected BuildLogger $buildLogger;
-
     protected BuildErrorWriter $buildErrorWriter;
 
-    protected ConfigurationInterface $configuration;
-
-    protected DatabaseManager $databaseManager;
-
-    protected StoreRegistry $storeRegistry;
-
     public function __construct(
-        ConfigurationInterface $configuration,
-        DatabaseManager $databaseManager,
-        StoreRegistry $storeRegistry,
-        Build $build,
-        BuildLogger $buildLogger
+        protected ConfigurationInterface $configuration,
+        protected DatabaseManager $databaseManager,
+        protected StoreRegistry $storeRegistry,
+        protected Build $build,
+        protected BuildLogger $buildLogger
     ) {
-        $this->configuration   = $configuration;
-        $this->databaseManager = $databaseManager;
-        $this->storeRegistry   = $storeRegistry;
-        $this->buildLogger     = $buildLogger;
-
-        $this->build = $build;
-
         /** @var BuildStore $buildStore */
         $buildStore = $this->storeRegistry->get('Build');
         /** @var SecretStore $secretStore */
@@ -325,12 +308,11 @@ class Builder
     /**
      * Find a binary required by a plugin.
      *
-     * @param array|string $binary
      *
      * @throws Exception when no binary has been found.
      */
     public function findBinary(
-        $binary,
+        array|string $binary,
         string $priorityPath = 'local',
         string $binaryPath = '',
         array $binaryName = []

@@ -77,7 +77,7 @@ class Atoum extends Plugin
 
         $output = $this->builder->getLastOutput();
 
-        if (false === \strpos($output, "Success (")) {
+        if (!\str_contains($output, "Success (")) {
             $status = false;
             $this->builder->log($output);
         }

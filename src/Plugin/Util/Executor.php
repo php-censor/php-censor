@@ -21,33 +21,8 @@ use PHPCensor\StoreRegistry;
  */
 class Executor
 {
-    /**
-     * @var BuildLogger
-     */
-    protected $logger;
-
-    /**
-     * @var Factory
-     */
-    protected $pluginFactory;
-
-    /**
-     * @var BuildStore
-     */
-    protected $store;
-
-    protected StoreRegistry $storeRegistry;
-
-    public function __construct(
-        StoreRegistry $storeRegistry,
-        Factory $pluginFactory,
-        BuildLogger $logger,
-        BuildStore $store = null
-    ) {
-        $this->storeRegistry = $storeRegistry;
-        $this->pluginFactory = $pluginFactory;
-        $this->logger        = $logger;
-        $this->store         = $store;
+    public function __construct(protected StoreRegistry $storeRegistry, protected Factory $pluginFactory, protected BuildLogger $logger, protected BuildStore $store = null)
+    {
     }
 
     /**
@@ -82,20 +57,18 @@ class Executor
     /**
      * @param array  $config
      * @param string $branch
-     *
-     * @return array|bool
      */
-    public function getBranchSpecificConfig($config, $branch)
+    public function getBranchSpecificConfig($config, $branch): array|bool
     {
         $configSections = \array_keys($config);
 
         foreach ($configSections as $configSection) {
-            if (0 === \strpos($configSection, 'branch-')) {
+            if (\str_starts_with($configSection, 'branch-')) {
                 if ($configSection === ('branch-' . $branch)) {
                     return $config[$configSection];
                 }
 
-                if (0 === \strpos($configSection, 'branch-regex:')) {
+                if (\str_starts_with($configSection, 'branch-regex:')) {
                     $pattern = '#' . \substr($configSection, 13) . '#u';
                     \preg_match($pattern, $branch, $matches);
                     if (!empty($matches[0])) {

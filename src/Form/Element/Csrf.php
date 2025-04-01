@@ -16,13 +16,9 @@ use Symfony\Component\HttpFoundation\Session\Session;
  */
 class Csrf extends Hidden
 {
-    private Session $session;
-
-    public function __construct(Session $session, ?string $name = null)
+    public function __construct(private Session $session, ?string $name = null)
     {
         parent::__construct($name);
-
-        $this->session = $session;
     }
 
     public function validate(): bool

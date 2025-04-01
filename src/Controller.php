@@ -18,24 +18,8 @@ use Symfony\Component\HttpFoundation\Session\Session;
  */
 abstract class Controller
 {
-    protected Request $request;
-
-    protected Session $session;
-
-    protected ConfigurationInterface $configuration;
-
-    protected StoreRegistry $storeRegistry;
-
-    public function __construct(
-        ConfigurationInterface $configuration,
-        StoreRegistry $storeRegistry,
-        Request $request,
-        Session $session
-    ) {
-        $this->configuration = $configuration;
-        $this->storeRegistry = $storeRegistry;
-        $this->request       = $request;
-        $this->session       = $session;
+    public function __construct(protected ConfigurationInterface $configuration, protected StoreRegistry $storeRegistry, protected Request $request, protected Session $session)
+    {
     }
 
     /**
@@ -54,10 +38,8 @@ abstract class Controller
 
     /**
      * Handles an action on this controller and returns a Response object.
-     *
-     * @return Response|string
      */
-    public function handleAction(string $action, array $actionParams)
+    public function handleAction(string $action, array $actionParams): Response|string
     {
         return \call_user_func_array([$this, $action], $actionParams);
     }
@@ -69,7 +51,7 @@ abstract class Controller
      *
      * @return mixed
      */
-    public function getParam(string $key, $default = null)
+    public function getParam(string $key, mixed $default = null)
     {
         return $this->request->get($key, $default);
     }

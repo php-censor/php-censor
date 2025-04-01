@@ -16,14 +16,8 @@ use Psr\Log\LogLevel;
  */
 class BuildLogger
 {
-    private LoggerInterface $logger;
-
-    private Build $build;
-
-    public function __construct(LoggerInterface $logger, Build $build)
+    public function __construct(private LoggerInterface $logger, private Build $build)
     {
-        $this->logger = $logger;
-        $this->build  = $build;
     }
 
     public function log($message, string $level = LogLevel::INFO, array $context = []): void
