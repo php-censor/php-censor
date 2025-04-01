@@ -39,55 +39,29 @@ class BuildWorker
      */
     private bool $canRun = true;
 
-    private bool $canPeriodicalWork;
-
-    /**
-     * The logger for builds to use.
-     */
-    private LoggerInterface $logger;
-
-    private BuildService $buildService;
-
-    private ConfigurationInterface $configuration;
-
-    private DatabaseManager $databaseManager;
-
-    private StoreRegistry $storeRegistry;
-
-    private BuildFactory $buildFactory;
-
-    /**
-     * beanstalkd queue to watch
-     */
-    private string $queueTube;
-
     private Pheanstalk $pheanstalk;
 
     private int $lastPeriodical = 0;
 
     public function __construct(
-        ConfigurationInterface $configuration,
-        DatabaseManager $databaseManager,
-        StoreRegistry $storeRegistry,
-        LoggerInterface $logger,
-        BuildService $buildService,
-        BuildFactory $buildFactory,
+        private ConfigurationInterface $configuration,
+        private DatabaseManager $databaseManager,
+        private StoreRegistry $storeRegistry,
+        /**
+         * The logger for builds to use.
+         */
+        private LoggerInterface $logger,
+        private BuildService $buildService,
+        private BuildFactory $buildFactory,
         string $queueHost,
         int $queuePort,
-        string $queueTube,
-        bool $canPeriodicalWork
+        /**
+         * beanstalkd queue to watch
+         */
+        private string $queueTube,
+        private bool $canPeriodicalWork
     ) {
-        $this->logger          = $logger;
-        $this->buildService    = $buildService;
-        $this->configuration   = $configuration;
-        $this->databaseManager = $databaseManager;
-        $this->storeRegistry   = $storeRegistry;
-        $this->buildFactory    = $buildFactory;
-
-        $this->queueTube  = $queueTube;
         $this->pheanstalk = Pheanstalk::create($queueHost, $queuePort);
-
-        $this->canPeriodicalWork = $canPeriodicalWork;
     }
 
     public function stopWorker(): void
@@ -229,7 +203,7 @@ class BuildWorker
     {
         try {
             $this->pheanstalk->peekReady();
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             return true;
         }
 

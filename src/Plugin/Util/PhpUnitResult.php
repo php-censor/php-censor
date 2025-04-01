@@ -21,17 +21,12 @@ abstract class PhpUnitResult
     public const SEVERITY_SKIPPED = 'skipped';
     public const SEVERITY_WARN    = self::SEVERITY_PASS;
     public const SEVERITY_RISKY   = self::SEVERITY_PASS;
-
-    protected $outputFile;
-    protected $buildPath;
     protected $results;
     protected $failures = 0;
     protected $errors = [];
 
-    public function __construct($outputFile, $buildPath = '')
+    public function __construct(protected $outputFile, protected $buildPath = '')
     {
-        $this->outputFile = $outputFile;
-        $this->buildPath  = $buildPath;
     }
 
     /**

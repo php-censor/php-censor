@@ -28,11 +28,8 @@ class Handler
         E_USER_DEPRECATED   => 'User Deprecated',
     ];
 
-    protected ?LoggerInterface $logger;
-
-    public function __construct(?LoggerInterface $logger = null)
+    public function __construct(protected ?LoggerInterface $logger = null)
     {
-        $this->logger = $logger;
     }
 
     public static function register(?LoggerInterface $logger = null): void
@@ -84,7 +81,7 @@ class Handler
                 );
                 $this->log($error);
             }
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             $error = new ErrorException(
                 \sprintf(
                     '%s: %s in %s line %d',
@@ -112,7 +109,7 @@ class Handler
         if (null !== $this->logger) {
             $message = \sprintf(
                 '%s: %s (uncaught exception) at %s line %s',
-                \get_class($exception),
+                $exception::class,
                 $exception->getMessage(),
                 $exception->getFile(),
                 $exception->getLine()

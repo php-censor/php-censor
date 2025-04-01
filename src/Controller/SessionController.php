@@ -87,12 +87,11 @@ class SessionController extends WebController
     /**
      * Handles user login (form and processing)
      *
-     * @return Response|string
      *
      * @throws HttpException
      * @throws \PHPCensor\Common\Exception\InvalidArgumentException
      */
-    public function login()
+    public function login(): Response|string
     {
         $rememberKey = $this->request->cookies->get('remember_key');
         if (!empty($rememberKey)) {
@@ -234,12 +233,11 @@ class SessionController extends WebController
     /**
      * Allows the user to change their password after a password reset email.
      *
-     * @return Response|string
      *
      * @throws HttpException
      * @throws \PHPCensor\Common\Exception\InvalidArgumentException
      */
-    public function resetPassword(int $userId, string $key)
+    public function resetPassword(int $userId, string $key): Response|string
     {
         $user = $this->userStore->getById($userId);
         $userKey = \md5(\date('Y-m-d') . $user->getHash());

@@ -24,27 +24,14 @@ use Symfony\Component\Console\Command\Command as BaseCommand;
  */
 abstract class Command extends BaseCommand
 {
-    protected ConfigurationInterface $configuration;
-
-    protected DatabaseManager $databaseManager;
-
-    protected StoreRegistry $storeRegistry;
-
-    protected LoggerInterface $logger;
-
     public function __construct(
-        ConfigurationInterface $configuration,
-        DatabaseManager $databaseManager,
-        StoreRegistry $storeRegistry,
-        LoggerInterface $logger,
+        protected ConfigurationInterface $configuration,
+        protected DatabaseManager $databaseManager,
+        protected StoreRegistry $storeRegistry,
+        protected LoggerInterface $logger,
         ?string $name = null
     ) {
         parent::__construct($name);
-
-        $this->configuration   = $configuration;
-        $this->databaseManager = $databaseManager;
-        $this->storeRegistry   = $storeRegistry;
-        $this->logger          = $logger;
     }
 
     protected function configureLogging(OutputInterface $output): void

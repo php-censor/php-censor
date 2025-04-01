@@ -29,27 +29,14 @@ class Application
 
     private Controller $controller;
 
-    private Request $request;
-
-    private Session $session;
-
-    private ConfigurationInterface $configuration;
-
-    private StoreRegistry $storeRegistry;
-
     private Router $router;
 
     public function __construct(
-        ConfigurationInterface $configuration,
-        StoreRegistry $storeRegistry,
-        Request $request,
-        Session $session
+        private ConfigurationInterface $configuration,
+        private StoreRegistry $storeRegistry,
+        private Request $request,
+        private Session $session
     ) {
-        $this->configuration = $configuration;
-        $this->storeRegistry = $storeRegistry;
-        $this->request       = $request;
-        $this->session       = $session;
-
         $this->router = new Router($this, $this->request);
 
         $this->init();

@@ -324,7 +324,7 @@ class WebhookController extends Controller
 
                 $this->webhookRequestStore->save($webhookRequest);
             }
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
         }
     }
 
@@ -520,7 +520,7 @@ class WebhookController extends Controller
             if (!empty($commit['new'])) {
                 try {
                     $email = $commit['new']['target']['author']['raw'];
-                    if (\strpos($email, '>') !== false) {
+                    if (\str_contains($email, '>')) {
                         // In order not to lose email if it is RAW, w/o "<>" symbols
                         $email = \substr($email, 0, \strpos($email, '>'));
                         $email = \substr($email, \strpos($email, '<') + 1);
@@ -590,7 +590,7 @@ class WebhookController extends Controller
         foreach ($commits as $commit) {
             // Skip all but the current HEAD commit ID:
             $id = $commit['hash'];
-            if (\strpos($id, $payload['pullrequest']['source']['commit']['hash']) !== 0) {
+            if (!\str_starts_with($id, $payload['pullrequest']['source']['commit']['hash'])) {
                 $results[$id] = ['status' => 'ignored', 'message' => 'not branch head'];
 
                 continue;
@@ -599,7 +599,7 @@ class WebhookController extends Controller
             try {
                 $branch    = $payload['pullrequest']['destination']['branch']['name'];
                 $committer = $commit['author']['raw'];
-                if (\strpos($committer, '>') !== false) {
+                if (\str_contains($committer, '>')) {
                     // In order not to lose email if it is RAW, w/o "<>" symbols
                     $committer = \substr($committer, 0, \strpos($committer, '>'));
                     $committer = \substr($committer, \strpos($committer, '<') + 1);
@@ -775,7 +775,7 @@ class WebhookController extends Controller
         }
 
         if (isset($payload['head_commit']) && $payload['head_commit']) {
-            $isTag   = (\substr($payload['ref'], 0, 10) === 'refs/tags/') ? true : false;
+            $isTag   = (\str_starts_with($payload['ref'], 'refs/tags/')) ? true : false;
             $commit  = $payload['head_commit'];
             $results = [];
             $status  = 'failed';
@@ -981,8 +981,6 @@ class WebhookController extends Controller
     }
 
     /**
-     * @param string $projectId
-     *
      * @throws Exception
      */
     public function gogs(int $projectId): array
@@ -996,15 +994,10 @@ class WebhookController extends Controller
             ? $_SERVER['CONTENT_TYPE']
             : null;
 
-        switch ($contentType) {
-            case 'application/x-www-form-urlencoded':
-                $payloadJson = $this->getParam('payload');
-
-                break;
-            case 'application/json':
-            default:
-                $payloadJson = \file_get_contents('php://input');
-        }
+        $payloadJson = match ($contentType) {
+            'application/x-www-form-urlencoded' => $this->getParam('payload'),
+            default => \file_get_contents('php://input'),
+        };
 
         if ($payloadJson) {
             $this->logWebhookRequest(
@@ -1093,7 +1086,7 @@ class WebhookController extends Controller
         if (\in_array($action, $activeActions, true) && \in_array($state, $activeStates, true)) {
             if (isset($pullRequest['labels']) && \is_array($pullRequest['labels'])) {
                 foreach ($pullRequest['labels'] as $label) {
-                    if (\strpos($label['name'], 'env:') === 0) {
+                    if (\str_starts_with($label['name'], 'env:')) {
                         $envs[] = \substr($label['name'], 4);
                     }
                 }

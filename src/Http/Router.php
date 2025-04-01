@@ -15,18 +15,12 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class Router
 {
-    protected Request $request;
-
-    protected Application $application;
-
     protected array $routes = [
         ['route' => '/:controller/:action', 'callback' => null, 'defaults' => []]
     ];
 
-    public function __construct(Application $application, Request $request)
+    public function __construct(protected Application $application, protected Request $request)
     {
-        $this->application = $application;
-        $this->request     = $request;
     }
 
     public function clearRoutes()

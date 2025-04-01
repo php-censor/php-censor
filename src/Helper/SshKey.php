@@ -14,11 +14,8 @@ use PHPCensor\Common\Application\ConfigurationInterface;
  */
 class SshKey
 {
-    protected ConfigurationInterface $configuration;
-
-    public function __construct(ConfigurationInterface $configuration)
+    public function __construct(protected ConfigurationInterface $configuration)
     {
-        $this->configuration = $configuration;
     }
 
     /**

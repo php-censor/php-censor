@@ -23,11 +23,9 @@ class Email
     protected $subject = 'Email from PHP Censor';
     protected $body    = '';
     protected $isHtml  = false;
-    protected $config;
 
-    public function __construct(ConfigurationInterface $config)
+    public function __construct(protected ConfigurationInterface $config)
     {
-        $this->config = $config;
     }
 
     /**
@@ -104,7 +102,7 @@ class Email
             self::DEFAULT_FROM
         );
 
-        if (\strpos($from, '<') === false) {
+        if (!\str_contains($from, '<')) {
             return [(string)\trim($from) => 'PHP Censor'];
         }
 

@@ -23,23 +23,16 @@ use PHPCensor\Exception\HttpException;
  */
 class RemoveOldBuildsCommand extends Command
 {
-    protected ProjectStore $projectStore;
-
-    protected BuildService $buildService;
-
     public function __construct(
         ConfigurationInterface $configuration,
         DatabaseManager $databaseManager,
         StoreRegistry $storeRegistry,
         LoggerInterface $logger,
-        ProjectStore $projectStore,
-        BuildService $buildService,
+        protected ProjectStore $projectStore,
+        protected BuildService $buildService,
         ?string $name = null
     ) {
         parent::__construct($configuration, $databaseManager, $storeRegistry, $logger, $name);
-
-        $this->projectStore = $projectStore;
-        $this->buildService = $buildService;
     }
 
     /**

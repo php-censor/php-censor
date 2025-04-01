@@ -16,20 +16,8 @@ use PHPCensor\StoreRegistry;
  */
 abstract class AbstractProvider implements UserProviderInterface
 {
-    protected string $key;
-
-    protected array $config;
-
-    protected StoreRegistry $storeRegistry;
-
-    public function __construct(
-        StoreRegistry $storeRegistry,
-        string $key,
-        array $config
-    ) {
-        $this->key           = $key;
-        $this->config        = $config;
-        $this->storeRegistry = $storeRegistry;
+    public function __construct(protected StoreRegistry $storeRegistry, protected string $key, protected array $config)
+    {
     }
 
     public function getKey(): string

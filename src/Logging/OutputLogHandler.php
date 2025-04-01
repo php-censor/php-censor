@@ -18,16 +18,12 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class OutputLogHandler extends AbstractProcessingHandler
 {
-    protected OutputInterface $output;
-
     public function __construct(
-        OutputInterface $output,
+        protected OutputInterface $output,
         string $level = LogLevel::INFO,
         bool $bubble = true
     ) {
         parent::__construct($level, $bubble);
-
-        $this->output = $output;
     }
 
     /**

@@ -15,11 +15,8 @@ use PHPCensor\Common\Application\ConfigurationInterface;
  */
 class Github
 {
-    private ConfigurationInterface $configuration;
-
-    public function __construct(ConfigurationInterface $configuration)
+    public function __construct(private ConfigurationInterface $configuration)
     {
-        $this->configuration = $configuration;
     }
 
     /**

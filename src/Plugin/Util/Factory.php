@@ -16,16 +16,8 @@ use PHPCensor\Plugin;
  */
 class Factory
 {
-    private Builder $builder;
-
-    private Build $build;
-
-    public function __construct(
-        Builder $builder,
-        Build $build
-    ) {
-        $this->builder = $builder;
-        $this->build = $build;
+    public function __construct(private Builder $builder, private Build $build)
+    {
     }
 
     public function buildPlugin(string $className, array $options = []): Plugin

@@ -19,16 +19,8 @@ use PHPCensor\Common\Application\ConfigurationInterface;
  */
 class BuildFactory
 {
-    private ConfigurationInterface $configuration;
-
-    private StoreRegistry $storeRegistry;
-
-    public function __construct(
-        ConfigurationInterface $configuration,
-        StoreRegistry $storeRegistry
-    ) {
-        $this->configuration = $configuration;
-        $this->storeRegistry = $storeRegistry;
+    public function __construct(private ConfigurationInterface $configuration, private StoreRegistry $storeRegistry)
+    {
     }
 
     /**

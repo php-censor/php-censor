@@ -19,16 +19,8 @@ use PHPCensor\StoreRegistry;
  */
 class UserService
 {
-    private UserStore $store;
-
-    private StoreRegistry $storeRegistry;
-
-    public function __construct(
-        StoreRegistry $storeRegistry,
-        UserStore $store
-    ) {
-        $this->storeRegistry = $storeRegistry;
-        $this->store         = $store;
+    public function __construct(private StoreRegistry $storeRegistry, private UserStore $store)
+    {
     }
 
     public function createUser(string $name, string $email, string $providerKey, array $providerData, string $password, bool $isAdmin = false): ?User

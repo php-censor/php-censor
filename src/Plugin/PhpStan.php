@@ -86,7 +86,7 @@ class PhpStan extends Plugin
                     $file = \str_replace($this->build->getBuildPath(), '', $file);
                     $len = \strlen($file);
                     $out = '';
-                    $filename = (false !== \strpos($file, ' (')) ? \strstr($file, ' (', true) : $file;
+                    $filename = (\str_contains($file, ' (')) ? \strstr($file, ' (', true) : $file;
 
                     foreach ($payload['messages'] as $message) {
                         if (\strlen($message['message']) > $len) {

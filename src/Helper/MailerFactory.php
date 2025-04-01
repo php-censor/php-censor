@@ -73,16 +73,11 @@ class MailerFactory
         if (isset($this->emailConfig[$configName]) && '' !== $this->emailConfig[$configName]) {
             return $this->emailConfig[$configName];
         } else {
-            switch ($configName) {
-                case 'default_mailto_address':
-                case 'smtp_encryption':
-                    return null;
-                case 'smtp_port':
-                    return '25';
-                case 'smtp_address':
-                default:
-                    return '';
-            }
+            return match ($configName) {
+                'default_mailto_address', 'smtp_encryption' => null,
+                'smtp_port' => '25',
+                default => '',
+            };
         }
     }
 }

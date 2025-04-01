@@ -54,12 +54,6 @@ class Application extends BaseApplication
 
 LOGO;
 
-    private ConfigurationInterface $configuration;
-
-    private DatabaseManager $databaseManager;
-
-    private StoreRegistry $storeRegistry;
-
     /**
      * @throws Exception
      */
@@ -85,9 +79,9 @@ LOGO;
     }
 
     public function __construct(
-        ConfigurationInterface $configuration,
-        DatabaseManager $databaseManager,
-        StoreRegistry $storeRegistry,
+        private ConfigurationInterface $configuration,
+        private DatabaseManager $databaseManager,
+        private StoreRegistry $storeRegistry,
         string $name = 'PHP Censor',
         string $version = 'UNKNOWN'
     ) {
@@ -95,10 +89,6 @@ LOGO;
         $version = !empty($version) ? $version : '0.0.0 (UNKNOWN)';
 
         parent::__construct($name, $version);
-
-        $this->configuration   = $configuration;
-        $this->databaseManager = $databaseManager;
-        $this->storeRegistry   = $storeRegistry;
 
         $oldDatabaseSettings = $this->configuration->get('b8.database', []);
         $databaseSettings    = $this->configuration->get('php-censor.database', []);

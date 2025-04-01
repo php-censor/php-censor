@@ -160,7 +160,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
         }
 
         foreach ($this->rules as &$rule) {
-            if (\strpos($rule, '/') !== false) {
+            if (\str_contains($rule, '/')) {
                 $rule = $this->builder->buildPath . $rule;
             }
         }

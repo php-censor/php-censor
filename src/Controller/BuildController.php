@@ -186,7 +186,7 @@ class BuildController extends WebController
         $dir  = \opendir($path);
 
         while ($item = \readdir($dir)) {
-            if (\substr($item, 0, 1) === '.' || \substr($item, -3) !== '.js') {
+            if (\str_starts_with($item, '.') || !\str_ends_with($item, '.js')) {
                 continue;
             }
 

@@ -63,7 +63,7 @@ trait GitGetDiffLineNumberTrait
         while (\count($diffLines)) {
             $line = \array_shift($diffLines);
 
-            if (\substr($line, 0, 2) === '@@') {
+            if (\str_starts_with($line, '@@')) {
                 \array_unshift($diffLines, $line);
 
                 break;

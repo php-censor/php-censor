@@ -41,11 +41,10 @@ class Lang
     /**
      * Get a specific string from the language file.
      *
-     * @param mixed ...$params
      *
      * @return string
      */
-    public static function get(...$params)
+    public static function get(mixed ...$params)
     {
         $string = $params[0];
         if (\array_key_exists($string, self::$strings)) {

@@ -31,23 +31,16 @@ class WorkerCommand extends Command
     private const MIN_QUEUE_PRIORITY = 24;
     private const MAX_QUEUE_PRIORITY = 2025;
 
-    protected BuildService $buildService;
-
-    protected BuildFactory $buildFactory;
-
     public function __construct(
         ConfigurationInterface $configuration,
         DatabaseManager $databaseManager,
         StoreRegistry $storeRegistry,
         LoggerInterface $logger,
-        BuildService $buildService,
-        BuildFactory $buildFactory,
+        protected BuildService $buildService,
+        protected BuildFactory $buildFactory,
         ?string $name = null
     ) {
         parent::__construct($configuration, $databaseManager, $storeRegistry, $logger, $name);
-
-        $this->buildService = $buildService;
-        $this->buildFactory = $buildFactory;
     }
 
     protected function configure(): void
