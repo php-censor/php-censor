@@ -1,18 +1,25 @@
-Changelog 2.2
+Changelog 3.0
 =============
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
-## [2.2.0](https://github.com/php-censor/php-censor/tree/2.2.0) (2025-03-30)
+## [3.0.0](https://github.com/php-censor/php-censor/tree/3.0.0) (2025-03-30)
 
-[Full Changelog](https://github.com/php-censor/php-censor/compare/2.1.6...2.2.0)
+[Full Changelog](https://github.com/php-censor/php-censor/compare/2.1.6...3.0.0)
+
+### [How tp upgrade from v1 to v2](/docs/UPGRADE_2.0.md)
+### [How tp upgrade from v2 to v3](/docs/UPGRADE_3.0.md)
 
 ### Added
 
 - CLI commands for secrets.
 - **[TelegramNotify]** Notifications in telegram group topics. Pull request [#440](https://github.com/php-censor/php-censor/pull/440). Thanks to [@yugeon](https://github.com/yugeon).
+
+### Changed
+
+- **Minimal PHP version increased to 8.1 (from 7.4)**.
 
 ### Removed
 
