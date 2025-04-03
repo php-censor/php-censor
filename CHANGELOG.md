@@ -15,6 +15,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ### Added
 
 - CLI commands for secrets.
+- PHP executable path in "build_settings" config.
 - **[TelegramNotify]** Notifications in telegram group topics. Pull request [#440](https://github.com/php-censor/php-censor/pull/440). Thanks to [@yugeon](https://github.com/yugeon).
 
 ### Changed
