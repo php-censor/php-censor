@@ -45,7 +45,12 @@ abstract class Controller
      */
     public function handleAction(string $action, array $actionParams): Response|string
     {
-        return \call_user_func_array([$this, $action], $actionParams);
+        $result = \call_user_func_array([$this, $action], $actionParams);
+        if (!$result) {
+            $result = '';
+        }
+
+        return $result;
     }
 
     /**
