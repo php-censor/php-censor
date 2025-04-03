@@ -100,7 +100,7 @@ class SensiolabsInsight extends Plugin
      */
     protected function processReport($xmlString)
     {
-        $xml = \simplexml_load_string($xmlString);
+        $xml = \simplexml_load_string((string) $xmlString);
 
         if ($xml === false) {
             $this->builder->log($xmlString);

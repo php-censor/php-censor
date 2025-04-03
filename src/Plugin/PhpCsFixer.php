@@ -191,21 +191,11 @@ class PhpCsFixer extends Plugin
                 }
                 $chunkDiff = [];
                 foreach ($chunk->getLines() as $line) {
-                    /** @var Line $line */
-                    switch ($line->getType()) {
-                        case Line::ADDED:
-                            $symbol = '+';
-
-                            break;
-                        case Line::REMOVED:
-                            $symbol = '-';
-
-                            break;
-                        default:
-                            $symbol = ' ';
-
-                            break;
-                    }
+                    $symbol = match ($line->getType()) {
+                        Line::ADDED => '+',
+                        Line::REMOVED => '-',
+                        default => ' ',
+                    };
                     $chunkDiff[] = $symbol . $line->getContent();
                     if ($foundChanges) {
                         continue;

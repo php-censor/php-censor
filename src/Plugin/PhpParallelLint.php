@@ -57,8 +57,8 @@ class PhpParallelLint extends Plugin implements ZeroConfigPluginInterface
             // Only use if this is a comma delimited list
             $pattern = '/^([a-z]+)(,\ *[a-z]*)*$/';
 
-            if (\preg_match($pattern, $options['extensions'])) {
-                $this->extensions = \str_replace(' ', '', $options['extensions']);
+            if (\preg_match($pattern, (string) $options['extensions'])) {
+                $this->extensions = \str_replace(' ', '', (string) $options['extensions']);
             }
         }
     }

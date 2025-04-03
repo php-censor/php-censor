@@ -14,9 +14,9 @@ $linkTemplate = $build->getFileLinkTemplate();
 
 foreach ($errors as $error):
 
-    $link = \str_replace('{BASEFILE}', \basename($error->getFile()), $linkTemplate);
-    $link = \str_replace('{FILE}', $error->getFile(), $link);
-    $link = \str_replace('{LINE}', $error->getLineStart(), $link);
+    $link = \str_replace('{BASEFILE}', \basename((string)$error->getFile()), $linkTemplate);
+    $link = \str_replace('{FILE}', (string)$error->getFile(), $link);
+    $link = \str_replace('{LINE}', (string)$error->getLineStart(), $link);
 
     if ($error->getLineStart() == $error->getLineEnd() || !$error->getLineEnd()) {
         # For Github

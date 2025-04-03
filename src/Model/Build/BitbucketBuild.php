@@ -216,7 +216,7 @@ class BitbucketBuild extends GitBuild
                 \unlink($diffFile);
                 $skipGitFinalization = true;
             }
-        } catch (\Throwable $ex) {
+        } catch (\Throwable) {
             $success = false;
         }
 

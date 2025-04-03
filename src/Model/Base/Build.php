@@ -261,10 +261,7 @@ class Build extends Model
         return $this->setDataItem('extra', $value);
     }
 
-    /**
-     * @param mixed  $value
-     */
-    public function addExtraValue(string $name, $value): bool
+    public function addExtraValue(string $name, mixed $value): bool
     {
         $extra = $this->getExtra();
         if ($extra === null) {
@@ -396,7 +393,7 @@ class Build extends Model
             $trend = $store->getBuildTestCoverageTrend($this->getId(), $this->getProjectId(), $this->getBranch());
 
             if (!empty($trend[0]) && !empty($trend[0]['coverage'])) {
-                $coverage = \json_decode($trend[0]['coverage'], true);
+                $coverage = \json_decode((string) $trend[0]['coverage'], true);
                 if (isset($coverage['lines'])) {
                     $this->setTestCoveragePrevious($coverage['lines']);
                     $store->save($this);

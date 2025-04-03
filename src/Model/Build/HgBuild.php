@@ -19,16 +19,12 @@ use PHPCensor\StoreRegistry;
  */
 class HgBuild extends Build
 {
-    protected ConfigurationInterface $configuration;
-
     public function __construct(
-        ConfigurationInterface $configuration,
+        protected ConfigurationInterface $configuration,
         StoreRegistry $storeRegistry,
         array $initialData = []
     ) {
         parent::__construct($storeRegistry, $initialData);
-
-        $this->configuration = $configuration;
     }
 
     /**

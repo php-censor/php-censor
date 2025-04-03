@@ -19,35 +19,21 @@ use PHPCensor\StoreRegistry;
  */
 class BuildErrorWriter
 {
-    private int $buildId;
-
-    private int $projectId;
-
     private array $errors = [];
-
-    private DatabaseManager $databaseManager;
-
-    private StoreRegistry $storeRegistry;
 
     /**
      * @see https://stackoverflow.com/questions/40361164/pdoexception-sqlstatehy000-general-error-7-number-of-parameters-must-be-bet
      */
-    private int $bufferSize;
+    private readonly int $bufferSize;
 
     public function __construct(
         ConfigurationInterface $configuration,
-        DatabaseManager $databaseManager,
-        StoreRegistry $storeRegistry,
-        int $projectId,
-        int $buildId
+        private readonly DatabaseManager $databaseManager,
+        private readonly StoreRegistry $storeRegistry,
+        private readonly int $projectId,
+        private readonly int $buildId
     ) {
         $this->bufferSize = (int)$configuration->get('php-censor.build.writer_buffer_size', 500);
-
-        $this->projectId = $projectId;
-        $this->buildId   = $buildId;
-
-        $this->databaseManager = $databaseManager;
-        $this->storeRegistry   = $storeRegistry;
     }
 
     public function __destruct()

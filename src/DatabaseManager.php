@@ -16,19 +16,16 @@ use PHPCensor\Common\Application\ConfigurationInterface;
  */
 class DatabaseManager
 {
-    public const MYSQL_TYPE      = 'mysql';
-    public const POSTGRESQL_TYPE = 'pgsql';
-
-    private ConfigurationInterface $configuration;
+    final public const MYSQL_TYPE      = 'mysql';
+    final public const POSTGRESQL_TYPE = 'pgsql';
 
     private array $connections = [
         'read'  => null,
         'write' => null
     ];
 
-    public function __construct(ConfigurationInterface $configuration)
+    public function __construct(private readonly ConfigurationInterface $configuration)
     {
-        $this->configuration = $configuration;
     }
 
     /**
@@ -77,7 +74,7 @@ class DatabaseManager
                         $this->configuration->get('php-censor.database.password', ''),
                         $pdoOptions
                     );
-                } catch (\PDOException $ex) {
+                } catch (\PDOException) {
                     $connection = false;
                 }
 

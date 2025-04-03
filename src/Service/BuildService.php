@@ -35,30 +35,15 @@ use Symfony\Component\Yaml\Yaml;
  */
 class BuildService
 {
-    private BuildStore $buildStore;
-
-    private ProjectStore $projectStore;
-
-    private ConfigurationInterface $configuration;
-
-    private StoreRegistry $storeRegistry;
-
-    private BuildFactory $buildFactory;
-
     public bool $queueError = false;
 
     public function __construct(
-        ConfigurationInterface $configuration,
-        StoreRegistry $storeRegistry,
-        BuildFactory $buildFactory,
-        BuildStore $buildStore,
-        ProjectStore $projectStore
+        private readonly ConfigurationInterface $configuration,
+        private readonly StoreRegistry $storeRegistry,
+        private readonly BuildFactory $buildFactory,
+        private readonly BuildStore $buildStore,
+        private readonly ProjectStore $projectStore
     ) {
-        $this->configuration = $configuration;
-        $this->storeRegistry = $storeRegistry;
-        $this->buildStore    = $buildStore;
-        $this->projectStore  = $projectStore;
-        $this->buildFactory  = $buildFactory;
     }
 
     public function createBuild(
@@ -310,7 +295,7 @@ class BuildService
                     $fileSystem->remove($projectPath);
                 }
             }
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
         }
     }
 
@@ -366,7 +351,7 @@ class BuildService
                     PheanstalkInterface::DEFAULT_DELAY,
                     $this->configuration->get('php-censor.queue.lifetime', 600)
                 );
-            } catch (\Throwable $ex) {
+            } catch (\Throwable) {
                 $this->queueError = true;
             }
         }

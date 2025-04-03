@@ -81,7 +81,7 @@ class PhpCpd extends Plugin implements ZeroConfigPluginInterface
         $lastLine = \exec(
             \sprintf('cd "%s" && ' . $phpcpd . ' %s "%s" --version', $this->builder->buildPath, $ignore, $this->directory)
         );
-        if (false !== \strpos($lastLine, '--names-exclude')) {
+        if (\str_contains($lastLine, '--names-exclude')) {
             $ignore = $ignoreForNewVersion;
         }
 
@@ -109,7 +109,7 @@ class PhpCpd extends Plugin implements ZeroConfigPluginInterface
      */
     protected function processReport($xmlString)
     {
-        $xml = \simplexml_load_string($xmlString);
+        $xml = \simplexml_load_string((string) $xmlString);
 
         if (false === $xml) {
             $this->builder->log($xmlString);

@@ -14,19 +14,19 @@
         "ci",
         "continuous integration"
     ],
-    "homepage": "http://php-censor.info",
+    "homepage": "https://php-censor.info",
     "license":  "BSD-2-Clause",
     "authors":  [
         {
             "name":     "Dmitry Khomutov",
             "email":    "poisoncorpsee@gmail.com",
-            "homepage": "http://corpsee.com",
+            "homepage": "https://corpsee.com",
             "role":     "PHP Censor developer"
         },
         {
             "name":     "Dan Cryer",
             "email":    "dan.cryer@block8.co.uk",
-            "homepage": "http://www.block8.co.uk",
+            "homepage": "https://www.block8.co.uk",
             "role":     "PHPCI developer"
         }
     ],
@@ -45,7 +45,7 @@
         }
     },
     "require": {
-        "php":           ">=7.4.0",
+        "php":           ">=8.1.0",
         "ext-openssl":   "*",
         "ext-PDO":       "*",
         "ext-json":      "*",
@@ -101,7 +101,7 @@
     },
     "extra": {
         "platform": {
-            "php": "7.4.*"
+            "php": "8.1"
         }
     },
     "config": {

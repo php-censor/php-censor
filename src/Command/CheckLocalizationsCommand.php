@@ -38,7 +38,7 @@ class CheckLocalizationsCommand extends Command
         $sameThanEnglish = (bool)$input->getOption('same');
 
         $languages = $input->getOption('languages')
-            ? \explode(',', $input->getOption('languages'))
+            ? \explode(',', (string) $input->getOption('languages'))
             : [];
 
         // Get English version

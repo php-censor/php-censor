@@ -68,7 +68,7 @@ class BitbucketNotify extends Plugin
         parent::__construct($builder, $build, $options);
 
         $this->httpClient        = new Client();
-        $this->url               = \trim($options['url']);
+        $this->url               = \trim((string) $options['url']);
         $this->message           = isset($options['message']) ? $options['message'] : '';
         $this->projectKey        = $options['project_key'];
         $this->repositorySlug    = $options['repository_slug'];
@@ -158,7 +158,7 @@ class BitbucketNotify extends Plugin
     {
         $endpoint = \sprintf('/projects/%s/repos/%s/pull-requests', $this->projectKey, $this->repositorySlug);
         $response = $this->apiRequest($endpoint)->getBody();
-        $response = \json_decode($response, true);
+        $response = \json_decode((string) $response, true);
 
         foreach ($response['values'] as $pullRequest) {
             if ($pullRequest['fromRef']['displayId'] === $this->getBuild()->getBranch()) {
@@ -179,7 +179,7 @@ class BitbucketNotify extends Plugin
         );
 
         $response = $this->apiRequest($endpoint)->getBody();
-        $response = \json_decode($response, true);
+        $response = \json_decode((string) $response, true);
 
         return $response['toRef']['displayId'];
     }
@@ -199,7 +199,7 @@ class BitbucketNotify extends Plugin
         );
 
         $response = $this->apiRequest($endpoint, 'post', ['text' => $message])->getBody();
-        $response = \json_decode($response, true);
+        $response = \json_decode((string) $response, true);
 
         return (int)$response['id'];
     }
@@ -227,18 +227,11 @@ class BitbucketNotify extends Plugin
             $this->getBuild()->getCommitId()
         );
 
-        switch ($this->getBuild()->getStatus()) {
-            case Build::STATUS_SUCCESS:
-                $state = 'SUCCESSFUL';
-
-                break;
-            case Build::STATUS_FAILED:
-                $state = 'FAILED';
-
-                break;
-            default:
-                $state = 'INPROGRESS';
-        }
+        $state = match ($this->getBuild()->getStatus()) {
+            Build::STATUS_SUCCESS => 'SUCCESSFUL',
+            Build::STATUS_FAILED => 'FAILED',
+            default => 'INPROGRESS',
+        };
 
         $this->buildStatusRequest($endpoint, 'post', [
             'state' => $state,

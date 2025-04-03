@@ -115,7 +115,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
      */
     protected function processReport($xmlString)
     {
-        $xml = \simplexml_load_string($xmlString);
+        $xml = \simplexml_load_string((string) $xmlString);
 
         if (false === $xml) {
             $this->builder->log($xmlString);
@@ -160,7 +160,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
         }
 
         foreach ($this->rules as &$rule) {
-            if (\strpos($rule, '/') !== false) {
+            if (\str_contains((string) $rule, '/')) {
                 $rule = $this->builder->buildPath . $rule;
             }
         }

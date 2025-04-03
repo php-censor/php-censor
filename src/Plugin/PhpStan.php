@@ -83,18 +83,18 @@ class PhpStan extends Plugin
 
             foreach ($files as $file => $payload) {
                 if (0 < $payload['errors']) {
-                    $file = \str_replace($this->build->getBuildPath(), '', $file);
+                    $file = \str_replace($this->build->getBuildPath(), '', (string) $file);
                     $len = \strlen($file);
                     $out = '';
-                    $filename = (false !== \strpos($file, ' (')) ? \strstr($file, ' (', true) : $file;
+                    $filename = (\str_contains($file, ' (')) ? \strstr($file, ' (', true) : $file;
 
                     foreach ($payload['messages'] as $message) {
-                        if (\strlen($message['message']) > $len) {
-                            $len = \strlen($message['message']);
+                        if (\strlen((string) $message['message']) > $len) {
+                            $len = \strlen((string) $message['message']);
                         }
                         $out .= \vsprintf(' %d%s %s' . PHP_EOL, [
                             $message['line'],
-                            \str_repeat(' ', 6 - \strlen($message['line'])),
+                            \str_repeat(' ', 6 - \strlen((string) $message['line'])),
                             $message['message']
                         ]);
 

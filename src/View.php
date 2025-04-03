@@ -62,10 +62,7 @@ class View
         return $this->data[$key];
     }
 
-    /**
-     * @param mixed  $value
-     */
-    public function __set(string $key, $value): void
+    public function __set(string $key, mixed $value): void
     {
         $this->data[$key] = $value;
     }

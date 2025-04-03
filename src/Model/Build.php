@@ -30,14 +30,14 @@ use Symfony\Component\Yaml\Parser as YamlParser;
  */
 class Build extends BaseBuild
 {
-    public const STAGE_SETUP    = 'setup';
-    public const STAGE_TEST     = 'test';
-    public const STAGE_DEPLOY   = 'deploy';
-    public const STAGE_COMPLETE = 'complete';
-    public const STAGE_SUCCESS  = 'success';
-    public const STAGE_FAILURE  = 'failure';
-    public const STAGE_FIXED    = 'fixed';
-    public const STAGE_BROKEN   = 'broken';
+    final public const STAGE_SETUP    = 'setup';
+    final public const STAGE_TEST     = 'test';
+    final public const STAGE_DEPLOY   = 'deploy';
+    final public const STAGE_COMPLETE = 'complete';
+    final public const STAGE_SUCCESS  = 'success';
+    final public const STAGE_FAILURE  = 'failure';
+    final public const STAGE_FIXED    = 'fixed';
+    final public const STAGE_BROKEN   = 'broken';
 
     public static array $pullRequestSources = [
         self::SOURCE_WEBHOOK_PULL_REQUEST_CREATED,
@@ -172,9 +172,8 @@ class Build extends BaseBuild
      * Store build metadata
      *
      * @param string $key
-     * @param mixed  $value
      */
-    public function storeMeta($key, $value)
+    public function storeMeta($key, mixed $value)
     {
         $value = \json_encode($value);
 
@@ -439,7 +438,7 @@ class Build extends BaseBuild
                 $fileSystem->remove(PUBLIC_DIR . 'artifacts/pdepend/' . $buildDirectory);
                 $fileSystem->remove(PUBLIC_DIR . 'artifacts/phpunit/' . $buildDirectory);
             }
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
         }
     }
 
@@ -553,31 +552,19 @@ OUT;
         $parentId   = $this->getParentId();
         $parentLink = '<a href="' . APP_URL . 'build/view/' . $parentId . '">#' . $parentId . '</a>';
 
-        switch ($this->getSource()) {
-            case Build::SOURCE_WEBHOOK_PUSH:
-                return Lang::get('source_webhook_push');
-            case Build::SOURCE_WEBHOOK_PULL_REQUEST_CREATED:
-                return Lang::get('source_webhook_pull_request_created');
-            case Build::SOURCE_WEBHOOK_PULL_REQUEST_UPDATED:
-                return Lang::get('source_webhook_pull_request_updated');
-            case Build::SOURCE_WEBHOOK_PULL_REQUEST_APPROVED:
-                return Lang::get('source_webhook_pull_request_approved');
-            case Build::SOURCE_WEBHOOK_PULL_REQUEST_MERGED:
-                return Lang::get('source_webhook_pull_request_merged');
-            case Build::SOURCE_MANUAL_WEB:
-                return Lang::get('source_manual_web');
-            case Build::SOURCE_MANUAL_REBUILD_WEB:
-                return Lang::get('source_manual_rebuild_web', $parentLink);
-            case Build::SOURCE_MANUAL_CONSOLE:
-                return Lang::get('source_manual_console');
-            case Build::SOURCE_MANUAL_REBUILD_CONSOLE:
-                return Lang::get('source_manual_rebuild_console', $parentLink);
-            case Build::SOURCE_PERIODICAL:
-                return Lang::get('source_periodical');
-            case Build::SOURCE_UNKNOWN:
-            default:
-                return Lang::get('source_unknown');
-        }
+        return match ($this->getSource()) {
+            Build::SOURCE_WEBHOOK_PUSH => Lang::get('source_webhook_push'),
+            Build::SOURCE_WEBHOOK_PULL_REQUEST_CREATED => Lang::get('source_webhook_pull_request_created'),
+            Build::SOURCE_WEBHOOK_PULL_REQUEST_UPDATED => Lang::get('source_webhook_pull_request_updated'),
+            Build::SOURCE_WEBHOOK_PULL_REQUEST_APPROVED => Lang::get('source_webhook_pull_request_approved'),
+            Build::SOURCE_WEBHOOK_PULL_REQUEST_MERGED => Lang::get('source_webhook_pull_request_merged'),
+            Build::SOURCE_MANUAL_WEB => Lang::get('source_manual_web'),
+            Build::SOURCE_MANUAL_REBUILD_WEB => Lang::get('source_manual_rebuild_web', $parentLink),
+            Build::SOURCE_MANUAL_CONSOLE => Lang::get('source_manual_console'),
+            Build::SOURCE_MANUAL_REBUILD_CONSOLE => Lang::get('source_manual_rebuild_console', $parentLink),
+            Build::SOURCE_PERIODICAL => Lang::get('source_periodical'),
+            default => Lang::get('source_unknown'),
+        };
     }
 
     /**

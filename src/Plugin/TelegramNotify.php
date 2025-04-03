@@ -153,16 +153,15 @@ class TelegramNotify extends Plugin
             $this->buildMsg .= $firstRow === 'composer' ? '' : ('```' . \mb_substr($bm, $pos) . '```');
         }
 
-        return $this->builder->interpolate(\str_replace(['%ICON_BUILD%'], [$buildIcon], $this->message));
+        return $this->builder->interpolate(\str_replace(['%ICON_BUILD%'], [$buildIcon], (string) $this->message));
     }
 
     /**
      * Split chat group id to chat id and topic id
      *
-     * @param int|string $chatId
      * @return array{string, string|null}
      */
-    protected function splitChatIdAndTopicId($chatId)
+    protected function splitChatIdAndTopicId(int|string $chatId)
     {
         $parts = \explode('/', \trim((string) $chatId) . '/');
         $topicId = $parts[1] !== '' ? $parts[1] : null;

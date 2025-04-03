@@ -17,16 +17,6 @@ use Symfony\Component\Process\Process;
 class CommandExecutor implements CommandExecutorInterface
 {
     /**
-     * @var BuildLogger
-     */
-    protected $logger;
-
-    /**
-     * @var bool
-     */
-    protected $verbose;
-
-    /**
      * @var array
      */
     protected $lastOutput = [];
@@ -40,13 +30,6 @@ class CommandExecutor implements CommandExecutorInterface
      * @var bool
      */
     public $logExecOutput = true;
-
-    /**
-     * The path which findBinary will look in.
-     *
-     * @var string
-     */
-    protected $rootDir;
 
     /**
      * Current build path
@@ -78,11 +61,11 @@ class CommandExecutor implements CommandExecutorInterface
      * @param string $rootDir
      * @param bool   $verbose
      */
-    public function __construct(BuildLogger $logger, $rootDir, $verbose = false)
-    {
-        $this->logger     = $logger;
-        $this->verbose    = $verbose;
-        $this->rootDir    = $rootDir;
+    public function __construct(
+        protected BuildLogger $logger,
+        protected $rootDir,
+        protected $verbose = false
+    ) {
     }
 
     /**
@@ -104,7 +87,7 @@ class CommandExecutor implements CommandExecutorInterface
 
         $withNoExit = '';
         foreach (self::$noExitCommands as $nec) {
-            if (\preg_match("/\b{$nec}\b/", $command)) {
+            if (\preg_match("/\b{$nec}\b/", (string) $command)) {
                 $withNoExit = $nec;
 
                 break;
@@ -131,7 +114,7 @@ class CommandExecutor implements CommandExecutorInterface
                 \exec("ps auxww | grep '{$withNoExit}' | grep -v grep", $response);
                 $response = \array_filter(
                     $response,
-                    fn ($a) => \strpos($a, $this->buildPath) !== false
+                    fn ($a) => \str_contains($a, $this->buildPath)
                 );
             } while (!empty($response));
             $process->stop();
@@ -206,10 +189,8 @@ class CommandExecutor implements CommandExecutorInterface
     /**
      * @param string $binaryPath
      * @param string $binary
-     *
-     * @return false|string
      */
-    protected function findBinaryByPath($binaryPath, $binary)
+    protected function findBinaryByPath($binaryPath, $binary): false|string
     {
         if (\is_dir($binaryPath) && \is_file($binaryPath . '/' . $binary)) {
             $this->logger->logDebug(\sprintf('Found in %s (binary_path): %s', $binaryPath, $binary));
@@ -223,10 +204,8 @@ class CommandExecutor implements CommandExecutorInterface
     /**
      * @param string $composerBin
      * @param string $binary
-     *
-     * @return false|string
      */
-    protected function findBinaryLocal($composerBin, $binary)
+    protected function findBinaryLocal($composerBin, $binary): false|string
     {
         if (\is_dir($composerBin) && \is_file($composerBin . '/' . $binary)) {
             $this->logger->logDebug(\sprintf('Found in %s (local): %s', $composerBin, $binary));
@@ -239,10 +218,8 @@ class CommandExecutor implements CommandExecutorInterface
 
     /**
      * @param string $binary
-     *
-     * @return false|string
      */
-    protected function findBinaryGlobal($binary)
+    protected function findBinaryGlobal($binary): false|string
     {
         if (\is_file($this->rootDir . 'vendor/bin/' . $binary)) {
             $this->logger->logDebug(\sprintf('Found in %s (global): %s', 'vendor/bin', $binary));
@@ -257,13 +234,11 @@ class CommandExecutor implements CommandExecutorInterface
      * Uses 'which' to find a system binary by name
      *
      * @param string $binary
-     *
-     * @return false|string
      */
-    protected function findBinarySystem($binary)
+    protected function findBinarySystem($binary): false|string
     {
-        $tempBinary = \trim(\shell_exec('which ' . $binary));
-        if (\is_file($tempBinary)) {
+        $tempBinary = \trim((string)\shell_exec('which ' . $binary));
+        if ($tempBinary && \is_file($tempBinary)) {
             $this->logger->logDebug(\sprintf('Found in %s (system): %s', '', $binary));
 
             return $tempBinary;

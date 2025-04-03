@@ -200,12 +200,14 @@ class GithubBuild extends GitBuild
         if (!\is_null($project)) {
             $reference  = $project->getReference();
             $commitLink = '<a href="//' . $this->getDomain() . '/' . $reference . '/issues/$1">#$1</a>';
-            $message    = \preg_replace('/\#([0-9]+)/', $commitLink, $message);
-            $message    = \preg_replace(
-                '/\@([a-zA-Z0-9_]+)/',
-                '<a href="//' . $this->getDomain() . '/$1">@$1</a>',
-                $message
-            );
+            if ($message) {
+                $message    = \preg_replace('/\#([0-9]+)/', $commitLink, $message);
+                $message    = \preg_replace(
+                    '/\@([a-zA-Z0-9_]+)/',
+                    '<a href="//' . $this->getDomain() . '/$1">@$1</a>',
+                    $message
+                );
+            }
         }
 
         return $message;
@@ -252,7 +254,7 @@ class GithubBuild extends GitBuild
 
                 $success = $builder->executeCommand($cmd, $cloneTo, $this->getBranch(), $pullRequestId);
             }
-        } catch (\Throwable $ex) {
+        } catch (\Throwable) {
             $success = false;
         }
 

@@ -37,7 +37,7 @@ abstract class WebController extends Controller
     ) {
         parent::__construct($configuration, $storeRegistry, $request, $session);
 
-        $class           = \explode('\\', \get_class($this));
+        $class           = \explode('\\', $this::class);
         $this->className = \substr(\array_pop($class), 0, -10);
     }
 

@@ -22,16 +22,10 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 class ProjectService
 {
-    private ProjectStore $projectStore;
-
-    private StoreRegistry $storeRegistry;
-
     public function __construct(
-        StoreRegistry $storeRegistry,
-        ProjectStore $projectStore
+        private readonly StoreRegistry $storeRegistry,
+        private readonly ProjectStore $projectStore
     ) {
-        $this->storeRegistry = $storeRegistry;
-        $this->projectStore  = $projectStore;
     }
 
     /**

@@ -18,10 +18,10 @@ class BuildError extends Model
 {
     use HasCreateDateTrait;
 
-    public const SEVERITY_CRITICAL = 0;
-    public const SEVERITY_HIGH     = 1;
-    public const SEVERITY_NORMAL   = 2;
-    public const SEVERITY_LOW      = 3;
+    final public const SEVERITY_CRITICAL = 0;
+    final public const SEVERITY_HIGH     = 1;
+    final public const SEVERITY_NORMAL   = 2;
+    final public const SEVERITY_LOW      = 3;
 
     protected array $data = [
         'id'          => null,

@@ -14,33 +14,18 @@ use PHPCensor\Model\Build;
  */
 abstract class Plugin
 {
-    public const STATUS_PENDING        = 0;
-    public const STATUS_RUNNING        = 1;
-    public const STATUS_SUCCESS        = 2;
-    public const STATUS_FAILED         = 3;
-    public const STATUS_FAILED_ALLOWED = 4;
+    final public const STATUS_PENDING        = 0;
+    final public const STATUS_RUNNING        = 1;
+    final public const STATUS_SUCCESS        = 2;
+    final public const STATUS_FAILED         = 3;
+    final public const STATUS_FAILED_ALLOWED = 4;
 
-    public const AVAILABLE_PRIORITY_PATHS = [
+    final public const AVAILABLE_PRIORITY_PATHS = [
         'global',
         'system',
         'local',
         'binary_path'
     ];
-
-    /**
-     * @var Builder
-     */
-    protected $builder;
-
-    /**
-     * @var Build
-     */
-    protected $build;
-
-    /**
-     * @var array
-     */
-    protected $options;
 
     /**
      * @var string
@@ -78,12 +63,11 @@ abstract class Plugin
 
     protected ?StoreRegistry $storeRegistry = null;
 
-    public function __construct(Builder $builder, Build $build, array $options = [])
-    {
-        $this->builder = $builder;
-        $this->build   = $build;
-        $this->options = $options;
-
+    public function __construct(
+        protected Builder $builder,
+        protected Build $build,
+        protected array $options = []
+    ) {
         $this->directory  = $this->normalizeDirectory();
         $this->binaryPath = $this->normalizeBinaryPath();
         $this->ignore     = $this->normalizeIgnore();
@@ -116,7 +100,7 @@ abstract class Plugin
     {
         $normalizedPath = $this->builder->interpolate($rawPath, true);
 
-        if ('/' !== \substr($rawPath, 0, 1)) {
+        if (!\str_starts_with($rawPath, '/')) {
             $normalizedPath = $this->build->getBuildPath() . $normalizedPath;
         }
 
@@ -143,7 +127,7 @@ abstract class Plugin
         if (!empty($this->options['binary_path'])) {
             $optionBinaryPath = $this->builder->interpolate($this->options['binary_path'], true);
 
-            if ('/' !== \substr($optionBinaryPath, 0, 1)) {
+            if (!\str_starts_with($optionBinaryPath, '/')) {
                 $binaryPath = $this->build->getBuildPath();
             }
 
@@ -179,7 +163,7 @@ abstract class Plugin
         if (!empty($this->options['directory'])) {
             $optionDirectory = $this->builder->interpolate($this->options['directory'], true);
 
-            if ('/' !== \substr($optionDirectory, 0, 1)) {
+            if (!\str_starts_with($optionDirectory, '/')) {
                 $directory = $this->build->getBuildPath();
             }
 
@@ -222,7 +206,7 @@ abstract class Plugin
         \array_walk($ignore, function (&$value) use ($baseDirectory) {
             $value = $this->builder->interpolate($value, true);
 
-            if ('/' !== \substr($value, 0, 1)) {
+            if (!\str_starts_with($value, '/')) {
                 $value = $baseDirectory . $value;
             }
 
@@ -250,13 +234,11 @@ abstract class Plugin
     /**
      * Find a binary required by a plugin.
      *
-     * @param array|string $binary
      *
      * @return string
-     *
      * @throws Exception when no binary has been found.
      */
-    public function findBinary($binary)
+    public function findBinary(array|string $binary)
     {
         return $this->builder->findBinary($binary, $this->priorityPath, $this->binaryPath, $this->binaryName);
     }
