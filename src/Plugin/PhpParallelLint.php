@@ -84,7 +84,7 @@ class PhpParallelLint extends Plugin implements ZeroConfigPluginInterface
 
         $phplint = $this->executable;
 
-        $cmd     = $phplint . ' -e %s' . '%s %s "%s"';
+        $cmd     = Builder::PHP_CLI_TAG . ' ' . $phplint . ' -e %s' . '%s %s "%s"';
         $success = $this->builder->executeCommand(
             $cmd,
             $this->extensions,

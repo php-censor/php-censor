@@ -56,7 +56,7 @@ class Behat extends Plugin
             return false;
         }
 
-        $success = $this->builder->executeCommand($this->executable . ' %s', $this->features);
+        $success = $this->builder->executeCommand(Builder::PHP_CLI_TAG . ' ' . $this->executable . ' %s', $this->features);
 
         list($errorCount, $data) = $this->parseBehatOutput();
 

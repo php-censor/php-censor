@@ -78,16 +78,22 @@ class PhpCpd extends Plugin implements ZeroConfigPluginInterface
         }
 
         $phpcpd   = $this->executable;
-        $lastLine = \exec(
-            \sprintf('cd "%s" && ' . $phpcpd . ' %s "%s" --version', $this->builder->buildPath, $ignore, $this->directory)
+        $this->builder->executeCommand(
+            'cd "%s" && ' . Builder::PHP_CLI_TAG . ' ' . $phpcpd . ' %s "%s" --version',
+            $this->builder->buildPath,
+            $ignore,
+            $this->directory,
         );
-        if (\str_contains($lastLine, '--names-exclude')) {
+        $this->builder->logExecOutput(true);
+
+        $lastOutput = $this->builder->getLastOutput();
+        if (\str_contains($lastOutput, '--names-exclude')) {
             $ignore = $ignoreForNewVersion;
         }
 
         $tmpFileName = \tempnam(\sys_get_temp_dir(), (self::pluginName() . '_'));
 
-        $cmd     = 'cd "%s" && ' . $phpcpd . ' --log-pmd "%s" %s "%s"';
+        $cmd     = 'cd "%s" && ' . Builder::PHP_CLI_TAG . ' ' . $phpcpd . ' --log-pmd "%s" %s "%s"';
         $success = $this->builder->executeCommand($cmd, $this->builder->buildPath, $tmpFileName, $ignore, $this->directory);
 
         $errorCount = $this->processReport(\file_get_contents($tmpFileName));

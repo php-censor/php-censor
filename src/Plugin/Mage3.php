@@ -58,7 +58,7 @@ class Mage3 extends Plugin
             return false;
         }
 
-        $result = $this->builder->executeCommand($this->executable . ' -n deploy ' . $this->mageEnv);
+        $result = $this->builder->executeCommand(Builder::PHP_CLI_TAG . ' ' . $this->executable . ' -n deploy ' . $this->mageEnv);
 
         try {
             $this->builder->log('########## MAGE LOG BEGIN ##########');

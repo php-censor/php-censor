@@ -115,9 +115,15 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
             return false;
         }
 
-        $cmd      = $this->executable;
-        $lastLine = \exec($cmd . ' --log-json . --version');
-        if (\str_contains($lastLine, '--log-json')) {
+        $cmd = $this->executable;
+
+        $this->builder->executeCommand(
+            Builder::PHP_CLI_TAG . ' ' . $cmd . ' --log-json . --version',
+        );
+        $this->builder->logExecOutput(true);
+
+        $lastOutput = $this->builder->getLastOutput();
+        if (\str_contains($lastOutput, '--log-json')) {
             $logFormat = 'junit'; // --log-json is not supported
         } else {
             $logFormat = 'json';
@@ -190,7 +196,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
         }
 
         $arguments = $this->builder->interpolate($options->buildArgumentString(), true);
-        $cmd       = $this->executable . ' %s %s';
+        $cmd       = Builder::PHP_CLI_TAG . ' ' . $this->executable . ' %s %s';
 
         if ($options->getOption('coverage')) {
             $cmd = 'XDEBUG_MODE=coverage ' . $cmd;

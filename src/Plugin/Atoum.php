@@ -59,7 +59,7 @@ class Atoum extends Plugin
      */
     public function execute()
     {
-        $cmd = $this->executable;
+        $cmd = Builder::PHP_CLI_TAG . ' ' . $this->executable;
 
         if (null !== $this->args) {
             $cmd .= " {$this->args}";

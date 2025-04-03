@@ -47,7 +47,7 @@ class Phlint extends Plugin
         $this->builder->executeCommand(
             'cd "%s" && %s analyze --no-interaction --no-ansi',
             $this->builder->buildPath,
-            $this->executable
+            Builder::PHP_CLI_TAG . ' ' . $this->executable
         );
 
         // Define that the plugin succeed

@@ -40,7 +40,7 @@ class PhpSpec extends Plugin
     {
         $phpspec = $this->executable;
 
-        $success = $this->builder->executeCommand($phpspec . ' --format=junit --no-code-generation run');
+        $success = $this->builder->executeCommand(Builder::PHP_CLI_TAG . ' ' . $phpspec . ' --format=junit --no-code-generation run');
         $output  = $this->builder->getLastOutput();
 
         /*

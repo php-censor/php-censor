@@ -151,7 +151,7 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
             $this->builder->logExecOutput(false);
         }
 
-        $cmd = 'cd "%s" && ' . $phpcs . ' --report=json %s %s %s %s %s "%s" %s %s %s';
+        $cmd = 'cd "%s" && ' . Builder::PHP_CLI_TAG . ' ' . $phpcs . ' --report=json %s %s %s %s %s "%s" %s %s %s';
         $this->builder->executeCommand(
             $cmd,
             $this->builder->buildPath,
