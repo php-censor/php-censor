@@ -3,7 +3,6 @@
 namespace PHPCensor\Plugin;
 
 use Exception;
-use PHPCensor;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
@@ -50,7 +49,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
     /**
      * @var PhpUnitOptions
      */
-    protected $options;
+    protected PhpUnitOptions $phpunitOptions;
 
     /**
      * @return string
@@ -83,7 +82,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
         $this->buildLocation       = PUBLIC_DIR . 'artifacts/phpunit/' . $this->buildDirectory;
         $this->buildBranchLocation = PUBLIC_DIR . 'artifacts/phpunit/' . $this->buildBranchDirectory;
 
-        $this->options = new PhpUnitOptions($this->builder->getConfiguration(), $options, $this->buildLocation);
+        $this->phpunitOptions = new PhpUnitOptions($this->builder->getConfiguration(), $options, $this->buildLocation);
 
         $this->executable = $this->findBinary(['phpunit', 'phpunit.phar']);
     }
@@ -107,8 +106,8 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
      */
     public function execute()
     {
-        $xmlConfigFiles = $this->options->getConfigFiles($this->build->getBuildPath());
-        $directories    = $this->options->getDirectories();
+        $xmlConfigFiles = $this->phpunitOptions->getConfigFiles($this->build->getBuildPath());
+        $directories    = $this->phpunitOptions->getDirectories();
         if (empty($xmlConfigFiles) && empty($directories)) {
             $this->builder->logFailure('Neither a configuration file nor a test directory found.');
 
@@ -140,7 +139,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
             // Run any config files
             if (!empty($xmlConfigFiles)) {
                 foreach ($xmlConfigFiles as $configFile) {
-                    $success[] = $this->runConfig($this->options->getTestsPath(), $configFile, $logFormat);
+                    $success[] = $this->runConfig($this->phpunitOptions->getTestsPath(), $configFile, $logFormat);
                 }
             }
         }
@@ -168,7 +167,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
 
         $fileSystem = new Filesystem();
 
-        $options   = clone $this->options;
+        $options   = clone $this->phpunitOptions;
         $buildPath = $this->build->getBuildPath();
 
         // Save the results into a log file
@@ -289,7 +288,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
     protected function checkRequiredCoverage($coverage)
     {
         foreach ($coverage as $key => $currentValue) {
-            if ($requiredValue = $this->options->getOption(\implode('_', ['required', $key, 'coverage']))) {
+            if ($requiredValue = $this->phpunitOptions->getOption(\implode('_', ['required', $key, 'coverage']))) {
                 if (\bccomp($requiredValue, (string) $currentValue) === 1) {
                     return false;
                 }
