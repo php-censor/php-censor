@@ -95,20 +95,18 @@ class Phlint extends Plugin
 
         $errors = [];
 
-        if (0 < \count($data)) {
-            foreach ($data as $error) {
-                $error   = \explode(PHP_EOL, $error);
-                $header  = \substr(\trim(\array_shift($error)), 3);
-                $file    = \strstr(\substr(\strstr($header, 'in '), 3), ':', true);
-                $line    = \substr(\strrchr($header, ':'), 1);
-                $message = \ltrim($error[0]) . PHP_EOL . \ltrim($error[1]);
+        foreach ($data as $error) {
+            $error   = \explode(PHP_EOL, $error);
+            $header  = \substr(\trim(\array_shift($error)), 3);
+            $file    = \strstr(\substr(\strstr($header, 'in '), 3), ':', true);
+            $line    = \substr(\strrchr($header, ':'), 1);
+            $message = \ltrim($error[0]) . PHP_EOL . \ltrim($error[1]);
 
-                $errors[] = [
-                    'message'   => $message,
-                    'file'      => $file,
-                    'line_from' => $line
-                ];
-            }
+            $errors[] = [
+                'message'   => $message,
+                'file'      => $file,
+                'line_from' => $line
+            ];
         }
 
         return $errors;

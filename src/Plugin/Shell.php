@@ -45,8 +45,6 @@ class Shell extends Plugin
 
         if (isset($options['commands']) && \is_array($options['commands'])) {
             $this->commands = $options['commands'];
-
-            return;
         }
     }
 

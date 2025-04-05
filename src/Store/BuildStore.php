@@ -39,7 +39,7 @@ class BuildStore extends Store
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{project_id}} = :project_id LIMIT :limit';
         $stmt  = $this->databaseManager->getConnection($useConnection)->prepare($query);
         $stmt->bindValue(':project_id', $projectId);
-        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -69,7 +69,7 @@ class BuildStore extends Store
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{status}} = :status ORDER BY {{create_date}} ASC LIMIT :limit';
         $stmt  = $this->databaseManager->getConnection($useConnection)->prepare($query);
         $stmt->bindValue(':status', $status);
-        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -405,7 +405,7 @@ class BuildStore extends Store
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{project_id}} = :project_id ORDER BY {{create_date}} DESC LIMIT 1000000 OFFSET :keep';
         $stmt  = $this->databaseManager->getConnection('read')->prepare($query);
         $stmt->bindValue(':project_id', $projectId);
-        $stmt->bindValue(':keep', (int)$keep, PDO::PARAM_INT);
+        $stmt->bindValue(':keep', $keep, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);

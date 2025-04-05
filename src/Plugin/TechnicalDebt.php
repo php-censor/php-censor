@@ -105,9 +105,8 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
             $string     .= \str_pad($fileNumber, 4, ' ', STR_PAD_LEFT);
             $string     .= "/" . $this->numberOfAnalysedFile . " (" . \floor($fileNumber * 100 / $this->numberOfAnalysedFile) . " %)\n";
         }
-        $string .= "Checked {$fileNumber} files\n";
 
-        return $string;
+        return $string . "Checked {$fileNumber} files\n";
     }
 
     /**

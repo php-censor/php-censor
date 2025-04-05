@@ -51,9 +51,7 @@ class TelegramNotify extends Plugin
             throw new InvalidArgumentException("Not setting recipients");
         }
 
-        if (\array_key_exists('auth_token', $options)) {
-            $this->authToken = $this->builder->interpolate($options['auth_token'], true);
-        }
+        $this->authToken = $this->builder->interpolate($options['auth_token'], true);
 
         $this->message = '[%ICON_BUILD%] [%PROJECT_TITLE%](%PROJECT_LINK%)' .
             ' - [Build #%BUILD_ID%](%BUILD_LINK%) has finished ' .

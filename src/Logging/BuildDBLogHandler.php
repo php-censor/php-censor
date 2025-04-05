@@ -81,14 +81,12 @@ class BuildDBLogHandler extends AbstractProcessingHandler
     {
         $replace = [];
         $secrets = $this->secretStore->getAll();
-        if (\count($secrets['items']) > 0) {
-            /** @var Secret $secret */
-            foreach ($secrets['items'] as $secret) {
-                $value = $secret->getValue();
-                $name  = '%' . \sprintf('SECRET:%s', $secret->getName()) . '%';
-                if (\trim($value)) {
-                    $replace[$name] = $secret->getValue();
-                }
+        /** @var Secret $secret */
+        foreach ($secrets['items'] as $secret) {
+            $value = $secret->getValue();
+            $name  = '%' . \sprintf('SECRET:%s', $secret->getName()) . '%';
+            if (\trim($value)) {
+                $replace[$name] = $secret->getValue();
             }
         }
 
@@ -102,7 +100,7 @@ class BuildDBLogHandler extends AbstractProcessingHandler
     {
         $this->logValue .= $this->sanitize(
             $this->sanitizeSecrets(
-                (string)$record['message']
+                $record['message']
             )
         ) . PHP_EOL;
 

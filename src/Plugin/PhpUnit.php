@@ -133,11 +133,8 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
                 $success[] = $this->runConfig($directory, null, $logFormat);
             }
         } else {
-            // Run any config files
-            if (!empty($xmlConfigFiles)) {
-                foreach ($xmlConfigFiles as $configFile) {
-                    $success[] = $this->runConfig($this->phpunitOptions->getTestsPath(), $configFile, $logFormat);
-                }
+            foreach ($xmlConfigFiles as $configFile) {
+                $success[] = $this->runConfig($this->phpunitOptions->getTestsPath(), $configFile, $logFormat);
             }
         }
 

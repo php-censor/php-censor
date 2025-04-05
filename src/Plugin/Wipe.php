@@ -26,14 +26,6 @@ class Wipe extends Plugin
     }
 
     /**
-     * {@inheritDoc}
-     */
-    public function __construct(Builder $builder, Build $build, array $options = [])
-    {
-        parent::__construct($builder, $build, $options);
-    }
-
-    /**
     * Wipes a directory's contents
     */
     public function execute()

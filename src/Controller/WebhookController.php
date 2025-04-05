@@ -577,7 +577,7 @@ class WebhookController extends Controller
         $commitsResponse = $client->get($commitsUrl, [
             'auth' => [$username, $appPassword],
         ]);
-        $httpStatus = (int)$commitsResponse->getStatusCode();
+        $httpStatus = $commitsResponse->getStatusCode();
 
         // Check we got a success response:
         if ($httpStatus < 200 || $httpStatus >= 300) {

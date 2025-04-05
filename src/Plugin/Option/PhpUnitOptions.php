@@ -48,9 +48,7 @@ class PhpUnitOptions
         foreach ($this->getCommandArguments() as $argumentName => $argumentValues) {
             $prefix = $argumentName[0] === '-' ? '' : '--';
 
-            if (!\is_array($argumentValues)) {
-                $argumentValues = [$argumentValues];
-            }
+            $argumentValues = [$argumentValues];
 
             foreach ($argumentValues as $argValue) {
                 $postfix = ' ';

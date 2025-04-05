@@ -160,7 +160,7 @@ class GithubBuild extends GitBuild
             ]
         ]);
 
-        $status = (int)$response->getStatusCode();
+        $status = $response->getStatusCode();
 
         return ($status >= 200 && $status < 300);
     }
@@ -228,9 +228,8 @@ class GithubBuild extends GitBuild
         $link = '//' . $this->getDomain() . '/' . $reference . '/';
         $link .= 'blob/' . $this->getCommitId() . '/';
         $link .= '{FILE}';
-        $link .= '#L{LINE}-L{LINE_END}';
 
-        return $link;
+        return $link . '#L{LINE}-L{LINE_END}';
     }
 
     /**

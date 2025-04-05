@@ -599,7 +599,7 @@ OUT;
             /** @var BuildErrorStore $store */
             $store = $this->storeRegistry->get('BuildError');
 
-            $this->totalErrorsCount[$key] = (int)$store->getErrorTotalForBuild(
+            $this->totalErrorsCount[$key] = $store->getErrorTotalForBuild(
                 $this->getId(),
                 $plugin,
                 $severity,

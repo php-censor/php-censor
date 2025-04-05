@@ -273,7 +273,7 @@ class BuildService
     public function deleteOldByProject(int $projectId): void
     {
         $keepBuilds = (int)$this->configuration->get('php-censor.build.keep_builds', 100);
-        $builds     = $this->buildStore->getOldByProject((int)$projectId, $keepBuilds);
+        $builds     = $this->buildStore->getOldByProject($projectId, $keepBuilds);
 
         /** @var Build $build */
         foreach ($builds['items'] as $build) {
@@ -284,7 +284,7 @@ class BuildService
 
     public function deleteAllByProject(int $projectId): void
     {
-        $this->buildStore->deleteAllByProject((int)$projectId);
+        $this->buildStore->deleteAllByProject($projectId);
 
         try {
             $projectPaths = [

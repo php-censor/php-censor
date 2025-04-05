@@ -12,7 +12,7 @@ use voku\helper\AntiXSS;
  */
 class Template
 {
-    protected static ?AntiXSS $antiXss = null;
+    protected static AntiXSS $antiXss;
 
     /**
      * @param mixed $param

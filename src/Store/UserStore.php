@@ -109,7 +109,7 @@ class UserStore extends Store
         $query = 'SELECT * FROM {{' . $this->tableName . '}} WHERE {{name}} = :name LIMIT :limit';
         $stmt  = $this->databaseManager->getConnection($useConnection)->prepare($query);
         $stmt->bindValue(':name', $name);
-        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);

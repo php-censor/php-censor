@@ -49,7 +49,7 @@ abstract class WebController extends Controller
             $this->layout->title      = 'PHP Censor';
             $this->layout->breadcrumb = [];
 
-            $version = (string)\trim(\file_get_contents(ROOT_DIR . 'VERSION.md'));
+            $version = \trim(\file_get_contents(ROOT_DIR . 'VERSION.md'));
             $version = !empty($version) ? $version : '0.0.0 (UNKNOWN)';
 
             $this->layout->version         = $version;

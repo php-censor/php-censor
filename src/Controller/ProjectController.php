@@ -179,9 +179,7 @@ class ProjectController extends WebController
             '(:num)',
             \http_build_query(\array_merge($params, ['page' => '(:num)']))
         );
-        $paginator = new Paginator($total, $perPage, $page, $urlPattern);
-
-        $view->paginator = $paginator;
+        $view->paginator = new Paginator($total, $perPage, $page, $urlPattern);
 
         return $view->render();
     }

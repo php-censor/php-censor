@@ -35,12 +35,12 @@ class Mysql extends Plugin
     /**
      * @var string|null
      */
-    protected $dbName = null;
+    protected $dbName;
 
     /**
      * @var string|null
      */
-    protected $charset = null;
+    protected $charset;
 
     /**
      * @var array

@@ -17,7 +17,7 @@ use PHPCensor\Plugin;
  */
 class Grunt extends Plugin
 {
-    protected $task = null;
+    protected $task;
     protected $gruntfile = 'Gruntfile.js';
 
     /**
