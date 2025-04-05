@@ -1,4 +1,4 @@
-[![Minimum PHP version: 7.4.0](https://img.shields.io/badge/php-7.4.0%2B-blue.svg?label=PHP)](https://packagist.org/packages/php-censor/php-censor)
+[![Minimum PHP version: 8.1.0](https://img.shields.io/badge/php-8.1.0%2B-blue.svg?label=PHP)](https://packagist.org/packages/php-censor/php-censor)
 [![Actions](https://github.com/php-censor/php-censor/actions/workflows/ci.yaml/badge.svg)](https://github.com/php-censor/php-censor/actions)
 [![PHP Censor](http://ci.php-censor.info/build-status/image/2?branch=master&label=PHP%20Censor)](http://ci.php-censor.info/build-status/view/2?branch=master)
 [![Codecov](https://codecov.io/gh/php-censor/php-censor/branch/master/graph/badge.svg)](https://codecov.io/gh/php-censor/php-censor)
@@ -46,7 +46,7 @@ More [screenshots](docs/en/screenshots.md).
 
 * Unix-like OS (**Windows isn't supported**);
 
-* PHP 7.4+ (with OpenSSL support and enabled functions: `exec()`, `shell_exec()` and `proc_open()`);
+* PHP 8.1+ (with OpenSSL support and enabled functions: `exec()`, `shell_exec()` and `proc_open()`);
 
 * Web-server (Nginx or Apache2);
 
