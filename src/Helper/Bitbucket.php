@@ -134,8 +134,7 @@ class Bitbucket
 
         $link .= 'src/' . $build->getCommitId() . '/';
         $link .= '{FILE}';
-        $link .= '#{BASEFILE}-{LINE}';
 
-        return $link;
+        return $link . '#{BASEFILE}-{LINE}';
     }
 }

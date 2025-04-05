@@ -16,8 +16,8 @@ return static function (RectorConfig $rectorConfig): void {
 
     $rectorConfig->sets([
         SetList::PHP_81,
+        SetList::DEAD_CODE,
         //SetList::CODE_QUALITY,
         //SetList::TYPE_DECLARATION_STRICT,
-        //SetList::DEAD_CODE,
     ]);
 };

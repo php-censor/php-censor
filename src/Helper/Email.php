@@ -103,7 +103,7 @@ class Email
         );
 
         if (!\str_contains((string) $from, '<')) {
-            return [(string)\trim((string) $from) => 'PHP Censor'];
+            return [\trim((string) $from) => 'PHP Censor'];
         }
 
         \preg_match('#^(.*?)<(.*?)>$#ui', (string) $from, $fromParts);

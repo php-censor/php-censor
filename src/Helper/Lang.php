@@ -21,7 +21,7 @@ class Lang
     /**
      * @var string
      */
-    protected static $language  = null;
+    protected static $language;
 
     /**
      * @var array
@@ -148,9 +148,7 @@ class Lang
 
         // Try the installation default language:
         $language = $config->get('php-censor.language', self::DEFAULT_LANGUAGE);
-        if (self::setLanguage($language)) {
-            return;
-        }
+        self::setLanguage($language);
     }
 
     /**

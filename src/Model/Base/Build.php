@@ -415,7 +415,6 @@ class Build extends Model
     public function getErrorsNew(): ?int
     {
         if ($this->getDataItem('errors_new') === null) {
-            /** @var BuildStore $errorStore */
             $store = $this->storeRegistry->get('Build');
 
             $this->setErrorsNew(

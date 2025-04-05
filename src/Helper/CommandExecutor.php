@@ -401,9 +401,7 @@ class CommandExecutor implements CommandExecutorInterface
                 if (\in_array($k, self::$blacklistEnvVars, true)) {
                     continue;
                 }
-                if (\is_string($v)) {
-                    $env[$k] = $v;
-                }
+                $env[$k] = $v;
             }
         } else {
             $output = [];

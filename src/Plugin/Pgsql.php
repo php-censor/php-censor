@@ -32,7 +32,7 @@ class Pgsql extends Plugin
     /**
      * @var string|null
      */
-    protected $dbName = null;
+    protected $dbName;
 
     /**
      * @var array

@@ -15,7 +15,7 @@ class Template
     /**
      * @var AntiXSS
      */
-    protected static $antiXss = null;
+    protected static $antiXss;
 
     /**
      * @param string $string

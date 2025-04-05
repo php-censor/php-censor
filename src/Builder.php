@@ -31,7 +31,7 @@ use PHPCensor\Common\Application\ConfigurationInterface;
  */
 class Builder
 {
-    public const PHP_CLI_TAG = '%PHP%';
+    final public const PHP_CLI_TAG = '%PHP%';
 
     protected string $phpExecutable = 'php';
 
@@ -296,7 +296,7 @@ class Builder
     public function executeCommand(...$params): bool
     {
         if (!empty($params[0])) {
-            $params[0] = \str_replace(self::PHP_CLI_TAG, $this->phpExecutable, $params[0]);
+            $params[0] = \str_replace(self::PHP_CLI_TAG, $this->phpExecutable, (string) $params[0]);
         }
 
         return $this->commandExecutor->executeCommand($params);
@@ -363,7 +363,7 @@ class Builder
 
         \chdir($this->buildPath);
 
-        $version = (string)\trim(\file_get_contents(ROOT_DIR . 'VERSION.md'));
+        $version = \trim(\file_get_contents(ROOT_DIR . 'VERSION.md'));
         $version = !empty($version) ? $version : '0.0.0 (UNKNOWN)';
 
         $this->interpolator->setupInterpolationVars(
