@@ -31,7 +31,7 @@ use PHPCensor\Common\Application\ConfigurationInterface;
  */
 class Builder
 {
-    const PHP_CLI_TAG = '%PHP%';
+    public const PHP_CLI_TAG = '%PHP%';
 
     protected string $phpExecutable = 'php';
 

@@ -53,10 +53,3 @@ complete:
         commands:
             - "cd ~ && ./drop_test_ci_mysql_db.sh %BUILD_ID%"
             - "cd ~ && ./drop_test_ci_postgres_db.sh %BUILD_ID%"
-    email_notify:
-        default_mailto_address: poisoncorpsee@gmail.com
-    telegram_notify:
-        auth_token: "%SECRET:telegram_auth_token%"
-        recipients:
-            - "%SECRET:telegram_chat_id%"
-        send_log: false
