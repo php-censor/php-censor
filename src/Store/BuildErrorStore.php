@@ -62,10 +62,10 @@ class BuildErrorStore extends Store
             $stmt->bindValue(':plugin', $plugin, PDO::PARAM_STR);
         }
         if (null !== $severity) {
-            $stmt->bindValue(':severity', (int)$severity, PDO::PARAM_INT);
+            $stmt->bindValue(':severity', $severity, PDO::PARAM_INT);
         }
         if (null !== $limit) {
-            $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+            $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
         }
         if ($offset) {
             $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
@@ -117,7 +117,7 @@ class BuildErrorStore extends Store
         }
 
         if (null !== $severity) {
-            $stmt->bindValue(':severity', (int)$severity, PDO::PARAM_INT);
+            $stmt->bindValue(':severity', $severity, PDO::PARAM_INT);
         }
 
         if ($stmt->execute()) {
@@ -146,7 +146,7 @@ class BuildErrorStore extends Store
         $stmt = $this->databaseManager->getConnection('read')->prepare($query);
         $stmt->bindValue(':build', $buildId);
         if (null !== $severity) {
-            $stmt->bindValue(':severity', (int)$severity, PDO::PARAM_INT);
+            $stmt->bindValue(':severity', $severity, PDO::PARAM_INT);
         }
 
         if ($stmt->execute()) {

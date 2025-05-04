@@ -48,9 +48,7 @@ class FlowdockNotify extends Plugin
             throw new InvalidArgumentException('Please define the "auth_token" for Flowdock Notify plugin!');
         }
 
-        if (\array_key_exists('auth_token', $options)) {
-            $this->authToken = $this->builder->interpolate($options['auth_token'], true);
-        }
+        $this->authToken = $this->builder->interpolate($options['auth_token'], true);
 
         $this->message = isset($options['message']) ? $options['message'] : self::MESSAGE_DEFAULT;
         $this->email   = isset($options['email']) ? $options['email'] : 'PHP Censor';

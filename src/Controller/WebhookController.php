@@ -163,7 +163,7 @@ class WebhookController extends Controller
                         $tag,
                         $committer,
                         $commitMessage,
-                        (int)$source,
+                        $source,
                         null,
                         $extra
                     );
@@ -211,7 +211,7 @@ class WebhookController extends Controller
                             // If not, create a new build job for it:
                             $build = $this->buildService->createBuild(
                                 $project,
-                                (int)$environmentId,
+                                $environmentId,
                                 $commitId,
                                 $project->getDefaultBranch(),
                                 $tag,
@@ -269,7 +269,7 @@ class WebhookController extends Controller
                     $tag,
                     $committer,
                     $commitMessage,
-                    (int)$source,
+                    $source,
                     null,
                     $extra
                 );
@@ -577,7 +577,7 @@ class WebhookController extends Controller
         $commitsResponse = $client->get($commitsUrl, [
             'auth' => [$username, $appPassword],
         ]);
-        $httpStatus = (int)$commitsResponse->getStatusCode();
+        $httpStatus = $commitsResponse->getStatusCode();
 
         // Check we got a success response:
         if ($httpStatus < 200 || $httpStatus >= 300) {

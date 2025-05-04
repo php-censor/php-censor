@@ -21,21 +21,21 @@ class Project extends Model
     use HasCreateDateTrait;
     use HasUserIdTrait;
 
-    public const TYPE_LOCAL = 'local';
-    public const TYPE_GIT = 'git';
-    public const TYPE_GITHUB = 'github';
-    public const TYPE_BITBUCKET = 'bitbucket';
-    public const TYPE_GITLAB = 'gitlab';
-    public const TYPE_GOGS = 'gogs';
-    public const TYPE_HG = 'hg';
-    public const TYPE_BITBUCKET_HG = 'bitbucket-hg';
-    public const TYPE_BITBUCKET_SERVER = 'bitbucket-server';
-    public const TYPE_SVN = 'svn';
+    final public const TYPE_LOCAL = 'local';
+    final public const TYPE_GIT = 'git';
+    final public const TYPE_GITHUB = 'github';
+    final public const TYPE_BITBUCKET = 'bitbucket';
+    final public const TYPE_GITLAB = 'gitlab';
+    final public const TYPE_GOGS = 'gogs';
+    final public const TYPE_HG = 'hg';
+    final public const TYPE_BITBUCKET_HG = 'bitbucket-hg';
+    final public const TYPE_BITBUCKET_SERVER = 'bitbucket-server';
+    final public const TYPE_SVN = 'svn';
 
-    public const MIN_BUILD_PRIORITY = 1;
-    public const MAX_BUILD_PRIORITY = 2000;
-    public const DEFAULT_BUILD_PRIORITY = 1000;
-    public const OFFSET_BETWEEN_BUILD_AND_QUEUE = 24;
+    final public const MIN_BUILD_PRIORITY = 1;
+    final public const MAX_BUILD_PRIORITY = 2000;
+    final public const DEFAULT_BUILD_PRIORITY = 1000;
+    final public const OFFSET_BETWEEN_BUILD_AND_QUEUE = 24;
 
     protected array $data = [
         'id'                     => null,

@@ -103,9 +103,8 @@ class BitbucketServerBuild extends GitBuild
         $link = $this->getProject()->getReference() . $reference . '/';
         $link .= 'src/' . $this->getCommitId() . '/';
         $link .= '{FILE}';
-        $link .= '#{BASEFILE}-{LINE}';
 
-        return $link;
+        return $link . '#{BASEFILE}-{LINE}';
     }
 
     /**

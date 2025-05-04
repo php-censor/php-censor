@@ -17,6 +17,5 @@ class ArrayConfiguration extends ParameterBag implements ConfigurationInterface
 {
     public function load(): void
     {
-        return;
     }
 }

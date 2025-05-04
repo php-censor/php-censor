@@ -93,9 +93,7 @@ class GroupController extends WebController
 
             $this->groupStore->save($group);
 
-            $response = new RedirectResponse(APP_URL . 'group');
-
-            return $response;
+            return new RedirectResponse(APP_URL . 'group');
         }
 
         $form = new Form();

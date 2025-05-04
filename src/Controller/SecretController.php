@@ -84,9 +84,7 @@ class SecretController extends WebController
 
             $this->secretStore->save($secret);
 
-            $response = new RedirectResponse(APP_URL . 'secret');
-
-            return $response;
+            return new RedirectResponse(APP_URL . 'secret');
         }
 
         $form = new Form();
