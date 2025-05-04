@@ -274,4 +274,4 @@ the another branch). Issue [#270](https://github.com/php-censor/php-censor/issue
 
 ## Other versions
 
-- [0.x change log](/docs/CHANGELOG_0.x.md)
+- [0.x change log](/docs/en/changelogs/CHANGELOG_0.x.mdANGELOG_0.x.md)

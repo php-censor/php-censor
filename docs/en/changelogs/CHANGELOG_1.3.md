@@ -144,7 +144,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## Other versions
 
-- [0.x Changelog](/docs/CHANGELOG_0.x.md)
-- [1.0 Changelog](/docs/CHANGELOG_1.0.md)
-- [1.1 Changelog](/docs/CHANGELOG_1.1.md)
-- [1.2 Changelog](/docs/CHANGELOG_1.2.md)
+- [0.x Changelog](/docs/en/changelogs/CHANGELOG_0.x.mdANGELOG_0.x.md)
+- [1.0 Changelog](/docs/en/changelogs/CHANGELOG_1.0.mdANGELOG_1.0.md)
+- [1.1 Changelog](/docs/en/changelogs/CHANGELOG_1.1.mdANGELOG_1.1.md)
+- [1.2 Changelog](/docs/en/changelogs/CHANGELOG_1.2.mdANGELOG_1.2.md)

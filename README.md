@@ -11,19 +11,14 @@
 </p>
 
 **PHP Censor** is an open source, self-hosted, continuous integration server for PHP projects 
-([PHPCI](https://github.com/dancryer/PHPCI) fork). [Official twitter @php_censor](https://twitter.com/php_censor).
+([PHPCI](https://github.com/dancryer/PHPCI) fork).
 
-PHP Censor versions:
+PHP Censor has two stable release versions:
 
-|        Version        |  Latest  |    Branch     |                               Status                               | Minimal PHP Version |
-|:---------------------:|:--------:|:-------------:|:------------------------------------------------------------------:| :-----------------: |
-|  `1.0` (Morty Smith)  | `1.0.16` | `release-1.0` |                   Old version (**UNSUPPORTED**)                    | `>=5.6, <8.0`       |
-|  `1.1` (Birdperson)   | `1.1.6`  | `release-1.1` |                   Old version (**UNSUPPORTED**)                    | `>=5.6, <8.0`       |
-| `1.2` (Summer Smith)  | `1.2.4`  | `release-1.2` |                   Old version (**UNSUPPORTED**)                    | `>=5.6, <8.0`       |
-|  `1.3` (Jerry Smith)  | `1.3.7`  | `release-1.3` |                   Old version (**UNSUPPORTED**)                    | `>=5.6, <8.0`       |
-| `2.0` (Rick Sanchez)  | `2.0.14` | `release-2.0` | Last stable version ([Upgrade from v1 to v2](docs/UPGRADE_2.0.md)) | `>=7.4`             |
-| `2.1` (Mr. Meeseeks)  | `2.1.6`  | `release-2.1` |                       Current stable version                       | `>=7.4`             |
-|         `2.2`         |   WIP    |   `master`    |                    Feature minor version (WIP)                     | `>=7.4`             |
+- **Latest stable version: 3.0 (PHP >= 8.1)**
+- Previous stable version: 2.1 (PHP >= 7.4)
+
+You can learn more about PHP Censor releases at the [release page](/docs/en/releases.md).
 
 [![Dashboard](docs/screenshots/dashboard.png)](docs/screenshots/dashboard.png)
 
