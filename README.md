@@ -27,7 +27,6 @@ More [screenshots](docs/en/screenshots.md).
 * [System requirements](#system-requirements)
 * [Features](#features)
 * [Changelog](#changelog)
-* [Roadmap](#roadmap)
 * [Installing](#installing)
 * [Updating](#updating)
 * [Configuring project](#configuring-project)
@@ -76,10 +75,6 @@ CleanBuild, CopyBuild, Deployer, Env, Git, Grunt, Gulp, PackageBuild, Phar, Phin
 ## Changelog
 
 [Versions changelog](CHANGELOG.md).
-
-## Roadmap
-
-See [milestones](https://github.com/php-censor/php-censor/milestones).
 
 ## Installing
 
