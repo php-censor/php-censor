@@ -102,8 +102,8 @@ class GitBuild extends TypedBuild
             $cmd .= ' --depth ' . \intval($buildSettings['clone_depth']) . ' ';
         }
 
-        $cmd .= ' -b "%s" "%s" "%s"';
-        $success = $builder->executeCommand($cmd, $this->getBranch(), $this->getCloneUrl(), $cloneTo);
+        $cmd .= ' -b %s "%s" "%s"';
+        $success = $builder->executeCommand($cmd, \escapeshellarg($this->getBranch()), $this->getCloneUrl(), $cloneTo);
 
         if ($success) {
             $success = $this->postCloneSetup($builder, $cloneTo);
@@ -132,10 +132,10 @@ class GitBuild extends TypedBuild
             $cmd .= ' --depth ' . \intval($buildSettings['clone_depth']) . ' ';
         }
 
-        $cmd .= ' -b "%s" "%s" "%s"';
+        $cmd .= ' -b %s "%s" "%s"';
         $cmd = 'export GIT_SSH="' . $gitSshWrapper . '" && ' . $cmd;
 
-        $success = $builder->executeCommand($cmd, $this->getBranch(), $this->getCloneUrl(), $cloneTo);
+        $success = $builder->executeCommand($cmd, \escapeshellarg($this->getBranch()), $this->getCloneUrl(), $cloneTo);
 
         if ($success) {
             $extra = [
