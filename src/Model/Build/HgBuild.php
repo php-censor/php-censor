@@ -60,7 +60,7 @@ class HgBuild extends Build
      */
     protected function cloneByHttp(Builder $builder, $cloneTo)
     {
-        return $builder->executeCommand('hg clone %s "%s" -r %s', $this->getCloneUrl(), $cloneTo, $this->getBranch());
+        return $builder->executeCommand('hg clone %s "%s" -r %s', $this->getCloneUrl(), $cloneTo, \escapeshellarg($this->getBranch()));
     }
 
     /**
@@ -76,7 +76,7 @@ class HgBuild extends Build
 
         // Do the hg clone:
         $cmd     = 'hg clone --ssh "ssh -i ' . $keyFile . '" %s "%s" -r %s';
-        $success = $builder->executeCommand($cmd, $this->getCloneUrl(), $cloneTo, $this->getBranch());
+        $success = $builder->executeCommand($cmd, $this->getCloneUrl(), $cloneTo, \escapeshellarg($this->getBranch()));
 
         if ($success) {
             $success = $this->postCloneSetup($builder, $cloneTo);
@@ -103,7 +103,7 @@ class HgBuild extends Build
         // Allow switching to a specific branch:
         if (!empty($commitId)) {
             $cmd     = 'cd "%s" && hg checkout %s';
-            $success = $builder->executeCommand($cmd, $cloneTo, $this->getBranch());
+            $success = $builder->executeCommand($cmd, $cloneTo, \escapeshellarg($this->getBranch()));
         }
 
         return $success;
