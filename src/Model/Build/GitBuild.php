@@ -167,7 +167,7 @@ class GitBuild extends TypedBuild
 
         if (empty($this->getEnvironmentId()) && !empty($commitId)) {
             $cmd     = $chdir . ' && git checkout %s --quiet';
-            $success = $builder->executeCommand($cmd, $cloneTo, $commitId);
+            $success = $builder->executeCommand($cmd, $cloneTo, \escapeshellarg($commitId));
         }
 
         // Always update the commit hash with the actual HEAD hash
@@ -176,11 +176,11 @@ class GitBuild extends TypedBuild
 
             $this->setCommitId($commitId);
 
-            if ($builder->executeCommand($chdir . ' && git log -1 --pretty=format:%%s %s', $cloneTo, $commitId)) {
+            if ($builder->executeCommand($chdir . ' && git log -1 --pretty=format:%%s %s', $cloneTo, \escapeshellarg($commitId))) {
                 $this->setCommitMessage(\trim($builder->getLastOutput()));
             }
 
-            if ($builder->executeCommand($chdir . ' && git log -1 --pretty=format:%%ae %s', $cloneTo, $commitId)) {
+            if ($builder->executeCommand($chdir . ' && git log -1 --pretty=format:%%ae %s', $cloneTo, \escapeshellarg($commitId))) {
                 $this->setCommitterEmail(\trim($builder->getLastOutput()));
             }
         }
