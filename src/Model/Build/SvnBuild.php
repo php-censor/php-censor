@@ -107,7 +107,7 @@ class SvnBuild extends Build
 
         if (!empty($this->getCommitId())) {
             $cmd .= ' -r %s %s "%s"';
-            $success = $builder->executeCommand($cmd, $this->getCommitId(), $this->getCloneUrl(), $cloneTo);
+            $success = $builder->executeCommand($cmd, \escapeshellarg($this->getCommitId()), $this->getCloneUrl(), $cloneTo);
         } else {
             $cmd .= ' %s "%s"';
             $success = $builder->executeCommand($cmd, $this->getCloneUrl(), $cloneTo);
