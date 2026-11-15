@@ -843,6 +843,14 @@ class WebhookController extends Controller
         }
 
         $url = $payload['pull_request']['commits_url'];
+        $parsedUrl = \parse_url($url);
+        if (
+            !\is_array($parsedUrl)
+            || !isset($parsedUrl['host'])
+            || !\in_array($parsedUrl['host'], ['api.github.com'], true)
+        ) {
+            throw new RuntimeException('Invalid commits URL host');
+        }
 
         //for large pull requests, allow grabbing more then the default number of commits
         $customPerPage = $this->configuration->get('php-censor.github.per_page');
