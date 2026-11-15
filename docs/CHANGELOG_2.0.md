@@ -5,6 +5,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [2.0.15 (Rick Sanchez)](https://github.com/php-censor/php-censor/tree/2.0.15) (2026-11-15)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/2.0.14...2.0.15)
+
+### Fixed
+
+- Fixed security issues with webhooks. See issue: [#444](https://github.com/php-censor/php-censor/issues/444). Pull
+  requests [#441](https://github.com/php-censor/php-censor/pull/441), [#443](https://github.com/php-censor/php-censor/pull/443).
+  Thanks to [@jackieya](https://github.com/jackieya), [@YHalo-wyh](https://github.com/YHalo-wyh) and [@Yescrypt](https://github.com/Yescrypt).
+- Remote HipChat and Flowdock plugins. Refactor Slack plugin for direct API usage.
+- Updated dependencies.
+
+
 ## [2.0.14 (Rick Sanchez)](https://github.com/php-censor/php-censor/tree/2.0.14) (2025-03-15)
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/2.0.13...2.0.14)
