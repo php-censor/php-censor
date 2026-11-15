@@ -153,7 +153,7 @@ class BitbucketServerBuild extends GitBuild
     protected function getPullRequestDiff(Builder $builder, $cloneTo, $targetBranch)
     {
         $cmd     = 'cd "%s" && git diff %s';
-        $success = $builder->executeCommand($cmd, $cloneTo, $targetBranch);
+        $success = $builder->executeCommand($cmd, $cloneTo, \escapeshellarg((string) $targetBranch));
 
         if ($success) {
             return $builder->getLastOutput();
