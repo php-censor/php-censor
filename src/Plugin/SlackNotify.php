@@ -2,9 +2,7 @@
 
 namespace PHPCensor\Plugin;
 
-use Maknz\Slack\Attachment;
-use Maknz\Slack\AttachmentField;
-use Maknz\Slack\Client;
+use GuzzleHttp\Client;
 use PHPCensor\Builder;
 use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Model\Build;
@@ -88,20 +86,23 @@ class SlackNotify extends Plugin
     {
         $body = $this->builder->interpolate($this->message);
 
-        $client = new Client($this->webHook);
-
-        $message = $client->createMessage();
-
-        if (!empty($this->room)) {
-            $message->setChannel($this->room);
-        }
-
-        if (!empty($this->username)) {
-            $message->setUsername($this->username);
-        }
+        $message = [
+            'text'         => $body,
+            'channel'      => !empty($this->room) ? $this->room : null,
+            'username'     => !empty($this->username) ? $this->username : null,
+            'link_names'   => 0,
+            'unfurl_links' => false,
+            'unfurl_media' => true,
+            'mrkdwn'       => true,
+            'attachments'  => []
+        ];
 
         if (!empty($this->icon)) {
-            $message->setIcon($this->icon);
+            if (\substr($this->icon, 0, 1) === ':' && \substr($this->icon, -1) === ':') {
+                $message['icon_emoji'] = $this->icon;
+            } else {
+                $message['icon_url'] = $this->icon;
+            }
         }
 
         // Include an attachment which shows the status and hide the message
@@ -116,26 +117,23 @@ class SlackNotify extends Plugin
                 $color = 'danger';
             }
 
-            // Build up the attachment data
-            $attachment = new Attachment([
+            $message['attachments'] = [[
                 'fallback' => $body,
                 'pretext'  => $body,
                 'color'    => $color,
                 'fields'   => [
-                    new AttachmentField([
+                    [
                         'title' => 'Status',
                         'value' => $status,
                         'short' => false
-                    ])
+                    ]
                 ]
-            ]);
-
-            $message->attach($attachment);
-
-            $body = '';
+            ]];
+            $message['text'] = '';
         }
 
-        $message->send($body);
+        $client = new Client();
+        $client->post($this->webHook, ['json' => $message]);
 
         return true;
     }
