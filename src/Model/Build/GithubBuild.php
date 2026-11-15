@@ -246,7 +246,12 @@ class GithubBuild extends GitBuild
                     $cmd = 'export GIT_SSH="' . $extra['git_ssh_wrapper'] . '" && ' . $cmd;
                 }
 
-                $success = $builder->executeCommand($cmd, $cloneTo, $this->getBranch(), $pullRequestId);
+                $success = $builder->executeCommand(
+                    $cmd,
+                    $cloneTo,
+                    \escapeshellarg($this->getBranch()),
+                    \escapeshellarg((string) $pullRequestId)
+                );
             }
         } catch (Exception $ex) {
             $success = false;
