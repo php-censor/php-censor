@@ -115,6 +115,56 @@ class BuildServiceTest extends TestCase
 
     public function testExecute_CreateBuildWithOptions(): void
     {
+        $returnValue = $this->testedService->createBuild(
+            $this->createProjectForCommitterTest(),
+            null,
+            '123',
+            'testbranch',
+            null,
+            'test@example.com',
+            'test'
+        );
+
+        self::assertEquals('testbranch', $returnValue->getBranch());
+        self::assertEquals('123', $returnValue->getCommitId());
+        self::assertEquals('test', $returnValue->getCommitMessage());
+        self::assertEquals('test@example.com', $returnValue->getCommitterEmail());
+    }
+
+    public static function invalidCommitterEmailProvider(): array
+    {
+        return [
+            'html img onerror' => ['<img src=x onerror=alert(1)>'],
+            'script tag'       => ['<script>alert(1)</script>@example.com'],
+            'email with html'  => ['test@example.com<svg onload=alert(1)>'],
+            'not an email'     => ['John Doe'],
+            'whitespace'       => ['   '],
+        ];
+    }
+
+    /**
+     * @dataProvider invalidCommitterEmailProvider
+     */
+    public function testExecute_CreateBuildWithInvalidCommitterEmail(string $committerEmail): void
+    {
+        $returnValue = $this->testedService->createBuild(
+            $this->createProjectForCommitterTest(),
+            null,
+            '123',
+            'testbranch',
+            null,
+            $committerEmail,
+            'test'
+        );
+
+        self::assertNull($returnValue->getCommitterEmail());
+        self::assertEquals('testbranch', $returnValue->getBranch());
+        self::assertEquals('123', $returnValue->getCommitId());
+        self::assertEquals('test', $returnValue->getCommitMessage());
+    }
+
+    private function createProjectForCommitterTest(): Project
+    {
         $project = $this
             ->getMockBuilder(Project::class)
             ->setConstructorArgs([$this->storeRegistry])
@@ -128,20 +178,7 @@ class BuildServiceTest extends TestCase
         $project->setType('hg');
         $project->setId(101);
 
-        $returnValue = $this->testedService->createBuild(
-            $project,
-            null,
-            '123',
-            'testbranch',
-            null,
-            'test@example.com',
-            'test'
-        );
-
-        self::assertEquals('testbranch', $returnValue->getBranch());
-        self::assertEquals('123', $returnValue->getCommitId());
-        self::assertEquals('test', $returnValue->getCommitMessage());
-        self::assertEquals('test@example.com', $returnValue->getCommitterEmail());
+        return $project;
     }
 
     public function testExecute_CreateBuildWithExtra(): void
