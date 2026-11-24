@@ -5,12 +5,12 @@ namespace PHPCensor\Service;
 use DateInterval;
 use DateTime;
 use Exception;
-use Monolog\Logger;
 use Pheanstalk\Pheanstalk;
 use Pheanstalk\Contract\PheanstalkInterface;
 use PHPCensor\BuildFactory;
 use PHPCensor\Config;
 use PHPCensor\Exception\HttpException;
+use PHPCensor\Helper\Template;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\Project;
 use PHPCensor\Store\BuildStore;
@@ -79,8 +79,13 @@ class BuildService
         $build->setStatusPending();
         $build->setEnvironmentid($environmentId);
 
-        if (!is_null($extra)) {
-            $build->setExtra($extra);
+        if (is_array($extra)) {
+            $cleanExtra = [];
+            foreach ($extra as $key => $value) {
+                $cleanExtra[$key] = Template::clean($value);
+            }
+
+            $build->setExtra($cleanExtra);
         }
 
         $branches = $project->getBranchesByEnvironment($environmentId);
@@ -92,16 +97,16 @@ class BuildService
             $userId = null;
         }
         $build->setUserId($userId);
-        $build->setCommitId((string)$commitId);
+        $build->setCommitId(Template::clean($commitId));
 
         if (!empty($branch)) {
-            $build->setBranch($branch);
+            $build->setBranch(Template::clean($branch));
         } else {
             $build->setBranch($project->getDefaultBranch());
         }
 
         if (!empty($tag)) {
-            $build->setTag($tag);
+            $build->setTag(Template::clean($tag));
         }
 
         if (
@@ -112,7 +117,7 @@ class BuildService
         }
 
         if (!empty($commitMessage)) {
-            $build->setCommitMessage($commitMessage);
+            $build->setCommitMessage(Template::clean($commitMessage));
         }
 
         /** @var Build $build */
