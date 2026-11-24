@@ -12,18 +12,14 @@ use voku\helper\AntiXSS;
  */
 class Template
 {
-    /**
-     * @var AntiXSS
-     */
-    protected static $antiXss = null;
+    protected static ?AntiXSS $antiXss = null;
 
-    /**
-     * @param string $string
-     *
-     * @return string
-     */
-    public static function clean($string)
+    public static function clean(?string $string): ?string
     {
+        if ($string === null) {
+            return null;
+        }
+
         if (self::$antiXss === null) {
             self::$antiXss = new AntiXSS();
         }
