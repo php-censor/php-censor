@@ -104,7 +104,10 @@ class BuildService
             $build->setTag($tag);
         }
 
-        if (!empty($committerEmail)) {
+        if (
+            !empty($committerEmail) &&
+            false !== \filter_var($committerEmail, FILTER_VALIDATE_EMAIL)
+        ) {
             $build->setCommitterEmail($committerEmail);
         }
 
