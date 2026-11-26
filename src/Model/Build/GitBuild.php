@@ -71,9 +71,13 @@ class GitBuild extends TypedBuild
     {
         $branches = $this->getExtra('branches');
         if (!empty($branches)) {
-            $cmd = 'cd "%s" && git merge --quiet origin/%s';
+            $cmd = 'cd %s && git merge --quiet %s';
             foreach ($branches as $branch) {
-                $success = $builder->executeCommand($cmd, $buildPath, $branch);
+                $success = $builder->executeCommand(
+                    $cmd,
+                    \escapeshellarg($buildPath),
+                    \escapeshellarg('origin/' . $branch)
+                );
                 if (!$success) {
                     $builder->log('Fail merge branch origin/' . $branch, LogLevel::ERROR);
 
@@ -102,8 +106,13 @@ class GitBuild extends TypedBuild
             $cmd .= ' --depth ' . \intval($buildSettings['clone_depth']) . ' ';
         }
 
-        $cmd .= ' -b %s "%s" "%s"';
-        $success = $builder->executeCommand($cmd, \escapeshellarg($this->getBranch()), $this->getCloneUrl(), $cloneTo);
+        $cmd .= ' -b %s %s %s';
+        $success = $builder->executeCommand(
+            $cmd,
+            \escapeshellarg($this->getBranch()),
+            \escapeshellarg($this->getCloneUrl()),
+            \escapeshellarg($cloneTo)
+        );
 
         if ($success) {
             $success = $this->postCloneSetup($builder, $cloneTo);
@@ -132,10 +141,15 @@ class GitBuild extends TypedBuild
             $cmd .= ' --depth ' . \intval($buildSettings['clone_depth']) . ' ';
         }
 
-        $cmd .= ' -b %s "%s" "%s"';
+        $cmd .= ' -b %s %s %s';
         $cmd = 'export GIT_SSH="' . $gitSshWrapper . '" && ' . $cmd;
 
-        $success = $builder->executeCommand($cmd, \escapeshellarg($this->getBranch()), $this->getCloneUrl(), $cloneTo);
+        $success = $builder->executeCommand(
+            $cmd,
+            \escapeshellarg($this->getBranch()),
+            \escapeshellarg($this->getCloneUrl()),
+            \escapeshellarg($cloneTo),
+        );
 
         if ($success) {
             $extra = [
@@ -163,15 +177,19 @@ class GitBuild extends TypedBuild
     {
         $success  = true;
         $commitId = $this->getCommitId();
-        $chdir    = 'cd "%s"';
+        $chdir    = 'cd %s';
 
         if (empty($this->getEnvironmentId()) && !empty($commitId)) {
             $cmd     = $chdir . ' && git checkout %s --quiet';
-            $success = $builder->executeCommand($cmd, $cloneTo, \escapeshellarg($commitId));
+            $success = $builder->executeCommand(
+                $cmd,
+                \escapeshellarg($cloneTo),
+                \escapeshellarg($commitId)
+            );
         }
 
         // Always update the commit hash with the actual HEAD hash
-        if ($builder->executeCommand($chdir . ' && git rev-parse HEAD', $cloneTo)) {
+        if ($builder->executeCommand($chdir . ' && git rev-parse HEAD', \escapeshellarg($cloneTo))) {
             $commitId = \trim($builder->getLastOutput());
 
             $this->setCommitId($commitId);

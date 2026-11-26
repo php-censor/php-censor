@@ -122,13 +122,13 @@ class BitbucketServerBuild extends GitBuild
 
                 $diffFile = $this->writeDiff($builder->buildPath, $diff);
 
-                $cmd = 'cd "%s" && git checkout -b php-censor/' . $this->getId();
+                $cmd = 'cd %s && git checkout -b php-censor/' . $this->getId();
 
-                $success = $builder->executeCommand($cmd, $cloneTo);
+                $success = $builder->executeCommand($cmd, \escapeshellarg($cloneTo));
 
                 if ($success) {
-                    $applyCmd = 'git apply "%s"';
-                    $success  = $builder->executeCommand($applyCmd, $diffFile);
+                    $applyCmd = 'git apply %s';
+                    $success  = $builder->executeCommand($applyCmd, \escapeshellarg($diffFile));
                 }
 
                 $skipGitFinalization = true;
@@ -152,8 +152,12 @@ class BitbucketServerBuild extends GitBuild
      */
     protected function getPullRequestDiff(Builder $builder, $cloneTo, $targetBranch)
     {
-        $cmd     = 'cd "%s" && git diff %s';
-        $success = $builder->executeCommand($cmd, $cloneTo, \escapeshellarg((string) $targetBranch));
+        $cmd     = 'cd %s && git diff %s';
+        $success = $builder->executeCommand(
+            $cmd,
+            \escapeshellarg($cloneTo),
+            \escapeshellarg($targetBranch)
+        );
 
         if ($success) {
             return $builder->getLastOutput();
