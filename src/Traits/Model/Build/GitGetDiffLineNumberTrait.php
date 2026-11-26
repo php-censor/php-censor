@@ -30,12 +30,22 @@ trait GitGetDiffLineNumberTrait
         $path = $builder->buildPath;
 
         if (!empty($prNumber)) {
-            $builder->executeCommand('cd "%s" && git diff "origin/%s" "%s"', $path, $this->getBranch(), $file);
+            $builder->executeCommand(
+                'cd %s && git diff %s %s',
+                \escapeshellarg($path),
+                \escapeshellarg('origin/' . $this->getBranch()),
+                \escapeshellarg($file)
+            );
         } else {
             $commitId = $this->getCommitId();
             $compare = empty($commitId) ? 'HEAD' : $commitId;
 
-            $builder->executeCommand('cd "%s" && git diff "%s^^" "%s"', $path, $compare, $file);
+            $builder->executeCommand(
+                'cd %s && git diff %s %s',
+                \escapeshellarg($path),
+                \escapeshellarg($compare . '^^'),
+                \escapeshellarg($file)
+            );
         }
 
         $builder->logExecOutput(true);
