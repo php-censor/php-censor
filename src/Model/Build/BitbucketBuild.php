@@ -211,9 +211,13 @@ class BitbucketBuild extends GitBuild
 
                 $diffFile = $this->writeDiff($builder->buildPath, $diff);
 
-                $cmd = 'cd "%s" && git checkout -b php-censor/' . $this->getId() . ' && git apply "%s"';
+                $cmd = 'cd %s && git checkout -b php-censor/' . $this->getId() . ' && git apply %s';
 
-                $success = $builder->executeCommand($cmd, $cloneTo, $diffFile);
+                $success = $builder->executeCommand(
+                    $cmd,
+                    \escapeshellarg($cloneTo),
+                    \escapeshellarg($diffFile),
+                );
 
                 unlink($diffFile);
                 $skipGitFinalization = true;

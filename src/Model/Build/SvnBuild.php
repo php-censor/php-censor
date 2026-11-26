@@ -106,11 +106,20 @@ class SvnBuild extends Build
         $cmd = $this->svnCommand;
 
         if (!empty($this->getCommitId())) {
-            $cmd .= ' -r %s %s "%s"';
-            $success = $builder->executeCommand($cmd, \escapeshellarg($this->getCommitId()), $this->getCloneUrl(), $cloneTo);
+            $cmd .= ' -r %s %s %s';
+            $success = $builder->executeCommand(
+                $cmd,
+                \escapeshellarg($this->getCommitId()),
+                \escapeshellarg($this->getCloneUrl()),
+                \escapeshellarg($cloneTo)
+            );
         } else {
-            $cmd .= ' %s "%s"';
-            $success = $builder->executeCommand($cmd, $this->getCloneUrl(), $cloneTo);
+            $cmd .= ' %s %s';
+            $success = $builder->executeCommand(
+                $cmd,
+                \escapeshellarg($this->getCloneUrl()),
+                \escapeshellarg($cloneTo)
+            );
         }
 
         return $success;
@@ -125,12 +134,16 @@ class SvnBuild extends Build
      */
     protected function cloneBySsh(Builder $builder, $cloneTo)
     {
-        $cmd        = $this->svnCommand . ' %s "%s"';
+        $cmd        = $this->svnCommand . ' %s %s';
         $keyFile    = $this->writeSshKey();
         $sshWrapper = $this->writeSshWrapper($keyFile);
         $cmd        = 'export SVN_SSH="' . $sshWrapper . '" && ' . $cmd;
 
-        $success = $builder->executeCommand($cmd, $this->getCloneUrl(), $cloneTo);
+        $success = $builder->executeCommand(
+            $cmd,
+            \escapeshellarg($this->getCloneUrl()),
+            \escapeshellarg($cloneTo)
+        );
 
         // Remove the key file and svn wrapper:
         unlink($keyFile);

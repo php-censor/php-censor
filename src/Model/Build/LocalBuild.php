@@ -46,8 +46,13 @@ class LocalBuild extends Build
         if (isset($buildSettings['prefer_symlink']) && $buildSettings['prefer_symlink'] === true) {
             return $this->handleSymlink($builder, $reference, $buildPath);
         } else {
-            $cmd = 'mkdir -p "%s" && cp -Rf %s/* "%s/"';
-            $builder->executeCommand($cmd, $buildPath, $reference, $buildPath);
+            $cmd = 'mkdir -p %s && cp -Rf %s %s';
+            $builder->executeCommand(
+                $cmd,
+                \escapeshellarg($buildPath),
+                \escapeshellarg($reference . '/*'),
+                \escapeshellarg($buildPath . '/'),
+            );
         }
 
         return true;
@@ -67,8 +72,13 @@ class LocalBuild extends Build
 
         // If it is indeed a bare repository, then extract it into our build path:
         if ($gitConfig['core']['bare']) {
-            $cmd = 'mkdir %2$s; git --git-dir="%1$s" archive %3$s | tar -x -C "%2$s"';
-            $builder->executeCommand($cmd, $reference, $buildPath, $this->getBranch());
+            $cmd = 'mkdir %2$s; git --git-dir=%1$s archive %3$s | tar -x -C %2$s';
+            $builder->executeCommand(
+                $cmd,
+                \escapeshellarg($reference),
+                \escapeshellarg($buildPath),
+                \escapeshellarg($this->getBranch())
+            );
 
             return true;
         }

@@ -238,9 +238,9 @@ class GithubBuild extends GitBuild
             if (in_array($this->getSource(), Build::$pullRequestSources, true)) {
                 $pullRequestId = $this->getExtra('pull_request_number');
 
-                $cmd = 'cd "%s" && git checkout -b php-censor/'
+                $cmd = 'cd %s && git checkout -b php-censor/'
                     . $this->getId()
-                    . ' %s && git pull -q --no-edit origin pull/%s/head';
+                    . ' %s && git pull -q --no-edit origin %s';
 
                 if (!empty($extra['git_ssh_wrapper'])) {
                     $cmd = 'export GIT_SSH="' . $extra['git_ssh_wrapper'] . '" && ' . $cmd;
@@ -248,9 +248,9 @@ class GithubBuild extends GitBuild
 
                 $success = $builder->executeCommand(
                     $cmd,
-                    $cloneTo,
+                    \escapeshellarg($cloneTo),
                     \escapeshellarg($this->getBranch()),
-                    \escapeshellarg((string) $pullRequestId)
+                    \escapeshellarg('pull/' . $pullRequestId . '/head')
                 );
             }
         } catch (Exception $ex) {
