@@ -80,9 +80,7 @@ class BuildFactoryTest extends TestCase
         self::assertInstanceOf(Build::class, $build);
     }
 
-    /**
-     * @dataProvider buildTypesProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('buildTypesProvider')]
     public function testGetBuild(string $buildType, string $expectedBuildClass): void
     {
         $this->storeRegistry
@@ -102,7 +100,7 @@ class BuildFactoryTest extends TestCase
         self::assertInstanceOf($expectedBuildClass, $build);
     }
 
-    public function buildTypesProvider(): array
+    public static function buildTypesProvider(): array
     {
         return [
             [Project::TYPE_LOCAL, LocalBuild::class],

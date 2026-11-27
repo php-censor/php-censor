@@ -41,9 +41,10 @@ abstract class Controller
     }
 
     /**
-     * Handles an action on this controller and returns a Response object.
+     * Handles an action on this controller and returns a Response object (or a string, or an array of data for
+     * the webhooks, see WebhookController::handleAction()).
      */
-    public function handleAction(string $action, array $actionParams): Response|string
+    public function handleAction(string $action, array $actionParams): Response|string|array
     {
         $result = \call_user_func_array([$this, $action], $actionParams);
         if (!$result) {
@@ -62,6 +63,14 @@ abstract class Controller
      */
     public function getParam(string $key, mixed $default = null)
     {
-        return $this->request->get($key, $default);
+        // Same lookup order as the former Request::get() (removed in Symfony 8): route attributes, query, then body.
+        // all() is used on purpose: InputBag::get() rejects non-scalar values (e.g. "field[]" arrays).
+        foreach ([$this->request->attributes, $this->request->query, $this->request->request] as $parameters) {
+            if ($parameters->has($key)) {
+                return $parameters->all()[$key];
+            }
+        }
+
+        return $default;
     }
 }

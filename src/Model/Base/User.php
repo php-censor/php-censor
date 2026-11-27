@@ -107,7 +107,7 @@ class User extends Model
     /**
      * @return mixed
      */
-    public function getProviderData(string $key = null)
+    public function getProviderData(?string $key = null)
     {
         $data = $this->getDataItem('provider_data');
         if ($key === null) {

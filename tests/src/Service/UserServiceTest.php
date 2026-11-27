@@ -21,13 +21,16 @@ class UserServiceTest extends TestCase
 {
     private UserService $testedService;
     private UserStore $userStore;
-    private ConfigurationInterface $configuration;
+    /**
+     * @var ConfigurationInterface&\PHPUnit\Framework\MockObject\Stub
+     */
+    private \PHPUnit\Framework\MockObject\Stub $configuration;
     private DatabaseManager $databaseManager;
     private StoreRegistry $storeRegistry;
 
     protected function setUp(): void
     {
-        $this->configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
+        $this->configuration   = $this->createStub(ConfigurationInterface::class);
         $this->databaseManager = $this
             ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$this->configuration])
@@ -42,9 +45,8 @@ class UserServiceTest extends TestCase
             ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])
             ->getMock();
         $this->userStore
-            ->expects($this->any())
             ->method('save')
-            ->will($this->returnArgument(0));
+            ->willReturnArgument(0);
 
         $this->testedService = new UserService($this->storeRegistry, $this->userStore);
     }
@@ -129,7 +131,7 @@ class UserServiceTest extends TestCase
             ->getMock();
         $store->expects($this->once())
             ->method('delete')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
         $service = new UserService($this->storeRegistry, $store);
         $user = new User($this->storeRegistry);

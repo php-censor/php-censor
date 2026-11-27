@@ -22,18 +22,9 @@ class PharTest extends TestCase
 
     protected function getPlugin(array $options = []): Plugin
     {
-        $build = $this
-            ->getMockBuilder(Build::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $builder = $this
-            ->getMockBuilder(Builder::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $builder = $this->createMock(Builder::class);
 
         $builder
-            ->expects($this->any())
             ->method('interpolate')
             ->willReturnArgument(0);
 
@@ -41,7 +32,7 @@ class PharTest extends TestCase
         $builder->buildPath = $buildPath;
         $builder->directory = $buildPath;
 
-        return new PharPlugin($builder, $build, $options);
+        return new PharPlugin($builder, $this->createStub(Build::class), $options);
     }
 
     protected function buildTemp(): string

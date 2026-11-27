@@ -29,15 +29,21 @@ class BasePostgresTestCase extends TestCase
             'paths' => [
                 'migrations' => ROOT_DIR . 'src/Migrations',
             ],
+            // Keep the Phinx 0.12 schema defaults the existing migrations were written for
+            // (signed primary keys matching the signed foreign key columns, NOT NULL columns by default).
+            'feature_flags' => [
+                'unsigned_primary_keys' => false,
+                'column_null_default'   => false,
+            ],
             'environments' => [
                 'default_migration_table' => 'migrations',
-                'default_database'        => 'php-censor',
+                'default_environment'     => 'php-censor',
                 'php-censor'              => [
                     'adapter' => 'pgsql',
                     'host' => '127.0.0.1',
-                    'name' => env('POSTGRESQL_DBNAME'),
-                    'user' => env('POSTGRESQL_USER'),
-                    'pass' => env('POSTGRESQL_PASSWORD'),
+                    'name' => \getenv('POSTGRESQL_DBNAME'),
+                    'user' => \getenv('POSTGRESQL_USER'),
+                    'pass' => \getenv('POSTGRESQL_PASSWORD'),
                 ],
             ],
         ];
@@ -53,7 +59,7 @@ class BasePostgresTestCase extends TestCase
                 ->setName('php-censor-migrations:migrate')
                 ->run(new ArgvInput([]), new ConsoleOutput(OutputInterface::VERBOSITY_QUIET));
         } catch (\Throwable $e) {
-            if (!env('SKIP_DB_TESTS')) {
+            if (!\getenv('SKIP_DB_TESTS')) {
                 throw $e;
             }
         }
@@ -121,9 +127,9 @@ class BasePostgresTestCase extends TestCase
                         ],
                     ],
                     'type'     => 'pgsql',
-                    'name'     => env('POSTGRESQL_DBNAME'),
-                    'username' => env('POSTGRESQL_USER'),
-                    'password' => env('POSTGRESQL_PASSWORD'),
+                    'name'     => \getenv('POSTGRESQL_DBNAME'),
+                    'username' => \getenv('POSTGRESQL_USER'),
+                    'password' => \getenv('POSTGRESQL_PASSWORD'),
                 ],
             ],
         ];
@@ -137,16 +143,16 @@ class BasePostgresTestCase extends TestCase
 
         try {
             $this->connection = new \PDO(
-                'pgsql:host=127.0.0.1;dbname=' . env('POSTGRESQL_DBNAME'),
-                env('POSTGRESQL_USER'),
-                env('POSTGRESQL_PASSWORD')
+                'pgsql:host=127.0.0.1;dbname=' . \getenv('POSTGRESQL_DBNAME'),
+                \getenv('POSTGRESQL_USER'),
+                \getenv('POSTGRESQL_PASSWORD')
             );
 
             $this->dropTables();
             $this->migrateDatabaseScheme();
             $this->migrateDatabaseData();
         } catch (\Throwable $e) {
-            if (!env('SKIP_DB_TESTS')) {
+            if (!\getenv('SKIP_DB_TESTS')) {
                 throw $e;
             }
 
@@ -174,7 +180,7 @@ class BasePostgresTestCase extends TestCase
     protected function getConnection(): ?\PDO
     {
         if (null === $this->connection) {
-            if (env('SKIP_DB_TESTS')) {
+            if (\getenv('SKIP_DB_TESTS')) {
                 $this->markTestSkipped('Test skipped because PostgreSQL database/user/extension doesn\'t exist.');
             } else {
                 $this->fail('Test failed because PostgreSQL database/user/extension doesn\'t exist.');

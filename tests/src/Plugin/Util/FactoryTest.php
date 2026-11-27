@@ -14,15 +14,9 @@ class FactoryTest extends TestCase
 {
     public function testConstructor(): void
     {
-        $builder = $this
-            ->getMockBuilder(Builder::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $builder = $this->createStub(Builder::class);
 
-        $build = $this
-            ->getMockBuilder(Build::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $build = $this->createStub(Build::class);
 
         $factory = new Factory($builder, $build);
 
@@ -31,15 +25,9 @@ class FactoryTest extends TestCase
 
     public function testGetBuild(): void
     {
-        $builder = $this
-            ->getMockBuilder(Builder::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $builder = $this->createStub(Builder::class);
 
-        $build = $this
-            ->getMockBuilder(Build::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $build = $this->createStub(Build::class);
 
         $factory = new Factory($builder, $build);
 
@@ -48,15 +36,9 @@ class FactoryTest extends TestCase
 
     public function testBuildPlugin(): void
     {
-        $builder = $this
-            ->getMockBuilder(Builder::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $builder = $this->createStub(Builder::class);
 
-        $build = $this
-            ->getMockBuilder(Build::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $build = $this->createStub(Build::class);
 
         $factory = new Factory($builder, $build);
 

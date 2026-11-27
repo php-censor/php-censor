@@ -6,9 +6,10 @@ namespace PHPCensor\Worker;
 
 use DateTime;
 use Exception;
-use Monolog\Logger;
-use Pheanstalk\Job;
+use Monolog\Level;
 use Pheanstalk\Pheanstalk;
+use Pheanstalk\Values\Job;
+use Pheanstalk\Values\TubeName;
 use PHPCensor\Builder;
 use PHPCensor\BuildFactory;
 use PHPCensor\Common\Application\ConfigurationInterface;
@@ -35,11 +36,21 @@ class BuildWorker
     final public const JOB_TYPE_STOP_FLAG = 'php-censor.stop-flag';
 
     /**
+     * Seconds to wait for a job when reserving it.
+     */
+    private const RESERVE_TIMEOUT = 5;
+
+    /**
      * If this variable changes to false, the worker will stop after the current build.
      */
     private bool $canRun = true;
 
     private readonly Pheanstalk $pheanstalk;
+
+    /**
+     * Whether the current queue connection uses and watches the configured tube.
+     */
+    private bool $subscribed = false;
 
     private int $lastPeriodical = 0;
 
@@ -78,7 +89,7 @@ class BuildWorker
 
     protected function runWorker(): void
     {
-        $this->pheanstalk->watchOnly($this->queueTube);
+        $this->subscribe();
 
         while ($this->canRun) {
             if ($this->canPeriodicalWork &&
@@ -92,7 +103,11 @@ class BuildWorker
                 continue;
             }
 
-            $job     = $this->pheanstalk->reserve();
+            $job = $this->reserveJob();
+            if (null === $job) {
+                continue;
+            }
+
             $jobData = \json_decode($job->getData(), true);
 
             if (!$this->verifyJob($job)) {
@@ -148,7 +163,7 @@ class BuildWorker
             $secretStore = $this->storeRegistry->get('Secret');
 
             // Logging relevant to this build should be stored against the build itself.
-            $buildDbLog = new BuildDBLogHandler($secretStore, $buildStore, $build, Logger::DEBUG);
+            $buildDbLog = new BuildDBLogHandler($secretStore, $buildStore, $build, Level::Debug);
             $this->logger->pushHandler($buildDbLog);
 
             $buildLogger = new BuildLogger($this->logger, $build);
@@ -196,18 +211,84 @@ class BuildWorker
             $this->pheanstalk->delete($job);
         } catch (\Throwable $e) {
             $this->logger->warning($e->getMessage());
+
+            // The connection may have been lost: Pheanstalk would silently reconnect on the "default" tube.
+            $this->subscribed = false;
         }
     }
 
-    protected function canForceRewindLoop(): bool
+    /**
+     * Uses (for peeking) and watches (for reserving) only the configured queue tube.
+     *
+     * Must be called again after a lost connection: Pheanstalk reconnects transparently, but the new connection
+     * is back on the "default" tube.
+     */
+    protected function subscribe(): void
     {
-        try {
-            $this->pheanstalk->peekReady();
-        } catch (\Throwable) {
-            return true;
+        $tube = new TubeName($this->queueTube);
+
+        $this->pheanstalk->useTube($tube);
+        $this->pheanstalk->watch($tube);
+        if ((string)$tube !== (string)TubeName::default()) {
+            $this->pheanstalk->ignore(TubeName::default());
         }
 
-        return false;
+        $this->subscribed = true;
+    }
+
+    /**
+     * Reserves the next job without blocking the loop (and the periodical work) forever.
+     */
+    protected function reserveJob(): ?Job
+    {
+        try {
+            return $this->pheanstalk->reserveWithTimeout(self::RESERVE_TIMEOUT);
+        } catch (\Throwable $e) {
+            $this->logger->error(
+                \sprintf('Unable to reserve a job from the queue tube "%s": %s', $this->queueTube, $e->getMessage())
+            );
+
+            $this->resubscribe();
+
+            return null;
+        }
+    }
+
+    protected function resubscribe(): void
+    {
+        $this->subscribed = false;
+
+        try {
+            $this->pheanstalk->disconnect();
+            $this->subscribe();
+        } catch (\Throwable $e) {
+            $this->logger->error(\sprintf('Unable to reconnect to the queue: %s', $e->getMessage()));
+
+            \sleep(5);
+        }
+    }
+
+    /**
+     * Rewinds the loop (to let the periodical work run) when no job is ready in the queue tube.
+     */
+    protected function canForceRewindLoop(): bool
+    {
+        if (!$this->subscribed) {
+            $this->resubscribe();
+            if (!$this->subscribed) {
+                return true;
+            }
+        }
+
+        try {
+            return null === $this->pheanstalk->peekReady();
+        } catch (\Throwable $e) {
+            $this->logger->warning(\sprintf('Unable to peek the queue tube "%s": %s', $this->queueTube, $e->getMessage()));
+
+            $this->resubscribe();
+
+            return true;
+        }
     }
 
     protected function canRunPeriodicalWork(): bool

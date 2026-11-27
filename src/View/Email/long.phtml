@@ -9,7 +9,7 @@ use SensioLabs\AnsiConverter\AnsiToHtmlConverter;
 </p>
 <pre class="ansi_color_bg_black ansi_color_fg_white" style="padding: 4px">
     <?php
-        $converter = new AnsiToHtmlConverter(null, false);
+        $converter = new AnsiToHtmlConverter(inlineStyles: false);
         echo $converter->convert($build->getLog());
     ?>
 </pre>

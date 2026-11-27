@@ -182,25 +182,25 @@ class PhpCsFixer extends Plugin
 
             /** @var Diff $diffItem */
             $diffItem = $parsed[0];
-            foreach ($diffItem->getChunks() as $chunk) {
-                $firstModifiedLine = $chunk->getStart();
+            foreach ($diffItem->chunks() as $chunk) {
+                $firstModifiedLine = $chunk->start();
                 $foundChanges      = false;
                 if (0 === $firstModifiedLine) {
                     $firstModifiedLine = null;
                     $foundChanges      = true;
                 }
                 $chunkDiff = [];
-                foreach ($chunk->getLines() as $line) {
-                    $symbol = match ($line->getType()) {
+                foreach ($chunk->lines() as $line) {
+                    $symbol = match ($line->type()) {
                         Line::ADDED => '+',
                         Line::REMOVED => '-',
                         default => ' ',
                     };
-                    $chunkDiff[] = $symbol . $line->getContent();
+                    $chunkDiff[] = $symbol . $line->content();
                     if ($foundChanges) {
                         continue;
                     }
-                    if (Line::UNCHANGED === $line->getType()) {
+                    if (Line::UNCHANGED === $line->type()) {
                         ++$firstModifiedLine;
 
                         continue;

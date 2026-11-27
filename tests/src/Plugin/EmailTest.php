@@ -39,7 +39,7 @@ class EmailTest extends TestCase
         $this->mailDelivered = true;
         $self                = $this;
 
-        $configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
+        $configuration   = $this->createMock(ConfigurationInterface::class);
         $databaseManager = $this
             ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$configuration])
@@ -52,43 +52,40 @@ class EmailTest extends TestCase
         $this->project = $this
             ->getMockBuilder(Project::class)
             ->onlyMethods(['getTitle'])
-            ->setMockClassName('mockProject')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->project->expects($this->any())
+        $this->project
             ->method('getTitle')
-            ->will($this->returnValue("Test-Project"));
+            ->willReturn("Test-Project");
 
         $this->build = $this
             ->getMockBuilder(Build::class)
             ->onlyMethods(['getLog', 'getStatus', 'getProject', 'getCommitterEmail'])
-            ->setMockClassName('mockBuild')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->build->expects($this->any())
+        $this->build
             ->method('getLog')
-            ->will($this->returnValue("Build Log"));
+            ->willReturn("Build Log");
 
-        $this->build->expects($this->any())
+        $this->build
             ->method('getStatus')
-            ->will($this->returnCallback(function () use ($self) {
+            ->willReturnCallback(function () use ($self) {
                 return $self->buildStatus;
-            }));
+            });
 
-        $this->build->expects($this->any())
+        $this->build
             ->method('getProject')
-            ->will($this->returnValue($this->project));
+            ->willReturn($this->project);
 
-        $this->build->expects($this->any())
+        $this->build
             ->method('getCommitterEmail')
-            ->will($this->returnValue('committer-email@example.com'));
+            ->willReturn('committer-email@example.com');
 
         $this->builder = $this
             ->getMockBuilder(Builder::class)
             ->onlyMethods(['log', 'logDebug', 'interpolate'])
-            ->setMockClassName('mockBuilder_email')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -106,16 +103,16 @@ class EmailTest extends TestCase
 
         $interpolator = new BuildInterpolator($environmentStore, $secretStore);
 
-        $this->builder->expects($this->any())
+        $this->builder
             ->method('interpolate')
-            ->will($this->returnCallback(function () use ($self, $interpolator) {
+            ->willReturnCallback(function () use ($self, $interpolator) {
                 return $interpolator->interpolate("test");
-            }));
+            });
 
-        $configuration->expects($this->any())
+        $configuration
             ->method('get')
             ->with('php-censor')
-            ->will($this->returnValue(['email_settings' => ['from_address' => "test-from-address@example.com"]]));
+            ->willReturn(['email_settings' => ['from_address' => "test-from-address@example.com"]]);
     }
 
     protected function loadEmailPluginWithOptions(array $arrOptions = [], ?int $buildStatus = null, ?bool $mailDelivered = true): void
@@ -134,22 +131,21 @@ class EmailTest extends TestCase
         $self = $this;
 
         $this->testedEmailPlugin = $this
-            ->getMockBuilder(Plugin\EmailNotify::class)
+            ->getMockBuilder(EmailPlugin::class)
             ->onlyMethods(['sendEmail'])
             ->setConstructorArgs([$this->builder, $this->build, $arrOptions])
             ->getMock();
 
         $this->testedEmailPlugin
-            ->expects($this->any())
             ->method('sendEmail')
-            ->will($this->returnCallback(function ($to, $cc, $subject, $body) use ($self) {
+            ->willReturnCallback(function ($to, $cc, $subject, $body) use ($self) {
                 $self->message['to'][]    = $to;
                 $self->message['cc']      = $cc;
                 $self->message['subject'] = $subject;
                 $self->message['body']    = $body;
 
                 return $self->mailDelivered;
-            }));
+            });
     }
 
     public function testReturnsFalseWithoutArgs(): void

@@ -22,9 +22,7 @@ class PhpUnitResultTest extends TestCase
      */
     public static array $skipped = [];
 
-    /**
-     * @dataProvider getTestData
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getTestData')]
     public function testInitParse(string $resultClass, string $testFile): void
     {
         $buildPath = '/path/to/build';

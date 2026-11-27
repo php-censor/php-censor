@@ -4,20 +4,19 @@ declare(strict_types=1);
 
 use Rector\CodeQuality\Rector\Class_\InlineConstructorDefaultToPropertyRector;
 use Rector\Config\RectorConfig;
-use Rector\Set\ValueObject\SetList;
+use Rector\Php84\Rector\Param\ExplicitNullableParamTypeRector;
 
-return static function (RectorConfig $rectorConfig): void {
-    $rectorConfig->paths([
-        __DIR__ . '/src'
-    ]);
-
-    // register a single rule
-    $rectorConfig->rule(InlineConstructorDefaultToPropertyRector::class);
-
-    $rectorConfig->sets([
-        SetList::PHP_81,
-        SetList::DEAD_CODE,
-        //SetList::CODE_QUALITY,
-        //SetList::TYPE_DECLARATION_STRICT,
-    ]);
-};
+return RectorConfig::configure()
+    ->withPaths([
+        __DIR__ . '/src',
+    ])
+    ->withRules([
+        InlineConstructorDefaultToPropertyRector::class,
+        ExplicitNullableParamTypeRector::class,
+    ])
+    ->withPhpSets(php81: true)
+    ->withPreparedSets(
+        deadCode: true,
+        //codeQuality: true,
+        //typeDeclarations: true,
+    );

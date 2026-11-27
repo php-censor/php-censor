@@ -34,7 +34,7 @@ php-censor:
     smtp_port:       null
     smtp_username:   null
     smtp_password:   null
-    smtp_encryption: null # null | 'tls'| 'ssl'
+    smtp_encryption: null # null (plain SMTP) | 'tls' (mandatory STARTTLS, usually port 587) | 'ssl' (implicit TLS, usually port 465)
   queue:
     host:     localhost
     port:     11300

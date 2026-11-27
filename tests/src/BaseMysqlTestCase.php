@@ -29,15 +29,21 @@ class BaseMysqlTestCase extends TestCase
             'paths' => [
                 'migrations' => ROOT_DIR . 'src/Migrations',
             ],
+            // Keep the Phinx 0.12 schema defaults the existing migrations were written for
+            // (signed primary keys matching the signed foreign key columns, NOT NULL columns by default).
+            'feature_flags' => [
+                'unsigned_primary_keys' => false,
+                'column_null_default'   => false,
+            ],
             'environments' => [
                 'default_migration_table' => 'migrations',
-                'default_database'        => 'php-censor',
+                'default_environment'     => 'php-censor',
                 'php-censor'              => [
                     'adapter' => 'mysql',
                     'host' => '127.0.0.1',
-                    'name' => env('MYSQL_DBNAME'),
-                    'user' => env('MYSQL_USER'),
-                    'pass' => env('MYSQL_PASSWORD'),
+                    'name' => \getenv('MYSQL_DBNAME'),
+                    'user' => \getenv('MYSQL_USER'),
+                    'pass' => \getenv('MYSQL_PASSWORD'),
                 ],
             ],
         ];
@@ -53,7 +59,7 @@ class BaseMysqlTestCase extends TestCase
                 ->setName('php-censor-migrations:migrate')
                 ->run(new ArgvInput([]), new ConsoleOutput(OutputInterface::VERBOSITY_QUIET));
         } catch (\Throwable $e) {
-            if (!env('SKIP_DB_TESTS')) {
+            if (!\getenv('SKIP_DB_TESTS')) {
                 throw $e;
             }
         }
@@ -121,9 +127,9 @@ class BaseMysqlTestCase extends TestCase
                         ],
                     ],
                     'type'     => 'mysql',
-                    'name'     => env('MYSQL_DBNAME'),
-                    'username' => env('MYSQL_USER'),
-                    'password' => env('MYSQL_PASSWORD'),
+                    'name'     => \getenv('MYSQL_DBNAME'),
+                    'username' => \getenv('MYSQL_USER'),
+                    'password' => \getenv('MYSQL_PASSWORD'),
                 ],
             ],
         ];
@@ -137,16 +143,16 @@ class BaseMysqlTestCase extends TestCase
 
         try {
             $this->connection = new \PDO(
-                'mysql:host=127.0.0.1;dbname=' . env('MYSQL_DBNAME'),
-                env('MYSQL_USER'),
-                env('MYSQL_PASSWORD')
+                'mysql:host=127.0.0.1;dbname=' . \getenv('MYSQL_DBNAME'),
+                \getenv('MYSQL_USER'),
+                \getenv('MYSQL_PASSWORD')
             );
 
             $this->dropTables();
             $this->migrateDatabaseScheme();
             $this->migrateDatabaseData();
         } catch (\Throwable $e) {
-            if (!env('SKIP_DB_TESTS')) {
+            if (!\getenv('SKIP_DB_TESTS')) {
                 throw $e;
             }
 
@@ -174,7 +180,7 @@ class BaseMysqlTestCase extends TestCase
     protected function getConnection(): ?\PDO
     {
         if (null === $this->connection) {
-            if (env('SKIP_DB_TESTS')) {
+            if (\getenv('SKIP_DB_TESTS')) {
                 $this->markTestSkipped('Test skipped because MySQL database/user/extension doesn\'t exist.');
             } else {
                 $this->fail('Test failed because MySQL database/user/extension doesn\'t exist.');

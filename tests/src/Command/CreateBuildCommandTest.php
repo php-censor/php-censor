@@ -9,6 +9,7 @@ use PHPCensor\Command\CreateBuildCommand;
 use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
+use PHPCensor\Model\Build;
 use PHPCensor\Model\Project;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Store\ProjectStore;
@@ -21,7 +22,10 @@ class CreateBuildCommandTest extends TestCase
 {
     private CreateBuildCommand $command;
     private Application $application;
-    private ConfigurationInterface $configuration;
+    /**
+     * @var ConfigurationInterface&\PHPUnit\Framework\MockObject\Stub
+     */
+    private \PHPUnit\Framework\MockObject\Stub $configuration;
     private DatabaseManager $databaseManager;
     private Logger $logger;
 
@@ -29,7 +33,7 @@ class CreateBuildCommandTest extends TestCase
     {
         parent::setUp();
 
-        $this->configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
+        $this->configuration   = $this->createStub(ConfigurationInterface::class);
         $this->databaseManager = $this
             ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$this->configuration])
@@ -52,21 +56,24 @@ class CreateBuildCommandTest extends TestCase
             ->setConstructorArgs([$this->databaseManager, $storeRegistry])
             ->getMock();
         $projectStore->method('getById')
-            ->will($this->returnValueMap([
+            ->willReturnMap([
                 [1, 'read', $project],
                 [2, 'read', null],
-            ]));
+            ]);
 
-        $buildService = $this->getMockBuilder(BuildService::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $buildService = $this->createMock(BuildService::class);
 
+        $expectedCalls = [
+            [$project, null, null, null, null, null],
+            [$project, '92c8c6e', null, null, null, null],
+            [$project, null, 'master', null, null, null],
+        ];
         $buildService->method('createBuild')
-            ->withConsecutive(
-                [$project, null, null, null, null, null],
-                [$project, '92c8c6e', null, null, null, null],
-                [$project, null, 'master', null, null, null]
-            );
+            ->willReturnCallback(function (...$arguments) use (&$expectedCalls): Build {
+                self::assertEquals(\array_shift($expectedCalls), \array_slice($arguments, 0, 6));
+
+                return $this->createStub(Build::class);
+            });
 
         $this->command = new CreateBuildCommand($this->configuration, $this->databaseManager, $storeRegistry, $this->logger, $projectStore, $buildService);
 
@@ -75,7 +82,7 @@ class CreateBuildCommandTest extends TestCase
 
     protected function getCommandTester(): CommandTester
     {
-        $this->application->add($this->command);
+        $this->application->addCommand($this->command);
         $command = $this->application->find('php-censor:create-build');
 
         return new CommandTester($command);

@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace PHPCensor\Command;
 
 use Exception;
-use Pheanstalk\Contract\PheanstalkInterface;
+use Pheanstalk\Contract\PheanstalkPublisherInterface;
+use Pheanstalk\Contract\SocketFactoryInterface;
 use PHPCensor\BuildFactory;
 use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\DatabaseManager;
@@ -85,7 +86,7 @@ class WorkerCommand extends Command
             if ('soon' === $value) {
                 $priority = self::MIN_QUEUE_PRIORITY; // high priority, stop soon
             } elseif ('done' === $value) {
-                $priority = PheanstalkInterface::DEFAULT_PRIORITY;
+                $priority = PheanstalkPublisherInterface::DEFAULT_PRIORITY;
             } elseif ('idle' === $value) {
                 $priority = self::MAX_QUEUE_PRIORITY; // low priority, stop late
             } else {
@@ -127,7 +128,7 @@ class WorkerCommand extends Command
             $this->buildService,
             $this->buildFactory,
             $config['host'],
-            (int)$this->configuration->get('php-censor.queue.port', PheanstalkInterface::DEFAULT_PORT),
+            (int)$this->configuration->get('php-censor.queue.port', SocketFactoryInterface::DEFAULT_PORT),
             $config['name'],
             $periodicalWork
         );

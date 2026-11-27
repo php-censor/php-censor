@@ -20,14 +20,17 @@ class ServiceTest extends TestCase
 {
     use ProphecyTrait;
 
-    private ConfigurationInterface $configuration;
+    /**
+     * @var ConfigurationInterface&\PHPUnit\Framework\MockObject\Stub
+     */
+    private \PHPUnit\Framework\MockObject\Stub $configuration;
     private StoreRegistry $storeRegistry;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->configuration = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
+        $this->configuration = $this->createStub(ConfigurationInterface::class);
         $databaseManager     = $this
             ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$this->configuration])

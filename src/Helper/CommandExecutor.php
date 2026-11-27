@@ -345,7 +345,7 @@ class CommandExecutor implements CommandExecutorInterface
      */
     public function getComposerBinDir($path)
     {
-        if (\is_dir($path)) {
+        if (null !== $path && \is_dir($path)) {
             $composer = $path . '/composer.json';
             if (\is_file($composer)) {
                 $json = \json_decode(\file_get_contents($composer));

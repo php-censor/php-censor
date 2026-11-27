@@ -27,7 +27,10 @@ class BuildServiceTest extends TestCase
 {
     private BuildService $testedService;
     private BuildStore $buildStore;
-    private ConfigurationInterface $configuration;
+    /**
+     * @var ConfigurationInterface&\PHPUnit\Framework\MockObject\Stub
+     */
+    private \PHPUnit\Framework\MockObject\Stub $configuration;
     private DatabaseManager $databaseManager;
     private StoreRegistry $storeRegistry;
     private EnvironmentStore $environmentStore;
@@ -35,7 +38,7 @@ class BuildServiceTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
+        $this->configuration   = $this->createStub(ConfigurationInterface::class);
         $this->databaseManager = $this
             ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$this->configuration])
@@ -49,18 +52,16 @@ class BuildServiceTest extends TestCase
             ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])
             ->getMock();
         $this->buildStore
-            ->expects($this->any())
             ->method('save')
-            ->will($this->returnArgument(0));
+            ->willReturnArgument(0);
 
         $this->environmentStore = $this
             ->getMockBuilder(EnvironmentStore::class)
             ->setConstructorArgs([$this->databaseManager, $this->storeRegistry])
             ->getMock();
         $this->environmentStore
-            ->expects($this->any())
             ->method('getByProjectId')
-            ->will($this->returnValue(['items' => [], 'count' => 0]));
+            ->willReturn(['items' => [], 'count' => 0]);
 
         $projectStore = $this
             ->getMockBuilder(ProjectStore::class)
@@ -89,9 +90,9 @@ class BuildServiceTest extends TestCase
             ->onlyMethods(['getEnvironmentStore'])
             ->getMock();
 
-        $project->expects($this->any())
+        $project
             ->method('getEnvironmentStore')
-            ->will($this->returnValue($this->environmentStore));
+            ->willReturn($this->environmentStore);
 
         $project->setType('github');
         $project->setDefaultBranch('master');
@@ -142,9 +143,7 @@ class BuildServiceTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider invalidCommitterEmailProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('invalidCommitterEmailProvider')]
     public function testExecute_CreateBuildWithInvalidCommitterEmail(string $committerEmail): void
     {
         $returnValue = $this->testedService->createBuild(
@@ -171,9 +170,9 @@ class BuildServiceTest extends TestCase
             ->onlyMethods(['getEnvironmentStore'])
             ->getMock();
 
-        $project->expects($this->any())
+        $project
             ->method('getEnvironmentStore')
-            ->will($this->returnValue($this->environmentStore));
+            ->willReturn($this->environmentStore);
 
         $project->setType('hg');
         $project->setId(101);
@@ -189,9 +188,9 @@ class BuildServiceTest extends TestCase
             ->onlyMethods(['getEnvironmentStore'])
             ->getMock();
 
-        $project->expects($this->any())
+        $project
             ->method('getEnvironmentStore')
-            ->will($this->returnValue($this->environmentStore));
+            ->willReturn($this->environmentStore);
 
         $project->setType('bitbucket');
         $project->setDefaultBranch('master');
@@ -259,7 +258,7 @@ class BuildServiceTest extends TestCase
             ->getMock();
         $store->expects($this->once())
             ->method('delete')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
         $projectStore = $this
             ->getMockBuilder(ProjectStore::class)
