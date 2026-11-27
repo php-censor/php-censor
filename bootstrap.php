@@ -7,6 +7,8 @@ use PHPCensor\DatabaseManager;
 use PHPCensor\Helper\Lang;
 use PHPCensor\StoreRegistry;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
+use Symfony\Component\HttpFoundation\Cookie;
 
 const ROOT_DIR    = __DIR__ . '/';
 const SRC_DIR     = ROOT_DIR . 'src/';
@@ -20,7 +22,10 @@ $configurationPath = APP_DIR . 'config.yml';
 $configuration   = new Configuration($configurationPath);
 $databaseManager = new DatabaseManager($configuration);
 $storeRegistry   = new StoreRegistry($databaseManager);
-$session         = new Session();
+$session         = new Session(new NativeSessionStorage([
+    'cookie_httponly' => true,
+    'cookie_samesite' => Cookie::SAMESITE_LAX,
+]));
 
 $session->start();
 
