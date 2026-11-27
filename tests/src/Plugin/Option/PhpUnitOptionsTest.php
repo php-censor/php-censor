@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
  */
 class PhpUnitOptionsTest extends TestCase
 {
-    public function validOptionsProvider(): array
+    public static function validOptionsProvider(): array
     {
         return [
             [
@@ -91,12 +91,10 @@ class PhpUnitOptionsTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider validOptionsProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('validOptionsProvider')]
     public function testCommandArguments(array $rawOptions, array $parsedArguments): void
     {
-        $configuration = $this->createMock(ConfigurationInterface::class);
+        $configuration = $this->createStub(ConfigurationInterface::class);
 
         $options = new PhpUnitOptions($configuration, $rawOptions, '/location');
         self::assertSame($parsedArguments, $options->getCommandArguments());
@@ -104,7 +102,7 @@ class PhpUnitOptionsTest extends TestCase
 
     public function testGetters(): void
     {
-        $configuration = $this->createMock(ConfigurationInterface::class);
+        $configuration = $this->createStub(ConfigurationInterface::class);
 
         $options = new PhpUnitOptions(
             $configuration,

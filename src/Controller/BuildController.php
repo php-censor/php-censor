@@ -338,7 +338,7 @@ class BuildController extends WebController
      */
     protected function cleanLog(string $log): string
     {
-        $converter = new AnsiToHtmlConverter(null, false);
+        $converter = new AnsiToHtmlConverter(inlineStyles: false);
 
         return $converter->convert($log);
     }

@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class BitbucketNotifyPluginResultTest extends TestCase
 {
-    public function dataProvider(): array
+    public static function dataProvider(): array
     {
         return [
             'unchanged' => [
@@ -67,9 +67,7 @@ class BitbucketNotifyPluginResultTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider dataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('dataProvider')]
     public function testFormatting(array $input, array $expected): void
     {
         $pluginResult = new BitbucketNotifyPluginResult($input[0], $input[1], $input[2]);

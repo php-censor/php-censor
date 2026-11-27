@@ -4,7 +4,9 @@ namespace PHPCensor\Helper;
 
 use PHPCensor\Builder;
 use PHPCensor\Common\Application\ConfigurationInterface;
-use Swift_Message;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Email as SymfonyEmail;
 
 /**
  * Helper class for sending emails using email configuration.
@@ -114,10 +116,9 @@ class Email
     /**
      * Send the email.
      *
-     *
-     * @return int
+     * @return int Number of sent emails (0 on failure)
      */
-    public function send(Builder $builder = null)
+    public function send(?Builder $builder = null): int
     {
         $smtpServer = $this->config->get('php-censor.email_settings.smtp_address');
         if (null !== $builder) {
@@ -125,30 +126,60 @@ class Email
         }
 
         $factory = new MailerFactory($this->config->get('php-censor'));
-        $mailer = $factory->getSwiftMailerFromConfig();
+        $mailer  = $factory->getMailer();
 
-        $message = new Swift_Message($this->subject);
-        $message
-            ->setFrom($this->getFrom())
-            ->setTo($this->emailTo)
-            ->setBody($this->body);
+        $from    = $this->getFrom();
+        $message = (new SymfonyEmail())
+            ->subject((string)$this->subject)
+            ->from(new Address((string)\key($from), (string)\current($from)))
+            ->to(...$this->toAddresses($this->emailTo));
 
         if ($this->isHtml) {
-            $message->setContentType('text/html');
+            $message->html((string)$this->body);
+        } else {
+            $message->text((string)$this->body);
         }
 
         if (\is_array($this->emailCc) && \count($this->emailCc)) {
-            $message->setCc($this->emailCc);
+            $message->cc(...$this->toAddresses($this->emailCc));
         }
 
         \ob_start();
 
-        $result = $mailer->send($message);
+        try {
+            $mailer->send($message);
+            $result = 1;
+        } catch (TransportExceptionInterface $e) {
+            if (null === $builder) {
+                \ob_end_clean();
+
+                // Outside of a build (e.g. password reset), let the caller fail as it did with SwiftMailer.
+                throw $e;
+            }
+
+            $builder->getBuildLogger()->logWarning(\sprintf('Unable to send email: %s', $e->getMessage()));
+            $result = 0;
+        }
 
         $rawOutput = \ob_get_clean();
 
         if ($rawOutput) {
-            $builder->getBuildLogger()->logWarning($rawOutput);
+            $builder?->getBuildLogger()->logWarning($rawOutput);
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param array<string, string|null> $addresses Email => name
+     *
+     * @return Address[]
+     */
+    private function toAddresses(array $addresses): array
+    {
+        $result = [];
+        foreach ($addresses as $email => $name) {
+            $result[] = new Address((string)$email, (string)$name);
         }
 
         return $result;

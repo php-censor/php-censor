@@ -28,7 +28,7 @@ class BuildStatusServiceTest extends TestCase
 
     protected function setUp(): void
     {
-        $configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
+        $configuration   = $this->createMock(ConfigurationInterface::class);
         $databaseManager = $this
             ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$configuration])
@@ -126,9 +126,9 @@ class BuildStatusServiceTest extends TestCase
 
         $prevBuild = ($prevBuildId) ? $this->getBuild($prevBuildId, false) : null;
 
-        $project->expects($this->any())
+        $project
             ->method('getLatestBuild')
-            ->will($this->returnValue($prevBuild));
+            ->willReturn($prevBuild);
 
         /* @var $project Project */
 
@@ -143,9 +143,7 @@ class BuildStatusServiceTest extends TestCase
         return $project;
     }
 
-    /**
-     * @dataProvider finishedProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('finishedProvider')]
     public function testFinished(int $buildConfigId, array $expectedResult): void
     {
         $build = $this->getBuild($buildConfigId);
@@ -156,7 +154,7 @@ class BuildStatusServiceTest extends TestCase
         self::assertEquals($expectedResult, $service->toArray());
     }
 
-    public function finishedProvider(): array
+    public static function finishedProvider(): array
     {
         return [
             'buildingStatus' => [

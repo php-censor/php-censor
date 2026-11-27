@@ -7,7 +7,8 @@ namespace PHPCensor\Command;
 use DateTime;
 use Exception;
 use PDO;
-use Pheanstalk\Pheanstalk;
+use Pdo\Mysql;
+use Pheanstalk\Contract\SocketFactoryInterface;
 use PHPCensor\Command\Action\CreateAdmin;
 use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Common\Exception\RuntimeException;
@@ -229,7 +230,7 @@ class InstallCommand extends Command
 
         $urlValidator = function ($domain) {
             if (!\filter_var($domain, FILTER_VALIDATE_URL)) {
-                throw new InvalidArgumentException("${domain} is not a valid URL!");
+                throw new InvalidArgumentException("{$domain} is not a valid URL!");
             }
 
             return \rtrim($domain, '/');
@@ -326,7 +327,7 @@ class InstallCommand extends Command
     private function getQueueInformation(InputInterface $input, OutputInterface $output): array
     {
         $queueConfig = [
-            'port'     => Pheanstalk::DEFAULT_PORT,
+            'port'     => SocketFactoryInterface::DEFAULT_PORT,
             'lifetime' => 600,
         ];
 
@@ -481,7 +482,7 @@ class InstallCommand extends Command
             PDO::ATTR_TIMEOUT    => 2,
         ];
         if ('mysql' === $db['type']) {
-            $pdoOptions[PDO::MYSQL_ATTR_INIT_COMMAND] = "SET NAMES 'UTF8'";
+            $pdoOptions[Mysql::ATTR_INIT_COMMAND] = "SET NAMES 'UTF8'";
         }
 
         try {

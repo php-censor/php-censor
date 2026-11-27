@@ -7,8 +7,10 @@ namespace PHPCensor\Service;
 use DateInterval;
 use DateTime;
 use Exception;
+use Pheanstalk\Contract\PheanstalkPublisherInterface;
+use Pheanstalk\Contract\SocketFactoryInterface;
 use Pheanstalk\Pheanstalk;
-use Pheanstalk\Contract\PheanstalkInterface;
+use Pheanstalk\Values\TubeName;
 use PHPCensor\BuildFactory;
 use PHPCensor\Common\Application\ConfigurationInterface;
 use PHPCensor\Exception\HttpException;
@@ -139,7 +141,7 @@ class BuildService
                         'Invalid periodical builds config ("app/periodical.yml")! Exception: %s',
                         $e->getMessage()
                     ),
-                    $e
+                    ['exception' => $e]
                 );
 
                 return;
@@ -341,7 +343,7 @@ class BuildService
         $this->addJobToQueue(BuildWorker::JOB_TYPE_BUILD, $jobData, ($buildPriority + Project::OFFSET_BETWEEN_BUILD_AND_QUEUE));
     }
 
-    public function addJobToQueue(string $jobType, array $jobData, int $queuePriority = PheanstalkInterface::DEFAULT_PRIORITY): void
+    public function addJobToQueue(string $jobType, array $jobData, int $queuePriority = PheanstalkPublisherInterface::DEFAULT_PRIORITY): void
     {
         $settings = $this->configuration->get('php-censor.queue', []);
         if (!empty($settings['host']) && !empty($settings['name'])) {
@@ -349,15 +351,15 @@ class BuildService
             try {
                 $pheanstalk = Pheanstalk::create(
                     $settings['host'],
-                    (int)$this->configuration->get('php-censor.queue.port', PheanstalkInterface::DEFAULT_PORT)
+                    (int)$this->configuration->get('php-censor.queue.port', SocketFactoryInterface::DEFAULT_PORT)
                 );
 
-                $pheanstalk->useTube($settings['name']);
+                $pheanstalk->useTube(new TubeName($settings['name']));
                 $pheanstalk->put(
-                    \json_encode($jobData),
+                    (string)\json_encode($jobData),
                     $queuePriority,
-                    PheanstalkInterface::DEFAULT_DELAY,
-                    $this->configuration->get('php-censor.queue.lifetime', 600)
+                    PheanstalkPublisherInterface::DEFAULT_DELAY,
+                    (int)$this->configuration->get('php-censor.queue.lifetime', 600)
                 );
             } catch (\Throwable) {
                 $this->queueError = true;

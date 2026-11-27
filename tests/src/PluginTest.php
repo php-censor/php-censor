@@ -84,7 +84,7 @@ class PluginTest extends TestCase
         $this->builder = $this->createMock(Builder::class);
         $this->build   = $this->createMock(Build::class);
 
-        $configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
+        $configuration   = $this->createMock(ConfigurationInterface::class);
         $databaseManager = $this
             ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$configuration])

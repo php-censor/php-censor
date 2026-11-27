@@ -48,9 +48,16 @@ class PhpUnitTest extends TestCase
         ];
 
         $plugin = $this->getPluginBuilder($options)->onlyMethods(['runConfig'])->getMock();
-        $plugin->expects($this->exactly(2))->method('runConfig')->withConsecutive(
+        $expectedCalls = [
             [null, ROOT_DIR . 'phpunit1.xml'],
-            [null, ROOT_DIR . 'phpunit2.xml']
+            [null, ROOT_DIR . 'phpunit2.xml'],
+        ];
+        $plugin->expects($this->exactly(2))->method('runConfig')->willReturnCallback(
+            function (...$arguments) use (&$expectedCalls): bool {
+                self::assertEquals(\array_shift($expectedCalls), \array_slice($arguments, 0, 2));
+
+                return true;
+            }
         );
 
         $plugin->execute();
@@ -58,7 +65,7 @@ class PhpUnitTest extends TestCase
 
     protected function getPluginBuilder(array $options = []): MockBuilder
     {
-        $configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
+        $configuration   = $this->createMock(ConfigurationInterface::class);
         $databaseManager = $this
             ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$configuration])
@@ -119,9 +126,16 @@ class PhpUnitTest extends TestCase
         ];
 
         $plugin = $this->getPluginBuilder($options)->onlyMethods(['runConfig'])->getMock();
-        $plugin->expects($this->exactly(2))->method('runConfig')->withConsecutive(
+        $expectedCalls = [
             ['/test/directory/one'],
-            ['/test/directory/two']
+            ['/test/directory/two'],
+        ];
+        $plugin->expects($this->exactly(2))->method('runConfig')->willReturnCallback(
+            function (...$arguments) use (&$expectedCalls): bool {
+                self::assertEquals(\array_shift($expectedCalls), \array_slice($arguments, 0, 1));
+
+                return true;
+            }
         );
 
         $plugin->execute();
@@ -134,7 +148,7 @@ class PhpUnitTest extends TestCase
         ];
 
         $plugin = $this->getPluginBuilder($options)->onlyMethods(['processResults'])->getMock();
-        $plugin->expects($this->once())->method('processResults')->with($this->isType('string'));
+        $plugin->expects($this->once())->method('processResults')->with($this->isString());
 
         $plugin->execute();
     }
@@ -146,7 +160,7 @@ class PhpUnitTest extends TestCase
         ];
 
         $plugin = $this->getPluginBuilder($options)->onlyMethods(['processResults'])->getMock();
-        $plugin->expects($this->once())->method('processResults')->with($this->isType('string'));
+        $plugin->expects($this->once())->method('processResults')->with($this->isString());
 
         $plugin->execute();
     }

@@ -194,7 +194,7 @@ class BitbucketBuild extends GitBuild
     /**
      * @inheritDoc
      */
-    protected function postCloneSetup(Builder $builder, $cloneTo, array $extra = null)
+    protected function postCloneSetup(Builder $builder, $cloneTo, ?array $extra = null)
     {
         $success = true;
         $skipGitFinalization = false;

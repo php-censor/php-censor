@@ -309,7 +309,7 @@ class BitbucketNotify extends Plugin
             $currentBranchCoverage = \json_decode($currentMetaData->getMetaValue(), true);
         }
 
-        return new Plugin\Util\BitbucketNotifyPhpUnitResult(
+        return new Util\BitbucketNotifyPhpUnitResult(
             PhpUnit::pluginName() . '-coverage',
             isset($targetBranchCoverage['lines']) ? $targetBranchCoverage['lines'] : 0,
             isset($currentBranchCoverage['lines']) ? $currentBranchCoverage['lines'] : 0
@@ -317,7 +317,7 @@ class BitbucketNotify extends Plugin
     }
 
     /**
-     * @param Util\BitbucketNotifyPluginResult[] $plugins
+     * @param BitbucketNotifyPluginResult[] $plugins
      * @return array
      */
     protected function buildResultComparator(array $plugins)
@@ -361,17 +361,17 @@ class BitbucketNotify extends Plugin
         return $build !== null ? $build->getId() : null;
     }
 
-    protected function buildStatusRequest($endpoint, $method = 'get', array $jsonBody = null)
+    protected function buildStatusRequest($endpoint, $method = 'get', ?array $jsonBody = null)
     {
         return $this->request($this->url . '/rest/build-status/1.0' . $endpoint, $method, $jsonBody);
     }
 
-    protected function apiRequest($endpoint, $method = 'get', array $jsonBody = null)
+    protected function apiRequest($endpoint, $method = 'get', ?array $jsonBody = null)
     {
         return $this->request($this->url . '/rest/api/1.0' . $endpoint, $method, $jsonBody);
     }
 
-    protected function request($endpoint, $method = 'get', array $jsonBody = null)
+    protected function request($endpoint, $method = 'get', ?array $jsonBody = null)
     {
         $options = ['headers' => ['Authorization' => 'Bearer ' . $this->authToken]];
         $jsonBody !== null && $options['json'] = $jsonBody;

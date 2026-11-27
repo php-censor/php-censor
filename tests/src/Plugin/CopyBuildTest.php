@@ -74,32 +74,16 @@ class CopyBuildTest extends TestCase
 
     protected function getPlugin(array $options = []): Plugin
     {
-        /** @var Build|MockObject $build */
-        $build = $this
-            ->getMockBuilder(Build::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
         /** @var Builder|MockObject $builder */
-        $builder = $this
-            ->getMockBuilder(Builder::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $builder = $this->createMock(Builder::class);
 
-        $buildLogger = $this
-            ->getMockBuilder(BuildLogger::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $executor = new CommandExecutor($buildLogger, '');
+        $executor = new CommandExecutor($this->createStub(BuildLogger::class), '');
 
         $builder
-            ->expects($this->any())
             ->method('interpolate')
             ->willReturnArgument(0);
 
         $builder
-            ->expects($this->any())
             ->method('executeCommand')
             ->willReturnCallback(function () use ($executor) {
                 $args = \func_get_args();
@@ -110,7 +94,7 @@ class CopyBuildTest extends TestCase
         $builder->buildPath = $this->buildPath;
         $builder->directory = $this->buildPath;
 
-        return new CopyBuild($builder, $build, $options);
+        return new CopyBuild($builder, $this->createStub(Build::class), $options);
     }
 
     public function testExecuteAbsolute(): void

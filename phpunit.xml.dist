@@ -1,39 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    backupGlobals="false"
-    backupStaticAttributes="false"
-    convertErrorsToExceptions="true"
-    convertNoticesToExceptions="true"
-    convertWarningsToExceptions="true"
-    processIsolation="false"
-    stopOnFailure="false"
-    executionOrder="random"
-    resolveDependencies="true"
-    bootstrap="./tests/bootstrap.php"
-    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
->
-    <php>
-        <env name="SKIP_DB_TESTS" value="true" force="true" />
-        <env name="MYSQL_USER" value="test_user" force="true" />
-        <env name="MYSQL_PASSWORD" value="test_password" force="true" />
-        <env name="MYSQL_DBNAME" value="test_db" force="true" />
-        <env name="POSTGRESQL_USER" value="test_user" force="true" />
-        <env name="POSTGRESQL_PASSWORD" value="test_password" force="true" />
-        <env name="POSTGRESQL_DBNAME" value="test_db" force="true" />
-    </php>
-    <coverage processUncoveredFiles="true">
-        <include>
-            <directory suffix=".php">./src</directory>
-        </include>
-        <exclude>
-            <directory suffix=".php">./src/Migrations</directory>
-            <directory suffix=".php">./src/Languages</directory>
-        </exclude>
-    </coverage>
-    <testsuites>
-        <testsuite name="PHP Common Test Suite">
-            <directory suffix="Test.php">./tests/src</directory>
-        </testsuite>
-    </testsuites>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" backupGlobals="false" processIsolation="false" stopOnFailure="false" executionOrder="random" resolveDependencies="true" bootstrap="./tests/bootstrap.php" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/13.4/phpunit.xsd" cacheDirectory=".phpunit.cache" backupStaticProperties="false">
+  <php>
+    <env name="SKIP_DB_TESTS" value="true" force="true"/>
+    <env name="MYSQL_USER" value="test_user" force="true"/>
+    <env name="MYSQL_PASSWORD" value="test_password" force="true"/>
+    <env name="MYSQL_DBNAME" value="test_db" force="true"/>
+    <env name="POSTGRESQL_USER" value="test_user" force="true"/>
+    <env name="POSTGRESQL_PASSWORD" value="test_password" force="true"/>
+    <env name="POSTGRESQL_DBNAME" value="test_db" force="true"/>
+  </php>
+  <testsuites>
+    <testsuite name="PHP Common Test Suite">
+      <directory suffix="Test.php">./tests/src</directory>
+    </testsuite>
+  </testsuites>
+  <source>
+    <include>
+      <directory suffix=".php">./src</directory>
+    </include>
+    <exclude>
+      <directory suffix=".php">./src/Migrations</directory>
+      <directory suffix=".php">./src/Languages</directory>
+    </exclude>
+  </source>
 </phpunit>

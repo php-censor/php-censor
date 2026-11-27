@@ -20,10 +20,7 @@ class DatabaseConnectionTest extends TestCase
 
     public function testConstructorWithExternalPDO(): void
     {
-        $pdoConnection = $this
-            ->getMockBuilder(\PDO::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $pdoConnection = $this->createStub(\PDO::class);
 
         $databaseConnection = new DatabaseConnection('any');
         $databaseConnection->setPdo($pdoConnection);
@@ -34,10 +31,7 @@ class DatabaseConnectionTest extends TestCase
 
     public function testQuoteNamesForMySQL(): void
     {
-        $pdoConnection = $this
-            ->getMockBuilder(\PDO::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $pdoConnection = $this->createMock(\PDO::class);
 
         $pdoConnection
             ->method('getAttribute')
@@ -57,10 +51,7 @@ class DatabaseConnectionTest extends TestCase
 
     public function testQuoteNamesForPostgreSQL(): void
     {
-        $pdoConnection = $this
-            ->getMockBuilder(\PDO::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $pdoConnection = $this->createMock(\PDO::class);
 
         $pdoConnection
             ->method('getAttribute')
@@ -78,15 +69,10 @@ class DatabaseConnectionTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider prepareDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('prepareDataProvider')]
     public function testPrepare($result, array $option): void
     {
-        $pdoConnection = $this
-            ->getMockBuilder(\PDO::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $pdoConnection = $this->createMock(\PDO::class);
 
         $pdoConnection
             ->method('getAttribute')
@@ -115,10 +101,7 @@ class DatabaseConnectionTest extends TestCase
 
     public function testLastInsertIdForPostgreSQL(): void
     {
-        $pdoConnection = $this
-            ->getMockBuilder(\PDO::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $pdoConnection = $this->createMock(\PDO::class);
 
         $pdoConnection
             ->method('getAttribute')
@@ -141,10 +124,7 @@ class DatabaseConnectionTest extends TestCase
 
     public function testLastInsertIdForPostgreSQLWithNonDefaultSequenceName(): void
     {
-        $pdoConnection = $this
-            ->getMockBuilder(\PDO::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $pdoConnection = $this->createMock(\PDO::class);
 
         $pdoConnection
             ->method('getAttribute')
@@ -167,10 +147,7 @@ class DatabaseConnectionTest extends TestCase
 
     public function testLastInsertIdForMySQL(): void
     {
-        $pdoConnection = $this
-            ->getMockBuilder(\PDO::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $pdoConnection = $this->createMock(\PDO::class);
 
         $pdoConnection
             ->method('getAttribute')
@@ -190,15 +167,10 @@ class DatabaseConnectionTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider execDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('execDataProvider')]
     public function testExec($result): void
     {
-        $pdoConnection = $this
-            ->getMockBuilder(\PDO::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $pdoConnection = $this->createMock(\PDO::class);
 
         $pdoConnection
             ->method('getAttribute')
@@ -221,15 +193,10 @@ class DatabaseConnectionTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider queryDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('queryDataProvider')]
     public function testQuery($result): void
     {
-        $pdoConnection = $this
-            ->getMockBuilder(\PDO::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $pdoConnection = $this->createMock(\PDO::class);
 
         $pdoConnection
             ->method('getAttribute')
@@ -252,15 +219,10 @@ class DatabaseConnectionTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider booleanResultDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('booleanResultDataProvider')]
     public function testBeginTransaction(bool $result): void
     {
-        $pdoConnection = $this
-            ->getMockBuilder(\PDO::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $pdoConnection = $this->createMock(\PDO::class);
 
         $pdoConnection
             ->method('beginTransaction')
@@ -272,15 +234,10 @@ class DatabaseConnectionTest extends TestCase
         self::assertEquals($result, $databaseConnection->beginTransaction());
     }
 
-    /**
-     * @dataProvider booleanResultDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('booleanResultDataProvider')]
     public function testCommit(bool $result): void
     {
-        $pdoConnection = $this
-            ->getMockBuilder(\PDO::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $pdoConnection = $this->createMock(\PDO::class);
 
         $pdoConnection
             ->method('commit')
@@ -292,15 +249,10 @@ class DatabaseConnectionTest extends TestCase
         self::assertEquals($result, $databaseConnection->commit());
     }
 
-    /**
-     * @dataProvider booleanResultDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('booleanResultDataProvider')]
     public function testRollback(bool $result): void
     {
-        $pdoConnection = $this
-            ->getMockBuilder(\PDO::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $pdoConnection = $this->createMock(\PDO::class);
 
         $pdoConnection
             ->method('rollback')
@@ -312,15 +264,10 @@ class DatabaseConnectionTest extends TestCase
         self::assertEquals($result, $databaseConnection->rollBack());
     }
 
-    /**
-     * @dataProvider booleanResultDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('booleanResultDataProvider')]
     public function testInTransaction(bool $result): void
     {
-        $pdoConnection = $this
-            ->getMockBuilder(\PDO::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $pdoConnection = $this->createMock(\PDO::class);
 
         $pdoConnection
             ->method('inTransaction')
@@ -332,7 +279,7 @@ class DatabaseConnectionTest extends TestCase
         self::assertEquals($result, $databaseConnection->inTransaction());
     }
 
-    public function prepareDataProvider(): array
+    public static function prepareDataProvider(): array
     {
         return [
             [false, [\PDO::ATTR_CURSOR]],
@@ -342,7 +289,7 @@ class DatabaseConnectionTest extends TestCase
         ];
     }
 
-    public function execDataProvider(): array
+    public static function execDataProvider(): array
     {
         return [
             [false],
@@ -351,7 +298,7 @@ class DatabaseConnectionTest extends TestCase
         ];
     }
 
-    public function queryDataProvider(): array
+    public static function queryDataProvider(): array
     {
         return [
             [false],
@@ -359,7 +306,7 @@ class DatabaseConnectionTest extends TestCase
         ];
     }
 
-    public function booleanResultDataProvider(): array
+    public static function booleanResultDataProvider(): array
     {
         return [
             [true],

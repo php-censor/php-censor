@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PHPCensor;
 
+use Pdo\Mysql;
 use PHPCensor\Common\Exception\Exception;
 use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Common\Application\ConfigurationInterface;
@@ -64,7 +65,7 @@ class DatabaseManager
                 ];
 
                 if (self::MYSQL_TYPE === $driver) {
-                    $pdoOptions[\PDO::MYSQL_ATTR_INIT_COMMAND] = "SET NAMES 'UTF8'";
+                    $pdoOptions[Mysql::ATTR_INIT_COMMAND] = "SET NAMES 'UTF8'";
                 }
 
                 try {

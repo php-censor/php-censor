@@ -8,6 +8,7 @@ use Exception;
 use Monolog\Handler\HandlerInterface;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Handler\StreamHandler;
+use Monolog\Level;
 use Monolog\Logger;
 use Phinx\Config\Config as PhinxConfig;
 use Phinx\Console\Command\Create;
@@ -65,9 +66,9 @@ LOGO;
         /** @var HandlerInterface[] $loggerHandlers */
         $loggerHandlers = [];
         if ($rotate) {
-            $loggerHandlers[] = new RotatingFileHandler(RUNTIME_DIR . 'console.log', $maxFiles, Logger::DEBUG);
+            $loggerHandlers[] = new RotatingFileHandler(RUNTIME_DIR . 'console.log', $maxFiles, Level::Debug);
         } else {
-            $loggerHandlers[] = new StreamHandler(RUNTIME_DIR . 'console.log', Logger::DEBUG);
+            $loggerHandlers[] = new StreamHandler(RUNTIME_DIR . 'console.log', Level::Debug);
         }
 
         $loggerHandlers[0]->setFormatter(new AnsiFormatter());
@@ -104,9 +105,15 @@ LOGO;
                 'paths' => [
                     'migrations' => ROOT_DIR . 'src/Migrations',
                 ],
+                // Keep the Phinx 0.12 schema defaults the existing migrations were written for
+                // (signed primary keys matching the signed foreign key columns, NOT NULL columns by default).
+                'feature_flags' => [
+                    'unsigned_primary_keys' => false,
+                    'column_null_default'   => false,
+                ],
                 'environments' => [
                     'default_migration_table' => 'migrations',
-                    'default_database'        => 'php-censor',
+                    'default_environment'     => 'php-censor',
                     'php-censor'              => [
                         'adapter' => $databaseSettings['type'],
                         'host' => $databaseSettings['servers']['write'][0]['host'],
@@ -141,22 +148,22 @@ LOGO;
 
         $phinxConfig = new PhinxConfig($phinxSettings);
 
-        $this->add(
+        $this->addCommand(
             (new Create())
                 ->setConfig($phinxConfig)
                 ->setName('php-censor-migrations:create')
         );
-        $this->add(
+        $this->addCommand(
             (new Migrate())
                 ->setConfig($phinxConfig)
                 ->setName('php-censor-migrations:migrate')
         );
-        $this->add(
+        $this->addCommand(
             (new Rollback())
                 ->setConfig($phinxConfig)
                 ->setName('php-censor-migrations:rollback')
         );
-        $this->add(
+        $this->addCommand(
             (new Status())
                 ->setConfig($phinxConfig)
                 ->setName('php-censor-migrations:status')
@@ -189,14 +196,14 @@ LOGO;
 
         $logger = $this->initLogger($this->configuration);
 
-        $this->add(new InstallCommand($this->configuration, $this->databaseManager, $this->storeRegistry, $logger));
-        $this->add(new CreateAdminCommand($this->configuration, $this->databaseManager, $this->storeRegistry, $logger, $userStore));
-        $this->add(new CreateBuildCommand($this->configuration, $this->databaseManager, $this->storeRegistry, $logger, $projectStore, $buildService));
-        $this->add(new RemoveOldBuildsCommand($this->configuration, $this->databaseManager, $this->storeRegistry, $logger, $projectStore, $buildService));
-        $this->add(new WorkerCommand($this->configuration, $this->databaseManager, $this->storeRegistry, $logger, $buildService, $buildFactory));
-        $this->add(new RebuildQueueCommand($this->configuration, $this->databaseManager, $this->storeRegistry, $logger));
-        $this->add(new CheckLocalizationsCommand($this->configuration, $this->databaseManager, $this->storeRegistry, $logger));
-        $this->add(new AddSecretCommand($this->configuration, $this->databaseManager, $this->storeRegistry, $logger, $secretStore));
+        $this->addCommand(new InstallCommand($this->configuration, $this->databaseManager, $this->storeRegistry, $logger));
+        $this->addCommand(new CreateAdminCommand($this->configuration, $this->databaseManager, $this->storeRegistry, $logger, $userStore));
+        $this->addCommand(new CreateBuildCommand($this->configuration, $this->databaseManager, $this->storeRegistry, $logger, $projectStore, $buildService));
+        $this->addCommand(new RemoveOldBuildsCommand($this->configuration, $this->databaseManager, $this->storeRegistry, $logger, $projectStore, $buildService));
+        $this->addCommand(new WorkerCommand($this->configuration, $this->databaseManager, $this->storeRegistry, $logger, $buildService, $buildFactory));
+        $this->addCommand(new RebuildQueueCommand($this->configuration, $this->databaseManager, $this->storeRegistry, $logger));
+        $this->addCommand(new CheckLocalizationsCommand($this->configuration, $this->databaseManager, $this->storeRegistry, $logger));
+        $this->addCommand(new AddSecretCommand($this->configuration, $this->databaseManager, $this->storeRegistry, $logger, $secretStore));
     }
 
     public function getHelp(): string

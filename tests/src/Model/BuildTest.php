@@ -32,7 +32,7 @@ class BuildTest extends TestCase
 
     protected function setUp(): void
     {
-        $configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
+        $configuration   = $this->createMock(ConfigurationInterface::class);
         $this->databaseManager = $this
             ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$configuration])
@@ -189,7 +189,7 @@ class BuildTest extends TestCase
         $project->setType(Project::TYPE_GIT);
         $project->setReference('https://git.repository/the-vendor/the-project.git');
 
-        $configuration = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
+        $configuration = $this->createStub(ConfigurationInterface::class);
 
         $stub = $this->getMockBuilder(GitBuild::class)
             ->setConstructorArgs([$configuration, $this->storeRegistry])
@@ -197,13 +197,13 @@ class BuildTest extends TestCase
             ->getMock();
 
         $stub->method('getProject')
-            ->will($this->returnValue($project));
+            ->willReturn($project);
 
         $stub->method('getCommitId')
-            ->will($this->returnValue('abcdef'));
+            ->willReturn('abcdef');
 
         $stub->method('getBranch')
-            ->will($this->returnValue('master'));
+            ->willReturn('master');
 
         $this->assertEquals('#', $stub->getCommitLink());
 
@@ -219,7 +219,7 @@ class BuildTest extends TestCase
         $project->setReference('git@github.com:php-censor/php-censor.git');
         $project = $this->projectService->processAccessInformation($project);
 
-        $configuration = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
+        $configuration = $this->createStub(ConfigurationInterface::class);
 
         $stub = $this->getMockBuilder(GithubBuild::class)
             ->setConstructorArgs([$configuration, $this->storeRegistry])
@@ -227,16 +227,16 @@ class BuildTest extends TestCase
             ->getMock();
 
         $stub->method('getProject')
-            ->will($this->returnValue($project));
+            ->willReturn($project);
 
         $stub->method('getCommitId')
-            ->will($this->returnValue('abcdef'));
+            ->willReturn('abcdef');
 
         $stub->method('getBranch')
-            ->will($this->returnValue('master'));
+            ->willReturn('master');
 
         $stub->method('getTag')
-            ->will($this->returnValue('2.0.7'));
+            ->willReturn('2.0.7');
 
         $this->assertEquals(
             '//github.com/php-censor/php-censor/commit/abcdef',
@@ -266,7 +266,7 @@ class BuildTest extends TestCase
         $project->setReference('git@gitlab.com:php-censor/php-censor.git');
         $project = $this->projectService->processAccessInformation($project);
 
-        $configuration = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
+        $configuration = $this->createStub(ConfigurationInterface::class);
 
         $stub = $this->getMockBuilder(GitlabBuild::class)
             ->setConstructorArgs([$configuration, $this->storeRegistry])
@@ -274,13 +274,13 @@ class BuildTest extends TestCase
             ->getMock();
 
         $stub->method('getProject')
-            ->will($this->returnValue($project));
+            ->willReturn($project);
 
         $stub->method('getCommitId')
-            ->will($this->returnValue('abcdef'));
+            ->willReturn('abcdef');
 
         $stub->method('getBranch')
-            ->will($this->returnValue('master'));
+            ->willReturn('master');
 
         $this->assertEquals(
             '//gitlab.com/php-censor/php-censor/commit/abcdef',
@@ -304,7 +304,7 @@ class BuildTest extends TestCase
         $project->setType(Project::TYPE_GOGS);
         $project->setReference('https://gogs.repository/the-vendor/the-project.git');
 
-        $configuration = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
+        $configuration = $this->createStub(ConfigurationInterface::class);
 
         $stub = $this->getMockBuilder(GogsBuild::class)
             ->setConstructorArgs([$configuration, $this->storeRegistry])
@@ -312,13 +312,13 @@ class BuildTest extends TestCase
             ->getMock();
 
         $stub->method('getProject')
-            ->will($this->returnValue($project));
+            ->willReturn($project);
 
         $stub->method('getCommitId')
-            ->will($this->returnValue('abcdef'));
+            ->willReturn('abcdef');
 
         $stub->method('getBranch')
-            ->will($this->returnValue('master'));
+            ->willReturn('master');
 
         $this->assertEquals(
             'https://gogs.repository/the-vendor/the-project/commit/abcdef',

@@ -21,13 +21,16 @@ class ProjectServiceTest extends TestCase
 {
     private ProjectService $testedService;
     private ProjectStore $projectStore;
-    private ConfigurationInterface $configuration;
+    /**
+     * @var ConfigurationInterface&\PHPUnit\Framework\MockObject\Stub
+     */
+    private \PHPUnit\Framework\MockObject\Stub $configuration;
     private DatabaseManager $databaseManager;
     private StoreRegistry $storeRegistry;
 
     protected function setUp(): void
     {
-        $this->configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
+        $this->configuration   = $this->createStub(ConfigurationInterface::class);
         $this->databaseManager = $this
             ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$this->configuration])
@@ -43,11 +46,8 @@ class ProjectServiceTest extends TestCase
             ->getMock();
 
         $this->projectStore
-            ->expects($this->any())
             ->method('save')
-            ->will(
-                $this->returnArgument(0)
-            );
+            ->willReturnArgument(0);
 
         $this->testedService = new ProjectService($this->storeRegistry, $this->projectStore);
     }
@@ -78,7 +78,7 @@ class ProjectServiceTest extends TestCase
         self::assertEquals([], $project->getEnvironmentsNames());
     }
 
-    public function getExecuteCreateGithubProjectAccessInformationData(): array
+    public static function getExecuteCreateGithubProjectAccessInformationData(): array
     {
         return [
             [
@@ -247,9 +247,7 @@ class ProjectServiceTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider getExecuteCreateGithubProjectAccessInformationData
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getExecuteCreateGithubProjectAccessInformationData')]
     public function testExecuteCreateGithubProjectAccessInformation(string $reference, array $accessInformation): void
     {
         $project = $this->testedService->createProject(
@@ -335,7 +333,7 @@ class ProjectServiceTest extends TestCase
             ->getMock();
         $store->expects($this->once())
             ->method('delete')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
         $service = new ProjectService($this->storeRegistry, $store);
         $project = new Project($this->storeRegistry);

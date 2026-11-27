@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace PHPCensor\Logging;
 
 use Monolog\Handler\AbstractProcessingHandler;
-use Monolog\Logger;
+use Monolog\Level;
+use Monolog\LogRecord;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\Secret;
 use PHPCensor\Store\BuildStore;
@@ -37,7 +38,7 @@ class BuildDBLogHandler extends AbstractProcessingHandler
         private readonly SecretStore $secretStore,
         protected BuildStore $buildStore,
         protected Build $build,
-        int $level = Logger::INFO,
+        int|string|Level $level = Level::Info,
         bool $bubble = true
     ) {
         parent::__construct($level, $bubble);
@@ -96,11 +97,11 @@ class BuildDBLogHandler extends AbstractProcessingHandler
     /**
      * Write a log entry to the build log.
      */
-    protected function write(array $record): void
+    protected function write(LogRecord $record): void
     {
         $this->logValue .= $this->sanitize(
             $this->sanitizeSecrets(
-                $record['message']
+                $record->message
             )
         ) . PHP_EOL;
 

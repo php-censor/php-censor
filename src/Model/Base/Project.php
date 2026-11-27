@@ -162,7 +162,7 @@ class Project extends Model
     /**
      * @return mixed
      */
-    public function getAccessInformation(string $key = null)
+    public function getAccessInformation(?string $key = null)
     {
         $data = $this->getDataItem('access_information');
         if ($key === null) {

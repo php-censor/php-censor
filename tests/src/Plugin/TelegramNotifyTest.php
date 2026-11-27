@@ -9,21 +9,18 @@ use PHPUnit\Framework\TestCase;
 
 class TelegramNotifyTest extends TestCase
 {
-    /**
-     * @dataProvider chatIdProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('chatIdProvider')]
     public function testSplitChatIdAndTopicId($chatId, $expectedThreadId): void
     {
         $reflection = new \ReflectionClass(TelegramNotify::class);
         $method = $reflection->getMethod('splitChatIdAndTopicId');
-        $method->setAccessible(true);
         $instance = $reflection->newInstanceWithoutConstructor();
 
         $result = $method->invoke($instance, $chatId);
         self::assertSame($expectedThreadId, $result);
     }
 
-    public function chatIdProvider(): array
+    public static function chatIdProvider(): array
     {
         return [
             'without message thread id' => ['-12345', ['-12345', null]],

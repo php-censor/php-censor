@@ -15,10 +15,7 @@ class StoreRegistryTest extends TestCase
     public function testConstructor(): void
     {
         /** @var DatabaseManager $databaseManager */
-        $databaseManager = $this
-            ->getMockBuilder(DatabaseManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $databaseManager = $this->createStub(DatabaseManager::class);
 
         $storeRegistry = new StoreRegistry($databaseManager);
 
@@ -28,10 +25,7 @@ class StoreRegistryTest extends TestCase
     public function testGetSuccess(): void
     {
         /** @var DatabaseManager $databaseManager */
-        $databaseManager = $this
-            ->getMockBuilder(DatabaseManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $databaseManager = $this->createStub(DatabaseManager::class);
 
         $storeRegistry = new StoreRegistry($databaseManager);
         $buildStore    = $storeRegistry->get('Build');
@@ -42,10 +36,7 @@ class StoreRegistryTest extends TestCase
     public function testGetSuccessFromCache(): void
     {
         /** @var DatabaseManager $databaseManager */
-        $databaseManager = $this
-            ->getMockBuilder(DatabaseManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $databaseManager = $this->createStub(DatabaseManager::class);
 
         $storeRegistry = new StoreRegistry($databaseManager);
         $buildStore    = $storeRegistry->get('Build');
@@ -60,10 +51,7 @@ class StoreRegistryTest extends TestCase
         self::expectException(RuntimeException::class);
 
         /** @var DatabaseManager $databaseManager */
-        $databaseManager = $this
-            ->getMockBuilder(DatabaseManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $databaseManager = $this->createStub(DatabaseManager::class);
 
         $storeRegistry = new StoreRegistry($databaseManager);
         $buildStore    = $storeRegistry->get('NotExists');

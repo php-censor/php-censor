@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace Tests\PHPCensor\Logging;
 
+use DateTimeImmutable;
+use Monolog\Level;
+use Monolog\LogRecord;
 use PHPCensor\Logging\OutputLogHandler;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Output\NullOutput;
 
 class TestingOutputLogHandler extends OutputLogHandler
 {
-    public function publicWrite(array $record): void
+    public function publicWrite(LogRecord $record): void
     {
         $this->write($record);
     }
@@ -28,8 +31,12 @@ class OutputLogHandlerTest extends TestCase
 
         $handler = new TestingOutputLogHandler($output);
 
-        $handler->publicWrite([
-            'formatted' => 'Formatted message',
-        ]);
+        $handler->publicWrite(new LogRecord(
+            datetime: new DateTimeImmutable(),
+            channel: 'log',
+            level: Level::Info,
+            message: 'Message',
+            formatted: 'Formatted message',
+        ));
     }
 }

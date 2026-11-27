@@ -129,7 +129,7 @@ class UserController extends WebController
         $language->setRequired(true);
         $language->setOptions(
             \array_merge(
-                [null => Lang::get('default') . ' (' . $this->configuration->get('php-censor.language') .  ')'],
+                ['' => Lang::get('default') . ' (' . $this->configuration->get('php-censor.language') .  ')'],
                 Lang::getLanguageOptions()
             )
         );
@@ -142,7 +142,7 @@ class UserController extends WebController
         $perPage->setLabel(Lang::get('per_page'));
         $perPage->setRequired(true);
         $perPage->setOptions([
-            null => Lang::get('default') . ' (' . $this->configuration->get('php-censor.per_page') .  ')',
+            ''    => Lang::get('default') . ' (' . $this->configuration->get('php-censor.per_page') .  ')',
             10    => 10,
             25    => 25,
             50    => 50,

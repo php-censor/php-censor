@@ -246,7 +246,7 @@ class Build extends Model
     /**
      * @return mixed
      */
-    public function getExtra(string $key = null)
+    public function getExtra(?string $key = null)
     {
         $data = $this->getDataItem('extra');
         if ($key === null) {

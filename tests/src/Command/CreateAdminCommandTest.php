@@ -20,7 +20,10 @@ class CreateAdminCommandTest extends TestCase
     private CreateAdminCommand $command;
     private Application $application;
     private QuestionHelper $helper;
-    private ConfigurationInterface $configuration;
+    /**
+     * @var ConfigurationInterface&\PHPUnit\Framework\MockObject\Stub
+     */
+    private \PHPUnit\Framework\MockObject\Stub $configuration;
     private DatabaseManager $databaseManager;
     private Logger $logger;
 
@@ -28,7 +31,7 @@ class CreateAdminCommandTest extends TestCase
     {
         parent::setUp();
 
-        $this->configuration   = $this->getMockBuilder(ConfigurationInterface::class)->getMock();
+        $this->configuration   = $this->createStub(ConfigurationInterface::class);
         $this->databaseManager = $this
             ->getMockBuilder(DatabaseManager::class)
             ->setConstructorArgs([$this->configuration])
@@ -58,16 +61,16 @@ class CreateAdminCommandTest extends TestCase
     protected function getCommandTester(): CommandTester
     {
         $this->application->getHelperSet()->set($this->helper, 'question');
-        $this->application->add($this->command);
+        $this->application->addCommand($this->command);
 
         return new CommandTester($this->command);
     }
 
     public function testExecute(): void
     {
-        $this->helper->method('ask')->will($this->returnValue('test@example.com'));
-        $this->helper->method('ask')->will($this->returnValue('A name'));
-        $this->helper->method('ask')->will($this->returnValue('foobar123'));
+        $this->helper->method('ask')->willReturn('test@example.com');
+        $this->helper->method('ask')->willReturn('A name');
+        $this->helper->method('ask')->willReturn('foobar123');
 
         $commandTester = $this->getCommandTester();
         $commandTester->execute([]);

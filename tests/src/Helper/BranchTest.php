@@ -10,9 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 class BranchTest extends TestCase
 {
-    /**
-     * @dataProvider providerGetDefaultBranchName
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerGetDefaultBranchName')]
     public function testGetDefaultBranchName(string $projectType, string $expectedBranch): void
     {
         $branch = Branch::getDefaultBranchName($projectType);
@@ -20,7 +18,7 @@ class BranchTest extends TestCase
         self::assertEquals($expectedBranch, $branch);
     }
 
-    public function providerGetDefaultBranchName(): array
+    public static function providerGetDefaultBranchName(): array
     {
         return [
             'local'            => [Project::TYPE_LOCAL, 'master'],

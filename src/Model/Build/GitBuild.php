@@ -173,7 +173,7 @@ class GitBuild extends TypedBuild
      *
      * @return bool
      */
-    protected function postCloneSetup(Builder $builder, $cloneTo, array $extra = null)
+    protected function postCloneSetup(Builder $builder, $cloneTo, ?array $extra = null)
     {
         $success  = true;
         $commitId = $this->getCommitId();

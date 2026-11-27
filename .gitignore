@@ -4,6 +4,7 @@
 
 /.php-cs-fixer.cache
 /.phpunit.result.cache
+/.phpunit.cache
 
 /app/config.yml
 /app/periodical.yml
