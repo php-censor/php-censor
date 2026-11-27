@@ -107,11 +107,11 @@ class BuildController extends WebController
         $this->view->data        = $data;
         $this->view->environment = $this->storeRegistry->get('Environment')->getById((int)$build->getEnvironmentId());
 
-        $this->view->plugin     = \urldecode($plugin);
+        $this->view->plugin     = \urldecode((string) $plugin);
         $this->view->plugins    = $errorStore->getKnownPlugins($buildId, $severity, $isNew);
         $this->view->severity   = \urldecode(null !== $severity ? (string)$severity : '');
         $this->view->severities = $errorStore->getKnownSeverities($buildId, $plugin, $isNew);
-        $this->view->isNew      = \urldecode($isNew);
+        $this->view->isNew      = \urldecode((string) $isNew);
         $this->view->isNews     = ['only_new', 'only_old'];
 
         $this->view->page      = $page;
@@ -186,7 +186,7 @@ class BuildController extends WebController
         $dir  = \opendir($path);
 
         while ($item = \readdir($dir)) {
-            if (\substr($item, 0, 1) === '.' || \substr($item, -3) !== '.js') {
+            if (\str_starts_with($item, '.') || !\str_ends_with($item, '.js')) {
                 continue;
             }
 
@@ -274,9 +274,7 @@ class BuildController extends WebController
             '(:num)',
             \http_build_query(\array_merge($params, ['page' => '(:num)']))
         ) . '#errors';
-        $paginator = new Paginator($total, $perPage, $page, $urlPattern);
-
-        $view->paginator = $paginator;
+        $view->paginator = new Paginator($total, $perPage, $page, $urlPattern);
 
         return $view->render();
     }

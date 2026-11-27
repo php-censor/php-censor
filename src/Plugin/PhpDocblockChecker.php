@@ -110,7 +110,7 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
         }
 
         // Build command string:
-        $cmd = $checkerCmd . ' --json --directory="%s"%s%s';
+        $cmd = Builder::PHP_CLI_TAG . ' ' . $checkerCmd . ' --json --directory="%s"%s%s';
 
         if (!$this->build->isDebug()) {
             $this->builder->logExecOutput(false);

@@ -160,7 +160,7 @@ class GithubBuild extends GitBuild
             ]
         ]);
 
-        $status = (int)$response->getStatusCode();
+        $status = $response->getStatusCode();
 
         return ($status >= 200 && $status < 300);
     }
@@ -200,12 +200,14 @@ class GithubBuild extends GitBuild
         if (!\is_null($project)) {
             $reference  = $project->getReference();
             $commitLink = '<a href="//' . $this->getDomain() . '/' . $reference . '/issues/$1">#$1</a>';
-            $message    = \preg_replace('/\#([0-9]+)/', $commitLink, $message);
-            $message    = \preg_replace(
-                '/\@([a-zA-Z0-9_]+)/',
-                '<a href="//' . $this->getDomain() . '/$1">@$1</a>',
-                $message
-            );
+            if ($message) {
+                $message    = \preg_replace('/\#([0-9]+)/', $commitLink, $message);
+                $message    = \preg_replace(
+                    '/\@([a-zA-Z0-9_]+)/',
+                    '<a href="//' . $this->getDomain() . '/$1">@$1</a>',
+                    $message
+                );
+            }
         }
 
         return $message;
@@ -226,9 +228,8 @@ class GithubBuild extends GitBuild
         $link = '//' . $this->getDomain() . '/' . $reference . '/';
         $link .= 'blob/' . $this->getCommitId() . '/';
         $link .= '{FILE}';
-        $link .= '#L{LINE}-L{LINE_END}';
 
-        return $link;
+        return $link . '#L{LINE}-L{LINE_END}';
     }
 
     /**
@@ -257,7 +258,7 @@ class GithubBuild extends GitBuild
                     \escapeshellarg('pull/' . $pullRequestId . '/head')
                 );
             }
-        } catch (\Throwable $ex) {
+        } catch (\Throwable) {
             $success = false;
         }
 

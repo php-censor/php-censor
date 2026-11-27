@@ -29,7 +29,7 @@ class LocalBuild extends TypedBuild
     public function createWorkingCopy(Builder $builder, $buildPath)
     {
         $reference  = $this->getProject()->getReference();
-        $reference  = \substr($reference, -1) === '/' ? \substr($reference, 0, -1) : $reference;
+        $reference  = \str_ends_with($reference, '/') ? \substr($reference, 0, -1) : $reference;
         $buildPath  = \substr($buildPath, 0, -1);
 
         // If there's a /config file in the reference directory, it is probably a bare repository

@@ -100,7 +100,7 @@ class SensiolabsInsight extends Plugin
      */
     protected function processReport($xmlString)
     {
-        $xml = \simplexml_load_string($xmlString);
+        $xml = \simplexml_load_string((string) $xmlString);
 
         if ($xml === false) {
             $this->builder->log($xmlString);
@@ -137,7 +137,7 @@ class SensiolabsInsight extends Plugin
      */
     protected function executeSensiolabsInsight($binaryPath)
     {
-        $cmd = $binaryPath . ' -n analyze --reference %s %s --api-token %s --user-uuid %s';
+        $cmd = Builder::PHP_CLI_TAG . ' ' . $binaryPath . ' -n analyze --reference %s %s --api-token %s --user-uuid %s';
 
         // Run Sensiolabs Insight:
         $this->builder->executeCommand(
@@ -148,7 +148,7 @@ class SensiolabsInsight extends Plugin
             $this->userUuid
         );
 
-        $cmd = $binaryPath . ' -n analysis --format pmd %s --api-token %s --user-uuid %s';
+        $cmd = Builder::PHP_CLI_TAG . ' ' . $binaryPath . ' -n analysis --format pmd %s --api-token %s --user-uuid %s';
 
         // Run Sensiolabs Insight:
         $this->builder->executeCommand(

@@ -17,7 +17,7 @@ use PHPCensor\Plugin;
  */
 class Gulp extends Plugin
 {
-    protected $task = null;
+    protected $task;
     protected $gulpfile = 'gulpfile.js';
 
     /**

@@ -31,10 +31,7 @@ class Checkbox extends Input
         return $this->checkedValue;
     }
 
-    /**
-     * @param mixed $value
-     */
-    public function setCheckedValue($value): self
+    public function setCheckedValue(mixed $value): self
     {
         $this->checkedValue = $value;
 

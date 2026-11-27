@@ -31,6 +31,10 @@ use PHPCensor\Common\Application\ConfigurationInterface;
  */
 class Builder
 {
+    final public const PHP_CLI_TAG = '%PHP%';
+
+    protected string $phpExecutable = 'php';
+
     public string $buildPath = '';
 
     /**
@@ -48,8 +52,6 @@ class Builder
 
     protected bool $verbose = true;
 
-    protected Build $build;
-
     protected LoggerInterface $logger;
 
     protected array $config = [];
@@ -62,30 +64,15 @@ class Builder
 
     protected CommandExecutorInterface $commandExecutor;
 
-    protected BuildLogger $buildLogger;
-
     protected BuildErrorWriter $buildErrorWriter;
 
-    protected ConfigurationInterface $configuration;
-
-    protected DatabaseManager $databaseManager;
-
-    protected StoreRegistry $storeRegistry;
-
     public function __construct(
-        ConfigurationInterface $configuration,
-        DatabaseManager $databaseManager,
-        StoreRegistry $storeRegistry,
-        Build $build,
-        BuildLogger $buildLogger
+        protected ConfigurationInterface $configuration,
+        protected DatabaseManager $databaseManager,
+        protected StoreRegistry $storeRegistry,
+        protected Build $build,
+        protected BuildLogger $buildLogger
     ) {
-        $this->configuration   = $configuration;
-        $this->databaseManager = $databaseManager;
-        $this->storeRegistry   = $storeRegistry;
-        $this->buildLogger     = $buildLogger;
-
-        $this->build = $build;
-
         /** @var BuildStore $buildStore */
         $buildStore = $this->storeRegistry->get('Build');
         /** @var SecretStore $secretStore */
@@ -142,6 +129,11 @@ class Builder
     public function setConfig(array $config): void
     {
         $this->config = $config;
+    }
+
+    public function setPhpExecutable(string $phpExecutable): void
+    {
+        $this->phpExecutable = $phpExecutable;
     }
 
     /**
@@ -289,7 +281,7 @@ class Builder
         );
 
         if (!empty($trend[0]) && !empty($trend[0]['coverage'])) {
-            $coverage = \json_decode($trend[0]['coverage'], true);
+            $coverage = \json_decode((string) $trend[0]['coverage'], true);
             if (isset($coverage['lines'])) {
                 $this->build->setTestCoveragePrevious($coverage['lines']);
             }
@@ -303,6 +295,10 @@ class Builder
      */
     public function executeCommand(...$params): bool
     {
+        if (!empty($params[0])) {
+            $params[0] = \str_replace(self::PHP_CLI_TAG, $this->phpExecutable, (string) $params[0]);
+        }
+
         return $this->commandExecutor->executeCommand($params);
     }
 
@@ -325,12 +321,11 @@ class Builder
     /**
      * Find a binary required by a plugin.
      *
-     * @param array|string $binary
      *
      * @throws Exception when no binary has been found.
      */
     public function findBinary(
-        $binary,
+        array|string $binary,
         string $priorityPath = 'local',
         string $binaryPath = '',
         array $binaryName = []
@@ -368,7 +363,7 @@ class Builder
 
         \chdir($this->buildPath);
 
-        $version = (string)\trim(\file_get_contents(ROOT_DIR . 'VERSION.md'));
+        $version = \trim(\file_get_contents(ROOT_DIR . 'VERSION.md'));
         $version = !empty($version) ? $version : '0.0.0 (UNKNOWN)';
 
         $this->interpolator->setupInterpolationVars(

@@ -1,4 +1,4 @@
-[![Minimum PHP version: 7.4.0](https://img.shields.io/badge/php-7.4.0%2B-blue.svg?label=PHP)](https://packagist.org/packages/php-censor/php-censor)
+[![Minimum PHP version: 8.1.0](https://img.shields.io/badge/php-8.1.0%2B-blue.svg?label=PHP)](https://packagist.org/packages/php-censor/php-censor)
 [![Actions](https://github.com/php-censor/php-censor/actions/workflows/ci.yaml/badge.svg)](https://github.com/php-censor/php-censor/actions)
 [![PHP Censor](http://ci.php-censor.info/build-status/image/2?branch=master&label=PHP%20Censor)](http://ci.php-censor.info/build-status/view/2?branch=master)
 [![Codecov](https://codecov.io/gh/php-censor/php-censor/branch/master/graph/badge.svg)](https://codecov.io/gh/php-censor/php-censor)
@@ -11,19 +11,14 @@
 </p>
 
 **PHP Censor** is an open source, self-hosted, continuous integration server for PHP projects 
-([PHPCI](https://github.com/dancryer/PHPCI) fork). [Official twitter @php_censor](https://twitter.com/php_censor).
+([PHPCI](https://github.com/dancryer/PHPCI) fork).
 
-PHP Censor versions:
+PHP Censor has two stable release versions:
 
-|        Version        |  Latest  |    Branch     |                               Status                               | Minimal PHP Version |
-|:---------------------:|:--------:|:-------------:|:------------------------------------------------------------------:| :-----------------: |
-|  `1.0` (Morty Smith)  | `1.0.16` | `release-1.0` |                   Old version (**UNSUPPORTED**)                    | `>=5.6, <8.0`       |
-|  `1.1` (Birdperson)   | `1.1.6`  | `release-1.1` |                   Old version (**UNSUPPORTED**)                    | `>=5.6, <8.0`       |
-| `1.2` (Summer Smith)  | `1.2.4`  | `release-1.2` |                   Old version (**UNSUPPORTED**)                    | `>=5.6, <8.0`       |
-|  `1.3` (Jerry Smith)  | `1.3.7`  | `release-1.3` |                   Old version (**UNSUPPORTED**)                    | `>=5.6, <8.0`       |
-| `2.0` (Rick Sanchez)  | `2.0.15` | `release-2.0` | Last stable version ([Upgrade from v1 to v2](docs/UPGRADE_2.0.md)) | `>=7.4`             |
-| `2.1` (Mr. Meeseeks)  | `2.1.7`  | `release-2.1` |                       Current stable version                       | `>=7.4`             |
-|         `3.0`         |   WIP    |   `master`    |                    Feature minor version (WIP)                     | `>=8.1`             |
+- **Latest stable version: 3.0 (PHP >= 8.1)**
+- Previous stable version: 2.1 (PHP >= 7.4)
+
+You can learn more about PHP Censor releases at the [release page](/docs/en/releases.md).
 
 [![Dashboard](docs/screenshots/dashboard.png)](docs/screenshots/dashboard.png)
 
@@ -32,7 +27,6 @@ More [screenshots](docs/en/screenshots.md).
 * [System requirements](#system-requirements)
 * [Features](#features)
 * [Changelog](#changelog)
-* [Roadmap](#roadmap)
 * [Installing](#installing)
 * [Updating](#updating)
 * [Configuring project](#configuring-project)
@@ -46,7 +40,7 @@ More [screenshots](docs/en/screenshots.md).
 
 * Unix-like OS (**Windows isn't supported**);
 
-* PHP 7.4+ (with OpenSSL support and enabled functions: `exec()`, `shell_exec()` and `proc_open()`);
+* PHP 8.1+ (with OpenSSL support and enabled functions: `exec()`, `shell_exec()` and `proc_open()`);
 
 * Web-server (Nginx or Apache2);
 
@@ -81,10 +75,6 @@ CleanBuild, CopyBuild, Deployer, Env, Git, Grunt, Gulp, PackageBuild, Phar, Phin
 ## Changelog
 
 [Versions changelog](CHANGELOG.md).
-
-## Roadmap
-
-See [milestones](https://github.com/php-censor/php-censor/milestones).
 
 ## Installing
 

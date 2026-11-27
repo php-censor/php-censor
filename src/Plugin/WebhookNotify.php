@@ -25,7 +25,7 @@ class WebhookNotify extends Plugin
     /**
      * @var string The URL to send the webhook to.
      */
-    private string $url;
+    private readonly string $url;
 
     /**
      * @return string
@@ -51,7 +51,7 @@ class WebhookNotify extends Plugin
         if (!isset($options['url'])) {
             throw new InvalidArgumentException('Please define the url for webhook_notify plugin!');
         }
-        $this->url = \trim($options['url']);
+        $this->url = \trim((string) $options['url']);
     }
 
     /**
@@ -93,7 +93,7 @@ class WebhookNotify extends Plugin
                 $this->url,
                 ['json' => $payload]
             );
-        } catch (GuzzleException $e) {
+        } catch (GuzzleException) {
             return false;
         }
 
@@ -102,25 +102,12 @@ class WebhookNotify extends Plugin
 
     private function getReadableStatus($statusId)
     {
-        switch ($statusId) {
-            case self::STATUS_PENDING:
-                return 'Pending';
-
-                break;
-            case self::STATUS_RUNNING:
-                return 'Running';
-
-                break;
-            case self::STATUS_SUCCESS:
-                return 'Successful';
-
-                break;
-            case self::STATUS_FAILED:
-                return 'Failed';
-
-                break;
-        }
-
-        return \sprintf('Unknown (%d)', $statusId);
+        return match ($statusId) {
+            self::STATUS_PENDING => 'Pending',
+            self::STATUS_RUNNING => 'Running',
+            self::STATUS_SUCCESS => 'Successful',
+            self::STATUS_FAILED => 'Failed',
+            default => \sprintf('Unknown (%d)', $statusId),
+        };
     }
 }

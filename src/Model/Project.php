@@ -233,15 +233,13 @@ class Project extends BaseProject
             }
         }
 
-        if (!empty($environmentsNames)) {
-            // add
-            foreach ($environmentsNames as $environmentName) {
-                $environment = new Environment($this->storeRegistry);
-                $environment->setProjectId($this->getId());
-                $environment->setName($environmentName);
-                $environment->setBranches(!empty($environmentsConfig[$environment->getName()]) ? $environmentsConfig[$environment->getName()] : []);
-                $store->save($environment);
-            }
+        // add
+        foreach ($environmentsNames as $environmentName) {
+            $environment = new Environment($this->storeRegistry);
+            $environment->setProjectId($this->getId());
+            $environment->setName($environmentName);
+            $environment->setBranches(!empty($environmentsConfig[$environment->getName()]) ? $environmentsConfig[$environment->getName()] : []);
+            $store->save($environment);
         }
     }
 

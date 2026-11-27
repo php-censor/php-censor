@@ -100,14 +100,13 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
         $string     = '';
         $fileNumber = 0;
         foreach ($this->errorPerFile as $oneLine) {
-            $fileNumber += \strlen($oneLine);
-            $string     .= \str_pad($oneLine, 60, ' ', STR_PAD_RIGHT);
+            $fileNumber += \strlen((string) $oneLine);
+            $string     .= \str_pad((string) $oneLine, 60, ' ', STR_PAD_RIGHT);
             $string     .= \str_pad($fileNumber, 4, ' ', STR_PAD_LEFT);
             $string     .= "/" . $this->numberOfAnalysedFile . " (" . \floor($fileNumber * 100 / $this->numberOfAnalysedFile) . " %)\n";
         }
-        $string .= "Checked {$fileNumber} files\n";
 
-        return $string;
+        return $string . "Checked {$fileNumber} files\n";
     }
 
     /**
@@ -196,7 +195,7 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
                 $ignoreAbsolute = $this->builder->buildPath . $ignore;
 
                 if ('/' === $ignoreAbsolute[0]) {
-                    if (0 === \strpos($filePath, $ignoreAbsolute)) {
+                    if (\str_starts_with($filePath, $ignoreAbsolute)) {
                         $ignored = true;
 
                         break;
@@ -212,7 +211,7 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
                     $line = \fgets($handle);
 
                     foreach ($this->searches as $search) {
-                        if ($technicalDebtLine = \trim(\strstr($line, $search))) {
+                        if ($technicalDebtLine = \trim(\strstr($line, (string) $search))) {
                             $fileName = \str_replace($this->directory, '', $filePath);
 
                             $this->build->reportError(

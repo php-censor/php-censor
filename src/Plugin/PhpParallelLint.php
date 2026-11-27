@@ -57,8 +57,8 @@ class PhpParallelLint extends Plugin implements ZeroConfigPluginInterface
             // Only use if this is a comma delimited list
             $pattern = '/^([a-z]+)(,\ *[a-z]*)*$/';
 
-            if (\preg_match($pattern, $options['extensions'])) {
-                $this->extensions = \str_replace(' ', '', $options['extensions']);
+            if (\preg_match($pattern, (string) $options['extensions'])) {
+                $this->extensions = \str_replace(' ', '', (string) $options['extensions']);
             }
         }
     }
@@ -84,7 +84,7 @@ class PhpParallelLint extends Plugin implements ZeroConfigPluginInterface
 
         $phplint = $this->executable;
 
-        $cmd     = $phplint . ' -e %s' . '%s %s "%s"';
+        $cmd     = Builder::PHP_CLI_TAG . ' ' . $phplint . ' -e %s' . '%s %s "%s"';
         $success = $this->builder->executeCommand(
             $cmd,
             $this->extensions,

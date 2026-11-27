@@ -59,7 +59,7 @@ class Atoum extends Plugin
      */
     public function execute()
     {
-        $cmd = $this->executable;
+        $cmd = Builder::PHP_CLI_TAG . ' ' . $this->executable;
 
         if (null !== $this->args) {
             $cmd .= " {$this->args}";
@@ -77,7 +77,7 @@ class Atoum extends Plugin
 
         $output = $this->builder->getLastOutput();
 
-        if (false === \strpos($output, "Success (")) {
+        if (!\str_contains($output, "Success (")) {
             $status = false;
             $this->builder->log($output);
         }

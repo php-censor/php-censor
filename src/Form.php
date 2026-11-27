@@ -13,7 +13,7 @@ use PHPCensor\Form\FieldSet;
  * @author Dan Cryer <dan@block8.co.uk>
  * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
-class Form extends FieldSet
+class Form extends FieldSet implements \Stringable
 {
     protected string $action = '';
 

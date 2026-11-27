@@ -25,19 +25,15 @@ use PHPCensor\Common\Exception\InvalidArgumentException;
  */
 class CreateAdminCommand extends Command
 {
-    protected UserStore $userStore;
-
     public function __construct(
         ConfigurationInterface $configuration,
         DatabaseManager $databaseManager,
         StoreRegistry $storeRegistry,
         LoggerInterface $logger,
-        UserStore $userStore,
+        protected UserStore $userStore,
         ?string $name = null
     ) {
         parent::__construct($configuration, $databaseManager, $storeRegistry, $logger, $name);
-
-        $this->userStore = $userStore;
     }
 
     protected function configure(): void

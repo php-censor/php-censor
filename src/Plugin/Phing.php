@@ -68,7 +68,7 @@ class Phing extends Plugin
     {
         $phingExecutable = $this->executable;
 
-        $cmd[] = $phingExecutable . ' -f ' . $this->getBuildFilePath();
+        $cmd[] = Builder::PHP_CLI_TAG . ' ' . $phingExecutable . ' -f ' . $this->getBuildFilePath();
 
         if ($this->getPropertyFile()) {
             $cmd[] = '-propertyfile ' . $this->getPropertyFile();
@@ -101,11 +101,9 @@ class Phing extends Plugin
     }
 
     /**
-     * @param array|string $targets
-     *
      * @return $this
      */
-    public function setTargets($targets)
+    public function setTargets(array|string $targets)
     {
         if (\is_string($targets)) {
             $targets = [$targets];
@@ -123,12 +121,11 @@ class Phing extends Plugin
     }
 
     /**
-     * @param mixed $buildFile
      *
      * @return $this
      * @throws Exception
      */
-    public function setBuildFile($buildFile)
+    public function setBuildFile(mixed $buildFile)
     {
         if (!\file_exists($this->directory . $buildFile)) {
             throw new RuntimeException('Specified build file does not exist.');
@@ -177,11 +174,9 @@ class Phing extends Plugin
     }
 
     /**
-     * @param array|string $properties
-     *
      * @return $this
      */
-    public function setProperties($properties)
+    public function setProperties(array|string $properties)
     {
         if (\is_string($properties)) {
             $properties = [$properties];

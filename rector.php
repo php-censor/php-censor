@@ -15,9 +15,9 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->rule(InlineConstructorDefaultToPropertyRector::class);
 
     $rectorConfig->sets([
-        SetList::PHP_74,
+        SetList::PHP_81,
+        SetList::DEAD_CODE,
         //SetList::CODE_QUALITY,
         //SetList::TYPE_DECLARATION_STRICT,
-        //SetList::DEAD_CODE,
     ]);
 };

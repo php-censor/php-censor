@@ -15,19 +15,13 @@ use PHPCensor\Common\Application\ConfigurationInterface;
  */
 class PhpUnitOptions
 {
-    protected array $options;
-
-    protected string $location;
-
     protected array $arguments = [];
 
-    protected ConfigurationInterface $configuration;
-
-    public function __construct(ConfigurationInterface $configuration, array $options, string $location)
-    {
-        $this->configuration = $configuration;
-        $this->options       = $options;
-        $this->location      = $location;
+    public function __construct(
+        protected ConfigurationInterface $configuration,
+        protected array $options,
+        protected string $location
+    ) {
     }
 
     /**
@@ -54,9 +48,7 @@ class PhpUnitOptions
         foreach ($this->getCommandArguments() as $argumentName => $argumentValues) {
             $prefix = $argumentName[0] === '-' ? '' : '--';
 
-            if (!\is_array($argumentValues)) {
-                $argumentValues = [$argumentValues];
-            }
+            $argumentValues = [$argumentValues];
 
             foreach ($argumentValues as $argValue) {
                 $postfix = ' ';

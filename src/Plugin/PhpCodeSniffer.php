@@ -55,17 +55,17 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
     /**
      * @var int
      */
-    protected $severity = null;
+    protected $severity;
 
     /**
      * @var int|null
      */
-    protected $errorSeverity = null;
+    protected $errorSeverity;
 
     /**
      * @var int|null
      */
-    protected $warningSeverity = null;
+    protected $warningSeverity;
 
     /**
      * @return string
@@ -151,7 +151,7 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
             $this->builder->logExecOutput(false);
         }
 
-        $cmd = 'cd "%s" && ' . $phpcs . ' --report=json %s %s %s %s %s "%s" %s %s %s';
+        $cmd = 'cd "%s" && ' . Builder::PHP_CLI_TAG . ' ' . $phpcs . ' --report=json %s %s %s %s %s "%s" %s %s %s';
         $this->builder->executeCommand(
             $cmd,
             $this->builder->buildPath,
@@ -234,7 +234,7 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
      */
     protected function processReport($output)
     {
-        $data = \json_decode(\trim($output), true);
+        $data = \json_decode(\trim((string) $output), true);
 
         if (!\is_array($data)) {
             $this->builder->log($output);
@@ -246,7 +246,7 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
         $warnings = $data['totals']['warnings'];
 
         foreach ($data['files'] as $fileName => $file) {
-            $fileName = \str_replace($this->builder->buildPath, '', $fileName);
+            $fileName = \str_replace($this->builder->buildPath, '', (string) $fileName);
 
             foreach ($file['messages'] as $message) {
                 $this->build->reportError(

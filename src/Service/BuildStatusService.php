@@ -20,12 +20,6 @@ class BuildStatusService
 {
     private ?BuildStatusService $prevService = null;
 
-    private Project $project;
-
-    private string $branch;
-
-    private ?Build $build;
-
     private string $url;
 
     private array $finishedStatusIds = [
@@ -34,14 +28,11 @@ class BuildStatusService
     ];
 
     public function __construct(
-        string $branch,
-        Project $project,
-        ?Build $build = null,
+        private readonly string $branch,
+        private readonly Project $project,
+        private readonly ?Build $build = null,
         bool $isParent = false
     ) {
-        $this->project = $project;
-        $this->branch  = $branch;
-        $this->build   = $build;
         if ($this->build) {
             $this->loadParentBuild($isParent);
         }

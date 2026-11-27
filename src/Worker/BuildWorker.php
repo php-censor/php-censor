@@ -31,63 +31,37 @@ use Psr\Log\LoggerInterface;
  */
 class BuildWorker
 {
-    public const JOB_TYPE_BUILD     = 'php-censor.build';
-    public const JOB_TYPE_STOP_FLAG = 'php-censor.stop-flag';
+    final public const JOB_TYPE_BUILD     = 'php-censor.build';
+    final public const JOB_TYPE_STOP_FLAG = 'php-censor.stop-flag';
 
     /**
      * If this variable changes to false, the worker will stop after the current build.
      */
     private bool $canRun = true;
 
-    private bool $canPeriodicalWork;
-
-    /**
-     * The logger for builds to use.
-     */
-    private LoggerInterface $logger;
-
-    private BuildService $buildService;
-
-    private ConfigurationInterface $configuration;
-
-    private DatabaseManager $databaseManager;
-
-    private StoreRegistry $storeRegistry;
-
-    private BuildFactory $buildFactory;
-
-    /**
-     * beanstalkd queue to watch
-     */
-    private string $queueTube;
-
-    private Pheanstalk $pheanstalk;
+    private readonly Pheanstalk $pheanstalk;
 
     private int $lastPeriodical = 0;
 
     public function __construct(
-        ConfigurationInterface $configuration,
-        DatabaseManager $databaseManager,
-        StoreRegistry $storeRegistry,
-        LoggerInterface $logger,
-        BuildService $buildService,
-        BuildFactory $buildFactory,
+        private readonly ConfigurationInterface $configuration,
+        private readonly DatabaseManager $databaseManager,
+        private readonly StoreRegistry $storeRegistry,
+        /**
+         * The logger for builds to use.
+         */
+        private readonly LoggerInterface $logger,
+        private readonly BuildService $buildService,
+        private readonly BuildFactory $buildFactory,
         string $queueHost,
         int $queuePort,
-        string $queueTube,
-        bool $canPeriodicalWork
+        /**
+         * beanstalkd queue to watch
+         */
+        private readonly string $queueTube,
+        private readonly bool $canPeriodicalWork
     ) {
-        $this->logger          = $logger;
-        $this->buildService    = $buildService;
-        $this->configuration   = $configuration;
-        $this->databaseManager = $databaseManager;
-        $this->storeRegistry   = $storeRegistry;
-        $this->buildFactory    = $buildFactory;
-
-        $this->queueTube  = $queueTube;
         $this->pheanstalk = Pheanstalk::create($queueHost, $queuePort);
-
-        $this->canPeriodicalWork = $canPeriodicalWork;
     }
 
     public function stopWorker(): void
@@ -229,7 +203,7 @@ class BuildWorker
     {
         try {
             $this->pheanstalk->peekReady();
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             return true;
         }
 

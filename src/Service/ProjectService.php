@@ -22,16 +22,10 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 class ProjectService
 {
-    private ProjectStore $projectStore;
-
-    private StoreRegistry $storeRegistry;
-
     public function __construct(
-        StoreRegistry $storeRegistry,
-        ProjectStore $projectStore
+        private readonly StoreRegistry $storeRegistry,
+        private readonly ProjectStore $projectStore
     ) {
-        $this->storeRegistry = $storeRegistry;
-        $this->projectStore  = $projectStore;
     }
 
     /**
@@ -42,7 +36,7 @@ class ProjectService
         // Create base project and use updateProject() to set its properties:
         $project = new Project($this->storeRegistry);
         $project->setCreateDate(new DateTime());
-        $project->setUserId((int)$userId);
+        $project->setUserId($userId);
 
         return $this->updateProject($project, $title, $type, $reference, $options);
     }

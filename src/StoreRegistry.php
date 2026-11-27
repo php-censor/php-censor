@@ -14,8 +14,6 @@ use PHPCensor\Common\Exception\RuntimeException;
  */
 class StoreRegistry
 {
-    private DatabaseManager $databaseManager;
-
     /**
      * A collection of the stores currently loaded by the factory.
      *
@@ -23,9 +21,8 @@ class StoreRegistry
      */
     private array $loadedStores = [];
 
-    public function __construct(DatabaseManager $databaseManager)
+    public function __construct(private readonly DatabaseManager $databaseManager)
     {
-        $this->databaseManager = $databaseManager;
     }
 
     /**

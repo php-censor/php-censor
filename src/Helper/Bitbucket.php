@@ -16,11 +16,8 @@ use PHPCensor\Model\Build;
  */
 class Bitbucket
 {
-    private ConfigurationInterface $configuration;
-
-    public function __construct(ConfigurationInterface $configuration)
+    public function __construct(private readonly ConfigurationInterface $configuration)
     {
-        $this->configuration = $configuration;
     }
 
     /**
@@ -137,8 +134,7 @@ class Bitbucket
 
         $link .= 'src/' . $build->getCommitId() . '/';
         $link .= '{FILE}';
-        $link .= '#{BASEFILE}-{LINE}';
 
-        return $link;
+        return $link . '#{BASEFILE}-{LINE}';
     }
 }

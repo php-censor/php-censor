@@ -21,10 +21,6 @@ use PHPCensor\Store\SecretStore;
  */
 class BuildDBLogHandler extends AbstractProcessingHandler
 {
-    protected Build $build;
-    protected BuildStore $buildStore;
-    private SecretStore $secretStore;
-
     protected string $logValue;
 
     /**
@@ -38,17 +34,13 @@ class BuildDBLogHandler extends AbstractProcessingHandler
     protected int $flushDelay = 1;
 
     public function __construct(
-        SecretStore $secretStore,
-        BuildStore $buildStore,
-        Build $build,
+        private readonly SecretStore $secretStore,
+        protected BuildStore $buildStore,
+        protected Build $build,
         int $level = Logger::INFO,
         bool $bubble = true
     ) {
         parent::__construct($level, $bubble);
-
-        $this->secretStore = $secretStore;
-        $this->build       = $build;
-        $this->buildStore  = $buildStore;
 
         // We want to add to any existing saved log information.
         $this->logValue = (string)$build->getLog();
@@ -89,14 +81,12 @@ class BuildDBLogHandler extends AbstractProcessingHandler
     {
         $replace = [];
         $secrets = $this->secretStore->getAll();
-        if (\count($secrets['items']) > 0) {
-            /** @var Secret $secret */
-            foreach ($secrets['items'] as $secret) {
-                $value = $secret->getValue();
-                $name  = '%' . \sprintf('SECRET:%s', $secret->getName()) . '%';
-                if (\trim($value)) {
-                    $replace[$name] = $secret->getValue();
-                }
+        /** @var Secret $secret */
+        foreach ($secrets['items'] as $secret) {
+            $value = $secret->getValue();
+            $name  = '%' . \sprintf('SECRET:%s', $secret->getName()) . '%';
+            if (\trim($value)) {
+                $replace[$name] = $secret->getValue();
             }
         }
 
@@ -110,7 +100,7 @@ class BuildDBLogHandler extends AbstractProcessingHandler
     {
         $this->logValue .= $this->sanitize(
             $this->sanitizeSecrets(
-                (string)$record['message']
+                $record['message']
             )
         ) . PHP_EOL;
 

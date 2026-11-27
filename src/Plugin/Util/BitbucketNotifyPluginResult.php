@@ -8,27 +8,23 @@ namespace PHPCensor\Plugin\Util;
  *
  * @author Dmitry Khomutov <poisoncorpsee@gmail.com>
  */
-class BitbucketNotifyPluginResult
+class BitbucketNotifyPluginResult implements \Stringable
 {
     public const DEFAULT_PLUGIN_OUTPUT_FORMAT = "%s | %d\t=> %d\t%s";
-
-    /** @var string $plugin */
-    protected $plugin;
-
-    /** @var int $left */
-    protected $left;
-
-    /** @var int $right */
-    protected $right;
 
     /** @var string $outputFormat */
     protected $outputFormat = self::DEFAULT_PLUGIN_OUTPUT_FORMAT;
 
-    public function __construct($plugin, $left, $right)
-    {
-        $this->plugin = $plugin;
-        $this->left = $left;
-        $this->right = $right;
+    /**
+     * @param string $plugin
+     * @param int $left
+     * @param int $right
+     */
+    public function __construct(
+        protected $plugin,
+        protected $left,
+        protected $right
+    ) {
     }
 
     public function getPlugin()
@@ -112,7 +108,7 @@ class BitbucketNotifyPluginResult
         return 'pls fix %s because it has increased from %d to %d errors';
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->plugin;
     }

@@ -88,10 +88,10 @@ class PhpUnitResultJunit extends PhpUnitResult
         $msg = $this->getMessageTrace($testCase);
         if ('' !== $msg) {
             //strip trace
-            $trPos = \strrpos($msg, "\n\n");
+            $trPos = \strrpos((string) $msg, "\n\n");
             if (false !== $trPos) {
                 $tracePos = $trPos;
-                $msg = \substr($msg, 0, $trPos);
+                $msg = \substr((string) $msg, 0, $trPos);
             }
         }
         if ('' === $msg) {
@@ -114,7 +114,7 @@ class PhpUnitResultJunit extends PhpUnitResult
         }
 
         if ($testCase['_tracePos'] >= 0) {
-            $stackStr = \substr($this->getMessageTrace($testCase), (int)$testCase['_tracePos'] + 2, -1);
+            $stackStr = \substr((string) $this->getMessageTrace($testCase), (int)$testCase['_tracePos'] + 2, -1);
             $trace = \explode("\n", \str_replace($this->buildPath, '.', $stackStr));
         } else {
             $trace = [];
@@ -162,7 +162,7 @@ class PhpUnitResultJunit extends PhpUnitResult
     /**
      * @param string $description
      */
-    private function internalProblem($description)
+    private function internalProblem($description): never
     {
         throw new RuntimeException($description);
     }
@@ -172,7 +172,7 @@ class PhpUnitResultJunit extends PhpUnitResult
         $attributes = $testCase->attributes();
 
         return [
-            'file' => \str_replace($this->buildPath, '', $attributes['file']),
+            'file' => \str_replace($this->buildPath, '', (string) $attributes['file']),
             'line' => (int) $attributes['line']
         ];
     }

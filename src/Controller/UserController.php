@@ -164,11 +164,10 @@ class UserController extends WebController
     /**
      * Add a user - handles both form and processing.
      *
-     * @return Response|string
      *
      * @throws \PHPCensor\Exception\HttpException
      */
-    public function add()
+    public function add(): Response|string
     {
         $this->requireAdmin();
 
@@ -214,14 +213,13 @@ class UserController extends WebController
     /**
      * Edit a user - handles both form and processing.
      *
-     * @return Response|string
      *
      * @throws ForbiddenException
      * @throws NotFoundException
      * @throws \PHPCensor\Common\Exception\RuntimeException
      * @throws \PHPCensor\Exception\HttpException
      */
-    public function edit(int $userId)
+    public function edit(int $userId): Response|string
     {
         $currentUser = $this->getUser();
 

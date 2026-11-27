@@ -109,7 +109,7 @@ class PhpTalLint extends Plugin
     {
         $success = true;
 
-        if ($item->isFile() && \in_array(\strtolower($item->getExtension()), $this->suffixes, true)) {
+        if ($item->isFile() && \in_array(\strtolower((string) $item->getExtension()), $this->suffixes, true)) {
             if (!$this->lintFile($itemPath)) {
                 $success = false;
             }
@@ -160,7 +160,7 @@ class PhpTalLint extends Plugin
         $lint = __DIR__ . '/';
         $lint .= 'vendor/phptal/phptal/';
         $lint .= 'tools/phptal_lint.php';
-        $cmd  = 'php ' . $lint . ' %s "%s"';
+        $cmd  = Builder::PHP_CLI_TAG . ' ' . $lint . ' %s "%s"';
 
         $this->builder->executeCommand($cmd, $suffixes, $this->builder->buildPath . $path);
 
@@ -175,7 +175,7 @@ class PhpTalLint extends Plugin
             unset($rows[3]);
 
             foreach ($rows as $row) {
-                $name = \basename($path);
+                $name = \basename((string) $path);
 
                 $row = \str_replace('(use -i to include your custom modifier functions)', '', $row);
                 $message = \str_replace($name . ': ', '', $row);

@@ -77,7 +77,7 @@ class FormTest extends TestCase
         self::assertFalse($f->validate());
 
         $f->setRequired(false);
-        $f->setPattern('input\-value');
+        $f->setPattern('input-value');
 
         self::assertFalse($f->validate());
 

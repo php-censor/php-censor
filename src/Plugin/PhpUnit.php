@@ -3,7 +3,6 @@
 namespace PHPCensor\Plugin;
 
 use Exception;
-use PHPCensor;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
@@ -47,10 +46,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
      */
     protected $buildBranchLocation;
 
-    /**
-     * @var PhpUnitOptions
-     */
-    protected $options;
+    protected PhpUnitOptions $phpunitOptions;
 
     /**
      * @return string
@@ -83,7 +79,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
         $this->buildLocation       = PUBLIC_DIR . 'artifacts/phpunit/' . $this->buildDirectory;
         $this->buildBranchLocation = PUBLIC_DIR . 'artifacts/phpunit/' . $this->buildBranchDirectory;
 
-        $this->options = new PhpUnitOptions($this->builder->getConfiguration(), $options, $this->buildLocation);
+        $this->phpunitOptions = new PhpUnitOptions($this->builder->getConfiguration(), $options, $this->buildLocation);
 
         $this->executable = $this->findBinary(['phpunit', 'phpunit.phar']);
     }
@@ -107,17 +103,23 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
      */
     public function execute()
     {
-        $xmlConfigFiles = $this->options->getConfigFiles($this->build->getBuildPath());
-        $directories    = $this->options->getDirectories();
+        $xmlConfigFiles = $this->phpunitOptions->getConfigFiles($this->build->getBuildPath());
+        $directories    = $this->phpunitOptions->getDirectories();
         if (empty($xmlConfigFiles) && empty($directories)) {
             $this->builder->logFailure('Neither a configuration file nor a test directory found.');
 
             return false;
         }
 
-        $cmd      = $this->executable;
-        $lastLine = \exec($cmd . ' --log-json . --version');
-        if (false !== \strpos($lastLine, '--log-json')) {
+        $cmd = $this->executable;
+
+        $this->builder->executeCommand(
+            Builder::PHP_CLI_TAG . ' ' . $cmd . ' --log-json . --version',
+        );
+        $this->builder->logExecOutput(true);
+
+        $lastOutput = $this->builder->getLastOutput();
+        if (false !== \strpos($lastOutput, '--log-json')) {
             $logFormat = 'junit'; // --log-json is not supported
         } else {
             $logFormat = 'json';
@@ -131,11 +133,8 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
                 $success[] = $this->runConfig($directory, null, $logFormat);
             }
         } else {
-            // Run any config files
-            if (!empty($xmlConfigFiles)) {
-                foreach ($xmlConfigFiles as $configFile) {
-                    $success[] = $this->runConfig($this->options->getTestsPath(), $configFile, $logFormat);
-                }
+            foreach ($xmlConfigFiles as $configFile) {
+                $success[] = $this->runConfig($this->phpunitOptions->getTestsPath(), $configFile, $logFormat);
             }
         }
 
@@ -162,7 +161,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
 
         $fileSystem = new Filesystem();
 
-        $options   = clone $this->options;
+        $options   = clone $this->phpunitOptions;
         $buildPath = $this->build->getBuildPath();
 
         // Save the results into a log file
@@ -190,7 +189,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
         }
 
         $arguments = $this->builder->interpolate($options->buildArgumentString(), true);
-        $cmd       = $this->executable . ' %s %s';
+        $cmd       = Builder::PHP_CLI_TAG . ' ' . $this->executable . ' %s %s';
 
         if ($options->getOption('coverage')) {
             $cmd = 'XDEBUG_MODE=coverage ' . $cmd;
@@ -283,8 +282,8 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
     protected function checkRequiredCoverage($coverage)
     {
         foreach ($coverage as $key => $currentValue) {
-            if ($requiredValue = $this->options->getOption(\implode('_', ['required', $key, 'coverage']))) {
-                if (\bccomp($requiredValue, $currentValue) === 1) {
+            if ($requiredValue = $this->phpunitOptions->getOption(\implode('_', ['required', $key, 'coverage']))) {
+                if (\bccomp($requiredValue, (string) $currentValue) === 1) {
                     return false;
                 }
             }

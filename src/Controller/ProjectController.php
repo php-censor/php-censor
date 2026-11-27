@@ -126,9 +126,9 @@ class ProjectController extends WebController
         $this->view->builds       = $builds[0];
         $this->view->total        = $builds[1];
         $this->view->project      = $project;
-        $this->view->branch       = \urldecode($branch);
+        $this->view->branch       = \urldecode((string) $branch);
         $this->view->branches     = $this->projectStore->getKnownBranches($projectId);
-        $this->view->environment  = \urldecode($environment);
+        $this->view->environment  = \urldecode((string) $environment);
         $this->view->environments = $project->getEnvironmentsNames();
         $this->view->page         = $page;
         $this->view->perPage      = $perPage;
@@ -179,9 +179,7 @@ class ProjectController extends WebController
             '(:num)',
             \http_build_query(\array_merge($params, ['page' => '(:num)']))
         );
-        $paginator = new Paginator($total, $perPage, $page, $urlPattern);
-
-        $view->paginator = $paginator;
+        $view->paginator = new Paginator($total, $perPage, $page, $urlPattern);
 
         return $view->render();
     }
@@ -421,8 +419,8 @@ class ProjectController extends WebController
             $defaultBranch = $this->getParam('default_branch', null);
 
             $options = [
-                'ssh_private_key'        => \str_replace("\r", "", $this->getParam('ssh_private_key', null)),
-                'ssh_public_key'         => \str_replace("\r", "", $this->getParam('ssh_public_key', null)),
+                'ssh_private_key'        => \str_replace("\r", "", (string) $this->getParam('ssh_private_key', null)),
+                'ssh_public_key'         => \str_replace("\r", "", (string) $this->getParam('ssh_public_key', null)),
                 'overwrite_build_config' => (bool)$this->getParam('overwrite_build_config', true),
                 'build_config'           => $this->getParam('build_config', null),
                 'allow_public_status'    => (bool)$this->getParam('allow_public_status', false),
@@ -469,10 +467,10 @@ class ProjectController extends WebController
                 $values['reference'] = $accessInfo['origin'];
             } elseif (isset($accessInfo['domain']) && $accessInfo['domain']) {
                 $reference = $accessInfo['user'] .
-                    '@' . $accessInfo['domain'] . ':' . \ltrim($project->getReference(), '/') . '.git';
+                    '@' . $accessInfo['domain'] . ':' . \ltrim((string) $project->getReference(), '/') . '.git';
                 if (isset($accessInfo['port']) && $accessInfo['port']) {
                     $reference = $accessInfo['user'] . '@' . $accessInfo['domain'] . ':' . $accessInfo['port'] . '/' .
-                        \ltrim($project->getReference(), '/') . '.git';
+                        \ltrim((string) $project->getReference(), '/') . '.git';
                 }
 
                 $values['reference'] = $reference;
@@ -502,8 +500,8 @@ class ProjectController extends WebController
         $formValues    = $form->getValues();
 
         $options = [
-            'ssh_private_key'        => \str_replace("\r", "", $this->getParam('ssh_private_key', null)),
-            'ssh_public_key'         => \str_replace("\r", "", $this->getParam('ssh_public_key', null)),
+            'ssh_private_key'        => \str_replace("\r", "", (string) $this->getParam('ssh_private_key', null)),
+            'ssh_public_key'         => \str_replace("\r", "", (string) $this->getParam('ssh_public_key', null)),
             'overwrite_build_config' => (bool)$this->getParam('overwrite_build_config', false),
             'build_config'           => isset($formValues['build_config']) ? $formValues['build_config'] : null,
             'allow_public_status'    => (bool)$this->getParam('allow_public_status', false),

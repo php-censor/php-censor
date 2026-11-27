@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace PHPCensor\Form;
 
 use Closure;
-use Exception;
 use PHPCensor\Form\DataTransformer\DataTransformerInterface;
 use PHPCensor\View;
 
@@ -136,8 +135,7 @@ class Input extends Element
         }
 
         $validator = $this->getValidator();
-
-        if (\is_callable($validator)) {
+        if ($validator) {
             try {
                 \call_user_func_array($validator, [$this->getValue()]);
             } catch (\Throwable $ex) {

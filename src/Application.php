@@ -29,27 +29,14 @@ class Application
 
     private Controller $controller;
 
-    private Request $request;
-
-    private Session $session;
-
-    private ConfigurationInterface $configuration;
-
-    private StoreRegistry $storeRegistry;
-
-    private Router $router;
+    private readonly Router $router;
 
     public function __construct(
-        ConfigurationInterface $configuration,
-        StoreRegistry $storeRegistry,
-        Request $request,
-        Session $session
+        private readonly ConfigurationInterface $configuration,
+        private readonly StoreRegistry $storeRegistry,
+        private readonly Request $request,
+        private readonly Session $session
     ) {
-        $this->configuration = $configuration;
-        $this->storeRegistry = $storeRegistry;
-        $this->request       = $request;
-        $this->session       = $session;
-
         $this->router = new Router($this, $this->request);
 
         $this->init();
@@ -80,7 +67,7 @@ class Application
             return false;
         };
 
-        $skipAuth = [$this, 'shouldSkipAuth'];
+        $skipAuth = $this->shouldSkipAuth(...);
 
         // Handler for the route we're about to register, checks for a valid session where necessary:
         $routeHandler = function ($route, Response &$response) use (&$request, $validateSession, $skipAuth, $session) {

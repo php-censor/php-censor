@@ -17,16 +17,6 @@ use PHPCensor\Helper\Xml;
 class Codeception implements ParserInterface
 {
     /**
-     * @var Builder
-     */
-    protected $builder;
-
-    /**
-     * @var string
-     */
-    protected $xmlPath;
-
-    /**
      * @var array
      */
     protected $results;
@@ -54,10 +44,10 @@ class Codeception implements ParserInterface
     /**
      * @param string $xmlPath
      */
-    public function __construct(Builder $builder, $xmlPath)
-    {
-        $this->builder = $builder;
-        $this->xmlPath = $xmlPath;
+    public function __construct(
+        protected Builder $builder,
+        protected $xmlPath
+    ) {
     }
 
     /**

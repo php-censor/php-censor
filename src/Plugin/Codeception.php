@@ -132,7 +132,7 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
             return false;
         }
 
-        $cmd = 'cd "%s" && ' . $codeception . ' run -c "%s" ' . $this->args . ' --xml';
+        $cmd = 'cd "%s" && ' . Builder::PHP_CLI_TAG . ' ' . $codeception . ' run -c "%s" ' . $this->args . ' --xml';
 
         $success = $this->builder->executeCommand($cmd, $this->directory, $this->ymlConfigFile);
         if (!$success) {
@@ -145,12 +145,12 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
 
         $trueReportXmlPath = null;
         if ($config && isset($config['paths']['log'])) {
-            $trueReportXmlPath = \rtrim($config['paths']['log'], '/\\') . '/';
+            $trueReportXmlPath = \rtrim((string) $config['paths']['log'], '/\\') . '/';
         }
 
         if (!\file_exists($trueReportXmlPath . 'report.xml')) {
             foreach ($this->outputPath as $outputPath) {
-                $trueReportXmlPath = \rtrim($outputPath, '/\\') . '/';
+                $trueReportXmlPath = \rtrim((string) $outputPath, '/\\') . '/';
                 if (\file_exists($trueReportXmlPath . 'report.xml')) {
                     break;
                 }

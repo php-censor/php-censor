@@ -78,7 +78,7 @@ class Phan extends Plugin
         $phan = $this->findBinary(['phan', 'phan.phar']);
 
         // Launch Phan on PHP files with json output
-        $cmd = $phan.' -f %s -i -m json -o %s';
+        $cmd = Builder::PHP_CLI_TAG . ' ' . $phan . ' -f %s -i -m json -o %s';
 
         $this->builder->executeCommand($cmd, $this->location . '/phan.in', $this->location . '/phan.out');
 

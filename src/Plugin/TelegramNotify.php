@@ -51,9 +51,7 @@ class TelegramNotify extends Plugin
             throw new InvalidArgumentException("Not setting recipients");
         }
 
-        if (\array_key_exists('auth_token', $options)) {
-            $this->authToken = $this->builder->interpolate($options['auth_token'], true);
-        }
+        $this->authToken = $this->builder->interpolate($options['auth_token'], true);
 
         $this->message = '[%ICON_BUILD%] [%PROJECT_TITLE%](%PROJECT_LINK%)' .
             ' - [Build #%BUILD_ID%](%BUILD_LINK%) has finished ' .
@@ -153,16 +151,15 @@ class TelegramNotify extends Plugin
             $this->buildMsg .= $firstRow === 'composer' ? '' : ('```' . \mb_substr($bm, $pos) . '```');
         }
 
-        return $this->builder->interpolate(\str_replace(['%ICON_BUILD%'], [$buildIcon], $this->message));
+        return $this->builder->interpolate(\str_replace(['%ICON_BUILD%'], [$buildIcon], (string) $this->message));
     }
 
     /**
      * Split chat group id to chat id and topic id
      *
-     * @param int|string $chatId
      * @return array{string, string|null}
      */
-    protected function splitChatIdAndTopicId($chatId)
+    protected function splitChatIdAndTopicId(int|string $chatId)
     {
         $parts = \explode('/', \trim((string) $chatId) . '/');
         $topicId = $parts[1] !== '' ? $parts[1] : null;

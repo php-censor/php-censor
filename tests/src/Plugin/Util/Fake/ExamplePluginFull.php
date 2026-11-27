@@ -10,15 +10,18 @@ use PHPCensor\Plugin;
 
 class ExamplePluginFull extends Plugin
 {
-    public $options;
+    public array $options;
 
     public static function pluginName(): string
     {
         return 'example_plugin_full';
     }
 
-    public function __construct(Builder $builder, Build $build, array $options = [])
-    {
+    public function __construct(
+        Builder $builder,
+        Build $build,
+        array $options = []
+    ) {
         $this->options = $options;
     }
 
