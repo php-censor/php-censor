@@ -13,10 +13,7 @@
 **PHP Censor** is an open source, self-hosted, continuous integration server for PHP projects 
 ([PHPCI](https://github.com/dancryer/PHPCI) fork).
 
-PHP Censor has two stable release versions:
-
-- **Latest stable version: 3.0 (PHP >= 8.1)**
-- Previous stable version: 2.1 (PHP >= 7.4)
+PHP Censor has one actual stable release version: 2.1 (PHP >= 7.4).
 
 You can learn more about PHP Censor releases at the [release page](/docs/en/releases.md).
 
