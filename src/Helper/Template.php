@@ -24,7 +24,7 @@ class Template
             return null;
         }
 
-        if (is_bool($param) || is_int($param) || is_float($param)) {
+        if (\is_bool($param) || \is_int($param) || \is_float($param)) {
             return $param;
         }
 
