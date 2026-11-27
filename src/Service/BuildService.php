@@ -79,7 +79,7 @@ class BuildService
         $build->setStatusPending();
         $build->setEnvironmentid($environmentId);
 
-        if (is_array($extra)) {
+        if (\is_array($extra)) {
             $cleanExtra = [];
             foreach ($extra as $key => $value) {
                 $cleanExtra[$key] = Template::clean($value);
