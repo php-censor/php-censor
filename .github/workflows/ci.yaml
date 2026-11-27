@@ -4,20 +4,20 @@ on: ['push', 'pull_request']
 
 jobs:
     testsuite:
-        runs-on: ubuntu-20.04
+        runs-on: ubuntu-latest
         strategy:
             fail-fast: false
             matrix:
-                php-version: ['8.1', '8.2', '8.3', '8.4']
+                php-version: ['8.1', '8.2', '8.3', '8.4', '8.5', '8.6']
 
         steps:
             - name: Setup MySQL latest
-              run: docker run --rm --name=mysqld -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=test -p 3306:3306 -d mysql --default-authentication-plugin=mysql_native_password
+              run: docker run --rm --name=mysqld -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=test -p 3306:3306 -d mysql
 
             - name: Setup PostgreSQL latest
               run: docker run --rm --name=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=test -p 5432:5432 -d postgres
 
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v4
 
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
@@ -45,7 +45,6 @@ jobs:
 
             - name: Setup Database
               run: |
-                  sudo systemctl start mysql
                   n=0
                   until [ "$n" -ge 5 ]
                   do
@@ -71,4 +70,4 @@ jobs:
 
             - name: Submit code coverage
               if: matrix.php-version == '8.1'
-              uses: codecov/codecov-action@v1
+              uses: codecov/codecov-action@v4
