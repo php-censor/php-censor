@@ -5,6 +5,7 @@ namespace Tests\PHPCensor\Service;
 use DateTime;
 use Exception;
 use PHPCensor\Model\Build;
+use PHPCensor\Model\Project;
 use PHPCensor\Service\BuildService;
 use PHPUnit\Framework\TestCase;
 
@@ -131,7 +132,7 @@ class BuildServiceTest extends TestCase
     private function createProjectForCommitterTest(): Project
     {
         $project = $this
-            ->getMockBuilder('PHPCensor\Model\Project')
+            ->getMockBuilder(Project::class)
             ->setMethods(['getEnvironmentStore'])
             ->getMock();
 
