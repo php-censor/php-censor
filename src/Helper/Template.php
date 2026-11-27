@@ -8,10 +8,18 @@ class Template
 {
     protected static ?AntiXSS $antiXss = null;
 
-    public static function clean(?string $string): ?string
+    /**
+     * @param mixed $param
+     * @return mixed
+     */
+    public static function clean($param)
     {
-        if ($string === null) {
+        if ($param === null) {
             return null;
+        }
+
+        if (is_bool($param) || is_int($param) || is_float($param)) {
+            return $param;
         }
 
         if (self::$antiXss === null) {
@@ -20,6 +28,6 @@ class Template
 
         $antiXss = self::$antiXss;
 
-        return $antiXss->xss_clean($string);
+        return $antiXss->xss_clean((string)$param);
     }
 }
