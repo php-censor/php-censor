@@ -7,11 +7,11 @@ namespace PHPCensor\Command;
 use DateTime;
 use Exception;
 use PDO;
+use Pdo\Mysql;
 use Pheanstalk\Contract\SocketFactoryInterface;
 use PHPCensor\Command\Action\CreateAdmin;
 use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Common\Exception\RuntimeException;
-use PHPCensor\DatabaseManager;
 use PHPCensor\Model\ProjectGroup;
 use PHPCensor\Store\ProjectGroupStore;
 use PHPCensor\Store\UserStore;
@@ -482,7 +482,7 @@ class InstallCommand extends Command
             PDO::ATTR_TIMEOUT    => 2,
         ];
         if ('mysql' === $db['type']) {
-            $pdoOptions[DatabaseManager::mysqlInitCommandAttribute()] = "SET NAMES 'UTF8'";
+            $pdoOptions[Mysql::ATTR_INIT_COMMAND] = "SET NAMES 'UTF8'";
         }
 
         try {

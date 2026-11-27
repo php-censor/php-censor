@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PHPCensor;
 
+use Pdo\Mysql;
 use PHPCensor\Common\Exception\Exception;
 use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Common\Application\ConfigurationInterface;
@@ -64,7 +65,7 @@ class DatabaseManager
                 ];
 
                 if (self::MYSQL_TYPE === $driver) {
-                    $pdoOptions[self::mysqlInitCommandAttribute()] = "SET NAMES 'UTF8'";
+                    $pdoOptions[Mysql::ATTR_INIT_COMMAND] = "SET NAMES 'UTF8'";
                 }
 
                 try {
@@ -91,14 +92,5 @@ class DatabaseManager
         }
 
         return $this->connections[$type];
-    }
-
-    /**
-     * PDO attribute for the MySQL init command: Pdo\Mysql::ATTR_INIT_COMMAND on PHP 8.4+ (PDO::MYSQL_ATTR_INIT_COMMAND
-     * is deprecated since PHP 8.5), PDO::MYSQL_ATTR_INIT_COMMAND on PHP 8.3 (Pdo\Mysql does not exist yet).
-     */
-    public static function mysqlInitCommandAttribute(): int
-    {
-        return \PHP_VERSION_ID >= 80400 ? \Pdo\Mysql::ATTR_INIT_COMMAND : \PDO::MYSQL_ATTR_INIT_COMMAND;
     }
 }
