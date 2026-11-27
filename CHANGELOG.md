@@ -9,10 +9,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ### Changed
 
-- **Minimal PHP version increased to 8.4 (from 8.1)**. PHP 8.5 is supported.
+- **Minimal PHP version increased to 8.3 (from 8.1)**. PHP 8.4 and 8.5 are supported.
 - Dependencies upgraded: Symfony components `^7.4 || ^8.0` (from `^5.4`), Monolog 3, `psr/log` 3, Phinx 0.16,
-  Pheanstalk 8, Guzzle 7.9/8, `sensiolabs/ansi-to-html` 2, `sebastian/diff` 7-9. Dev tools: PHPUnit 13, Rector 2,
-  Psalm 7, Infection 0.35, PHP_CodeSniffer 4, PHPMD 3.
+  Pheanstalk 8, Guzzle 7.9/8, `sensiolabs/ansi-to-html` 2, `sebastian/diff` 7-9. Dev tools: PHPUnit 12.5/13, Rector 2,
+  Psalm 6/7, Infection 0.35, PHP_CodeSniffer 4, PHPMD 3.
 - Emails are sent with Symfony Mailer instead of SwiftMailer (abandoned). The `email_settings` config is unchanged:
   `smtp_encryption: ssl` is implicit TLS, `smtp_encryption: tls` is mandatory STARTTLS, no encryption is plain SMTP.
 - The `php-censor/common` library (which required `symfony/mailer ^5.4`) is now part of the application
@@ -31,7 +31,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 - Sending an email outside of a build (password reset) no longer fails on a missing build logger.
 - Invalid `app/periodical.yml` triggered a `TypeError` while logging the error.
 - PHP 8.4/8.5 deprecations (implicitly nullable parameters, `${var}` interpolation, `E_STRICT`,
-  `PDO::MYSQL_ATTR_INIT_COMMAND`, `is_dir(null)`, `null` array offsets).
+  `PDO::MYSQL_ATTR_INIT_COMMAND` on PHP 8.4+, `is_dir(null)`, `null` array offsets).
 
 ### Removed
 

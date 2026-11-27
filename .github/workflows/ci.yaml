@@ -8,7 +8,7 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                php-version: ['8.4', '8.5']
+                php-version: ['8.3', '8.4', '8.5']
 
         steps:
             - name: Setup MySQL latest
@@ -41,7 +41,11 @@ jobs:
                   key: ${{ runner.os }}-composer-${{ steps.key-date.outputs.date }}-${{ hashFiles('composer.json') }}
 
             - name: Composer install
-              run: composer update --no-interaction --prefer-dist --no-progress
+              # config.platform.php (8.3.0) keeps the committed lock installable on PHP 8.3; it is unset here so that
+              # each PHP version gets its highest dependencies (Symfony 8 and PHPUnit 13 on PHP 8.4+).
+              run: |
+                  composer config --unset platform.php
+                  composer update --no-interaction --prefer-dist --no-progress
 
             - name: Setup Database
               run: |

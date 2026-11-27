@@ -1,4 +1,4 @@
-PHP?=php8.4
+PHP?=php8.3
 COMPOSER=/usr/local/bin/composer
 
 php-info:
