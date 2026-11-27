@@ -10,5 +10,5 @@ PHP Censor release versions:
 | `1.2` (Summer Smith) | `1.2.4`  | `release-1.2` |                 Old version (**UNSUPPORTED**)                 |    `>=5.6, <8.0`    |
 | `1.3` (Jerry Smith)  | `1.3.7`  | `release-1.3` |                 Old version (**UNSUPPORTED**)                 |    `>=5.6, <8.0`    |
 | `2.0` (Rick Sanchez) | `2.0.14` | `release-2.0` | Old version ([Upgrade from v1 to v2](docs/en/upgrades/UPGRADE_2.0.md)) (**UNSUPPORTED**) |       `>=7.4`       |
-| `2.1` (Mr. Meeseeks) | `2.1.6`  | `release-2.1` |                      Last stable version                      |       `>=7.4`       |
-|        `3.0`         | `3.0.0`  |   `master`    |                    Current stable version                     |       `>=8.1`       |
+| `2.1` (Mr. Meeseeks) | `2.1.6`  | `release-2.1` |                      Current stable version                      |       `>=7.4`       |
+|        `3.0`         | - |   `master`    | Current unstable branch (3.0 in the future)                   |       `>=8.1`       |
