@@ -5,6 +5,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [2.1.8 (Mr. Meeseeks)](https://github.com/php-censor/php-censor/tree/2.1.8) (2026-11-27)
+
+[Full Changelog](https://github.com/php-censor/php-censor/compare/2.1.7...2.1.8)
+
+### Fixed
+
+- Fixed security issues with webhooks.
+- Updated dependencies.
+
+
 ## [2.1.7 (Mr. Meeseeks)](https://github.com/php-censor/php-censor/tree/2.1.7) (2026-11-15)
 
 [Full Changelog](https://github.com/php-censor/php-censor/compare/2.1.6...2.1.7)
